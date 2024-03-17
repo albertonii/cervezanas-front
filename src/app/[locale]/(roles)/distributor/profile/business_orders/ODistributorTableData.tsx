@@ -7,52 +7,57 @@ import { formatCurrency } from '../../../../../../utils/formatCurrency';
 import { IconButton } from '../../../../components/common/IconButton';
 import { encodeBase64 } from '../../../../../../utils/utils';
 import { formatDateString } from '../../../../../../utils/formatDate';
+import {
+    ROUTE_BUSINESS_ORDERS,
+    ROUTE_DISTRIBUTOR,
+    ROUTE_PROFILE,
+} from '../../../../../../config';
 
 interface Props {
-  order: IOrder;
-  key: string;
+    order: IOrder;
+    key: string;
 }
-
+w
 export default function ODistributorTableData({ order, key }: Props) {
-  const t = useTranslations();
-  const locale = useLocale();
-  const router = useRouter();
+    const t = useTranslations();
+    const locale = useLocale();
+    const router = useRouter();
 
-  if (!order) return null;
+    if (!order) return null;
 
-  const handleClickView = (order: IOrder) => {
-    const Ds_MerchantParameters = encodeBase64(
-      JSON.stringify({ Ds_Order: order.order_number }),
+    const handleClickView = (order: IOrder) => {
+        const Ds_MerchantParameters = encodeBase64(
+            JSON.stringify({ Ds_Order: order.order_number }),
+        );
+
+        router.push(
+            `/${locale}${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_BUSINESS_ORDERS}/success?Ds_MerchantParameters=${Ds_MerchantParameters}`,
+        );
+    };
+
+    return (
+        <tr key={key} className="">
+            <td className="px-6 py-4">{order.order_number}</td>
+
+            <td className="px-6 py-4">{order.customer_name}</td>
+
+            <td className="px-6 py-4">{order.business_orders?.length}</td>
+
+            <td className="px-6 py-4">{formatCurrency(order.total)}</td>
+
+            <td className="px-6 py-4">{t(order.status)}</td>
+
+            <td className="px-6 py-4">{order.tracking_id}</td>
+
+            <td className="px-6 py-4">{formatDateString(order.created_at)}</td>
+
+            <td className="item-center flex justify-center gap-2 px-6 py-4">
+                <IconButton
+                    onClick={() => handleClickView(order)}
+                    icon={faTruck}
+                    title={''}
+                />
+            </td>
+        </tr>
     );
-
-    router.push(
-      `/${locale}/distributor/profile/online_orders/success?Ds_MerchantParameters=${Ds_MerchantParameters}`,
-    );
-  };
-
-  return (
-    <tr key={key} className="">
-      <td className="px-6 py-4">{order.order_number}</td>
-
-      <td className="px-6 py-4">{order.customer_name}</td>
-
-      <td className="px-6 py-4">{order.business_orders?.length}</td>
-
-      <td className="px-6 py-4">{formatCurrency(order.total)}</td>
-
-      <td className="px-6 py-4">{t(order.status)}</td>
-
-      <td className="px-6 py-4">{order.tracking_id}</td>
-
-      <td className="px-6 py-4">{formatDateString(order.created_at)}</td>
-
-      <td className="item-center flex justify-center gap-2 px-6 py-4">
-        <IconButton
-          onClick={() => handleClickView(order)}
-          icon={faTruck}
-          title={''}
-        />
-      </td>
-    </tr>
-  );
 }

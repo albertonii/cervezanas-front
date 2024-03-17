@@ -686,18 +686,18 @@ Habilitar formulario para feedbacks/reporte de errores
 - [ ] Poner a punto la producción en Supabase
 - [ ] Que esté todo ok con TPV Santander
 - [ ] Popup Modal con SignIn
-- [ ] Para poder participar en la experiencia -> Poner pago en local - o en el comercio.
+- [x] Para poder participar en la experiencia -> Poner pago en local - o en el comercio.
 - [ ] Realtime actualizacion para experiencia pagada
 - [ ] En el caso del stand de Cervezanas, que habrán 2 cervezas para la experiencia de Maestro Cervecero, ¿cómo se cuentan las experiencias? Pq cada una tiene un precio distinto... En la experiencia permitir añadir varias cervezas. Y mostrar en el juego todas las cervezas.
 - [ ] Mínimo de haber participado en 4 experiencias para poder participar en el concurso de las 2 entradas y premios.
 - [ ] Todos tienen descuento de un 10% en las compras online. Los que más puntos tengan (top 100) en el juego de Maestro Cervecero, tendrán más premios. Recibiras el resultado del concurso en la dirección de correo.
-- [ ] Quitar los productos que se van a vender en el evento.
+- [x] Quitar los productos que se van a vender en el evento.
 - [ ] Para el lunes deben estar los productos de CCVK - además de darse de alta como productor y distribuidor
 - [ ] Realtime actualizacion para experiencia pagada
 - [ ] En el caso del stand de Cervezanas, que habrán 2 cervezas para la experiencia de Maestro Cervecero, ¿cómo se cuentan las experiencias? Pq cada una tiene un precio distinto... En la experiencia permitir añadir varias cervezas. Y mostrar en el juego todas las cervezas.
 - [ ] Todos tienen descuento de un 10% en las compras online. Los que más puntos tengan (top 100) en el juego de Maestro Cervecero, tendrán más premios. Recibiras el resultado del concurso en la dirección de correo.
 - [x] En los productos que se venden en el evento, indicar que se venden en el evento. Propiedad is_active en el modelo de datos.
-- [ ] Para el lunes deben estar los productos de CCVK - además de darse de alta como productor y distribuidor
+- [~] Para el lunes deben estar los productos de CCVK - además de darse de alta como productor y distribuidor
 
 - [x] Experiencia Completa de Maestro Cervecero
 
@@ -728,7 +728,7 @@ Habilitar formulario para feedbacks/reporte de errores
 ### 17 de marzo
 
 - [x] Arreglar SIGN UP. No está creando la información necesaria en los schemas PUBLIC.
-- Sistema para vincular las experiencias con los puntos de consumo en los eventos que sean creados por el ADMINISTRADOR de CERVEZANAS
+- [x] Sistema para vincular las experiencias con los puntos de consumo en los eventos que sean creados por el ADMINISTRADOR de CERVEZANAS
 
 - [x] Problemas con la autorización de usuarios en el apartado para administradores:
       ⨯ Error: Unable to find `next-intl` locale because the middleware didn't run on this request. See https://next-intl-docs.vercel.app/docs/routing/middleware#unable-to-find-locale
@@ -751,10 +751,15 @@ Habilitar formulario para feedbacks/reporte de errores
 - [WIP] Testing
 
   1. [x] Crear producto
-  2. [ ] Realizar compra del producto online
-  3. [ ] Ver orden de pedido
-  4. [ ] Crear evento
-  5. [ ] Crear punto de consumo
-  6. [ ] Crear experiencia
-  7. [ ] Vincular experiencia con punto de consumo y evento
-  8. [ ] Update Producto falla debido a que al traer las imágenes no son tipo FileList
+  2. [ ] Vista de Checkout compra Online
+  3. [x] Añadir Información de envío
+  4. [x] Añadir Información de facturación
+  5. [ ] Realizar compra del producto online
+  6. [ ] Ver orden de pedido
+  7. [ ] Crear evento
+  8. [ ] Crear punto de consumo
+  9. [ ] Crear experiencia
+  10. [ ] Vincular experiencia con punto de consumo y evento
+  11. [ ] Update Producto falla debido a que al traer las imágenes no son tipo FileList
+  12. [ ] Vincular Productor con Distribuidor a través de contrato
+  13. [ ] No se envia notificación al distribuidor para el contrato productor-distribuidor

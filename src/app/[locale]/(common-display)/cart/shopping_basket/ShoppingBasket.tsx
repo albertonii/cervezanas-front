@@ -30,6 +30,13 @@ import {
 import BillingAddressItem from './BillingAddressItemInfo';
 import Spinner from '../../../components/common/Spinner';
 import { IUserTable } from '../../../../../lib/types/types';
+import {
+    ROUTE_BUSINESS_ORDERS,
+    ROUTE_DISTRIBUTOR,
+    ROUTE_ONLINE_ORDERS,
+    ROUTE_PRODUCER,
+    ROUTE_PROFILE,
+} from '../../../../../config';
 
 // const DynamicSpinner = dynamic(
 //     () => import('../../../components/common/Spinner'),
@@ -265,7 +272,7 @@ export function ShoppingBasket({ user }: Props) {
 
                 // Notification to distributor
                 const distributorMessage = `Tienes un nuevo pedido online de ${user?.name} ${user?.lastname} con número de pedido ${orderNumber} con identificador de negocio ${businessOrder.id}`;
-                const distributorLink = '/distributor/profile/business_orders';
+                const distributorLink = `${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_BUSINESS_ORDERS}`;
 
                 fetch(
                     `/api/push_notification?destination_user=${distributorId}&message=${distributorMessage}&link=${distributorLink}`,
@@ -273,7 +280,7 @@ export function ShoppingBasket({ user }: Props) {
 
                 // Notification to producer
                 const producerMessage = `Tienes un nuevo online pedido de ${user?.name} ${user?.lastname} con número de pedido ${orderNumber} con identificador de negocio ${businessOrder.id}`;
-                const producerLink = '/producer/profile/online_orders';
+                const producerLink = `${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_ONLINE_ORDERS}`;
                 fetch(
                     `/api/push_notification?destination_user=${producerId}&message=${producerMessage}&link=${producerLink}`,
                 );
