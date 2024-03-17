@@ -1,5 +1,7 @@
 # Listado de tareas:
 
+- [ ] Añadir el IBU al crear producto
+- [ ] Eliminar imágenes de la BBDD si los productos son eliminados
 - Sistema para automatizar el stock de un producto (pack)
 - Añadir awards de cerveza del mes para: comité de expertos, experimentales y de la comunidad
 - Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
@@ -755,3 +757,4 @@ Habilitar formulario para feedbacks/reporte de errores
   5. [ ] Crear punto de consumo
   6. [ ] Crear experiencia
   7. [ ] Vincular experiencia con punto de consumo y evento
+

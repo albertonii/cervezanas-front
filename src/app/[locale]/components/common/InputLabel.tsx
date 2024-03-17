@@ -80,6 +80,8 @@ export default function InputLabel({
                     placeholder={placeholder}
                     defaultValue={defaultValue}
                     disabled={disabled}
+                    min={registerOptions?.min}
+                    max={registerOptions?.max}
                 />
             </label>
 
