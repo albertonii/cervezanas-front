@@ -43,6 +43,7 @@ import {
 import ModalWithForm from './ModalWithForm';
 import { ProductSummary } from './ProductSummary';
 import { UpdateProductSummary } from './UpdateProductSummary';
+import { SupabaseProps } from '../../../../constants';
 
 const schema: ZodType<ModalUpdateProductFormData> = z.object({
     product_id: z.string(),
@@ -304,6 +305,27 @@ export function UpdateProduct({
         console.log('ERROR EN UPDATE PRODUCT: ', errors);
     }, [errors]);
 
+    // TODO: Error al guardar pq los awards.img y packs.img no son FileList por defecto.
+    // Solo cuando se vuelve a seleccionar el archivo
+    // useEffect(() => {
+    //     product.awards?.map((award) => {
+    //         const preUrl =
+    //             SupabaseProps.BASE_URL + SupabaseProps.STORAGE_PRODUCTS_IMG_URL;
+
+    //         const url = preUrl + decodeURIComponent(award.img_url);
+    //         console.log
+    //         const awardFile = (award.img_url = new File(
+    //             [url],
+    //             award.img_url.name,
+    //             {
+    //                 type: 'image/jpeg',
+    //             },
+    //         ));
+
+    //         console.log(awardFile);
+    //     });
+    // }, [product]);
+
     const handleUpdateProduct = async (formValues: any) => {
         const {
             // campaign,
@@ -547,7 +569,7 @@ export function UpdateProduct({
                 awards.map(async (award: IAward) => {
                     if (award.img_url.length > 0) {
                         const file = award.img_url[0];
-                        const productFileUrl = encodeURIComponent(file.name);
+                        const productFileUrl = file.name;
                         const { data, error: awardsError } = await supabase
                             .from('awards')
                             .update({
