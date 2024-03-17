@@ -393,6 +393,7 @@ export interface ICPFixed {
     // geoArgs: GeocodeResult[];
     geoArgs: any[];
     consumption_points?: IConsumptionPoints;
+    owner_id: string
 }
 
 export interface ICPMobile {
@@ -417,6 +418,7 @@ export interface ICPMobile {
     is_internal_organizer: boolean;
     cpm_products?: ICPMProducts[];
     consumption_points?: IConsumptionPoints;
+    owner_id: string;
 }
 
 export interface ICPFProducts {
@@ -474,8 +476,9 @@ export interface ICPM_events {
     cp_id: string;
     event_id: string;
     is_active: boolean;
+    is_cervezanas_event: boolean;
+    owner_id: string;
     cp_mobile?: ICPMobile;
-    // consumption_points?: IConsumptionPoints;
     events?: IEvent;
 }
 
@@ -483,7 +486,8 @@ export interface ICPF_events {
     cp_id: string;
     event_id: string;
     is_active: boolean;
-    // consumption_points?: IConsumptionPoints;
+    is_cervezanas_event: boolean;
+    owner_id: string;
     cp_fixed?: ICPFixed;
     events?: IEvent;
 }

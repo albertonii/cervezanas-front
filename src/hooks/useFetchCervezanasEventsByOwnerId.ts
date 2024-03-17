@@ -1,6 +1,6 @@
 'use client';
 
-import { IEvent } from '../lib/types/types';
+import { ICPM_events, IEvent } from '../lib/types/types';
 import { useQuery } from 'react-query';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { SupabaseClient } from '@supabase/supabase-js';
@@ -15,24 +15,28 @@ const fetchCervezanasEventsByOwnerId = async (
     if (!ownerId) return [];
 
     const { data, error } = await supabase
-        .from('events')
+        .from('cpm_events')
         .select(
             `
-              *
+              *,
+              events (*)
             `,
             {
                 count: 'exact',
             },
         )
         .eq('owner_id', ownerId)
+        .eq('is_cervezanas_event', true)
         .range(
             (currentPage - 1) * resultsPerPage,
             currentPage * resultsPerPage - 1,
         );
 
+    console.log(data);
+
     if (error) throw error;
 
-    return data as IEvent[];
+    return data as ICPM_events[];
 };
 
 const useFetchCervezanasEventsByOwnerId = (

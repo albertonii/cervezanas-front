@@ -36,19 +36,18 @@ async function getCPMobileData() {
         redirect(VIEWS.SIGN_IN);
     }
 
-    const { data: cps, error: cpError } = await supabase
-        .from('consumption_points')
+    const { data: cpMobiles, error: cpError } = await supabase
+        .from('cp_mobile')
         .select(
             `
-        *,
-        cp_mobile (*)
-      `,
+                *
+            `,
         )
-        .eq('owner_id', session.id);
+        .eq('owner_id', session.id)
 
     if (cpError) throw cpError;
 
-    return cps[0]?.cp_mobile as ICPMobile[];
+    return cpMobiles as ICPMobile[];
 }
 
 async function getCPFixedData() {
@@ -60,19 +59,18 @@ async function getCPFixedData() {
         redirect(VIEWS.SIGN_IN);
     }
 
-    const { data: cps, error: cpError } = await supabase
-        .from('consumption_points')
+    const { data: cpFixeds, error: cpError } = await supabase
+        .from('cp_fixed')
         .select(
             `
-        *,
-        cp_fixed (*)
-      `,
+            *
+          `,
         )
         .eq('owner_id', session.id);
 
     if (cpError) throw cpError;
 
-    return cps[0]?.cp_fixed as ICPFixed[];
+    return cpFixeds as ICPFixed[];
 }
 
 async function getEventsCounter() {

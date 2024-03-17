@@ -30,7 +30,8 @@ async function getCPMobileData() {
             `
             *,
             consumption_points (
-              users (username, email)
+                owner_id,
+                users (username, email)
             )
           `,
         );
@@ -49,7 +50,8 @@ async function getCPFixedData() {
             `
             *,
             consumption_points (
-              users (username, email)
+                owner_id,
+                users (username, email)
             )
           `,
         );

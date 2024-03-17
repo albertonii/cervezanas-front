@@ -25,6 +25,7 @@ const fetchEventsByOwnerId = async (
             },
         )
         .eq('owner_id', ownerId)
+        .eq('is_cervezanas_event', false)
         .range(
             (currentPage - 1) * resultsPerPage,
             currentPage * resultsPerPage - 1,

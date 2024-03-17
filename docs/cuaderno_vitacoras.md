@@ -742,7 +742,8 @@ Habilitar formulario para feedbacks/reporte de errores
 - [x] Hay veces que no se cargan los listados para eventos -> PRODUCER
 
 - [ ] Eventos Cervezanas
-  1. Si se crea un evento Cervezanas y se añaden PC a través del ADMINISTRADOR, notificar al productor de ello
-  2. Si se crea un evento Cervezanas y se añaden PC a través del ADMINISTRADOR, visualizar en el apartado de eventos acerca de ello.
-  3. Debido a que un administrador puede añadir un PC que no le pertenecen, debe de existir una relación entre ese evento y el punto de consumo. De esta forma, el productor podrá ver si su PC ha sido añadido a un evento. Si es así, podrá ver la información del evento y el PC.
-  4. Una vez que se ha vinculado un PC a un evento, permitir al productor vincular las experiencias a ese PC.
+  1. [ ] Si se crea un evento Cervezanas y se añaden PC a través del ADMINISTRADOR, notificar al productor de ello
+  2. [ ] Si se crea un evento Cervezanas y se añaden PC a través del ADMINISTRADOR, visualizar en el apartado de eventos acerca de ello.
+  3. [ ] Debido a que un administrador puede añadir un PC que no le pertenecen, debe de existir una relación entre ese evento y el punto de consumo. De esta forma, el productor podrá ver si su PC ha sido añadido a un evento. Si es así, podrá ver la información del evento y el PC.
+  4. [ ] Una vez que se ha vinculado un PC a un evento, permitir al productor vincular las experiencias a ese PC.
+  5. [ ] Modificar un evento existente -> Experiencias

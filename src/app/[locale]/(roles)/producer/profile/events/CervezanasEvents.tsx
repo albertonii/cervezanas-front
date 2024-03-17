@@ -28,13 +28,9 @@ export default function CervezanasEvents({
                         id="title"
                         className="text-5xl font-semibold text-beer-blonde"
                     >
-                        {t('events')}
+                        {t('cervezanas_events')}
                     </span>
                 </p>
-
-                <div className="w-40">
-                    <AddEvent cpsMobile={cpsMobile} cpsFixed={cpsFixed} />
-                </div>
             </header>
 
             <CervezanasEventList

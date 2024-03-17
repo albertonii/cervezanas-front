@@ -6,7 +6,12 @@ import useFetchEventsByOwnerId from '../../../../../../hooks/useFetchEventsByOwn
 import PaginationFooter from '../../../../components/common/PaginationFooter';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { ICPFixed, ICPMobile, IEvent } from '../../../../../../lib/types/types';
+import {
+    ICPFixed,
+    ICPMobile,
+    ICPM_events,
+    IEvent,
+} from '../../../../../../lib/types/types';
 import Spinner from '../../../../components/common/Spinner';
 import InputSearch from '../../../../components/common/InputSearch';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -51,7 +56,7 @@ export default function CervezanasEventList({
     const { data, isError, isLoading, refetch } =
         useFetchCervezanasEventsByOwnerId(currentPage, resultsPerPage);
 
-    const [events, setEvents] = useState<IEvent[]>(data ?? []);
+    const [events, setEvents] = useState<ICPM_events[]>(data ?? []);
 
     const editColor = { filled: '#90470b', unfilled: 'grey' };
     const deleteColor = { filled: '#90470b', unfilled: 'grey' };
@@ -72,40 +77,49 @@ export default function CervezanasEventList({
     useEffect(() => {
         refetch().then((res: any) => {
             const events = res.data as any;
+
+            console.log(events);
+
             setEvents(events);
         });
     }, [data, currentPage]);
 
-    const filteredItems = useMemo<IEvent[]>(() => {
+    const filteredItems = useMemo<ICPM_events[]>(() => {
         if (!data) return [];
-        return data.filter((event) => {
-            return event.name.toLowerCase().includes(query.toLowerCase());
+        return data.filter((cpm_event) => {
+            return cpm_event.events?.name
+                .toLowerCase()
+                .includes(query.toLowerCase());
         });
     }, [events, query]);
 
-    const sortedItems = useMemo(() => {
-        if (sorting === SortBy.NONE) return filteredItems;
+    // const sortedItems = useMemo(() => {
+    //     if (sorting === SortBy.NONE) return filteredItems;
 
-        const compareProperties: Record<string, (event: IEvent) => any> = {
-            [SortBy.NAME]: (e) => e.name,
-            [SortBy.CREATED_DATE]: (e) => e.created_at,
-            [SortBy.START_DATE]: (e) => e.start_date,
-        };
+    //     const compareProperties: Record<string, (event: ICPM_events) => any> = {
+    //         [SortBy.NAME]: (e) => e.events?.name,
+    //         [SortBy.CREATED_DATE]: (e) => e.events?.created_at,
+    //         [SortBy.START_DATE]: (e) => e.events?.start_date,
+    //     };
 
-        return filteredItems.toSorted((a, b) => {
-            const extractProperty = compareProperties[sorting];
-            return extractProperty(a).localeCompare(extractProperty(b));
-        });
-    }, [filteredItems, sorting]);
+    //     return filteredItems.toSorted((a, b) => {
+    //         if (!a.events || !b.events) return 0;
+    //         const extractProperty = compareProperties[sorting];
 
-    const handleEditClick = async (e: IEvent) => {
+    //         return extractProperty(a.events.name).localeCompare(
+    //             extractProperty(b.events.name),
+    //         );
+    //     });
+    // }, [filteredItems, sorting]);
+
+    const handleEditClick = async (e: ICPM_events) => {
         setIsEditModal(true);
-        setSelectedEvent(e);
+        setSelectedEvent(e.events);
     };
 
-    const handleDeleteClick = async (e: IEvent) => {
+    const handleDeleteClick = async (e: ICPM_events) => {
         setIsDeleteModal(true);
-        setSelectedEvent(e);
+        setSelectedEvent(e.events);
     };
 
     const handleEditModal = (isEdit: boolean) => {
@@ -182,9 +196,12 @@ export default function CervezanasEventList({
                         </thead>
 
                         <tbody>
-                            {sortedItems.map((e: IEvent) => {
+                            {filteredItems.map((e: ICPM_events) => {
+                                {
+                                    /* {sortedItems.map((e: IEvent) => { */
+                                }
                                 return (
-                                    <tr key={e.id} className="">
+                                    <tr key={e.event_id} className="">
                                         <th
                                             scope="row"
                                             className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
@@ -200,15 +217,17 @@ export default function CervezanasEventList({
 
                                         <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                                             <Link
-                                                href={`/events/${e.id}`}
+                                                href={`/events/${e.event_id}`}
                                                 locale={locale}
                                             >
-                                                {e.name}
+                                                {e.events?.name}
                                             </Link>
                                         </td>
 
                                         <td className="px-6 py-4">
-                                            {formatDateString(e.created_at)}
+                                            {formatDateString(
+                                                e.events?.created_at ?? '',
+                                            )}
                                         </td>
 
                                         <td className="flex items-center justify-center px-6 py-4">

@@ -1,6 +1,7 @@
 import InputSearch from './InputSearch';
 import React, { useEffect, useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
+import { useMessage } from '../message/useMessage';
 import { ICPMobile, ICPM_events } from '../../../../lib/types/types';
 
 interface Props {
@@ -18,27 +19,36 @@ export function SearchCheckboxCPMobiles({
 }: Props) {
     const [query, setQuery] = useState('');
     const { register, setValue } = form;
+    const { handleMessage } = useMessage();
 
     const [checkedCPsState, setCheckedCPsState] = useState<ICPM_events[]>(
         checkedCPs ?? [],
     );
 
-    const handleCheckboxChange = (cpId: string, isChecked: boolean) => {
-        // if (!checkedCPs) return;
-
+    const handleCheckboxChange = (cp: ICPMobile, isChecked: boolean) => {
         if (isChecked) {
+            if (!cp.owner_id) {
+                handleMessage({
+                    type: 'error',
+                    message: 'El punto de consumo no tiene un propietario.',
+                });
+                return;
+            }
             // Verify if the CP is already in the array
-            if (checkedCPsState.some((item) => item.cp_id === cpId)) return;
+            if (checkedCPsState.some((item) => item.cp_id === cp.id)) return;
 
             const cp_check: ICPM_events = {
-                cp_id: cpId,
+                cp_id: cp.id,
                 event_id: selectedEventId ?? '',
                 is_active: false,
+                owner_id: cp.owner_id,
             };
+
+            console.log(cp_check);
             setCheckedCPsState([...checkedCPsState, cp_check]);
         } else {
             setCheckedCPsState(
-                checkedCPsState.filter((item) => item.cp_id !== cpId),
+                checkedCPsState.filter((item) => item.cp_id !== cp.id),
             );
         }
     };
@@ -84,7 +94,7 @@ export function SearchCheckboxCPMobiles({
                                     )}
                                     onChange={(e) =>
                                         handleCheckboxChange(
-                                            cp.id,
+                                            cp,
                                             e.target.checked,
                                         )
                                     }

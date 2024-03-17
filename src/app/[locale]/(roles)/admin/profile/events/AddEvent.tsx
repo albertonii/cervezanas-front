@@ -3,7 +3,12 @@
 import React, { useEffect, useState } from 'react';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useTranslations } from 'next-intl';
-import { ICPFixed, ICPMobile } from '../../../../../../lib/types/types';
+import {
+    ICPFixed,
+    ICPF_events,
+    ICPMobile,
+    ICPM_events,
+} from '../../../../../../lib/types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
 import ModalWithForm from '../../../../components/modals/ModalWithForm';
@@ -14,6 +19,7 @@ import InputLabel from '../../../../components/common/InputLabel';
 import InputTextarea from '../../../../components/common/InputTextarea';
 import { SearchCheckboxCPMobiles } from '../../../../components/common/SearchCheckboxCPMobiles';
 import { SearchCheckboxCPFixeds } from '../../../../components/common/SearchCheckboxCPFixed';
+import { useMessage } from '../../../../components/message/useMessage';
 
 export type ModalAddEventFormData = {
     is_activated: boolean;
@@ -61,6 +67,7 @@ interface Props {
 export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
     const t = useTranslations();
     const { user, supabase } = useAuth();
+    const { handleMessage } = useMessage();
 
     const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -145,14 +152,27 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
             // Get CP checked from the list
             const cpsMobileFiltered = cps_mobile.filter((cp) => cp.cp_id);
 
+            console.log(cpsMobileFiltered);
+
             // Loop trough all the selected CPs and insert them into the event
-            cpsMobileFiltered.map(async (cp) => {
+            // Because is the admin role we need to insert the CPs into the table with is_cervezanas_event flag
+            cpsMobileFiltered.map(async (cp: ICPM_events) => {
+                if (!cp.owner_id) {
+                    handleMessage({
+                        type: 'error',
+                        message: t('error_inserting_cp_event_no_cp_owner_id'),
+                    });
+                    return;
+                }
+
                 const { error: cpError } = await supabase
                     .from('cpm_events')
                     .insert({
                         cp_id: cp.cp_id,
                         event_id: eventId,
                         is_active: false,
+                        owner_id: cp.owner_id,
+                        is_cervezanas_event: true,
                     });
 
                 if (cpError) {
@@ -166,13 +186,16 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
             const cpsFixedFiltered = cps_fixed.filter((cp) => cp.cp_id);
 
             // Loop trough all the selected CPs and insert them into the event
-            cpsFixedFiltered.map(async (cp: ICPFixed) => {
+            // Because is the admin role we need to insert the CPs into the table with is_cervezanas_event flag
+            cpsFixedFiltered.map(async (cp: ICPF_events) => {
                 const { error: cpError } = await supabase
                     .from('cpf_events')
                     .insert({
                         cp_id: cp.cp_id,
                         event_id: eventId,
                         is_active: false,
+                        owner_id: cp.owner_id,
+                        is_cervezanas_event: true,
                     });
 
                 if (cpError) {

@@ -507,6 +507,45 @@ export interface Database {
           }
         ]
       }
+      cervezanas_event_cp_mobile: {
+        Row: {
+          cp_id: string
+          created_at: string
+          event_id: string
+          is_active: boolean | null
+          owner_id: string | null
+        }
+        Insert: {
+          cp_id?: string
+          created_at?: string
+          event_id?: string
+          is_active?: boolean | null
+          owner_id?: string | null
+        }
+        Update: {
+          cp_id?: string
+          created_at?: string
+          event_id?: string
+          is_active?: boolean | null
+          owner_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_cervezanas_event_cp_mobile_cp_id_fkey"
+            columns: ["cp_id"]
+            isOneToOne: false
+            referencedRelation: "cp_mobile"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "public_cervezanas_event_cp_mobile_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       consumption_points: {
         Row: {
           cover_letter_name: string | null
@@ -601,6 +640,7 @@ export interface Database {
           organizer_lastname: string | null
           organizer_name: string | null
           organizer_phone: string | null
+          owner_id: string | null
           start_date: string | null
           status: string | null
         }
@@ -621,6 +661,7 @@ export interface Database {
           organizer_lastname?: string | null
           organizer_name?: string | null
           organizer_phone?: string | null
+          owner_id?: string | null
           start_date?: string | null
           status?: string | null
         }
@@ -641,6 +682,7 @@ export interface Database {
           organizer_lastname?: string | null
           organizer_name?: string | null
           organizer_phone?: string | null
+          owner_id?: string | null
           start_date?: string | null
           status?: string | null
         }
@@ -672,6 +714,7 @@ export interface Database {
           organizer_lastname: string | null
           organizer_name: string | null
           organizer_phone: string | null
+          owner_id: string | null
           start_date: string | null
           status: string | null
         }
@@ -692,6 +735,7 @@ export interface Database {
           organizer_lastname?: string | null
           organizer_name?: string | null
           organizer_phone?: string | null
+          owner_id?: string | null
           start_date?: string | null
           status?: string | null
         }
@@ -712,6 +756,7 @@ export interface Database {
           organizer_lastname?: string | null
           organizer_name?: string | null
           organizer_phone?: string | null
+          owner_id?: string | null
           start_date?: string | null
           status?: string | null
         }
@@ -730,16 +775,19 @@ export interface Database {
           cp_id: string
           event_id: string
           is_active: boolean | null
+          owner_id: string | null
         }
         Insert: {
           cp_id: string
           event_id: string
           is_active?: boolean | null
+          owner_id?: string | null
         }
         Update: {
           cp_id?: string
           event_id?: string
           is_active?: boolean | null
+          owner_id?: string | null
         }
         Relationships: [
           {
@@ -808,16 +856,22 @@ export interface Database {
           cp_id: string
           event_id: string
           is_active: boolean | null
+          is_cervezanas_event: boolean | null
+          owner_id: string | null
         }
         Insert: {
           cp_id: string
           event_id: string
           is_active?: boolean | null
+          is_cervezanas_event?: boolean | null
+          owner_id?: string | null
         }
         Update: {
           cp_id?: string
           event_id?: string
           is_active?: boolean | null
+          is_cervezanas_event?: boolean | null
+          owner_id?: string | null
         }
         Relationships: [
           {
@@ -1710,7 +1764,7 @@ export interface Database {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "notifications_user_id_fkey"
+            foreignKeyName: "public_notifications_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
@@ -2239,24 +2293,6 @@ export interface Database {
           }
         ]
       }
-      prueba: {
-        Row: {
-          created_at: string
-          id: number
-          prueba: string | null
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          prueba?: string | null
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          prueba?: string | null
-        }
-        Relationships: []
-      }
       reviews: {
         Row: {
           appearance: number | null
@@ -2381,6 +2417,33 @@ export interface Database {
             referencedColumns: ["id"]
           }
         ]
+      }
+      trigger_auditoria: {
+        Row: {
+          action_type: string | null
+          created_at: string
+          details: string | null
+          id: number
+          related_table: string | null
+          trigger_name: string | null
+        }
+        Insert: {
+          action_type?: string | null
+          created_at?: string
+          details?: string | null
+          id?: number
+          related_table?: string | null
+          trigger_name?: string | null
+        }
+        Update: {
+          action_type?: string | null
+          created_at?: string
+          details?: string | null
+          id?: number
+          related_table?: string | null
+          trigger_name?: string | null
+        }
+        Relationships: []
       }
       user_reports: {
         Row: {
