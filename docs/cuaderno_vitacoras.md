@@ -750,11 +750,11 @@ Habilitar formulario para feedbacks/reporte de errores
 
 - [WIP] Testing
 
-  1. [ ] Crear producto
+  1. [x] Crear producto
   2. [ ] Realizar compra del producto online
   3. [ ] Ver orden de pedido
   4. [ ] Crear evento
   5. [ ] Crear punto de consumo
   6. [ ] Crear experiencia
   7. [ ] Vincular experiencia con punto de consumo y evento
-
+  8. [ ] Update Producto falla debido a que al traer las imágenes no son tipo FileList
