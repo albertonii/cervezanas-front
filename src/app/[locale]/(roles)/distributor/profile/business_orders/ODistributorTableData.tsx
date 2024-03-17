@@ -17,7 +17,7 @@ interface Props {
     order: IOrder;
     key: string;
 }
-w
+
 export default function ODistributorTableData({ order, key }: Props) {
     const t = useTranslations();
     const locale = useLocale();
