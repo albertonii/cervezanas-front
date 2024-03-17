@@ -725,7 +725,8 @@ Habilitar formulario para feedbacks/reporte de errores
 
 ### 17 de marzo
 
-- Arreglar SIGN UP. No está creando la información necesaria en los schemas PUBLIC.
+- [x] Arreglar SIGN UP. No está creando la información necesaria en los schemas PUBLIC.
+- Sistema para vincular las experiencias con los puntos de consumo en los eventos que sean creados por el ADMINISTRADOR de CERVEZANAS
 - Testing
 
   1. Crear producto
@@ -734,4 +735,7 @@ Habilitar formulario para feedbacks/reporte de errores
   4. Crear experiencia
   5. Vincular experiencia con punto de consumo y evento
 
-- Sistema para vincular las experiencias con los puntos de consumo en los eventos que sean creados por el ADMINISTRADOR de CERVEZANAS
+- [ ] Problemas con la autorización de usuarios en el apartado para administradores:
+      ⨯ Error: Unable to find `next-intl` locale because the middleware didn't run on this request. See https://next-intl-docs.vercel.app/docs/routing/middleware#unable-to-find-locale
+
+- [ ] Apartado de experiencias en las que ha participado
