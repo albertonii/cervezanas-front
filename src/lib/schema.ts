@@ -1705,14 +1705,14 @@ export interface Database {
           {
             foreignKeyName: "notifications_source_fkey"
             columns: ["source"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "notifications_user_id_fkey"
             columns: ["user_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -2238,6 +2238,24 @@ export interface Database {
             referencedColumns: ["id"]
           }
         ]
+      }
+      prueba: {
+        Row: {
+          created_at: string
+          id: number
+          prueba: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          prueba?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          prueba?: string | null
+        }
+        Relationships: []
       }
       reviews: {
         Row: {

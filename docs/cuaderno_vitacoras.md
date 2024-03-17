@@ -683,7 +683,6 @@ Habilitar formulario para feedbacks/reporte de errores
 - [x] Quitar los productos que se van a vender en el evento, debido a que el propio stand se encargará de ello.
 - [ ] Poner a punto la producción en Supabase
 - [ ] Que esté todo ok con TPV Santander
-<<<<<<< HEAD
 - [ ] Popup Modal con SignIn
 - [ ] Para poder participar en la experiencia -> Poner pago en local - o en el comercio.
 - [ ] Realtime actualizacion para experiencia pagada
@@ -692,7 +691,6 @@ Habilitar formulario para feedbacks/reporte de errores
 - [ ] Todos tienen descuento de un 10% en las compras online. Los que más puntos tengan (top 100) en el juego de Maestro Cervecero, tendrán más premios. Recibiras el resultado del concurso en la dirección de correo.
 - [ ] Quitar los productos que se van a vender en el evento.
 - [ ] Para el lunes deben estar los productos de CCVK - además de darse de alta como productor y distribuidor
-=======
 - [ ] Realtime actualizacion para experiencia pagada
 - [ ] En el caso del stand de Cervezanas, que habrán 2 cervezas para la experiencia de Maestro Cervecero, ¿cómo se cuentan las experiencias? Pq cada una tiene un precio distinto... En la experiencia permitir añadir varias cervezas. Y mostrar en el juego todas las cervezas.
 - [ ] Todos tienen descuento de un 10% en las compras online. Los que más puntos tengan (top 100) en el juego de Maestro Cervecero, tendrán más premios. Recibiras el resultado del concurso en la dirección de correo.
@@ -723,4 +721,17 @@ Habilitar formulario para feedbacks/reporte de errores
 - [x] Error al modificar un producto en el productor
 
 - [FUTURE] Añadir botón de autorización/desautorización en UpdateEvent
->>>>>>> 0705287f5fa95950f2ff3f399235191a2a0ce427
+- [ ] Error al signup -> TRIGGER FUNCTION
+
+### 17 de marzo
+
+- Arreglar SIGN UP. No está creando la información necesaria en los schemas PUBLIC.
+- Testing
+
+  1. Crear producto
+  2. Crear evento
+  3. Crear punto de consumo
+  4. Crear experiencia
+  5. Vincular experiencia con punto de consumo y evento
+
+- Sistema para vincular las experiencias con los puntos de consumo en los eventos que sean creados por el ADMINISTRADOR de CERVEZANAS

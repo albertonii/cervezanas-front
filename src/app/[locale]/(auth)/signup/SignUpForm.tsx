@@ -84,7 +84,6 @@ export const SignUpForm = () => {
     const { handleSubmit, reset } = form;
 
     const [role, setRole] = useState(ROLE_ENUM.Cervezano);
-    const { handleMessage } = useMessage();
 
     const handleChangeRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value: any = event?.target.value;

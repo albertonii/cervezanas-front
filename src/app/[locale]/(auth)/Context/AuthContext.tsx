@@ -107,11 +107,11 @@ export const AuthContextProvider = ({
             .from('users')
             .select(
                 `
-          *,
-          gamification (
-            *
-          )
-        `,
+                    *,
+                    gamification (
+                        *
+                    )
+                `,
             )
             .eq('id', serverSession.user.id)
 
@@ -302,8 +302,8 @@ export const AuthContextProvider = ({
                 .from('users')
                 .select(
                     `
-            *
-          `,
+                        *
+                    `,
                 )
                 .eq('email', payload.email);
 
