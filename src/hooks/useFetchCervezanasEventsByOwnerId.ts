@@ -6,7 +6,7 @@ import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { Database } from '../lib/schema';
 
-const fetchEventsByOwnerId = async (
+const fetchCervezanasEventsByOwnerId = async (
     ownerId: string,
     currentPage: number,
     resultsPerPage: number,
@@ -35,7 +35,7 @@ const fetchEventsByOwnerId = async (
     return data as IEvent[];
 };
 
-const useFetchEventsByOwnerId = (
+const useFetchCervezanasEventsByOwnerId = (
     currentPage: number,
     resultsPerPage: number,
 ) => {
@@ -44,7 +44,7 @@ const useFetchEventsByOwnerId = (
     return useQuery({
         queryKey: ['events', user?.id, currentPage, resultsPerPage],
         queryFn: () =>
-            fetchEventsByOwnerId(
+            fetchCervezanasEventsByOwnerId(
                 user?.id,
                 currentPage,
                 resultsPerPage,
@@ -55,4 +55,4 @@ const useFetchEventsByOwnerId = (
     });
 };
 
-export default useFetchEventsByOwnerId;
+export default useFetchCervezanasEventsByOwnerId;

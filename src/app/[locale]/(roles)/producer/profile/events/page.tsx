@@ -1,4 +1,4 @@
-import Events from './Events';
+import EventLayout from './EventLayout';
 import readUserSession from '../../../../../../lib/actions';
 import createServerClient from '../../../../../../utils/supabaseServer';
 import { redirect } from 'next/navigation';
@@ -7,89 +7,89 @@ import { VIEWS } from '../../../../../../constants';
 import { ICPFixed, ICPMobile } from '../../../../../../lib/types/types';
 
 export default async function EventsPage() {
-  const cpsMobileData = getCPMobileData();
-  const cpsFixedData = getCPFixedData();
-  const eventsCounterData = getEventsCounter();
-  const [cpsMobile, cpsFixed, eventsCounter] = await Promise.all([
-    cpsMobileData,
-    cpsFixedData,
-    eventsCounterData,
-  ]);
+    const cpsMobileData = getCPMobileData();
+    const cpsFixedData = getCPFixedData();
+    const eventsCounterData = getEventsCounter();
+    const [cpsMobile, cpsFixed, eventsCounter] = await Promise.all([
+        cpsMobileData,
+        cpsFixedData,
+        eventsCounterData,
+    ]);
 
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Events
-        cpsMobile={cpsMobile}
-        cpsFixed={cpsFixed}
-        counter={eventsCounter}
-      />
-    </Suspense>
-  );
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <EventLayout
+                cpsMobile={cpsMobile}
+                cpsFixed={cpsFixed}
+                counter={eventsCounter}
+            />
+        </Suspense>
+    );
 }
 
 async function getCPMobileData() {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const session = await readUserSession();
+    const session = await readUserSession();
 
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
+    if (!session) {
+        redirect(VIEWS.SIGN_IN);
+    }
 
-  const { data: cps, error: cpError } = await supabase
-    .from('consumption_points')
-    .select(
-      `
+    const { data: cps, error: cpError } = await supabase
+        .from('consumption_points')
+        .select(
+            `
         *,
         cp_mobile (*)
       `,
-    )
-    .eq('owner_id', session.id);
+        )
+        .eq('owner_id', session.id);
 
-  if (cpError) throw cpError;
+    if (cpError) throw cpError;
 
-  return cps[0]?.cp_mobile as ICPMobile[];
+    return cps[0]?.cp_mobile as ICPMobile[];
 }
 
 async function getCPFixedData() {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const session = await readUserSession();
+    const session = await readUserSession();
 
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
+    if (!session) {
+        redirect(VIEWS.SIGN_IN);
+    }
 
-  const { data: cps, error: cpError } = await supabase
-    .from('consumption_points')
-    .select(
-      `
+    const { data: cps, error: cpError } = await supabase
+        .from('consumption_points')
+        .select(
+            `
         *,
         cp_fixed (*)
       `,
-    )
-    .eq('owner_id', session.id);
+        )
+        .eq('owner_id', session.id);
 
-  if (cpError) throw cpError;
+    if (cpError) throw cpError;
 
-  return cps[0]?.cp_fixed as ICPFixed[];
+    return cps[0]?.cp_fixed as ICPFixed[];
 }
 
 async function getEventsCounter() {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const session = await readUserSession();
+    const session = await readUserSession();
 
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
+    if (!session) {
+        redirect(VIEWS.SIGN_IN);
+    }
 
-  const { count, error } = await supabase
-    .from('events')
-    .select('id', { count: 'exact' }) // Selecciona solo una columna y habilita el conteo
-    .eq('owner_id', session.id);
+    const { count, error } = await supabase
+        .from('events')
+        .select('id', { count: 'exact' }) // Selecciona solo una columna y habilita el conteo
+        .eq('owner_id', session.id);
 
-  if (error) throw error;
+    if (error) throw error;
 
-  return count as number | 0;
+    return count as number | 0;
 }

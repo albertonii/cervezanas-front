@@ -14,6 +14,7 @@ import { formatDateString } from '../../../../../../utils/formatDate';
 import { IconButton } from '../../../../components/common/IconButton';
 import UpdateEventModal from '../../../../components/modals/event/UpdateEvent';
 import DeleteEventModal from '../../../../components/modals/DeleteEventModal';
+import useFetchCervezanasEventsByOwnerId from '../../../../../../hooks/useFetchCervezanasEventsByOwnerId';
 
 enum SortBy {
     NONE = 'none',
@@ -35,7 +36,11 @@ interface Props {
     cpsFixed: ICPFixed[];
 }
 
-export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
+export default function CervezanasEventList({
+    counter,
+    cpsMobile,
+    cpsFixed,
+}: Props) {
     const t = useTranslations();
     const locale = useLocale();
     const [query, setQuery] = useState('');
@@ -43,10 +48,8 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
 
     const resultsPerPage = 10;
 
-    const { data, isError, isLoading, refetch } = useFetchEventsByOwnerId(
-        currentPage,
-        resultsPerPage,
-    );
+    const { data, isError, isLoading, refetch } =
+        useFetchCervezanasEventsByOwnerId(currentPage, resultsPerPage);
 
     const [events, setEvents] = useState<IEvent[]>(data ?? []);
 

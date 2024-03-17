@@ -735,7 +735,14 @@ Habilitar formulario para feedbacks/reporte de errores
   4. Crear experiencia
   5. Vincular experiencia con punto de consumo y evento
 
-- [ ] Problemas con la autorización de usuarios en el apartado para administradores:
+- [x] Problemas con la autorización de usuarios en el apartado para administradores:
       ⨯ Error: Unable to find `next-intl` locale because the middleware didn't run on this request. See https://next-intl-docs.vercel.app/docs/routing/middleware#unable-to-find-locale
+      Se estaban usando el hook para traducir en el sidebar en un elemento que era Server Component: layout de ADMINISTRADOR.
 
-- [ ] Apartado de experiencias en las que ha participado
+- [x] Hay veces que no se cargan los listados para eventos -> PRODUCER
+
+- [ ] Eventos Cervezanas
+  1. Si se crea un evento Cervezanas y se añaden PC a través del ADMINISTRADOR, notificar al productor de ello
+  2. Si se crea un evento Cervezanas y se añaden PC a través del ADMINISTRADOR, visualizar en el apartado de eventos acerca de ello.
+  3. Debido a que un administrador puede añadir un PC que no le pertenecen, debe de existir una relación entre ese evento y el punto de consumo. De esta forma, el productor podrá ver si su PC ha sido añadido a un evento. Si es así, podrá ver la información del evento y el PC.
+  4. Una vez que se ha vinculado un PC a un evento, permitir al productor vincular las experiencias a ese PC.
