@@ -19,6 +19,7 @@ import InputSearch from '../../../../../components/common/InputSearch';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { formatDateString } from '../../../../../../../utils/formatDate';
 import { IconButton } from '../../../../../components/common/IconButton';
+import DeleteCPM_event_Modal from '../../../../../components/modals/DeleteCPM_event_Modal';
 
 enum SortBy {
     NONE = 'none',
@@ -64,11 +65,12 @@ export default function CervezanasEventList({
     const [isDeleteModal, setIsDeleteModal] = useState(false);
 
     const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
-    const [selectedEvent, setSelectedEvent] = useState<IEvent>();
+    const [selectedCPMEvent, setSelectedCPMEvent] = useState<ICPM_events>();
 
     const COLUMNS = [
         { header: t('event_type_header') },
-        { header: t('name_header') },
+        { header: t('cp_name_header') },
+        { header: t('event_name_header') },
         { header: t('created_date_header') },
         { header: t('action_header') },
     ];
@@ -76,9 +78,6 @@ export default function CervezanasEventList({
     useEffect(() => {
         refetch().then((res: any) => {
             const events = res.data as any;
-
-            console.log(events);
-
             setEvents(events);
         });
     }, [data, currentPage]);
@@ -113,12 +112,12 @@ export default function CervezanasEventList({
 
     const handleEditClick = async (e: ICPM_events) => {
         setIsEditModal(true);
-        setSelectedEvent(e.events);
+        setSelectedCPMEvent(e);
     };
 
     const handleDeleteClick = async (e: ICPM_events) => {
         setIsDeleteModal(true);
-        setSelectedEvent(e.events);
+        setSelectedCPMEvent(e);
     };
 
     const handleEditModal = (isEdit: boolean) => {
@@ -131,9 +130,9 @@ export default function CervezanasEventList({
 
     return (
         <section className="mt-2 mb-4 space-y-3  rounded-md border-2 border-beer-blonde  bg-white px-6 py-4 shadow-2xl">
-            {isEditModal && selectedEvent && (
+            {isEditModal && selectedCPMEvent && (
                 <UpdateEventModal
-                    selectedEvent={selectedEvent}
+                    selectedCPMEvent={selectedCPMEvent}
                     isEditModal={isEditModal}
                     handleEditModal={handleEditModal}
                     cpsMobile={cpsMobile}
@@ -141,9 +140,10 @@ export default function CervezanasEventList({
                 />
             )}
 
-            {isDeleteModal && selectedEvent && (
-                <DeleteEventModal
-                    selectedEventId={selectedEvent.id}
+            {isDeleteModal && selectedCPMEvent && (
+                <DeleteCPM_event_Modal
+                    eventId={selectedCPMEvent.event_id}
+                    cpId={selectedCPMEvent.cp_id}
                     isDeleteModal={isDeleteModal}
                     handleDeleteModal={handlDeleteModal}
                 />
@@ -210,9 +210,18 @@ export default function CervezanasEventList({
                                                 height={128}
                                                 className="h-8 w-8 rounded-full"
                                                 src="/icons/people-line-solid.svg"
-                                                alt="Beer Type"
+                                                alt=""
                                             />
                                         </th>
+
+                                        <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+                                            <Link
+                                                href={`/events/${e.event_id}`}
+                                                locale={locale}
+                                            >
+                                                {e.cp_mobile?.cp_name}
+                                            </Link>
+                                        </td>
 
                                         <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                                             <Link

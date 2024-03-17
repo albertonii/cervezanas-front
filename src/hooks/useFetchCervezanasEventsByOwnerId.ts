@@ -19,7 +19,8 @@ const fetchCervezanasEventsByOwnerId = async (
         .select(
             `
               *,
-              events (*)
+              events (*),
+              cp_mobile (*)
             `,
             {
                 count: 'exact',

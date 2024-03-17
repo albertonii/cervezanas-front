@@ -35,7 +35,7 @@ interface FormData {
 }
 
 interface Props {
-    selectedEvent: IEvent;
+    selectedCPMEvent: ICPM_events;
     isEditModal: boolean;
     handleEditModal: ComponentProps<any>;
     cpsMobile: ICPMobile[];
@@ -43,7 +43,7 @@ interface Props {
 }
 
 export default function UpdateEventModal({
-    selectedEvent,
+    selectedCPMEvent,
     isEditModal,
     handleEditModal,
     cpsMobile,
@@ -59,14 +59,14 @@ export default function UpdateEventModal({
         isLoading: isLoadingMobile,
         isFetching: isFetchingMobile,
         refetch: refetchMobile,
-    } = useFetchCPSMobileByEventsId(selectedEvent.id);
+    } = useFetchCPSMobileByEventsId(selectedCPMEvent.event_id);
 
     const {
         data: checkedCPFixed,
         isLoading: isLoadingFixed,
         isFetching: isFetchingFixed,
         refetch: refetchFixed,
-    } = useFetchCPSFixedByEventsId(selectedEvent.id);
+    } = useFetchCPSFixedByEventsId(selectedCPMEvent.event_id);
 
     useEffect(() => {
         refetchMobile();
@@ -75,13 +75,17 @@ export default function UpdateEventModal({
 
     const form = useForm<FormData>({
         defaultValues: {
-            is_activated: selectedEvent.is_activated,
-            name: selectedEvent.name,
-            description: selectedEvent.description,
-            start_date: formatDateDefaultInput(selectedEvent.start_date),
-            end_date: formatDateDefaultInput(selectedEvent.end_date),
-            logo_url: selectedEvent.logo_url ?? '',
-            promotional_url: selectedEvent.promotional_url ?? '',
+            is_activated: selectedCPMEvent.events?.is_activated,
+            name: selectedCPMEvent.events?.name,
+            description: selectedCPMEvent.events?.description,
+            start_date: formatDateDefaultInput(
+                selectedCPMEvent.events?.start_date ?? '',
+            ),
+            end_date: formatDateDefaultInput(
+                selectedCPMEvent.events?.end_date ?? '',
+            ),
+            logo_url: selectedCPMEvent.events?.logo_url ?? '',
+            promotional_url: selectedCPMEvent.events?.promotional_url ?? '',
         },
     });
 
@@ -101,7 +105,7 @@ export default function UpdateEventModal({
             cps_fixed,
         } = formValues;
 
-        if (!selectedEvent) return;
+        if (!selectedCPMEvent) return;
 
         const { error } = await supabase
             .from('events')
@@ -113,7 +117,7 @@ export default function UpdateEventModal({
                 logo_url,
                 promotional_url,
             })
-            .eq('id', selectedEvent.id);
+            .eq('id', selectedCPMEvent.event_id);
 
         if (error) throw error;
 
@@ -144,7 +148,7 @@ export default function UpdateEventModal({
                     .from('cpm_events')
                     .delete()
                     .eq('cp_id', cp.cp_id)
-                    .eq('event_id', selectedEvent.id);
+                    .eq('event_id', selectedCPMEvent.event_id);
 
                 if (cpError) {
                     throw cpError;
@@ -155,7 +159,7 @@ export default function UpdateEventModal({
             cps_mobile?.forEach(async (item) => {
                 const { error } = await supabase.from('cpm_events').insert({
                     cp_id: item.cp_id,
-                    event_id: selectedEvent.id,
+                    event_id: selectedCPMEvent.event_id,
                     is_active: false,
                 });
                 if (error) {
@@ -184,7 +188,7 @@ export default function UpdateEventModal({
                     .from('cpf_events')
                     .delete()
                     .eq('cp_id', cp.cp_id)
-                    .eq('event_id', selectedEvent.id);
+                    .eq('event_id', selectedCPMEvent.event_id);
 
                 if (cpError) {
                     throw cpError;
@@ -195,7 +199,7 @@ export default function UpdateEventModal({
             cps_fixed?.forEach(async (item) => {
                 const { error } = await supabase.from('cpf_events').insert({
                     cp_id: item.cp_id,
-                    event_id: selectedEvent.id,
+                    event_id: selectedCPMEvent.event_id,
                     is_active: false,
                 });
                 if (error) {
