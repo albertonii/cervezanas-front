@@ -43,7 +43,7 @@ async function getCPMobileData() {
                 *
             `,
         )
-        .eq('owner_id', session.id)
+        .eq('owner_id', session.id);
 
     if (cpError) throw cpError;
 

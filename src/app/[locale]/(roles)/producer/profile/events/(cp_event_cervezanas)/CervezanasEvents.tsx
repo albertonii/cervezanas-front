@@ -1,8 +1,6 @@
 'use client';
 
-import EventList from '../(producer_events)/EventList';
-import AddEvent from '../../../../../components/modals/event/AddEvent';
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslations } from 'next-intl';
 import { ICPFixed, ICPMobile } from '../../../../../../../lib/types/types';
 import CervezanasEventList from './CervezanasEventList';
@@ -35,8 +33,6 @@ export default function CervezanasEvents({
 
             <CervezanasEventList
                 counter={counter}
-                cpsMobile={cpsMobile}
-                cpsFixed={cpsFixed}
             />
         </section>
     );

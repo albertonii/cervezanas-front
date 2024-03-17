@@ -26,7 +26,7 @@ export function SearchCheckboxExperiencesCPMobiles({
     );
 
     const { fields, append, insert, remove } = useFieldArray({
-        name: 'event_experiences',
+        name: 'experiences',
         control,
     });
 

@@ -24,7 +24,7 @@ export default function EventExperienceDetails({ eventExperience }: Props) {
         if (!isLoggedIn) {
             handleMessage({
                 type: 'info',
-                message: 'must_be_logged_in_add_store',
+                message: 'must_be_logged_in_to_participate',
             });
             return;
         }

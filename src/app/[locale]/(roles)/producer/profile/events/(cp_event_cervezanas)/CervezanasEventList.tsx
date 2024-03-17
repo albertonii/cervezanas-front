@@ -2,24 +2,18 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import UpdateEventModal from '../../../../../components/modals/event/UpdateEvent';
-import DeleteEventModal from '../../../../../components/modals/DeleteEventModal';
+import DeleteCPM_event_Modal from '../../../../../components/modals/DeleteCPM_event_Modal';
+import UpdateCPMEventModal from './UpdateCPMEvent';
 import useFetchCervezanasEventsByOwnerId from '../../../../../../../hooks/useFetchCervezanasEventsByOwnerId';
 import PaginationFooter from '../../../../../components/common/PaginationFooter';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import {
-    ICPFixed,
-    ICPMobile,
-    ICPM_events,
-    IEvent,
-} from '../../../../../../../lib/types/types';
+import { ICPM_events } from '../../../../../../../lib/types/types';
 import Spinner from '../../../../../components/common/Spinner';
 import InputSearch from '../../../../../components/common/InputSearch';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { formatDateString } from '../../../../../../../utils/formatDate';
 import { IconButton } from '../../../../../components/common/IconButton';
-import DeleteCPM_event_Modal from '../../../../../components/modals/DeleteCPM_event_Modal';
 
 enum SortBy {
     NONE = 'none',
@@ -37,15 +31,9 @@ interface ColumnsProps {
 
 interface Props {
     counter: number;
-    cpsMobile: ICPMobile[];
-    cpsFixed: ICPFixed[];
 }
 
-export default function CervezanasEventList({
-    counter,
-    cpsMobile,
-    cpsFixed,
-}: Props) {
+export default function CervezanasEventList({ counter }: Props) {
     const t = useTranslations();
     const locale = useLocale();
     const [query, setQuery] = useState('');
@@ -131,12 +119,10 @@ export default function CervezanasEventList({
     return (
         <section className="mt-2 mb-4 space-y-3  rounded-md border-2 border-beer-blonde  bg-white px-6 py-4 shadow-2xl">
             {isEditModal && selectedCPMEvent && (
-                <UpdateEventModal
+                <UpdateCPMEventModal
                     selectedCPMEvent={selectedCPMEvent}
                     isEditModal={isEditModal}
                     handleEditModal={handleEditModal}
-                    cpsMobile={cpsMobile}
-                    cpsFixed={cpsFixed}
                 />
             )}
 

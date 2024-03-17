@@ -747,3 +747,7 @@ Habilitar formulario para feedbacks/reporte de errores
   3. [x] Debido a que un administrador puede añadir un PC que no le pertenecen, debe de existir una relación entre ese evento y el punto de consumo (ICPM_events). De esta forma, el productor podrá ver si su PC ha sido añadido a un evento. Si es así, podrá ver la información del evento y el PC.
   4. [ ] Modificar los Puntos de Consumo asociados a un Evento Cervezanas
   5. [ ] Modificar las Experiencias de los Puntos de Consumo asociados a un Evento Cervezanas
+  6. [ ] Añadir accesos directos a productor para acceder a la configuración de experiencias en PC
+  7. [ ] Breadcrumb en PC para poder volver al evento
+  8. [ ] Al presionar en participar -> Actualizar la página para mostrar el código QR al barman
+  9. [ ] Al presionar varias veces en participar -> CREA varias entradas. Hay que evitar esto.
