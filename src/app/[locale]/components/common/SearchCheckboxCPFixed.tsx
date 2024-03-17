@@ -43,6 +43,7 @@ export function SearchCheckboxCPFixeds({
                 event_id: selectedEventId ?? '',
                 is_active: false,
                 owner_id: cp.consumption_points?.owner_id,
+                is_cervezanas_event: false,
             };
             setCheckedCPsState([...checkedCPsState, cp_check]);
         } else {

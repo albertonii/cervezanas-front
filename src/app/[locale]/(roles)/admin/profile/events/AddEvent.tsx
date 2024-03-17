@@ -152,8 +152,6 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
             // Get CP checked from the list
             const cpsMobileFiltered = cps_mobile.filter((cp) => cp.cp_id);
 
-            console.log(cpsMobileFiltered);
-
             // Loop trough all the selected CPs and insert them into the event
             // Because is the admin role we need to insert the CPs into the table with is_cervezanas_event flag
             cpsMobileFiltered.map(async (cp: ICPM_events) => {

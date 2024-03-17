@@ -32,8 +32,6 @@ const fetchCervezanasEventsByOwnerId = async (
             currentPage * resultsPerPage - 1,
         );
 
-    console.log(data);
-
     if (error) throw error;
 
     return data as ICPM_events[];
@@ -46,7 +44,7 @@ const useFetchCervezanasEventsByOwnerId = (
     const { user, supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['events', user?.id, currentPage, resultsPerPage],
+        queryKey: ['cervezanas_events', user?.id, currentPage, resultsPerPage],
         queryFn: () =>
             fetchCervezanasEventsByOwnerId(
                 user?.id,

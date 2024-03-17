@@ -4,16 +4,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import useFetchEventsByOwnerId from '../../../../../../hooks/useFetchEventsByOwnerId';
 import PaginationFooter from '../../../../components/common/PaginationFooter';
-import React, { useEffect, useMemo, useState } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
-import { ICPFixed, ICPMobile, IEvent } from '../../../../../../lib/types/types';
 import Spinner from '../../../../components/common/Spinner';
 import InputSearch from '../../../../components/common/InputSearch';
+import React, { useEffect, useMemo, useState } from 'react';
+import UpdateEventModal from '../../../../components/modals/event/UpdateEvent';
+import DeleteEventModal from '../../../../components/modals/DeleteEventModal';
+import { useLocale, useTranslations } from 'next-intl';
+import { ICPFixed, ICPMobile, IEvent } from '../../../../../../lib/types/types';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { formatDateString } from '../../../../../../utils/formatDate';
 import { IconButton } from '../../../../components/common/IconButton';
-import UpdateEventModal from '../../../../components/modals/event/UpdateEvent';
-import DeleteEventModal from '../../../../components/modals/DeleteEventModal';
 
 enum SortBy {
     NONE = 'none',
@@ -48,7 +48,7 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
         resultsPerPage,
     );
 
-    const [events, setEvents] = useState<IEvent[]>(data ?? []);
+    const [events, setEvents] = useState<IEvent[]>([]);
 
     const editColor = { filled: '#90470b', unfilled: 'grey' };
     const deleteColor = { filled: '#90470b', unfilled: 'grey' };
@@ -68,13 +68,14 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
 
     useEffect(() => {
         refetch().then((res: any) => {
-            const events = res.data as any;
+            const events = res.data as IEvent[];
             setEvents(events);
         });
     }, [data, currentPage]);
 
     const filteredItems = useMemo<IEvent[]>(() => {
         if (!data) return [];
+        console.log('EVENTO', data);
         return data.filter((event) => {
             return event.name.toLowerCase().includes(query.toLowerCase());
         });

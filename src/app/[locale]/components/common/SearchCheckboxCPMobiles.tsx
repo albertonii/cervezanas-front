@@ -42,9 +42,9 @@ export function SearchCheckboxCPMobiles({
                 event_id: selectedEventId ?? '',
                 is_active: false,
                 owner_id: cp.owner_id,
+                is_cervezanas_event: false,
             };
 
-            console.log(cp_check);
             setCheckedCPsState([...checkedCPsState, cp_check]);
         } else {
             setCheckedCPsState(

@@ -393,7 +393,7 @@ export interface ICPFixed {
     // geoArgs: GeocodeResult[];
     geoArgs: any[];
     consumption_points?: IConsumptionPoints;
-    owner_id: string
+    owner_id: string;
 }
 
 export interface ICPMobile {
@@ -1041,7 +1041,8 @@ export interface INotification {
     link: string;
     read: boolean;
     source: string;
-    source_user?: IUserTable;
+    // source_user?: UserTable; - TODO: Buscar el tipo de propiedad, no any
+    source_user?: any;
 }
 
 export type UserProps = {
