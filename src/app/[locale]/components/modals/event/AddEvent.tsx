@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import BasicEventForm from '../../../(roles)/producer/profile/events/BasicEventForm';
+import BasicEventForm from '../../../(roles)/producer/profile/events/(producer_events)/BasicEventForm';
 import ExperienceForm from '../../../(roles)/producer/profile/events/ExperienceForm';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';

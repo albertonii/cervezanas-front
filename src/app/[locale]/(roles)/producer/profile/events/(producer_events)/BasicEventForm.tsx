@@ -1,6 +1,6 @@
 import React from 'react';
-import InputLabel from '../../../../components/common/InputLabel';
-import InputTextarea from '../../../../components/common/InputTextarea';
+import InputLabel from '../../../../../components/common/InputLabel';
+import InputTextarea from '../../../../../components/common/InputTextarea';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 

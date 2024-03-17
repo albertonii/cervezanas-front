@@ -1,10 +1,10 @@
 'use client';
 
-import EventList from './EventList';
-import AddEvent from '../../../../components/modals/event/AddEvent';
+import EventList from '../(producer_events)/EventList';
+import AddEvent from '../../../../../components/modals/event/AddEvent';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ICPFixed, ICPMobile } from '../../../../../../lib/types/types';
+import { ICPFixed, ICPMobile } from '../../../../../../../lib/types/types';
 import CervezanasEventList from './CervezanasEventList';
 
 interface Props {

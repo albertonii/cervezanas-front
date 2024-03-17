@@ -746,4 +746,5 @@ Habilitar formulario para feedbacks/reporte de errores
   2. [ ] Si se crea un evento Cervezanas y se añaden PC a través del ADMINISTRADOR, visualizar en el apartado de eventos acerca de ello.
   3. [x] Debido a que un administrador puede añadir un PC que no le pertenecen, debe de existir una relación entre ese evento y el punto de consumo (ICPM_events). De esta forma, el productor podrá ver si su PC ha sido añadido a un evento. Si es así, podrá ver la información del evento y el PC.
   4. [ ] Una vez que se ha vinculado un PC a un evento, permitir al productor vincular las experiencias a ese PC.
-  5. [ ] Modificar un evento existente -> Experiencias
+  5. [ ] Modificar los Puntos de Consumo asociados a un Evento Cervezanas
+  6. [ ] Modificar las Experiencias de los Puntos de Consumo asociados a un Evento Cervezanas

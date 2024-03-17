@@ -2,8 +2,10 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import useFetchEventsByOwnerId from '../../../../../../hooks/useFetchEventsByOwnerId';
-import PaginationFooter from '../../../../components/common/PaginationFooter';
+import UpdateEventModal from '../../../../../components/modals/event/UpdateEvent';
+import DeleteEventModal from '../../../../../components/modals/DeleteEventModal';
+import useFetchCervezanasEventsByOwnerId from '../../../../../../../hooks/useFetchCervezanasEventsByOwnerId';
+import PaginationFooter from '../../../../../components/common/PaginationFooter';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import {
@@ -11,15 +13,12 @@ import {
     ICPMobile,
     ICPM_events,
     IEvent,
-} from '../../../../../../lib/types/types';
-import Spinner from '../../../../components/common/Spinner';
-import InputSearch from '../../../../components/common/InputSearch';
+} from '../../../../../../../lib/types/types';
+import Spinner from '../../../../../components/common/Spinner';
+import InputSearch from '../../../../../components/common/InputSearch';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { formatDateString } from '../../../../../../utils/formatDate';
-import { IconButton } from '../../../../components/common/IconButton';
-import UpdateEventModal from '../../../../components/modals/event/UpdateEvent';
-import DeleteEventModal from '../../../../components/modals/DeleteEventModal';
-import useFetchCervezanasEventsByOwnerId from '../../../../../../hooks/useFetchCervezanasEventsByOwnerId';
+import { formatDateString } from '../../../../../../../utils/formatDate';
+import { IconButton } from '../../../../../components/common/IconButton';
 
 enum SortBy {
     NONE = 'none',

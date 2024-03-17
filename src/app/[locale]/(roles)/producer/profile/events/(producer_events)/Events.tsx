@@ -1,10 +1,10 @@
 'use client';
 
 import EventList from './EventList';
-import AddEvent from '../../../../components/modals/event/AddEvent';
+import AddEvent from '../../../../../components/modals/event/AddEvent';
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { ICPFixed, ICPMobile } from '../../../../../../lib/types/types';
+import { ICPFixed, ICPMobile } from '../../../../../../../lib/types/types';
 
 interface Props {
     cpsMobile: ICPMobile[];

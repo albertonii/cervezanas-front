@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import { EventOption } from '../../../../../../lib/enums';
 import { ICPFixed, ICPMobile } from '../../../../../../lib/types/types';
-import CervezanasEvents from './CervezanasEvents';
-import Events from './Events';
+import CervezanasEvents from './(cp_event_cervezanas)/CervezanasEvents';
+import Events from './(producer_events)/Events';
 import HorizontalMenuEvent from './HorizontalMenuEvent';
 
 interface Props {

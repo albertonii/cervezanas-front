@@ -2,18 +2,22 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import useFetchEventsByOwnerId from '../../../../../../hooks/useFetchEventsByOwnerId';
-import PaginationFooter from '../../../../components/common/PaginationFooter';
-import Spinner from '../../../../components/common/Spinner';
-import InputSearch from '../../../../components/common/InputSearch';
+import useFetchEventsByOwnerId from '../../../../../../../hooks/useFetchEventsByOwnerId';
+import PaginationFooter from '../../../../../components/common/PaginationFooter';
+import Spinner from '../../../../../components/common/Spinner';
+import InputSearch from '../../../../../components/common/InputSearch';
 import React, { useEffect, useMemo, useState } from 'react';
-import UpdateEventModal from '../../../../components/modals/event/UpdateEvent';
-import DeleteEventModal from '../../../../components/modals/DeleteEventModal';
+import UpdateEventModal from '../../../../../components/modals/event/UpdateEvent';
+import DeleteEventModal from '../../../../../components/modals/DeleteEventModal';
 import { useLocale, useTranslations } from 'next-intl';
-import { ICPFixed, ICPMobile, IEvent } from '../../../../../../lib/types/types';
+import {
+    ICPFixed,
+    ICPMobile,
+    IEvent,
+} from '../../../../../../../lib/types/types';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { formatDateString } from '../../../../../../utils/formatDate';
-import { IconButton } from '../../../../components/common/IconButton';
+import { formatDateString } from '../../../../../../../utils/formatDate';
+import { IconButton } from '../../../../../components/common/IconButton';
 
 enum SortBy {
     NONE = 'none',
