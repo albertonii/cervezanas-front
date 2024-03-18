@@ -765,4 +765,5 @@ Habilitar formulario para feedbacks/reporte de errores
   13. [ ] No se envia notificación al distribuidor para el contrato productor-distribuidor
 
 - [ ] Crear evento con ADMIN
-- [ ] Error al configurar área de cobertura del distribuidor
+- [x] Error al configurar área de cobertura del distribuidor -> Tipo de dato por defectos para los atributos debe de ser un array vacío
+- [x] API Key para obtener listado de países de API countrystatecity añadida para los entornos de Producción y Staging

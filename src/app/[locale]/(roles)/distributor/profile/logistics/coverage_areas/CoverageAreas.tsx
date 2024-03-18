@@ -13,7 +13,7 @@ import { DistributionDestinationType } from '../../../../../../../lib/enums';
 export default function CoverageAreas() {
     const t = useTranslations();
     const [menuOption, setMenuOption] = useState<string>(
-        DistributionDestinationType.CITY,
+        DistributionDestinationType.INTERNATIONAL,
     );
 
     const { data: distributor, error } = useFetchDistributionByOwnerId();
@@ -27,7 +27,7 @@ export default function CoverageAreas() {
     // tiene el distribuidor. Si lo hacemos de la manera de abajo
     // hay causíticas que no ten<zemos en cuenta: Bosnia and Herzegovina no se marcaría
     const internationalCountries =
-        distributor?.coverage_areas.international.map((country) => {
+        distributor?.coverage_areas.international?.map((country) => {
             return country.replace(/\w\S*/g, (txt) => {
                 return txt.replace(/\b\w/g, (v) => v.toUpperCase());
             });
