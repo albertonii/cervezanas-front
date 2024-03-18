@@ -51,7 +51,11 @@ async function checkAuthorizedDistributorByAdmin(userId: string) {
 
     const { data, error } = await supabase
         .from('distributor_user')
-        .select('*')
+        .select(
+            `
+                *
+            `,
+        )
         .eq('user_id', userId)
         .is('is_authorized', true);
 
