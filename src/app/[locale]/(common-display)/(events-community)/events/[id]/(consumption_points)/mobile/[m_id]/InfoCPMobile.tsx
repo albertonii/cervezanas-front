@@ -44,18 +44,22 @@ export default function InfoCPMobile({
             </section>
 
             {/* Event Experiences  */}
-            <section className="space-y-4">
-                <h2 className="text-2xl font-bold mt-8">{t('experiences')}</h2>
+            {experiencesCounter > 0 && (
+                <section className="space-y-4">
+                    <h2 className="text-2xl font-bold mt-8">
+                        {t('experiences')}
+                    </h2>
 
-                <p>
-                    <span className="text-xl">
-                        Este Punto de Consumo ofrece {experiencesCounter} en las
-                        que puedes participar
-                    </span>
-                </p>
+                    <p>
+                        <span className="text-xl">
+                            Este Punto de Consumo ofrece {experiencesCounter}{' '}
+                            experiencias en las que puedes participar
+                        </span>
+                    </p>
 
-                <EventExperiences eventExperiences={eventExperiences} />
-            </section>
+                    <EventExperiences eventExperiences={eventExperiences} />
+                </section>
+            )}
 
             {/* Products linked to this Mobile Consumption Point */}
             <section className="mt-8">

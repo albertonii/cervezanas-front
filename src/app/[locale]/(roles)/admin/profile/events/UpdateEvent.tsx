@@ -152,11 +152,13 @@ export default function UpdateEventModal({
             });
 
             // // Insertar los nuevos CPs asociados al evento
-            cps_mobile?.forEach(async (item) => {
+            cps_mobile?.forEach(async (cp) => {
                 const { error } = await supabase.from('cpm_events').insert({
-                    cp_id: item.cp_id,
+                    cp_id: cp.cp_id,
                     event_id: selectedEvent.id,
-                    is_active: false,
+                    owner_id: cp.owner_id,
+                    is_cervezanas_event: true,
+                    is_active: true,
                 });
                 if (error) {
                     throw error;

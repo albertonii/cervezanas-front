@@ -168,9 +168,9 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
                     .insert({
                         cp_id: cp.cp_id,
                         event_id: eventId,
-                        is_active: false,
                         owner_id: cp.owner_id,
                         is_cervezanas_event: true,
+                        is_active: true,
                     });
 
                 if (cpError) {
