@@ -20,7 +20,7 @@ export default function Marketplace({ products }: Props) {
         <Filters />
       </MarketplaceHeader> */}
 
-            <article className="m-auto grid grid-cols-1 bg-white pt-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
+            {/* <article className="m-auto grid grid-cols-1 bg-white pt-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
                 {filteredProducts &&
                     filteredProducts.map((product) => (
                         <div
@@ -33,7 +33,7 @@ export default function Marketplace({ products }: Props) {
                             />
                         </div>
                     ))}
-            </article>
+            </article> */}
         </section>
     );
 }
