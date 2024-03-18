@@ -40,12 +40,13 @@ export function StoreItem({ product }: StoreItemProps) {
 
     console.log('PACKS', packs);
 
-    const lowestPack = packs?.sort(
-        (a, b) => a.quantity - b.quantity,
-    )[0] as IProductPack;
+    // const lowestPack = packs?.sort(
+    //     (a, b) => a.quantity - b.quantity,
+    // )[0] as IProductPack;
 
     // Selected pack that has lowest quantity
-    const [selectedPack, setSelectedPack] = useState<IProductPack>(lowestPack);
+    const [selectedPack, setSelectedPack] = useState<IProductPack>();
+    // const [selectedPack, setSelectedPack] = useState<IProductPack>(lowestPack);
 
     const overAllCalculation = () => {
         let overAll_sum = 0;
@@ -233,7 +234,6 @@ export function StoreItem({ product }: StoreItemProps) {
                                 }}
                             >
                                 {packs &&
-                                    packs.length > 1 &&
                                     packs
                                         .sort((a, b) => a.quantity - b.quantity)
                                         .map((pack: IProductPack) => (
@@ -244,17 +244,6 @@ export function StoreItem({ product }: StoreItemProps) {
                                                 {pack.name}
                                             </option>
                                         ))}
-
-                                {packs && packs[0] && packs.length === 1 && (
-                                    <>
-                                        <option
-                                            key={packs[0].id}
-                                            value={packs[0].id}
-                                        >
-                                            {packs[0].name}
-                                        </option>
-                                    </>
-                                )}
                             </select>
 
                             {/* Añadir al carrito */}
