@@ -45,6 +45,7 @@ export function StoreItem({ product }: StoreItemProps) {
 
     useEffect(() => {
         if (packs) {
+            console.log(packs);
             if (packs.length === 1) {
                 setSelectedPack(packs[0]);
                 return;
@@ -53,8 +54,9 @@ export function StoreItem({ product }: StoreItemProps) {
             const lowestPack = packs.sort(
                 (a, b) => a.quantity - b.quantity,
             )[0] as IProductPack;
+
+            console.log(lowestPack);
             setSelectedPack(lowestPack);
-            // setSelectedPack(packs[0]);
         }
     }, [packs]);
 
