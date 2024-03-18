@@ -4,23 +4,23 @@ import createServerClient from '../../../../utils/supabaseServer';
 import { IProduct, IProductMultimedia } from '../../../../lib/types/types';
 
 export default async function MarketPlacePage() {
-  const productsData = getMarketplaceProducts();
-  const [products] = await Promise.all([productsData]);
+    const productsData = getMarketplaceProducts();
+    const [products] = await Promise.all([productsData]);
 
-  return (
-    <>
-      <Marketplace products={products ?? []} />
-    </>
-  );
+    return (
+        <>
+            <Marketplace products={products ?? []} />
+        </>
+    );
 }
 
 async function getMarketplaceProducts() {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const { data: productsData, error: productsError } = await supabase
-    .from('products')
-    .select(
-      `
+    const { data: productsData, error: productsError } = await supabase
+        .from('products')
+        .select(
+            `
         *,
         beers!inner (
           *
@@ -42,10 +42,12 @@ async function getMarketplaceProducts() {
         ),
         product_packs (*)
       `,
-    )
-    .eq('is_public', true);
+        )
+        .eq('is_public', true);
 
-  if (productsError) throw productsError;
+    console.log(productsData);
 
-  return productsData as IProduct[];
+    if (productsError) throw productsError;
+
+    return productsData as IProduct[];
 }

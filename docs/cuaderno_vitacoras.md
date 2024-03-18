@@ -767,3 +767,6 @@ Habilitar formulario para feedbacks/reporte de errores
 - [ ] Crear evento con ADMIN
 - [x] Error al configurar área de cobertura del distribuidor -> Tipo de dato por defectos para los atributos debe de ser un array vacío
 - [x] API Key para obtener listado de países de API countrystatecity añadida para los entornos de Producción y Staging
+
+- [ ] UI/UX para móviles
+- [ ] Arreglar actualización de productos
