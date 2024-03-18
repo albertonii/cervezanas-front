@@ -238,7 +238,7 @@ export function StoreItem({ product }: StoreItemProps) {
                                     setSelectedPack(pack as IProductPack);
                                 }}
                             >
-                                {/* {packs &&
+                                {packs &&
                                     packs
                                         .sort((a, b) => a.quantity - b.quantity)
                                         .map((pack: IProductPack) => (
@@ -248,7 +248,7 @@ export function StoreItem({ product }: StoreItemProps) {
                                             >
                                                 {pack.name}
                                             </option>
-                                        ))} */}
+                                        ))}
                             </select>
 
                             {/* Añadir al carrito */}
