@@ -771,8 +771,9 @@ Habilitar formulario para feedbacks/reporte de errores
 - [x] API Key para obtener listado de países de API countrystatecity añadida para los entornos de Producción y Staging
 
 - [ ] UI/UX para móviles
-- [ ] Arreglar actualización de productos en el modal
+- [x] Arreglar actualización de productos en el modal
 
 - [x] Pago con Bizum
 - [x] Si el usuario cancela el pedido online -> Estado: Cancelado por el usuario
 - [x] Si el usuario desde Paypal/Bizum decide cancelar y volver a la página anterior -> Estado: Cancelado por el usuario
+- [WIP] Error al actualizar premios en el producto -> Se crean varios diferentes.

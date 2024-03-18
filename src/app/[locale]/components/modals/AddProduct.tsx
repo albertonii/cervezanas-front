@@ -160,7 +160,9 @@ export function AddProduct() {
     const queryClient = useQueryClient();
 
     useEffect(() => {
-        console.log('Errores detectados creando un producto', errors);
+        if (errors) {
+            console.log('Errores detectados creando un producto', errors);
+        }
     }, [errors]);
 
     const generateUUID = () => {

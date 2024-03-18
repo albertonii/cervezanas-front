@@ -72,20 +72,22 @@ export function UpdateAwardsSection({ form }: Props) {
         <section id="Award">
             {fields.map((field, index) => (
                 <div key={field.id}>
-                    <div className="space-y w-full">
-                        <InputLabel
-                            form={form}
-                            label={`awards.${index}.name`}
-                            labelText={`${index + 1} ${t('name')}`}
-                            registerOptions={{
-                                required: true,
-                            }}
-                            placeholder={t(
-                                'input_product_award_name_placeholder',
-                            )}
-                        />
+                    <div className="grid grid-cols-12 gap-4">
+                        <div className="col-span-11">
+                            <InputLabel
+                                form={form}
+                                label={`awards.${index}.name`}
+                                labelText={`${index + 1} ${t('name')}`}
+                                registerOptions={{
+                                    required: true,
+                                }}
+                                placeholder={t(
+                                    'input_product_award_name_placeholder',
+                                )}
+                            />
+                        </div>
 
-                        <div className="ml-4">
+                        <div className="col-span-1 items-end flex justify-end">
                             <DeleteButton
                                 onClick={() => handleRemoveAward(index)}
                             />
@@ -134,8 +136,6 @@ export function UpdateAwardsSection({ form }: Props) {
                             <DisplayInputError message="errors.input_required" />
                         )}
                     </div>
-
-                    {/* <Divider className="my-6" /> */}
                 </div>
             ))}
 

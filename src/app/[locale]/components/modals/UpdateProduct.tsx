@@ -35,10 +35,8 @@ import { useMutation, useQueryClient } from 'react-query';
 import { UpdateAwardsSection } from './UpdateAwardsSection';
 import { UpdateMultimediaSection } from './UpdateMultimediaSection';
 import { UpdateProductInfoSection } from './UpdateProductInfoSection';
-import { getFileExtensionByName } from '../../../../utils/formatWords';
 import {
     generateFileNameExtension,
-    isEmpty,
     isFileEmpty,
     isNotEmptyArray,
     isValidObject,
@@ -643,22 +641,32 @@ export function UpdateProduct({
                             )}`,
                         );
 
-                        const { data, error: awardsError } = await supabase
-                            .from('awards')
-                            .update({
-                                name: award.name,
-                                description: award.description,
-                                year: award.year,
-                                img_url: award_url,
-                            })
-                            .eq('product_id', product.id);
+                        if (award.id) {
+                            const { error: awardsError } = await supabase
+                                .from('awards')
+                                .update({
+                                    product_id: productId,
+                                    name: award.name,
+                                    description: award.description,
+                                    year: award.year,
+                                    img_url: award_url,
+                                })
+                                .eq('product_id', product.id);
 
-                        if (awardsError) throw awardsError;
+                            if (awardsError) throw awardsError;
+                        } else {
+                            const { error: awardsError } = await supabase
+                                .from('awards')
+                                .insert({
+                                    product_id: productId,
+                                    name: award.name,
+                                    description: award.description,
+                                    year: award.year,
+                                    img_url: award_url,
+                                });
 
-                        if (!data)
-                            throw new Error(
-                                'No data returned from awards update',
-                            );
+                            if (awardsError) throw awardsError;
+                        }
 
                         const { error: storageAwardsError } =
                             await supabase.storage
