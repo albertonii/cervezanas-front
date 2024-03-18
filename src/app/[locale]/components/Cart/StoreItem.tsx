@@ -39,24 +39,16 @@ export function StoreItem({ product }: StoreItemProps) {
 
     useEffect(() => {
         if (product.product_packs) {
-            console.log(product.product_packs);
             setPacks(product.product_packs);
         }
     }, [product]);
 
     useEffect(() => {
         if (packs) {
-            console.log(packs);
-            if (packs.length === 1) {
-                setSelectedPack(packs[0]);
-                return;
-            }
-
             const lowestPack = packs.sort(
                 (a, b) => a.quantity - b.quantity,
             )[0] as IProductPack;
 
-            console.log(lowestPack);
             setSelectedPack(lowestPack);
         }
     }, [packs]);
@@ -246,7 +238,7 @@ export function StoreItem({ product }: StoreItemProps) {
                                     setSelectedPack(pack as IProductPack);
                                 }}
                             >
-                                {/* {packs &&
+                                {packs &&
                                     packs
                                         .sort((a, b) => a.quantity - b.quantity)
                                         .map((pack: IProductPack) => (
@@ -256,7 +248,7 @@ export function StoreItem({ product }: StoreItemProps) {
                                             >
                                                 {pack.name}
                                             </option>
-                                        ))} */}
+                                        ))}
                             </select>
 
                             {/* Añadir al carrito */}

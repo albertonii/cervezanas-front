@@ -45,8 +45,6 @@ async function getMarketplaceProducts() {
         )
         .eq('is_public', true);
 
-    console.log(productsData);
-
     if (productsError) throw productsError;
 
     return productsData as IProduct[];
