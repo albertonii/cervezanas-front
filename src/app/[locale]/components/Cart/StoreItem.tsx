@@ -45,10 +45,11 @@ export function StoreItem({ product }: StoreItemProps) {
 
     useEffect(() => {
         if (packs) {
-            const lowestPack = packs.sort(
-                (a, b) => a.quantity - b.quantity,
-            )[0] as IProductPack;
-            setSelectedPack(lowestPack);
+            // const lowestPack = packs.sort(
+            //     (a, b) => a.quantity - b.quantity,
+            // )[0] as IProductPack;
+            // setSelectedPack(lowestPack);
+            setSelectedPack(packs[0]);
         }
     }, [packs]);
 
@@ -237,7 +238,7 @@ export function StoreItem({ product }: StoreItemProps) {
                                     setSelectedPack(pack as IProductPack);
                                 }}
                             >
-                                {packs &&
+                                {/* {packs &&
                                     packs
                                         .sort((a, b) => a.quantity - b.quantity)
                                         .map((pack: IProductPack) => (
@@ -247,7 +248,7 @@ export function StoreItem({ product }: StoreItemProps) {
                                             >
                                                 {pack.name}
                                             </option>
-                                        ))}
+                                        ))} */}
                             </select>
 
                             {/* Añadir al carrito */}
