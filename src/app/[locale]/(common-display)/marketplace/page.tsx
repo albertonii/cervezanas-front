@@ -1,7 +1,7 @@
 import Marketplace from './Marketplace';
 import React from 'react';
 import createServerClient from '../../../../utils/supabaseServer';
-import { IProduct, IProductMultimedia } from '../../../../lib/types/types';
+import { IProduct } from '../../../../lib/types/types';
 
 export default async function MarketPlacePage() {
     const productsData = getMarketplaceProducts();
@@ -21,27 +21,27 @@ async function getMarketplaceProducts() {
         .from('products')
         .select(
             `
-        *,
-        beers!inner (
-          *
-        ),
-        product_multimedia (
-          *,
-          p_principal
-        ),
-        product_inventory (
-          *
-        ),
-        likes (
-          *,
-          id
-        ), 
-        reviews (
-          *,
-          overall
-        ),
-        product_packs (*)
-      `,
+              *,
+              beers!inner (
+                *
+              ),
+              product_multimedia (
+                *,
+                p_principal
+              ),
+              product_inventory (
+                *
+              ),
+              likes (
+                *,
+                id
+              ), 
+              reviews (
+                *,
+                overall
+              ),
+              product_packs (*)
+            `,
         )
         .eq('is_public', true);
 
