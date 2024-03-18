@@ -39,6 +39,7 @@ export function StoreItem({ product }: StoreItemProps) {
 
     useEffect(() => {
         if (product.product_packs) {
+            console.log(product.product_packs);
             setPacks(product.product_packs);
         }
     }, [product]);
