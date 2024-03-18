@@ -47,6 +47,7 @@ async function checkAuthorizatedUserByRole(user: User) {
     console.log('USER METADATA', user.user_metadata);
     console.log('ROLE', role);
     console.log('ROLE ENUM PRODUCTOR', ROLE_ENUM.Productor);
+    console.log(role === ROLE_ENUM.Productor);
     return role === ROLE_ENUM.Productor;
 }
 
