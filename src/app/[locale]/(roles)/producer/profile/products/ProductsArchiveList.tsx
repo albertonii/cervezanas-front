@@ -16,238 +16,263 @@ import InputSearch from '../../../../components/common/InputSearch';
 import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
 
 interface Props {
-  handleEditShowModal: ComponentProps<any>;
-  handleDeleteShowModal: ComponentProps<any>;
-  handleProductModal: ComponentProps<any>;
+    handleEditShowModal: ComponentProps<any>;
+    handleDeleteShowModal: ComponentProps<any>;
+    handleProductModal: ComponentProps<any>;
 }
 
 interface ColumnsProps {
-  header: string;
+    header: string;
 }
 
 export function ProductsArchiveList({
-  handleEditShowModal,
-  handleDeleteShowModal,
-  handleProductModal,
+    handleEditShowModal,
+    handleDeleteShowModal,
+    handleProductModal,
 }: Props) {
-  const { user, supabase } = useAuth();
-  const { products: ps, setProducts } = useAppContext();
+    const { user, supabase } = useAuth();
+    const { products: ps, setProducts } = useAppContext();
 
-  if (!user) return null;
+    if (!user) return null;
 
-  const t = useTranslations();
-  const locale = useLocale();
+    const t = useTranslations();
+    const locale = useLocale();
 
-  const products = ps.filter((product) => product.is_archived);
+    const products = ps.filter((product) => product.is_archived);
 
-  const [query, setQuery] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
+    const [query, setQuery] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
 
-  const counter = ps.filter((product) => product.is_archived).length;
+    const counter = ps.filter((product) => product.is_archived).length;
 
-  const resultsPerPage = 10;
+    const resultsPerPage = 10;
 
-  const { isError, isLoading, refetch } = useFetchProductsByOwnerAndPagination(
-    user.id,
-    currentPage,
-    resultsPerPage,
-    true,
-  );
+    const { isError, isLoading, refetch } =
+        useFetchProductsByOwnerAndPagination(currentPage, resultsPerPage, true);
 
-  const COLUMNS = [
-    { header: t('product_type_header') },
-    { header: t('name_header') },
-    { header: t('price_header') },
-    { header: t('stock_header') },
-    { header: t('lot_header') },
-    { header: t('public_header') },
-    { header: t('action_header') },
-  ];
+    const COLUMNS = [
+        { header: t('product_type_header') },
+        { header: t('name_header') },
+        { header: t('price_header') },
+        { header: t('stock_header') },
+        { header: t('lot_header') },
+        { header: t('public_header') },
+        { header: t('action_header') },
+    ];
 
-  useEffect(() => {
-    refetch().then((res) => {
-      // const products = res.data as IProduct[];
-      const products = res.data as any;
-      setProducts(products);
-    });
-  }, [currentPage]);
+    useEffect(() => {
+        refetch().then((res) => {
+            // const products = res.data as IProduct[];
+            const products = res.data as any;
+            setProducts(products);
+        });
+    }, [currentPage]);
 
-  const handleClickEdit = (product: IProduct) => {
-    handleEditShowModal(true);
-    handleDeleteShowModal(false);
-    handleProductModal(product);
-  };
-
-  const handleUnarchive = async (product: any) => {
-    // Update product state to archived to false and isPublic to true
-    // Update product
-    const updatedProduct = {
-      ...product,
-      is_archived: false,
+    const handleClickEdit = (product: IProduct) => {
+        handleEditShowModal(true);
+        handleDeleteShowModal(false);
+        handleProductModal(product);
     };
 
-    // Delete the objets that doesn't exists in supabase table but just in the state
-    delete updatedProduct.beers;
-    delete updatedProduct.likes;
-    delete updatedProduct.product_inventory;
-    delete updatedProduct.product_lots;
-    delete updatedProduct.product_multimedia;
+    const handleUnarchive = async (product: any) => {
+        // Update product state to archived to false and isPublic to true
+        // Update product
+        const updatedProduct = {
+            ...product,
+            is_archived: false,
+        };
 
-    // Send product to supabase database
-    const { error } = await supabase
-      .from('products')
-      .update(updatedProduct)
-      .eq('id', product.id)
-      .select();
+        // Delete the objets that doesn't exists in supabase table but just in the state
+        delete updatedProduct.beers;
+        delete updatedProduct.likes;
+        delete updatedProduct.product_inventory;
+        delete updatedProduct.product_lots;
+        delete updatedProduct.product_multimedia;
 
-    if (error) throw error;
+        // Send product to supabase database
+        const { error } = await supabase
+            .from('products')
+            .update(updatedProduct)
+            .eq('id', product.id)
+            .select();
 
-    // Update products state
-    const updatedProducts = products.map((product_) => {
-      if (product_.id === product.id) {
-        return updatedProduct;
-      }
-      return product_;
-    });
+        if (error) throw error;
 
-    setProducts(updatedProducts);
-  };
+        // Update products state
+        const updatedProducts = products.map((product_) => {
+            if (product_.id === product.id) {
+                return updatedProduct;
+            }
+            return product_;
+        });
 
-  const filteredItems = useMemo(() => {
-    return products.filter((product) => {
-      return product.name.toLowerCase().includes(query.toLowerCase());
-    });
-  }, [products, query]);
+        setProducts(updatedProducts);
+    };
 
-  return (
-    <section className="bg-beer-foam relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
-      {isError && (
-        <div className="flex items-center justify-center">
-          <p className="text-gray-500 dark:text-gray-400">
-            {t('error_fetching_products')}
-          </p>
-        </div>
-      )}
+    const filteredItems = useMemo(() => {
+        return products.filter((product) => {
+            return product.name.toLowerCase().includes(query.toLowerCase());
+        });
+    }, [products, query]);
 
-      {isLoading && (
-        <Spinner color="beer-blonde" size="xLarge" absolute center />
-      )}
+    return (
+        <section className="bg-beer-foam relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
+            {isError && (
+                <div className="flex items-center justify-center">
+                    <p className="text-gray-500 dark:text-gray-400">
+                        {t('error_fetching_products')}
+                    </p>
+                </div>
+            )}
 
-      {!isError && !isLoading && products.length === 0 ? (
-        <div className="my-[10vh] flex items-center justify-center">
-          <p className="text-2xl text-gray-500 dark:text-gray-400">
-            {t('no_products')}
-          </p>
-        </div>
-      ) : (
-        <>
-          <InputSearch
-            query={query}
-            setQuery={setQuery}
-            searchPlaceholder={'search_products'}
-          />
+            {isLoading && (
+                <Spinner color="beer-blonde" size="xLarge" absolute center />
+            )}
 
-          <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
-            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                {COLUMNS.map((column: ColumnsProps, index: number) => {
-                  return (
-                    <th key={index} scope="col" className="px-6 py-3">
-                      {column.header}
-                    </th>
-                  );
-                })}
-              </tr>
-            </thead>
+            {!isError && !isLoading && products.length === 0 ? (
+                <div className="my-[10vh] flex items-center justify-center">
+                    <p className="text-2xl text-gray-500 dark:text-gray-400">
+                        {t('no_products')}
+                    </p>
+                </div>
+            ) : (
+                <>
+                    <InputSearch
+                        query={query}
+                        setQuery={setQuery}
+                        searchPlaceholder={'search_products'}
+                    />
 
-            <tbody>
-              {products &&
-                filteredItems.map((product) => {
-                  return (
-                    <tr key={product.id} className="">
-                      {product.is_archived && (
-                        <>
-                          <th
-                            scope="row"
-                            className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                          >
-                            <Image
-                              width={128}
-                              height={128}
-                              className="h-8 w-8 rounded-full"
-                              src={'/icons/beer-240.png'}
-                              loader={() => '/icons/beer-240.png'}
-                              alt="Beer Type"
-                            />
-                          </th>
+                    <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
+                        <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                {COLUMNS.map(
+                                    (column: ColumnsProps, index: number) => {
+                                        return (
+                                            <th
+                                                key={index}
+                                                scope="col"
+                                                className="px-6 py-3"
+                                            >
+                                                {column.header}
+                                            </th>
+                                        );
+                                    },
+                                )}
+                            </tr>
+                        </thead>
 
-                          <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                            <Link
-                              href={`/products/${product.id}`}
-                              locale={locale}
-                            >
-                              {product.name}
-                            </Link>
-                          </td>
+                        <tbody>
+                            {products &&
+                                filteredItems.map((product) => {
+                                    return (
+                                        <tr key={product.id} className="">
+                                            {product.is_archived && (
+                                                <>
+                                                    <th
+                                                        scope="row"
+                                                        className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                                                    >
+                                                        <Image
+                                                            width={128}
+                                                            height={128}
+                                                            className="h-8 w-8 rounded-full"
+                                                            src={
+                                                                '/icons/beer-240.png'
+                                                            }
+                                                            loader={() =>
+                                                                '/icons/beer-240.png'
+                                                            }
+                                                            alt="Beer Type"
+                                                        />
+                                                    </th>
 
-                          <td className="px-6 py-4">
-                            {formatCurrency(product.price)}
-                          </td>
+                                                    <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+                                                        <Link
+                                                            href={`/products/${product.id}`}
+                                                            locale={locale}
+                                                        >
+                                                            {product.name}
+                                                        </Link>
+                                                    </td>
 
-                          <td className="px-6 py-4">
-                            {product.product_inventory &&
-                            product.product_inventory?.quantity
-                              ? product.product_inventory.quantity
-                              : '-'}
-                          </td>
+                                                    <td className="px-6 py-4">
+                                                        {formatCurrency(
+                                                            product.price,
+                                                        )}
+                                                    </td>
 
-                          <td className="px-6 py-4">
-                            {product.product_lots &&
-                            product.product_lots[0]?.lot_id
-                              ? product.product_lots[0]?.lot_id
-                              : '-'}
-                          </td>
+                                                    <td className="px-6 py-4">
+                                                        {product.product_inventory &&
+                                                        product
+                                                            .product_inventory
+                                                            ?.quantity
+                                                            ? product
+                                                                  .product_inventory
+                                                                  .quantity
+                                                            : '-'}
+                                                    </td>
 
-                          <td className="px-6 py-4">
-                            {product.is_public ? t('yes') : t('no')}
-                          </td>
+                                                    <td className="px-6 py-4">
+                                                        {product.product_lots &&
+                                                        product.product_lots[0]
+                                                            ?.lot_id
+                                                            ? product
+                                                                  .product_lots[0]
+                                                                  ?.lot_id
+                                                            : '-'}
+                                                    </td>
 
-                          <td className="px-6 py-4">
-                            <div className="flex space-x-1">
-                              <EditButton
-                                onClick={() => handleClickEdit(product)}
-                              />
+                                                    <td className="px-6 py-4">
+                                                        {product.is_public
+                                                            ? t('yes')
+                                                            : t('no')}
+                                                    </td>
 
-                              {/* 
+                                                    <td className="px-6 py-4">
+                                                        <div className="flex space-x-1">
+                                                            <EditButton
+                                                                onClick={() =>
+                                                                    handleClickEdit(
+                                                                        product,
+                                                                    )
+                                                                }
+                                                            />
+
+                                                            {/* 
                           <DeleteButton
                             onClick={() => handleClickDelete(product)}
                           /> 
                           */}
 
-                              <UnarchiveButton
-                                onClick={() => handleUnarchive(product)}
-                              />
-                            </div>
-                          </td>
-                        </>
-                      )}
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
+                                                            <UnarchiveButton
+                                                                onClick={() =>
+                                                                    handleUnarchive(
+                                                                        product,
+                                                                    )
+                                                                }
+                                                            />
+                                                        </div>
+                                                    </td>
+                                                </>
+                                            )}
+                                        </tr>
+                                    );
+                                })}
+                        </tbody>
+                    </table>
 
-          {/* Prev and Next button for pagination  */}
-          <div className="my-4 flex items-center justify-around">
-            <PaginationFooter
-              counter={counter}
-              resultsPerPage={resultsPerPage}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
-          </div>
-        </>
-      )}
-    </section>
-  );
+                    {/* Prev and Next button for pagination  */}
+                    <div className="my-4 flex items-center justify-around">
+                        <PaginationFooter
+                            counter={counter}
+                            resultsPerPage={resultsPerPage}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                        />
+                    </div>
+                </>
+            )}
+        </section>
+    );
 }

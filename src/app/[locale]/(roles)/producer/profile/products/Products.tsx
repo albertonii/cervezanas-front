@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { IProduct } from '../../../../../../lib/types/types';
 import { AddProduct } from '../../../../components/modals/AddProduct';
 import { DeleteProduct } from '../../../../components/modals/DeleteProduct';
@@ -28,45 +28,44 @@ export function Products() {
         setProductModal(product);
     };
 
+    return (
+        <section className="px-4 py-6" aria-label="Products">
+            <header className="flex flex-col space-y-4">
+                <p className="flex justify-between py-4" id="header">
+                    <span
+                        id="title"
+                        className="text-5xl uppercase font-semibold text-beer-blonde"
+                    >
+                        {t('products')}
+                    </span>
+                </p>
 
-  return (
-      <section className="px-4 py-6" aria-label="Products">
-          <header className="flex flex-col space-y-4">
-              <p className="flex justify-between py-4" id="header">
-                  <span
-                      id="title"
-                      className="text-5xl uppercase font-semibold text-beer-blonde"
-                  >
-                      {t('products')}
-                  </span>
-              </p>
+                <div className="w-40">
+                    <AddProduct />
+                </div>
+            </header>
 
-              <div className="w-40">
-                  <AddProduct />
-              </div>
-          </header>
+            <ProductList
+                handleEditShowModal={handleEditShowModal}
+                handleDeleteShowModal={handleDeleteShowModal}
+                handleProductModal={handleProductModal}
+            />
 
-          <ProductList
-              handleEditShowModal={handleEditShowModal}
-              handleDeleteShowModal={handleDeleteShowModal}
-              handleProductModal={handleProductModal}
-          />
+            {isEditShowModal && productModal && (
+                <UpdateProduct
+                    product={productModal}
+                    showModal={isEditShowModal}
+                    handleEditShowModal={handleEditShowModal}
+                />
+            )}
 
-          {isEditShowModal && productModal && (
-              <UpdateProduct
-                  product={productModal}
-                  showModal={isEditShowModal}
-                  handleEditShowModal={handleEditShowModal}
-              />
-          )}
-
-          {isDeleteShowModal && productModal && (
-              <DeleteProduct
-                  product={productModal}
-                  showModal={isDeleteShowModal}
-                  handleDeleteShowModal={handleDeleteShowModal}
-              />
-          )}
-      </section>
-  );
+            {isDeleteShowModal && productModal && (
+                <DeleteProduct
+                    product={productModal}
+                    showModal={isDeleteShowModal}
+                    handleDeleteShowModal={handleDeleteShowModal}
+                />
+            )}
+        </section>
+    );
 }

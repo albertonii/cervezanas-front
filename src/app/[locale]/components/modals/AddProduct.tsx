@@ -389,6 +389,7 @@ export function AddProduct() {
                     volume,
                     format,
                     product_id: productId,
+                    weight,
                 })
                 .select('*')
                 .single();
@@ -434,7 +435,9 @@ export function AddProduct() {
 
                     if (packsError) throw packsError;
 
-                    if (pack.img_url) {
+                    if (pack.img_url instanceof FileList) {
+                        const file = pack.img_url[0];
+
                         const { error: storagePacksError } =
                             await supabase.storage
                                 .from('products')
@@ -442,9 +445,9 @@ export function AddProduct() {
                                     `${filename}${generateFileNameExtension(
                                         pack.name,
                                     )}`,
-                                    pack.img_url[0],
+                                    file,
                                     {
-                                        contentType: pack.img_url[0].type,
+                                        contentType: file.type,
                                         cacheControl: '3600',
                                         upsert: false,
                                     },
@@ -465,10 +468,12 @@ export function AddProduct() {
                         index: number,
                     ) => {
                         if (award && !isFileEmpty(award.img_url)) {
+                            const file = award.img_url[0];
+
                             const filename = `awards/${productId}/${randomUUID}_${index}`;
                             const award_url = encodeURIComponent(
                                 `${filename}${generateFileNameExtension(
-                                    award.img_url[0].name,
+                                    file.name,
                                 )}`,
                             );
 
@@ -489,11 +494,11 @@ export function AddProduct() {
                                     .from('products')
                                     .upload(
                                         `${filename}${generateFileNameExtension(
-                                            award.img_url[0].name,
+                                            file.name,
                                         )}`,
                                         award.img_url[0],
                                         {
-                                            contentType: award.img_url[0].type,
+                                            contentType: file.type,
                                             cacheControl: '3600',
                                             upsert: false,
                                         },
@@ -511,6 +516,9 @@ export function AddProduct() {
             return beerData;
         }
 
+        setShowModal(false);
+        queryClient.invalidateQueries({ queryKey: ['productList'] });
+
         reset();
     };
 
@@ -521,8 +529,6 @@ export function AddProduct() {
             setIsSubmitting(true);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['productList'] });
-            setShowModal(false);
             setIsSubmitting(false);
         },
         onError: (error: any) => {
@@ -559,30 +565,30 @@ export function AddProduct() {
             form={form}
         >
             <form>
-                    <ProductStepper
-                        activeStep={activeStep}
-                        handleSetActiveStep={handleSetActiveStep}
-                        isSubmitting={isSubmitting}
-                    >
-                        <>
-                            <p className="text-slate-500 my-4 text-lg leading-relaxed">
-                                {t('modal_product_description')}
-                            </p>
+                <ProductStepper
+                    activeStep={activeStep}
+                    handleSetActiveStep={handleSetActiveStep}
+                    isSubmitting={isSubmitting}
+                >
+                    <>
+                        <p className="text-slate-500 my-4 text-lg leading-relaxed">
+                            {t('modal_product_description')}
+                        </p>
 
-                            {activeStep === 0 ? (
-                                <ProductInfoSection
-                                    form={form}
-                                    customizeSettings={customizeSettings}
-                                />
-                            ) : activeStep === 1 ? (
-                                <MultimediaSection form={form} />
-                            ) : activeStep === 2 ? (
-                                <AwardsSection form={form} />
-                            ) : (
-                                <ProductSummary form={form} />
-                            )}
-                        </>
-                    </ProductStepper>
+                        {activeStep === 0 ? (
+                            <ProductInfoSection
+                                form={form}
+                                customizeSettings={customizeSettings}
+                            />
+                        ) : activeStep === 1 ? (
+                            <MultimediaSection form={form} />
+                        ) : activeStep === 2 ? (
+                            <AwardsSection form={form} />
+                        ) : (
+                            <ProductSummary form={form} />
+                        )}
+                    </>
+                </ProductStepper>
             </form>
         </ModalWithForm>
     );

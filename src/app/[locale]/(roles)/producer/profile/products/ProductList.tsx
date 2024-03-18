@@ -46,7 +46,6 @@ export function ProductList({
         isError,
         isLoading,
     } = useFetchProductsByOwnerAndPagination(
-        user?.id,
         currentPage,
         resultsPerPage,
         false,
