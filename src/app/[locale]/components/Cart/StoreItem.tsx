@@ -140,7 +140,7 @@ export function StoreItem({ product }: StoreItemProps) {
 
     return (
         <section className="m-auto max-w-[300px] border-2 bg-[url('/assets/rec-graf4c.png')] bg-contain bg-top bg-no-repeat p-6 shadow-md md:max-w-full">
-            {isLoading ? (
+            {/* {isLoading ? (
                 <Spinner color="beer-blonde" size="medium"></Spinner>
             ) : (
                 <>
@@ -171,9 +171,9 @@ export function StoreItem({ product }: StoreItemProps) {
                                 router.push(`/${locale}/products/${product.id}`)
                             }
                         />
-                    </article>
+                    </article> */}
 
-                    {/* <section className="flex flex-col justify-between ">
+            {/* <section className="flex flex-col justify-between ">
                         <div className="flex flex-wrap ">
                             <figure className="flex w-full flex-none items-center text-sm text-gray-600">
                                 <svg
@@ -198,7 +198,7 @@ export function StoreItem({ product }: StoreItemProps) {
                                         {product.name}
                                     </Link>
                                 </h2> */}
-                    {/* {beer.product_inventory?.quantity > 0 ? (
+            {/* {beer.product_inventory?.quantity > 0 ? (
                   <div className="flex items-center bg-green-400 text-white text-sm px-2 py-1 ml-3 rounded-lg">
                     {t("instock")}
                   </div>
@@ -207,11 +207,11 @@ export function StoreItem({ product }: StoreItemProps) {
                     {t("outstock")}
                   </div>
                 )} */}
-                    {/* </div>
+            {/* </div>
                         </div> */}
 
-                    {/* Información sobre el pack seleccionado detallada y minimalista  */}
-                    {/* <div className="m-auto mt-1 text-base font-semibold text-bear-dark">
+            {/* Información sobre el pack seleccionado detallada y minimalista  */}
+            {/* <div className="m-auto mt-1 text-base font-semibold text-bear-dark">
                             {selectedPack?.quantity}{' '}
                             {selectedPack && selectedPack?.quantity > 1
                                 ? t('units')
@@ -246,8 +246,8 @@ export function StoreItem({ product }: StoreItemProps) {
                                         ))}
                             </select> */}
 
-                    {/* Añadir al carrito */}
-                    {/* {product.product_packs && (
+            {/* Añadir al carrito */}
+            {/* {product.product_packs && (
                                 <div className="mt-6 flex w-full justify-between space-x-2">
                                     <MarketCartButtons2
                                         item={product.product_packs[0]}
@@ -268,9 +268,9 @@ export function StoreItem({ product }: StoreItemProps) {
                                 </div>
                             )}
                         </div> */}
-                    {/* </section> */}
-                </>
-            )}
+            {/* </section> */}
+            {/* </>
+            )} */}
         </section>
     );
 }
