@@ -507,45 +507,6 @@ export interface Database {
           }
         ]
       }
-      cervezanas_event_cp_mobile: {
-        Row: {
-          cp_id: string
-          created_at: string
-          event_id: string
-          is_active: boolean | null
-          owner_id: string | null
-        }
-        Insert: {
-          cp_id?: string
-          created_at?: string
-          event_id?: string
-          is_active?: boolean | null
-          owner_id?: string | null
-        }
-        Update: {
-          cp_id?: string
-          created_at?: string
-          event_id?: string
-          is_active?: boolean | null
-          owner_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "public_cervezanas_event_cp_mobile_cp_id_fkey"
-            columns: ["cp_id"]
-            isOneToOne: false
-            referencedRelation: "cp_mobile"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_cervezanas_event_cp_mobile_event_id_fkey"
-            columns: ["event_id"]
-            isOneToOne: false
-            referencedRelation: "events"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       consumption_points: {
         Row: {
           cover_letter_name: string | null
@@ -775,18 +736,21 @@ export interface Database {
           cp_id: string
           event_id: string
           is_active: boolean | null
+          is_cervezanas_event: boolean | null
           owner_id: string | null
         }
         Insert: {
           cp_id: string
           event_id: string
           is_active?: boolean | null
+          is_cervezanas_event?: boolean | null
           owner_id?: string | null
         }
         Update: {
           cp_id?: string
           event_id?: string
           is_active?: boolean | null
+          is_cervezanas_event?: boolean | null
           owner_id?: string | null
         }
         Relationships: [
@@ -1885,21 +1849,21 @@ export interface Database {
           {
             foreignKeyName: "orders_billing_info_id_fkey"
             columns: ["billing_info_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "billing_info"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "orders_owner_id_fkey"
             columns: ["owner_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "orders_shipping_info_id_fkey"
             columns: ["shipping_info_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "shipping_info"
             referencedColumns: ["id"]
           }
