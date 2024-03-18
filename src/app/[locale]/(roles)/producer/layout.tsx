@@ -60,8 +60,12 @@ async function checkAuthorizedProducerByAdmin(userId: string) {
         .eq('user_id', userId)
         .is('is_authorized', true);
 
+    console.log('DATA', data);
+
     if (error) {
         throw error;
     }
+    console.log('Length', data.length);
+
     return data.length > 0;
 }
