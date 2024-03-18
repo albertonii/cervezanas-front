@@ -180,6 +180,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
                 geoArgs: results,
                 is_internal_organizer: isInternalOrganizer,
                 is_booking_required: false,
+                owner_id: user?.id,
             })
             .select();
 
