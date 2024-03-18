@@ -38,6 +38,8 @@ async function checkAuthorizatedUser() {
 
     const isRoleProducer = await checkAuthorizatedUserByRole(session);
     const isAuthorized = await checkAuthorizedProducerByAdmin(session.id);
+    console.log('IS ROLE PRODUCER', isRoleProducer);
+    console.log('IS AUTHORIZED', isAuthorized);
     return isRoleProducer && isAuthorized;
 }
 
