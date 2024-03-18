@@ -124,14 +124,14 @@ export function StoreItem({ product }: StoreItemProps) {
         }
 
         const packCartItem: IProductPack = {
-            id: selectedPack.id,
-            created_at: selectedPack.created_at,
+            id: selectedPack?.id ?? '',
+            created_at: selectedPack?.created_at ?? '',
             quantity: packQuantity,
-            price: selectedPack.price,
-            img_url: selectedPack.img_url,
-            name: selectedPack.name,
-            randomUUID: selectedPack.randomUUID,
-            product_id: selectedPack.product_id,
+            price: selectedPack?.price ?? 0,
+            img_url: selectedPack?.img_url ?? '',
+            name: selectedPack?.name ?? '',
+            randomUUID: selectedPack?.randomUUID ?? '',
+            product_id: selectedPack?.product_id ?? '',
         };
 
         addPackToCart(product, packCartItem);
@@ -213,10 +213,10 @@ export function StoreItem({ product }: StoreItemProps) {
                         {/* Información sobre el pack seleccionado detallada y minimalista  */}
                         <div className="m-auto mt-1 text-base font-semibold text-bear-dark">
                             {selectedPack?.quantity}{' '}
-                            {selectedPack?.quantity > 1
+                            {selectedPack && selectedPack?.quantity > 1
                                 ? t('units')
                                 : t('unit')}
-                            /{formatCurrency(selectedPack?.price)}
+                            /{formatCurrency(selectedPack?.price ?? 0)}
                         </div>
 
                         <div className="mt-1 text-lg font-semibold text-bear-dark"></div>
