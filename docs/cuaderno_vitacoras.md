@@ -751,25 +751,27 @@ Habilitar formulario para feedbacks/reporte de errores
 - [WIP] Testing
 
   1. [x] Crear producto
-  2. [ ] Vista de Checkout compra Online
+  2. [x] Vista de Checkout compra Online
   3. [x] Añadir Información de envío
   4. [x] Añadir Información de facturación
   5. [ ] Realizar compra del producto online
-  6. [ ] Ver orden de pedido
-  7. [ ] Crear evento
-  8. [ ] Crear punto de consumo
-  9. [ ] Crear experiencia
-  10. [ ] Vincular experiencia con punto de consumo y evento
-  11. [ ] Update Producto falla debido a que al traer las imágenes no son tipo FileList
-  12. [ ] Vincular Productor con Distribuidor a través de contrato
-  13. [ ] No se envia notificación al distribuidor para el contrato productor-distribuidor
+  6. [x] Realizar compra del producto online Bizum
+  7. [ ] Realizar compra del producto online Paypal
+  8. [x] Ver orden de pedido
+  9. [ ] Crear evento
+  10. [ ] Crear punto de consumo
+  11. [ ] Crear experiencia
+  12. [ ] Vincular experiencia con punto de consumo y evento
+  13. [ ] Update Producto falla debido a que al traer las imágenes no son tipo FileList
+  14. [ ] Vincular Productor con Distribuidor a través de contrato
+  15. [ ] No se envia notificación al distribuidor para el contrato productor-distribuidor
 
 - [ ] Crear evento con ADMIN
 - [x] Error al configurar área de cobertura del distribuidor -> Tipo de dato por defectos para los atributos debe de ser un array vacío
 - [x] API Key para obtener listado de países de API countrystatecity añadida para los entornos de Producción y Staging
 
 - [ ] UI/UX para móviles
-- [ ] Arreglar actualización de productos ene l modal
+- [ ] Arreglar actualización de productos en el modal
 
 - [x] Pago con Bizum
 - [x] Si el usuario cancela el pedido online -> Estado: Cancelado por el usuario
