@@ -69,13 +69,28 @@ async function getCheckoutErrorData(searchParams: any) {
         redirect(VIEWS.SIGN_IN);
     }
 
-    console.log('RESPONSE CODE:', Ds_Response);
+    console.log('RESPONSE CODE FROM PAYMENT SERVICE:', Ds_Response);
+
+    // Código de error Paypal - 9299 9300 9301 9700
+    // Código de error Bizum - 9672 9673 9674 9675 9676 9677 9966
+    // Tarjeta caducada - 101
+    // Cancelado por el usuario - 9915, 9928
 
     if (
+        Ds_Response === '9299' ||
+        Ds_Response === '9300' ||
+        Ds_Response === '9301' ||
+        Ds_Response === '9700' ||
+        Ds_Response === '9672' ||
+        Ds_Response === '9673' ||
+        Ds_Response === '9674' ||
+        Ds_Response === '9675' ||
+        Ds_Response === '9676' ||
+        Ds_Response === '9677' ||
+        Ds_Response === '9966' ||
+        Ds_Response === '101' ||
         Ds_Response === '9915' ||
-        Ds_Response === '9928' ||
-        Ds_Response === '9929' ||
-        Ds_Response === '915'
+        Ds_Response === '9928'
     ) {
         // Update order status to user_cancelled
         const { error: statusError } = await supabase
@@ -88,11 +103,11 @@ async function getCheckoutErrorData(searchParams: any) {
         }
     }
 
-    if (Ds_Response === '101') {
-        // Update order status to user_cancelled
+    // Cancelado por el titular - 9929, 915
+    if (Ds_Response === '9929' || Ds_Response === '915') {
         const { error: statusError } = await supabase
             .from('orders')
-            .update({ status: 'expired_card' })
+            .update({ status: 'owner_cancelled' })
             .eq('order_number', orderId);
 
         if (statusError) {
@@ -104,61 +119,61 @@ async function getCheckoutErrorData(searchParams: any) {
         .from('orders')
         .select(
             `
-        *,
-        shipping_info_id,
-        billing_info_id,
-        shipping_info!orders_shipping_info_id_fkey (
-          id,
-          created_at,
-          updated_at,
-          owner_id,
-          name,
-          lastname,
-          document_id,
-          phone,
-          address,
-          address_extra,
-          address_observations,
-          country,
-          zipcode,
-          city,
-          state,
-          is_default
-        ),
-        billing_info!orders_billing_info_id_fkey (
-          id,
-          created_at,
-          updated_at,
-          owner_id,
-          name,
-          lastname,
-          document_id,
-          phone,
-          address,
-          country,
-          zipcode,
-          city,
-          state,
-          is_default
-        ),
-        business_orders!business_orders_order_id_fkey (
           *,
-          order_items (
+          shipping_info_id,
+          billing_info_id,
+          shipping_info!orders_shipping_info_id_fkey (
+            id,
+            created_at,
+            updated_at,
+            owner_id,
+            name,
+            lastname,
+            document_id,
+            phone,
+            address,
+            address_extra,
+            address_observations,
+            country,
+            zipcode,
+            city,
+            state,
+            is_default
+          ),
+          billing_info!orders_billing_info_id_fkey (
+            id,
+            created_at,
+            updated_at,
+            owner_id,
+            name,
+            lastname,
+            document_id,
+            phone,
+            address,
+            country,
+            zipcode,
+            city,
+            state,
+            is_default
+          ),
+          business_orders!business_orders_order_id_fkey (
             *,
-            product_packs (
-              id,
-              product_id,
-              created_at,
-              quantity,
-              price,
-              img_url,
-              name,
-              randomUUID,
-              products (*)
+            order_items (
+              *,
+              product_packs (
+                id,
+                product_id,
+                created_at,
+                quantity,
+                price,
+                img_url,
+                name,
+                randomUUID,
+                products (*)
+              )
             )
           )
-        )
-      `,
+        `,
         )
         .eq('order_number', orderId)
         .single();
