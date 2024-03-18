@@ -763,3 +763,6 @@ Habilitar formulario para feedbacks/reporte de errores
   11. [ ] Update Producto falla debido a que al traer las imágenes no son tipo FileList
   12. [ ] Vincular Productor con Distribuidor a través de contrato
   13. [ ] No se envia notificación al distribuidor para el contrato productor-distribuidor
+
+- [ ] Crear evento con ADMIN
+- [ ] Error al configurar área de cobertura del distribuidor

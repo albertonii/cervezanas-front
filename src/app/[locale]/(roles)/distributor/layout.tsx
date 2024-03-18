@@ -46,6 +46,7 @@ async function checkAuthorizatedUserByRole(user: User) {
     return role === ROLE_ENUM.Distributor;
 }
 
+// We are checking if the distributor has been authorized by the admin
 async function checkAuthorizedDistributorByAdmin(userId: string) {
     const supabase = await createServerClient();
 

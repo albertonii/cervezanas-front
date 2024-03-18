@@ -6,40 +6,42 @@ import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { IDistribution, IDistributorUser } from '../lib/types/types';
 
 const fetchDistributionByOwnerId = async (
-  userId: string,
-  supabase: SupabaseClient<any>,
+    userId: string,
+    supabase: SupabaseClient<any>,
 ) => {
-  if (!userId) return;
-  const { data, error } = await supabase
-    .from('distributor_user')
-    .select(
-      `
-      *,
-      coverage_areas (
-        *,
-        local_distribution(*)
-      )
-      `,
-    )
-    .eq('user_id', userId)
-    .single();
+    if (!userId) return;
+    const { data, error } = await supabase
+        .from('distributor_user')
+        .select(
+            `
+              *,
+              coverage_areas (
+                *,
+                local_distribution (*)
+              )
+            `,
+        )
+        .eq('user_id', userId)
+        .single();
 
-  if (error) throw error;
-  return data as IDistributorUser;
+    console.log(data);
+
+    if (error) throw error;
+    return data as IDistributorUser;
 };
 
 const useFetchDistributionByOwnerId = (): UseQueryResult<
-  IDistribution,
-  unknown
+    IDistribution,
+    unknown
 > => {
-  const { user, supabase } = useAuth();
+    const { user, supabase } = useAuth();
 
-  return useQuery({
-    queryKey: ['distribution', user?.id],
-    queryFn: () => fetchDistributionByOwnerId(user?.id, supabase),
-    enabled: true,
-    refetchOnWindowFocus: false,
-  });
+    return useQuery({
+        queryKey: ['distribution', user?.id],
+        queryFn: () => fetchDistributionByOwnerId(user?.id, supabase),
+        enabled: true,
+        refetchOnWindowFocus: false,
+    });
 };
 
 export default useFetchDistributionByOwnerId;

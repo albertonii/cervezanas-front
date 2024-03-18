@@ -45,14 +45,10 @@ async function checkAuthorizatedUser() {
 
 async function checkAuthorizatedUserByRole(user: User) {
     const role = user.user_metadata.access_level;
-    console.log('USER', user);
-    console.log('USER METADATA', user.user_metadata);
-    console.log('ROLE', role);
-    console.log('ROLE ENUM PRODUCTOR', ROLE_ENUM.Productor);
-    console.log(role === ROLE_ENUM.Productor);
     return role === ROLE_ENUM.Productor;
 }
 
+// We are checking if the producer has been authorized by the admin
 async function checkAuthorizedProducerByAdmin(userId: string) {
     const supabase = await createServerClient();
 
@@ -62,12 +58,9 @@ async function checkAuthorizedProducerByAdmin(userId: string) {
         .eq('user_id', userId)
         .is('is_authorized', true);
 
-    console.log('DATA', data);
-
     if (error) {
         throw error;
     }
-    console.log('Length', data.length);
 
     return data.length > 0;
 }
