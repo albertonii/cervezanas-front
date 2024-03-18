@@ -27,10 +27,10 @@ export default function Marketplace({ products }: Props) {
                             key={product.id}
                             className="container mb-6 h-full px-3"
                         >
-                            {/* <StoreItem
+                            <StoreItem
                                 products={filteredProducts}
                                 product={product}
-                            /> */}
+                            />
                         </div>
                     ))}
             </article>
