@@ -12,6 +12,7 @@ type LayoutProps = {
 
 export default async function layout({ children }: LayoutProps) {
     const hasAuthorization = await checkAuthorizatedUser();
+    console.log(hasAuthorization);
 
     return (
         <>
@@ -43,6 +44,9 @@ async function checkAuthorizatedUser() {
 
 async function checkAuthorizatedUserByRole(user: User) {
     const role = user.user_metadata.access_level;
+    console.log(user);
+    console.log(user.user_metadata);
+    console.log(role);
     return role === ROLE_ENUM.Productor;
 }
 
