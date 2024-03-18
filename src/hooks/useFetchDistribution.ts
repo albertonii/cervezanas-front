@@ -24,7 +24,6 @@ const fetchDistributionByOwnerId = async (
         .eq('user_id', userId)
         .single();
 
-    console.log(data);
 
     if (error) throw error;
     return data as IDistributorUser;
