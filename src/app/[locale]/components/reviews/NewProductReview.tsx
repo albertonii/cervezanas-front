@@ -173,7 +173,7 @@ export function NewProductReview({
             setLoading(true);
             setReviewModal(true);
         },
-        onError: (error: Error) => {
+         onError: (error: Error) => {
             handleMessage({
                 type: 'error',
                 message: error.message,

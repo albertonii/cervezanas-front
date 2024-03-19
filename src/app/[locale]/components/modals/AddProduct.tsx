@@ -149,6 +149,7 @@ export function AddProduct() {
             awards: [],
             type: 'beer',
             is_gluten: false,
+            weight: 330,
         },
     });
 
@@ -515,7 +516,6 @@ export function AddProduct() {
 
             reset();
 
-            return beerData;
         }
 
         setShowModal(false);
