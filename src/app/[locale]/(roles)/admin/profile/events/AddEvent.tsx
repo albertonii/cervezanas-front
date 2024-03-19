@@ -208,19 +208,15 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
         }
 
         setTimeout(() => {
-            queryClient.invalidateQueries({ queryKey: ['events'] });
+            queryClient.invalidateQueries('events');
             setShowModal(false);
             reset();
-        }, 300);
+        }, 500);
     };
 
     const insertEventMutation = useMutation({
         mutationKey: 'insertEvent',
         mutationFn: handleInsertEvent,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['events'] });
-            setShowModal(false);
-        },
         onError: (error) => {
             console.error(error);
         },

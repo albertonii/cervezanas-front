@@ -19,267 +19,270 @@ import { slicePaginationResults } from '../../../../../../../utils/utils';
 // }
 
 type Props = {
-  cities: string[];
+    cities: string[];
 };
 
 interface FormData {
-  country: string;
-  region: string;
-  cities: ICity[];
+    country: string;
+    region: string;
+    cities: ICity[];
 }
 
 export default function CityDistribution({ cities }: Props) {
-  const t = useTranslations();
+    const t = useTranslations();
 
-  const [addressCountry, setAddressCountry] = useState<string>('ES');
-  const [addressRegion, setAddressRegion] = useState<string>();
-  const [listOfRegions, setListOfRegions] = useState<IState[] | undefined>();
-  const [listOfCities, setListOfCities] = useState<ICity[] | undefined>();
-  const [regionIsEnable, setRegionIsEnable] = useState<boolean>(false);
-  const [listOfAllCitiesByRegion, setListOfAllCitiesByRegion] = useState<
-    ICity[] | undefined
-  >();
+    const [addressCountry, setAddressCountry] = useState<string>('ES');
+    const [addressRegion, setAddressRegion] = useState<string>();
+    const [listOfRegions, setListOfRegions] = useState<IState[] | undefined>();
+    const [listOfCities, setListOfCities] = useState<ICity[] | undefined>();
+    const [regionIsEnable, setRegionIsEnable] = useState<boolean>(false);
+    const [listOfAllCitiesByRegion, setListOfAllCitiesByRegion] = useState<
+        ICity[] | undefined
+    >();
 
-  const [selectedCities, setSelectedCities] = useState<string[]>([]);
-  const [selectAllCurrentPage, setSelectAllCurrentPage] = useState(false);
-  // rastrear si todas las ciudades de la región están seleccionadas, independientemente de la paginación
-  const [selectAllCitiesByRegion, setSelectAllCitiesByRegion] = useState(false);
+    const [selectedCities, setSelectedCities] = useState<string[]>([]);
+    const [selectAllCurrentPage, setSelectAllCurrentPage] = useState(false);
+    // rastrear si todas las ciudades de la región están seleccionadas, independientemente de la paginación
+    const [selectAllCitiesByRegion, setSelectAllCitiesByRegion] =
+        useState(false);
 
-  const [isRegionLoading, setIsRegionLoading] = useState(false);
+    const [isRegionLoading, setIsRegionLoading] = useState(false);
 
-  const { refetch: getCountries } = useFetchAllCountries();
+    const { refetch: getCountries } = useFetchAllCountries();
 
-  const { refetch: getStates } = useFetchStatesByCountry(
-    addressCountry ?? 'ES',
-  );
+    const { refetch: getStates } = useFetchStatesByCountry(
+        addressCountry ?? 'ES',
+    );
 
-  const { refetch: getCities } = useFetchCitiesOfState(
-    addressCountry ?? 'ES',
-    addressRegion ?? '',
-  );
+    const { refetch: getCities } = useFetchCitiesOfState(
+        addressCountry ?? 'ES',
+        addressRegion ?? '',
+    );
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [counter, setCounter] = useState(0);
-  const resultsPerPage = 20;
+    const [currentPage, setCurrentPage] = useState(1);
+    const [counter, setCounter] = useState(0);
+    const resultsPerPage = 20;
 
-  // const { supabase } = useAuth();
-  const queryClient = useQueryClient();
+    // const { supabase } = useAuth();
+    const queryClient = useQueryClient();
 
-  const [countryData, setCountryData] = useState<ICountry[]>([]);
+    const [countryData, setCountryData] = useState<ICountry[]>([]);
 
-  const form = useForm<FormData>();
+    const form = useForm<FormData>();
 
-  const { handleSubmit, register } = form;
+    const { handleSubmit, register } = form;
 
-  // Get all the countries
-  useEffect(() => {
-    const getAllCountries = async () => {
-      return await getCountries().then((res) => {
-        const { data, error } = res;
+    // Get all the countries
+    useEffect(() => {
+        const getAllCountries = async () => {
+            return await getCountries().then((res) => {
+                const { data, error } = res;
 
-        if (error) {
-          console.error(error);
-          return;
-        }
-        setCountryData(data ?? []);
-      });
+                if (error) {
+                    console.error(error);
+                    return;
+                }
+                setCountryData(data ?? []);
+            });
+        };
+
+        getAllCountries();
+
+        const country = Country.getCountryByCode('ES') as ICountry;
+        setAddressCountry(country.isoCode ?? '');
+    }, []);
+
+    // Get all the states of selected country and set the first one as default in select input
+    useEffect(() => {
+        if (!addressCountry) return;
+
+        const getStatesByCountry = async () => {
+            return await getStates().then((res) => {
+                const { data: regionData, error } = res;
+
+                if (error) {
+                    console.error(error);
+                    return;
+                }
+                if (!regionData || regionData?.length === 0) {
+                    setRegionIsEnable(false);
+                    return;
+                }
+
+                setListOfRegions(regionData ?? []);
+                setRegionIsEnable(regionData.length > 0);
+                setAddressRegion(regionData[0]?.isoCode);
+            });
+        };
+
+        getStatesByCountry();
+    }, [addressCountry]);
+
+    // Get all the cities of selected state
+    useEffect(() => {
+        if (!addressCountry || !addressRegion) return;
+
+        const getCitiesByStateAndCountry = async () => {
+            return await getCities().then((res) => {
+                const { data: cityData, error } = res;
+
+                if (error) {
+                    console.error(error);
+                    return;
+                }
+
+                if (!cityData || cityData?.length === 0) {
+                    setListOfCities([]);
+                    setCounter(0);
+                    return;
+                }
+
+                const lOfCities = slicePaginationResults(
+                    cityData,
+                    currentPage,
+                    resultsPerPage,
+                );
+
+                setListOfCities(lOfCities);
+                setCounter(cityData?.length);
+
+                setListOfAllCitiesByRegion(cityData);
+
+                // Update selectAllCurrentPage based on whether all cities on this page are selected
+                setSelectAllCurrentPage(
+                    lOfCities?.every((city) =>
+                        selectedCities.includes(city.name),
+                    ) ?? false,
+                );
+            });
+        };
+
+        getCitiesByStateAndCountry();
+
+        // // Update selectAllCities based on whether all cities in the region are selected
+        // setSelectAllCitiesByRegion(
+        //   listOfAllCitiesByRegion?.every((city) =>
+        //     selectedCities.includes(city.name)
+        //   ) ?? false
+        // );
+    }, [addressRegion, currentPage, selectedCities]);
+
+    const handleAddressRegion = (e: any) => {
+        setIsRegionLoading(true);
+
+        setTimeout(() => {
+            setAddressRegion(e);
+            setCurrentPage(1);
+            setIsRegionLoading(false);
+        }, 500);
     };
 
-    getAllCountries();
-
-    const country = Country.getCountryByCode('ES') as ICountry;
-    setAddressCountry(country.isoCode ?? '');
-  }, []);
-
-  // Get all the states of selected country and set the first one as default in select input
-  useEffect(() => {
-    if (!addressCountry) return;
-
-    const getStatesByCountry = async () => {
-      return await getStates().then((res) => {
-        const { data: regionData, error } = res;
-
-        if (error) {
-          console.error(error);
-          return;
-        }
-        if (!regionData || regionData?.length === 0) {
-          setRegionIsEnable(false);
-          return;
-        }
-
-        setListOfRegions(regionData ?? []);
-        setRegionIsEnable(regionData.length > 0);
-        setAddressRegion(regionData[0]?.isoCode);
-      });
+    const handleAddressCountry = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setAddressCountry(e.target.value);
+        setListOfCities([]);
     };
 
-    getStatesByCountry();
-  }, [addressCountry]);
+    const handleUpdateCityDistribution = async (form: FormData) => {
+        const { country, region, cities } = form;
 
-  // Get all the cities of selected state
-  useEffect(() => {
-    if (!addressCountry || !addressRegion) return;
+        // Filter cities
+        const filteredCities = cities.filter((city) => city.name);
 
-    const getCitiesByStateAndCountry = async () => {
-      return await getCities().then((res) => {
-        const { data: cityData, error } = res;
+        // const { data, error } = await supabase
+        //   .from("city_distribution")
+        //   .select("*")
+        //   .eq("country", country)
+        //   .eq("region", region);
 
-        if (error) {
-          console.error(error);
-          return;
-        }
+        // if (error) {
+        //   console.error(error);
+        //   return;
+        // }
 
-        if (!cityData || cityData?.length === 0) {
-          setListOfCities([]);
-          setCounter(0);
-          return;
-        }
-
-        const lOfCities = slicePaginationResults(
-          cityData,
-          currentPage,
-          resultsPerPage,
-        );
-
-        setListOfCities(lOfCities);
-        setCounter(cityData?.length);
-
-        setListOfAllCitiesByRegion(cityData);
-
-        // Update selectAllCurrentPage based on whether all cities on this page are selected
-        setSelectAllCurrentPage(
-          lOfCities?.every((city) => selectedCities.includes(city.name)) ??
-            false,
-        );
-      });
+        queryClient.invalidateQueries('distribution');
     };
 
-    getCitiesByStateAndCountry();
+    const updateCityDistributionMutation = useMutation({
+        mutationKey: 'updateCityDistribution',
+        mutationFn: handleUpdateCityDistribution,
+        onMutate: () => {
+            console.info('onMutate');
+        },
+        onSuccess: () => {
+            console.info('onSuccess');
+        },
+        onError: () => {
+            console.error('onError');
+        },
+    });
 
-    // // Update selectAllCities based on whether all cities in the region are selected
-    // setSelectAllCitiesByRegion(
-    //   listOfAllCitiesByRegion?.every((city) =>
-    //     selectedCities.includes(city.name)
-    //   ) ?? false
-    // );
-  }, [addressRegion, currentPage, selectedCities]);
+    const onSubmit = (formValues: FormData) => {
+        try {
+            updateCityDistributionMutation.mutate(formValues);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
-  const handleAddressRegion = (e: any) => {
-    setIsRegionLoading(true);
+    const handleCheckbox = (
+        e: React.ChangeEvent<HTMLInputElement>,
+        city: string,
+    ) => {
+        const updatedSelectedCities = e.target.checked
+            ? [...selectedCities, city]
+            : selectedCities.filter((item) => item !== city);
 
-    setTimeout(() => {
-      setAddressRegion(e);
-      setCurrentPage(1);
-      setIsRegionLoading(false);
-    }, 500);
-  };
+        setSelectedCities(updatedSelectedCities);
+    };
 
-  const handleAddressCountry = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setAddressCountry(e.target.value);
-    setListOfCities([]);
-  };
+    const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const listOfCityNames = listOfCities?.map((city) => city.name) || [];
 
-  const handleUpdateCityDistribution = async (form: FormData) => {
-    const { country, region, cities } = form;
+        const updatedSelectedCities = e.target.checked
+            ? [...selectedCities, ...listOfCityNames]
+            : selectedCities.filter(
+                  (checkedCity) => !listOfCityNames.includes(checkedCity),
+              );
 
-    // Filter cities
-    const filteredCities = cities.filter((city) => city.name);
+        setSelectedCities(updatedSelectedCities);
+        setSelectAllCurrentPage(e.target.checked);
+    };
 
-    // const { data, error } = await supabase
-    //   .from("city_distribution")
-    //   .select("*")
-    //   .eq("country", country)
-    //   .eq("region", region);
+    const handleSelectAllCitiesByRegion = (
+        e: React.ChangeEvent<HTMLInputElement>,
+    ) => {
+        let updatedSelectedCities = [...selectedCities];
+        if (e.target.checked) {
+            updatedSelectedCities.push(
+                ...(listOfAllCitiesByRegion?.map((city) => city.name) ?? []),
+            );
+        } else {
+            updatedSelectedCities = updatedSelectedCities.filter(
+                (selectedCity) =>
+                    !listOfAllCitiesByRegion
+                        ?.map((city) => city.name)
+                        .includes(selectedCity),
+            );
+        }
 
-    // if (error) {
-    //   console.error(error);
-    //   return;
-    // }
-  };
+        setSelectedCities(updatedSelectedCities);
+        setSelectAllCitiesByRegion(e.target.checked);
+    };
 
-  const updateCityDistributionMutation = useMutation({
-    mutationKey: 'updateCityDistribution',
-    mutationFn: handleUpdateCityDistribution,
-    onMutate: () => {
-      console.info('onMutate');
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['distribution'] });
-      console.info('onSuccess');
-    },
-    onError: () => {
-      console.error('onError');
-    },
-  });
+    return (
+        <section className="space-y-4">
+            <Button
+                btnType="submit"
+                onClick={handleSubmit(onSubmit)}
+                class=""
+                primary
+                medium
+            >
+                {t('save')}
+            </Button>
 
-  const onSubmit = (formValues: FormData) => {
-    try {
-      updateCityDistributionMutation.mutate(formValues);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleCheckbox = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    city: string,
-  ) => {
-    const updatedSelectedCities = e.target.checked
-      ? [...selectedCities, city]
-      : selectedCities.filter((item) => item !== city);
-
-    setSelectedCities(updatedSelectedCities);
-  };
-
-  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const listOfCityNames = listOfCities?.map((city) => city.name) || [];
-
-    const updatedSelectedCities = e.target.checked
-      ? [...selectedCities, ...listOfCityNames]
-      : selectedCities.filter(
-          (checkedCity) => !listOfCityNames.includes(checkedCity),
-        );
-
-    setSelectedCities(updatedSelectedCities);
-    setSelectAllCurrentPage(e.target.checked);
-  };
-
-  const handleSelectAllCitiesByRegion = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    let updatedSelectedCities = [...selectedCities];
-    if (e.target.checked) {
-      updatedSelectedCities.push(
-        ...(listOfAllCitiesByRegion?.map((city) => city.name) ?? []),
-      );
-    } else {
-      updatedSelectedCities = updatedSelectedCities.filter(
-        (selectedCity) =>
-          !listOfAllCitiesByRegion
-            ?.map((city) => city.name)
-            .includes(selectedCity),
-      );
-    }
-
-    setSelectedCities(updatedSelectedCities);
-    setSelectAllCitiesByRegion(e.target.checked);
-  };
-
-  return (
-    <section className="space-y-4">
-      <Button
-        btnType="submit"
-        onClick={handleSubmit(onSubmit)}
-        class=""
-        primary
-        medium
-      >
-        {t('save')}
-      </Button>
-
-      {/* List with all cities selected  */}
-      {/* <div>
+            {/* List with all cities selected  */}
+            {/* <div>
         <div className="flex items-center space-x-2">
           <span className="text-sm text-gray-600">{t("selected_cities")}</span>
           <span className="text-sm text-gray-600">{selectedCities.length}</span>
@@ -295,58 +298,72 @@ export default function CityDistribution({ cities }: Props) {
         </div>
       </div> */}
 
-      <div className="flex flex-col items-start space-y-4">
-        <div className="grid w-full grid-cols-2 gap-4">
-          <address>
-            <label htmlFor="addressCountry" className="text-sm text-gray-600">
-              {t('loc_country')}
-            </label>
+            <div className="flex flex-col items-start space-y-4">
+                <div className="grid w-full grid-cols-2 gap-4">
+                    <address>
+                        <label
+                            htmlFor="addressCountry"
+                            className="text-sm text-gray-600"
+                        >
+                            {t('loc_country')}
+                        </label>
 
-            {/* Display all countries  */}
-            <select
-              name="addressCountry"
-              id="addressCountry"
-              className=" w-full rounded-lg border-transparent bg-gray-100 px-4 py-2 text-base text-gray-700 focus:border-gray-500 focus:bg-white focus:ring-0"
-              onChange={(e) => handleAddressCountry(e)}
-              value={addressCountry}
-            >
-              <option key={'ES'} value={'ES'}>
-                Spain
-              </option>
+                        {/* Display all countries  */}
+                        <select
+                            name="addressCountry"
+                            id="addressCountry"
+                            className=" w-full rounded-lg border-transparent bg-gray-100 px-4 py-2 text-base text-gray-700 focus:border-gray-500 focus:bg-white focus:ring-0"
+                            onChange={(e) => handleAddressCountry(e)}
+                            value={addressCountry}
+                        >
+                            <option key={'ES'} value={'ES'}>
+                                Spain
+                            </option>
 
-              {countryData &&
-                countryData.map((country: ICountry) => (
-                  <option key={country.isoCode} value={country.isoCode}>
-                    {country.name}
-                  </option>
-                ))}
-            </select>
-          </address>
+                            {countryData &&
+                                countryData.map((country: ICountry) => (
+                                    <option
+                                        key={country.isoCode}
+                                        value={country.isoCode}
+                                    >
+                                        {country.name}
+                                    </option>
+                                ))}
+                        </select>
+                    </address>
 
-          <address>
-            {/* Display states of that country  */}
-            <label htmlFor="addressRegion" className="text-sm text-gray-600">
-              {t('loc_state')}
-            </label>
+                    <address>
+                        {/* Display states of that country  */}
+                        <label
+                            htmlFor="addressRegion"
+                            className="text-sm text-gray-600"
+                        >
+                            {t('loc_state')}
+                        </label>
 
-            <select
-              name="addressRegion"
-              id="addressRegion"
-              className={`w-full rounded-lg border-transparent bg-gray-100 px-4 py-2 text-base text-gray-700 focus:border-gray-500 focus:bg-white focus:ring-0`}
-              disabled={regionIsEnable === false}
-              onChange={(e) => handleAddressRegion(e.target.value)}
-            >
-              {listOfRegions?.map((state: IState) => (
-                <option key={state.isoCode} value={state.isoCode}>
-                  {state.name}
-                </option>
-              ))}
-            </select>
-          </address>
-        </div>
+                        <select
+                            name="addressRegion"
+                            id="addressRegion"
+                            className={`w-full rounded-lg border-transparent bg-gray-100 px-4 py-2 text-base text-gray-700 focus:border-gray-500 focus:bg-white focus:ring-0`}
+                            disabled={regionIsEnable === false}
+                            onChange={(e) =>
+                                handleAddressRegion(e.target.value)
+                            }
+                        >
+                            {listOfRegions?.map((state: IState) => (
+                                <option
+                                    key={state.isoCode}
+                                    value={state.isoCode}
+                                >
+                                    {state.name}
+                                </option>
+                            ))}
+                        </select>
+                    </address>
+                </div>
 
-        {/* Map with all cities in the country selected */}
-        {/* <div className="w-full">
+                {/* Map with all cities in the country selected */}
+                {/* <div className="w-full">
           <label htmlFor="addressCity" className="text-sm text-gray-600">
             {t("loc_city")}
           </label>
@@ -356,155 +373,195 @@ export default function CityDistribution({ cities }: Props) {
           </div>
         </div> */}
 
-        {/* List of cities in the country  */}
-        {isRegionLoading ? (
-          <div className="w-full">
-            <Spinner size={'medium'} color={'beer-blonde'} center />
-          </div>
-        ) : (
-          <>
-            {listOfCities &&
-              listOfRegions &&
-              listOfCities.length > 0 &&
-              listOfRegions.length > 0 && (
-                <>
-                  <address className="">
-                    <label
-                      htmlFor="allCitiesByRegion"
-                      className="space-x-2 text-lg text-gray-600"
-                    >
-                      <input
-                        id="allCitiesByRegion"
-                        type="checkbox"
-                        onChange={(e) => {
-                          handleSelectAllCitiesByRegion(e);
-                        }}
-                        checked={selectAllCitiesByRegion}
-                        className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                      />
+                {/* List of cities in the country  */}
+                {isRegionLoading ? (
+                    <div className="w-full">
+                        <Spinner size={'medium'} color={'beer-blonde'} center />
+                    </div>
+                ) : (
+                    <>
+                        {listOfCities &&
+                            listOfRegions &&
+                            listOfCities.length > 0 &&
+                            listOfRegions.length > 0 && (
+                                <>
+                                    <address className="">
+                                        <label
+                                            htmlFor="allCitiesByRegion"
+                                            className="space-x-2 text-lg text-gray-600"
+                                        >
+                                            <input
+                                                id="allCitiesByRegion"
+                                                type="checkbox"
+                                                onChange={(e) => {
+                                                    handleSelectAllCitiesByRegion(
+                                                        e,
+                                                    );
+                                                }}
+                                                checked={
+                                                    selectAllCitiesByRegion
+                                                }
+                                                className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                                            />
 
-                      <span className="text-sm text-gray-600">
-                        {t('select_all_cities_by_region')}
-                      </span>
-                    </label>
-                  </address>
+                                            <span className="text-sm text-gray-600">
+                                                {t(
+                                                    'select_all_cities_by_region',
+                                                )}
+                                            </span>
+                                        </label>
+                                    </address>
 
-                  <address className="w-full">
-                    {/* Display selectable table with all cities in the country selected */}
-                    <label
-                      htmlFor="addressCity"
-                      className="text-sm text-gray-600"
-                    >
-                      {t('loc_city')}
-                    </label>
+                                    <address className="w-full">
+                                        {/* Display selectable table with all cities in the country selected */}
+                                        <label
+                                            htmlFor="addressCity"
+                                            className="text-sm text-gray-600"
+                                        >
+                                            {t('loc_city')}
+                                        </label>
 
-                    <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400 bg-beer-foam  ">
-                      <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                          <th scope="col" className="px-6 py-3">
-                            <input
-                              type="checkbox"
-                              onChange={(e) => {
-                                handleSelectAll(e);
-                              }}
-                              checked={selectAllCurrentPage}
-                              className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                            />
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            {t('city')}
-                          </th>
-                        </tr>
-                      </thead>
+                                        <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400 bg-beer-foam  ">
+                                            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                                                <tr>
+                                                    <th
+                                                        scope="col"
+                                                        className="px-6 py-3"
+                                                    >
+                                                        <input
+                                                            type="checkbox"
+                                                            onChange={(e) => {
+                                                                handleSelectAll(
+                                                                    e,
+                                                                );
+                                                            }}
+                                                            checked={
+                                                                selectAllCurrentPage
+                                                            }
+                                                            className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                                                        />
+                                                    </th>
+                                                    <th
+                                                        scope="col"
+                                                        className="px-6 py-3"
+                                                    >
+                                                        {t('city')}
+                                                    </th>
+                                                </tr>
+                                            </thead>
 
-                      <tbody>
-                        {listOfCities?.map((city: ICity, index: number) => {
-                          const startIndex = (currentPage - 1) * resultsPerPage;
-                          const globalIndex = startIndex + index;
+                                            <tbody>
+                                                {listOfCities?.map(
+                                                    (
+                                                        city: ICity,
+                                                        index: number,
+                                                    ) => {
+                                                        const startIndex =
+                                                            (currentPage - 1) *
+                                                            resultsPerPage;
+                                                        const globalIndex =
+                                                            startIndex + index;
 
-                          return (
-                            <tr key={city.name + currentPage} className="">
-                              <>
-                                <CityRow
-                                  city={city}
-                                  globalIndex={globalIndex}
-                                  selectedCities={selectedCities}
-                                  handleCheckbox={handleCheckbox}
-                                  register={register}
-                                />
-                              </>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                                                        return (
+                                                            <tr
+                                                                key={
+                                                                    city.name +
+                                                                    currentPage
+                                                                }
+                                                                className=""
+                                                            >
+                                                                <>
+                                                                    <CityRow
+                                                                        city={
+                                                                            city
+                                                                        }
+                                                                        globalIndex={
+                                                                            globalIndex
+                                                                        }
+                                                                        selectedCities={
+                                                                            selectedCities
+                                                                        }
+                                                                        handleCheckbox={
+                                                                            handleCheckbox
+                                                                        }
+                                                                        register={
+                                                                            register
+                                                                        }
+                                                                    />
+                                                                </>
+                                                            </tr>
+                                                        );
+                                                    },
+                                                )}
+                                            </tbody>
+                                        </table>
 
-                    <PaginationFooter
-                      counter={counter}
-                      resultsPerPage={resultsPerPage}
-                      currentPage={currentPage}
-                      setCurrentPage={setCurrentPage}
-                    />
+                                        <PaginationFooter
+                                            counter={counter}
+                                            resultsPerPage={resultsPerPage}
+                                            currentPage={currentPage}
+                                            setCurrentPage={setCurrentPage}
+                                        />
 
-                    {/* 
+                                        {/* 
                     {errors.addressCountry && (
                       <DisplayInputError message={errors.addressCountry.message} />
                     )} 
                     */}
-                  </address>
-                </>
-              )}
-          </>
-        )}
-      </div>
-    </section>
-  );
+                                    </address>
+                                </>
+                            )}
+                    </>
+                )}
+            </div>
+        </section>
+    );
 }
 
 interface CityRowProps {
-  city: ICity;
-  globalIndex: number;
-  selectedCities: string[];
-  handleCheckbox: (
-    e: React.ChangeEvent<HTMLInputElement>,
-    name: string,
-  ) => void;
-  register: UseFormRegister<any>;
+    city: ICity;
+    globalIndex: number;
+    selectedCities: string[];
+    handleCheckbox: (
+        e: React.ChangeEvent<HTMLInputElement>,
+        name: string,
+    ) => void;
+    register: UseFormRegister<any>;
 }
 
 const CityRow = ({
-  city,
-  globalIndex,
-  handleCheckbox,
-  register,
-  selectedCities,
+    city,
+    globalIndex,
+    handleCheckbox,
+    register,
+    selectedCities,
 }: CityRowProps) => {
-  const isChecked = (city: ICity) => {
-    return selectedCities.includes(city.name);
-  };
+    const isChecked = (city: ICity) => {
+        return selectedCities.includes(city.name);
+    };
 
-  return (
-    <>
-      <th
-        scope="row"
-        className="w-20 whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-      >
-        <input
-          type="checkbox"
-          {...register(`cities`)}
-          id={`cities.${globalIndex}.${city.name}}`}
-          value={city.name}
-          checked={isChecked(city)}
-          onChange={(e) => {
-            handleCheckbox(e, city.name);
-          }}
-          className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-        />
-      </th>
+    return (
+        <>
+            <th
+                scope="row"
+                className="w-20 whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+            >
+                <input
+                    type="checkbox"
+                    {...register(`cities`)}
+                    id={`cities.${globalIndex}.${city.name}}`}
+                    value={city.name}
+                    checked={isChecked(city)}
+                    onChange={(e) => {
+                        handleCheckbox(e, city.name);
+                    }}
+                    className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                />
+            </th>
 
-      <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-        {city.name}
-      </td>
-    </>
-  );
+            <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+                {city.name}
+            </td>
+        </>
+    );
 };

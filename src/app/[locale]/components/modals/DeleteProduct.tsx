@@ -7,150 +7,159 @@ import { useAuth } from '../../(auth)/Context/useAuth';
 import Modal from './Modal';
 
 interface Props {
-  product: IProduct;
-  showModal: boolean;
-  handleDeleteShowModal: ComponentProps<any>;
+    product: IProduct;
+    showModal: boolean;
+    handleDeleteShowModal: ComponentProps<any>;
 }
 
 export function DeleteProduct({
-  product,
-  showModal,
-  handleDeleteShowModal,
+    product,
+    showModal,
+    handleDeleteShowModal,
 }: Props) {
-  const { supabase } = useAuth();
+    const { supabase } = useAuth();
 
-  const queryClient = useQueryClient();
+    const queryClient = useQueryClient();
 
-  const handleDelete = async () => {
-    if (!product) return;
+    const handleDelete = async () => {
+        if (!product) return;
 
-    // Delete multimedia in storage
-    deleteMultimedia(product);
-    deleteAwards(product);
-    deleteProductPacksImg(product);
+        // Delete multimedia in storage
+        deleteMultimedia(product);
+        deleteAwards(product);
+        deleteProductPacksImg(product);
 
-    const { error: productError } = await supabase
-      .from('products')
-      .delete()
-      .eq('id', product.id);
+        const { error: productError } = await supabase
+            .from('products')
+            .delete()
+            .eq('id', product.id);
 
-    if (productError) throw productError;
+        if (productError) throw productError;
 
-    handleDeleteShowModal(false);
-  };
+        handleDeleteShowModal(false);
 
-  const deleteProductPacksImg = (product?: IProduct) => {
-    if (product && product?.product_packs) {
-      product?.product_packs.map(async (pack) => {
-        const { error: packError } = await supabase.storage
-          .from('products')
-          .remove([`${decodeURIComponent(pack.img_url)}`]);
+        queryClient.invalidateQueries('productList');
+    };
 
-        if (packError) throw packError;
-      });
-    }
-  };
+    const deleteProductPacksImg = (product?: IProduct) => {
+        if (product && product?.product_packs) {
+            product?.product_packs.map(async (pack) => {
+                const { error: packError } = await supabase.storage
+                    .from('products')
+                    .remove([`${decodeURIComponent(pack.img_url)}`]);
 
-  const deleteAwards = (product?: IProduct) => {
-    if (product && product?.awards) {
-      product?.awards.map(async (award: IAward) => {
-        const { error: awardError } = await supabase.storage
-          .from('products')
-          .remove([`${decodeURIComponent(award.img_url)}`]);
+                if (packError) throw packError;
+            });
+        }
+    };
 
-        if (awardError) throw awardError;
-      });
-    }
-  };
+    const deleteAwards = (product?: IProduct) => {
+        if (product && product?.awards) {
+            product?.awards.map(async (award: IAward) => {
+                const { error: awardError } = await supabase.storage
+                    .from('products')
+                    .remove([`${decodeURIComponent(award.img_url)}`]);
 
-  const deleteMultimedia = async (product?: IProduct) => {
-    if (product && product?.product_multimedia) {
-      if (product?.product_multimedia?.p_principal) {
-        const { error: storageError } = await supabase.storage
-          .from('products')
-          .remove([
-            `${decodeURIComponent(product.product_multimedia.p_principal)}`,
-          ]);
+                if (awardError) throw awardError;
+            });
+        }
+    };
 
-        if (storageError) throw storageError;
-      }
+    const deleteMultimedia = async (product?: IProduct) => {
+        if (product && product?.product_multimedia) {
+            if (product?.product_multimedia?.p_principal) {
+                const { error: storageError } = await supabase.storage
+                    .from('products')
+                    .remove([
+                        `${decodeURIComponent(
+                            product.product_multimedia.p_principal,
+                        )}`,
+                    ]);
 
-      if (product?.product_multimedia?.p_back) {
-        const { error: storageError } = await supabase.storage
-          .from('products')
-          .remove([
-            `${decodeURIComponent(product?.product_multimedia.p_back)}`,
-          ]);
+                if (storageError) throw storageError;
+            }
 
-        if (storageError) throw storageError;
-      }
+            if (product?.product_multimedia?.p_back) {
+                const { error: storageError } = await supabase.storage
+                    .from('products')
+                    .remove([
+                        `${decodeURIComponent(
+                            product?.product_multimedia.p_back,
+                        )}`,
+                    ]);
 
-      if (product?.product_multimedia?.p_extra_1) {
-        const { error: storageError } = await supabase.storage
-          .from('products')
-          .remove([
-            `${decodeURIComponent(product?.product_multimedia.p_extra_1)}`,
-          ]);
+                if (storageError) throw storageError;
+            }
 
-        if (storageError) throw storageError;
-      }
+            if (product?.product_multimedia?.p_extra_1) {
+                const { error: storageError } = await supabase.storage
+                    .from('products')
+                    .remove([
+                        `${decodeURIComponent(
+                            product?.product_multimedia.p_extra_1,
+                        )}`,
+                    ]);
 
-      if (product?.product_multimedia?.p_extra_2) {
-        const { error: storageError } = await supabase.storage
-          .from('products')
-          .remove([
-            `${decodeURIComponent(product?.product_multimedia.p_extra_2)}`,
-          ]);
+                if (storageError) throw storageError;
+            }
 
-        if (storageError) throw storageError;
-      }
+            if (product?.product_multimedia?.p_extra_2) {
+                const { error: storageError } = await supabase.storage
+                    .from('products')
+                    .remove([
+                        `${decodeURIComponent(
+                            product?.product_multimedia.p_extra_2,
+                        )}`,
+                    ]);
 
-      if (product?.product_multimedia?.p_extra_3) {
-        const { error: storageError } = await supabase.storage
-          .from('products')
-          .remove([
-            `${decodeURIComponent(product?.product_multimedia.p_extra_3)}`,
-          ]);
+                if (storageError) throw storageError;
+            }
 
-        if (storageError) throw storageError;
-      }
-    }
-  };
+            if (product?.product_multimedia?.p_extra_3) {
+                const { error: storageError } = await supabase.storage
+                    .from('products')
+                    .remove([
+                        `${decodeURIComponent(
+                            product?.product_multimedia.p_extra_3,
+                        )}`,
+                    ]);
 
-  const deleteProductMutation = useMutation({
-    mutationKey: ['deleteProduct'],
-    mutationFn: handleDelete,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['productList'] });
-    },
-    onError: (error) => {
-      console.error(error);
-    },
-  });
+                if (storageError) throw storageError;
+            }
+        }
+    };
 
-  const onSubmitDelete = () => {
-    try {
-      deleteProductMutation.mutate();
-    } catch (e) {
-      console.error(e);
-    }
-  };
+    const deleteProductMutation = useMutation({
+        mutationKey: ['deleteProduct'],
+        mutationFn: handleDelete,
+        onError: (error) => {
+            console.error(error);
+        },
+    });
 
-  return (
-    <Modal
-      showBtn={false}
-      showModal={showModal}
-      setShowModal={handleDeleteShowModal}
-      title={'modal_delete_product_title'}
-      btnTitle={'delete'}
-      description={'modal_delete_product_description'}
-      handler={() => {
-        onSubmitDelete();
-      }}
-      classIcon={''}
-      classContainer={''}
-    >
-      <></>
-    </Modal>
-  );
+    const onSubmitDelete = () => {
+        try {
+            deleteProductMutation.mutate();
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    return (
+        <Modal
+            showBtn={false}
+            showModal={showModal}
+            setShowModal={handleDeleteShowModal}
+            title={'modal_delete_product_title'}
+            btnTitle={'delete'}
+            description={'modal_delete_product_description'}
+            handler={() => {
+                onSubmitDelete();
+            }}
+            classIcon={''}
+            classContainer={''}
+        >
+            <></>
+        </Modal>
+    );
 }

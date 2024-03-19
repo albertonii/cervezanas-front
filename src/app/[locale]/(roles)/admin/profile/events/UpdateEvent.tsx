@@ -171,7 +171,7 @@ export default function UpdateEventModal({
 
         handleEditModal(false);
 
-        queryClient.invalidateQueries({ queryKey: ['events'] });
+        queryClient.invalidateQueries('events');
     };
 
     const handleCheckedCPMobiles = (

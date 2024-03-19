@@ -519,7 +519,7 @@ export function AddProduct() {
         }
 
         setShowModal(false);
-        queryClient.invalidateQueries({ queryKey: ['productList'] });
+        queryClient.invalidateQueries('productList');
 
         reset();
     };

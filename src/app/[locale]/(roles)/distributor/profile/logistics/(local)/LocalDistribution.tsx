@@ -15,195 +15,202 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 
 interface FormData {
-  country: string;
-  ranges: IPCRangesProps[];
+    country: string;
+    ranges: IPCRangesProps[];
 }
 
 type LocalDistributionProps = {
-  localDistribution: ILocal[];
+    localDistribution: ILocal[];
 };
 
 export default function LocalDistribution({
-  localDistribution: locals,
+    localDistribution: locals,
 }: LocalDistributionProps) {
-  const t = useTranslations();
-  const [countryOption, setCountryOption] = useState<any>('ES');
-  const queryClient = useQueryClient();
+    const t = useTranslations();
+    const [countryOption, setCountryOption] = useState<any>('ES');
+    const queryClient = useQueryClient();
 
-  const { supabase } = useAuth();
+    const { supabase } = useAuth();
 
-  const [displayCountry, setDisplayCountry] = useState(
-    esLocale.countries['ES'],
-  );
+    const [displayCountry, setDisplayCountry] = useState(
+        esLocale.countries['ES'],
+    );
 
-  const defaultRanges = locals.map((local) => {
-    return {
-      from: local.from,
-      to: local.to,
+    const defaultRanges = locals.map((local) => {
+        return {
+            from: local.from,
+            to: local.to,
+        };
+    });
+
+    const {
+        register,
+        formState: { errors },
+        handleSubmit,
+        control,
+    } = useForm({
+        defaultValues: {
+            country: countryOption,
+            ranges: defaultRanges,
+        },
+    });
+
+    const { fields, append, remove } = useFieldArray({
+        name: 'ranges',
+        control,
+    });
+
+    useEffect(() => {
+        countries.registerLocale(enLocale);
+        countries.registerLocale(esLocale);
+    }, []);
+
+    useEffect(() => {
+        const displayCountry = countries.getName(countryOption, 'es', {
+            select: 'official',
+        });
+        if (!displayCountry) return setDisplayCountry('Select a country');
+        setDisplayCountry(displayCountry);
+    }, [countryOption]);
+
+    const handleSelectCountry = (e: string) => {
+        setCountryOption(e);
     };
-  });
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    control,
-  } = useForm({
-    defaultValues: {
-      country: countryOption,
-      ranges: defaultRanges,
-    },
-  });
+    const handleUpdateLocalDistribution = async (form: FormData) => {
+        const { country, ranges } = form;
 
-  const { fields, append, remove } = useFieldArray({
-    name: 'ranges',
-    control,
-  });
+        // Delete all ranges in local distribution
+        const { error: errorDelete } = await supabase
+            .from('local_distribution')
+            .delete()
+            .eq('coverage_area_id', '5804f470-2710-4ee4-93f5-51940f5a004a');
 
-  useEffect(() => {
-    countries.registerLocale(enLocale);
-    countries.registerLocale(esLocale);
-  }, []);
+        if (errorDelete) {
+            console.error(errorDelete);
+        }
 
-  useEffect(() => {
-    const displayCountry = countries.getName(countryOption, 'es', {
-      select: 'official',
+        // Insert new ranges
+        ranges.map(async (range) => {
+            const local = {
+                coverage_area_id: '5804f470-2710-4ee4-93f5-51940f5a004a',
+                country: country,
+                from: range.from,
+                to: range.to,
+            };
+
+            const { error: errorLocal } = await supabase
+                .from('local_distribution')
+                .insert({
+                    coverage_area_id: '5804f470-2710-4ee4-93f5-51940f5a004a',
+                    country: country,
+                    from: range.from,
+                    to: range.to,
+                })
+                .eq('from', range.from);
+
+            if (errorLocal) {
+                console.error(errorLocal);
+            }
+        });
+
+        queryClient.invalidateQueries('distribution');
+    };
+
+    const updateLocalDistributionMutation = useMutation({
+        mutationKey: 'updateLocalDistribution',
+        mutationFn: handleUpdateLocalDistribution,
+        onMutate: () => {
+            console.info('onMutate');
+        },
+        onSuccess: () => {
+            console.info('onSuccess');
+        },
+        onError: () => {
+            console.error('onError');
+        },
     });
-    if (!displayCountry) return setDisplayCountry('Select a country');
-    setDisplayCountry(displayCountry);
-  }, [countryOption]);
 
-  const handleSelectCountry = (e: string) => {
-    setCountryOption(e);
-  };
+    const onSubmit = (formValues: FormData) => {
+        try {
+            updateLocalDistributionMutation.mutate(formValues);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
-  const handleUpdateLocalDistribution = async (form: FormData) => {
-    const { country, ranges } = form;
+    return (
+        <section>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <Button btnType="submit" class="" primary medium>
+                    {t('save')}
+                </Button>
 
-    // Delete all ranges in local distribution
-    const { error: errorDelete } = await supabase
-      .from('local_distribution')
-      .delete()
-      .eq('coverage_area_id', '5804f470-2710-4ee4-93f5-51940f5a004a');
+                {/* Country  */}
+                <div className="w-60">
+                    <span>{displayCountry}</span>
+                    <Label>
+                        <CountryDropdown
+                            classes="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                            value={countryOption}
+                            defaultOptionLabel="Select a country"
+                            onChange={(val) => handleSelectCountry(val)}
+                            valueType="short"
+                            labelType="full"
+                            priorityOptions={['ES']}
+                        />
+                    </Label>
+                </div>
 
-    if (errorDelete) {
-      console.error(errorDelete);
-    }
+                {/* Ranges  */}
+                <div className="space-y-2">
+                    <div className="space-y-2">
+                        <div className="items-center space-y-2">
+                            <span>Ranges</span>
 
-    // Insert new ranges
-    ranges.map(async (range) => {
-      const local = {
-        coverage_area_id: '5804f470-2710-4ee4-93f5-51940f5a004a',
-        country: country,
-        from: range.from,
-        to: range.to,
-      };
+                            {fields.map((item, index) => {
+                                return (
+                                    <div
+                                        key={item.id}
+                                        className="grid w-full grid-cols-2 space-x-4 rounded-md border-2 border-beer-gold p-4"
+                                    >
+                                        <PCRanges
+                                            register={register}
+                                            item={item}
+                                            index={index}
+                                        />
 
-      const { error: errorLocal } = await supabase
-        .from('local_distribution')
-        .insert({
-          coverage_area_id: '5804f470-2710-4ee4-93f5-51940f5a004a',
-          country: country,
-          from: range.from,
-          to: range.to,
-        })
-        .eq('from', range.from);
+                                        {/* Delete range  */}
+                                        <IconButton
+                                            btnType="button"
+                                            danger
+                                            box
+                                            onClick={() => remove(index)}
+                                            icon={faTrash}
+                                            title={'Delete'}
+                                        />
+                                    </div>
+                                );
+                            })}
 
-      if (errorLocal) {
-        console.error(errorLocal);
-      }
-    });
-  };
+                            <Button
+                                btnType="button"
+                                class="mt-4"
+                                primary
+                                medium
+                                onClick={() =>
+                                    append({ from: 35000, to: 35999 })
+                                }
+                            >
+                                {t('add_range')}
+                            </Button>
+                        </div>
+                    </div>
 
-  const updateLocalDistributionMutation = useMutation({
-    mutationKey: 'updateLocalDistribution',
-    mutationFn: handleUpdateLocalDistribution,
-    onMutate: () => {
-      console.info('onMutate');
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['distribution'] });
-      console.info('onSuccess');
-    },
-    onError: () => {
-      console.error('onError');
-    },
-  });
-
-  const onSubmit = (formValues: FormData) => {
-    try {
-      updateLocalDistributionMutation.mutate(formValues);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  return (
-    <section>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Button btnType="submit" class="" primary medium>
-          {t('save')}
-        </Button>
-
-        {/* Country  */}
-        <div className="w-60">
-          <span>{displayCountry}</span>
-          <Label>
-            <CountryDropdown
-              classes="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              value={countryOption}
-              defaultOptionLabel="Select a country"
-              onChange={(val) => handleSelectCountry(val)}
-              valueType="short"
-              labelType="full"
-              priorityOptions={['ES']}
-            />
-          </Label>
-        </div>
-
-        {/* Ranges  */}
-        <div className="space-y-2">
-          <div className="space-y-2">
-            <div className="items-center space-y-2">
-              <span>Ranges</span>
-
-              {fields.map((item, index) => {
-                return (
-                  <div
-                    key={item.id}
-                    className="grid w-full grid-cols-2 space-x-4 rounded-md border-2 border-beer-gold p-4"
-                  >
-                    <PCRanges register={register} item={item} index={index} />
-
-                    {/* Delete range  */}
-                    <IconButton
-                      btnType="button"
-                      danger
-                      box
-                      onClick={() => remove(index)}
-                      icon={faTrash}
-                      title={'Delete'}
-                    />
-                  </div>
-                );
-              })}
-
-              <Button
-                btnType="button"
-                class="mt-4"
-                primary
-                medium
-                onClick={() => append({ from: 35000, to: 35999 })}
-              >
-                {t('add_range')}
-              </Button>
-            </div>
-          </div>
-
-          {/* Map displaying ranges */}
-          {/* <LocalMap locals={locals} /> */}
-        </div>
-      </form>
-    </section>
-  );
+                    {/* Map displaying ranges */}
+                    {/* <LocalMap locals={locals} /> */}
+                </div>
+            </form>
+        </section>
+    );
 }
