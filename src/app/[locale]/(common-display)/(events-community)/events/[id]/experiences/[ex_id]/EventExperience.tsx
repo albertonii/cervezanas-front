@@ -21,7 +21,10 @@ import {
     ROUTE_EVENTS,
 } from '../../../../../../../../config';
 import ParticipationQRCode from './ParticipationQRCode';
-import { hasUserParticipatedInExperienceBefore } from './actions';
+import {
+    getUserParticipant,
+    hasUserParticipatedInExperienceBefore,
+} from './actions';
 
 interface Props {
     eventExperience: IEventExperience;
@@ -33,6 +36,7 @@ export default function EventExperience({ eventExperience }: Props) {
     const { experiences: experience } = eventExperience;
     const { supabase, user } = useAuth();
     const { handleMessage } = useMessage();
+
     const router = useRouter();
     const locale = useLocale();
 
@@ -53,58 +57,50 @@ export default function EventExperience({ eventExperience }: Props) {
             if (!experience) return;
             if (!user) return;
 
-            // Comprobar que no haya participado ya en la experiencia
-            if (eventExperience.cp_mobile_id) {
-                const { data, error: errorParticipants } = await supabase
-                    .from('bm_experience_participants')
-                    .select('*')
-                    .eq('gamification_id', user?.id)
-                    .eq('event_id', eventExperience.event_id)
-                    .eq('cpm_id', eventExperience.cp_mobile_id)
-                    .eq('experience_id', experience.id);
+            const hasUserParticipated =
+                await hasUserParticipatedInExperienceBefore(
+                    user?.id,
+                    eventExperience.event_id,
+                    eventExperience.cp_mobile_id,
+                    '',
+                    eventExperience.experience_id,
+                );
 
-                if (errorParticipants) {
-                    console.error(errorParticipants);
-                    return;
-                }
+            // Mostrar QR para validar el pago
+            if (hasUserParticipated && !!eventExperience.cp_mobile_id) {
+                const bmExperienceParticipant = await getUserParticipant(
+                    user?.id,
+                    eventExperience.event_id,
+                    eventExperience.cp_mobile_id,
+                    '',
+                    eventExperience.experience_id,
+                );
 
-                if (data.length > 0) {
+                if (bmExperienceParticipant) {
                     setIsRegistered(true);
 
-                    const experienceParticipants =
-                        data[0] as IBMExperienceParticipants;
-
-                    setExperienceParticipant(experienceParticipants);
-                    setIsFinished(experienceParticipants.is_finished);
-                    setIsPaymentValid(experienceParticipants.is_paid);
-
-                    setBMExperienceParticipantId(experienceParticipants.id);
+                    setExperienceParticipant(bmExperienceParticipant);
+                    setIsFinished(bmExperienceParticipant.is_finished);
+                    setIsPaymentValid(bmExperienceParticipant.is_paid);
+                    setBMExperienceParticipantId(bmExperienceParticipant.id);
                 }
-            } else if (eventExperience.cp_fixed_id) {
-                const { data, error: errorParticipants } = await supabase
-                    .from('bm_experience_participants')
-                    .select('*')
-                    .eq('gamification_id', user?.id)
-                    .eq('event_id', eventExperience.event_id)
-                    .eq('cpf_id', eventExperience.cp_fixed_id)
-                    .eq('experience_id', experience.id);
+            } else if (hasUserParticipated && !!eventExperience.cp_fixed_id) {
+                const bmExperienceParticipant = await getUserParticipant(
+                    user?.id,
+                    eventExperience.event_id,
+                    '',
+                    eventExperience.cp_fixed_id,
+                    eventExperience.experience_id,
+                );
 
-                if (errorParticipants) {
-                    console.error(errorParticipants);
-                    return;
-                }
-
-                if (data.length > 0) {
+                if (bmExperienceParticipant) {
                     setIsRegistered(true);
 
-                    const experienceParticipants =
-                        data[0] as IBMExperienceParticipants;
+                    setExperienceParticipant(bmExperienceParticipant);
+                    setIsFinished(bmExperienceParticipant.is_finished);
+                    setIsPaymentValid(bmExperienceParticipant.is_paid);
 
-                    setExperienceParticipant(experienceParticipants);
-                    setIsFinished(experienceParticipants.is_finished);
-                    setIsPaymentValid(experienceParticipants.is_paid);
-
-                    setBMExperienceParticipantId(experienceParticipants.id);
+                    setBMExperienceParticipantId(bmExperienceParticipant.id);
                 }
             }
         };
@@ -135,14 +131,16 @@ export default function EventExperience({ eventExperience }: Props) {
     const handleOnClickParticipate = async () => {
         // Comprobar que no haya participado ya en la experiencia
         if (eventExperience.cp_mobile_id) {
-            const exists = await hasUserParticipatedInExperienceBefore(
-                user?.id,
-                eventExperience.event_id,
-                eventExperience.cp_mobile_id,
-                eventExperience.experience_id,
-            );
+            const hasUserParticipated =
+                await hasUserParticipatedInExperienceBefore(
+                    user?.id,
+                    eventExperience.event_id,
+                    eventExperience.cp_mobile_id,
+                    '',
+                    eventExperience.experience_id,
+                );
 
-            if (exists) {
+            if (hasUserParticipated) {
                 handleMessage({
                     message:
                         'El usuario ya se ha registrado en esta experiencia',
@@ -163,7 +161,10 @@ export default function EventExperience({ eventExperience }: Props) {
         setShowPaymentModal(true);
     };
 
-    const handleParticipate = (participate: boolean) => {};
+    const handleParticipate = (experienceParticipantId: string) => {
+        setBMExperienceParticipantId(experienceParticipantId);
+        setIsRegistered(true);
+    };
 
     const handleIsPaymentValid = (isPaymentValid: boolean) => {
         setIsPaymentValid(isPaymentValid);

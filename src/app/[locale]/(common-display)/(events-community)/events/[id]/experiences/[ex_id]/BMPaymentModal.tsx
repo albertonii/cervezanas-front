@@ -7,6 +7,7 @@ import {
 } from '../../../../../../../../lib/types/types';
 import { useTranslations } from 'next-intl';
 import Spinner from '../../../../../../components/common/Spinner';
+import { IBMExperienceParticipants } from '../../../../../../../../lib/types/quiz';
 
 interface Props {
     handleParticipate: ComponentProps<any>;
@@ -27,28 +28,6 @@ export default function BMPaymentModal({
     const { supabase, user } = useAuth();
 
     const handleOnClickParticipate = async () => {
-        // Comprobar que no haya participado ya en la experiencia
-        if (eventExperience.cp_mobile_id) {
-            const { data, error: errorParticipants } = await supabase
-                .from('bm_experience_participants')
-                .select('*')
-                .eq('gamification_id', user?.id)
-                .eq('event_id', eventExperience.event_id)
-                .eq('cpm_id', eventExperience.cp_mobile_id)
-                .eq('experience_id', experience.id);
-
-            if (errorParticipants) {
-                console.error(errorParticipants);
-                return;
-            }
-
-            if (data && data.length > 0) {
-                handleCloseModal(true);
-                handleParticipate(true);
-                return;
-            }
-        }
-
         // Crear un nuevo registro en la tabla beer_master_experience_participants
         const { data, error } = await supabase
             .from('bm_experience_participants')
@@ -64,7 +43,9 @@ export default function BMPaymentModal({
                     is_cash: false,
                     is_finished: false,
                 },
-            ]);
+            ])
+            .select('id')
+            .single();
 
         if (error) {
             console.error(error);
@@ -72,8 +53,11 @@ export default function BMPaymentModal({
         }
 
         if (data) {
+            const experienceParticipant = data as IBMExperienceParticipants;
+
             handleCloseModal(true);
             handleParticipate(true);
+            handleParticipate(experienceParticipant.id);
         }
     };
 
