@@ -45,10 +45,10 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
     }),
     description: z
         .string()
-        .min(2, { message: 'errors.min_2_characters' })
         .max(2500, {
             message: 'errors.error_2500_max_length',
-        }),
+        })
+        .optional(),
     price: z.number().min(0, { message: 'errors.input_min_0' }),
     fermentation: z
         .number()

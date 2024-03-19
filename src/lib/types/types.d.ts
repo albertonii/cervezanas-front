@@ -747,7 +747,7 @@ export type IPackItem = {
 
 export type ModalAddProductFormData = {
     name: string;
-    description: string;
+    description?: string;
     price: number;
     fermentation: number;
     color: number;
@@ -778,7 +778,7 @@ export type ModalAddProductFormData = {
 export type ModalUpdateProductFormData = {
     product_id: string; // FK
     name: string;
-    description: string;
+    description?: string;
     price: number;
     fermentation: Fermentation;
     color: number;
@@ -790,10 +790,10 @@ export type ModalUpdateProductFormData = {
     is_gluten: boolean;
     type: string;
     p_principal?: FileList | string;
-    p_back?: FileList| string;
-    p_extra_1?: FileList| string;
-    p_extra_2?: FileList| string;
-    p_extra_3?: FileList| string;
+    p_back?: FileList | string;
+    p_extra_1?: FileList | string;
+    p_extra_2?: FileList | string;
+    p_extra_3?: FileList | string;
     is_public: boolean;
     volume: number;
     weight: number;

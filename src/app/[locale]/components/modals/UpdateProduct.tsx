@@ -51,10 +51,10 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
     }),
     description: z
         .string()
-        .min(2, { message: 'errors.input_min_2' })
         .max(2500, {
             message: 'errors.error_2500_max_length',
-        }),
+        })
+        .optional(),
     price: z.number().min(0, { message: 'errors.input_min_0' }),
     fermentation: z
         .number()
@@ -752,8 +752,8 @@ export function UpdateProduct({
                                 form={form}
                                 productId={product.id}
                             />
-                            ) : (
-                             <UpdateProductSummary form={form} />
+                        ) : (
+                            <UpdateProductSummary form={form} />
                         )}
                         {/*  ) : activeStep === 2 ? (
                              <UpdateAwardsSection form={form} />
