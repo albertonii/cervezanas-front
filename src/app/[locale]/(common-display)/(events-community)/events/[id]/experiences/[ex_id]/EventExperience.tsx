@@ -53,6 +53,27 @@ export default function EventExperience({ eventExperience }: Props) {
     const [questions, setQuestions] = useState<QuestionsState>([]);
 
     useEffect(() => {
+        supabase
+            .channel('participants')
+            .on(
+                'postgres_changes',
+                {
+                    event: '*',
+                    schema: 'public',
+                    table: 'bm_experience_participants',
+                },
+                (payload) => {
+                    const newParticipant =
+                        payload.new as IBMExperienceParticipants;
+
+                    setIsPaymentValid(newParticipant.is_paid);
+                    setIsFinished(newParticipant.is_finished);
+                },
+            )
+            .subscribe();
+    }, [supabase]);
+
+    useEffect(() => {
         const getBMExperienceParticipant = async () => {
             if (!experience) return;
             if (!user) return;

@@ -125,7 +125,9 @@ export default function ManageExperienceParticipation({
                             </span>
 
                             <Button primary small onClick={handlePaidBtn}>
-                                {isPaid ? t('refund') : t('charge_experience')}
+                                {isPaid
+                                    ? t('refund_experience')
+                                    : t('charge_experience')}
                             </Button>
                         </div>
 

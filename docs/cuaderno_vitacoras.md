@@ -781,3 +781,4 @@ Habilitar formulario para feedbacks/reporte de errores
 - [x] Detectar si el estado del carrito de la compra está abierto o cerrado para que no aparezca abierto siempre.
 - [ ] ¿Necesitamos tener en el usuario el parámetro CP_ORGANIZER_STATUS? -> Si ya han aceptado los términos y condiciones creo que no es necesaria esta lógica.
 - [ ] Crear usuario para CCVK -> Configurar productos, PC y experiencias
+- [ ] Si el barman escanéa el código y no está registrado -> LOOP INFINITO

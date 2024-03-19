@@ -757,5 +757,11 @@
     "click_here_to_download": "Click here to download",
     "producer_read_disclaimer": "Producer Disclaimer Agreement",
     "distributor_read_disclaimer": "Distributor Disclaimer Agreement",
-    "participate": "Participate"
+    "participate": "Participate",
+    "is_paid": "Is paid?",
+    "is_finished": "Is finished?",
+    "charge_experience": "Charge experience",
+    "refund_experience": "Refund experience",
+    "mark_as_finished": "Mark as finished",
+    "mark_as_unfinished": "Mark as unfinished"
 }

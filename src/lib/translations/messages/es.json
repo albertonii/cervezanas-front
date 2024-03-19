@@ -813,5 +813,11 @@
     "click_here_to_download": "Haz clic aquí para descargar",
     "producer_read_disclaimer": "Acuerdo de exención de responsabilidad del productor",
     "distributor_read_disclaimer": "Acuerdo de exención de responsabilidad del distribuidor",
-    "participate": "Participar"
+    "participate": "Participar",
+    "is_paid": "¿Está pagado?",
+    "is_finished": "¿Está finalizado?",
+    "charge_experience": "Cobrar experiencia",
+    "refund_experience": "Reembolsar experiencia",
+    "mark_as_finished": "Marcar como finalizado",
+    "mark_as_unfinished": "Marcar como no finalizado"
 }
