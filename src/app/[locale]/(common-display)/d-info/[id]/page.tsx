@@ -4,29 +4,29 @@ import createServerClient from '../../../../../utils/supabaseServer';
 import { IDistributorUser } from '../../../../../lib/types/types';
 
 export default async function page({ params }: any) {
-  const { id } = params;
+    const { id } = params;
 
-  const distributorData = await getDistributorProfile(id);
-  const [distributor] = await Promise.all([distributorData]);
+    const distributorData = await getDistributorProfile(id);
+    const [distributor] = await Promise.all([distributorData]);
 
-  return <DistributorInformation distributor={distributor} />;
+    return <DistributorInformation distributor={distributor} />;
 }
 
 async function getDistributorProfile(distributorId: string) {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const { data: distributor, error: distributorError } = await supabase
-    .from('distributor_user')
-    .select(
-      `
+    const { data: distributor, error: distributorError } = await supabase
+        .from('distributor_user')
+        .select(
+            `
         *,
         users (*)
       `,
-    )
-    .eq('user', distributorId)
-    .single();
+        )
+        .eq('user_id', distributorId)
+        .single();
 
-  if (distributorError) throw distributorError;
+    if (distributorError) throw distributorError;
 
-  return distributor as IDistributorUser;
+    return distributor as IDistributorUser;
 }

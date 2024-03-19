@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import BasicEventForm from '../../../(roles)/producer/profile/events/BasicEventForm';
+import BasicEventForm from '../../../(roles)/producer/profile/events/(producer_events)/BasicEventForm';
 import ExperienceForm from '../../../(roles)/producer/profile/events/ExperienceForm';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
@@ -103,6 +103,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
         const { data: event, error: eventError } = await supabase
             .from('events')
             .insert({
+                is_activated: false,
                 name,
                 description,
                 start_date: formatStartDate,
@@ -132,10 +133,10 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
 
         if (cps_mobile) {
             // Get CP checked from the list
-            const cpsMObileFiltered = cps_mobile.filter((cp) => cp.cp_id);
+            const cpsMobileFiltered = cps_mobile.filter((cp) => cp.cp_id);
 
             // Loop trough all the selected CPs and insert them into the event
-            cpsMObileFiltered.map(async (cp) => {
+            cpsMobileFiltered.map(async (cp) => {
                 const { error: cpError } = await supabase
                     .from('cpm_events')
                     .insert({

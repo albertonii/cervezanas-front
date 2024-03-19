@@ -9,13 +9,13 @@ export const metadata = {
 };
 
 export default async function MaestroCerveceroPage() {
-    const eventExperiencesData = getMarketplaceProducts();
+    const eventExperiencesData = getMaestroCerveceroEventExperiences();
     const [eventExperiences] = await Promise.all([eventExperiencesData]);
 
     return <MainMaestroCervecero eventExperiences={eventExperiences} />;
 }
 
-async function getMarketplaceProducts() {
+async function getMaestroCerveceroEventExperiences() {
     const supabase = await createServerClient();
 
     const { data: eventExperiences, error: eventExperiencesError } =

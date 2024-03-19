@@ -1,5 +1,7 @@
 # Listado de tareas:
 
+- [ ] Añadir el IBU al crear producto
+- [ ] Eliminar imágenes de la BBDD si los productos son eliminados
 - Sistema para automatizar el stock de un producto (pack)
 - Añadir awards de cerveza del mes para: comité de expertos, experimentales y de la comunidad
 - Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
@@ -18,7 +20,6 @@
 - Añadir en vista de eventos para admin los PC asociados a los eventos
 - Para que un producto sea público debe de ser revisado antes por un administrador
 - Indicar la relación de aspecto de todas las imágenes para reducir layout shift (cls - Cumulative Layout Shift): https://www.youtube.com/watch?v=RhZPNVshYWI
-- Eliminar los carritos de compra cada cierto tiempo para que no estén desincronizada la información y evitar errores.
 
 # WIP
 
@@ -46,6 +47,8 @@
 - Editar una campaña
 - Vincular productos a la campaña
 - Vídeo de presentación de Cervezanas -> Código QR en eventos, etc.
+- [ ] En los productos que se venden en el evento, administrar si está activo o no desde el panel de administración del productor
+- [ ] Popup Modal con SignIn
 
 # Tareas realizadas
 
@@ -619,7 +622,7 @@ Habilitar formulario para feedbacks/reporte de errores
 - [ ] Crear página explicativa que llevará el dossier. Al leer el QR del dossier abrirá la página del evento explicativo SOLO con las experiencias que están asociadas para cada punto de consumo. Breve explicación de cómo es el juego de maestro cervecero. Información acerca del Evento (nombre, fecha, descripción). Tarjetas informativas con los puntos de consumo con las experiencias asociadas (pueden ser iconos, al presionar al icono te llevará a la página del PC para que pueda registrarse en la experiencia).
 
 - [ ] Habilitar formulario para feedbacks/reporte de errores
-- [ ] Arreglar restablecer contraseña
+- [ ] Arreglar restablecer contraseña -> Se está enviando el código para poder restablecer la contraseña. Hacer los redireccionamientos oportunos para poder trabajar en pre y producción.
 - [ ] Revisión de contratos con Productores de Cervezas - https://docs.google.com/document/d/1xNllZMIvOH6h0FkmGw1UuNG7zjnvn9S2q_erBB2IGkM/edit
 - [ ] Poner a punto la producción en Supabase
 - [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
@@ -654,26 +657,128 @@ Habilitar formulario para feedbacks/reporte de errores
 - [ ] Breadcrumb para poder volver al apartado del evento donde esté la experiencia
 - [x] Botón para volver al evento
 - [ ] Habilitar formulario para feedbacks/reporte de errores
-- [ ] Arreglar restablecer contraseña
-- [ ] Revisión de contratos con Productores de Cervezas - https://docs.google.com/document/d/1xNllZMIvOH6h0FkmGw1UuNG7zjnvn9S2q_erBB2IGkM/edit
-- [ ] Poner a punto la producción en Supabase
+- [ ] Arreglar restablecer contraseña -> Se está enviando el código para poder restablecer la contraseña. Hacer los redireccionamientos oportunos para poder trabajar en pre y producción.- [x] Revisión de contratos con Productores de Cervezas - https://docs.google.com/document/d/1xNllZMIvOH6h0FkmGw1UuNG7zjnvn9S2q_erBB2IGkM/edit
 - [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
 - [ ] En eventos, permitir pago en físico -> Saltar la pasarela de pago, indicar en la orden del pedido que se ha pagado en físico. El barman debe de dar el OK
 - [ ] Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
 - [x] Error con carrito de eventos -> Se estaba creando un estado vacío, por lo que daba error. Ahora comprueba cada vez que se acceda que exista un carrito de compra para ese evento.
-- [ ] Mostrar vista de detalles del producto que se existen en el evento -> Punto de Consumo.
+- [ ] Mostrar vista de detalles del producto que existen en el evento -> Punto de Consumo.
 - [x] Notificación/Mensaje en el botón de experiencias -> Solo accesible para usuarios registrados
 - [ ] Después de realizar el juego de Maestro Cervecero, crear el recuento de puntos para ese evento.
 - [ ] Crear tabla de descuentos obtenidos por el usuario en el evento
-- [ ] Añadir los contratos que deben aceptar los productores y distribuidores al registrarse en la aplicación
+- [x] Añadir los contratos que deben aceptar los productores y distribuidores al registrarse en la aplicación
 - [ ] Eliminar elementos del carrito en el evento
 
-- [ ] Lógica para participar en una experiencia
-  1. [WIP] Vista para confirmar pago de la experiencia
+- [WIP] Lógica para participar en una experiencia
+
+  1. [x] Vista de administración para el productor donde pueda ver los registros de los usuarios en las experiencias.
   2. [x] Si ya ha participado en la experiencia, impedir que se registre de nuevo.
   3. [x] Si ya ha participado en la experiencia, mostrar mensaje de que ya ha participado.
   4. [x] Solo pueden participar usuarios consumidores en la experiencia.
   5. [x] Generar un código QR cuando se registre el usuario en la experiencia. Ese código QR es el que mostrará al PC para que pueda participar en la experiencia. El PC debe de escanear el código QR para que el usuario pueda participar en la experiencia y validar el pago.
   6. [ ] Listado de experiencias en un evento las cuales el productor puede administrar. Por ejemplo, para el Maestro Cervecero, se indica el registro, la persona que lo ha hecho y el estado del registro (pagado, no pagado, etc).
   7. [ ] Notificar al PC cuando un usuario se ha registrado en una experiencia.
-  8. [x] Vista de administración para el productor donde pueda ver los registros de los usuarios en las experiencias.
+
+### 15 de marzo
+
+- [x] Para poder participar en la experiencia -> Poner pago en local - o en el comercio.
+- [x] Quitar los productos que se van a vender en el evento, debido a que el propio stand se encargará de ello.
+- [ ] Poner a punto la producción en Supabase
+- [ ] Que esté todo ok con TPV Santander
+- [ ] Popup Modal con SignIn
+- [x] Para poder participar en la experiencia -> Poner pago en local - o en el comercio.
+- [ ] Realtime actualizacion para experiencia pagada
+- [ ] En el caso del stand de Cervezanas, que habrán 2 cervezas para la experiencia de Maestro Cervecero, ¿cómo se cuentan las experiencias? Pq cada una tiene un precio distinto... En la experiencia permitir añadir varias cervezas. Y mostrar en el juego todas las cervezas.
+- [ ] Mínimo de haber participado en 4 experiencias para poder participar en el concurso de las 2 entradas y premios.
+- [ ] Todos tienen descuento de un 10% en las compras online. Los que más puntos tengan (top 100) en el juego de Maestro Cervecero, tendrán más premios. Recibiras el resultado del concurso en la dirección de correo.
+- [x] Quitar los productos que se van a vender en el evento.
+- [ ] Para el lunes deben estar los productos de CCVK - además de darse de alta como productor y distribuidor
+- [ ] Realtime actualizacion para experiencia pagada
+- [ ] En el caso del stand de Cervezanas, que habrán 2 cervezas para la experiencia de Maestro Cervecero, ¿cómo se cuentan las experiencias? Pq cada una tiene un precio distinto... En la experiencia permitir añadir varias cervezas. Y mostrar en el juego todas las cervezas.
+- [ ] Todos tienen descuento de un 10% en las compras online. Los que más puntos tengan (top 100) en el juego de Maestro Cervecero, tendrán más premios. Recibiras el resultado del concurso en la dirección de correo.
+- [x] En los productos que se venden en el evento, indicar que se venden en el evento. Propiedad is_active en el modelo de datos.
+- [~] Para el lunes deben estar los productos de CCVK - además de darse de alta como productor y distribuidor
+
+- [x] Experiencia Completa de Maestro Cervecero
+
+  1. [x] Mostrar el número de experiencias que hay en un evento
+  2. [x] Mostrar el número de experiencias que ha realizado un usuario
+  3. [x] Sumar los resultados obtenidos en cada experiencia
+  4. [~] Mínimo de haber participado en 4 experiencias para poder participar en el concurso de las 2 entradas y premios. Como tendremos el registro de la gente que ha participado, podremos saber si ha participado en 4 experiencias y por lo tanto, incluirlos en un sorteo.
+  5. [~] Si participa en 1 experiencia como mínimo, tendrá el descuento de 10% en la siguiente compra online.
+  6. [FUTURO] Ranking de TOP 100 de usuarios que han participado en el juego de Maestro Cervecero.
+  7. [x] Indicar número de experiencias en el Punto de Consumo
+  8. [x] Al participar en una experiencia, introducir las respuestas acertadas y las incorrectas
+  9. [x] Al terminar la partida, sumar los puntos en la tabla de BMExperienceParticipants
+
+- [WIP] Evento Cervezanas con usuario ADMINISTRADOR
+
+  1. [x] Crear un evento con la cuenta de Administrador de Cervezanas
+  2. [x] Listado de todos los Puntos de Consumo que se pueden añadir al evento. Como es el administrador tendrá acceso a todos los PC existentes
+  3. [x] Registrar Puntos de Consumo en EVENTOS CERVEZANAS.
+  4. [ ] Si se registra un PC en un evento de Cervezanas a través del ADMINISTRADOR: notificar al productor de ello
+  5. [ ] Si se registra un PC en un evento de Cervezanas a través del ADMINISTRADOR: visualizar en el apartado de eventos acerca de ello.
+  6. [x] Mostrar solo los eventos autorizados. En el caso de que lo cree el administrador, automáticamente se autoriza.
+
+- [x] Error al modificar un producto en el productor
+
+- [FUTURE] Añadir botón de autorización/desautorización en UpdateEvent
+- [ ] Error al signup -> TRIGGER FUNCTION
+
+### 17 de marzo
+
+- [x] Arreglar SIGN UP. No está creando la información necesaria en los schemas PUBLIC.
+- [x] Sistema para vincular las experiencias con los puntos de consumo en los eventos que sean creados por el ADMINISTRADOR de CERVEZANAS
+
+- [x] Problemas con la autorización de usuarios en el apartado para administradores:
+      ⨯ Error: Unable to find `next-intl` locale because the middleware didn't run on this request. See https://next-intl-docs.vercel.app/docs/routing/middleware#unable-to-find-locale
+      Se estaban usando el hook para traducir en el sidebar en un elemento que era Server Component: layout de ADMINISTRADOR.
+
+- [x] Hay veces que no se cargan los listados para eventos -> PRODUCER
+
+- [WIP] Eventos Cervezanas
+
+  1. [x] Si se crea un Evento Cervezanas y se añaden PC a través del ADMINISTRADOR, notificar al productor de ello
+  2. [x] Si se crea un evento Cervezanas y se añaden PCs a través del ADMINISTRADOR, visualizar en el apartado de eventos del productor acerca de ello.
+  3. [x] Debido a que un administrador puede añadir un PC que no le pertenecen, debe de existir una relación entre ese evento y el punto de consumo (ICPM_events). De esta forma, el productor podrá ver si su PC ha sido añadido a un evento. Si es así, podrá ver la información del evento y el PC.
+  4. [ ] Modificar los Puntos de Consumo asociados a un Evento Cervezanas
+  5. [x] Modificar las Experiencias de los Puntos de Consumo asociados a un Evento Cervezanas
+  6. [x] Añadir accesos directos en el menú desplegable en "cuenta" a productor para acceder a la configuración de experiencias en PC
+  7. [ ] Breadcrumb en PC para poder volver al evento
+  8. [ ] Al presionar en participar -> Actualizar la página para mostrar el código QR al barman
+  9. [ ] Al presionar varias veces en participar -> CREA varias entradas. Hay que evitar esto.
+
+- [WIP] Testing
+
+  1. [x] Crear producto
+  2. [x] Vista de Checkout compra Online
+  3. [x] Añadir Información de envío
+  4. [x] Añadir Información de facturación
+  5. [ ] Realizar compra del producto online
+  6. [x] Realizar compra del producto online Bizum
+  7. [ ] Realizar compra del producto online Paypal
+  8. [x] Ver orden de pedido
+  9. [ ] Crear evento
+  10. [ ] Crear punto de consumo
+  11. [ ] Crear experiencia
+  12. [ ] Vincular experiencia con punto de consumo y evento
+  13. [ ] Update Producto falla debido a que al traer las imágenes no son tipo FileList
+  14. [ ] Vincular Productor con Distribuidor a través de contrato
+  15. [ ] No se envia notificación al distribuidor para el contrato productor-distribuidor
+
+- [ ] Crear evento con ADMIN
+- [x] Error al configurar área de cobertura del distribuidor -> Tipo de dato por defectos para los atributos debe de ser un array vacío
+- [x] API Key para obtener listado de países de API countrystatecity añadida para los entornos de Producción y Staging
+
+- [ ] UI/UX para móviles
+- [x] Arreglar actualización de productos en el modal
+
+- [x] Pago con Bizum
+- [x] Si el usuario cancela el pedido online -> Estado: Cancelado por el usuario
+- [x] Si el usuario desde Paypal/Bizum decide cancelar y volver a la página anterior -> Estado: Cancelado por el usuario
+- [WIP] Error al actualizar premios en el producto -> Se crean varios diferentes.
+- [ ] Cuando se tengan que eliminar elementos de un listado que se selecciona y deselecciona -> usaremos un Array de elementos seleccionados (para insertar) y otro Array de elementos deseleccionados (para eliminar). Es mucho más efectivo hacerlo de esta forma.
+- [x] Detectar si el estado del carrito de la compra está abierto o cerrado para que no aparezca abierto siempre.
+- [ ] ¿Necesitamos tener en el usuario el parámetro CP_ORGANIZER_STATUS? -> Si ya han aceptado los términos y condiciones creo que no es necesaria esta lógica.
+- [ ] Crear usuario para CCVK -> Configurar productos, PC y experiencias
+- [ ] Si el barman escanéa el código y no está registrado -> LOOP INFINITO

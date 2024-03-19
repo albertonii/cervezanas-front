@@ -7,32 +7,32 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import { Database } from '../lib/schema';
 
 const fetchExperiences = async (
-  producerId: string,
-  supabase: SupabaseClient<Database>,
+    producerId: string,
+    supabase: SupabaseClient<Database>,
 ) => {
-  const { data, error } = await supabase
-    .from('experiences')
-    .select(
-      `
-        *
-      `,
-    )
-    .eq('producer_id', producerId);
+    const { data, error } = await supabase
+        .from('experiences')
+        .select(
+            `
+            *
+          `,
+        )
+        .eq('producer_id', producerId);
 
-  if (error) throw error;
+    if (error) throw error;
 
-  return data as IExperience[];
+    return data as IExperience[];
 };
 
 const useFetchExperiencesByProducerId = () => {
-  const { supabase, user } = useAuth();
+    const { supabase, user } = useAuth();
 
-  return useQuery({
-    queryKey: ['experiences', user.id],
-    queryFn: () => fetchExperiences(user.id, supabase),
-    enabled: true,
-    refetchOnWindowFocus: false,
-  });
+    return useQuery({
+        queryKey: ['experiences', user.id],
+        queryFn: () => fetchExperiences(user.id, supabase),
+        enabled: true,
+        refetchOnWindowFocus: false,
+    });
 };
 
 export default useFetchExperiencesByProducerId;

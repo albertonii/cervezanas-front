@@ -22,6 +22,7 @@ export default function InfoCPMobile({
     eventId,
 }: Props) {
     const t = useTranslations();
+    const experiencesCounter = eventExperiences.length;
 
     return (
         <section className="relative h-full w-full rounded-lg bg-white p-8 shadow-md bg-[url('/assets/rec-graf2b.png')] bg-content bg-no-repeat bg-bottom">
@@ -43,13 +44,22 @@ export default function InfoCPMobile({
             </section>
 
             {/* Event Experiences  */}
-            <section>
-                <h2 className="text-2xl font-bold mt-8 text-beer-gold">
-                    {t('experiences')}
-                </h2>
+            {experiencesCounter > 0 && (
+                <section className="space-y-4">
+                    <h2 className="text-2xl font-bold mt-8">
+                        {t('experiences')}
+                    </h2>
 
-                <EventExperiences eventExperiences={eventExperiences} />
-            </section>
+                    <p>
+                        <span className="text-xl">
+                            Este Punto de Consumo ofrece {experiencesCounter}{' '}
+                            experiencias en las que puedes participar
+                        </span>
+                    </p>
+
+                    <EventExperiences eventExperiences={eventExperiences} />
+                </section>
+            )}
 
             {/* Products linked to this Mobile Consumption Point */}
             <section className="mt-8">

@@ -601,6 +601,7 @@ export interface Database {
           organizer_lastname: string | null
           organizer_name: string | null
           organizer_phone: string | null
+          owner_id: string | null
           start_date: string | null
           status: string | null
         }
@@ -621,6 +622,7 @@ export interface Database {
           organizer_lastname?: string | null
           organizer_name?: string | null
           organizer_phone?: string | null
+          owner_id?: string | null
           start_date?: string | null
           status?: string | null
         }
@@ -641,6 +643,7 @@ export interface Database {
           organizer_lastname?: string | null
           organizer_name?: string | null
           organizer_phone?: string | null
+          owner_id?: string | null
           start_date?: string | null
           status?: string | null
         }
@@ -672,6 +675,7 @@ export interface Database {
           organizer_lastname: string | null
           organizer_name: string | null
           organizer_phone: string | null
+          owner_id: string | null
           start_date: string | null
           status: string | null
         }
@@ -692,6 +696,7 @@ export interface Database {
           organizer_lastname?: string | null
           organizer_name?: string | null
           organizer_phone?: string | null
+          owner_id?: string | null
           start_date?: string | null
           status?: string | null
         }
@@ -712,6 +717,7 @@ export interface Database {
           organizer_lastname?: string | null
           organizer_name?: string | null
           organizer_phone?: string | null
+          owner_id?: string | null
           start_date?: string | null
           status?: string | null
         }
@@ -730,16 +736,22 @@ export interface Database {
           cp_id: string
           event_id: string
           is_active: boolean | null
+          is_cervezanas_event: boolean | null
+          owner_id: string | null
         }
         Insert: {
           cp_id: string
           event_id: string
           is_active?: boolean | null
+          is_cervezanas_event?: boolean | null
+          owner_id?: string | null
         }
         Update: {
           cp_id?: string
           event_id?: string
           is_active?: boolean | null
+          is_cervezanas_event?: boolean | null
+          owner_id?: string | null
         }
         Relationships: [
           {
@@ -763,6 +775,7 @@ export interface Database {
           cp_id: string | null
           created_at: string | null
           id: string
+          is_active: boolean | null
           product_pack_id: string | null
           stock: number | null
           stock_consumed: number | null
@@ -771,6 +784,7 @@ export interface Database {
           cp_id?: string | null
           created_at?: string | null
           id?: string
+          is_active?: boolean | null
           product_pack_id?: string | null
           stock?: number | null
           stock_consumed?: number | null
@@ -779,6 +793,7 @@ export interface Database {
           cp_id?: string | null
           created_at?: string | null
           id?: string
+          is_active?: boolean | null
           product_pack_id?: string | null
           stock?: number | null
           stock_consumed?: number | null
@@ -805,16 +820,22 @@ export interface Database {
           cp_id: string
           event_id: string
           is_active: boolean | null
+          is_cervezanas_event: boolean | null
+          owner_id: string | null
         }
         Insert: {
           cp_id: string
           event_id: string
           is_active?: boolean | null
+          is_cervezanas_event?: boolean | null
+          owner_id?: string | null
         }
         Update: {
           cp_id?: string
           event_id?: string
           is_active?: boolean | null
+          is_cervezanas_event?: boolean | null
+          owner_id?: string | null
         }
         Relationships: [
           {
@@ -838,6 +859,7 @@ export interface Database {
           cp_id: string | null
           created_at: string | null
           id: string
+          is_active: boolean | null
           product_pack_id: string | null
           stock: number | null
           stock_consumed: number | null
@@ -846,6 +868,7 @@ export interface Database {
           cp_id?: string | null
           created_at?: string | null
           id?: string
+          is_active?: boolean | null
           product_pack_id?: string | null
           stock?: number | null
           stock_consumed?: number | null
@@ -854,6 +877,7 @@ export interface Database {
           cp_id?: string | null
           created_at?: string | null
           id?: string
+          is_active?: boolean | null
           product_pack_id?: string | null
           stock?: number | null
           stock_consumed?: number | null
@@ -1300,6 +1324,8 @@ export interface Database {
           end_date: string | null
           geoArgs: Json | null
           id: string
+          is_activated: boolean | null
+          is_cervezanas_event: boolean | null
           logo_url: string | null
           name: string | null
           owner_id: string | null
@@ -1314,6 +1340,8 @@ export interface Database {
           end_date?: string | null
           geoArgs?: Json | null
           id?: string
+          is_activated?: boolean | null
+          is_cervezanas_event?: boolean | null
           logo_url?: string | null
           name?: string | null
           owner_id?: string | null
@@ -1328,6 +1356,8 @@ export interface Database {
           end_date?: string | null
           geoArgs?: Json | null
           id?: string
+          is_activated?: boolean | null
+          is_cervezanas_event?: boolean | null
           logo_url?: string | null
           name?: string | null
           owner_id?: string | null
@@ -1693,14 +1723,14 @@ export interface Database {
           {
             foreignKeyName: "notifications_source_fkey"
             columns: ["source"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "notifications_user_id_fkey"
+            foreignKeyName: "public_notifications_user_id_fkey"
             columns: ["user_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -1819,21 +1849,21 @@ export interface Database {
           {
             foreignKeyName: "orders_billing_info_id_fkey"
             columns: ["billing_info_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "billing_info"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "orders_owner_id_fkey"
             columns: ["owner_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "orders_shipping_info_id_fkey"
             columns: ["shipping_info_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "shipping_info"
             referencedColumns: ["id"]
           }
@@ -2352,6 +2382,33 @@ export interface Database {
           }
         ]
       }
+      trigger_auditoria: {
+        Row: {
+          action_type: string | null
+          created_at: string
+          details: string | null
+          id: number
+          related_table: string | null
+          trigger_name: string | null
+        }
+        Insert: {
+          action_type?: string | null
+          created_at?: string
+          details?: string | null
+          id?: number
+          related_table?: string | null
+          trigger_name?: string | null
+        }
+        Update: {
+          action_type?: string | null
+          created_at?: string
+          details?: string | null
+          id?: number
+          related_table?: string | null
+          trigger_name?: string | null
+        }
+        Relationships: []
+      }
       user_reports: {
         Row: {
           created_at: string
@@ -2442,48 +2499,6 @@ export interface Database {
             columns: ["id"]
             isOneToOne: true
             referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      visit_cp: {
-        Row: {
-          consumer_id: string
-          created_at: string
-          datetime_visit: string | null
-          id: string
-          product_id: string
-          score: number | null
-        }
-        Insert: {
-          consumer_id?: string
-          created_at?: string
-          datetime_visit?: string | null
-          id?: string
-          product_id?: string
-          score?: number | null
-        }
-        Update: {
-          consumer_id?: string
-          created_at?: string
-          datetime_visit?: string | null
-          id?: string
-          product_id?: string
-          score?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "public_visit_cp_consumer_id_fkey"
-            columns: ["consumer_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_visit_cp_product_id_fkey"
-            columns: ["product_id"]
-            isOneToOne: false
-            referencedRelation: "products"
             referencedColumns: ["id"]
           }
         ]

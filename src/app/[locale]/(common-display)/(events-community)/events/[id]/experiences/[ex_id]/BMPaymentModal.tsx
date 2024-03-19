@@ -1,11 +1,13 @@
 import Modal from '../../../../../../components/modals/Modal';
-import React, { ComponentProps } from 'react';
+import React, { ComponentProps, useState } from 'react';
 import { useAuth } from '../../../../../../(auth)/Context/useAuth';
 import {
     IEventExperience,
     IExperience,
 } from '../../../../../../../../lib/types/types';
 import { useTranslations } from 'next-intl';
+import Spinner from '../../../../../../components/common/Spinner';
+import { IBMExperienceParticipants } from '../../../../../../../../lib/types/quiz';
 
 interface Props {
     handleParticipate: ComponentProps<any>;
@@ -41,7 +43,9 @@ export default function BMPaymentModal({
                     is_cash: false,
                     is_finished: false,
                 },
-            ]);
+            ])
+            .select('id')
+            .single();
 
         if (error) {
             console.error(error);
@@ -49,8 +53,11 @@ export default function BMPaymentModal({
         }
 
         if (data) {
+            const experienceParticipant = data as IBMExperienceParticipants;
+
             handleCloseModal(true);
             handleParticipate(true);
+            handleParticipate(experienceParticipant.id);
         }
     };
 
@@ -67,7 +74,7 @@ export default function BMPaymentModal({
             classIcon={''}
             classContainer={''}
         >
-            <section className="space-y-4">
+            <section className={`space-y-4`}>
                 <p>
                     Para poder inscribirte en esta experiencia, por favor haga
                     clic en el botón &quot;Participar&quot;. Al hacerlo,

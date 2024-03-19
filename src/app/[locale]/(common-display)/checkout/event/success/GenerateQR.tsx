@@ -2,6 +2,11 @@ import React from 'react';
 import QRCode from 'react-qr-code';
 import { useLocale } from 'next-intl';
 import ShareLink from '../../../../components/ShareLink';
+import {
+    ROUTE_BARMAN,
+    ROUTE_PRODUCER,
+    ROUTE_PRODUCT,
+} from '../../../../../../config';
 
 interface Props {
     eventOrderItemId: string;
@@ -19,7 +24,7 @@ export default function GenerateProductQR({ eventOrderItemId, domain }: Props) {
             ? domain
             : 'https://cervezanas-front.vercel.app';
 
-    const productBarmanUrl = `${host}/${locale}/producer/barman/product/${eventOrderItemId}`;
+    const productBarmanUrl = `${host}/${locale}${ROUTE_PRODUCER}${ROUTE_BARMAN}${ROUTE_PRODUCT}/${eventOrderItemId}`;
     console.info(productBarmanUrl);
 
     const handleOnClick = () => {

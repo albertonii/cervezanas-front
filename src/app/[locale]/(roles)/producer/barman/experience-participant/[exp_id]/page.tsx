@@ -39,18 +39,13 @@ async function getExperienceParticipantData(experienceParticipantId: string) {
                 gamification (
                     *,
                     users (
-                        username,
-                        name,
-                        lastname,
-                        email                        
+                        *                      
                     )
                 )
             `,
         )
         .eq('id', experienceParticipantId)
         .single();
-
-    console.log(data, 'data');
 
     if (eventOrderItemError) throw eventOrderItemError;
 

@@ -1,12 +1,12 @@
 'use client';
 
+import Button from '../../../../../components/common/Button';
+import Spinner from '../../../../../components/common/Spinner';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IBMExperienceParticipants } from '../../../../../../../lib/types/quiz';
-import Button from '../../../../../components/common/Button';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import { useMessage } from '../../../../../components/message/useMessage';
-import Spinner from '../../../../../components/common/Spinner';
 
 interface Props {
     experienceParticipant: IBMExperienceParticipants;
@@ -125,7 +125,9 @@ export default function ManageExperienceParticipation({
                             </span>
 
                             <Button primary small onClick={handlePaidBtn}>
-                                {isPaid ? t('charge_experience') : t('refund')}
+                                {isPaid
+                                    ? t('refund_experience')
+                                    : t('charge_experience')}
                             </Button>
                         </div>
 
@@ -149,8 +151,8 @@ export default function ManageExperienceParticipation({
 
                             <Button primary small onClick={handleFinishedBtn}>
                                 {isFinished
-                                    ? t('mark_as_finished')
-                                    : t('mark_as_unfinished')}
+                                    ? t('mark_as_unfinished')
+                                    : t('mark_as_finished')}
                             </Button>
                         </div>
                     </div>

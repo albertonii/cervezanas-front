@@ -72,7 +72,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
     const filteredItems = useMemo<IExperience[]>(() => {
         if (!data) return [];
         return data.filter((experience) => {
-            return experience.name.toLowerCase().includes(query.toLowerCase());
+            return experience.name?.toLowerCase().includes(query.toLowerCase());
         });
     }, [data, experiences, query]);
 

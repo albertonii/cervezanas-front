@@ -1,10 +1,11 @@
+import { Type as ProductType } from '../productEnum';
+import { GeoArgs, GeocodeResult } from 'use-places-autocomplete';
 import {
     ICPFixed,
     ICPMobile,
     IEvent,
-    IGamification,
     IProducerUser,
-    IProduct,
+    IUserProfile,
 } from './types';
 
 export enum Difficulty {
@@ -23,7 +24,7 @@ export type Question = {
     type: string;
     experience_id?: string;
     product_id?: string;
-    products?: IProduct;
+    products?: IProductQuizFormData;
 };
 
 export type QuestionFormData = {
@@ -112,10 +113,10 @@ export interface IBMExperienceParticipants {
     is_finished: boolean;
     correct_answers: number;
     incorrect_answers: number;
-    gamification?: IGamification;
-    events?: IEvent;
-    cp_mobile?: ICPMobile;
-    cp_fixed?: ICPFixed;
+    gamification?: IGamificationQuizFormData;
+    events?: IEventQuizFormData;
+    cp_mobile?: ICPMobileQuizFormData;
+    cp_fixed?: ICPFixedQuizFormData;
 }
 
 export interface IBMExperienceUserResponse {
@@ -127,4 +128,171 @@ export interface IBMExperienceUserResponse {
     score: number;
     question_id: string;
     question?: Question;
+}
+
+interface IEventQuizFormData {
+    id: string;
+    created_at: string;
+    name: string;
+    description: string;
+    start_date: string;
+    end_date: string;
+    logo_url: string;
+    promotional_url: string;
+    status: string;
+    geoArgs: any[];
+    address: string;
+    owner_id: string;
+}
+
+interface ICPMobileQuizFormData {
+    id: string;
+    created_at: string;
+    cp_id: string;
+    cp_name: string;
+    cp_description: string;
+    organizer_name: string;
+    organizer_lastname: string;
+    organizer_email: string;
+    organizer_phone: string;
+    start_date: string;
+    end_date: string;
+    address: string;
+    status: string;
+    logo_url: string;
+    maximum_capacity: number;
+    is_booking_required: boolean;
+    // geoArgs: GeoArgs[];
+    geoArgs: any[];
+    is_internal_organizer: boolean;
+    cpm_products?: ICPMProductsQuizFormData[];
+    consumption_points?: IConsumptionPointsQuizFormData;
+}
+
+interface ICPFixedQuizFormData {
+    id: string;
+    created_at: string;
+    cp_id: string;
+    cp_name: string;
+    cp_description: string;
+    organizer_name: string;
+    organizer_lastname: string;
+    organizer_email: string;
+    organizer_phone: string;
+    start_date: string;
+    end_date: string;
+    address: string;
+    status: string;
+    logo_url: string;
+    maximum_capacity: number;
+    is_booking_required: boolean;
+    // geoArgs: GeoArgs[];
+    geoArgs: any[];
+
+    is_internal_organizer: boolean;
+    cpf_products?: ICPFProductsQuizFormData[];
+    consumption_points?: IConsumptionPointsQuizFormData;
+}
+
+export interface IConsumptionPointsQuizFormData {
+    id: string;
+    created_at: string;
+    cp_fixed_id: string;
+    cp_mobile_id: string;
+    cp_organizer_status: number;
+    owner_id: string;
+    cv_name: string;
+    cover_letter_name: string;
+}
+
+export interface ICPMProductsQuizFormData {
+    id: string;
+    created_at: string;
+    stock: number;
+    stock_consumed: number;
+    cp_id: string;
+    product_pack_id: string;
+    product_packs?: IProductPackQuizFormData;
+}
+
+export interface ICPFProductsQuizFormData {
+    id: string;
+    created_at: string;
+    stock: number;
+    stock_consumed: number;
+    cp_id: string;
+    product_pack_id: string;
+    product_packs?: IProductPackQuizFormData;
+}
+
+export type IProductPackQuizFormData = {
+    id: string; // PK
+    product_id: string; // FK
+    created_at: string;
+    quantity: number;
+    price: number;
+    img_url: any;
+    name: string;
+    randomUUID: string;
+};
+
+export type IProductQuizFormData = {
+    id: string;
+    created_at: string;
+    name: string;
+    description: string;
+    type: ProductType;
+    is_public: boolean;
+    discount_percent: number;
+    weight: number;
+    discount_code: string;
+    price: number; // TODO : quitar el price - pq está en product_pack
+    campaign_id: string;
+    is_archived: boolean;
+    category: string;
+    is_monthly: boolean;
+    owner_id: string;
+    beers?: IBeerQuizFormData;
+    product_multimedia?: IProductMultimediaQuizFormData;
+};
+
+export interface IBeerQuizFormData {
+    product_id: string; // FK
+    created_at: string;
+    category: string;
+    fermentation: string;
+    color: string;
+    family: string;
+    era: string;
+    aroma: string;
+    is_gluten: boolean;
+    format: string;
+    volume: number;
+    sku: string;
+    intensity: number;
+    origin: string;
+    country: string;
+    composition: string;
+    srm: number;
+    og: number;
+    fg: number;
+}
+
+export interface IProductMultimediaQuizFormData {
+    product_id: string; // PK
+    p_principal: string;
+    p_back: string;
+    p_extra_1: string;
+    p_extra_2: string;
+    p_extra_3: string;
+    p_extra_4: string;
+    v_principal: string;
+    v_extra_1: string;
+    v_extra_2: string;
+}
+
+export interface IGamificationQuizFormData {
+    user_id: string;
+    score: number;
+    users?: IUserProfile;
 }

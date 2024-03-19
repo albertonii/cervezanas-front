@@ -1,4 +1,4 @@
-const { withSentryConfig } = require('@sentry/nextjs');
+// const { withSentryConfig } = require('@sentry/nextjs');
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const withNextIntl = require('next-intl/plugin')(
@@ -68,17 +68,17 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
-const sentryWebpackPluginOptions = {
-  org: 'sentry-devrel',
-  project: 'cervezanas',
-  silent: true,
-};
+// const sentryWebpackPluginOptions = {
+//   org: 'sentry-devrel',
+//   project: 'cervezanas',
+//   silent: true,
+// };
 
-const sentryOptions = {
-  widenClientFileUpload: true,
-  hideSourceMaps: true,
-};
+// const sentryOptions = {
+//   widenClientFileUpload: true,
+//   hideSourceMaps: true,
+// };
 
 module.exports = withBundleAnalyzer({});
 
-module.exports = withSentryConfig(sentryWebpackPluginOptions, sentryOptions);
+// module.exports = withSentryConfig(sentryWebpackPluginOptions, sentryOptions);

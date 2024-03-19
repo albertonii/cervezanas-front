@@ -29,6 +29,7 @@ export default function ParticipationQRCode({
             : CERVEZANAS_BEER_URL;
 
     const experienceParticipatantBarmanUrl = `${host}/${locale}${ROUTE_PRODUCER}${ROUTE_BARMAN}${ROUTE_EXPERIENCE_PARTICIPANT}/${experienceParticipantId}`;
+    console.info(experienceParticipatantBarmanUrl);
 
     const handleOnClick = () => {
         router.push(experienceParticipatantBarmanUrl);

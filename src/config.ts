@@ -7,15 +7,22 @@ export const ROUTE_SIGNOUT = '/signout';
 export const MW_AUTH = false;
 export const SUPA_TOKEN = 'sb:token';
 
+export const ROUTE_PRODUCT = '/product';
+export const ROUTE_PRODUCTS = '/products';
 export const ROUTE_EVENTS = '/events';
 export const ROUTE_EXPERIENCES = '/experiences';
 export const ROUTE_CP_FIXED = '/fixed';
 export const ROUTE_CP_MOBILE = '/mobile';
 export const ROUTE_EXPERIENCE_PARTICIPANT = '/experience-participant';
+export const ROUTE_PROFILE = '/profile';
+export const ROUTE_BUSINESS_ORDERS = '/business_orders';
+export const ROUTE_ONLINE_ORDERS = '/online_orders';
+export const ROUTE_REPORTS = '/reports';
+export const ROUTE_AUTHORIZED_USERS = '/authorized_users';
 
 export const ROUTE_CONSUMER = '/consumer';
 export const ROUTE_PRODUCER = '/producer';
-export const ROUTE_DASHBOARD = '/distributor';
+export const ROUTE_DISTRIBUTOR = '/distributor';
 export const ROUTE_ADMIN = '/admin';
 export const ROUTE_BARMAN = '/barman';
 

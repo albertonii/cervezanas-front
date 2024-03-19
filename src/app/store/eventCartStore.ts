@@ -14,6 +14,7 @@ interface EventCartsType {
 interface EventCartState {
     eventCarts: EventCartsType;
     isOpen: boolean;
+    handleOpen: (isOpen: boolean) => void;
     addPackToCart: (
         eventId: string,
         product: IEventProduct,
@@ -109,6 +110,14 @@ const useEventCartStore = create<EventCartState>((set, get) => {
                 }
 
                 return { eventCarts: { ...state.eventCarts, [eventId]: cart } };
+            });
+
+            // Estado actualizado, ahora guardamos el estado
+            get().saveState();
+        },
+        handleOpen: (isOpen: boolean) => {
+            set((state) => {
+                return { ...state, isOpen: isOpen };
             });
 
             // Estado actualizado, ahora guardamos el estado

@@ -3,6 +3,7 @@ import {
     UserIdentity,
     UserMetadata,
 } from '@supabase/supabase-js';
+import { GeoArgs, GeocodeResult } from 'use-places-autocomplete';
 import { CssComponent } from '@stitches/core/types/styled-component';
 import { Provider, SupabaseClient } from '@supabase/supabase-js';
 import { ThemeVariables } from '../../../common/theming';
@@ -347,12 +348,15 @@ export interface IEvent {
     logo_url: string;
     promotional_url: string;
     status: string;
-    geoArgs: GeocodeResult[];
+    // geoArgs: GeocodeResult[];
+    geoArgs: any[];
     address: string;
     owner_id: string;
     cp_mobile: ICPMobile[];
     cp_fixed: ICPFixed[];
     users: IUserTable;
+    is_activated: boolean;
+    is_cervezanas_event: boolean;
 }
 
 export interface IConsumptionPoints {
@@ -386,8 +390,10 @@ export interface ICPFixed {
     cp_id: string;
     is_internal_organizer: boolean;
     cpf_products?: ICPFProducts[];
-    geoArgs: GeocodeResult[];
+    // geoArgs: GeocodeResult[];
+    geoArgs: any[];
     consumption_points?: IConsumptionPoints;
+    owner_id: string;
 }
 
 export interface ICPMobile {
@@ -407,10 +413,12 @@ export interface ICPMobile {
     logo_url: string;
     maximum_capacity: number;
     is_booking_required: boolean;
-    geoArgs: GeoArgs[];
+    // geoArgs: GeoArgs[];
+    geoArgs: any[];
     is_internal_organizer: boolean;
     cpm_products?: ICPMProducts[];
     consumption_points?: IConsumptionPoints;
+    owner_id: string;
 }
 
 export interface ICPFProducts {
@@ -420,6 +428,7 @@ export interface ICPFProducts {
     stock_consumed: number;
     cp_id: string;
     product_pack_id: string;
+    is_active: boolean;
     product_packs?: IProductPack;
     cp_fixed?: ICPFixed;
 }
@@ -431,6 +440,7 @@ export interface ICPMProducts {
     stock_consumed: number;
     cp_id: string;
     product_pack_id: string;
+    is_active: boolean;
     product_packs?: IProductPack;
     cp_mobile?: ICPMobile;
 }
@@ -466,8 +476,9 @@ export interface ICPM_events {
     cp_id: string;
     event_id: string;
     is_active: boolean;
+    is_cervezanas_event: boolean;
+    owner_id: string;
     cp_mobile?: ICPMobile;
-    // consumption_points?: IConsumptionPoints;
     events?: IEvent;
 }
 
@@ -475,7 +486,8 @@ export interface ICPF_events {
     cp_id: string;
     event_id: string;
     is_active: boolean;
-    // consumption_points?: IConsumptionPoints;
+    is_cervezanas_event: boolean;
+    owner_id: string;
     cp_fixed?: ICPFixed;
     events?: IEvent;
 }
@@ -1029,7 +1041,8 @@ export interface INotification {
     link: string;
     read: boolean;
     source: string;
-    source_user?: IUserTable;
+    // source_user?: UserTable; - TODO: Buscar el tipo de propiedad, no any
+    source_user?: any;
 }
 
 export type UserProps = {

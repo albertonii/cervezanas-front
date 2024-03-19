@@ -4,7 +4,12 @@ import useSWR from 'swr';
 import React, { useEffect, useState, createContext, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Database } from '../../../../lib/schema';
-import { ROUTE_SIGNIN } from '../../../../config';
+import {
+    ROUTE_ADMIN,
+    ROUTE_AUTHORIZED_USERS,
+    ROUTE_PROFILE,
+    ROUTE_SIGNIN,
+} from '../../../../config';
 import { EVENTS, VIEWS } from '../../../../constants';
 import { IUserProfile } from '../../../../lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
@@ -18,6 +23,7 @@ import {
     SupabaseClient,
 } from '@supabase/supabase-js';
 import { ROLE_ENUM } from '../../../../lib/enums';
+import { sendPushNotification } from '../../../../lib/actions';
 
 enum PROVIDER_TYPE {
     GOOGLE = 'google',
@@ -107,11 +113,11 @@ export const AuthContextProvider = ({
             .from('users')
             .select(
                 `
-          *,
-          gamification (
-            *
-          )
-        `,
+                    *,
+                    gamification (
+                        *
+                    )
+                `,
             )
             .eq('id', serverSession.user.id)
 
@@ -302,8 +308,8 @@ export const AuthContextProvider = ({
                 .from('users')
                 .select(
                     `
-            *
-          `,
+                        *
+                    `,
                 )
                 .eq('email', payload.email);
 
@@ -342,18 +348,24 @@ export const AuthContextProvider = ({
             if (access_level === ROLE_ENUM.Productor) {
                 // Notificar a administrador que se ha registrado un nuevo productor y está esperando aprobación
                 const newProducerMessage = `El productor ${data.user?.user_metadata.username} se ha registrado y está esperando aprobación`;
-                const producerLink = '/admin/profile/authorized_users';
-                fetch(
-                    `/api/push_notification?destination_user=${data.user.id}&message=${newProducerMessage}&link=${producerLink}`,
+                const producerLink = `${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_AUTHORIZED_USERS}`;
+
+                sendPushNotification(
+                    data.user.id,
+                    newProducerMessage,
+                    producerLink,
                 );
 
                 return data;
             } else if (access_level === ROLE_ENUM.Distributor) {
                 // Notificar a administrador que se ha registrado un nuevo distribuidor y está esperando aprobación
                 const newDistributorMessage = `El distribuidor ${data.user?.user_metadata.username} se ha registrado y está esperando aprobación`;
-                const distributorLink = '/admin/profile/authorized_users';
-                fetch(
-                    `/api/push_notification?destination_user=${data.user.id}&message=${newDistributorMessage}&link=${distributorLink}`,
+                const distributorLink = `${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_AUTHORIZED_USERS}`;
+
+                sendPushNotification(
+                    data.user.id,
+                    newDistributorMessage,
+                    distributorLink,
                 );
 
                 return data;

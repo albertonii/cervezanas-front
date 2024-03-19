@@ -7,46 +7,53 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import { Database } from '../lib/schema';
 
 const fetchEventsByOwnerId = async (
-  ownerId: string,
-  currentPage: number,
-  resultsPerPage: number,
-  supabase: SupabaseClient<Database>,
+    ownerId: string,
+    currentPage: number,
+    resultsPerPage: number,
+    supabase: SupabaseClient<Database>,
 ) => {
-  if (!ownerId) return [];
+    if (!ownerId) return [];
 
-  const { data, error } = await supabase
-    .from('events')
-    .select(
-      `
-        *
-      `,
-      {
-        count: 'exact',
-      },
-    )
-    .eq('owner_id', ownerId)
-    .range(
-      (currentPage - 1) * resultsPerPage,
-      currentPage * resultsPerPage - 1,
-    );
+    const { data, error } = await supabase
+        .from('events')
+        .select(
+            `
+              *
+            `,
+            {
+                count: 'exact',
+            },
+        )
+        .eq('owner_id', ownerId)
+        .eq('is_cervezanas_event', false)
+        .range(
+            (currentPage - 1) * resultsPerPage,
+            currentPage * resultsPerPage - 1,
+        );
 
-  if (error) throw error;
-  return data as IEvent[];
+    if (error) throw error;
+
+    return data as IEvent[];
 };
 
 const useFetchEventsByOwnerId = (
-  currentPage: number,
-  resultsPerPage: number,
+    currentPage: number,
+    resultsPerPage: number,
 ) => {
-  const { user, supabase } = useAuth();
+    const { user, supabase } = useAuth();
 
-  return useQuery({
-    queryKey: ['events', user?.id, currentPage, resultsPerPage],
-    queryFn: () =>
-      fetchEventsByOwnerId(user?.id, currentPage, resultsPerPage, supabase),
-    enabled: true,
-    refetchOnWindowFocus: false,
-  });
+    return useQuery({
+        queryKey: ['events', user?.id, currentPage, resultsPerPage],
+        queryFn: () =>
+            fetchEventsByOwnerId(
+                user?.id,
+                currentPage,
+                resultsPerPage,
+                supabase,
+            ),
+        enabled: true,
+        refetchOnWindowFocus: false,
+    });
 };
 
 export default useFetchEventsByOwnerId;

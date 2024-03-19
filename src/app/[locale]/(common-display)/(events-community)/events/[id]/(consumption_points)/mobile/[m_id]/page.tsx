@@ -64,16 +64,16 @@ async function getEventExperience(eventId: string, cpId: string) {
             .from('event_experiences')
             .select(
                 ` 
-          id,
-          created_at,
-          event_id,
-          cp_mobile_id,
-          cp_fixed_id,
-          experience_id,
-          experiences!public_event_experiences_experience_id_fkey (
-            *
-          )
-        `,
+                  id,
+                  created_at,
+                  event_id,
+                  cp_mobile_id,
+                  cp_fixed_id,
+                  experience_id,
+                  experiences!public_event_experiences_experience_id_fkey (
+                    *
+                  )
+                `,
             )
             .eq('cp_mobile_id', cpId)
             .eq('event_id', eventId);

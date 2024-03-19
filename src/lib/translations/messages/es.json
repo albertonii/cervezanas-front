@@ -681,6 +681,7 @@
     "reset_password": "Restablecer contraseña",
     "update_password": "Actualizar contraseña",
     "add_to_favs": "Añadir a favoritos",
+    "must_be_logged_in_to_participate": "Debes iniciar sesión para participar en la experiencia",
     "must_be_logged_in_favs": "Debes iniciar sesión para añadir productos a favoritos",
     "must_be_logged_in_add_store": "Debes iniciar sesión para añadir un producto al carrito de la compra",
     "must_be_user_role_consumer_to_participate": "Debes ser un usuario con el rol de consumidor para poder participar en la experiencia",
@@ -811,5 +812,12 @@
     "distributor_disclaimer_read_and_accepantance": "He leído y acepto el acuerdo de exención de responsabilidad del distribuidor",
     "click_here_to_download": "Haz clic aquí para descargar",
     "producer_read_disclaimer": "Acuerdo de exención de responsabilidad del productor",
-    "distributor_read_disclaimer": "Acuerdo de exención de responsabilidad del distribuidor"
+    "distributor_read_disclaimer": "Acuerdo de exención de responsabilidad del distribuidor",
+    "participate": "Participar",
+    "is_paid": "¿Está pagado?",
+    "is_finished": "¿Está finalizado?",
+    "charge_experience": "Cobrar experiencia",
+    "refund_experience": "Reembolsar experiencia",
+    "mark_as_finished": "Marcar como finalizado",
+    "mark_as_unfinished": "Marcar como no finalizado"
 }

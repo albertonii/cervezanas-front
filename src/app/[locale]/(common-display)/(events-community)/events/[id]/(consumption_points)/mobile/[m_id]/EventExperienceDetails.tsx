@@ -24,7 +24,7 @@ export default function EventExperienceDetails({ eventExperience }: Props) {
         if (!isLoggedIn) {
             handleMessage({
                 type: 'info',
-                message: 'must_be_logged_in_add_store',
+                message: 'must_be_logged_in_to_participate',
             });
             return;
         }
@@ -48,7 +48,8 @@ export default function EventExperienceDetails({ eventExperience }: Props) {
     return (
         <section className="relative bg-white bg-opacity-30 border-beer-blonde border-4 p-10 rounded-md shadow-xl space-y-4">
             <div className="absolute top-2 right-2 font-semibold ">
-                {experience?.price} €
+                Realizar pago en local
+                {/* {experience?.price} € */}
             </div>
 
             <div className="flex justify-between flex-col">

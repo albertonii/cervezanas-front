@@ -6,29 +6,29 @@ import { IDistributorUser } from '../../../../../../lib/types/types';
 import readUserSession from '../../../../../../lib/actions';
 
 export default async function ProfilePage() {
-  const profile = await getProfileData();
-  if (!profile) return <></>;
+    const profile = await getProfileData();
+    if (!profile) return <></>;
 
-  return (
-    <>
-      <Profile profile={profile} />
-    </>
-  );
+    return (
+        <>
+            <Profile profile={profile} />
+        </>
+    );
 }
 
 async function getProfileData() {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const session = await readUserSession();
+    const session = await readUserSession();
 
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
+    if (!session) {
+        redirect(VIEWS.SIGN_IN);
+    }
 
-  const { data: profileData, error: profileError } = await supabase
-    .from('distributor_user')
-    .select(
-      `
+    const { data: profileData, error: profileError } = await supabase
+        .from('distributor_user')
+        .select(
+            `
         user_id,
         created_at,
         nif,
@@ -38,10 +38,10 @@ async function getProfileData() {
         location_id,
         users (name, lastname, email)
       `,
-    )
-    .eq('user', session.id)
-    .single();
+        )
+        .eq('user_id', session.id)
+        .single();
 
-  if (profileError) throw profileError;
-  return profileData as IDistributorUser;
+    if (profileError) throw profileError;
+    return profileData as IDistributorUser;
 }

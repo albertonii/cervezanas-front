@@ -1,58 +1,56 @@
-"use client";
+'use client';
 
-import React from "react";
-import { useTranslations } from "next-intl";
-import { Sidebar } from "../../../components/common/Sidebar";
+import React from 'react';
+import { Sidebar } from '../../../components/common/Sidebar';
 
 type LayoutProps = {
-  children: React.ReactNode;
+    children: React.ReactNode;
 };
 
 export default function layout({ children }: LayoutProps) {
-  const t = useTranslations();
-  const sidebarLinks = [
-    {
-      name: t("profile"),
-      icon: "user",
-      option: "settings",
-    },
-    {
-      name: t("logistics"),
-      icon: "box",
-      option: "logistics",
-    },
-    {
-      name: t("contracts"),
-      icon: "box",
-      option: "contracts",
-    },
-    {
-      name: t("online_orders"),
-      icon: "box",
-      option: "business_orders",
-    },
-    // {
-    //   name: t("distributor_feedback"),
-    //   icon: "box",
-    //   option: "reviews",
-    // },
-    {
-      name: t("notifications"),
-      icon: "bell",
-      option: "notifications",
-    },
-  ];
+    const sidebarLinks = [
+        {
+            name: 'profile',
+            icon: 'user',
+            option: 'settings',
+        },
+        {
+            name: 'logistics',
+            icon: 'box',
+            option: 'logistics',
+        },
+        {
+            name: 'contracts',
+            icon: 'box',
+            option: 'contracts',
+        },
+        {
+            name: 'online_orders',
+            icon: 'box',
+            option: 'business_orders',
+        },
+        // {
+        //   name: ("distributor_feedback"),
+        //   icon: "box",
+        //   option: "reviews",
+        // },
+        {
+            name: 'notifications',
+            icon: 'bell',
+            option: 'notifications',
+        },
+    ];
 
-  return (
-    <section className="relative flex w-full">
-      <Sidebar sidebarLinks={sidebarLinks} />
+    return (
+        <section className="relative flex w-full">
+            <Sidebar sidebarLinks={sidebarLinks} />
 
-      <div
-        className="w-full bg-[url('/assets/madera-account.webp')] bg-auto bg-top bg-repeat sm:pt-[5vh] md:pt-[5vh]"
-        aria-label="Container Distributor settings"
-      >
-        {children}
-      </div>
-    </section>
-  );
+            <div
+                className="w-full bg-[url('/assets/madera-account.webp')] bg-auto bg-top bg-repeat sm:pt-[5vh] md:pt-[5vh]"
+                aria-label="Container Distributor settings"
+            >
+                {children}
+            </div>
+        </section>
+    );
 }

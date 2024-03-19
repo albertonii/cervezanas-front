@@ -1,10 +1,9 @@
 'use client';
 
-import EventList from './EventList';
-import AddEvent from '../../../../components/modals/event/AddEvent';
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { ICPFixed, ICPMobile } from '../../../../../../lib/types/types';
+import { ICPFixed, ICPMobile } from '../../../../../../../lib/types/types';
+import CervezanasEventList from './CervezanasEventList';
 
 interface Props {
     cpsMobile: ICPMobile[];
@@ -12,7 +11,11 @@ interface Props {
     counter: number;
 }
 
-export default function Events({ cpsMobile, cpsFixed, counter }: Props) {
+export default function CervezanasEvents({
+    cpsMobile,
+    cpsFixed,
+    counter,
+}: Props) {
     const t = useTranslations();
 
     return (
@@ -23,19 +26,13 @@ export default function Events({ cpsMobile, cpsFixed, counter }: Props) {
                         id="title"
                         className="text-5xl font-semibold text-beer-blonde"
                     >
-                        {t('events')}
+                        {t('cervezanas_events')}
                     </span>
                 </p>
-
-                <div className="w-40">
-                    <AddEvent cpsMobile={cpsMobile} cpsFixed={cpsFixed} />
-                </div>
             </header>
 
-            <EventList
+            <CervezanasEventList
                 counter={counter}
-                cpsMobile={cpsMobile}
-                cpsFixed={cpsFixed}
             />
         </section>
     );

@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import DisplayImageProfile from '../../../components/common/DisplayImageProfile';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 import { Sidebar } from '../../../components/common/Sidebar';
@@ -18,55 +17,54 @@ type LayoutProps = {
 const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
 
 export default function layout({ children }: LayoutProps) {
-    const t = useTranslations();
     const sidebarLinks = [
         {
-            name: t('profile'),
+            name: 'profile',
             icon: 'user',
             option: 'settings',
         },
         {
-            name: t('products'),
+            name: 'products',
             icon: 'box',
             option: 'products',
         },
         {
-            name: t('distributors_associated'),
+            name: 'distributors_associated',
             icon: 'truck',
             option: 'distributors_associated',
         },
         // {
-        //   name: t("campaigns"),
+        //   name: ("campaigns"),
         //   icon: "gift",
         //   option: "campaigns",
         // },
         {
-            name: t('events'),
+            name: 'events',
             icon: 'location',
             option: 'events',
         },
         {
-            name: t('consumption_points'),
+            name: 'consumption_points',
             icon: 'location',
             option: 'consumption_points',
         },
         {
-            name: t('experiences'),
+            name: 'experiences',
             icon: 'star',
             option: 'experiences',
         },
         {
-            name: t('online_orders'),
+            name: 'online_orders',
             icon: 'shopping-cart',
             option: 'online_orders',
         },
         {
-            name: t('event_orders'),
+            name: 'event_orders',
             icon: 'shopping-cart',
             option: 'event_orders',
         },
         {
-            name: t('notifications'),
+            name: 'notifications',
             icon: 'bell',
             option: 'notifications',
         },

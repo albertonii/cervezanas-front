@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from './components/common/Button';
-import PuntoCervezanasFlag from './PuntoCervezanasFlag';
 import { memo, useEffect, useState } from 'react';
 import { COMMON } from '../../constants';
 import { ROUTE_SIGNIN } from '../../config';
@@ -93,7 +92,7 @@ const ScreenMenu = memo(function ScreenMenu({
                         </div>
                     </div>
                 </section>
-                <section className="flex w-full items-center justify-center  sm:w-[450px] lg:w-[500px]">
+                <section className="flex w-full items-center justify-center sm:w-[450px] lg:w-[500px]">
                     <ul className="align-center dark:border-gray-700 dark:bg-gray-800 sm:flex md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900">
                         <li className="flex items-center">
                             <Link href="/marketplace" locale={locale}>
@@ -114,12 +113,14 @@ const ScreenMenu = memo(function ScreenMenu({
                             </Link>
                         </li>
                         <li className="flex items-center">
-                            <span
-                                className={`${MENU_ITEM_STYLES}`}
-                                aria-current="page"
-                            >
-                                Puntos cervezanas
-                            </span>
+                            <Link href={'/beer-me'} locale={locale}>
+                                <span
+                                    className={`${MENU_ITEM_STYLES}`}
+                                    aria-current="page"
+                                >
+                                    Puntos cervezanas
+                                </span>
+                            </Link>
                         </li>
                     </ul>
                 </section>
@@ -251,6 +252,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                         options={
                                             role === 'admin'
                                                 ? [
+                                                      'events',
                                                       'submitted_aps',
                                                       'monthly_products',
                                                       'notifications',
@@ -269,6 +271,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                                       'profile',
                                                       'products',
                                                       'events',
+                                                      'experiences',
                                                       'online_orders',
                                                       'event_orders',
                                                       'signout',
@@ -286,7 +289,7 @@ const ScreenMenu = memo(function ScreenMenu({
                         )}
                     </ul>
 
-                    <PuntoCervezanasFlag />
+                    {/* <PuntoCervezanasFlag /> */}
                 </section>
             </nav>
         </section>
