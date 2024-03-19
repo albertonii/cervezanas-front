@@ -1,59 +1,58 @@
 import { redirect } from 'next/navigation';
-import { VIEWS } from '../../../../../../constants';
 import { ICampaign, IProduct } from '../../../../../../lib/types/types';
 import createServerClient from '../../../../../../utils/supabaseServer';
 import readUserSession from '../../../../../../lib/actions';
 import { Campaigns } from './Campaigns';
 
 export default async function CampaignPage() {
-  const productsData = await getProductsData();
-  const campaignsData = await getCampaignData();
-  const [products, campaigns] = await Promise.all([
-    productsData,
-    campaignsData,
-  ]);
+    const productsData = await getProductsData();
+    const campaignsData = await getCampaignData();
+    const [products, campaigns] = await Promise.all([
+        productsData,
+        campaignsData,
+    ]);
 
-  return (
-    <>
-      <Campaigns campaigns={campaigns ?? []} products={products ?? []} />
-    </>
-  );
+    return (
+        <>
+            <Campaigns campaigns={campaigns ?? []} products={products ?? []} />
+        </>
+    );
 }
 
 async function getCampaignData() {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const session = await readUserSession();
+    const session = await readUserSession();
 
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
-  const { data: campaignsData, error: campaignsError } = await supabase
-    .from('campaigns')
-    .select(
-      `
+    if (!session) {
+        redirect('/signin');
+    }
+    const { data: campaignsData, error: campaignsError } = await supabase
+        .from('campaigns')
+        .select(
+            `
         *
       `,
-    )
-    .eq('owner_id', session.id);
+        )
+        .eq('owner_id', session.id);
 
-  if (campaignsError) throw campaignsError;
+    if (campaignsError) throw campaignsError;
 
-  return campaignsData as ICampaign[];
+    return campaignsData as ICampaign[];
 }
 
 async function getProductsData() {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const session = await readUserSession();
+    const session = await readUserSession();
 
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
-  const { data: productsData, error: productsError } = await supabase
-    .from('products')
-    .select(
-      `
+    if (!session) {
+        redirect('/signin');
+    }
+    const { data: productsData, error: productsError } = await supabase
+        .from('products')
+        .select(
+            `
         *, 
         product_multimedia (*),
         product_inventory (*),
@@ -62,10 +61,10 @@ async function getProductsData() {
         beers (*), 
         product_packs (*)
       `,
-    )
-    .eq('owner_id', session.id);
+        )
+        .eq('owner_id', session.id);
 
-  if (productsError) throw productsError;
+    if (productsError) throw productsError;
 
-  return productsData as IProduct[];
+    return productsData as IProduct[];
 }

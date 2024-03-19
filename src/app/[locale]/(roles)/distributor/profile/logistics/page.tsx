@@ -6,25 +6,25 @@ import { VIEWS } from '../../../../../../constants';
 import { IDistributionCost } from '../../../../../../lib/types/types';
 
 export default async function OrdersPage() {
-  const distributionCosts = await getDistributionCost();
+    const distributionCosts = await getDistributionCost();
 
-  return <CoverageLayout distributionCosts={distributionCosts} />;
+    return <CoverageLayout distributionCosts={distributionCosts} />;
 }
 
 async function getDistributionCost() {
-  const session = await readUserSession();
+    const session = await readUserSession();
 
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
+    if (!session) {
+        redirect('/signin');
+    }
 
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const { data: distributionCosts, error: distributionCostsError } =
-    await supabase
-      .from('distribution_costs')
-      .select(
-        `
+    const { data: distributionCosts, error: distributionCostsError } =
+        await supabase
+            .from('distribution_costs')
+            .select(
+                `
           id,
           created_at,
           distributor_id,
@@ -41,14 +41,14 @@ async function getDistributionCost() {
             is_checked_international
           )
         `,
-      )
-      .eq('distributor_id', session.id)
-      .single();
+            )
+            .eq('distributor_id', session.id)
+            .single();
 
-  if (distributionCostsError) {
-    console.error(distributionCostsError);
-    throw distributionCostsError;
-  }
+    if (distributionCostsError) {
+        console.error(distributionCostsError);
+        throw distributionCostsError;
+    }
 
-  return distributionCosts as IDistributionCost;
+    return distributionCosts as IDistributionCost;
 }

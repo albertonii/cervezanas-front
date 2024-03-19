@@ -1,41 +1,43 @@
 import ManageEventProduct from './ManageEventProduct';
 import { redirect } from 'next/navigation';
-import { VIEWS } from '../../../../../../../constants';
 import { IEventOrderItem } from '../../../../../../../lib/types/types';
 import createServerClient from '../../../../../../../utils/supabaseServer';
 import readUserSession from '../../../../../../../lib/actions';
 
 export default async function BarmanProductPage({ params }: any) {
-  const { id } = params;
-  const eventOrderItemData = getEventOrderItemData(id);
-  const [eventOrderItem] = await Promise.all([eventOrderItemData]);
-  return (
-    <>
-      {eventOrderItem ? (
-        <ManageEventProduct eventOrderItem={eventOrderItem} />
-      ) : (
-        <div>
-          <h2>No tienes los permisos necesarios para acceder a esta página</h2>
-        </div>
-      )}
-    </>
-  );
+    const { id } = params;
+    const eventOrderItemData = getEventOrderItemData(id);
+    const [eventOrderItem] = await Promise.all([eventOrderItemData]);
+    return (
+        <>
+            {eventOrderItem ? (
+                <ManageEventProduct eventOrderItem={eventOrderItem} />
+            ) : (
+                <div>
+                    <h2>
+                        No tienes los permisos necesarios para acceder a esta
+                        página
+                    </h2>
+                </div>
+            )}
+        </>
+    );
 }
 
 async function getEventOrderItemData(eventOrderItemId: string) {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const session = await readUserSession();
+    const session = await readUserSession();
 
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
+    if (!session) {
+        redirect('/signin');
+    }
 
-  const { data: eventOrderItemData, error: eventOrderItemError } =
-    await supabase
-      .from('event_order_items')
-      .select(
-        `
+    const { data: eventOrderItemData, error: eventOrderItemError } =
+        await supabase
+            .from('event_order_items')
+            .select(
+                `
         *,
         product_packs!event_order_items_product_pack_id_fkey (
           *,
@@ -47,16 +49,16 @@ async function getEventOrderItemData(eventOrderItemId: string) {
         )
         
       `,
-      )
-      .eq('id', eventOrderItemId)
-      .single();
-  if (eventOrderItemError) throw eventOrderItemError;
+            )
+            .eq('id', eventOrderItemId)
+            .single();
+    if (eventOrderItemError) throw eventOrderItemError;
 
-  const eventOrderItem = eventOrderItemData as IEventOrderItem;
+    const eventOrderItem = eventOrderItemData as IEventOrderItem;
 
-  if (eventOrderItem.product_packs?.products?.owner_id !== session.id) {
-    return null;
-  }
+    if (eventOrderItem.product_packs?.products?.owner_id !== session.id) {
+        return null;
+    }
 
-  return eventOrderItem;
+    return eventOrderItem;
 }

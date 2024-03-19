@@ -6,31 +6,31 @@ import createServerClient from '../../../../../../utils/supabaseServer';
 import readUserSession from '../../../../../../lib/actions';
 
 export default async function ReviewsPage() {
-  const reviewsData = await getReviewsData();
-  const [reviews] = await Promise.all([reviewsData]);
+    const reviewsData = await getReviewsData();
+    const [reviews] = await Promise.all([reviewsData]);
 
-  if (!reviews) return <></>;
+    if (!reviews) return <></>;
 
-  return (
-    <>
-      <Reviews reviews={reviews} />
-    </>
-  );
+    return (
+        <>
+            <Reviews reviews={reviews} />
+        </>
+    );
 }
 
 async function getReviewsData() {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const session = await readUserSession();
+    const session = await readUserSession();
 
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
+    if (!session) {
+        redirect('/signin');
+    }
 
-  const { data: reviewsData, error: reviewsError } = await supabase
-    .from('reviews')
-    .select(
-      `
+    const { data: reviewsData, error: reviewsError } = await supabase
+        .from('reviews')
+        .select(
+            `
         *,
         products (
           *,
@@ -44,10 +44,10 @@ async function getReviewsData() {
           avatar_url
         )
       `,
-    )
-    .eq('owner_id', session.id);
+        )
+        .eq('owner_id', session.id);
 
-  if (reviewsError) throw reviewsError;
+    if (reviewsError) throw reviewsError;
 
-  return reviewsData as IReview[];
+    return reviewsData as IReview[];
 }

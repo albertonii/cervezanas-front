@@ -66,7 +66,7 @@ async function getCheckoutErrorData(searchParams: any) {
     const session = await readUserSession();
 
     if (!session) {
-        redirect(VIEWS.SIGN_IN);
+        redirect('/signin');
     }
 
     console.log('RESPONSE CODE FROM PAYMENT SERVICE:', Ds_Response);

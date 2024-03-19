@@ -7,37 +7,40 @@ import { ROLE_ENUM } from '../../../../lib/enums';
 import { IUser } from '../../../../lib/types/types';
 
 type LayoutProps = {
-  children: React.ReactNode;
+    children: React.ReactNode;
 };
 
 export default async function layout({ children }: LayoutProps) {
-  const hasAuthorization = await checkAuthorizatedUser();
-  return (
-    <>
-      {hasAuthorization ? (
-        <>{children}</>
-      ) : (
-        <section>
-          <h2>No tienes los permisos necesarios para acceder a esta página</h2>
-        </section>
-      )}
-    </>
-  );
+    const hasAuthorization = await checkAuthorizatedUser();
+    return (
+        <>
+            {hasAuthorization ? (
+                <>{children}</>
+            ) : (
+                <section>
+                    <h2>
+                        No tienes los permisos necesarios para acceder a esta
+                        página
+                    </h2>
+                </section>
+            )}
+        </>
+    );
 }
 
 async function checkAuthorizatedUser() {
-  const session: User | null = await readUserSession();
+    const session: User | null = await readUserSession();
 
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
+    if (!session) {
+        redirect('/signin');
+    }
 
-  const isRoleConsumer = await checkAuthorizatedUserByRole(session);
-  return isRoleConsumer;
+    const isRoleConsumer = await checkAuthorizatedUserByRole(session);
+    return isRoleConsumer;
 }
 
 async function checkAuthorizatedUserByRole(user: User) {
-  const role = user.user_metadata.access_level;
-  const isFromProvider = user.app_metadata.provider === 'google';
-  return role === ROLE_ENUM.Cervezano || isFromProvider;
+    const role = user.user_metadata.access_level;
+    const isFromProvider = user.app_metadata.provider === 'google';
+    return role === ROLE_ENUM.Cervezano || isFromProvider;
 }

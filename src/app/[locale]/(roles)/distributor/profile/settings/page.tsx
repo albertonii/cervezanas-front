@@ -22,7 +22,7 @@ async function getProfileData() {
     const session = await readUserSession();
 
     if (!session) {
-        redirect(VIEWS.SIGN_IN);
+        redirect('/signin');
     }
 
     const { data: profileData, error: profileError } = await supabase

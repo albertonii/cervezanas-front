@@ -3,7 +3,6 @@ import readUserSession from '../../../../../../lib/actions';
 import Experiences from './Experiences';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import { VIEWS } from '../../../../../../constants';
 import { IExperience } from '../../../../../../lib/types/quiz';
 
 export default async function EventsPage() {
@@ -30,7 +29,7 @@ async function getExperiencesData() {
     const session = await readUserSession();
 
     if (!session) {
-        redirect(VIEWS.SIGN_IN);
+        redirect('/signin');
     }
 
     const { data, error } = await supabase
@@ -62,7 +61,7 @@ async function getExperiencesCounter() {
     const session = await readUserSession();
 
     if (!session) {
-        redirect(VIEWS.SIGN_IN);
+        redirect('/signin');
     }
 
     const { count, error } = await supabase

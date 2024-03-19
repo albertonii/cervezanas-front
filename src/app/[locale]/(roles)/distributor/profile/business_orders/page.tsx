@@ -22,7 +22,7 @@ async function getBusinessOrdersData() {
   const session = await readUserSession();
 
   if (!session) {
-    redirect(VIEWS.SIGN_IN);
+        redirect('/signin');
   }
 
   // Select only the orders where business orders have the distributor_id associated to session user id

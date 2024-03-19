@@ -7,31 +7,31 @@ import createServerClient from '../../../../../../utils/supabaseServer';
 import ContractsCPS from './ContractsCPS';
 
 export default async function CPsContractsPage() {
-  const cpsContracts = await getCPsContracts();
+    const cpsContracts = await getCPsContracts();
 
-  return <ContractsCPS cpsContracts={cpsContracts} />;
+    return <ContractsCPS cpsContracts={cpsContracts} />;
 }
 
 async function getCPsContracts() {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  // Be careful when protecting pages. The server gets the user session from the cookies, which can be spoofed by anyone.
-  const session = await readUserSession();
+    // Be careful when protecting pages. The server gets the user session from the cookies, which can be spoofed by anyone.
+    const session = await readUserSession();
 
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
+    if (!session) {
+        redirect('/signin');
+    }
 
-  const { data: cpsContract, error: profileError } = await supabase
-    .from('consumption_points')
-    .select(
-      `
+    const { data: cpsContract, error: profileError } = await supabase
+        .from('consumption_points')
+        .select(
+            `
         *,
         users (*)
       `,
-    );
+        );
 
-  if (profileError) throw profileError;
+    if (profileError) throw profileError;
 
-  return cpsContract as IConsumptionPoints[];
+    return cpsContract as IConsumptionPoints[];
 }

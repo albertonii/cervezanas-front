@@ -6,35 +6,35 @@ import readUserSession from '../../../../../../lib/actions';
 import { LikesHistory } from './LikesHistory';
 
 export default async function LikesPage() {
-  const { likes } = await getLikesData();
-  if (!likes) return null;
+    const { likes } = await getLikesData();
+    if (!likes) return null;
 
-  return (
-    <>
-      <LikesHistory likes={likes} />
-    </>
-  );
+    return (
+        <>
+            <LikesHistory likes={likes} />
+        </>
+    );
 }
 
 async function getLikesData() {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const session = await readUserSession();
+    const session = await readUserSession();
 
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
+    if (!session) {
+        redirect('/signin');
+    }
 
-  const { data: likesData, error: likesError } = await supabase
-    .from('likes')
-    .select(
-      `
+    const { data: likesData, error: likesError } = await supabase
+        .from('likes')
+        .select(
+            `
         *
       `,
-    )
-    .eq('owner_id', session.id);
+        )
+        .eq('owner_id', session.id);
 
-  if (likesError) throw likesError;
+    if (likesError) throw likesError;
 
-  return { likes: likesData as ILike[] };
+    return { likes: likesData as ILike[] };
 }

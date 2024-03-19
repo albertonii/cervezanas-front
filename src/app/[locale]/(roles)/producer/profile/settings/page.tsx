@@ -1,42 +1,41 @@
+import createServerClient from '../../../../../../utils/supabaseServer';
+import readUserSession from '../../../../../../lib/actions';
 import Profile from './Profile';
 import { IProducerUser } from '../../../../../../lib/types/types';
-import createServerClient from '../../../../../../utils/supabaseServer';
 import { redirect } from 'next/navigation';
-import { VIEWS } from '../../../../../../constants';
-import readUserSession from '../../../../../../lib/actions';
 import { Suspense } from 'react';
 
 export default async function ProfilePage() {
-  const profile = await getProfileData();
-  if (!profile) return <></>;
+    const profile = await getProfileData();
+    if (!profile) return <></>;
 
-  return (
-    <Suspense fallback={<h3>cargando..</h3>}>
-      <Profile profile={profile} />
-    </Suspense>
-  );
+    return (
+        <Suspense fallback={<h3>cargando..</h3>}>
+            <Profile profile={profile} />
+        </Suspense>
+    );
 }
 
 async function getProfileData() {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const session = await readUserSession();
+    const session = await readUserSession();
 
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
+    if (!session) {
+        redirect('/signin');
+    }
 
-  const { data: profileData, error: profileError } = await supabase
-    .from('producer_user')
-    .select(
-      `
+    const { data: profileData, error: profileError } = await supabase
+        .from('producer_user')
+        .select(
+            `
         *
       `,
-    )
-    .eq('user_id', session.id)
-    .single();
+        )
+        .eq('user_id', session.id)
+        .single();
 
-  if (profileError) throw profileError;
+    if (profileError) throw profileError;
 
-  return profileData as IProducerUser;
+    return profileData as IProducerUser;
 }

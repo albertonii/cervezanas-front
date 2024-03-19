@@ -19,7 +19,7 @@ async function getEventExperienceData(eventExperienceId: string) {
     const session = await readUserSession();
 
     if (!session) {
-        redirect(VIEWS.SIGN_IN);
+        redirect('/signin');
     }
 
     const { data: eventExperience, error: eventExperienceError } =

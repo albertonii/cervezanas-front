@@ -6,33 +6,33 @@ import { IOrder } from '../../../../../../../lib/types/types';
 import { VIEWS } from '../../../../../../../constants';
 
 export default async function OrderInvoicePage({
-  params,
+    params,
 }: {
-  params: { slug: any };
+    params: { slug: any };
 }) {
-  const { slug } = params;
-  const orderData = await getInvoiceData(slug);
-  const [order] = await Promise.all([orderData]);
+    const { slug } = params;
+    const orderData = await getInvoiceData(slug);
+    const [order] = await Promise.all([orderData]);
 
-  return <>{order ?? <OrderInvoice order={order} />}</>;
+    return <>{order ?? <OrderInvoice order={order} />}</>;
 }
 
 async function getInvoiceData(slug: any) {
-  const { orderInvoice: orderId } = slug;
+    const { orderInvoice: orderId } = slug;
 
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  // Check if we have a session
-  const session = await readUserSession();
+    // Check if we have a session
+    const session = await readUserSession();
 
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
+    if (!session) {
+        redirect('/signin');
+    }
 
-  const { data: orderData, error: orderError } = await supabase
-    .from('orders')
-    .select(
-      `
+    const { data: orderData, error: orderError } = await supabase
+        .from('orders')
+        .select(
+            `
         id,
         created_at,
         updated_at,
@@ -80,19 +80,19 @@ async function getInvoiceData(slug: any) {
           order_items (*)
         )
       `,
-    )
-    .eq('order_number', orderId)
-    .single();
+        )
+        .eq('order_number', orderId)
+        .single();
 
-  if (orderError) {
-    throw new Error(orderError.message);
-  }
+    if (orderError) {
+        throw new Error(orderError.message);
+    }
 
-  if (!orderData) {
-    return {
-      order: null,
-    };
-  }
+    if (!orderData) {
+        return {
+            order: null,
+        };
+    }
 
-  return orderData as IOrder;
+    return orderData as IOrder;
 }

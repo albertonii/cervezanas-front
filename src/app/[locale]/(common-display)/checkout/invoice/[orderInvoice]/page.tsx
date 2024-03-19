@@ -5,32 +5,32 @@ import readUserSession from '../../../../../../lib/actions';
 import { VIEWS } from '../../../../../../constants';
 
 export default async function OrderInvoicePage({
-  params,
+    params,
 }: {
-  params: { slug: any };
+    params: { slug: any };
 }) {
-  const { slug } = params;
-  const orderData = await getInvoiceData(slug);
-  const [order] = await Promise.all([orderData]);
+    const { slug } = params;
+    const orderData = await getInvoiceData(slug);
+    const [order] = await Promise.all([orderData]);
 
-  return <>{order ?? <OrderInvoice order={order} />}</>;
+    return <>{order ?? <OrderInvoice order={order} />}</>;
 }
 
 async function getInvoiceData(slug: any) {
-  const { orderInvoice: orderId } = slug;
+    const { orderInvoice: orderId } = slug;
 
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const session = await readUserSession();
+    const session = await readUserSession();
 
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
+    if (!session) {
+        redirect('/signin');
+    }
 
-  const { data: orderData, error: orderError } = await supabase
-    .from('orders')
-    .select(
-      `
+    const { data: orderData, error: orderError } = await supabase
+        .from('orders')
+        .select(
+            `
       *,
       shipping_info(id, *),
       billing_info(id, *),
@@ -42,19 +42,19 @@ async function getInvoiceData(slug: any) {
         order_items (*)
       )
     `,
-    )
-    .eq('order_number', orderId)
-    .single();
+        )
+        .eq('order_number', orderId)
+        .single();
 
-  if (orderError) {
-    throw new Error(orderError.message);
-  }
+    if (orderError) {
+        throw new Error(orderError.message);
+    }
 
-  if (!orderData) {
-    return {
-      order: null,
-    };
-  }
+    if (!orderData) {
+        return {
+            order: null,
+        };
+    }
 
-  return orderData;
+    return orderData;
 }

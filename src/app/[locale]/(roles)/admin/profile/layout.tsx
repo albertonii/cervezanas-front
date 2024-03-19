@@ -90,7 +90,7 @@ async function checkAuthorizatedUser() {
     const session: User | null = await readUserSession();
 
     if (!session) {
-        redirect(VIEWS.SIGN_IN);
+        redirect('/signin');
     }
 
     const isRoleAdmin = await checkAuthorizatedUserByRole(session);

@@ -3,7 +3,6 @@ import readUserSession from '../../../../../../lib/actions';
 import createServerClient from '../../../../../../utils/supabaseServer';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import { VIEWS } from '../../../../../../constants';
 import { ICPFixed, ICPMobile } from '../../../../../../lib/types/types';
 
 export default async function EventsPage() {
@@ -33,7 +32,7 @@ async function getCPMobileData() {
     const session = await readUserSession();
 
     if (!session) {
-        redirect(VIEWS.SIGN_IN);
+        redirect('/signin');
     }
 
     const { data: cpMobiles, error: cpError } = await supabase
@@ -56,7 +55,7 @@ async function getCPFixedData() {
     const session = await readUserSession();
 
     if (!session) {
-        redirect(VIEWS.SIGN_IN);
+        redirect('/signin');
     }
 
     const { data: cpFixeds, error: cpError } = await supabase
@@ -79,7 +78,7 @@ async function getEventsCounter() {
     const session = await readUserSession();
 
     if (!session) {
-        redirect(VIEWS.SIGN_IN);
+        redirect('/signin');
     }
 
     const { count, error } = await supabase

@@ -1,82 +1,82 @@
 import { ViewsMap } from './lib/types/types';
 
 export const VIEWS: ViewsMap = {
-  SIGN_IN: 'signin',
-  SIGN_UP: 'signup',
-  FORGOTTEN_PASSWORD: 'forgotten_password',
-  MAGIC_LINK: 'magic_link',
-  UPDATE_PASSWORD: 'update_password',
+    SIGN_IN: 'signin',
+    SIGN_UP: 'signup',
+    FORGOTTEN_PASSWORD: 'forgotten_password',
+    MAGIC_LINK: 'magic_link',
+    UPDATE_PASSWORD: 'update_password',
 };
 
 export const EVENTS = {
-  PASSWORD_RECOVERY: 'PASSWORD_RECOVERY',
-  SIGNED_IN: 'SIGNED_IN',
-  SIGNED_OUT: 'SIGNED_OUT',
-  USER_UPDATED: 'USER_UPDATED',
-  INITIAL_SESSION: 'INITIAL_SESSION',
+    PASSWORD_RECOVERY: 'PASSWORD_RECOVERY',
+    SIGNED_IN: 'SIGNED_IN',
+    SIGNED_OUT: 'SIGNED_OUT',
+    USER_UPDATED: 'USER_UPDATED',
+    INITIAL_SESSION: 'INITIAL_SESSION',
 };
 
 export const PAYMENT_METHOD = {
-  CREDIT_CARD: 'CREDIT_CARD',
-  DEBIT_CARD: 'DEBIT_CARD',
-  CASH: 'CASH',
-  TRANSFER: 'TRANSFER',
-  CHECK: 'CHECK',
-  OTHER: 'OTHER',
-  PAYPAL: 'PAYPAL',
+    CREDIT_CARD: 'CREDIT_CARD',
+    DEBIT_CARD: 'DEBIT_CARD',
+    CASH: 'CASH',
+    TRANSFER: 'TRANSFER',
+    CHECK: 'CHECK',
+    OTHER: 'OTHER',
+    PAYPAL: 'PAYPAL',
 };
 
 export const PREPENDED_CLASS_NAMES = 'supabase-ui-auth';
 
 export const COMMON = {
-  MARKETPLACE_PRODUCT: '/assets/marketplace_product_default.png',
-  NO_BEER: '/assets/nobeer.png',
-  BG_IMG: '/icons/bg-240.png',
-  PROFILE_IMG: '/icons/profile-240.png',
+    MARKETPLACE_PRODUCT: '/assets/marketplace_product_default.png',
+    NO_BEER: '/assets/nobeer.png',
+    BG_IMG: '/icons/bg-240.png',
+    PROFILE_IMG: '/icons/profile-240.png',
 };
 
 export const ORDER_TYPE = {
-  ONLINE: 'online',
-  EVENT: 'event',
-  EVENT_PRODUCT: 'event_product',
-  DISTRIBUTOR_ONLINE: 'distributor_online',
+    ONLINE: 'online',
+    EVENT: 'event',
+    EVENT_PRODUCT: 'event_product',
+    DISTRIBUTOR_ONLINE: 'distributor_online',
 };
 
 export const ONLINE_ORDER_STATUS = {
-  PENDING: 'pending',
-  PAID: 'paid',
-  PROCESSING: 'processing',
-  SHIPPED: 'shipped',
-  DELIVERED: 'delivered',
-  ORDER_PLACED: 'order_placed',
-  CANCELLED: 'cancelled',
-  ERROR: 'error',
+    PENDING: 'pending',
+    PAID: 'paid',
+    PROCESSING: 'processing',
+    SHIPPED: 'shipped',
+    DELIVERED: 'delivered',
+    ORDER_PLACED: 'order_placed',
+    CANCELLED: 'cancelled',
+    ERROR: 'error',
 };
 
 export const DISTRIBUTOR_ONLINE_ORDER_STATUS = {
-  PENDING: 'pending',
-  PROCESSING: 'processing',
-  IN_TRANSIT: 'in_transit',
-  SHIPPED: 'shipped',
-  DELIVERED: 'delivered',
-  CANCELLED: 'cancelled',
-  ERROR: 'error',
+    PENDING: 'pending',
+    PROCESSING: 'processing',
+    IN_TRANSIT: 'in_transit',
+    SHIPPED: 'shipped',
+    DELIVERED: 'delivered',
+    CANCELLED: 'cancelled',
+    ERROR: 'error',
 };
 
 export const EVENT_ORDER_STATUS = {
-  ORDER_PLACED: 'order_placed',
-  PAID: 'paid',
-  WITH_SERVICES_TO_CONSUME: 'with_services_to_consume',
-  SERVED: 'served',
-  ERROR: 'error',
+    ORDER_PLACED: 'order_placed',
+    PAID: 'paid',
+    WITH_SERVICES_TO_CONSUME: 'with_services_to_consume',
+    SERVED: 'served',
+    ERROR: 'error',
 };
 
 export const EVENT_ORDER_ITEM_STATUS = {
-  INITIAL: 'initial',
-  WITH_STOCK: 'with_stock',
-  WITHOUT_STOCK: 'without_stock',
-  CONSUMED: 'consumed',
-  NOT_SAVED: 'not_saved',
+    INITIAL: 'initial',
+    WITH_STOCK: 'with_stock',
+    WITHOUT_STOCK: 'without_stock',
+    CONSUMED: 'consumed',
+    NOT_SAVED: 'not_saved',
 };
 
 /**
@@ -84,66 +84,66 @@ export const EVENT_ORDER_ITEM_STATUS = {
  * used for generating prepended classes
  */
 export const CLASS_NAMES = {
-  // interfaces
-  ROOT: 'root',
-  SIGN_IN: VIEWS.SIGN_IN,
-  SIGN_UP: VIEWS.SIGN_UP,
-  FORGOTTEN_PASSWORD: VIEWS.FORGOTTEN_PASSWORD,
-  MAGIC_LINK: VIEWS.MAGIC_LINK,
-  UPDATE_PASSWORD: VIEWS.UPDATE_PASSWORD,
-  // ui
-  anchor: 'ui-anchor',
-  button: 'ui-button',
-  container: 'ui-container',
-  divider: 'ui-divider',
-  input: 'ui-input',
-  label: 'ui-label',
-  loader: 'ui-loader',
-  message: 'ui-message',
+    // interfaces
+    ROOT: 'root',
+    SIGN_IN: VIEWS.SIGN_IN,
+    SIGN_UP: VIEWS.SIGN_UP,
+    FORGOTTEN_PASSWORD: VIEWS.FORGOTTEN_PASSWORD,
+    MAGIC_LINK: VIEWS.MAGIC_LINK,
+    UPDATE_PASSWORD: VIEWS.UPDATE_PASSWORD,
+    // ui
+    anchor: 'ui-anchor',
+    button: 'ui-button',
+    container: 'ui-container',
+    divider: 'ui-divider',
+    input: 'ui-input',
+    label: 'ui-label',
+    loader: 'ui-loader',
+    message: 'ui-message',
 };
 
 export const SupabaseProps = {
-  BASE_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/`,
-  STORAGE_PRODUCTS_IMG_URL: 'storage/v1/object/public/products/',
-  STORAGE_PRODUCTS_ARTICLE_IMG_URL:
-    'storage/v1/object/public/products/articles/',
-  STORAGE_AWARDS_IMG_URL: 'storage/v1/object/public/products/awards/',
-  P_PRINCIPAL_URL: 'p_principal/',
-  P_BACK_URL: 'p_back/',
-  P_EXTRA_1_URL: 'p_extra_1/',
-  P_EXTRA_2_URL: 'p_extra_2/',
-  P_EXTRA_3_URL: 'p_extra_3/',
-  P_EXTRA_4_URL: 'p_extra_4/',
-  ARTICLES: 'articles/',
-  BASE_AVATARS_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/`,
-  BASE_PRODUCTS_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/products/`,
-  BASE_DOCUMENTS_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/documents/`,
-  BASE_PRODUCTS_ARTICLES_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/products/articles/`,
-  PRODUCT_P_PRINCIPAL: 'p_principal/',
-  CUSTOM_BG_URL: 'custom_bg/',
-  PROFILE_PHOTO_URL: 'profile_photo/',
-  AWARDS_URL: 'awards/',
+    BASE_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/`,
+    STORAGE_PRODUCTS_IMG_URL: 'storage/v1/object/public/products/',
+    STORAGE_PRODUCTS_ARTICLE_IMG_URL:
+        'storage/v1/object/public/products/articles/',
+    STORAGE_AWARDS_IMG_URL: 'storage/v1/object/public/products/awards/',
+    P_PRINCIPAL_URL: 'p_principal/',
+    P_BACK_URL: 'p_back/',
+    P_EXTRA_1_URL: 'p_extra_1/',
+    P_EXTRA_2_URL: 'p_extra_2/',
+    P_EXTRA_3_URL: 'p_extra_3/',
+    P_EXTRA_4_URL: 'p_extra_4/',
+    ARTICLES: 'articles/',
+    BASE_AVATARS_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/`,
+    BASE_PRODUCTS_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/products/`,
+    BASE_DOCUMENTS_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/documents/`,
+    BASE_PRODUCTS_ARTICLES_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/products/articles/`,
+    PRODUCT_P_PRINCIPAL: 'p_principal/',
+    CUSTOM_BG_URL: 'custom_bg/',
+    PROFILE_PHOTO_URL: 'profile_photo/',
+    AWARDS_URL: 'awards/',
 };
 
 export const DS_API = {
-  DS_URL: `https://distributionsystemapi-dev-tdzj.2.ie-1.fl0.io/`,
-  DS_COUNTRIES: 'countries/',
-  DS_COMMUNITIES: 'communities/',
-  DS_PROVINCES: 'provinces/',
+    DS_URL: `https://distributionsystemapi-dev-tdzj.2.ie-1.fl0.io/`,
+    DS_COUNTRIES: 'countries/',
+    DS_COMMUNITIES: 'communities/',
+    DS_PROVINCES: 'provinces/',
 };
 
 export const API_METHODS = {
-  GET: 'GET',
-  POST: 'POST',
-  PUT: 'PUT',
-  DELETE: 'DELETE',
+    GET: 'GET',
+    POST: 'POST',
+    PUT: 'PUT',
+    DELETE: 'DELETE',
 };
 
 export const APP_URLS = {
-  PRODUCER_ONLINE_ORDER: 'producer/online_order/',
-  CONSUMER_ONLINE_ORDER: 'consumer/online_order/',
-  DISTRIBUTOR_ONLINE_ORDER: 'distributor/online_order/',
-  PRODUCER_EVENT_ORDER: 'producer/event_order/',
-  CONSUMER_EVENT_ORDER: 'consumer/event_order/',
-  DISTRIBUTOR_EVENT_ORDER: 'distributor/event_order/',
+    PRODUCER_ONLINE_ORDER: 'producer/online_order/',
+    CONSUMER_ONLINE_ORDER: 'consumer/online_order/',
+    DISTRIBUTOR_ONLINE_ORDER: 'distributor/online_order/',
+    PRODUCER_EVENT_ORDER: 'producer/event_order/',
+    CONSUMER_EVENT_ORDER: 'consumer/event_order/',
+    DISTRIBUTOR_EVENT_ORDER: 'distributor/event_order/',
 };

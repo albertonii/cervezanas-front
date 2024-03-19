@@ -59,7 +59,7 @@ async function getSuccessData(searchParams: any) {
     const session = await readUserSession();
 
     if (!session) {
-        redirect(VIEWS.SIGN_IN);
+        redirect('/signin');
     }
 
     const { data: orderData, error: orderError } = await supabase

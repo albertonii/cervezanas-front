@@ -17,7 +17,7 @@ async function getUser() {
     const session = await readUserSession();
 
     if (!session) {
-        redirect(VIEWS.SIGN_IN);
+        redirect('/signin');
     }
 
     const { data, error } = await supabase
@@ -38,7 +38,7 @@ async function getUser() {
 // const session = await readUserSession();
 
 //   if (!session) {
-//     redirect(VIEWS.SIGN_IN);
+// redirect('/signin');
 //   }
 
 //   const { data: userData, error: usersError } = await supabase

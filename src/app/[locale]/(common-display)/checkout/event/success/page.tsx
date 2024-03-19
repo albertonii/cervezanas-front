@@ -8,79 +8,83 @@ import { IEventOrder } from '../../../../../../lib/types/types';
 import readUserSession from '../../../../../../lib/actions';
 
 export async function generateMetadata({ searchParams }: any) {
-  try {
-    const { Ds_MerchantParameters } = searchParams as {
-      Ds_MerchantParameters: string;
-      Ds_SignatureVersion: string;
-      Ds_Signature: string;
-    };
+    try {
+        const { Ds_MerchantParameters } = searchParams as {
+            Ds_MerchantParameters: string;
+            Ds_SignatureVersion: string;
+            Ds_Signature: string;
+        };
 
-    if (!Ds_MerchantParameters) {
-      return {
-        title: 'Not found',
-        description: 'The page you are looking for does not exists',
-      };
+        if (!Ds_MerchantParameters) {
+            return {
+                title: 'Not found',
+                description: 'The page you are looking for does not exists',
+            };
+        }
+
+        return {
+            title: {
+                default: 'Success page for checkout',
+                template: `%s | Cervezanas`,
+            },
+            description: 'Checkout order information displaying in this page',
+        };
+    } catch (error) {
+        return {
+            title: 'Not found',
+            description: 'The page you are looking for does not exists',
+        };
     }
-
-    return {
-      title: {
-        default: 'Success page for checkout',
-        template: `%s | Cervezanas`,
-      },
-      description: 'Checkout order information displaying in this page',
-    };
-  } catch (error) {
-    return {
-      title: 'Not found',
-      description: 'The page you are looking for does not exists',
-    };
-  }
 }
 
 export default async function SuccessPage({ searchParams }: any) {
-  const headersList = headers();
+    const headersList = headers();
 
-  const domain = headersList.get('host'); // to get domain
+    const domain = headersList.get('host'); // to get domain
 
-  if (!domain) {
-    return <></>;
-  }
+    if (!domain) {
+        return <></>;
+    }
 
-  const { orderData, isError } = await getSuccessData(searchParams);
-  const [order] = await Promise.all([orderData]);
+    const { orderData, isError } = await getSuccessData(searchParams);
+    const [order] = await Promise.all([orderData]);
 
-  return (
-    <>
-      {order && (
-        <SuccessCheckout order={order} isError={isError} domain={domain} />
-      )}
-    </>
-  );
+    return (
+        <>
+            {order && (
+                <SuccessCheckout
+                    order={order}
+                    isError={isError}
+                    domain={domain}
+                />
+            )}
+        </>
+    );
 }
 
 async function getSuccessData(searchParams: any) {
-  const { Ds_MerchantParameters } = searchParams as {
-    Ds_MerchantParameters: string;
-    Ds_SignatureVersion: string;
-    Ds_Signature: string;
-  };
+    const { Ds_MerchantParameters } = searchParams as {
+        Ds_MerchantParameters: string;
+        Ds_SignatureVersion: string;
+        Ds_Signature: string;
+    };
 
-  const { Ds_Order: orderNumber } = JSON.parse(
-    decodeBase64(Ds_MerchantParameters),
-  );
+    const { Ds_Order: orderNumber } = JSON.parse(
+        decodeBase64(Ds_MerchantParameters),
+    );
 
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const session = await readUserSession();
+    const session = await readUserSession();
 
-  if (!session) {
-    redirect(VIEWS.SIGN_IN);
-  }
+    if (!session) {
+        redirect('/signin');
+    }
 
-  const { data: orderData, error: orderError } = await supabase
-    .from('event_orders')
-    .select(
-      `
+    const { data: orderData, error: orderError } = await supabase
+        .from('event_orders')
+        .select(
+            `
       id, 
       created_at,
       updated_at,
@@ -108,24 +112,24 @@ async function getSuccessData(searchParams: any) {
       users (*),
       events (*)
     `,
-    )
-    .eq('order_number', orderNumber)
-    .single();
+        )
+        .eq('order_number', orderNumber)
+        .single();
 
-  if (orderError) {
-    console.error(orderError.message);
-    return {
-      orderData: null,
-      isError: true,
-    };
-  }
+    if (orderError) {
+        console.error(orderError.message);
+        return {
+            orderData: null,
+            isError: true,
+        };
+    }
 
-  if (!orderData) {
-    return {
-      orderData: null,
-      isError: true,
-    };
-  }
+    if (!orderData) {
+        return {
+            orderData: null,
+            isError: true,
+        };
+    }
 
-  return { orderData: orderData as IEventOrder, isError: false };
+    return { orderData: orderData as IEventOrder, isError: false };
 }

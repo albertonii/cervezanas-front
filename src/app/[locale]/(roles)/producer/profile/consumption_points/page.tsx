@@ -1,5 +1,4 @@
 import { redirect } from 'next/navigation';
-import { VIEWS } from '../../../../../../constants';
 import {
   IProfile,
   IConsumptionPoints,
@@ -27,7 +26,7 @@ async function getCPSData() {
   const session = await readUserSession();
 
   if (!session) {
-    redirect(VIEWS.SIGN_IN);
+        redirect('/signin');
   }
 
   const { data: cps, error: cpsError } = await supabase
@@ -50,7 +49,7 @@ async function getProfileData() {
   const session = await readUserSession();
 
   if (!session) {
-    redirect(VIEWS.SIGN_IN);
+        redirect('/signin');
   }
 
   const { data: profileData, error: profileError } = await supabase

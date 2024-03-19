@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation';
 import React from 'react';
-import { VIEWS } from '../../../../../../constants';
 import readUserSession from '../../../../../../lib/actions';
 import { INotification } from '../../../../../../lib/types/types';
 import createServerClient from '../../../../../../utils/supabaseServer';
@@ -18,7 +17,7 @@ async function getNotificationsData() {
   const session = await readUserSession();
 
   if (!session) {
-    redirect(VIEWS.SIGN_IN);
+        redirect('/signin');
   }
 
   // Select only the orders where business orders have the distributor_id associated to session user id

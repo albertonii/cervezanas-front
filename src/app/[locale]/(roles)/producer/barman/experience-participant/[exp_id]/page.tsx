@@ -2,7 +2,6 @@ import readUserSession from '../../../../../../../lib/actions';
 import createServerClient from '../../../../../../../utils/supabaseServer';
 import ManageExperienceParticipation from './ManageExperienceParticipation';
 import { redirect } from 'next/navigation';
-import { VIEWS } from '../../../../../../../constants';
 import { IBMExperienceParticipants } from '../../../../../../../lib/types/quiz';
 
 export default async function BarmanProductPage({ params }: any) {
@@ -25,7 +24,7 @@ async function getExperienceParticipantData(experienceParticipantId: string) {
     const session = await readUserSession();
 
     if (!session) {
-        redirect(VIEWS.SIGN_IN);
+        redirect('/signin');
     }
 
     const { data, error: eventOrderItemError } = await supabase
