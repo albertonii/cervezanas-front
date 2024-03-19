@@ -105,8 +105,6 @@ export default function EuropeDistribution({ coverageAreaId }: Props) {
         //   console.error(error);
         //   return;
         // }
-
-        queryClient.invalidateQueries('distribution');
     };
 
     const updateInternationalDistributionMutation = useMutation({
@@ -116,6 +114,7 @@ export default function EuropeDistribution({ coverageAreaId }: Props) {
             console.info('onMutate');
         },
         onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['distribution'] });
             console.info('onSuccess');
         },
         onError: () => {
@@ -324,3 +323,40 @@ interface CountryRowProps {
     ) => void;
     register: UseFormRegister<any>;
 }
+
+const CountryRow = ({
+    country,
+    globalIndex,
+    handleCheckbox,
+    register,
+    selectedCountries,
+}: CountryRowProps) => {
+    const isChecked = (country: ICountry) => {
+        return selectedCountries.includes(country.name);
+    };
+
+    return (
+        <>
+            <th
+                scope="row"
+                className="w-20 whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+            >
+                <input
+                    type="checkbox"
+                    {...register(`countries`)}
+                    id={`countries.${globalIndex}.${country.name}}`}
+                    value={country.name}
+                    checked={isChecked(country)}
+                    onChange={(e) => {
+                        handleCheckbox(e, country.name);
+                    }}
+                    className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                />
+            </th>
+
+            <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+                {country.name}
+            </td>
+        </>
+    );
+};
