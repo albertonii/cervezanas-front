@@ -248,9 +248,9 @@ export default function EventExperience({ eventExperience }: Props) {
             )}
 
             {isRegistered && !isPaymentValid && bmExperienceParticipantId && (
-                <div className="border-2 bg-beer-softFoam border-beer-draft p-4 rounded-sm space-y-4">
+                <div className="border-2 bg-beer-softFoam border-beer-draft p-4 rounded-sm space-y-4 p-8">
                     <div>
-                        <h2>
+                        <h2 className="text-xl mb-8 font-semibold text-center">
                             Muestra el código QR para confirmar el pago de la
                             experiencia.{' '}
                         </h2>
@@ -258,15 +258,18 @@ export default function EventExperience({ eventExperience }: Props) {
                             El pago de la inscripción se realizará físicamente
                             en el mismo Punto de Consumo.
                         </p>
-                        <p>
+                        <p className="mb-8">
                             El Punto de Consumo debe de validar el pago de la
                             inscripción y a partir de ese momento podrás
                             comenzar a participar en la experiencia.
                         </p>
-
-                        <ParticipationQRCode
-                            experienceParticipantId={bmExperienceParticipantId}
-                        />
+                        <p className="text-center bg-white p-4">
+                            <ParticipationQRCode
+                                experienceParticipantId={
+                                    bmExperienceParticipantId
+                                }
+                            />
+                        </p>
                     </div>
                 </div>
             )}

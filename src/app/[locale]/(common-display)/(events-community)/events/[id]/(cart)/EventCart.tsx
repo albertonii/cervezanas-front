@@ -24,7 +24,7 @@ export default function EventCart({ eventId }: Props) {
 
     return (
         <section
-            className={`fixed bottom-0 right-0  z-40 rounded-lg border-2 border-beer-softBlonde bg-beer-softFoam px-2 py-2 shadow-md  sm:w-auto bg-opacity-90`}
+            className={`fixed bottom-0 right-0  z-40 rounded-lg border-2 border-beer-softBlonde bg-beer-softFoam px-2 py-2 shadow-md  sm:w-auto bg-opacity-90 mt-32`}
             aria-modal="true"
             role="dialog"
             tabIndex={-1}

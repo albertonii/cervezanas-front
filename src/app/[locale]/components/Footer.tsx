@@ -159,11 +159,11 @@ export default function Footer() {
                                     <Image
                                         src={'/icons/payments/visa.png'}
                                         alt="Visa"
-                                        width={0}
-                                        height={0}
+                                        width={80}
+                                        height={55}
                                         style={{
                                             width: '80px',
-                                            height: '80px',
+                                            height: '55px',
                                         }}
                                     />
 
@@ -171,11 +171,11 @@ export default function Footer() {
                                     <Image
                                         src={'/icons/payments/mastercard.png'}
                                         alt="Mastercard"
-                                        width={0}
-                                        height={0}
+                                        width={80}
+                                        height={55}
                                         style={{
                                             width: '80px',
-                                            height: '80px',
+                                            height: '55px',
                                         }}
                                     />
                                 </figure>
