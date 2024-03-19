@@ -745,8 +745,8 @@ Habilitar formulario para feedbacks/reporte de errores
   5. [x] Modificar las Experiencias de los Puntos de Consumo asociados a un Evento Cervezanas
   6. [x] Añadir accesos directos en el menú desplegable en "cuenta" a productor para acceder a la configuración de experiencias en PC
   7. [ ] Breadcrumb en PC para poder volver al evento
-  8. [ ] Al presionar en participar -> Actualizar la página para mostrar el código QR al barman
-  9. [ ] Al presionar varias veces en participar -> CREA varias entradas. Hay que evitar esto.
+  8. [x] Al presionar en participar -> Actualizar la página para mostrar el código QR al barman
+  9. [x] Al presionar varias veces en participar -> CREA varias entradas. Hay que evitar esto.
 
 - [WIP] Testing
 
@@ -764,7 +764,7 @@ Habilitar formulario para feedbacks/reporte de errores
   12. [ ] Vincular experiencia con punto de consumo y evento
   13. [ ] Update Producto falla debido a que al traer las imágenes no son tipo FileList
   14. [ ] Vincular Productor con Distribuidor a través de contrato
-  15. [ ] No se envia notificación al distribuidor para el contrato productor-distribuidor
+  15. [x] No se envia notificación al distribuidor para el contrato productor-distribuidor
 
 - [ ] Crear evento con ADMIN
 - [x] Error al configurar área de cobertura del distribuidor -> Tipo de dato por defectos para los atributos debe de ser un array vacío
