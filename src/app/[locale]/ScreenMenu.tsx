@@ -253,6 +253,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                         options={
                                             role === 'admin'
                                                 ? [
+                                                      'events',
                                                       'submitted_aps',
                                                       'monthly_products',
                                                       'notifications',
@@ -271,6 +272,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                                       'profile',
                                                       'products',
                                                       'events',
+                                                      'experiences',
                                                       'online_orders',
                                                       'event_orders',
                                                       'signout',

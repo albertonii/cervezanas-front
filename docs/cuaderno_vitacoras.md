@@ -738,12 +738,12 @@ Habilitar formulario para feedbacks/reporte de errores
 
 - [WIP] Eventos Cervezanas
 
-  1. [ ] Si se crea un Evento Cervezanas y se añaden PC a través del ADMINISTRADOR, notificar al productor de ello
+  1. [x] Si se crea un Evento Cervezanas y se añaden PC a través del ADMINISTRADOR, notificar al productor de ello
   2. [x] Si se crea un evento Cervezanas y se añaden PCs a través del ADMINISTRADOR, visualizar en el apartado de eventos del productor acerca de ello.
   3. [x] Debido a que un administrador puede añadir un PC que no le pertenecen, debe de existir una relación entre ese evento y el punto de consumo (ICPM_events). De esta forma, el productor podrá ver si su PC ha sido añadido a un evento. Si es así, podrá ver la información del evento y el PC.
   4. [ ] Modificar los Puntos de Consumo asociados a un Evento Cervezanas
   5. [x] Modificar las Experiencias de los Puntos de Consumo asociados a un Evento Cervezanas
-  6. [ ] Añadir accesos directos en el menú desplegable en "cuenta" a productor para acceder a la configuración de experiencias en PC
+  6. [x] Añadir accesos directos en el menú desplegable en "cuenta" a productor para acceder a la configuración de experiencias en PC
   7. [ ] Breadcrumb en PC para poder volver al evento
   8. [ ] Al presionar en participar -> Actualizar la página para mostrar el código QR al barman
   9. [ ] Al presionar varias veces en participar -> CREA varias entradas. Hay que evitar esto.
@@ -777,3 +777,5 @@ Habilitar formulario para feedbacks/reporte de errores
 - [x] Si el usuario cancela el pedido online -> Estado: Cancelado por el usuario
 - [x] Si el usuario desde Paypal/Bizum decide cancelar y volver a la página anterior -> Estado: Cancelado por el usuario
 - [WIP] Error al actualizar premios en el producto -> Se crean varios diferentes.
+- [ ] Cuando se tengan que eliminar elementos de un listado que se selecciona y deselecciona -> usaremos un Array de elementos seleccionados (para insertar) y otro Array de elementos deseleccionados (para eliminar). Es mucho más efectivo hacerlo de esta forma.
+- [ ] Detectar si el estado del carrito de la compra está abierto o cerrado para que no aparezca abierto siempre.
