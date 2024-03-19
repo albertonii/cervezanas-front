@@ -5,15 +5,30 @@
 import createServerClient from '../../utils/supabaseServer';
 
 export default async function readUserSession() {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  // Be careful when protecting pages. The server gets the user session from the cookies, which can be spoofed by anyone.
-  // Always use supabase.auth.getUser() to protect pages and user data.
-  // Never trust supabase.auth.getSession() inside server code such as middleware. It isn't guaranteed to revalidate the Auth token.
-  // It's safe to trust getUser() because it sends a request to the Supabase Auth server every time to revalidate the Auth token.
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    // Be careful when protecting pages. The server gets the user session from the cookies, which can be spoofed by anyone.
+    // Always use supabase.auth.getUser() to protect pages and user data.
+    // Never trust supabase.auth.getSession() inside server code such as middleware. It isn't guaranteed to revalidate the Auth token.
+    // It's safe to trust getUser() because it sends a request to the Supabase Auth server every time to revalidate the Auth token.
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
 
-  return user;
+    return user;
+}
+
+export async function sendPushNotification(
+    destination_user: string,
+    message: string,
+    link: string,
+) {
+    const encodeMessage = encodeURIComponent(message);
+
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const url = `${baseUrl}/api/push_notification?destination_user=${destination_user}&message=${encodeMessage}&link=${link}`;
+
+    fetch(url, {
+        method: 'POST',
+    });
 }

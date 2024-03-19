@@ -20,6 +20,12 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { SearchCheckboxCPMobiles } from '../../../../components/common/SearchCheckboxCPMobiles';
 import { SearchCheckboxCPFixeds } from '../../../../components/common/SearchCheckboxCPFixed';
 import { useMessage } from '../../../../components/message/useMessage';
+import {
+    ROUTE_EVENTS,
+    ROUTE_PRODUCER,
+    ROUTE_PROFILE,
+} from '../../../../../../config';
+import { sendPushNotification } from '../../../../../../lib/actions';
 
 export type ModalAddEventFormData = {
     is_activated: boolean;
@@ -31,11 +37,6 @@ export type ModalAddEventFormData = {
     promotional_url?: string;
     cps_mobile?: any[];
     cps_fixed?: any[];
-    event_experiences?: {
-        experience_id?: string;
-        cp_mobile_id?: string;
-        cp_fixed_id?: string;
-    }[];
 };
 
 const schema: ZodType<ModalAddEventFormData> = z.object({
@@ -48,13 +49,6 @@ const schema: ZodType<ModalAddEventFormData> = z.object({
     promotional_url: z.string().optional(),
     cps_mobile: z.any(),
     cps_fixed: z.any(),
-    event_experiences: z.array(
-        z.object({
-            experience_id: z.string().optional(),
-            cp_mobile_id: z.string().optional(),
-            cp_fixed_id: z.string().optional(),
-        }),
-    ),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -76,23 +70,15 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
     const form = useForm<ValidationSchema>({
         mode: 'onSubmit',
         resolver: zodResolver(schema),
-        defaultValues: {
-            event_experiences: [],
-        },
+        defaultValues: {},
     });
 
     const {
         handleSubmit,
         reset,
         formState: { errors },
-        setValue,
         register,
     } = form;
-
-    useEffect(() => {
-        // HAY ERROR AQUI PQ ESTÁ GENERANDO CP _ ID Vacios para event experiences
-        setValue('event_experiences', []);
-    }, []);
 
     useEffect(() => {
         console.log(errors);
@@ -107,7 +93,6 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
             end_date,
             cps_mobile,
             cps_fixed,
-            event_experiences,
         } = form;
 
         const formatStartDate = new Date(start_date).toISOString();
@@ -176,6 +161,16 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
                 if (cpError) {
                     throw cpError;
                 }
+
+                // Notify to producer that the CP was added to the event
+                const newCPLinkedToCervezanasEventMessage = `El PC ${cp.cp_mobile?.cp_name} se ha registrado en el evento ${event.name}. Puedes configurarlo en el apartado de eventos, dentro del perfil.`;
+                const producerLink = `${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_EVENTS}`;
+
+                sendPushNotification(
+                    cp.owner_id,
+                    newCPLinkedToCervezanasEventMessage,
+                    producerLink,
+                );
             });
         }
 
@@ -199,25 +194,16 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
                 if (cpError) {
                     throw cpError;
                 }
-            });
-        }
 
-        if (event_experiences) {
-            event_experiences.map(async (experience) => {
-                if (!experience.experience_id) return;
+                // Notify to producer that the CP was added to the event
+                const newCPLinkedToCervezanasEventMessage = `El PC ${cp.cp_fixed?.cp_name} se ha registrado en el evento ${event.name}. Puedes configurarlo en el apartado de eventos, dentro del perfil.`;
+                const producerLink = `${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_EVENTS}`;
 
-                const { error: experienceError } = await supabase
-                    .from('event_experiences')
-                    .insert({
-                        event_id: eventId,
-                        experience_id: experience.experience_id,
-                        cp_mobile_id: experience.cp_mobile_id ?? null,
-                        cp_fixed_id: experience.cp_fixed_id ?? null,
-                    });
-
-                if (experienceError) {
-                    throw experienceError;
-                }
+                sendPushNotification(
+                    cp.owner_id,
+                    newCPLinkedToCervezanasEventMessage,
+                    producerLink,
+                );
             });
         }
 

@@ -738,7 +738,7 @@ Habilitar formulario para feedbacks/reporte de errores
 
 - [WIP] Eventos Cervezanas
 
-  1. [ ] Si se crea un evento Cervezanas y se añaden PC a través del ADMINISTRADOR, notificar al productor de ello
+  1. [ ] Si se crea un Evento Cervezanas y se añaden PC a través del ADMINISTRADOR, notificar al productor de ello
   2. [x] Si se crea un evento Cervezanas y se añaden PCs a través del ADMINISTRADOR, visualizar en el apartado de eventos del productor acerca de ello.
   3. [x] Debido a que un administrador puede añadir un PC que no le pertenecen, debe de existir una relación entre ese evento y el punto de consumo (ICPM_events). De esta forma, el productor podrá ver si su PC ha sido añadido a un evento. Si es así, podrá ver la información del evento y el PC.
   4. [ ] Modificar los Puntos de Consumo asociados a un Evento Cervezanas

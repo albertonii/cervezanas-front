@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { ICPFixed, ICPM_events } from '../../../../lib/types/types';
-import { useMessage } from '../message/useMessage';
-import InputSearch from './InputSearch';
+import { ICPFixed, ICPM_events } from '../../../../../../lib/types/types';
+import InputSearch from '../../../../components/common/InputSearch';
+import { useMessage } from '../../../../components/message/useMessage';
 
 interface Props {
     cpsFixed: ICPFixed[];
@@ -50,8 +50,6 @@ export function SearchCheckboxCPFixeds({
             setCheckedCPsState(
                 checkedCPsState.filter((item) => item.cp_id !== cp.id),
             );
-
-            
         }
     };
 

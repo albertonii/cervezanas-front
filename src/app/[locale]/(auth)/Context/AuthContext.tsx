@@ -23,6 +23,7 @@ import {
     SupabaseClient,
 } from '@supabase/supabase-js';
 import { ROLE_ENUM } from '../../../../lib/enums';
+import { sendPushNotification } from '../../../../lib/actions';
 
 enum PROVIDER_TYPE {
     GOOGLE = 'google',
@@ -348,8 +349,11 @@ export const AuthContextProvider = ({
                 // Notificar a administrador que se ha registrado un nuevo productor y está esperando aprobación
                 const newProducerMessage = `El productor ${data.user?.user_metadata.username} se ha registrado y está esperando aprobación`;
                 const producerLink = `${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_AUTHORIZED_USERS}`;
-                fetch(
-                    `/api/push_notification?destination_user=${data.user.id}&message=${newProducerMessage}&link=${producerLink}`,
+
+                sendPushNotification(
+                    data.user.id,
+                    newProducerMessage,
+                    producerLink,
                 );
 
                 return data;
@@ -357,8 +361,11 @@ export const AuthContextProvider = ({
                 // Notificar a administrador que se ha registrado un nuevo distribuidor y está esperando aprobación
                 const newDistributorMessage = `El distribuidor ${data.user?.user_metadata.username} se ha registrado y está esperando aprobación`;
                 const distributorLink = `${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_AUTHORIZED_USERS}`;
-                fetch(
-                    `/api/push_notification?destination_user=${data.user.id}&message=${newDistributorMessage}&link=${distributorLink}`,
+
+                sendPushNotification(
+                    data.user.id,
+                    newDistributorMessage,
+                    distributorLink,
                 );
 
                 return data;

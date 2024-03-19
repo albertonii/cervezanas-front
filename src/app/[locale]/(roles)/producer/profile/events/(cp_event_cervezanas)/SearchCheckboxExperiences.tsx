@@ -149,7 +149,6 @@ export function SearchCheckboxExperiences({
                     'removed_event_experiences',
                 );
 
-
                 const experienceModified:
                     | IExperienceSearchCheckbox
                     | undefined = checkedExperiencesState.find(

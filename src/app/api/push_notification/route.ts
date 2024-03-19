@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import createServerClient from '../../../utils/supabaseServer';
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
     const requestUrl = new URL(request.url);
     const destinationUserId = requestUrl.searchParams.get('destination_user');
     const message = requestUrl.searchParams.get('message');
@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
         user_id: destinationUserId,
         message: message,
         link: link ?? '',
-        source: source ?? '99162d5d-36b4-473d-9edc-c9ee9fc4ba1c', // El ID por defecto es el del admin de Cervezanas
+        source: source ?? process.env.NEXT_PUBLIC_ADMIN_ID, // El ID por defecto es el del admin de Cervezanas
     });
 
     if (error) throw new Error(error.message);

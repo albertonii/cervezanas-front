@@ -37,6 +37,7 @@ import {
     ROUTE_PRODUCER,
     ROUTE_PROFILE,
 } from '../../../../../config';
+import { sendPushNotification } from '../../../../../lib/actions';
 
 // const DynamicSpinner = dynamic(
 //     () => import('../../../components/common/Spinner'),
@@ -274,16 +275,17 @@ export function ShoppingBasket({ user }: Props) {
                 const distributorMessage = `Tienes un nuevo pedido online de ${user?.name} ${user?.lastname} con número de pedido ${orderNumber} con identificador de negocio ${businessOrder.id}`;
                 const distributorLink = `${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_BUSINESS_ORDERS}`;
 
-                fetch(
-                    `/api/push_notification?destination_user=${distributorId}&message=${distributorMessage}&link=${distributorLink}`,
+                sendPushNotification(
+                    distributorId,
+                    distributorMessage,
+                    distributorLink,
                 );
 
                 // Notification to producer
                 const producerMessage = `Tienes un nuevo online pedido de ${user?.name} ${user?.lastname} con número de pedido ${orderNumber} con identificador de negocio ${businessOrder.id}`;
                 const producerLink = `${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_ONLINE_ORDERS}`;
-                fetch(
-                    `/api/push_notification?destination_user=${producerId}&message=${producerMessage}&link=${producerLink}`,
-                );
+
+                sendPushNotification(producerId, producerMessage, producerLink);
             });
         });
 
