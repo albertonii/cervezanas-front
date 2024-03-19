@@ -266,7 +266,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
         mutationKey: 'insertCPMobile',
         mutationFn: handleInsertCPMobile,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['cpMobile'] });
+            queryClient.invalidateQueries('cpMobile');
             setShowModal(false);
         },
         onError: (error: any) => {

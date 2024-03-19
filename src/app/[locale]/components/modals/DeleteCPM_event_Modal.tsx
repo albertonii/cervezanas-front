@@ -34,7 +34,7 @@ export default function DeleteCPM_event_Modal({
             .eq('event_id', eventId);
         if (error) throw error;
 
-        queryClient.invalidateQueries({ queryKey: ['cpm_events'] });
+        queryClient.invalidateQueries('cpm_events');
         handleDeleteModal(false);
     };
 

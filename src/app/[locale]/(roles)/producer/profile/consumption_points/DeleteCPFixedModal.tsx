@@ -5,65 +5,65 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 
 interface Props {
-  selectedCPId: string;
-  isDeleteModal: boolean;
-  handleDeleteModal: ComponentProps<any>;
+    selectedCPId: string;
+    isDeleteModal: boolean;
+    handleDeleteModal: ComponentProps<any>;
 }
 
 export default function DeleteCPFixedModal({
-  selectedCPId,
-  isDeleteModal,
-  handleDeleteModal,
+    selectedCPId,
+    isDeleteModal,
+    handleDeleteModal,
 }: Props) {
-  const t = useTranslations();
+    const t = useTranslations();
 
-  const { supabase } = useAuth();
+    const { supabase } = useAuth();
 
-  const queryClient = useQueryClient();
+    const queryClient = useQueryClient();
 
-  // Delete CP Fixed from database
-  const handleRemoveCP = async () => {
-    if (!selectedCPId) return;
+    // Delete CP Fixed from database
+    const handleRemoveCP = async () => {
+        if (!selectedCPId) return;
 
-    const { error } = await supabase
-      .from('cp_fixed')
-      .delete()
-      .eq('id', selectedCPId);
+        const { error } = await supabase
+            .from('cp_fixed')
+            .delete()
+            .eq('id', selectedCPId);
 
-    if (error) throw error;
-  };
+        if (error) throw error;
+    };
 
-  const deleteCPFixedMutation = useMutation({
-    mutationKey: ['deleteCPFixed'],
-    mutationFn: handleRemoveCP,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cpFixed'] });
-      handleDeleteModal(false);
-    },
-    onError: (error) => {
-      console.error(error);
-    },
-  });
+    const deleteCPFixedMutation = useMutation({
+        mutationKey: ['deleteCPFixed'],
+        mutationFn: handleRemoveCP,
+        onSuccess: () => {
+            queryClient.invalidateQueries('cpFixed');
+            handleDeleteModal(false);
+        },
+        onError: (error) => {
+            console.error(error);
+        },
+    });
 
-  const onSubmitDelete = () => {
-    try {
-      deleteCPFixedMutation.mutate();
-    } catch (e) {
-      console.error(e);
-    }
-  };
+    const onSubmitDelete = () => {
+        try {
+            deleteCPFixedMutation.mutate();
+        } catch (e) {
+            console.error(e);
+        }
+    };
 
-  return (
-    <DeleteModal
-      title={t('delete')}
-      handler={() => {
-        onSubmitDelete();
-      }}
-      handlerClose={() => handleDeleteModal(false)}
-      description={t('delete_cp_description_modal')}
-      btnTitle={t('accept')}
-      showModal={isDeleteModal}
-      setShowModal={handleDeleteModal}
-    />
-  );
+    return (
+        <DeleteModal
+            title={t('delete')}
+            handler={() => {
+                onSubmitDelete();
+            }}
+            handlerClose={() => handleDeleteModal(false)}
+            description={t('delete_cp_description_modal')}
+            btnTitle={t('accept')}
+            showModal={isDeleteModal}
+            setShowModal={handleDeleteModal}
+        />
+    );
 }

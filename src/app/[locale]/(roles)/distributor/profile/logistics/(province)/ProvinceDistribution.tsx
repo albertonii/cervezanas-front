@@ -9,401 +9,445 @@ import { Country, ICountry, IState } from 'country-state-city';
 import Button from '../../../../../components/common/Button';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import {
-  filterSearchInputQuery,
-  slicePaginationResults,
+    filterSearchInputQuery,
+    slicePaginationResults,
 } from '../../../../../../../utils/utils';
 import InputSearch from '../../../../../components/common/InputSearch';
 
 type Props = {
-  provinces: string[];
-  coverageAreaId: string;
+    provinces: string[];
+    coverageAreaId: string;
 };
 
 interface FormData {
-  country: string;
-  region: string;
-  provinces: IState[];
+    country: string;
+    region: string;
+    provinces: IState[];
 }
 
 export default function ProvinceDistribution({
-  provinces,
-  coverageAreaId,
+    provinces,
+    coverageAreaId,
 }: Props) {
-  const t = useTranslations();
+    const t = useTranslations();
 
-  const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-  const [addressCountry, setAddressCountry] = useState<string>();
-  const [tenProvinces, setTenProvinces] = useState<IState[] | undefined>([]);
-  const [listOfAllProvincesByRegion, setListOfAllProvincesByRegion] = useState<
-    IState[] | undefined
-  >([]);
+    const [addressCountry, setAddressCountry] = useState<string>();
+    const [tenProvinces, setTenProvinces] = useState<IState[] | undefined>([]);
+    const [listOfAllProvincesByRegion, setListOfAllProvincesByRegion] =
+        useState<IState[] | undefined>([]);
 
-  const [selectedProvinces, setSelectedProvinces] =
-    useState<string[]>(provinces);
-  const [selectAllCurrentPage, setSelectAllCurrentPage] = useState(false);
+    const [selectedProvinces, setSelectedProvinces] =
+        useState<string[]>(provinces);
+    const [selectAllCurrentPage, setSelectAllCurrentPage] = useState(false);
 
-  const [selectAllProvincesByRegion, setSelectAllProvincesByRegion] =
-    useState(false); // rastrear si todaslas ciudades de la región están seleccionadas, independientemente de la paginación
+    const [selectAllProvincesByRegion, setSelectAllProvincesByRegion] =
+        useState(false); // rastrear si todaslas ciudades de la región están seleccionadas, independientemente de la paginación
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [counter, setCounter] = useState(0);
-  const resultsPerPage = 20;
+    const [currentPage, setCurrentPage] = useState(1);
+    const [counter, setCounter] = useState(0);
+    const resultsPerPage = 20;
 
-  const { supabase } = useAuth();
+    const { supabase } = useAuth();
 
-  const [query, setQuery] = useState('');
+    const [query, setQuery] = useState('');
 
-  const queryClient = useQueryClient();
+    const queryClient = useQueryClient();
 
-  const countryData = Country.getAllCountries();
+    const countryData = Country.getAllCountries();
 
-  const form = useForm<FormData>();
+    const form = useForm<FormData>();
 
-  const { handleSubmit, register } = form;
+    const { handleSubmit, register } = form;
 
-  const { refetch } = useFetchStatesByCountry(addressCountry ?? 'ES');
+    const { refetch } = useFetchStatesByCountry(addressCountry ?? 'ES');
 
-  useEffect(() => {
-    const country = Country.getCountryByCode('ES') as ICountry;
-    setAddressCountry(country.isoCode ?? '');
-  }, []);
+    useEffect(() => {
+        const country = Country.getCountryByCode('ES') as ICountry;
+        setAddressCountry(country.isoCode ?? '');
+    }, []);
 
-  useEffect(() => {
-    if (!addressCountry) return;
+    useEffect(() => {
+        if (!addressCountry) return;
 
-    const getProvinceData = async () => {
-      return await refetch().then((res) => {
-        const { data: provinceData, error } = res;
+        const getProvinceData = async () => {
+            return await refetch().then((res) => {
+                const { data: provinceData, error } = res;
 
-        if (error || !provinceData) {
-          console.error(error);
-          return;
-        }
+                if (error || !provinceData) {
+                    console.error(error);
+                    return;
+                }
 
-        const lOfProvinces = slicePaginationResults(
-          provinceData,
-          currentPage,
-          resultsPerPage,
+                const lOfProvinces = slicePaginationResults(
+                    provinceData,
+                    currentPage,
+                    resultsPerPage,
+                );
+
+                setListOfAllProvincesByRegion(provinceData ?? []);
+                setCounter(provinceData?.length ?? 0);
+
+                setTenProvinces(lOfProvinces);
+            });
+        };
+
+        // const provinceData = State.getStatesOfCountry(addressCountry);
+        getProvinceData().then();
+    }, [addressCountry]);
+
+    useEffect(() => {
+        if (!listOfAllProvincesByRegion) return;
+
+        const lOfProvinces = filterSearchInputQuery(
+            listOfAllProvincesByRegion,
+            query,
+            currentPage,
+            resultsPerPage,
+        );
+        setTenProvinces(lOfProvinces);
+
+        // Update selectAllCurrentPage based on whether all provinces on this page are selected
+        setSelectAllCurrentPage(
+            lOfProvinces?.every((province) =>
+                selectedProvinces.includes(province.name),
+            ) ?? false,
+        );
+    }, [currentPage]);
+
+    useEffect(() => {
+        if (!listOfAllProvincesByRegion) return;
+
+        const lAllProvinces = filterSearchInputQuery(
+            listOfAllProvincesByRegion,
+            query,
+            currentPage,
+            resultsPerPage,
         );
 
-        setListOfAllProvincesByRegion(provinceData ?? []);
-        setCounter(provinceData?.length ?? 0);
+        setTenProvinces(lAllProvinces);
+    }, [query]);
 
-        setTenProvinces(lOfProvinces);
-      });
+    const handleAddressCountry = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setAddressCountry(e.target.value);
+        setTenProvinces([]);
     };
 
-    // const provinceData = State.getStatesOfCountry(addressCountry);
-    getProvinceData().then();
-  }, [addressCountry]);
+    const handleUpdatePronvicesDistribution = async () => {
+        const { error } = await supabase
+            .from('coverage_areas')
+            .update({ provinces: selectedProvinces })
+            .eq('id', coverageAreaId);
 
-  useEffect(() => {
-    if (!listOfAllProvincesByRegion) return;
+        if (error) {
+            console.error(error);
+            return;
+        }
 
-    const lOfProvinces = filterSearchInputQuery(
-      listOfAllProvincesByRegion,
-      query,
-      currentPage,
-      resultsPerPage,
-    );
-    setTenProvinces(lOfProvinces);
+        queryClient.invalidateQueries('distribution');
+        setIsLoading(false);
+    };
 
-    // Update selectAllCurrentPage based on whether all provinces on this page are selected
-    setSelectAllCurrentPage(
-      lOfProvinces?.every((province) =>
-        selectedProvinces.includes(province.name),
-      ) ?? false,
-    );
-  }, [currentPage]);
+    const updateProvincesDistributionMutation = useMutation({
+        mutationKey: 'updateProvincesDistribution',
+        mutationFn: handleUpdatePronvicesDistribution,
+        onMutate: () => {
+            console.info('onMutate');
+            setIsLoading(true);
+        },
 
-  useEffect(() => {
-    if (!listOfAllProvincesByRegion) return;
+        onError: () => {
+            console.error('onError');
+            setIsLoading(false);
+        },
+    });
 
-    const lAllProvinces = filterSearchInputQuery(
-      listOfAllProvincesByRegion,
-      query,
-      currentPage,
-      resultsPerPage,
-    );
+    const onSubmit = () => {
+        try {
+            updateProvincesDistributionMutation.mutate();
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
-    setTenProvinces(lAllProvinces);
-  }, [query]);
+    const handleCheckbox = (
+        e: React.ChangeEvent<HTMLInputElement>,
+        province: string,
+    ) => {
+        const updatedSelectedProvinces = e.target.checked
+            ? [...selectedProvinces, province]
+            : selectedProvinces.filter((item) => item !== province);
 
-  const handleAddressCountry = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setAddressCountry(e.target.value);
-    setTenProvinces([]);
-  };
+        setSelectedProvinces(updatedSelectedProvinces);
+    };
 
-  const handleUpdatePronvicesDistribution = async () => {
-    const { error } = await supabase
-      .from('coverage_areas')
-      .update({ provinces: selectedProvinces })
-      .eq('id', coverageAreaId);
+    const handleSelectAllCurrentPage = (
+        e: React.ChangeEvent<HTMLInputElement>,
+    ) => {
+        const listOfCityNames =
+            tenProvinces?.map((province) => province.name) || [];
 
-    if (error) {
-      console.error(error);
-      return;
-    }
-  };
+        const updatedSelectedProvinces = e.target.checked
+            ? [...selectedProvinces, ...listOfCityNames]
+            : selectedProvinces.filter(
+                  (checkedCity) => !listOfCityNames.includes(checkedCity),
+              );
 
-  const updateProvincesDistributionMutation = useMutation({
-    mutationKey: 'updateProvincesDistribution',
-    mutationFn: handleUpdatePronvicesDistribution,
-    onMutate: () => {
-      console.info('onMutate');
-      setIsLoading(true);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['distribution'] });
-      console.info('onSuccess');
-      setIsLoading(false);
-    },
-    onError: () => {
-      console.error('onError');
-      setIsLoading(false);
-    },
-  });
+        setSelectedProvinces(updatedSelectedProvinces);
+        setSelectAllCurrentPage(e.target.checked);
+    };
 
-  const onSubmit = () => {
-    try {
-      updateProvincesDistributionMutation.mutate();
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    const handleSelectAllProvincesByRegion = (
+        e: React.ChangeEvent<HTMLInputElement>,
+    ) => {
+        let updatedSelectedProvinces = [...selectedProvinces];
+        if (e.target.checked) {
+            updatedSelectedProvinces.push(
+                ...(listOfAllProvincesByRegion?.map(
+                    (province) => province.name,
+                ) ?? []),
+            );
+        } else {
+            updatedSelectedProvinces = updatedSelectedProvinces.filter(
+                (selectedCity) =>
+                    !listOfAllProvincesByRegion
+                        ?.map((province) => province.name)
+                        .includes(selectedCity),
+            );
+        }
 
-  const handleCheckbox = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    province: string,
-  ) => {
-    const updatedSelectedProvinces = e.target.checked
-      ? [...selectedProvinces, province]
-      : selectedProvinces.filter((item) => item !== province);
+        setSelectedProvinces(updatedSelectedProvinces);
+        setSelectAllProvincesByRegion(e.target.checked);
+        setSelectAllCurrentPage(e.target.checked);
+    };
 
-    setSelectedProvinces(updatedSelectedProvinces);
-  };
+    return (
+        <section className="space-y-4">
+            {isLoading ? (
+                <Loading />
+            ) : (
+                <>
+                    <Button
+                        btnType="submit"
+                        onClick={handleSubmit(onSubmit)}
+                        class=""
+                        primary
+                        medium
+                    >
+                        {t('save')}
+                    </Button>
 
-  const handleSelectAllCurrentPage = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const listOfCityNames =
-      tenProvinces?.map((province) => province.name) || [];
+                    <div className="flex flex-col items-start space-y-4">
+                        <address className="grid w-full grid-cols-2 gap-4">
+                            <label
+                                htmlFor="addressCountry"
+                                className="text-sm text-gray-600"
+                            >
+                                {t('loc_country')}
+                            </label>
 
-    const updatedSelectedProvinces = e.target.checked
-      ? [...selectedProvinces, ...listOfCityNames]
-      : selectedProvinces.filter(
-          (checkedCity) => !listOfCityNames.includes(checkedCity),
-        );
+                            {/* Display all countries  */}
+                            <select
+                                name="addressCountry"
+                                id="addressCountry"
+                                className=" w-full rounded-lg border-transparent bg-gray-100 px-4 py-2 text-base text-gray-700 focus:border-gray-500 focus:bg-white focus:ring-0"
+                                onChange={(e) => handleAddressCountry(e)}
+                                value={addressCountry}
+                            >
+                                <option key={'ES'} value={'ES'}>
+                                    Spain
+                                </option>
 
-    setSelectedProvinces(updatedSelectedProvinces);
-    setSelectAllCurrentPage(e.target.checked);
-  };
+                                {countryData.map((country: ICountry) => (
+                                    <option
+                                        key={country.isoCode}
+                                        value={country.isoCode}
+                                    >
+                                        {country.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </address>
 
-  const handleSelectAllProvincesByRegion = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    let updatedSelectedProvinces = [...selectedProvinces];
-    if (e.target.checked) {
-      updatedSelectedProvinces.push(
-        ...(listOfAllProvincesByRegion?.map((province) => province.name) ?? []),
-      );
-    } else {
-      updatedSelectedProvinces = updatedSelectedProvinces.filter(
-        (selectedCity) =>
-          !listOfAllProvincesByRegion
-            ?.map((province) => province.name)
-            .includes(selectedCity),
-      );
-    }
+                        <InputSearch
+                            query={query}
+                            setQuery={setQuery}
+                            searchPlaceholder={'search_by_name'}
+                        />
 
-    setSelectedProvinces(updatedSelectedProvinces);
-    setSelectAllProvincesByRegion(e.target.checked);
-    setSelectAllCurrentPage(e.target.checked);
-  };
+                        {/* List of provinces in the country  */}
+                        {tenProvinces && tenProvinces.length > 0 && (
+                            <>
+                                <div className="">
+                                    <label
+                                        htmlFor="allProvincesByRegion"
+                                        className="space-x-2 text-lg text-gray-600"
+                                    >
+                                        <input
+                                            id="allProvincesByRegion"
+                                            type="checkbox"
+                                            onChange={(e) => {
+                                                handleSelectAllProvincesByRegion(
+                                                    e,
+                                                );
+                                            }}
+                                            checked={selectAllProvincesByRegion}
+                                            className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                                        />
 
-  return (
-    <section className="space-y-4">
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
-          <Button
-            btnType="submit"
-            onClick={handleSubmit(onSubmit)}
-            class=""
-            primary
-            medium
-          >
-            {t('save')}
-          </Button>
+                                        <span className="text-sm text-gray-600">
+                                            {t(
+                                                'select_all_provinces_by_region',
+                                            )}
+                                        </span>
+                                    </label>
+                                </div>
 
-          <div className="flex flex-col items-start space-y-4">
-            <address className="grid w-full grid-cols-2 gap-4">
-              <label htmlFor="addressCountry" className="text-sm text-gray-600">
-                {t('loc_country')}
-              </label>
+                                <div className="w-full">
+                                    {/* Display selectable table with all provinces in the country selected */}
+                                    <label
+                                        htmlFor="addressCity"
+                                        className="text-sm text-gray-600"
+                                    >
+                                        {t('loc_province')}
+                                    </label>
 
-              {/* Display all countries  */}
-              <select
-                name="addressCountry"
-                id="addressCountry"
-                className=" w-full rounded-lg border-transparent bg-gray-100 px-4 py-2 text-base text-gray-700 focus:border-gray-500 focus:bg-white focus:ring-0"
-                onChange={(e) => handleAddressCountry(e)}
-                value={addressCountry}
-              >
-                <option key={'ES'} value={'ES'}>
-                  Spain
-                </option>
+                                    <table className="bg-beer-foam w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
+                                        <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                                            <tr>
+                                                <th
+                                                    scope="col"
+                                                    className="px-6 py-3"
+                                                >
+                                                    <input
+                                                        type="checkbox"
+                                                        onChange={(e) => {
+                                                            handleSelectAllCurrentPage(
+                                                                e,
+                                                            );
+                                                        }}
+                                                        checked={
+                                                            selectAllCurrentPage
+                                                        }
+                                                        className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                                                    />
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    className="px-6 py-3"
+                                                >
+                                                    {t('province')}
+                                                </th>
+                                            </tr>
+                                        </thead>
 
-                {countryData.map((country: ICountry) => (
-                  <option key={country.isoCode} value={country.isoCode}>
-                    {country.name}
-                  </option>
-                ))}
-              </select>
-            </address>
+                                        <tbody>
+                                            {tenProvinces?.map(
+                                                (
+                                                    province: IState,
+                                                    index: number,
+                                                ) => {
+                                                    const startIndex =
+                                                        currentPage *
+                                                        resultsPerPage;
+                                                    const globalIndex =
+                                                        startIndex + index;
 
-            <InputSearch
-              query={query}
-              setQuery={setQuery}
-              searchPlaceholder={'search_by_name'}
-            />
+                                                    return (
+                                                        <tr
+                                                            key={
+                                                                province.name +
+                                                                currentPage
+                                                            }
+                                                            className=""
+                                                        >
+                                                            <ProvinceRow
+                                                                province={
+                                                                    province
+                                                                }
+                                                                globalIndex={
+                                                                    globalIndex
+                                                                }
+                                                                selectedProvinces={
+                                                                    selectedProvinces
+                                                                }
+                                                                handleCheckbox={
+                                                                    handleCheckbox
+                                                                }
+                                                                register={
+                                                                    register
+                                                                }
+                                                            />
+                                                        </tr>
+                                                    );
+                                                },
+                                            )}
+                                        </tbody>
+                                    </table>
 
-            {/* List of provinces in the country  */}
-            {tenProvinces && tenProvinces.length > 0 && (
-              <>
-                <div className="">
-                  <label
-                    htmlFor="allProvincesByRegion"
-                    className="space-x-2 text-lg text-gray-600"
-                  >
-                    <input
-                      id="allProvincesByRegion"
-                      type="checkbox"
-                      onChange={(e) => {
-                        handleSelectAllProvincesByRegion(e);
-                      }}
-                      checked={selectAllProvincesByRegion}
-                      className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                    />
-
-                    <span className="text-sm text-gray-600">
-                      {t('select_all_provinces_by_region')}
-                    </span>
-                  </label>
-                </div>
-
-                <div className="w-full">
-                  {/* Display selectable table with all provinces in the country selected */}
-                  <label
-                    htmlFor="addressCity"
-                    className="text-sm text-gray-600"
-                  >
-                    {t('loc_province')}
-                  </label>
-
-                  <table className="bg-beer-foam w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
-                    <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                      <tr>
-                        <th scope="col" className="px-6 py-3">
-                          <input
-                            type="checkbox"
-                            onChange={(e) => {
-                              handleSelectAllCurrentPage(e);
-                            }}
-                            checked={selectAllCurrentPage}
-                            className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                          />
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                          {t('province')}
-                        </th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {tenProvinces?.map((province: IState, index: number) => {
-                        const startIndex = currentPage * resultsPerPage;
-                        const globalIndex = startIndex + index;
-
-                        return (
-                          <tr key={province.name + currentPage} className="">
-                            <ProvinceRow
-                              province={province}
-                              globalIndex={globalIndex}
-                              selectedProvinces={selectedProvinces}
-                              handleCheckbox={handleCheckbox}
-                              register={register}
-                            />
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-
-                  <PaginationFooter
-                    counter={counter}
-                    resultsPerPage={resultsPerPage}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                  />
-                </div>
-              </>
+                                    <PaginationFooter
+                                        counter={counter}
+                                        resultsPerPage={resultsPerPage}
+                                        currentPage={currentPage}
+                                        setCurrentPage={setCurrentPage}
+                                    />
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </>
             )}
-          </div>
-        </>
-      )}
-    </section>
-  );
+        </section>
+    );
 }
 
 interface ProvinceRowProps {
-  province: IState;
-  globalIndex: number;
-  selectedProvinces: string[];
-  handleCheckbox: (
-    e: React.ChangeEvent<HTMLInputElement>,
-    name: string,
-  ) => void;
-  register: UseFormRegister<any>;
+    province: IState;
+    globalIndex: number;
+    selectedProvinces: string[];
+    handleCheckbox: (
+        e: React.ChangeEvent<HTMLInputElement>,
+        name: string,
+    ) => void;
+    register: UseFormRegister<any>;
 }
 
 const ProvinceRow = ({
-  province,
-  globalIndex,
-  handleCheckbox,
-  register,
-  selectedProvinces,
+    province,
+    globalIndex,
+    handleCheckbox,
+    register,
+    selectedProvinces,
 }: ProvinceRowProps) => {
-  const isChecked = (province: IState) => {
-    return selectedProvinces.includes(province.name);
-  };
+    const isChecked = (province: IState) => {
+        return selectedProvinces.includes(province.name);
+    };
 
-  return (
-    <>
-      <th
-        scope="row"
-        className="w-20 whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-      >
-        <input
-          type="checkbox"
-          {...register(`provinces`)}
-          // {...register(`provinces.${globalIndex}.name`)}
-          // {...register(`provinces.${globalIndex}-${province.name}.name`)}
-          id={`provinces.${globalIndex}.${province.name}}`}
-          value={province.name}
-          checked={isChecked(province)}
-          onChange={(e) => {
-            handleCheckbox(e, province.name);
-          }}
-          className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-        />
-      </th>
+    return (
+        <>
+            <th
+                scope="row"
+                className="w-20 whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+            >
+                <input
+                    type="checkbox"
+                    {...register(`provinces`)}
+                    // {...register(`provinces.${globalIndex}.name`)}
+                    // {...register(`provinces.${globalIndex}-${province.name}.name`)}
+                    id={`provinces.${globalIndex}.${province.name}}`}
+                    value={province.name}
+                    checked={isChecked(province)}
+                    onChange={(e) => {
+                        handleCheckbox(e, province.name);
+                    }}
+                    className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                />
+            </th>
 
-      <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-        {province.name}
-      </td>
-    </>
-  );
+            <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+                {province.name}
+            </td>
+        </>
+    );
 };

@@ -377,6 +377,7 @@ export function UpdateProductInfoSection({ form }: Props) {
                                 valueAsNumber: true,
                             }}
                             inputType="number"
+                            defaultValue={330}
                         />
                     </div>
 

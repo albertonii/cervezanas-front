@@ -5,67 +5,66 @@ import { useAuth } from '../../(auth)/Context/useAuth';
 import Modal from './Modal';
 
 interface Props {
-  campaign: ICampaign;
-  showModal: boolean;
-  handleDeleteShowModal: ComponentProps<any>;
+    campaign: ICampaign;
+    showModal: boolean;
+    handleDeleteShowModal: ComponentProps<any>;
 }
 
 export function DeleteCampaign({
-  campaign,
-  showModal,
-  handleDeleteShowModal,
+    campaign,
+    showModal,
+    handleDeleteShowModal,
 }: Props) {
-  const { supabase } = useAuth();
-  const queryClient = useQueryClient();
+    const { supabase } = useAuth();
+    const queryClient = useQueryClient();
 
-  const handleDeleteCampaign = async () => {
-    if (!campaign) return;
+    const handleDeleteCampaign = async () => {
+        if (!campaign) return;
 
-    const { error } = await supabase
-      .from('campaigns')
-      .delete()
-      .eq('id', campaign.id);
+        const { error } = await supabase
+            .from('campaigns')
+            .delete()
+            .eq('id', campaign.id);
 
-    if (error) throw error;
+        if (error) throw error;
 
-    handleDeleteShowModal(false);
-  };
+        handleDeleteShowModal(false);
 
-  const deleteCampaignMutation = useMutation({
-    mutationKey: ['deleteCampaign'],
-    mutationFn: handleDeleteCampaign,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['campaignList'] });
-    },
-    onError: (error) => {
-      console.error(error);
-    },
-  });
+        queryClient.invalidateQueries('campaignList');
+    };
 
-  const onSubmitDelete = () => {
-    try {
-      deleteCampaignMutation.mutate();
-    } catch (e) {
-      console.error(e);
-    }
-  };
+    const deleteCampaignMutation = useMutation({
+        mutationKey: ['deleteCampaign'],
+        mutationFn: handleDeleteCampaign,
+        onError: (error) => {
+            console.error(error);
+        },
+    });
 
-  return (
-    <Modal
-      showBtn={false}
-      showModal={showModal}
-      setShowModal={handleDeleteShowModal}
-      title={'modal_delete_campaign_title'}
-      btnTitle={'delete'}
-      description={'modal_delete_campaign_description'}
-      handler={() => {
-        onSubmitDelete();
-      }}
-      handlerClose={() => handleDeleteShowModal(false)}
-      classIcon={''}
-      classContainer={''}
-    >
-      <></>
-    </Modal>
-  );
+    const onSubmitDelete = () => {
+        try {
+            deleteCampaignMutation.mutate();
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    return (
+        <Modal
+            showBtn={false}
+            showModal={showModal}
+            setShowModal={handleDeleteShowModal}
+            title={'modal_delete_campaign_title'}
+            btnTitle={'delete'}
+            description={'modal_delete_campaign_description'}
+            handler={() => {
+                onSubmitDelete();
+            }}
+            handlerClose={() => handleDeleteShowModal(false)}
+            classIcon={''}
+            classContainer={''}
+        >
+            <></>
+        </Modal>
+    );
 }

@@ -183,7 +183,7 @@ export default function UpdateCPMEventModal({
 
         handleEditModal(false);
 
-        queryClient.invalidateQueries({ queryKey: ['cpm_events'] });
+        queryClient.invalidateQueries('cpm_events');
     };
 
     const updateEventMutation = useMutation({

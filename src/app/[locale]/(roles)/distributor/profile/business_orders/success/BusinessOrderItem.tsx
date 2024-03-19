@@ -67,7 +67,7 @@ export default function BusinessOrderItem({
             throw error;
         }
 
-        queryClient.invalidateQueries({ queryKey: ['distribution'] });
+        queryClient.invalidateQueries('distribution');
 
         handleMessage({
             type: 'success',

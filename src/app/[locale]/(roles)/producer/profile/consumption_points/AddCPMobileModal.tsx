@@ -241,7 +241,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
             }
         }
 
-        queryClient.invalidateQueries({ queryKey: ['cpMobile'] });
+        queryClient.invalidateQueries('cpMobile');
 
         reset();
     };

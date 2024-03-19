@@ -16,9 +16,13 @@ import { shuffleArray } from '../../../../../../../../utils/utils';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import {
+    CERVEZANAS_BEER_URL,
+    ROUTE_BARMAN,
     ROUTE_CP_FIXED,
     ROUTE_CP_MOBILE,
     ROUTE_EVENTS,
+    ROUTE_EXPERIENCE_PARTICIPANT,
+    ROUTE_PRODUCER,
 } from '../../../../../../../../config';
 import ParticipationQRCode from './ParticipationQRCode';
 import {
@@ -210,6 +214,15 @@ export default function EventExperience({ eventExperience }: Props) {
                   `/${locale}${ROUTE_EVENTS}/${eventExperience.event_id}${ROUTE_CP_FIXED}/${cpFixedId}`,
               );
     };
+
+    const environmentState = process.env.NODE_ENV;
+    const host =
+        environmentState === 'development'
+            ? 'localhost:3000'
+            : CERVEZANAS_BEER_URL;
+
+    const experienceParticipatantBarmanUrl = `${host}/${locale}${ROUTE_PRODUCER}${ROUTE_BARMAN}${ROUTE_EXPERIENCE_PARTICIPANT}/${bmExperienceParticipantId}`;
+    console.info(experienceParticipatantBarmanUrl);
 
     return (
         <section className="w-full flex-col flex items-center justify-center space-y-4 ">

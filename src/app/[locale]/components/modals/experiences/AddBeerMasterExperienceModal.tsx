@@ -143,15 +143,14 @@ export default function AddBeerMasterExperienceModal() {
         });
 
         reset();
+
+        queryClient.invalidateQueries('experiences');
+        setShowModal(false);
     };
 
     const insertExperienceMutation = useMutation({
         mutationKey: 'insertExperience',
         mutationFn: handleInsertBeerMasterExperience,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['experiences'] });
-            setShowModal(false);
-        },
         onError: (error) => {
             console.error(error);
         },

@@ -18,227 +18,231 @@ import InputTextarea from '../common/InputTextarea';
 const ModalWithForm = dynamic(() => import('./ModalWithForm'), { ssr: false });
 
 type ModalAddLotFormData = {
-  quantity: number;
-  lot_name: string;
-  lot_number: string;
-  product_id: string;
-  limit_notification: number;
-  recipe?: string;
-  expiration_date: Date;
-  manufacture_date: Date;
-  packaging: string;
+    quantity: number;
+    lot_name: string;
+    lot_number: string;
+    product_id: string;
+    limit_notification: number;
+    recipe?: string;
+    expiration_date: Date;
+    manufacture_date: Date;
+    packaging: string;
 };
 
 const schema: ZodType<ModalAddLotFormData> = z.object({
-  lot_number: z.string().min(1, { message: 'errors.input_min_1' }),
-  lot_name: z.string().nonempty({ message: 'errors.input_required' }),
-  quantity: z.number().positive({ message: 'errors.input_required' }),
-  limit_notification: z.number().positive({ message: 'errors.input_required' }),
-  recipe: z.string().optional(),
-  expiration_date: z.date(),
-  manufacture_date: z.date(),
-  packaging: z.string().transform((value) => {
-    const valueNumber = parseInt(value);
-    return format_options[valueNumber].label;
-  }),
-  product_id: z.string().nonempty({ message: 'errors.input_required' }),
+    lot_number: z.string().min(1, { message: 'errors.input_min_1' }),
+    lot_name: z.string().nonempty({ message: 'errors.input_required' }),
+    quantity: z.number().positive({ message: 'errors.input_required' }),
+    limit_notification: z
+        .number()
+        .positive({ message: 'errors.input_required' }),
+    recipe: z.string().optional(),
+    expiration_date: z.date(),
+    manufacture_date: z.date(),
+    packaging: z.string().transform((value) => {
+        const valueNumber = parseInt(value);
+        return format_options[valueNumber].label;
+    }),
+    product_id: z.string().nonempty({ message: 'errors.input_required' }),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
 
 export function AddLot() {
-  const t = useTranslations();
-  const { user, supabase } = useAuth();
+    const t = useTranslations();
+    const { user, supabase } = useAuth();
 
-  const [showModal, setShowModal] = useState<boolean>(false);
+    const [showModal, setShowModal] = useState<boolean>(false);
 
-  const { data: products } = useFetchProductsByOwner(user?.id);
+    const { data: products } = useFetchProductsByOwner(user?.id);
 
-  const form = useForm<ModalAddLotFormData>({
-    mode: 'onSubmit',
-    resolver: zodResolver(schema),
-    defaultValues: {
-      lot_number: '',
-      lot_name: '',
-      product_id: '',
-      quantity: 100,
-      limit_notification: 10,
-      recipe: '',
-      expiration_date: new Date(),
-      manufacture_date: new Date(),
-      packaging: t(format_options[0].label) ?? '',
-    },
-  });
-
-  const { handleSubmit, reset } = form;
-
-  const queryClient = useQueryClient();
-
-  const handleInsertLot = async (form: ValidationSchema) => {
-    const {
-      quantity,
-      lot_number,
-      lot_name,
-      limit_notification,
-      recipe,
-      expiration_date,
-      manufacture_date,
-      packaging,
-      product_id,
-    } = form;
-
-    const expirationDateToString = expiration_date?.toISOString();
-    const manufactureDateToString = manufacture_date?.toISOString();
-
-    const userId = user?.id;
-
-    const { error } = await supabase.from('product_lots').insert({
-      quantity,
-      lot_number,
-      lot_name,
-      limit_notification,
-      recipe,
-      packaging,
-      product_id,
-      owner_id: userId,
-      expiration_date: expirationDateToString,
-      manufacture_date: manufactureDateToString,
+    const form = useForm<ModalAddLotFormData>({
+        mode: 'onSubmit',
+        resolver: zodResolver(schema),
+        defaultValues: {
+            lot_number: '',
+            lot_name: '',
+            product_id: '',
+            quantity: 100,
+            limit_notification: 10,
+            recipe: '',
+            expiration_date: new Date(),
+            manufacture_date: new Date(),
+            packaging: t(format_options[0].label) ?? '',
+        },
     });
 
-    if (error) throw error;
-  };
+    const { handleSubmit, reset } = form;
 
-  const insertProductLotMutation = useMutation({
-    mutationKey: ['insertProductLot'],
-    mutationFn: handleInsertLot,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['productLotList'] });
-    },
-    onError: (error: any) => {
-      console.error(error);
-    },
-  });
+    const queryClient = useQueryClient();
 
-  const onSubmit: SubmitHandler<ValidationSchema> = (
-    formValues: ModalAddLotFormData,
-  ) => {
-    try {
-      insertProductLotMutation.mutate(formValues);
-    } catch (e) {
-      console.error(e);
-    }
-    setShowModal(false);
-    reset();
-  };
+    const handleInsertLot = async (form: ValidationSchema) => {
+        const {
+            quantity,
+            lot_number,
+            lot_name,
+            limit_notification,
+            recipe,
+            expiration_date,
+            manufacture_date,
+            packaging,
+            product_id,
+        } = form;
 
-  return (
-    <ModalWithForm
-      showBtn={true}
-      showModal={showModal}
-      setShowModal={setShowModal}
-      title={'config_lot'}
-      btnTitle={'add_lot'}
-      description={'modal_product_description'}
-      handler={handleSubmit(onSubmit)}
-      classIcon={''}
-      classContainer={''}
-      form={form}
-    >
-      <form>
-        <section className="relative flex w-full flex-auto flex-col  py-6">
-          {/* Lot Name Lot Number */}
-          <div className="flex w-full flex-row space-x-3 ">
-            <InputLabel
-              form={form}
-              label={'lot_name'}
-              registerOptions={{
-                required: true,
-              }}
-              placeholder={t('lot_name')}
-            />
+        const expirationDateToString = expiration_date?.toISOString();
+        const manufactureDateToString = manufacture_date?.toISOString();
 
-            <InputLabel
-              form={form}
-              label={'lot_number'}
-              registerOptions={{
-                required: true,
-              }}
-              placeholder={t('lot_number')}
-            />
-          </div>
+        const userId = user?.id;
 
-          {/* Quantity & Quantity Notification */}
-          <div className="flex w-full flex-row space-x-3 ">
-            <InputLabel
-              form={form}
-              label={'quantity'}
-              registerOptions={{
-                required: true,
-                valueAsNumber: true,
-                min: 0,
-              }}
-              placeholder={t('quantity')}
-            />
+        const { error } = await supabase.from('product_lots').insert({
+            quantity,
+            lot_number,
+            lot_name,
+            limit_notification,
+            recipe,
+            packaging,
+            product_id,
+            owner_id: userId,
+            expiration_date: expirationDateToString,
+            manufacture_date: manufactureDateToString,
+        });
 
-            <InputLabel
-              form={form}
-              label={'limit_notification'}
-              registerOptions={{
-                required: true,
-                valueAsNumber: true,
-                min: 0,
-              }}
-              placeholder={t('limit_notification')}
-            />
-          </div>
+        if (error) throw error;
 
-          {/* Manufacture Date & Expiration Date */}
-          <div className="flex w-full flex-row space-x-3 ">
-            <InputLabel
-              form={form}
-              label={'manufacture_date'}
-              registerOptions={{
-                required: true,
-                valueAsDate: true,
-              }}
-              placeholder={t('manufacture_date')}
-              inputType={'date'}
-            />
+        queryClient.invalidateQueries('productLotList');
+    };
 
-            <InputLabel
-              form={form}
-              label={'expiration_date'}
-              registerOptions={{
-                required: true,
-                valueAsDate: true,
-              }}
-              placeholder={t('expiration_date')}
-              inputType={'date'}
-            />
-          </div>
+    const insertProductLotMutation = useMutation({
+        mutationKey: ['insertProductLot'],
+        mutationFn: handleInsertLot,
+        onError: (error: any) => {
+            console.error(error);
+        },
+    });
 
-          {/* Packaging & Receipt */}
-          <SelectInput
+    const onSubmit: SubmitHandler<ValidationSchema> = (
+        formValues: ModalAddLotFormData,
+    ) => {
+        try {
+            insertProductLotMutation.mutate(formValues);
+        } catch (e) {
+            console.error(e);
+        }
+        setShowModal(false);
+        reset();
+    };
+
+    return (
+        <ModalWithForm
+            showBtn={true}
+            showModal={showModal}
+            setShowModal={setShowModal}
+            title={'config_lot'}
+            btnTitle={'add_lot'}
+            description={'modal_product_description'}
+            handler={handleSubmit(onSubmit)}
+            classIcon={''}
+            classContainer={''}
             form={form}
-            options={format_options}
-            label={'packaging'}
-            registerOptions={{
-              required: true,
-            }}
-          />
+        >
+            <form>
+                <section className="relative flex w-full flex-auto flex-col  py-6">
+                    {/* Lot Name Lot Number */}
+                    <div className="flex w-full flex-row space-x-3 ">
+                        <InputLabel
+                            form={form}
+                            label={'lot_name'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder={t('lot_name')}
+                        />
 
-          <InputTextarea
-            form={form}
-            label={'recipe'}
-            registerOptions={{
-              required: true,
-            }}
-            placeholder={t('beer_recipe')}
-          />
+                        <InputLabel
+                            form={form}
+                            label={'lot_number'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder={t('lot_number')}
+                        />
+                    </div>
 
-          <SearchCheckboxProductsList products={products ?? []} form={form} />
-        </section>
-      </form>
-    </ModalWithForm>
-  );
+                    {/* Quantity & Quantity Notification */}
+                    <div className="flex w-full flex-row space-x-3 ">
+                        <InputLabel
+                            form={form}
+                            label={'quantity'}
+                            registerOptions={{
+                                required: true,
+                                valueAsNumber: true,
+                                min: 0,
+                            }}
+                            placeholder={t('quantity')}
+                        />
+
+                        <InputLabel
+                            form={form}
+                            label={'limit_notification'}
+                            registerOptions={{
+                                required: true,
+                                valueAsNumber: true,
+                                min: 0,
+                            }}
+                            placeholder={t('limit_notification')}
+                        />
+                    </div>
+
+                    {/* Manufacture Date & Expiration Date */}
+                    <div className="flex w-full flex-row space-x-3 ">
+                        <InputLabel
+                            form={form}
+                            label={'manufacture_date'}
+                            registerOptions={{
+                                required: true,
+                                valueAsDate: true,
+                            }}
+                            placeholder={t('manufacture_date')}
+                            inputType={'date'}
+                        />
+
+                        <InputLabel
+                            form={form}
+                            label={'expiration_date'}
+                            registerOptions={{
+                                required: true,
+                                valueAsDate: true,
+                            }}
+                            placeholder={t('expiration_date')}
+                            inputType={'date'}
+                        />
+                    </div>
+
+                    {/* Packaging & Receipt */}
+                    <SelectInput
+                        form={form}
+                        options={format_options}
+                        label={'packaging'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                    />
+
+                    <InputTextarea
+                        form={form}
+                        label={'recipe'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder={t('beer_recipe')}
+                    />
+
+                    <SearchCheckboxProductsList
+                        products={products ?? []}
+                        form={form}
+                    />
+                </section>
+            </form>
+        </ModalWithForm>
+    );
 }
