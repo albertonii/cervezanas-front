@@ -28,7 +28,6 @@ import {
     ModalUpdateProductFormData,
     IModalUpdateProductPack,
 } from '../../../../lib/types/types';
-import { uuid } from 'uuidv4';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { ProductStepper } from './ProductStepper';
 import { useMutation, useQueryClient } from 'react-query';
@@ -749,7 +748,10 @@ export function UpdateProduct({
                         {activeStep === 0 ? (
                             <UpdateProductInfoSection form={form} />
                         ) : activeStep === 1 ? (
-                            <UpdateMultimediaSection form={form} />
+                            <UpdateMultimediaSection
+                                form={form}
+                                productId={product.id}
+                            />
                         ) : activeStep === 2 ? (
                             <UpdateAwardsSection form={form} />
                         ) : (

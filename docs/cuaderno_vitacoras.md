@@ -782,3 +782,14 @@ Habilitar formulario para feedbacks/reporte de errores
 - [ ] ¿Necesitamos tener en el usuario el parámetro CP_ORGANIZER_STATUS? -> Si ya han aceptado los términos y condiciones creo que no es necesaria esta lógica.
 - [ ] Crear usuario para CCVK -> Configurar productos, PC y experiencias
 - [ ] Si el barman escanéa el código y no está registrado -> LOOP INFINITO
+- [ ] NOTIFICACIÓN
+- [ ] Error al mostrar imágenes del producto
+- [ ] Permitir guardar el producto aunque no tengan imágenes asociadas (para awards, packs y product multimedia)
+- [ ] Añadir como estilo de Cerveza -> aged_beer, ácida
+- [ ] Añadir color de Cerveza -> DARK
+- [ ] Cambiar nombre Add Product a Add Award -> Creación/edición de producto
+- [ ] Al crear producto a veces no carga -> Tienes que volver a darle a añadir y pulsar en add
+- [ ] Permitir configurar los estilos, colores, etc en el productor de una manera amena.
+- [ ] Ordenar cervezas manera alfabetica
+- [ ] Crear entrada en tabla CONSUMPTION_POINTS AL CREAR UN USUARIO PRODUCTOR
+- [ ] Para el momento de crear experiencia -> Indicar en el listado el producto que se está vinculando
