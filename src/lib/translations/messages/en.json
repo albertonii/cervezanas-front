@@ -748,8 +748,6 @@
     "tooltips": {
         "role_description": "The user role determines the permissions the user has on the platform. For the roles of producer and distributor, the user must accept an active contract. The platform is in charge of validating the contract and giving access to the user."
     },
-    "beer_master": "Beer Master",
-
     "question": "Question",
     "out_of": "out of",
     "producer_disclaimer_read_and_accepantance": "I have read and accept the producer disclaimer",
@@ -763,5 +761,13 @@
     "charge_experience": "Charge experience",
     "refund_experience": "Refund experience",
     "mark_as_finished": "Mark as finished",
-    "mark_as_unfinished": "Mark as unfinished"
+    "mark_as_unfinished": "Mark as unfinished",
+    "new_experience": "New experience",
+    "answer": "Answer",
+    "difficulty": "Difficulty",
+    "add_answer": "Add answer",
+    "cervezanas_events": "Cervezanas events",
+    "cp_name_header": "Consumption Point",
+    "event_name_header": "Event",
+    "beer_master": "Beer Master"
 }

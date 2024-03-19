@@ -819,5 +819,16 @@
     "charge_experience": "Cobrar experiencia",
     "refund_experience": "Reembolsar experiencia",
     "mark_as_finished": "Marcar como finalizado",
-    "mark_as_unfinished": "Marcar como no finalizado"
+    "mark_as_unfinished": "Marcar como no finalizado",
+    "new_experience": "Nueva experiencia",
+    "experience_type_header": "Tipo de experiencia",
+    "questions_and_answers_experience": "Preguntas y respuestas de la experiencia",
+    "product": "Producto",
+    "answer": "Respuesta",
+    "difficulty": "Dificultad",
+    "add_answer": "Añadir respuesta",
+    "cervezanas_events": "Eventos Cervezanas",
+    "cp_name_header": "Punto de Consumo",
+    "event_name_header": "Evento",
+    "beer_master": "Maestro cervecero"
 }
