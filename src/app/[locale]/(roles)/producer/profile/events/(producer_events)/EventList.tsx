@@ -79,7 +79,6 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
 
     const filteredItems = useMemo<IEvent[]>(() => {
         if (!data) return [];
-        console.log('EVENTO', data);
         return data.filter((event) => {
             return event.name.toLowerCase().includes(query.toLowerCase());
         });

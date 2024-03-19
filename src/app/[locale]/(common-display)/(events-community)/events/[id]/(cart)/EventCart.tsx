@@ -9,9 +9,8 @@ interface Props {
 }
 
 export default function EventCart({ eventId }: Props) {
-    const [isMinimized, setIsMinimized] = React.useState<boolean>(false);
-
-    const { eventCarts, existEventCart, createNewCart } = useEventCartStore();
+    const { eventCarts, existEventCart, createNewCart, isOpen } =
+        useEventCartStore();
 
     const [items, setItems] = useState<IProductPackEventCartItem[]>([]);
 
@@ -30,17 +29,10 @@ export default function EventCart({ eventId }: Props) {
             role="dialog"
             tabIndex={-1}
         >
-            {isMinimized ? (
-                <MinimizedCart
-                    eventId={eventId}
-                    setIsMinimized={setIsMinimized}
-                />
+            {isOpen ? (
+                <MinimizedCart eventId={eventId} />
             ) : (
-                <MaxifiedCart
-                    setIsMinimized={setIsMinimized}
-                    items={items}
-                    eventId={eventId}
-                />
+                <MaxifiedCart items={items} eventId={eventId} />
             )}
         </section>
     );
