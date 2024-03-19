@@ -235,10 +235,16 @@ export default function EventExperience({ eventExperience }: Props) {
                 Volver al evento
             </Button>
 
-            <div className="border-2 rounded-sm p-4 w-full sm:w-[400px] flex flex-col justify-center items-center space-y-2 bg-beer-softFoam">
-                <div> Tipo de experiencia: {experience?.type}</div>
-                <div> Precio para participar: {experience?.price}</div>
-                <div> Nombre: {experience?.name}</div>
+            <div className="border-8 p-4 py-20 w-full sm:w-[700px] flex flex-col justify-center items-center space-y-2 bg-beer-softFoam bg-[url('/assets/madera-dark-account.webp')] bg-cover bg-top bg-no-repeat text-white rounded-xl shadow-2xl">
+                <div className=""> Tipo de experiencia: {experience?.type}</div>
+                <div className="font-bold">
+                    {' '}
+                    Precio para participar: {experience?.price}
+                </div>
+                <div className="text-3xl font-bold">
+                    {' '}
+                    Nombre: {experience?.name}
+                </div>
                 <div> Descripción: {experience?.description}</div>
             </div>
 
@@ -255,9 +261,9 @@ export default function EventExperience({ eventExperience }: Props) {
             )}
 
             {isRegistered && !isPaymentValid && bmExperienceParticipantId && (
-                <div className="border-2 bg-beer-softFoam border-beer-draft p-4 rounded-sm space-y-4">
+                <div className="border-2 bg-beer-softFoam border-beer-draft p-4 rounded-sm space-y-4 p-8">
                     <div>
-                        <h2>
+                        <h2 className="text-xl mb-8 font-semibold text-center">
                             Muestra el código QR para confirmar el pago de la
                             experiencia.{' '}
                         </h2>
@@ -265,15 +271,18 @@ export default function EventExperience({ eventExperience }: Props) {
                             El pago de la inscripción se realizará físicamente
                             en el mismo Punto de Consumo.
                         </p>
-                        <p>
+                        <p className="mb-8">
                             El Punto de Consumo debe de validar el pago de la
                             inscripción y a partir de ese momento podrás
                             comenzar a participar en la experiencia.
                         </p>
-
-                        <ParticipationQRCode
-                            experienceParticipantId={bmExperienceParticipantId}
-                        />
+                        <p className="text-center bg-white p-4">
+                            <ParticipationQRCode
+                                experienceParticipantId={
+                                    bmExperienceParticipantId
+                                }
+                            />
+                        </p>
                     </div>
                 </div>
             )}

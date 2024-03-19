@@ -81,12 +81,13 @@ export default function Modal(props: Props) {
             handler()
                 .then(() => {
                     handleShowModal(false);
-                    setIsLoading(false);
                 })
                 .catch((e: Error) => {
                     console.error(e);
                 });
-        }, 1000);
+        }, 300);
+
+        setIsLoading(false);
     };
 
     const handleClose = () => {
@@ -177,7 +178,7 @@ export default function Modal(props: Props) {
                                 className={`relative flex w-full flex-col rounded-lg border-0 bg-beer-foam shadow-lg outline-none focus:outline-none`}
                             >
                                 {/*header*/}
-                                <div className="border-slate-200 flex items-start justify-between rounded-t border-b border-solid p-5">
+                                <div className="border-slate-200 flex items-start justify-between rounded-t border-b border-solid p-5 text-beer-gold">
                                     <h3 className="text-3xl font-semibold">
                                         {t(title)}
                                     </h3>
@@ -198,7 +199,7 @@ export default function Modal(props: Props) {
                                 </div>
 
                                 {/*body*/}
-                                <div className="relative flex-auto p-6">
+                                <div className="relative flex-auto p-12 bg-[url('/assets/rec-graf5b.webp')] bg-cover bg-no-repeat">
                                     <p className="text-slate-500 my-4 text-lg leading-relaxed">
                                         {t(description)}
                                     </p>

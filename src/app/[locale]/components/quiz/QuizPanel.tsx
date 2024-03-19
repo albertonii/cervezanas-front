@@ -156,7 +156,7 @@ export default function QuizPanel({
     };
 
     return (
-        <section className="w-full sm:w-[400px] text-white text-center bg-beer-softBlondeBubble p-4 rounded-lg shadow-lg border-beer-darkGold border-2">
+        <section className="w-full sm:w-[400px] text-white text-center bg-beer-blonde p-4 rounded-lg shadow-lg border-beer-darkGold border-2 bg-opacity-80">
             {isShowResults ? (
                 <QuizResults
                     questions={questions}
@@ -165,11 +165,11 @@ export default function QuizPanel({
                 />
             ) : (
                 <>
-                    <p className="p-8 font-bold text-[20px]">
+                    <p className="p-8 font-bold text-[20px] text-6xl">
                         {t('score')}: {score}
                     </p>
 
-                    <p className="text-beer-draft  font-bold pb-2 text-[14px]">
+                    <p className="text-beer-draft  font-bold pb-2 text-[18px]">
                         {t('question')} {currentQuestionIndex + 1} {t('out_of')}{' '}
                         {totalQuestions}
                     </p>
@@ -178,8 +178,10 @@ export default function QuizPanel({
                     {Object.keys(productQuestionMap).map((productId, index) => (
                         <div key={productId}>
                             {/* Opcional: Mostrar alguna referencia al producto, como un título anónimo */}
-                            <h2>Producto nº {index + 1} </h2>
-                            <div>
+                            <h2 className="text-black">
+                                Producto nº {index + 1}{' '}
+                            </h2>
+                            <div className="text-black mt-4 font-semibold text-2xl">
                                 <QuestionCard
                                     currentQuestionIndex={currentQuestionIndex}
                                     question={

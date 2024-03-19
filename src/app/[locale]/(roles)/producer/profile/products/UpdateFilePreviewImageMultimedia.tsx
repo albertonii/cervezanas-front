@@ -4,27 +4,84 @@ import Image from 'next/image';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import { DisplayInputError } from './DisplayInputError';
+import { DisplayInputError } from '../../../../components/common/DisplayInputError';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { generateFileNameExtension } from '../../../../../../utils/utils';
+import { v4 as uuidv4 } from 'uuid';
 
 interface Props {
+    productId: string;
     form: UseFormReturn<any, any>;
     registerName: string;
     preUrl?: string;
 }
 
-export const FilePreviewImageMultimedia = ({
+export const UpdateFilePreviewImageMultimedia = ({
+    productId,
     form,
     registerName,
     preUrl,
 }: Props) => {
     const t = useTranslations();
     const [image, setImage] = useState<string | null>(); // Nuevo estado para almacenar la URL de la imagen
+    const { supabase } = useAuth();
+
+    const generateUUID = () => {
+        return uuidv4();
+    };
+
+    const randomUUID = generateUUID();
 
     const {
         getValues,
         setValue,
         formState: { errors },
     } = form;
+
+    useEffect(() => {
+        // TODO: VOLVER A ESTE CAMINO
+        const updateValue = async () => {
+            const fileName = `articles/${productId}/p_principal/${randomUUID}`;
+            const p_principal = getValues(registerName);
+
+            const p_principal_url = encodeURIComponent(
+                `${fileName}${generateFileNameExtension(p_principal[0].name)}`,
+            );
+
+            console.log(p_principal);
+            console.log(p_principal_url);
+
+            const { error: pPrincipalError } = await supabase.storage
+                .from('products')
+                .upload(
+                    `${fileName}${generateFileNameExtension(
+                        p_principal[0].name,
+                    )}`,
+                    p_principal[0],
+                    {
+                        cacheControl: '3600',
+                        upsert: false,
+                    },
+                );
+            if (pPrincipalError) throw pPrincipalError;
+
+            const { error: multError } = await supabase
+                .from('product_multimedia')
+                .update({
+                    p_principal: p_principal_url,
+                })
+                .eq('product_id', productId);
+
+            if (multError) throw multError;
+        };
+
+        const p_principal = getValues(registerName);
+        console.log(p_principal);
+
+        if (p_principal && p_principal[0].name !== '') {
+            updateValue();
+        }
+    }, [image]);
 
     useEffect(() => {
         if (getValues(registerName)) {
@@ -38,9 +95,10 @@ export const FilePreviewImageMultimedia = ({
             preUrl
                 ? setImage(preUrl + decodeURIComponent(file))
                 : setImage(URL.createObjectURL(getValues(registerName)[0]));
+
+            console.log(preUrl + decodeURIComponent(file));
         }
     }, [registerName]);
-    
 
     const removeImageClick = () => {
         setValue(registerName, null);

@@ -1,14 +1,15 @@
 import { UseFormReturn } from 'react-hook-form';
-import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
 import { ModalUpdateProductFormData } from '../../../../lib/types/types';
 import { SupabaseProps } from '../../../../constants';
+import { UpdateFilePreviewImageMultimedia } from '../../(roles)/producer/profile/products/UpdateFilePreviewImageMultimedia';
 
 export interface Props {
+    productId: string;
     form: UseFormReturn<ModalUpdateProductFormData, any>;
 }
 
 export function UpdateMultimediaSection(props: Props) {
-    const { form } = props;
+    const { form, productId } = props;
 
     const preUrl =
         SupabaseProps.BASE_URL + SupabaseProps.STORAGE_PRODUCTS_IMG_URL;
@@ -16,7 +17,8 @@ export function UpdateMultimediaSection(props: Props) {
     return (
         <section id="photo_gallery flex w-full space-x-4">
             <figure className="principal w-full">
-                <FilePreviewImageMultimedia
+                <UpdateFilePreviewImageMultimedia
+                    productId={productId}
                     form={form}
                     registerName="p_principal"
                     preUrl={preUrl}
@@ -24,7 +26,8 @@ export function UpdateMultimediaSection(props: Props) {
             </figure>
 
             <figure className="back w-full">
-                <FilePreviewImageMultimedia
+                <UpdateFilePreviewImageMultimedia
+                    productId={productId}
                     form={form}
                     registerName="p_back"
                     preUrl={preUrl}
@@ -32,7 +35,8 @@ export function UpdateMultimediaSection(props: Props) {
             </figure>
 
             <figure className="extra_1 w-full">
-                <FilePreviewImageMultimedia
+                <UpdateFilePreviewImageMultimedia
+                    productId={productId}
                     form={form}
                     registerName="p_extra_1"
                     preUrl={preUrl}
@@ -40,7 +44,8 @@ export function UpdateMultimediaSection(props: Props) {
             </figure>
 
             <figure className="extra_2 w-full">
-                <FilePreviewImageMultimedia
+                <UpdateFilePreviewImageMultimedia
+                    productId={productId}
                     form={form}
                     registerName="p_extra_2"
                     preUrl={preUrl}
@@ -48,7 +53,8 @@ export function UpdateMultimediaSection(props: Props) {
             </figure>
 
             <figure className="extra_3 w-full">
-                <FilePreviewImageMultimedia
+                <UpdateFilePreviewImageMultimedia
+                    productId={productId}
                     form={form}
                     registerName="p_extra_3"
                     preUrl={preUrl}

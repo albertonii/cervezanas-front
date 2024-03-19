@@ -1268,7 +1268,7 @@ export interface Database {
           {
             foreignKeyName: "event_orders_event_id_fkey"
             columns: ["event_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "events"
             referencedColumns: ["id"]
           }

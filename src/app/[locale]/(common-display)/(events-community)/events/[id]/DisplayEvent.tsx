@@ -67,7 +67,7 @@ export default function DisplayEvent({
         );
 
     return (
-        <section className="relative m-auto mb-20 mt-20 h-full w-full max-w-[500px] rounded-lg bg-white p-8 shadow-md sm:max-w-full md:mt-0 md:max-w-[700px] lg:max-w-[900px]">
+        <section className="relative m-auto mb-20 mt-20 h-full w-full max-w-[500px] rounded-lg bg-white p-8 shadow-md sm:max-w-full md:mt-0 md:max-w-[700px] lg:max-w-[900px] bg-opacity-80">
             <div className="absolute right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
                 <span
                     className={`text-lg font-medium text-white ${
@@ -80,7 +80,7 @@ export default function DisplayEvent({
                 </span>
             </div>
 
-            <div className=" m-4 rounded-md bg-beer-softBlonde px-4 text-lg text-center space-y-4 py-4">
+            <div className=" rounded-md bg-white border-4 px-4 text-lg text-center space-y-4 py-4 shadow-xl mb-8">
                 <h1 className="font-semibold text-2xl">
                     ¡Encuentra las {BMExperiencesCount} Experiencias de Maestro
                     Cervecero!

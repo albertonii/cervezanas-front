@@ -67,7 +67,7 @@ const ScreenMenu = memo(function ScreenMenu({
     };
 
     const MENU_ITEM_STYLES =
-        'block text-sm font-bold text-cerv-coffee hover:bg-cerv-banana hover:bg-opacity-50 dark:text-white lg:text-xl px-3 py-3 bg-beer-softBlonde bg-opacity-50 rounded-xl hover:text-white border-2 border-beer-softFoam mt-1 mb-1';
+        'block text-sm font-bold text-black hover:bg-cerv-banana hover:bg-opacity-50 px-3 py-3 bg-beer-softBlonde bg-opacity-50 rounded-xl hover:text-white border-2 border-beer-softFoam mt-1 mb-1 uppercase';
 
     return (
         <section className="hidden rounded border-gray-200 bg-[url('/assets/header-bg.jpg')] bg-cover bg-center bg-no-repeat dark:bg-gray-900 sm:block sm:px-4">
@@ -93,7 +93,7 @@ const ScreenMenu = memo(function ScreenMenu({
                     </div>
                 </section>
                 <section className="flex w-full items-center justify-center sm:w-[450px] lg:w-[500px]">
-                    <ul className="align-center dark:border-gray-700 dark:bg-gray-800 sm:flex md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900">
+                    <ul className="align-center sm:flex md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium">
                         <li className="flex items-center">
                             <Link href="/marketplace" locale={locale}>
                                 <span className={`${MENU_ITEM_STYLES}`}>
@@ -148,7 +148,7 @@ const ScreenMenu = memo(function ScreenMenu({
 */}
                 {/* Right elements  */}
                 <section className="w-[400px] ">
-                    <ul className="py-2 pt-1 dark:border-gray-700 dark:bg-gray-800 sm:flex sm:flex-row sm:justify-end sm:gap-4 sm:align-middle md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium md:dark:bg-gray-900">
+                    <ul className="py-2 pt-1  :flex sm:flex-row sm:justify-end sm:gap-4 sm:align-middle md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium flex">
                         {/* Language  */}
                         {/* <li className="flex max-w-[50px] items-center">
               <Select

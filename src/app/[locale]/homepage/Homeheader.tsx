@@ -41,7 +41,7 @@ export function Homeheader() {
             </section>
             {/*  bloque 2 */}
             <figure
-                className="relative top-0 m-auto w-full max-w-screen-2xl hover:cursor-pointer"
+                className="relative top-0 m-auto w-full max-w-screen-2xl hover:cursor-pointer sm:block hidden"
                 onClick={handleOnClickMaestroCervecero}
             >
                 <Image
@@ -49,6 +49,15 @@ export function Homeheader() {
                     src="/assets/home/home-banner-mc.webp"
                     width={1925}
                     height={536}
+                    alt="Banner"
+                />
+            </figure>
+            <figure className="relative -top-10 m-auto w-full max-w-screen-2xl sm:hidden block">
+                <Image
+                    style={{ aspectRatio: '250/164' }}
+                    src="/assets/banner-mc-mov.webp"
+                    width={500}
+                    height={328}
                     alt="Banner"
                 />
             </figure>

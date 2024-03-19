@@ -45,24 +45,32 @@ export default function MaestroCervecero({ eventExperiences }: Props) {
     };
 
     return (
-        <section className="h-full space-y-8 p-2">
+        <section className="h-full space-y-8 p-2 bg-white bg-opacity-80">
             {/*  bloque 2 */}
-            <figure className="relative top-0 m-auto w-full max-w-screen-2xl">
+            <figure className="relative top-0 m-auto w-full max-w-screen-2xl sm:block hidden">
                 <Image
                     style={{ aspectRatio: '845/235' }}
-                    src="/assets/home/home-banner-mc.webp"
+                    src="/assets/banner-mc.webp"
                     width={1925}
                     height={536}
                     alt="Banner"
                 />
             </figure>
-
+            <figure className="relative -top-10 m-auto w-full max-w-screen-2xl sm:hidden block">
+                <Image
+                    style={{ aspectRatio: '250/164' }}
+                    src="/assets/banner-mc-mov.webp"
+                    width={500}
+                    height={328}
+                    alt="Banner"
+                />
+            </figure>
             <header>
-                <h1 className="font-semibold text-lg">
+                <h1 className="font-bold text-2xl text-center sm:text-4xl mb-6 text-beer-gold">
                     Experiencia Maestro Cervecero en el Barcelona Beer Festival
                     2024
                 </h1>
-                <p>
+                <p className="text-xl text-center m-auto">
                     ¡Prepárate para convertirte en un Maestro Cervecero!
                     Participa en nuestra exclusiva experiencia durante el
                     Barcelona Beer Festival 2024 y descubre los secretos de las
@@ -70,15 +78,15 @@ export default function MaestroCervecero({ eventExperiences }: Props) {
                 </p>
             </header>
 
-            <section className="border-2 shadow-lg border-beer-draft bg-beer-softBlonde p-4  rounded-sm">
-                <p>
+            <section className="border-4 shadow-lg border-beer-gold bg-white p-4  rounded-sm text-lg sm:p-20 text-center m-auto">
+                <p className="m-auto">
                     Durante el Barcelona Beer Festival 2024, podrás participar
                     en la experiencia Maestro Cervecero. Descubre los secretos
                     de las mejores cervezas artesanales y conviértete en un
                     experto cervecero.
                 </p>
 
-                <p>
+                <p className="m-auto">
                     Busca entre los diferentes estands de la feria aquellos con
                     el distitivo de Cervezanas. Podrás participar escaneando el
                     código QR que encontrarás en cada uno de ellos.
@@ -86,7 +94,7 @@ export default function MaestroCervecero({ eventExperiences }: Props) {
             </section>
 
             <section className="border-2 shadow-lg border-beer-draft bg-beer-softBlonde p-4 rounded-sm">
-                <h2>Puntos de Consumo Participantes</h2>
+                <h2 className="text-xl">Puntos de Consumo Participantes</h2>
 
                 <div className="space-y-2 space-x-2 flex flex-col items-center justify-center">
                     {eventExperiences.map((eventExperience) => {

@@ -46,7 +46,7 @@ export default function ParticipationQRCode({
                 size={150}
             />
 
-            <ShareLink link={experienceParticipatantBarmanUrl} />
+            {/* <ShareLink link={experienceParticipatantBarmanUrl} /> */}
         </section>
     );
 }

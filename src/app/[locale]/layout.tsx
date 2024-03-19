@@ -63,7 +63,7 @@ export default async function AppLocaleLayout({
 
                 <main
                     className={classNames(
-                        'relative mx-auto min-h-screen w-full transform pt-0 transition lg:container',
+                        'relative mx-auto min-h-full w-full transform pt-0 transition lg:container',
                     )}
                 >
                     <MessageList />
@@ -85,6 +85,7 @@ const getNotifications = async () => {
 
     const { data: notifications, error: notificationsError } = await supabase
         .from('notifications')
+
         .select(
             `
       *
