@@ -787,7 +787,7 @@ Habilitar formulario para feedbacks/reporte de errores
 - [ ] Permitir guardar el producto aunque no tengan imágenes asociadas (para awards, packs y product multimedia)
 - [ ] Añadir como estilo de Cerveza -> aged_beer, ácida
 - [ ] Añadir color de Cerveza -> DARK
-- [ ] Cambiar nombre Add Product a Add Award -> Creación/edición de producto
+- [x] Cambiar nombre Add Product a Add Award -> Creación/edición de producto
 - [ ] Al crear producto a veces no carga -> Tienes que volver a darle a añadir y pulsar en add
 - [ ] Permitir configurar los estilos, colores, etc en el productor de una manera amena.
 - [ ] Ordenar cervezas manera alfabetica

@@ -241,9 +241,11 @@ export default function AddCPMobileModal({ cpsId }: Props) {
             }
         }
 
-        queryClient.invalidateQueries('cpMobile');
-
-        reset();
+        setTimeout(() => {
+            queryClient.invalidateQueries('cpMobile');
+            setShowModal(false);
+            reset();
+        }, 1000);
     };
 
     const handleIsInternalOrganizer = (
@@ -267,9 +269,6 @@ export default function AddCPMobileModal({ cpsId }: Props) {
     const insertCPMobileMutation = useMutation({
         mutationKey: 'insertCPMobile',
         mutationFn: handleInsertCPMobile,
-        onSuccess: () => {
-            setShowModal(false);
-        },
         onError: (error: any) => {
             console.error(error);
         },

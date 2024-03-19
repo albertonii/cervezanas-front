@@ -191,14 +191,6 @@ export default function EventExperience({ eventExperience }: Props) {
         setIsRegistered(true);
     };
 
-    const handleIsPaymentValid = (isPaymentValid: boolean) => {
-        setIsPaymentValid(isPaymentValid);
-    };
-
-    const handleIsFinished = (isFinished: boolean) => {
-        setIsFinished(isFinished);
-    };
-
     const handleOnClickEventComeBack = () => {
         const cpMobileId = eventExperience.cp_mobile_id;
         const cpFixedId = eventExperience.cp_fixed_id;
@@ -261,7 +253,7 @@ export default function EventExperience({ eventExperience }: Props) {
             )}
 
             {isRegistered && !isPaymentValid && bmExperienceParticipantId && (
-                <div className="border-2 bg-beer-softFoam border-beer-draft p-4 rounded-sm space-y-4 p-8">
+                <div className="border-2 bg-beer-softFoam border-beer-draft rounded-sm space-y-4 p-8">
                     <div>
                         <h2 className="text-xl mb-8 font-semibold text-center">
                             Muestra el código QR para confirmar el pago de la
@@ -289,20 +281,15 @@ export default function EventExperience({ eventExperience }: Props) {
 
             {isRegistered && isPaymentValid && !isFinished && (
                 <section>
-                    {experience && experienceParticipant && (
-                        <>
-                            {questions.length > 0 && (
-                                <QuizPanel
-                                    questions={questions}
-                                    experience={experience}
-                                    experienceParticipant={
-                                        experienceParticipant
-                                    }
-                                    handleIsFinished={handleIsFinished}
-                                />
-                            )}
-                        </>
-                    )}
+                    {experience &&
+                        experienceParticipant &&
+                        questions.length > 0 && (
+                            <QuizPanel
+                                questions={questions}
+                                experience={experience}
+                                experienceParticipant={experienceParticipant}
+                            />
+                        )}
                 </section>
             )}
 

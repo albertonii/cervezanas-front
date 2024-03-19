@@ -1,5 +1,4 @@
 // Helpers
-import { ComponentProps } from 'react';
 import { getBGColor } from './helpers';
 
 type Props = {

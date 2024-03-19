@@ -15,14 +15,12 @@ interface Props {
     questions: QuestionsState;
     experience: IExperience;
     experienceParticipant: IBMExperienceParticipants;
-    handleIsFinished: ComponentProps<any>;
 }
 
 export default function QuizPanel({
     questions,
     experience,
     experienceParticipant,
-    handleIsFinished,
 }: Props) {
     const t = useTranslations();
 
