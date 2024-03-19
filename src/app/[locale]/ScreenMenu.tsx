@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from './components/common/Button';
-import PuntoCervezanasFlag from './PuntoCervezanasFlag';
 import { memo, useEffect, useState } from 'react';
 import { COMMON } from '../../constants';
 import { ROUTE_SIGNIN } from '../../config';

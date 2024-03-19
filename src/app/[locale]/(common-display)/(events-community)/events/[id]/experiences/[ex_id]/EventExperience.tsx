@@ -14,19 +14,22 @@ import { useAuth } from '../../../../../../(auth)/Context/useAuth';
 import { useMessage } from '../../../../../../components/message/useMessage';
 import { shuffleArray } from '../../../../../../../../utils/utils';
 import { useRouter } from 'next/navigation';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import {
     ROUTE_CP_FIXED,
     ROUTE_CP_MOBILE,
     ROUTE_EVENTS,
 } from '../../../../../../../../config';
 import ParticipationQRCode from './ParticipationQRCode';
+import { hasUserParticipatedInExperienceBefore } from './actions';
 
 interface Props {
     eventExperience: IEventExperience;
 }
 
 export default function EventExperience({ eventExperience }: Props) {
+    const t = useTranslations();
+
     const { experiences: experience } = eventExperience;
     const { supabase, user } = useAuth();
     const { handleMessage } = useMessage();
@@ -130,14 +133,34 @@ export default function EventExperience({ eventExperience }: Props) {
     };
 
     const handleOnClickParticipate = async () => {
+        // Comprobar que no haya participado ya en la experiencia
+        if (eventExperience.cp_mobile_id) {
+            const exists = await hasUserParticipatedInExperienceBefore(
+                user?.id,
+                eventExperience.event_id,
+                eventExperience.cp_mobile_id,
+                eventExperience.experience_id,
+            );
+
+            if (exists) {
+                handleMessage({
+                    message:
+                        'El usuario ya se ha registrado en esta experiencia',
+                    type: 'warning',
+                });
+                return;
+            }
+        }
+
         if (experienceParticipant?.is_finished) {
             handleMessage({
                 message: 'El usuario ya se ha registrado en esta experiencia',
                 type: 'warning',
             });
-        } else {
-            setShowPaymentModal(true);
+            return;
         }
+
+        setShowPaymentModal(true);
     };
 
     const handleParticipate = (participate: boolean) => {};
@@ -192,7 +215,7 @@ export default function EventExperience({ eventExperience }: Props) {
                     small
                     onClick={handleOnClickParticipate}
                 >
-                    Participar
+                    {t('participate')}
                 </Button>
             )}
 

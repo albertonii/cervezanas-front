@@ -1,11 +1,12 @@
 import Modal from '../../../../../../components/modals/Modal';
-import React, { ComponentProps } from 'react';
+import React, { ComponentProps, useState } from 'react';
 import { useAuth } from '../../../../../../(auth)/Context/useAuth';
 import {
     IEventExperience,
     IExperience,
 } from '../../../../../../../../lib/types/types';
 import { useTranslations } from 'next-intl';
+import Spinner from '../../../../../../components/common/Spinner';
 
 interface Props {
     handleParticipate: ComponentProps<any>;
@@ -26,6 +27,28 @@ export default function BMPaymentModal({
     const { supabase, user } = useAuth();
 
     const handleOnClickParticipate = async () => {
+        // Comprobar que no haya participado ya en la experiencia
+        if (eventExperience.cp_mobile_id) {
+            const { data, error: errorParticipants } = await supabase
+                .from('bm_experience_participants')
+                .select('*')
+                .eq('gamification_id', user?.id)
+                .eq('event_id', eventExperience.event_id)
+                .eq('cpm_id', eventExperience.cp_mobile_id)
+                .eq('experience_id', experience.id);
+
+            if (errorParticipants) {
+                console.error(errorParticipants);
+                return;
+            }
+
+            if (data && data.length > 0) {
+                handleCloseModal(true);
+                handleParticipate(true);
+                return;
+            }
+        }
+
         // Crear un nuevo registro en la tabla beer_master_experience_participants
         const { data, error } = await supabase
             .from('bm_experience_participants')
@@ -67,7 +90,7 @@ export default function BMPaymentModal({
             classIcon={''}
             classContainer={''}
         >
-            <section className="space-y-4">
+            <section className={`space-y-4`}>
                 <p>
                     Para poder inscribirte en esta experiencia, por favor haga
                     clic en el botón &quot;Participar&quot;. Al hacerlo,
