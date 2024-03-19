@@ -794,3 +794,5 @@ Habilitar formulario para feedbacks/reporte de errores
 - [x] Crear entrada en tabla CONSUMPTION_POINTS AL CREAR UN USUARIO PRODUCTOR
 - [ ] Para el momento de crear experiencia -> Indicar en el listado el producto que se está vinculando
 - [ ] Si no funciona sign in con Google -> ELIMINARLO
+
+https://www.lovilotfarmbrewery.com/es/contacto/

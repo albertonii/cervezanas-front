@@ -351,7 +351,7 @@ export const AuthContextProvider = ({
                 const producerLink = `${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_AUTHORIZED_USERS}`;
 
                 sendPushNotification(
-                    data.user.id,
+                    process.env.NEXT_PUBLIC_ADMIN_ID as string,
                     newProducerMessage,
                     producerLink,
                 );
@@ -363,7 +363,7 @@ export const AuthContextProvider = ({
                 const distributorLink = `${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_AUTHORIZED_USERS}`;
 
                 sendPushNotification(
-                    data.user.id,
+                    process.env.NEXT_PUBLIC_ADMIN_ID as string,
                     newDistributorMessage,
                     distributorLink,
                 );
