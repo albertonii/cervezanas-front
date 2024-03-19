@@ -29,7 +29,7 @@ export function CPAccepted({ cps }: Props) {
 
     return (
         <>
-            <h2 className="text-3xl">¡Petición aceptada!</h2>
+            {/* <h2 className="text-3xl">¡Petición aceptada!</h2>
 
             <p>
                 <h3 className="max-w-3xl text-lg">
@@ -38,7 +38,7 @@ export function CPAccepted({ cps }: Props) {
                     admitido. Ahora podrás usar los paneles de control para
                     gestionar tu punto de consumo.
                 </h3>
-            </p>
+            </p> */}
 
             <HorizontalSections
                 handleMenuClick={handleMenuClick}

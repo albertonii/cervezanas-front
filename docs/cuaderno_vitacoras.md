@@ -779,3 +779,4 @@ Habilitar formulario para feedbacks/reporte de errores
 - [WIP] Error al actualizar premios en el producto -> Se crean varios diferentes.
 - [ ] Cuando se tengan que eliminar elementos de un listado que se selecciona y deselecciona -> usaremos un Array de elementos seleccionados (para insertar) y otro Array de elementos deseleccionados (para eliminar). Es mucho más efectivo hacerlo de esta forma.
 - [ ] Detectar si el estado del carrito de la compra está abierto o cerrado para que no aparezca abierto siempre.
+- [ ] ¿Necesitamos tener en el usuario el parámetro CP_ORGANIZER_STATUS? -> Si ya han aceptado los términos y condiciones creo que no es necesaria esta lógica.

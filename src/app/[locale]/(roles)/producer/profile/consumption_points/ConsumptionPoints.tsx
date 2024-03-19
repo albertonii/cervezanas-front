@@ -6,8 +6,8 @@ import { CPPending } from './CPPending';
 import { CPAccepted } from './CPAccepted';
 import { CPRejected } from './CPRejected';
 import {
-  IConsumptionPoints,
-  IProfile,
+    IConsumptionPoints,
+    IProfile,
 } from '../../../../../../lib/types/types';
 import { SubmitCPOrganizer } from '../../../../components/modals/SubmitCPOrganizer';
 
@@ -22,8 +22,10 @@ export function ConsumptionPoints({
 }: Props) {
     const t = useTranslations();
 
-    const [cpOrganizerStatus, setCPOrganizerStatus] =
-        useState(cp_organizer_status);
+    // const [cpOrganizerStatus, setCPOrganizerStatus] =
+    //     useState(cp_organizer_status);
+
+    const [cpOrganizerStatus, setCPOrganizerStatus] = useState(1);
 
     const handleCPOrganizerStatus = (status: number) => {
         setCPOrganizerStatus(status);
