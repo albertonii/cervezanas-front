@@ -24,7 +24,7 @@ export default function InfoCPMobile({
     const t = useTranslations();
 
     return (
-        <section className="relative h-full w-full rounded-lg bg-white p-8 shadow-md">
+        <section className="relative h-full w-full rounded-lg bg-white p-8 shadow-md bg-[url('/assets/rec-graf2b.png')] bg-content bg-no-repeat bg-bottom">
             <section className="absolute  right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
                 <span
                     className={`text-lg font-medium text-white ${
@@ -44,7 +44,9 @@ export default function InfoCPMobile({
 
             {/* Event Experiences  */}
             <section>
-                <h2 className="text-2xl font-bold mt-8">{t('experiences')}</h2>
+                <h2 className="text-2xl font-bold mt-8 text-beer-gold">
+                    {t('experiences')}
+                </h2>
 
                 <EventExperiences eventExperiences={eventExperiences} />
             </section>

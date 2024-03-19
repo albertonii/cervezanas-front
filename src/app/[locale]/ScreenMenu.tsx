@@ -68,7 +68,7 @@ const ScreenMenu = memo(function ScreenMenu({
     };
 
     const MENU_ITEM_STYLES =
-        'block text-sm font-bold text-cerv-coffee hover:bg-cerv-banana hover:bg-opacity-50 dark:text-white lg:text-xl px-3 py-3 bg-beer-softBlonde bg-opacity-50 rounded-xl hover:text-white border-2 border-beer-softFoam mt-1 mb-1';
+        'block text-sm font-bold text-black hover:bg-cerv-banana hover:bg-opacity-50 dark:text-white px-3 py-3 bg-beer-softBlonde bg-opacity-50 rounded-xl hover:text-white border-2 border-beer-softFoam mt-1 mb-1 uppercase';
 
     return (
         <section className="hidden rounded border-gray-200 bg-[url('/assets/header-bg.jpg')] bg-cover bg-center bg-no-repeat dark:bg-gray-900 sm:block sm:px-4">

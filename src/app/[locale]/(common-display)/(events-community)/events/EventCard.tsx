@@ -21,7 +21,7 @@ export default function EventCard({ event }: EventCardProps) {
     >
       <div className="absolute inset-0 z-0 opacity-80"></div>
 
-      <div className="z-10 m-4 mx-auto flex w-full min-w-[50vw] max-w-[300px] flex-col border border-beer-blonde bg-white bg-[url('/assets/rec-graf4c.png')]  bg-cover bg-center bg-no-repeat  p-4 shadow-lg transition hover:scale-105 hover:shadow-2xl sm:max-w-full ">
+      <div className="z-10 m-4 mx-auto flex w-full min-w-[50vw] max-w-[300px] flex-col border border-beer-blonde bg-white   bg-cover bg-center bg-no-repeat  p-4 shadow-lg transition hover:scale-105 hover:shadow-2xl sm:max-w-full bg-opacity-90">
         <div className="flex-none space-x-4 sm:flex">
           {/* Event Image  */}
           <div className="relative mb-3 sm:mb-0">
