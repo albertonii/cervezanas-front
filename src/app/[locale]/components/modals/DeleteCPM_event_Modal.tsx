@@ -33,15 +33,14 @@ export default function DeleteCPM_event_Modal({
             .eq('cp_id', cpId)
             .eq('event_id', eventId);
         if (error) throw error;
+
+        queryClient.invalidateQueries({ queryKey: ['cpm_events'] });
+        handleDeleteModal(false);
     };
 
     const deleteEventsMutation = useMutation({
         mutationKey: ['deleteEvents'],
         mutationFn: handleRemoveCP,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['events'] });
-            handleDeleteModal(false);
-        },
         onError: (error) => {
             console.error(error);
         },
