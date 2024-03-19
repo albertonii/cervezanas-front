@@ -82,11 +82,11 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
     type: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
         message: 'Required',
     }),
-    p_principal: z.instanceof(FileList).optional(),
-    p_back: z.instanceof(FileList).optional(),
-    p_extra_1: z.instanceof(FileList).optional(),
-    p_extra_2: z.instanceof(FileList).optional(),
-    p_extra_3: z.instanceof(FileList).optional(),
+    p_principal: z.instanceof(FileList).optional().or(z.string()),
+    p_back: z.instanceof(FileList).optional().or(z.string()),
+    p_extra_1: z.instanceof(FileList).optional().or(z.string()),
+    p_extra_2: z.instanceof(FileList).optional().or(z.string()),
+    p_extra_3: z.instanceof(FileList).optional().or(z.string()),
     is_public: z.boolean(),
     // TODO: Bug in volume validation when adding product
     // volume: z.number().min(0, { message: "Required" }).max(50, {
@@ -725,8 +725,8 @@ export function UpdateProduct({
             showBtn={false}
             showModal={showModal}
             setShowModal={handleEditShowModal}
-            title={'save_product'}
-            btnTitle={'save_product'}
+            title={'update_product'}
+            btnTitle={'update_product'}
             description={''}
             classIcon={''}
             classContainer={''}
@@ -752,11 +752,14 @@ export function UpdateProduct({
                                 form={form}
                                 productId={product.id}
                             />
-                        ) : activeStep === 2 ? (
-                            <UpdateAwardsSection form={form} />
-                        ) : (
-                            <UpdateProductSummary form={form} />
+                            ) : (
+                             <UpdateProductSummary form={form} />
                         )}
+                        {/*  ) : activeStep === 2 ? (
+                             <UpdateAwardsSection form={form} />
+                         ) : (
+                             <UpdateProductSummary form={form} />
+                         )} */}
                     </>
                 </ProductStepper>
             </form>

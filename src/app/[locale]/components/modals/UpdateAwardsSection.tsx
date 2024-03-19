@@ -140,7 +140,7 @@ export function UpdateAwardsSection({ form }: Props) {
             ))}
 
             <Button class="" primary medium onClick={() => handleAddAward()}>
-                {t('modal_product_award_save')}
+                {t('modal_product_award_add')}
             </Button>
         </section>
     );

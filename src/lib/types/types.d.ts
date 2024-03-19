@@ -758,7 +758,6 @@ export type ModalAddProductFormData = {
     era: number;
     is_gluten: boolean;
     type: string;
-    awards: ModalAddProductAwardFormData[];
     p_principal?: FileList;
     p_back?: FileList;
     p_extra_1?: FileList;
@@ -770,7 +769,8 @@ export type ModalAddProductFormData = {
     format: string;
     stock_quantity: number;
     stock_limit_notification: number;
-    packs: IModalAddProductPack[];
+    awards: ModalAddProductAwardFormData[];
+    packs: ModalAddProductPackFormData[];
     category: string;
     // campaign: string;
 };
@@ -789,11 +789,11 @@ export type ModalUpdateProductFormData = {
     era: number;
     is_gluten: boolean;
     type: string;
-    p_principal?: FileList;
-    p_back?: FileList;
-    p_extra_1?: FileList;
-    p_extra_2?: FileList;
-    p_extra_3?: FileList;
+    p_principal?: FileList | string;
+    p_back?: FileList| string;
+    p_extra_1?: FileList| string;
+    p_extra_2?: FileList| string;
+    p_extra_3?: FileList| string;
     is_public: boolean;
     volume: number;
     weight: number;
@@ -821,6 +821,15 @@ type ModalUpdateProductAwardFormData = {
     description: string;
     img_url?: any;
     year: number;
+    product_id?: string;
+};
+
+type ModalAddProductPackFormData = {
+    product_id: string;
+    quantity: number;
+    price: number;
+    img_url?: any;
+    name: string;
     product_id?: string;
 };
 

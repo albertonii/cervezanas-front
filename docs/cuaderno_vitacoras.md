@@ -781,15 +781,16 @@ Habilitar formulario para feedbacks/reporte de errores
 - [x] Detectar si el estado del carrito de la compra está abierto o cerrado para que no aparezca abierto siempre.
 - [ ] ¿Necesitamos tener en el usuario el parámetro CP_ORGANIZER_STATUS? -> Si ya han aceptado los términos y condiciones creo que no es necesaria esta lógica.
 - [ ] Crear usuario para CCVK -> Configurar productos, PC y experiencias
-- [ ] Si el barman escanéa el código y no está registrado -> LOOP INFINITO
+- [x] Si el barman escanéa el código y no está registrado -> LOOP INFINITO -> Pq no estaba redireccionando de manera adecuada a /signin
 - [ ] NOTIFICACIÓN
 - [ ] Error al mostrar imágenes del producto
-- [ ] Permitir guardar el producto aunque no tengan imágenes asociadas (para awards, packs y product multimedia)
+- [x] Permitir guardar el producto aunque no tengan imágenes asociadas (para awards, packs y product multimedia)
 - [ ] Añadir como estilo de Cerveza -> aged_beer, ácida
 - [ ] Añadir color de Cerveza -> DARK
 - [x] Cambiar nombre Add Product a Add Award -> Creación/edición de producto
 - [ ] Al crear producto a veces no carga -> Tienes que volver a darle a añadir y pulsar en add
 - [ ] Permitir configurar los estilos, colores, etc en el productor de una manera amena.
 - [ ] Ordenar cervezas manera alfabetica
-- [ ] Crear entrada en tabla CONSUMPTION_POINTS AL CREAR UN USUARIO PRODUCTOR
+- [x] Crear entrada en tabla CONSUMPTION_POINTS AL CREAR UN USUARIO PRODUCTOR
 - [ ] Para el momento de crear experiencia -> Indicar en el listado el producto que se está vinculando
+- [ ] Si no funciona sign in con Google -> ELIMINARLO

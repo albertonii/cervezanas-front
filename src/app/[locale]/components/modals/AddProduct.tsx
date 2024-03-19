@@ -117,7 +117,7 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
                 .max(100, {
                     message: 'errors.error_100_number_max_length',
                 }),
-            img_url: z.instanceof(FileList).optional(),
+            img_url: z.instanceof(FileList).optional().or(z.string()),
         }),
     ),
     category: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
@@ -515,7 +515,6 @@ export function AddProduct() {
             }
 
             reset();
-
         }
 
         setShowModal(false);
@@ -584,11 +583,14 @@ export function AddProduct() {
                             />
                         ) : activeStep === 1 ? (
                             <MultimediaSection form={form} />
-                        ) : activeStep === 2 ? (
-                            <AwardsSection form={form} />
                         ) : (
                             <ProductSummary form={form} />
                         )}
+                        {/* ) : activeStep === 2 ? (
+                             <AwardsSection form={form} />
+                         ) : (
+                             <ProductSummary form={form} />
+                         )} */}
                     </>
                 </ProductStepper>
             </form>
