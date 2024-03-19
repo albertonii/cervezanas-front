@@ -769,5 +769,9 @@
     "cervezanas_events": "Cervezanas events",
     "cp_name_header": "Consumption Point",
     "event_name_header": "Event",
-    "beer_master": "Beer Master"
+    "beer_master": "Beer Master",
+    "product_name_header": "Product",
+    "update_experience": "Update experience",
+    "experience_info": "Experience information",
+    "delete_experience_description_modal": "Are you sure you want to delete the experience? This action can not be undone."
 }

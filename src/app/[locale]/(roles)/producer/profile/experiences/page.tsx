@@ -45,7 +45,8 @@ async function getExperiencesData() {
             correct_answer,
             incorrect_answers,
             difficulty,
-            type
+            type,
+            products (id, name)
           )
           `,
         )

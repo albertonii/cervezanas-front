@@ -37,6 +37,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
     const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 
+
     const resultsPerPage = 10;
 
     const { data, isError, isLoading, refetch } =
