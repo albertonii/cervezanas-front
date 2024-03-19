@@ -25,7 +25,7 @@ export default function InfoCPMobile({
     const experiencesCounter = eventExperiences.length;
 
     return (
-        <section className="relative h-full w-full rounded-lg bg-white p-8 shadow-md">
+        <section className="relative h-full w-[1000px] rounded-lg bg-white p-8 shadow-md bg-[url('/assets/rec-graf2b.png')] bg-content bg-no-repeat bg-bottom m-auto">
             <section className="absolute  right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
                 <span
                     className={`text-lg font-medium text-white ${

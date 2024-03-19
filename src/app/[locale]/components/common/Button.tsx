@@ -81,7 +81,7 @@ const Button = memo(function PaginationFooter({
             form={form}
             className={`
         mt-0 flex items-center
-        justify-center rounded border-2 border-beer-blonde py-1 transition duration-100 ease-in focus:outline-none focus:ring focus:ring-beer-softFoam
+        justify-center rounded border-2 border-beer-blonde py-2 transition duration-100 ease-in focus:outline-none focus:ring focus:ring-beer-softFoam uppercase shadow-md
         ${getSizeClass()}
         ${getColorClass()}
         ${box ? 'h-auto w-10' : ''}

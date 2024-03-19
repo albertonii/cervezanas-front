@@ -15,7 +15,7 @@ export default function CPDetails({ cpMobile }: Props) {
     <>
       <article>
         <header>
-          <h1 className="mb-2 text-2xl font-bold">{cpMobile.cp_name}</h1>
+          <h1 className="mb-2 text-3xl font-bold text-beer-darkGold">{cpMobile.cp_name}</h1>
           <h2 className="mb-4 text-lg text-gray-500">
             {cpMobile.cp_description}
           </h2>
@@ -146,7 +146,7 @@ function Map({ cp }: MapsProps) {
   const center = useMemo(() => ({ lat: centerLat, lng: centerLng }), []);
 
   return (
-    <div className="relative space-y-4">
+    <div className="relative space-y-4 m-4">
       <GoogleMap
         zoom={10}
         center={center}
