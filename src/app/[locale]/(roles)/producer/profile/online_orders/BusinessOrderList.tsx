@@ -63,7 +63,7 @@ export function BusinessOrderList({ orders: os }: Props) {
     }, [orders, query]);
 
     return (
-        <section className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
+        <section className="relative mt-2 overflow-x-auto shadow-md sm:rounded-lg">
             {isError && (
                 <p className="flex items-center justify-center">
                     <h2 className="text-gray-500 dark:text-gray-400">
@@ -83,53 +83,57 @@ export function BusinessOrderList({ orders: os }: Props) {
                     </h3>
                 </p>
             ) : (
-                <>
+                <div className="space-y-2">
                     <InputSearch
                         query={query}
                         setQuery={setQuery}
                         searchPlaceholder={'search_by_name'}
                     />
-
-                    <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
-                        <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                {COLUMNS.map(
-                                    (column: ColumnsProps, index: number) => {
-                                        return (
-                                            <th
-                                                key={index}
-                                                scope="col"
-                                                className="px-6 py-3"
-                                            >
-                                                {column.header}
-                                            </th>
-                                        );
-                                    },
-                                )}
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {filteredItemsByStatus.map((order) => {
-                                return (
-                                    <OProducerTableData
-                                        order={order}
-                                        key={order.id}
-                                    />
-                                );
-                            })}
-                            {!orders && (
+                    <div className="overflow-x-scroll border-2 ">
+                        <table className="text-center text-sm text-gray-500 dark:text-gray-400 border-2 ">
+                            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <td
-                                        colSpan={6}
-                                        className="py-4 text-center"
-                                    >
-                                        {t('no_orders')}
-                                    </td>
+                                    {COLUMNS.map(
+                                        (
+                                            column: ColumnsProps,
+                                            index: number,
+                                        ) => {
+                                            return (
+                                                <th
+                                                    key={index}
+                                                    scope="col"
+                                                    className="px-6 py-3"
+                                                >
+                                                    {column.header}
+                                                </th>
+                                            );
+                                        },
+                                    )}
                                 </tr>
-                            )}
-                        </tbody>
-                    </table>
+                            </thead>
+
+                            <tbody>
+                                {filteredItemsByStatus.map((order) => {
+                                    return (
+                                        <OProducerTableData
+                                            order={order}
+                                            key={order.id}
+                                        />
+                                    );
+                                })}
+                                {!orders && (
+                                    <tr>
+                                        <td
+                                            colSpan={6}
+                                            className="py-4 text-center"
+                                        >
+                                            {t('no_orders')}
+                                        </td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
 
                     {/* Prev and Next button for pagination  */}
                     <footer className="my-4 flex items-center justify-around">
@@ -140,7 +144,7 @@ export function BusinessOrderList({ orders: os }: Props) {
                             setCurrentPage={setCurrentPage}
                         />
                     </footer>
-                </>
+                </div>
             )}
         </section>
     );
