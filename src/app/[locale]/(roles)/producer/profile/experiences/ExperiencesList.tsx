@@ -155,7 +155,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
                         searchPlaceholder={'search_by_name'}
                     />
                     <div className="overflow-x-scroll border-2 ">
-                        <table className="text-center text-sm text-gray-500 dark:text-gray-400 border-2 ">
+                        <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400 border-2 ">
                             <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     {COLUMNS.map(
