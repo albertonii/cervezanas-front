@@ -31,7 +31,6 @@ import {
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { ProductStepper } from './ProductStepper';
 import { useMutation, useQueryClient } from 'react-query';
-import { UpdateAwardsSection } from './UpdateAwardsSection';
 import { UpdateMultimediaSection } from './UpdateMultimediaSection';
 import { UpdateProductInfoSection } from './UpdateProductInfoSection';
 import {
@@ -56,28 +55,14 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
         })
         .optional(),
     price: z.number().min(0, { message: 'errors.input_min_0' }),
-    fermentation: z
-        .number()
-        .min(0, { message: 'errors.input_min_0' })
-        .max(100, {
-            message: 'errors.input_required',
-        }),
+    fermentation: z.number().min(0, { message: 'errors.input_min_0' }),
     color: z.number().min(0, { message: 'errors.input_min_0' }),
-    intensity: z.number().min(0, { message: 'errors.input_min_0' }).max(5, {
-        message: 'errors.input_required',
-    }),
-    aroma: z.number().min(0, { message: 'errors.input_min_0' }).max(5, {
-        message: 'errors.input_required',
-    }),
-    family: z.number().min(0, { message: 'errors.input_min_0' }).max(30, {
-        message: 'errors.input_required',
-    }),
-    origin: z.number().min(0, { message: 'errors.input_min_0' }).max(8, {
-        message: 'errors.input_required',
-    }),
-    era: z.number().min(0, { message: 'errors.input_min_0' }).max(5, {
-        message: 'errors.input_required',
-    }),
+    intensity: z.number().min(0, { message: 'errors.input_min_0' }),
+    ibu: z.number().min(0, { message: 'errors.input_min_0' }),
+    aroma: z.number().min(0, { message: 'errors.input_min_0' }),
+    family: z.number().min(0, { message: 'errors.input_min_0' }),
+    origin: z.number().min(0, { message: 'errors.input_min_0' }),
+    era: z.number().min(0, { message: 'errors.input_min_0' }),
     is_gluten: z.coerce.boolean(),
     type: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
         message: 'Required',
@@ -104,9 +89,7 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
     category: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
         message: 'errors.error_50_number_max_length',
     }),
-    ibu: z.number().min(0, { message: 'errors.input_min_0' }).max(300, {
-        message: 'errors.input_max_300',
-    }),
+
     awards: z.array(
         z.object({
             name: z
@@ -184,6 +167,7 @@ export function UpdateProduct({
         volume,
         format,
         intensity,
+        ibu,
     } = beers;
 
     const colorDefault: {
@@ -257,7 +241,7 @@ export function UpdateProduct({
             category: product.category ?? '',
             name: product.name ?? '',
             description: product.description ?? '',
-            type: product.type ?? '',
+            type: product.type ?? 'BEER',
             is_public: product.is_public ?? false,
             price: product.price ?? 0,
             stock_quantity: product.product_inventory?.quantity ?? 0,
@@ -269,12 +253,12 @@ export function UpdateProduct({
             color: colorDefault.value,
             aroma: aromaDefault.value,
             intensity: intensity,
+            ibu: ibu,
             family: familyDefault.value,
             fermentation: fermentationDefault.value,
             origin: originDefault.value,
             era: eraDefault.value,
             is_gluten: product.beers?.is_gluten ?? false,
-            ibu: product.beers?.ibu ?? 0,
             p_principal: convertStringToFileList(
                 product.product_multimedia?.p_principal ?? '',
             ),
@@ -722,8 +706,6 @@ export function UpdateProduct({
         } catch (e) {
             console.error(e);
         }
-
-        handleEditShowModal(false);
     };
 
     return (

@@ -44,6 +44,7 @@ import {
     ROUTE_P_EXTRA_3,
     ROUTE_P_PRINCIPAL,
 } from '../../../../config';
+import { useMessage } from '../message/useMessage';
 
 const ModalWithForm = dynamic(() => import('./ModalWithForm'), { ssr: false });
 
@@ -58,22 +59,14 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
         })
         .optional(),
     price: z.number().min(0, { message: 'errors.input_min_0' }),
-    fermentation: z
-        .number()
-        .min(0, { message: 'errors.input_min_0' })
-        .max(100, {
-            message: 'errors.input_max_5',
-        }),
+    fermentation: z.number().min(0, { message: 'errors.input_min_0' }),
     color: z.number().min(0, { message: 'errors.input_min_0' }),
     intensity: z.number().min(0, { message: 'errors.input_min_0' }),
+    ibu: z.number().min(0, { message: 'errors.input_min_0' }),
     aroma: z.number().min(0, { message: 'errors.input_min_0' }),
-    family: z.number().min(0, { message: 'errors.input_min_0' }).max(30, {
-        message: 'errors.error_30_max_length',
-    }),
+    family: z.number().min(0, { message: 'errors.input_min_0' }),
     origin: z.number().min(0, { message: 'errors.input_min_0' }),
-    era: z.number().min(0, { message: 'errors.input_min_0' }).max(5, {
-        message: 'errors.input_min_5',
-    }),
+    era: z.number().min(0, { message: 'errors.input_min_0' }),
     is_gluten: z.coerce.boolean(),
     type: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
         message: 'Required',
@@ -118,9 +111,7 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
     category: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
         message: 'errors.error_50_number_max_length',
     }),
-    ibu: z.number().min(0, { message: 'errors.input_min_0' }).max(300, {
-        message: 'errors.input_max_300',
-    }),
+
     packs: z.array(
         z.object({
             quantity: z.number().min(0, { message: 'errors.input_min_0' }),
@@ -147,6 +138,8 @@ export function AddProduct() {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [activeStep, setActiveStep] = useState<number>(0);
 
+    const { handleMessage } = useMessage();
+
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     const handleSetActiveStep = (value: number) => {
@@ -158,12 +151,13 @@ export function AddProduct() {
         resolver: zodResolver(schema),
         defaultValues: {
             awards: [],
-            type: 'beer',
+            type: 'BEER',
             is_gluten: false,
             weight: 330,
             intensity: 4,
             ibu: 30,
             price: 0,
+            category: 'BEER',
         },
     });
 
@@ -391,7 +385,10 @@ export function AddProduct() {
         setActiveStep(0);
 
         // Beer type
-        if (product_type_options[0].label === productData[0].type) {
+        if (
+            product_type_options[0].label.toLowerCase() ===
+            productData[0].type?.toLocaleLowerCase()
+        ) {
             const { error: beerError } = await supabase
                 .from('beers')
                 .insert({
@@ -531,6 +528,30 @@ export function AddProduct() {
             }
 
             reset();
+        } else {
+            // ERROR - No se ha podido insertar el producto
+            handleMessage({
+                type: 'error',
+                message: t('error_insert_product'),
+            });
+
+            // Deshacer la inserción del producto
+            const { error: rollbackError } = await supabase
+                .from('products')
+                .delete()
+                .match({ id: productId });
+
+            if (rollbackError) throw rollbackError;
+
+            // Deshacer la inserción de la multimedia
+            const { error: rollbackMultError } = await supabase
+                .from('product_multimedia')
+                .delete()
+                .match({ product_id: productId });
+
+            if (rollbackMultError) throw rollbackMultError;
+
+            return;
         }
 
         setShowModal(false);

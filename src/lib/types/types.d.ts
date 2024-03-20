@@ -785,6 +785,7 @@ export type ModalUpdateProductFormData = {
     fermentation: Fermentation;
     color: number;
     intensity: number;
+    ibu: number;
     aroma: number;
     family: number;
     origin: number;
@@ -804,7 +805,6 @@ export type ModalUpdateProductFormData = {
     // campaign: string;
     stock_quantity: number;
     stock_limit_notification: number;
-    ibu: number;
     awards: ModalUpdateProductAwardFormData[];
     packs: ModalUpdateProductPackFormData[];
 };

@@ -220,11 +220,10 @@ export function UpdateProductInfoSection({ form }: Props) {
                         {/* IBU  */}
                         <InputLabel
                             form={form}
-                            label={'ibu_label'}
+                            label={'ibu'}
                             registerOptions={{
                                 required: true,
                                 min: 0,
-                                max: 300,
                                 valueAsNumber: true,
                             }}
                             inputType="number"
