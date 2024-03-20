@@ -29,7 +29,7 @@ export default function results({
 
     return (
         <div className="w-full">
-            <h1 className="font-semibold text-xl">Results</h1>
+            <h1 className="font-semibold text-xl">Resultados</h1>
 
             <p>
                 Has acertado {totalCorrectAnswers} preguntas de un total{' '}

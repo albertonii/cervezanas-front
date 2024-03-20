@@ -13,12 +13,14 @@ import { useAuth } from '../../(auth)/Context/useAuth';
 import { useMessage } from '../message/useMessage';
 
 interface Props {
+    isFinished: boolean;
     questions: QuestionsState;
     experience: IExperience;
     experienceParticipant: IBMExperienceParticipants;
 }
 
 export default function QuizPanel({
+    isFinished,
     questions,
     experience,
     experienceParticipant,
@@ -31,7 +33,7 @@ export default function QuizPanel({
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [score, setScore] = useState(0);
     const [userAnswers, setUserAnswers] = useState<Record<number, string>>({});
-    const [isShowResults, setIsShowResults] = useState(false);
+    // const [isShowResults, setIsShowResults] = useState(false);   // Como se actualiza en tiempo real cuando isFinished es true, no es necesario
     const [productQuestionMap, setProductQuestionMap] = useState<{
         [key: string]: Question[];
     }>({});
@@ -182,12 +184,12 @@ export default function QuizPanel({
                 'Se ha registrado tu participación en el juego. ¡Gracias por jugar!',
         });
 
-        setIsShowResults(true);
+        // setIsShowResults(true);
     };
 
     return (
         <section className="w-[90vw] sm:w-[400px] text-white text-center bg-beer-blonde p-4 rounded-lg shadow-lg border-beer-darkGold border-2 bg-opacity-80">
-            {isShowResults ? (
+            {isFinished ? (
                 <QuizResults
                     questions={questions}
                     productQuestionMap={productQuestionMap}

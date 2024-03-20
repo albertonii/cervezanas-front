@@ -57,6 +57,12 @@ export default function EventExperience({ eventExperience }: Props) {
     const [questions, setQuestions] = useState<QuestionsState>([]);
 
     useEffect(() => {
+        console.log('QUESTIONS:', questions);
+        console.log('EXPERIENCE PARTICIPANT:', experienceParticipant);
+        console.log('EXPERIENCE:', experience);
+    }, [questions, experienceParticipant, experience]);
+
+    useEffect(() => {
         supabase
             .channel('participants')
             .on(
@@ -136,7 +142,7 @@ export default function EventExperience({ eventExperience }: Props) {
     }, [user, isRegistered]);
 
     useEffect(() => {
-        if (isPaymentValid && !isFinished) {
+        if (isPaymentValid) {
             const questions_array = experience?.bm_questions?.map(
                 (question: Question) => ({
                     ...question,
@@ -149,7 +155,7 @@ export default function EventExperience({ eventExperience }: Props) {
 
             setQuestions(questions_array ?? []);
         }
-    }, [isPaymentValid, isFinished]);
+    }, [isPaymentValid]);
 
     const handleShowPaymentModal = (show: boolean) => {
         setShowPaymentModal(show);
@@ -287,12 +293,13 @@ export default function EventExperience({ eventExperience }: Props) {
                 </div>
             )}
 
-            {isRegistered && isPaymentValid && !isFinished && (
+            {isRegistered && isPaymentValid && (
                 <section>
                     {experience &&
                         experienceParticipant &&
                         questions.length > 0 && (
                             <QuizPanel
+                            isFinished={isFinished}
                                 questions={questions}
                                 experience={experience}
                                 experienceParticipant={experienceParticipant}
