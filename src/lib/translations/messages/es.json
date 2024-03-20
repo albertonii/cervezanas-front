@@ -836,5 +836,6 @@
     "product_name_header": "Producto",
     "update_experience": "Actualizar experiencia",
     "experience_info": "Información de la experiencia",
-    "delete_experience_description_modal": "¿Está seguro de que desea eliminar la experiencia? Esta acción no se puede deshacer."
+    "delete_experience_description_modal": "¿Está seguro de que desea eliminar la experiencia? Esta acción no se puede deshacer.",
+    "phone_number": "Número de teléfono"
 }

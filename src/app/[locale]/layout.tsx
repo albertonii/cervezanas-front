@@ -69,6 +69,7 @@ export default async function AppLocaleLayout({
                     <MessageList />
                     {children}
                 </main>
+                
                 <Footer />
             </section>
         </Providers>
