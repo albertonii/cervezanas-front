@@ -26,4 +26,14 @@ export const ROUTE_DISTRIBUTOR = '/distributor';
 export const ROUTE_ADMIN = '/admin';
 export const ROUTE_BARMAN = '/barman';
 
+export const ROUTE_ARTICLES = '/articles';
+export const ROUTE_AWARDS = '/awards';
+export const ROUTE_PACKS = '/packs';
+
+export const ROUTE_P_PRINCIPAL = '/p_principal';
+export const ROUTE_P_BACK = '/p_back';
+export const ROUTE_P_EXTRA_1 = '/p_extra_1';
+export const ROUTE_P_EXTRA_2 = '/p_extra_2';
+export const ROUTE_P_EXTRA_3 = '/p_extra_3';
+
 export const CERVEZANAS_BEER_URL = 'https://cervezanas.beer';

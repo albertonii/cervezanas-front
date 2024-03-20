@@ -69,7 +69,7 @@ export const AddBeerMasterQuestions = ({ form }: Props) => {
     const handleAddQuestion = () => {
         const emptyQuestion: IAddBeerMasterQuestionFormData = {
             question: {
-                category: 'beer',
+                category: 'BEER',
                 difficulty: Difficulty.MEDIUM,
                 question: '',
                 type: 'multiple',

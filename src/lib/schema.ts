@@ -60,6 +60,7 @@ export interface Database {
           fermentation: string | null
           fg: number | null
           format: string | null
+          ibu: number | null
           intensity: number | null
           is_gluten: boolean | null
           og: number | null
@@ -82,6 +83,7 @@ export interface Database {
           fermentation?: string | null
           fg?: number | null
           format?: string | null
+          ibu?: number | null
           intensity?: number | null
           is_gluten?: boolean | null
           og?: number | null
@@ -104,6 +106,7 @@ export interface Database {
           fermentation?: string | null
           fg?: number | null
           format?: string | null
+          ibu?: number | null
           intensity?: number | null
           is_gluten?: boolean | null
           og?: number | null

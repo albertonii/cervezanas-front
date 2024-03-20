@@ -147,3 +147,11 @@ export const APP_URLS = {
     CONSUMER_EVENT_ORDER: 'consumer/event_order/',
     DISTRIBUTOR_EVENT_ORDER: 'distributor/event_order/',
 };
+
+export const MULTIMEDIA = {
+    P_PRINCIPAL: 'p_principal',
+    P_BACK: 'p_back',
+    P_EXTRA_1: 'p_extra_1',
+    P_EXTRA_2: 'p_extra_2',
+    P_EXTRA_3: 'p_extra_3',
+};

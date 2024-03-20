@@ -35,6 +35,16 @@ import { ProductStepper } from './ProductStepper';
 import { ProductInfoSection } from './ProductInfoSection';
 import { useAppContext } from '../../../context/AppContext';
 import dynamic from 'next/dynamic';
+import {
+    ROUTE_ADMIN,
+    ROUTE_ARTICLES,
+    ROUTE_P_BACK,
+    ROUTE_P_EXTRA_1,
+    ROUTE_P_EXTRA_2,
+    ROUTE_P_EXTRA_3,
+    ROUTE_P_PRINCIPAL,
+} from '../../../../config';
+import { useMessage } from '../message/useMessage';
 
 const ModalWithForm = dynamic(() => import('./ModalWithForm'), { ssr: false });
 
@@ -49,22 +59,14 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
         })
         .optional(),
     price: z.number().min(0, { message: 'errors.input_min_0' }),
-    fermentation: z
-        .number()
-        .min(0, { message: 'errors.input_min_0' })
-        .max(100, {
-            message: 'errors.input_max_5',
-        }),
+    fermentation: z.number().min(0, { message: 'errors.input_min_0' }),
     color: z.number().min(0, { message: 'errors.input_min_0' }),
     intensity: z.number().min(0, { message: 'errors.input_min_0' }),
+    ibu: z.number().min(0, { message: 'errors.input_min_0' }),
     aroma: z.number().min(0, { message: 'errors.input_min_0' }),
-    family: z.number().min(0, { message: 'errors.input_min_0' }).max(30, {
-        message: 'errors.error_30_max_length',
-    }),
+    family: z.number().min(0, { message: 'errors.input_min_0' }),
     origin: z.number().min(0, { message: 'errors.input_min_0' }),
-    era: z.number().min(0, { message: 'errors.input_min_0' }).max(5, {
-        message: 'errors.input_min_5',
-    }),
+    era: z.number().min(0, { message: 'errors.input_min_0' }),
     is_gluten: z.coerce.boolean(),
     type: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
         message: 'Required',
@@ -109,9 +111,7 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
     category: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
         message: 'errors.error_50_number_max_length',
     }),
-    ibu: z.number().min(0, { message: 'errors.input_min_0' }).max(300, {
-        message: 'errors.input_max_300',
-    }),
+
     packs: z.array(
         z.object({
             quantity: z.number().min(0, { message: 'errors.input_min_0' }),
@@ -138,6 +138,8 @@ export function AddProduct() {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [activeStep, setActiveStep] = useState<number>(0);
 
+    const { handleMessage } = useMessage();
+
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     const handleSetActiveStep = (value: number) => {
@@ -149,12 +151,13 @@ export function AddProduct() {
         resolver: zodResolver(schema),
         defaultValues: {
             awards: [],
-            type: 'beer',
+            type: 'BEER',
             is_gluten: false,
             weight: 330,
             intensity: 4,
             ibu: 30,
             price: 0,
+            category: 'BEER',
         },
     });
 
@@ -239,8 +242,7 @@ export function AddProduct() {
         let p_extra_3_url = '';
 
         if (p_principal && !isFileEmpty(p_principal[0])) {
-            const fileName = `articles/${productId}/p_principal/${randomUUID}`;
-            // .../articles/1/p_principal/uuid.jpg
+            const fileName = `${ROUTE_ARTICLES}${productId}${ROUTE_P_PRINCIPAL}/${randomUUID}`;
             p_principal_url = encodeURIComponent(
                 `${fileName}${generateFileNameExtension(p_principal[0].name)}`,
             );
@@ -264,7 +266,7 @@ export function AddProduct() {
         }
 
         if (p_back && !isFileEmpty(p_back[0])) {
-            const fileName = `articles/${productId}/p_back/${randomUUID}`;
+            const fileName = `${ROUTE_ARTICLES}${productId}${ROUTE_P_BACK}/${randomUUID}`;
 
             p_back_url =
                 p_back &&
@@ -288,7 +290,7 @@ export function AddProduct() {
         }
 
         if (p_extra_1 && !isFileEmpty(p_extra_1[0])) {
-            const fileName = `articles/${productId}/p_extra_1/${randomUUID}`;
+            const fileName = `${ROUTE_ARTICLES}${productId}${ROUTE_P_EXTRA_1}/${randomUUID}`;
 
             p_extra_1_url =
                 p_extra_1 &&
@@ -316,7 +318,7 @@ export function AddProduct() {
         }
 
         if (p_extra_2 && !isFileEmpty(p_extra_2[0])) {
-            const fileName = `articles/${productId}/p_extra_2/${randomUUID}`;
+            const fileName = `${ROUTE_ARTICLES}${productId}${ROUTE_P_EXTRA_2}/${randomUUID}`;
 
             p_extra_2_url =
                 p_extra_2 &&
@@ -344,7 +346,7 @@ export function AddProduct() {
         }
 
         if (p_extra_3 && !isFileEmpty(p_extra_3[0])) {
-            const fileName = `articles/${productId}/p_extra_3/${randomUUID}`;
+            const fileName = `${ROUTE_ARTICLES}${productId}${ROUTE_P_EXTRA_3}/${randomUUID}`;
 
             p_extra_3_url =
                 p_extra_3 &&
@@ -383,7 +385,10 @@ export function AddProduct() {
         setActiveStep(0);
 
         // Beer type
-        if (product_type_options[0].label === productData[0].type) {
+        if (
+            product_type_options[0].label.toLowerCase() ===
+            productData[0].type?.toLocaleLowerCase()
+        ) {
             const { error: beerError } = await supabase
                 .from('beers')
                 .insert({
@@ -523,6 +528,30 @@ export function AddProduct() {
             }
 
             reset();
+        } else {
+            // ERROR - No se ha podido insertar el producto
+            handleMessage({
+                type: 'error',
+                message: t('error_insert_product'),
+            });
+
+            // Deshacer la inserción del producto
+            const { error: rollbackError } = await supabase
+                .from('products')
+                .delete()
+                .match({ id: productId });
+
+            if (rollbackError) throw rollbackError;
+
+            // Deshacer la inserción de la multimedia
+            const { error: rollbackMultError } = await supabase
+                .from('product_multimedia')
+                .delete()
+                .match({ product_id: productId });
+
+            if (rollbackMultError) throw rollbackMultError;
+
+            return;
         }
 
         setShowModal(false);

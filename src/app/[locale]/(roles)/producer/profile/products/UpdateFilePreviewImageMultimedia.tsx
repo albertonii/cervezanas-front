@@ -8,6 +8,15 @@ import { DisplayInputError } from '../../../../components/common/DisplayInputErr
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { generateFileNameExtension } from '../../../../../../utils/utils';
 import { v4 as uuidv4 } from 'uuid';
+import {
+    ROUTE_ARTICLES,
+    ROUTE_P_BACK,
+    ROUTE_P_EXTRA_1,
+    ROUTE_P_EXTRA_2,
+    ROUTE_P_EXTRA_3,
+    ROUTE_P_PRINCIPAL,
+} from '../../../../../../config';
+import { MULTIMEDIA } from '../../../../../../constants';
 
 interface Props {
     productId: string;
@@ -25,6 +34,7 @@ export const UpdateFilePreviewImageMultimedia = ({
     const t = useTranslations();
     const [image, setImage] = useState<string | null>(); // Nuevo estado para almacenar la URL de la imagen
     const { supabase } = useAuth();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const generateUUID = () => {
         return uuidv4();
@@ -39,51 +49,6 @@ export const UpdateFilePreviewImageMultimedia = ({
     } = form;
 
     useEffect(() => {
-        // TODO: VOLVER A ESTE CAMINO
-        const updateValue = async () => {
-            const fileName = `articles/${productId}/p_principal/${randomUUID}`;
-            const p_principal = getValues(registerName);
-
-            const p_principal_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(p_principal[0].name)}`,
-            );
-
-            console.log(p_principal);
-            console.log(p_principal_url);
-
-            const { error: pPrincipalError } = await supabase.storage
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(
-                        p_principal[0].name,
-                    )}`,
-                    p_principal[0],
-                    {
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
-            if (pPrincipalError) throw pPrincipalError;
-
-            const { error: multError } = await supabase
-                .from('product_multimedia')
-                .update({
-                    p_principal: p_principal_url,
-                })
-                .eq('product_id', productId);
-
-            if (multError) throw multError;
-        };
-
-        const p_principal = getValues(registerName);
-        console.log(p_principal);
-
-        if (p_principal && p_principal[0].name !== '') {
-            updateValue();
-        }
-    }, [image]);
-
-    useEffect(() => {
         if (getValues(registerName)) {
             const type = typeof getValues(registerName);
 
@@ -95,8 +60,6 @@ export const UpdateFilePreviewImageMultimedia = ({
             preUrl
                 ? setImage(preUrl + decodeURIComponent(file))
                 : setImage(URL.createObjectURL(getValues(registerName)[0]));
-
-            console.log(preUrl + decodeURIComponent(file));
         }
     }, [registerName]);
 
@@ -109,10 +72,167 @@ export const UpdateFilePreviewImageMultimedia = ({
         if (!e.target.files) return console.info('No hay archivos');
         setImage(URL.createObjectURL(e.target.files[0])); // Almacenar la URL de la imagen en el estado
         setValue(registerName, e.target.files);
+
+        setIsLoading(true);
+
+        const updateValue = async () => {
+            const file = getValues(registerName);
+
+            if (registerName === MULTIMEDIA.P_PRINCIPAL) {
+                const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_PRINCIPAL}/${randomUUID}`;
+                const p_principal_url = encodeURIComponent(
+                    `${fileName}${generateFileNameExtension(file[0].name)}`,
+                );
+
+                const { error } = await supabase.storage
+                    .from('products')
+                    .upload(
+                        `${fileName}${generateFileNameExtension(file[0].name)}`,
+                        file[0],
+                        {
+                            cacheControl: '3600',
+                            upsert: false,
+                        },
+                    );
+                if (error) throw error;
+
+                const { error: multError } = await supabase
+                    .from('product_multimedia')
+                    .update({
+                        p_principal: p_principal_url,
+                    })
+                    .eq('product_id', productId);
+
+                if (multError) throw multError;
+            } else if (registerName === MULTIMEDIA.P_BACK) {
+                alert('DENTRO');
+                const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_BACK}/${randomUUID}`;
+                const p_back_url = encodeURIComponent(
+                    `${fileName}${generateFileNameExtension(file[0].name)}`,
+                );
+                console.log(p_back_url);
+                console.log(file[0]);
+
+                const { error } = await supabase.storage
+                    .from('products')
+                    .upload(
+                        `${fileName}${generateFileNameExtension(file[0].name)}`,
+                        file[0],
+                        {
+                            cacheControl: '3600',
+                            upsert: false,
+                        },
+                    );
+                if (error) throw error;
+
+                const { error: multError } = await supabase
+                    .from('product_multimedia')
+                    .update({
+                        p_back: p_back_url,
+                    })
+                    .eq('product_id', productId);
+
+                if (multError) throw multError;
+            } else if (registerName === MULTIMEDIA.P_EXTRA_1) {
+                const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_EXTRA_1}/${randomUUID}`;
+                const p_extra_1_url = encodeURIComponent(
+                    `${fileName}${generateFileNameExtension(file[0].name)}`,
+                );
+
+                const { error } = await supabase.storage
+                    .from('products')
+                    .upload(
+                        `${fileName}${generateFileNameExtension(file[0].name)}`,
+                        file[0],
+                        {
+                            cacheControl: '3600',
+                            upsert: false,
+                        },
+                    );
+                if (error) throw error;
+
+                const { error: multError } = await supabase
+                    .from('product_multimedia')
+                    .update({
+                        p_back: p_extra_1_url,
+                    })
+                    .eq('product_id', productId);
+
+                if (multError) throw multError;
+            } else if (registerName === MULTIMEDIA.P_EXTRA_2) {
+                const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_EXTRA_2}/${randomUUID}`;
+                const p_extra_2_url = encodeURIComponent(
+                    `${fileName}${generateFileNameExtension(file[0].name)}`,
+                );
+
+                const { error } = await supabase.storage
+                    .from('products')
+                    .upload(
+                        `${fileName}${generateFileNameExtension(file[0].name)}`,
+                        file[0],
+                        {
+                            cacheControl: '3600',
+                            upsert: false,
+                        },
+                    );
+                if (error) throw error;
+
+                const { error: multError } = await supabase
+                    .from('product_multimedia')
+                    .update({
+                        p_back: p_extra_2_url,
+                    })
+                    .eq('product_id', productId);
+
+                if (multError) throw multError;
+            } else if (registerName === MULTIMEDIA.P_EXTRA_3) {
+                const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_EXTRA_3}/${randomUUID}`;
+                const p_extra_3_url = encodeURIComponent(
+                    `${fileName}${generateFileNameExtension(file[0].name)}`,
+                );
+
+                const { error } = await supabase.storage
+                    .from('products')
+                    .upload(
+                        `${fileName}${generateFileNameExtension(file[0].name)}`,
+                        file[0],
+                        {
+                            cacheControl: '3600',
+                            upsert: false,
+                        },
+                    );
+                if (error) throw error;
+
+                const { error: multError } = await supabase
+                    .from('product_multimedia')
+                    .update({
+                        p_back: p_extra_3_url,
+                    })
+                    .eq('product_id', productId);
+
+                if (multError) throw multError;
+            }
+
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 800);
+        };
+
+        updateValue();
     };
 
     return (
-        <section className="flex w-full items-center justify-center rounded-md lg:w-full">
+        <section
+            className={`
+            flex w-full items-center justify-center rounded-md lg:w-full
+            ${isLoading && 'animate-pulse bg-grey-500 opacity-40'}
+        `}
+        >
+            {isLoading && (
+                <div className="absolute z-10 flex h-full w-full items-center justify-center bg-gray-200 bg-opacity-50">
+                    Subiendo archivo ...
+                </div>
+            )}
             {!image && (
                 <div className="relative h-32 w-full cursor-pointer items-center overflow-hidden rounded-md border-2 border-dotted   border-gray-400 shadow-md">
                     <input

@@ -79,7 +79,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
     // Function that switch between merchandising and beer when select option is clicked
     const handleProductType = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const category = event.target.value.toLowerCase();
-        if (category === 'beer') {
+        if (category === 'BEER') {
             setIsBeer(true);
         } else if (category === 'merchandising') {
             setIsBeer(false);
@@ -139,7 +139,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                         onChange={handleProductType}
                         className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                     >
-                        <option key={0} value={'beer'} selected>
+                        <option key={0} value={'BEER'} selected>
                             {t('beer')}
                         </option>
                         {/* 
@@ -310,16 +310,14 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                         {/* IBU  */}
                         <InputLabel
                             form={form}
-                            label={'ibu_label'}
+                            label={'ibu'}
                             registerOptions={{
                                 required: true,
                                 min: 0,
-                                max: 300,
                                 valueAsNumber: true,
                             }}
                             inputType="number"
                             infoTooltip={t('ibu_tooltip')}
-                            defaultValue={30}
                         />
                     </div>
 
