@@ -21,7 +21,7 @@ const QuestionCard: React.FC<Props> = ({
     return (
         <div className="w-full">
             <p
-                className="text-[20px] "
+                className="text-[18px] sm:text-[20px] "
                 dangerouslySetInnerHTML={{ __html: question }}
             />
             <div className="flex flex-col items-center pt-8">
@@ -33,7 +33,7 @@ const QuestionCard: React.FC<Props> = ({
                             userAnswer,
                             correctAnswer,
                             answer,
-                        )} cursor-pointer flex items-center justify-center select-none font-bold min-h-[45px] max-w-[400] w-full my-2 rounded-[10px]`}
+                        )} text-[18px] sm:text-[24px] cursor-pointer flex items-center justify-center select-none font-bold min-h-[45px] max-w-[400] w-full my-2 rounded-[10px]`}
                     >
                         <span
                             className="truncate"
