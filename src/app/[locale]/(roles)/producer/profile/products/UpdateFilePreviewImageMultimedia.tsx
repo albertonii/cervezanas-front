@@ -105,13 +105,10 @@ export const UpdateFilePreviewImageMultimedia = ({
 
                 if (multError) throw multError;
             } else if (registerName === MULTIMEDIA.P_BACK) {
-                alert('DENTRO');
                 const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_BACK}/${randomUUID}`;
                 const p_back_url = encodeURIComponent(
                     `${fileName}${generateFileNameExtension(file[0].name)}`,
                 );
-                console.log(p_back_url);
-                console.log(file[0]);
 
                 const { error } = await supabase.storage
                     .from('products')
