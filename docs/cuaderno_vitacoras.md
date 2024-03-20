@@ -779,7 +779,6 @@ Habilitar formulario para feedbacks/reporte de errores
 - [ ] ¿Necesitamos tener en el usuario el parámetro CP_ORGANIZER_STATUS? -> Si ya han aceptado los términos y condiciones creo que no es necesaria esta lógica.
 - [ ] Crear usuario para CCVK -> Configurar productos, PC y experiencias
 - [x] Si el barman escanéa el código y no está registrado -> LOOP INFINITO -> Pq no estaba redireccionando de manera adecuada a /signin
-- [ ] NOTIFICACIÓN
 - [ ] Error al mostrar imágenes del producto
 - [x] Permitir guardar el producto aunque no tengan imágenes asociadas (para awards, packs y product multimedia)
 - [ ] Añadir como estilo de Cerveza -> aged_beer, ácida
@@ -798,7 +797,7 @@ Habilitar formulario para feedbacks/reporte de errores
 - [ ] Funcionalidad en el mapa para crear un PC -> poder seleccionar la dirección presionando en un punto en el mapa.
 - [ ] Cuando se añade un PC -> Invalidar QUERY para que se actualice la información
 - [ ] Traducción question_ADD, associated_experiences, EVENTOS_CERVEZANAS update y añadir
-- [ ] Vista móvil -> Flex col para elementos del barman en la experiencia
+- [x] Vista móvil -> Flex col para elementos del barman en la experiencia
 - [x] Añadir signout en menú móvil
 - [x] Poner en el footer el correo y el contacto: cervezanas@socialinnolabs.org
       teléfono: 687 85 96 55

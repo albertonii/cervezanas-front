@@ -113,16 +113,12 @@ export default function Footer() {
 
                                     <p className="flex space-y-4 flex-col">
                                         <span className=" text-white">
-                                            {t('phone_number')}:
-                                            <h3 className="font-semibold">
-                                                +34 687 85 96 55
-                                            </h3>
+                                            {t('phone_number')}:{' '}
+                                            <b>+34 687 85 96 55</b>
                                         </span>
                                         <span className=" text-white">
-                                            {t('email')}:
-                                            <h3 className="font-semibold">
-                                                cervezanas@socialinnolabs.org
-                                            </h3>
+                                            {t('email')}:{' '}
+                                            <b>cervezanas@socialinnolabs.org</b>
                                         </span>
                                     </p>
                                 </div>

@@ -9,6 +9,7 @@ import createServerClient from '../../utils/supabaseServer';
 import { notFound } from 'next/navigation';
 import { INotification } from '../../lib/types/types';
 import { MessageList } from './components/message/MessageList';
+// import { Breadcrumb } from './components/Breadcrumb';
 
 type LayoutProps = {
     children: React.ReactNode;
@@ -58,7 +59,9 @@ export default async function AppLocaleLayout({
                         // "h-[calc(100vh - 340px)] mx-auto mt-[10vh] w-full overflow-y-auto"
                     )}
                 >
-                    {/* <Breadcrumb getDefaultTextGenerator={(path) => titleize(path)} /> */}
+                    {/* <Breadcrumb
+                    getDefaultTextGenerator={(path) => titleize(path)}
+                    /> */}
                 </section>
 
                 <main
@@ -69,7 +72,7 @@ export default async function AppLocaleLayout({
                     <MessageList />
                     {children}
                 </main>
-                
+
                 <Footer />
             </section>
         </Providers>
