@@ -294,8 +294,8 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                         />
                     </div>
 
-                    {/* Aroma  */}
                     <div className="flex w-full flex-row space-x-3 ">
+                        {/* Aroma  */}
                         <SelectInput
                             form={form}
                             labelTooltip={'aroma_tooltip'}
@@ -305,6 +305,21 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                                 required: true,
                                 valueAsNumber: true,
                             }}
+                        />
+
+                        {/* IBU  */}
+                        <InputLabel
+                            form={form}
+                            label={'ibu_label'}
+                            registerOptions={{
+                                required: true,
+                                min: 0,
+                                max: 300,
+                                valueAsNumber: true,
+                            }}
+                            inputType="number"
+                            infoTooltip={t('ibu_tooltip')}
+                            defaultValue={30}
                         />
                     </div>
 

@@ -97,13 +97,16 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
     format: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
         message: 'errors.error_50_number_max_length',
     }),
-    category: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
-        message: 'errors.error_50_number_max_length',
-    }),
     stock_quantity: z.number().min(0, { message: 'errors.input_min_0' }),
     stock_limit_notification: z
         .number()
         .min(0, { message: 'errors.input_required' }),
+    category: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
+        message: 'errors.error_50_number_max_length',
+    }),
+    ibu: z.number().min(0, { message: 'errors.input_min_0' }).max(300, {
+        message: 'errors.input_max_300',
+    }),
     awards: z.array(
         z.object({
             name: z
@@ -271,6 +274,7 @@ export function UpdateProduct({
             origin: originDefault.value,
             era: eraDefault.value,
             is_gluten: product.beers?.is_gluten ?? false,
+            ibu: product.beers?.ibu ?? 0,
             p_principal: convertStringToFileList(
                 product.product_multimedia?.p_principal ?? '',
             ),
@@ -332,11 +336,12 @@ export function UpdateProduct({
             description,
             price,
             volume,
-            weight,
             format,
             stock_quantity,
             stock_limit_notification,
             packs,
+            weight,
+            ibu,
         } = formValues;
 
         const userId = user?.id;
@@ -531,6 +536,7 @@ export function UpdateProduct({
                     volume,
                     format,
                     weight,
+                    ibu,
                 })
                 .eq('product_id', product.id)
                 .select('*')

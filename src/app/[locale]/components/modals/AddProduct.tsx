@@ -14,7 +14,6 @@ import {
     origin_options,
     product_type_options,
 } from '../../../../lib/beerEnum';
-import { AwardsSection } from './AwardsSection';
 import { MultimediaSection } from './MultimediaSection';
 import {
     IProductInventory,
@@ -107,6 +106,12 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
     stock_limit_notification: z
         .number()
         .min(0, { message: 'errors.input_required' }),
+    category: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
+        message: 'errors.error_50_number_max_length',
+    }),
+    ibu: z.number().min(0, { message: 'errors.input_min_0' }).max(300, {
+        message: 'errors.input_max_300',
+    }),
     packs: z.array(
         z.object({
             quantity: z.number().min(0, { message: 'errors.input_min_0' }),
@@ -120,9 +125,6 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
             img_url: z.instanceof(FileList).optional().or(z.string()),
         }),
     ),
-    category: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
-        message: 'errors.error_50_number_max_length',
-    }),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -150,6 +152,8 @@ export function AddProduct() {
             type: 'beer',
             is_gluten: false,
             weight: 330,
+            intensity: 4,
+            ibu: 30,
         },
     });
 
@@ -199,6 +203,7 @@ export function AddProduct() {
             stock_limit_notification,
             packs,
             category,
+            ibu,
         } = form;
 
         const userId = user?.id;
@@ -378,7 +383,7 @@ export function AddProduct() {
 
         // Beer type
         if (product_type_options[0].label === productData[0].type) {
-            const { data: beerData, error: beerError } = await supabase
+            const { error: beerError } = await supabase
                 .from('beers')
                 .insert({
                     intensity,
@@ -393,6 +398,7 @@ export function AddProduct() {
                     format,
                     product_id: productId,
                     weight,
+                    ibu,
                 })
                 .select('*')
                 .single();

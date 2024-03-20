@@ -692,9 +692,6 @@ Habilitar formulario para feedbacks/reporte de errores
 - [ ] Mínimo de haber participado en 4 experiencias para poder participar en el concurso de las 2 entradas y premios.
 - [ ] Todos tienen descuento de un 10% en las compras online. Los que más puntos tengan (top 100) en el juego de Maestro Cervecero, tendrán más premios. Recibiras el resultado del concurso en la dirección de correo.
 - [x] Quitar los productos que se van a vender en el evento.
-- [ ] Para el lunes deben estar los productos de CCVK - además de darse de alta como productor y distribuidor
-- [ ] Realtime actualizacion para experiencia pagada
-- [ ] En el caso del stand de Cervezanas, que habrán 2 cervezas para la experiencia de Maestro Cervecero, ¿cómo se cuentan las experiencias? Pq cada una tiene un precio distinto... En la experiencia permitir añadir varias cervezas. Y mostrar en el juego todas las cervezas.
 - [ ] Todos tienen descuento de un 10% en las compras online. Los que más puntos tengan (top 100) en el juego de Maestro Cervecero, tendrán más premios. Recibiras el resultado del concurso en la dirección de correo.
 - [x] En los productos que se venden en el evento, indicar que se venden en el evento. Propiedad is_active en el modelo de datos.
 - [~] Para el lunes deben estar los productos de CCVK - además de darse de alta como productor y distribuidor
