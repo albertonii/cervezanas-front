@@ -805,5 +805,6 @@ Habilitar formulario para feedbacks/reporte de errores
 - [x] BG para online orders y event_orders en menu CONSUMER - DISEÑO PARA LISTAS
 - [x] Actualizar vista para que una vez se de el OK en participación de experiencia se actualice la vista en el navegador.
 - [ ] Comprobar que los textos son lo suficientemente largos para ser leidos en su totalidad
+- [ ] ARREGLAR LA PAGINACIÓN en los listados -> Por ahora lo solucionamos con results per page = 100
 
 https://www.lovilotfarmbrewery.com/es/contacto/

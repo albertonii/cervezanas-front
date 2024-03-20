@@ -40,7 +40,6 @@ export const FilePreviewImageMultimedia = ({
                 : setImage(URL.createObjectURL(getValues(registerName)[0]));
         }
     }, [registerName]);
-    
 
     const removeImageClick = () => {
         setValue(registerName, null);
@@ -59,7 +58,7 @@ export const FilePreviewImageMultimedia = ({
                 <div className="relative h-32 w-full cursor-pointer items-center overflow-hidden rounded-md border-2 border-dotted   border-gray-400 shadow-md">
                     <input
                         type="file"
-                        accept="image/png, image/jpeg"
+                        accept="image/*"
                         className="absolute z-10 h-full w-full opacity-0"
                         onChange={handleFile}
                     />
