@@ -83,7 +83,7 @@ export default function ManageExperienceParticipation({
         <section className="relative flex  h-screen w-full flex-col items-start overflow-hidden rounded-lg bg-white px-6 pb-8 pt-14 shadow-lg sm:pt-8 ">
             <section className="my-6 grid w-full grid-cols-12 items-start gap-y-8 space-x-4 lg:grid-cols-12 ">
                 {/* Experience Participant Information  */}
-                <div className="col-span-12 flex flex-row space-y-2 lg:col-span-8 gap-4">
+                <div className="col-span-12 flex flex-col rounded-md shadow-lg sm:flex-row space-y-2 lg:col-span-8 gap-4">
                     {/* User  */}
                     <div className="mt-2 flex flex-col border-2 border-beer-draft bg-beer-softFoam rounded-sm p-4">
                         <span className="">
