@@ -230,7 +230,6 @@ export const UpdateFilePreviewImageMultimedia = ({
         >
             {isLoading && (
                 <div className="absolute z-10 flex h-full w-full items-center justify-center bg-gray-200 bg-opacity-50">
-                    <i className="mdi mdi-loading mdi-spin text-[30px] text-gray-400"></i>
                     Subiendo archivo ...
                 </div>
             )}
