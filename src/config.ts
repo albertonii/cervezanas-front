@@ -17,8 +17,13 @@ export const ROUTE_EXPERIENCE_PARTICIPANT = '/experience-participant';
 export const ROUTE_PROFILE = '/profile';
 export const ROUTE_BUSINESS_ORDERS = '/business_orders';
 export const ROUTE_ONLINE_ORDERS = '/online_orders';
+export const ROUTE_EVENT_ORDERS = '/event_orders';
 export const ROUTE_REPORTS = '/reports';
 export const ROUTE_AUTHORIZED_USERS = '/authorized_users';
+export const ROUTE_SETTINGS = '/settings';
+export const ROUTE_CONTRACTS_CPS = '/contracts_cps';
+export const ROUTE_MONTHLY_PRODUCTS = '/monthly_products';
+export const ROUTE_NOTIFICATIONS = '/notifications';
 
 export const ROUTE_CONSUMER = '/consumer';
 export const ROUTE_PRODUCER = '/producer';

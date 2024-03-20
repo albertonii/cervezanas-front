@@ -791,5 +791,19 @@ Habilitar formulario para feedbacks/reporte de errores
 - [x] Crear entrada en tabla CONSUMPTION_POINTS AL CREAR UN USUARIO PRODUCTOR
 - [ ] Para el momento de crear experiencia -> Indicar en el listado el producto que se está vinculando
 - [ ] Si no funciona sign in con Google -> ELIMINARLO
+- [ ] Notificar que revisen el email cuando se crea usuario productor o distribuidor
+- [ ] No se muestra el pack cuando la inserción es inmediata -> Se tiene que refrescar
+- [ ] Cambiar nombre de nuevo Punto Móvil a -> nuevo STAND
+- [ ] Quitar el booleano de ORGANIZADOR INTERNO -> VAMOS A HACER QUE TODOS LO SEAN
+- [ ] Funcionalidad en el mapa para crear un PC -> poder seleccionar la dirección presionando en un punto en el mapa.
+- [ ] Cuando se añade un PC -> Invalidar QUERY para que se actualice la información
+- [ ] Traducción question_ADD, associated_experiences, EVENTOS_CERVEZANAS update y añadir
+- [ ] Vista móvil -> Flex col para elementos del barman en la experiencia
+- [x] Añadir signout en menú móvil
+- [x] Poner en el footer el correo y el contacto: cervezanas@socialinnolabs.org
+      teléfono: 687 85 96 55
+- [ ] Implementar seguridad para la lectura de QRs en experiencia -> Solo puede leer el dueño del stand o el administrador.
+- [x] BG para online orders y event_orders en menu CONSUMER - DISEÑO PARA LISTAS
+- [ ] Actualizar vista para que una vez se de el OK en participación de experiencia se actualice la vista en el navegador.
 
 https://www.lovilotfarmbrewery.com/es/contacto/

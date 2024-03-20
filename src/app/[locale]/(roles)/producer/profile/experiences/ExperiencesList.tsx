@@ -37,7 +37,6 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
     const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 
-
     const resultsPerPage = 10;
 
     const { data, isError, isLoading, refetch } =
@@ -113,7 +112,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
     };
 
     return (
-        <section className="mt-2 mb-4 space-y-3  rounded-md border-2 border-beer-blonde  bg-white px-6 py-4 shadow-2xl">
+        <section className="relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
             {isEditModal && selectedExperience && (
                 <UpdateBeerMasterExperienceModalNew
                     selectedExperience={selectedExperience}
@@ -149,94 +148,98 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
                     </p>
                 </div>
             ) : (
-                <>
+                <div className="space-y-2">
                     <InputSearch
                         query={query}
                         setQuery={setQuery}
                         searchPlaceholder={'search_by_name'}
                     />
+                    <div className="overflow-x-scroll border-2 ">
+                        <table className="text-center text-sm text-gray-500 dark:text-gray-400 border-2 ">
+                            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    {COLUMNS.map(
+                                        (
+                                            column: ColumnsProps,
+                                            index: number,
+                                        ) => {
+                                            return (
+                                                <th
+                                                    key={index}
+                                                    scope="col"
+                                                    className="px-6 py-3"
+                                                >
+                                                    {column.header}
+                                                </th>
+                                            );
+                                        },
+                                    )}
+                                </tr>
+                            </thead>
 
-                    <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
-                        <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                {COLUMNS.map(
-                                    (column: ColumnsProps, index: number) => {
-                                        return (
+                            <tbody>
+                                {sortedItems.map((e: IExperience) => {
+                                    return (
+                                        <tr key={e.id} className="">
                                             <th
-                                                key={index}
-                                                scope="col"
-                                                className="px-6 py-3"
+                                                scope="row"
+                                                className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                                             >
-                                                {column.header}
+                                                <Image
+                                                    width={128}
+                                                    height={128}
+                                                    className="h-8 w-8 rounded-full"
+                                                    src="/icons/people-line-solid.svg"
+                                                    alt="Beer Type"
+                                                />
                                             </th>
-                                        );
-                                    },
-                                )}
-                            </tr>
-                        </thead>
 
-                        <tbody>
-                            {sortedItems.map((e: IExperience) => {
-                                return (
-                                    <tr key={e.id} className="">
-                                        <th
-                                            scope="row"
-                                            className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                                        >
-                                            <Image
-                                                width={128}
-                                                height={128}
-                                                className="h-8 w-8 rounded-full"
-                                                src="/icons/people-line-solid.svg"
-                                                alt="Beer Type"
-                                            />
-                                        </th>
+                                            <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+                                                <Link
+                                                    href={`/experiences/${e.id}`}
+                                                    locale={locale}
+                                                >
+                                                    {e.name}
+                                                </Link>
+                                            </td>
 
-                                        <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                                            <Link
-                                                href={`/experiences/${e.id}`}
-                                                locale={locale}
-                                            >
-                                                {e.name}
-                                            </Link>
-                                        </td>
+                                            <td className="px-6 py-4">
+                                                {formatDateString(e.created_at)}
+                                            </td>
 
-                                        <td className="px-6 py-4">
-                                            {formatDateString(e.created_at)}
-                                        </td>
+                                            <td className="flex items-center justify-center px-6 py-4">
+                                                <IconButton
+                                                    icon={faEdit}
+                                                    onClick={() => {
+                                                        handleEditClick(e);
+                                                    }}
+                                                    color={editColor}
+                                                    classContainer={
+                                                        'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full'
+                                                    }
+                                                    classIcon={''}
+                                                    title={t('edit')}
+                                                />
 
-                                        <td className="flex items-center justify-center px-6 py-4">
-                                            <IconButton
-                                                icon={faEdit}
-                                                onClick={() => {
-                                                    handleEditClick(e);
-                                                }}
-                                                color={editColor}
-                                                classContainer={
-                                                    'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full'
-                                                }
-                                                classIcon={''}
-                                                title={t('edit')}
-                                            />
-
-                                            <IconButton
-                                                icon={faTrash}
-                                                onClick={() => {
-                                                    handleDeleteClick(e);
-                                                }}
-                                                color={deleteColor}
-                                                classContainer={
-                                                    'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
-                                                }
-                                                classIcon={''}
-                                                title={t('delete')}
-                                            />
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
+                                                <IconButton
+                                                    icon={faTrash}
+                                                    onClick={() => {
+                                                        handleDeleteClick(e);
+                                                    }}
+                                                    color={deleteColor}
+                                                    classContainer={
+                                                        'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
+                                                    }
+                                                    classIcon={''}
+                                                    title={t('delete')}
+                                                />
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
 
                     {/* Prev and Next button for pagination  */}
                     <div className="my-4 flex items-center justify-around">
@@ -247,7 +250,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
                             setCurrentPage={setCurrentPage}
                         />
                     </div>
-                </>
+                </div>
             )}
         </section>
     );

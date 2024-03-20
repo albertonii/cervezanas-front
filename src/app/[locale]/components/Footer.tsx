@@ -36,8 +36,8 @@ export default function Footer() {
                                 </span>
                             </Link>
 
-                            <div className="mt-4 lg:max-w-sm">
-                                <p className="text-deep-purple-50 text-sm text-white">
+                            <div className=" mt-4 ">
+                                <p className="w-[200px] sm:w-[1000px] max-w-sm sm:max-w-lg lg:max-w-2xl text-deep-purple-50 text-sm text-white">
                                     Somos una comunidad de productores,
                                     distribuidores y apasionados de la cerveza
                                     artesanal, buscando fomentar el intercambio
@@ -48,9 +48,9 @@ export default function Footer() {
                         </div>
 
                         {/* Links */}
-                        <div className="row-gap-8 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-4 lg:col-span-4">
+                        <div className="row-gap-8 grid grid-cols-1 gap-5 sm:grid-cols-12 lg:col-span-12">
                             {/* Quienes somos  */}
-                            <>
+                            <div className="col-span-12 sm:col-span-6 lg:col-span-4">
                                 <p className="font-semibold tracking-wide text-cerv-banana">
                                     {t('who_we_are_question')}
                                 </p>
@@ -59,7 +59,7 @@ export default function Footer() {
                                     <li>
                                         <Link
                                             href="/quienes-somos"
-                                            className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde text-white"
+                                            className="text-deep-purple-50 transition-colors duration-300 hover:font-semibold hover:text-beer-blonde text-white"
                                             locale={locale}
                                         >
                                             {t('who_we_are')}
@@ -68,7 +68,7 @@ export default function Footer() {
                                     <li>
                                         <Link
                                             href="/compromisos"
-                                            className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde text-white"
+                                            className="text-deep-purple-50 transition-colors duration-300 hover:font-semibold hover:text-beer-blonde text-white"
                                             locale={locale}
                                         >
                                             {t('commiments')}
@@ -77,7 +77,7 @@ export default function Footer() {
                                     <li>
                                         <Link
                                             href="/condiciones-de-compra"
-                                            className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde text-white"
+                                            className="text-deep-purple-50 transition-colors duration-300 hover:font-semibold hover:text-beer-blonde text-white"
                                             locale={locale}
                                         >
                                             {t('purchase_conditions')}
@@ -86,7 +86,7 @@ export default function Footer() {
                                     <li>
                                         <Link
                                             href="/aviso-legal"
-                                            className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde text-white"
+                                            className="text-deep-purple-50 transition-colors duration-300 hover:font-semibold hover:text-beer-blonde text-white"
                                             locale={locale}
                                         >
                                             {t('legal_notice')}
@@ -95,25 +95,43 @@ export default function Footer() {
                                     <li>
                                         <Link
                                             href="/privacidad"
-                                            className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde text-white"
+                                            className="text-deep-purple-50 transition-colors duration-300 hover:font-semibold hover:text-beer-blonde text-white"
                                             locale={locale}
                                         >
                                             {t('privacy_policy')}
                                         </Link>
                                     </li>
                                 </ul>
-                            </>
+                            </div>
 
                             {/* Contactar  */}
-                            <>
-                                <p className="font-semibold tracking-wide text-cerv-banana">
-                                    {t('contact_us')}
-                                </p>
+                            <div className="col-span-12 sm:col-span-6 lg:col-span-4 sm:flex gap-4">
+                                <div>
+                                    <p className="font-semibold tracking-wide text-cerv-banana">
+                                        {t('contact_us')}
+                                    </p>
+
+                                    <p className="flex space-y-4 flex-col">
+                                        <span className=" text-white">
+                                            {t('phone_number')}:
+                                            <h3 className="font-semibold">
+                                                +34 687 85 96 55
+                                            </h3>
+                                        </span>
+                                        <span className=" text-white">
+                                            {t('email')}:
+                                            <h3 className="font-semibold">
+                                                cervezanas@socialinnolabs.org
+                                            </h3>
+                                        </span>
+                                    </p>
+                                </div>
+
                                 <ul className="mt-2 space-y-2">
                                     <li>
                                         <Link
                                             href="/soporte"
-                                            className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde text-white"
+                                            className="text-deep-purple-50 transition-colors duration-300 hover:font-semibold hover:text-beer-blonde text-white"
                                             locale={locale}
                                         >
                                             {t('support_center')}
@@ -122,7 +140,7 @@ export default function Footer() {
                                     <li>
                                         <Link
                                             href="/soporte/contacto"
-                                            className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde text-white"
+                                            className="text-deep-purple-50 transition-colors duration-300 hover:font-semibold hover:text-beer-blonde text-white"
                                             locale={locale}
                                         >
                                             {t('contact')}
@@ -131,7 +149,7 @@ export default function Footer() {
                                     <li>
                                         <Link
                                             href="/soporte/devoluciones-y-garantia"
-                                            className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde text-white"
+                                            className="text-deep-purple-50 transition-colors duration-300 hover:font-semibold hover:text-beer-blonde text-white"
                                             locale={locale}
                                         >
                                             {t('returns_and_warranty')}
@@ -140,17 +158,17 @@ export default function Footer() {
                                     <li>
                                         <Link
                                             href="/cookies"
-                                            className="text-deep-purple-50 transition-colors duration-300 hover:text-beer-blonde text-white"
+                                            className="text-deep-purple-50 transition-colors duration-300 hover:font-semibold hover:text-beer-blonde text-white"
                                             locale={locale}
                                         >
                                             {t('cookie_policy')}
                                         </Link>
                                     </li>
                                 </ul>
-                            </>
+                            </div>
 
                             {/* Sistemas de pago aceptado  */}
-                            <>
+                            <div className="col-span-12 sm:col-span-6 lg:col-span-4">
                                 <p className="font-semibold tracking-wide  text-cerv-banana">
                                     {t('payment_system')}
                                 </p>
@@ -179,7 +197,7 @@ export default function Footer() {
                                         }}
                                     />
                                 </figure>
-                            </>
+                            </div>
                         </div>
                     </div>
 
