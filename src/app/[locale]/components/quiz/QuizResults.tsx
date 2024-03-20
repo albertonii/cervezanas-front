@@ -29,18 +29,24 @@ export default function results({
 
     return (
         <div className="w-full">
-            <h1 className="font-semibold text-xl">Resultados</h1>
+            <h1 className="font-semibold text-2xl">Resultados</h1>
 
-            <p>
+            <p className="text-xl">
                 Has acertado {totalCorrectAnswers} preguntas de un total{' '}
                 {questions.length}
             </p>
 
             {Object.keys(productQuestionMap).map((productId, index) => (
-                <div key={productId}>
-                    <p>Producto nº {index + 1} is:</p>
+                <div
+                    key={productId}
+                    className={`flex flex-col border rounded-md bg-beer-draft p-2 my-2`}
+                >
+                    {/* <p className="text-lg">
+                        El producto que has valorado es producto nº {index + 1}:
+                    </p> */}
+                    <p className="text-lg">Producto Valorado:</p>
 
-                    <h2 className="cursor-pointer font-semibold text-beer-draft hover:text-beer-darkGold">
+                    <h2 className="cursor-pointer text-lg font-semibold text-beer-foam hover:text-beer-gold">
                         <Link
                             target={'_blank'}
                             href={`/products/${
@@ -54,12 +60,19 @@ export default function results({
                 </div>
             ))}
 
-            <p>Respuestas correctas</p>
+            <p className="text-lg font-semibold mt-4">Respuestas correctas</p>
 
             <ul>
                 {questions.map((question, index) => (
-                    <li key={index} className={``}>
-                        {question.question} - {question.correct_answer}
+                    <li
+                        key={index}
+                        className={`flex flex-col border rounded-md bg-beer-draft p-2 my-2`}
+                    >
+                        <span className="text-lg">{question.question}</span>
+                        <span className="text-lg font-semibold text-green-500">
+                            {' '}
+                            {question.correct_answer}
+                        </span>
                     </li>
                 ))}
             </ul>
