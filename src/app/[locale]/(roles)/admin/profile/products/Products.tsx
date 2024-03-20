@@ -6,7 +6,7 @@ import { ProductList } from './ProductList';
 import { IProduct } from '../../../../../../lib/types/types';
 import { AddProduct } from '../../../../components/modals/AddProduct';
 import { DeleteProduct } from '../../../../components/modals/DeleteProduct';
-import { UpdateProduct } from '../../../../components/modals/UpdateProduct';
+import { UpdateProductAdmin } from './UpdateProductAdmin';
 
 export function Products() {
     const t = useTranslations();
@@ -58,7 +58,7 @@ export function Products() {
             />
 
             {isEditShowModal && productModal != null && (
-                <UpdateProduct
+                <UpdateProductAdmin
                     product={productModal}
                     showModal={isEditShowModal}
                     handleEditShowModal={handleEditShowModal}

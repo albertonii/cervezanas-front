@@ -44,7 +44,7 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
     const [isCancelModal, setIsCancelModal] = useState(false);
 
     const counter = 1;
-    const resultsPerPage = 10;
+    const resultsPerPage = 100;
 
     /* Fetch the distributors that the user can be associated  */
     const {

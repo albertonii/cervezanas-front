@@ -37,7 +37,7 @@ export function ListCPFixed({ cpsId }: Props) {
     const [currentPage, setCurrentPage] = useState(1);
 
     const counter = 10;
-    const resultsPerPage = 10;
+    const resultsPerPage = 100;
 
     const { data, isError, isLoading, refetch } = useFetchCPFixed(
         cpsId,

@@ -22,7 +22,7 @@ export function SearchCheckboxCPProductsPack({ form, productItems }: Props) {
     const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const fixedCount = products.length;
-    const resultsPerPage = 10;
+    const resultsPerPage = 100;
 
     const { isLoading, refetch } = useFetchProductsByOwnerAndPagination(
         currentPage,

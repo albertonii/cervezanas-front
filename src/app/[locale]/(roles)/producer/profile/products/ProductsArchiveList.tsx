@@ -45,7 +45,7 @@ export function ProductsArchiveList({
 
     const counter = ps.filter((product) => product.is_archived).length;
 
-    const resultsPerPage = 10;
+    const resultsPerPage = 100;
 
     const { isError, isLoading, refetch } =
         useFetchProductsByOwnerAndPagination(currentPage, resultsPerPage, true);

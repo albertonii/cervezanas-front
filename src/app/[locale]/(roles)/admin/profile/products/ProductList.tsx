@@ -46,7 +46,7 @@ export function ProductList({
 
     const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const resultsPerPage = 10;
+    const resultsPerPage = 100;
 
     const {
         data: products,

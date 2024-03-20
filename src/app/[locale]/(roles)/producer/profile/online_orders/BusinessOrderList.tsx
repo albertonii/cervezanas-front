@@ -29,7 +29,7 @@ export function BusinessOrderList({ orders: os }: Props) {
     const [currentPage, setCurrentPage] = useState(1);
 
     const counter = os.length;
-    const resultsPerPage = 10;
+    const resultsPerPage = 100;
 
     const { isError, isLoading, refetch } = useFetchOrdersByProducerId(
         user.id,
