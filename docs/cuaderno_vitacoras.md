@@ -801,5 +801,5 @@ Habilitar formulario para feedbacks/reporte de errores
 - [ ] Quitar
 - [ ] Vista móvil -> Flex col para elementos del barman en la experiencia
 - [ ] Añadir signout en menú móvil
-- [ ] Poner en el footer el correo y el contacto: cervezanas@socialinnolabs.org
-teléfono: 687 85 96 55
+- [x] Poner en el footer el correo y el contacto: cervezanas@socialinnolabs.org
+      teléfono: 687 85 96 55

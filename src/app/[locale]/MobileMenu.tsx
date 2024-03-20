@@ -113,14 +113,14 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
 
                 <div
                     ref={sidebarRef}
-                    className={`fixed left-0 top-0 z-30 h-full w-auto transform bg-beer-gold pr-10 transition-transform duration-300 ease-in-out sm:hidden ${
+                    className={`min-w-[250px] fixed left-0 top-0 z-30 h-full w-auto transform bg-beer-gold transition-transform duration-300 ease-in-out sm:hidden ${
                         openHamburguer
                             ? 'bg-darkGold translate-x-0'
                             : '-translate-x-full bg-beer-gold'
                     }`}
                 >
-                    <ul className="space-y-2 pl-4 pt-16">
-                        <li className="flex items-center justify-center space-x-4">
+                    <ul className="space-y-2 pl-4 pt-16 h-[300px] overflow-y-scroll pb-10">
+                        <li className="flex items-center justify-center space-x-4 pr-10 ">
                             {/* Language  */}
                             {i18nLocaleArray.map((locale) => {
                                 return (
@@ -224,7 +224,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                         </li>
 
                         {/* Events link  */}
-                        <li className="flex items-center">
+                        {/* <li className="flex items-center">
                             <Link
                                 href="/community"
                                 onClick={() => setOpenNotification(false)}
@@ -237,7 +237,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                     {t('community').toUpperCase()}
                                 </span>
                             </Link>
-                        </li>
+                        </li> */}
 
                         {user && (
                             <>
@@ -259,31 +259,6 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                 </li>
                             </>
                         )}
-
-                        <li className={`${MENU_HEADER_STYLES}`}>
-                            {user ? (
-                                t('my_account').toUpperCase()
-                            ) : (
-                                <div>
-                                    <Button
-                                        onClick={() => handleSignIn()}
-                                        title={''}
-                                        class={''}
-                                    >
-                                        <Image
-                                            alt={'Login'}
-                                            width={0}
-                                            height={0}
-                                            style={{
-                                                width: '25px',
-                                                height: '25px',
-                                            }}
-                                            src={'/icons/user-profile.svg'}
-                                        />
-                                    </Button>
-                                </div>
-                            )}
-                        </li>
 
                         {role === 'consumer' ||
                             (role === 'producer' && (
