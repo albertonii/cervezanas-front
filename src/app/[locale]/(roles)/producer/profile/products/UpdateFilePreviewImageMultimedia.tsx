@@ -40,6 +40,69 @@ export const UpdateFilePreviewImageMultimedia = ({
 
     useEffect(() => {
         // TODO: VOLVER A ESTE CAMINO
+        // const updateValue = async () => {
+        //     const fileName = `articles/${productId}/p_principal/${randomUUID}`;
+        //     const p_principal = getValues(registerName);
+        //     const p_principal_url = encodeURIComponent(
+        //         `${fileName}${generateFileNameExtension(p_principal[0].name)}`,
+        //     );
+        //     console.log(p_principal);
+        //     console.log(p_principal_url);
+        //     const { error: pPrincipalError } = await supabase.storage
+        //         .from('products')
+        //         .upload(
+        //             `${fileName}${generateFileNameExtension(
+        //                 p_principal[0].name,
+        //             )}`,
+        //             p_principal[0],
+        //             {
+        //                 cacheControl: '3600',
+        //                 upsert: false,
+        //             },
+        //         );
+        //     if (pPrincipalError) throw pPrincipalError;
+        //     const { error: multError } = await supabase
+        //         .from('product_multimedia')
+        //         .update({
+        //             p_principal: p_principal_url,
+        //         })
+        //         .eq('product_id', productId);
+        //     if (multError) throw multError;
+        // };
+        // const p_principal = getValues(registerName);
+        // console.log(p_principal);
+        // if (p_principal && p_principal[0].name !== '') {
+        //     updateValue();
+        // }
+    }, [image]);
+
+    useEffect(() => {
+        if (getValues(registerName)) {
+            const type = typeof getValues(registerName);
+
+            const file =
+                type === 'object'
+                    ? getValues(registerName)[0].name
+                    : getValues(registerName);
+
+            preUrl
+                ? setImage(preUrl + decodeURIComponent(file))
+                : setImage(URL.createObjectURL(getValues(registerName)[0]));
+
+            console.log(preUrl + decodeURIComponent(file));
+        }
+    }, [registerName]);
+
+    const removeImageClick = () => {
+        setValue(registerName, null);
+        setImage(null); // Restablecer la URL de la imagen cuando se elimina
+    };
+
+    const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files) return console.info('No hay archivos');
+        setImage(URL.createObjectURL(e.target.files[0])); // Almacenar la URL de la imagen en el estado
+        setValue(registerName, e.target.files);
+
         const updateValue = async () => {
             const fileName = `articles/${productId}/p_principal/${randomUUID}`;
             const p_principal = getValues(registerName);
@@ -78,37 +141,7 @@ export const UpdateFilePreviewImageMultimedia = ({
         const p_principal = getValues(registerName);
         console.log(p_principal);
 
-        if (p_principal && p_principal[0].name !== '') {
-            updateValue();
-        }
-    }, [image]);
-
-    useEffect(() => {
-        if (getValues(registerName)) {
-            const type = typeof getValues(registerName);
-
-            const file =
-                type === 'object'
-                    ? getValues(registerName)[0].name
-                    : getValues(registerName);
-
-            preUrl
-                ? setImage(preUrl + decodeURIComponent(file))
-                : setImage(URL.createObjectURL(getValues(registerName)[0]));
-
-            console.log(preUrl + decodeURIComponent(file));
-        }
-    }, [registerName]);
-
-    const removeImageClick = () => {
-        setValue(registerName, null);
-        setImage(null); // Restablecer la URL de la imagen cuando se elimina
-    };
-
-    const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
-        if (!e.target.files) return console.info('No hay archivos');
-        setImage(URL.createObjectURL(e.target.files[0])); // Almacenar la URL de la imagen en el estado
-        setValue(registerName, e.target.files);
+        updateValue();
     };
 
     return (
