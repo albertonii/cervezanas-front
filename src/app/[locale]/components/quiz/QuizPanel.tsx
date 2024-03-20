@@ -10,6 +10,7 @@ import {
 } from '../../../../lib/types/quiz';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../(auth)/Context/useAuth';
+import { useMessage } from '../message/useMessage';
 
 interface Props {
     questions: QuestionsState;
@@ -25,6 +26,7 @@ export default function QuizPanel({
     const t = useTranslations();
 
     const { supabase, user } = useAuth();
+    const { handleMessage } = useMessage();
 
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [score, setScore] = useState(0);
@@ -105,6 +107,14 @@ export default function QuizPanel({
 
             if (error) {
                 console.error(error);
+
+                handleMessage({
+                    type: 'error',
+                    message:
+                        'Ha ocurrido un error al registrar tu participación en el juego. Por favor, intenta de nuevo.',
+                });
+
+                return;
             }
 
             const correctAnswers = score;
@@ -129,6 +139,14 @@ export default function QuizPanel({
 
                 if (expParticipantsError) {
                     console.error(expParticipantsError);
+
+                    handleMessage({
+                        type: 'error',
+                        message:
+                            'Ha ocurrido un error al registrar tu participación en el juego. Por favor, intenta de nuevo.',
+                    });
+
+                    return;
                 }
             } else if (experienceParticipant.cpf_id) {
                 const { error: expParticipantsError } = await supabase
@@ -146,8 +164,22 @@ export default function QuizPanel({
 
                 if (expParticipantsError) {
                     console.error(expParticipantsError);
+
+                    handleMessage({
+                        type: 'error',
+                        message:
+                            'Ha ocurrido un error al registrar tu participación en el juego. Por favor, intenta de nuevo.',
+                    });
+
+                    return;
                 }
             }
+        });
+
+        handleMessage({
+            type: 'success',
+            message:
+                'Se ha registrado tu participación en el juego. ¡Gracias por jugar!',
         });
 
         setIsShowResults(true);
@@ -219,7 +251,7 @@ export default function QuizPanel({
                             }
                         >
                             {currentQuestionIndex === totalQuestions - 1
-                                ? t('show_results')
+                                ? t('end')
                                 : t('next')}
                         </Button>
                     </div>

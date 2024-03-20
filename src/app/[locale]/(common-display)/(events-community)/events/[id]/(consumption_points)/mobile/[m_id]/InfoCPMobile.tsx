@@ -7,8 +7,11 @@ import {
     ICPMobile,
     IEventExperience,
 } from '../../../../../../../../../lib/types/types';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import EventExperiences from './EventExperiences';
+import Button from '../../../../../../../components/common/Button';
+import { ROUTE_EVENTS } from '../../../../../../../../../config';
+import { useRouter } from 'next/navigation';
 
 interface Props {
     cpMobile: ICPMobile;
@@ -22,11 +25,18 @@ export default function InfoCPMobile({
     eventId,
 }: Props) {
     const t = useTranslations();
+    const locale = useLocale();
+    const router = useRouter();
+
     const experiencesCounter = eventExperiences.length;
+
+    const handleOnClickEventComeBack = () => {
+        return router.push(`/${locale}${ROUTE_EVENTS}/${eventId}`);
+    };
 
     return (
         <section className="relative h-full w-[1000px] rounded-lg bg-white p-8 shadow-md bg-[url('/assets/rec-graf2b.png')] bg-content bg-no-repeat bg-bottom m-auto">
-            <section className="absolute  right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
+            {/* <section className="absolute  right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
                 <span
                     className={`text-lg font-medium text-white ${
                         cpMobile.status === 'active'
@@ -36,7 +46,16 @@ export default function InfoCPMobile({
                 >
                     {cpMobile.status === 'active' ? 'Active' : 'Inactive'}
                 </span>
-            </section>
+            </section> */}
+
+            <Button
+                title={'come_back_event'}
+                primary
+                small
+                onClick={handleOnClickEventComeBack}
+            >
+                Volver al Evento
+            </Button>
 
             {/* Display all the information inside the Mobile Consumption Point */}
             <section className="mt-10 grid grid-cols-1 md:grid-cols-2">

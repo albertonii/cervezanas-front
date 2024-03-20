@@ -8,7 +8,7 @@ import {
     ICPM_events,
     IEvent,
 } from '../../../../../../lib/types/types';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { formatDateString } from '../../../../../../utils/formatDate';
 import useEventCartStore from '../../../../../store/eventCartStore';
 import {
@@ -16,6 +16,9 @@ import {
     IEventExperience,
 } from '../../../../../../lib/types/quiz';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
+import Button from '../../../../components/common/Button';
+import { ROUTE_EVENTS } from '../../../../../../config';
+import { useRouter } from 'next/navigation';
 
 interface Props {
     event: IEvent;
@@ -33,6 +36,8 @@ export default function DisplayEvent({
     experienceParticipant,
 }: Props) {
     const t = useTranslations();
+    const locale = useLocale();
+    const router = useRouter();
 
     const { existEventCart, createNewCart } = useEventCartStore();
     const { isLoggedIn } = useAuth();
@@ -66,9 +71,13 @@ export default function DisplayEvent({
             0,
         );
 
+    const handleOnClickEventComeBack = () => {
+        return router.push(`/${locale}${ROUTE_EVENTS}`);
+    };
+
     return (
-        <section className="relative m-auto mb-20 mt-20 h-full w-full max-w-[500px] rounded-lg bg-white p-8 shadow-md sm:max-w-full md:mt-0 md:max-w-[700px] lg:max-w-[900px] bg-opacity-80">
-            <div className="absolute right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
+        <section className="relative m-auto sm:mb-20 sm:mt-20 h-full w-full max-w-[500px] bg-white p-8 shadow-md sm:max-w-full md:mt-0 md:max-w-[700px] lg:max-w-[900px] bg-opacity-80 space-y-4">
+            {/* <div className="absolute right-0 -top-4 sm:top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
                 <span
                     className={`text-lg font-medium text-white ${
                         event.status === 'active'
@@ -78,7 +87,16 @@ export default function DisplayEvent({
                 >
                     {event.status === 'active' ? 'Active' : 'Inactive'}
                 </span>
-            </div>
+            </div> */}
+
+            <Button
+                title={'come_back_events'}
+                primary
+                small
+                onClick={handleOnClickEventComeBack}
+            >
+                Volver a la lista de eventos
+            </Button>
 
             <div className=" rounded-md bg-white border-4 px-4 text-lg text-center space-y-4 py-4 shadow-xl mb-8">
                 <h1 className="font-semibold text-2xl">

@@ -224,12 +224,12 @@ export default function EventExperience({ eventExperience }: Props) {
     return (
         <section className="w-full flex-col flex items-center justify-center space-y-4 ">
             <Button
-                title={'participate'}
+                title={'come_back_cp'}
                 primary
                 small
                 onClick={handleOnClickEventComeBack}
             >
-                Volver al evento
+                Volver al Punto de Consumo
             </Button>
 
             <div className="border-8 p-4 py-20 w-full sm:w-[700px] flex flex-col justify-center items-center space-y-2 bg-beer-softFoam bg-[url('/assets/madera-dark-account.webp')] bg-cover bg-top bg-no-repeat text-white rounded-xl shadow-2xl">
