@@ -174,6 +174,7 @@ export interface IBeer {
     srm: number;
     og: number;
     fg: number;
+    ibu: number;
     products?: IProduct;
 }
 
@@ -769,10 +770,11 @@ export type ModalAddProductFormData = {
     format: string;
     stock_quantity: number;
     stock_limit_notification: number;
+    category: string;
+    ibu: number;
+    // campaign: string;
     awards: ModalAddProductAwardFormData[];
     packs: ModalAddProductPackFormData[];
-    category: string;
-    // campaign: string;
 };
 
 export type ModalUpdateProductFormData = {
@@ -802,6 +804,7 @@ export type ModalUpdateProductFormData = {
     // campaign: string;
     stock_quantity: number;
     stock_limit_notification: number;
+    ibu: number;
     awards: ModalUpdateProductAwardFormData[];
     packs: ModalUpdateProductPackFormData[];
 };
