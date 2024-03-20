@@ -90,8 +90,8 @@ export function UpdateProductInfoSection({ form }: Props) {
                         disabled
                     >
                         {product_type_options.map((option) => (
-                            <option key={option.label} value={option.label}>
-                                {t(option.value.toLowerCase())}
+                            <option key={option.value} value={option.value}>
+                                {t(option.label.toLowerCase())}
                             </option>
                         ))}
                     </select>
@@ -115,25 +115,6 @@ export function UpdateProductInfoSection({ form }: Props) {
                             }}
                             placeholder="IPA Jaira"
                         />
-
-                        {/* 
-            <div className="w-full ">
-              <label htmlFor="campaign" className="text-sm text-gray-600">
-                {t("select_campaign")}
-              </label>
-
-              <select
-                {...register("campaign")}
-                value={""}
-                className="text-sm  relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              >
-                {campaigns.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div> */}
                     </div>
 
                     {/* Description  */}
@@ -416,9 +397,6 @@ export function UpdateProductInfoSection({ form }: Props) {
                     <StockInformationDetailsAndPacksUpdate form={form} />
                 </section>
             )}
-
-            {/* Merchandising type */}
-            {getValues('type') === 'MERCHANDISING' && <> </>}
         </>
     );
 }

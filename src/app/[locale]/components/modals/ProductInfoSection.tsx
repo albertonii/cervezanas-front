@@ -43,7 +43,6 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
     const [volume, setVolume] = useState<number>(0);
     const [isBeer, setIsBeer] = useState(true);
-    const [isMerchandising, setIsMerchandising] = useState(false);
     const [colorOptions, setColorOptions] = useState(color_options);
     const [famStyleOptions, setFamStyleOptions] = useState(family_options);
     const [formatOptions, setFormatOptions] = useState<string>(
@@ -82,10 +81,8 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
         const category = event.target.value.toLowerCase();
         if (category === 'beer') {
             setIsBeer(true);
-            setIsMerchandising(false);
         } else if (category === 'merchandising') {
             setIsBeer(false);
-            setIsMerchandising(true);
         }
 
         setValue('category', category);
@@ -140,14 +137,17 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                         id="product_type"
                         {...register('type')}
                         onChange={handleProductType}
-                        defaultValue={product_type_options[0].value}
                         className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                     >
+                        <option key={0} value={'beer'} selected>
+                            {t('beer')}
+                        </option>
+                        {/* 
                         {product_type_options.map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {t(option.value.toLowerCase())}
+                            <option key={option.value} value={option.value} selected={option.label === "beer"}>
+                                {t(option.label.toLowerCase())}
                             </option>
-                        ))}
+                        ))} */}
                     </select>
                 </div>
             </section>
@@ -500,7 +500,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
             )}
 
             {/* Merchandising type */}
-            {isMerchandising && <> </>}
+            {/* {isMerchandising && <> </>} */}
         </>
     );
 }

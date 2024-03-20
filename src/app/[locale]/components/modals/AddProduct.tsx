@@ -154,6 +154,7 @@ export function AddProduct() {
             weight: 330,
             intensity: 4,
             ibu: 30,
+            price: 0,
         },
     });
 
@@ -387,12 +388,13 @@ export function AddProduct() {
                 .from('beers')
                 .insert({
                     intensity,
-                    fermentation: fermentation_options[fermentation].label,
-                    color: color_options[color].label,
-                    aroma: aroma_options[aroma].label,
-                    family: family_options[family].label,
-                    origin: origin_options[origin].label,
-                    era: era_options[era].label,
+                    fermentation:
+                        fermentation_options[fermentation].value.toString(),
+                    color: color_options[color].value.toString(),
+                    aroma: aroma_options[aroma].value.toString(),
+                    family: family_options[family].value.toString(),
+                    origin: origin_options[origin].value.toString(),
+                    era: era_options[era].value.toString(),
                     is_gluten,
                     volume,
                     format,
