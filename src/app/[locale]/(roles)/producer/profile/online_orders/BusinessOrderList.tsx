@@ -63,7 +63,7 @@ export function BusinessOrderList({ orders: os }: Props) {
     }, [orders, query]);
 
     return (
-        <section className="relative mt-2 overflow-x-auto shadow-md sm:rounded-lg">
+        <section className="relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
             {isError && (
                 <p className="flex items-center justify-center">
                     <h2 className="text-gray-500 dark:text-gray-400">
@@ -89,6 +89,7 @@ export function BusinessOrderList({ orders: os }: Props) {
                         setQuery={setQuery}
                         searchPlaceholder={'search_by_name'}
                     />
+                    
                     <div className="overflow-x-scroll border-2 ">
                         <table className="text-center text-sm text-gray-500 dark:text-gray-400 border-2 ">
                             <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">

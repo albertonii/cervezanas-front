@@ -111,7 +111,7 @@ export function ProductList({
     }, [products, query]);
 
     return (
-        <section className="mt-2 mb-4 space-y-3 rounded-md border-2 border-beer-blonde  bg-white px-6 py-4 shadow-2xl">
+        <section className="relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
             {isError && (
                 <div className="flex items-center justify-center">
                     <p className="text-gray-500 dark:text-gray-400">
@@ -138,121 +138,127 @@ export function ProductList({
                         searchPlaceholder={'search_products'}
                     />
 
-                    <table className="bg-beer-foam w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
-                        <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                {COLUMNS.map(
-                                    (column: ColumnsProps, index: number) => {
-                                        return (
-                                            <th
-                                                key={index}
-                                                scope="col"
-                                                className="px-6 py-3"
-                                            >
-                                                {column.header}
-                                            </th>
-                                        );
-                                    },
-                                )}
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {products &&
-                                filteredItems.map((product) => {
-                                    return (
-                                        <tr key={product.id} className="">
-                                            <>
+                    <div className="overflow-x-scroll border-2 ">
+                        <table className="text-center text-sm text-gray-500 dark:text-gray-400 border-2 ">
+                            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    {COLUMNS.map(
+                                        (
+                                            column: ColumnsProps,
+                                            index: number,
+                                        ) => {
+                                            return (
                                                 <th
-                                                    scope="row"
-                                                    className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                                                    key={index}
+                                                    scope="col"
+                                                    className="px-6 py-3"
                                                 >
-                                                    <Image
-                                                        width={128}
-                                                        height={128}
-                                                        className="h-8 w-8 rounded-full"
-                                                        src="/icons/beer-240.png"
-                                                        loader={() =>
-                                                            '/icons/beer-240.png'
-                                                        }
-                                                        alt="Beer Type"
-                                                    />
+                                                    {column.header}
                                                 </th>
+                                            );
+                                        },
+                                    )}
+                                </tr>
+                            </thead>
 
-                                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                                                    <Link
-                                                        href={`/products/${product.id}`}
-                                                        locale={locale}
+                            <tbody>
+                                {products &&
+                                    filteredItems.map((product) => {
+                                        return (
+                                            <tr key={product.id} className="">
+                                                <>
+                                                    <th
+                                                        scope="row"
+                                                        className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                                                     >
-                                                        {product.name}
-                                                    </Link>
-                                                </td>
-
-                                                <td className="px-6 py-4">
-                                                    {formatCurrency(
-                                                        product.price,
-                                                    )}
-                                                </td>
-
-                                                <td className="px-6 py-4">
-                                                    {product.product_inventory &&
-                                                    product.product_inventory
-                                                        ?.quantity
-                                                        ? product
-                                                              .product_inventory
-                                                              .quantity
-                                                        : '-'}
-                                                </td>
-
-                                                <td className="px-6 py-4">
-                                                    {product.product_lots &&
-                                                    product.product_lots[0]
-                                                        ?.lot_id
-                                                        ? product
-                                                              .product_lots[0]
-                                                              ?.lot_id
-                                                        : '-'}
-                                                </td>
-
-                                                <td className="px-6 py-4">
-                                                    {product.is_public
-                                                        ? t('yes')
-                                                        : t('no')}
-                                                </td>
-
-                                                <td className="px-6 py-4">
-                                                    <div className="flex space-x-1">
-                                                        <EditButton
-                                                            onClick={() =>
-                                                                handleEditClick(
-                                                                    product,
-                                                                )
+                                                        <Image
+                                                            width={128}
+                                                            height={128}
+                                                            className="h-8 w-8 rounded-full"
+                                                            src="/icons/beer-240.png"
+                                                            loader={() =>
+                                                                '/icons/beer-240.png'
                                                             }
+                                                            alt="Beer Type"
                                                         />
+                                                    </th>
 
-                                                        <DeleteButton
-                                                            onClick={() =>
-                                                                handleDeleteClick(
-                                                                    product,
-                                                                )
-                                                            }
-                                                        />
+                                                    <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+                                                        <Link
+                                                            href={`/products/${product.id}`}
+                                                            locale={locale}
+                                                        >
+                                                            {product.name}
+                                                        </Link>
+                                                    </td>
 
-                                                        <ArchiveButton
-                                                            onClick={() =>
-                                                                handleArchive(
-                                                                    product,
-                                                                )
-                                                            }
-                                                        />
-                                                    </div>
-                                                </td>
-                                            </>
-                                        </tr>
-                                    );
-                                })}
-                        </tbody>
-                    </table>
+                                                    <td className="px-6 py-4">
+                                                        {formatCurrency(
+                                                            product.price,
+                                                        )}
+                                                    </td>
+
+                                                    <td className="px-6 py-4">
+                                                        {product.product_inventory &&
+                                                        product
+                                                            .product_inventory
+                                                            ?.quantity
+                                                            ? product
+                                                                  .product_inventory
+                                                                  .quantity
+                                                            : '-'}
+                                                    </td>
+
+                                                    <td className="px-6 py-4">
+                                                        {product.product_lots &&
+                                                        product.product_lots[0]
+                                                            ?.lot_id
+                                                            ? product
+                                                                  .product_lots[0]
+                                                                  ?.lot_id
+                                                            : '-'}
+                                                    </td>
+
+                                                    <td className="px-6 py-4">
+                                                        {product.is_public
+                                                            ? t('yes')
+                                                            : t('no')}
+                                                    </td>
+
+                                                    <td className="px-6 py-4">
+                                                        <div className="flex space-x-1">
+                                                            <EditButton
+                                                                onClick={() =>
+                                                                    handleEditClick(
+                                                                        product,
+                                                                    )
+                                                                }
+                                                            />
+
+                                                            <DeleteButton
+                                                                onClick={() =>
+                                                                    handleDeleteClick(
+                                                                        product,
+                                                                    )
+                                                                }
+                                                            />
+
+                                                            <ArchiveButton
+                                                                onClick={() =>
+                                                                    handleArchive(
+                                                                        product,
+                                                                    )
+                                                                }
+                                                            />
+                                                        </div>
+                                                    </td>
+                                                </>
+                                            </tr>
+                                        );
+                                    })}
+                            </tbody>
+                        </table>
+                    </div>
 
                     {/* Prev and Next button for pagination  */}
                     <div className="my-4 flex items-center justify-around">
