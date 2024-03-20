@@ -32,12 +32,13 @@ export default function results({
             <h1 className="font-semibold text-xl">Results</h1>
 
             <p>
-                You got {totalCorrectAnswers} out of {questions.length} correct
+                Has acertado {totalCorrectAnswers} preguntas de un total{' '}
+                {questions.length}
             </p>
 
             {Object.keys(productQuestionMap).map((productId, index) => (
                 <div key={productId}>
-                    <p>Product nº {index + 1} is:</p>
+                    <p>Producto nº {index + 1} is:</p>
 
                     <h2 className="cursor-pointer font-semibold text-beer-draft hover:text-beer-darkGold">
                         <Link

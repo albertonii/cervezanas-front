@@ -219,7 +219,7 @@ export default function QuizPanel({
                             }
                         >
                             {currentQuestionIndex === totalQuestions - 1
-                                ? t('end')
+                                ? t('show_results')
                                 : t('next')}
                         </Button>
                     </div>

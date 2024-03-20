@@ -104,6 +104,8 @@ export default function EventExperience({ eventExperience }: Props) {
                 if (bmExperienceParticipant) {
                     setIsRegistered(true);
 
+                    console.log('DENTRON Y SE CAMBIARÁ FINISHED');
+
                     setExperienceParticipant(bmExperienceParticipant);
                     setIsFinished(bmExperienceParticipant.is_finished);
                     setIsPaymentValid(bmExperienceParticipant.is_paid);
@@ -131,7 +133,7 @@ export default function EventExperience({ eventExperience }: Props) {
         };
 
         getBMExperienceParticipant();
-    }, [user]);
+    }, [user, isRegistered]);
 
     useEffect(() => {
         if (isPaymentValid && !isFinished) {
@@ -214,7 +216,10 @@ export default function EventExperience({ eventExperience }: Props) {
             : CERVEZANAS_BEER_URL;
 
     const experienceParticipatantBarmanUrl = `${host}/${locale}${ROUTE_PRODUCER}${ROUTE_BARMAN}${ROUTE_EXPERIENCE_PARTICIPANT}/${bmExperienceParticipantId}`;
-    console.info(experienceParticipatantBarmanUrl);
+    console.info(
+        'URL PARA EL BARMAN EN EL STAND:',
+        experienceParticipatantBarmanUrl,
+    );
 
     return (
         <section className="w-full flex-col flex items-center justify-center space-y-4 ">
@@ -228,7 +233,10 @@ export default function EventExperience({ eventExperience }: Props) {
             </Button>
 
             <div className="border-8 p-4 py-20 w-full sm:w-[700px] flex flex-col justify-center items-center space-y-2 bg-beer-softFoam bg-[url('/assets/madera-dark-account.webp')] bg-cover bg-top bg-no-repeat text-white rounded-xl shadow-2xl">
-                <div className=""> Tipo de experiencia: {t(experience?.type)}</div>
+                <div className="">
+                    {' '}
+                    Tipo de experiencia: {t(experience?.type)}
+                </div>
                 <div className="font-bold">
                     {' '}
                     {/* Precio para participar: {experience?.price} */}
