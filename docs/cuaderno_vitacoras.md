@@ -798,10 +798,10 @@ Habilitar formulario para feedbacks/reporte de errores
 - [ ] Funcionalidad en el mapa para crear un PC -> poder seleccionar la dirección presionando en un punto en el mapa.
 - [ ] Cuando se añade un PC -> Invalidar QUERY para que se actualice la información
 - [ ] Traducción question_ADD, associated_experiences, EVENTOS_CERVEZANAS update y añadir
-- [ ] Quitar
 - [ ] Vista móvil -> Flex col para elementos del barman en la experiencia
-- [ ] Añadir signout en menú móvil
+- [x] Añadir signout en menú móvil
 - [x] Poner en el footer el correo y el contacto: cervezanas@socialinnolabs.org
       teléfono: 687 85 96 55
 - [ ] Implementar seguridad para la lectura de QRs en experiencia -> Solo puede leer el dueño del stand o el administrador.
-- [ ] BG para online orders y event_orders en menu CONSUMER
+- [x] BG para online orders y event_orders en menu CONSUMER - DISEÑO PARA LISTAS
+- [ ] Actualizar vista para que una vez se de el OK en participación de experiencia se actualice la vista en el navegador.

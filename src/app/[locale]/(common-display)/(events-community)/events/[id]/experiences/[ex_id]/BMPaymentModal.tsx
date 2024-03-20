@@ -85,9 +85,9 @@ export default function BMPaymentModal({
                 <p>Por favor, tenga en cuenta lo siguiente:</p>
 
                 <p className="flex flex-col">
-                    <span className="font-semibold">
+                    {/* <span className="font-semibold">
                         Coste de inscripción: {experience.price} €
-                    </span>
+                    </span> */}
 
                     <span>
                         Al registrarte en esta experiencia, el Punto de Consumo
