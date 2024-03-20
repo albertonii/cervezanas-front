@@ -33,10 +33,10 @@ const QuestionCard: React.FC<Props> = ({
                             userAnswer,
                             correctAnswer,
                             answer,
-                        )} text-[18px] sm:text-[24px] cursor-pointer flex items-center justify-center select-none font-bold min-h-[45px] max-w-[400] w-full my-2 rounded-[10px]`}
+                        )} text-[18px] sm:text-[22px] cursor-pointer flex items-center justify-center select-none font-bold min-h-[45px] max-w-[400] w-full my-2 rounded-[10px]`}
                     >
                         <span
-                            className="truncate"
+                            className="p-1"
                             dangerouslySetInnerHTML={{ __html: answer }}
                         />
                     </div>
