@@ -14,6 +14,7 @@ import InputSearch from '../../../../../components/common/InputSearch';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { formatDateString } from '../../../../../../../utils/formatDate';
 import { IconButton } from '../../../../../components/common/IconButton';
+import { ROUTE_CP_MOBILE, ROUTE_EVENTS } from '../../../../../../../config';
 
 enum SortBy {
     NONE = 'none',
@@ -206,7 +207,7 @@ export default function CervezanasEventList({ counter }: Props) {
 
                                             <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                                                 <Link
-                                                    href={`/events/${e.event_id}`}
+                                                    href={`${ROUTE_EVENTS}/${e.event_id}${ROUTE_CP_MOBILE}/${e.cp_id}`}
                                                     locale={locale}
                                                 >
                                                     {e.cp_mobile?.cp_name}
@@ -215,7 +216,7 @@ export default function CervezanasEventList({ counter }: Props) {
 
                                             <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                                                 <Link
-                                                    href={`/events/${e.event_id}`}
+                                                    href={`${ROUTE_EVENTS}/${e.event_id}`}
                                                     locale={locale}
                                                 >
                                                     {e.events?.name}

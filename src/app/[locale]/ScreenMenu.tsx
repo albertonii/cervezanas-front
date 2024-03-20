@@ -112,7 +112,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                 </span>
                             </Link>
                         </li>
-                        <li className="flex items-center">
+                        {/* <li className="flex items-center">
                             <Link href={'/beer-me'} locale={locale}>
                                 <span
                                     className={`${MENU_ITEM_STYLES}`}
@@ -121,7 +121,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                     Puntos cervezanas
                                 </span>
                             </Link>
-                        </li>
+                        </li> */}
                     </ul>
                 </section>
 

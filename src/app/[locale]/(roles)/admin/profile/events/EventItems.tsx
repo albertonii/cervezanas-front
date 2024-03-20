@@ -12,6 +12,7 @@ import {
     faCancel,
     faThumbsUp,
 } from '@fortawesome/free-solid-svg-icons';
+import { ROUTE_EVENTS } from '../../../../../../config';
 
 interface Props {
     event: IEvent;
@@ -89,7 +90,7 @@ export default function EventItems({
     return (
         <>
             <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                <Link href={`/events/${event.id}`} locale={locale}>
+                <Link href={`${ROUTE_EVENTS}/${event.id}`} locale={locale}>
                     {event.name}
                 </Link>
             </td>

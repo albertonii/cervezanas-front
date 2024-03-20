@@ -18,6 +18,7 @@ import {
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { formatDateString } from '../../../../../../../utils/formatDate';
 import { IconButton } from '../../../../../components/common/IconButton';
+import { ROUTE_EVENTS } from '../../../../../../../config';
 
 enum SortBy {
     NONE = 'none',
@@ -205,7 +206,7 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
 
                                             <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                                                 <Link
-                                                    href={`/events/${e.id}`}
+                                                    href={`${ROUTE_EVENTS}/${e.id}`}
                                                     locale={locale}
                                                 >
                                                     {e.name}

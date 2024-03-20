@@ -5,6 +5,7 @@ import Button from '../../../components/common/Button';
 import { IEvent } from '../../../../../lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { formatDateString } from '../../../../../utils/formatDate';
+import { ROUTE_EVENTS } from '../../../../../config';
 
 interface EventCardProps {
     event: IEvent;
@@ -56,7 +57,7 @@ export default function EventCard({ event }: EventCardProps) {
                                 <div className="flex flex-col">
                                     <div className="w-full flex-none text-4xl font-bold leading-none text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
                                         <Link
-                                            href={`/events/${event.id}`}
+                                            href={`${ROUTE_EVENTS}/${event.id}`}
                                             locale={locale}
                                         >
                                             {event.name}
@@ -76,7 +77,7 @@ export default function EventCard({ event }: EventCardProps) {
                             {/* Start date - End date  */}
                             <div className="mr-0 mt-4 flex-none bg-cerv-coal p-3 text-base font-semibold italic leading-none text-white sm:-mt-6 md:-mr-4 md:text-lg ">
                                 <Link
-                                    href={`/events/${event.id}`}
+                                    href={`${ROUTE_EVENTS}/${event.id}`}
                                     locale={locale}
                                 >
                                     {formatDateString(event.start_date)} -{' '}
@@ -204,7 +205,7 @@ export default function EventCard({ event }: EventCardProps) {
                             <div>
                                 <Button class="flex-no-shrink border-beer-gold-300 right:0 relative -bottom-12 ml-4 border-2 bg-beer-darkGold px-5 py-2 text-xl font-semibold uppercase tracking-wider text-white shadow-sm transition duration-300 ease-in hover:border-beer-blonde hover:bg-beer-softBlonde hover:text-beer-darkGold hover:shadow-lg sm:-right-3">
                                     <Link
-                                        href={`/events/${event.id}`}
+                                        href={`${ROUTE_EVENTS}/${event.id}`}
                                         locale={locale}
                                     >
                                         {t('info')}

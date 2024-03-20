@@ -14,6 +14,10 @@ import { formatCurrency } from '../../../../../../../../../utils/formatCurrency'
 import { AddCardButton } from '../../../../../../../components/common/AddCartButton';
 import { useMessage } from '../../../../../../../components/message/useMessage';
 import { useAuth } from '../../../../../../../(auth)/Context/useAuth';
+import {
+    ROUTE_EVENTS,
+    ROUTE_PRODUCTS,
+} from '../../../../../../../../../config';
 
 interface ProductProps {
     pack: IProductPack;
@@ -159,7 +163,7 @@ export default function CPMProductItem({
             <td className="space-x-2 px-6 py-4 font-semibold hover:cursor-pointer hover:text-beer-draft">
                 <Link
                     target={'_blank'}
-                    href={`/events/${eventId}/products/${cpmId}`}
+                    href={`${ROUTE_EVENTS}/${eventId}${ROUTE_PRODUCTS}/${cpmId}`}
                     locale={locale}
                 >
                     {product?.name}

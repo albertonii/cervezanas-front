@@ -7,6 +7,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { IProductPackEventCartItem } from '../../../../../../../lib/types/types';
 import { formatCurrency } from '../../../../../../../utils/formatCurrency';
 import useEventCartStore from '../../../../../../store/eventCartStore';
+import { ROUTE_EVENTS } from '../../../../../../../config';
 
 interface Props {
     items: IProductPackEventCartItem[];
@@ -105,7 +106,7 @@ export default function MaxifiedCart({ items, eventId }: Props) {
                         <div className="mt-2">
                             <Link
                                 href={{
-                                    pathname: `/events/${eventId}/event_basket/`,
+                                    pathname: `${ROUTE_EVENTS}/${eventId}/event_basket/`,
                                     query: { items: JSON.stringify(items) },
                                 }}
                                 className="flex items-center justify-center rounded-md border border-transparent bg-beer-blonde px-6 py-3 text-xl font-medium text-white shadow-sm transition-all hover:bg-beer-dark hover:text-beer-blonde"

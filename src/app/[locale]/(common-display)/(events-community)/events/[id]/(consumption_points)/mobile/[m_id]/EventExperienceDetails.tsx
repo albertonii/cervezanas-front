@@ -6,6 +6,10 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../../../../(auth)/Context/useAuth';
 import { useMessage } from '../../../../../../../components/message/useMessage';
 import { ROLE_ENUM } from '../../../../../../../../../lib/enums';
+import {
+    ROUTE_EVENTS,
+    ROUTE_EXPERIENCES,
+} from '../../../../../../../../../config';
 
 interface Props {
     eventExperience: IEventExperience;
@@ -41,7 +45,7 @@ export default function EventExperienceDetails({ eventExperience }: Props) {
         }
 
         router.push(
-            `/${locale}/events/${eventExperience.event_id}/experiences/${eventExperience?.id}`,
+            `/${locale}${ROUTE_EVENTS}/${eventExperience.event_id}${ROUTE_EXPERIENCES}/${eventExperience?.id}`,
         );
     };
 
