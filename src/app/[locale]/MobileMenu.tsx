@@ -8,6 +8,7 @@ import { useLocale } from 'next-intl';
 import { useRef, useState } from 'react';
 import {
     ROUTE_ADMIN,
+    ROUTE_CONSUMER,
     ROUTE_CONTRACTS_CPS,
     ROUTE_EVENTS,
     ROUTE_EVENT_ORDERS,
@@ -259,7 +260,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
 
                                 <li className="flex items-center">
                                     <Link
-                                        href="/profile?a=account"
+                                        href={`${ROUTE_CONSUMER}${ROUTE_PROFILE}${ROUTE_SETTINGS}`}
                                         onClick={() =>
                                             setOpenNotification(false)
                                         }
@@ -276,7 +277,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
 
                                 <li className="flex items-center">
                                     <Link
-                                        href="/profile?a=orders"
+                                        href={`${ROUTE_CONSUMER}${ROUTE_PROFILE}${ROUTE_ONLINE_ORDERS}`}
                                         onClick={() =>
                                             setOpenNotification(false)
                                         }
@@ -286,7 +287,24 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                             className={`${MENU_ITEM_STYLES}`}
                                             aria-current="page"
                                         >
-                                            {t('orders').toUpperCase()}
+                                            {t('online_orders').toUpperCase()}
+                                        </span>
+                                    </Link>
+                                </li>
+
+                                <li className="flex items-center">
+                                    <Link
+                                        href={`${ROUTE_CONSUMER}${ROUTE_PROFILE}${ROUTE_EVENT_ORDERS}`}
+                                        onClick={() =>
+                                            setOpenNotification(false)
+                                        }
+                                        locale={locale}
+                                    >
+                                        <span
+                                            className={`${MENU_ITEM_STYLES}`}
+                                            aria-current="page"
+                                        >
+                                            {t('event_orders').toUpperCase()}
                                         </span>
                                     </Link>
                                 </li>

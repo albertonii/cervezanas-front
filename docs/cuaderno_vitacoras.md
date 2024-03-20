@@ -804,3 +804,4 @@ Habilitar formulario para feedbacks/reporte de errores
 - [x] Poner en el footer el correo y el contacto: cervezanas@socialinnolabs.org
       teléfono: 687 85 96 55
 - [ ] Implementar seguridad para la lectura de QRs en experiencia -> Solo puede leer el dueño del stand o el administrador.
+- [ ] BG para online orders y event_orders en menu CONSUMER
