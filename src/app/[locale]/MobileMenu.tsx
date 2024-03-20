@@ -6,7 +6,21 @@ import Button from './components/common/Button';
 import useOnClickOutside from '../../hooks/useOnOutsideClickDOM';
 import { useLocale } from 'next-intl';
 import { useRef, useState } from 'react';
-import { ROUTE_SIGNIN } from '../../config';
+import {
+    ROUTE_ADMIN,
+    ROUTE_CONTRACTS_CPS,
+    ROUTE_EVENTS,
+    ROUTE_EVENT_ORDERS,
+    ROUTE_EXPERIENCES,
+    ROUTE_MONTHLY_PRODUCTS,
+    ROUTE_NOTIFICATIONS,
+    ROUTE_ONLINE_ORDERS,
+    ROUTE_PRODUCER,
+    ROUTE_PRODUCTS,
+    ROUTE_PROFILE,
+    ROUTE_SETTINGS,
+    ROUTE_SIGNIN,
+} from '../../config';
 import { useTranslations } from 'next-intl';
 import { INotification } from '../../lib/types/types';
 import { useAuth } from './(auth)/Context/useAuth';
@@ -14,6 +28,7 @@ import { useAppContext } from '../context/AppContext';
 import { usePathname, useRouter } from 'next/navigation';
 import { NotificationPopup } from './components/NotificationPopup';
 import { useShoppingCart } from '../context/ShoppingCartContext';
+import { ROLE_ENUM } from '../../lib/enums';
 
 interface Props {
     notifications: INotification[];
@@ -119,7 +134,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             : '-translate-x-full bg-beer-gold'
                     }`}
                 >
-                    <ul className="space-y-2 pl-4 pt-16 h-[300px] overflow-y-scroll pb-10">
+                    <ul className="space-y-2 pl-4 pt-16 h-[100%] overflow-y-scroll pb-10">
                         <li className="flex items-center justify-center space-x-4 pr-10 ">
                             {/* Language  */}
                             {i18nLocaleArray.map((locale) => {
@@ -205,11 +220,9 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                 </>
                             )}
                         </li>
-
                         <li className={`${MENU_HEADER_STYLES}`}>
                             {t('menu').toUpperCase()}
                         </li>
-
                         {/* Marketplace link  */}
                         <li className="flex items-center">
                             <Link
@@ -222,11 +235,10 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                 </span>
                             </Link>
                         </li>
-
                         {/* Events link  */}
-                        {/* <li className="flex items-center">
+                        <li className="flex items-center">
                             <Link
-                                href="/community"
+                                href="/events"
                                 onClick={() => setOpenNotification(false)}
                                 locale={locale}
                             >
@@ -234,16 +246,94 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                     className={`${MENU_ITEM_STYLES}`}
                                     aria-current="page"
                                 >
-                                    {t('community').toUpperCase()}
+                                    {t('events').toUpperCase()}
                                 </span>
                             </Link>
-                        </li> */}
+                        </li>
 
-                        {user && (
+                        {role === ROLE_ENUM.Cervezano && (
                             <>
+                                <li className={`${MENU_HEADER_STYLES}`}>
+                                    {t('my_account').toUpperCase()}
+                                </li>
+
                                 <li className="flex items-center">
                                     <Link
-                                        href="/events"
+                                        href="/profile?a=account"
+                                        onClick={() =>
+                                            setOpenNotification(false)
+                                        }
+                                        locale={locale}
+                                    >
+                                        <span
+                                            className={`${MENU_ITEM_STYLES}`}
+                                            aria-current="page"
+                                        >
+                                            {t('profile').toUpperCase()}
+                                        </span>
+                                    </Link>
+                                </li>
+
+                                <li className="flex items-center">
+                                    <Link
+                                        href="/profile?a=orders"
+                                        onClick={() =>
+                                            setOpenNotification(false)
+                                        }
+                                        locale={locale}
+                                    >
+                                        <span
+                                            className={`${MENU_ITEM_STYLES}`}
+                                            aria-current="page"
+                                        >
+                                            {t('orders').toUpperCase()}
+                                        </span>
+                                    </Link>
+                                </li>
+                            </>
+                        )}
+
+                        {role === ROLE_ENUM.Productor && (
+                            <>
+                                <li className={`${MENU_HEADER_STYLES}`}>
+                                    {t('my_account').toUpperCase()}
+                                </li>
+
+                                <li className="flex items-center">
+                                    <Link
+                                        href={`${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_SETTINGS}`}
+                                        onClick={() =>
+                                            setOpenNotification(false)
+                                        }
+                                        locale={locale}
+                                    >
+                                        <span
+                                            className={`${MENU_ITEM_STYLES}`}
+                                            aria-current="page"
+                                        >
+                                            {t('profile').toUpperCase()}
+                                        </span>
+                                    </Link>
+                                </li>
+                                <li className="flex items-center">
+                                    <Link
+                                        href={`${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_PRODUCTS}`}
+                                        onClick={() =>
+                                            setOpenNotification(false)
+                                        }
+                                        locale={locale}
+                                    >
+                                        <span
+                                            className={`${MENU_ITEM_STYLES}`}
+                                            aria-current="page"
+                                        >
+                                            {t('products').toUpperCase()}
+                                        </span>
+                                    </Link>
+                                </li>
+                                <li className="flex items-center">
+                                    <Link
+                                        href={`${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_EVENTS}`}
                                         onClick={() =>
                                             setOpenNotification(false)
                                         }
@@ -257,57 +347,80 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                         </span>
                                     </Link>
                                 </li>
+                                <li className="flex items-center">
+                                    <Link
+                                        href={`${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_EXPERIENCES}`}
+                                        onClick={() =>
+                                            setOpenNotification(false)
+                                        }
+                                        locale={locale}
+                                    >
+                                        <span
+                                            className={`${MENU_ITEM_STYLES}`}
+                                            aria-current="page"
+                                        >
+                                            {t('experiences').toUpperCase()}
+                                        </span>
+                                    </Link>
+                                </li>
+                                <li className="flex items-center">
+                                    <Link
+                                        href={`${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_ONLINE_ORDERS}`}
+                                        onClick={() =>
+                                            setOpenNotification(false)
+                                        }
+                                        locale={locale}
+                                    >
+                                        <span
+                                            className={`${MENU_ITEM_STYLES}`}
+                                            aria-current="page"
+                                        >
+                                            {t('online_orders').toUpperCase()}
+                                        </span>
+                                    </Link>
+                                </li>
+                                <li className="flex items-center">
+                                    <Link
+                                        href={`${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_EVENT_ORDERS}`}
+                                        onClick={() =>
+                                            setOpenNotification(false)
+                                        }
+                                        locale={locale}
+                                    >
+                                        <span
+                                            className={`${MENU_ITEM_STYLES}`}
+                                            aria-current="page"
+                                        >
+                                            {t('event_orders').toUpperCase()}
+                                        </span>
+                                    </Link>
+                                </li>
                             </>
                         )}
 
-                        {role === 'consumer' ||
-                            (role === 'producer' && (
-                                <>
-                                    <li className={`${MENU_HEADER_STYLES}`}>
-                                        {t('my_account').toUpperCase()}
-                                    </li>
-
-                                    <li className="flex items-center">
-                                        <Link
-                                            href="/profile?a=account"
-                                            onClick={() =>
-                                                setOpenNotification(false)
-                                            }
-                                            locale={locale}
-                                        >
-                                            <span
-                                                className={`${MENU_ITEM_STYLES}`}
-                                                aria-current="page"
-                                            >
-                                                {t('profile').toUpperCase()}
-                                            </span>
-                                        </Link>
-                                    </li>
-
-                                    <li className="flex items-center">
-                                        <Link
-                                            href="/profile?a=orders"
-                                            onClick={() =>
-                                                setOpenNotification(false)
-                                            }
-                                            locale={locale}
-                                        >
-                                            <span
-                                                className={`${MENU_ITEM_STYLES}`}
-                                                aria-current="page"
-                                            >
-                                                {t('orders').toUpperCase()}
-                                            </span>
-                                        </Link>
-                                    </li>
-                                </>
-                            ))}
-
-                        {role === 'admin' && (
+                        {role === ROLE_ENUM.Distributor && (
                             <>
+                                'profile', 'logistics', 'contracts',
+                                'business_orders', 'signout',
                                 <li className="flex items-center">
                                     <Link
-                                        href="/profile?a=contracts_cps"
+                                        href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_SETTINGS}`}
+                                        onClick={() =>
+                                            setOpenNotification(false)
+                                        }
+                                        locale={locale}
+                                    >
+                                        <span
+                                            className={`${MENU_ITEM_STYLES}`}
+                                            aria-current="page"
+                                        >
+                                            {t('profile').toUpperCase()}
+                                        </span>
+                                    </Link>
+                                </li>
+                                <li className="flex items-center">
+                                    <Link
+                                        href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_CONTRACTS_CPS}`}
                                         onClick={() =>
                                             setOpenNotification(false)
                                         }
@@ -321,10 +434,9 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                         </span>
                                     </Link>
                                 </li>
-
                                 <li className="flex items-center">
                                     <Link
-                                        href="/profile?a=monthly_products"
+                                        href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_MONTHLY_PRODUCTS}`}
                                         onClick={() =>
                                             setOpenNotification(false)
                                         }
@@ -340,10 +452,9 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                         </span>
                                     </Link>
                                 </li>
-
                                 <li className="flex items-center">
                                     <Link
-                                        href="/profile?a=notifications"
+                                        href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_NOTIFICATIONS}`}
                                         onClick={() =>
                                             setOpenNotification(false)
                                         }
@@ -360,21 +471,76 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             </>
                         )}
 
-                        <li className="flex items-center">
-                            <Link
-                                href="/profile"
-                                onClick={() => setOpenNotification(false)}
-                                locale={locale}
-                            >
-                                <span
-                                    className={`${MENU_ITEM_STYLES}`}
-                                    aria-current="page"
-                                >
-                                    {t('profile').toUpperCase()}
-                                </span>
-                            </Link>
-                        </li>
-
+                        {role === ROLE_ENUM.Admin && (
+                            <>
+                                <li className="flex items-center">
+                                    <Link
+                                        href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_EVENTS}`}
+                                        onClick={() =>
+                                            setOpenNotification(false)
+                                        }
+                                        locale={locale}
+                                    >
+                                        <span
+                                            className={`${MENU_ITEM_STYLES}`}
+                                            aria-current="page"
+                                        >
+                                            {t('events').toUpperCase()}
+                                        </span>
+                                    </Link>
+                                </li>
+                                <li className="flex items-center">
+                                    <Link
+                                        href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_CONTRACTS_CPS}`}
+                                        onClick={() =>
+                                            setOpenNotification(false)
+                                        }
+                                        locale={locale}
+                                    >
+                                        <span
+                                            className={`${MENU_ITEM_STYLES}`}
+                                            aria-current="page"
+                                        >
+                                            {t('submitted_aps').toUpperCase()}
+                                        </span>
+                                    </Link>
+                                </li>
+                                <li className="flex items-center">
+                                    <Link
+                                        href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_MONTHLY_PRODUCTS}`}
+                                        onClick={() =>
+                                            setOpenNotification(false)
+                                        }
+                                        locale={locale}
+                                    >
+                                        <span
+                                            className={`${MENU_ITEM_STYLES}`}
+                                            aria-current="page"
+                                        >
+                                            {t(
+                                                'monthly_products',
+                                            ).toUpperCase()}
+                                        </span>
+                                    </Link>
+                                </li>
+                                <li className="flex items-center">
+                                    <Link
+                                        href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_NOTIFICATIONS}`}
+                                        onClick={() =>
+                                            setOpenNotification(false)
+                                        }
+                                        locale={locale}
+                                    >
+                                        <span
+                                            className={`${MENU_ITEM_STYLES}`}
+                                            aria-current="page"
+                                        >
+                                            {t('notifications').toUpperCase()}
+                                        </span>
+                                    </Link>
+                                </li>
+                            </>
+                        )}
                         {!user ? (
                             <li className="flex items-center">
                                 <Button
@@ -385,9 +551,10 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                 </Button>
                             </li>
                         ) : (
-                            <li className="flex items-center">
+                            <li className="flex items-center ">
                                 <Button
-                                    class={`${MENU_ITEM_STYLES} bg-beer-red text-white transition-all duration-200`}
+                                    accent
+                                    class={`${MENU_ITEM_STYLES} hover:bg-beer-softFoam text-white transition-all duration-200`}
                                     onClick={handleSignOut}
                                 >
                                     {t('signout').toUpperCase()}
