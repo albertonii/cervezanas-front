@@ -356,6 +356,12 @@ export const AuthContextProvider = ({
                     producerLink,
                 );
 
+                clearMessages();
+                handleMessage({
+                    message: signUpMessage,
+                    type: 'success',
+                });
+
                 return data;
             } else if (access_level === ROLE_ENUM.Distributor) {
                 // Notificar a administrador que se ha registrado un nuevo distribuidor y está esperando aprobación
@@ -367,6 +373,12 @@ export const AuthContextProvider = ({
                     newDistributorMessage,
                     distributorLink,
                 );
+
+                clearMessages();
+                handleMessage({
+                    message: signUpMessage,
+                    type: 'success',
+                });
 
                 return data;
             }
