@@ -10,6 +10,7 @@ import {
     ROUTE_ADMIN,
     ROUTE_CONSUMER,
     ROUTE_CONTRACTS_CPS,
+    ROUTE_DISTRIBUTOR,
     ROUTE_EVENTS,
     ROUTE_EVENT_ORDERS,
     ROUTE_EXPERIENCES,
@@ -415,7 +416,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                         <>
                             <li className="flex items-center">
                                 <Link
-                                    href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_SETTINGS}`}
+                                    href={`${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_SETTINGS}`}
                                     onClick={() => setOpenHamburger(false)}
                                     locale={locale}
                                 >
@@ -429,7 +430,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             </li>
                             <li className="flex items-center">
                                 <Link
-                                    href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_CONTRACTS_CPS}`}
+                                    href={`${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_CONTRACTS_CPS}`}
                                     onClick={() => setOpenHamburger(false)}
                                     locale={locale}
                                 >
@@ -443,7 +444,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             </li>
                             <li className="flex items-center">
                                 <Link
-                                    href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_MONTHLY_PRODUCTS}`}
+                                    href={`${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_MONTHLY_PRODUCTS}`}
                                     onClick={() => setOpenHamburger(false)}
                                     locale={locale}
                                 >
@@ -457,7 +458,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             </li>
                             <li className="flex items-center">
                                 <Link
-                                    href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_NOTIFICATIONS}`}
+                                    href={`${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_NOTIFICATIONS}`}
                                     onClick={() => setOpenHamburger(false)}
                                     locale={locale}
                                 >
