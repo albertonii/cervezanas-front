@@ -18,6 +18,10 @@ export default async function MaestroCerveceroPage() {
 async function getMaestroCerveceroEventExperiences() {
     const supabase = await createServerClient();
 
+    const eventId = process.env.NEXT_PUBLIC_EVENT_ID;
+
+    if (!eventId) throw new Error('No admin id found in env vars');
+
     const { data: eventExperiences, error: eventExperiencesError } =
         await supabase
             .from('event_experiences')
@@ -29,7 +33,7 @@ async function getMaestroCerveceroEventExperiences() {
                 experience_id (*)
             `,
             )
-            .eq('event_id', '16092429-963d-41d6-98c4-b2a3eac00912');
+            .eq('event_id', eventId);
 
     if (eventExperiencesError) throw eventExperiencesError;
 
