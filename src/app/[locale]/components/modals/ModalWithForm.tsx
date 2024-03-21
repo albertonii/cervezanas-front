@@ -14,6 +14,7 @@ import { IconButton } from '../common/IconButton';
 import Spinner from '../common/Spinner';
 import { UseFormReturn } from 'react-hook-form';
 import PortalModal from './PortalModal';
+import { isEmpty } from '../../../../utils/utils';
 
 interface Props {
     showBtn?: boolean;
@@ -175,7 +176,7 @@ export default function ModalWithForm(props: Props) {
                     >
                         {/* The modal  */}
                         <div
-                            className={`relative mx-4 my-6 w-full lg:w-3/4 lg:max-w-none xl:w-3/5`}
+                            className={`relative mx-4 my-6 w-[94vw] lg:w-3/4 lg:max-w-none xl:w-3/5`}
                             ref={modalRef}
                         >
                             {/*content*/}
@@ -204,10 +205,12 @@ export default function ModalWithForm(props: Props) {
                                 </div>
 
                                 {/*body*/}
-                                <div className="relative flex-auto p-6">
-                                    <p className="text-slate-500 my-4 text-lg leading-relaxed">
-                                        {t(description)}
-                                    </p>
+                                <div className="relative flex-auto">
+                                    {!isEmpty(description) && (
+                                        <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
+                                            {t(description)}
+                                        </p>
+                                    )}
 
                                     {children}
                                 </div>

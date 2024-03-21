@@ -13,6 +13,7 @@ import Button from '../common/Button';
 import { IconButton } from '../common/IconButton';
 import Spinner from '../common/Spinner';
 import PortalModal from './PortalModal';
+import { isEmpty } from '../../../../utils/utils';
 
 interface Props {
     showBtn?: boolean;
@@ -170,7 +171,7 @@ export default function Modal(props: Props) {
                     >
                         {/* The modal  */}
                         <div
-                            className={`relative mx-4 my-6 w-full lg:w-3/4 lg:max-w-none xl:w-3/5`}
+                            className={`relative mx-4 my-6 w-[94vw] lg:w-3/4 lg:max-w-none xl:w-3/5`}
                             ref={modalRef}
                         >
                             {/*content*/}
@@ -200,9 +201,11 @@ export default function Modal(props: Props) {
 
                                 {/*body*/}
                                 <div className="relative flex-auto p-12 bg-[url('/assets/rec-graf5b.webp')] bg-cover bg-no-repeat">
-                                    <p className="text-slate-500 my-4 text-lg leading-relaxed">
-                                        {t(description)}
-                                    </p>
+                                    {!isEmpty(description) && (
+                                        <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
+                                            {t(description)}
+                                        </p>
+                                    )}
 
                                     {children}
                                 </div>

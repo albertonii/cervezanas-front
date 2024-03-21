@@ -729,7 +729,7 @@ export function UpdateProductAdmin({
                     isSubmitting={isSubmitting}
                 >
                     <>
-                        <p className="text-slate-500 my-4 text-lg leading-relaxed">
+                        <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
                             {t('modal_product_description')}
                         </p>
 
