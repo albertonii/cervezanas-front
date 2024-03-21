@@ -20,7 +20,7 @@ async function getMaestroCerveceroEventExperiences() {
 
     const eventId = process.env.NEXT_PUBLIC_EVENT_ID;
 
-    if (!eventId) throw new Error('No admin id found in env vars');
+    if (!eventId) throw new Error('No event id found in env vars');
 
     const { data: eventExperiences, error: eventExperiencesError } =
         await supabase

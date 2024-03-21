@@ -36,8 +36,10 @@ interface Props {
     i18nLocaleArray: string[];
 }
 
+// TODO:
+// Create component for Links
 export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
-    const { role, user } = useAuth();
+    const { role, user, signOut } = useAuth();
 
     const sidebarRef = useRef<HTMLDivElement>(null);
 
@@ -68,10 +70,13 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
         setOpenNotification(false);
     };
 
-    // TODO: Cerrar sesión BIEN
     const handleSignOut = () => {
-        router.push(`/${locale}/signout`);
-        setOpenNotification(false);
+        signOut();
+        setOpenHamburger(false);
+    };
+
+    const handleOnClickLink = () => {
+        setOpenHamburger(false);
     };
 
     const MENU_ITEM_STYLES =
@@ -81,7 +86,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
         'text-lg font-bold text-beer-dark uppercase py-4 border-b-2 border-beer-softBlonde mr-4';
 
     return (
-        <section className="header absolute w-full bg-beer-darkGold m:hidden md:z-30 bg-[url('/assets/header-bg.jpg')] bg-cover bg-center">
+        <section className="header  w-full bg-beer-darkGold m:hidden md:z-30 bg-[url('/assets/header-bg.jpg')] bg-cover bg-center">
             {/* Hamburguer menu  */}
             <Button
                 data-collapse-toggle="navbar-default"
@@ -223,7 +228,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                     <li className="flex items-center">
                         <Link
                             href="/"
-                            onClick={() => setOpenNotification(false)}
+                            onClick={() => setOpenHamburger(false)}
                             locale={locale}
                         >
                             <span className={`${MENU_ITEM_STYLES}`}>
@@ -236,7 +241,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                     <li className="flex items-center">
                         <Link
                             href="/marketplace"
-                            onClick={() => setOpenNotification(false)}
+                            onClick={() => setOpenHamburger(false)}
                             locale={locale}
                         >
                             <span className={`${MENU_ITEM_STYLES}`}>
@@ -248,7 +253,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                     <li className="flex items-center">
                         <Link
                             href="/events"
-                            onClick={() => setOpenNotification(false)}
+                            onClick={() => setOpenHamburger(false)}
                             locale={locale}
                         >
                             <span
@@ -269,7 +274,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             <li className="flex items-center">
                                 <Link
                                     href={`${ROUTE_CONSUMER}${ROUTE_PROFILE}${ROUTE_SETTINGS}`}
-                                    onClick={() => setOpenNotification(false)}
+                                    onClick={() => setOpenHamburger(false)}
                                     locale={locale}
                                 >
                                     <span
@@ -284,7 +289,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             <li className="flex items-center">
                                 <Link
                                     href={`${ROUTE_CONSUMER}${ROUTE_PROFILE}${ROUTE_ONLINE_ORDERS}`}
-                                    onClick={() => setOpenNotification(false)}
+                                    onClick={() => setOpenHamburger(false)}
                                     locale={locale}
                                 >
                                     <span
@@ -299,7 +304,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             <li className="flex items-center">
                                 <Link
                                     href={`${ROUTE_CONSUMER}${ROUTE_PROFILE}${ROUTE_EVENT_ORDERS}`}
-                                    onClick={() => setOpenNotification(false)}
+                                    onClick={() => setOpenHamburger(false)}
                                     locale={locale}
                                 >
                                     <span
@@ -322,7 +327,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             <li className="flex items-center">
                                 <Link
                                     href={`${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_SETTINGS}`}
-                                    onClick={() => setOpenNotification(false)}
+                                    onClick={() => setOpenHamburger(false)}
                                     locale={locale}
                                 >
                                     <span
@@ -336,7 +341,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             <li className="flex items-center">
                                 <Link
                                     href={`${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_PRODUCTS}`}
-                                    onClick={() => setOpenNotification(false)}
+                                    onClick={() => setOpenHamburger(false)}
                                     locale={locale}
                                 >
                                     <span
@@ -350,7 +355,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             <li className="flex items-center">
                                 <Link
                                     href={`${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_EVENTS}`}
-                                    onClick={() => setOpenNotification(false)}
+                                    onClick={() => setOpenHamburger(false)}
                                     locale={locale}
                                 >
                                     <span
@@ -364,7 +369,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             <li className="flex items-center">
                                 <Link
                                     href={`${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_EXPERIENCES}`}
-                                    onClick={() => setOpenNotification(false)}
+                                    onClick={() => setOpenHamburger(false)}
                                     locale={locale}
                                 >
                                     <span
@@ -378,7 +383,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             <li className="flex items-center">
                                 <Link
                                     href={`${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_ONLINE_ORDERS}`}
-                                    onClick={() => setOpenNotification(false)}
+                                    onClick={() => setOpenHamburger(false)}
                                     locale={locale}
                                 >
                                     <span
@@ -392,7 +397,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             <li className="flex items-center">
                                 <Link
                                     href={`${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_EVENT_ORDERS}`}
-                                    onClick={() => setOpenNotification(false)}
+                                    onClick={() => setOpenHamburger(false)}
                                     locale={locale}
                                 >
                                     <span
@@ -411,7 +416,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             <li className="flex items-center">
                                 <Link
                                     href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_SETTINGS}`}
-                                    onClick={() => setOpenNotification(false)}
+                                    onClick={() => setOpenHamburger(false)}
                                     locale={locale}
                                 >
                                     <span
@@ -425,7 +430,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             <li className="flex items-center">
                                 <Link
                                     href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_CONTRACTS_CPS}`}
-                                    onClick={() => setOpenNotification(false)}
+                                    onClick={() => setOpenHamburger(false)}
                                     locale={locale}
                                 >
                                     <span
@@ -439,7 +444,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             <li className="flex items-center">
                                 <Link
                                     href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_MONTHLY_PRODUCTS}`}
-                                    onClick={() => setOpenNotification(false)}
+                                    onClick={() => setOpenHamburger(false)}
                                     locale={locale}
                                 >
                                     <span
@@ -453,7 +458,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             <li className="flex items-center">
                                 <Link
                                     href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_NOTIFICATIONS}`}
-                                    onClick={() => setOpenNotification(false)}
+                                    onClick={() => setOpenHamburger(false)}
                                     locale={locale}
                                 >
                                     <span
@@ -472,7 +477,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             <li className="flex items-center">
                                 <Link
                                     href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_EVENTS}`}
-                                    onClick={() => setOpenNotification(false)}
+                                    onClick={() => setOpenHamburger(false)}
                                     locale={locale}
                                 >
                                     <span
@@ -486,7 +491,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             <li className="flex items-center">
                                 <Link
                                     href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_CONTRACTS_CPS}`}
-                                    onClick={() => setOpenNotification(false)}
+                                    onClick={() => setOpenHamburger(false)}
                                     locale={locale}
                                 >
                                     <span
@@ -500,7 +505,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             <li className="flex items-center">
                                 <Link
                                     href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_MONTHLY_PRODUCTS}`}
-                                    onClick={() => setOpenNotification(false)}
+                                    onClick={() => setOpenHamburger(false)}
                                     locale={locale}
                                 >
                                     <span
@@ -514,7 +519,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             <li className="flex items-center">
                                 <Link
                                     href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_NOTIFICATIONS}`}
-                                    onClick={() => setOpenNotification(false)}
+                                    onClick={() => setOpenHamburger(false)}
                                     locale={locale}
                                 >
                                     <span
