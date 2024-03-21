@@ -45,28 +45,20 @@ export default function MaestroCervecero({ eventExperiences }: Props) {
     };
 
     return (
-        <section className="h-full space-y-8 p-2 bg-white bg-opacity-80">
+        <section className="h-full space-y-8 p-2 bg-white bg-[url('/assets/maestro/mestro-fondo.webp')] bg-cover bg-no-repeat px-8 sm:px-32 pb-16">
             {/*  bloque 2 */}
-            <figure className="relative top-0 m-auto w-full max-w-screen-2xl sm:block hidden">
+            <figure className="relative top-0 m-auto w-full max-w-screen-2xl">
                 <Image
-                    style={{ aspectRatio: '845/235' }}
-                    src="/assets/banner-mc.webp"
-                    width={1925}
-                    height={536}
-                    alt="Banner"
-                />
-            </figure>
-            <figure className="relative -top-10 m-auto w-full max-w-screen-2xl sm:hidden block">
-                <Image
-                    style={{ aspectRatio: '250/164' }}
-                    src="/assets/banner-mc-mov.webp"
-                    width={500}
-                    height={328}
+                    className="m-auto"
+                    style={{ aspectRatio: '433/234' }}
+                    src="/assets/maestro/maestro-titulo.webp"
+                    width={866}
+                    height={468}
                     alt="Banner"
                 />
             </figure>
             <header>
-                <h1 className="font-bold text-2xl text-center sm:text-4xl mb-6 text-beer-gold">
+                <h1 className="font-bold text-4xl text-center sm:text-5xl mb-6 text-beer-draft">
                     Experiencia Maestro Cervecero en el Barcelona Beer Festival
                     2024
                 </h1>
@@ -79,17 +71,48 @@ export default function MaestroCervecero({ eventExperiences }: Props) {
             </header>
 
             <section className="border-4 shadow-lg border-beer-gold bg-white p-4  rounded-sm text-lg sm:p-20 text-center m-auto">
-                <p className="m-auto">
+                <p className="m-auto mt-5">
                     Durante el Barcelona Beer Festival 2024, podrás participar
                     en la experiencia Maestro Cervecero. Descubre los secretos
                     de las mejores cervezas artesanales y conviértete en un
                     experto cervecero.
                 </p>
 
-                <p className="m-auto">
+                <p className="m-auto mt-5">
                     Busca entre los diferentes estands de la feria aquellos con
                     el distitivo de Cervezanas. Podrás participar escaneando el
                     código QR que encontrarás en cada uno de ellos.
+                </p>
+                <p className="m-auto mt-5 mb-2">
+                    Si consigues completar todos los puntos conseguirás un 5% de
+                    descuento en tu próximo pedido en cervezanas.beer. Además,
+                    participarás en el sorteo de 10 camisetas con el logo de
+                    Cervezanas, 10 packs de 6 cervezas de nuestro catátlogo y...
+                </p>
+                <p className="m-auto mb-5 text-cerv-banana text-3xl font-bold">
+                    2 entradas para el concierto de AC/DC en Sevilla el 1 de
+                    junio!!!
+                </p>
+            </section>
+            <section className="m-auto bg-cerv-coal bg-opacity-50 p-8 text-white">
+                <p className="text-center text-xl mb-3 font-bold max-w-full">
+                    CONDICIONES DEL SORTEO
+                </p>
+                <p className="text-base text-justify max-w-full">
+                    El sorteo se celebrará entre todas las personas que hayan
+                    completado <b>al menos 4 puntos de consumo</b> en el Barcelona Beer
+                    Festival 2024 del 22 al 24 de marzo, seleccionando para
+                    ello a las 100 personas que hayan conseguido mayor puntuación
+                    en la prueba. Se realizará el mismo domingo 24 de marzo o
+                    cualquier otro día posterior que decida la empresa
+                    organizadora (Cervezanas M&M S.L.) utilizando un sistema al
+                    azar para la selección de los premiados y de los suplentes.
+                    Cuando un participante haya sido premiado será excluido del
+                    sorteo de los sucesivos premios que falten por sortear. Una
+                    vez elegidos los ganadores se les comunicará por correo
+                    electrónico su premio. Si en el plazo de 15 días desde el
+                    envío del correo no hemos recibido respuesta el premio
+                    pasará al primer suplente disponible en la lista.
                 </p>
             </section>
 

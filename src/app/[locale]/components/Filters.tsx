@@ -1,57 +1,57 @@
-"use client";
+'use client';
 
-import React, { useId } from "react";
-import { useTranslations } from "next-intl";
-import { useAppContext } from "../../context/AppContext";
-import { formatCurrency } from "../../../utils/formatCurrency";
+import React, { useId } from 'react';
+import { useTranslations } from 'next-intl';
+import { useAppContext } from '../../context/AppContext';
+import { formatCurrency } from '../../../utils/formatCurrency';
 
 export function Filters() {
-  const t = useTranslations();
+    const t = useTranslations();
 
-  const { filters, setFilters } = useAppContext();
+    const { filters, setFilters } = useAppContext();
 
-  const minPriceFilterId = useId();
-  const categoryFilterId = useId();
+    const minPriceFilterId = useId();
+    const categoryFilterId = useId();
 
-  const handleChangeMinPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilters((prevState: any) => ({
-      ...prevState,
-      minPrice: parseInt(e.target.value),
-    }));
-  };
+    const handleChangeMinPrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFilters((prevState: any) => ({
+            ...prevState,
+            minPrice: parseInt(e.target.value),
+        }));
+    };
 
-  const handleChangeCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilters((prevState: any) => ({
-      ...prevState,
-      category: e.target.value,
-    }));
-  };
+    const handleChangeCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setFilters((prevState: any) => ({
+            ...prevState,
+            category: e.target.value,
+        }));
+    };
 
-  return (
-    <section className="flex w-full items-center justify-between font-medium text-white">
-      <div className="flex items-center gap-4">
-        <label htmlFor={minPriceFilterId}>{t("price_starts_at")}</label>
-        <input
-          type="range"
-          id={minPriceFilterId}
-          name="price"
-          min="0"
-          max="1000"
-          value={filters.minPrice}
-          onChange={handleChangeMinPrice}
-          className="accent-beer-gold"
-        />
-        <span>{formatCurrency(filters.minPrice)}</span>
-      </div>
+    return (
+        <section className="flex w-full items-center justify-between font-medium text-white">
+            <div className="flex items-center gap-4">
+                <label htmlFor={minPriceFilterId}>{t('price_starts_at')}</label>
+                <input
+                    type="range"
+                    id={minPriceFilterId}
+                    name="price"
+                    min="0"
+                    max="1000"
+                    value={filters.minPrice}
+                    onChange={handleChangeMinPrice}
+                    className="accent-beer-gold"
+                />
+                <span>{formatCurrency(filters.minPrice)}</span>
+            </div>
 
-      <div className="flex items-center gap-4 ">
-        <label htmlFor={categoryFilterId}>{t("category")}</label>
-        <select id={categoryFilterId} onChange={handleChangeCategory}>
-          <option value="all">{t("all")}</option>
-          <option value="beer">{t("beer")}</option>
-          <option value="merchandising">{t("merchandising")}</option>
-        </select>
-      </div>
-    </section>
-  );
+            <div className="flex items-center gap-4 hidden">
+                <label htmlFor={categoryFilterId}>{t('category')}</label>
+                <select id={categoryFilterId} onChange={handleChangeCategory}>
+                    <option value="all">{t('all')}</option>
+                    <option value="beer">{t('beer')}</option>
+                    <option value="merchandising">{t('merchandising')}</option>
+                </select>
+            </div>
+        </section>
+    );
 }

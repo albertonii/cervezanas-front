@@ -52,10 +52,13 @@ export function Homeheader() {
                     alt="Banner"
                 />
             </figure>
-            <figure className="relative -top-10 m-auto w-full max-w-screen-2xl sm:hidden block">
+            <figure
+                className="relative -top-10 m-auto w-full max-w-screen-2xl sm:hidden block"
+                onClick={handleOnClickMaestroCervecero}
+            >
                 <Image
                     style={{ aspectRatio: '250/164' }}
-                    src="/assets/banner-mc-mov.webp"
+                    src="/assets/home/home-banner-mc-mov.webp"
                     width={500}
                     height={328}
                     alt="Banner"
