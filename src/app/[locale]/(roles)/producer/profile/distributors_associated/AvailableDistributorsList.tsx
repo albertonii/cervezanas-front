@@ -112,7 +112,7 @@ export default function AvailableDistributorsList({
 
     return (
         <section className="relative space-y-4 overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg">
-            <span className="text-slate-500 my-4 text-lg leading-relaxed">
+            <span className="text-slate-500 my-4 sm:text-lg leading-relaxed">
                 {t('form_submit_contract_description')}
             </span>
 

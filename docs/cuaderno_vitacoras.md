@@ -781,7 +781,7 @@ Habilitar formulario para feedbacks/reporte de errores
 - [x] Si el barman escanéa el código y no está registrado -> LOOP INFINITO -> Pq no estaba redireccionando de manera adecuada a /signin
 - [ ] Error al mostrar imágenes del producto
 - [x] Permitir guardar el producto aunque no tengan imágenes asociadas (para awards, packs y product multimedia)
-- [ ]  Añadir como estilo de Cerveza -> aged_beer, ácida
+- [ ] Añadir como estilo de Cerveza -> aged_beer, ácida
 - [x] Añadir color de Cerveza -> DARK
 - [x] Cambiar nombre Add Product a Add Award -> Creación/edición de producto
 - [ ] Al crear producto a veces no carga -> Tienes que volver a darle a añadir y pulsar en add
@@ -808,5 +808,6 @@ Habilitar formulario para feedbacks/reporte de errores
 - [ ] ARREGLAR LA PAGINACIÓN en los listados -> Por ahora lo solucionamos con results per page = 100
 - [ ] Cuando se añade una cervza nueva no se actualiza el pack (al ir a ver la información en el update)
 - [ ] Sistema para actualizar el elemento actualizado en el sidebar de profile. Hay veces en las que no queda actualizado -> Estás en producto y quizás se ve EVENTOS.
+- [ ] En la galería de imágenes de un producto, si hay alguna URL que no obtenga la imagen, no mostrarlo.
 
 https://www.lovilotfarmbrewery.com/es/contacto/
