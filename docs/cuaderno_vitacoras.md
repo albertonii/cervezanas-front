@@ -807,5 +807,6 @@ Habilitar formulario para feedbacks/reporte de errores
 - [ ] Comprobar que los textos son lo suficientemente largos para ser leidos en su totalidad
 - [ ] ARREGLAR LA PAGINACIÓN en los listados -> Por ahora lo solucionamos con results per page = 100
 - [ ] Cuando se añade una cervza nueva no se actualiza el pack (al ir a ver la información en el update)
+- [ ] Sistema para actualizar el elemento actualizado en el sidebar de profile. Hay veces en las que no queda actualizado -> Estás en producto y quizás se ve EVENTOS.
 
 https://www.lovilotfarmbrewery.com/es/contacto/

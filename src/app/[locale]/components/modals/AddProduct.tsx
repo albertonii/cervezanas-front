@@ -242,7 +242,7 @@ export function AddProduct() {
         let p_extra_3_url = '';
 
         if (p_principal && !isFileEmpty(p_principal[0])) {
-            const fileName = `${ROUTE_ARTICLES}${productId}${ROUTE_P_PRINCIPAL}/${randomUUID}`;
+            const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_PRINCIPAL}/${randomUUID}`;
             p_principal_url = encodeURIComponent(
                 `${fileName}${generateFileNameExtension(p_principal[0].name)}`,
             );
@@ -266,7 +266,7 @@ export function AddProduct() {
         }
 
         if (p_back && !isFileEmpty(p_back[0])) {
-            const fileName = `${ROUTE_ARTICLES}${productId}${ROUTE_P_BACK}/${randomUUID}`;
+            const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_BACK}/${randomUUID}`;
 
             p_back_url =
                 p_back &&
@@ -290,7 +290,7 @@ export function AddProduct() {
         }
 
         if (p_extra_1 && !isFileEmpty(p_extra_1[0])) {
-            const fileName = `${ROUTE_ARTICLES}${productId}${ROUTE_P_EXTRA_1}/${randomUUID}`;
+            const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_EXTRA_1}/${randomUUID}`;
 
             p_extra_1_url =
                 p_extra_1 &&
@@ -318,7 +318,7 @@ export function AddProduct() {
         }
 
         if (p_extra_2 && !isFileEmpty(p_extra_2[0])) {
-            const fileName = `${ROUTE_ARTICLES}${productId}${ROUTE_P_EXTRA_2}/${randomUUID}`;
+            const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_EXTRA_2}/${randomUUID}`;
 
             p_extra_2_url =
                 p_extra_2 &&
@@ -346,7 +346,7 @@ export function AddProduct() {
         }
 
         if (p_extra_3 && !isFileEmpty(p_extra_3[0])) {
-            const fileName = `${ROUTE_ARTICLES}${productId}${ROUTE_P_EXTRA_3}/${randomUUID}`;
+            const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_EXTRA_3}/${randomUUID}`;
 
             p_extra_3_url =
                 p_extra_3 &&
