@@ -170,10 +170,6 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
 
                     {/* Description  */}
                     <div>
-                        <p className="text-sm text-gray-600">
-                            {t('product_description')}
-                        </p>
-
                         <InputTextarea
                             form={form}
                             label={'description'}

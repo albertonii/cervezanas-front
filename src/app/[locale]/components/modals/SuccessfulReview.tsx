@@ -105,7 +105,7 @@ export function SuccessfulReviewModal(props: Props) {
                     </p>
                   </div>
 
-                  <footer className="text-slate-500 my-4 text-lg leading-relaxed">
+                  <footer className="text-slate-500 my-4 sm:text-lg leading-relaxed">
                     {/* Underline link  */}
                     <Link
                       className="text-beer-draft underline hover:font-semibold"
