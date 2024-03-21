@@ -50,6 +50,7 @@ export enum Family {
     ipa,
     brown_ale,
     pale_ale,
+    american_pale_ale,
     pale_lager,
     pilsner,
     amber_ale,
@@ -312,8 +313,12 @@ export const family_options: {
         value: Family.brown_ale,
     },
     {
-        label: 'ipa',
+        label: 'pale_ale',
         value: Family.pale_ale,
+    },
+    {
+        label: 'american_pale_ale',
+        value: Family.american_pale_ale,
     },
     {
         label: 'pale_lager',
