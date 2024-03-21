@@ -53,7 +53,7 @@ export function Homeheader() {
                 />
             </figure>
             <figure
-                className="relative -top-10 m-auto w-full max-w-screen-2xl sm:hidden block"
+                className="relative sm:-top-10 m-auto w-full max-w-screen-2xl sm:hidden block"
                 onClick={handleOnClickMaestroCervecero}
             >
                 <Image

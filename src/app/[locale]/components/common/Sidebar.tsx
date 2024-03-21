@@ -58,14 +58,49 @@ export function Sidebar({ sidebarLinks }: Props) {
 
     return (
         <>
-            {device === 'Mobile' && (
+            {device === 'Mobile' ? (
                 <>
+                    <div className=" z-10">
+                        <Button
+                            data-drawer-target="default-sidebar"
+                            data-drawer-toggle="default-sidebar"
+                            aria-controls="default-sidebar"
+                            btnType="button"
+                            class={`sticky top-24 mx-2 mt-2 bg-beer-softFoam hover:bg-beer-blonde h-6 w-6 rounded-full p-2 text-sm text-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 lg:hidden`}
+                            onClick={() => {
+                                handleClick();
+                            }}
+                        >
+                            {open ? (
+                                <FontAwesomeIcon
+                                    icon={faCircleChevronLeft}
+                                    style={{ color: '#432a14' }}
+                                    title={'chevron_circle_down'}
+                                    width={20}
+                                    height={20}
+                                    className={`absolute bottom-0 right-0 h-full`}
+                                />
+                            ) : (
+                                <FontAwesomeIcon
+                                    icon={faCircleChevronLeft}
+                                    style={{ color: '#432a14' }}
+                                    title={'chevron_circle_down'}
+                                    width={20}
+                                    height={20}
+                                    className={`absolute bottom-0 right-0 h-full rotate-180`}
+                                />
+                            )}
+                        </Button>
+                    </div>
+                </>
+            ) : (
+                <div className="relative">
                     <Button
                         data-drawer-target="default-sidebar"
                         data-drawer-toggle="default-sidebar"
                         aria-controls="default-sidebar"
                         btnType="button"
-                        class={`absolute -top-16 mx-2 mt-2 h-6 w-6 rounded-full p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600`}
+                        class={`sticky top-20 mx-2 mt-2 h-6 w-6 rounded-full p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 lg:hidden`}
                         onClick={() => {
                             handleClick();
                         }}
@@ -90,49 +125,18 @@ export function Sidebar({ sidebarLinks }: Props) {
                             />
                         )}
                     </Button>
-                </>
+                </div>
             )}
-
-            <div className="relative">
-                <Button
-                    data-drawer-target="default-sidebar"
-                    data-drawer-toggle="default-sidebar"
-                    aria-controls="default-sidebar"
-                    btnType="button"
-                    class={`sticky top-20 mx-2 mt-2 h-6 w-6 rounded-full p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 lg:hidden`}
-                    onClick={() => {
-                        handleClick();
-                    }}
-                >
-                    {open ? (
-                        <FontAwesomeIcon
-                            icon={faCircleChevronLeft}
-                            style={{ color: '#432a14' }}
-                            title={'chevron_circle_down'}
-                            width={20}
-                            height={20}
-                            className={`absolute bottom-0 right-0 h-full`}
-                        />
-                    ) : (
-                        <FontAwesomeIcon
-                            icon={faCircleChevronLeft}
-                            style={{ color: '#432a14' }}
-                            title={'chevron_circle_down'}
-                            width={20}
-                            height={20}
-                            className={`absolute bottom-0 right-0 h-full rotate-180`}
-                        />
-                    )}
-                </Button>{' '}
-            </div>
 
             {role && (
                 <aside
                     className={`
-        ${
-            open ? 'translate-x-0' : '-translate-x-[100%] lg:translate-x-0'
-        } absolute z-10 h-full transform bg-white duration-300 ease-in-out sm:min-h-[50vh] lg:relative lg:block bg-[url('/assets/rec-graf4b.png')] bg-repeat bg-top bg-auto
-        `}
+                    ${
+                        open
+                            ? 'translate-x-0'
+                            : '-translate-x-[100%] lg:translate-x-0'
+                    }  sm:top-0 absolute z-10 h-full transform bg-white duration-300 ease-in-out sm:min-h-[50vh] lg:relative lg:block bg-[url('/assets/rec-graf4b.png')] bg-repeat bg-top bg-auto
+                    `}
                     aria-label="Sidebar"
                     id="default-sidebar"
                     ref={sidebarRef}
