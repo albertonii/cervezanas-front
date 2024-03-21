@@ -81,7 +81,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
         'text-lg font-bold text-beer-dark uppercase py-4 border-b-2 border-beer-softBlonde mr-4';
 
     return (
-        <header className="header absolute w-full bg-beer-darkGold m:hidden md:z-30">
+        <header className="header absolute w-full bg-beer-darkGold m:hidden md:z-30 bg-[url('/assets/header-bg.jpg')] bg-cover bg-center">
             <nav>
                 {/* Hamburguer menu  */}
                 <Button
