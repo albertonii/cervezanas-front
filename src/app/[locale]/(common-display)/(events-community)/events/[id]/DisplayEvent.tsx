@@ -123,25 +123,28 @@ export default function DisplayEvent({
                             </span>
                         </p>
 
-                        <p className="text-lg flex flex-col">
+                        {BMExperienceParticipantCount >= 1 && (
+                            <span>Recompensas: </span>
+                        )}
+
+                        <p className="flex flex-col text-md sm:text-lg space-y-4">
                             {BMExperienceParticipantCount >= 1 && (
-                                <>
-                                    <span>Recompensas: </span>
+                                <p className="py-2 bg-beer-softFoam border-2 border-bg-draft rounded-xl">
                                     <span className="font-semibold">
-                                        Descuento de 10% en tu siguiente compra
+                                        Descuento de 5% en tu siguiente compra
                                         ONLINE en Cervezanas
                                     </span>
-                                </>
+                                </p>
                             )}
                             {BMExperienceParticipantCount >= 4 && (
-                                <p>
+                                <p className="py-2 bg-beer-softFoam border-2 border-bg-draft rounded-xl">
                                     <h2 className="font-semibold">
                                         ¡ENHORABUENA!
                                     </h2>
                                     <span>
                                         Has entrado en el sorteo Cervezanas de 2
-                                        entradas para en directo el concierto de
-                                        AC/DC ... y de muchos otros premios
+                                        entradas para el concierto de AC/DC ...
+                                        y de muchos otros premios
                                     </span>
                                 </p>
                             )}
@@ -161,12 +164,12 @@ export default function DisplayEvent({
             </h1>
             <h2 className="mb-4 text-lg text-gray-500">{event.description}</h2>
 
-            <div className="mb-4">
+            <div className="mb-4 flex flex-col sm:flex-row">
                 {/* Start and End date */}
-                <span className="text-xl font-semibold italic text-black">
+                <span className="text-sm sm:text-xl font-semibold italic text-black">
                     {t('start_date')}: {formatDateString(event.start_date)}
                 </span>
-                <span className="ml-4 text-xl font-semibold italic text-black">
+                <span className="sm:ml-4 text-sm sm:text-xl font-semibold italic text-black">
                     {t('end_date')}: {formatDateString(event.end_date)}
                 </span>
             </div>
@@ -206,7 +209,10 @@ export default function DisplayEvent({
                                         {t('name_header')}
                                     </th>
 
-                                    <th scope="col" className="px-2 py-3 ">
+                                    <th
+                                        scope="col"
+                                        className="hidden sm:block px-2 py-3 "
+                                    >
                                         {t('date_header')}
                                     </th>
 
@@ -259,7 +265,10 @@ export default function DisplayEvent({
                                         {t('name_header')}
                                     </th>
 
-                                    <th scope="col" className="px-6 py-3 ">
+                                    <th
+                                        scope="col"
+                                        className="hidden sm:block px-6 py-3 "
+                                    >
                                         {t('date_header')}
                                     </th>
 

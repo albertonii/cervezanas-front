@@ -791,5 +791,6 @@
     "experience_info": "Experience information",
     "delete_experience_description_modal": "Are you sure you want to delete the experience? This action can not be undone.",
     "phone_number": "Phone number",
-    "question_add": "Add question"
+    "question_add": "Add question",
+    "active": "Active"
 }

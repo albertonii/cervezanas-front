@@ -852,5 +852,6 @@
     "experience_info": "Información de la experiencia",
     "delete_experience_description_modal": "¿Está seguro de que desea eliminar la experiencia? Esta acción no se puede deshacer.",
     "phone_number": "Número de teléfono",
-    "question_add": "Añadir pregunta"
+    "question_add": "Añadir pregunta",
+    "active": "Activo"
 }

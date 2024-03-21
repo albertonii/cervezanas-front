@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { ICPMobile } from '../../../../../../lib/types/types';
 import { COMMON } from '../../../../../../constants';
 import { formatDateString } from '../../../../../../utils/formatDate';
@@ -14,6 +14,7 @@ interface CPMobileProps {
 
 export default function CPMobile({ cp, eventId }: CPMobileProps) {
     const locale = useLocale();
+    const t = useTranslations();
 
     return (
         <tr key={cp.id} className="">
@@ -35,11 +36,17 @@ export default function CPMobile({ cp, eventId }: CPMobileProps) {
                 </Link>
             </td>
 
-            <td className="space-x-2 px-2 py-4">
+            <td className="space-x-2 px-2 py-4 hidden sm:block">
                 {formatDateString(cp.start_date)} -{' '}
                 {formatDateString(cp.end_date)}
             </td>
-            <td className="space-x-2 px-6 py-4">{cp.status}</td>
+            <td
+                className={`space-x-2 px-6 py-4 ${
+                    cp.status === 'active' && 'text-green-500 font-semibold'
+                } ${cp.status === 'inactive' && 'text-red-500 font-semibold'}`}
+            >
+                {t(cp.status)}
+            </td>
         </tr>
     );
 }
