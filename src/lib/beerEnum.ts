@@ -21,6 +21,7 @@ export enum Color {
     dark_brown,
     very_dark,
     dark, // marrón oscuro a negro
+    petroleum,
     other,
 }
 
@@ -48,10 +49,19 @@ export enum Origin {
 
 export enum Family {
     ipa,
+    ale,
     brown_ale,
     pale_ale,
+    belgian_ale,
+    german_ale,
+    indian_ale,
     american_pale_ale,
+    indian_pale_ale,
+    lager,
+    special_lager,
+    extra_lager,
     pale_lager,
+    pilsen_lager,
     pilsner,
     amber_ale,
     amber_lager,
@@ -62,6 +72,9 @@ export enum Family {
     strong,
     wheat_beer,
     specialty_beer,
+    saison,
+    belgian_dubbel,
+    abadia,
     other,
     none,
 }
@@ -221,6 +234,7 @@ export const color_options: {
     { label: 'dark_brown', value: Color.dark_brown },
     { label: 'very_dark', value: Color.very_dark },
     { label: 'dark', value: Color.dark },
+    { label: 'petroleum', value: Color.petroleum },
     { label: 'other', value: Color.other },
 ];
 
@@ -309,6 +323,10 @@ export const family_options: {
         value: Family.ipa,
     },
     {
+        label: 'ale',
+        value: Family.ale,
+    },
+    {
         label: 'brown_ale',
         value: Family.brown_ale,
     },
@@ -317,12 +335,44 @@ export const family_options: {
         value: Family.pale_ale,
     },
     {
+        label: 'belgian_ale',
+        value: Family.belgian_ale,
+    },
+    {
+        label: 'german_ale',
+        value: Family.german_ale,
+    },
+    {
+        label: 'indian_ale',
+        value: Family.indian_ale,
+    },
+    {
         label: 'american_pale_ale',
         value: Family.american_pale_ale,
     },
     {
+        label: 'indian_pale_ale',
+        value: Family.indian_pale_ale,
+    },
+    {
+        label: 'lager',
+        value: Family.lager,
+    },
+    {
+        label: 'special_lager',
+        value: Family.special_lager,
+    },
+    {
+        label: 'extra_lager',
+        value: Family.extra_lager,
+    },
+    {
         label: 'pale_lager',
         value: Family.pale_lager,
+    },
+    {
+        label: 'pilsen_lager',
+        value: Family.pilsen_lager,
     },
     {
         label: 'pilsner',
@@ -365,8 +415,24 @@ export const family_options: {
         value: Family.specialty_beer,
     },
     {
+        label: 'saison',
+        value: Family.saison,
+    },
+    {
+        label: 'belgian_dubbel',
+        value: Family.belgian_dubbel,
+    },
+    {
+        label: 'abadia',
+        value: Family.abadia,
+    },
+    {
         label: 'other',
         value: Family.other,
+    },
+    {
+        label: 'none',
+        value: Family.none,
     },
 ];
 
