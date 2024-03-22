@@ -15,10 +15,10 @@ export function TopBeers() {
                 <div className="relative z-10 m-auto grid max-w-[300px] grid-cols-1 gap-0 sm:max-w-[600px] sm:grid-cols-2 md:gap-2 lg:max-w-full lg:grid-cols-5">
                     {/*  producto 1 */}
                     <article className="mb-6 mr-4 w-full max-w-[300px] bg-no-repeat">
-                        <h4 className="bg-cerv-coffee text-center font-semibold text-cerv-cream">
-                            MÍSTICA
+                        <h4 className="bg-cerv-coffee text-center font-semibold text-cerv-cream uppercase">
+                            CCVK Redkahs
                         </h4>
-                        <div className="h-[320px] bg-[url('/assets/home/prod-1.webp')] bg-cover bg-center  bg-no-repeat">
+                        <div className="h-[320px] bg-[url('/assets/home/ccvk-redkahs.jpeg')] bg-cover bg-center  bg-no-repeat">
                             <div className="relative right-2 float-right mt-10 ">
                                 <figure className="h-[30px] w-[30px] bg-[url('/assets/heart.svg')] bg-no-repeat  pt-1 text-center text-xs font-bold">
                                     20
@@ -38,17 +38,19 @@ export function TopBeers() {
                                     alt="review"
                                 />
                             </figure>
-                            <div className="mt-2 border-4 border-yellow-400 bg-cerv-coal p-1 text-center text-2xl font-bold text-cerv-cream">
-                                {t('homepage.topbeers.get_it')}
-                            </div>
+                            <a href="https://www.cervezanas.beer/es/products/f851ee0a-8175-4a2f-a6be-fe4c4dd2a0a0">
+                                <div className="mt-2 border-4 border-yellow-400 bg-cerv-coal p-1 text-center text-2xl font-bold text-cerv-cream hover:bg-cerv-titlehigh cursor-pointer">
+                                    {t('homepage.topbeers.get_it')}
+                                </div>
+                            </a>
                         </div>
                     </article>
                     {/*  producto 2 */}
                     <article className="mb-6 mr-4 w-full max-w-[300px] bg-no-repeat">
-                        <h4 className="bg-cerv-coffee text-center font-semibold text-cerv-cream">
-                            BOSQUE ROJO
+                        <h4 className="bg-cerv-coffee text-center font-semibold text-cerv-cream uppercase">
+                            DouGall's IPA 4
                         </h4>
-                        <div className="h-[320px] bg-[url('/assets/home/prod-2.webp')] bg-cover bg-center bg-no-repeat">
+                        <div className="h-[320px] bg-[url('/assets/home/dougalls-ipa.jpeg')] bg-cover bg-center bg-no-repeat">
                             <div className="relative right-2 float-right mt-10 ">
                                 <figure className="h-[30px] w-[30px] bg-[url('/assets/heart.svg')] bg-no-repeat  pt-1 text-center text-xs font-bold">
                                     20
@@ -68,17 +70,19 @@ export function TopBeers() {
                                     alt="review"
                                 />
                             </figure>
-                            <div className="mt-2 border-4 border-yellow-400 bg-cerv-coal p-1 text-center text-2xl font-bold text-cerv-cream">
-                                {t('homepage.topbeers.get_it')}
-                            </div>
+                            <a href="https://www.cervezanas.beer/es/products/c4e7b2f8-b5d4-4225-aca9-89f823aeff62">
+                                <div className="mt-2 border-4 border-yellow-400 bg-cerv-coal p-1 text-center text-2xl font-bold text-cerv-cream hover:bg-cerv-titlehigh cursor-pointer">
+                                    {t('homepage.topbeers.get_it')}
+                                </div>
+                            </a>
                         </div>
                     </article>
                     {/*  producto 3 */}
                     <article className="mb-6 mr-4 w-full max-w-[300px] bg-no-repeat">
-                        <h4 className="bg-cerv-coffee text-center font-semibold text-cerv-cream">
-                            AMARILLA
+                        <h4 className="bg-cerv-coffee text-center font-semibold text-cerv-cream uppercase">
+                            CCVK Dark Sidekahs
                         </h4>
-                        <div className="h-[320px] bg-[url('/assets/home/prod-3.webp')] bg-cover bg-center  bg-no-repeat">
+                        <div className="h-[320px] bg-[url('/assets/home/ccvk-dark-side.jpg')] bg-cover bg-center  bg-no-repeat">
                             <div className="relative right-2 float-right mt-10 ">
                                 <figure className="h-[30px] w-[30px] bg-[url('/assets/heart.svg')] bg-no-repeat  pt-1 text-center text-xs font-bold">
                                     15
@@ -98,17 +102,19 @@ export function TopBeers() {
                                     alt="review"
                                 />
                             </figure>
-                            <div className="mt-2 border-4 border-yellow-400 bg-cerv-coal p-1 text-center text-2xl font-bold text-cerv-cream">
-                                {t('homepage.topbeers.get_it')}
-                            </div>
+                            <a href="https://www.cervezanas.beer/es/products/d47a2356-5375-4de7-81ff-c55b14e9c497">
+                                <div className="mt-2 border-4 border-yellow-400 bg-cerv-coal p-1 text-center text-2xl font-bold text-cerv-cream hover:bg-cerv-titlehigh cursor-pointer">
+                                    {t('homepage.topbeers.get_it')}
+                                </div>
+                            </a>
                         </div>
                     </article>
                     {/*  producto 4 */}
                     <article className="mb-6 mr-4 w-full max-w-[300px] bg-no-repeat">
-                        <h4 className="bg-cerv-coffee text-center font-semibold text-cerv-cream">
-                            LÚPULO DORADO
+                        <h4 className="bg-cerv-coffee text-center font-semibold text-cerv-cream uppercase">
+                            CCVK Panda Beer Wit-toria
                         </h4>
-                        <div className="h-[320px] bg-[url('/assets/home/prod-4.webp')] bg-cover bg-center bg-no-repeat">
+                        <div className="h-[320px] bg-[url('/assets/home/ccvk-panda.jpg')] bg-cover bg-center bg-no-repeat">
                             <div className="relative right-2 float-right mt-10 ">
                                 <figure className="h-[30px] w-[30px] bg-[url('/assets/heart.svg')] bg-no-repeat  pt-1 text-center text-xs font-bold">
                                     10
@@ -128,17 +134,19 @@ export function TopBeers() {
                                     alt="review"
                                 />
                             </figure>
-                            <div className="mt-2 border-4 border-yellow-400 bg-cerv-coal p-1 text-center text-2xl font-bold text-cerv-cream">
-                                {t('homepage.topbeers.get_it')}
-                            </div>
+                            <a href="https://www.cervezanas.beer/es/products/14e82f01-ffc2-40f4-ba05-7c845425f658">
+                                <div className="mt-2 border-4 border-yellow-400 bg-cerv-coal p-1 text-center text-2xl font-bold text-cerv-cream hover:bg-cerv-titlehigh cursor-pointer">
+                                    {t('homepage.topbeers.get_it')}
+                                </div>
+                            </a>
                         </div>
                     </article>
                     {/*  producto 5 */}
                     <article className="mr-4 hidden w-full max-w-[300px] bg-no-repeat lg:block">
-                        <h4 className="bg-cerv-coffee text-center font-semibold text-cerv-cream">
-                            LUPULENSIS
+                        <h4 className="bg-cerv-coffee text-center font-semibold text-cerv-cream uppercase">
+                            Benzin
                         </h4>
-                        <div className="h-[320px] bg-[url('/assets/home/prod-5.webp')] bg-cover bg-center bg-no-repeat">
+                        <div className="h-[320px] bg-[url('/assets/home/benzin.jpg')] bg-cover bg-center bg-no-repeat">
                             <div className="relative right-2 float-right mt-10 ">
                                 <figure className="h-[30px] w-[30px] bg-[url('/assets/heart.svg')] bg-no-repeat  pt-1 text-center text-xs font-bold">
                                     12
@@ -158,9 +166,11 @@ export function TopBeers() {
                                     alt="review"
                                 />
                             </figure>
-                            <div className="mt-2 border-4 border-yellow-400 bg-cerv-coal p-1 text-center text-2xl font-bold text-cerv-cream">
-                                {t('homepage.topbeers.get_it')}
-                            </div>
+                            <a href="https://www.cervezanas.beer/es/products/4a7e278e-085f-4ffc-81bf-739e88583be8">
+                                <div className="mt-2 border-4 border-yellow-400 bg-cerv-coal p-1 text-center text-2xl font-bold text-cerv-cream hover:bg-cerv-titlehigh cursor-pointer">
+                                    {t('homepage.topbeers.get_it')}
+                                </div>
+                            </a>
                         </div>
                     </article>
                 </div>

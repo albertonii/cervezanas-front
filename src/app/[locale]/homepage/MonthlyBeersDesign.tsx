@@ -25,10 +25,10 @@ export function MonthlyBeersDesign() {
                 <div className="block w-full sm:flex lg:w-8/12">
                     {/*  producto 1 */}
                     <article className="relative z-10 m-auto mb-4 w-[250px] bg-no-repeat sm:mr-4 sm:w-1/3">
-                        <div className="bg-cerv-coffee text-center font-semibold text-cerv-cream">
-                            LUPULENSIS
+                        <div className="bg-cerv-coffee text-center font-semibold text-cerv-cream uppercase">
+                            CCVK La villana
                         </div>
-                        <div className="h-[320px] bg-[url('/assets/home/mes-1.webp')] bg-cover bg-center bg-no-repeat">
+                        <div className="h-[320px] bg-[url('/assets/home/ccvk-villana.jpg')] bg-cover bg-center bg-no-repeat">
                             <figure className="relative left-4 top-3">
                                 <Image
                                     src="/assets/cerv-mes.webp"
@@ -59,17 +59,19 @@ export function MonthlyBeersDesign() {
                                     alt="ranking"
                                 />
                             </figure>
-                            <div className="mt-2 border-4 border-yellow-400 bg-cerv-coal p-1 text-center text-2xl font-bold text-cerv-cream">
-                                {t('homepage.monthlybeers.get_it')}
-                            </div>
+                            <a href="https://www.cervezanas.beer/es/products/7b25c112-6fa8-4a50-bc33-ee34a27f80d8">
+                                <div className="mt-2 border-4 border-yellow-400 bg-cerv-coal p-1 text-center text-2xl font-bold text-cerv-cream hover:bg-cerv-titlehigh cursor-pointer">
+                                    {t('homepage.monthlybeers.get_it')}
+                                </div>
+                            </a>
                         </div>
                     </article>
                     {/*  producto 2 */}
                     <article className="relative z-10 m-auto mb-4 w-[250px] bg-no-repeat sm:mr-4 sm:w-1/3">
-                        <div className="bg-cerv-coffee text-center font-semibold text-cerv-cream">
-                            ALQUIMISTAS - TRIGO
+                        <div className="bg-cerv-coffee text-center font-semibold text-cerv-cream uppercase">
+                            Fera de la Clamor Eco
                         </div>
-                        <div className="h-[320px] bg-[url('/assets/home/mes-2.webp')] bg-cover bg-no-repeat">
+                        <div className="h-[320px] bg-[url('/assets/home/fera.jpg')] bg-cover bg-no-repeat">
                             <figure className="relative left-4 top-3">
                                 <Image
                                     src="/assets/cerv-mes.webp"
@@ -100,17 +102,19 @@ export function MonthlyBeersDesign() {
                                     alt="ranking"
                                 />
                             </figure>
-                            <div className="mt-2 border-4 border-yellow-400 bg-cerv-coal p-1 text-center text-2xl font-bold text-cerv-cream">
-                                {t('homepage.monthlybeers.get_it')}
-                            </div>
+                            <a href="https://www.cervezanas.beer/es/products/9f03764d-1010-4fa7-9a6b-492cde611a34">
+                                <div className="mt-2 border-4 border-yellow-400 bg-cerv-coal p-1 text-center text-2xl font-bold text-cerv-cream hover:bg-cerv-titlehigh cursor-pointer">
+                                    {t('homepage.monthlybeers.get_it')}
+                                </div>
+                            </a>
                         </div>
                     </article>
                     {/*  producto 3 */}
                     <article className="relative z-10 m-auto mb-4 w-[250px] bg-no-repeat sm:mr-4 sm:w-1/3">
-                        <div className="bg-cerv-coffee text-center font-semibold text-cerv-cream">
-                            CERVEZAS SOTO
+                        <div className="bg-cerv-coffee text-center font-semibold text-cerv-cream uppercase">
+                            CCVK VII TITS
                         </div>
-                        <div className="h-[320px] bg-[url('/assets/home/mes-3.webp')] bg-cover bg-no-repeat">
+                        <div className="h-[320px] bg-[url('/assets/home/ccvk-vii-tits.jpg')] bg-cover bg-no-repeat">
                             <div className="relative left-4 top-3">
                                 <Image
                                     src="/assets/cerv-mes.webp"
@@ -141,9 +145,11 @@ export function MonthlyBeersDesign() {
                                     alt="ranking"
                                 />
                             </figure>
-                            <div className="mt-2 border-4 border-yellow-400 bg-cerv-coal p-1 text-center text-2xl font-bold text-cerv-cream">
-                                {t('homepage.monthlybeers.get_it')}
-                            </div>
+                            <a href="https://www.cervezanas.beer/es/products/c685dccc-7c1a-4f87-a527-fa51c77b23dd">
+                                <div className="mt-2 border-4 border-yellow-400 bg-cerv-coal p-1 text-center text-2xl font-bold text-cerv-cream hover:bg-cerv-titlehigh cursor-pointer">
+                                    {t('homepage.monthlybeers.get_it')}
+                                </div>
+                            </a>
                         </div>
                     </article>
                 </div>
