@@ -128,7 +128,7 @@ export default function MaestroCervecero({ eventExperiences }: Props) {
             <header>
                 <h1 className="font-bold text-4xl text-center sm:text-5xl mb-6 text-beer-draft">
                     Experiencia Maestro Cervecero en el Barcelona Beer Festival
-                    2024
+                    2024   
                 </h1>
                 <p className="text-xl text-center m-auto">
                     ¡Prepárate para convertirte en un Maestro Cervecero!
