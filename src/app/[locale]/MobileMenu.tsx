@@ -21,6 +21,7 @@ import {
     ROUTE_PROFILE,
     ROUTE_SETTINGS,
     ROUTE_SIGNIN,
+    ROUTE_SIGNUP,
 } from '../../config';
 import { useTranslations } from 'next-intl';
 import { INotification } from '../../lib/types/types';
@@ -67,6 +68,10 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
         router.push(`/${locale}${ROUTE_SIGNIN}`);
         setOpenNotification(false);
     };
+    const handleSignUp = () => {
+        router.push(`/${locale}${ROUTE_SIGNUP}`);
+        setOpenNotification(false);
+    };
 
     // TODO: Cerrar sesión BIEN
     const handleSignOut = () => {
@@ -109,6 +114,18 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                     </>
                 </Button>
 
+                {!user ? (
+                    <div className="m-auto absolute left-2/4 -ml-24 mt-2 z-20">
+                        <Button
+                            class={`${MENU_ITEM_STYLES} bg-beer-softBlonde text-beer-dark m-auto font-bold`}
+                            onClick={handleSignUp}
+                        >
+                            {t('sign_up_now').toUpperCase()}
+                        </Button>
+                    </div>
+                ) : (
+                    <div></div>
+                )}
                 {/* Logo Cervezanas  */}
                 <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24">
                     <figure className="absolute flex h-[70px] w-[70px] right-0 p-2 sm:h-[143px] sm:w-[141px] sm:p-2 lg:h-[153] lg:w-[151px] ">
