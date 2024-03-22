@@ -56,6 +56,7 @@
     "loc_city": "Seleccionar Ciudad",
     "sign_in": "Acceder",
     "sign_up": "Registrar",
+    "sign_up_now": "¡Regístrate ahora!",
     "history_title": "Historia",
     "history_description_producer": "Toda la información escrita en esta sección será pública para aquellos Cervezanos que visiten tu perfil.",
     "history_business_title": "Historia de la compaña",
@@ -852,6 +853,5 @@
     "experience_info": "Información de la experiencia",
     "delete_experience_description_modal": "¿Está seguro de que desea eliminar la experiencia? Esta acción no se puede deshacer.",
     "phone_number": "Número de teléfono",
-    "question_add": "Añadir pregunta",
-    "active": "Activo"
+    "question_add": "Añadir pregunta"
 }

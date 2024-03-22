@@ -56,6 +56,7 @@
     "loc_city": "Select City",
     "sign_in": "Sign In",
     "sign_up": "Sign Up",
+    "sign_up_now": "Sign Up Now!",
     "history_title": "Origin",
     "history_description_producer": "All information written in this section will be public for those Cervezanos who visit your profile.",
     "history_business_title": "Company history",
@@ -791,6 +792,5 @@
     "experience_info": "Experience information",
     "delete_experience_description_modal": "Are you sure you want to delete the experience? This action can not be undone.",
     "phone_number": "Phone number",
-    "question_add": "Add question",
-    "active": "Active"
+    "question_add": "Add question"
 }
