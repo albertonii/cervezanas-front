@@ -792,5 +792,50 @@
     "experience_info": "Experience information",
     "delete_experience_description_modal": "Are you sure you want to delete the experience? This action can not be undone.",
     "phone_number": "Phone number",
-    "question_add": "Add question"
+    "question_add": "Add question",
+    "homepage": {
+        "homeheader": {
+            "craft_beer": "CRAFT BEER",
+            "meeting_point": "EL LUGAR DE ENCUENTRO PARA LOS AMANTES DE LA "
+        },
+        "highlights": {
+            "header1": "A meeting point",
+            "body1": "Good beer creates the artisan and this community creates Cervezanas. We create unique experiences for music and beer lovers. We want you to know the craziest beer experiments, those hidden gems made with care for you. We are the bridge between those undiscovered craft beer makers and you.",
+            "header2": "Are you a master brewer or do you have your own recipe?",
+            "body2": "From Cervezanas we are actively searching for the next aroma, discovering that jewel that you have created and has not yet been released to the world. Do you want to be part of this community of master brewers?"
+        },
+        "topbeers": {
+            "header": "Best-selling beers",
+            "get_it": "Get to know!"
+        },
+        "history": {
+            "brand_history_header": "Want to know the story behind each brand?",
+            "brand_history_body": "Cervezanas is responsible for giving value to the work behind each brewer creator, each product in our catalog is provided with a unique identifier capable of being scanned. With it you will have access to exclusive information about that product, in addition to being able to participate in promotions, discounts and exclusive sweepstakes of each brand!",
+            "brand_scan_QR": "Scan the QR code",
+            "adventages_header": "You will have access to information about each product and will be able to participate in:",
+            "adventages_item1": "Promotions",
+            "adventages_item2": "Discounts",
+            "adventages_item3": "Raffles"
+        },
+        "monthlybeers": {
+            "selection": "BEER SELECTION OF THE MONTH",
+            "intro": "Each month we present those beers that have been eligible for the quality certificates that we issue from Cervezanas. Giving visibility to those selected by our community of Cervezanos, the committee of experts and the most daring and experimental.",
+            "get_it": "Get to know!"
+        },
+        "community": {
+            "header": "Comunidad Cervezanas",
+            "manufacturer": "Productor",
+            "manufacturer_body": "Damos visibilidad a tu creación, nos encargamos de todo para que puedas centrarte en tu pasión, crear para hacernos disfrutar.Ya tengas tu propia fábrica o tan solo la receta, te ayudamos en todo el proceso de producción.",
+            "consumer": "Consumidor",
+            "consumer_body": "Tú que disfrutas de una buena cerveza, solo aceptamos aquellas que cumplen con los cánones de calidad de Cervezanas. Apostamos por un producto de proximidad y máxima calidad. Nuestra comunidad visibiliza aquellas que consiguen más impacto. Nuestro comité de expertos se encarga de proporcionar las menciones honoríficas a través de nuestro Certificado de calidad Cervezanas. ",
+            "dealers": "Distribuidores",
+            "dealers_body": "Tú que disfrutas de una buena cerveza, solo aceptamos aquellas que cumplen con los cánones de calidad de Cervezanas. Apostamos por un producto de proximidad y máxima calidad. Nuestra comunidad visibiliza aquellas que consiguen más impacto. Nuestro comité de expertos se encarga de proporcionar las menciones honoríficas a través de nuestro Certificado de calidad Cervezanas.",
+            "points": "Puntos cervezanos",
+            "points_body": "Generamos comunidad y fomentamos los puntos de encuentro para que nuestros Cervezanos puedan conocerse y dar a conocer sus creaciones. Ya sean puntos fijos o móviles en eventos, catas de cerveza en fábricas o reuniones en hogares con fábricas caseras."
+        },
+        "reviews": {
+            "header": "Opiniones de nuestros Cervezanos y Cervezanas"
+        },
+        "beer_master": "Maestro cervecero"
+    }
 }
