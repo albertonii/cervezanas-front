@@ -114,6 +114,17 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                 </>
             </Button>
 
+             {!user && (
+                    <div className="m-auto absolute left-2/4 -ml-24 mt-2 z-20">
+                        <Button
+                            class={`${MENU_ITEM_STYLES} bg-beer-softBlonde text-beer-dark m-auto font-bold`}
+                            onClick={handleSignIn}
+                        >
+                            {t('sign_up_now').toUpperCase()}
+                        </Button>
+                    </div>
+                ) }
+
             {/* Logo Cervezanas  */}
             <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24">
                 <figure className="absolute flex h-[70px] w-[70px] right-0 p-2 sm:h-[143px] sm:w-[141px] sm:p-2 lg:h-[153] lg:w-[151px] ">
