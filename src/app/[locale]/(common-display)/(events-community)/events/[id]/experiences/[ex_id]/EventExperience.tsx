@@ -71,6 +71,7 @@ export default function EventExperience({ eventExperience }: Props) {
                     event: '*',
                     schema: 'public',
                     table: 'bm_experience_participants',
+                    filter: `gamification_id=eq.${experienceParticipant?.gamification_id}`,
                 },
                 (payload) => {
                     const newParticipant =
@@ -299,7 +300,7 @@ export default function EventExperience({ eventExperience }: Props) {
                         experienceParticipant &&
                         questions.length > 0 && (
                             <QuizPanel
-                            isFinished={isFinished}
+                                isFinished={isFinished}
                                 questions={questions}
                                 experience={experience}
                                 experienceParticipant={experienceParticipant}

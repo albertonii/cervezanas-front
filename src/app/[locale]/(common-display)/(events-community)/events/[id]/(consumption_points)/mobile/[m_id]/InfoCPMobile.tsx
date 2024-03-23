@@ -57,11 +57,6 @@ export default function InfoCPMobile({
                 Volver al Evento
             </Button>
 
-            {/* Display all the information inside the Mobile Consumption Point */}
-            <section className="mt-10 grid grid-cols-1 md:grid-cols-2">
-                <CPDetails cpMobile={cpMobile} />
-            </section>
-
             {/* Event Experiences  */}
             {experiencesCounter > 0 && (
                 <section className="space-y-4">
@@ -79,6 +74,11 @@ export default function InfoCPMobile({
                     <EventExperiences eventExperiences={eventExperiences} />
                 </section>
             )}
+
+            {/* Display all the information inside the Mobile Consumption Point */}
+            <section className="mt-10 grid grid-cols-1 md:grid-cols-2">
+                <CPDetails cpMobile={cpMobile} />
+            </section>
 
             {/* Products linked to this Mobile Consumption Point */}
             <section className="mt-8">

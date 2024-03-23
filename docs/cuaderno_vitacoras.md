@@ -809,5 +809,9 @@ Habilitar formulario para feedbacks/reporte de errores
 - [ ] Cuando se añade una cervza nueva no se actualiza el pack (al ir a ver la información en el update)
 - [ ] Sistema para actualizar el elemento actualizado en el sidebar de profile. Hay veces en las que no queda actualizado -> Estás en producto y quizás se ve EVENTOS.
 - [ ] En la galería de imágenes de un producto, si hay alguna URL que no obtenga la imagen, no mostrarlo.
+- Al escanear códigos QR de dos en dos, se va actualizando la experiencia a pagado o no -
+  -- MIRAR DUPLICADO EN CERVEZA WITH EXPERIENCE
+- [ ] No permitir finlaizar el juego si hay alguna pregunta que esté sin contestar. Mensaje de aviso.
+- [ ] Al actualizar experiencias, no se relacionan correctamente con las que existen. Además se cambiar las relaciones del product_id al que está haciendo referencia la pregunta. BM_QUESTIONS
 
 https://www.lovilotfarmbrewery.com/es/contacto/
