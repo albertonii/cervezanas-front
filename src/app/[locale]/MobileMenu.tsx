@@ -10,6 +10,7 @@ import {
     ROUTE_ADMIN,
     ROUTE_CONSUMER,
     ROUTE_CONTRACTS_CPS,
+    ROUTE_DISTRIBUTOR,
     ROUTE_EVENTS,
     ROUTE_EVENT_ORDERS,
     ROUTE_EXPERIENCES,
@@ -439,7 +440,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                 'business_orders', 'signout',
                                 <li className="flex items-center">
                                     <Link
-                                        href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_SETTINGS}`}
+                                        href={`${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_SETTINGS}`}
                                         onClick={() =>
                                             setOpenNotification(false)
                                         }
@@ -455,7 +456,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                 </li>
                                 <li className="flex items-center">
                                     <Link
-                                        href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_CONTRACTS_CPS}`}
+                                        href={`${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_CONTRACTS_CPS}`}
                                         onClick={() =>
                                             setOpenNotification(false)
                                         }
@@ -471,7 +472,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                 </li>
                                 <li className="flex items-center">
                                     <Link
-                                        href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_MONTHLY_PRODUCTS}`}
+                                        href={`${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_MONTHLY_PRODUCTS}`}
                                         onClick={() =>
                                             setOpenNotification(false)
                                         }
@@ -489,7 +490,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                 </li>
                                 <li className="flex items-center">
                                     <Link
-                                        href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_NOTIFICATIONS}`}
+                                        href={`${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_NOTIFICATIONS}`}
                                         onClick={() =>
                                             setOpenNotification(false)
                                         }
