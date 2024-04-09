@@ -194,6 +194,8 @@ export function ShoppingBasket({ user }: Props) {
         try {
             const orderNumber = await proceedPaymentRedsys();
             handleInsertOrder(billingInfoId, shippingInfoId, orderNumber);
+            queryClient.invalidateQueries('orders');
+            clearCart();
         } catch (error) {
             console.error(error);
             setLoadingPayment(false);
@@ -328,10 +330,6 @@ export function ShoppingBasket({ user }: Props) {
     const insertOrderMutation = useMutation({
         mutationKey: ['insertOrder'],
         mutationFn: handleProceedToPay,
-        onSuccess: () => {
-            queryClient.invalidateQueries('orders');
-            clearCart();
-        },
         onError: (error: any) => {
             console.error(error);
         },

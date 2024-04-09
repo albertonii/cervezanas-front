@@ -811,7 +811,19 @@ Habilitar formulario para feedbacks/reporte de errores
 - [ ] En la galería de imágenes de un producto, si hay alguna URL que no obtenga la imagen, no mostrarlo.
 - Al escanear códigos QR de dos en dos, se va actualizando la experiencia a pagado o no -
   -- MIRAR DUPLICADO EN CERVEZA WITH EXPERIENCE
-- [ ] No permitir finlaizar el juego si hay alguna pregunta que esté sin contestar. Mensaje de aviso.
-- [ ] Al actualizar experiencias, no se relacionan correctamente con las que existen. Además se cambiar las relaciones del product_id al que está haciendo referencia la pregunta. BM_QUESTIONS
+- [ ] No permitir finalizar el juego si hay alguna pregunta que esté sin contestar. Mensaje de aviso.
+- [ ] Al actualizar experiencias, no se relacionan correctamente con las que existen. Además de cambiar las relaciones del product_id al que está haciendo referencia la pregunta. BM_QUESTIONS
+- [ ] Si se ha registrado con email y contraseña e intenta entrar con google. MENSAJE DE ERROR
+      https://www.lovilotfarmbrewery.com/es/contacto/
+- ROLES: Punto de distribución y Punto de Consumo, proveedor de experiencias. Debemos de crear una experiencia fluida para que un mismo usuario pueda manejar sus diferentes roles. Algo similar a lo que hacen en MATCHREADY.
 
-https://www.lovilotfarmbrewery.com/es/contacto/
+### 1 de abril
+
+- Organizar información del BBF
+- Aprender a usar Github Projects para los sprints
+- Organizar Versión 2 de Cervezanas -> ROADMAP
+
+### 2 de abril
+
+- Aprender a usar Github Projects para los sprints
+- Organizar Versión 2 de Cervezanas -> ROADMAP

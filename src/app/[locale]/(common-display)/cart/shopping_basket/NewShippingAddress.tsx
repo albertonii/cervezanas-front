@@ -83,6 +83,10 @@ export function NewShippingAddress() {
         }
 
         reset();
+
+        queryClient.invalidateQueries('shippingAddresses');
+        setShowModal(false);
+        setIsSubmitting(false);
     };
 
     const insertShippingMutation = useMutation({
@@ -90,11 +94,6 @@ export function NewShippingAddress() {
         mutationFn: handleAddShippingAddress,
         onMutate: () => {
             setIsSubmitting(true);
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries('shippingAddresses');
-            setShowModal(false);
-            setIsSubmitting(false);
         },
         onError: (error: any) => {
             console.error(error);
