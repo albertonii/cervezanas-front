@@ -242,6 +242,9 @@ export default function AddCPFixedModal({ cpsId }: Props) {
             }
         }
 
+        queryClient.invalidateQueries('cpFixed');
+        setShowModal(false);
+
         reset();
     };
 
@@ -264,10 +267,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
     const insertCPFixedMutation = useMutation({
         mutationKey: 'insertCPFixed',
         mutationFn: handleInsertCPFixed,
-        onSuccess: () => {
-            queryClient.invalidateQueries('cpFixed');
-            setShowModal(false);
-        },
+
         onError: (error: any) => {
             console.error(error);
         },

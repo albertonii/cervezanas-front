@@ -259,7 +259,6 @@ export default function UpdateBeerMasterExperienceModal({
     const updateExperienceMutation = useMutation({
         mutationKey: 'insertExperience',
         mutationFn: handleUpdateBeerMasterExperience,
-        onSuccess: () => {},
         onError: (error) => {
             console.error(error);
         },

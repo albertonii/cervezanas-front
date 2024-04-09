@@ -31,10 +31,10 @@ export default function results({
         <div className="w-full">
             <h1 className="font-semibold text-2xl">Resultados</h1>
 
-            <p className="text-xl">
+            {/* <p className="text-xl">
                 Has acertado {totalCorrectAnswers} preguntas de un total{' '}
                 {questions.length}
-            </p>
+            </p> */}
 
             {Object.keys(productQuestionMap).map((productId, index) => (
                 <div

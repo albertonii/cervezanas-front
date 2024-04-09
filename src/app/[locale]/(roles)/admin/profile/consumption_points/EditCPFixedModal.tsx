@@ -264,15 +264,14 @@ export default function EditCPFixedModal({
                 refetch();
             }
         }
+
+        queryClient.invalidateQueries('cpFixed');
+        handleEditModal(false);
     };
 
     const updateCPFixedMutation = useMutation({
         mutationKey: ['updateCPFixed'],
         mutationFn: handleUpdate,
-        onSuccess: () => {
-            queryClient.invalidateQueries('cpFixed');
-            handleEditModal(false);
-        },
         onError: (e: any) => {
             console.error(e);
         },
