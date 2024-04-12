@@ -13,27 +13,27 @@ import {
     fermentation_options,
     origin_options,
     product_type_options,
-} from '../../../../lib/beerEnum';
-import { MultimediaSection } from './MultimediaSection';
+} from '../../../../../../lib/beerEnum';
+import { MultimediaSection } from '../../../../components/modals/MultimediaSection';
 import {
     IProductInventory,
     IModalAddProductPack,
     ModalAddProductAwardFormData,
     ModalAddProductFormData,
-} from '../../../../lib/types/types';
-import { useAuth } from '../../(auth)/Context/useAuth';
+} from '../../../../../../lib/types/types';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { v4 as uuidv4 } from 'uuid';
-import { ProductSummary } from './ProductSummary';
+import { ProductSummary } from '../../../../components/modals/ProductSummary';
 import {
     generateFileNameExtension,
     isFileEmpty,
     isNotEmptyArray,
     isValidObject,
-} from '../../../../utils/utils';
+} from '../../../../../../utils/utils';
 import { useMutation, useQueryClient } from 'react-query';
-import { ProductStepper } from './ProductStepper';
-import { ProductInfoSection } from './ProductInfoSection';
-import { useAppContext } from '../../../context/AppContext';
+import { ProductStepper } from '../../../../components/modals/ProductStepper';
+import { ProductInfoSection } from '../../../../components/modals/ProductInfoSection';
+import { useAppContext } from '../../../../../context/AppContext';
 import dynamic from 'next/dynamic';
 import {
     ROUTE_ADMIN,
@@ -43,10 +43,13 @@ import {
     ROUTE_P_EXTRA_2,
     ROUTE_P_EXTRA_3,
     ROUTE_P_PRINCIPAL,
-} from '../../../../config';
-import { useMessage } from '../message/useMessage';
+} from '../../../../../../config';
+import { useMessage } from '../../../../components/message/useMessage';
 
-const ModalWithForm = dynamic(() => import('./ModalWithForm'), { ssr: false });
+const ModalWithForm = dynamic(
+    () => import('../../../../components/modals/ModalWithForm'),
+    { ssr: false },
+);
 
 const schema: ZodType<ModalAddProductFormData> = z.object({
     name: z.string().min(2, { message: 'errors.min_2_characters' }).max(50, {
@@ -114,6 +117,7 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
 
     packs: z.array(
         z.object({
+            id: z.string(),
             quantity: z.number().min(0, { message: 'errors.input_min_0' }),
             price: z.number().min(0, { message: 'errors.input_min_0' }),
             name: z
@@ -129,7 +133,7 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
 
 type ValidationSchema = z.infer<typeof schema>;
 
-export function AddProduct() {
+export function AddProductModal() {
     const t = useTranslations();
 
     const { customizeSettings, removeImage } = useAppContext();

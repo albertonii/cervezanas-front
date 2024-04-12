@@ -1,42 +1,44 @@
-"use client";
+'use client';
 
-import { createContext, useState } from "react";
-import { MessageProps } from "./message.types";
+import { createContext, useState } from 'react';
+import { MessageProps } from './message.types';
 
 export type MessageContextProps = {
-  messages: MessageProps[];
-  handleMessage: (m: MessageProps) => void;
-  clearMessages: () => void;
+    messages: MessageProps[];
+    handleMessage: (m: MessageProps) => void;
+    clearMessages: () => void;
 };
 
 export const MessageContext = createContext<MessageContextProps>({
-  messages: [],
-  handleMessage: () => void {},
-  clearMessages: () => void {},
+    messages: [],
+    handleMessage: () => void {},
+    clearMessages: () => void {},
 });
 
 interface Props {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }
 
 export const MessageProvider = ({ children }: Props) => {
-  const [messages, setMessages] = useState<MessageProps[]>([]);
+    const [messages, setMessages] = useState<MessageProps[]>([]);
 
-  const handleMessage = (message: MessageProps) => {
-    setMessages((prevMessages) => [...prevMessages, message]);
+    const handleMessage = (message: MessageProps) => {
+        setMessages((prevMessages) => [...prevMessages, message]);
 
-    setTimeout(() => {
-      setMessages((prevMessages) => prevMessages.slice(1));
-    }, 7000);
-  };
+        setTimeout(() => {
+            setMessages((prevMessages) => prevMessages.slice(1));
+        }, 117000);
+    };
 
-  const clearMessages = () => {
-    setMessages([]);
-  };
+    const clearMessages = () => {
+        setMessages([]);
+    };
 
-  return (
-    <MessageContext.Provider value={{ messages, handleMessage, clearMessages }}>
-      {children}
-    </MessageContext.Provider>
-  );
+    return (
+        <MessageContext.Provider
+            value={{ messages, handleMessage, clearMessages }}
+        >
+            {children}
+        </MessageContext.Provider>
+    );
 };

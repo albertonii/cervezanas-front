@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { IProduct } from '../../../../../../lib/types/types';
-import { AddProduct } from '../../../../components/modals/AddProduct';
+import { AddProductModal } from './AddProductModal';
 import { DeleteProduct } from '../../../../components/modals/DeleteProduct';
 import { UpdateProduct } from '../../../../components/modals/UpdateProduct';
 
@@ -41,7 +41,7 @@ export function Products() {
                 </p>
 
                 <div className="w-40">
-                    <AddProduct />
+                    <AddProductModal />
                 </div>
             </header>
 

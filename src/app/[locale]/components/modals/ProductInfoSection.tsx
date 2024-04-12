@@ -22,7 +22,7 @@ import {
 import { capitalizeFirstLetter } from '../../../../utils/formatWords';
 import { formatCurrency } from '../../../../utils/formatCurrency';
 import { DisplayInputError } from '../common/DisplayInputError';
-import StockInformationDetailsAndPacksAdd from './StockInformationDetailsAndPacksAdd';
+import StockInformationDetailsAndPacksAdd from '../StockInformationDetailsAndPacksAdd';
 import InputLabel from '../common/InputLabel';
 import InputTextarea from '../common/InputTextarea';
 
