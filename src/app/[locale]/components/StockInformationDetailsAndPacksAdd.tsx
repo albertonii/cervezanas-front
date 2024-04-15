@@ -1,7 +1,7 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React from 'react';
 import Button from './common/Button';
 import InputLabel from './common/InputLabel';
-import ProductaddPackItem from './ProductAddPackItems';
+import ProductAddPackItem from './ProductAddPackItems';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import {
@@ -36,11 +36,14 @@ export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
     });
 
     const handleRemovePack = (id: string) => {
+        console.log(fields);
+
         // We need to remove like this because it's accessing twice to this method,
-        //  so if we find the index it's going to remove it two times
-        fields.findIndex((field) => field.id === id) > -1
-            ? remove(fields.findIndex((field) => field.id === id))
-            : null;
+        // so if we find the index it's going to remove it two times
+        fields.findIndex((field) => field.id === id) > -1 &&
+            remove(fields.findIndex((field) => field.id === id));
+
+        console.log(fields);
     };
 
     const handleAddPack = () => {
@@ -98,7 +101,7 @@ export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
 
                     {fields.map((pack, index) => (
                         <div key={pack.id}>
-                            <ProductaddPackItem
+                            <ProductAddPackItem
                                 pack={pack}
                                 onRemove={handleRemovePack}
                                 index={index}

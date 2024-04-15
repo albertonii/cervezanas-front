@@ -61,6 +61,7 @@ export const FilePreviewImageMultimedia = ({
                         accept="image/*"
                         className="absolute z-10 h-full w-full opacity-0"
                         onChange={handleFile}
+                        id={registerName}
                     />
 
                     <div className="z-1 absolute top-0 flex h-full w-full flex-col items-center justify-center bg-gray-200 px-2">

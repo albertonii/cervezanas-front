@@ -206,7 +206,7 @@ export function UpdateProductSummary({ form }: Props) {
                         <div className="flex flex-row justify-between">
                             <h4 className="space-x-2">
                                 <label className="text-md font-semibold text-gray-600">
-                                    {t('pack_price')}
+                                    {t('pack_price')} €
                                 </label>
 
                                 <span className="text-md">

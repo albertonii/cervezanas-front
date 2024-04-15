@@ -61,11 +61,15 @@ export function UpdateAwardsSection({ form }: Props) {
         append(emptyAward);
     };
 
-    const handleRemoveAward = (index: number) => {
+    const handleRemoveAward = (index: number, awardId: string) => {
         setSelectedFiles((current) =>
             current.filter((selectedFile) => selectedFile.index !== index),
         );
-        remove(index);
+
+        // We need to remove like this because it's accessing twice to this method,
+        //  so if we find the index it's going to remove it two times
+        fields.findIndex((field) => field.id === awardId) > -1 &&
+            remove(fields.findIndex((field) => field.id === awardId));
     };
 
     return (
@@ -89,7 +93,9 @@ export function UpdateAwardsSection({ form }: Props) {
 
                         <div className="col-span-1 items-end flex justify-end">
                             <DeleteButton
-                                onClick={() => handleRemoveAward(index)}
+                                onClick={() =>
+                                    handleRemoveAward(index, field.id)
+                                }
                             />
                         </div>
                     </div>

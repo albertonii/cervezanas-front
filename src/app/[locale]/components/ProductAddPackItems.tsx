@@ -10,7 +10,7 @@ import { DeleteButton } from './common/DeleteButton';
 import { FilePreviewImageMultimedia } from './common/FilePreviewImageMultimedia';
 import InputLabel from './common/InputLabel';
 
-const ProductaddPackItem = memo(
+const ProductAddPackItem = memo(
     ({
         pack,
         onRemove,
@@ -29,6 +29,13 @@ const ProductaddPackItem = memo(
         return (
             <fieldset className="border border-solid border-gray-300 p-3">
                 <div className="space-y w-full">
+                    <header>
+                        <h1>Pack Number {index + 1}</h1>
+                        <h2>
+                            Pack ID <span>{pack.id}</span>
+                        </h2>
+                    </header>
+
                     {/* Quantity and price  */}
                     <div className="flex w-full flex-row items-end space-x-3">
                         <div className="w-full">
@@ -36,7 +43,7 @@ const ProductaddPackItem = memo(
                                 htmlFor={`packs.${index}.pack`}
                                 className="text-sm text-gray-600"
                             >
-                                {t('pack_quantity')} nº {index + 1}
+                                {t('pack_quantity')}
                             </label>
 
                             <select
@@ -73,7 +80,7 @@ const ProductaddPackItem = memo(
                         <InputLabel
                             form={form}
                             label={`packs.${index}.price`}
-                            labelText={t('pack_price')}
+                            labelText={`${t('pack_price')} €`}
                             registerOptions={{
                                 value: getValues(`packs.${index}.price`),
                                 required: true,
@@ -114,7 +121,6 @@ const ProductaddPackItem = memo(
                             />
                         </div>
 
-                        {/* Delete BTN  */}
                         <div className="flex-grow-0">
                             <DeleteButton onClick={() => onRemove(pack.id)} />
                         </div>
@@ -125,4 +131,4 @@ const ProductaddPackItem = memo(
     },
 );
 
-export default ProductaddPackItem;
+export default ProductAddPackItem;

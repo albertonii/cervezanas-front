@@ -44,6 +44,7 @@ import { ProductStepper } from '../../../../components/modals/ProductStepper';
 import { UpdateProductInfoSection } from '../../../../components/modals/UpdateProductInfoSection';
 import { UpdateMultimediaSection } from '../../../../components/modals/UpdateMultimediaSection';
 import { UpdateProductSummary } from '../../../../components/modals/UpdateProductSummary';
+import { UpdateAwardsSection } from '../../../../components/modals/UpdateAwardsSection';
 
 const schema: ZodType<ModalUpdateProductFormData> = z.object({
     product_id: z.string(),
@@ -740,14 +741,11 @@ export function UpdateProductAdmin({
                                 form={form}
                                 productId={product.id}
                             />
+                        ) : activeStep === 2 ? (
+                            <UpdateAwardsSection form={form} />
                         ) : (
                             <UpdateProductSummary form={form} />
                         )}
-                        {/*  ) : activeStep === 2 ? (
-                             <UpdateAwardsSection form={form} />
-                         ) : (
-                             <UpdateProductSummary form={form} />
-                         )} */}
                     </>
                 </ProductStepper>
             </form>

@@ -111,7 +111,7 @@ export const UpdBeerMasterQuestions = ({ form, experienceId }: Props) => {
      * @param index
      * @returns
      */
-    const handleRemoveQuestion = async (index: number) => {
+    const handleRemoveQuestion = async (index: number, questionId: string) => {
         const deleteQuestionId = getValues(`questions.${index}.id`);
 
         if (deleteQuestionId) {
@@ -125,7 +125,11 @@ export const UpdBeerMasterQuestions = ({ form, experienceId }: Props) => {
             }
         }
 
-        remove(index);
+        // We need to remove like this because it's accessing twice to this method,
+        //  so if we find the index it's going to remove it two times
+        fields.findIndex((field) => field.id === questionId) > -1 &&
+            remove(fields.findIndex((field) => field.id === questionId));
+
         setTimeout(() => {
             queryClient.invalidateQueries('experiences');
         }, 300);
@@ -207,7 +211,10 @@ export const UpdBeerMasterQuestions = ({ form, experienceId }: Props) => {
                         <div className="ml-4">
                             <DeleteButton
                                 onClick={() =>
-                                    handleRemoveQuestion(questionIndex)
+                                    handleRemoveQuestion(
+                                        questionIndex,
+                                        question.id,
+                                    )
                                 }
                             />
                         </div>

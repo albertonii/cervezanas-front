@@ -45,6 +45,7 @@ import {
     ROUTE_P_PRINCIPAL,
 } from '../../../../../../config';
 import { useMessage } from '../../../../components/message/useMessage';
+import { AwardsSection } from '../../../../components/modals/AwardsSection';
 
 const ModalWithForm = dynamic(
     () => import('../../../../components/modals/ModalWithForm'),
@@ -624,14 +625,11 @@ export function AddProductModal() {
                             />
                         ) : activeStep === 1 ? (
                             <MultimediaSection form={form} />
+                        ) : activeStep === 2 ? (
+                            <AwardsSection form={form} />
                         ) : (
                             <ProductSummary form={form} />
                         )}
-                        {/* ) : activeStep === 2 ? (
-                             <AwardsSection form={form} />
-                         ) : (
-                             <ProductSummary form={form} />
-                         )} */}
                     </>
                 </ProductStepper>
             </form>

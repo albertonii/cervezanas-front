@@ -43,17 +43,20 @@ export default function StockInformationDetailsAndPacksUpdate({ form }: Props) {
         control,
     });
 
-    const handleRemovePack = async (index: number, packId: string) => {
+    const handleRemovePack = async (packId: string, productId: string) => {
         if (packId) {
             const { error } = await supabase
                 .from('product_packs')
                 .delete()
-                .eq('product_id', packId);
+                .eq('product_id', productId);
 
             if (error) throw error;
         }
 
-        remove(index);
+        // We need to remove like this because it's accessing twice to this method,
+        //  so if we find the index it's going to remove it two times
+        fields.findIndex((field) => field.id === packId) > -1 &&
+            remove(fields.findIndex((field) => field.id === packId));
     };
 
     const handleAddPack = () => {
@@ -157,7 +160,7 @@ export default function StockInformationDetailsAndPacksUpdate({ form }: Props) {
                                 <InputLabel
                                     form={form}
                                     label={`packs.${index}.price`}
-                                    labelText={t('pack_price')}
+                                    labelText={`${t('pack_price')} €`}
                                     registerOptions={{
                                         value: getValues(
                                             `packs.${index}.price`,
@@ -206,7 +209,7 @@ export default function StockInformationDetailsAndPacksUpdate({ form }: Props) {
                                     <DeleteButton
                                         onClick={() =>
                                             handleRemovePack(
-                                                index,
+                                                pack.id,
                                                 getValues(
                                                     `packs.${index}.product_id`,
                                                 ),

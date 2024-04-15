@@ -62,8 +62,11 @@ export const AddBeerMasterQuestions = ({ form }: Props) => {
         }
     }, [listProducts]);
 
-    const handleRemoveQuestion = (index: number) => {
-        remove(index);
+    const handleRemoveQuestion = (id: string) => {
+        // We need to remove like this because it's accessing twice to this method,
+        //  so if we find the index it's going to remove it two times
+        fields.findIndex((field) => field.id === id) > -1 &&
+            remove(fields.findIndex((field) => field.id === id));
     };
 
     const handleAddQuestion = () => {
@@ -155,7 +158,7 @@ export const AddBeerMasterQuestions = ({ form }: Props) => {
                         />
 
                         <DeleteButton
-                            onClick={() => handleRemoveQuestion(questionIndex)}
+                            onClick={() => handleRemoveQuestion(question.id)}
                         />
                     </div>
 

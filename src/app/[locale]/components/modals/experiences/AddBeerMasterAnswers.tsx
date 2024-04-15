@@ -42,12 +42,10 @@ export default function AddBeerMasterAnswers({ form, questionIndex }: Props) {
      * @returns
      */
     const handleRemoveAnswer = async (answerId: string) => {
-        // Encuentra el índice basado en el id para eliminar
-        const indexToRemove = fields.findIndex((item) => item.id === answerId);
-
-        if (indexToRemove > -1) {
-            remove(indexToRemove);
-        }
+        // We need to remove like this because it's accessing twice to this method,
+        //  so if we find the index it's going to remove it two times
+        fields.findIndex((field) => field.id === answerId) > -1 &&
+            remove(fields.findIndex((field) => field.id === answerId));
     };
 
     return (

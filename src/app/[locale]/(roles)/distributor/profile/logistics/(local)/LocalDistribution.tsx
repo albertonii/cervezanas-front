@@ -139,6 +139,11 @@ export default function LocalDistribution({
         }
     };
 
+    const handleRemove = (id: string) => {
+        fields.findIndex((item) => item.id === id) > -1 &&
+            remove(fields.findIndex((item) => item.id === id));
+    };
+
     return (
         <section>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -185,7 +190,9 @@ export default function LocalDistribution({
                                             btnType="button"
                                             danger
                                             box
-                                            onClick={() => remove(index)}
+                                            onClick={() =>
+                                                handleRemove(item.id)
+                                            }
                                             icon={faTrash}
                                             title={'Delete'}
                                         />
