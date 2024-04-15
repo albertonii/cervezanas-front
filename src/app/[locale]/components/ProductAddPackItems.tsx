@@ -18,7 +18,7 @@ const ProductAddPackItem = memo(
         form,
     }: {
         pack: ModalAddProductPackFormData;
-        onRemove: (id: string) => void;
+        onRemove: (index: number) => void;
         index: number;
         form: UseFormReturn<ModalAddProductFormData, any>;
     }) => {
@@ -30,7 +30,9 @@ const ProductAddPackItem = memo(
             <fieldset className="border border-solid border-gray-300 p-3">
                 <div className="space-y w-full">
                     <header>
-                        <h1>Pack Number {index + 1}</h1>
+                        <h1>
+                            {t('pack_number')} {index + 1}
+                        </h1>
                         <h2>
                             Pack ID <span>{pack.id}</span>
                         </h2>
@@ -122,7 +124,8 @@ const ProductAddPackItem = memo(
                         </div>
 
                         <div className="flex-grow-0">
-                            <DeleteButton onClick={() => onRemove(pack.id)} />
+                            {/* <DeleteButton onClick={() => onRemove(pack.id)} /> */}
+                            <DeleteButton onClick={() => onRemove(index)} />
                         </div>
                     </div>
                 </div>

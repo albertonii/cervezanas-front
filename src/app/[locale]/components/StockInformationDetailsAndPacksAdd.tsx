@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from './common/Button';
 import InputLabel from './common/InputLabel';
 import ProductAddPackItem from './ProductAddPackItems';
@@ -34,17 +34,23 @@ export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
         name: 'packs',
         control,
     });
+    const [count, setCount] = useState(0);
 
-    const handleRemovePack = (id: string) => {
-        console.log(fields);
+    // const handleRemovePack = (id: string) => {
+    const handleRemovePack = (index: number) => {
+        console.log('INDEX', index);
+        setCount(count + 1);
 
         // We need to remove like this because it's accessing twice to this method,
         // so if we find the index it's going to remove it two times
-        fields.findIndex((field) => field.id === id) > -1 &&
-            remove(fields.findIndex((field) => field.id === id));
-
-        console.log(fields);
+        // fields.findIndex((field) => field.id === id) > -1 &&
+        //     remove(fields.findIndex((field) => field.id === id));
+        remove(index);
     };
+
+    useEffect(() => {
+        console.log(fields.length);
+    }, [fields]);
 
     const handleAddPack = () => {
         // Append a new pack with a unique id
@@ -52,7 +58,7 @@ export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
     };
 
     return (
-        <section className="container pt-16">
+        <section className="pt-16">
             <p className="text-slate-500 my-4 text-2xl leading-relaxed">
                 {t('modal_product_add_price_title')}
             </p>
@@ -93,6 +99,8 @@ export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
 
                 {/* Packs */}
                 <div className="flex flex-col space-y-2">
+                    <div>{count}</div>
+
                     <span className="text-2xl ">{t('add_product_pack')}</span>
 
                     <span className="text-sm ">
