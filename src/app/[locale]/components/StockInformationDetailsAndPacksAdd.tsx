@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Button from './common/Button';
 import InputLabel from './common/InputLabel';
 import ProductAddPackItem from './ProductAddPackItems';
@@ -30,27 +30,28 @@ export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
 
     const { getValues, control } = form;
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const { fields, append, remove } = useFieldArray({
         name: 'packs',
         control,
     });
-    const [count, setCount] = useState(0);
 
-    // const handleRemovePack = (id: string) => {
     const handleRemovePack = (index: number) => {
-        console.log('INDEX', index);
-        setCount(count + 1);
+        if (isSubmitting) return;
 
-        // We need to remove like this because it's accessing twice to this method,
-        // so if we find the index it's going to remove it two times
-        // fields.findIndex((field) => field.id === id) > -1 &&
-        //     remove(fields.findIndex((field) => field.id === id));
+        setIsSubmitting(true);
+
         remove(index);
-    };
 
-    useEffect(() => {
-        console.log(fields.length);
-    }, [fields]);
+        setTimeout(() => {
+            // We need to remove like this because it's accessing twice to this method,
+            // so if we find the index it's going to remove it two times
+            // fields.findIndex((field) => field.id === id) > -1 &&
+            //     remove(fields.findIndex((field) => field.id === id));
+            setIsSubmitting(false);
+        }, 100);
+    };
 
     const handleAddPack = () => {
         // Append a new pack with a unique id
@@ -99,8 +100,6 @@ export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
 
                 {/* Packs */}
                 <div className="flex flex-col space-y-2">
-                    <div>{count}</div>
-
                     <span className="text-2xl ">{t('add_product_pack')}</span>
 
                     <span className="text-sm ">
@@ -108,7 +107,7 @@ export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
                     </span>
 
                     {fields.map((pack, index) => (
-                        <div key={pack.id}>
+                        <div key={pack.id} className="relative">
                             <ProductAddPackItem
                                 pack={pack}
                                 onRemove={handleRemovePack}
@@ -118,7 +117,12 @@ export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
                         </div>
                     ))}
 
-                    <Button class="" primary medium onClick={handleAddPack}>
+                    <Button
+                        primary
+                        medium
+                        onClick={handleAddPack}
+                        disabled={isSubmitting}
+                    >
                         {t('add_pack')}
                     </Button>
                 </div>

@@ -1,19 +1,20 @@
-import InputLabel from '../../common/InputLabel';
 import Button from '../../common/Button';
-import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwner';
+import InputLabel from '../../common/InputLabel';
 import SelectInput from '../../common/SelectInput';
 import AddBeerMasterAnswers from './AddBeerMasterAnswers';
-import { useAuth } from '../../../(auth)/Context/useAuth';
+import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwner';
 import { useTranslations } from 'next-intl';
-import { UseFormReturn, useFieldArray } from 'react-hook-form';
-import { IProduct } from '../../../../../lib/types/types';
-import { DeleteButton } from '../../common/DeleteButton';
 import { useEffect, useState } from 'react';
+import { DeleteButton } from '../../common/DeleteButton';
+import { useAuth } from '../../../(auth)/Context/useAuth';
+import { IProduct } from '../../../../../lib/types/types';
+import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { DisplayInputError } from '../../common/DisplayInputError';
 import {
     IAddModalExperienceBeerMasterFormData,
     IAddBeerMasterQuestionFormData,
     Difficulty,
+    AnswerFormData,
 } from '../../../../../lib/types/quiz';
 
 interface Props {
@@ -22,6 +23,10 @@ interface Props {
 
 export const AddBeerMasterQuestions = ({ form }: Props) => {
     const t = useTranslations();
+
+    const [displayAnswerIsCorrectError, setDisplayAnswerIsCorrectError] =
+        useState<boolean>(false);
+
     const {
         control,
         formState: { errors },
@@ -70,6 +75,19 @@ export const AddBeerMasterQuestions = ({ form }: Props) => {
     };
 
     const handleAddQuestion = () => {
+        if (fields.length > 0) {
+            const index = fields.length - 1;
+            const answers = fields[index].question.answers;
+            const hasIsCorrectAnswerMarked = validateCorrectAnswers(answers);
+
+            if (!hasIsCorrectAnswerMarked) {
+                setDisplayAnswerIsCorrectError(true);
+                return;
+            }
+
+            setDisplayAnswerIsCorrectError(false);
+        }
+
         const emptyQuestion: IAddBeerMasterQuestionFormData = {
             question: {
                 category: 'BEER',
@@ -151,7 +169,7 @@ export const AddBeerMasterQuestions = ({ form }: Props) => {
                                 { label: 'hard', value: 'hard' },
                             ]}
                             label={`questions.${questionIndex}.question.difficulty`}
-                            labelText={`difficulty`}
+                            labelText={`${t('difficulty')}`}
                             registerOptions={{
                                 required: true,
                             }}
@@ -174,6 +192,20 @@ export const AddBeerMasterQuestions = ({ form }: Props) => {
                             />
                         )}
 
+                    {errors.questions &&
+                        errors.questions[questionIndex] &&
+                        errors.questions[questionIndex]?.question?.answers && (
+                            <DisplayInputError
+                                message={errors.questions?.message}
+                            />
+                        )}
+
+                    {displayAnswerIsCorrectError && (
+                        <DisplayInputError
+                            message={t('errors.answer_is_correct_marked')}
+                        />
+                    )}
+
                     {/* Multiple inputs that are the possible answers to the question */}
                     <AddBeerMasterAnswers
                         form={form}
@@ -182,9 +214,17 @@ export const AddBeerMasterQuestions = ({ form }: Props) => {
                 </fieldset>
             ))}
 
-            <Button class="" primary medium onClick={() => handleAddQuestion()}>
+            <Button class="" primary medium onClick={handleAddQuestion}>
                 {t('question_add')}
             </Button>
         </section>
     );
+};
+
+// Función para validar que al menos una respuesta esté marcada como correcta
+const validateCorrectAnswers = (answers: AnswerFormData[]) => {
+    const correctAnswerCount = answers.filter(
+        (answer: AnswerFormData) => answer.is_correct,
+    ).length;
+    return correctAnswerCount > 0 ? true : false;
 };

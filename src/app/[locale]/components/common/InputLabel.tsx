@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo } from 'react';
+import React, { memo, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { DisplayInputError } from './DisplayInputError';
@@ -46,6 +46,10 @@ const InputLabel = memo(
             formState: { errors },
         } = form;
 
+        useEffect(() => {
+            console.log(errors);
+        }, [errors]);
+
         return (
             <div className="w-full">
                 <label
@@ -69,14 +73,14 @@ const InputLabel = memo(
                     <input
                         type={inputType ?? 'text'}
                         className={` 
-            ${disabled && 'bg-gray-100'}
-            ${
-                inputType === 'checkbox'
-                    ? 'float-right h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde'
-                    : 'relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm'
-            }
-          
-          `}
+                            ${disabled && 'bg-gray-100'}
+                            ${
+                                inputType === 'checkbox'
+                                    ? 'float-right h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde'
+                                    : 'relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm'
+                            }
+                        
+                        `}
                         {...register(label, registerOptions)}
                         placeholder={placeholder}
                         defaultValue={defaultValue}

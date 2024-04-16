@@ -132,9 +132,6 @@ export function LotList({
                                                     className="h-8 w-8 rounded-full"
                                                     alt="Beer Type"
                                                     src="/icons/beer-240.png"
-                                                    loader={() =>
-                                                        '/icons/beer-240.png'
-                                                    }
                                                 />
                                             </th>
 

@@ -617,7 +617,8 @@
         "input_max_2030": "El número debe ser menor o igual a 2030",
         "lower_greater_than_upper": "El valor inferior debe ser menor que el valor superior",
         "inserting_report": "Error al insertar el informe.",
-        "update_report": "Error al actualizar el informe."
+        "update_report": "Error al actualizar el informe.",
+        "answer_is_correct_marked": "Debe de marcar como mínimo una respuesta correcta."
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",
@@ -853,5 +854,7 @@
     "experience_info": "Información de la experiencia",
     "delete_experience_description_modal": "¿Está seguro de que desea eliminar la experiencia? Esta acción no se puede deshacer.",
     "phone_number": "Número de teléfono",
-    "question_add": "Añadir pregunta"
+    "question_add": "Añadir pregunta",
+    "add_new_experience": "Añadir experiencia",
+    "experiences_info": "Información de la experiencia"
 }

@@ -609,7 +609,8 @@
         "input_max_2030": "The number must be less than or equal to 2030",
         "lower_greater_than_upper": "The lower limit must be less than the upper limit",
         "inserting_report": "Error inserting report.",
-        "updating_report": "Error updating report."
+        "updating_report": "Error updating report.",
+        "answer_is_correct_marked": "It must be  atleast one answer marked as correct"
     },
     "product_packs": "Product packs",
     "units": "Units",
@@ -837,5 +838,7 @@
             "header": "Opiniones de nuestros Cervezanos y Cervezanas"
         },
         "beer_master": "Maestro cervecero"
-    }
+    },
+    "add_new_experience": "Add new experience",
+    "experiences_info": "Experience information"
 }

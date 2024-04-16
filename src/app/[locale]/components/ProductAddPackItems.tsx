@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { memo, useState } from 'react';
-import { UseFormReturn } from 'react-hook-form';
+import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import { pack_type_options } from '../../../lib/beerEnum';
 import {
     ModalAddProductFormData,
@@ -9,8 +9,9 @@ import {
 import { DeleteButton } from './common/DeleteButton';
 import { FilePreviewImageMultimedia } from './common/FilePreviewImageMultimedia';
 import InputLabel from './common/InputLabel';
+import Spinner from './common/Spinner';
 
-const ProductAddPackItem = memo(
+const ProductaddPackItem = memo(
     ({
         pack,
         onRemove,
@@ -23,21 +24,30 @@ const ProductAddPackItem = memo(
         form: UseFormReturn<ModalAddProductFormData, any>;
     }) => {
         const t = useTranslations();
+        const [isSubmitting, setIsSubmitting] = useState(false);
 
         const { getValues, register } = form;
 
+        const handleRemovePack = (index: number) => {
+            if (isSubmitting) return;
+
+            setIsSubmitting(true);
+
+            setTimeout(() => {
+                // We need to remove like this because it's accessing twice to this method,
+                // so if we find the index it's going to remove it two times
+                // fields.findIndex((field) => field.id === id) > -1 &&
+                //     remove(fields.findIndex((field) => field.id === id));
+                onRemove(index);
+                setIsSubmitting(false);
+            }, 1000);
+        };
+
         return (
             <fieldset className="border border-solid border-gray-300 p-3">
-                <div className="space-y w-full">
-                    <header>
-                        <h1>
-                            {t('pack_number')} {index + 1}
-                        </h1>
-                        <h2>
-                            Pack ID <span>{pack.id}</span>
-                        </h2>
-                    </header>
+                {isSubmitting && <Spinner size="fullScreen" />}
 
+                <div className="space-y w-full">
                     {/* Quantity and price  */}
                     <div className="flex w-full flex-row items-end space-x-3">
                         <div className="w-full">
@@ -45,7 +55,7 @@ const ProductAddPackItem = memo(
                                 htmlFor={`packs.${index}.pack`}
                                 className="text-sm text-gray-600"
                             >
-                                {t('pack_quantity')}
+                                {t('pack_quantity')} nº {index + 1}
                             </label>
 
                             <select
@@ -82,7 +92,7 @@ const ProductAddPackItem = memo(
                         <InputLabel
                             form={form}
                             label={`packs.${index}.price`}
-                            labelText={`${t('pack_price')} €`}
+                            labelText={t('pack_price')}
                             registerOptions={{
                                 value: getValues(`packs.${index}.price`),
                                 required: true,
@@ -123,9 +133,11 @@ const ProductAddPackItem = memo(
                             />
                         </div>
 
+                        {/* Delete BTN  */}
                         <div className="flex-grow-0">
-                            {/* <DeleteButton onClick={() => onRemove(pack.id)} /> */}
-                            <DeleteButton onClick={() => onRemove(index)} />
+                            <DeleteButton
+                                onClick={() => handleRemovePack(index)}
+                            />
                         </div>
                     </div>
                 </div>
@@ -134,4 +146,4 @@ const ProductAddPackItem = memo(
     },
 );
 
-export default ProductAddPackItem;
+export default ProductaddPackItem;

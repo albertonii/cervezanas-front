@@ -180,9 +180,6 @@ export function ProductsArchiveList({
                                                             src={
                                                                 '/icons/beer-240.png'
                                                             }
-                                                            loader={() =>
-                                                                '/icons/beer-240.png'
-                                                            }
                                                             alt="Beer Type"
                                                         />
                                                     </th>

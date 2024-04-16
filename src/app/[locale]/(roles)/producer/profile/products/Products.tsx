@@ -1,13 +1,12 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import { useState } from 'react';
-import { IProduct } from '../../../../../../lib/types/types';
+import { ProductList } from './ProductList';
+import { useTranslations } from 'next-intl';
 import { AddProductModal } from './AddProductModal';
+import { IProduct } from '../../../../../../lib/types/types';
 import { DeleteProduct } from '../../../../components/modals/DeleteProduct';
 import { UpdateProduct } from '../../../../components/modals/UpdateProduct';
-
-import { ProductList } from './ProductList';
 
 export function Products() {
     const t = useTranslations();
