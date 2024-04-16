@@ -5,17 +5,16 @@ import AddBeerMasterAnswers from './AddBeerMasterAnswers';
 import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwner';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
-import { DeleteButton } from '../../common/DeleteButton';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { IProduct } from '../../../../../lib/types/types';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
-import { DisplayInputError } from '../../common/DisplayInputError';
 import {
     IAddModalExperienceBeerMasterFormData,
     IAddBeerMasterQuestionFormData,
     Difficulty,
     AnswerFormData,
 } from '../../../../../lib/types/quiz';
+import BMQuestionItem from './BMQuestionItem';
 
 interface Props {
     form: UseFormReturn<IAddModalExperienceBeerMasterFormData, any>;
@@ -24,13 +23,11 @@ interface Props {
 export const AddBeerMasterQuestions = ({ form }: Props) => {
     const t = useTranslations();
 
+    // Usar un array de errores para saber cual es el error de la respuesta correcta
     const [displayAnswerIsCorrectError, setDisplayAnswerIsCorrectError] =
         useState<boolean>(false);
 
-    const {
-        control,
-        formState: { errors },
-    } = form;
+    const { control } = form;
 
     const { user } = useAuth();
 
@@ -66,13 +63,6 @@ export const AddBeerMasterQuestions = ({ form }: Props) => {
             setProductInputValue(listProducts[0].value);
         }
     }, [listProducts]);
-
-    const handleRemoveQuestion = (id: string) => {
-        // We need to remove like this because it's accessing twice to this method,
-        //  so if we find the index it's going to remove it two times
-        fields.findIndex((field) => field.id === id) > -1 &&
-            remove(fields.findIndex((field) => field.id === id));
-    };
 
     const handleAddQuestion = () => {
         if (fields.length > 0) {
@@ -148,68 +138,15 @@ export const AddBeerMasterQuestions = ({ form }: Props) => {
                     key={question.id}
                     className="relative flex-auto space-y-4 pt-6 mt-4 rounded-md border-2 border-dotted border-beer-softBlondeBubble p-4"
                 >
-                    <div className="flex flex-row items-end space-x-4">
-                        <InputLabel
-                            form={form}
-                            label={`questions.${questionIndex}.question.question`}
-                            labelText={`${questionIndex + 1} ${t('question')}`}
-                            registerOptions={{
-                                required: true,
-                            }}
-                            placeholder={t(
-                                'input_questions_question_placeholder',
-                            )}
-                        />
-
-                        <SelectInput
-                            form={form}
-                            options={[
-                                { label: 'easy', value: 'easy' },
-                                { label: 'medium', value: 'medium' },
-                                { label: 'hard', value: 'hard' },
-                            ]}
-                            label={`questions.${questionIndex}.question.difficulty`}
-                            labelText={`${t('difficulty')}`}
-                            registerOptions={{
-                                required: true,
-                            }}
-                        />
-
-                        <DeleteButton
-                            onClick={() => handleRemoveQuestion(question.id)}
-                        />
-                    </div>
-
-                    {/* Error input displaying */}
-                    {errors.questions &&
-                        errors.questions[questionIndex] &&
-                        errors.questions[questionIndex]?.question?.question && (
-                            <DisplayInputError
-                                message={
-                                    errors.questions[questionIndex]?.question
-                                        ?.question?.message
-                                }
-                            />
-                        )}
-
-                    {errors.questions &&
-                        errors.questions[questionIndex] &&
-                        errors.questions[questionIndex]?.question?.answers && (
-                            <DisplayInputError
-                                message={errors.questions?.message}
-                            />
-                        )}
-
-                    {displayAnswerIsCorrectError && (
-                        <DisplayInputError
-                            message={t('errors.answer_is_correct_marked')}
-                        />
-                    )}
-
-                    {/* Multiple inputs that are the possible answers to the question */}
-                    <AddBeerMasterAnswers
-                        form={form}
+                    <BMQuestionItem
                         questionIndex={questionIndex}
+                        form={form}
+                        fields={fields}
+                        remove={remove}
+                        questionIdRemove={question.id}
+                        displayAnswerIsCorrectError={
+                            displayAnswerIsCorrectError
+                        }
                     />
                 </fieldset>
             ))}
