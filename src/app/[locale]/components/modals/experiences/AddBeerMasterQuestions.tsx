@@ -183,11 +183,11 @@ export const AddBeerMasterQuestions = ({ form }: Props) => {
                     {/* Error input displaying */}
                     {errors.questions &&
                         errors.questions[questionIndex] &&
-                        errors.questions[questionIndex]?.question && (
+                        errors.questions[questionIndex]?.question?.question && (
                             <DisplayInputError
                                 message={
-                                    errors.questions[questionIndex]?.question!
-                                        .message
+                                    errors.questions[questionIndex]?.question
+                                        ?.question?.message
                                 }
                             />
                         )}

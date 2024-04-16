@@ -90,22 +90,22 @@ export default function AddBeerMasterAnswers({ form, questionIndex }: Props) {
                             <DisplayInputError
                                 message={
                                     errors.questions[questionIndex]?.question
-                                        ?.answers?.[index]!.message
+                                        ?.answers?.[index]?.answer?.message
                                 }
                             />
                         )}
 
-                    {/* {errors.questions &&
+                    {errors.questions &&
                         errors.questions[questionIndex] &&
                         errors.questions[questionIndex]?.question &&
                         errors.questions[questionIndex]?.question?.answers && (
                             <DisplayInputError
                                 message={
                                     errors.questions[questionIndex]?.question
-                                        ?.answers?.is_correct!.message
+                                        ?.answers?.message
                                 }
                             />
-                        )} */}
+                        )}
                 </>
             ))}
 
