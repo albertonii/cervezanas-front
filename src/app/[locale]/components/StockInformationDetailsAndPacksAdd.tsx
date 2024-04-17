@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import Button from './common/Button';
 import InputLabel from './common/InputLabel';
 import ProductAddPackItem from './ProductAddPackItems';
@@ -109,7 +109,6 @@ export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
                     {fields.map((pack, index) => (
                         <div key={pack.id} className="relative">
                             <ProductAddPackItem
-                                pack={pack}
                                 onRemove={handleRemovePack}
                                 index={index}
                                 form={form}

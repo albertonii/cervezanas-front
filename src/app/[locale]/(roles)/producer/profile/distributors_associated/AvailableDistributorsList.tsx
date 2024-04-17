@@ -151,7 +151,12 @@ export default function AvailableDistributorsList({
             </div>
 
             {isLoading && (
-                <Spinner color="beer-blonde" size="xLarge" absolute center />
+                <Spinner
+                    color="beer-blonde"
+                    size="xLarge"
+                    absolute
+                    flexCenter
+                />
             )}
 
             {!isError && !isLoading && filteredItems.length === 0 ? (

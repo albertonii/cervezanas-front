@@ -1,11 +1,8 @@
 import { useTranslations } from 'next-intl';
 import { memo, useState } from 'react';
-import { useFieldArray, UseFormReturn } from 'react-hook-form';
+import { UseFormReturn } from 'react-hook-form';
 import { pack_type_options } from '../../../lib/beerEnum';
-import {
-    ModalAddProductFormData,
-    ModalAddProductPackFormData,
-} from '../../../lib/types/types';
+import { ModalAddProductFormData } from '../../../lib/types/types';
 import { DeleteButton } from './common/DeleteButton';
 import { FilePreviewImageMultimedia } from './common/FilePreviewImageMultimedia';
 import InputLabel from './common/InputLabel';
@@ -13,12 +10,10 @@ import Spinner from './common/Spinner';
 
 const ProductaddPackItem = memo(
     ({
-        pack,
         onRemove,
         index,
         form,
     }: {
-        pack: ModalAddProductPackFormData;
         onRemove: (index: number) => void;
         index: number;
         form: UseFormReturn<ModalAddProductFormData, any>;

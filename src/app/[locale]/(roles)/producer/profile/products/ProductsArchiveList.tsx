@@ -126,7 +126,7 @@ export function ProductsArchiveList({
             )}
 
             {isLoading && (
-                <Spinner color="beer-blonde" size="xLarge" absolute center />
+                <Spinner color="beer-blonde" size="xLarge" absolute flexCenter />
             )}
 
             {!isError && !isLoading && products.length === 0 ? (

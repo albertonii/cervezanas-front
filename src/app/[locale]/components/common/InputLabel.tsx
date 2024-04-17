@@ -46,10 +46,6 @@ const InputLabel = memo(
             formState: { errors },
         } = form;
 
-        useEffect(() => {
-            console.log(errors);
-        }, [errors]);
-
         return (
             <div className="w-full">
                 <label

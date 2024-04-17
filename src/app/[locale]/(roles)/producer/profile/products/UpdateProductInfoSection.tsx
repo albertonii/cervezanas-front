@@ -1,6 +1,5 @@
 'use client';
 
-import SelectInput from '../common/SelectInput';
 import React, { useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
@@ -16,12 +15,13 @@ import {
     volume_can_type_options,
     volume_draft_type_options,
     volume_bottle_type_options,
-} from '../../../../lib/beerEnum';
-import { ModalUpdateProductFormData } from '../../../../lib/types/types';
-import { DisplayInputError } from '../common/DisplayInputError';
-import StockInformationDetailsAndPacksUpdate from './StockInformationDetailsAndPacksUpdate';
-import InputLabel from '../common/InputLabel';
-import InputTextarea from '../common/InputTextarea';
+} from '../../../../../../lib/beerEnum';
+import { ModalUpdateProductFormData } from '../../../../../../lib/types/types';
+import InputLabel from '../../../../components/common/InputLabel';
+import InputTextarea from '../../../../components/common/InputTextarea';
+import SelectInput from '../../../../components/common/SelectInput';
+import { DisplayInputError } from '../../../../components/common/DisplayInputError';
+import StockInformationDetailsAndPacksUpdate from '../../../../components/modals/StockInformationDetailsAndPacksUpdate';
 
 interface Props {
     form: UseFormReturn<ModalUpdateProductFormData, any>;

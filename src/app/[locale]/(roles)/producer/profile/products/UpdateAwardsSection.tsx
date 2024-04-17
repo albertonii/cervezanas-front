@@ -1,13 +1,13 @@
-import Button from '../common/Button';
-import InputLabel from '../common/InputLabel';
+import Button from '../../../../components/common/Button';
+import InputLabel from '../../../../components/common/InputLabel';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
-import { IAward } from '../../../../lib/types/types';
-import { DisplayInputError } from '../common/DisplayInputError';
-import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
-import { SupabaseProps } from '../../../../constants';
-import { DeleteButton } from '../common/DeleteButton';
+import { IAward } from '../../../../../../lib/types/types';
+import { SupabaseProps } from '../../../../../../constants';
+import { DeleteButton } from '../../../../components/common/DeleteButton';
+import { DisplayInputError } from '../../../../components/common/DisplayInputError';
+import { FilePreviewImageMultimedia } from '../../../../components/common/FilePreviewImageMultimedia';
 
 const emptyAward: IAward = {
     id: '',

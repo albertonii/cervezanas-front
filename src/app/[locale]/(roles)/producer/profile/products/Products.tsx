@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { AddProductModal } from './AddProductModal';
 import { IProduct } from '../../../../../../lib/types/types';
 import { DeleteProduct } from '../../../../components/modals/DeleteProduct';
-import { UpdateProduct } from '../../../../components/modals/UpdateProduct';
+import { UpdateProductModal } from './UpdateProductModal';
 
 export function Products() {
     const t = useTranslations();
@@ -51,7 +51,7 @@ export function Products() {
             />
 
             {isEditShowModal && productModal && (
-                <UpdateProduct
+                <UpdateProductModal
                     product={productModal}
                     showModal={isEditShowModal}
                     handleEditShowModal={handleEditShowModal}
