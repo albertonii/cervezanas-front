@@ -228,6 +228,12 @@ export default function AddBeerMasterExperienceModal() {
                             />
                         )}
 
+                        {errors.questions?.root && (
+                            <DisplayInputError
+                                message={errors.questions?.root.message}
+                            />
+                        )}
+
                         <AddBeerMasterQuestions form={form} />
                     </fieldset>
                 )}

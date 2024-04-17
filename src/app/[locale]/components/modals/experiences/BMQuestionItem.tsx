@@ -84,10 +84,26 @@ export default function BMQuestionItem({
                     />
                 )}
 
-            {errors.questions &&
+            {/* {errors.questions &&
                 errors.questions[questionIndex] &&
                 errors.questions[questionIndex]?.question?.answers && (
-                    <DisplayInputError message={errors.questions?.message} />
+                    <DisplayInputError
+                        message={
+                            errors.questions[questionIndex]?.question?.answers!
+                                .message
+                        }
+                    />
+                )} */}
+
+            {errors.questions &&
+                errors.questions[questionIndex] &&
+                errors.questions[questionIndex]?.question?.answers?.root && (
+                    <DisplayInputError
+                        message={
+                            errors.questions[questionIndex]?.question?.answers!
+                                .root?.message
+                        }
+                    />
                 )}
 
             {displayAnswerIsCorrectError && (
