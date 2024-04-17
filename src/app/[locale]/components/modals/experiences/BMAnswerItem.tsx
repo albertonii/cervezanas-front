@@ -2,28 +2,21 @@ import InputLabel from '../../common/InputLabel';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import {
-    AnswerFormData,
-    IAddModalExperienceBeerMasterFormData,
-} from '../../../../../lib/types/quiz';
+import { IAddModalExperienceBeerMasterFormData } from '../../../../../lib/types/quiz';
 import { DeleteButton } from '../../common/DeleteButton';
 import { DisplayInputError } from '../../common/DisplayInputError';
 
 interface Props {
-    answer: AnswerFormData;
     questionIndex: number;
     index: number;
     form: UseFormReturn<IAddModalExperienceBeerMasterFormData, any>;
-    fields: any;
     remove: (index: number) => void;
 }
 
 export default function BMAnswerItem({
-    answer,
     questionIndex,
     index,
     form,
-    fields,
     remove,
 }: Props) {
     const t = useTranslations();
@@ -37,11 +30,8 @@ export default function BMAnswerItem({
      * @param answerIndex
      * @returns
      */
-    const handleRemoveAnswer = async (answerId: string) => {
-        // We need to remove like this because it's accessing twice to this method,
-        //  so if we find the index it's going to remove it two times
-        fields.findIndex((field: any) => field.id === answerId) > -1 &&
-            remove(fields.findIndex((field: any) => field.id === answerId));
+    const handleRemoveAnswer = async (index: number) => {
+        remove(index);
     };
 
     return (
@@ -64,7 +54,7 @@ export default function BMAnswerItem({
             </div>
 
             <div className="justify-center items-center">
-                <DeleteButton onClick={() => handleRemoveAnswer(answer.id!)} />
+                <DeleteButton onClick={() => handleRemoveAnswer(index)} />
             </div>
 
             {/* Error input displaying */}

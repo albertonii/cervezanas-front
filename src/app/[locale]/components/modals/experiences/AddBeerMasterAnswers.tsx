@@ -38,11 +38,9 @@ export default function AddBeerMasterAnswers({ form, questionIndex }: Props) {
                     className="grid grid-cols-12 space-x-2 items-end"
                 >
                     <BMAnswerItem
-                        answer={answer}
                         questionIndex={questionIndex}
                         index={index}
                         form={form}
-                        fields={fields}
                         remove={remove}
                     />
                 </section>

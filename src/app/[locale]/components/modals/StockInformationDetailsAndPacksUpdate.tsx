@@ -43,7 +43,11 @@ export default function StockInformationDetailsAndPacksUpdate({ form }: Props) {
         control,
     });
 
-    const handleRemovePack = async (packId: string, productId: string) => {
+    const handleRemovePack = async (
+        packId: string,
+        productId: string,
+        index: number,
+    ) => {
         if (packId) {
             const { error } = await supabase
                 .from('product_packs')
@@ -51,12 +55,9 @@ export default function StockInformationDetailsAndPacksUpdate({ form }: Props) {
                 .eq('product_id', productId);
 
             if (error) throw error;
-        }
 
-        // We need to remove like this because it's accessing twice to this method,
-        //  so if we find the index it's going to remove it two times
-        fields.findIndex((field) => field.id === packId) > -1 &&
-            remove(fields.findIndex((field) => field.id === packId));
+            remove(index);
+        }
     };
 
     const handleAddPack = () => {
@@ -213,6 +214,7 @@ export default function StockInformationDetailsAndPacksUpdate({ form }: Props) {
                                                 getValues(
                                                     `packs.${index}.product_id`,
                                                 ),
+                                                index,
                                             )
                                         }
                                     />

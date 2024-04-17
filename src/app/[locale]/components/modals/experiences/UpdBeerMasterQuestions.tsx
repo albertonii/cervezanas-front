@@ -125,10 +125,7 @@ export const UpdBeerMasterQuestions = ({ form, experienceId }: Props) => {
             }
         }
 
-        // We need to remove like this because it's accessing twice to this method,
-        //  so if we find the index it's going to remove it two times
-        fields.findIndex((field) => field.id === questionId) > -1 &&
-            remove(fields.findIndex((field) => field.id === questionId));
+        remove(index);
 
         setTimeout(() => {
             queryClient.invalidateQueries('experiences');

@@ -1,12 +1,12 @@
-import { useTranslations } from 'next-intl';
-import React from 'react';
-import { UseFormReturn } from 'react-hook-form';
-import { IAddModalExperienceBeerMasterFormData } from '../../../../../lib/types/quiz';
-import { DeleteButton } from '../../common/DeleteButton';
-import { DisplayInputError } from '../../common/DisplayInputError';
 import InputLabel from '../../common/InputLabel';
 import SelectInput from '../../common/SelectInput';
 import AddBeerMasterAnswers from './AddBeerMasterAnswers';
+import React from 'react';
+import { useTranslations } from 'next-intl';
+import { UseFormReturn } from 'react-hook-form';
+import { DeleteButton } from '../../common/DeleteButton';
+import { DisplayInputError } from '../../common/DisplayInputError';
+import { IAddModalExperienceBeerMasterFormData } from '../../../../../lib/types/quiz';
 
 interface Props {
     questionIndex: number;
@@ -20,9 +20,7 @@ interface Props {
 export default function BMQuestionItem({
     questionIndex,
     form,
-    fields,
     remove,
-    questionIdRemove,
     displayAnswerIsCorrectError,
 }: Props) {
     const {
@@ -30,11 +28,8 @@ export default function BMQuestionItem({
     } = form;
     const t = useTranslations();
 
-    const handleRemoveQuestion = (id: string) => {
-        // We need to remove like this because it's accessing twice to this method,
-        //  so if we find the index it's going to remove it two times
-        fields.findIndex((field: any) => field.id === id) > -1 &&
-            remove(fields.findIndex((field: any) => field.id === id));
+    const handleRemoveQuestion = (index: number) => {
+        remove(index);
     };
 
     return (
@@ -65,7 +60,7 @@ export default function BMQuestionItem({
                 />
 
                 <DeleteButton
-                    onClick={() => handleRemoveQuestion(questionIdRemove)}
+                    onClick={() => handleRemoveQuestion(questionIndex)}
                 />
             </div>
 
