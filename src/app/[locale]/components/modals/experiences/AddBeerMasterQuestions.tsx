@@ -1,7 +1,4 @@
 import Button from '../../common/Button';
-import InputLabel from '../../common/InputLabel';
-import SelectInput from '../../common/SelectInput';
-import AddBeerMasterAnswers from './AddBeerMasterAnswers';
 import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwner';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';

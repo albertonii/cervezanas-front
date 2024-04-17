@@ -241,8 +241,3 @@ export default function AddBeerMasterExperienceModal() {
         </ModalWithForm>
     );
 }
-
-// Función para validar que al menos exista una pregunta para el juego
-const validateAtleastOneQuestion = (questions: QuestionFormData[]) => {
-    return questions.length > 0;
-};

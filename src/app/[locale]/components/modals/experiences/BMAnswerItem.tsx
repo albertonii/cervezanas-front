@@ -1,5 +1,6 @@
-import { useTranslations } from 'next-intl';
+import InputLabel from '../../common/InputLabel';
 import React from 'react';
+import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import {
     AnswerFormData,
@@ -7,7 +8,6 @@ import {
 } from '../../../../../lib/types/quiz';
 import { DeleteButton } from '../../common/DeleteButton';
 import { DisplayInputError } from '../../common/DisplayInputError';
-import InputLabel from '../../common/InputLabel';
 
 interface Props {
     answer: AnswerFormData;

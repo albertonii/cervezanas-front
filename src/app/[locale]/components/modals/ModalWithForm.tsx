@@ -1,3 +1,6 @@
+import Button from '../common/Button';
+import PortalModal from './PortalModal';
+import Spinner from '../common/Spinner';
 import useOnClickOutside from '../../../../hooks/useOnOutsideClickDOM';
 import React, {
     ComponentProps,
@@ -6,15 +9,12 @@ import React, {
     useRef,
     useState,
 } from 'react';
-import { faXmark, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslations } from 'next-intl';
-import Button from '../common/Button';
-import { IconButton } from '../common/IconButton';
-import Spinner from '../common/Spinner';
 import { UseFormReturn } from 'react-hook-form';
-import PortalModal from './PortalModal';
+import { IconButton } from '../common/IconButton';
 import { isEmpty } from '../../../../utils/utils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
     showBtn?: boolean;
