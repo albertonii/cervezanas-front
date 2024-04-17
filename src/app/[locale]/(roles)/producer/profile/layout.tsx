@@ -139,7 +139,7 @@ export default function layout({ children }: LayoutProps) {
 
     return (
         <section className="relative flex w-full">
-            <Sidebar sidebarLinks={sidebarLinks} />
+            {sidebarLinks && <Sidebar sidebarLinks={sidebarLinks} />}
 
             <section className="h-full w-full">
                 {profileImg_ && (
