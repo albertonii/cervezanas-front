@@ -7,6 +7,7 @@ import { AddProductModal } from './AddProductModal';
 import { IProduct } from '../../../../../../lib/types/types';
 import { DeleteProduct } from '../../../../components/modals/DeleteProduct';
 import { UpdateProductModal } from './UpdateProductModal';
+import { AddBoxPackModal } from './(boxPack)/AddBoxPackModal';
 
 export function Products() {
     const t = useTranslations();
@@ -39,8 +40,9 @@ export function Products() {
                     </span>
                 </p>
 
-                <div className="w-40">
+                <div className="flex gap-4">
                     <AddProductModal />
+                    <AddBoxPackModal />
                 </div>
             </header>
 

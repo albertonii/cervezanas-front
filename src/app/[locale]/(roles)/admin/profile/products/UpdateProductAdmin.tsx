@@ -40,7 +40,7 @@ import {
     isValidObject,
 } from '../../../../../../utils/utils';
 import ModalWithForm from '../../../../components/modals/ModalWithForm';
-import { ProductStepper } from '../../../../components/modals/ProductStepper';
+import { ProductStepper } from '../../../../components/products/ProductStepper';
 import { UpdateProductInfoSection } from '../../../producer/profile/products/UpdateProductInfoSection';
 import { UpdateMultimediaSection } from '../../../producer/profile/products/UpdateMultimediaSection';
 import { UpdateAwardsSection } from '../../../producer/profile/products/UpdateAwardsSection';

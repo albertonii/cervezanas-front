@@ -42,7 +42,7 @@ import {
 import { UpdateProductSummary } from './UpdateProductSummary';
 import { useAppContext } from '../../../../../context/AppContext';
 import { UpdateAwardsSection } from './UpdateAwardsSection';
-import { ProductStepper } from '../../../../components/modals/ProductStepper';
+import { ProductStepper } from '../../../../components/products/ProductStepper';
 import ModalWithForm from '../../../../components/modals/ModalWithForm';
 
 const schema: ZodType<ModalUpdateProductFormData> = z.object({

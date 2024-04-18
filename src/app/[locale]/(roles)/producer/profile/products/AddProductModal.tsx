@@ -14,7 +14,7 @@ import {
     origin_options,
     product_type_options,
 } from '../../../../../../lib/beerEnum';
-import { MultimediaSection } from '../../../../components/modals/MultimediaSection';
+import { MultimediaSection } from '../../../../components/products/MultimediaSection';
 import {
     IProductInventory,
     IModalAddProductPack,
@@ -23,7 +23,7 @@ import {
 } from '../../../../../../lib/types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { v4 as uuidv4 } from 'uuid';
-import { ProductSummary } from '../../../../components/modals/ProductSummary';
+import { ProductSummary } from '../../../../components/products/ProductSummary';
 import {
     generateFileNameExtension,
     isFileEmpty,
@@ -31,8 +31,8 @@ import {
     isValidObject,
 } from '../../../../../../utils/utils';
 import { useMutation, useQueryClient } from 'react-query';
-import { ProductStepper } from '../../../../components/modals/ProductStepper';
-import { ProductInfoSection } from '../../../../components/modals/ProductInfoSection';
+import { ProductStepper } from '../../../../components/products/ProductStepper';
+import { ProductInfoSection } from '../../../../components/products/ProductInfoSection';
 import { useAppContext } from '../../../../../context/AppContext';
 import dynamic from 'next/dynamic';
 import {
@@ -45,7 +45,7 @@ import {
     ROUTE_P_PRINCIPAL,
 } from '../../../../../../config';
 import { useMessage } from '../../../../components/message/useMessage';
-import { AwardsSection } from '../../../../components/modals/AwardsSection';
+import { AwardsSection } from '../../../../components/products/AwardsSection';
 
 const ModalWithForm = dynamic(
     () => import('../../../../components/modals/ModalWithForm'),
