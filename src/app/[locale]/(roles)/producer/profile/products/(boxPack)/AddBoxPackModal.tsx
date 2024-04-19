@@ -146,7 +146,7 @@ export function AddBoxPackModal() {
                         {activeStep === 0 ? (
                             <BoxPackInfoSection form={form} />
                         ) : activeStep === 1 ? (
-                            <BoxProductSlotsSection />
+                            <BoxProductSlotsSection form={form} />
                         ) : activeStep === 2 ? (
                             <BoxMultimediaSection form={form} />
                         ) : (

@@ -13,99 +13,97 @@ interface Props {
 export function BoxPackInfoSection({ form }: Props) {
     const t = useTranslations();
 
-    const { register, setValue } = form;
+    const { register } = form;
 
     return (
-        <>
-            <section className="relative flex-auto pt-6">
-                <div className="flex w-full flex-col items-end">
-                    <label
-                        className="relative inline-flex cursor-pointer items-center"
-                        htmlFor="is_public"
-                    >
-                        <input
-                            id="is_public"
-                            type="checkbox"
-                            className="peer sr-only"
-                            {...register('is_public', {
-                                required: true,
-                            })}
-                            defaultChecked={true}
-                        />
+        <section className="relative flex-auto pt-6">
+            <div className="flex w-full flex-col items-end">
+                <label
+                    className="relative inline-flex cursor-pointer items-center"
+                    htmlFor="is_public"
+                >
+                    <input
+                        id="is_public"
+                        type="checkbox"
+                        className="peer sr-only"
+                        {...register('is_public', {
+                            required: true,
+                        })}
+                        defaultChecked={true}
+                    />
 
-                        <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-beer-blonde peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-beer-softFoam dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-beer-blonde"></div>
+                    <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-beer-blonde peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-beer-softFoam dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-beer-blonde"></div>
 
-                        <span className="ml-3 text-lg font-medium text-gray-900 dark:text-gray-300">
-                            {t('is_public')}
-                        </span>
-                    </label>
-
-                    <span className="mt-2 text-sm font-medium text-gray-400 dark:text-gray-300">
-                        {t('is_public_description')}
+                    <span className="ml-3 text-lg font-medium text-gray-900 dark:text-gray-300">
+                        {t('is_public')}
                     </span>
-                </div>
+                </label>
 
-                <div className="relative flex-auto space-y-4 pt-6">
-                    <p className="text-slate-500 my-4 text-xl leading-relaxed">
-                        {t('modal_product_add_details_title')}
-                    </p>
+                <span className="mt-2 text-sm font-medium text-gray-400 dark:text-gray-300">
+                    {t('is_public_description')}
+                </span>
+            </div>
 
-                    {/* Name & Campaign  */}
-                    <InputLabel
+            <div className="relative flex-auto space-y-4 pt-6">
+                <p className="text-slate-500 my-4 text-xl leading-relaxed">
+                    {t('modal_product_add_details_title')}
+                </p>
+
+                {/* Name & Campaign  */}
+                <InputLabel
+                    form={form}
+                    label={'name'}
+                    registerOptions={{
+                        required: true,
+                    }}
+                    placeholder="Pack de cervezas"
+                />
+
+                {/* Description  */}
+                <div>
+                    <InputTextarea
                         form={form}
-                        label={'name'}
+                        label={'description'}
                         registerOptions={{
                             required: true,
                         }}
-                        placeholder="Pack de cervezas"
+                        placeholder="Pack de 12 cervezas CCVK - 3 de cada tipo"
                     />
+                </div>
 
-                    {/* Description  */}
-                    <div>
-                        <InputTextarea
+                <div className="flex w-full flex-row space-x-3 ">
+                    {/* Product Weight  */}
+                    <div className="flex w-full flex-row space-x-3 ">
+                        {/* Price  */}
+                        <InputLabel
                             form={form}
-                            label={'description'}
+                            label={'price'}
+                            labelText={`${t('pvpr')} (€)`}
                             registerOptions={{
                                 required: true,
+                                min: 0,
+                                valueAsNumber: true,
                             }}
-                            placeholder="Pack de 12 cervezas CCVK - 3 de cada tipo"
+                            inputType="number"
+                            placeholder={formatCurrency(2.5)}
+                            infoTooltip={'pvpr_tooltip'}
+                        />
+
+                        <InputLabel
+                            form={form}
+                            label={'weight'}
+                            labelText={t('weight') + ' (gr)'}
+                            registerOptions={{
+                                required: true,
+                                min: 0,
+                                valueAsNumber: true,
+                            }}
+                            inputType="number"
+                            defaultValue={330}
                         />
                     </div>
-
-                    <div className="flex w-full flex-row space-x-3 ">
-                        {/* Product Weight  */}
-                        <div className="flex w-full flex-row space-x-3 ">
-                            {/* Price  */}
-                            <InputLabel
-                                form={form}
-                                label={'price'}
-                                labelText={`${t('pvpr')} (€)`}
-                                registerOptions={{
-                                    required: true,
-                                    min: 0,
-                                    valueAsNumber: true,
-                                }}
-                                inputType="number"
-                                placeholder={formatCurrency(2.5)}
-                                infoTooltip={'pvpr_tooltip'}
-                            />
-
-                            <InputLabel
-                                form={form}
-                                label={'weight'}
-                                labelText={t('weight') + ' (gr)'}
-                                registerOptions={{
-                                    required: true,
-                                    min: 0,
-                                    valueAsNumber: true,
-                                }}
-                                inputType="number"
-                                defaultValue={330}
-                            />
-                        </div>
-                    </div>
                 </div>
-            </section>
-        </>
+            </div>
+        </section>
     );
 }

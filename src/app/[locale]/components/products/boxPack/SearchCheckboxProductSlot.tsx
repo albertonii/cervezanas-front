@@ -1,20 +1,20 @@
 'use client';
 
-import ProductAccordion from './ProductAccordion';
-import Spinner from '../../../../components/common/Spinner';
-import InputSearch from '../../../../components/common/InputSearch';
-import PaginationFooter from '../../../../components/common/PaginationFooter';
-import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
 import React, { useEffect, useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { IProduct } from '../../../../../../lib/types/types';
+import useFetchProductsByOwnerAndPagination from '../../../../../hooks/useFetchProductsByOwnerAndPagination';
+import { IProduct } from '../../../../../lib/types/types';
+import InputSearch from '../../common/InputSearch';
+import PaginationFooter from '../../common/PaginationFooter';
+import Spinner from '../../common/Spinner';
+import ProductSlotList from './ProductSlotList';
 
 interface Props {
     form: UseFormReturn<any, any>;
     productItems?: string[];
 }
 
-export function SearchCheckboxCPProductsPack({ form, productItems }: Props) {
+export function SearchCheckboxProductSlot({ form, productItems }: Props) {
     const [products, setProducts] = useState<IProduct[]>([]);
 
     const [query, setQuery] = useState('');
@@ -54,7 +54,7 @@ export function SearchCheckboxCPProductsPack({ form, productItems }: Props) {
                 searchPlaceholder={'search_by_name'}
             />
 
-            <ProductAccordion
+            <ProductSlotList
                 products={filteredItemsByName}
                 form={form}
                 productItems={productItems}
