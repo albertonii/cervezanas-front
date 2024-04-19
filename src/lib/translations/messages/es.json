@@ -856,5 +856,7 @@
     "phone_number": "Número de teléfono",
     "question_add": "Añadir pregunta",
     "add_new_experience": "Añadir experiencia",
-    "experiences_info": "Información de la experiencia"
+    "experiences_info": "Información de la experiencia",
+    "add_box_pack": "Añadir pack de caja",
+    "slots": "Huecos"
 }

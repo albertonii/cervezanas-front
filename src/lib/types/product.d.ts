@@ -21,6 +21,9 @@ export interface ModalAddBoxPackFormData {
     box_pack_id: string;
     product_id: string;
     quantity: number;
+    is_public: boolean;
+    name: string;
+    description: string;
     box_packs: ModalAddBoxPackItemFormData[];
 }
 

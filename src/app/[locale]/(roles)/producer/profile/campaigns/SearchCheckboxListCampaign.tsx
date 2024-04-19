@@ -130,6 +130,6 @@ export function SearchCheckboxListCampaign({
           </ul>
         </div>
       </div>
-    </Modal>
+    </Modal> 
   );
 }

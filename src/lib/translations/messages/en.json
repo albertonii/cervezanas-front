@@ -840,5 +840,7 @@
         "beer_master": "Maestro cervecero"
     },
     "add_new_experience": "Add new experience",
-    "experiences_info": "Experience information"
+    "experiences_info": "Experience information",
+    "add_box_pack": "Add box pack",
+    "slots": "Slots"
 }

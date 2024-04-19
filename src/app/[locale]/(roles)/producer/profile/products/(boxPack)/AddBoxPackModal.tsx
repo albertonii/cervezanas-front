@@ -11,6 +11,10 @@ import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import { useMessage } from '../../../../../components/message/useMessage';
 import { ModalAddBoxPackFormData } from '../../../../../../../lib/types/product';
 import { BoxPackInfoSection } from '../../../../../components/products/boxPack/BoxPackInfoSection';
+import { BoxPackStepper } from '../../../../../components/products/boxPack/BoxPackStepper';
+import { BoxSummary } from '../../../../../components/products/boxPack/BoxSummary';
+import { BoxMultimediaSection } from '../../../../../components/products/boxPack/BoxMultimediaSection';
+import BoxProductSlotsSection from '../../../../../components/products/boxPack/BoxProductSlotsSection';
 
 const ModalWithForm = dynamic(
     () => import('../../../../../components/modals/ModalWithForm'),
@@ -20,7 +24,12 @@ const ModalWithForm = dynamic(
 const schema: ZodType<ModalAddBoxPackFormData> = z.object({
     box_pack_id: z.string().nonempty('Box pack id is required'),
     product_id: z.string().nonempty('Product id is required'),
+    is_public: z.boolean(),
     quantity: z.number().min(1, 'Quantity must be greater than 0'),
+    name: z.string().nonempty('Name is required'),
+    description: z.string().nonempty('Description is required'),
+    price: z.number().min(0, 'Price must be greater than 0'),
+    weight: z.number().min(0, 'Weight must be greater than 0'),
     box_packs: z.array(
         z.object({
             box_pack_id: z.string(),
@@ -41,6 +50,7 @@ export function AddBoxPackModal() {
     const { user, supabase } = useAuth();
 
     const [showModal, setShowModal] = useState<boolean>(false);
+    const [activeStep, setActiveStep] = useState<number>(0);
 
     const { handleMessage } = useMessage();
 
@@ -64,6 +74,10 @@ export function AddBoxPackModal() {
             console.log('Errores detectados creando un pack', errors);
         }
     }, [errors]);
+
+    const handleSetActiveStep = (value: number) => {
+        setActiveStep(value);
+    };
 
     const handleInsertBoxPack = async (form: ValidationSchema) => {
         const {} = form;
@@ -113,12 +127,33 @@ export function AddBoxPackModal() {
             classContainer={''}
             handler={handleSubmit(onSubmit)}
             handlerClose={() => {
+                setActiveStep(0);
                 setShowModal(false);
             }}
             form={form}
         >
             <form>
-                <BoxPackInfoSection form={form} />
+                <BoxPackStepper
+                    activeStep={activeStep}
+                    handleSetActiveStep={handleSetActiveStep}
+                    isSubmitting={isSubmitting}
+                >
+                    <>
+                        <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
+                            {t('modal_product_description')}
+                        </p>
+
+                        {activeStep === 0 ? (
+                            <BoxPackInfoSection form={form} />
+                        ) : activeStep === 1 ? (
+                            <BoxProductSlotsSection />
+                        ) : activeStep === 2 ? (
+                            <BoxMultimediaSection form={form} />
+                        ) : (
+                            <BoxSummary form={form} />
+                        )}
+                    </>
+                </BoxPackStepper>
             </form>
         </ModalWithForm>
     );
