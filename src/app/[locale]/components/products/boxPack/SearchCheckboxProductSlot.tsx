@@ -47,12 +47,14 @@ export function SearchCheckboxProductSlot({ form, productItems }: Props) {
     }
 
     return (
-        <section className="z-10 my-6 w-full space-y-2 rounded bg-white shadow dark:bg-gray-700">
-            <InputSearch
-                query={query}
-                setQuery={setQuery}
-                searchPlaceholder={'search_by_name'}
-            />
+        <section className="z-10 w-full space-y-2 rounded-lg shadow-lg bg-white border-2 dark:bg-gray-700">
+            <div className="m-2">
+                <InputSearch
+                    query={query}
+                    setQuery={setQuery}
+                    searchPlaceholder={'search_by_name'}
+                />
+            </div>
 
             <ProductSlotList
                 products={filteredItemsByName}

@@ -126,6 +126,7 @@ const ProductAccordionItem: React.FC<Props> = ({
                       value={pack.id}
                       className={`h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft`}
                     />
+                    
                     <div>
                       <label
                         htmlFor={`checkbox-pack-${pack.id}`}

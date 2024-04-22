@@ -1,6 +1,7 @@
 import React from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { ModalAddBoxPackFormData } from '../../../../../lib/types/product';
+import BoxProductSlotsSelection from './BoxProductSlotsSelection';
 import { SearchCheckboxProductSlot } from './SearchCheckboxProductSlot';
 
 interface Props {
@@ -9,8 +10,14 @@ interface Props {
 
 export default function BoxProductSlotsSection({ form }: Props) {
     return (
-        <section className="relative flex-auto pt-6">
-            <SearchCheckboxProductSlot form={form} />
+        <section className="grid grid-cols-2 gap-4 pt-6">
+            <div className="col-span-1">
+                <BoxProductSlotsSelection />
+            </div>
+
+            <div className="col-span-1">
+                <SearchCheckboxProductSlot form={form} />
+            </div>
         </section>
     );
 }
