@@ -115,32 +115,30 @@ export function BoxPackStepper({
                     className={`flex-auto border-t-2 transition duration-500 ease-in-out ${productSlotsClass}`}
                 ></div>
 
-                <figure className="relative flex items-center text-white">
-                    <div
+                <div className="relative flex items-center text-gray-500">
+                    <figure
                         className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${productSlotsClass}`}
                     >
                         <svg
-                            xmlns="http://www.w3.org/2000/svg"
                             width="100%"
                             height="100%"
                             fill="none"
-                            viewBox="0 0 24 24"
                             stroke={`${productSlotsIconClass}`}
-                            strokeWidth="2"
+                            strokeWidth="30"
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                            className="feather feather-user-plus "
+                            className="feather feather-mail "
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="-100 0 840 512"
                         >
-                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="8.5" cy="7" r="4"></circle>
-                            <line x1="20" y1="8" x2="20" y2="14"></line>
-                            <line x1="23" y1="11" x2="17" y2="11"></line>
+                            <path d="M58.9 42.1c3-6.1 9.6-9.6 16.3-8.7L320 64 564.8 33.4c6.7-.8 13.3 2.7 16.3 8.7l41.7 83.4c9 17.9-.6 39.6-19.8 45.1L439.6 217.3c-13.9 4-28.8-1.9-36.2-14.3L320 64 236.6 203c-7.4 12.4-22.3 18.3-36.2 14.3L37.1 170.6c-19.3-5.5-28.8-27.2-19.8-45.1L58.9 42.1zM321.1 128l54.9 91.4c14.9 24.8 44.6 36.6 72.5 28.6L576 211.6v167c0 22-15 41.2-36.4 46.6l-204.1 51c-10.2 2.6-20.9 2.6-31 0l-204.1-51C79 419.7 64 400.5 64 378.5v-167L191.6 248c27.8 8 57.6-3.8 72.5-28.6L318.9 128h2.2z" />
                         </svg>
-                    </div>
+                    </figure>
+
                     <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
                         {t('slots')}
                     </div>
-                </figure>
+                </div>
 
                 <div
                     className={`flex-auto border-t-2 transition duration-500 ease-in-out ${multimediaClass}`}
@@ -151,21 +149,26 @@ export function BoxPackStepper({
                         className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${multimediaClass}`}
                     >
                         <svg
-                            xmlns="http://www.w3.org/2000/svg"
                             width="100%"
                             height="100%"
                             fill="none"
-                            viewBox="0 0 24 24"
                             stroke={`${multimediaIconClass}`}
-                            strokeWidth="2"
+                            strokeWidth="40"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             className="feather feather-mail "
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="-100 0 800 512"
                         >
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                            <polyline points="22,6 12,13 2,6"></polyline>
+                            <path
+                                d="M448 80c8.8 0 16 7.2 16 16V415.8l-5-6.5-136-176c-4.5-5.9-11.6-9.3-19-9.3s-14.4 
+                                3.4-19 9.3L202 340.7l-30.5-42.7C167 291.7 159.8 288 152 288s-15 3.7-19.5 10.1l-80 
+                                112L48 416.3l0-.3V96c0-8.8 7.2-16 16-16H448zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 
+                                28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm80 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"
+                            />
                         </svg>
                     </figure>
+
                     <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
                         {t('multimedia')}
                     </div>
