@@ -2,18 +2,18 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import Spinner from '../../../../components/common/Spinner';
+import InputSearch from '../../../../components/common/InputSearch';
 import PaginationFooter from '../../../../components/common/PaginationFooter';
-import React, { ComponentProps, memo, useMemo, useState } from 'react';
+import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
+import React, { ComponentProps, useMemo, useState } from 'react';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
 import { IProduct } from '../../../../../../lib/types/types';
-import Spinner from '../../../../components/common/Spinner';
 import { EditButton } from '../../../../components/common/EditButton';
 import { formatCurrency } from '../../../../../../utils/formatCurrency';
 import { DeleteButton } from '../../../../components/common/DeleteButton';
 import { ArchiveButton } from '../../../../components/common/ArchiveButton';
-import InputSearch from '../../../../components/common/InputSearch';
-import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
 
 interface Props {
     handleEditShowModal: ComponentProps<any>;
@@ -121,7 +121,12 @@ export function ProductList({
             )}
 
             {isLoading && (
-                <Spinner color="beer-blonde" size="xLarge" absolute center />
+                <Spinner
+                    color="beer-blonde"
+                    size="xLarge"
+                    absolute
+                    flexCenter
+                />
             )}
 
             {!isError && !isLoading && products?.length === 0 ? (
@@ -176,9 +181,6 @@ export function ProductList({
                                                             height={128}
                                                             className="h-8 w-8 rounded-full"
                                                             src="/icons/beer-240.png"
-                                                            loader={() =>
-                                                                '/icons/beer-240.png'
-                                                            }
                                                             alt="Beer Type"
                                                         />
                                                     </th>

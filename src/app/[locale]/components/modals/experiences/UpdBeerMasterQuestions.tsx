@@ -111,7 +111,7 @@ export const UpdBeerMasterQuestions = ({ form, experienceId }: Props) => {
      * @param index
      * @returns
      */
-    const handleRemoveQuestion = async (index: number) => {
+    const handleRemoveQuestion = async (index: number, questionId: string) => {
         const deleteQuestionId = getValues(`questions.${index}.id`);
 
         if (deleteQuestionId) {
@@ -126,6 +126,7 @@ export const UpdBeerMasterQuestions = ({ form, experienceId }: Props) => {
         }
 
         remove(index);
+
         setTimeout(() => {
             queryClient.invalidateQueries('experiences');
         }, 300);
@@ -198,7 +199,7 @@ export const UpdBeerMasterQuestions = ({ form, experienceId }: Props) => {
                                 { label: 'hard', value: 'hard' },
                             ]}
                             label={`questions.${questionIndex}.question.difficulty`}
-                            labelText={`difficulty`}
+                            labelText={`${t('difficulty')}`}
                             registerOptions={{
                                 required: true,
                             }}
@@ -207,7 +208,10 @@ export const UpdBeerMasterQuestions = ({ form, experienceId }: Props) => {
                         <div className="ml-4">
                             <DeleteButton
                                 onClick={() =>
-                                    handleRemoveQuestion(questionIndex)
+                                    handleRemoveQuestion(
+                                        questionIndex,
+                                        question.id,
+                                    )
                                 }
                             />
                         </div>

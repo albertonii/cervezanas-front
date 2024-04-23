@@ -1,54 +1,55 @@
+WBG = Write in Backlog -> JIRA
+
 # Listado de tareas:
 
-- [ ] Añadir el IBU al crear producto
-- [ ] Eliminar imágenes de la BBDD si los productos son eliminados
-- Sistema para automatizar el stock de un producto (pack)
-- Añadir awards de cerveza del mes para: comité de expertos, experimentales y de la comunidad
-- Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
-- Modificar el precio de un producto asociado a un PC
-- Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
-- Al entrar por primera vez con un usuario nuevo, recomendar que rellene la información básica de usuario
-- Historial de ventas en un punto de consumo
-- Componente para recuperar contraseña de usuario
-- [ ] Comprobar que funcione SMTP para configuración de usuarios
-- QR ID único para producto, fábrica, pc móvil, pc fijo, evento, usuario
-- Sistema de stock para controlar las cantidades de cada producto/pack
-- CRUD imágenes en productos
-- CRUD imágenes en eventos
-- Al querer compartir un producto, crear la url con el id del producto que se desea enviar y configurar la autenticación necesaria para transmitir la cerveza a otro usuario
-- Al guardar un evento con puntos de consumo, a veces no se guardan los PC -> Comprobar
+- [WBG] Añadir el IBU al crear producto
+- [WBG] Eliminar imágenes de la BBDD si los productos son eliminados
+- [WBG] Sistema para automatizar el stock de un producto (pack)
+- [WBG] Añadir awards de cerveza del mes para: comité de expertos, experimentales y de la comunidad
+- [WBG] Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
+- [WBG] Modificar el precio de un producto asociado a un PC
+- [WBG] Calcula el peso del pedido en base a todos los productos que se tienen que enviar. Con esto sacamos el coste de envío
+- [WBG] Al entrar por primera vez con un usuario nuevo, recomendar que rellene la información básica de usuario
+- [WBG] Historial de ventas en un punto de consumo
+- [WBG]Componente para recuperar contraseña de usuario
+- [x] Comprobar que funcione SMTP para configuración de usuarios
+- [WBG] QR ID único para producto, fábrica, pc móvil, pc fijo, evento, usuario
+- [WBG] CRUD imágenes en productos
+- [WBG] CRUD imágenes en eventos
+- [WBG] Al querer compartir un producto, crear la url con el id del producto que se desea enviar y configurar la autenticación necesaria para transmitir la cerveza a otro usuario
+- [WBG] Al guardar un evento con puntos de consumo, a veces no se guardan los PC -> Comprobar
 - Añadir en vista de eventos para admin los PC asociados a los eventos
-- Para que un producto sea público debe de ser revisado antes por un administrador
-- Indicar la relación de aspecto de todas las imágenes para reducir layout shift (cls - Cumulative Layout Shift): https://www.youtube.com/watch?v=RhZPNVshYWI
+- [WBG] Para que un producto sea público debe de ser revisado antes por un administrador
+- [WBG] Indicar la relación de aspecto de todas las imágenes para reducir layout shift (cls - Cumulative Layout Shift): https://www.youtube.com/watch?v=RhZPNVshYWI
 
 # WIP
 
 - [ ] Historial de ventas en un punto de consumo
 - [ ] Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
-- [ ] Implementar Dark Mode -> Gustavo
-- [ ] En eventos, permitir pago en físico -> Saltar la pasarela de pago, indicar en la orden del pedido que se ha pagado en físico. El barman debe de dar el OK
+- [WBG] Implementar Dark Mode -> Gustavo
+- [WBG] En eventos, permitir pago en físico -> Saltar la pasarela de pago, indicar en la orden del pedido que se ha pagado en físico. El barman debe de dar el OK
 - Conectar los servicios nuevos de Miguel con la aplicación
 - Cervezanas en Producción
 
-- REVIEWS
+- [WBG] REVIEWS
   Se ha deshabilitado la función de borrado en Reviews hasta que no exista una referencia a order_items y review para manejar si el objeto ha sido o no "criticado" por el usuario. Si se borra una review, se debe de cambiar el estado de order item is_reviewed a false. Si el producto ya ha sido criticado por el usuario, no permitir que se cree una nueva review si se compró otro pack del mismo producto.
 
   a. [x] CRUD para una review de un producto comprado
-  b. Al borrar una review, confirmar la acción con un modal
-  c. Al borrar review, cambiar el estado de order item is_reviewed a false
-  d. Si el producto ya ha sido criticado por el usuario, no permitir que se cree una nueva review si se compró otro pack del mismo producto
+  b. [WBG] Al borrar una review, confirmar la acción con un modal
+  c. [WBG] Al borrar review, cambiar el estado de order item is_reviewed a false
+  d. [WBG] Si el producto ya ha sido criticado por el usuario, no permitir que se cree una nueva review si se compró otro pack del mismo producto
   e. [x] Sistema básico de gamificación -> al realizar compra, review, etc
-  f. Si creamos una review, añadir la experiencia a su sistema de gamificación
-  g. Si borra una review, restar la experiencia a su sistema de gamificación
-  h. Ver las reviews realizadas por un usuario
+  f. [WBG] Si creamos una review, añadir la experiencia a su sistema de gamificación
+  g. [WBG] Si borra una review, restar la experiencia a su sistema de gamificación
+  h. [WBG] Ver las reviews realizadas por un usuario
 
 # FUTURE
 
-- Editar una campaña
-- Vincular productos a la campaña
-- Vídeo de presentación de Cervezanas -> Código QR en eventos, etc.
-- [ ] En los productos que se venden en el evento, administrar si está activo o no desde el panel de administración del productor
-- [ ] Popup Modal con SignIn
+- [WBG] Editar una campaña
+- [WBG] Vincular productos a la campaña
+- [WBG] Vídeo de presentación de Cervezanas -> Código QR en eventos, etc.
+- [WBG] En los productos que se venden en el evento, administrar si está activo o no desde el panel de administración del productor
+- [WBG] Popup Modal con SignIn
 
 # Tareas realizadas
 
@@ -125,7 +126,7 @@ Documentación creada.
 
 **https://app.diagrams.net/#G1q9oP0KnGLhab83OiCl2jmiIsUGwDaeu7**
 
-Me encuentro en un punto donde la reutilización del conocimiento es primordial para no generar technical debt.
+- [WBG] Me encuentro en un punto donde la reutilización del conocimiento es primordial para no generar technical debt.
 Para poder realizar una distribución efectiva, hay que tener en cuenta los factores que afectan al coste de distribución:
 
 - Tamaño y peso del paquete
@@ -163,7 +164,7 @@ Seguimos con el sistema de distribución. Ahora mismo me interesa avanzar y, aun
 
 Se ha creado en BBDD el modelo flatrate_cost para asociar un precio a cada tipo de coste de distribución. Además, solo se comprobará si están sus booleanos a true.
 
-Diagrama relacional Sistema de Distribución:
+- [WBG] Diagrama relacional Sistema de Distribución:
 https://app.diagrams.net/#G1q9oP0KnGLhab83OiCl2jmiIsUGwDaeu7
 
 ---
@@ -182,10 +183,10 @@ InputLabel y InputTextarea creados, con ellos reduciré el código usado en toda
 
 ## 12 enero
 
-Subir imágenes de Cervezanas en el drive: vista de la homepage de Gustavo, imágenes de IA, fotografías del Hendrix, etc
-Enfocarnos en los diseños para el webminar
-Crear vídeo
-Nos vamos al BBF a finales de marzo
+- [x] Subir imágenes de Cervezanas en el drive: vista de la homepage de Gustavo, imágenes de IA, fotografías del Hendrix, etc
+- [x] Enfocarnos en los diseños para el webminar
+- [no] Crear vídeo
+- [x] Nos vamos al BBF a finales de marzo
 
 ---
 
@@ -234,7 +235,7 @@ NOTIFICACIÓN para dar de alta productor y distribuidor
 
 ---
 
-- Comprobar que sign in con Google sea igual que por usuario y contraseña
+- [x] Comprobar que sign in con Google sea igual que por usuario y contraseña
   No está funcionando... ¿puede que haya que verificar APP con Google?
 
 ---
@@ -268,7 +269,7 @@ Planificación de este año.
   - [x] Área de cobertura - Europa - Distributor
 - [x] Crear lista dinámica de productos del mes
 - [x] Mostrar productos del mes en la homepage
-- [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
+- [WBG] Comprobar que funciona Puntos Cervezanas -> MAPA
 - [x] Lista de Puntos de Consumo para el ADMIN
 
 --
@@ -277,7 +278,7 @@ Planificación de este año.
 
 - [x] Disclaimer para productor
 - [x] Disclaimer para distribuidor
-- [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
+- [WBG] Comprobar que funciona Puntos Cervezanas -> MAPA
 - [x] Comprobar porque no se ven los productos bien al estar creando los packs, product_multimedia y awards
 - [x] No está funcionado dentro de crear producto el estado de la sección de packs.
 - [x] ESCONDER TODAS LAS FUNCIONALIDADES QUE ESTÉN A MEDIAS: Campaña, Lista de deseos, etc
@@ -294,7 +295,7 @@ Planificación de este año.
 - [x] Disclaimer modal al crear distribuidor
 - [x] Error al incrementar packs en el carrito de la compra -> al finalizar la compra
 - [x] Eroror vista de producto en detalle
-- [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
+- [WBG] Comprobar que funciona Puntos Cervezanas -> MAPA
 - [ ] Crear nueva entrada en tabla Gamification cada vez que se crea un usuario. Ya sea consumer, producer o distributor, todos tendrán gamificación -> Es extraño, con Customize_settings no da error
 - [x] ESCONDER TODAS LAS FUNCIONALIDADES QUE ESTÉN A MEDIAS: Campaña, Lista de deseos, etc
 - [x] Desplegar cambios
@@ -539,7 +540,7 @@ Para futuro: en un PC se puede hacer citas previas para usar esta experiencia. P
 ### 16 de febrero
 
 - [x] Reunión 16 de febrero - Joan Fiol -> BBF
-- [ ] Sign in Google
+- [WBG] Sign in Google
 - [ ] Añadir experiencia Cervezanas a un PC en un evento
 - [x] Añadir un precio de inscripción a la experiencia
 - [ ] Seleccionar una Cerveza para la experiencia. Vincularla a la experiencia con las preguntas y respuestas preconfiguradas.
@@ -658,11 +659,11 @@ Habilitar formulario para feedbacks/reporte de errores
 - [x] Botón para volver al evento
 - [ ] Habilitar formulario para feedbacks/reporte de errores
 - [ ] Arreglar restablecer contraseña -> Se está enviando el código para poder restablecer la contraseña. Hacer los redireccionamientos oportunos para poder trabajar en pre y producción.- [x] Revisión de contratos con Productores de Cervezas - https://docs.google.com/document/d/1xNllZMIvOH6h0FkmGw1UuNG7zjnvn9S2q_erBB2IGkM/edit
-- [ ] Comprobar que funciona Puntos Cervezanas -> MAPA
-- [ ] En eventos, permitir pago en físico -> Saltar la pasarela de pago, indicar en la orden del pedido que se ha pagado en físico. El barman debe de dar el OK
-- [ ] Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
+- [WBG] Comprobar que funciona Puntos Cervezanas -> MAPA
+- [WBG] En eventos, permitir pago en físico -> Saltar la pasarela de pago, indicar en la orden del pedido que se ha pagado en físico. El barman debe de dar el OK
+- [WBG] Mostrar en el pedido de evento cual es el punto de consumo al que has comprado
 - [x] Error con carrito de eventos -> Se estaba creando un estado vacío, por lo que daba error. Ahora comprueba cada vez que se acceda que exista un carrito de compra para ese evento.
-- [ ] Mostrar vista de detalles del producto que existen en el evento -> Punto de Consumo.
+- [WBG] Mostrar vista de detalles del producto que existen en el evento -> Punto de Consumo.
 - [x] Notificación/Mensaje en el botón de experiencias -> Solo accesible para usuarios registrados
 - [ ] Después de realizar el juego de Maestro Cervecero, crear el recuento de puntos para ese evento.
 - [ ] Crear tabla de descuentos obtenidos por el usuario en el evento
@@ -690,7 +691,6 @@ Habilitar formulario para feedbacks/reporte de errores
 - [ ] Realtime actualizacion para experiencia pagada
 - [ ] En el caso del stand de Cervezanas, que habrán 2 cervezas para la experiencia de Maestro Cervecero, ¿cómo se cuentan las experiencias? Pq cada una tiene un precio distinto... En la experiencia permitir añadir varias cervezas. Y mostrar en el juego todas las cervezas.
 - [ ] Mínimo de haber participado en 4 experiencias para poder participar en el concurso de las 2 entradas y premios.
-- [ ] Todos tienen descuento de un 10% en las compras online. Los que más puntos tengan (top 100) en el juego de Maestro Cervecero, tendrán más premios. Recibiras el resultado del concurso en la dirección de correo.
 - [x] Quitar los productos que se van a vender en el evento.
 - [ ] Todos tienen descuento de un 10% en las compras online. Los que más puntos tengan (top 100) en el juego de Maestro Cervecero, tendrán más premios. Recibiras el resultado del concurso en la dirección de correo.
 - [x] En los productos que se venden en el evento, indicar que se venden en el evento. Propiedad is_active en el modelo de datos.
@@ -774,40 +774,59 @@ Habilitar formulario para feedbacks/reporte de errores
 - [x] Si el usuario cancela el pedido online -> Estado: Cancelado por el usuario
 - [x] Si el usuario desde Paypal/Bizum decide cancelar y volver a la página anterior -> Estado: Cancelado por el usuario
 - [WIP] Error al actualizar premios en el producto -> Se crean varios diferentes.
-- [ ] Cuando se tengan que eliminar elementos de un listado que se selecciona y deselecciona -> usaremos un Array de elementos seleccionados (para insertar) y otro Array de elementos deseleccionados (para eliminar). Es mucho más efectivo hacerlo de esta forma.
+- [WBG] Cuando se tengan que eliminar elementos de un listado que se selecciona y deselecciona -> usaremos un Array de elementos seleccionados (para insertar) y otro Array de elementos deseleccionados (para eliminar). Es mucho más efectivo hacerlo de esta forma.
 - [x] Detectar si el estado del carrito de la compra está abierto o cerrado para que no aparezca abierto siempre.
-- [ ] ¿Necesitamos tener en el usuario el parámetro CP_ORGANIZER_STATUS? -> Si ya han aceptado los términos y condiciones creo que no es necesaria esta lógica.
+- [WBG] ¿Necesitamos tener en el usuario el parámetro CP_ORGANIZER_STATUS? -> Si ya han aceptado los términos y condiciones creo que no es necesaria esta lógica.
 - [ ] Crear usuario para CCVK -> Configurar productos, PC y experiencias
 - [x] Si el barman escanéa el código y no está registrado -> LOOP INFINITO -> Pq no estaba redireccionando de manera adecuada a /signin
 - [ ] Error al mostrar imágenes del producto
 - [x] Permitir guardar el producto aunque no tengan imágenes asociadas (para awards, packs y product multimedia)
-- [ ] Añadir como estilo de Cerveza -> aged_beer, ácida
+- [WBG] Añadir como estilo de Cerveza -> aged_beer, ácida
 - [x] Añadir color de Cerveza -> DARK
 - [x] Cambiar nombre Add Product a Add Award -> Creación/edición de producto
 - [ ] Al crear producto a veces no carga -> Tienes que volver a darle a añadir y pulsar en add
-- [ ] Permitir configurar los estilos, colores, etc en el productor de una manera amena.
-- [ ] Ordenar cervezas manera alfabetica
+- [WBG] Permitir configurar los estilos, colores, etc en el productor de una manera amena.
+- [WBG] Ordenar cervezas manera alfabetica
 - [x] Crear entrada en tabla CONSUMPTION_POINTS AL CREAR UN USUARIO PRODUCTOR
 - [ ] Para el momento de crear experiencia -> Indicar en el listado el producto que se está vinculando
-- [ ] Si no funciona sign in con Google -> ELIMINARLO
-- [ ] Notificar que revisen el email cuando se crea usuario productor o distribuidor
+- [x] Si no funciona sign in con Google -> ELIMINARLO
+- [x] Notificar que revisen el email cuando se crea usuario productor o distribuidor
 - [ ] No se muestra el pack cuando la inserción es inmediata -> Se tiene que refrescar
 - [ ] Cambiar nombre de nuevo Punto Móvil a -> nuevo STAND
 - [ ] Quitar el booleano de ORGANIZADOR INTERNO -> VAMOS A HACER QUE TODOS LO SEAN
 - [FUTURE] Funcionalidad en el mapa para crear un PC -> poder seleccionar la dirección presionando en un punto en el mapa.
 - [ ] Cuando se añade un PC -> Invalidar QUERY para que se actualice la información
-- [ ] Traducción question_ADD, associated_experiences, EVENTOS_CERVEZANAS update y añadir
+- [x] Traducción question_ADD, associated_experiences, EVENTOS_CERVEZANAS update y añadir
 - [x] Vista móvil -> Flex col para elementos del barman en la experiencia
 - [x] Añadir signout en menú móvil
 - [x] Poner en el footer el correo y el contacto: cervezanas@socialinnolabs.org
       teléfono: 687 85 96 55
-- [ ] Implementar seguridad para la lectura de QRs en experiencia -> Solo puede leer el dueño del stand o el administrador.
+- [WBG] Implementar seguridad para la lectura de QRs en experiencia -> Solo puede leer el dueño del stand o el administrador.
 - [x] BG para online orders y event_orders en menu CONSUMER - DISEÑO PARA LISTAS
 - [x] Actualizar vista para que una vez se de el OK en participación de experiencia se actualice la vista en el navegador.
 - [ ] Comprobar que los textos son lo suficientemente largos para ser leidos en su totalidad
-- [ ] ARREGLAR LA PAGINACIÓN en los listados -> Por ahora lo solucionamos con results per page = 100
+- [WBG] ARREGLAR LA PAGINACIÓN en los listados -> Por ahora lo solucionamos con results per page = 100
 - [ ] Cuando se añade una cervza nueva no se actualiza el pack (al ir a ver la información en el update)
-- [ ] Sistema para actualizar el elemento actualizado en el sidebar de profile. Hay veces en las que no queda actualizado -> Estás en producto y quizás se ve EVENTOS.
-- [ ] En la galería de imágenes de un producto, si hay alguna URL que no obtenga la imagen, no mostrarlo.
+- [WBG] Sistema para actualizar el elemento actualizado en el sidebar de profile. Hay veces en las que no queda actualizado -> Estás en producto y quizás se ve EVENTOS.
+- [WBG] En la galería de imágenes de un producto, si hay alguna URL que no obtenga la imagen, no mostrarlo.
+- Al escanear códigos QR de dos en dos, se va actualizando la experiencia a pagado o no -
+  -- MIRAR DUPLICADO EN CERVEZA WITH EXPERIENCE
+- [WBG] No permitir finalizar el juego si hay alguna pregunta que esté sin contestar. Mensaje de aviso.
+- [WBG] Al actualizar experiencias, no se relacionan correctamente con las que existen. Además de cambiar las relaciones del product_id al que está haciendo referencia la pregunta. BM_QUESTIONS
+- [WBG] Si se ha registrado con email y contraseña e intenta entrar con google. MENSAJE DE ERROR
+      https://www.lovilotfarmbrewery.com/es/contacto/
+- ROLES: Punto de distribución y Punto de Consumo, proveedor de experiencias. Debemos de crear una experiencia fluida para que un mismo usuario pueda manejar sus diferentes roles. Algo similar a lo que hacen en MATCHREADY.
+- [WBG] Registrar la receta del Maestro Cervecero de cada CERVEZA -> AUTOR
+- [WBG] Contribución del proyecto social de Cervezanas -> INDICAR el PORCENTAJE en algún lado. PARA AHORA será del 5%
 
-https://www.lovilotfarmbrewery.com/es/contacto/
+
+### 1 de abril
+
+- Organizar información del BBF
+- Aprender a usar Github Projects para los sprints
+- Organizar Versión 2 de Cervezanas -> ROADMAP
+
+### 2 de abril
+
+- Aprender a usar Github Projects para los sprints
+- Organizar Versión 2 de Cervezanas -> ROADMAP

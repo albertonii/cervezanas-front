@@ -1,25 +1,25 @@
 import Button from '../common/Button';
-import InputLabel from '../common/InputLabel';
-import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { IAward } from '../../../../lib/types/types';
+import { DeleteButton } from '../common/DeleteButton';
+import { ModalAddProductFormData } from '../../../../lib/types/types';
+import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { DisplayInputError } from '../common/DisplayInputError';
 import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
-import { SupabaseProps } from '../../../../constants';
-import { DeleteButton } from '../common/DeleteButton';
+import InputLabel from '../common/InputLabel';
 
 const emptyAward: IAward = {
     id: '',
     name: '',
     description: '',
     img_url: '',
-    year: 0,
+    year: 2023,
     product_id: '',
 };
 
 interface Props {
-    form: UseFormReturn<any, any>;
+    form: UseFormReturn<ModalAddProductFormData, any>;
 }
 
 interface FileProps {
@@ -27,13 +27,10 @@ interface FileProps {
     file: File;
 }
 
-export function UpdateAwardsSection({ form }: Props) {
-    const t = useTranslations();
-
-    const preUrl =
-        SupabaseProps.BASE_URL + SupabaseProps.STORAGE_PRODUCTS_IMG_URL;
-
+export const AwardsSection = ({ form }: Props) => {
     const { control } = form;
+
+    const t = useTranslations();
 
     const { fields, append, remove } = useFieldArray({
         name: 'awards',
@@ -57,37 +54,39 @@ export function UpdateAwardsSection({ form }: Props) {
         });
     }, [selectedFiles]);
 
-    const handleAddAward = () => {
-        append(emptyAward);
-    };
-
     const handleRemoveAward = (index: number) => {
         setSelectedFiles((current) =>
             current.filter((selectedFile) => selectedFile.index !== index),
         );
+
         remove(index);
     };
 
-    return (
-        <section id="Award">
-            {fields.map((field, index) => (
-                <div key={field.id}>
-                    <div className="grid grid-cols-12 gap-4">
-                        <div className="col-span-11">
-                            <InputLabel
-                                form={form}
-                                label={`awards.${index}.name`}
-                                labelText={`${index + 1} ${t('name')}`}
-                                registerOptions={{
-                                    required: true,
-                                }}
-                                placeholder={t(
-                                    'input_product_award_name_placeholder',
-                                )}
-                            />
-                        </div>
+    const handleAddAward = () => {
+        append(emptyAward);
+    };
 
-                        <div className="col-span-1 items-end flex justify-end">
+    return (
+        <section id="Award" className="space-y-4">
+            {fields.map((field, index) => (
+                <div
+                    key={field.id}
+                    className="relative flex-auto space-y-4 pt-6"
+                >
+                    <div className="flex flex-row items-end">
+                        <InputLabel
+                            form={form}
+                            label={`awards.${index}.name`}
+                            labelText={`${index + 1} ${t('name')}`}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder={t(
+                                'input_product_award_name_placeholder',
+                            )}
+                        />
+
+                        <div className="ml-4">
                             <DeleteButton
                                 onClick={() => handleRemoveAward(index)}
                             />
@@ -128,7 +127,6 @@ export function UpdateAwardsSection({ form }: Props) {
                         <FilePreviewImageMultimedia
                             form={form}
                             registerName={`awards.${index}.img_url`}
-                            preUrl={preUrl}
                         />
 
                         {`errors.awards.${index}.img_url.type` ===
@@ -144,4 +142,4 @@ export function UpdateAwardsSection({ form }: Props) {
             </Button>
         </section>
     );
-}
+};

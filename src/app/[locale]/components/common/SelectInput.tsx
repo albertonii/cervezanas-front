@@ -1,75 +1,85 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { InfoTooltip } from './InfoTooltip';
 import { DisplayInputError } from './DisplayInputError';
 
 interface Props {
-  form: UseFormReturn<any, any>;
-  labelTooltip?: string;
-  options: { label: string; value: any }[];
-  label: string;
-  labelText?: string;
-  defaultValue?: any;
-  registerOptions?: {
-    required?: boolean;
-    min?: number;
-    max?: number;
-    minLength?: number;
-    maxLength?: number;
-    pattern?: RegExp;
-    validate?: any;
-    valueAsNumber?: boolean;
-  };
-  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    form: UseFormReturn<any, any>;
+    labelTooltip?: string;
+    options: { label: string; value: any }[];
+    label: string;
+    labelText?: string;
+    defaultValue?: any;
+    registerOptions?: {
+        required?: boolean;
+        min?: number;
+        max?: number;
+        minLength?: number;
+        maxLength?: number;
+        pattern?: RegExp;
+        validate?: any;
+        valueAsNumber?: boolean;
+    };
+    onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-export default function SelectInput({
-  form,
-  options,
-  label,
-  labelText,
-  labelTooltip,
-  defaultValue,
-  registerOptions,
-  onChange,
-}: Props) {
-  const t = useTranslations();
+const SelectInput = memo(
+    ({
+        form,
+        options,
+        label,
+        labelText,
+        labelTooltip,
+        defaultValue,
+        registerOptions,
+        onChange,
+    }: Props) => {
+        const t = useTranslations();
 
-  const {
-    register,
-    formState: { errors },
-  } = form;
+        const {
+            register,
+            formState: { errors },
+        } = form;
 
-  return (
-    <div className="w-full">
-      <label htmlFor={label} className="flex text-sm text-gray-600">
-        {labelText ? labelText : t(label)}
+        return (
+            <div className="w-full">
+                <label htmlFor={label} className="flex text-sm text-gray-600">
+                    {labelText ? labelText : t(label)}
 
-        {labelTooltip && (
-          <InfoTooltip content={`${t(labelTooltip)}`} delay={0} width={600} />
-        )}
-      </label>
+                    {labelTooltip && (
+                        <InfoTooltip
+                            content={`${t(labelTooltip)}`}
+                            delay={0}
+                            width={600}
+                        />
+                    )}
+                </label>
 
-      <select
-        {...register(label, registerOptions)}
-        id={label}
-        className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-        value={defaultValue}
-        onChange={onChange}
-      >
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {t(option.label)}
-          </option>
-        ))}
-      </select>
+                <select
+                    {...register(label, registerOptions)}
+                    id={label}
+                    className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                    value={defaultValue}
+                    onChange={onChange}
+                >
+                    {options.map((option) => (
+                        <option key={option.value} value={option.value}>
+                            {t(option.label)}
+                        </option>
+                    ))}
+                </select>
 
-      {errors[label] && (
-        <DisplayInputError
-          message={errors[label]?.message || 'errors.input_required'}
-        />
-      )}
-    </div>
-  );
-}
+                {errors[label] && (
+                    <DisplayInputError
+                        message={
+                            errors[label]?.message || 'errors.input_required'
+                        }
+                    />
+                )}
+            </div>
+        );
+    },
+);
+
+export default SelectInput;

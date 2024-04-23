@@ -828,6 +828,7 @@ type ModalUpdateProductAwardFormData = {
 };
 
 type ModalAddProductPackFormData = {
+    id: string;
     product_id: string;
     quantity: number;
     price: number;

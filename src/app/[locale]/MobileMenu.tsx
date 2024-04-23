@@ -10,6 +10,7 @@ import {
     ROUTE_ADMIN,
     ROUTE_CONSUMER,
     ROUTE_CONTRACTS_CPS,
+    ROUTE_DISTRIBUTOR,
     ROUTE_EVENTS,
     ROUTE_EVENT_ORDERS,
     ROUTE_EXPERIENCES,
@@ -21,7 +22,6 @@ import {
     ROUTE_PROFILE,
     ROUTE_SETTINGS,
     ROUTE_SIGNIN,
-    ROUTE_SIGNUP,
 } from '../../config';
 import { useTranslations } from 'next-intl';
 import { INotification } from '../../lib/types/types';
@@ -68,10 +68,6 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
         router.push(`/${locale}${ROUTE_SIGNIN}`);
         setOpenNotification(false);
     };
-    const handleSignUp = () => {
-        router.push(`/${locale}${ROUTE_SIGNUP}`);
-        setOpenNotification(false);
-    };
 
     // TODO: Cerrar sesión BIEN
     const handleSignOut = () => {
@@ -114,35 +110,34 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                     </>
                 </Button>
 
-                {!user ? (
+             {!user && (
                     <div className="m-auto absolute left-2/4 -ml-24 mt-2 z-20">
                         <Button
                             class={`${MENU_ITEM_STYLES} bg-beer-softBlonde text-beer-dark m-auto font-bold`}
-                            onClick={handleSignUp}
+                            onClick={handleSignIn}
                         >
                             {t('sign_up_now').toUpperCase()}
                         </Button>
                     </div>
-                ) : (
-                    <div></div>
-                )}
-                {/* Logo Cervezanas  */}
-                <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24">
-                    <figure className="absolute flex h-[70px] w-[70px] right-0 p-2 sm:h-[143px] sm:w-[141px] sm:p-2 lg:h-[153] lg:w-[151px] ">
-                        <Link href={'/'} locale={locale}>
-                            <Image
-                                src="/logo_cervezanas.svg"
-                                alt="Cervezanas Logo"
-                                width={100}
-                                height={100}
-                                style={{ objectFit: 'contain' }}
-                                priority={true}
-                                sizes="100px"
-                            />
-                        </Link>
-                        <div className="absolute -bottom-5 h-[22px] w-full pt-[22px]"></div>
-                    </figure>
-                </div>
+                ) }
+
+            {/* Logo Cervezanas  */}
+            <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24">
+                <figure className="absolute flex h-[70px] w-[70px] right-0 p-2 sm:h-[143px] sm:w-[141px] sm:p-2 lg:h-[153] lg:w-[151px] ">
+                    <Link href={'/'} locale={locale}>
+                        <Image
+                            src="/logo_cervezanas.svg"
+                            alt="Cervezanas Logo"
+                            width={100}
+                            height={100}
+                            style={{ objectFit: 'contain' }}
+                            priority={true}
+                            sizes="100px"
+                        />
+                    </Link>
+                    <div className="absolute -bottom-5 h-[22px] w-full pt-[22px]"></div>
+                </figure>
+            </div>
 
                 <div
                     ref={sidebarRef}
@@ -439,7 +434,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                 'business_orders', 'signout',
                                 <li className="flex items-center">
                                     <Link
-                                        href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_SETTINGS}`}
+                                        href={`${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_SETTINGS}`}
                                         onClick={() =>
                                             setOpenNotification(false)
                                         }
@@ -455,7 +450,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                 </li>
                                 <li className="flex items-center">
                                     <Link
-                                        href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_CONTRACTS_CPS}`}
+                                        href={`${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_CONTRACTS_CPS}`}
                                         onClick={() =>
                                             setOpenNotification(false)
                                         }
@@ -471,7 +466,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                 </li>
                                 <li className="flex items-center">
                                     <Link
-                                        href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_MONTHLY_PRODUCTS}`}
+                                        href={`${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_MONTHLY_PRODUCTS}`}
                                         onClick={() =>
                                             setOpenNotification(false)
                                         }
@@ -489,7 +484,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                 </li>
                                 <li className="flex items-center">
                                     <Link
-                                        href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_NOTIFICATIONS}`}
+                                        href={`${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_NOTIFICATIONS}`}
                                         onClick={() =>
                                             setOpenNotification(false)
                                         }

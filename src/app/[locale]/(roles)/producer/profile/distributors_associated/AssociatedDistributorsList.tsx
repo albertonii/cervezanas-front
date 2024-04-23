@@ -151,7 +151,12 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
             )}
 
             {isLoading && (
-                <Spinner color="beer-blonde" size="xLarge" absolute center />
+                <Spinner
+                    color="beer-blonde"
+                    size="xLarge"
+                    absolute
+                    flexCenter
+                />
             )}
 
             {!isError && !isLoading && sortedItems.length > 0 && (

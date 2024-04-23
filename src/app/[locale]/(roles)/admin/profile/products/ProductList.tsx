@@ -188,9 +188,6 @@ export function ProductList({
                                                             '/icons/beer-240.png'
                                                         }
                                                         alt="Beer Type"
-                                                        loader={() =>
-                                                            '/icons/beer-240.png'
-                                                        }
                                                     />
                                                 </th>
 

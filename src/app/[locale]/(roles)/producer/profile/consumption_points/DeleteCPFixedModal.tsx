@@ -31,15 +31,14 @@ export default function DeleteCPFixedModal({
             .eq('id', selectedCPId);
 
         if (error) throw error;
+
+        queryClient.invalidateQueries('cpFixed');
+        handleDeleteModal(false);
     };
 
     const deleteCPFixedMutation = useMutation({
         mutationKey: ['deleteCPFixed'],
         mutationFn: handleRemoveCP,
-        onSuccess: () => {
-            queryClient.invalidateQueries('cpFixed');
-            handleDeleteModal(false);
-        },
         onError: (error) => {
             console.error(error);
         },

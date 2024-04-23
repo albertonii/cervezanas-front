@@ -4,9 +4,9 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { ProductList } from './ProductList';
 import { IProduct } from '../../../../../../lib/types/types';
-import { AddProduct } from '../../../../components/modals/AddProduct';
 import { DeleteProduct } from '../../../../components/modals/DeleteProduct';
 import { UpdateProductAdmin } from './UpdateProductAdmin';
+import { AddProductModal } from './AddProductModal';
 
 export function Products() {
     const t = useTranslations();
@@ -48,7 +48,7 @@ export function Products() {
                     </span>
                 </p>
 
-                <AddProduct />
+                <AddProductModal />
             </header>
 
             <ProductList

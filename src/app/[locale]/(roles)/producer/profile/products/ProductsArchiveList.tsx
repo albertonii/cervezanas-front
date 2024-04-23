@@ -126,7 +126,7 @@ export function ProductsArchiveList({
             )}
 
             {isLoading && (
-                <Spinner color="beer-blonde" size="xLarge" absolute center />
+                <Spinner color="beer-blonde" size="xLarge" absolute flexCenter />
             )}
 
             {!isError && !isLoading && products.length === 0 ? (
@@ -178,9 +178,6 @@ export function ProductsArchiveList({
                                                             height={128}
                                                             className="h-8 w-8 rounded-full"
                                                             src={
-                                                                '/icons/beer-240.png'
-                                                            }
-                                                            loader={() =>
                                                                 '/icons/beer-240.png'
                                                             }
                                                             alt="Beer Type"

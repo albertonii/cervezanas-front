@@ -1,4 +1,4 @@
-export default function Commiments() {
+export default function Commitments() {
     return (
         <div className="container m-auto my-16 w-[1200px] m-auto bg-white border-4 border-beer-blonde p-11 max-w-full">
             <div className="mb-4 text-3xl font-semibold">

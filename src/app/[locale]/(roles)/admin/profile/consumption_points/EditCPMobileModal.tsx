@@ -265,15 +265,13 @@ export default function EditCPMobileModal({
             }
 
             handleEditModal(false);
+            queryClient.invalidateQueries('cpMobile');
         }
     };
 
     const updateCPMobileMutation = useMutation({
         mutationKey: ['updateCPMobile'],
         mutationFn: handleUpdate,
-        onSuccess: () => {
-            queryClient.invalidateQueries('cpMobile');
-        },
         onError: (e: any) => {
             console.error(e);
         },

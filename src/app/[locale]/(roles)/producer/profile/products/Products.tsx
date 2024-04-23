@@ -1,13 +1,13 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import { useState } from 'react';
-import { IProduct } from '../../../../../../lib/types/types';
-import { AddProduct } from '../../../../components/modals/AddProduct';
-import { DeleteProduct } from '../../../../components/modals/DeleteProduct';
-import { UpdateProduct } from '../../../../components/modals/UpdateProduct';
-
 import { ProductList } from './ProductList';
+import { useTranslations } from 'next-intl';
+import { AddProductModal } from './AddProductModal';
+import { IProduct } from '../../../../../../lib/types/types';
+import { DeleteProduct } from '../../../../components/modals/DeleteProduct';
+import { UpdateProductModal } from './UpdateProductModal';
+import { AddBoxPackModal } from './(boxPack)/AddBoxPackModal';
 
 export function Products() {
     const t = useTranslations();
@@ -40,8 +40,9 @@ export function Products() {
                     </span>
                 </p>
 
-                <div className="w-40">
-                    <AddProduct />
+                <div className="flex gap-4">
+                    <AddProductModal />
+                    <AddBoxPackModal />
                 </div>
             </header>
 
@@ -52,7 +53,7 @@ export function Products() {
             />
 
             {isEditShowModal && productModal && (
-                <UpdateProduct
+                <UpdateProductModal
                     product={productModal}
                     showModal={isEditShowModal}
                     handleEditShowModal={handleEditShowModal}

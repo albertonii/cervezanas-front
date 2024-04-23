@@ -73,7 +73,12 @@ export function BusinessOrderList({ orders: os }: Props) {
             )}
 
             {isLoading && (
-                <Spinner color="beer-blonde" size="xLarge" absolute center />
+                <Spinner
+                    color="beer-blonde"
+                    size="xLarge"
+                    absolute
+                    flexCenter
+                />
             )}
 
             {!isError && !isLoading && orders && orders.length === 0 ? (

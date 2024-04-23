@@ -230,6 +230,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                     Subiendo archivo ...
                 </div>
             )}
+
             {!image && (
                 <div className="relative h-32 w-full cursor-pointer items-center overflow-hidden rounded-md border-2 border-dotted   border-gray-400 shadow-md">
                     <input

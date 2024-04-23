@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IProduct } from '../../../../../../lib/types/types';
 import { ProductsArchiveList } from './ProductsArchiveList';
-import { UpdateProduct } from '../../../../components/modals/UpdateProduct';
 import { DeleteProduct } from '../../../../components/modals/DeleteProduct';
+import { UpdateProductModal } from './UpdateProductModal';
 
 /**
  *
@@ -13,58 +13,58 @@ import { DeleteProduct } from '../../../../components/modals/DeleteProduct';
  * Useful to keep track of products that have been sold or are no longer available.
  */
 export function Archive() {
-  const t = useTranslations();
+    const t = useTranslations();
 
-  const [isEditShowModal, setIsEditShowModal] = useState(false);
-  const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
-  const [productModal, setProductModal] = useState<IProduct>();
+    const [isEditShowModal, setIsEditShowModal] = useState(false);
+    const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
+    const [productModal, setProductModal] = useState<IProduct>();
 
-  const handleEditShowModal = (value: boolean) => {
-    setIsEditShowModal(value);
-  };
+    const handleEditShowModal = (value: boolean) => {
+        setIsEditShowModal(value);
+    };
 
-  const handleDeleteShowModal = (value: boolean) => {
-    setIsDeleteShowModal(value);
-  };
+    const handleDeleteShowModal = (value: boolean) => {
+        setIsDeleteShowModal(value);
+    };
 
-  const handleProductModal = (product: IProduct) => {
-    setProductModal(product);
-  };
+    const handleProductModal = (product: IProduct) => {
+        setProductModal(product);
+    };
 
-  return (
-    <>
-      <div className="px-4 py-6 " aria-label="Products">
-        <p className="flex justify-between py-4" id="header">
-          <span
-            id="title"
-            className="text-5xl uppercase font-semibold text-white"
-          >
-            {t('products_archive')}
-          </span>
-        </p>
+    return (
+        <>
+            <div className="px-4 py-6 " aria-label="Products">
+                <p className="flex justify-between py-4" id="header">
+                    <span
+                        id="title"
+                        className="text-5xl uppercase font-semibold text-white"
+                    >
+                        {t('products_archive')}
+                    </span>
+                </p>
 
-        <ProductsArchiveList
-          handleEditShowModal={handleEditShowModal}
-          handleDeleteShowModal={handleDeleteShowModal}
-          handleProductModal={handleProductModal}
-        />
-      </div>
+                <ProductsArchiveList
+                    handleEditShowModal={handleEditShowModal}
+                    handleDeleteShowModal={handleDeleteShowModal}
+                    handleProductModal={handleProductModal}
+                />
+            </div>
 
-      {productModal && isEditShowModal && (
-        <UpdateProduct
-          product={productModal}
-          handleEditShowModal={handleEditShowModal}
-          showModal={false}
-        />
-      )}
+            {productModal && isEditShowModal && (
+                <UpdateProductModal
+                    product={productModal}
+                    handleEditShowModal={handleEditShowModal}
+                    showModal={false}
+                />
+            )}
 
-      {isDeleteShowModal && productModal && (
-        <DeleteProduct
-          product={productModal}
-          showModal={isDeleteShowModal}
-          handleDeleteShowModal={handleDeleteShowModal}
-        />
-      )}
-    </>
-  );
+            {isDeleteShowModal && productModal && (
+                <DeleteProduct
+                    product={productModal}
+                    showModal={isDeleteShowModal}
+                    handleDeleteShowModal={handleDeleteShowModal}
+                />
+            )}
+        </>
+    );
 }

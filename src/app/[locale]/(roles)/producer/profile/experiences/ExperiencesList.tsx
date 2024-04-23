@@ -138,7 +138,12 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
             )}
 
             {isLoading && (
-                <Spinner color="beer-blonde" size="xLarge" absolute center />
+                <Spinner
+                    color="beer-blonde"
+                    size="xLarge"
+                    absolute
+                    flexCenter
+                />
             )}
 
             {!isError && !isLoading && experiences.length === 0 ? (

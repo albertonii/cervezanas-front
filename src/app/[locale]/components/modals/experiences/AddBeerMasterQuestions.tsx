@@ -1,20 +1,17 @@
-import InputLabel from '../../common/InputLabel';
 import Button from '../../common/Button';
 import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwner';
-import SelectInput from '../../common/SelectInput';
-import AddBeerMasterAnswers from './AddBeerMasterAnswers';
-import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useTranslations } from 'next-intl';
-import { UseFormReturn, useFieldArray } from 'react-hook-form';
-import { IProduct } from '../../../../../lib/types/types';
-import { DeleteButton } from '../../common/DeleteButton';
 import { useEffect, useState } from 'react';
-import { DisplayInputError } from '../../common/DisplayInputError';
+import { useAuth } from '../../../(auth)/Context/useAuth';
+import { IProduct } from '../../../../../lib/types/types';
+import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import {
     IAddModalExperienceBeerMasterFormData,
     IAddBeerMasterQuestionFormData,
     Difficulty,
+    AnswerFormData,
 } from '../../../../../lib/types/quiz';
+import BMQuestionItem from './BMQuestionItem';
 
 interface Props {
     form: UseFormReturn<IAddModalExperienceBeerMasterFormData, any>;
@@ -22,10 +19,12 @@ interface Props {
 
 export const AddBeerMasterQuestions = ({ form }: Props) => {
     const t = useTranslations();
-    const {
-        control,
-        formState: { errors },
-    } = form;
+
+    // Usar un array de errores para saber cual es el error de la respuesta correcta
+    const [displayAnswerIsCorrectError, setDisplayAnswerIsCorrectError] =
+        useState<boolean>(false);
+
+    const { control } = form;
 
     const { user } = useAuth();
 
@@ -62,11 +61,20 @@ export const AddBeerMasterQuestions = ({ form }: Props) => {
         }
     }, [listProducts]);
 
-    const handleRemoveQuestion = (index: number) => {
-        remove(index);
-    };
-
     const handleAddQuestion = () => {
+        if (fields.length > 0) {
+            const index = fields.length - 1;
+            const answers = fields[index].question.answers;
+            const hasIsCorrectAnswerMarked = validateCorrectAnswers(answers);
+
+            if (!hasIsCorrectAnswerMarked) {
+                setDisplayAnswerIsCorrectError(true);
+                return;
+            }
+
+            setDisplayAnswerIsCorrectError(false);
+        }
+
         const emptyQuestion: IAddBeerMasterQuestionFormData = {
             question: {
                 category: 'BEER',
@@ -127,61 +135,30 @@ export const AddBeerMasterQuestions = ({ form }: Props) => {
                     key={question.id}
                     className="relative flex-auto space-y-4 pt-6 mt-4 rounded-md border-2 border-dotted border-beer-softBlondeBubble p-4"
                 >
-                    <div className="flex flex-row items-end space-x-4">
-                        <InputLabel
-                            form={form}
-                            label={`questions.${questionIndex}.question.question`}
-                            labelText={`${questionIndex + 1} ${t('question')}`}
-                            registerOptions={{
-                                required: true,
-                            }}
-                            placeholder={t(
-                                'input_questions_question_placeholder',
-                            )}
-                        />
-
-                        <SelectInput
-                            form={form}
-                            options={[
-                                { label: 'easy', value: 'easy' },
-                                { label: 'medium', value: 'medium' },
-                                { label: 'hard', value: 'hard' },
-                            ]}
-                            label={`questions.${questionIndex}.question.difficulty`}
-                            labelText={`difficulty`}
-                            registerOptions={{
-                                required: true,
-                            }}
-                        />
-
-                        <DeleteButton
-                            onClick={() => handleRemoveQuestion(questionIndex)}
-                        />
-                    </div>
-
-                    {/* Error input displaying */}
-                    {errors.questions &&
-                        errors.questions[questionIndex] &&
-                        errors.questions[questionIndex]?.question && (
-                            <DisplayInputError
-                                message={
-                                    errors.questions[questionIndex]?.question!
-                                        .message
-                                }
-                            />
-                        )}
-
-                    {/* Multiple inputs that are the possible answers to the question */}
-                    <AddBeerMasterAnswers
-                        form={form}
+                    <BMQuestionItem
                         questionIndex={questionIndex}
+                        form={form}
+                        fields={fields}
+                        remove={remove}
+                        questionIdRemove={question.id}
+                        displayAnswerIsCorrectError={
+                            displayAnswerIsCorrectError
+                        }
                     />
                 </fieldset>
             ))}
 
-            <Button class="" primary medium onClick={() => handleAddQuestion()}>
+            <Button class="" primary medium onClick={handleAddQuestion}>
                 {t('question_add')}
             </Button>
         </section>
     );
+};
+
+// Función para validar que al menos una respuesta esté marcada como correcta
+const validateCorrectAnswers = (answers: AnswerFormData[]) => {
+    const correctAnswerCount = answers.filter(
+        (answer: AnswerFormData) => answer.is_correct,
+    ).length;
+    return correctAnswerCount > 0 ? true : false;
 };

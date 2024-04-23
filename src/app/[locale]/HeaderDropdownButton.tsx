@@ -256,7 +256,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                         style={{ width: '45px', height: '45px' }}
                     />
                     {role && (
-                        <span className="ml-2 text-sm font-medium text-white font-semibold dark:text-white">
+                        <span className="ml-2 text-sm text-white font-semibold dark:text-white">
                             <Link
                                 href={generateLink(role, 'profile')}
                                 locale={locale}

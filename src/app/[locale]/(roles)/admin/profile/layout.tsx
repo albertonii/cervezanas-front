@@ -64,11 +64,11 @@ export default async function layout({ children }: LayoutProps) {
     return (
         <>
             {hasAuthorization ? (
-                <section className="relative flex w-full">
+                <section className="relative flex w-full min-h-[80vh]">
                     <Sidebar sidebarLinks={sidebarLinks} />
 
                     <div
-                        className="w-full bg-beer-softFoam sm:pt-[5vh] md:pt-[5vh]"
+                        className="w-full relative pt-4 sm:pt-8"
                         aria-label="Container Admin settings"
                     >
                         {children}
