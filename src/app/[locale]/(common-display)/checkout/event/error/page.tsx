@@ -70,7 +70,7 @@ async function getCheckoutErrorData(searchParams: any) {
         redirect('/signin');
     }
 
-    console.log('RESPONSE CODE:', Ds_Response);
+    console.info('RESPONSE CODE:', Ds_Response);
 
     if (
         Ds_Response === '9915' ||

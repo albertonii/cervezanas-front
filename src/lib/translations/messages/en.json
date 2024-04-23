@@ -842,5 +842,6 @@
     "add_new_experience": "Add new experience",
     "experiences_info": "Experience information",
     "add_box_pack": "Add box pack",
-    "slots": "Slots"
+    "slots": "Slots",
+    "slots_per_product": "Slots per product"
 }

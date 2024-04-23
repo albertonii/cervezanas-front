@@ -1,7 +1,7 @@
+import BoxProductSlotsSelection from './BoxProductSlotsSelection';
 import React from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { ModalAddBoxPackFormData } from '../../../../../lib/types/product';
-import BoxProductSlotsSelection from './BoxProductSlotsSelection';
 import { SearchCheckboxProductSlot } from './SearchCheckboxProductSlot';
 
 interface Props {

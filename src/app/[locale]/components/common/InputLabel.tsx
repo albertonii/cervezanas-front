@@ -48,6 +48,10 @@ const InputLabel = memo(
             formState: { errors },
         } = form;
 
+        const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+            if (onChange) onChange(e);
+        };
+
         return (
             <div className="w-full">
                 <label
@@ -85,7 +89,7 @@ const InputLabel = memo(
                         disabled={disabled}
                         min={registerOptions?.min}
                         max={registerOptions?.max}
-                        onChange={onChange}
+                        onChange={(e) => handleOnChange(e)}
                     />
                 </label>
 

@@ -15,6 +15,10 @@ interface BoxCartState {
     decreaseOneSlotQuantity: (productId: string) => void;
     removeProductSlot: (productId: string) => void;
     clear: () => void;
+    onChangeQuantityProduct: (
+        productId: string,
+        slotsPerProduct: number,
+    ) => void;
     onChangeSlotsPerProduct: (
         productId: string,
         slotsPerProduct: number,
@@ -52,8 +56,9 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
                 if (!productFind) {
                     const newProduct = {
                         product_id: boxPackItem.product_id,
-                        quantity: 1,
+                        quantity: boxPackItem.quantity,
                         slots_per_product: boxPackItem.slots_per_product,
+                        product: boxPackItem.product,
                     };
 
                     boxPack.boxPackItems.push({
@@ -87,7 +92,32 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
 
                     boxPack.boxPackItems = newBoxPackItems;
 
-                    console.log(boxPack.boxPackItems);
+                    return { boxPack };
+                }
+
+                return { boxPack };
+            });
+        },
+
+        onChangeQuantityProduct: (productId: string, quantity: number) => {
+            set((state) => {
+                const { boxPack } = state;
+
+                const productFind = boxPack.boxPackItems.find(
+                    (item) => item.product_id === productId,
+                );
+
+                if (productFind) {
+                    productFind.quantity = quantity;
+
+                    const newBoxPackItems = boxPack.boxPackItems.map((item) => {
+                        if (item.product_id === productFind.id) {
+                            return productFind;
+                        }
+                        return item;
+                    });
+
+                    boxPack.boxPackItems = newBoxPackItems;
 
                     return { boxPack };
                 }

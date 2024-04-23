@@ -1,6 +1,6 @@
 import InputLabel from '../../common/InputLabel';
 import useBoxPackStore from '../../../../store/boxPackStore';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { IProduct } from '../../../../../lib/types/types';
@@ -12,36 +12,42 @@ interface Props {
     product: IProduct;
     form: UseFormReturn<any, any>;
     productItems?: string[];
+    index: number;
 }
 
-const ProductSlotItem: React.FC<Props> = ({ product, form, productItems }) => {
+const ProductSlotItem: React.FC<Props> = ({
+    product,
+    form,
+    productItems,
+    index,
+}) => {
     const t = useTranslations();
     const { register } = form;
 
-    const [slotsPerProduct, setSlotsPerProduct] = useState(1);
-
     const [selectedPacks, setSelectedPacks] = useState(productItems);
     const [showAccordion, setShowAccordion] = useState(false);
-    const { onChangeSlotsPerProduct, addSlot, removeProductSlot } =
-        useBoxPackStore();
+
+    const [quantity, setQuantity] = useState(1);
+    const [slotsPerProduct, setSlotsPerProduct] = useState(1);
+
+    const {
+        onChangeSlotsPerProduct,
+        onChangeQuantityProduct,
+        addSlot,
+        removeProductSlot,
+    } = useBoxPackStore();
 
     if (!product.beers) return <></>;
-
-    useEffect(() => {
-        if (slotsPerProduct)
-            onChangeSlotsPerProduct(product.id, slotsPerProduct);
-    }, [slotsPerProduct]);
 
     const handleCheckboxChange = (productId: string, isChecked: boolean) => {
         setSelectedPacks((prevSelectedPacks) => {
             if (isChecked) {
                 const boxPackItem: IBoxPackItem = {
                     product_id: productId,
-                    quantity: 1,
-                    slots_per_product: 1,
+                    quantity: quantity,
+                    slots_per_product: slotsPerProduct,
                     product: product,
                 };
-
 
                 addSlot(boxPackItem);
 
@@ -64,6 +70,19 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, productItems }) => {
 
     const handleShowAccordion = () => {
         setShowAccordion(!showAccordion);
+    };
+
+    const handleOnChangeQuantity = (productId: string, quantity: number) => {
+        setQuantity(quantity);
+        onChangeQuantityProduct(productId, quantity);
+    };
+
+    const handleOnChangeSlotsPerProduct = (
+        productId: string,
+        slotsPerProd: number,
+    ) => {
+        setSlotsPerProduct(slotsPerProd);
+        onChangeSlotsPerProduct(productId, slotsPerProd);
     };
 
     return (
@@ -112,36 +131,46 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, productItems }) => {
             </div>
 
             <div
-                className={`px-6 grid grid-cols-2 gap-2 ${
+                className={`px-6 grid grid-cols-1 gap-2 ${
                     showAccordion ? 'max-h-[1000px] py-4' : 'max-h-0'
                 } duration-800 overflow-hidden transition-all ease-in-out`}
             >
                 <InputLabel
                     form={form}
-                    label={'quantity'}
+                    inputType={'number'}
+                    label={`box_packs.${index}.quantity`}
                     labelText={t('quantity')}
                     registerOptions={{
                         required: true,
                         valueAsNumber: true,
                         min: 1,
                     }}
-                    inputType={'number'}
                     defaultValue={1}
+                    onChange={(e) =>
+                        handleOnChangeQuantity(
+                            product.id,
+                            e.target.valueAsNumber,
+                        )
+                    }
                 />
 
                 <InputLabel
                     form={form}
-                    label={'slots_per_product'}
+                    label={`box_packs.${index}.slots_per_product`}
                     labelText={t('slots_per_product')}
+                    inputType={'number'}
                     registerOptions={{
                         required: true,
                         valueAsNumber: true,
                         min: 1,
-                        value: slotsPerProduct,
                     }}
-                    inputType={'number'}
-                    // defaultValue={slotsPerProduct}
-                    onChange={(e) => setSlotsPerProduct(e.target.valueAsNumber)}
+                    defaultValue={1}
+                    onChange={(e) =>
+                        handleOnChangeSlotsPerProduct(
+                            product.id,
+                            e.target.valueAsNumber,
+                        )
+                    }
                 />
                 {/* <SlotControlButtons
                     quantity={0}

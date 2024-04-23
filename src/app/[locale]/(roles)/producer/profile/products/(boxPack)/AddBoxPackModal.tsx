@@ -71,7 +71,7 @@ export function AddBoxPackModal() {
 
     useEffect(() => {
         if (errors) {
-            console.log('Errores detectados creando un pack', errors);
+            console.info('Errores detectados creando un pack', errors);
         }
     }, [errors]);
 

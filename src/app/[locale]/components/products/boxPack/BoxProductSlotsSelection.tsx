@@ -11,7 +11,7 @@ export default function BoxProductSlotsSelection() {
                     key={item.product_id}
                     className="flex justify-between items-center"
                 >
-                    <span>{item.product_id}</span>
+                    <span>{item.product?.name}</span>
                     <span>{item.quantity}</span>
                     <span>{item.slots_per_product}</span>
                 </div>
