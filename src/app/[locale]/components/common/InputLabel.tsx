@@ -27,6 +27,7 @@ interface Props {
     labelText?: string;
     defaultValue?: any;
     disabled?: boolean;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 const InputLabel = memo(
     ({
@@ -39,6 +40,7 @@ const InputLabel = memo(
         placeholder,
         defaultValue,
         disabled,
+        onChange,
     }: Props) => {
         const t = useTranslations();
         const {
@@ -83,6 +85,7 @@ const InputLabel = memo(
                         disabled={disabled}
                         min={registerOptions?.min}
                         max={registerOptions?.max}
+                        onChange={onChange}
                     />
                 </label>
 

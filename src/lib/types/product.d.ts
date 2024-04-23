@@ -7,8 +7,8 @@ export interface IBoxPack {
 }
 
 export interface IBoxPackItem {
-    id: string;
-    box_pack_id: string;
+    id?: string;
+    box_pack_id?: string;
     product_id: string;
     quantity: number;
     slots_per_product: number;

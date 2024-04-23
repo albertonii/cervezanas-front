@@ -1,5 +1,4 @@
 'use client';
-
 import { create } from 'zustand';
 import { IBoxPackItem } from '../../lib/types/product';
 
@@ -16,49 +15,81 @@ interface BoxCartState {
     decreaseOneSlotQuantity: (productId: string) => void;
     removeProductSlot: (productId: string) => void;
     clear: () => void;
+    onChangeSlotsPerProduct: (
+        productId: string,
+        slotsPerProduct: number,
+    ) => void;
 }
 
 const useBoxPackStore = create<BoxCartState>((set, get) => {
     let initialState = {
         boxPack: {
-            slots: 0,
             id: '',
+            slots: 0,
             boxPackItems: [],
         }, // Estado inicial
     };
 
     return {
         ...initialState,
-        addSlot: (product: IBoxPackItem) => {
+        addSlot: (boxPackItem: IBoxPackItem) => {
             set((state) => {
                 const { boxPack } = state;
 
+                // To avoid duplicate products
+                if (
+                    boxPack.boxPackItems.find(
+                        (item) => item.product_id === boxPackItem.product_id,
+                    )
+                ) {
+                    return { boxPack };
+                }
+
                 const productFind = boxPack.boxPackItems?.find(
-                    (item) => item.id === product.id,
+                    (item) => item.id === boxPackItem.product_id,
                 );
 
-                if (productFind) {
-                    productFind.quantity += 1;
-
-                    boxPack.boxPackItems = boxPack.boxPackItems.map((item) => {
-                        if (item.id === productFind.id) {
-                            return productFind;
-                        }
-                        return item;
-                    });
-                } else {
+                if (!productFind) {
                     const newProduct = {
-                        id: product.id,
-                        product_id: product.product_id,
+                        product_id: boxPackItem.product_id,
                         quantity: 1,
-                        slots_per_product: product.slots_per_product,
-                        product: product.product,
-                        box_pack_id: boxPack.id,
+                        slots_per_product: boxPackItem.slots_per_product,
                     };
 
                     boxPack.boxPackItems.push({
                         ...newProduct,
                     });
+                }
+
+                return { boxPack };
+            });
+        },
+        onChangeSlotsPerProduct: (
+            productId: string,
+            slotsPerProduct: number,
+        ) => {
+            set((state) => {
+                const { boxPack } = state;
+
+                const productFind = boxPack.boxPackItems.find(
+                    (item) => item.product_id === productId,
+                );
+
+                if (productFind) {
+                    productFind.slots_per_product = slotsPerProduct;
+
+                    const newBoxPackItems = boxPack.boxPackItems.map((item) => {
+                        if (item.product_id === productFind.id) {
+                            return productFind;
+                        }
+                        return item;
+                    });
+
+                    boxPack.boxPackItems = newBoxPackItems;
+
+                    console.log(boxPack.boxPackItems);
+
+                    return { boxPack };
                 }
 
                 return { boxPack };
@@ -70,14 +101,14 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
                 const { boxPack } = state;
 
                 const productFind = boxPack.boxPackItems.find(
-                    (item) => item.id === productId,
+                    (item) => item.product_id === productId,
                 );
 
                 if (productFind) {
-                    productFind.quantity += 1;
+                    productFind.slots_per_product += 1;
 
                     boxPack.boxPackItems = boxPack.boxPackItems.map((item) => {
-                        if (item.id === productFind.id) {
+                        if (item.product_id === productFind.id) {
                             return productFind;
                         }
                         return item;
@@ -89,19 +120,20 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
                 return { boxPack };
             });
         },
+
         decreaseOneSlotQuantity: (productId) => {
             set((state) => {
                 const { boxPack } = state;
 
                 const productFind = boxPack.boxPackItems.find(
-                    (item) => item.id === productId,
+                    (item) => item.product_id === productId,
                 );
 
                 if (productFind && productFind.quantity > 1) {
-                    productFind.quantity -= 1;
+                    productFind.slots_per_product -= 1;
 
                     boxPack.boxPackItems = boxPack.boxPackItems.map((item) => {
-                        if (item.id === productFind.id) {
+                        if (item.product_id === productFind.id) {
                             return productFind;
                         }
                         return item;
@@ -113,12 +145,14 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
                 }
             });
         },
+
         removeProductSlot: (productId) => {
             set((state) => {
                 const { boxPack } = state;
 
+                // Remove product from boxPackItems
                 const newBoxPackItems = boxPack.boxPackItems.filter(
-                    (item) => item.id !== productId,
+                    (item) => item.product_id !== productId,
                 );
 
                 boxPack.boxPackItems = newBoxPackItems;

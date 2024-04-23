@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import InputLabel from '../../common/InputLabel';
+import useBoxPackStore from '../../../../store/boxPackStore';
+import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { IProduct } from '../../../../../lib/types/types';
-import { FormatName } from '../../../../../lib/beerEnum';
-import SlotControlButtons from '../../common/SlotControlButtons';
-import useBoxPackStore from '../../../../store/boxPackStore';
+import { IBoxPackItem } from '../../../../../lib/types/product';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
-import InputLabel from '../../common/InputLabel';
 
 interface Props {
     product: IProduct;
@@ -19,28 +18,40 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, productItems }) => {
     const t = useTranslations();
     const { register } = form;
 
+    const [slotsPerProduct, setSlotsPerProduct] = useState(1);
+
     const [selectedPacks, setSelectedPacks] = useState(productItems);
     const [showAccordion, setShowAccordion] = useState(false);
-    const { addSlot } = useBoxPackStore();
+    const { onChangeSlotsPerProduct, addSlot, removeProductSlot } =
+        useBoxPackStore();
 
     if (!product.beers) return <></>;
 
-    const formatName = product.beers?.format ?? '';
-    const formatIcon =
-        formatName === FormatName.bottle
-            ? '/icons/format/bottle.svg'
-            : formatName === FormatName.can
-            ? '/icons/format/can.png'
-            : formatName === FormatName.draft
-            ? '/icons/format/keg.svg'
-            : '/icons/format/bottle.svg';
+    useEffect(() => {
+        if (slotsPerProduct)
+            onChangeSlotsPerProduct(product.id, slotsPerProduct);
+    }, [slotsPerProduct]);
 
-    const handleCheckboxChange = (packId: string, isChecked: boolean) => {
+    const handleCheckboxChange = (productId: string, isChecked: boolean) => {
         setSelectedPacks((prevSelectedPacks) => {
             if (isChecked) {
-                return [...(prevSelectedPacks || []), packId];
+                const boxPackItem: IBoxPackItem = {
+                    product_id: productId,
+                    quantity: 1,
+                    slots_per_product: 1,
+                    product: product,
+                };
+
+
+                addSlot(boxPackItem);
+
+                return [...(prevSelectedPacks || []), productId];
             } else {
-                return (prevSelectedPacks || []).filter((id) => id !== packId);
+                removeProductSlot(productId);
+
+                return (prevSelectedPacks || []).filter(
+                    (id) => id !== productId,
+                );
             }
         });
 
@@ -71,7 +82,7 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, productItems }) => {
                         id={`checkbox-product-${product.id}`}
                         type="checkbox"
                         {...register(`product.${product.id}.id`)}
-                        checked={selectedPacks?.includes(product.id)}
+                        // checked={selectedPacks?.includes(product.id)}
                         onChange={(e) =>
                             handleCheckboxChange(product.id, e.target.checked)
                         }
@@ -112,6 +123,7 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, productItems }) => {
                     registerOptions={{
                         required: true,
                         valueAsNumber: true,
+                        min: 1,
                     }}
                     inputType={'number'}
                     defaultValue={1}
@@ -124,9 +136,12 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, productItems }) => {
                     registerOptions={{
                         required: true,
                         valueAsNumber: true,
+                        min: 1,
+                        value: slotsPerProduct,
                     }}
                     inputType={'number'}
-                    defaultValue={1}
+                    // defaultValue={slotsPerProduct}
+                    onChange={(e) => setSlotsPerProduct(e.target.valueAsNumber)}
                 />
                 {/* <SlotControlButtons
                     quantity={0}
