@@ -10,7 +10,7 @@ interface Props {
 
 export default function BoxProductSlotsSection({ form }: Props) {
     return (
-        <section className="grid grid-cols-2 gap-4 pt-6">
+        <section className="grid grid-cols-2 gap-4 pt-6 min-h-[45vh]">
             <div className="col-span-1">
                 <BoxProductSlotsSelection />
             </div>

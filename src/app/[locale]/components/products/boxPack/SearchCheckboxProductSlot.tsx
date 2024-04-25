@@ -47,8 +47,8 @@ export function SearchCheckboxProductSlot({ form, productItems }: Props) {
     }
 
     return (
-        <section className="z-10 w-full space-y-2 rounded-lg shadow-lg bg-white border-2 dark:bg-gray-700">
-            <div className="m-2">
+        <section className="z-10 h-full w-full space-y-2 rounded-lg shadow-lg bg-white border-2 dark:bg-gray-700 relative ">
+            <div className="m-2 relative">
                 <InputSearch
                     query={query}
                     setQuery={setQuery}
@@ -56,18 +56,22 @@ export function SearchCheckboxProductSlot({ form, productItems }: Props) {
                 />
             </div>
 
-            <ProductSlotList
-                products={filteredItemsByName}
-                form={form}
-                productItems={productItems}
-            />
+            <div className="relative pb-24">
+                <ProductSlotList
+                    products={filteredItemsByName}
+                    form={form}
+                    productItems={productItems}
+                />
+            </div>
 
-            <PaginationFooter
-                counter={fixedCount}
-                resultsPerPage={resultsPerPage}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-            />
+            <div className="w-full absolute bottom-0 justify-center">
+                <PaginationFooter
+                    counter={fixedCount}
+                    resultsPerPage={resultsPerPage}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                />
+            </div>
         </section>
     );
 }
