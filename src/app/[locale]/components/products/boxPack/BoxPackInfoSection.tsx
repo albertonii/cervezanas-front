@@ -87,6 +87,7 @@ export function BoxPackInfoSection({ form }: Props) {
                             inputType="number"
                             placeholder={formatCurrency(24)}
                             infoTooltip={'pvpr_tooltip'}
+                            defaultValue={0}
                         />
 
                         <InputLabel

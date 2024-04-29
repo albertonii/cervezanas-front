@@ -22,22 +22,19 @@ const ModalWithForm = dynamic(
 );
 
 const schema: ZodType<ModalAddBoxPackFormData> = z.object({
-    box_pack_id: z.string().nonempty('Box pack id is required'),
-    product_id: z.string().nonempty('Product id is required'),
     is_public: z.boolean(),
-    quantity: z.number().min(1, 'Quantity must be greater than 0'),
     name: z.string().nonempty('Name is required'),
     description: z.string().nonempty('Description is required'),
     price: z.number().min(0, 'Price must be greater than 0'),
     weight: z.number().min(0, 'Weight must be greater than 0'),
+    slots_per_box: z.number().min(1, 'Slots must be greater than 0'),
     box_packs: z.array(
         z.object({
-            box_pack_id: z.string(),
-            product_id: z.string(),
             quantity: z.number().min(1, 'Quantity must be greater than 0'),
             slots_per_product: z
                 .number()
                 .min(1, 'Slots per product must be greater than 0'),
+            product_id: z.string().nonempty('Product id is required'), // Es el id del producto, no de la caja-box
         }),
     ),
 });
@@ -80,14 +77,88 @@ export function AddBoxPackModal() {
     };
 
     const handleInsertBoxPack = async (form: ValidationSchema) => {
-        const {} = form;
+        const {
+            name,
+            description,
+            price,
+            weight,
+            is_public,
+            box_packs,
+            slots_per_box,
+        } = form;
 
-        const userId = user?.id;
+        const { data: product, error: errorProduct } = await supabase
+            .from('products')
+            .insert({
+                name,
+                description,
+                is_public,
+                category: 'box_pack',
+                owner_id: user?.id,
+                price: price,
+                weight: weight,
+            })
+            .select('id')
+            .single();
 
-        setShowModal(false);
-        queryClient.invalidateQueries('boxPackList');
+        if (errorProduct) {
+            handleMessage({
+                type: 'error',
+                message: errorProduct.message,
+            });
 
-        reset();
+            return;
+        }
+
+        if (product) {
+            const { data: boxPack, error: errorBoxPack } = await supabase
+                .from('box_packs')
+                .insert({
+                    product_id: product.id,
+                    slots_per_box: slots_per_box,
+                })
+                .select('id')
+                .single();
+
+            if (errorBoxPack) {
+                handleMessage({
+                    type: 'error',
+                    message: errorBoxPack.message,
+                });
+
+                return;
+            }
+
+            if (boxPack) {
+                const boxPackId = boxPack.id;
+
+                const boxPacks = box_packs.map((box) => {
+                    return {
+                        ...box,
+                        box_pack_id: boxPackId,
+                        product_id: box.product_id,
+                    };
+                });
+
+                const { error: errorBoxPackSlots } = await supabase
+                    .from('box_pack_items')
+                    .insert(boxPacks);
+
+                if (errorBoxPackSlots) {
+                    handleMessage({
+                        type: 'error',
+                        message: errorBoxPackSlots.message,
+                    });
+
+                    return;
+                }
+            }
+
+            setShowModal(false);
+            queryClient.invalidateQueries('productList');
+
+            reset();
+        }
     };
 
     const insertProductMutation = useMutation({

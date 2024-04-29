@@ -1,137 +1,80 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { formatCurrency } from '../../../../../utils/formatCurrency';
-import { FilePreview } from '../../common/FilePreview';
 import { DisplayInputError } from '../../common/DisplayInputError';
 import { ModalAddBoxPackFormData } from '../../../../../lib/types/product';
+import { formatCurrency } from '../../../../../utils/formatCurrency';
 
 interface Props {
     form: UseFormReturn<ModalAddBoxPackFormData, any>;
 }
 
-export function BoxSummary({ form: { getValues, formState } }: Props) {
+export function BoxSummary({ form }: Props) {
     const t = useTranslations();
 
-    const { errors } = formState;
+    const {
+        getValues,
+        formState: { errors },
+        watch,
+    } = form;
+
+    useEffect(() => {
+        const subscription = watch((value) => {
+            console.log(value);
+        });
+
+        return () => subscription.unsubscribe();
+    }, [watch]);
 
     return (
         <>
             {/* Resumen de las características del producto que se va a crear  */}
             <section className="flex flex-col gap-2 space-y-4 border p-4">
                 {/* Public  */}
-                <fieldset className="flex flex-row gap-2">
-                    <label className="text-md font-semibold text-gray-600">
-                        {t('is_public')}
+                <fieldset className="flex justify-between flex-row gap-2">
+                    <label className="text-md text-gray-600 flex flex-col gap-2 max-w-[33vw]">
+                        <span className="font-semibold">{t('is_public')}:</span>
+
+                        <span className="">
+                            {getValues('is_public') ? t('yes') : t('no')}
+                        </span>
                     </label>
 
-                    <span className="text-md">
-                        {getValues('is_public') ? t('yes') : t('no')}
-                    </span>
-                </fieldset>
+                    {/* Name  */}
+                    <label className="flex flex-col text-md text-gray-600 max-w-[33vw]">
+                        <span className="font-semibold">
+                            {t('name_label')}:
+                        </span>
 
-                {/* Name  */}
-                <fieldset className="flex flex-row gap-2">
-                    <label className="text-md font-semibold text-gray-600">
-                        {t('name_label')}
+                        <span className="truncate">{getValues('name')}</span>
                     </label>
 
-                    <span className="text-md">{getValues('name')}</span>
-                </fieldset>
+                    <label className="flex flex-col text-md gap-2 text-gray-600 max-w-[33vw] ">
+                        <span className="font-semibold">
+                            {t('description')}:
+                        </span>
 
-                <fieldset className="flex flex-row gap-2">
-                    <label className="text-md font-semibold text-gray-600">
-                        {t('description')}
+                        <span className="truncate">
+                            {getValues('description')}
+                        </span>
                     </label>
-
-                    <span className="text-md">{getValues('description')}</span>
                 </fieldset>
 
-                {/* <fieldset className="flex flex-row justify-between gap-2 space-x-4">
-                    <h4 className="space-x-2">
-                        <label className="text-md font-semibold text-gray-600">
-                            {t('intensity_label')}
-                        </label>
-
-                        <span className="text-md">
-                            {getValues('intensity')}
-                        </span>
-                    </h4>
-
-                    <h4 className="space-x-2">
-                        <label className="text-md font-semibold text-gray-600">
-                            {t('fermentation_label')}
-                        </label>
-
-                        <span className="text-md">
-                            {getValues('fermentation')}
-                        </span>
-                    </h4>
-
-                    <h4 className="space-x-2">
-                        <label className="text-md font-semibold text-gray-600">
-                            {t('color_label')}
-                        </label>
-
-                        <span className="text-md">{getValues('color')}</span>
-                    </h4>
-                </fieldset> */}
-
-                {/* <fieldset className="flex flex-row justify-between gap-2 space-x-4">
-                    <h4 className="space-x-2">
-                        <label className="text-md font-semibold text-gray-600">
-                            {t('origin_label')}
-                        </label>
-
-                        <span className="text-md">{getValues('origin')}</span>
-                    </h4>
-
-                    <h4 className="space-x-2">
-                        <label className="text-md font-semibold text-gray-600">
-                            {t('family_label')}
-                        </label>
-
-                        <span className="text-md">{getValues('family')}</span>
-                    </h4>
-
-                    <h4 className="space-x-2">
-                        <label className="text-md font-semibold text-gray-600">
-                            {t('era_label')}
-                        </label>
-
-                        <span className="text-md">{getValues('era')}</span>
-                    </h4>
-                </fieldset> */}
-
-                {/* <fieldset className="flex flex-row justify-between gap-2 space-x-4">
-                    <h4 className="space-x-2">
-                        <label className="text-md font-semibold text-gray-600">
-                            {t('format_label')}
-                        </label>
-
-                        <span className="text-md">
-                            {t(getValues('format'))}
-                        </span>
-                    </h4>
-
-                    <h4 className="space-x-2">
-                        <label className="text-md font-semibold text-gray-600">
-                            {t('volume_label')}
-                        </label>
-
-                        <span className="text-md">{getValues('volume')}</span>
-                    </h4>
-
-                    <h4 className="space-x-2">
-                        <label className="text-md font-semibold text-gray-600">
-                            {t('price')}
-                        </label>
+                <fieldset className="flex flex-row justify-between gap-2 space-x-4">
+                    <label className="text-md text-gray-600 space-x-2">
+                        <span className="font-semibold">{t('price')}</span>
 
                         <span className="text-md">
                             {formatCurrency(getValues('price'))}
                         </span>
-                    </h4>
-                </fieldset> */}
+                    </label>
+
+                    <label className="text-md text-gray-600 space-x-2">
+                        <span className="font-semibold">{t('weight')}</span>
+
+                        <span className="text-md">{getValues('weight')}</span>
+                    </label>
+                </fieldset>
 
                 {/* <fieldset className="flex flex-row justify-between gap-2 space-x-4">
                     <h4 className="space-x-2">

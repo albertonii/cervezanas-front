@@ -100,7 +100,7 @@ const ProductSlotItem: React.FC<Props> = ({
                     <input
                         id={`checkbox-product-${product.id}`}
                         type="checkbox"
-                        {...register(`product.${product.id}.id`)}
+                        {...register(`box_packs.${index}.product_id`)}
                         // checked={selectedPacks?.includes(product.id)}
                         onChange={(e) =>
                             handleCheckboxChange(product.id, e.target.checked)
@@ -131,7 +131,7 @@ const ProductSlotItem: React.FC<Props> = ({
             </div>
 
             <div
-                className={`px-6 grid grid-cols-1 gap-2 ${
+                className={`px-6 grid grid-cols-2 gap-2 ${
                     showAccordion ? 'max-h-[1000px] py-4' : 'max-h-0'
                 } duration-800 overflow-hidden transition-all ease-in-out`}
             >
