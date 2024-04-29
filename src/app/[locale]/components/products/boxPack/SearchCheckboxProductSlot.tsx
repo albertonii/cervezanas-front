@@ -11,10 +11,9 @@ import ProductSlotList from './ProductSlotList';
 
 interface Props {
     form: UseFormReturn<any, any>;
-    productItems?: string[];
 }
 
-export function SearchCheckboxProductSlot({ form, productItems }: Props) {
+export function SearchCheckboxProductSlot({ form }: Props) {
     const [products, setProducts] = useState<IProduct[]>([]);
 
     const [query, setQuery] = useState('');
@@ -57,11 +56,7 @@ export function SearchCheckboxProductSlot({ form, productItems }: Props) {
             </div>
 
             <div className="relative pb-24">
-                <ProductSlotList
-                    products={filteredItemsByName}
-                    form={form}
-                    productItems={productItems}
-                />
+                <ProductSlotList products={filteredItemsByName} form={form} />
             </div>
 
             <div className="w-full absolute bottom-0 justify-center">

@@ -1,16 +1,19 @@
 import React from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { IProduct } from '../../../../../lib/types/types';
+import useBoxPackStore from '../../../../store/boxPackStore';
 import Spinner from '../../common/Spinner';
 import ProductSlotItem from './ProductSlotItem';
 
 interface Props {
     products: IProduct[];
     form: UseFormReturn<any, any>;
-    productItems?: string[];
 }
 
-const ProductSlotList: React.FC<Props> = ({ products, form, productItems }) => {
+const ProductSlotList: React.FC<Props> = ({ products, form }) => {
+   
+
+
     if (!products || products.length === 0) {
         return <div>No products found.</div>;
     }
@@ -30,7 +33,6 @@ const ProductSlotList: React.FC<Props> = ({ products, form, productItems }) => {
                     <ProductSlotItem
                         product={product}
                         form={form}
-                        productItems={productItems}
                         index={index}
                     />
                 </div>

@@ -24,7 +24,11 @@ const ProductSlotItem: React.FC<Props> = ({
     const t = useTranslations();
     const { register } = form;
 
-    const [selectedPacks, setSelectedPacks] = useState(productItems);
+    const { boxPack } = useBoxPackStore();
+
+    const [selectedPacks, setSelectedPacks] = useState(
+        boxPack?.boxPackItems.map((item) => item.product_id),
+    );
     const [showAccordion, setShowAccordion] = useState(false);
 
     const [quantity, setQuantity] = useState(1);
@@ -101,7 +105,7 @@ const ProductSlotItem: React.FC<Props> = ({
                         id={`checkbox-product-${product.id}`}
                         type="checkbox"
                         {...register(`box_packs.${index}.product_id`)}
-                        // checked={selectedPacks?.includes(product.id)}
+                        checked={selectedPacks?.includes(product.id)}
                         onChange={(e) =>
                             handleCheckboxChange(product.id, e.target.checked)
                         }
@@ -172,13 +176,6 @@ const ProductSlotItem: React.FC<Props> = ({
                         )
                     }
                 />
-                {/* <SlotControlButtons
-                    quantity={0}
-                    item={undefined}
-                    handleIncreaseCartQuantity={() => {}}
-                    handleDecreaseCartQuantity={() => {}}
-                    handleRemoveFromCart={() => {}}
-                /> */}
             </div>
         </section>
     );

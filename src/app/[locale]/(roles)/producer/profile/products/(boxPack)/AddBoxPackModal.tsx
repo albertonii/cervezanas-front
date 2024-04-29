@@ -94,6 +94,7 @@ export function AddBoxPackModal() {
                 description,
                 is_public,
                 category: 'box_pack',
+                type: 'box_pack',
                 owner_id: user?.id,
                 price: price,
                 weight: weight,
