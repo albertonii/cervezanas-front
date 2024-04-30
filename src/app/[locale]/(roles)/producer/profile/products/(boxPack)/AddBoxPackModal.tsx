@@ -15,6 +15,7 @@ import { BoxPackInfoSection } from '../../../../../components/products/boxPack/B
 import { BoxPackStepper } from '../../../../../components/products/boxPack/BoxPackStepper';
 import { BoxSummary } from '../../../../../components/products/boxPack/BoxSummary';
 import { BoxMultimediaSection } from '../../../../../components/products/boxPack/BoxMultimediaSection';
+import Spinner from '../../../../../components/common/Spinner';
 
 const ModalWithForm = dynamic(
     () => import('../../../../../components/modals/ModalWithForm'),
@@ -33,26 +34,6 @@ const schema: ZodType<ModalAddBoxPackFormData> = z.object({
     price: z.number().min(0, 'Price must be greater than 0'),
     weight: z.number().min(0, 'Weight must be greater than 0'),
     slots_per_box: z.number().min(1, 'Slots must be greater than 0'),
-    // p_principal: z
-    //     .custom<FileList>()
-    //     .refine((file) => !file || (!!file && file.length > 0), {
-    //         message: 'The profile picture is required.',
-    //     })
-    //     .transform((file) => file.length > 0 && file.item(0))
-    //     .refine((file) => !file || (!!file && file.size <= MB_BYTES), {
-    //         message: 'The profile picture must be a maximum of 10MB.',
-    //     })
-    //     .refine((file) => !file || (!!file && file.type?.startsWith('image')), {
-    //         message: 'Only images are allowed to be sent.',
-    //     })
-    //     .refine(
-    //         (file) =>
-    //             !file || (!!file && ACCEPTED_MIME_TYPES.includes(file.type)),
-    //         {
-    //             message: 'The image must be of type jpg, jpeg, png or gif.',
-    //         },
-    //     ),
-
     p_principal: z.custom<File>().superRefine((f, ctx) => {
         // First, add an issue if the mime type is wrong.
         if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
@@ -76,6 +57,106 @@ const schema: ZodType<ModalAddBoxPackFormData> = z.object({
             });
         }
     }),
+
+    p_back: z
+        .custom<File>()
+        .superRefine((f, ctx) => {
+            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+                        ', ',
+                    )}] but was ${f.type}`,
+                });
+            }
+            if (f.size > 3 * MB_BYTES) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.too_big,
+                    type: 'array',
+                    message: `The file must not be larger than ${
+                        3 * MB_BYTES
+                    } bytes: ${f.size}`,
+                    maximum: 3 * MB_BYTES,
+                    inclusive: true,
+                });
+            }
+        })
+        .optional(),
+
+    p_extra_1: z
+        .custom<File>()
+        .superRefine((f, ctx) => {
+            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+                        ', ',
+                    )}] but was ${f.type}`,
+                });
+            }
+            if (f.size > 3 * MB_BYTES) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.too_big,
+                    type: 'array',
+                    message: `The file must not be larger than ${
+                        3 * MB_BYTES
+                    } bytes: ${f.size}`,
+                    maximum: 3 * MB_BYTES,
+                    inclusive: true,
+                });
+            }
+        })
+        .optional(),
+
+    p_extra_2: z
+        .custom<File>()
+        .superRefine((f, ctx) => {
+            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+                        ', ',
+                    )}] but was ${f.type}`,
+                });
+            }
+            if (f.size > 3 * MB_BYTES) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.too_big,
+                    type: 'array',
+                    message: `The file must not be larger than ${
+                        3 * MB_BYTES
+                    } bytes: ${f.size}`,
+                    maximum: 3 * MB_BYTES,
+                    inclusive: true,
+                });
+            }
+        })
+        .optional(),
+
+    p_extra_3: z
+        .custom<File>()
+        .superRefine((f, ctx) => {
+            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+                        ', ',
+                    )}] but was ${f.type}`,
+                });
+            }
+            if (f.size > 3 * MB_BYTES) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.too_big,
+                    type: 'array',
+                    message: `The file must not be larger than ${
+                        3 * MB_BYTES
+                    } bytes: ${f.size}`,
+                    maximum: 3 * MB_BYTES,
+                    inclusive: true,
+                });
+            }
+        })
+        .optional(),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -83,6 +164,7 @@ type ValidationSchema = z.infer<typeof schema>;
 export function AddBoxPackModal() {
     const t = useTranslations();
 
+    const [isLoading, setIsLoading] = useState(false);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [activeStep, setActiveStep] = useState<number>(0);
     const { clear, boxPack } = useBoxPackStore();
@@ -123,6 +205,8 @@ export function AddBoxPackModal() {
     };
 
     const handleInsertBoxPack = async (form: ValidationSchema) => {
+        setIsLoading(true);
+
         const {
             name,
             description,
@@ -149,6 +233,10 @@ export function AddBoxPackModal() {
         formData.set('box_packs', JSON.stringify(boxPackItems));
 
         formData.set('p_principal', p_principal as File);
+        formData.set('p_back', boxPack.p_back as File);
+        formData.set('p_extra_1', boxPack.p_extra_1 as File);
+        formData.set('p_extra_2', boxPack.p_extra_2 as File);
+        formData.set('p_extra_3', boxPack.p_extra_3 as File);
 
         const response = await fetch(url, {
             method: 'POST',
@@ -160,6 +248,8 @@ export function AddBoxPackModal() {
                 type: 'error',
                 message: 'Error creating box pack',
             });
+
+            setIsLoading(false);
 
             return;
         }
@@ -175,6 +265,7 @@ export function AddBoxPackModal() {
 
             clear();
             reset();
+            setIsLoading(false);
         }
     };
 
@@ -212,7 +303,7 @@ export function AddBoxPackModal() {
             btnTitle={'add_box_pack'}
             description={''}
             classIcon={''}
-            classContainer={''}
+            classContainer={`${isLoading && ' opacity-75'}`}
             handler={handleSubmit(onSubmit)}
             handlerClose={() => {
                 setActiveStep(0);
@@ -221,27 +312,33 @@ export function AddBoxPackModal() {
             form={form}
         >
             <form>
-                <BoxPackStepper
-                    activeStep={activeStep}
-                    handleSetActiveStep={handleSetActiveStep}
-                    isSubmitting={isSubmitting}
-                >
-                    <>
-                        <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
-                            {t('modal_product_description')}
-                        </p>
+                {isLoading ? (
+                    <div className="h-[50vh]">
+                        <Spinner size="xxLarge" color="beer-blonde" center />
+                    </div>
+                ) : (
+                    <BoxPackStepper
+                        activeStep={activeStep}
+                        handleSetActiveStep={handleSetActiveStep}
+                        isSubmitting={isSubmitting}
+                    >
+                        <>
+                            <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
+                                {t('modal_product_description')}
+                            </p>
 
-                        {activeStep === 0 ? (
-                            <BoxPackInfoSection form={form} />
-                        ) : activeStep === 1 ? (
-                            <BoxProductSlotsSection form={form} />
-                        ) : activeStep === 2 ? (
-                            <BoxMultimediaSection form={form} />
-                        ) : (
-                            <BoxSummary form={form} />
-                        )}
-                    </>
-                </BoxPackStepper>
+                            {activeStep === 0 ? (
+                                <BoxPackInfoSection form={form} />
+                            ) : activeStep === 1 ? (
+                                <BoxProductSlotsSection form={form} />
+                            ) : activeStep === 2 ? (
+                                <BoxMultimediaSection form={form} />
+                            ) : (
+                                <BoxSummary form={form} />
+                            )}
+                        </>
+                    </BoxPackStepper>
+                )}
             </form>
         </ModalWithForm>
     );
