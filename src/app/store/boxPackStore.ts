@@ -6,6 +6,7 @@ interface BoxCartType {
     id: string;
     slots_per_box: number;
     boxPackItems: IBoxPackItem[];
+    p_principal: any;
 }
 
 interface BoxCartState {
@@ -31,7 +32,8 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
             id: '',
             slots_per_box: 0,
             boxPackItems: [],
-        }, // Estado inicial
+            p_principal: null,
+        },
     };
 
     return {
@@ -198,6 +200,7 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
                         id: '',
                         slots_per_box: 0,
                         boxPackItems: [],
+                        p_principal: null,
                     },
                 };
             });

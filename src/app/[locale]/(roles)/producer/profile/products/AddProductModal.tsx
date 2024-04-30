@@ -36,7 +36,6 @@ import { ProductInfoSection } from '../../../../components/products/ProductInfoS
 import { useAppContext } from '../../../../../context/AppContext';
 import dynamic from 'next/dynamic';
 import {
-    ROUTE_ADMIN,
     ROUTE_ARTICLES,
     ROUTE_P_BACK,
     ROUTE_P_EXTRA_1,

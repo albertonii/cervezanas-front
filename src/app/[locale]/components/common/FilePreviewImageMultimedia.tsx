@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
@@ -28,17 +27,16 @@ export const FilePreviewImageMultimedia = ({
     } = form;
 
     useEffect(() => {
-        if (getValues(registerName)) {
-            const type = typeof getValues(registerName);
+        console.info('Errores detectados con multimedia', errors);
+    }, [errors]);
 
-            const file =
-                type === 'object'
-                    ? getValues(registerName)[0].name
-                    : getValues(registerName);
+    useEffect(() => {
+        if (getValues(registerName)) {
+            const file = getValues(registerName);
 
             preUrl
                 ? setImage(preUrl + decodeURIComponent(file))
-                : setImage(URL.createObjectURL(getValues(registerName)[0]));
+                : setImage(URL.createObjectURL(getValues(registerName)));
         }
     }, [registerName]);
 
@@ -51,7 +49,7 @@ export const FilePreviewImageMultimedia = ({
         if (!e.target.files) return console.info('No hay archivos');
 
         setImage(URL.createObjectURL(e.target.files[0])); // Almacenar la URL de la imagen en el estado
-        setValue(registerName, e.target.files);
+        setValue(registerName, e.target.files[0]);
     };
 
     return (

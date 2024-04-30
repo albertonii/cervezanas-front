@@ -24,6 +24,7 @@ export interface ModalAddBoxPackFormData {
     weight: number;
     slots_per_box: number;
     box_packs?: ModalAddBoxPackItemFormData[];
+    p_principal?: any;
 }
 
 export interface ModalAddBoxPackItemFormData {

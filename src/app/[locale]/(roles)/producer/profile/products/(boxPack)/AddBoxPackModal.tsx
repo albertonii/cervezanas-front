@@ -21,6 +21,11 @@ const ModalWithForm = dynamic(
     { ssr: false },
 );
 
+const MB_BYTES = 1000000; // Number of bytes in a megabyte.
+
+// This is the list of mime types you will accept with the schema
+const ACCEPTED_MIME_TYPES = ['image/gif', 'image/jpeg', 'image/png'];
+
 const schema: ZodType<ModalAddBoxPackFormData> = z.object({
     is_public: z.boolean(),
     name: z.string().nonempty('Name is required'),
@@ -28,6 +33,49 @@ const schema: ZodType<ModalAddBoxPackFormData> = z.object({
     price: z.number().min(0, 'Price must be greater than 0'),
     weight: z.number().min(0, 'Weight must be greater than 0'),
     slots_per_box: z.number().min(1, 'Slots must be greater than 0'),
+    // p_principal: z
+    //     .custom<FileList>()
+    //     .refine((file) => !file || (!!file && file.length > 0), {
+    //         message: 'The profile picture is required.',
+    //     })
+    //     .transform((file) => file.length > 0 && file.item(0))
+    //     .refine((file) => !file || (!!file && file.size <= MB_BYTES), {
+    //         message: 'The profile picture must be a maximum of 10MB.',
+    //     })
+    //     .refine((file) => !file || (!!file && file.type?.startsWith('image')), {
+    //         message: 'Only images are allowed to be sent.',
+    //     })
+    //     .refine(
+    //         (file) =>
+    //             !file || (!!file && ACCEPTED_MIME_TYPES.includes(file.type)),
+    //         {
+    //             message: 'The image must be of type jpg, jpeg, png or gif.',
+    //         },
+    //     ),
+
+    p_principal: z.custom<File>().superRefine((f, ctx) => {
+        // First, add an issue if the mime type is wrong.
+        if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+                    ', ',
+                )}] but was ${f.type}`,
+            });
+        }
+        // Next add an issue if the file size is too large.
+        if (f.size > 3 * MB_BYTES) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.too_big,
+                type: 'array',
+                message: `The file must not be larger than ${
+                    3 * MB_BYTES
+                } bytes: ${f.size}`,
+                maximum: 3 * MB_BYTES,
+                inclusive: true,
+            });
+        }
+    }),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -52,6 +100,7 @@ export function AddBoxPackModal() {
             price: 0,
             weight: 330,
             slots_per_box: 6,
+            p_principal: null,
         },
     });
 
@@ -74,8 +123,15 @@ export function AddBoxPackModal() {
     };
 
     const handleInsertBoxPack = async (form: ValidationSchema) => {
-        const { name, description, price, weight, is_public, slots_per_box } =
-            form;
+        const {
+            name,
+            description,
+            price,
+            weight,
+            is_public,
+            slots_per_box,
+            p_principal,
+        } = form;
 
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
         const url = `${baseUrl}/api/products/box_packs`;
@@ -91,6 +147,8 @@ export function AddBoxPackModal() {
 
         const boxPackItems = boxPack.boxPackItems;
         formData.set('box_packs', JSON.stringify(boxPackItems));
+
+        formData.set('p_principal', p_principal as File);
 
         const response = await fetch(url, {
             method: 'POST',
