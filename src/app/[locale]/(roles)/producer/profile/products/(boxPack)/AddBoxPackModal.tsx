@@ -34,7 +34,7 @@ const schema: ZodType<ModalAddBoxPackFormData> = z.object({
             slots_per_product: z
                 .number()
                 .min(1, 'Slots per product must be greater than 0'),
-            product_id: z.string().nonempty('Product id is required'), // Es el id del producto, no de la caja-box
+            product_id: z.string(), // Es el id del producto, no de la caja-box
         }),
     ),
 });
@@ -43,8 +43,6 @@ type ValidationSchema = z.infer<typeof schema>;
 
 export function AddBoxPackModal() {
     const t = useTranslations();
-
-    const { user, supabase } = useAuth();
 
     const [showModal, setShowModal] = useState<boolean>(false);
     const [activeStep, setActiveStep] = useState<number>(0);
@@ -87,79 +85,116 @@ export function AddBoxPackModal() {
             slots_per_box,
         } = form;
 
-        const { data: product, error: errorProduct } = await supabase
-            .from('products')
-            .insert({
-                name,
-                description,
-                is_public,
-                category: 'box_pack',
-                type: 'box_pack',
-                owner_id: user?.id,
-                price: price,
-                weight: weight,
-            })
-            .select('id')
-            .single();
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+        const url = `${baseUrl}/api/products/box_packs`;
 
-        if (errorProduct) {
+        const formData = new FormData();
+
+        formData.set('name', name);
+        formData.set('description', description);
+        formData.set('price', price.toString());
+        formData.set('weight', weight.toString());
+        formData.set('is_public', is_public.toString());
+        formData.set('slots_per_box', slots_per_box.toString());
+        formData.set('box_packs', JSON.stringify(box_packs));
+
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData,
+        });
+
+        console.log('response', response);
+
+        if (response.status !== 200) {
             handleMessage({
                 type: 'error',
-                message: errorProduct.message,
+                message: 'Error creating box pack',
             });
 
             return;
         }
 
-        if (product) {
-            const { data: boxPack, error: errorBoxPack } = await supabase
-                .from('box_packs')
-                .insert({
-                    product_id: product.id,
-                    slots_per_box: slots_per_box,
-                })
-                .select('id')
-                .single();
-
-            if (errorBoxPack) {
-                handleMessage({
-                    type: 'error',
-                    message: errorBoxPack.message,
-                });
-
-                return;
-            }
-
-            if (boxPack) {
-                const boxPackId = boxPack.id;
-
-                const boxPacks = box_packs.map((box) => {
-                    return {
-                        ...box,
-                        box_pack_id: boxPackId,
-                        product_id: box.product_id,
-                    };
-                });
-
-                const { error: errorBoxPackSlots } = await supabase
-                    .from('box_pack_items')
-                    .insert(boxPacks);
-
-                if (errorBoxPackSlots) {
-                    handleMessage({
-                        type: 'error',
-                        message: errorBoxPackSlots.message,
-                    });
-
-                    return;
-                }
-            }
+        if (response.status === 200) {
+            handleMessage({
+                type: 'success',
+                message: 'Box pack created successfully',
+            });
 
             setShowModal(false);
             queryClient.invalidateQueries('productList');
 
             reset();
         }
+
+        // const { data: product, error: errorProduct } = await supabase
+        //     .from('products')
+        //     .insert({
+        //         name,
+        //         description,
+        //         is_public,
+        //         category: 'box_pack',
+        //         type: 'box_pack',
+        //         owner_id: user?.id,
+        //         price: price,
+        //         weight: weight,
+        //     })
+        //     .select('id')
+        //     .single();
+
+        // if (errorProduct) {
+        //     handleMessage({
+        //         type: 'error',
+        //         message: errorProduct.message,
+        //     });
+
+        //     return;
+        // }
+
+        // if (product) {
+        //     const { data: boxPack, error: errorBoxPack } = await supabase
+        //         .from('box_packs')
+        //         .insert({
+        //             product_id: product.id,
+        //             slots_per_box: slots_per_box,
+        //         })
+        //         .select('id')
+        //         .single();
+
+        //     if (errorBoxPack) {
+        //         handleMessage({
+        //             type: 'error',
+        //             message: errorBoxPack.message,
+        //         });
+
+        //         return;
+        //     }
+
+        //     if (boxPack) {
+        //         const boxPackId = boxPack.id;
+
+        //         const boxPacks = box_packs.map((box) => {
+        //             return {
+        //                 ...box,
+        //                 box_pack_id: boxPackId,
+        //                 product_id: box.product_id,
+        //             };
+        //         });
+
+        //         const { error: errorBoxPackSlots } = await supabase
+        //             .from('box_pack_items')
+        //             .insert(boxPacks);
+
+        //         if (errorBoxPackSlots) {
+        //             handleMessage({
+        //                 type: 'error',
+        //                 message: errorBoxPackSlots.message,
+        //             });
+
+        //             return;
+        //         }
+        //     }
+
+        // }
     };
 
     const insertProductMutation = useMutation({

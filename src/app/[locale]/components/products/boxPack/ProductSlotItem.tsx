@@ -11,18 +11,12 @@ import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
 interface Props {
     product: IProduct;
     form: UseFormReturn<any, any>;
-    productItems?: string[];
     index: number;
 }
 
-const ProductSlotItem: React.FC<Props> = ({
-    product,
-    form,
-    productItems,
-    index,
-}) => {
+const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
     const t = useTranslations();
-    const { register } = form;
+    const { setValue } = form;
 
     const { boxPack } = useBoxPackStore();
 
@@ -55,9 +49,13 @@ const ProductSlotItem: React.FC<Props> = ({
 
                 addSlot(boxPackItem);
 
+                setValue(`box_packs.${index}.product_id`, productId);
+
                 return [...(prevSelectedPacks || []), productId];
             } else {
                 removeProductSlot(productId);
+
+                setValue(`box_packs.${index}.product_id`, '');
 
                 return (prevSelectedPacks || []).filter(
                     (id) => id !== productId,
@@ -104,7 +102,7 @@ const ProductSlotItem: React.FC<Props> = ({
                     <input
                         id={`checkbox-product-${product.id}`}
                         type="checkbox"
-                        {...register(`box_packs.${index}.product_id`)}
+                        // {...register(`box_packs.${index}.product_id`)}
                         checked={selectedPacks?.includes(product.id)}
                         onChange={(e) =>
                             handleCheckboxChange(product.id, e.target.checked)

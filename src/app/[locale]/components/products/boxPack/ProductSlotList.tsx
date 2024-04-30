@@ -11,15 +11,16 @@ interface Props {
 }
 
 const ProductSlotList: React.FC<Props> = ({ products, form }) => {
-   
-
-
-    if (!products || products.length === 0) {
-        return <div>No products found.</div>;
+    if (!products) {
+        return <div className="mx-4 my-1">No products found.</div>;
     }
 
     if (products.length === 0) {
-        return <Spinner color="beer-blonde" size="xLarge" absolute center />;
+        return (
+            <div className="mx-4 my-1 ">
+                <Spinner color="beer-blonde" size="small" />
+            </div>
+        );
     }
 
     return (
