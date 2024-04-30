@@ -63,18 +63,18 @@ export function BoxPackStepper({
             setConfirmIconClass(statusFutureIconClass);
         } else if (param === 2) {
             setDetailsClass(statusPastClass);
-            setMultimediaClass(statusPresentClass);
             setProductSlotsClass(statusPastClass);
+            setMultimediaClass(statusPresentClass);
             setConfirmClass(statusFutureClass);
 
             setDetailsIconClass(statusPastIconClass);
-            setMultimediaIconClass(statusPastIconClass);
-            setProductSlotsIconClass(statusPresentIconClass);
+            setProductSlotsIconClass(statusPastIconClass);
+            setMultimediaIconClass(statusPresentIconClass);
             setConfirmIconClass(statusFutureIconClass);
         } else {
             setDetailsClass(statusPastClass);
-            setMultimediaClass(statusPastClass);
             setProductSlotsClass(statusPastClass);
+            setMultimediaClass(statusPastClass);
             setConfirmClass(statusPresentClass);
 
             setDetailsIconClass(statusPastIconClass);
