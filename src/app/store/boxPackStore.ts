@@ -4,7 +4,7 @@ import { IBoxPackItem } from '../../lib/types/product';
 
 interface BoxCartType {
     id: string;
-    slots: number;
+    slots_per_box: number;
     boxPackItems: IBoxPackItem[];
 }
 
@@ -29,7 +29,7 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
     let initialState = {
         boxPack: {
             id: '',
-            slots: 0,
+            slots_per_box: 0,
             boxPackItems: [],
         }, // Estado inicial
     };
@@ -192,9 +192,13 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
         },
 
         clear: () => {
-            set((state) => {
+            set(() => {
                 return {
-                    ...state,
+                    boxPack: {
+                        id: '',
+                        slots_per_box: 0,
+                        boxPackItems: [],
+                    },
                 };
             });
         },

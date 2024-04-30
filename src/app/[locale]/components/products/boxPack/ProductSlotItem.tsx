@@ -16,7 +16,6 @@ interface Props {
 
 const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
     const t = useTranslations();
-    const { setValue } = form;
 
     const { boxPack } = useBoxPackStore();
 
@@ -49,13 +48,9 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
 
                 addSlot(boxPackItem);
 
-                setValue(`box_packs.${index}.product_id`, productId);
-
                 return [...(prevSelectedPacks || []), productId];
             } else {
                 removeProductSlot(productId);
-
-                setValue(`box_packs.${index}.product_id`, '');
 
                 return (prevSelectedPacks || []).filter(
                     (id) => id !== productId,
@@ -66,8 +61,6 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
         if (!showAccordion && isChecked) {
             handleShowAccordion();
         }
-
-        // setValue(`product_items.${product.id}.id`, selectedPacks);
     };
 
     const handleShowAccordion = () => {
@@ -100,14 +93,12 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
             >
                 <div className="flex items-center justify-center space-x-2">
                     <input
-                        id={`checkbox-product-${product.id}`}
                         type="checkbox"
-                        // {...register(`box_packs.${index}.product_id`)}
                         checked={selectedPacks?.includes(product.id)}
                         onChange={(e) =>
                             handleCheckboxChange(product.id, e.target.checked)
                         }
-                        value={product.id}
+                        // value={product.id}
                         className={`h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft`}
                     />
 
