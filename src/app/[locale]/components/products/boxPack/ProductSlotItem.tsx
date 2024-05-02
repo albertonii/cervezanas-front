@@ -247,8 +247,6 @@ const isQuantityLowerThanMaxSlotsPerBox = (
         0,
     );
 
-    console.log(totalQuantity, productQuantity, maxSlotsPerBox);
-
     if (totalQuantity + productQuantity > maxSlotsPerBox) {
         return false;
     }
@@ -265,7 +263,6 @@ const isSlotsPerProductTotalLowerThanMaxSlotsPerBox = (
         (acc, item) => acc + item.slots_per_product,
         0,
     );
-    console.log(totalSlots, slotsPerProduct, maxSlotsPerBox);
 
     if (totalSlots + slotsPerProduct > maxSlotsPerBox) {
         return false;

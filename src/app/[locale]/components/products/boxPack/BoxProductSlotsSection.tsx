@@ -2,7 +2,10 @@ import BoxProductSlotsSelection from './BoxProductSlotsSelection';
 import React, { useEffect, useState } from 'react';
 import InputLabel from '../../common/InputLabel';
 import { UseFormReturn } from 'react-hook-form';
-import { ModalAddBoxPackFormData } from '../../../../../lib/types/product';
+import {
+    IBoxPackItem,
+    ModalAddBoxPackFormData,
+} from '../../../../../lib/types/product';
 import { SearchCheckboxProductSlot } from './SearchCheckboxProductSlot';
 import useBoxPackStore from '../../../../store/boxPackStore';
 
@@ -11,7 +14,34 @@ interface Props {
 }
 
 export default function BoxProductSlotsSection({ form }: Props) {
-    const { onChangeSlotsPerBox } = useBoxPackStore();
+    const { setError, clearErrors } = form;
+    const { boxPack, onChangeSlotsPerBox } = useBoxPackStore();
+
+    const [slotsPerBox, setSlotsPerBox] = useState(6);
+
+    const handleOnChangeSlotsPerBox = (
+        e: React.ChangeEvent<HTMLInputElement>,
+    ) => {
+        const isValid = isValidInputSlots(
+            boxPack?.boxPackItems || [],
+            e.target.valueAsNumber,
+        );
+
+        if (!isValid) {
+            setError('slots_per_box', {
+                type: 'custom',
+                message: 'error_slots_per_box',
+            });
+
+            return;
+        }
+
+        clearErrors('slots_per_box');
+
+        setSlotsPerBox(e.target.valueAsNumber);
+
+        onChangeSlotsPerBox(e.target.valueAsNumber);
+    };
 
     return (
         <section className="grid grid-cols-2 gap-4 pt-6 min-h-[45vh]">
@@ -27,9 +57,8 @@ export default function BoxProductSlotsSection({ form }: Props) {
                     inputType="number"
                     labelText="Slots per box"
                     defaultValue={6}
-                    onChange={(e) =>
-                        onChangeSlotsPerBox(e.target.valueAsNumber)
-                    }
+                    onChange={(e) => handleOnChangeSlotsPerBox(e)}
+                    value={slotsPerBox}
                 />
             </div>
 
@@ -43,3 +72,23 @@ export default function BoxProductSlotsSection({ form }: Props) {
         </section>
     );
 }
+
+const isValidInputSlots = (
+    boxPackItems: IBoxPackItem[],
+    maxSlotsPerBox: number,
+) => {
+    const totalQuantity = boxPackItems.reduce(
+        (acc, item) => acc + item.quantity,
+        0,
+    );
+
+    const totalSlotsPerProduct = boxPackItems.reduce(
+        (acc, item) => acc + item.slots_per_product,
+        0,
+    );
+
+    return (
+        totalQuantity <= maxSlotsPerBox &&
+        totalSlotsPerProduct <= maxSlotsPerBox
+    );
+};
