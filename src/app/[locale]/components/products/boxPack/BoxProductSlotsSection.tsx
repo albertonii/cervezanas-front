@@ -19,6 +19,22 @@ export default function BoxProductSlotsSection({ form }: Props) {
 
     const [slotsPerBox, setSlotsPerBox] = useState(6);
 
+    const [actualSlotsPerBox, setActualSlotsPerBox] = useState(
+        boxPack.boxPackItems.reduce(
+            (acc, item) => acc + item.quantity * item.slots_per_product,
+            0,
+        ),
+    );
+
+    useEffect(() => {
+        setActualSlotsPerBox(
+            boxPack.boxPackItems.reduce(
+                (acc, item) => acc + item.quantity * item.slots_per_product,
+                0,
+            ),
+        );
+    }, [boxPack.boxPackItems]);
+
     const handleOnChangeSlotsPerBox = (
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
@@ -46,6 +62,12 @@ export default function BoxProductSlotsSection({ form }: Props) {
     return (
         <section className="grid grid-cols-2 gap-4 pt-6 min-h-[45vh]">
             <div className="col-span-2">
+                <h1 className="text-xl">
+                    Actual Slots Occupied: {actualSlotsPerBox}
+                </h1>
+            </div>
+
+            <div className="col-span-2">
                 <InputLabel
                     label="slots_per_box"
                     form={form}
@@ -55,7 +77,7 @@ export default function BoxProductSlotsSection({ form }: Props) {
                         min: 1,
                     }}
                     inputType="number"
-                    labelText="Slots per box"
+                    labelText="Max Slots per box"
                     defaultValue={6}
                     onChange={(e) => handleOnChangeSlotsPerBox(e)}
                     value={slotsPerBox}
@@ -78,17 +100,13 @@ const isValidInputSlots = (
     maxSlotsPerBox: number,
 ) => {
     const totalQuantity = boxPackItems.reduce(
-        (acc, item) => acc + item.quantity,
+        (acc, item) => acc + item.quantity * item.slots_per_product,
         0,
     );
 
-    const totalSlotsPerProduct = boxPackItems.reduce(
-        (acc, item) => acc + item.slots_per_product,
-        0,
-    );
+    if (totalQuantity > maxSlotsPerBox) {
+        return false;
+    }
 
-    return (
-        totalQuantity <= maxSlotsPerBox &&
-        totalSlotsPerProduct <= maxSlotsPerBox
-    );
+    return true;
 };

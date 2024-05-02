@@ -1,6 +1,6 @@
 'use client';
 import { create } from 'zustand';
-import { IBoxPackItem } from '../../lib/types/product';
+import { IBoxPack, IBoxPackItem } from '../../lib/types/product';
 
 interface BoxCartType {
     id: string;
@@ -65,16 +65,19 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
                 );
 
                 if (!productFind) {
-                    const newProduct = {
+                    const newProduct: IBoxPackItem = {
                         product_id: boxPackItem.product_id,
                         quantity: boxPackItem.quantity,
                         slots_per_product: boxPackItem.slots_per_product,
                         product: boxPackItem.product,
                     };
 
-                    boxPack.boxPackItems.push({
-                        ...newProduct,
-                    });
+                    const newBoxPack: BoxCartType = {
+                        ...boxPack,
+                        boxPackItems: [...boxPack.boxPackItems, newProduct],
+                    };
+
+                    return { boxPack: newBoxPack };
                 }
 
                 return { boxPack };

@@ -31,6 +31,8 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
     const [quantity, setQuantity] = useState(1);
     const [slotsPerProduct, setSlotsPerProduct] = useState(1);
 
+    const [checkboxError, setCheckboxError] = useState(false);
+
     const {
         onChangeSlotsPerProduct,
         onChangeQuantityProduct,
@@ -43,6 +45,33 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
     const handleCheckboxChange = (productId: string, isChecked: boolean) => {
         setSelectedPacks((prevSelectedPacks) => {
             if (isChecked) {
+                // Remove from boxPackItems the productID selected, so we can do the math with the new quantity number from input
+                const boxPackItems = boxPack.boxPackItems.filter(
+                    (item) => item.product_id !== productId,
+                );
+
+                const isValid = isQuantityLowerThanMaxSlotsPerBox(
+                    boxPackItems,
+                    quantity * slotsPerProduct,
+                    boxPack.slots_per_box,
+                );
+
+                if (!isValid) {
+                    setCheckboxError(true);
+
+                    setError('slots_per_box', {
+                        type: 'custom',
+                        message:
+                            'Update maximum slots per box to add more products in the box',
+                    });
+
+                    return prevSelectedPacks;
+                }
+
+                // Clear errors
+                setCheckboxError(false);
+                clearErrors('slots_per_box');
+
                 const boxPackItem: IBoxPackItem = {
                     product_id: productId,
                     quantity: quantity,
@@ -70,7 +99,10 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
     const handleShowAccordion = () => {
         setShowAccordion(!showAccordion);
     };
-    const handleOnChangeQuantity = (productId: string, quantity: number) => {
+    const handleOnChangeQuantity = (
+        productId: string,
+        inputQuantity: number,
+    ) => {
         // Remove from boxPackItems the productID selected, so we can do the math with the new quantity number from input
         const boxPackItems = boxPack.boxPackItems.filter(
             (item) => item.product_id !== productId,
@@ -78,7 +110,7 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
 
         const isValid = isQuantityLowerThanMaxSlotsPerBox(
             boxPackItems,
-            quantity,
+            inputQuantity * slotsPerProduct,
             boxPack.slots_per_box,
         );
 
@@ -96,27 +128,33 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
                     'Update maximum slots per box to add more products in the box',
             });
 
+            // Allow to reduce the input quantity so we can get rid of error message
+            if (inputQuantity < quantity) {
+                setQuantity(inputQuantity);
+                onChangeQuantityProduct(productId, inputQuantity);
+            }
+
             return;
         }
 
         clearErrors('slots_per_box');
 
-        setQuantity(quantity);
-        onChangeQuantityProduct(productId, quantity);
+        setQuantity(inputQuantity);
+        onChangeQuantityProduct(productId, inputQuantity);
     };
 
     const handleOnChangeSlotsPerProduct = (
         productId: string,
-        slotsPerProd: number,
+        inputSlotsPerProd: number,
     ) => {
         // Remove from boxPackItems the productID selected, so we can do the math with the new slotsPerProd number from input
         const boxPackItems = boxPack.boxPackItems.filter(
             (item) => item.product_id !== productId,
         );
 
-        const isValid = isSlotsPerProductTotalLowerThanMaxSlotsPerBox(
+        const isValid = isQuantityLowerThanMaxSlotsPerBox(
             boxPackItems,
-            slotsPerProd,
+            quantity * inputSlotsPerProd,
             boxPack.slots_per_box,
         );
 
@@ -134,13 +172,19 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
                     'Update maximum slots per box to add more products in the box',
             });
 
+            // Allow to reduce the input slot_per_product so we can get rid of error message
+            if (inputSlotsPerProd < slotsPerProduct) {
+                setSlotsPerProduct(inputSlotsPerProd);
+                onChangeSlotsPerProduct(productId, inputSlotsPerProd);
+            }
+
             return;
         }
 
         clearErrors('slots_per_box');
 
-        setSlotsPerProduct(slotsPerProd);
-        onChangeSlotsPerProduct(productId, slotsPerProd);
+        setSlotsPerProduct(inputSlotsPerProd);
+        onChangeSlotsPerProduct(productId, inputSlotsPerProd);
     };
 
     return (
@@ -161,8 +205,13 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
                         onChange={(e) =>
                             handleCheckboxChange(product.id, e.target.checked)
                         }
-                        // value={product.id}
-                        className={`h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft`}
+                        className={`h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde 
+                            dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft
+                            ${
+                                checkboxError &&
+                                'border-red-500 focus:ring-red-500'
+                            }    
+                        `}
                     />
 
                     <FontAwesomeIcon
@@ -239,32 +288,15 @@ export default ProductSlotItem;
 
 const isQuantityLowerThanMaxSlotsPerBox = (
     boxPackItems: IBoxPackItem[],
-    productQuantity: number,
+    totalNewSlots: number,
     maxSlotsPerBox: number,
 ) => {
     const totalQuantity = boxPackItems.reduce(
-        (acc, item) => acc + item.quantity,
+        (acc, item) => acc + item.quantity * item.slots_per_product,
         0,
     );
 
-    if (totalQuantity + productQuantity > maxSlotsPerBox) {
-        return false;
-    }
-
-    return true;
-};
-
-const isSlotsPerProductTotalLowerThanMaxSlotsPerBox = (
-    boxPackItems: IBoxPackItem[],
-    slotsPerProduct: number,
-    maxSlotsPerBox: number,
-) => {
-    const totalSlots = boxPackItems.reduce(
-        (acc, item) => acc + item.slots_per_product,
-        0,
-    );
-
-    if (totalSlots + slotsPerProduct > maxSlotsPerBox) {
+    if (totalQuantity + totalNewSlots > maxSlotsPerBox) {
         return false;
     }
 
