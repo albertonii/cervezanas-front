@@ -28,13 +28,14 @@ interface BoxCartState {
         productId: string,
         slotsPerProduct: number,
     ) => void;
+    onChangeSlotsPerBox: (slotsPerBox: number) => void;
 }
 
 const useBoxPackStore = create<BoxCartState>((set, get) => {
     let initialState = {
         boxPack: {
             id: '',
-            slots_per_box: 0,
+            slots_per_box: 6,
             boxPackItems: [],
             p_principal: null,
             p_back: null,
@@ -131,6 +132,16 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
 
                     return { boxPack };
                 }
+
+                return { boxPack };
+            });
+        },
+
+        onChangeSlotsPerBox: (slotsPerBox: number) => {
+            set((state) => {
+                const { boxPack } = state;
+
+                boxPack.slots_per_box = slotsPerBox;
 
                 return { boxPack };
             });
