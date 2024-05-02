@@ -9,7 +9,7 @@ import createServerClient from '../../utils/supabaseServer';
 import { notFound } from 'next/navigation';
 import { INotification } from '../../lib/types/types';
 import { MessageList } from './components/message/MessageList';
-// import { Breadcrumb } from './components/Breadcrumb';
+import Breadcrumb from './components/Breadcrumb';
 
 type LayoutProps = {
     children: React.ReactNode;
@@ -55,13 +55,18 @@ export default async function AppLocaleLayout({
                 />
                 <section
                     className={classNames(
-                        'relative mx-auto min-h-0 w-full overflow-auto',
+                        'relative mx-auto min-h-0 w-full overflow-auto lg:container',
                         // "h-[calc(100vh - 340px)] mx-auto mt-[10vh] w-full overflow-y-auto"
                     )}
                 >
-                    {/* <Breadcrumb
-                    getDefaultTextGenerator={(path) => titleize(path)}
-                    /> */}
+                    <Breadcrumb
+                        homeElement={'Home'}
+                        separator={<span> | </span>}
+                        containerClasses="flex py-5 bg-gradient-to-r from-purple-600 to-blue-600"
+                        listClasses="hover:underline mx-2 font-bold"
+                        activeClasses="text-amber-500"
+                        capitalizeLinks={true}
+                    />
                 </section>
 
                 <main

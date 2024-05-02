@@ -1,111 +1,67 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import React, { useEffect, useMemo } from "react";
-import { useRouter } from "next/router";
+import React, { ReactNode } from 'react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
-// https://dev.to/dan_starner/building-dynamic-breadcrumbs-in-nextjs-17oa
-export function Breadcrumb() {
-  const router = useRouter();
+type TBreadCrumbProps = {
+    homeElement: ReactNode;
+    separator: ReactNode;
+    containerClasses?: string;
+    listClasses?: string;
+    activeClasses?: string;
+    capitalizeLinks?: boolean;
+};
 
-  useEffect(() => {
-    if (!router.isReady) {
-      return;
-    }
-  }, [router.isReady, router.pathname]);
+const HREFS = {
+    es: '/es',
+    en: '/en',
+};
 
-  // Capitalize the first letter of each word in a string
-  function titleize(path: string): string {
-    return path
-      .split("/")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  }
-  const getDefaultTextGenerator = (path: string) => titleize(path);
+const Breadcrumb = ({
+    homeElement,
+    separator,
+    containerClasses,
+    listClasses,
+    activeClasses,
+    capitalizeLinks,
+}: TBreadCrumbProps) => {
+    const paths = usePathname();
+    const pathNames = paths.split('/').filter((path) => path);
 
-  // Call the function to generate the breadcrumbs list
-  const breadcrumbs = useMemo(
-    function generateBreadcrumbs() {
-      // Remove any query parameters, as those aren't included in breadcrumbs
-      const asPathWithoutQuery = router.pathname.split("?")[0];
-
-      // Break down the path between "/"s, removing empty entities
-      // Ex:"/my/nested/path" --> ["my", "nested", "path"]
-      const asPathNestedRoutes = asPathWithoutQuery
-        .split("/")
-        .filter((v: any) => v.length > 0);
-
-      // Iterate over the list of nested route parts and build
-      // a "crumb" object for each one.
-      const crumblist = asPathNestedRoutes.map((subpath: any, idx: any) => {
-        // We can get the partial nested route for the crumb
-        // by joining together the path parts up to this point.
-        const href: string =
-          "/" + asPathNestedRoutes.slice(0, idx + 1).join("/");
-        // The title will just be the route string for now
-        return { href, title: getDefaultTextGenerator(subpath) };
-      });
-
-      // Add in a default "Home" crumb for the top-level
-      return [{ href: "/", text: "Home", title: "Homepage" }, ...crumblist];
-    },
-    [router.pathname]
-  );
-
-  return (
-    <div className="container mx-auto my-6 flex w-full transform items-center justify-between transition  lg:flex-wrap">
-      <div className="flex" aria-label="Breadcrumb">
-        {breadcrumbs.map((crumb, idx) => {
-          return (
-            <Crumb
-              key={idx}
-              last={idx === breadcrumbs.length - 1}
-              title={crumb.title}
-              href={crumb.href}
-            />
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-// Each individual "crumb" in the breadcrumbs list
-function Crumb({ href, last = false, title }: CrumbProps) {
-  const locale = useLocale();
-
-  // The last crumb is rendered as normal text since we are already on the page
-  if (last) {
     return (
-      <div>
-        <span color="text.primary"> {title}</span>
-      </div>
+        <div>
+            <ul className={containerClasses}>
+                <li className={listClasses}>
+                    <Link href={'/'}>{homeElement}</Link>
+                </li>
+                {pathNames.length > 0 && separator}
+                {pathNames.map((link, index) => {
+                    let href = `/${pathNames.slice(0, index + 1).join('/')}`;
+
+                    if (href === HREFS.en || href === HREFS.es) {
+                        return null;
+                    }
+
+                    let itemClasses =
+                        paths === href
+                            ? `${listClasses} ${activeClasses}`
+                            : listClasses;
+                    let itemLink = capitalizeLinks
+                        ? link[0].toUpperCase() + link.slice(1, link.length)
+                        : link;
+                    return (
+                        <React.Fragment key={index}>
+                            <li className={itemClasses}>
+                                <Link href={href}>{itemLink}</Link>
+                            </li>
+                            {pathNames.length !== index + 1 && separator}
+                        </React.Fragment>
+                    );
+                })}
+            </ul>
+        </div>
     );
-  }
+};
 
-  // All other crumbs will be rendered as links that can be visited
-  return (
-    <>
-      <Link
-        color="inherit"
-        className="hover:text-beer-blonde"
-        href={href}
-        locale={locale}
-      >
-        {title}
-      </Link>
-      {" > "}
-    </>
-  );
-}
-
-// Props for the Crumb component
-import { UrlObject } from "url";
-import { useLocale } from "next-intl";
-type Url = string | UrlObject;
-
-interface CrumbProps {
-  title: string;
-  href: Url;
-  last?: boolean;
-}
+export default Breadcrumb;
