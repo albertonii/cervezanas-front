@@ -5,44 +5,19 @@ import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import {
-    aroma_options,
-    color_options,
-    era_options,
-    family_options,
-    fermentation_options,
-    origin_options,
-    product_type_options,
-} from '../../../../../../lib/beerEnum';
 import { MultimediaSection } from '../../../../components/products/MultimediaSection';
 import {
-    IProductInventory,
     IModalAddProductPack,
     ModalAddProductAwardFormData,
     ModalAddProductFormData,
 } from '../../../../../../lib/types/types';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { v4 as uuidv4 } from 'uuid';
 import { ProductSummary } from '../../../../components/products/ProductSummary';
-import {
-    generateFileNameExtension,
-    isFileEmpty,
-    isNotEmptyArray,
-    isValidObject,
-} from '../../../../../../utils/utils';
+import { isFileEmpty, isNotEmptyArray } from '../../../../../../utils/utils';
 import { useMutation, useQueryClient } from 'react-query';
 import { ProductStepper } from '../../../../components/products/ProductStepper';
 import { ProductInfoSection } from '../../../../components/products/ProductInfoSection';
 import { useAppContext } from '../../../../../context/AppContext';
 import dynamic from 'next/dynamic';
-import {
-    ROUTE_ARTICLES,
-    ROUTE_P_BACK,
-    ROUTE_P_EXTRA_1,
-    ROUTE_P_EXTRA_2,
-    ROUTE_P_EXTRA_3,
-    ROUTE_P_PRINCIPAL,
-} from '../../../../../../config';
 import { useMessage } from '../../../../components/message/useMessage';
 import { AwardsSection } from '../../../../components/products/AwardsSection';
 
@@ -309,8 +284,7 @@ type ValidationSchema = z.infer<typeof schema>;
 export function AddProductModal() {
     const t = useTranslations();
 
-    const { customizeSettings, removeImage } = useAppContext();
-    const { user, supabase } = useAuth();
+    const { customizeSettings } = useAppContext();
 
     const [isLoading, setIsLoading] = useState(false);
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -348,13 +322,9 @@ export function AddProductModal() {
 
     useEffect(() => {
         if (errors) {
-            console.log('Errores detectados creando un producto', errors);
+            console.info('Errores detectados creando un producto', errors);
         }
     }, [errors]);
-
-    const generateUUID = () => {
-        return uuidv4();
-    };
 
     const handleInsertProduct = async (form: ValidationSchema) => {
         setIsLoading(true);
@@ -425,7 +395,6 @@ export function AddProductModal() {
         );
 
         // Packs
-        console.log(packs);
         if (isNotEmptyArray(packs)) {
             packs.map((pack: IModalAddProductPack, index: number) => {
                 formData.append(
@@ -456,11 +425,8 @@ export function AddProductModal() {
         }
 
         // Multimedia
-        console.log(p_principal);
-        console.log(p_back);
-
         if (p_principal && !isFileEmpty(p_principal)) {
-            formData.append('p_principal', p_principal[0]);
+            formData.append('p_principal', p_principal);
         }
 
         if (p_back && !isFileEmpty(p_back)) {
@@ -506,234 +472,8 @@ export function AddProductModal() {
             queryClient.invalidateQueries('productList');
 
             reset();
+            // setActiveStep(0);
         }
-
-        // const productId = productData[0].id;
-
-        // Multimedia
-        // const randomUUID = generateUUID();
-
-        // let p_principal_url = '';
-        // let p_back_url = '';
-        // let p_extra_1_url = '';
-        // let p_extra_2_url = '';
-        // let p_extra_3_url = '';
-
-        // if (p_principal && !isFileEmpty(p_principal[0])) {
-        //     const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_PRINCIPAL}/${randomUUID}`;
-        //     p_principal_url = encodeURIComponent(
-        //         `${fileName}${generateFileNameExtension(p_principal[0].name)}`,
-        //     );
-
-        //     const { error: pPrincipalError } = await supabase.storage
-        //         .from('products')
-        //         .upload(
-        //             `${fileName}${generateFileNameExtension(
-        //                 p_principal[0].name,
-        //             )}`,
-        //             p_principal[0],
-        //             {
-        //                 contentType: p_principal[0].type,
-        //                 cacheControl: '3600',
-        //                 upsert: false,
-        //             },
-        //         );
-        //     if (pPrincipalError) throw pPrincipalError;
-
-        //     removeImage('p_principal');
-        // }
-
-        // if (p_back && !isFileEmpty(p_back[0])) {
-        //     const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_BACK}/${randomUUID}`;
-
-        //     p_back_url =
-        //         p_back &&
-        //         encodeURIComponent(
-        //             `${fileName}${generateFileNameExtension(p_back[0].name)}`,
-        //         );
-
-        //     const { error: pBackError } = await supabase.storage
-        //         .from('products')
-        //         .upload(
-        //             `${fileName}${generateFileNameExtension(p_back[0].name)}`,
-        //             p_back[0],
-        //             {
-        //                 cacheControl: '3600',
-        //                 upsert: false,
-        //             },
-        //         );
-        //     if (pBackError) throw pBackError;
-
-        //     removeImage('p_back');
-        // }
-
-        // if (p_extra_1 && !isFileEmpty(p_extra_1[0])) {
-        //     const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_EXTRA_1}/${randomUUID}`;
-
-        //     p_extra_1_url =
-        //         p_extra_1 &&
-        //         encodeURIComponent(
-        //             `${fileName}${generateFileNameExtension(
-        //                 p_extra_1[0].name,
-        //             )}`,
-        //         );
-
-        //     const { error: pExtra1Error } = await supabase.storage
-        //         .from('products')
-        //         .upload(
-        //             `${fileName}${generateFileNameExtension(
-        //                 p_extra_1[0].name,
-        //             )}`,
-        //             p_extra_1[0],
-        //             {
-        //                 cacheControl: '3600',
-        //                 upsert: false,
-        //             },
-        //         );
-        //     if (pExtra1Error) throw pExtra1Error;
-
-        //     removeImage('p_extra_1');
-        // }
-
-        // if (p_extra_2 && !isFileEmpty(p_extra_2[0])) {
-        //     const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_EXTRA_2}/${randomUUID}`;
-
-        //     p_extra_2_url =
-        //         p_extra_2 &&
-        //         encodeURIComponent(
-        //             `${fileName}${generateFileNameExtension(
-        //                 p_extra_2[0].name,
-        //             )}`,
-        //         );
-
-        //     const { error: pExtra2Error } = await supabase.storage
-        //         .from('products')
-        //         .upload(
-        //             `${fileName}${generateFileNameExtension(
-        //                 p_extra_2[0].name,
-        //             )}`,
-        //             p_extra_2[0],
-        //             {
-        //                 cacheControl: '3600',
-        //                 upsert: false,
-        //             },
-        //         );
-        //     if (pExtra2Error) throw pExtra2Error;
-
-        //     removeImage('p_extra_2');
-        // }
-
-        // if (p_extra_3 && !isFileEmpty(p_extra_3[0])) {
-        //     const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_EXTRA_3}/${randomUUID}`;
-
-        //     p_extra_3_url =
-        //         p_extra_3 &&
-        //         `${fileName}${generateFileNameExtension(p_extra_3[0].name)}`;
-
-        //     const { error: pExtra3Error } = await supabase.storage
-        //         .from('products')
-        //         .upload(
-        //             `${fileName}${generateFileNameExtension(
-        //                 p_extra_3[0].name,
-        //             )}`,
-        //             p_extra_3[0],
-        //             {
-        //                 cacheControl: '3600',
-        //                 upsert: false,
-        //             },
-        //         );
-        //     if (pExtra3Error) throw pExtra3Error;
-
-        //     removeImage('p_extra_3');
-        // }
-
-        // const { error: multError } = await supabase
-        //     .from('product_multimedia')
-        //     .insert({
-        //         product_id: productId,
-        //         p_principal: p_principal_url ?? '',
-        //         p_back: p_back_url ?? '',
-        //         p_extra_1: p_extra_1_url ?? '',
-        //         p_extra_2: p_extra_2_url ?? '',
-        //         p_extra_3: p_extra_3_url ?? '',
-        //     });
-
-        // if (multError) throw multError;
-
-        // setActiveStep(0);
-
-        // Packs Stock
-        // if (isNotEmptyArray(packs)) {
-        //     packs.map(async (pack: IModalAddProductPack, index: number) => {
-        //         const filename = `packs/${productId}/${randomUUID}_${index}`;
-        //         const pack_url = encodeURIComponent(
-        //             `${filename}${generateFileNameExtension(pack.name)}`,
-        //         );
-
-        //         const { error: packsError } = await supabase
-        //             .from('product_packs')
-        //             .insert({
-        //                 product_id: productId,
-        //                 quantity: pack.quantity,
-        //                 price: pack.price,
-        //                 name: pack.name,
-        //                 img_url: pack_url,
-        //                 randomUUID: randomUUID,
-        //             });
-
-        //         if (packsError) throw packsError;
-
-        //         if (pack.img_url instanceof FileList) {
-        //             const file = pack.img_url[0];
-
-        //             const { error: storagePacksError } =
-        //                 await supabase.storage
-        //                     .from('products')
-        //                     .upload(
-        //                         `${filename}${generateFileNameExtension(
-        //                             pack.name,
-        //                         )}`,
-        //                         file,
-        //                         {
-        //                             contentType: file.type,
-        //                             cacheControl: '3600',
-        //                             upsert: false,
-        //                         },
-        //                     );
-
-        //             if (storagePacksError) throw storagePacksError;
-        //         }
-
-        //         removeImage(`packs.${index}.img_url`);
-        //     });
-        // }
-
-        //     reset();
-        // } else {
-        //     // ERROR - No se ha podido insertar el producto
-        //     handleMessage({
-        //         type: 'error',
-        //         message: t('error_insert_product'),
-        //     });
-
-        //     // Deshacer la inserción del producto
-        //     const { error: rollbackError } = await supabase
-        //         .from('products')
-        //         .delete()
-        //         .match({ id: productId });
-
-        //     if (rollbackError) throw rollbackError;
-
-        //     // Deshacer la inserción de la multimedia
-        //     const { error: rollbackMultError } = await supabase
-        //         .from('product_multimedia')
-        //         .delete()
-        //         .match({ product_id: productId });
-
-        //     if (rollbackMultError) throw rollbackMultError;
-
-        //     return;
-        // }
     };
 
     const insertProductMutation = useMutation({

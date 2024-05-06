@@ -316,13 +316,6 @@ export async function POST(request: NextRequest) {
         }
 
         // Multimedia
-        /*
-        const generateUUID = () => {
-            return uuidv4();
-        };
-
-        const randomUUID = generateUUID();
-
         let p_principal_url = '';
         let p_back_url = '';
         let p_extra_1_url = '';
@@ -472,8 +465,12 @@ export async function POST(request: NextRequest) {
                 p_extra_3: p_extra_3_url ?? '',
             });
 
-        if (multError) throw multError;
-        */
+        if (multError) {
+            return NextResponse.json(
+                { message: 'Error creating product multimedia' },
+                { status: 500 },
+            );
+        }
 
         return NextResponse.json(
             { message: 'Box Pack successfully created' },
