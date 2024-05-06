@@ -24,7 +24,6 @@ import { v4 as uuidv4 } from 'uuid';
 import {
     IProduct,
     IProductInventory,
-    IAward,
     ModalUpdateProductFormData,
     ModalUpdateProductPackFormData,
     ModalUpdateProductAwardFormData,

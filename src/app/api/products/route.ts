@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import {
-    ROUTE_ARTICLES,
     ROUTE_P_BACK,
     ROUTE_P_EXTRA_1,
     ROUTE_P_EXTRA_2,
@@ -485,4 +484,8 @@ export async function POST(request: NextRequest) {
     }
 }
 
+// TODO: Eliminar imágenes en el Bucket desde aquí.
 export async function DELETE(request: NextRequest) {}
+
+// Update
+export async function PUT(request: NextRequest) {}

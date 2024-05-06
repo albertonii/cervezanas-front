@@ -17,6 +17,7 @@ import {
     ROUTE_P_PRINCIPAL,
 } from '../../../../../../config';
 import { MULTIMEDIA } from '../../../../../../constants';
+import { useMessage } from '../../../../components/message/useMessage';
 
 interface Props {
     productId: string;
@@ -35,6 +36,8 @@ export const UpdateFilePreviewImageMultimedia = ({
     const [image, setImage] = useState<string | null>(); // Nuevo estado para almacenar la URL de la imagen
     const { supabase } = useAuth();
     const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const { handleMessage } = useMessage();
 
     const generateUUID = () => {
         return uuidv4();
@@ -79,31 +82,42 @@ export const UpdateFilePreviewImageMultimedia = ({
             const file = getValues(registerName);
 
             if (registerName === MULTIMEDIA.P_PRINCIPAL) {
-                const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_PRINCIPAL}/${randomUUID}`;
-                const p_principal_url = encodeURIComponent(
-                    `${fileName}${generateFileNameExtension(file[0].name)}`,
-                );
+                const multimedia_type = MULTIMEDIA.P_PRINCIPAL;
 
-                const { error } = await supabase.storage
-                    .from('products')
-                    .upload(
-                        `${fileName}${generateFileNameExtension(file[0].name)}`,
-                        file[0],
-                        {
-                            cacheControl: '3600',
-                            upsert: false,
-                        },
-                    );
-                if (error) throw error;
+                const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+                const url = `${baseUrl}/api/products/multimedia`;
 
-                const { error: multError } = await supabase
-                    .from('product_multimedia')
-                    .update({
-                        p_principal: p_principal_url,
-                    })
-                    .eq('product_id', productId);
+                const formData = new FormData();
 
-                if (multError) throw multError;
+
+                formData.append('multimedia_type', multimedia_type);
+                formData.append('multimedia', file[0]);
+                formData.append('product_id', productId);
+
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    body: formData,
+                });
+
+                if (response.status !== 200) {
+                    handleMessage({
+                        type: 'error',
+                        message: t('error_insert_product_multimedia'),
+                    });
+                    // setIsLoading(true);
+                    return;
+                }
+
+                if (response.status === 200) {
+                    handleMessage({
+                        type: 'success',
+                        message: t('success_insert_product_multimedia'),
+                    });
+                    // setShowModal(false);
+                    // setIsLoading(false);
+                    // queryClient.invalidateQueries('productList');
+                    // reset();
+                }
             } else if (registerName === MULTIMEDIA.P_BACK) {
                 const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_BACK}/${randomUUID}`;
                 const p_back_url = encodeURIComponent(
