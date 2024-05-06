@@ -12,7 +12,7 @@ interface Props {
     handleDeleteShowModal: ComponentProps<any>;
 }
 
-export function DeleteProduct({
+export function DeleteProductModal({
     product,
     showModal,
     handleDeleteShowModal,

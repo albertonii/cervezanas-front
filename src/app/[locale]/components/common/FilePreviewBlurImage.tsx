@@ -12,10 +12,6 @@ export default function FilePreviewBlurImage({
 }: Props) {
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    useEffect(() => {
-        console.log('isLoading', isLoading);
-    }, [isLoading]);
-
     return (
         <div className="z-1 relative flex h-32 w-full cursor-pointer items-center justify-center overflow-hidden rounded-md border-2  border-dotted border-gray-400 bg-gray-200 shadow-md">
             <figure

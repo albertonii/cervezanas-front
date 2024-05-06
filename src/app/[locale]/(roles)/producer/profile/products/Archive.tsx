@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IProduct } from '../../../../../../lib/types/types';
 import { ProductsArchiveList } from './ProductsArchiveList';
-import { DeleteProduct } from '../../../../components/modals/DeleteProduct';
+import { DeleteProductModal } from '../../../../components/modals/DeleteProductModal';
 import { UpdateProductModal } from './UpdateProductModal';
 
 /**
@@ -59,7 +59,7 @@ export function Archive() {
             )}
 
             {isDeleteShowModal && productModal && (
-                <DeleteProduct
+                <DeleteProductModal
                     product={productModal}
                     showModal={isDeleteShowModal}
                     handleDeleteShowModal={handleDeleteShowModal}

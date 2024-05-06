@@ -48,8 +48,6 @@ export const FilePreviewImageMultimedia = ({
     const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return console.info('No hay archivos');
 
-        console.log(registerName);
-
         setImage(URL.createObjectURL(e.target.files[0])); // Almacenar la URL de la imagen en el estado
         setValue(registerName, e.target.files[0]);
     };

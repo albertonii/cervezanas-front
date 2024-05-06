@@ -15,16 +15,7 @@ export function BoxSummary({ form }: Props) {
     const {
         getValues,
         formState: { errors },
-        watch,
     } = form;
-
-    useEffect(() => {
-        const subscription = watch((value) => {
-            console.log(value);
-        });
-
-        return () => subscription.unsubscribe();
-    }, [watch]);
 
     return (
         <>

@@ -10,6 +10,7 @@ import {
 import createServerClient from '../../../utils/supabaseServer';
 import { generateFileNameExtension } from '../../../utils/utils';
 import { v4 as uuidv4 } from 'uuid';
+import { SupabaseProps } from '../../../constants';
 
 export async function POST(request: NextRequest) {
     try {
@@ -190,7 +191,7 @@ export async function POST(request: NextRequest) {
         // Packs Insert
         if (packs && packs.length > 0) {
             packs.map(async (pack, index) => {
-                const fileName = `packs/${product.id}/${randomUUID}_${index}`;
+                const fileName = `${SupabaseProps.PACKS_URL}${product.id}/${randomUUID}_${index}`;
 
                 const pack_url = encodeURIComponent(
                     `${fileName}${generateFileNameExtension(
@@ -255,7 +256,7 @@ export async function POST(request: NextRequest) {
         // Awards Insert
         if (awards && awards.length > 0) {
             awards.map(async (award, index) => {
-                const fileName = `awards/${product.id}/${randomUUID}_${index}`;
+                const fileName = `${SupabaseProps.AWARDS_URL}${product.id}/${randomUUID}_${index}`;
                 const award_url = encodeURIComponent(
                     `${fileName}${generateFileNameExtension(
                         award.img_url.name,
@@ -323,7 +324,7 @@ export async function POST(request: NextRequest) {
         let p_extra_3_url = '';
 
         if (p_principal) {
-            const fileName = `${ROUTE_ARTICLES}/${product.id}${ROUTE_P_PRINCIPAL}/${randomUUID}`;
+            const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_PRINCIPAL}/${randomUUID}`;
 
             p_principal_url = encodeURIComponent(
                 `${fileName}${generateFileNameExtension(p_principal.name)}`,
@@ -349,7 +350,7 @@ export async function POST(request: NextRequest) {
         }
 
         if (p_back) {
-            const fileName = `${ROUTE_ARTICLES}/${product.id}${ROUTE_P_BACK}/${randomUUID}`;
+            const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_BACK}/${randomUUID}`;
 
             p_back_url = encodeURIComponent(
                 `${fileName}${generateFileNameExtension(p_back.name)}`,
@@ -375,7 +376,7 @@ export async function POST(request: NextRequest) {
         }
 
         if (p_extra_1) {
-            const fileName = `${ROUTE_ARTICLES}/${product.id}${ROUTE_P_EXTRA_1}/${randomUUID}`;
+            const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_EXTRA_1}/${randomUUID}`;
 
             p_extra_1_url = encodeURIComponent(
                 `${fileName}${generateFileNameExtension(p_extra_1.name)}`,
@@ -401,7 +402,7 @@ export async function POST(request: NextRequest) {
         }
 
         if (p_extra_2) {
-            const fileName = `${ROUTE_ARTICLES}/${product.id}${ROUTE_P_EXTRA_2}/${randomUUID}`;
+            const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_EXTRA_2}/${randomUUID}`;
 
             p_extra_2_url = encodeURIComponent(
                 `${fileName}${generateFileNameExtension(p_extra_2.name)}`,
@@ -428,7 +429,7 @@ export async function POST(request: NextRequest) {
         }
 
         if (p_extra_3) {
-            const fileName = `${ROUTE_ARTICLES}/${product.id}${ROUTE_P_EXTRA_3}/${randomUUID}`;
+            const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_EXTRA_3}/${randomUUID}`;
 
             p_extra_3_url = encodeURIComponent(
                 `${fileName}${generateFileNameExtension(p_extra_3.name)}`,
@@ -483,3 +484,5 @@ export async function POST(request: NextRequest) {
         );
     }
 }
+
+export async function DELETE(request: NextRequest) {}
