@@ -13,13 +13,9 @@ export function BoxMultimediaSection({ form }: Props) {
                 form={form}
                 registerName="p_principal"
             />
-
             <FilePreviewImageMultimedia form={form} registerName="p_back" />
-
             <FilePreviewImageMultimedia form={form} registerName="p_extra_1" />
-
             <FilePreviewImageMultimedia form={form} registerName="p_extra_2" />
-
             <FilePreviewImageMultimedia form={form} registerName="p_extra_3" />
         </section>
     );

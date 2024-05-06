@@ -759,11 +759,11 @@ export type ModalAddProductFormData = {
     era: number;
     is_gluten: boolean;
     type: string;
-    p_principal?: FileList;
-    p_back?: FileList;
-    p_extra_1?: FileList;
-    p_extra_2?: FileList;
-    p_extra_3?: FileList;
+    p_principal?: any;
+    p_back?: any;
+    p_extra_1?: any;
+    p_extra_2?: any;
+    p_extra_3?: any;
     is_public: boolean;
     volume: number;
     weight: number;
