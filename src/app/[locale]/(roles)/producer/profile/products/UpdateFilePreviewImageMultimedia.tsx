@@ -60,6 +60,11 @@ export const UpdateFilePreviewImageMultimedia = ({
                     ? getValues(registerName)[0].name
                     : getValues(registerName);
 
+            if (!file) {
+                setImage('/assets/nobeer.png');
+                return;
+            }
+
             preUrl
                 ? setImage(preUrl + decodeURIComponent(file))
                 : setImage(URL.createObjectURL(getValues(registerName)[0]));
@@ -85,10 +90,9 @@ export const UpdateFilePreviewImageMultimedia = ({
                 const multimedia_type = MULTIMEDIA.P_PRINCIPAL;
 
                 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-                const url = `${baseUrl}/api/products/multimedia`;
+                const url = `${baseUrl}/api/products/update/multimedia`;
 
                 const formData = new FormData();
-
 
                 formData.append('multimedia_type', multimedia_type);
                 formData.append('multimedia', file[0]);

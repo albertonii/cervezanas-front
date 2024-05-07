@@ -13,6 +13,15 @@ import { SupabaseProps } from '../../../constants';
 
 export async function POST(request: NextRequest) {
     try {
+        const generateUUID = () => {
+            return uuidv4();
+        };
+
+        const randomUUID = generateUUID();
+
+        const supabase = await createServerClient();
+        const userId = (await supabase.auth.getSession()).data.session?.user.id;
+
         const formData = await request.formData();
 
         // Basic
@@ -36,12 +45,6 @@ export async function POST(request: NextRequest) {
         const volume = parseFloat(formData.get('beer.volume') as string);
         const format = formData.get('beer.format') as string;
         const ibu = parseFloat(formData.get('beer.ibu') as string);
-
-        const generateUUID = () => {
-            return uuidv4();
-        };
-
-        const randomUUID = generateUUID();
 
         // Stock - Inventory
         const stockQuantity = parseFloat(
@@ -91,9 +94,6 @@ export async function POST(request: NextRequest) {
         const p_extra_1 = formData.get('p_extra_1') as File;
         const p_extra_2 = formData.get('p_extra_2') as File;
         const p_extra_3 = formData.get('p_extra_3') as File;
-
-        const supabase = await createServerClient();
-        const userId = (await supabase.auth.getSession()).data.session?.user.id;
 
         const { data: product, error: errorProduct } = await supabase
             .from('products')
@@ -473,7 +473,7 @@ export async function POST(request: NextRequest) {
         }
 
         return NextResponse.json(
-            { message: 'Box Pack successfully created' },
+            { message: 'Product successfully created' },
             { status: 200 },
         );
     } catch (err) {

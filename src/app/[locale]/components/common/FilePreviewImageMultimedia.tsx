@@ -23,7 +23,7 @@ export const FilePreviewImageMultimedia = ({
     const {
         getValues,
         setValue,
-        formState: { errors },
+        formState: { errors, dirtyFields },
     } = form;
 
     useEffect(() => {

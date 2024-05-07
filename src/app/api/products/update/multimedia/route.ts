@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ROUTE_ARTICLES, ROUTE_P_PRINCIPAL } from '../../../../config';
-import { MULTIMEDIA, SupabaseProps } from '../../../../constants';
+import { ROUTE_P_PRINCIPAL } from '../../../../../config';
+import { MULTIMEDIA, SupabaseProps } from '../../../../../constants';
 import { v4 as uuidv4 } from 'uuid';
-import { generateFileNameExtension } from '../../../../utils/utils';
-import createServerClient from '../../../../utils/supabaseServer';
+import { generateFileNameExtension } from '../../../../../utils/utils';
+import createServerClient from '../../../../../utils/supabaseServer';
 
 export async function PUT(request: NextRequest) {
     try {
@@ -39,7 +39,6 @@ export async function PUT(request: NextRequest) {
             }
 
             if (productMult.p_principal) {
-                console.log(decodeURIComponent(productMult.p_principal));
                 // 2. Remove image from Supabase Bucket
                 const { error: deleteError } = await supabase.storage
                     .from('products')

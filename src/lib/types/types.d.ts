@@ -792,11 +792,11 @@ export type ModalUpdateProductFormData = {
     era: number;
     is_gluten: boolean;
     type: string;
-    p_principal?: FileList | string;
-    p_back?: FileList | string;
-    p_extra_1?: FileList | string;
-    p_extra_2?: FileList | string;
-    p_extra_3?: FileList | string;
+    p_principal?: any;
+    p_back?: any;
+    p_extra_1?: any;
+    p_extra_2?: any;
+    p_extra_3?: any;
     is_public: boolean;
     volume: number;
     weight: number;
