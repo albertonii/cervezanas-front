@@ -28,11 +28,11 @@ export default function Homepage({ monthlyProducts }: Props) {
             <Homeheader />
             <Highlights />
             <TopBeers />
-            <History />
-            <MonthlyBeersDesign />
+            {/*  <History /> */}
+            {/*  <MonthlyBeersDesign /> */}
+            <MonthlyBeers monthlyProducts={monthlyProducts} />
             <Community />
             <Reviews />
-            <MonthlyBeers monthlyProducts={monthlyProducts} />
         </section>
     );
 }

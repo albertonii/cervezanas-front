@@ -792,7 +792,8 @@
         },
         "topbeers": {
             "header": "Cervezas más vendidas",
-            "get_it": "¡Conócela!"
+            "get_it": "¡Conócela!",
+            "get_to_know_more": "¡Conócela!"
         },
         "history": {
             "brand_history_header": "¿Quieres saber la historia detrás de cada marca?",

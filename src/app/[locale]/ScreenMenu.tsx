@@ -71,7 +71,7 @@ const ScreenMenu = memo(function ScreenMenu({
 
     return (
         <section className="hidden rounded border-gray-200 bg-[url('/assets/header-bg.jpg')] bg-cover bg-center bg-no-repeat dark:bg-gray-900 sm:block sm:px-4">
-            <nav className="container grid max-w-full grid-cols-3 bg-beer-darkGold sm:mx-auto sm:flex sm:justify-between sm:gap-2 sm:bg-transparent lg:ml-0 lg:mr-0">
+            <nav className="container grid max-w-full grid-cols-3 bg-beer-darkGold sm:flex sm:justify-between sm:gap-2 sm:bg-transparent  w-[1250px] m-auto">
                 {/* Left elements  */}
 
                 {/* Logo Cervezanas  */}
@@ -92,8 +92,8 @@ const ScreenMenu = memo(function ScreenMenu({
                         </div>
                     </div>
                 </section>
-                <section className="flex w-full items-center justify-center sm:w-[450px] lg:w-[500px]">
-                    <ul className="align-center sm:flex md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium">
+                <section className="flex w-full items-right justify-end sm:w-[350px] lg:w-[400px] ml-auto">
+                    <ul className="align-center sm:flex md:mt-0 md:flex-row md:space-x-4 md:text-sm md:font-medium">
                         <li className="flex items-center">
                             <Link href="/marketplace" locale={locale}>
                                 <span className={`${MENU_ITEM_STYLES}`}>
@@ -147,7 +147,7 @@ const ScreenMenu = memo(function ScreenMenu({
         </section>
 */}
                 {/* Right elements  */}
-                <section className="w-[400px] ">
+                <section className="w-[320px] ">
                     <ul className="py-2 pt-1  :flex sm:flex-row sm:justify-end sm:gap-4 sm:align-middle md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium flex">
                         {/* Language  */}
                         {/* <li className="flex max-w-[50px] items-center">
