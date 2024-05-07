@@ -181,6 +181,6 @@ module.exports = {
     border: ['hover'],
     borderColor: ['hover'],
   },
-  plugins: [forms, require('@tailwindcss/aspect-ratio')],
+  plugins: [forms],
   // plugins: [forms, lineClamp],
 };
