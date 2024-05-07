@@ -69,7 +69,7 @@ async function getCheckoutErrorData(searchParams: any) {
         redirect('/signin');
     }
 
-    console.log('RESPONSE CODE FROM PAYMENT SERVICE:', Ds_Response);
+    console.info('RESPONSE CODE FROM PAYMENT SERVICE:', Ds_Response);
 
     // Código de error Paypal - 9299 9300 9301 9700
     // Código de error Bizum - 9672 9673 9674 9675 9676 9677 9966

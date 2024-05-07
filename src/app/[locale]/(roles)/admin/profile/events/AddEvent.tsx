@@ -80,10 +80,6 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
         register,
     } = form;
 
-    useEffect(() => {
-        console.log(errors);
-    }, [errors]);
-
     const handleInsertEvent = async (form: ValidationSchema) => {
         const {
             is_activated,

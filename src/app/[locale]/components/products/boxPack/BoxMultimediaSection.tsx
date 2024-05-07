@@ -1,12 +1,12 @@
 import { UseFormReturn } from 'react-hook-form';
-import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
-import { ModalAddProductFormData } from '../../../../lib/types/types';
+import { ModalAddBoxPackFormData } from '../../../../../lib/types/product';
+import { FilePreviewImageMultimedia } from '../../common/FilePreviewImageMultimedia';
 
 export interface Props {
-    form: UseFormReturn<ModalAddProductFormData, any>;
+    form: UseFormReturn<ModalAddBoxPackFormData, any>;
 }
 
-export function MultimediaSection({ form }: Props) {
+export function BoxMultimediaSection({ form }: Props) {
     return (
         <section className="photo_gallery flex w-full space-x-4">
             <FilePreviewImageMultimedia

@@ -5,7 +5,7 @@ import { ProductList } from './ProductList';
 import { useTranslations } from 'next-intl';
 import { AddProductModal } from './AddProductModal';
 import { IProduct } from '../../../../../../lib/types/types';
-import { DeleteProduct } from '../../../../components/modals/DeleteProduct';
+import { DeleteProductModal } from '../../../../components/modals/DeleteProductModal';
 import { UpdateProductModal } from './UpdateProductModal';
 import { AddBoxPackModal } from './(boxPack)/AddBoxPackModal';
 
@@ -61,7 +61,7 @@ export function Products() {
             )}
 
             {isDeleteShowModal && productModal && (
-                <DeleteProduct
+                <DeleteProductModal
                     product={productModal}
                     showModal={isDeleteShowModal}
                     handleDeleteShowModal={handleDeleteShowModal}

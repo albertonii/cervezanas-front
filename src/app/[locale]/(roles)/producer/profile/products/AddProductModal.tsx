@@ -5,45 +5,19 @@ import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import {
-    aroma_options,
-    color_options,
-    era_options,
-    family_options,
-    fermentation_options,
-    origin_options,
-    product_type_options,
-} from '../../../../../../lib/beerEnum';
 import { MultimediaSection } from '../../../../components/products/MultimediaSection';
 import {
-    IProductInventory,
     IModalAddProductPack,
     ModalAddProductAwardFormData,
     ModalAddProductFormData,
 } from '../../../../../../lib/types/types';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { v4 as uuidv4 } from 'uuid';
 import { ProductSummary } from '../../../../components/products/ProductSummary';
-import {
-    generateFileNameExtension,
-    isFileEmpty,
-    isNotEmptyArray,
-    isValidObject,
-} from '../../../../../../utils/utils';
+import { isFileEmpty, isNotEmptyArray } from '../../../../../../utils/utils';
 import { useMutation, useQueryClient } from 'react-query';
 import { ProductStepper } from '../../../../components/products/ProductStepper';
 import { ProductInfoSection } from '../../../../components/products/ProductInfoSection';
 import { useAppContext } from '../../../../../context/AppContext';
 import dynamic from 'next/dynamic';
-import {
-    ROUTE_ADMIN,
-    ROUTE_ARTICLES,
-    ROUTE_P_BACK,
-    ROUTE_P_EXTRA_1,
-    ROUTE_P_EXTRA_2,
-    ROUTE_P_EXTRA_3,
-    ROUTE_P_PRINCIPAL,
-} from '../../../../../../config';
 import { useMessage } from '../../../../components/message/useMessage';
 import { AwardsSection } from '../../../../components/products/AwardsSection';
 
@@ -51,6 +25,10 @@ const ModalWithForm = dynamic(
     () => import('../../../../components/modals/ModalWithForm'),
     { ssr: false },
 );
+
+// This is the list of mime types you will accept with the schema
+const ACCEPTED_MIME_TYPES = ['image/gif', 'image/jpeg', 'image/png'];
+const MB_BYTES = 1000000; // Number of bytes in a megabyte.
 
 const schema: ZodType<ModalAddProductFormData> = z.object({
     name: z.string().min(2, { message: 'errors.min_2_characters' }).max(50, {
@@ -95,13 +73,158 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
                 .max(2030, {
                     message: 'errors.input_max_2030',
                 }),
-            img_url: z.instanceof(FileList).optional(),
+            img_url: z
+                .custom<File>()
+                .superRefine((f, ctx) => {
+                    // First, add an issue if the mime type is wrong.
+                    if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+                        ctx.addIssue({
+                            code: z.ZodIssueCode.custom,
+                            message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+                                ', ',
+                            )}] but was ${f.type}`,
+                        });
+                    }
+                    // Next add an issue if the file size is too large.
+                    if (f.size > 3 * MB_BYTES) {
+                        ctx.addIssue({
+                            code: z.ZodIssueCode.too_big,
+                            type: 'array',
+                            message: `The file must not be larger than ${
+                                3 * MB_BYTES
+                            } bytes: ${f.size}`,
+                            maximum: 3 * MB_BYTES,
+                            inclusive: true,
+                        });
+                    }
+                })
+                .optional(),
         }),
     ),
-    p_principal: z.instanceof(FileList).optional(),
-    p_back: z.instanceof(FileList).optional(),
-    p_extra_1: z.instanceof(FileList).optional(),
-    p_extra_2: z.instanceof(FileList).optional(),
+    p_principal: z
+        .custom<File>()
+        .superRefine((f, ctx) => {
+            // First, add an issue if the mime type is wrong.
+            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+                        ', ',
+                    )}] but was ${f.type}`,
+                });
+            }
+            // Next add an issue if the file size is too large.
+            if (f.size > 3 * MB_BYTES) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.too_big,
+                    type: 'array',
+                    message: `The file must not be larger than ${
+                        3 * MB_BYTES
+                    } bytes: ${f.size}`,
+                    maximum: 3 * MB_BYTES,
+                    inclusive: true,
+                });
+            }
+        })
+        .optional(),
+    p_back: z
+        .custom<File>()
+        .superRefine((f, ctx) => {
+            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+                        ', ',
+                    )}] but was ${f.type}`,
+                });
+            }
+            if (f.size > 3 * MB_BYTES) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.too_big,
+                    type: 'array',
+                    message: `The file must not be larger than ${
+                        3 * MB_BYTES
+                    } bytes: ${f.size}`,
+                    maximum: 3 * MB_BYTES,
+                    inclusive: true,
+                });
+            }
+        })
+        .optional(),
+    p_extra_1: z
+        .custom<File>()
+        .superRefine((f, ctx) => {
+            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+                        ', ',
+                    )}] but was ${f.type}`,
+                });
+            }
+            if (f.size > 3 * MB_BYTES) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.too_big,
+                    type: 'array',
+                    message: `The file must not be larger than ${
+                        3 * MB_BYTES
+                    } bytes: ${f.size}`,
+                    maximum: 3 * MB_BYTES,
+                    inclusive: true,
+                });
+            }
+        })
+        .optional(),
+    p_extra_2: z
+        .custom<File>()
+        .superRefine((f, ctx) => {
+            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+                        ', ',
+                    )}] but was ${f.type}`,
+                });
+            }
+            if (f.size > 3 * MB_BYTES) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.too_big,
+                    type: 'array',
+                    message: `The file must not be larger than ${
+                        3 * MB_BYTES
+                    } bytes: ${f.size}`,
+                    maximum: 3 * MB_BYTES,
+                    inclusive: true,
+                });
+            }
+        })
+        .optional(),
+
+    p_extra_3: z
+        .custom<File>()
+        .superRefine((f, ctx) => {
+            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+                        ', ',
+                    )}] but was ${f.type}`,
+                });
+            }
+            if (f.size > 3 * MB_BYTES) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.too_big,
+                    type: 'array',
+                    message: `The file must not be larger than ${
+                        3 * MB_BYTES
+                    } bytes: ${f.size}`,
+                    maximum: 3 * MB_BYTES,
+                    inclusive: true,
+                });
+            }
+        })
+        .optional(),
+
     is_public: z.boolean(),
     volume: z.number().min(0, { message: 'errors.input_min_0' }),
     weight: z.number().min(0, { message: 'errors.input_min_0' }),
@@ -126,7 +249,32 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
                 .max(100, {
                     message: 'errors.error_100_number_max_length',
                 }),
-            img_url: z.instanceof(FileList).optional().or(z.string()),
+            img_url: z
+                .custom<File>()
+                .superRefine((f, ctx) => {
+                    // First, add an issue if the mime type is wrong.
+                    if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+                        ctx.addIssue({
+                            code: z.ZodIssueCode.custom,
+                            message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+                                ', ',
+                            )}] but was ${f.type}`,
+                        });
+                    }
+                    // Next add an issue if the file size is too large.
+                    if (f.size > 3 * MB_BYTES) {
+                        ctx.addIssue({
+                            code: z.ZodIssueCode.too_big,
+                            type: 'array',
+                            message: `The file must not be larger than ${
+                                3 * MB_BYTES
+                            } bytes: ${f.size}`,
+                            maximum: 3 * MB_BYTES,
+                            inclusive: true,
+                        });
+                    }
+                })
+                .optional(),
         }),
     ),
 });
@@ -136,9 +284,9 @@ type ValidationSchema = z.infer<typeof schema>;
 export function AddProductModal() {
     const t = useTranslations();
 
-    const { customizeSettings, removeImage } = useAppContext();
-    const { user, supabase } = useAuth();
+    const { customizeSettings } = useAppContext();
 
+    const [isLoading, setIsLoading] = useState(false);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [activeStep, setActiveStep] = useState<number>(0);
 
@@ -174,15 +322,13 @@ export function AddProductModal() {
 
     useEffect(() => {
         if (errors) {
-            console.log('Errores detectados creando un producto', errors);
+            console.info('Errores detectados creando un producto', errors);
         }
     }, [errors]);
 
-    const generateUUID = () => {
-        return uuidv4();
-    };
-
     const handleInsertProduct = async (form: ValidationSchema) => {
+        setIsLoading(true);
+
         const {
             // campaign,
             fermentation,
@@ -214,354 +360,120 @@ export function AddProductModal() {
             ibu,
         } = form;
 
-        const userId = user?.id;
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+        const url = `${baseUrl}/api/products`;
 
-        // Product
-        // TODO: AÑADIR -> Nº ARTÍCULO, Nº VARIANTE, Nº ALEATORIO
-        const { data: productData, error: productError } = await supabase
-            .from('products')
-            .insert({
-                name,
-                description,
-                type,
-                owner_id: userId,
-                price,
-                is_public,
-                category,
-                weight,
-            })
-            .select();
+        const formData = new FormData();
 
-        if (productError) throw productError;
+        // Basic
+        formData.append('name', name);
+        formData.append('description', description ?? '');
+        formData.append('type', type);
+        formData.append('price', price.toString());
+        formData.append('is_public', is_public.toString());
+        formData.append('category', category);
+        formData.append('weight', weight.toString());
 
-        const productId = productData[0].id;
+        // Beer Attributes
+        formData.append('beer.intensity', intensity.toString());
+        formData.append('beer.fermentation', fermentation.toString());
+        formData.append('beer.color', color.toString());
+        formData.append('beer.aroma', aroma.toString());
+        formData.append('beer.family', family.toString());
+        formData.append('beer.origin', origin.toString());
+        formData.append('beer.era', era.toString());
+        formData.append('beer.is_gluten', is_gluten.toString());
+        formData.append('beer.volume', volume.toString());
+        formData.append('beer.format', format);
+        formData.append('beer.ibu', ibu.toString());
 
-        // Multimedia
-        const randomUUID = generateUUID();
+        // Stock
+        formData.append('stock.quantity', stock_quantity.toString());
+        formData.append(
+            'stock.limit_notification',
+            stock_limit_notification.toString(),
+        );
 
-        let p_principal_url = '';
-        let p_back_url = '';
-        let p_extra_1_url = '';
-        let p_extra_2_url = '';
-        let p_extra_3_url = '';
-
-        if (p_principal && !isFileEmpty(p_principal[0])) {
-            const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_PRINCIPAL}/${randomUUID}`;
-            p_principal_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(p_principal[0].name)}`,
-            );
-
-            const { error: pPrincipalError } = await supabase.storage
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(
-                        p_principal[0].name,
-                    )}`,
-                    p_principal[0],
-                    {
-                        contentType: p_principal[0].type,
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
+        // Packs
+        if (isNotEmptyArray(packs)) {
+            packs.map((pack: IModalAddProductPack, index: number) => {
+                formData.append(
+                    `packs[${index}].quantity`,
+                    pack.quantity.toString(),
                 );
-            if (pPrincipalError) throw pPrincipalError;
-
-            removeImage('p_principal');
-        }
-
-        if (p_back && !isFileEmpty(p_back[0])) {
-            const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_BACK}/${randomUUID}`;
-
-            p_back_url =
-                p_back &&
-                encodeURIComponent(
-                    `${fileName}${generateFileNameExtension(p_back[0].name)}`,
-                );
-
-            const { error: pBackError } = await supabase.storage
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(p_back[0].name)}`,
-                    p_back[0],
-                    {
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
-            if (pBackError) throw pBackError;
-
-            removeImage('p_back');
-        }
-
-        if (p_extra_1 && !isFileEmpty(p_extra_1[0])) {
-            const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_EXTRA_1}/${randomUUID}`;
-
-            p_extra_1_url =
-                p_extra_1 &&
-                encodeURIComponent(
-                    `${fileName}${generateFileNameExtension(
-                        p_extra_1[0].name,
-                    )}`,
-                );
-
-            const { error: pExtra1Error } = await supabase.storage
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(
-                        p_extra_1[0].name,
-                    )}`,
-                    p_extra_1[0],
-                    {
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
-            if (pExtra1Error) throw pExtra1Error;
-
-            removeImage('p_extra_1');
-        }
-
-        if (p_extra_2 && !isFileEmpty(p_extra_2[0])) {
-            const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_EXTRA_2}/${randomUUID}`;
-
-            p_extra_2_url =
-                p_extra_2 &&
-                encodeURIComponent(
-                    `${fileName}${generateFileNameExtension(
-                        p_extra_2[0].name,
-                    )}`,
-                );
-
-            const { error: pExtra2Error } = await supabase.storage
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(
-                        p_extra_2[0].name,
-                    )}`,
-                    p_extra_2[0],
-                    {
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
-            if (pExtra2Error) throw pExtra2Error;
-
-            removeImage('p_extra_2');
-        }
-
-        if (p_extra_3 && !isFileEmpty(p_extra_3[0])) {
-            const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_EXTRA_3}/${randomUUID}`;
-
-            p_extra_3_url =
-                p_extra_3 &&
-                `${fileName}${generateFileNameExtension(p_extra_3[0].name)}`;
-
-            const { error: pExtra3Error } = await supabase.storage
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(
-                        p_extra_3[0].name,
-                    )}`,
-                    p_extra_3[0],
-                    {
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
-            if (pExtra3Error) throw pExtra3Error;
-
-            removeImage('p_extra_3');
-        }
-
-        const { error: multError } = await supabase
-            .from('product_multimedia')
-            .insert({
-                product_id: productId,
-                p_principal: p_principal_url ?? '',
-                p_back: p_back_url ?? '',
-                p_extra_1: p_extra_1_url ?? '',
-                p_extra_2: p_extra_2_url ?? '',
-                p_extra_3: p_extra_3_url ?? '',
+                formData.append(`packs[${index}].price`, pack.price.toString());
+                formData.append(`packs[${index}].name`, pack.name);
+                formData.append(`packs[${index}].img_url`, pack.img_url);
             });
 
-        if (multError) throw multError;
+            formData.append('packs_size', packs.length.toString());
+        }
 
-        setActiveStep(0);
-
-        // Beer type
-        if (
-            product_type_options[0].label.toLowerCase() ===
-            productData[0].type?.toLocaleLowerCase()
-        ) {
-            const { error: beerError } = await supabase
-                .from('beers')
-                .insert({
-                    intensity,
-                    fermentation:
-                        fermentation_options[fermentation].value.toString(),
-                    color: color_options[color].value.toString(),
-                    aroma: aroma_options[aroma].value.toString(),
-                    family: family_options[family].value.toString(),
-                    origin: origin_options[origin].value.toString(),
-                    era: era_options[era].value.toString(),
-                    is_gluten,
-                    volume,
-                    format,
-                    product_id: productId,
-                    weight,
-                    ibu,
-                })
-                .select('*')
-                .single();
-
-            if (beerError) throw beerError;
-
-            // UPD Beer in new product displayed in list
-            // productData[0].beers = beer;
-
-            // Inventory - Stock
-            const stock: IProductInventory = {
-                product_id: productId,
-                quantity: stock_quantity,
-                limit_notification: stock_limit_notification,
-            };
-
-            // UPD Stock in new product displayed in list
-            // productData[0].product_inventory = stock;
-
-            const { error: stockError } = await supabase
-                .from('product_inventory')
-                .insert(stock);
-            if (stockError) throw stockError;
-
-            // Packs Stock
-            if (isNotEmptyArray(packs)) {
-                packs.map(async (pack: IModalAddProductPack, index: number) => {
-                    const filename = `packs/${productId}/${randomUUID}_${index}`;
-                    const pack_url = encodeURIComponent(
-                        `${filename}${generateFileNameExtension(pack.name)}`,
-                    );
-
-                    const { error: packsError } = await supabase
-                        .from('product_packs')
-                        .insert({
-                            product_id: productId,
-                            quantity: pack.quantity,
-                            price: pack.price,
-                            name: pack.name,
-                            img_url: pack_url,
-                            randomUUID: randomUUID,
-                        });
-
-                    if (packsError) throw packsError;
-
-                    if (pack.img_url instanceof FileList) {
-                        const file = pack.img_url[0];
-
-                        const { error: storagePacksError } =
-                            await supabase.storage
-                                .from('products')
-                                .upload(
-                                    `${filename}${generateFileNameExtension(
-                                        pack.name,
-                                    )}`,
-                                    file,
-                                    {
-                                        contentType: file.type,
-                                        cacheControl: '3600',
-                                        upsert: false,
-                                    },
-                                );
-
-                        if (storagePacksError) throw storagePacksError;
-                    }
-
-                    removeImage(`packs.${index}.img_url`);
-                });
-            }
-
-            // Awards
-            if (isNotEmptyArray(awards) && isValidObject(awards[0].img_url)) {
-                awards.map(
-                    async (
-                        award: ModalAddProductAwardFormData,
-                        index: number,
-                    ) => {
-                        if (award && !isFileEmpty(award.img_url)) {
-                            const file = award.img_url[0];
-
-                            const filename = `awards/${productId}/${randomUUID}_${index}`;
-                            const award_url = encodeURIComponent(
-                                `${filename}${generateFileNameExtension(
-                                    file.name,
-                                )}`,
-                            );
-
-                            const { error: awardsError } = await supabase
-                                .from('awards')
-                                .insert({
-                                    product_id: productId,
-                                    name: award.name,
-                                    description: award.description,
-                                    year: award.year,
-                                    img_url: award_url,
-                                });
-
-                            if (awardsError) throw awardsError;
-
-                            const { error: storageAwardsError } =
-                                await supabase.storage
-                                    .from('products')
-                                    .upload(
-                                        `${filename}${generateFileNameExtension(
-                                            file.name,
-                                        )}`,
-                                        award.img_url[0],
-                                        {
-                                            contentType: file.type,
-                                            cacheControl: '3600',
-                                            upsert: false,
-                                        },
-                                    );
-                            if (storageAwardsError) throw storageAwardsError;
-
-                            removeImage(`awards.${index}.img_url`);
-                        }
-                    },
+        // Awards
+        if (isNotEmptyArray(awards)) {
+            awards.map((award: ModalAddProductAwardFormData, index: number) => {
+                formData.append(`awards[${index}].name`, award.name);
+                formData.append(
+                    `awards[${index}].description`,
+                    award.description,
                 );
-            }
+                formData.append(`awards[${index}].year`, award.year.toString());
+                formData.append(`awards[${index}].img_url`, award.img_url);
+            });
 
-            reset();
-        } else {
-            // ERROR - No se ha podido insertar el producto
+            formData.append('awards_size', awards.length.toString());
+        }
+
+        // Multimedia
+        if (p_principal && !isFileEmpty(p_principal)) {
+            formData.append('p_principal', p_principal);
+        }
+
+        if (p_back && !isFileEmpty(p_back)) {
+            formData.append('p_back', p_back);
+        }
+
+        if (p_extra_1 && !isFileEmpty(p_extra_1)) {
+            formData.append('p_extra_1', p_extra_1);
+        }
+
+        if (p_extra_2 && !isFileEmpty(p_extra_2)) {
+            formData.append('p_extra_2', p_extra_2);
+        }
+
+        if (p_extra_3 && !isFileEmpty(p_extra_3)) {
+            formData.append('p_extra_3', p_extra_3);
+        }
+
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (response.status !== 200) {
             handleMessage({
                 type: 'error',
                 message: t('error_insert_product'),
             });
 
-            // Deshacer la inserción del producto
-            const { error: rollbackError } = await supabase
-                .from('products')
-                .delete()
-                .match({ id: productId });
-
-            if (rollbackError) throw rollbackError;
-
-            // Deshacer la inserción de la multimedia
-            const { error: rollbackMultError } = await supabase
-                .from('product_multimedia')
-                .delete()
-                .match({ product_id: productId });
-
-            if (rollbackMultError) throw rollbackMultError;
+            setIsLoading(true);
 
             return;
         }
 
-        setShowModal(false);
-        queryClient.invalidateQueries('productList');
+        if (response.status === 200) {
+            handleMessage({
+                type: 'success',
+                message: t('success_insert_product'),
+            });
 
-        reset();
+            setShowModal(false);
+            setIsLoading(false);
+            queryClient.invalidateQueries('productList');
+
+            reset();
+            // setActiveStep(0);
+        }
     };
 
     const insertProductMutation = useMutation({

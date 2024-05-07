@@ -24,7 +24,6 @@ import { v4 as uuidv4 } from 'uuid';
 import {
     IProduct,
     IProductInventory,
-    IAward,
     ModalUpdateProductFormData,
     ModalUpdateProductPackFormData,
     ModalUpdateProductAwardFormData,
@@ -35,7 +34,6 @@ import { UpdateMultimediaSection } from './UpdateMultimediaSection';
 import { UpdateProductInfoSection } from './UpdateProductInfoSection';
 import {
     generateFileNameExtension,
-    isFileEmpty,
     isNotEmptyArray,
     isValidObject,
 } from '../../../../../../utils/utils';
@@ -44,6 +42,11 @@ import { useAppContext } from '../../../../../context/AppContext';
 import { UpdateAwardsSection } from './UpdateAwardsSection';
 import { ProductStepper } from '../../../../components/products/ProductStepper';
 import ModalWithForm from '../../../../components/modals/ModalWithForm';
+import { useMessage } from '../../../../components/message/useMessage';
+
+// This is the list of mime types you will accept with the schema
+const ACCEPTED_MIME_TYPES = ['image/gif', 'image/jpeg', 'image/png'];
+const MB_BYTES = 1000000; // Number of bytes in a megabyte.
 
 const schema: ZodType<ModalUpdateProductFormData> = z.object({
     product_id: z.string(),
@@ -69,11 +72,7 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
     type: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
         message: 'Required',
     }),
-    p_principal: z.instanceof(FileList).optional().or(z.string()),
-    p_back: z.instanceof(FileList).optional().or(z.string()),
-    p_extra_1: z.instanceof(FileList).optional().or(z.string()),
-    p_extra_2: z.instanceof(FileList).optional().or(z.string()),
-    p_extra_3: z.instanceof(FileList).optional().or(z.string()),
+
     is_public: z.boolean(),
     // TODO: Bug in volume validation when adding product
     // volume: z.number().min(0, { message: "Required" }).max(50, {
@@ -112,7 +111,33 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
                 .max(2030, {
                     message: 'errors.input_max_2030',
                 }),
-            img_url: z.instanceof(FileList).optional().or(z.string()),
+            img_url: z
+                .custom<File>()
+                .superRefine((f, ctx) => {
+                    // First, add an issue if the mime type is wrong.
+                    if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+                        ctx.addIssue({
+                            code: z.ZodIssueCode.custom,
+                            message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+                                ', ',
+                            )}] but was ${f.type}`,
+                        });
+                    }
+                    // Next add an issue if the file size is too large.
+                    if (f.size > 3 * MB_BYTES) {
+                        ctx.addIssue({
+                            code: z.ZodIssueCode.too_big,
+                            type: 'array',
+                            message: `The file must not be larger than ${
+                                3 * MB_BYTES
+                            } bytes: ${f.size}`,
+                            maximum: 3 * MB_BYTES,
+                            inclusive: true,
+                        });
+                    }
+                })
+
+                .or(z.string()),
         }),
     ),
     packs: z.array(
@@ -126,9 +151,184 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
                 .max(100, {
                     message: 'errors.error_100_number_max_length',
                 }),
-            img_url: z.instanceof(FileList).optional().or(z.string()),
+            img_url: z
+                .custom<File>()
+                .superRefine((f, ctx) => {
+                    // First, add an issue if the mime type is wrong.
+                    if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+                        ctx.addIssue({
+                            code: z.ZodIssueCode.custom,
+                            message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+                                ', ',
+                            )}] but was ${f.type}`,
+                        });
+                    }
+                    // Next add an issue if the file size is too large.
+                    if (f.size > 3 * MB_BYTES) {
+                        ctx.addIssue({
+                            code: z.ZodIssueCode.too_big,
+                            type: 'array',
+                            message: `The file must not be larger than ${
+                                3 * MB_BYTES
+                            } bytes: ${f.size}`,
+                            maximum: 3 * MB_BYTES,
+                            inclusive: true,
+                        });
+                    }
+                })
+                .or(z.string()),
         }),
     ),
+    p_principal: z
+        .custom<File>()
+        .superRefine((f, ctx) => {
+            if (f.type === undefined) {
+                return;
+            }
+
+            // First, add an issue if the mime type is wrong.
+            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+                        ', ',
+                    )}] but was ${f.type}`,
+                });
+            }
+            // Next add an issue if the file size is too large.
+            if (f.size > 3 * MB_BYTES) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.too_big,
+                    type: 'array',
+                    message: `The file must not be larger than ${
+                        3 * MB_BYTES
+                    } bytes: ${f.size}`,
+                    maximum: 3 * MB_BYTES,
+                    inclusive: true,
+                });
+            }
+        })
+        .optional(),
+    p_back: z
+        .custom<File>()
+        .superRefine((f, ctx) => {
+            if (f.type === undefined) {
+                return;
+            }
+
+            // First, add an issue if the mime type is wrong.
+            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+                        ', ',
+                    )}] but was ${f.type}`,
+                });
+            }
+            // Next add an issue if the file size is too large.
+            if (f.size > 3 * MB_BYTES) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.too_big,
+                    type: 'array',
+                    message: `The file must not be larger than ${
+                        3 * MB_BYTES
+                    } bytes: ${f.size}`,
+                    maximum: 3 * MB_BYTES,
+                    inclusive: true,
+                });
+            }
+        })
+        .optional(),
+    p_extra_1: z
+        .custom<File>()
+        .superRefine((f, ctx) => {
+            if (f.type === undefined) {
+                return;
+            }
+
+            // First, add an issue if the mime type is wrong.
+            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+                        ', ',
+                    )}] but was ${f.type}`,
+                });
+            }
+            // Next add an issue if the file size is too large.
+            if (f.size > 3 * MB_BYTES) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.too_big,
+                    type: 'array',
+                    message: `The file must not be larger than ${
+                        3 * MB_BYTES
+                    } bytes: ${f.size}`,
+                    maximum: 3 * MB_BYTES,
+                    inclusive: true,
+                });
+            }
+        })
+        .optional(),
+    p_extra_2: z
+        .custom<File>()
+        .superRefine((f, ctx) => {
+            if (f.type === undefined) {
+                return;
+            }
+
+            // First, add an issue if the mime type is wrong.
+            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+                        ', ',
+                    )}] but was ${f.type}`,
+                });
+            }
+            // Next add an issue if the file size is too large.
+            if (f.size > 3 * MB_BYTES) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.too_big,
+                    type: 'array',
+                    message: `The file must not be larger than ${
+                        3 * MB_BYTES
+                    } bytes: ${f.size}`,
+                    maximum: 3 * MB_BYTES,
+                    inclusive: true,
+                });
+            }
+        })
+        .optional(),
+    p_extra_3: z
+        .custom<File>()
+        .superRefine((f, ctx) => {
+            if (f.type === undefined) {
+                return;
+            }
+
+            // First, add an issue if the mime type is wrong.
+            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+                        ', ',
+                    )}] but was ${f.type}`,
+                });
+            }
+            // Next add an issue if the file size is too large.
+            if (f.size > 3 * MB_BYTES) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.too_big,
+                    type: 'array',
+                    message: `The file must not be larger than ${
+                        3 * MB_BYTES
+                    } bytes: ${f.size}`,
+                    maximum: 3 * MB_BYTES,
+                    inclusive: true,
+                });
+            }
+        })
+        .optional(),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -148,6 +348,7 @@ export function UpdateProductModal({
     const { user, supabase } = useAuth();
     const [activeStep, setActiveStep] = useState(0);
     const { customizeSettings, removeImage } = useAppContext();
+    const { handleMessage } = useMessage();
 
     const handleSetActiveStep = (value: number) => {
         setActiveStep(value);
@@ -457,68 +658,40 @@ export function UpdateProductModal({
         awards: ModalUpdateProductAwardFormData[],
         randomUUID: string,
     ) => {
-        const productId = product.id;
+        const formData = new FormData();
 
-        awards.map(
-            async (award: ModalUpdateProductAwardFormData, index: number) => {
-                if (award && !isFileEmpty(award.img_url)) {
-                    const file = award.img_url[0];
+        formData.append('product_id', product.id);
+        formData.append('random_uuid', randomUUID);
 
-                    const filename = `awards/${productId}/${randomUUID}_${index}`;
-                    const award_url = encodeURIComponent(
-                        `${filename}${generateFileNameExtension(file.name)}`,
-                    );
+        awards.map((award) => {
+            formData.append('name', award.name);
+            formData.append('description', award.description);
+            formData.append('year', award.year.toString());
+            formData.append('img_url', award.img_url);
+        });
 
-                    if (award.id) {
-                        const { error: awardsError } = await supabase
-                            .from('awards')
-                            .update({
-                                product_id: productId,
-                                name: award.name,
-                                description: award.description,
-                                year: award.year,
-                                img_url: award_url,
-                            })
-                            .eq('product_id', product.id);
+        formData.append('awards_size', awards.length.toString());
 
-                        if (awardsError) throw awardsError;
-                    } else {
-                        const { error: awardsError } = await supabase
-                            .from('awards')
-                            .insert({
-                                product_id: productId,
-                                name: award.name,
-                                description: award.description,
-                                year: award.year,
-                                img_url: award_url,
-                            });
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+        const url = `${baseUrl}/api/products/update/awards`;
 
-                        if (awardsError) throw awardsError;
-                    }
+        const response = await fetch(url, {
+            method: 'PUT',
+            body: formData,
+        });
 
-                    const { error: storageAwardsError } = await supabase.storage
-                        .from('products')
-                        .upload(
-                            `${filename}${generateFileNameExtension(
-                                file.name,
-                            )}`,
-                            file,
-                            {
-                                contentType: file.type,
-                                cacheControl: '3600',
-                                upsert: false,
-                            },
-                        );
-                    if (storageAwardsError) throw storageAwardsError;
+        if (response.status !== 200) {
+            handleMessage({
+                type: 'error',
+                message: t('error_update_awards'),
+            });
 
-                    removeImage(`awards.${index}.img_url`);
-                }
-            },
-        );
+            return;
+        }
     };
 
     useEffect(() => {
-        console.log(dirtyFields);
+        console.info(dirtyFields);
     }, [dirtyFields]);
 
     const handleUpdateProduct = async (formValues: any) => {

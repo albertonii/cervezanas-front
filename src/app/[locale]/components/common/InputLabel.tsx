@@ -27,6 +27,8 @@ interface Props {
     labelText?: string;
     defaultValue?: any;
     disabled?: boolean;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    value?: any;
 }
 const InputLabel = memo(
     ({
@@ -39,12 +41,18 @@ const InputLabel = memo(
         placeholder,
         defaultValue,
         disabled,
+        onChange,
+        value,
     }: Props) => {
         const t = useTranslations();
         const {
             register,
             formState: { errors },
         } = form;
+
+        const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+            if (onChange) onChange(e);
+        };
 
         return (
             <div className="w-full">
@@ -83,6 +91,8 @@ const InputLabel = memo(
                         disabled={disabled}
                         min={registerOptions?.min}
                         max={registerOptions?.max}
+                        onChange={(e) => handleOnChange(e)}
+                        value={value}
                     />
                 </label>
 

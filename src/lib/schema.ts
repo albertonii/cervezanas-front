@@ -366,6 +366,56 @@ export interface Database {
           }
         ]
       }
+      box_pack_items: {
+        Row: {
+          box_pack_id: string | null
+          id: string
+          product_id: string | null
+          quantity: number | null
+          slots_per_product: number | null
+        }
+        Insert: {
+          box_pack_id?: string | null
+          id?: string
+          product_id?: string | null
+          quantity?: number | null
+          slots_per_product?: number | null
+        }
+        Update: {
+          box_pack_id?: string | null
+          id?: string
+          product_id?: string | null
+          quantity?: number | null
+          slots_per_product?: number | null
+        }
+        Relationships: []
+      }
+      box_packs: {
+        Row: {
+          id: string
+          product_id: string | null
+          slots_per_box: number | null
+        }
+        Insert: {
+          id?: string
+          product_id?: string | null
+          slots_per_box?: number | null
+        }
+        Update: {
+          id?: string
+          product_id?: string | null
+          slots_per_box?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_box_pack_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       business_orders: {
         Row: {
           created_at: string | null
