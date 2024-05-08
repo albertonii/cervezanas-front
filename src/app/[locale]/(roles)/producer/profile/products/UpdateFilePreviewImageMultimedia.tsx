@@ -84,19 +84,19 @@ export const UpdateFilePreviewImageMultimedia = ({
         setIsLoading(true);
 
         const updateValue = async () => {
+            const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+            const url = `${baseUrl}/api/products/update/multimedia`;
+
             const file = getValues(registerName);
+
+            const formData = new FormData();
+            formData.append('product_id', productId);
 
             if (registerName === MULTIMEDIA.P_PRINCIPAL) {
                 const multimedia_type = MULTIMEDIA.P_PRINCIPAL;
 
-                const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-                const url = `${baseUrl}/api/products/update/multimedia`;
-
-                const formData = new FormData();
-
                 formData.append('multimedia_type', multimedia_type);
                 formData.append('multimedia', file[0]);
-                formData.append('product_id', productId);
 
                 const response = await fetch(url, {
                     method: 'PUT',
@@ -106,126 +106,117 @@ export const UpdateFilePreviewImageMultimedia = ({
                 if (response.status !== 200) {
                     handleMessage({
                         type: 'error',
-                        message: t('error_insert_product_multimedia'),
+                        message: t('error_update_product_multimedia'),
                     });
-                    // setIsLoading(true);
                     return;
                 }
 
                 if (response.status === 200) {
                     handleMessage({
                         type: 'success',
-                        message: t('success_insert_product_multimedia'),
+                        message: t('success_update_product_multimedia'),
                     });
-                    // setShowModal(false);
-                    // setIsLoading(false);
-                    // queryClient.invalidateQueries('productList');
-                    // reset();
                 }
             } else if (registerName === MULTIMEDIA.P_BACK) {
-                const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_BACK}/${randomUUID}`;
-                const p_back_url = encodeURIComponent(
-                    `${fileName}${generateFileNameExtension(file[0].name)}`,
-                );
+                const multimedia_type = MULTIMEDIA.P_BACK;
 
-                const { error } = await supabase.storage
-                    .from('products')
-                    .upload(
-                        `${fileName}${generateFileNameExtension(file[0].name)}`,
-                        file[0],
-                        {
-                            cacheControl: '3600',
-                            upsert: false,
-                        },
-                    );
-                if (error) throw error;
+                formData.append('multimedia_type', multimedia_type);
+                formData.append('multimedia', file[0]);
 
-                const { error: multError } = await supabase
-                    .from('product_multimedia')
-                    .update({
-                        p_back: p_back_url,
-                    })
-                    .eq('product_id', productId);
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    body: formData,
+                });
 
-                if (multError) throw multError;
+                if (response.status !== 200) {
+                    handleMessage({
+                        type: 'error',
+                        message: t('error_update_product_multimedia'),
+                    });
+                    return;
+                }
+
+                if (response.status === 200) {
+                    handleMessage({
+                        type: 'success',
+                        message: t('success_update_product_multimedia'),
+                    });
+                }
             } else if (registerName === MULTIMEDIA.P_EXTRA_1) {
-                const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_EXTRA_1}/${randomUUID}`;
-                const p_extra_1_url = encodeURIComponent(
-                    `${fileName}${generateFileNameExtension(file[0].name)}`,
-                );
+                const multimedia_type = MULTIMEDIA.P_EXTRA_1;
 
-                const { error } = await supabase.storage
-                    .from('products')
-                    .upload(
-                        `${fileName}${generateFileNameExtension(file[0].name)}`,
-                        file[0],
-                        {
-                            cacheControl: '3600',
-                            upsert: false,
-                        },
-                    );
-                if (error) throw error;
+                formData.append('multimedia_type', multimedia_type);
+                formData.append('multimedia', file[0]);
 
-                const { error: multError } = await supabase
-                    .from('product_multimedia')
-                    .update({
-                        p_back: p_extra_1_url,
-                    })
-                    .eq('product_id', productId);
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    body: formData,
+                });
 
-                if (multError) throw multError;
+                if (response.status !== 200) {
+                    handleMessage({
+                        type: 'error',
+                        message: t('error_update_product_multimedia'),
+                    });
+                    return;
+                }
+
+                if (response.status === 200) {
+                    handleMessage({
+                        type: 'success',
+                        message: t('success_update_product_multimedia'),
+                    });
+                }
             } else if (registerName === MULTIMEDIA.P_EXTRA_2) {
-                const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_EXTRA_2}/${randomUUID}`;
-                const p_extra_2_url = encodeURIComponent(
-                    `${fileName}${generateFileNameExtension(file[0].name)}`,
-                );
+                const multimedia_type = MULTIMEDIA.P_EXTRA_2;
 
-                const { error } = await supabase.storage
-                    .from('products')
-                    .upload(
-                        `${fileName}${generateFileNameExtension(file[0].name)}`,
-                        file[0],
-                        {
-                            cacheControl: '3600',
-                            upsert: false,
-                        },
-                    );
-                if (error) throw error;
+                formData.append('multimedia_type', multimedia_type);
+                formData.append('multimedia', file[0]);
 
-                const { error: multError } = await supabase
-                    .from('product_multimedia')
-                    .update({
-                        p_back: p_extra_2_url,
-                    })
-                    .eq('product_id', productId);
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    body: formData,
+                });
 
-                if (multError) throw multError;
+                if (response.status !== 200) {
+                    handleMessage({
+                        type: 'error',
+                        message: t('error_update_product_multimedia'),
+                    });
+                    return;
+                }
+
+                if (response.status === 200) {
+                    handleMessage({
+                        type: 'success',
+                        message: t('success_update_product_multimedia'),
+                    });
+                }
             } else if (registerName === MULTIMEDIA.P_EXTRA_3) {
-                const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_EXTRA_3}/${randomUUID}`;
-                const p_extra_3_url = encodeURIComponent(
-                    `${fileName}${generateFileNameExtension(file[0].name)}`,
-                );
+                const multimedia_type = MULTIMEDIA.P_EXTRA_3;
 
-                const { error } = await supabase.storage
-                    .from('products')
-                    .upload(
-                        `${fileName}${generateFileNameExtension(file[0].name)}`,
-                        file[0],
-                        {
-                            cacheControl: '3600',
-                            upsert: false,
-                        },
-                    );
-                if (error) throw error;
+                formData.append('multimedia_type', multimedia_type);
+                formData.append('multimedia', file[0]);
 
-                const { error: multError } = await supabase
-                    .from('product_multimedia')
-                    .update({
-                        p_back: p_extra_3_url,
-                    })
-                    .eq('product_id', productId);
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    body: formData,
+                });
 
-                if (multError) throw multError;
+                if (response.status !== 200) {
+                    handleMessage({
+                        type: 'error',
+                        message: t('error_update_product_multimedia'),
+                    });
+                    return;
+                }
+
+                if (response.status === 200) {
+                    handleMessage({
+                        type: 'success',
+                        message: t('success_update_product_multimedia'),
+                    });
+                }
             }
 
             setTimeout(() => {

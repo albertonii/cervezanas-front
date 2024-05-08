@@ -15,7 +15,7 @@ export function UpdateMultimediaSection(props: Props) {
         SupabaseProps.BASE_URL + SupabaseProps.STORAGE_PRODUCTS_IMG_URL;
 
     return (
-        <section id="photo_gallery flex w-full space-x-4">
+        <section className="flex w-full space-x-4" id="photo_gallery">
             <figure className="principal w-full">
                 <UpdateFilePreviewImageMultimedia
                     productId={productId}
