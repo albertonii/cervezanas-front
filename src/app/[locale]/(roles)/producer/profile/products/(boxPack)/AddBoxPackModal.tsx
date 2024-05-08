@@ -22,7 +22,6 @@ const ModalWithForm = dynamic(
     { ssr: false },
 );
 
-
 // This is the list of mime types you will accept with the schema
 const ACCEPTED_MIME_TYPES = ['image/gif', 'image/jpeg', 'image/png'];
 const MB_BYTES = 1000000; // Number of bytes in a megabyte.
@@ -180,7 +179,7 @@ export function AddBoxPackModal() {
             name: '',
             description: '',
             price: 0,
-            weight: 330,
+            weight: 0,
             slots_per_box: 6,
             p_principal: null,
         },
@@ -207,8 +206,19 @@ export function AddBoxPackModal() {
     const handleInsertBoxPack = async (form: ValidationSchema) => {
         setIsLoading(true);
 
-        const { name, description, price, weight, is_public, slots_per_box } =
-            form;
+        const {
+            name,
+            description,
+            price,
+            weight,
+            is_public,
+            slots_per_box,
+            p_principal,
+            p_back,
+            p_extra_1,
+            p_extra_2,
+            p_extra_3,
+        } = form;
 
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
         const url = `${baseUrl}/api/products/box_packs`;
@@ -225,24 +235,26 @@ export function AddBoxPackModal() {
         const boxPackItems = boxPack.boxPackItems;
         formData.set('box_packs', JSON.stringify(boxPackItems));
 
-        if (boxPack.p_principal) {
-            formData.set('p_principal', boxPack.p_principal as File);
+        console.log(p_principal);
+
+        if (p_principal) {
+            formData.set('p_principal', p_principal as File);
         }
 
-        if (boxPack.p_back) {
-            formData.set('p_back', boxPack.p_back as File);
+        if (p_back) {
+            formData.set('p_back', p_back as File);
         }
 
-        if (boxPack.p_extra_1) {
-            formData.set('p_extra_1', boxPack.p_extra_1 as File);
+        if (p_extra_1) {
+            formData.set('p_extra_1', p_extra_1 as File);
         }
 
-        if (boxPack.p_extra_2) {
-            formData.set('p_extra_2', boxPack.p_extra_2 as File);
+        if (p_extra_2) {
+            formData.set('p_extra_2', p_extra_2 as File);
         }
 
         if (boxPack.p_extra_3) {
-            formData.set('p_extra_3', boxPack.p_extra_3 as File);
+            formData.set('p_extra_3', p_extra_3 as File);
         }
 
         const response = await fetch(url, {

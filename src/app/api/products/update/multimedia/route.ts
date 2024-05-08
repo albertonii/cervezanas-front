@@ -61,6 +61,7 @@ export async function PUT(request: NextRequest) {
 
             // 3. Update product_multimedia with new image
             const fileName = `${SupabaseProps.ARTICLES}${productId}${ROUTE_P_PRINCIPAL}/${randomUUID}`;
+
             const p_principal_url = encodeURIComponent(
                 `${fileName}${generateFileNameExtension(multimedia.name)}`,
             );

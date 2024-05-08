@@ -89,7 +89,7 @@ export function BoxPackInfoSection({ form }: Props) {
                             infoTooltip={'pvpr_tooltip'}
                             defaultValue={0}
                         />
-
+                        {/* 
                         <InputLabel
                             form={form}
                             label={'weight'}
@@ -101,7 +101,7 @@ export function BoxPackInfoSection({ form }: Props) {
                             }}
                             inputType="number"
                             defaultValue={330}
-                        />
+                        /> */}
                     </div>
                 </div>
             </div>

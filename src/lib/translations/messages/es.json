@@ -859,5 +859,7 @@
     "experiences_info": "Información de la experiencia",
     "add_box_pack": "Añadir pack de caja",
     "slots": "Huecos",
-    "slots_per_product": "Huecos por producto"
+    "slots_per_product": "Huecos por producto",
+    "box_weight": "Peso de la caja",
+    "actual_slots_occupied": "Huecos ocupados"
 }

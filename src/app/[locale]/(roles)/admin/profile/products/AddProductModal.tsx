@@ -174,7 +174,7 @@ export function AddProductModal() {
 
     useEffect(() => {
         if (errors) {
-            console.log('Errores detectados creando un producto', errors);
+            console.info('Errores detectados creando un producto', errors);
         }
     }, [errors]);
 

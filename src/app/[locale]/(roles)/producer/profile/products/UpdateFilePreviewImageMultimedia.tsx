@@ -6,16 +6,7 @@ import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { DisplayInputError } from '../../../../components/common/DisplayInputError';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { generateFileNameExtension } from '../../../../../../utils/utils';
 import { v4 as uuidv4 } from 'uuid';
-import {
-    ROUTE_ARTICLES,
-    ROUTE_P_BACK,
-    ROUTE_P_EXTRA_1,
-    ROUTE_P_EXTRA_2,
-    ROUTE_P_EXTRA_3,
-    ROUTE_P_PRINCIPAL,
-} from '../../../../../../config';
 import { MULTIMEDIA } from '../../../../../../constants';
 import { useMessage } from '../../../../components/message/useMessage';
 
@@ -34,7 +25,6 @@ export const UpdateFilePreviewImageMultimedia = ({
 }: Props) => {
     const t = useTranslations();
     const [image, setImage] = useState<string | null>(); // Nuevo estado para almacenar la URL de la imagen
-    const { supabase } = useAuth();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const { handleMessage } = useMessage();
@@ -42,8 +32,6 @@ export const UpdateFilePreviewImageMultimedia = ({
     const generateUUID = () => {
         return uuidv4();
     };
-
-    const randomUUID = generateUUID();
 
     const {
         getValues,
