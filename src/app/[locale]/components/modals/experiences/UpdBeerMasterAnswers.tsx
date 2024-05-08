@@ -8,147 +8,157 @@ import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useQueryClient } from 'react-query';
 import { DisplayInputError } from '../../common/DisplayInputError';
 import {
-  AnswerFormData,
-  IUpdModalExperienceBeerMasterFormData,
+    AnswerFormData,
+    IUpdModalExperienceBeerMasterFormData,
 } from '../../../../../lib/types/quiz';
 import { defaultOverrides } from 'next/dist/server/require-hook';
 
 const emptyAnswer: AnswerFormData = {
-  answer: '',
-  is_correct: false,
+    answer: '',
+    is_correct: false,
 };
 
 interface Props {
-  form: UseFormReturn<IUpdModalExperienceBeerMasterFormData, any>;
-  questionIndex: number;
-  questionId: string;
+    form: UseFormReturn<IUpdModalExperienceBeerMasterFormData, any>;
+    questionIndex: number;
+    questionId: string;
 }
 
 export default function UpdBeerMasterAnswers({
-  form,
-  questionIndex,
-  questionId,
+    form,
+    questionIndex,
+    questionId,
 }: Props) {
-  const t = useTranslations();
+    const t = useTranslations();
 
-  const { supabase } = useAuth();
+    const { supabase } = useAuth();
 
-  const {
-    control,
-    getValues,
-    formState: { errors },
-  } = form;
+    const {
+        control,
+        getValues,
+        formState: { errors },
+    } = form;
 
-  const queryClient = useQueryClient();
+    const queryClient = useQueryClient();
 
-  const { fields, append, remove } = useFieldArray({
-    name: `questions.${questionIndex}.question.answers`,
-    control,
-  });
+    const { fields, append, remove } = useFieldArray({
+        name: `questions.${questionIndex}.question.answers`,
+        control,
+    });
 
-  const handleAddAnswer = () => {
-    append(emptyAnswer);
-  };
+    const handleAddAnswer = () => {
+        append(emptyAnswer);
+    };
 
-  /**
-   * - If the answer is saved in the database, we remove it from the database
-   * - If the answer is not saved in the database, we remove it from the form
-   * @param answerIndex
-   * @returns
-   */
-  const handleRemoveAnswer = async (answerId: string) => {
-    if (answerId) {
-      const { error } = await supabase
-        .from('beer_master_answers')
-        .delete()
-        .eq('id', answerId);
+    /**
+     * - If the answer is saved in the database, we remove it from the database
+     * - If the answer is not saved in the database, we remove it from the form
+     * @param answerIndex
+     * @returns
+     */
+    const handleRemoveAnswer = async (answerId: string) => {
+        if (answerId) {
+            const { error } = await supabase
+                .from('beer_master_answers')
+                .delete()
+                .eq('id', answerId);
 
-      if (error) {
-        console.error('error', error);
-        return;
-      }
-    }
+            if (error) {
+                console.error('error', error);
+                return;
+            }
+        }
 
-    // Encuentra el índice basado en el id para eliminar
-    const currentValues = getValues(
-      `questions.${questionIndex}.question.answers`,
-    );
-    const indexToRemove = currentValues.findIndex(
-      (item) => item.id === answerId,
-    );
+        // Encuentra el índice basado en el id para eliminar
+        const currentValues = getValues(
+            `questions.${questionIndex}.question.answers`,
+        );
 
-    if (indexToRemove > -1) {
-      remove(indexToRemove);
-      setTimeout(() => {
-        queryClient.invalidateQueries('experiences');
-      }, 300);
-    }
-  };
+        // We need to remove like this because it's accessing twice to this method,
+        //  so if we find the index it's going to remove it two times
+        currentValues.findIndex((field) => field.id === answerId) > -1 &&
+            remove(fields.findIndex((field) => field.id === answerId));
 
+        setTimeout(() => {
+            queryClient.invalidateQueries('experiences');
+        }, 300);
 
-  return (
-    <>
-      {fields.map((field, index) => (
+        // const indexToRemove = currentValues.findIndex(
+        //     (item) => item.id === answerId,
+        // );
+
+        // if (indexToRemove > -1) {
+        //     remove(indexToRemove);
+        //     setTimeout(() => {
+        //         queryClient.invalidateQueries('experiences');
+        //     }, 300);
+        // }
+    };
+
+    return (
         <>
-          <section
-            key={field.id}
-            className="grid grid-cols-12 space-x-2 items-end"
-          >
-            <InputLabel
-              inputType="checkbox"
-              form={form}
-              label={`questions.${questionIndex}.question.answers.${index}.is_correct`}
-              labelText={' '}
-            />
+            {fields.map((field, index) => (
+                <>
+                    <section
+                        key={field.id}
+                        className="grid grid-cols-12 space-x-2 items-end"
+                    >
+                        <InputLabel
+                            inputType="checkbox"
+                            form={form}
+                            label={`questions.${questionIndex}.question.answers.${index}.is_correct`}
+                            labelText={' '}
+                        />
 
-            <div className="col-span-10 ">
-              <InputLabel
-                form={form}
-                label={`questions.${questionIndex}.question.answers.${index}.answer`}
-                labelText={`${t('answer')} ${index + 1}`}
-                registerOptions={{ required: true }}
-                placeholder="Answer text"
-              />
+                        <div className="col-span-10 ">
+                            <InputLabel
+                                form={form}
+                                label={`questions.${questionIndex}.question.answers.${index}.answer`}
+                                labelText={`${t('answer')} ${index + 1}`}
+                                registerOptions={{ required: true }}
+                                placeholder="Answer text"
+                            />
+                        </div>
+
+                        <div className="justify-center items-center">
+                            <DeleteButton
+                                onClick={() =>
+                                    handleRemoveAnswer(
+                                        getValues(
+                                            `questions.${questionIndex}.question.answers.${index}.id`,
+                                        ) as string,
+                                    )
+                                }
+                            />
+                        </div>
+                    </section>
+
+                    {/* Error input displaying */}
+                    {errors.questions &&
+                        errors.questions[questionIndex] &&
+                        errors.questions[questionIndex]?.question?.answers &&
+                        errors.questions[questionIndex]?.question?.answers?.[
+                            index
+                        ]?.answer && (
+                            <DisplayInputError
+                                message={
+                                    errors.questions[questionIndex]?.question
+                                        ?.answers?.[index]!.message
+                                }
+                            />
+                        )}
+                </>
+            ))}
+
+            <div className="grid grid-cols-1 space-y-4 space-x-0 sm:space-y-0 sm:grid-cols-2 sm:space-x-4">
+                <Button
+                    small
+                    onClick={handleAddAnswer}
+                    class="col-span-2 sm:col-span-1"
+                >
+                    {t('add_answer')}
+                </Button>
             </div>
-
-            <div className="justify-center items-center">
-              <DeleteButton
-                onClick={() =>
-                  handleRemoveAnswer(
-                    getValues(
-                      `questions.${questionIndex}.question.answers.${index}.id`,
-                    ) as string,
-                  )
-                }
-              />
-            </div>
-          </section>
-
-          {/* Error input displaying */}
-          {errors.questions &&
-            errors.questions[questionIndex] &&
-            errors.questions[questionIndex]?.question?.answers &&
-            errors.questions[questionIndex]?.question?.answers?.[index]
-              ?.answer && (
-              <DisplayInputError
-                message={
-                  errors.questions[questionIndex]?.question?.answers?.[index]!
-                    .message
-                }
-              />
-            )}
         </>
-      ))}
-
-      <div className="grid grid-cols-1 space-y-4 space-x-0 sm:space-y-0 sm:grid-cols-2 sm:space-x-4">
-        <Button
-          small
-          onClick={handleAddAnswer}
-          class="col-span-2 sm:col-span-1"
-        >
-          {t('add_answer')}
-        </Button>
-      </div>
-    </>
-  );
+    );
 }

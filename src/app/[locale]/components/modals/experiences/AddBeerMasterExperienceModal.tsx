@@ -15,7 +15,9 @@ import { AddBeerMasterQuestions } from './AddBeerMasterQuestions';
 import {
     Difficulty,
     IAddModalExperienceBeerMasterFormData,
+    QuestionFormData,
 } from '../../../../../lib/types/quiz';
+import { DisplayInputError } from '../../common/DisplayInputError';
 
 const difficulties = z.union([
     z.literal(Difficulty.EASY),
@@ -29,33 +31,56 @@ const schemaBeerMaster: ZodType<IAddModalExperienceBeerMasterFormData> =
         description: z.string().nonempty({ message: 'errors.input_required' }),
         type: z.string().nonempty({ message: 'errors.input_required' }),
         price: z.number().min(0),
-        questions: z.array(
-            z.object({
-                product_id: z
-                    .string()
-                    .nonempty({ message: 'errors.input_required' }),
-                question: z.object({
-                    category: z
+        questions: z
+            .array(
+                z.object({
+                    product_id: z
                         .string()
                         .nonempty({ message: 'errors.input_required' }),
-                    difficulty: difficulties,
-                    question: z
-                        .string()
-                        .nonempty({ message: 'errors.input_required' }),
-                    type: z
-                        .string()
-                        .nonempty({ message: 'errors.input_required' }),
-                    answers: z.array(
-                        z.object({
-                            answer: z
-                                .string()
-                                .nonempty({ message: 'errors.input_required' }),
-                            is_correct: z.boolean(),
-                        }),
-                    ),
+                    question: z.object({
+                        category: z
+                            .string()
+                            .nonempty({ message: 'errors.input_required' }),
+                        difficulty: difficulties,
+                        question: z
+                            .string()
+                            .nonempty({ message: 'errors.input_required' }),
+                        type: z
+                            .string()
+                            .nonempty({ message: 'errors.input_required' }),
+                        answers: z
+                            .array(
+                                z.object({
+                                    answer: z.string().nonempty({
+                                        message: 'errors.input_required',
+                                    }),
+                                    is_correct: z.boolean(),
+                                }),
+                            )
+                            .refine(
+                                (answers) => {
+                                    // Ensure at least one answer is marked as correct
+                                    return answers.some(
+                                        (answer: any) => answer.is_correct,
+                                    );
+                                },
+                                {
+                                    message:
+                                        'At least one answer must be marked as correct',
+                                },
+                            ),
+                    }),
                 }),
-            }),
-        ),
+            )
+            .refine(
+                (questions) => {
+                    // Ensure at least one question is added
+                    return questions.length > 0;
+                },
+                {
+                    message: 'At least one question must be added',
+                },
+            ),
     });
 
 type ValidationSchema = z.infer<typeof schemaBeerMaster>;
@@ -74,14 +99,19 @@ export default function AddBeerMasterExperienceModal() {
         mode: 'onSubmit',
         resolver: zodResolver(schemaBeerMaster),
         defaultValues: {
-            name: '',
-            description: '',
+            name: 'Experiencia Maestro Cervecero',
+            description:
+                'Una experiencia única que podrás configurar en tus puntos de consumo.',
             type: experience_options[0].label,
             questions: [],
             price: 0,
         },
     });
-    const { handleSubmit, reset } = form;
+    const {
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = form;
 
     const handleInsertBeerMasterExperience = async (form: ValidationSchema) => {
         const { name, description, type, questions, price } = form;
@@ -191,6 +221,18 @@ export default function AddBeerMasterExperienceModal() {
                         <legend className="text-2xl">
                             {t('questions_and_answers_experience')}
                         </legend>
+
+                        {errors.questions && (
+                            <DisplayInputError
+                                message={errors.questions?.message}
+                            />
+                        )}
+
+                        {errors.questions?.root && (
+                            <DisplayInputError
+                                message={errors.questions?.root.message}
+                            />
+                        )}
 
                         <AddBeerMasterQuestions form={form} />
                     </fieldset>

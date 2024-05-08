@@ -31,15 +31,14 @@ export default function DeleteCPMobileModal({
             .eq('id', selectedCPId);
 
         if (error) throw error;
+
+        queryClient.invalidateQueries('cpMobile');
+        handleDeleteModal(false);
     };
 
     const deleteCPMobileMutation = useMutation({
         mutationKey: ['deleteCPMobile'],
         mutationFn: handleRemoveCP,
-        onSuccess: () => {
-            queryClient.invalidateQueries('cpMobile');
-            handleDeleteModal(false);
-        },
         onError: (error) => {
             console.error(error);
         },

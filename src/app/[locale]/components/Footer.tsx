@@ -71,7 +71,7 @@ export default function Footer() {
                                             className="text-deep-purple-50 transition-colors duration-300 hover:font-semibold hover:text-beer-blonde text-white"
                                             locale={locale}
                                         >
-                                            {t('commiments')}
+                                            {t('commitments')}
                                         </Link>
                                     </li>
                                     <li>

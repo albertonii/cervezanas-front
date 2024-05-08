@@ -44,43 +44,42 @@ export function ProductStepper({
         if (param === 0) {
             setDetailsClass(statusPresentClass);
             setMultimediaClass(statusFutureClass);
-            // setAwardsClass(statusFutureClass);
+            setAwardsClass(statusFutureClass);
             setConfirmClass(statusFutureClass);
 
             setDetailsIconClass(statusPresentIconClass);
             setMultimediaIconClass(statusFutureIconClass);
-            // setAwardsIconClass(statusFutureIconClass);
+            setAwardsIconClass(statusFutureIconClass);
             setConfirmIconClass(statusFutureIconClass);
         } else if (param === 1) {
             setDetailsClass(statusPastClass);
             setMultimediaClass(statusPresentClass);
-            // setAwardsClass(statusFutureClass);
+            setAwardsClass(statusFutureClass);
             setConfirmClass(statusFutureClass);
 
             setDetailsIconClass(statusPastIconClass);
             setMultimediaIconClass(statusPresentIconClass);
-            // setAwardsIconClass(statusFutureIconClass);
+            setAwardsIconClass(statusFutureIconClass);
             setConfirmIconClass(statusFutureIconClass);
-            // } else if (param === 2) {  // Descomentar que queremos que se vea de nuevo los logos en AWARDS
-            //     setDetailsClass(statusPastClass);
-            //     setMultimediaClass(statusPastClass);
-            //     setAwardsClass(statusPresentClass);
-            //     setConfirmClass(statusFutureClass);
-            //     setConfirmClass(statusPresentClass);
+        } else if (param === 2) {
+            setDetailsClass(statusPastClass);
+            setMultimediaClass(statusPastClass);
+            setAwardsClass(statusPresentClass);
+            setConfirmClass(statusFutureClass);
 
-            //     setDetailsIconClass(statusPastIconClass);
-            //     setMultimediaIconClass(statusPastIconClass);
-            //     setAwardsIconClass(statusPresentIconClass);
-            //     setConfirmIconClass(statusFutureIconClass);
+            setDetailsIconClass(statusPastIconClass);
+            setMultimediaIconClass(statusPastIconClass);
+            setAwardsIconClass(statusPresentIconClass);
+            setConfirmIconClass(statusFutureIconClass);
         } else {
             setDetailsClass(statusPastClass);
             setMultimediaClass(statusPastClass);
-            // setAwardsClass(statusPastClass);
+            setAwardsClass(statusPastClass);
             setConfirmClass(statusPresentClass);
 
             setDetailsIconClass(statusPastIconClass);
             setMultimediaIconClass(statusPastIconClass);
-            // setAwardsIconClass(statusPastIconClass);
+            setAwardsIconClass(statusPastIconClass);
             setConfirmIconClass(statusPresentIconClass);
         }
     };
@@ -115,7 +114,7 @@ export function ProductStepper({
                 <div
                     className={`flex-auto border-t-2 transition duration-500 ease-in-out ${multimediaClass}`}
                 ></div>
-                
+
                 <div className="relative flex items-center text-gray-500">
                     <figure
                         className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${multimediaClass}`}
@@ -140,37 +139,37 @@ export function ProductStepper({
                         {t('multimedia')}
                     </div>
                 </div>
-                {/* 
-          <div
-            className={`flex-auto border-t-2 transition duration-500 ease-in-out ${awardsClass}`}
-          ></div>
 
-          <figure className="relative flex items-center text-white">
-            <div
-              className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${awardsClass}`}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="100%"
-                height="100%"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke={`${awardsIconClass}`}
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="feather feather-user-plus "
-              >
-                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                <circle cx="8.5" cy="7" r="4"></circle>
-                <line x1="20" y1="8" x2="20" y2="14"></line>
-                <line x1="23" y1="11" x2="17" y2="11"></line>
-              </svg>
-            </div>
-            <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
-              {t("awards")}
-            </div>
-          </figure> */}
+                <div
+                    className={`flex-auto border-t-2 transition duration-500 ease-in-out ${awardsClass}`}
+                ></div>
+
+                <figure className="relative flex items-center text-white">
+                    <div
+                        className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${awardsClass}`}
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="100%"
+                            height="100%"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke={`${awardsIconClass}`}
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className="feather feather-user-plus "
+                        >
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="8.5" cy="7" r="4"></circle>
+                            <line x1="20" y1="8" x2="20" y2="14"></line>
+                            <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                    </div>
+                    <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
+                        {t('awards')}
+                    </div>
+                </figure>
 
                 <div
                     className={`flex-auto border-t-2 transition duration-500 ease-in-out ${confirmClass}`}

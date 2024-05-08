@@ -2,25 +2,18 @@ import React from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { formatCurrency } from '../../../../utils/formatCurrency';
+import { FilePreview } from '../common/FilePreview';
+import { ModalAddProductFormData } from '../../../../lib/types/types';
 import { DisplayInputError } from '../common/DisplayInputError';
-import { ModalUpdateProductFormData } from '../../../../lib/types/types';
-import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
-import { SupabaseProps } from '../../../../constants';
 
 interface Props {
-    form: UseFormReturn<ModalUpdateProductFormData, any>;
+    form: UseFormReturn<ModalAddProductFormData, any>;
 }
 
-export function UpdateProductSummary({ form }: Props) {
+export function ProductSummary({ form: { getValues, formState } }: Props) {
     const t = useTranslations();
 
-    const {
-        getValues,
-        formState: { errors },
-    } = form;
-
-    const preUrl =
-        SupabaseProps.BASE_URL + SupabaseProps.STORAGE_PRODUCTS_IMG_URL;
+    const { errors } = formState;
 
     return (
         <>
@@ -206,7 +199,7 @@ export function UpdateProductSummary({ form }: Props) {
                         <div className="flex flex-row justify-between">
                             <h4 className="space-x-2">
                                 <label className="text-md font-semibold text-gray-600">
-                                    {t('pack_price')}
+                                    {t('pack_price')} €
                                 </label>
 
                                 <span className="text-md">
@@ -223,11 +216,7 @@ export function UpdateProductSummary({ form }: Props) {
                                     {pack.img_url.length === 0 ? (
                                         t('unassigned')
                                     ) : (
-                                        <FilePreviewImageMultimedia
-                                            form={form}
-                                            registerName={`packs.${index}.img_url`}
-                                            preUrl={preUrl}
-                                        />
+                                        <FilePreview file={pack.img_url[0]} />
                                     )}
                                 </span>
                             </h4>
@@ -293,10 +282,8 @@ export function UpdateProductSummary({ form }: Props) {
                                             {award.img_url.length === 0 ? (
                                                 t('unassigned')
                                             ) : (
-                                                <FilePreviewImageMultimedia
-                                                    form={form}
-                                                    registerName={`awards.${index}.img_url`}
-                                                    preUrl={preUrl}
+                                                <FilePreview
+                                                    file={award.img_url[0]}
                                                 />
                                             )}
                                         </span>

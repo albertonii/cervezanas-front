@@ -145,7 +145,12 @@ export default function CervezanasEventList({ counter }: Props) {
             )}
 
             {isLoading && (
-                <Spinner color="beer-blonde" size="xLarge" absolute center />
+                <Spinner
+                    color="beer-blonde"
+                    size="xLarge"
+                    absolute
+                    flexCenter
+                />
             )}
 
             {!isError && !isLoading && events.length === 0 ? (

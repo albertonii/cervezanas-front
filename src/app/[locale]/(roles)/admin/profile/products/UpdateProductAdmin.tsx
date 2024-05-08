@@ -40,10 +40,11 @@ import {
     isValidObject,
 } from '../../../../../../utils/utils';
 import ModalWithForm from '../../../../components/modals/ModalWithForm';
-import { ProductStepper } from '../../../../components/modals/ProductStepper';
-import { UpdateProductInfoSection } from '../../../../components/modals/UpdateProductInfoSection';
-import { UpdateMultimediaSection } from '../../../../components/modals/UpdateMultimediaSection';
-import { UpdateProductSummary } from '../../../../components/modals/UpdateProductSummary';
+import { ProductStepper } from '../../../../components/products/ProductStepper';
+import { UpdateProductInfoSection } from '../../../producer/profile/products/UpdateProductInfoSection';
+import { UpdateMultimediaSection } from '../../../producer/profile/products/UpdateMultimediaSection';
+import { UpdateAwardsSection } from '../../../producer/profile/products/UpdateAwardsSection';
+import { UpdateProductSummary } from '../../../producer/profile/products/UpdateProductSummary';
 
 const schema: ZodType<ModalUpdateProductFormData> = z.object({
     product_id: z.string(),
@@ -740,14 +741,11 @@ export function UpdateProductAdmin({
                                 form={form}
                                 productId={product.id}
                             />
+                        ) : activeStep === 2 ? (
+                            <UpdateAwardsSection form={form} />
                         ) : (
                             <UpdateProductSummary form={form} />
                         )}
-                        {/*  ) : activeStep === 2 ? (
-                             <UpdateAwardsSection form={form} />
-                         ) : (
-                             <UpdateProductSummary form={form} />
-                         )} */}
                     </>
                 </ProductStepper>
             </form>

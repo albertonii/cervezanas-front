@@ -81,7 +81,12 @@ export function LotList({
             )}
 
             {isLoading && (
-                <Spinner color="beer-blonde" size="xLarge" absolute center />
+                <Spinner
+                    color="beer-blonde"
+                    size="xLarge"
+                    absolute
+                    flexCenter
+                />
             )}
 
             {!isLoading && !isError && lots?.length === 0 ? (
@@ -132,9 +137,6 @@ export function LotList({
                                                     className="h-8 w-8 rounded-full"
                                                     alt="Beer Type"
                                                     src="/icons/beer-240.png"
-                                                    loader={() =>
-                                                        '/icons/beer-240.png'
-                                                    }
                                                 />
                                             </th>
 

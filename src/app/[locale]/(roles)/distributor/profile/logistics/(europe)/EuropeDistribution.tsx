@@ -105,6 +105,7 @@ export default function EuropeDistribution({ coverageAreaId }: Props) {
         //   console.error(error);
         //   return;
         // }
+        queryClient.invalidateQueries({ queryKey: ['distribution'] });
     };
 
     const updateInternationalDistributionMutation = useMutation({
@@ -114,7 +115,6 @@ export default function EuropeDistribution({ coverageAreaId }: Props) {
             console.info('onMutate');
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['distribution'] });
             console.info('onSuccess');
         },
         onError: () => {
