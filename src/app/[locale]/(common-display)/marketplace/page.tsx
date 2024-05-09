@@ -22,9 +22,6 @@ async function getMarketplaceProducts() {
         .select(
             `
               *,
-              beers (
-                *
-              ),
               product_multimedia (
                 *,
                 p_principal
@@ -57,8 +54,6 @@ async function getMarketplaceProducts() {
     //         `,
     //     )
     //     .eq('is_public', true);
-
-    // console.log(productsData);
 
     if (productsError) throw productsError;
 

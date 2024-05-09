@@ -11,6 +11,7 @@ import createServerClient from '../../../../utils/supabaseServer';
 import { generateFileNameExtension } from '../../../../utils/utils';
 import { v4 as uuidv4 } from 'uuid';
 import { SupabaseProps } from '../../../../constants';
+import { Type } from '../../../../lib/productEnum';
 
 export async function POST(request: NextRequest) {
     try {
@@ -40,8 +41,8 @@ export async function POST(request: NextRequest) {
                 name,
                 description: description,
                 is_public,
-                category: 'box_pack',
-                type: 'box_pack',
+                category: Type.BOX_PACK,
+                type: Type.BOX_PACK,
                 owner_id: userId,
                 price: price,
                 weight: weight,

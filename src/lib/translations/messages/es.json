@@ -861,5 +861,6 @@
     "slots": "Huecos",
     "slots_per_product": "Huecos por producto",
     "box_weight": "Peso de la caja",
-    "actual_slots_occupied": "Huecos ocupados"
+    "actual_slots_occupied": "Huecos ocupados",
+    "beer_style": "Estilo de cerveza"
 }

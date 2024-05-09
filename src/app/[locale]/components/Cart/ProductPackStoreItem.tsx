@@ -21,7 +21,7 @@ type StoreItemProps = { product: IProduct; products: IProduct[] };
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
-export function StoreItem({ product }: StoreItemProps) {
+export function ProductPackStoreItem({ product }: StoreItemProps) {
     const t = useTranslations();
     const locale = useLocale();
     const { handleMessage } = useMessage();
@@ -226,7 +226,7 @@ export function StoreItem({ product }: StoreItemProps) {
 
                         <div className="mt-1 text-lg font-semibold text-bear-dark"></div>
 
-                        <div className="w mt-2 flex flex-col items-start justify-between space-y-2 overflow-x-hidden text-sm font-medium">
+                        <div className="mt-2 flex flex-col items-start justify-between space-y-2 overflow-x-hidden text-sm font-medium">
                             <select
                                 className="text-md w-full  border-beer-softBlondeBubble px-2 py-1 focus:border-beer-blonde focus:outline-none"
                                 id="is_external_organizer"

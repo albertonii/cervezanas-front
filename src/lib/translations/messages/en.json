@@ -845,5 +845,6 @@
     "slots": "Slots",
     "slots_per_product": "Slots per product",
     "box_weight": "Box weight",
-    "actual_slots_occupied": "Actual slots occupied"
+    "actual_slots_occupied": "Actual slots occupied",
+    "beer_style": "Beer Style"
 }
