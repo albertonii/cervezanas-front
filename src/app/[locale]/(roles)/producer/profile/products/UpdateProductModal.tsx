@@ -673,7 +673,7 @@ export function UpdateProductModal({
         formData.append('awards_size', awards.length.toString());
 
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-        const url = `${baseUrl}/api/products/update/awards`;
+        const url = `${baseUrl}/api/products/awards`;
 
         const response = await fetch(url, {
             method: 'PUT',

@@ -73,7 +73,7 @@ export const UpdateFilePreviewImageMultimedia = ({
 
         const updateValue = async () => {
             const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-            const url = `${baseUrl}/api/products/update/multimedia`;
+            const url = `${baseUrl}/api/products/multimedia`;
 
             const file = getValues(registerName);
 

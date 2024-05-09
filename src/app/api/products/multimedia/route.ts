@@ -5,11 +5,11 @@ import {
     ROUTE_P_EXTRA_2,
     ROUTE_P_EXTRA_3,
     ROUTE_P_PRINCIPAL,
-} from '../../../../../config';
-import { MULTIMEDIA, SupabaseProps } from '../../../../../constants';
+} from '../../../../config';
+import { MULTIMEDIA, SupabaseProps } from '../../../../constants';
 import { v4 as uuidv4 } from 'uuid';
-import { generateFileNameExtension } from '../../../../../utils/utils';
-import createServerClient from '../../../../../utils/supabaseServer';
+import { generateFileNameExtension } from '../../../../utils/utils';
+import createServerClient from '../../../../utils/supabaseServer';
 
 export async function PUT(request: NextRequest) {
     try {
@@ -478,6 +478,110 @@ export async function PUT(request: NextRequest) {
                 { message: 'Product multimedia image updated' },
                 { status: 200 },
             );
+        }
+
+        return NextResponse.json(
+            { message: 'Product multimedia image updated' },
+            { status: 200 },
+        );
+    } catch (err) {
+        return NextResponse.json(
+            { message: 'Error updating product multimedia image' },
+            { status: 500 },
+        );
+    }
+}
+
+export async function DELETE(request: NextRequest) {
+    try {
+        const formData = await request.formData();
+
+        const p_principal = formData.get('p_principal') as string;
+        const p_back = formData.get('p_back') as string;
+        const p_extra_1 = formData.get('p_extra_1') as string;
+        const p_extra_2 = formData.get('p_extra_2') as string;
+        const p_extra_3 = formData.get('p_extra_3') as string;
+
+        const supabase = await createServerClient();
+
+        if (p_principal) {
+            const { error: deleteError } = await supabase.storage
+                .from('products')
+                .remove([decodeURIComponent(p_principal)]);
+
+            if (deleteError) {
+                return NextResponse.json(
+                    {
+                        message:
+                            'Error deleting p_principal product multimedia image',
+                    },
+                    { status: 500 },
+                );
+            }
+        }
+
+        if (p_back) {
+            const { error: deleteError } = await supabase.storage
+                .from('products')
+                .remove([decodeURIComponent(p_back)]);
+
+            if (deleteError) {
+                return NextResponse.json(
+                    {
+                        message:
+                            'Error deleting p_back product multimedia image',
+                    },
+                    { status: 500 },
+                );
+            }
+        }
+
+        if (p_extra_1) {
+            const { error: deleteError } = await supabase.storage
+                .from('products')
+                .remove([decodeURIComponent(p_extra_1)]);
+
+            if (deleteError) {
+                return NextResponse.json(
+                    {
+                        message:
+                            'Error deleting p_extra_1 product multimedia image',
+                    },
+                    { status: 500 },
+                );
+            }
+        }
+
+        if (p_extra_2) {
+            const { error: deleteError } = await supabase.storage
+                .from('products')
+                .remove([decodeURIComponent(p_extra_2)]);
+
+            if (deleteError) {
+                return NextResponse.json(
+                    {
+                        message:
+                            'Error deleting p_extra_2 product multimedia image',
+                    },
+                    { status: 500 },
+                );
+            }
+        }
+
+        if (p_extra_3) {
+            const { error: deleteError } = await supabase.storage
+                .from('products')
+                .remove([decodeURIComponent(p_extra_3)]);
+
+            if (deleteError) {
+                return NextResponse.json(
+                    {
+                        message:
+                            'Error deleting p_extra_3 product multimedia image',
+                    },
+                    { status: 500 },
+                );
+            }
         }
 
         return NextResponse.json(

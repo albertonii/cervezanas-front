@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ROUTE_P_PRINCIPAL } from '../../../../../config';
-import { MULTIMEDIA, SupabaseProps } from '../../../../../constants';
-import { v4 as uuidv4 } from 'uuid';
-import { generateFileNameExtension } from '../../../../../utils/utils';
-import createServerClient from '../../../../../utils/supabaseServer';
+import { SupabaseProps } from '../../../../constants';
+import { generateFileNameExtension } from '../../../../utils/utils';
+import createServerClient from '../../../../utils/supabaseServer';
 
 export async function PUT(request: NextRequest) {
     try {
@@ -134,4 +132,31 @@ export async function PUT(request: NextRequest) {
             { status: 500 },
         );
     }
+}
+
+export async function DELETE(request: NextRequest) {
+    const supabase = await createServerClient();
+    const formData = await request.formData();
+
+    const awardsSize = parseInt(formData.get('awards_size') as string);
+
+    for (let i = 0; i < awardsSize; i++) {
+        const awardUrl = formData.get(`awards[${i}].img_url`) as string;
+
+        const { error: awardError } = await supabase.storage
+            .from('products')
+            .remove([`${decodeURIComponent(awardUrl)}`]);
+
+        if (awardError) {
+            return NextResponse.json(
+                { message: 'Error deleting award image' },
+                { status: 500 },
+            );
+        }
+    }
+
+    return NextResponse.json(
+        { message: 'Award successfully deleted' },
+        { status: 200 },
+    );
 }

@@ -485,7 +485,37 @@ export async function POST(request: NextRequest) {
 }
 
 // TODO: Eliminar imágenes en el Bucket desde aquí.
-export async function DELETE(request: NextRequest) {}
+export async function DELETE(request: NextRequest) {
+    try {
+        const formData = await request.formData();
+
+        const supabase = await createServerClient();
+
+        const productId = formData.get('product_id') as string;
+
+        const { error: productError } = await supabase
+            .from('products')
+            .delete()
+            .eq('id', productId);
+
+        if (productError) {
+            return NextResponse.json(
+                { message: 'Error deleting product' },
+                { status: 500 },
+            );
+        }
+
+        return NextResponse.json(
+            { message: 'Product successfully deleted' },
+            { status: 200 },
+        );
+    } catch (err) {
+        return NextResponse.json(
+            { message: 'Error deleting product' },
+            { status: 500 },
+        );
+    }
+}
 
 // Update
 export async function PUT(request: NextRequest) {}
