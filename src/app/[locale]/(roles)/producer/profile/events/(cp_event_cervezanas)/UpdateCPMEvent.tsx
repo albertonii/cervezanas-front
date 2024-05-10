@@ -14,6 +14,7 @@ import { formatDateDefaultInput } from '../../../../../../../utils/formatDate';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodType } from 'zod';
 import { SearchCheckboxExperiences } from './SearchCheckboxExperiences';
+import Spinner from '../../../../../components/common/Spinner';
 
 type ModalUpdCPMEventFormData = {
     cp_id: string;
@@ -95,6 +96,7 @@ export default function UpdateCPMEventModal({
     const t = useTranslations();
     const { supabase } = useAuth();
 
+    const [isLoading, setIsLoading] = useState(false);
     const queryClient = useQueryClient();
 
     const form = useForm<ValidationSchema>({
@@ -136,6 +138,8 @@ export default function UpdateCPMEventModal({
 
     // Update CPMEvent in database
     const handleUpdate = async (formValues: ModalUpdCPMEventFormData) => {
+        setIsLoading(true);
+
         const { event_experiences, removed_event_experiences } = formValues;
 
         // If there are removed experiences, delete them
@@ -148,7 +152,10 @@ export default function UpdateCPMEventModal({
                     .delete()
                     .eq('id', removedEventExperience.id);
 
-                if (error) throw error;
+                if (error) {
+                    setIsLoading(false);
+                    throw error;
+                }
             }
         });
 
@@ -166,7 +173,10 @@ export default function UpdateCPMEventModal({
                     })
                     .eq('id', eventExperience.id);
 
-                if (error) throw error;
+                if (error) {
+                    setIsLoading(false);
+                    throw error;
+                }
             } else {
                 const { error } = await supabase
                     .from('event_experiences')
@@ -177,12 +187,15 @@ export default function UpdateCPMEventModal({
                         cp_fixed_id: null,
                     });
 
-                if (error) throw error;
+                if (error) {
+                    setIsLoading(false);
+                    throw error;
+                }
             }
         });
 
         handleEditModal(false);
-
+        setIsLoading(false);
         queryClient.invalidateQueries('cpm_events');
     };
 
@@ -216,93 +229,99 @@ export default function UpdateCPMEventModal({
             handler={handleSubmit(onSubmit)}
             btnSize={'large'}
             classIcon={'w-6 h-6'}
-            classContainer={''}
+            classContainer={`${isLoading && ' opacity-75'}`}
             form={form}
         >
             <>
-                <form>
-                    {/* Event Information  */}
-                    <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                        {/* Is Activated  */}
-                        <div className="flex w-full flex-col items-end">
-                            <label
-                                className="relative inline-flex cursor-pointer items-center"
-                                htmlFor="is_activated"
-                            >
-                                <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-beer-blonde peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-beer-softFoam dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-beer-blonde"></div>
+                {isLoading ? (
+                    <div className="h-[50vh]">
+                        <Spinner size="xxLarge" color="beer-blonde" center />
+                    </div>
+                ) : (
+                    <form>
+                        {/* Event Information  */}
+                        <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                            {/* Is Activated  */}
+                            <div className="flex w-full flex-col items-end">
+                                <label
+                                    className="relative inline-flex cursor-pointer items-center"
+                                    htmlFor="is_activated"
+                                >
+                                    <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-beer-blonde peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-beer-softFoam dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-beer-blonde"></div>
 
-                                <span className="ml-3 text-lg font-medium text-gray-900 dark:text-gray-300">
-                                    {t('is_activated')}
+                                    <span className="ml-3 text-lg font-medium text-gray-900 dark:text-gray-300">
+                                        {t('is_activated')}
+                                    </span>
+                                </label>
+
+                                <span className="mt-2 text-sm font-medium text-gray-400 dark:text-gray-300">
+                                    {t('is_activated_description')}
                                 </span>
-                            </label>
+                            </div>
 
-                            <span className="mt-2 text-sm font-medium text-gray-400 dark:text-gray-300">
-                                {t('is_activated_description')}
-                            </span>
-                        </div>
+                            <legend className="m-2 text-2xl">
+                                {t('events_info')}
+                            </legend>
 
-                        <legend className="m-2 text-2xl">
-                            {t('events_info')}
-                        </legend>
-
-                        {/* Event name  */}
-                        <InputLabel
-                            form={form}
-                            label={'event.name'}
-                            registerOptions={{
-                                required: true,
-                            }}
-                            disabled
-                        />
-
-                        {/* Event description  */}
-                        <InputTextarea
-                            form={form}
-                            label={'event.description'}
-                            registerOptions={{
-                                required: true,
-                            }}
-                            placeholder="The event every beer lover is waiting for!"
-                            disabled
-                        />
-
-                        {/* Start date and end date  */}
-                        <div className="flex flex-row space-x-2">
+                            {/* Event name  */}
                             <InputLabel
                                 form={form}
-                                label={'event.start_date'}
+                                label={'event.name'}
                                 registerOptions={{
                                     required: true,
                                 }}
-                                inputType="date"
                                 disabled
                             />
 
-                            <InputLabel
+                            {/* Event description  */}
+                            <InputTextarea
                                 form={form}
-                                label={'event.end_date'}
+                                label={'event.description'}
                                 registerOptions={{
                                     required: true,
                                 }}
-                                inputType="date"
+                                placeholder="The event every beer lover is waiting for!"
                                 disabled
                             />
-                        </div>
-                    </fieldset>
 
-                    {/* Asociar las experiencias que tenga el productor configuradas al punto de consumo para ese evento  */}
-                    <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                        <legend className="m-2 text-2xl">
-                            {t('associate_experiences')}
-                        </legend>
+                            {/* Start date and end date  */}
+                            <div className="flex flex-row space-x-2">
+                                <InputLabel
+                                    form={form}
+                                    label={'event.start_date'}
+                                    registerOptions={{
+                                        required: true,
+                                    }}
+                                    inputType="date"
+                                    disabled
+                                />
 
-                        <SearchCheckboxExperiences
-                            cpMobileId={selectedCPMEvent.cp_id}
-                            eventId={selectedCPMEvent.event_id}
-                            form={form}
-                        />
-                    </fieldset>
-                </form>
+                                <InputLabel
+                                    form={form}
+                                    label={'event.end_date'}
+                                    registerOptions={{
+                                        required: true,
+                                    }}
+                                    inputType="date"
+                                    disabled
+                                />
+                            </div>
+                        </fieldset>
+
+                        {/* Asociar las experiencias que tenga el productor configuradas al punto de consumo para ese evento  */}
+                        <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                            <legend className="m-2 text-2xl">
+                                {t('associate_experiences')}
+                            </legend>
+
+                            <SearchCheckboxExperiences
+                                cpMobileId={selectedCPMEvent.cp_id}
+                                eventId={selectedCPMEvent.event_id}
+                                form={form}
+                            />
+                        </fieldset>
+                    </form>
+                )}
             </>
         </ModalWithForm>
     );

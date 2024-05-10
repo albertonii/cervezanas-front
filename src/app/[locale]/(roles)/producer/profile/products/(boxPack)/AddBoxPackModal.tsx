@@ -240,8 +240,6 @@ export function AddBoxPackModal() {
         const boxPackItems = boxPack.boxPackItems;
         formData.set('box_packs', JSON.stringify(boxPackItems));
 
-        console.log(p_principal);
-
         if (p_principal) {
             formData.set('p_principal', p_principal as File);
         }
@@ -335,12 +333,12 @@ export function AddBoxPackModal() {
             }}
             form={form}
         >
-            <form>
-                {isLoading ? (
-                    <div className="h-[50vh]">
-                        <Spinner size="xxLarge" color="beer-blonde" center />
-                    </div>
-                ) : (
+            {isLoading ? (
+                <div className="h-[50vh]">
+                    <Spinner size="xxLarge" color="beer-blonde" center />
+                </div>
+            ) : (
+                <form>
                     <BoxPackStepper
                         activeStep={activeStep}
                         handleSetActiveStep={handleSetActiveStep}
@@ -362,8 +360,8 @@ export function AddBoxPackModal() {
                             )}
                         </>
                     </BoxPackStepper>
-                )}
-            </form>
+                </form>
+            )}
         </ModalWithForm>
     );
 }

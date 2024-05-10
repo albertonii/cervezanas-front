@@ -1,11 +1,12 @@
 'use client';
 
-import React, { ComponentProps } from 'react';
+import React, { ComponentProps, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { IAward, IProduct, IProductPack } from '../../../../lib/types/types';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import Modal from './Modal';
 import { useMessage } from '../message/useMessage';
+import Spinner from '../common/Spinner';
 
 interface Props {
     product: IProduct;
@@ -21,6 +22,7 @@ export function DeleteProductModal({
     showModal,
     handleDeleteShowModal,
 }: Props) {
+    const [isLoading, setIsLoading] = useState(false);
     const { handleMessage } = useMessage();
 
     const queryClient = useQueryClient();
@@ -170,6 +172,8 @@ export function DeleteProductModal({
     const handleDelete = async () => {
         if (!product) return;
 
+        setIsLoading(true);
+
         const formData = new FormData();
 
         formData.append('product_id', product.id);
@@ -185,6 +189,9 @@ export function DeleteProductModal({
                 type: 'error',
                 message: 'Error deleting product',
             });
+
+            setIsLoading(false);
+
             return;
         }
 
@@ -200,6 +207,8 @@ export function DeleteProductModal({
         handleMultimediaDeleteFiles(product);
 
         handleDeleteShowModal(false);
+
+        setIsLoading(false);
         queryClient.invalidateQueries('productList');
     };
 
@@ -231,9 +240,15 @@ export function DeleteProductModal({
                 onSubmitDelete();
             }}
             classIcon={''}
-            classContainer={''}
+            classContainer={`${isLoading && ' opacity-75'}`}
         >
-            <></>
+            <>
+                {isLoading && (
+                    <div className="h-[50vh]">
+                        <Spinner size="xxLarge" color="beer-blonde" center />
+                    </div>
+                )}
+            </>
         </Modal>
     );
 }

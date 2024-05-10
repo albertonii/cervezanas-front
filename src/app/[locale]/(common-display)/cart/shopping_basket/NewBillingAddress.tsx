@@ -11,6 +11,7 @@ import { ModalBillingAddressFormData } from '../../../../../lib/types/types';
 import ModalWithForm from '../../../components/modals/ModalWithForm';
 import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Spinner from '../../../components/common/Spinner';
 
 const schema: ZodType<ModalBillingAddressFormData> = z.object({
     name: z.string().nonempty({ message: 'errors.input_required' }),
@@ -33,6 +34,7 @@ export function NewBillingAddress() {
 
     const { user, supabase } = useAuth();
 
+    const [isLoading, setIsLoading] = useState(false);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -46,6 +48,8 @@ export function NewBillingAddress() {
     const { reset, handleSubmit } = form;
 
     const handleAddBillingAddress = async (form: ValidationSchema) => {
+        setIsLoading(true);
+
         const {
             name,
             lastname,
@@ -75,9 +79,14 @@ export function NewBillingAddress() {
 
         if (error) {
             console.error(error);
+
+            setIsLoading(false);
             throw error;
         }
+
+        setIsLoading(false);
         setShowModal(false);
+        queryClient.invalidateQueries('billingAddresses');
 
         reset();
     };
@@ -89,8 +98,6 @@ export function NewBillingAddress() {
             setIsSubmitting(true);
         },
         onSuccess: () => {
-            queryClient.invalidateQueries('billingAddresses');
-            setShowModal(false);
             setIsSubmitting(false);
         },
         onError: (error) => {
@@ -124,7 +131,15 @@ export function NewBillingAddress() {
             classContainer={`!w-1/2 ${isSubmitting && 'opacity-50'}`}
             form={form}
         >
-            <AddressForm form={form} addressNameId={'billing'} />
+            <>
+                {isLoading && (
+                    <div className="h-[50vh]">
+                        <Spinner size="xxLarge" color="beer-blonde" center />
+                    </div>
+                )}
+
+                <AddressForm form={form} addressNameId={'billing'} />
+            </>
         </ModalWithForm>
     );
 }

@@ -20,6 +20,7 @@ import { useAppContext } from '../../../../../context/AppContext';
 import dynamic from 'next/dynamic';
 import { useMessage } from '../../../../components/message/useMessage';
 import { AwardsSection } from '../../../../components/products/AwardsSection';
+import Spinner from '../../../../components/common/Spinner';
 
 const ModalWithForm = dynamic(
     () => import('../../../../components/modals/ModalWithForm'),
@@ -478,7 +479,7 @@ export function AddProductModal() {
             queryClient.invalidateQueries('productList');
 
             reset();
-            // setActiveStep(0);
+            setActiveStep(0);
         }
     };
 
@@ -516,7 +517,7 @@ export function AddProductModal() {
             btnTitle={'add_product'}
             description={''}
             classIcon={''}
-            classContainer={''}
+            classContainer={`${isLoading && ' opacity-75'}`}
             handler={handleSubmit(onSubmit)}
             handlerClose={() => {
                 setActiveStep(0);
@@ -525,30 +526,36 @@ export function AddProductModal() {
             form={form}
         >
             <form>
-                <ProductStepper
-                    activeStep={activeStep}
-                    handleSetActiveStep={handleSetActiveStep}
-                    isSubmitting={isSubmitting}
-                >
-                    <>
-                        <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
-                            {t('modal_product_description')}
-                        </p>
+                {isLoading ? (
+                    <div className="h-[50vh]">
+                        <Spinner size="xxLarge" color="beer-blonde" center />
+                    </div>
+                ) : (
+                    <ProductStepper
+                        activeStep={activeStep}
+                        handleSetActiveStep={handleSetActiveStep}
+                        isSubmitting={isSubmitting}
+                    >
+                        <>
+                            <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
+                                {t('modal_product_description')}
+                            </p>
 
-                        {activeStep === 0 ? (
-                            <ProductInfoSection
-                                form={form}
-                                customizeSettings={customizeSettings}
-                            />
-                        ) : activeStep === 1 ? (
-                            <MultimediaSection form={form} />
-                        ) : activeStep === 2 ? (
-                            <AwardsSection form={form} />
-                        ) : (
-                            <ProductSummary form={form} />
-                        )}
-                    </>
-                </ProductStepper>
+                            {activeStep === 0 ? (
+                                <ProductInfoSection
+                                    form={form}
+                                    customizeSettings={customizeSettings}
+                                />
+                            ) : activeStep === 1 ? (
+                                <MultimediaSection form={form} />
+                            ) : activeStep === 2 ? (
+                                <AwardsSection form={form} />
+                            ) : (
+                                <ProductSummary form={form} />
+                            )}
+                        </>
+                    </ProductStepper>
+                )}
             </form>
         </ModalWithForm>
     );

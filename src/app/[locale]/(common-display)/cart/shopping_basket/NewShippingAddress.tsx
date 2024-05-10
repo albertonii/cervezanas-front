@@ -12,6 +12,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import ModalWithForm from '../../../components/modals/ModalWithForm';
 import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Spinner from '../../../components/common/Spinner';
 
 const schema: ZodType<ModalShippingAddressFormData> = z.object({
     name: z.string().nonempty({ message: 'errors.input_required' }),
@@ -34,6 +35,7 @@ export function NewShippingAddress() {
     const t = useTranslations();
     const { supabase, user } = useAuth();
 
+    const [isLoading, setIsLoading] = useState(false);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const queryClient = useQueryClient();
@@ -46,6 +48,8 @@ export function NewShippingAddress() {
     const { reset, handleSubmit } = form;
 
     const handleAddShippingAddress = async (form: ValidationSchema) => {
+        setIsLoading(true);
+
         const {
             name,
             lastname,
@@ -79,14 +83,16 @@ export function NewShippingAddress() {
 
         if (error) {
             console.error(error);
+
+            setIsLoading(false);
             throw error;
         }
 
-        reset();
-
         queryClient.invalidateQueries('shippingAddresses');
         setShowModal(false);
+        setIsLoading(false);
         setIsSubmitting(false);
+        reset();
     };
 
     const insertShippingMutation = useMutation({
@@ -126,7 +132,15 @@ export function NewShippingAddress() {
             classContainer={`!w-1/2 ${isSubmitting && 'opacity-50'}`}
             form={form}
         >
-            <AddressForm form={form} addressNameId={'shipping'} />
+            <>
+                {isLoading && (
+                    <div className="h-[50vh]">
+                        <Spinner size="xxLarge" color="beer-blonde" center />
+                    </div>
+                )}
+
+                <AddressForm form={form} addressNameId={'shipping'} />
+            </>
         </ModalWithForm>
     );
 }

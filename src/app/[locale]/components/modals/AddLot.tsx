@@ -14,6 +14,7 @@ import dynamic from 'next/dynamic';
 import InputLabel from '../common/InputLabel';
 import SelectInput from '../common/SelectInput';
 import InputTextarea from '../common/InputTextarea';
+import Spinner from '../common/Spinner';
 
 const ModalWithForm = dynamic(() => import('./ModalWithForm'), { ssr: false });
 
@@ -53,6 +54,7 @@ export function AddLot() {
     const { user, supabase } = useAuth();
 
     const [showModal, setShowModal] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const { data: products } = useFetchProductsByOwner(user?.id);
 
@@ -77,6 +79,8 @@ export function AddLot() {
     const queryClient = useQueryClient();
 
     const handleInsertLot = async (form: ValidationSchema) => {
+        setIsLoading(true);
+
         const {
             quantity,
             lot_number,
@@ -107,9 +111,12 @@ export function AddLot() {
             manufacture_date: manufactureDateToString,
         });
 
-        if (error) throw error;
+        if (error) {
+            setIsLoading(false);
+            throw error;
+        }
 
-        queryClient.invalidateQueries('productLotList');
+        setIsLoading(false);
     };
 
     const insertProductLotMutation = useMutation({
@@ -142,107 +149,115 @@ export function AddLot() {
             description={'modal_product_description'}
             handler={handleSubmit(onSubmit)}
             classIcon={''}
-            classContainer={''}
+            classContainer={`${isLoading && ' opacity-75'}`}
             form={form}
         >
-            <form>
-                <section className="relative flex w-full flex-auto flex-col  py-6">
-                    {/* Lot Name Lot Number */}
-                    <div className="flex w-full flex-row space-x-3 ">
-                        <InputLabel
-                            form={form}
-                            label={'lot_name'}
-                            registerOptions={{
-                                required: true,
-                            }}
-                            placeholder={t('lot_name')}
-                        />
-
-                        <InputLabel
-                            form={form}
-                            label={'lot_number'}
-                            registerOptions={{
-                                required: true,
-                            }}
-                            placeholder={t('lot_number')}
-                        />
+            <>
+                {isLoading ? (
+                    <div className="h-[50vh]">
+                        <Spinner size="xxLarge" color="beer-blonde" center />
                     </div>
+                ) : (
+                    <form>
+                        <section className="relative flex w-full flex-auto flex-col  py-6">
+                            {/* Lot Name Lot Number */}
+                            <div className="flex w-full flex-row space-x-3 ">
+                                <InputLabel
+                                    form={form}
+                                    label={'lot_name'}
+                                    registerOptions={{
+                                        required: true,
+                                    }}
+                                    placeholder={t('lot_name')}
+                                />
 
-                    {/* Quantity & Quantity Notification */}
-                    <div className="flex w-full flex-row space-x-3 ">
-                        <InputLabel
-                            form={form}
-                            label={'quantity'}
-                            registerOptions={{
-                                required: true,
-                                valueAsNumber: true,
-                                min: 0,
-                            }}
-                            placeholder={t('quantity')}
-                        />
+                                <InputLabel
+                                    form={form}
+                                    label={'lot_number'}
+                                    registerOptions={{
+                                        required: true,
+                                    }}
+                                    placeholder={t('lot_number')}
+                                />
+                            </div>
 
-                        <InputLabel
-                            form={form}
-                            label={'limit_notification'}
-                            registerOptions={{
-                                required: true,
-                                valueAsNumber: true,
-                                min: 0,
-                            }}
-                            placeholder={t('limit_notification')}
-                        />
-                    </div>
+                            {/* Quantity & Quantity Notification */}
+                            <div className="flex w-full flex-row space-x-3 ">
+                                <InputLabel
+                                    form={form}
+                                    label={'quantity'}
+                                    registerOptions={{
+                                        required: true,
+                                        valueAsNumber: true,
+                                        min: 0,
+                                    }}
+                                    placeholder={t('quantity')}
+                                />
 
-                    {/* Manufacture Date & Expiration Date */}
-                    <div className="flex w-full flex-row space-x-3 ">
-                        <InputLabel
-                            form={form}
-                            label={'manufacture_date'}
-                            registerOptions={{
-                                required: true,
-                                valueAsDate: true,
-                            }}
-                            placeholder={t('manufacture_date')}
-                            inputType={'date'}
-                        />
+                                <InputLabel
+                                    form={form}
+                                    label={'limit_notification'}
+                                    registerOptions={{
+                                        required: true,
+                                        valueAsNumber: true,
+                                        min: 0,
+                                    }}
+                                    placeholder={t('limit_notification')}
+                                />
+                            </div>
 
-                        <InputLabel
-                            form={form}
-                            label={'expiration_date'}
-                            registerOptions={{
-                                required: true,
-                                valueAsDate: true,
-                            }}
-                            placeholder={t('expiration_date')}
-                            inputType={'date'}
-                        />
-                    </div>
+                            {/* Manufacture Date & Expiration Date */}
+                            <div className="flex w-full flex-row space-x-3 ">
+                                <InputLabel
+                                    form={form}
+                                    label={'manufacture_date'}
+                                    registerOptions={{
+                                        required: true,
+                                        valueAsDate: true,
+                                    }}
+                                    placeholder={t('manufacture_date')}
+                                    inputType={'date'}
+                                />
 
-                    {/* Packaging & Receipt */}
-                    <SelectInput
-                        form={form}
-                        options={format_options}
-                        label={'packaging'}
-                        registerOptions={{
-                            required: true,
-                        }}
-                    />
+                                <InputLabel
+                                    form={form}
+                                    label={'expiration_date'}
+                                    registerOptions={{
+                                        required: true,
+                                        valueAsDate: true,
+                                    }}
+                                    placeholder={t('expiration_date')}
+                                    inputType={'date'}
+                                />
+                            </div>
 
-                    <InputTextarea
-                        form={form}
-                        label={'recipe'}
-                        registerOptions={{
-                            required: true,
-                        }}
-                        placeholder={t('beer_recipe')}
-                    />
+                            {/* Packaging & Receipt */}
+                            <SelectInput
+                                form={form}
+                                options={format_options}
+                                label={'packaging'}
+                                registerOptions={{
+                                    required: true,
+                                }}
+                            />
 
-                    <SearchCheckboxProductsList
-                        products={products ?? []}
-                        form={form}
-                    />
-                </section>
-            </form>
+                            <InputTextarea
+                                form={form}
+                                label={'recipe'}
+                                registerOptions={{
+                                    required: true,
+                                }}
+                                placeholder={t('beer_recipe')}
+                            />
+
+                            <SearchCheckboxProductsList
+                                products={products ?? []}
+                                form={form}
+                            />
+                        </section>
+                    </form>
+                )}
+            </>
         </ModalWithForm>
     );
 }

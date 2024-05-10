@@ -43,6 +43,7 @@ import { UpdateAwardsSection } from './UpdateAwardsSection';
 import { ProductStepper } from '../../../../components/products/ProductStepper';
 import ModalWithForm from '../../../../components/modals/ModalWithForm';
 import { useMessage } from '../../../../components/message/useMessage';
+import Spinner from '../../../../components/common/Spinner';
 
 // This is the list of mime types you will accept with the schema
 const ACCEPTED_MIME_TYPES = [
@@ -352,6 +353,8 @@ export function UpdateProductModal({
     const t = useTranslations();
     const { user, supabase } = useAuth();
     const [activeStep, setActiveStep] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
+
     const { customizeSettings, removeImage } = useAppContext();
     const { handleMessage } = useMessage();
 
@@ -506,6 +509,7 @@ export function UpdateProductModal({
     };
 
     const updateBasicSection = async (formValues: any) => {
+        setIsLoading(true);
         const userId = user?.id;
 
         const { name, description, type, price, is_public, weight } =
@@ -525,8 +529,14 @@ export function UpdateProductModal({
             .eq('id', product.id)
             .select();
 
-        if (productError) throw productError;
+        if (productError) {
+            setIsLoading(false);
+            throw productError;
+        }
+
         if (!data) throw new Error('No data returned from supabase');
+
+        setIsLoading(false);
 
         return data[0] as IProduct;
     };
@@ -801,36 +811,42 @@ export function UpdateProductModal({
             btnTitle={'update_product'}
             description={''}
             classIcon={''}
-            classContainer={''}
+            classContainer={`${isLoading && ' opacity-75'}`}
             handler={handleSubmit(onSubmit)}
             handlerClose={() => handleEditShowModal(false)}
             form={form}
         >
             <form>
-                <ProductStepper
-                    activeStep={activeStep}
-                    handleSetActiveStep={handleSetActiveStep}
-                    isSubmitting={isSubmitting}
-                >
-                    <>
-                        <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
-                            {t('modal_product_description')}
-                        </p>
+                {isLoading ? (
+                    <div className="h-[50vh]">
+                        <Spinner size="xxLarge" color="beer-blonde" center />
+                    </div>
+                ) : (
+                    <ProductStepper
+                        activeStep={activeStep}
+                        handleSetActiveStep={handleSetActiveStep}
+                        isSubmitting={isSubmitting}
+                    >
+                        <>
+                            <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
+                                {t('modal_product_description')}
+                            </p>
 
-                        {activeStep === 0 ? (
-                            <UpdateProductInfoSection form={form} />
-                        ) : activeStep === 1 ? (
-                            <UpdateMultimediaSection
-                                form={form}
-                                productId={product.id}
-                            />
-                        ) : activeStep === 2 ? (
-                            <UpdateAwardsSection form={form} />
-                        ) : (
-                            <UpdateProductSummary form={form} />
-                        )}
-                    </>
-                </ProductStepper>
+                            {activeStep === 0 ? (
+                                <UpdateProductInfoSection form={form} />
+                            ) : activeStep === 1 ? (
+                                <UpdateMultimediaSection
+                                    form={form}
+                                    productId={product.id}
+                                />
+                            ) : activeStep === 2 ? (
+                                <UpdateAwardsSection form={form} />
+                            ) : (
+                                <UpdateProductSummary form={form} />
+                            )}
+                        </>
+                    </ProductStepper>
+                )}
             </form>
         </ModalWithForm>
     );
