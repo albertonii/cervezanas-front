@@ -143,8 +143,6 @@ export async function DELETE(request: NextRequest) {
     for (let i = 0; i < awardsSize; i++) {
         const awardUrl = formData.get(`awards[${i}].img_url`) as string;
 
-        console.log(awardUrl);
-
         const { error: awardError } = await supabase.storage
             .from('products')
             .remove([`${decodeURIComponent(awardUrl)}`]);

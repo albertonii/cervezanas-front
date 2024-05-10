@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import {
-    ROUTE_ARTICLES,
     ROUTE_P_BACK,
     ROUTE_P_EXTRA_1,
     ROUTE_P_EXTRA_2,
@@ -15,6 +14,12 @@ import { Type } from '../../../../lib/productEnum';
 
 export async function POST(request: NextRequest) {
     try {
+        const generateUUID = () => {
+            return uuidv4();
+        };
+
+        const randomUUID = generateUUID();
+
         const formData = await request.formData();
 
         const name = formData.get('name') as string;
@@ -39,7 +44,7 @@ export async function POST(request: NextRequest) {
             .from('products')
             .insert({
                 name,
-                description: description,
+                description,
                 is_public,
                 category: Type.BOX_PACK,
                 type: Type.BOX_PACK,
@@ -57,6 +62,7 @@ export async function POST(request: NextRequest) {
             );
         }
 
+        // Create box pack
         if (product) {
             const { data: boxPack, error: errorBoxPack } = await supabase
                 .from('box_packs')
@@ -97,13 +103,64 @@ export async function POST(request: NextRequest) {
             }
         }
 
+        // Create product_pack so it behaves like a product
+        const fileName = `${SupabaseProps.PACKS_URL}${product.id}/${randomUUID}_0`;
+
+        const pack_url = encodeURIComponent(
+            `${fileName}${generateFileNameExtension(p_principal.name)}`,
+        );
+
+        const { error: packError } = await supabase
+            .from('product_packs')
+            .insert({
+                product_id: product.id,
+                quantity: 1,
+                price: price,
+                name: name,
+                img_url: pack_url,
+                randomUUID: randomUUID,
+            });
+
+        if (packError) {
+            return NextResponse.json(
+                { message: 'Error creating pack' },
+                { status: 500 },
+            );
+        }
+
+        const { error: packMultError } = await supabase.storage
+            .from('products')
+            .upload(
+                `${fileName}${generateFileNameExtension(p_principal.name)}`,
+                pack_url,
+                {
+                    contentType: p_principal.type,
+                    cacheControl: '3600',
+                    upsert: false,
+                },
+            );
+
+        if (packMultError) {
+            // Delete previously created product pack
+            const { error: deleteError } = await supabase
+                .from('product_packs')
+                .delete()
+                .eq('product_id', product.id);
+
+            if (deleteError) {
+                return NextResponse.json(
+                    { message: 'Error deleting product pack' },
+                    { status: 500 },
+                );
+            }
+
+            return NextResponse.json(
+                { message: 'Error uploading pack image' },
+                { status: 500 },
+            );
+        }
+
         // Multimedia
-        const generateUUID = () => {
-            return uuidv4();
-        };
-
-        const randomUUID = generateUUID();
-
         let p_principal_url = '';
         let p_back_url = '';
         let p_extra_1_url = '';

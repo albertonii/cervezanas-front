@@ -11,7 +11,6 @@ interface Props {
 
 export default function ProductMiniature({ product }: Props) {
     const t = useTranslations();
-    console.log(product);
     if (!product) {
         return <></>;
     }

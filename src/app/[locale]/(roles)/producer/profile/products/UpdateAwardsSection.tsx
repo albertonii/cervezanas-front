@@ -44,13 +44,6 @@ export function UpdateAwardsSection({ form }: Props) {
         control,
     });
 
-      const {
-          field: { onChange: onChangeRole, value: valueRole },
-      } = useController({
-          control,
-          name: 'role',
-      });
-
     useEffect(() => {
         console.info(dirtyFields);
     }, [dirtyFields]);
@@ -60,7 +53,7 @@ export function UpdateAwardsSection({ form }: Props) {
     }, [isDirty]);
 
     useEffect(() => {
-        console.log(touchedFields);
+        console.info(touchedFields);
     }, [touchedFields]);
 
     const [selectedFiles, setSelectedFiles] = useState<FileProps[]>([]);

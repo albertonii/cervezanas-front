@@ -34,24 +34,23 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
         product.product_multimedia?.p_principal ?? '',
     )}`;
 
-    const [packs, setPacks] = useState<IProductPack[]>();
-    const [selectedPack, setSelectedPack] = useState<IProductPack>();
+    const [pack, setPack] = useState<IProductPack>();
 
     useEffect(() => {
-        if (product.product_packs) {
-            setPacks(product.product_packs);
-        }
+        // Create new pack
+        const newPack: IProductPack = {
+            id: product.id,
+            product_id: product.id,
+            created_at: product.created_at,
+            quantity: 1,
+            price: product.price,
+            img_url: product.product_multimedia?.p_principal,
+            name: product.name,
+            randomUUID: '',
+        };
+
+        setPack(newPack);
     }, [product]);
-
-    useEffect(() => {
-        if (packs) {
-            const lowestPack = packs.sort(
-                (a, b) => a.quantity - b.quantity,
-            )[0] as IProductPack;
-
-            setSelectedPack(lowestPack);
-        }
-    }, [packs]);
 
     const overAllCalculation = () => {
         let overAll_sum = 0;
@@ -129,14 +128,14 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
         }
 
         const packCartItem: IProductPack = {
-            id: selectedPack?.id ?? '',
-            created_at: selectedPack?.created_at ?? '',
+            id: pack?.id ?? '',
+            created_at: pack?.created_at ?? '',
             quantity: packQuantity,
-            price: selectedPack?.price ?? 0,
-            img_url: selectedPack?.img_url ?? '',
-            name: selectedPack?.name ?? '',
-            randomUUID: selectedPack?.randomUUID ?? '',
-            product_id: selectedPack?.product_id ?? '',
+            price: pack?.price ?? 0,
+            img_url: pack?.img_url ?? '',
+            name: pack?.name ?? '',
+            randomUUID: pack?.randomUUID ?? '',
+            product_id: pack?.product_id ?? '',
         };
 
         addPackToCart(product, packCartItem);
@@ -217,11 +216,11 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
 
                         {/* Información sobre el pack seleccionado detallada y minimalista  */}
                         <div className="m-auto mt-1 text-base font-semibold text-bear-dark">
-                            {selectedPack?.quantity}{' '}
-                            {selectedPack && selectedPack?.quantity > 1
+                            {pack?.quantity}{' '}
+                            {pack && pack?.quantity > 1
                                 ? t('units')
                                 : t('unit')}
-                            /{formatCurrency(selectedPack?.price ?? 0)}
+                            /{formatCurrency(pack?.price ?? 0)}
                         </div>
 
                         <div className="mt-1 text-lg font-semibold text-bear-dark"></div>
@@ -233,7 +232,7 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
                             {product.product_packs && (
                                 <div className="mt-6 flex w-full justify-between space-x-2">
                                     <MarketCartButtons2
-                                        item={product.product_packs[0]}
+                                        item={product}
                                         quantity={packQuantity}
                                         handleIncreaseCartQuantity={() =>
                                             handleIncreasePackQuantity()

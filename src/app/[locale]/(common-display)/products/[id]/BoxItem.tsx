@@ -14,8 +14,6 @@ export default function BoxItem({ item }: Props) {
         return <></>;
     }
 
-    console.log(item.products);
-
     return (
         <>
             <div className="relative">
