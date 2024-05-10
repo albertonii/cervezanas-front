@@ -67,7 +67,8 @@ export const UpdateFilePreviewImageMultimedia = ({
     const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return console.info('No hay archivos');
         setImage(URL.createObjectURL(e.target.files[0])); // Almacenar la URL de la imagen en el estado
-        setValue(registerName, e.target.files, { shouldDirty: true });
+        setValue(registerName, e.target.files);
+        // setValue(registerName, e.target.files, { shouldDirty: true });
 
         setIsLoading(true);
 
