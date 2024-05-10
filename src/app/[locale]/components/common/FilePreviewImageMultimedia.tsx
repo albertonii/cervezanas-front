@@ -58,7 +58,7 @@ export const FilePreviewImageMultimedia = ({
                 <div className="hover:cursor-pointer relative h-32 w-full items-center overflow-hidden rounded-md border-2 border-dotted border-gray-400 shadow-md">
                     <input
                         type="file"
-                        accept="image/*"
+                        accept="image/gif, image/jpeg, image/png, image/webp"
                         className="absolute z-10 h-full w-full opacity-0 hover:cursor-pointer"
                         onChange={handleFile}
                         id={registerName}

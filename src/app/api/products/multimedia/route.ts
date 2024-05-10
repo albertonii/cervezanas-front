@@ -502,6 +502,15 @@ export async function DELETE(request: NextRequest) {
         const p_extra_2 = formData.get('p_extra_2') as string;
         const p_extra_3 = formData.get('p_extra_3') as string;
 
+        console.log(
+            'MULTIMEDIA',
+            p_principal,
+            p_back,
+            p_extra_1,
+            p_extra_2,
+            p_extra_3,
+        );
+
         const supabase = await createServerClient();
 
         if (p_principal) {
@@ -585,7 +594,7 @@ export async function DELETE(request: NextRequest) {
         }
 
         return NextResponse.json(
-            { message: 'Product multimedia image updated' },
+            { message: 'Product multimedia image deleted' },
             { status: 200 },
         );
     } catch (err) {

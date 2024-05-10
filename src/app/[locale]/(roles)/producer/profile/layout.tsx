@@ -195,7 +195,7 @@ export default function layout({ children }: LayoutProps) {
                                             style={{ display: 'none' }}
                                             ref={inputRef}
                                             type="file"
-                                            accept="image/*"
+                                            accept="image/gif, image/jpeg, image/png, image/webp"
                                             onChange={handleFileChange}
                                         />
                                     </div>

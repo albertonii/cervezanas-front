@@ -23,7 +23,12 @@ const ModalWithForm = dynamic(
 );
 
 // This is the list of mime types you will accept with the schema
-const ACCEPTED_MIME_TYPES = ['image/gif', 'image/jpeg', 'image/png'];
+const ACCEPTED_MIME_TYPES = [
+    'image/gif',
+    'image/jpeg',
+    'image/png',
+    'image/webp',
+];
 const MB_BYTES = 1000000; // Number of bytes in a megabyte.
 
 const schema: ZodType<ModalAddBoxPackFormData> = z.object({

@@ -71,7 +71,7 @@ export const FilePreviewImageMultimedia = ({
                         <input
                             type="file"
                             onChange={handleFile}
-                            accept="image/*"
+                            accept="image/gif, image/jpeg, image/png, image/webp"
                             className="absolute z-10 h-full w-full opacity-0"
                         />
 
@@ -79,7 +79,7 @@ export const FilePreviewImageMultimedia = ({
                             {...register('p_back', { required: 'false' })}
                             type="file"
                             onChange={handleFile}
-                            accept="image/*"
+                            accept="image/gif, image/jpeg, image/png, image/webp"
                             className="absolute z-10 h-full w-full opacity-0"
                         />
 
@@ -87,7 +87,7 @@ export const FilePreviewImageMultimedia = ({
                             {...register('p_extra_1', { required: 'false' })}
                             type="file"
                             onChange={handleFile}
-                            accept="image/*"
+                            accept="image/gif, image/jpeg, image/png, image/webp"
                             className="absolute z-10 h-full w-full opacity-0"
                         />
 
@@ -95,7 +95,7 @@ export const FilePreviewImageMultimedia = ({
                             {...register('p_extra_2', { required: 'false' })}
                             type="file"
                             onChange={handleFile}
-                            accept="image/*"
+                            accept="image/gif, image/jpeg, image/png, image/webp"
                             className="absolute z-10 h-full w-full opacity-0"
                         />
 
@@ -103,7 +103,7 @@ export const FilePreviewImageMultimedia = ({
                             {...register('p_extra_3', { required: 'false' })}
                             type="file"
                             onChange={handleFile}
-                            accept="image/*"
+                            accept="image/gif, image/jpeg, image/png, image/webp"
                             className="absolute z-10 h-full w-full opacity-0"
                         />
 

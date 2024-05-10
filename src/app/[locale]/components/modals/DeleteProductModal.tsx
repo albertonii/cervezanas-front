@@ -21,63 +21,150 @@ export function DeleteProductModal({
     showModal,
     handleDeleteShowModal,
 }: Props) {
-    const { supabase } = useAuth();
     const { handleMessage } = useMessage();
 
     const queryClient = useQueryClient();
 
-    const handleAwardsDeleteFolder = async (awards?: IAward[]) => {
-        if (awards) {
-            awards.map(async (award) => {
-                const { error: awardError } = await supabase.storage
-                    .from('products')
-                    .remove([`${decodeURIComponent(award.img_url)}`]);
+    const handleMultimediaDeleteFiles = async (product?: IProduct) => {
+        if (product && product.product_multimedia) {
+            if (
+                product.product_multimedia.p_principal !== '' ||
+                product.product_multimedia.p_back !== '' ||
+                product.product_multimedia.p_extra_1 !== '' ||
+                product.product_multimedia.p_extra_2 !== '' ||
+                product.product_multimedia.p_extra_3 !== ''
+            ) {
+                const formData = new FormData();
 
-                if (awardError) throw awardError;
-            });
+                formData.append('product_id', product.id);
+
+                formData.append(
+                    'p_principal',
+                    product.product_multimedia.p_principal || '',
+                );
+                formData.append(
+                    'p_back',
+                    product.product_multimedia.p_back || '',
+                );
+                formData.append(
+                    'p_extra_1',
+                    product.product_multimedia.p_extra_1 || '',
+                );
+                formData.append(
+                    'p_extra_2',
+                    product.product_multimedia.p_extra_2 || '',
+                );
+                formData.append(
+                    'p_extra_3',
+                    product.product_multimedia.p_extra_3 || '',
+                );
+
+                const deleteMultimediaUrl = `${baseUrl}/api/products/multimedia`;
+
+                // Delete Multimedia Fetch
+                const responseMultimedia = await fetch(deleteMultimediaUrl, {
+                    method: 'DELETE',
+                    body: formData,
+                });
+
+                if (responseMultimedia.status !== 200) {
+                    handleMessage({
+                        type: 'error',
+                        message: 'Error deleting product multimedia',
+                    });
+                    return;
+                }
+
+                if (responseMultimedia.status === 200) {
+                    handleMessage({
+                        type: 'success',
+                        message: 'Success deleting product multimedia',
+                    });
+                }
+            }
         }
     };
 
-    const handleMultimediaDeleteFiles = async (product?: IProduct) => {
-        if (product && product?.product_multimedia) {
+    const handleProductPacksDeleteFiles = (product?: IProduct) => {
+        if (
+            product &&
+            product.product_packs &&
+            product.product_packs.length > 0
+        ) {
+            console.log(product.product_packs);
+            product.product_packs.map(
+                async (pack: IProductPack, index: number) => {
+                    const formData = new FormData();
+
+                    formData.append(
+                        'packs_size',
+                        product.product_packs?.length.toString() || '0',
+                    );
+
+                    formData.append(`packs[${index}].img_url`, pack.img_url);
+
+                    const deletePacksUrl = `${baseUrl}/api/products/product_packs`;
+
+                    // Delete Packs Fetch
+                    const responsePacks = await fetch(deletePacksUrl, {
+                        method: 'DELETE',
+                        body: formData,
+                    });
+
+                    if (responsePacks.status !== 200) {
+                        handleMessage({
+                            type: 'error',
+                            message: 'Error deleting product packs',
+                        });
+                        return;
+                    }
+
+                    if (responsePacks.status === 200) {
+                        handleMessage({
+                            type: 'success',
+                            message: 'Success deleting product packs',
+                        });
+                    }
+                },
+            );
+        }
+    };
+
+    const handleAwardsDeleteFiles = async (product?: IProduct) => {
+        if (product && product.awards && product.awards.length > 0) {
+            console.log(product.awards);
+
             const formData = new FormData();
 
-            formData.append('product_id', product.id);
-
             formData.append(
-                'p_principal',
-                product.product_multimedia?.p_principal || '',
-            );
-            formData.append('p_back', product.product_multimedia?.p_back || '');
-            formData.append(
-                'p_extra_1',
-                product.product_multimedia?.p_extra_1 || '',
-            );
-            formData.append(
-                'p_extra_2',
-                product.product_multimedia?.p_extra_2 || '',
+                'awards_size',
+                product.awards.length.toString() || '0',
             );
 
-            const deleteMultimediaUrl = `${baseUrl}/api/products/multimedia`;
+            product.awards.map(async (award: IAward, index: number) => {
+                formData.append(`awards[${index}].img_url`, award.img_url);
+            });
 
-            // Delete Multimedia Fetch
-            const responseMultimedia = await fetch(deleteMultimediaUrl, {
+            const deleteAwardsUrl = `${baseUrl}/api/products/awards`;
+
+            // Delete Awards Fetch
+            const responseAwards = await fetch(deleteAwardsUrl, {
                 method: 'DELETE',
                 body: formData,
             });
 
-            if (responseMultimedia.status !== 200) {
+            if (responseAwards.status !== 200) {
                 handleMessage({
                     type: 'error',
-                    message: 'Error deleting product multimedia',
+                    message: 'Error deleting product awards',
                 });
                 return;
             }
 
-            if (responseMultimedia.status === 200) {
+            if (responseAwards.status === 200) {
                 handleMessage({
                     type: 'success',
-                    message: 'Success deleting product multimedia',
+                    message: 'Success deleting product awards',
                 });
             }
         }
@@ -111,91 +198,12 @@ export function DeleteProductModal({
             });
         }
 
-        // Delete multimedia in storage
         handleProductPacksDeleteFiles(product);
         handleAwardsDeleteFiles(product);
         handleMultimediaDeleteFiles(product);
 
         handleDeleteShowModal(false);
         queryClient.invalidateQueries('productList');
-    };
-
-    const handleProductPacksDeleteFiles = (product?: IProduct) => {
-        if (product && product?.product_packs) {
-            product?.product_packs.map(
-                async (pack: IProductPack, index: number) => {
-                    const formData = new FormData();
-
-                    formData.append(
-                        'packs_size',
-                        product?.product_packs?.length.toString() || '0',
-                    );
-
-                    formData.append(`pack[${index}].img_url`, pack.img_url);
-
-                    const deletePacksUrl = `${baseUrl}/api/products/packs`;
-
-                    // Delete Packs Fetch
-                    const responsePacks = await fetch(deletePacksUrl, {
-                        method: 'DELETE',
-                        body: formData,
-                    });
-
-                    if (responsePacks.status !== 200) {
-                        handleMessage({
-                            type: 'error',
-                            message: 'Error deleting product packs',
-                        });
-                        return;
-                    }
-
-                    if (responsePacks.status === 200) {
-                        handleMessage({
-                            type: 'success',
-                            message: 'Success deleting product packs',
-                        });
-                    }
-                },
-            );
-        }
-    };
-
-    const handleAwardsDeleteFiles = async (product?: IProduct) => {
-        if (product && product?.awards) {
-            const formData = new FormData();
-
-            formData.append(
-                'awards_size',
-                product?.awards?.length.toString() || '0',
-            );
-
-            product?.awards.map(async (award: IAward, index: number) => {
-                formData.append(`award[${index}].img_url`, award.img_url);
-            });
-
-            const deleteAwardsUrl = `${baseUrl}/api/products/awards`;
-
-            // Delete Awards Fetch
-            const responseAwards = await fetch(deleteAwardsUrl, {
-                method: 'DELETE',
-                body: formData,
-            });
-
-            if (responseAwards.status !== 200) {
-                handleMessage({
-                    type: 'error',
-                    message: 'Error deleting product awards',
-                });
-                return;
-            }
-
-            if (responseAwards.status === 200) {
-                handleMessage({
-                    type: 'success',
-                    message: 'Success deleting product awards',
-                });
-            }
-        }
     };
 
     const deleteProductMutation = useMutation({
