@@ -91,7 +91,6 @@ export function DeleteProductModal({
             product.product_packs &&
             product.product_packs.length > 0
         ) {
-            console.log(product.product_packs);
             product.product_packs.map(
                 async (pack: IProductPack, index: number) => {
                     const formData = new FormData();
@@ -132,8 +131,6 @@ export function DeleteProductModal({
 
     const handleAwardsDeleteFiles = async (product?: IProduct) => {
         if (product && product.awards && product.awards.length > 0) {
-            console.log(product.awards);
-
             const formData = new FormData();
 
             formData.append(
