@@ -486,7 +486,14 @@ export function UpdateProductModal({
                 product.product_multimedia?.p_extra_3 ?? '',
             ),
             packs: product.product_packs,
-            awards: product.awards ?? [],
+            // awards: product.awards ?? [],
+            awards: product.awards?.map((award) => ({
+                name: award.name,
+                description: award.description,
+                year: award.year,
+                img_url: award.img_url,
+            })),
+
             // campaign: "-",
         },
     });
@@ -500,7 +507,7 @@ export function UpdateProductModal({
 
     useEffect(() => {
         if (errors) {
-            console.log('ERROR EN UPDATE PRODUCT: ', errors);
+            console.info('ERROR EN UPDATE PRODUCT: ', errors);
         }
     }, [errors]);
 

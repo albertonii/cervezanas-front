@@ -33,12 +33,35 @@ export function UpdateAwardsSection({ form }: Props) {
     const preUrl =
         SupabaseProps.BASE_URL + SupabaseProps.STORAGE_PRODUCTS_IMG_URL;
 
-    const { control } = form;
+    const {
+        control,
+        watch,
+        formState: { isDirty, dirtyFields, touchedFields },
+    } = form;
 
     const { fields, append, remove } = useFieldArray({
         name: 'awards',
         control,
     });
+
+      const {
+          field: { onChange: onChangeRole, value: valueRole },
+      } = useController({
+          control,
+          name: 'role',
+      });
+
+    useEffect(() => {
+        console.info(dirtyFields);
+    }, [dirtyFields]);
+
+    useEffect(() => {
+        console.info(isDirty);
+    }, [isDirty]);
+
+    useEffect(() => {
+        console.log(touchedFields);
+    }, [touchedFields]);
 
     const [selectedFiles, setSelectedFiles] = useState<FileProps[]>([]);
 
@@ -73,6 +96,28 @@ export function UpdateAwardsSection({ form }: Props) {
         <section id="Award">
             {fields.map((field, index) => (
                 <div key={field.id}>
+                    <code style={{ display: 'block', marginTop: 24 }}>
+                        formState.isDirty: {`${isDirty}`}
+                    </code>
+                    <code style={{ display: 'block', marginTop: 24 }}>
+                        Values:{' '}
+                        {watch('awards').map((field: any) => `${field.name}, `)}
+                    </code>
+
+                    <code style={{ display: 'block', marginTop: 24 }}>
+                        Dirty Fields:{' '}
+                        {dirtyFields.awards?.map(
+                            (field: any) => `${JSON.stringify(field)}, `,
+                        )}
+                    </code>
+
+                    <code>
+                        Touched Fields:{' '}
+                        {touchedFields.awards?.map(
+                            (field: any) => `${JSON.stringify(field)}, `,
+                        )}
+                    </code>
+
                     <div className="grid grid-cols-12 gap-4">
                         <div className="col-span-11">
                             <InputLabel
@@ -112,6 +157,7 @@ export function UpdateAwardsSection({ form }: Props) {
                         registerOptions={{
                             required: true,
                             valueAsNumber: true,
+                            shouldBeDirty: true,
                         }}
                         placeholder={t('input_product_award_year_placeholder')}
                         inputType="number"

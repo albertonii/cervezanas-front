@@ -49,7 +49,8 @@ export const FilePreviewImageMultimedia = ({
         if (!e.target.files) return console.info('No hay archivos');
 
         setImage(URL.createObjectURL(e.target.files[0])); // Almacenar la URL de la imagen en el estado
-        setValue(registerName, e.target.files[0]);
+        // setValue(registerName, e.target.files[0], { shouldDirty: true });
+        setValue(registerName, e.target.files[0], { shouldDirty: true });
     };
 
     return (

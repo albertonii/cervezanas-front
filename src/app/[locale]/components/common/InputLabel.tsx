@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo, useEffect } from 'react';
+import React, { memo } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { DisplayInputError } from './DisplayInputError';
@@ -20,6 +20,7 @@ interface Props {
         valueAsNumber?: boolean;
         valueAsDate?: boolean;
         value?: any;
+        shouldBeDirty?: boolean;
     };
     inputType?: string;
     infoTooltip?: string;
