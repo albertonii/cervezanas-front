@@ -22,7 +22,6 @@ import {
     ROUTE_PROFILE,
     ROUTE_SETTINGS,
     ROUTE_SIGNIN,
-    ROUTE_SIGNUP,
 } from '../../config';
 import { useTranslations } from 'next-intl';
 import { INotification } from '../../lib/types/types';
@@ -67,10 +66,6 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
 
     const handleSignIn = () => {
         router.push(`/${locale}${ROUTE_SIGNIN}`);
-        setOpenNotification(false);
-    };
-    const handleSignUp = () => {
-        router.push(`/${locale}${ROUTE_SIGNUP}`);
         setOpenNotification(false);
     };
 

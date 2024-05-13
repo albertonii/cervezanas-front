@@ -807,7 +807,8 @@
         },
         "topbeers": {
             "header": "Best-selling beers",
-            "get_it": "Get to know!"
+            "get_it": "Get to know!",
+            "get_to_know_more": "Get to know!"
         },
         "history": {
             "brand_history_header": "Want to know the story behind each brand?",
