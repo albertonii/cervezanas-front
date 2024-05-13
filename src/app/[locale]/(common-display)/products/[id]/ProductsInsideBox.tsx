@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { IBoxPack } from '../../../../../lib/types/product';
@@ -9,7 +10,7 @@ interface Props {
 }
 
 export default function ProductsInsideBox({ boxPack }: Props) {
-    const [boxPacks, setBoxPacks] = useState<IBoxPack>(boxPack);
+    const t = useTranslations();
 
     return (
         <div>
@@ -19,17 +20,17 @@ export default function ProductsInsideBox({ boxPack }: Props) {
                 <thead className="bg-beer-draft text-md uppercase text-white dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" className="px-6 py-3 ">
-                            Producto
+                            {t('product')}
                         </th>
                         <th scope="col" className="px-6 py-3 ">
-                            Cantidad
+                            {t('quantity')}
                         </th>
                     </tr>
                 </thead>
 
                 <tbody className="bg-beer-softBlonde text-gray-700">
-                    {boxPacks &&
-                        boxPacks.box_pack_items?.map((item) => {
+                    {boxPack &&
+                        boxPack.box_pack_items?.map((item) => {
                             return <BoxItem item={item} />;
                         })}
                 </tbody>

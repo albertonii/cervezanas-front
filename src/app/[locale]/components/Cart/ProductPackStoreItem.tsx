@@ -146,7 +146,7 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
     return (
         <section className="m-auto max-w-[300px] border-2 bg-[url('/assets/rec-graf4c.png')] bg-contain bg-top bg-no-repeat p-6 shadow-md md:max-w-full">
             {isLoading ? (
-                <Spinner color="beer-blonde" size="medium"></Spinner>
+                <Spinner color="beer-blonde" size="medium" />
             ) : (
                 <>
                     <article className="relative mb-1 flex justify-center">
