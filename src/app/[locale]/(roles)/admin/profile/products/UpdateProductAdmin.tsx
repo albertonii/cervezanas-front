@@ -292,7 +292,7 @@ export function UpdateProductAdmin({
 
     useEffect(() => {
         if (errors) {
-            console.log('ERROR EN UPDATE PRODUCT: ', errors);
+            console.info('ERROR EN UPDATE PRODUCT: ', errors);
         }
     }, [errors]);
 

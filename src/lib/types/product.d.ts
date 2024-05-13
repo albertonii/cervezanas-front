@@ -3,7 +3,8 @@ import { IProduct } from './types';
 export interface IBoxPack {
     id: string;
     slots_per_box: number;
-    // products?: IProduct[];
+    product_id: string;
+    products?: IProduct[];
     box_pack_items?: IBoxPackItem[];
 }
 

@@ -202,7 +202,10 @@ export default function ProductDetails({ product, reviewRef }: Props) {
                 {/* List of products if Type === BOX_PACK */}
                 {product.type === 'BOX_PACK' && product.box_packs && (
                     <section aria-labelledby="packs" className="h-[20vh]">
-                        <ProductsInsideBox boxPack={product.box_packs[0]} />
+                        <ProductsInsideBox
+                            product={product}
+                            boxPack={product.box_packs[0]}
+                        />
                     </section>
                 )}
 
