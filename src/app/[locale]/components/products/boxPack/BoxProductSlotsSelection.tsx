@@ -36,7 +36,7 @@ export default function BoxProductSlotsSelection() {
                                 href={`${ROUTE_PRODUCTS}/${item.product_id}`}
                                 locale={locale}
                             >
-                                {item.product?.name}
+                                {item.products?.name}
                             </Link>
                         </td>
 

@@ -69,7 +69,7 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
                         product_id: boxPackItem.product_id,
                         quantity: boxPackItem.quantity,
                         slots_per_product: boxPackItem.slots_per_product,
-                        product: boxPackItem.product,
+                        products: boxPackItem.products,
                     };
 
                     const newBoxPack: BoxCartType = {

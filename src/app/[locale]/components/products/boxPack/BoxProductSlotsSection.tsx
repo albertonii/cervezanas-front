@@ -41,7 +41,7 @@ export default function BoxProductSlotsSection({ form }: Props) {
 
         setBoxWeight(
             boxPack.boxPackItems.reduce(
-                (acc, item) => acc + item.quantity * item.product!.weight,
+                (acc, item) => acc + item.quantity * item.products!.weight,
                 0,
             ),
         );

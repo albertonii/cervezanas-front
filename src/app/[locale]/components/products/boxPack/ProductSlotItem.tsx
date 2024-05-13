@@ -76,7 +76,7 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
                     product_id: productId,
                     quantity: quantity,
                     slots_per_product: slotsPerProduct,
-                    product: product,
+                    products: product,
                 };
 
                 addSlot(boxPackItem);
