@@ -70,7 +70,7 @@ export default async function AppLocaleLayout({
 
                 <main
                     className={classNames(
-                        'relative mx-auto my-4 min-h-[80vh] w-full transform pt-0 transition lg:container',
+                        'relative mx-auto my-4 min-h-[60vh] w-full transform pt-0 transition lg:container',
                     )}
                 >
                     <MessageList />
