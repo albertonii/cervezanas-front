@@ -36,6 +36,11 @@ export default function PackItem({
                 {/* <!-- Active: "ring-2 ring-indigo-500" --> */}
                 <label
                     className={`
+                        ${
+                            pack.id === selectedPackId &&
+                            'bg-beer-dark text-beer-gold border-beer-gold ring-2 ring-beer-gold'
+                        }
+                        transition-all ease-in-out duration-300 
                       group relative flex cursor-pointer items-center justify-center border px-4 py-3 text-sm uppercase
                     text-white hover:bg-cerv-banana focus:outline-none sm:flex-1 bg-cerv-brown bg-opacity-40 font-semibold hover:text-black
                     `}
