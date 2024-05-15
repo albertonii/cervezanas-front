@@ -5,8 +5,6 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { DisplayInputError } from '../../../../components/common/DisplayInputError';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { v4 as uuidv4 } from 'uuid';
 import { MULTIMEDIA } from '../../../../../../constants';
 import { useMessage } from '../../../../components/message/useMessage';
 
@@ -15,6 +13,7 @@ interface Props {
     form: UseFormReturn<any, any>;
     registerName: string;
     preUrl?: string;
+    isBoxPack?: boolean;
 }
 
 export const UpdateFilePreviewImageMultimedia = ({
@@ -22,16 +21,13 @@ export const UpdateFilePreviewImageMultimedia = ({
     form,
     registerName,
     preUrl,
+    isBoxPack,
 }: Props) => {
     const t = useTranslations();
     const [image, setImage] = useState<string | null>(); // Nuevo estado para almacenar la URL de la imagen
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const { handleMessage } = useMessage();
-
-    const generateUUID = () => {
-        return uuidv4();
-    };
 
     const {
         getValues,
@@ -74,7 +70,9 @@ export const UpdateFilePreviewImageMultimedia = ({
 
         const updateValue = async () => {
             const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-            const url = `${baseUrl}/api/products/multimedia`;
+            const url = `${baseUrl}/api/products/${
+                isBoxPack && 'box_packs/'
+            }multimedia`;
 
             const file = getValues(registerName);
 

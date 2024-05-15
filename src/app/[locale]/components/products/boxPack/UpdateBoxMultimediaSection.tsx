@@ -19,6 +19,7 @@ export function UpdateBoxMultimediaSection({ form, productId }: Props) {
                 form={form}
                 registerName="p_principal"
                 preUrl={preUrl}
+                isBoxPack={true}
             />
 
             <UpdateFilePreviewImageMultimedia
@@ -26,6 +27,7 @@ export function UpdateBoxMultimediaSection({ form, productId }: Props) {
                 form={form}
                 registerName="p_back"
                 preUrl={preUrl}
+                isBoxPack={true}
             />
 
             <UpdateFilePreviewImageMultimedia
@@ -33,6 +35,7 @@ export function UpdateBoxMultimediaSection({ form, productId }: Props) {
                 form={form}
                 registerName="p_extra_1"
                 preUrl={preUrl}
+                isBoxPack={true}
             />
 
             <UpdateFilePreviewImageMultimedia
@@ -40,6 +43,7 @@ export function UpdateBoxMultimediaSection({ form, productId }: Props) {
                 form={form}
                 registerName="p_extra_2"
                 preUrl={preUrl}
+                isBoxPack={true}
             />
 
             <UpdateFilePreviewImageMultimedia
@@ -47,6 +51,7 @@ export function UpdateBoxMultimediaSection({ form, productId }: Props) {
                 form={form}
                 registerName="p_extra_3"
                 preUrl={preUrl}
+                isBoxPack={true}
             />
         </section>
     );
