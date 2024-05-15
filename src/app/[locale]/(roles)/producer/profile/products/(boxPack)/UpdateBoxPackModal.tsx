@@ -16,6 +16,8 @@ import { BoxPackStepper } from '../../../../../components/products/boxPack/BoxPa
 import { BoxSummary } from '../../../../../components/products/boxPack/BoxSummary';
 import { BoxMultimediaSection } from '../../../../../components/products/boxPack/BoxMultimediaSection';
 import Spinner from '../../../../../components/common/Spinner';
+import { IProduct } from '../../../../../../../lib/types/types';
+import { validate } from 'uuid';
 
 const ModalWithForm = dynamic(
     () => import('../../../../../components/modals/ModalWithForm'),
@@ -60,7 +62,7 @@ const schema: ZodType<ModalAddBoxPackFormData> = z.object({
     price: z.number().min(0, 'Price must be greater than 0'),
     weight: z.number().min(0, 'Weight must be greater than 0'),
     slots_per_box: z.number().min(1, 'Slots must be greater than 0'),
-    p_principal: z.custom<File>().superRefine(validateFile),
+    p_principal: z.custom<File>().superRefine(validateFile).optional(),
     p_back: z.custom<File>().superRefine(validateFile).optional(),
     p_extra_1: z.custom<File>().superRefine(validateFile).optional(),
     p_extra_2: z.custom<File>().superRefine(validateFile).optional(),
@@ -69,11 +71,22 @@ const schema: ZodType<ModalAddBoxPackFormData> = z.object({
 
 type ValidationSchema = z.infer<typeof schema>;
 
-export function AddBoxPackModal() {
+interface Props {
+    showModal: boolean;
+    handleEditShowModal: (value: boolean) => void;
+    product: IProduct;
+}
+
+export function UpdateBoxPackModal({
+    showModal,
+    handleEditShowModal,
+    product,
+}: Props) {
     const t = useTranslations();
 
+    console.log('product', product);
+
     const [isLoading, setIsLoading] = useState(false);
-    const [showModal, setShowModal] = useState<boolean>(false);
     const [activeStep, setActiveStep] = useState<number>(0);
     const { clear, boxPack } = useBoxPackStore();
     const { handleMessage } = useMessage();
@@ -84,13 +97,17 @@ export function AddBoxPackModal() {
         mode: 'onSubmit',
         resolver: zodResolver(schema),
         defaultValues: {
-            is_public: true,
-            name: '',
-            description: '',
-            price: 0,
-            weight: 0,
-            slots_per_box: 6,
-            p_principal: null,
+            is_public: product.is_public,
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            weight: product.weight,
+            slots_per_box: product.box_packs?.[0].slots_per_box ?? 0,
+            p_principal: product.product_multimedia?.p_principal,
+            p_back: product.product_multimedia?.p_back,
+            p_extra_1: product.product_multimedia?.p_extra_1,
+            p_extra_2: product.product_multimedia?.p_extra_2,
+            p_extra_3: product.product_multimedia?.p_extra_3,
         },
     });
 
@@ -186,7 +203,7 @@ export function AddBoxPackModal() {
                 message: 'Box pack created successfully',
             });
 
-            setShowModal(false);
+            handleEditShowModal(false);
             queryClient.invalidateQueries('productList');
 
             clear();
@@ -224,7 +241,7 @@ export function AddBoxPackModal() {
         <ModalWithForm
             showBtn={true}
             showModal={showModal}
-            setShowModal={setShowModal}
+            setShowModal={handleEditShowModal}
             title={'add_box_pack'}
             btnTitle={'add_box_pack'}
             description={''}
@@ -233,7 +250,7 @@ export function AddBoxPackModal() {
             handler={handleSubmit(onSubmit)}
             handlerClose={() => {
                 setActiveStep(0);
-                setShowModal(false);
+                handleEditShowModal(false);
             }}
             form={form}
         >

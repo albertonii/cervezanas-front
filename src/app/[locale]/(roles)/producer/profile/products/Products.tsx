@@ -8,6 +8,8 @@ import { IProduct } from '../../../../../../lib/types/types';
 import { DeleteProductModal } from '../../../../components/modals/DeleteProductModal';
 import { UpdateProductModal } from './UpdateProductModal';
 import { AddBoxPackModal } from './(boxPack)/AddBoxPackModal';
+import { Type as ProductType } from '../../../../../../lib/productEnum';
+import { UpdateBoxPackModal } from './(boxPack)/UpdateBoxPackModal';
 
 export function Products() {
     const t = useTranslations();
@@ -53,11 +55,21 @@ export function Products() {
             />
 
             {isEditShowModal && productModal && (
-                <UpdateProductModal
-                    product={productModal}
-                    showModal={isEditShowModal}
-                    handleEditShowModal={handleEditShowModal}
-                />
+                <>
+                    {productModal.type === ProductType.PRODUCT ? (
+                        <UpdateProductModal
+                            product={productModal}
+                            showModal={isEditShowModal}
+                            handleEditShowModal={handleEditShowModal}
+                        />
+                    ) : (
+                        <UpdateBoxPackModal
+                            product={productModal}
+                            showModal={isEditShowModal}
+                            handleEditShowModal={handleEditShowModal}
+                        />
+                    )}
+                </>
             )}
 
             {isDeleteShowModal && productModal && (

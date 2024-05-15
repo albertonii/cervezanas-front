@@ -37,6 +37,28 @@ const ACCEPTED_MIME_TYPES = [
 
 const MB_BYTES = 1000000; // Number of bytes in a megabyte.
 
+const validateFile = (f: File, ctx: any) => {
+    if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+        ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+                ', ',
+            )}] but was ${f.type}`,
+        });
+    }
+    if (f.size > 3 * MB_BYTES) {
+        ctx.addIssue({
+            code: z.ZodIssueCode.too_big,
+            type: 'array',
+            message: `The file must not be larger than ${3 * MB_BYTES} bytes: ${
+                f.size
+            }`,
+            maximum: 3 * MB_BYTES,
+            inclusive: true,
+        });
+    }
+};
+
 const schema: ZodType<ModalAddProductFormData> = z.object({
     name: z.string().min(2, { message: 'errors.min_2_characters' }).max(50, {
         message: 'errors.error_50_number_max_length',
@@ -80,157 +102,14 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
                 .max(2030, {
                     message: 'errors.input_max_2030',
                 }),
-            img_url: z
-                .custom<File>()
-                .superRefine((f, ctx) => {
-                    // First, add an issue if the mime type is wrong.
-                    if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
-                        ctx.addIssue({
-                            code: z.ZodIssueCode.custom,
-                            message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
-                                ', ',
-                            )}] but was ${f.type}`,
-                        });
-                    }
-                    // Next add an issue if the file size is too large.
-                    if (f.size > 3 * MB_BYTES) {
-                        ctx.addIssue({
-                            code: z.ZodIssueCode.too_big,
-                            type: 'array',
-                            message: `The file must not be larger than ${
-                                3 * MB_BYTES
-                            } bytes: ${f.size}`,
-                            maximum: 3 * MB_BYTES,
-                            inclusive: true,
-                        });
-                    }
-                })
-                .optional(),
+            img_url: z.custom<File>().superRefine(validateFile).optional(),
         }),
     ),
-    p_principal: z
-        .custom<File>()
-        .superRefine((f, ctx) => {
-            // First, add an issue if the mime type is wrong.
-            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
-                        ', ',
-                    )}] but was ${f.type}`,
-                });
-            }
-            // Next add an issue if the file size is too large.
-            if (f.size > 3 * MB_BYTES) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.too_big,
-                    type: 'array',
-                    message: `The file must not be larger than ${
-                        3 * MB_BYTES
-                    } bytes: ${f.size}`,
-                    maximum: 3 * MB_BYTES,
-                    inclusive: true,
-                });
-            }
-        })
-        .optional(),
-    p_back: z
-        .custom<File>()
-        .superRefine((f, ctx) => {
-            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
-                        ', ',
-                    )}] but was ${f.type}`,
-                });
-            }
-            if (f.size > 3 * MB_BYTES) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.too_big,
-                    type: 'array',
-                    message: `The file must not be larger than ${
-                        3 * MB_BYTES
-                    } bytes: ${f.size}`,
-                    maximum: 3 * MB_BYTES,
-                    inclusive: true,
-                });
-            }
-        })
-        .optional(),
-    p_extra_1: z
-        .custom<File>()
-        .superRefine((f, ctx) => {
-            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
-                        ', ',
-                    )}] but was ${f.type}`,
-                });
-            }
-            if (f.size > 3 * MB_BYTES) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.too_big,
-                    type: 'array',
-                    message: `The file must not be larger than ${
-                        3 * MB_BYTES
-                    } bytes: ${f.size}`,
-                    maximum: 3 * MB_BYTES,
-                    inclusive: true,
-                });
-            }
-        })
-        .optional(),
-    p_extra_2: z
-        .custom<File>()
-        .superRefine((f, ctx) => {
-            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
-                        ', ',
-                    )}] but was ${f.type}`,
-                });
-            }
-            if (f.size > 3 * MB_BYTES) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.too_big,
-                    type: 'array',
-                    message: `The file must not be larger than ${
-                        3 * MB_BYTES
-                    } bytes: ${f.size}`,
-                    maximum: 3 * MB_BYTES,
-                    inclusive: true,
-                });
-            }
-        })
-        .optional(),
-
-    p_extra_3: z
-        .custom<File>()
-        .superRefine((f, ctx) => {
-            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
-                        ', ',
-                    )}] but was ${f.type}`,
-                });
-            }
-            if (f.size > 3 * MB_BYTES) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.too_big,
-                    type: 'array',
-                    message: `The file must not be larger than ${
-                        3 * MB_BYTES
-                    } bytes: ${f.size}`,
-                    maximum: 3 * MB_BYTES,
-                    inclusive: true,
-                });
-            }
-        })
-        .optional(),
+    p_principal: z.custom<File>().superRefine(validateFile).optional(),
+    p_back: z.custom<File>().superRefine(validateFile).optional(),
+    p_extra_1: z.custom<File>().superRefine(validateFile).optional(),
+    p_extra_2: z.custom<File>().superRefine(validateFile).optional(),
+    p_extra_3: z.custom<File>().superRefine(validateFile).optional(),
 
     is_public: z.boolean(),
     volume: z.number().min(0, { message: 'errors.input_min_0' }),
@@ -256,32 +135,7 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
                 .max(100, {
                     message: 'errors.error_100_number_max_length',
                 }),
-            img_url: z
-                .custom<File>()
-                .superRefine((f, ctx) => {
-                    // First, add an issue if the mime type is wrong.
-                    if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
-                        ctx.addIssue({
-                            code: z.ZodIssueCode.custom,
-                            message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
-                                ', ',
-                            )}] but was ${f.type}`,
-                        });
-                    }
-                    // Next add an issue if the file size is too large.
-                    if (f.size > 3 * MB_BYTES) {
-                        ctx.addIssue({
-                            code: z.ZodIssueCode.too_big,
-                            type: 'array',
-                            message: `The file must not be larger than ${
-                                3 * MB_BYTES
-                            } bytes: ${f.size}`,
-                            maximum: 3 * MB_BYTES,
-                            inclusive: true,
-                        });
-                    }
-                })
-                .optional(),
+            img_url: z.custom<File>().superRefine(validateFile).optional(),
         }),
     ),
 });
