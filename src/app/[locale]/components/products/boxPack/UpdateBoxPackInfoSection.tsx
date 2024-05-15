@@ -49,7 +49,7 @@ export function UpdateBoxPackInfoSection({ form }: Props) {
                     {t('modal_product_add_details_title')}
                 </p>
 
-                {/* Name & Campaign  */}
+                {/* Name   */}
                 <InputLabel
                     form={form}
                     label={'name'}
@@ -87,21 +87,7 @@ export function UpdateBoxPackInfoSection({ form }: Props) {
                             inputType="number"
                             placeholder={formatCurrency(24)}
                             infoTooltip={'pvpr_tooltip'}
-                            defaultValue={0}
                         />
-                        {/* 
-                        <InputLabel
-                            form={form}
-                            label={'weight'}
-                            labelText={t('weight') + ' (gr)'}
-                            registerOptions={{
-                                required: true,
-                                min: 0,
-                                valueAsNumber: true,
-                            }}
-                            inputType="number"
-                            defaultValue={330}
-                        /> */}
                     </div>
                 </div>
             </div>

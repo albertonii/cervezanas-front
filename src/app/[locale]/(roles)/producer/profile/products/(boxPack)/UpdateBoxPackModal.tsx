@@ -147,6 +147,10 @@ export function UpdateBoxPackModal({
         setActiveStep(value);
     };
 
+    useEffect(() => {
+        console.info(dirtyFields);
+    }, [dirtyFields]);
+
     const updateBasicSection = async (formValues: ValidationSchema) => {
         setIsLoading(true);
 
@@ -158,6 +162,7 @@ export function UpdateBoxPackModal({
 
         const formData = new FormData();
 
+        formData.set('product_id', product.id);
         formData.set('name', name);
         formData.set('description', description);
         formData.set('price', price.toString());
@@ -180,6 +185,7 @@ export function UpdateBoxPackModal({
             return;
         }
 
+        queryClient.invalidateQueries('productList');
         setIsLoading(false);
     };
 
@@ -210,10 +216,16 @@ export function UpdateBoxPackModal({
             setIsLoading(false);
             return;
         }
+
+        queryClient.invalidateQueries('productList');
+        setIsLoading(false);
     };
 
     const handleUpdateBoxPack = async (form: ValidationSchema) => {
         setIsLoading(true);
+
+        console.log(dirtyFields);
+        console.log(form);
 
         if (
             dirtyFields.name ||
@@ -236,7 +248,6 @@ export function UpdateBoxPackModal({
         });
 
         handleEditShowModal(false);
-        queryClient.invalidateQueries('productList');
 
         clear();
         reset();
