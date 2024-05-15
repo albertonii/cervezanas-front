@@ -32,6 +32,9 @@ const ACCEPTED_MIME_TYPES = [
 const MB_BYTES = 1000000; // Number of bytes in a megabyte.
 
 const validateFile = (f: File, ctx: any) => {
+    if (!f) return;
+    if (typeof f === 'string') return;
+
     if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
         ctx.addIssue({
             code: z.ZodIssueCode.custom,
@@ -180,7 +183,6 @@ export function AddBoxPackModal() {
             return;
         }
 
-        if (response.status === 200) {
             handleMessage({
                 type: 'success',
                 message: 'Box pack created successfully',
@@ -192,7 +194,6 @@ export function AddBoxPackModal() {
             clear();
             reset();
             setIsLoading(false);
-        }
     };
 
     const insertProductMutation = useMutation({

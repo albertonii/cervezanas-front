@@ -40,9 +40,7 @@ export interface ModalAddBoxPackItemFormData {
 }
 
 export interface ModalUpdateBoxPackFormData {
-    id: string;
     slots_per_box: number;
-    product_id: string;
     is_public: boolean;
     name: string;
     description: string;

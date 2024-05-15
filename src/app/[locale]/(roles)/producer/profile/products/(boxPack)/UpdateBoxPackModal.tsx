@@ -33,6 +33,9 @@ const ACCEPTED_MIME_TYPES = [
 const MB_BYTES = 1000000; // Number of bytes in a megabyte.
 
 const validateFile = (f: File, ctx: any) => {
+    if (!f) return;
+    if (typeof f === 'string') return;
+
     if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
         ctx.addIssue({
             code: z.ZodIssueCode.custom,
@@ -55,9 +58,7 @@ const validateFile = (f: File, ctx: any) => {
 };
 
 const schema: ZodType<ModalUpdateBoxPackFormData> = z.object({
-    id: z.string(),
     slots_per_box: z.number().min(1, 'Slots must be greater than 0'),
-    product_id: z.string(),
     is_public: z.boolean(),
     name: z.string().nonempty('Name is required'),
     description: z.string().nonempty('Description is required'),
@@ -127,13 +128,12 @@ export function UpdateBoxPackModal({
     const {
         handleSubmit,
         reset,
-        formState: { errors },
+        formState: { errors, dirtyFields },
     } = form;
 
     const queryClient = useQueryClient();
 
     useEffect(() => {
-        console.log(product.box_packs);
         if (product.box_packs) assignBoxPack(product.box_packs[0]);
     }, [product]);
 
@@ -147,25 +147,14 @@ export function UpdateBoxPackModal({
         setActiveStep(value);
     };
 
-    const handleUpdateBoxPack = async (form: ValidationSchema) => {
+    const updateBasicSection = async (formValues: ValidationSchema) => {
         setIsLoading(true);
 
-        const {
-            name,
-            description,
-            price,
-            weight,
-            is_public,
-            slots_per_box,
-            p_principal,
-            p_back,
-            p_extra_1,
-            p_extra_2,
-            p_extra_3,
-        } = form;
+        const { name, description, price, weight, is_public, slots_per_box } =
+            formValues;
 
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-        const url = `${baseUrl}/api/products/box_packs`;
+        const url = `${baseUrl}/api/products/box_packs/details`;
 
         const formData = new FormData();
 
@@ -176,43 +165,69 @@ export function UpdateBoxPackModal({
         formData.set('is_public', is_public.toString());
         formData.set('slots_per_box', slots_per_box.toString());
 
-        const boxPackItems = boxPack.boxPackItems;
-        formData.set('box_packs', JSON.stringify(boxPackItems));
-
-        if (p_principal) {
-            formData.set('p_principal', p_principal as File);
-        }
-
-        if (p_back) {
-            formData.set('p_back', p_back as File);
-        }
-
-        if (p_extra_1) {
-            formData.set('p_extra_1', p_extra_1 as File);
-        }
-
-        if (p_extra_2) {
-            formData.set('p_extra_2', p_extra_2 as File);
-        }
-
-        if (boxPack.p_extra_3) {
-            formData.set('p_extra_3', p_extra_3 as File);
-        }
-
         const response = await fetch(url, {
-            method: 'POST',
+            method: 'PUT',
             body: formData,
         });
 
         if (response.status !== 200) {
             handleMessage({
                 type: 'error',
-                message: 'Error creating box pack',
+                message: 'Error updating box pack',
             });
 
             setIsLoading(false);
-
             return;
+        }
+
+        setIsLoading(false);
+    };
+
+    const updateSlotsSection = async () => {
+        setIsLoading(true);
+
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+        const url = `${baseUrl}/api/products/box_packs/box_slots`;
+
+        const formData = new FormData();
+
+        const boxPackItems = boxPack.boxPackItems;
+
+        formData.set('box_pack_id', product.box_packs![0].id);
+        formData.set('box_packs', JSON.stringify(boxPackItems));
+
+        const response = await fetch(url, {
+            method: 'PUT',
+            body: formData,
+        });
+
+        if (response.status !== 200) {
+            handleMessage({
+                type: 'error',
+                message: 'Error updating box pack',
+            });
+
+            setIsLoading(false);
+            return;
+        }
+    };
+
+    const handleUpdateBoxPack = async (form: ValidationSchema) => {
+        setIsLoading(true);
+
+        if (
+            dirtyFields.name ||
+            dirtyFields.description ||
+            dirtyFields.price ||
+            dirtyFields.weight ||
+            dirtyFields.is_public ||
+            dirtyFields.slots_per_box
+        ) {
+            updateBasicSection(form);
+        }
+
+        if (dirtyFields.box_pack_items) {
+            updateSlotsSection();
         }
 
         handleMessage({

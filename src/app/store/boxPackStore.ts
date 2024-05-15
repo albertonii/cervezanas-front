@@ -235,8 +235,6 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
 
         // Assgin new box pack
         assignBoxPack: (boxPack: IBoxPack) => {
-            console.log(boxPack);
-            console.log(boxPack.products?.[0]);
             set(() => {
                 return {
                     boxPack: {

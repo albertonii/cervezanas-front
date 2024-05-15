@@ -55,6 +55,9 @@ const ACCEPTED_MIME_TYPES = [
 const MB_BYTES = 1000000; // Number of bytes in a megabyte.
 
 const validateFile = (f: File, ctx: any) => {
+    if (!f) return;
+    if (typeof f === 'string') return;
+
     if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
         ctx.addIssue({
             code: z.ZodIssueCode.custom,

@@ -323,3 +323,13 @@ export async function POST(request: NextRequest) {
         );
     }
 }
+
+export async function PUT(request: NextRequest) {
+    try {
+    } catch (err) {
+        return NextResponse.json(
+            { message: 'Error updating product' },
+            { status: 500 },
+        );
+    }
+}
