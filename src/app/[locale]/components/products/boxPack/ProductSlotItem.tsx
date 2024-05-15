@@ -1,13 +1,14 @@
 import InputLabel from '../../common/InputLabel';
 import useBoxPackStore from '../../../../store/boxPackStore';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
+import { useMessage } from '../../message/useMessage';
 import { IProduct } from '../../../../../lib/types/types';
-import { IBoxPackItem } from '../../../../../lib/types/product';
+import { IBoxPack, IBoxPackItem } from '../../../../../lib/types/product';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
-import { useMessage } from '../../message/useMessage';
+import { Type } from '../../../../../lib/productEnum';
 
 interface Props {
     product: IProduct;
@@ -20,16 +21,23 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
 
     const { setError, clearErrors } = form;
 
-    const { boxPack } = useBoxPackStore();
     const { handleMessage } = useMessage();
 
-    const [selectedPacks, setSelectedPacks] = useState(
-        boxPack?.boxPackItems.map((item) => item.product_id),
+    const { boxPack } = useBoxPackStore();
+
+    const [selectedPacks, setSelectedPacks] = useState<string[]>(
+        form
+            .getValues('box_pack_items')
+            .map((item: IBoxPackItem) => item.product_id),
     );
     const [showAccordion, setShowAccordion] = useState(false);
 
-    const [quantity, setQuantity] = useState(1);
-    const [slotsPerProduct, setSlotsPerProduct] = useState(1);
+    const [quantity, setQuantity] = useState(
+        boxPack.boxPackItems[index]?.quantity,
+    );
+    const [slotsPerProduct, setSlotsPerProduct] = useState(
+        boxPack.boxPackItems[index]?.slots_per_product,
+    );
 
     const [checkboxError, setCheckboxError] = useState(false);
 
@@ -40,11 +48,12 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
         removeProductSlot,
     } = useBoxPackStore();
 
-    if (!product.beers) return <></>;
+    if (product.type !== Type.BEER) return <></>;
+    // if (!selectedPacks) return <></>;
 
     const handleCheckboxChange = (productId: string, isChecked: boolean) => {
         setSelectedPacks((prevSelectedPacks) => {
-            if (isChecked) {
+            if (isChecked && boxPack && boxPack?.boxPackItems) {
                 // Remove from boxPackItems the productID selected, so we can do the math with the new quantity number from input
                 const boxPackItems = boxPack.boxPackItems.filter(
                     (item) => item.product_id !== productId,
@@ -99,10 +108,14 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
     const handleShowAccordion = () => {
         setShowAccordion(!showAccordion);
     };
+
     const handleOnChangeQuantity = (
         productId: string,
         inputQuantity: number,
     ) => {
+        if (boxPack === undefined) return;
+        if (boxPack.boxPackItems === undefined) return;
+
         // Remove from boxPackItems the productID selected, so we can do the math with the new quantity number from input
         const boxPackItems = boxPack.boxPackItems.filter(
             (item) => item.product_id !== productId,
@@ -147,6 +160,9 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
         productId: string,
         inputSlotsPerProd: number,
     ) => {
+        if (boxPack === undefined) return;
+        if (boxPack.boxPackItems === undefined) return;
+
         // Remove from boxPackItems the productID selected, so we can do the math with the new slotsPerProd number from input
         const boxPackItems = boxPack.boxPackItems.filter(
             (item) => item.product_id !== productId,

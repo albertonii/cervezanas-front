@@ -98,7 +98,6 @@ export default function UpdateBoxProductSlotsSection({ form }: Props) {
                     }}
                     inputType="number"
                     labelText="Max Slots per box"
-                    defaultValue={6}
                     onChange={(e) => handleOnChangeSlotsPerBox(e)}
                     value={slotsPerBox}
                 />

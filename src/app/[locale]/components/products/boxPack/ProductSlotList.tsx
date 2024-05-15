@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { IProduct } from '../../../../../lib/types/types';
-import useBoxPackStore from '../../../../store/boxPackStore';
 import Spinner from '../../common/Spinner';
 import ProductSlotItem from './ProductSlotItem';
 
@@ -29,15 +28,17 @@ const ProductSlotList: React.FC<Props> = ({ products, form }) => {
             id={`accordion-collapse`}
             data-accordion="collapse"
         >
-            {products.map((product, index) => (
-                <div key={product.id} className="">
-                    <ProductSlotItem
-                        product={product}
-                        form={form}
-                        index={index}
-                    />
-                </div>
-            ))}
+            {products.map((product, index) => {
+                return (
+                    <div key={product.id} className="">
+                        <ProductSlotItem
+                            product={product}
+                            form={form}
+                            index={index}
+                        />
+                    </div>
+                );
+            })}
         </div>
     );
 };

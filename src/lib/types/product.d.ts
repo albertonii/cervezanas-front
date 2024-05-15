@@ -48,7 +48,7 @@ export interface ModalUpdateBoxPackFormData {
     description: string;
     price: number;
     weight: number;
-    box_packs?: ModalUpdateBoxPackItemFormData[];
+    box_pack_items?: ModalUpdateBoxPackItemFormData[];
     products?: IProductBoxFormData[];
     p_principal?: any;
     p_back?: any;

@@ -68,7 +68,7 @@ const schema: ZodType<ModalUpdateBoxPackFormData> = z.object({
     p_extra_1: z.custom<File>().superRefine(validateFile).optional(),
     p_extra_2: z.custom<File>().superRefine(validateFile).optional(),
     p_extra_3: z.custom<File>().superRefine(validateFile).optional(),
-    box_packs: z.array(
+    box_pack_items: z.array(
         z.object({
             id: z.string(),
             box_pack_id: z.string(),
@@ -96,12 +96,12 @@ export function UpdateBoxPackModal({
 }: Props) {
     const t = useTranslations();
 
-    console.log('product', product);
-
     const [isLoading, setIsLoading] = useState(false);
     const [activeStep, setActiveStep] = useState<number>(0);
     const { clear, boxPack } = useBoxPackStore();
     const { handleMessage } = useMessage();
+
+    const { assignBoxPack } = useBoxPackStore();
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -120,6 +120,7 @@ export function UpdateBoxPackModal({
             p_extra_1: product.product_multimedia?.p_extra_1,
             p_extra_2: product.product_multimedia?.p_extra_2,
             p_extra_3: product.product_multimedia?.p_extra_3,
+            box_pack_items: product.box_packs?.[0].box_pack_items,
         },
     });
 
@@ -132,6 +133,11 @@ export function UpdateBoxPackModal({
     const queryClient = useQueryClient();
 
     useEffect(() => {
+        console.log(product.box_packs);
+        if (product.box_packs) assignBoxPack(product.box_packs[0]);
+    }, [product]);
+
+    useEffect(() => {
         if (Object.keys(errors).length > 0) {
             console.info('Errores detectados creando un pack', errors);
         }
@@ -141,7 +147,7 @@ export function UpdateBoxPackModal({
         setActiveStep(value);
     };
 
-    const handleInsertBoxPack = async (form: ValidationSchema) => {
+    const handleUpdateBoxPack = async (form: ValidationSchema) => {
         setIsLoading(true);
 
         const {
@@ -222,9 +228,9 @@ export function UpdateBoxPackModal({
         setIsLoading(false);
     };
 
-    const insertProductMutation = useMutation({
-        mutationKey: ['insertBoxPack'],
-        mutationFn: handleInsertBoxPack,
+    const updateProductMutation = useMutation({
+        mutationKey: ['updateBoxPack'],
+        mutationFn: handleUpdateBoxPack,
         onMutate: () => {
             setIsSubmitting(true);
         },
@@ -241,7 +247,7 @@ export function UpdateBoxPackModal({
         formValues: ModalUpdateBoxPackFormData,
     ) => {
         try {
-            insertProductMutation.mutate(formValues);
+            updateProductMutation.mutate(formValues);
         } catch (e) {
             console.error(e);
         }

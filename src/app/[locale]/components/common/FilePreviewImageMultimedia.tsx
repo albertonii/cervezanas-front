@@ -35,8 +35,6 @@ export const FilePreviewImageMultimedia = ({
         if (getValues(registerName)) {
             const file = getValues(registerName);
 
-            console.log(preUrl);
-
             preUrl
                 ? setImage(preUrl + decodeURIComponent(file))
                 : setImage(URL.createObjectURL(getValues(registerName)));

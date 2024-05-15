@@ -29,6 +29,7 @@ interface BoxCartState {
         slotsPerProduct: number,
     ) => void;
     onChangeSlotsPerBox: (slotsPerBox: number) => void;
+    assignBoxPack: (boxPack: IBoxPack) => void;
 }
 
 const useBoxPackStore = create<BoxCartState>((set, get) => {
@@ -227,6 +228,36 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
                         p_extra_1: null,
                         p_extra_2: null,
                         p_extra_3: null,
+                    },
+                };
+            });
+        },
+
+        // Assgin new box pack
+        assignBoxPack: (boxPack: IBoxPack) => {
+            console.log(boxPack);
+            console.log(boxPack.products?.[0]);
+            set(() => {
+                return {
+                    boxPack: {
+                        id: boxPack.id,
+                        slots_per_box: boxPack.slots_per_box,
+                        boxPackItems: boxPack.box_pack_items ?? [],
+                        p_principal:
+                            boxPack.products?.[0].product_multimedia
+                                ?.p_principal ?? '',
+                        p_back:
+                            boxPack.products?.[0].product_multimedia?.p_back ??
+                            '',
+                        p_extra_1:
+                            boxPack.products?.[0].product_multimedia
+                                ?.p_extra_1 ?? '',
+                        p_extra_2:
+                            boxPack.products?.[0].product_multimedia
+                                ?.p_extra_2 ?? '',
+                        p_extra_3:
+                            boxPack.products?.[0].product_multimedia
+                                ?.p_extra_3 ?? '',
                     },
                 };
             });
