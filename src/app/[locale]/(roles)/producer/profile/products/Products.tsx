@@ -56,7 +56,7 @@ export function Products() {
 
             {isEditShowModal && productModal && (
                 <>
-                    {productModal.type === ProductType.PRODUCT ? (
+                    {productModal.type === ProductType.BEER ? (
                         <UpdateProductModal
                             product={productModal}
                             showModal={isEditShowModal}

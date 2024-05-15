@@ -3,8 +3,8 @@
 import dynamic from 'next/dynamic';
 import Spinner from '../../../../../components/common/Spinner';
 import useBoxPackStore from '../../../../../../store/boxPackStore';
-import BoxProductSlotsSection from '../../../../../components/products/boxPack/BoxProductSlotsSection';
-import React, { useState, useEffect } from 'react';
+import UpdateBoxProductSlotsSection from '../../../../../components/products/boxPack/UpdateBoxProductSlotsSection';
+import React, { useState, useEffect, ComponentProps } from 'react';
 import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,11 +12,11 @@ import { useMutation, useQueryClient } from 'react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { IProduct } from '../../../../../../../lib/types/types';
 import { useMessage } from '../../../../../components/message/useMessage';
-import { ModalAddBoxPackFormData } from '../../../../../../../lib/types/product';
-import { BoxSummary } from '../../../../../components/products/boxPack/BoxSummary';
+import { ModalUpdateBoxPackFormData } from '../../../../../../../lib/types/product';
 import { BoxPackStepper } from '../../../../../components/products/boxPack/BoxPackStepper';
-import { BoxPackInfoSection } from '../../../../../components/products/boxPack/BoxPackInfoSection';
-import { BoxMultimediaSection } from '../../../../../components/products/boxPack/BoxMultimediaSection';
+import { UpdateBoxPackInfoSection } from '../../../../../components/products/boxPack/UpdateBoxPackInfoSection';
+import { UpdateBoxMultimediaSection } from '../../../../../components/products/boxPack/UpdateBoxMultimediaSection';
+import { UpdateBoxSummary } from '../../../../../components/products/boxPack/UpdateBoxSummary';
 
 const ModalWithForm = dynamic(
     () => import('../../../../../components/modals/ModalWithForm'),
@@ -54,25 +54,38 @@ const validateFile = (f: File, ctx: any) => {
     }
 };
 
-const schema: ZodType<ModalAddBoxPackFormData> = z.object({
+const schema: ZodType<ModalUpdateBoxPackFormData> = z.object({
+    id: z.string(),
+    slots_per_box: z.number().min(1, 'Slots must be greater than 0'),
+    product_id: z.string(),
     is_public: z.boolean(),
     name: z.string().nonempty('Name is required'),
     description: z.string().nonempty('Description is required'),
     price: z.number().min(0, 'Price must be greater than 0'),
     weight: z.number().min(0, 'Weight must be greater than 0'),
-    slots_per_box: z.number().min(1, 'Slots must be greater than 0'),
     p_principal: z.custom<File>().superRefine(validateFile).optional(),
     p_back: z.custom<File>().superRefine(validateFile).optional(),
     p_extra_1: z.custom<File>().superRefine(validateFile).optional(),
     p_extra_2: z.custom<File>().superRefine(validateFile).optional(),
     p_extra_3: z.custom<File>().superRefine(validateFile).optional(),
+    box_packs: z.array(
+        z.object({
+            id: z.string(),
+            box_pack_id: z.string(),
+            product_id: z.string(),
+            quantity: z.number().min(1, 'Quantity must be greater than 0'),
+            slots_per_product: z
+                .number()
+                .min(1, 'Slots must be greater than 0'),
+        }),
+    ),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
 
 interface Props {
     showModal: boolean;
-    handleEditShowModal: (value: boolean) => void;
+    handleEditShowModal: ComponentProps<any>;
     product: IProduct;
 }
 
@@ -196,19 +209,17 @@ export function UpdateBoxPackModal({
             return;
         }
 
-        if (response.status === 200) {
-            handleMessage({
-                type: 'success',
-                message: 'Box pack created successfully',
-            });
+        handleMessage({
+            type: 'success',
+            message: 'Box pack created successfully',
+        });
 
-            handleEditShowModal(false);
-            queryClient.invalidateQueries('productList');
+        handleEditShowModal(false);
+        queryClient.invalidateQueries('productList');
 
-            clear();
-            reset();
-            setIsLoading(false);
-        }
+        clear();
+        reset();
+        setIsLoading(false);
     };
 
     const insertProductMutation = useMutation({
@@ -227,7 +238,7 @@ export function UpdateBoxPackModal({
     });
 
     const onSubmit: SubmitHandler<ValidationSchema> = (
-        formValues: ModalAddBoxPackFormData,
+        formValues: ModalUpdateBoxPackFormData,
     ) => {
         try {
             insertProductMutation.mutate(formValues);
@@ -241,8 +252,8 @@ export function UpdateBoxPackModal({
             showBtn={true}
             showModal={showModal}
             setShowModal={handleEditShowModal}
-            title={'add_box_pack'}
-            btnTitle={'add_box_pack'}
+            title={'update_box_pack'}
+            btnTitle={'update_box_pack'}
             description={''}
             classIcon={''}
             classContainer={`${isLoading && ' opacity-75'}`}
@@ -270,13 +281,16 @@ export function UpdateBoxPackModal({
                             </p>
 
                             {activeStep === 0 ? (
-                                <BoxPackInfoSection form={form} />
+                                <UpdateBoxPackInfoSection form={form} />
                             ) : activeStep === 1 ? (
-                                <BoxProductSlotsSection form={form} />
+                                <UpdateBoxProductSlotsSection form={form} />
                             ) : activeStep === 2 ? (
-                                <BoxMultimediaSection form={form} />
+                                <UpdateBoxMultimediaSection
+                                    form={form}
+                                    productId={product.id}
+                                />
                             ) : (
-                                <BoxSummary form={form} />
+                                <UpdateBoxSummary form={form} />
                             )}
                         </>
                     </BoxPackStepper>

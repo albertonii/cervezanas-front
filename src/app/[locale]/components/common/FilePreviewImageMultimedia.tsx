@@ -27,12 +27,15 @@ export const FilePreviewImageMultimedia = ({
     } = form;
 
     useEffect(() => {
-        console.info('Errores detectados con multimedia', errors);
+        if (Object.keys(errors).length > 0)
+            console.info('Errores detectados con multimedia', errors);
     }, [errors]);
 
     useEffect(() => {
         if (getValues(registerName)) {
             const file = getValues(registerName);
+
+            console.log(preUrl);
 
             preUrl
                 ? setImage(preUrl + decodeURIComponent(file))
