@@ -291,7 +291,7 @@ export function UpdateProductAdmin({
     const queryClient = useQueryClient();
 
     useEffect(() => {
-        if (errors) {
+        if (Object.keys(errors).length > 0) {
             console.info('ERROR EN UPDATE PRODUCT: ', errors);
         }
     }, [errors]);

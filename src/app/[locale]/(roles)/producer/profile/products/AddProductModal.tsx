@@ -182,7 +182,7 @@ export function AddProductModal() {
     const queryClient = useQueryClient();
 
     useEffect(() => {
-        if (errors) {
+        if (Object.keys(errors).length > 0) {
             console.info('Errores detectados creando un producto', errors);
         }
     }, [errors]);
