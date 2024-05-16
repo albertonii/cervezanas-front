@@ -8,7 +8,7 @@ import {
     ModalUpdateBoxPackFormData,
 } from '../../../../../lib/types/product';
 import { useTranslations } from 'next-intl';
-import { SearchCheckboxProductSlot } from './SearchCheckboxProductSlot';
+import { UpdateSearchCheckboxProductSlot } from './UpdateSearchCheckboxProductSlot';
 
 interface Props {
     form: UseFormReturn<ModalUpdateBoxPackFormData, any>;
@@ -108,7 +108,7 @@ export default function UpdateBoxProductSlotsSection({ form }: Props) {
             </div>
 
             <div className="col-span-1">
-                <SearchCheckboxProductSlot form={form} />
+                <UpdateSearchCheckboxProductSlot form={form} />
             </div>
         </section>
     );

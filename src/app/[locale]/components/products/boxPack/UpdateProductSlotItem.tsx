@@ -16,7 +16,7 @@ interface Props {
     index: number;
 }
 
-const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
+const UpdateProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
     const t = useTranslations();
 
     const { setError, clearErrors } = form;
@@ -26,9 +26,10 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
     const { boxPack } = useBoxPackStore();
 
     const [selectedPacks, setSelectedPacks] = useState<string[]>(
-        boxPack?.boxPackItems.map((item) => item.product_id),
+        form
+            .getValues('box_pack_items')
+            .map((item: IBoxPackItem) => item.product_id),
     );
-
     const [showAccordion, setShowAccordion] = useState(false);
 
     const [quantity, setQuantity] = useState(
@@ -299,7 +300,7 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
     );
 };
 
-export default ProductSlotItem;
+export default UpdateProductSlotItem;
 
 const isQuantityLowerThanMaxSlotsPerBox = (
     boxPackItems: IBoxPackItem[],
