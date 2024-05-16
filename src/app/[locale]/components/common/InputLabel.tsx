@@ -31,53 +31,54 @@ interface Props {
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     value?: any;
 }
-const InputLabel = memo(
-    ({
-        form,
-        label,
-        labelText,
-        registerOptions,
-        inputType = 'text',
-        infoTooltip,
-        placeholder,
-        defaultValue,
-        disabled,
-        onChange,
-        value,
-    }: Props) => {
-        const t = useTranslations();
-        const {
-            register,
-            formState: { errors },
-        } = form;
+const InputLabel = ({
+    form,
+    label,
+    labelText,
+    registerOptions,
+    inputType = 'text',
+    infoTooltip,
+    placeholder,
+    defaultValue,
+    disabled,
+    onChange,
+    value,
+}: Props) => {
+    const t = useTranslations();
+    const {
+        register,
+        setValue,
+        formState: { errors },
+    } = form;
 
-        const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-            if (onChange) onChange(e);
-        };
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(label, e.target.value);
+        if (onChange) onChange(e);
+    };
 
-        return (
-            <div className="w-full">
-                <label
-                    className={`${
-                        inputType === 'checkbox'
-                            ? 'flex-row-reverse items-end justify-end gap-1'
-                            : 'flex-col '
-                    } flex w-full items-start space-y-2 text-sm text-gray-600`}
-                >
-                    <span className="font-medium">
-                        {labelText ? labelText : t(label)}
-                        {infoTooltip && (
-                            <InfoTooltip
-                                content={`${t(infoTooltip)}`}
-                                delay={0}
-                                width={600}
-                            />
-                        )}
-                    </span>
+    return (
+        <div className="w-full">
+            <label
+                className={`${
+                    inputType === 'checkbox'
+                        ? 'flex-row-reverse items-end justify-end gap-1'
+                        : 'flex-col '
+                } flex w-full items-start space-y-2 text-sm text-gray-600`}
+            >
+                <span className="font-medium">
+                    {labelText ? labelText : t(label)}
+                    {infoTooltip && (
+                        <InfoTooltip
+                            content={`${t(infoTooltip)}`}
+                            delay={0}
+                            width={600}
+                        />
+                    )}
+                </span>
 
-                    <input
-                        type={inputType ?? 'text'}
-                        className={` 
+                <input
+                    type={inputType}
+                    className={` 
                             ${disabled && 'bg-gray-100'}
                             ${
                                 inputType === 'checkbox'
@@ -86,27 +87,25 @@ const InputLabel = memo(
                             }
                         
                         `}
-                        {...register(label, registerOptions)}
-                        placeholder={placeholder}
-                        defaultValue={defaultValue}
-                        disabled={disabled}
-                        min={registerOptions?.min}
-                        max={registerOptions?.max}
-                        onChange={(e) => handleOnChange(e)}
-                        value={value}
-                    />
-                </label>
+                    {...register(label, {
+                        ...registerOptions,
+                        onChange: handleOnChange,
+                    })}
+                    placeholder={placeholder}
+                    defaultValue={defaultValue}
+                    disabled={disabled}
+                    min={registerOptions?.min}
+                    max={registerOptions?.max}
+                />
+            </label>
 
-                {errors[label] && (
-                    <DisplayInputError
-                        message={
-                            errors[label]?.message || 'errors.input_required'
-                        }
-                    />
-                )}
-            </div>
-        );
-    },
-);
+            {errors[label] && (
+                <DisplayInputError
+                    message={errors[label]?.message || 'errors.input_required'}
+                />
+            )}
+        </div>
+    );
+};
 
 export default InputLabel;
