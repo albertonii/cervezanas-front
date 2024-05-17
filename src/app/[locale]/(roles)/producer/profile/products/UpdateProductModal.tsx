@@ -299,21 +299,12 @@ export function UpdateProductModal({
             origin: originDefault.value,
             era: eraDefault.value,
             is_gluten: product.beers?.is_gluten ?? false,
-            p_principal: convertStringToFileList(
-                product.product_multimedia?.p_principal ?? '',
-            ),
-            p_back: convertStringToFileList(
-                product.product_multimedia?.p_back ?? '',
-            ),
-            p_extra_1: convertStringToFileList(
-                product.product_multimedia?.p_extra_1 ?? '',
-            ),
-            p_extra_2: convertStringToFileList(
-                product.product_multimedia?.p_extra_2 ?? '',
-            ),
-            p_extra_3: convertStringToFileList(
-                product.product_multimedia?.p_extra_3 ?? '',
-            ),
+            p_principal: product.product_multimedia?.p_principal,
+            p_back: product.product_multimedia?.p_back,
+            p_extra_1: product.product_multimedia?.p_extra_1,
+            p_extra_2: product.product_multimedia?.p_extra_2,
+            p_extra_3: product.product_multimedia?.p_extra_3,
+
             packs: product.product_packs,
             // awards: product.awards ?? [],
             awards: product.awards?.map((award) => ({
