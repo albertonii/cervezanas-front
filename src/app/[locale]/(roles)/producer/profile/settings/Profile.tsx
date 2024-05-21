@@ -44,6 +44,7 @@ export default function Profile({ profile }: Props) {
     };
 
     // COMPROBAR QUE FUNCIONA
+    // Hemos convertido role de string -> string[]
     const handleSignUpAsDistributor = async () => {
         // Add new role to the user table array
         const { error: roleError } = await supabase

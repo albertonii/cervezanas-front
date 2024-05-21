@@ -1248,7 +1248,7 @@ export interface IUserTable {
     lastname: string;
     email: string;
     username: string;
-    role: string;
+    role: string[];
     avatar_url: string;
     bg_url: string;
     updated_at: string;
