@@ -14,7 +14,6 @@ import { SignUpWithPasswordCredentials } from '../Context/AuthContext';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
-import { useMessage } from '../../components/message/useMessage';
 import { useAuth } from '../Context/useAuth';
 import { ROLE_ENUM, ROLE_OPTIONS } from '../../../../lib/enums';
 import { SupabaseProps } from '../../../../constants';

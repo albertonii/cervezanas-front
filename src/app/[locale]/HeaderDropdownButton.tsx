@@ -318,7 +318,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
             {/* Dropdow */}
             <div
-                className={`absolute inset-y-8 right-0 z-40 w-44 border-collapse space-y-1 divide-y divide-gray-100 shadow-lg dark:bg-gray-700
+                className={`w-auto absolute inset-y-8 right-0 z-40 border-collapse space-y-1 divide-y divide-gray-100 shadow-lg dark:bg-gray-700
                 ${open ? 'block ' : 'hidden'}`}
             >
                 {/* Display user role  */}
@@ -330,17 +330,18 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
                 <div className={`p-1 bg-beer-foam rounded-lg border-4`}>
                     {/* Little container with username photo and username  */}
-                    <figure className="rounded-t-lg flex items-center justify-center bg-beer-darkGold p-1">
+                    <figure className="flex flex-col rounded-t-lg items-center justify-center bg-beer-darkGold p-1">
                         <Image
                             src={'/icons/user-profile.svg'}
                             alt={'Go to Shopping cart'}
-                            className={'rounded-full'}
+                            className={'rounded-full w-full'}
                             width={0}
                             height={0}
                             style={{ width: '45px', height: '45px' }}
                         />
+
                         {role && (
-                            <span className="ml-2 text-sm text-white font-semibold dark:text-white hover:cursor-pointer hover:text-beer-draft transition-all ease-in-out">
+                            <span className="p-2 ml-2 w-full text-sm text-white font-semibold dark:text-white hover:cursor-pointer hover:text-beer-draft transition-all ease-in-out">
                                 <Link
                                     href={generateLink(role, 'profile')}
                                     locale={locale}

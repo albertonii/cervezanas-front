@@ -61,6 +61,7 @@ export interface AuthSession {
     role: ROLE_ENUM | null;
     provider: PROVIDER_TYPE | null;
     isLoggedIn: boolean;
+    changeRole: (role: ROLE_ENUM) => void;
 }
 
 const supabaseClient = createBrowserClient();
@@ -79,6 +80,7 @@ export const AuthContext = createContext<AuthSession>({
     supabase: supabaseClient,
     provider: null,
     isLoggedIn: false,
+    changeRole: (role: ROLE_ENUM) => {},
 });
 
 export const AuthContextProvider = ({
@@ -541,6 +543,10 @@ export const AuthContextProvider = ({
         }
     };
 
+    const changeRole = (role: ROLE_ENUM) => {
+        setRole(role);
+    };
+
     const value = useMemo(() => {
         return {
             initial,
@@ -557,6 +563,7 @@ export const AuthContextProvider = ({
             isLoggedIn: !!user,
             sendResetPasswordEmail,
             updatePassword,
+            changeRole,
         };
     }, [
         initial,
@@ -572,6 +579,7 @@ export const AuthContextProvider = ({
         provider,
         sendResetPasswordEmail,
         updatePassword,
+        changeRole,
     ]);
 
     return (
