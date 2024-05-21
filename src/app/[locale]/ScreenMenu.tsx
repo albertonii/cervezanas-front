@@ -248,6 +248,10 @@ const ScreenMenu = memo(function ScreenMenu({
                                 />
 
                                 <li className="flex items-center">
+                                    <span className="bg-beer-foam border-2 border-beer-draft rounded-lg ring-beer-draft p-1 m-1 text-sm text-beer-draft font-semibold dark:text-white ">
+                                        {t('role.' + `${role}`)}
+                                    </span>
+
                                     <HeaderDropdownButton
                                         options={
                                             role === 'admin'
