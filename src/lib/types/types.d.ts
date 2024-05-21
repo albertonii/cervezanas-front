@@ -1264,7 +1264,7 @@ export interface IUserProfile {
     email: string;
     name: string;
     lastname: string;
-    role: string;
+    role: string[];
     updated_at: string;
     provider: string;
     created_at: string;

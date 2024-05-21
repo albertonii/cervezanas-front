@@ -225,7 +225,7 @@ export const AuthContextProvider = ({
                                             ?.full_name,
                                     email: currentSession.user.email,
                                     username: currentSession.user.email,
-                                    role: ROLE_ENUM.Cervezano,
+                                    role: [ROLE_ENUM.Cervezano],
                                     avatar_url:
                                         currentSession.user.user_metadata
                                             ?.avatar_url,
