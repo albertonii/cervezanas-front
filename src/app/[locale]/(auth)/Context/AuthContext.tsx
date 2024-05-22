@@ -51,6 +51,8 @@ export interface AuthSession {
     initial: boolean;
     user: any;
     isLoading: boolean;
+    isAuthLoading: boolean;
+    setIsAuthLoading: (loading: boolean) => void;
     signUp: (payload: SignUpWithPasswordCredentials) => Promise<any>;
     signIn: (email: string, password: string) => void;
     signInWithProvider: (provider: Provider) => void;
@@ -73,6 +75,8 @@ export const AuthContext = createContext<AuthSession>({
     role: null,
     roles: [],
     isLoading: false,
+    isAuthLoading: false,
+    setIsAuthLoading: () => {},
     signUp: async () => null,
     signIn: async (email: string, password: string) => null,
     signInWithProvider: async () => void {},
@@ -97,6 +101,7 @@ export const AuthContextProvider = ({
     const [view, setView] = useState(VIEWS.SIGN_IN);
     const locale = useLocale();
     const router = useRouter();
+    const [isAuthLoading, setIsAuthLoading] = useState(false);
 
     const [supabase] = useState(supabaseClient);
 
@@ -551,6 +556,11 @@ export const AuthContextProvider = ({
 
     const changeRole = (role: ROLE_ENUM) => {
         setRole(role);
+        setIsAuthLoading(true);
+
+        setTimeout(() => {
+            setIsAuthLoading(false);
+        }, 2000);
     };
 
     const value = useMemo(() => {
@@ -560,6 +570,8 @@ export const AuthContextProvider = ({
             role,
             roles,
             isLoading,
+            isAuthLoading,
+            setIsAuthLoading,
             mutate,
             signUp,
             signIn,
@@ -578,6 +590,8 @@ export const AuthContextProvider = ({
         role,
         roles,
         isLoading,
+        isAuthLoading,
+        setIsAuthLoading,
         mutate,
         signUp,
         signIn,
