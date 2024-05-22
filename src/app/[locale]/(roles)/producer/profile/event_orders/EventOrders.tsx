@@ -21,9 +21,7 @@ export function EventOrders({ eventOrders }: Props) {
                 </span>
             </p>
 
-            {eventOrders && eventOrders.length > 0 && (
-                <EventOrderList eventOrders={eventOrders} />
-            )}
+            <EventOrderList eventOrders={eventOrders} />
         </div>
     );
 }

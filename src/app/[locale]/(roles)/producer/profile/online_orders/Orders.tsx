@@ -22,9 +22,7 @@ export function Orders({ orders }: Props) {
                 </span>
             </p>
 
-            {orders && orders.length > 0 && (
-                <BusinessOrderList orders={orders} />
-            )}
+            <BusinessOrderList orders={orders} />
         </section>
     );
 }
