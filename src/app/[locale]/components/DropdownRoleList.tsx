@@ -5,6 +5,7 @@ import React, { useRef } from 'react';
 import { useAuth } from '../(auth)/Context/useAuth';
 import { generateLink } from '../../../utils/utils';
 import { useLocale, useTranslations } from 'next-intl';
+import { ROLE_ENUM } from '../../../lib/enums';
 
 interface Props {
     handleOnClickRoleOutside: () => void;
@@ -37,7 +38,12 @@ export default function DropdownRoleList({ handleOnClickRoleOutside }: Props) {
                     {roles?.map((role) => (
                         <li className="hover:cursor-pointer text-center">
                             <Link
-                                href={generateLink(role, 'profile')}
+                                href={generateLink(
+                                    role,
+                                    role === ROLE_ENUM.Admin
+                                        ? 'authorized_users'
+                                        : 'profile',
+                                )}
                                 locale={locale}
                                 onLoadStart={() => setIsAuthLoading(true)}
                             >

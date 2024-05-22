@@ -105,9 +105,7 @@ export const AuthContextProvider = ({
 
     const [supabase] = useState(supabaseClient);
 
-    const [role, setRole] = useState<ROLE_ENUM | null>(
-        localStorage.getItem('active_role') as ROLE_ENUM | null,
-    );
+    const [role, setRole] = useState<ROLE_ENUM | null>(null);
     const [roles, setRoles] = useState<ROLE_ENUM[] | null>([]);
     const [provider, setProvider] = useState<PROVIDER_TYPE | null>(null);
 
@@ -116,6 +114,13 @@ export const AuthContextProvider = ({
     useEffect(() => {
         const loadSupabaseBrowser = async () => await supabaseClient;
         loadSupabaseBrowser();
+
+        if (typeof window !== 'undefined') {
+            const storedRole = window.localStorage.getItem(
+                'active_role',
+            ) as ROLE_ENUM | null;
+            setRole(storedRole);
+        }
     }, []);
 
     const getUser = async () => {

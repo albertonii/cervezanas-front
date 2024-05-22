@@ -32,6 +32,27 @@ export default function Profile({ profile }: Props) {
         setLoading(false);
     }, []);
 
+    // useEffect(() => {
+    //     const handleRPC = async () => {
+    //         await supabase.rpc('set_claim', {
+    //             uid: user.id,
+    //             claim: 'access_level',
+    //             value: [
+    //                 ROLE_ENUM.Cervezano,
+    //                 ROLE_ENUM.Productor,
+    //                 ROLE_ENUM.Distributor,
+    //                 ROLE_ENUM.Admin,
+    //             ],
+    //         });
+    //     };
+
+    //     if (user) {
+    //         console.log(user);
+
+    //         handleRPC();
+    //     }
+    // }, [user]);
+
     const renderSwitch = () => {
         switch (menuOption) {
             case 'account':
