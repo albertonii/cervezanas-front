@@ -322,13 +322,15 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                 ${open ? 'block ' : 'hidden'}`}
             >
                 {/* Display user role  */}
-                <div className="flex border-2 border-beer-gold ring-2 rounded-sm ring-beer-draft items-center justify-center bg-beer-darkGold p-1a">
+                <div className="flex border-2 border-beer-gold ring-2 rounded-sm ring-beer-draft items-center justify-center bg-beer-darkGold p-1">
                     <span className=" text-sm text-white font-semibold dark:text-white ">
                         {t('role.' + `${role}`)}
                     </span>
                 </div>
 
-                <div className={`p-1 bg-beer-foam rounded-lg border-4`}>
+                <div
+                    className={`min-w-[14vw] sm:min-w-[20vw] lg:min-w-[14vw] p-1 bg-beer-foam rounded-lg border-4 text-center`}
+                >
                     {/* Little container with username photo and username  */}
                     <figure className="flex flex-col rounded-t-lg items-center justify-center bg-beer-darkGold p-1">
                         <Image

@@ -42,8 +42,8 @@ async function checkAuthorizatedUser() {
 }
 
 async function checkAuthorizatedUserByRole(user: User) {
-    const role = user.user_metadata.access_level;
-    return role === ROLE_ENUM.Distributor;
+    const roles: string[] = user.user_metadata.access_level;
+    return roles.includes(ROLE_ENUM.Distributor);
 }
 
 // We are checking if the distributor has been authorized by the admin

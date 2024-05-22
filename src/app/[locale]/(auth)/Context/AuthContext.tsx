@@ -59,6 +59,7 @@ export interface AuthSession {
     updatePassword: (password: string) => void;
     supabase: SupabaseClient<Database>;
     role: ROLE_ENUM | null;
+    roles: ROLE_ENUM[] | null;
     provider: PROVIDER_TYPE | null;
     isLoggedIn: boolean;
     changeRole: (role: ROLE_ENUM) => void;
@@ -70,6 +71,7 @@ export const AuthContext = createContext<AuthSession>({
     initial: true,
     user: null,
     role: null,
+    roles: [],
     isLoading: false,
     signUp: async () => null,
     signIn: async (email: string, password: string) => null,
@@ -99,6 +101,7 @@ export const AuthContextProvider = ({
     const [supabase] = useState(supabaseClient);
 
     const [role, setRole] = useState<ROLE_ENUM | null>(null);
+    const [roles, setRoles] = useState<ROLE_ENUM[] | null>([]);
     const [provider, setProvider] = useState<PROVIDER_TYPE | null>(null);
 
     const { handleMessage, clearMessages } = useMessage();
@@ -152,11 +155,13 @@ export const AuthContextProvider = ({
             ) {
                 setRole(ROLE_ENUM.Cervezano);
                 setProvider(PROVIDER_TYPE.GOOGLE);
+                setRoles([ROLE_ENUM.Cervezano]);
                 return;
             }
 
             // Set role for the user and load different layouts
-            setRole(activeSession?.user?.user_metadata?.access_level);
+            setRole(activeSession?.user?.user_metadata?.access_level[0]);
+            setRoles(activeSession?.user?.user_metadata?.access_level);
         }
 
         getActiveSession();
@@ -243,7 +248,7 @@ export const AuthContextProvider = ({
                             await supabase.rpc('set_claim', {
                                 uid: currentSession.user.id,
                                 claim: 'access_level',
-                                value: ROLE_ENUM.Cervezano,
+                                value: [ROLE_ENUM.Cervezano],
                             });
 
                             // Add new row in gamification table
@@ -345,7 +350,8 @@ export const AuthContextProvider = ({
             }
 
             // Get access_level from the user
-            const access_level = data.user?.user_metadata.access_level;
+            const access_level = role;
+            // const access_level = data.user?.user_metadata.access_level;
 
             if (access_level === ROLE_ENUM.Productor) {
                 // Notificar a administrador que se ha registrado un nuevo productor y está esperando aprobación
@@ -453,7 +459,7 @@ export const AuthContextProvider = ({
 
         const raw = {
             provider: 'google',
-            access_level: role,
+            access_level: [role],
             email_verified: false,
         };
 
@@ -552,6 +558,7 @@ export const AuthContextProvider = ({
             initial,
             user,
             role,
+            roles,
             isLoading,
             mutate,
             signUp,
@@ -569,6 +576,7 @@ export const AuthContextProvider = ({
         initial,
         user,
         role,
+        roles,
         isLoading,
         mutate,
         signUp,

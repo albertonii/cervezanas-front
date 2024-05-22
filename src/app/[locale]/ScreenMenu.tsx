@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from './components/common/Button';
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { COMMON } from '../../constants';
 import { ROUTE_SIGNIN } from '../../config';
 import { INotification } from '../../lib/types/types';
@@ -13,6 +13,9 @@ import { usePathname, useRouter } from 'next/navigation';
 import { HeaderDropdownButton } from './HeaderDropdownButton';
 import { useShoppingCart } from '../context/ShoppingCartContext';
 import { DeviceScreenNotification } from './components/DeviceScreenNotification';
+import { ROLE_ENUM } from '../../lib/enums';
+import DropdownRoleList from './components/DropdownRoleList';
+import useOnClickOutside from '../../hooks/useOnOutsideClickDOM';
 
 interface Props {
     notifications: INotification[];
@@ -23,7 +26,7 @@ const ScreenMenu = memo(function ScreenMenu({
     notifications,
     i18nLocaleArray,
 }: Props) {
-    const { user, role } = useAuth();
+    const { user, role, changeRole } = useAuth();
     const locale = useLocale();
     const t = useTranslations();
     const pathName = usePathname();
@@ -31,6 +34,8 @@ const ScreenMenu = memo(function ScreenMenu({
     const router = useRouter();
 
     const [animateShoppingCart, setAnimateShoppingCart] = useState(false);
+    const [displayDropdownRoles, setDisplayDropdownRoles] = useState(false);
+
     const { cartQuantity, openCart } = useShoppingCart();
 
     useEffect(() => {
@@ -41,6 +46,19 @@ const ScreenMenu = memo(function ScreenMenu({
             }, 600);
         }, 300);
     }, [cartQuantity]);
+
+    const handleOnClickRole = () => {
+        setDisplayDropdownRoles(true);
+    };
+
+    const handleOnClickRoleOutside = () => {
+        setDisplayDropdownRoles(false);
+    };
+
+    const handleChangeRole = (role: ROLE_ENUM) => {
+        changeRole(role);
+        setDisplayDropdownRoles(false);
+    };
 
     // const onChangeLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     //   const redirectedPathName = (locale: string) => {
@@ -125,50 +143,29 @@ const ScreenMenu = memo(function ScreenMenu({
                     </ul>
                 </section>
 
-                {/* Logo Cervezanas  */}
-                {/*
-        <section className="w-full" id="navbar-default">
-          <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24">
-            <div className="relative flex h-[100px] w-[110px] justify-center bg-beer-gold p-2 sm:h-[143px] sm:w-[141px] sm:p-2 lg:h-[153] lg:w-[151px] ">
-              <Link href={"/"} locale={locale}>
-                <Image
-                  alt="Cervezanas Logo"
-                  width={160}
-                  height={160}
-                  style={{ objectFit: "contain" }}
-                  priority={true}
-                  sizes="100px"
-                  src={"/logo_cervezanas.svg"}
-                />
-              </Link>
-              <p className="absolute -bottom-5 h-[22px] w-full bg-beer-darkGold pt-[22px]"></p>
-            </div>
-          </div>
-        </section>
-*/}
                 {/* Right elements  */}
                 <section className="w-[320px] ">
                     <ul className="py-2 pt-1  :flex sm:flex-row sm:justify-end sm:gap-4 sm:align-middle md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium flex">
                         {/* Language  */}
                         {/* <li className="flex max-w-[50px] items-center">
-              <Select
-                size="tiny"
-                name="language"
-                style={{
-                  backgroundColor: "transparent",
-                  maxWidth: "50px",
-                }}
-                onChange={onChangeLanguage}
-                className=""
-              >
-                <Select.Option value="es">
-                  <Link href={redirectedPathName(locale)}>🇪🇸</Link>
-                </Select.Option>
-                <Select.Option value="en">
-                  <Link href={redirectedPathName(locale)}>🇬🇧</Link>
-                </Select.Option>
-              </Select>
-            </li> */}
+                            <Select
+                                size="tiny"
+                                name="language"
+                                style={{
+                                backgroundColor: "transparent",
+                                maxWidth: "50px",
+                                }}
+                                onChange={onChangeLanguage}
+                                className=""
+                            >
+                                <Select.Option value="es">
+                                <Link href={redirectedPathName(locale)}>🇪🇸</Link>
+                                </Select.Option>
+                                <Select.Option value="en">
+                                <Link href={redirectedPathName(locale)}>🇬🇧</Link>
+                                </Select.Option>
+                            </Select>
+                            </li> */}
 
                         {i18nLocaleArray.map((locale) => {
                             return (
@@ -232,8 +229,9 @@ const ScreenMenu = memo(function ScreenMenu({
                                                     }
                                                 />
                                                 <div
-                                                    className={`white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde 
-                          `}
+                                                    className={`
+                                                        white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde 
+                                                    `}
                                                 >
                                                     {cartQuantity()}
                                                 </div>
@@ -247,10 +245,21 @@ const ScreenMenu = memo(function ScreenMenu({
                                     notifications={notifications}
                                 />
 
-                                <li className="flex items-center">
-                                    <span className="bg-beer-foam border-2 border-beer-draft rounded-lg ring-beer-draft p-1 m-1 text-sm text-beer-draft font-semibold dark:text-white ">
+                                <li className="flex items-center relative">
+                                    <span
+                                        onClick={handleOnClickRole}
+                                        className="hover:cursor-pointer hover:bg-beer-softFoam transition-all ease-in-out bg-beer-foam border-2 border-beer-draft rounded-lg ring-beer-draft p-1 m-1 text-sm text-beer-draft font-semibold dark:text-white "
+                                    >
                                         {t('role.' + `${role}`)}
                                     </span>
+
+                                    {displayDropdownRoles && (
+                                        <DropdownRoleList
+                                            handleOnClickRoleOutside={
+                                                handleOnClickRoleOutside
+                                            }
+                                        />
+                                    )}
 
                                     <HeaderDropdownButton
                                         options={

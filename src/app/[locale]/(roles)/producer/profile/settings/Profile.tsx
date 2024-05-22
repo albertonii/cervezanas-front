@@ -1,16 +1,16 @@
 'use client';
 
+import Button from '../../../../components/common/Button';
+import Spinner from '../../../../components/common/Spinner';
 import HorizontalSections from '../../../../components/common/HorizontalSections';
 import React, { useEffect, useState } from 'react';
-import Spinner from '../../../../components/common/Spinner';
 import { IProducerUser } from '../../../../../../lib/types/types';
 import { Account } from './Account';
 import { Details } from './Details';
 import { Values } from './Values';
-import Button from '../../../../components/common/Button';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { useQueryErrorResetBoundary } from 'react-query';
 import { useMessage } from '../../../../components/message/useMessage';
+import { ROLE_ENUM } from '../../../../../../lib/enums';
 
 interface Props {
     profile: IProducerUser;
@@ -46,102 +46,127 @@ export default function Profile({ profile }: Props) {
     // COMPROBAR QUE FUNCIONA
     // Hemos convertido role de string -> string[]
     const handleSignUpAsDistributor = async () => {
-        // Add new role to the user table array
-        const { error: roleError } = await supabase
-            .from('users')
-            .update({
-                role: [...user.roles, 'distributor'],
-            })
-            .eq('id', user.id);
+        if (!user.role.includes(ROLE_ENUM.Distributor)) {
+            // Add new role to the user table array
+            const { error: roleError } = await supabase
+                .from('users')
+                .update({
+                    role: [...user.role, 'distributor'],
+                })
+                .eq('id', user.id);
 
-        if (roleError) {
-            console.error('Error updating user role:', roleError);
+            if (roleError) {
+                console.error('Error updating user role:', roleError);
 
-            handleMessage({
-                type: 'error',
-                message: 'Error updating user role',
-            });
+                handleMessage({
+                    type: 'error',
+                    message: 'Error updating user role',
+                });
 
-            return;
-        }
+                return;
+            }
 
-        // insert into public.distributor_user (user_id) values (new.id);
-        const { error: distributorUserError } = await supabase
-            .from('distributor_user')
-            .insert({
-                user_id: user.id,
-            });
+            // Add user role distributor
+            if (!user.role.includes(ROLE_ENUM.Distributor)) {
+                await supabase.rpc('set_claim', {
+                    uid: user.id,
+                    claim: 'access_level',
+                    value: [...user.role, ROLE_ENUM.Distributor],
+                });
+            }
 
-        if (distributorUserError) {
-            console.error(
-                'Error creating distributor user:',
-                distributorUserError,
-            );
+            // insert into public.distributor_user (user_id) values (new.id);
+            const { error: distributorUserError } = await supabase
+                .from('distributor_user')
+                .insert({
+                    user_id: user.id,
+                });
 
-            handleMessage({
-                type: 'error',
-                message: 'Error creating distributor user',
-            });
+            if (distributorUserError) {
+                console.error(
+                    'Error creating distributor user:',
+                    distributorUserError,
+                );
 
-            return;
-        }
+                handleMessage({
+                    type: 'error',
+                    message: 'Error creating distributor user',
+                });
 
-        // insert into public.coverage_areas (distributor_id) values (new.id);
-        const { error: coverageAreasError } = await supabase
-            .from('coverage_areas')
-            .insert({
-                distributor_id: user.id,
-            });
+                return;
+            }
 
-        if (coverageAreasError) {
-            console.error('Error creating coverage areas:', coverageAreasError);
+            // insert into public.coverage_areas (distributor_id) values (new.id);
+            const { error: coverageAreasError } = await supabase
+                .from('coverage_areas')
+                .insert({
+                    distributor_id: user.id,
+                });
 
-            handleMessage({
-                type: 'error',
-                message: 'Error creating coverage areas',
-            });
+            if (coverageAreasError) {
+                console.error(
+                    'Error creating coverage areas:',
+                    coverageAreasError,
+                );
 
-            return;
-        }
+                handleMessage({
+                    type: 'error',
+                    message: 'Error creating coverage areas',
+                });
 
-        // insert into public.distribution_costs (distributor_id) values (new.id);
-        const { error: distributionCostsError } = await supabase
-            .from('distribution_costs')
-            .insert({
-                distributor_id: user.id,
-            });
+                return;
+            }
 
-        if (distributionCostsError) {
-            console.error(
-                'Error creating distribution costs:',
-                distributionCostsError,
-            );
+            // insert into public.distribution_costs (distributor_id) values (new.id);
+            const { error: distributionCostsError } = await supabase
+                .from('distribution_costs')
+                .insert({
+                    distributor_id: user.id,
+                });
 
-            handleMessage({
-                type: 'error',
-                message: 'Error creating distribution costs',
-            });
+            if (distributionCostsError) {
+                console.error(
+                    'Error creating distribution costs:',
+                    distributionCostsError,
+                );
 
-            return;
-        }
+                handleMessage({
+                    type: 'error',
+                    message: 'Error creating distribution costs',
+                });
 
-        // insert into public.gamification (user_id, score) values (new.id, 0);
-        const { error: gamificationError } = await supabase
-            .from('gamification')
-            .insert({
-                user_id: user.id,
-                score: 0,
-            });
+                return;
+            }
 
-        if (gamificationError) {
-            console.error('Error creating gamification:', gamificationError);
+            // insert into public.gamification (user_id, score) values (new.id, 0);
+            // Because gamification have unique user_id constraint
+            const { data: gamificationData } = await supabase
+                .from('gamification')
+                .select('user_id')
+                .eq('user_id', user.id);
 
-            handleMessage({
-                type: 'error',
-                message: 'Error creating gamification',
-            });
+            if (!gamificationData) {
+                const { error: gamificationError } = await supabase
+                    .from('gamification')
+                    .insert({
+                        user_id: user.id,
+                        score: 0,
+                    });
 
-            return;
+                if (gamificationError) {
+                    console.error(
+                        'Error creating gamification:',
+                        gamificationError,
+                    );
+
+                    handleMessage({
+                        type: 'error',
+                        message: 'Error creating gamification',
+                    });
+
+                    return;
+                }
+            }
         }
     };
 
