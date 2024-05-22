@@ -105,7 +105,9 @@ export const AuthContextProvider = ({
 
     const [supabase] = useState(supabaseClient);
 
-    const [role, setRole] = useState<ROLE_ENUM | null>(null);
+    const [role, setRole] = useState<ROLE_ENUM | null>(
+        localStorage.getItem('active_role') as ROLE_ENUM | null,
+    );
     const [roles, setRoles] = useState<ROLE_ENUM[] | null>([]);
     const [provider, setProvider] = useState<PROVIDER_TYPE | null>(null);
 
@@ -164,8 +166,12 @@ export const AuthContextProvider = ({
                 return;
             }
 
+            const activeRole = role
+                ? role
+                : activeSession?.user?.user_metadata?.access_level[0];
+
             // Set role for the user and load different layouts
-            setRole(activeSession?.user?.user_metadata?.access_level[0]);
+            setRole(activeRole);
             setRoles(activeSession?.user?.user_metadata?.access_level);
         }
 
@@ -556,6 +562,9 @@ export const AuthContextProvider = ({
 
     const changeRole = (role: ROLE_ENUM) => {
         setRole(role);
+
+        window.localStorage.setItem('active_role', role);
+
         setIsAuthLoading(true);
 
         setTimeout(() => {
