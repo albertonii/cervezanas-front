@@ -63,7 +63,7 @@ export function BusinessOrderList({ orders: os }: Props) {
     }, [orders, query]);
 
     return (
-        <section className="relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
+        <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
             {isError && (
                 <p className="flex items-center justify-center">
                     <h2 className="text-gray-500 dark:text-gray-400">

@@ -214,7 +214,7 @@ export default function layout({ children }: LayoutProps) {
                         </section>
 
                         <div
-                            className="w-full bg-[url('/assets/lúpulo-horizontal.png')] bg-auto bg-top bg-no-repeat sm:pt-[5vh] md:pt-[5vh]"
+                            className="w-full bg-[url('/assets/madera-account.webp')] bg-auto bg-top bg-repeat sm:pt-[5vh] md:pt-[5vh]"
                             aria-label="Container Producer settings"
                         >
                             {children}
