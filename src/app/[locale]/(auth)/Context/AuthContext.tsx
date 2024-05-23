@@ -24,6 +24,7 @@ import {
 } from '@supabase/supabase-js';
 import { ROLE_ENUM } from '../../../../lib/enums';
 import { sendPushNotification } from '../../../../lib/actions';
+import { redirect } from 'next/navigation';
 
 enum PROVIDER_TYPE {
     GOOGLE = 'google',
@@ -426,34 +427,16 @@ export const AuthContextProvider = ({
         });
 
         // router.push(`/${locale}`);
-
-        // TODO: VOLVER PARA INSERTAR ROLE
-        /*
-    await supabase.rpc("google_auth", {
-      email: user?.email,
-      token: user?.aud,
-    });
-
-    // Send user role producer to the server
-    await supabase.rpc("set_claim", {
-      uid: user?.id,
-      claim: "role",
-      value: ROLE_ENUM.Cervezano,
-    });
-
-    // Get my claim by role
-    await supabase.rpc("get_my_claim", {
-      claim: "role",
-    });
-    */
     };
 
     const signInWithProvider = async (provider: Provider) => {
+        'use server';
+
         try {
             // Si acceden con Google, por defecto son consumidores
             // Google does not send out a refresh token by default, so you will need to pass
             // parameters like these to signInWithOAuth() in order to extract the provider_refresh_token:
-            await supabase.auth.signInWithOAuth({
+            const { data, error } = await supabase.auth.signInWithOAuth({
                 provider,
                 options: {
                     redirectTo: `${window.location.origin}/api/auth/callback`,
@@ -463,6 +446,14 @@ export const AuthContextProvider = ({
                     },
                 },
             });
+
+            console.log('DATA CAME BACK', data);
+
+            if (error) {
+                redirect('/error');
+            } else {
+                return redirect(data.url);
+            }
         } catch (error) {
             console.error(error);
         }
