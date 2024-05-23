@@ -210,55 +210,64 @@ export const AuthContextProvider = ({
                             PROVIDER_TYPE.GOOGLE,
                         )
                     ) {
-                        console.log(currentSession.user.app_metadata);
-                        const currUser = await getUser();
-
-                        if (currUser === undefined) {
-                            // Insert user in the database
-                            const { error } = await supabase
-                                .from('users')
-                                .insert({
-                                    id: currentSession.user.id,
-                                    name: currentSession.user.user_metadata
-                                        ?.name,
-                                    lastname:
-                                        currentSession.user.user_metadata
-                                            ?.full_name,
-                                    email: currentSession.user.email,
-                                    username: currentSession.user.email,
-                                    role: [ROLE_ENUM.Cervezano],
-                                    avatar_url:
-                                        currentSession.user.user_metadata
-                                            ?.avatar_url,
-                                    bg_url: currentSession.user.user_metadata
-                                        ?.picture,
-                                    provider: PROVIDER_TYPE.GOOGLE,
-                                });
-
-                            if (error) {
-                                console.error(error);
-                                return;
-                            }
-
+                        if (!currentSession.user.user_metadata.access_level) {
                             // Send user role consumer to the server
                             await supabase.rpc('set_claim', {
                                 uid: currentSession.user.id,
                                 claim: 'access_level',
                                 value: [ROLE_ENUM.Cervezano],
                             });
-
-                            // Add new row in gamification table
-                            const { error: gamificationError } = await supabase
-                                .from('gamification')
-                                .insert({
-                                    user_id: currentSession.user.id,
-                                    score: 0,
-                                });
-
-                            if (gamificationError) {
-                                console.error(gamificationError);
-                            }
                         }
+
+                        console.log(currentSession.user.app_metadata);
+                        // const currUser = await getUser();
+
+                        // if (currUser === undefined) {
+                        //     // Insert user in the database
+                        //     const { error } = await supabase
+                        //         .from('users')
+                        //         .insert({
+                        //             id: currentSession.user.id,
+                        //             name: currentSession.user.user_metadata
+                        //                 ?.name,
+                        //             lastname:
+                        //                 currentSession.user.user_metadata
+                        //                     ?.full_name,
+                        //             email: currentSession.user.email,
+                        //             username: currentSession.user.email,
+                        //             role: [ROLE_ENUM.Cervezano],
+                        //             avatar_url:
+                        //                 currentSession.user.user_metadata
+                        //                     ?.avatar_url,
+                        //             bg_url: currentSession.user.user_metadata
+                        //                 ?.picture,
+                        //             provider: PROVIDER_TYPE.GOOGLE,
+                        //         });
+
+                        //     if (error) {
+                        //         console.error(error);
+                        //         return;
+                        //     }
+
+                        //     // Send user role consumer to the server
+                        //     await supabase.rpc('set_claim', {
+                        //         uid: currentSession.user.id,
+                        //         claim: 'access_level',
+                        //         value: [ROLE_ENUM.Cervezano],
+                        //     });
+
+                        //     // Add new row in gamification table
+                        //     const { error: gamificationError } = await supabase
+                        //         .from('gamification')
+                        //         .insert({
+                        //             user_id: currentSession.user.id,
+                        //             score: 0,
+                        //         });
+
+                        //     if (gamificationError) {
+                        //         console.error(gamificationError);
+                        //     }
+                        // }
                     }
                 }
 
@@ -436,7 +445,7 @@ export const AuthContextProvider = ({
             // Si acceden con Google, por defecto son consumidores
             // Google does not send out a refresh token by default, so you will need to pass
             // parameters like these to signInWithOAuth() in order to extract the provider_refresh_token:
-            const { data, error } = await supabase.auth.signInWithOAuth({
+            await supabase.auth.signInWithOAuth({
                 provider,
                 options: {
                     redirectTo: `${window.location.origin}/api/auth/callback`,
@@ -446,14 +455,6 @@ export const AuthContextProvider = ({
                     },
                 },
             });
-
-            console.log('DATA CAME BACK', data);
-
-            if (error) {
-                redirect('/error');
-            } else {
-                return redirect(data.url);
-            }
         } catch (error) {
             console.error(error);
         }
