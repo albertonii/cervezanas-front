@@ -430,9 +430,9 @@ export const AuthContextProvider = ({
     };
 
     const signInWithProvider = async (provider: Provider) => {
-        'use server';
-
         try {
+            ('use server');
+
             // Si acceden con Google, por defecto son consumidores
             // Google does not send out a refresh token by default, so you will need to pass
             // parameters like these to signInWithOAuth() in order to extract the provider_refresh_token:
