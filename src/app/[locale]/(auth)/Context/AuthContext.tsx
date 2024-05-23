@@ -198,8 +198,6 @@ export const AuthContextProvider = ({
                     );
                 }
 
-                console.log(currentSession.user);
-
                 if (
                     (currentSession && currentSession.refresh_token) ||
                     (currentSession && currentSession.access_token)
@@ -211,6 +209,7 @@ export const AuthContextProvider = ({
                         )
                     ) {
                         if (!currentSession.user.user_metadata.access_level) {
+                            setRole(ROLE_ENUM.Cervezano);
                             // Send user role consumer to the server
                             await supabase.rpc('set_claim', {
                                 uid: currentSession.user.id,
@@ -218,56 +217,6 @@ export const AuthContextProvider = ({
                                 value: [ROLE_ENUM.Cervezano],
                             });
                         }
-
-                        console.log(currentSession.user.app_metadata);
-                        // const currUser = await getUser();
-
-                        // if (currUser === undefined) {
-                        //     // Insert user in the database
-                        //     const { error } = await supabase
-                        //         .from('users')
-                        //         .insert({
-                        //             id: currentSession.user.id,
-                        //             name: currentSession.user.user_metadata
-                        //                 ?.name,
-                        //             lastname:
-                        //                 currentSession.user.user_metadata
-                        //                     ?.full_name,
-                        //             email: currentSession.user.email,
-                        //             username: currentSession.user.email,
-                        //             role: [ROLE_ENUM.Cervezano],
-                        //             avatar_url:
-                        //                 currentSession.user.user_metadata
-                        //                     ?.avatar_url,
-                        //             bg_url: currentSession.user.user_metadata
-                        //                 ?.picture,
-                        //             provider: PROVIDER_TYPE.GOOGLE,
-                        //         });
-
-                        //     if (error) {
-                        //         console.error(error);
-                        //         return;
-                        //     }
-
-                        //     // Send user role consumer to the server
-                        //     await supabase.rpc('set_claim', {
-                        //         uid: currentSession.user.id,
-                        //         claim: 'access_level',
-                        //         value: [ROLE_ENUM.Cervezano],
-                        //     });
-
-                        //     // Add new row in gamification table
-                        //     const { error: gamificationError } = await supabase
-                        //         .from('gamification')
-                        //         .insert({
-                        //             user_id: currentSession.user.id,
-                        //             score: 0,
-                        //         });
-
-                        //     if (gamificationError) {
-                        //         console.error(gamificationError);
-                        //     }
-                        // }
                     }
                 }
 
