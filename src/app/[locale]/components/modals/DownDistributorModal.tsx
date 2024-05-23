@@ -24,7 +24,7 @@ export function DownDistributorModal({
             const { error: roleError } = await supabase
                 .from('users')
                 .update({
-                    role: [...user.role, 'distributor'],
+                    role: [...user.role, ROLE_ENUM.Distributor],
                 })
                 .eq('id', user.id);
 

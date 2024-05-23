@@ -202,7 +202,7 @@ const ScreenMenu = memo(function ScreenMenu({
                         ) : (
                             <>
                                 {/* Cart  */}
-                                {role === 'consumer' && (
+                                {role === ROLE_ENUM.Cervezano && (
                                     <li
                                         className={`items´center flex ${
                                             animateShoppingCart &&
@@ -263,7 +263,7 @@ const ScreenMenu = memo(function ScreenMenu({
 
                                     <HeaderDropdownButton
                                         options={
-                                            role === 'admin'
+                                            role === ROLE_ENUM.Admin
                                                 ? [
                                                       'events',
                                                       'submitted_aps',
@@ -271,7 +271,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                                       'notifications',
                                                       'signout',
                                                   ]
-                                                : role === 'distributor'
+                                                : role === ROLE_ENUM.Distributor
                                                 ? [
                                                       'profile',
                                                       'logistics',
@@ -279,7 +279,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                                       'business_orders',
                                                       'signout',
                                                   ]
-                                                : role === 'producer'
+                                                : role === ROLE_ENUM.Productor
                                                 ? [
                                                       'profile',
                                                       'products',

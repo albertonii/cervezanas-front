@@ -111,18 +111,6 @@ export const AuthContextProvider = ({
 
     const { handleMessage, clearMessages } = useMessage();
 
-    useEffect(() => {
-        const loadSupabaseBrowser = async () => await supabaseClient;
-        loadSupabaseBrowser();
-
-        if (typeof window !== 'undefined') {
-            const storedRole = window.localStorage.getItem(
-                'active_role',
-            ) as ROLE_ENUM | null;
-            setRole(storedRole);
-        }
-    }, []);
-
     const getUser = async () => {
         if (!serverSession) return undefined;
 
@@ -160,19 +148,21 @@ export const AuthContextProvider = ({
             const { data: activeSession } = await supabase.auth.getUser();
 
             // If the user login with the provider the role is going to be consumer
-            if (
-                activeSession?.user?.app_metadata?.provider?.includes(
-                    PROVIDER_TYPE.GOOGLE,
-                )
-            ) {
-                setRole(ROLE_ENUM.Cervezano);
-                setProvider(PROVIDER_TYPE.GOOGLE);
-                setRoles([ROLE_ENUM.Cervezano]);
-                return;
-            }
+            // if (
+            //     activeSession?.user?.app_metadata?.provider?.includes(
+            //         PROVIDER_TYPE.GOOGLE,
+            //     )
+            // ) {
+            //     setProvider(PROVIDER_TYPE.GOOGLE);
+            //     setRole(ROLE_ENUM.Cervezano);
+            //     setRoles([ROLE_ENUM.Cervezano]);
+            //     return;
+            // }
 
-            const activeRole = role
-                ? role
+            const localStorageRole = window.localStorage.getItem('active_role');
+
+            const activeRole = localStorageRole
+                ? localStorageRole
                 : activeSession?.user?.user_metadata?.access_level[0];
 
             // Set role for the user and load different layouts
@@ -186,33 +176,19 @@ export const AuthContextProvider = ({
             data: { subscription: authListener },
         } = supabase.auth.onAuthStateChange(
             async (event: AuthChangeEvent, currentSession: any) => {
-                if (currentSession && currentSession.provider_token) {
+                if (currentSession && currentSession.access_token) {
                     window.localStorage.setItem(
                         'oauth_provider_token',
-                        currentSession.provider_token,
+                        currentSession.access_token,
                     );
                 }
 
-                if (currentSession && currentSession.provider_refresh_token) {
+                if (currentSession && currentSession.refresh_token) {
                     window.localStorage.setItem(
                         'oauth_provider_refresh_token',
-                        currentSession.provider_refresh_token,
+                        currentSession.refresh_token,
                     );
                 }
-
-                // if (session && session.provider_token) {
-                //   window.localStorage.setItem(
-                //     'oauth_provider_token',
-                //     session.provider_token,
-                //   );
-                // }
-
-                // if (session && session.provider_refresh_token) {
-                //   window.localStorage.setItem(
-                //     'oauth_provider_refresh_token',
-                //     session.provider_refresh_token,
-                //   );
-                // }
 
                 if (event === 'SIGNED_OUT') {
                     window.localStorage.removeItem('oauth_provider_token');
@@ -222,8 +198,8 @@ export const AuthContextProvider = ({
                 }
 
                 if (
-                    (currentSession && currentSession.provider_refresh_token) ||
-                    (currentSession && currentSession.provider_token)
+                    (currentSession && currentSession.refresh_token) ||
+                    (currentSession && currentSession.access_token)
                 ) {
                     // Check if the user is logged in with a provider
                     if (
@@ -470,15 +446,6 @@ export const AuthContextProvider = ({
     };
 
     const signInWithProvider = async (provider: Provider) => {
-        // let isAccessLevel = false;
-        // let user = null;
-
-        const raw = {
-            provider: 'google',
-            access_level: [role],
-            email_verified: false,
-        };
-
         try {
             // Si acceden con Google, por defecto son consumidores
             // Google does not send out a refresh token by default, so you will need to pass
@@ -520,6 +487,7 @@ export const AuthContextProvider = ({
     };
 
     const signOut = async () => {
+        window.localStorage.removeItem('active_role');
         await supabase.auth.signOut();
     };
 
