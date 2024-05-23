@@ -100,7 +100,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
 
     return (
         <section className="m-4 space-y-8 sm:py-4 lg:py-6">
-            <section className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
+            <section className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0 bg-beer-foam">
                 <div className="flex flex-col">
                     <span className="flex sm:items-baseline sm:space-x-4">
                         <h1 className="text-xl font-extrabold tracking-tight text-beer-dark sm:text-2xl">
