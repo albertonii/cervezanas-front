@@ -197,6 +197,8 @@ export const AuthContextProvider = ({
                     );
                 }
 
+                console.log(currentSession.user);
+
                 if (
                     (currentSession && currentSession.refresh_token) ||
                     (currentSession && currentSession.access_token)
@@ -207,6 +209,7 @@ export const AuthContextProvider = ({
                             PROVIDER_TYPE.GOOGLE,
                         )
                     ) {
+                        console.log(currentSession.user.app_metadata);
                         const currUser = await getUser();
 
                         if (currUser === undefined) {
