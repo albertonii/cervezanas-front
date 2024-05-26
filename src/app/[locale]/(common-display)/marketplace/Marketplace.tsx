@@ -2,10 +2,12 @@
 
 import useFilters from '../../../../hooks/useFilters';
 import React from 'react';
-import { StoreItem } from '../../components/Cart/StoreItem';
+import { ProductPackStoreItem } from '../../components/Cart/ProductPackStoreItem';
 import { IProduct } from '../../../../lib/types/types';
 import { Filters } from '../../components/Filters';
 import { MarketplaceHeader } from '../../components/MarketplaceHeader';
+import { Type } from '../../../../lib/productEnum';
+import { BoxPackStoreItem } from '../../components/Cart/BoxPackStoreItem';
 
 interface Props {
     products: IProduct[];
@@ -14,6 +16,7 @@ interface Props {
 export default function Marketplace({ products }: Props) {
     const { filterProducts } = useFilters();
     const filteredProducts = filterProducts(products);
+
     return (
         <section className="container mx-auto bg-cerv-coal bg-[url('/assets/rec-graf6.png')] bg-contain sm:py-2 lg:py-3 ">
             <MarketplaceHeader>
@@ -27,10 +30,19 @@ export default function Marketplace({ products }: Props) {
                             key={product.id}
                             className="container mb-6 h-full px-3"
                         >
-                            <StoreItem
-                                products={filteredProducts}
-                                product={product}
-                            />
+                            {product.type === Type.BEER && (
+                                <ProductPackStoreItem
+                                    products={filteredProducts}
+                                    product={product}
+                                />
+                            )}
+
+                            {product.type === Type.BOX_PACK && (
+                                <BoxPackStoreItem
+                                    products={filteredProducts}
+                                    product={product}
+                                />
+                            )}
                         </div>
                     ))}
             </article>

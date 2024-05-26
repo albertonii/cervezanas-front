@@ -13,6 +13,7 @@ import { z, ZodType } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { SearchCheckboxCPFixeds } from '../../common/SearchCheckboxCPFixed';
 import { SearchCheckboxCPMobiles } from '../../common/SearchCheckboxCPMobiles';
+import Spinner from '../../common/Spinner';
 
 const ModalWithForm = dynamic(() => import('../ModalWithForm'), { ssr: false });
 
@@ -61,6 +62,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
     const t = useTranslations();
     const { user, supabase } = useAuth();
 
+    const [isLoading, setIsLoading] = useState(false);
     const [showModal, setShowModal] = useState<boolean>(false);
 
     const queryClient = useQueryClient();
@@ -86,6 +88,8 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
     }, []);
 
     const handleInsertEvent = async (form: ValidationSchema) => {
+        setIsLoading(true);
+
         const {
             name,
             description,
@@ -122,10 +126,12 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
             .single();
 
         if (!event) {
+            setIsLoading(false);
             return;
         }
 
         if (eventError) {
+            setIsLoading(false);
             throw eventError;
         }
 
@@ -146,6 +152,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
                     });
 
                 if (cpError) {
+                    setIsLoading(false);
                     throw cpError;
                 }
             });
@@ -166,6 +173,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
                     });
 
                 if (cpError) {
+                    setIsLoading(false);
                     throw cpError;
                 }
             });
@@ -185,6 +193,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
                     });
 
                 if (experienceError) {
+                    setIsLoading(false);
                     throw experienceError;
                 }
             });
@@ -194,6 +203,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
             queryClient.invalidateQueries('events');
             setShowModal(false);
             reset();
+            setIsLoading(false);
         }, 300);
     };
 
@@ -224,45 +234,54 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
             btnTitle={'new_event'}
             description={''}
             classIcon={''}
-            classContainer={''}
+            classContainer={`${isLoading && ' opacity-75'}`}
             handler={handleSubmit(onSubmit)}
             form={form}
         >
-            <form>
-                <BasicEventForm form={form} />
+            {isLoading ? (
+                <div className="h-[50vh]">
+                    <Spinner size="xxLarge" color="beer-blonde" center />
+                </div>
+            ) : (
+                <form>
+                    <BasicEventForm form={form} />
 
-                {/* List of Mobile Consumption Points  */}
-                <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                    <legend className="text-2xl">
-                        {t('cp_mobile_associated')}
-                    </legend>
+                    {/* List of Mobile Consumption Points  */}
+                    <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                        <legend className="text-2xl">
+                            {t('cp_mobile_associated')}
+                        </legend>
 
-                    <SearchCheckboxCPMobiles
-                        cpsMobile={cpsMobile}
-                        form={form}
-                    />
-                </fieldset>
+                        <SearchCheckboxCPMobiles
+                            cpsMobile={cpsMobile}
+                            form={form}
+                        />
+                    </fieldset>
 
-                {/* List of Fixed Consumption Points  */}
-                <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                    <legend className="text-2xl">
-                        {t('cp_fixed_associated')}
-                    </legend>
+                    {/* List of Fixed Consumption Points  */}
+                    <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                        <legend className="text-2xl">
+                            {t('cp_fixed_associated')}
+                        </legend>
 
-                    <SearchCheckboxCPFixeds cpsFixed={cpsFixed} form={form} />
-                </fieldset>
+                        <SearchCheckboxCPFixeds
+                            cpsFixed={cpsFixed}
+                            form={form}
+                        />
+                    </fieldset>
 
-                {/* Listado de experiencias cervezanas configuradas por el usuario y habilitadas en el evento */}
-                <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                    <legend className="text-2xl">{t('experiences')}</legend>
+                    {/* Listado de experiencias cervezanas configuradas por el usuario y habilitadas en el evento */}
+                    <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                        <legend className="text-2xl">{t('experiences')}</legend>
 
-                    <ExperienceForm
-                        form={form}
-                        cpsMobile={cpsMobile}
-                        cpsFixed={cpsFixed}
-                    />
-                </fieldset>
-            </form>
+                        <ExperienceForm
+                            form={form}
+                            cpsMobile={cpsMobile}
+                            cpsFixed={cpsFixed}
+                        />
+                    </fieldset>
+                </form>
+            )}
         </ModalWithForm>
     );
 }

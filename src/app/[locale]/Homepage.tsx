@@ -12,6 +12,7 @@ import { Reviews } from './homepage/Reviews';
 import { History } from './homepage/History';
 import { IMonthlyProduct } from '../../lib/types/types';
 import QRCode from 'react-qr-code';
+import Spinner from './components/common/Spinner';
 
 interface Props {
     monthlyProducts: IMonthlyProduct[];
@@ -20,7 +21,11 @@ interface Props {
 export default function Homepage({ monthlyProducts }: Props) {
     const { initial } = useAuth();
     if (initial) {
-        return <div className="card h-72">Loading...</div>;
+        return (
+            <div className="card h-72">
+                <Spinner color="beer-blonde" size="fullScreen" />
+            </div>
+        );
     }
 
     return (

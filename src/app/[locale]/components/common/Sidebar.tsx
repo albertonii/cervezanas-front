@@ -1,14 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { useAuth } from '../../(auth)/Context/useAuth';
-import { useLocale, useTranslations } from 'next-intl';
 import Button from '../../components/common/Button';
-import { useAppContext } from '../../../context/AppContext';
+import useDeviceDetection from '../../../../hooks/useDeviceDetection';
 import useOnClickOutside from '../../../../hooks/useOnOutsideClickDOM';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useAuth } from '../../(auth)/Context/useAuth';
+import { useLocale, useTranslations } from 'next-intl';
+import { useAppContext } from '../../../context/AppContext';
 import { generateLink } from '../../../../utils/utils';
-import useDeviceDetection from '../../../../hooks/useDeviceDetection';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronLeft } from '@fortawesome/free-solid-svg-icons';
 

@@ -22,9 +22,6 @@ async function getMarketplaceProducts() {
         .select(
             `
               *,
-              beers!inner (
-                *
-              ),
               product_multimedia (
                 *,
                 p_principal
@@ -44,6 +41,19 @@ async function getMarketplaceProducts() {
             `,
         )
         .eq('is_public', true);
+
+    // const { data: productsData, error: productsError } = await supabase
+    //     .from('products')
+    //     .select(
+    //         `
+    //           *,
+    //           beers!inner (  // INNER JOIN
+    //             *
+    //           ),
+    //           ...
+    //         `,
+    //     )
+    //     .eq('is_public', true);
 
     if (productsError) throw productsError;
 

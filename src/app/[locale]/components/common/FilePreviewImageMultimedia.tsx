@@ -27,7 +27,8 @@ export const FilePreviewImageMultimedia = ({
     } = form;
 
     useEffect(() => {
-        console.info('Errores detectados con multimedia', errors);
+        if (Object.keys(errors).length > 0)
+            console.info('Errores detectados con multimedia', errors);
     }, [errors]);
 
     useEffect(() => {
@@ -49,7 +50,8 @@ export const FilePreviewImageMultimedia = ({
         if (!e.target.files) return console.info('No hay archivos');
 
         setImage(URL.createObjectURL(e.target.files[0])); // Almacenar la URL de la imagen en el estado
-        setValue(registerName, e.target.files[0]);
+        // setValue(registerName, e.target.files[0], { shouldDirty: true });
+        setValue(registerName, e.target.files[0], { shouldDirty: true });
     };
 
     return (
@@ -58,7 +60,7 @@ export const FilePreviewImageMultimedia = ({
                 <div className="hover:cursor-pointer relative h-32 w-full items-center overflow-hidden rounded-md border-2 border-dotted border-gray-400 shadow-md">
                     <input
                         type="file"
-                        accept="image/*"
+                        accept="image/gif, image/jpeg, image/png, image/webp"
                         className="absolute z-10 h-full w-full opacity-0 hover:cursor-pointer"
                         onChange={handleFile}
                         id={registerName}

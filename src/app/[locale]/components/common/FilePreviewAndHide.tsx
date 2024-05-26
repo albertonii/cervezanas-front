@@ -117,7 +117,7 @@ export const FilePreviewAndHide = ({
                         {...register(registerName)}
                         type="file"
                         onChange={handleFile}
-                        accept="image/*"
+                        accept="image/gif, image/jpeg, image/png, image/webp"
                         className="absolute z-10 h-full w-full opacity-0"
                     />
 

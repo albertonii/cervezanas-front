@@ -1,10 +1,12 @@
 'use client';
 
-import React, { memo, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { DisplayInputError } from './DisplayInputError';
 import { InfoTooltip } from './InfoTooltip';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
     form: UseFormReturn<any, any>;
@@ -20,6 +22,7 @@ interface Props {
         valueAsNumber?: boolean;
         valueAsDate?: boolean;
         value?: any;
+        shouldBeDirty?: boolean;
     };
     inputType?: string;
     infoTooltip?: string;
@@ -30,32 +33,75 @@ interface Props {
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     value?: any;
 }
-const InputLabel = memo(
-    ({
-        form,
-        label,
-        labelText,
-        registerOptions,
-        inputType = 'text',
-        infoTooltip,
-        placeholder,
-        defaultValue,
-        disabled,
-        onChange,
-        value,
-    }: Props) => {
-        const t = useTranslations();
-        const {
-            register,
-            formState: { errors },
-        } = form;
+const InputLabel = ({
+    form,
+    label,
+    labelText,
+    registerOptions,
+    inputType = 'text',
+    infoTooltip,
+    placeholder,
+    defaultValue,
+    disabled,
+    onChange,
+    value,
+}: Props) => {
+    const t = useTranslations();
+    const [visible, setVisible] = useState(false);
 
-        const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-            if (onChange) onChange(e);
-        };
+    const {
+        register,
+        setValue,
+        formState: { errors },
+    } = form;
 
-        return (
-            <div className="w-full">
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(label, e.target.value);
+        if (onChange) onChange(e);
+    };
+
+    return (
+        <div className="w-full">
+            {(inputType === 'text' ||
+                inputType === 'number' ||
+                inputType === 'email' ||
+                inputType === 'date') && (
+                <label
+                    className={`${'flex-col '} flex w-full items-start space-y-2 text-sm text-gray-600`}
+                >
+                    <span className="font-medium">
+                        {labelText ? labelText : t(label)}
+                        {infoTooltip && (
+                            <InfoTooltip
+                                content={`${t(infoTooltip)}`}
+                                delay={0}
+                                width={600}
+                            />
+                        )}
+                    </span>
+
+                    <input
+                        type={inputType}
+                        className={` 
+                            ${disabled && 'bg-gray-100'}
+                            ${'relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm'}
+                            
+                        
+                        `}
+                        {...register(label, {
+                            ...registerOptions,
+                            onChange: handleOnChange,
+                        })}
+                        placeholder={placeholder}
+                        defaultValue={defaultValue}
+                        disabled={disabled}
+                        min={registerOptions?.min}
+                        max={registerOptions?.max}
+                    />
+                </label>
+            )}
+
+            {inputType === 'checkbox' && (
                 <label
                     className={`${
                         inputType === 'checkbox'
@@ -75,37 +121,69 @@ const InputLabel = memo(
                     </span>
 
                     <input
-                        type={inputType ?? 'text'}
+                        type={inputType}
                         className={` 
                             ${disabled && 'bg-gray-100'}
-                            ${
-                                inputType === 'checkbox'
-                                    ? 'float-right h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde'
-                                    : 'relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm'
-                            }
+                            ${'float-right h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde'}
+                            
                         
                         `}
-                        {...register(label, registerOptions)}
+                        {...register(label, {
+                            ...registerOptions,
+                            onChange: handleOnChange,
+                        })}
                         placeholder={placeholder}
                         defaultValue={defaultValue}
                         disabled={disabled}
                         min={registerOptions?.min}
                         max={registerOptions?.max}
-                        onChange={(e) => handleOnChange(e)}
-                        value={value}
                     />
                 </label>
+            )}
 
-                {errors[label] && (
-                    <DisplayInputError
-                        message={
-                            errors[label]?.message || 'errors.input_required'
-                        }
+            {inputType === 'password' && (
+                <label
+                    className={` relative w-full items-start space-y-2 text-sm text-gray-600`}
+                >
+                    <input
+                        type={visible ? 'text' : 'password'}
+                        className={` 
+                            ${disabled && 'bg-gray-100'}
+                            ${'relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm'}
+                            
+                        
+                        `}
+                        {...register(label, {
+                            ...registerOptions,
+                            onChange: handleOnChange,
+                        })}
+                        placeholder={placeholder}
+                        defaultValue={defaultValue}
+                        disabled={disabled}
+                        min={registerOptions?.min}
+                        max={registerOptions?.max}
                     />
-                )}
-            </div>
-        );
-    },
-);
+
+                    <span
+                        className={
+                            'z-10 absolute cursor-pointer right-[0.8em] top-0'
+                        }
+                    >
+                        <FontAwesomeIcon
+                            icon={visible ? faEyeSlash : faEye}
+                            onClick={() => setVisible(!visible)}
+                        />
+                    </span>
+                </label>
+            )}
+
+            {errors[label] && (
+                <DisplayInputError
+                    message={errors[label]?.message || 'errors.input_required'}
+                />
+            )}
+        </div>
+    );
+};
 
 export default InputLabel;

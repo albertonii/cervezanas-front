@@ -1,11 +1,12 @@
 import ErrorCheckout from './ErrorCheckout';
 import React from 'react';
-import { redirect } from 'next/navigation';
 import { decodeBase64 } from '../../../../../utils/utils';
 import createServerClient from '../../../../../utils/supabaseServer';
 import readUserSession from '../../../../../lib/actions';
-import { VIEWS } from '../../../../../constants';
 import { IOrder } from '../../../../../lib/types/types';
+import { redirect } from 'next/navigation';
+import ErrorComponents from './ErrorComponent';
+import ErrorComponent from './ErrorComponent';
 
 export async function generateMetadata({ searchParams }: any) {
     try {
@@ -41,7 +42,13 @@ export async function generateMetadata({ searchParams }: any) {
 export default async function Error({ searchParams }: any) {
     const { orderData, isError } = await getCheckoutErrorData(searchParams);
     const [order] = await Promise.all([orderData]);
+
+    if (isError) {
+        return <ErrorComponent />;
+    }
+
     if (!order) return <></>;
+
     return (
         <>
             <ErrorCheckout order={order} isError={isError} />
@@ -55,6 +62,13 @@ async function getCheckoutErrorData(searchParams: any) {
         Ds_SignatureVersion: string;
         Ds_Signature: string;
     };
+
+    if (!Ds_MerchantParameters) {
+        return {
+            orderData: null,
+            isError: true,
+        };
+    }
 
     const { Ds_Order: orderId, Ds_Response } = JSON.parse(
         decodeBase64(Ds_MerchantParameters),

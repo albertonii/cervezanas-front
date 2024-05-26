@@ -24,6 +24,7 @@ import {
 } from '@supabase/supabase-js';
 import { ROLE_ENUM } from '../../../../lib/enums';
 import { sendPushNotification } from '../../../../lib/actions';
+import { redirect } from 'next/navigation';
 
 enum PROVIDER_TYPE {
     GOOGLE = 'google',
@@ -51,6 +52,8 @@ export interface AuthSession {
     initial: boolean;
     user: any;
     isLoading: boolean;
+    isAuthLoading: boolean;
+    setIsAuthLoading: (loading: boolean) => void;
     signUp: (payload: SignUpWithPasswordCredentials) => Promise<any>;
     signIn: (email: string, password: string) => void;
     signInWithProvider: (provider: Provider) => void;
@@ -59,8 +62,10 @@ export interface AuthSession {
     updatePassword: (password: string) => void;
     supabase: SupabaseClient<Database>;
     role: ROLE_ENUM | null;
+    roles: ROLE_ENUM[] | null;
     provider: PROVIDER_TYPE | null;
     isLoggedIn: boolean;
+    changeRole: (role: ROLE_ENUM) => void;
 }
 
 const supabaseClient = createBrowserClient();
@@ -69,7 +74,10 @@ export const AuthContext = createContext<AuthSession>({
     initial: true,
     user: null,
     role: null,
+    roles: [],
     isLoading: false,
+    isAuthLoading: false,
+    setIsAuthLoading: () => {},
     signUp: async () => null,
     signIn: async (email: string, password: string) => null,
     signInWithProvider: async () => void {},
@@ -79,6 +87,7 @@ export const AuthContext = createContext<AuthSession>({
     supabase: supabaseClient,
     provider: null,
     isLoggedIn: false,
+    changeRole: (role: ROLE_ENUM) => {},
 });
 
 export const AuthContextProvider = ({
@@ -93,18 +102,15 @@ export const AuthContextProvider = ({
     const [view, setView] = useState(VIEWS.SIGN_IN);
     const locale = useLocale();
     const router = useRouter();
+    const [isAuthLoading, setIsAuthLoading] = useState(false);
 
     const [supabase] = useState(supabaseClient);
 
     const [role, setRole] = useState<ROLE_ENUM | null>(null);
+    const [roles, setRoles] = useState<ROLE_ENUM[] | null>([]);
     const [provider, setProvider] = useState<PROVIDER_TYPE | null>(null);
 
     const { handleMessage, clearMessages } = useMessage();
-
-    useEffect(() => {
-        const loadSupabaseBrowser = async () => await supabaseClient;
-        loadSupabaseBrowser();
-    }, []);
 
     const getUser = async () => {
         if (!serverSession) return undefined;
@@ -143,18 +149,26 @@ export const AuthContextProvider = ({
             const { data: activeSession } = await supabase.auth.getUser();
 
             // If the user login with the provider the role is going to be consumer
-            if (
-                activeSession?.user?.app_metadata?.provider?.includes(
-                    PROVIDER_TYPE.GOOGLE,
-                )
-            ) {
-                setRole(ROLE_ENUM.Cervezano);
-                setProvider(PROVIDER_TYPE.GOOGLE);
-                return;
-            }
+            // if (
+            //     activeSession?.user?.app_metadata?.provider?.includes(
+            //         PROVIDER_TYPE.GOOGLE,
+            //     )
+            // ) {
+            //     setProvider(PROVIDER_TYPE.GOOGLE);
+            //     setRole(ROLE_ENUM.Cervezano);
+            //     setRoles([ROLE_ENUM.Cervezano]);
+            //     return;
+            // }
+
+            const localStorageRole = window.localStorage.getItem('active_role');
+
+            const activeRole = localStorageRole
+                ? localStorageRole
+                : activeSession?.user?.user_metadata?.access_level[0];
 
             // Set role for the user and load different layouts
-            setRole(activeSession?.user?.user_metadata?.access_level);
+            setRole(activeRole);
+            setRoles(activeSession?.user?.user_metadata?.access_level);
         }
 
         getActiveSession();
@@ -163,33 +177,19 @@ export const AuthContextProvider = ({
             data: { subscription: authListener },
         } = supabase.auth.onAuthStateChange(
             async (event: AuthChangeEvent, currentSession: any) => {
-                if (currentSession && currentSession.provider_token) {
+                if (currentSession && currentSession.access_token) {
                     window.localStorage.setItem(
                         'oauth_provider_token',
-                        currentSession.provider_token,
+                        currentSession.access_token,
                     );
                 }
 
-                if (currentSession && currentSession.provider_refresh_token) {
+                if (currentSession && currentSession.refresh_token) {
                     window.localStorage.setItem(
                         'oauth_provider_refresh_token',
-                        currentSession.provider_refresh_token,
+                        currentSession.refresh_token,
                     );
                 }
-
-                // if (session && session.provider_token) {
-                //   window.localStorage.setItem(
-                //     'oauth_provider_token',
-                //     session.provider_token,
-                //   );
-                // }
-
-                // if (session && session.provider_refresh_token) {
-                //   window.localStorage.setItem(
-                //     'oauth_provider_refresh_token',
-                //     session.provider_refresh_token,
-                //   );
-                // }
 
                 if (event === 'SIGNED_OUT') {
                     window.localStorage.removeItem('oauth_provider_token');
@@ -199,8 +199,8 @@ export const AuthContextProvider = ({
                 }
 
                 if (
-                    (currentSession && currentSession.provider_refresh_token) ||
-                    (currentSession && currentSession.provider_token)
+                    (currentSession && currentSession.refresh_token) ||
+                    (currentSession && currentSession.access_token)
                 ) {
                     // Check if the user is logged in with a provider
                     if (
@@ -208,53 +208,14 @@ export const AuthContextProvider = ({
                             PROVIDER_TYPE.GOOGLE,
                         )
                     ) {
-                        const currUser = await getUser();
-
-                        if (currUser === undefined) {
-                            // Insert user in the database
-                            const { error } = await supabase
-                                .from('users')
-                                .insert({
-                                    id: currentSession.user.id,
-                                    name: currentSession.user.user_metadata
-                                        ?.name,
-                                    lastname:
-                                        currentSession.user.user_metadata
-                                            ?.full_name,
-                                    email: currentSession.user.email,
-                                    username: currentSession.user.email,
-                                    role: ROLE_ENUM.Cervezano,
-                                    avatar_url:
-                                        currentSession.user.user_metadata
-                                            ?.avatar_url,
-                                    bg_url: currentSession.user.user_metadata
-                                        ?.picture,
-                                    provider: PROVIDER_TYPE.GOOGLE,
-                                });
-
-                            if (error) {
-                                console.error(error);
-                                return;
-                            }
-
+                        if (!currentSession.user.user_metadata.access_level) {
+                            setRole(ROLE_ENUM.Cervezano);
                             // Send user role consumer to the server
                             await supabase.rpc('set_claim', {
                                 uid: currentSession.user.id,
                                 claim: 'access_level',
-                                value: ROLE_ENUM.Cervezano,
+                                value: [ROLE_ENUM.Cervezano],
                             });
-
-                            // Add new row in gamification table
-                            const { error: gamificationError } = await supabase
-                                .from('gamification')
-                                .insert({
-                                    user_id: currentSession.user.id,
-                                    score: 0,
-                                });
-
-                            if (gamificationError) {
-                                console.error(gamificationError);
-                            }
                         }
                     }
                 }
@@ -343,7 +304,8 @@ export const AuthContextProvider = ({
             }
 
             // Get access_level from the user
-            const access_level = data.user?.user_metadata.access_level;
+            const access_level = role;
+            // const access_level = data.user?.user_metadata.access_level;
 
             if (access_level === ROLE_ENUM.Productor) {
                 // Notificar a administrador que se ha registrado un nuevo productor y está esperando aprobación
@@ -423,39 +385,12 @@ export const AuthContextProvider = ({
         });
 
         // router.push(`/${locale}`);
-
-        // TODO: VOLVER PARA INSERTAR ROLE
-        /*
-    await supabase.rpc("google_auth", {
-      email: user?.email,
-      token: user?.aud,
-    });
-
-    // Send user role producer to the server
-    await supabase.rpc("set_claim", {
-      uid: user?.id,
-      claim: "role",
-      value: ROLE_ENUM.Cervezano,
-    });
-
-    // Get my claim by role
-    await supabase.rpc("get_my_claim", {
-      claim: "role",
-    });
-    */
     };
 
     const signInWithProvider = async (provider: Provider) => {
-        // let isAccessLevel = false;
-        // let user = null;
-
-        const raw = {
-            provider: 'google',
-            access_level: role,
-            email_verified: false,
-        };
-
         try {
+            ('use server');
+
             // Si acceden con Google, por defecto son consumidores
             // Google does not send out a refresh token by default, so you will need to pass
             // parameters like these to signInWithOAuth() in order to extract the provider_refresh_token:
@@ -496,6 +431,7 @@ export const AuthContextProvider = ({
     };
 
     const signOut = async () => {
+        window.localStorage.removeItem('active_role');
         await supabase.auth.signOut();
     };
 
@@ -541,12 +477,27 @@ export const AuthContextProvider = ({
         }
     };
 
+    const changeRole = (role: ROLE_ENUM) => {
+        setRole(role);
+
+        window.localStorage.setItem('active_role', role);
+
+        setIsAuthLoading(true);
+
+        setTimeout(() => {
+            setIsAuthLoading(false);
+        }, 2000);
+    };
+
     const value = useMemo(() => {
         return {
             initial,
             user,
             role,
+            roles,
             isLoading,
+            isAuthLoading,
+            setIsAuthLoading,
             mutate,
             signUp,
             signIn,
@@ -557,12 +508,16 @@ export const AuthContextProvider = ({
             isLoggedIn: !!user,
             sendResetPasswordEmail,
             updatePassword,
+            changeRole,
         };
     }, [
         initial,
         user,
         role,
+        roles,
         isLoading,
+        isAuthLoading,
+        setIsAuthLoading,
         mutate,
         signUp,
         signIn,
@@ -572,6 +527,7 @@ export const AuthContextProvider = ({
         provider,
         sendResetPasswordEmail,
         updatePassword,
+        changeRole,
     ]);
 
     return (

@@ -2,7 +2,7 @@
 
 import PackItem from './PackItem';
 import MarketCartButtons2 from '../../../components/common/MarketCartButtons2';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IProduct, IProductPack } from '../../../../../lib/types/types';
 import { useShoppingCart } from '../../../../context/ShoppingCartContext';
@@ -75,10 +75,7 @@ export default function Packs({ product }: Props) {
                                 .slice() // Copy the array to avoid mutating the original
                                 .sort((a, b) => a.quantity - b.quantity) // Sort by quantity
                                 .map((p) => (
-                                    <div
-                                        key={p.product_id}
-                                        className="space-y-2"
-                                    >
+                                    <div key={p.product_id}>
                                         <PackItem
                                             product={product}
                                             pack={p}

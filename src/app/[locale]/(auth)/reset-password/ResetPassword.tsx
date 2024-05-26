@@ -13,23 +13,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import InputLabel from '../../components/common/InputLabel';
 
 type FormData = {
-  password: string;
-  confirm_password: string;
+    password: string;
+    confirm_password: string;
 };
 
 const schema: ZodType<FormData> = z
-  .object({
-    password: z
-      .string()
-      .min(8, { message: 'Password must be atleast 8 characters' }),
-    confirm_password: z
-      .string()
-      .min(8, { message: 'Password must be atleast 8 characters' }),
-  })
-  .refine((data) => data.password === data.confirm_password, {
-    path: ['confirm_password'],
-    message: "Password don't match",
-  });
+    .object({
+        password: z
+            .string()
+            .min(8, { message: 'Password must be atleast 8 characters' }),
+        confirm_password: z
+            .string()
+            .min(8, { message: 'Password must be atleast 8 characters' }),
+    })
+    .refine((data) => data.password === data.confirm_password, {
+        path: ['confirm_password'],
+        message: "Password don't match",
+    });
 
 type ValidationSchema = z.infer<typeof schema>;
 
@@ -38,88 +38,88 @@ type ValidationSchema = z.infer<typeof schema>;
  * @returns
  */
 export default function ResetPassword() {
-  const t = useTranslations();
+    const t = useTranslations();
 
-  const { updatePassword } = useAuth();
+    const { updatePassword } = useAuth();
 
-  const form = useForm<FormData>({
-    resolver: zodResolver(schema),
-  });
+    const form = useForm<FormData>({
+        resolver: zodResolver(schema),
+    });
 
-  const { handleSubmit } = form;
+    const { handleSubmit } = form;
 
-  async function updPassword(formData: ValidationSchema) {
-    updatePassword(formData.password);
-  }
+    async function updPassword(formData: ValidationSchema) {
+        updatePassword(formData.password);
+    }
 
-  return (
-    <section className="w-full lg:grid lg:grid-cols-2">
-      <article className="mx-auto flex w-[60vw] flex-1 flex-col justify-start px-4 py-12 sm:px-6 lg:w-full lg:flex-none lg:px-20 xl:px-24">
-        <h1 className="text-3xl font-extrabold text-gray-900">
-          {t('update_password')}
-        </h1>
+    return (
+        <section className="w-full lg:grid lg:grid-cols-2">
+            <article className="mx-auto flex w-[60vw] flex-1 flex-col justify-start px-4 py-12 sm:px-6 lg:w-full lg:flex-none lg:px-20 xl:px-24">
+                <h1 className="text-3xl font-extrabold text-gray-900">
+                    {t('update_password')}
+                </h1>
 
-        <form
-          onSubmit={handleSubmit(updPassword)}
-          className="mt-8 w-full space-y-6"
-          action="#"
-          method="POST"
-        >
-          <section className="flex w-full flex-col -space-y-px rounded-md shadow-sm">
-            <InputLabel
-              form={form}
-              label={'password'}
-              registerOptions={{
-                required: true,
-              }}
-              placeholder="*****"
-              inputType="password"
-            />
+                <form
+                    onSubmit={handleSubmit(updPassword)}
+                    className="mt-8 w-full space-y-6"
+                    action="#"
+                    method="POST"
+                >
+                    <section className="flex w-full flex-col -space-y-px rounded-md shadow-sm">
+                        <InputLabel
+                            form={form}
+                            label={'password'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder="*****"
+                            inputType="password"
+                        />
 
-            <InputLabel
-              form={form}
-              label={'confirm_password'}
-              registerOptions={{
-                required: true,
-              }}
-              placeholder="*****"
-              inputType="password"
-            />
-          </section>
+                        <InputLabel
+                            form={form}
+                            label={'confirm_password'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder="*****"
+                            inputType="password"
+                        />
+                    </section>
 
-          <Button
-            title={'reset_password'}
-            btnType="submit"
-            class={
-              'group relative my-4 flex w-full justify-center rounded-md border border-none border-transparent bg-beer-blonde px-4 py-2 text-sm font-medium hover:bg-beer-draft hover:font-semibold hover:text-beer-blonde focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 '
-            }
-            fullSize
-          >
-            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-              <FontAwesomeIcon
-                icon={faLock}
-                style={{ color: 'bear-dark' }}
-                title={'Lock'}
-                className="text-base text-beer-softBlonde group-hover:text-beer-blonde"
-              />
-            </span>
-            {t('confirm_password')}
-          </Button>
-        </form>
-      </article>
+                    <Button
+                        title={'reset_password'}
+                        btnType="submit"
+                        class={
+                            'group relative my-4 flex w-full justify-center rounded-md border border-none border-transparent bg-beer-blonde px-4 py-2 text-sm font-medium hover:bg-beer-draft hover:font-semibold hover:text-beer-blonde focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 '
+                        }
+                        fullSize
+                    >
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                            <FontAwesomeIcon
+                                icon={faLock}
+                                style={{ color: 'bear-dark' }}
+                                title={'Lock'}
+                                className="text-base text-beer-softBlonde group-hover:text-beer-blonde"
+                            />
+                        </span>
+                        {t('confirm_password')}
+                    </Button>
+                </form>
+            </article>
 
-      {/* Hero Image */}
-      <div className="hidden w-full justify-center lg:flex">
-        <Image
-          style={{ aspectRatio: '4/5' }}
-          className="inset-0 rounded-3xl lg:w-[30vw]"
-          alt="Cervezanas artesanales"
-          sizes="(max-width: 1024px) 100vw, 1024px"
-          width={1024}
-          height={768}
-          src={'/assets/profile_signup.jpg'}
-        />
-      </div>
-    </section>
-  );
+            {/* Hero Image */}
+            <figure className="hidden w-full justify-center lg:flex">
+                <Image
+                    style={{ aspectRatio: '4/5' }}
+                    className="inset-0 rounded-3xl w-auto lg:w-[40vw] xl:w-[30vw]"
+                    alt="Cervezanas artesanales"
+                    sizes="(max-width: 1024px) 100vw, 1024px"
+                    width={1024}
+                    height={768}
+                    src={'/assets/profile_signup.jpg'}
+                />
+            </figure>
+        </section>
+    );
 }

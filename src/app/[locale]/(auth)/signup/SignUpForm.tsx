@@ -14,13 +14,12 @@ import { SignUpWithPasswordCredentials } from '../Context/AuthContext';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
-import { useMessage } from '../../components/message/useMessage';
 import { useAuth } from '../Context/useAuth';
 import { ROLE_ENUM, ROLE_OPTIONS } from '../../../../lib/enums';
 import { SupabaseProps } from '../../../../constants';
 
 interface FormData {
-    access_level: string;
+    access_level: string[];
     username: string;
     email: string;
     password: string;
@@ -39,7 +38,7 @@ interface FormData {
 
 const schema: ZodType<FormData> = z
     .object({
-        access_level: z.string(),
+        access_level: z.array(z.string()),
         username: z.string().min(5, { message: 'Required' }),
         email: z
             .string()
@@ -74,7 +73,7 @@ export const SignUpForm = () => {
     const form = useForm<FormData>({
         resolver: zodResolver(schema),
         defaultValues: {
-            access_level: ROLE_ENUM.Cervezano,
+            access_level: [ROLE_ENUM.Cervezano],
             username: '',
             email: '',
             password: '',
@@ -95,7 +94,7 @@ export const SignUpForm = () => {
         const { username, email, password } = form;
 
         const data = {
-            access_level: role,
+            access_level: [role],
             username: username,
             email: email,
             email_verified: false,

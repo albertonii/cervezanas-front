@@ -10,6 +10,7 @@ import { ThemeVariables } from '../../../common/theming';
 import { Session } from '@supabase/gotrue-js/src/lib/types.d';
 import { Type as ProductType } from '../productEnum';
 import { Fermentation } from '../beerEnum';
+import { IBoxPack } from './product';
 
 export type ButtonTypes = 'button' | 'submit' | 'reset';
 
@@ -949,6 +950,7 @@ export interface IProduct {
     users?: IUserTable;
     product_inventory?: IProductInventory;
     product_multimedia?: IProductMultimedia;
+    box_packs?: IBoxPack[];
 }
 
 export interface IEventProduct {
@@ -1246,7 +1248,7 @@ export interface IUserTable {
     lastname: string;
     email: string;
     username: string;
-    role: string;
+    role: string[];
     avatar_url: string;
     bg_url: string;
     updated_at: string;
@@ -1262,7 +1264,7 @@ export interface IUserProfile {
     email: string;
     name: string;
     lastname: string;
-    role: string;
+    role: string[];
     updated_at: string;
     provider: string;
     created_at: string;

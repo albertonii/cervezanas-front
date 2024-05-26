@@ -8,7 +8,7 @@ export interface Props {
 
 export function BoxMultimediaSection({ form }: Props) {
     return (
-        <section className="photo_gallery flex w-full space-x-4">
+        <section className=" flex w-full space-x-4" id="photo_gallery">
             <FilePreviewImageMultimedia
                 form={form}
                 registerName="p_principal"

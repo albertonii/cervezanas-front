@@ -388,7 +388,22 @@ export interface Database {
           quantity?: number | null
           slots_per_product?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "box_pack_items_box_pack_id_fkey"
+            columns: ["box_pack_id"]
+            isOneToOne: false
+            referencedRelation: "box_packs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "box_pack_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       box_packs: {
         Row: {
@@ -2512,7 +2527,7 @@ export interface Database {
           lastname: string | null
           name: string | null
           provider: string | null
-          role: string | null
+          role: string[] | null
           updated_at: string | null
           username: string | null
         }
@@ -2527,7 +2542,7 @@ export interface Database {
           lastname?: string | null
           name?: string | null
           provider?: string | null
-          role?: string | null
+          role?: string[] | null
           updated_at?: string | null
           username?: string | null
         }
@@ -2542,7 +2557,7 @@ export interface Database {
           lastname?: string | null
           name?: string | null
           provider?: string | null
-          role?: string | null
+          role?: string[] | null
           updated_at?: string | null
           username?: string | null
         }

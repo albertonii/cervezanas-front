@@ -55,8 +55,7 @@ export default async function AppLocaleLayout({
                 />
                 <section
                     className={classNames(
-                        'relative mx-auto min-h-0 w-full overflow-auto lg:container',
-                        // "h-[calc(100vh - 340px)] mx-auto mt-[10vh] w-full overflow-y-auto"
+                        'relative mx-auto w-full overflow-auto lg:container',
                     )}
                 >
                     <Breadcrumb
@@ -71,7 +70,7 @@ export default async function AppLocaleLayout({
 
                 <main
                     className={classNames(
-                        'relative mx-auto min-h-full w-full transform pt-0 transition lg:container',
+                        'relative mx-auto my-4 min-h-[60vh] w-full transform pt-0 transition lg:container',
                     )}
                 >
                     <MessageList />

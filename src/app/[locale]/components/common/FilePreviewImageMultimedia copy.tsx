@@ -98,7 +98,7 @@ export const FilePreviewImageMultimedia = ({
                     <input
                         type="file"
                         // onChange={handleFile}
-                        accept="image/*"
+                        accept="image/gif, image/jpeg, image/png, image/webp"
                         className="absolute z-10 h-full w-full opacity-0"
                         {...register(registerName, {
                             required: false,

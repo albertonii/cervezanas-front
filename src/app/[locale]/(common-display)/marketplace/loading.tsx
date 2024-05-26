@@ -1,7 +1,8 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
+import Spinner from '../../components/common/Spinner';
 
 export default function Loading() {
-  return <div>loading ...</div>;
+    return <Spinner color="beer-blonde" size="fullScreen" absolute />;
 }

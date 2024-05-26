@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import {
-    ROUTE_ARTICLES,
     ROUTE_P_BACK,
     ROUTE_P_EXTRA_1,
     ROUTE_P_EXTRA_2,
@@ -10,9 +9,17 @@ import {
 import createServerClient from '../../../../utils/supabaseServer';
 import { generateFileNameExtension } from '../../../../utils/utils';
 import { v4 as uuidv4 } from 'uuid';
+import { SupabaseProps } from '../../../../constants';
+import { Type } from '../../../../lib/productEnum';
 
 export async function POST(request: NextRequest) {
     try {
+        const generateUUID = () => {
+            return uuidv4();
+        };
+
+        const randomUUID = generateUUID();
+
         const formData = await request.formData();
 
         const name = formData.get('name') as string;
@@ -37,10 +44,10 @@ export async function POST(request: NextRequest) {
             .from('products')
             .insert({
                 name,
-                description: description,
+                description,
                 is_public,
-                category: 'box_pack',
-                type: 'box_pack',
+                category: Type.BOX_PACK,
+                type: Type.BOX_PACK,
                 owner_id: userId,
                 price: price,
                 weight: weight,
@@ -55,6 +62,7 @@ export async function POST(request: NextRequest) {
             );
         }
 
+        // Create box pack
         if (product) {
             const { data: boxPack, error: errorBoxPack } = await supabase
                 .from('box_packs')
@@ -95,13 +103,64 @@ export async function POST(request: NextRequest) {
             }
         }
 
+        // Create product_pack so it behaves like a product
+        const fileName = `${SupabaseProps.PACKS_URL}${product.id}/${randomUUID}_0`;
+
+        const pack_url = encodeURIComponent(
+            `${fileName}${generateFileNameExtension(p_principal.name)}`,
+        );
+
+        const { error: packError } = await supabase
+            .from('product_packs')
+            .insert({
+                product_id: product.id,
+                quantity: 1,
+                price: price,
+                name: name,
+                img_url: pack_url,
+                randomUUID: randomUUID,
+            });
+
+        if (packError) {
+            return NextResponse.json(
+                { message: 'Error creating pack' },
+                { status: 500 },
+            );
+        }
+
+        const { error: packMultError } = await supabase.storage
+            .from('products')
+            .upload(
+                `${fileName}${generateFileNameExtension(p_principal.name)}`,
+                pack_url,
+                {
+                    contentType: p_principal.type,
+                    cacheControl: '3600',
+                    upsert: false,
+                },
+            );
+
+        if (packMultError) {
+            // Delete previously created product pack
+            const { error: deleteError } = await supabase
+                .from('product_packs')
+                .delete()
+                .eq('product_id', product.id);
+
+            if (deleteError) {
+                return NextResponse.json(
+                    { message: 'Error deleting product pack' },
+                    { status: 500 },
+                );
+            }
+
+            return NextResponse.json(
+                { message: 'Error uploading pack image' },
+                { status: 500 },
+            );
+        }
+
         // Multimedia
-        const generateUUID = () => {
-            return uuidv4();
-        };
-
-        const randomUUID = generateUUID();
-
         let p_principal_url = '';
         let p_back_url = '';
         let p_extra_1_url = '';
@@ -109,7 +168,7 @@ export async function POST(request: NextRequest) {
         let p_extra_3_url = '';
 
         if (p_principal) {
-            const fileName = `${ROUTE_ARTICLES}/${product.id}${ROUTE_P_PRINCIPAL}/${randomUUID}`;
+            const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_PRINCIPAL}/${randomUUID}`;
 
             p_principal_url = encodeURIComponent(
                 `${fileName}${generateFileNameExtension(p_principal.name)}`,
@@ -135,7 +194,7 @@ export async function POST(request: NextRequest) {
         }
 
         if (p_back) {
-            const fileName = `${ROUTE_ARTICLES}/${product.id}${ROUTE_P_BACK}/${randomUUID}`;
+            const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_BACK}/${randomUUID}`;
 
             p_back_url = encodeURIComponent(
                 `${fileName}${generateFileNameExtension(p_back.name)}`,
@@ -161,7 +220,7 @@ export async function POST(request: NextRequest) {
         }
 
         if (p_extra_1) {
-            const fileName = `${ROUTE_ARTICLES}/${product.id}${ROUTE_P_EXTRA_1}/${randomUUID}`;
+            const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_EXTRA_1}/${randomUUID}`;
 
             p_extra_1_url = encodeURIComponent(
                 `${fileName}${generateFileNameExtension(p_extra_1.name)}`,
@@ -187,7 +246,7 @@ export async function POST(request: NextRequest) {
         }
 
         if (p_extra_2) {
-            const fileName = `${ROUTE_ARTICLES}/${product.id}${ROUTE_P_EXTRA_2}/${randomUUID}`;
+            const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_EXTRA_2}/${randomUUID}`;
 
             p_extra_2_url = encodeURIComponent(
                 `${fileName}${generateFileNameExtension(p_extra_2.name)}`,
@@ -214,7 +273,7 @@ export async function POST(request: NextRequest) {
         }
 
         if (p_extra_3) {
-            const fileName = `${ROUTE_ARTICLES}/${product.id}${ROUTE_P_EXTRA_3}/${randomUUID}`;
+            const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_EXTRA_3}/${randomUUID}`;
 
             p_extra_3_url = encodeURIComponent(
                 `${fileName}${generateFileNameExtension(p_extra_3.name)}`,
@@ -260,6 +319,16 @@ export async function POST(request: NextRequest) {
     } catch (err) {
         return NextResponse.json(
             { message: 'Error creating product' },
+            { status: 500 },
+        );
+    }
+}
+
+export async function PUT(request: NextRequest) {
+    try {
+    } catch (err) {
+        return NextResponse.json(
+            { message: 'Error updating product' },
             { status: 500 },
         );
     }

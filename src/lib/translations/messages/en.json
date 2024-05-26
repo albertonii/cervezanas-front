@@ -844,5 +844,8 @@
     "experiences_info": "Experience information",
     "add_box_pack": "Add box pack",
     "slots": "Slots",
-    "slots_per_product": "Slots per product"
+    "slots_per_product": "Slots per product",
+    "box_weight": "Box weight",
+    "actual_slots_occupied": "Actual slots occupied",
+    "beer_style": "Beer Style"
 }

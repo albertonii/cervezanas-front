@@ -119,7 +119,7 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
     };
 
     return (
-        <section className="relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
+        <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
             {isEditModal && selectedEvent && (
                 <UpdateEventModal
                     selectedEvent={selectedEvent}

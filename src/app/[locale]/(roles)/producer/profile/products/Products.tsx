@@ -8,6 +8,8 @@ import { IProduct } from '../../../../../../lib/types/types';
 import { DeleteProductModal } from '../../../../components/modals/DeleteProductModal';
 import { UpdateProductModal } from './UpdateProductModal';
 import { AddBoxPackModal } from './(boxPack)/AddBoxPackModal';
+import { Type as ProductType } from '../../../../../../lib/productEnum';
+import { UpdateBoxPackModal } from './(boxPack)/UpdateBoxPackModal';
 
 export function Products() {
     const t = useTranslations();
@@ -34,7 +36,7 @@ export function Products() {
                 <p className="flex justify-between py-4" id="header">
                     <span
                         id="title"
-                        className="text-5xl uppercase font-semibold text-beer-blonde"
+                        className="text-5xl uppercase font-semibold text-white"
                     >
                         {t('products')}
                     </span>
@@ -53,11 +55,21 @@ export function Products() {
             />
 
             {isEditShowModal && productModal && (
-                <UpdateProductModal
-                    product={productModal}
-                    showModal={isEditShowModal}
-                    handleEditShowModal={handleEditShowModal}
-                />
+                <>
+                    {productModal.type === ProductType.BEER ? (
+                        <UpdateProductModal
+                            product={productModal}
+                            showModal={isEditShowModal}
+                            handleEditShowModal={handleEditShowModal}
+                        />
+                    ) : (
+                        <UpdateBoxPackModal
+                            product={productModal}
+                            showModal={isEditShowModal}
+                            handleEditShowModal={handleEditShowModal}
+                        />
+                    )}
+                </>
             )}
 
             {isDeleteShowModal && productModal && (

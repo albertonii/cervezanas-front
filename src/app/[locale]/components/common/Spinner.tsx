@@ -20,13 +20,13 @@ export default function Spinner({
             role="status"
             className={`
         ${class_} 
-        ${absolute ?? 'absolute'} 
         ${flexCenter ?? 'flex justify-center'}
         ${center ? 'bottom-[50%] left-1/2 -translate-x-1/2' : ''}
         ${
             size === 'fullScreen' &&
             'fixed inset-0 z-10 flex h-full items-center justify-center'
         }
+        ${absolute ? 'absolute' : 'relative'} 
         rounded-lg bg-beer-softBlonde bg-opacity-90 p-4 my-4
       `}
         >

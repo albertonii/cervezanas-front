@@ -43,10 +43,41 @@ import { UpdateAwardsSection } from './UpdateAwardsSection';
 import { ProductStepper } from '../../../../components/products/ProductStepper';
 import ModalWithForm from '../../../../components/modals/ModalWithForm';
 import { useMessage } from '../../../../components/message/useMessage';
+import Spinner from '../../../../components/common/Spinner';
 
 // This is the list of mime types you will accept with the schema
-const ACCEPTED_MIME_TYPES = ['image/gif', 'image/jpeg', 'image/png'];
+const ACCEPTED_MIME_TYPES = [
+    'image/gif',
+    'image/jpeg',
+    'image/png',
+    'image/webp',
+];
 const MB_BYTES = 1000000; // Number of bytes in a megabyte.
+
+const validateFile = (f: File, ctx: any) => {
+    if (!f) return;
+    if (typeof f === 'string') return;
+
+    if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+        ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+                ', ',
+            )}] but was ${f.type}`,
+        });
+    }
+    if (f.size > 3 * MB_BYTES) {
+        ctx.addIssue({
+            code: z.ZodIssueCode.too_big,
+            type: 'array',
+            message: `The file must not be larger than ${3 * MB_BYTES} bytes: ${
+                f.size
+            }`,
+            maximum: 3 * MB_BYTES,
+            inclusive: true,
+        });
+    }
+};
 
 const schema: ZodType<ModalUpdateProductFormData> = z.object({
     product_id: z.string(),
@@ -111,33 +142,7 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
                 .max(2030, {
                     message: 'errors.input_max_2030',
                 }),
-            img_url: z
-                .custom<File>()
-                .superRefine((f, ctx) => {
-                    // First, add an issue if the mime type is wrong.
-                    if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
-                        ctx.addIssue({
-                            code: z.ZodIssueCode.custom,
-                            message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
-                                ', ',
-                            )}] but was ${f.type}`,
-                        });
-                    }
-                    // Next add an issue if the file size is too large.
-                    if (f.size > 3 * MB_BYTES) {
-                        ctx.addIssue({
-                            code: z.ZodIssueCode.too_big,
-                            type: 'array',
-                            message: `The file must not be larger than ${
-                                3 * MB_BYTES
-                            } bytes: ${f.size}`,
-                            maximum: 3 * MB_BYTES,
-                            inclusive: true,
-                        });
-                    }
-                })
-
-                .or(z.string()),
+            img_url: z.custom<File>().superRefine(validateFile).or(z.string()),
         }),
     ),
     packs: z.array(
@@ -151,184 +156,14 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
                 .max(100, {
                     message: 'errors.error_100_number_max_length',
                 }),
-            img_url: z
-                .custom<File>()
-                .superRefine((f, ctx) => {
-                    // First, add an issue if the mime type is wrong.
-                    if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
-                        ctx.addIssue({
-                            code: z.ZodIssueCode.custom,
-                            message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
-                                ', ',
-                            )}] but was ${f.type}`,
-                        });
-                    }
-                    // Next add an issue if the file size is too large.
-                    if (f.size > 3 * MB_BYTES) {
-                        ctx.addIssue({
-                            code: z.ZodIssueCode.too_big,
-                            type: 'array',
-                            message: `The file must not be larger than ${
-                                3 * MB_BYTES
-                            } bytes: ${f.size}`,
-                            maximum: 3 * MB_BYTES,
-                            inclusive: true,
-                        });
-                    }
-                })
-                .or(z.string()),
+            img_url: z.custom<File>().superRefine(validateFile).or(z.string()),
         }),
     ),
-    p_principal: z
-        .custom<File>()
-        .superRefine((f, ctx) => {
-            if (f.type === undefined) {
-                return;
-            }
-
-            // First, add an issue if the mime type is wrong.
-            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
-                        ', ',
-                    )}] but was ${f.type}`,
-                });
-            }
-            // Next add an issue if the file size is too large.
-            if (f.size > 3 * MB_BYTES) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.too_big,
-                    type: 'array',
-                    message: `The file must not be larger than ${
-                        3 * MB_BYTES
-                    } bytes: ${f.size}`,
-                    maximum: 3 * MB_BYTES,
-                    inclusive: true,
-                });
-            }
-        })
-        .optional(),
-    p_back: z
-        .custom<File>()
-        .superRefine((f, ctx) => {
-            if (f.type === undefined) {
-                return;
-            }
-
-            // First, add an issue if the mime type is wrong.
-            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
-                        ', ',
-                    )}] but was ${f.type}`,
-                });
-            }
-            // Next add an issue if the file size is too large.
-            if (f.size > 3 * MB_BYTES) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.too_big,
-                    type: 'array',
-                    message: `The file must not be larger than ${
-                        3 * MB_BYTES
-                    } bytes: ${f.size}`,
-                    maximum: 3 * MB_BYTES,
-                    inclusive: true,
-                });
-            }
-        })
-        .optional(),
-    p_extra_1: z
-        .custom<File>()
-        .superRefine((f, ctx) => {
-            if (f.type === undefined) {
-                return;
-            }
-
-            // First, add an issue if the mime type is wrong.
-            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
-                        ', ',
-                    )}] but was ${f.type}`,
-                });
-            }
-            // Next add an issue if the file size is too large.
-            if (f.size > 3 * MB_BYTES) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.too_big,
-                    type: 'array',
-                    message: `The file must not be larger than ${
-                        3 * MB_BYTES
-                    } bytes: ${f.size}`,
-                    maximum: 3 * MB_BYTES,
-                    inclusive: true,
-                });
-            }
-        })
-        .optional(),
-    p_extra_2: z
-        .custom<File>()
-        .superRefine((f, ctx) => {
-            if (f.type === undefined) {
-                return;
-            }
-
-            // First, add an issue if the mime type is wrong.
-            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
-                        ', ',
-                    )}] but was ${f.type}`,
-                });
-            }
-            // Next add an issue if the file size is too large.
-            if (f.size > 3 * MB_BYTES) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.too_big,
-                    type: 'array',
-                    message: `The file must not be larger than ${
-                        3 * MB_BYTES
-                    } bytes: ${f.size}`,
-                    maximum: 3 * MB_BYTES,
-                    inclusive: true,
-                });
-            }
-        })
-        .optional(),
-    p_extra_3: z
-        .custom<File>()
-        .superRefine((f, ctx) => {
-            if (f.type === undefined) {
-                return;
-            }
-
-            // First, add an issue if the mime type is wrong.
-            if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
-                        ', ',
-                    )}] but was ${f.type}`,
-                });
-            }
-            // Next add an issue if the file size is too large.
-            if (f.size > 3 * MB_BYTES) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.too_big,
-                    type: 'array',
-                    message: `The file must not be larger than ${
-                        3 * MB_BYTES
-                    } bytes: ${f.size}`,
-                    maximum: 3 * MB_BYTES,
-                    inclusive: true,
-                });
-            }
-        })
-        .optional(),
+    p_principal: z.custom<File>().superRefine(validateFile).optional(),
+    p_back: z.custom<File>().superRefine(validateFile).optional(),
+    p_extra_1: z.custom<File>().superRefine(validateFile).optional(),
+    p_extra_2: z.custom<File>().superRefine(validateFile).optional(),
+    p_extra_3: z.custom<File>().superRefine(validateFile).optional(),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -347,6 +182,8 @@ export function UpdateProductModal({
     const t = useTranslations();
     const { user, supabase } = useAuth();
     const [activeStep, setActiveStep] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
+
     const { customizeSettings, removeImage } = useAppContext();
     const { handleMessage } = useMessage();
 
@@ -462,23 +299,21 @@ export function UpdateProductModal({
             origin: originDefault.value,
             era: eraDefault.value,
             is_gluten: product.beers?.is_gluten ?? false,
-            p_principal: convertStringToFileList(
-                product.product_multimedia?.p_principal ?? '',
-            ),
-            p_back: convertStringToFileList(
-                product.product_multimedia?.p_back ?? '',
-            ),
-            p_extra_1: convertStringToFileList(
-                product.product_multimedia?.p_extra_1 ?? '',
-            ),
-            p_extra_2: convertStringToFileList(
-                product.product_multimedia?.p_extra_2 ?? '',
-            ),
-            p_extra_3: convertStringToFileList(
-                product.product_multimedia?.p_extra_3 ?? '',
-            ),
+            p_principal: product.product_multimedia?.p_principal,
+            p_back: product.product_multimedia?.p_back,
+            p_extra_1: product.product_multimedia?.p_extra_1,
+            p_extra_2: product.product_multimedia?.p_extra_2,
+            p_extra_3: product.product_multimedia?.p_extra_3,
+
             packs: product.product_packs,
-            awards: product.awards ?? [],
+            // awards: product.awards ?? [],
+            awards: product.awards?.map((award) => ({
+                name: award.name,
+                description: award.description,
+                year: award.year,
+                img_url: award.img_url,
+            })),
+
             // campaign: "-",
         },
     });
@@ -491,8 +326,8 @@ export function UpdateProductModal({
     const queryClient = useQueryClient();
 
     useEffect(() => {
-        if (errors) {
-            console.log('ERROR EN UPDATE PRODUCT: ', errors);
+        if (Object.keys(errors).length > 0) {
+            console.info('ERROR EN UPDATE PRODUCT: ', errors);
         }
     }, [errors]);
 
@@ -501,6 +336,7 @@ export function UpdateProductModal({
     };
 
     const updateBasicSection = async (formValues: any) => {
+        setIsLoading(true);
         const userId = user?.id;
 
         const { name, description, type, price, is_public, weight } =
@@ -520,8 +356,14 @@ export function UpdateProductModal({
             .eq('id', product.id)
             .select();
 
-        if (productError) throw productError;
+        if (productError) {
+            setIsLoading(false);
+            throw productError;
+        }
+
         if (!data) throw new Error('No data returned from supabase');
+
+        setIsLoading(false);
 
         return data[0] as IProduct;
     };
@@ -673,7 +515,7 @@ export function UpdateProductModal({
         formData.append('awards_size', awards.length.toString());
 
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-        const url = `${baseUrl}/api/products/update/awards`;
+        const url = `${baseUrl}/api/products/awards`;
 
         const response = await fetch(url, {
             method: 'PUT',
@@ -796,36 +638,42 @@ export function UpdateProductModal({
             btnTitle={'update_product'}
             description={''}
             classIcon={''}
-            classContainer={''}
+            classContainer={`${isLoading && ' opacity-75'}`}
             handler={handleSubmit(onSubmit)}
             handlerClose={() => handleEditShowModal(false)}
             form={form}
         >
             <form>
-                <ProductStepper
-                    activeStep={activeStep}
-                    handleSetActiveStep={handleSetActiveStep}
-                    isSubmitting={isSubmitting}
-                >
-                    <>
-                        <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
-                            {t('modal_product_description')}
-                        </p>
+                {isLoading ? (
+                    <div className="h-[50vh]">
+                        <Spinner size="xxLarge" color="beer-blonde" center />
+                    </div>
+                ) : (
+                    <ProductStepper
+                        activeStep={activeStep}
+                        handleSetActiveStep={handleSetActiveStep}
+                        isSubmitting={isSubmitting}
+                    >
+                        <>
+                            <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
+                                {t('modal_product_description')}
+                            </p>
 
-                        {activeStep === 0 ? (
-                            <UpdateProductInfoSection form={form} />
-                        ) : activeStep === 1 ? (
-                            <UpdateMultimediaSection
-                                form={form}
-                                productId={product.id}
-                            />
-                        ) : activeStep === 2 ? (
-                            <UpdateAwardsSection form={form} />
-                        ) : (
-                            <UpdateProductSummary form={form} />
-                        )}
-                    </>
-                </ProductStepper>
+                            {activeStep === 0 ? (
+                                <UpdateProductInfoSection form={form} />
+                            ) : activeStep === 1 ? (
+                                <UpdateMultimediaSection
+                                    form={form}
+                                    productId={product.id}
+                                />
+                            ) : activeStep === 2 ? (
+                                <UpdateAwardsSection form={form} />
+                            ) : (
+                                <UpdateProductSummary form={form} />
+                            )}
+                        </>
+                    </ProductStepper>
+                )}
             </form>
         </ModalWithForm>
     );
