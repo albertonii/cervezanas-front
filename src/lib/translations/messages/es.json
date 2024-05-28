@@ -773,6 +773,7 @@
     "resolved": "Resuelto",
     "mark_as_pending": "Marcar como pendiente",
     "mark_as_resolved": "Marcar como resuelto",
+    "sent_by": "Enviado por",
     "is_read": "Leído",
     "access_level": "Rol",
     "authorized": "Autorizado",

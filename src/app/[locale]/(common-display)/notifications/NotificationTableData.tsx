@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { INotification } from '../../../../lib/types/types';
+import { INotification, IUser } from '../../../../lib/types/types';
 import { formatDateString } from '../../../../utils/formatDate';
 import {
     faChevronCircleDown,
@@ -10,6 +10,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAuth } from '../../(auth)/Context/useAuth';
+import Link from 'next/link';
+import { useLocale } from 'next-intl';
+import { ROLE_ENUM } from '../../../../lib/enums';
 
 interface Props {
     notification: INotification;
@@ -18,6 +21,7 @@ interface Props {
 
 export default function NotificationTableData({ notification, key }: Props) {
     if (!notification) return null;
+    const locale = useLocale();
     const [showAccordion, setShowAccordion] = useState(false);
     const { supabase } = useAuth();
 
@@ -31,11 +35,11 @@ export default function NotificationTableData({ notification, key }: Props) {
             .eq('id', notification.id)
             .select(
                 `
-        *,
-        source_user:users!notifications_user_id_fkey (
-          username
-        )
-        `,
+                  *,
+                  source_user:users!notifications_user_id_fkey (
+                    username
+                  )
+                `,
             )
             .single();
         if (error) throw error;
@@ -49,6 +53,25 @@ export default function NotificationTableData({ notification, key }: Props) {
             await updateIsRead();
         }
         setShowAccordion(!showAccordion);
+    };
+
+    const linkToUserProfileByRole = (user: IUser) => {
+        console.log(user);
+        const role = user?.role;
+        const userId = user?.id;
+
+        switch (role) {
+            case ROLE_ENUM.Distributor:
+                return `/d-info/${userId}`;
+            case ROLE_ENUM.Cervezano:
+                return `/c-info/${userId}`;
+            case ROLE_ENUM.Productor:
+                return `/p-info/${userId}`;
+            case ROLE_ENUM.Admin:
+                return `/admin-info/${userId}`;
+            default:
+                return `/c-info/${userId}`;
+        }
     };
 
     return (
@@ -82,8 +105,15 @@ export default function NotificationTableData({ notification, key }: Props) {
                     )}
                 </td>
 
-                <td className="px-6 py-4 hover:font-semibold hover:text-beer-gold">
-                    {notificationState.source_user?.username}
+                <td className="px-6 py-4 hover:cursor-pointer hover:text-beer-gold">
+                    <Link
+                        href={linkToUserProfileByRole(
+                            notificationState.source_user,
+                        )}
+                        locale={locale}
+                    >
+                        {notificationState.source_user?.username}
+                    </Link>
                 </td>
 
                 <td className="px-6 py-4">{notificationState.link}</td>

@@ -26,7 +26,7 @@ export function NotificationList({ notifications }: Props) {
 
     const COLUMNS = [
         { header: t('is_read') },
-        { header: t('username') },
+        { header: t('sent_by') },
         { header: t('link') },
         { header: t('created_at') },
         { header: t('action_header') },

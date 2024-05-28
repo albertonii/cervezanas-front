@@ -761,6 +761,7 @@
     "mark_as_pending": "Mark as pending",
     "mark_as_resolved": "Mark as resolved",
     "is_read": "Is read",
+    "sent_by": "Send by",
     "access_level": "Role",
     "authorized": "Authorized",
     "tooltips": {
