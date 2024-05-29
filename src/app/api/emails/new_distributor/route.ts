@@ -11,7 +11,6 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.formData();
     const emailTo = formData.get('email-to') as string;
-    console.log('PRIMER FILTRO PASADO', emailTo);
 
     const res = await fetch('https://api.resend.com/emails', {
         method: 'POST',

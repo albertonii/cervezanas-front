@@ -60,3 +60,21 @@ export async function sendNewDistributorEmail(emailTo: string) {
         body: formData,
     });
 }
+
+export async function sendEmailAcceptUserAsProducer(
+    username: string,
+    emailTo: string,
+) {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const url = `${baseUrl}/api/emails/accept_producer`;
+
+    const formData = new FormData();
+    formData.set('username', username);
+    formData.set('email-to', emailTo);
+
+    // Email al usuario
+    fetch(url, {
+        method: 'POST',
+        body: formData,
+    });
+}

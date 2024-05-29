@@ -10,6 +10,7 @@ export async function POST(request: NextRequest) {
     }
 
     const formData = await request.formData();
+    const username = formData.get('username') as string;
     const emailTo = formData.get('email-to') as string;
 
     const res = await fetch('https://api.resend.com/emails', {
@@ -21,7 +22,7 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({
             from: 'cervezanas@socialinnolabs.org',
             to: emailTo,
-            subject: 'Solicitud rol de PRODUCTOR',
+            subject: '¡Has sido aceptado como productor!',
             html: `
                 <!DOCTYPE html>
                     <html>
@@ -65,15 +66,15 @@ export async function POST(request: NextRequest) {
                     <body>
                         <div class="container">
                             <div class="header">
-                                Solicitud como USUARIO PRODUCTOR
+                                ¡Bienvenido PRODUCTOR!
                             </div>
                             <div class="content">
-                                <p>¡Bienvenido!,</p>
-                                <p>Gracias por registrarte, hemos recibido tu solicitud como <strong>productor</strong>. Nuestro equipo de moderación revisará tu solicitud y te enviaremos un correo de confirmación en cuanto esté aprobada.</p>
 
                                 <p>
-                                    <strong>¡Gracias por ser parte de Cervezanas!</strong>
+                                    ¡Enhorabuena! Desde Cervezanas nos complace anunciar que desde este momento puedes usar tu cuenta de perfil como si fueras un productor
                                 </p>
+
+
 
                                 <a href="https://cervezanas.beer" class="button">Ir a Cervezanas</a>
 
