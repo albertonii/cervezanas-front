@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({
             from: 'cervezanas@socialinnolabs.org',
             to: emailTo,
-            subject: 'Solicitud rol de PRODUCTOR',
+            subject: 'Solicitud rol de DISTRIBUIDOR',
             html: `
                 <!DOCTYPE html>
                     <html>
@@ -66,11 +66,11 @@ export async function POST(request: NextRequest) {
                     <body>
                         <div class="container">
                             <div class="header">
-                                Solicitud como USUARIO PRODUCTOR
+                                Solicitud como USUARIO DISTRIBUIDOR
                             </div>
                             <div class="content">
                                 <p>¡Bienvenido!,</p>
-                                <p>Gracias por registrarte, hemos recibido tu solicitud como <strong>productor</strong>. Nuestro equipo de moderación revisará tu solicitud y te enviaremos un correo de confirmación en cuanto esté aprobada.</p>
+                                <p>Gracias por registrarte, hemos recibido tu solicitud como <strong>distribuidor</strong>. Nuestro equipo de moderación revisará tu solicitud y te enviaremos un correo de confirmación en cuanto esté aprobada.</p>
 
                                 <p>
                                     <strong>¡Gracias por ser parte de Cervezanas!</strong>

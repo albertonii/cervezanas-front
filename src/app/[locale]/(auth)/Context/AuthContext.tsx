@@ -24,6 +24,7 @@ import {
 } from '@supabase/supabase-js';
 import { ROLE_ENUM } from '../../../../lib/enums';
 import {
+    sendNewDistributorEmail,
     sendNewProducerEmail,
     sendPushNotification,
 } from '../../../../lib/actions';
@@ -332,7 +333,9 @@ export const AuthContextProvider = ({
             const newDistributorMessage = `El distribuidor ${data.user?.user_metadata.username} se ha registrado y está esperando aprobación`;
             const distributorLink = `${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_AUTHORIZED_USERS}`;
 
-            sendPushNotification(
+            await sendNewDistributorEmail(payload.email as string);
+
+            await sendPushNotification(
                 process.env.NEXT_PUBLIC_ADMIN_ID as string,
                 newDistributorMessage,
                 distributorLink,

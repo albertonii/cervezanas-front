@@ -46,3 +46,17 @@ export async function sendNewProducerEmail(emailTo: string) {
         body: formData,
     });
 }
+
+export async function sendNewDistributorEmail(emailTo: string) {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const url = `${baseUrl}/api/emails/new_distributor`;
+
+    const formData = new FormData();
+    formData.set('email-to', emailTo);
+
+    // Email al usuario
+    fetch(url, {
+        method: 'POST',
+        body: formData,
+    });
+}
