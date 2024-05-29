@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({
             from: 'cervezanas@socialinnolabs.org',
             to: emailTo,
-            subject: `Tu cuenta ${username} ha dejado de tener los privilegios de PRODUCTOR `,
+            subject: `Tu cuenta ${username} ha dejado de tener los privilegios de DISTRIBUIDOR `,
             html: `
                 <!DOCTYPE html>
                     <html>
@@ -68,12 +68,12 @@ export async function POST(request: NextRequest) {
                             <div class="header">
                                 <p>¡Hola ${username}!</p>
                                 <p>
-                                    Lamentamos informarte que tu cuenta ha dejado de tener los privilegios de PRODUCTOR en Cervezanas.                                
+                                    Lamentamos informarte que tu cuenta ha dejado de tener los privilegios de DISTRIBUIDOR en Cervezanas.                                
                                 </p>
                             </div>
                             <div class="content">
                                 <p>
-                                    Ya no podrás publicar nuevas cervezas, pero podrás seguir disfrutando de la comunidad de Cervezanas.
+                                    Ya no podrás manejar la logística, pero podrás seguir disfrutando de la comunidad de Cervezanas.
                                 </p>
 
                                 <p>

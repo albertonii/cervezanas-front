@@ -11,6 +11,10 @@ import { IconButton } from '../../../../components/common/IconButton';
 import { IDistributorUser } from '../../../../../../lib/types/types';
 import InputSearch from '../../../../components/common/InputSearch';
 import dynamic from 'next/dynamic';
+import {
+    sendEmailAcceptUserAsProducer,
+    sendEmailCancelUserAsDistributor,
+} from '../../../../../../lib/actions';
 
 enum SortBy {
     NONE = 'none',
@@ -88,6 +92,12 @@ export default function DistributorList({ distributors }: Props) {
                 setIsAcceptModal(false);
 
                 sendNotification(t('req_distributor_accepted'));
+
+                // Notify user by email that has been accepted has a producer
+                sendEmailAcceptUserAsProducer(
+                    distributor.users!.username,
+                    distributor.users!.email,
+                );
             });
     };
 
@@ -102,6 +112,12 @@ export default function DistributorList({ distributors }: Props) {
                 setIsRejectModal(false);
 
                 sendNotification(t('req_distributor_rejected'));
+
+                // Notify user by email that has been accepted has a producer
+                sendEmailCancelUserAsDistributor(
+                    distributor.users!.username,
+                    distributor.users!.email,
+                );
             });
     };
 

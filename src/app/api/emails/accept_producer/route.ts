@@ -74,13 +74,11 @@ export async function POST(request: NextRequest) {
                                     ¡Enhorabuena! Desde Cervezanas nos complace anunciar que desde este momento puedes usar tu cuenta de perfil como si fueras un productor
                                 </p>
 
-
-
                                 <a href="https://cervezanas.beer" class="button">Ir a Cervezanas</a>
 
                                 <p>
                                     Si tienes alguna duda, por favor contáctanos a <a href="mailto:
-                                    cervezanas@socialinnolabs.org">
+                                    cervezanas@socialinnolabs.org" />
                                 </p>
 
                                 <p>

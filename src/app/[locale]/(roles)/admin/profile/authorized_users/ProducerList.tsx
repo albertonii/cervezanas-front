@@ -110,8 +110,6 @@ export default function ProducerList({ producers }: Props) {
 
                 sendNotification(t('req_producer_rejected'));
 
-                console.log(producer.users?.username);
-                console.log(producer.users?.email);
 
                 // Notify user by email that has been accepted has a producer
                 sendEmailCancelUserAsProducer(
