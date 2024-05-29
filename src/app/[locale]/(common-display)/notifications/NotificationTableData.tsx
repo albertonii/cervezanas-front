@@ -56,7 +56,6 @@ export default function NotificationTableData({ notification, key }: Props) {
     };
 
     const linkToUserProfileByRole = (user: IUser) => {
-        console.log(user);
         const role = user?.role;
         const userId = user?.id;
 
