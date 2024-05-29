@@ -3,6 +3,7 @@
 import Button from '../../../../components/common/Button';
 import Spinner from '../../../../components/common/Spinner';
 import InputLabel from '../../../../components/common/InputLabel';
+import InputTextarea from '../../../../components/common/InputTextarea';
 import { z, ZodType } from 'zod';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
@@ -10,9 +11,8 @@ import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IDistributorUser } from '../../../../../../lib/types/types';
+import { IProducerUser } from '../../../../../../lib/types/types';
 import { useMessage } from '../../../../components/message/useMessage';
-import InputTextarea from '../../../../components/common/InputTextarea';
 
 type FormData = {
     company_name: string;
@@ -29,20 +29,18 @@ const schema: ZodType<FormData> = z.object({
 type ValidationSchema = z.infer<typeof schema>;
 
 interface Props {
-    profile: IDistributorUser;
+    profile: IProducerUser;
 }
 
-export function DistributorBasicDataForm({ profile }: Props) {
+export function ProducerBasicDataForm({ profile }: Props) {
     const t = useTranslations();
     const successMessage = t('profile_acc_data_updated');
 
     const { supabase } = useAuth();
-
-    if (!profile || !profile.users) return <></>;
-
     const { handleMessage } = useMessage();
-
     const [loading, setLoading] = useState(false);
+
+    if (!profile.users) return <></>;
 
     const form = useForm({
         resolver: zodResolver(schema),
@@ -55,11 +53,11 @@ export function DistributorBasicDataForm({ profile }: Props) {
 
     const { handleSubmit } = form;
 
-    const handleUpdataBasicData = async (form: ValidationSchema) => {
-        const { company_name, id_number, company_description } = form;
+    const handleUpdateProducerBasicData = async (form: ValidationSchema) => {
+        const { company_name, company_description, id_number } = form;
 
         const { error } = await supabase
-            .from('distributor_user')
+            .from('producer_user')
             .update({
                 company_name,
                 company_description,
@@ -75,27 +73,17 @@ export function DistributorBasicDataForm({ profile }: Props) {
             throw error;
         }
 
-        handleMessage({
-            type: 'success',
-            message: successMessage,
-        });
+        handleMessage({ type: 'success', message: successMessage });
     };
 
     const handleUpdateBasicDataMutation = useMutation({
-        mutationKey: ['updateBasicDataDistributor'],
-        mutationFn: handleUpdataBasicData,
-        onMutate: () => {
-            setLoading(true);
+        mutationKey: 'updateBasicDataProducer',
+        mutationFn: handleUpdateProducerBasicData,
+        onMutate: () => setLoading(true),
+        onError: (error: any) => {
+            handleMessage({ type: 'error', message: error.message });
         },
-        onError: (error: Error) => {
-            handleMessage({
-                type: 'error',
-                message: error.message,
-            });
-        },
-        onSettled: () => {
-            setLoading(false);
-        },
+        onSettled: () => setLoading(false),
     });
 
     const onSubmit: SubmitHandler<ValidationSchema> = async (
@@ -110,11 +98,11 @@ export function DistributorBasicDataForm({ profile }: Props) {
 
     return (
         <section
-            id="account_distributor_data"
+            id="account_producer_data"
             className="mb-4 space-y-3 bg-white px-6 py-4"
         >
-            <span id="account-distributor-data" className="text-2xl">
-                {t('distributor_title_acc_data')}
+            <span id="account-producer-data" className="text-2xl">
+                {t('producer_title_acc_data')}
             </span>
 
             <form
@@ -135,7 +123,7 @@ export function DistributorBasicDataForm({ profile }: Props) {
                             required: true,
                             pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
                         }}
-                        placeholder={'Distribuidores SA'}
+                        placeholder={'Productores SA'}
                     />
 
                     <InputLabel
