@@ -35,6 +35,7 @@ export default function Profile({ profile }: Props) {
 
     useEffect(() => {
         setLoading(false);
+       
     }, []);
 
     const handleShowUpDistributorModal = (show: boolean = false) => {

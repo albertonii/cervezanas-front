@@ -48,6 +48,7 @@ export function DownDistributorModal({
                 });
             }
 
+            // HABRÁ QUE ELIMINAR LA INFORMACIÓN DEL DISTRIBUIDOR -> O DEJARLO INACTIVO EL ROLE
             // insert into public.distributor_user (user_id) values (new.id);
             const { error: distributorUserError } = await supabase
                 .from('distributor_user')

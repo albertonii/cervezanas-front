@@ -61,6 +61,7 @@
     "react-qr-reader": "3.0.0-beta-1",
     "react-query": "3.39.2",
     "redsys-easy": "4.0.2",
+    "resend": "^3.2.0",
     "swr": "2.1.5",
     "tw-elements": "1.0.0-beta1",
     "uuidv4": "6.2.13",

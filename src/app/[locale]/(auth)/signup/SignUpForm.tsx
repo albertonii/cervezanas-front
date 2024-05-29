@@ -21,7 +21,7 @@ import { useRouter } from 'next/navigation';
 import { ROUTE_SIGNIN } from '../../../../config';
 
 interface FormData {
-    access_level: string[];
+    access_level: string;
     username: string;
     email: string;
     password: string;
@@ -40,7 +40,7 @@ interface FormData {
 
 const schema: ZodType<FormData> = z
     .object({
-        access_level: z.array(z.string()),
+        access_level: z.string(),
         username: z.string().min(5, { message: 'Required' }),
         email: z
             .string()
@@ -77,7 +77,7 @@ export const SignUpForm = () => {
     const form = useForm<FormData>({
         resolver: zodResolver(schema),
         defaultValues: {
-            access_level: [ROLE_ENUM.Cervezano],
+            access_level: ROLE_ENUM.Cervezano,
             username: '',
             email: '',
             password: '',
@@ -123,7 +123,7 @@ export const SignUpForm = () => {
                 }
 
                 reset();
-                router.push(`/${locale}${ROUTE_SIGNIN}`);
+                // router.push(`/${locale}${ROUTE_SIGNIN}`);
             }
         });
     };
