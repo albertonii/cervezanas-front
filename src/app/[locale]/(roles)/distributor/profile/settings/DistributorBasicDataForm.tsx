@@ -63,7 +63,7 @@ export function DistributorBasicDataForm({ profile }: Props) {
             .update({
                 company_name,
                 company_description,
-                nif: id_number,
+                id_number,
             })
             .eq('user_id', profile.user_id);
 
