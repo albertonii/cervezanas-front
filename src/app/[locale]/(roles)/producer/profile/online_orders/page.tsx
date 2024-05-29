@@ -23,20 +23,6 @@ async function getBusinessOrdersData() {
         redirect('/signin');
     }
 
-    // Select only the orders where business orders have the distributor_id associated to session user id
-    // const { data, error } = await supabase
-    //     .from('orders')
-    //     .select(
-    //         `
-    //             *,
-    //             business_orders (
-    //                 *
-    //             )
-    //         `,
-    //     )
-    //     .eq('business_orders.producer_id', [session.id])
-    //     .order('created_at', { ascending: false });
-
     const { data, error } = await supabase
         .from('business_orders')
         .select(

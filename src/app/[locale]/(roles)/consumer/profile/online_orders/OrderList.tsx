@@ -1,14 +1,14 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import OTableData from './OTableData';
+import InputSearch from '../../../../components/common/InputSearch';
 import useFetchOrders from '../../../../../../hooks/useFetchOrders';
 import PaginationFooter from '../../../../components/common/PaginationFooter';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IOrder } from '../../../../../../lib/types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import InputSearch from '../../../../components/common/InputSearch';
-import dynamic from 'next/dynamic';
 
 const DynamicSpinner = dynamic(
     () => import('../../../../components/common/Spinner'),
