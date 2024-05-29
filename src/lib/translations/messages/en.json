@@ -854,5 +854,9 @@
     "profile_acc_authorized": "Profile Authorized",
     "profile_acc_company_name": "Company Name",
     "profile_acc_nif": "Identification Number",
-    "company_description": "Company"
+    "company_description": "Company",
+    "req_producer_rejected": "Your request to become a producer has been rejected.",
+    "req_distributor_rejected": "Your request to become a distributor has been rejected.",
+    "req_producer_accepted": "Your request to become a producer has been accepted.",
+    "req_distributor_accepted": "Your request to become a distributor has been accepted."
 }

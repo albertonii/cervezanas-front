@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({
             from: 'cervezanas@socialinnolabs.org',
             to: emailTo,
-            subject: '¡Has sido aceptado como productor!',
+            subject: `Tu cuenta ${username} ha dejado de tener los privilegios de PRODUCTOR `,
             html: `
                 <!DOCTYPE html>
                     <html>
@@ -66,22 +66,23 @@ export async function POST(request: NextRequest) {
                     <body>
                         <div class="container">
                             <div class="header">
-                                ¡Bienvenido ${username}, ahora eres PRODUCTOR!
+                                <p>¡Hola ${username}!</p>
+                                <p>
+                                    Lamentamos informarte que tu cuenta ha dejado de tener los privilegios de PRODUCTOR en Cervezanas.                                
+                                </p>
                             </div>
                             <div class="content">
-
                                 <p>
-                                    ¡Enhorabuena! Desde Cervezanas nos complace anunciar que desde este momento puedes usar tu cuenta de perfil como si fueras un productor
+                                    Ya no podrás publicar nuevas cervezas, pero podrás seguir disfrutando de la comunidad de Cervezanas.
                                 </p>
 
-
+                                <p>
+                                    Si consideras que esto ha sido un error, por favor contáctanos a <a href="mailto:cervezanas@socialinnolabs.org">
+                                        cervezanas@socialinnolabs.org 
+                                    </a>
+                                </p>
 
                                 <a href="https://cervezanas.beer" class="button">Ir a Cervezanas</a>
-
-                                <p>
-                                    Si tienes alguna duda, por favor contáctanos a <a href="mailto:
-                                    cervezanas@socialinnolabs.org">
-                                </p>
 
                                 <p>
                                     <strong>El equipo de Cervezanas</strong>

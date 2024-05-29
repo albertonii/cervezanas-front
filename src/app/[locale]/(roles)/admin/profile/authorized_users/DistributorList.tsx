@@ -87,9 +87,7 @@ export default function DistributorList({ distributors }: Props) {
             .then(() => {
                 setIsAcceptModal(false);
 
-                sendNotification(
-                    `Your request to become a distributor has been accepted.`,
-                );
+                sendNotification(t('req_distributor_accepted'));
             });
     };
 
@@ -103,9 +101,7 @@ export default function DistributorList({ distributors }: Props) {
             .then(() => {
                 setIsRejectModal(false);
 
-                sendNotification(
-                    `Your request to become a distributor has been rejected.`,
-                );
+                sendNotification(t('req_distributor_rejected'));
             });
     };
 

@@ -880,5 +880,9 @@
     "profile_acc_authorized": "Perfil Autorizado",
     "profile_acc_company_name": "Nombre de la empresa",
     "profile_acc_nif": "NIF",
-    "company_description": "Descripción de la empresa"
+    "company_description": "Descripción de la empresa",
+    "req_producer_accepted": "Solicitud de productor aceptada",
+    "req_distributor_accepted": "Solicitud de distribuidor aceptada",
+    "req_producer_rejected": "Se ha rechazado tu solicitud de productor.",
+    "req_distributor_rejected": "Se ha rechazado tu solicitud de distribuidor."
 }

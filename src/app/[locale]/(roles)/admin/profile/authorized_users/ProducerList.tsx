@@ -11,7 +11,10 @@ import { IconButton } from '../../../../components/common/IconButton';
 import { IProducerUser } from '../../../../../../lib/types/types';
 import InputSearch from '../../../../components/common/InputSearch';
 import dynamic from 'next/dynamic';
-import { sendEmailAcceptUserAsProducer } from '../../../../../../lib/actions';
+import {
+    sendEmailAcceptUserAsProducer,
+    sendEmailCancelUserAsProducer,
+} from '../../../../../../lib/actions';
 
 enum SortBy {
     NONE = 'none',
@@ -85,9 +88,7 @@ export default function ProducerList({ producers }: Props) {
             .then(() => {
                 setIsAcceptModal(false);
 
-                sendNotification(
-                    `Your request to become a producer has been accepted.`,
-                );
+                sendNotification(t('req_producer_accepted'));
 
                 // Notify user by email that has been accepted has a producer
                 sendEmailAcceptUserAsProducer(
@@ -107,8 +108,15 @@ export default function ProducerList({ producers }: Props) {
             .then(() => {
                 setIsRejectModal(false);
 
-                sendNotification(
-                    `Your request to become a producer has been rejected.`,
+                sendNotification(t('req_producer_rejected'));
+
+                console.log(producer.users?.username);
+                console.log(producer.users?.email);
+
+                // Notify user by email that has been accepted has a producer
+                sendEmailCancelUserAsProducer(
+                    producer.users!.username,
+                    producer.users!.email,
                 );
             });
     };
@@ -121,6 +129,7 @@ export default function ProducerList({ producers }: Props) {
             link: `${selectedProducer?.users?.role}/profile?a=settings`,
             source: user?.id, // User that has created the consumption point
         });
+
         if (error) {
             throw error;
         }

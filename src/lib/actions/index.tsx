@@ -78,3 +78,21 @@ export async function sendEmailAcceptUserAsProducer(
         body: formData,
     });
 }
+
+export async function sendEmailCancelUserAsProducer(
+    username: string,
+    emailTo: string,
+) {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const url = `${baseUrl}/api/emails/cancel_producer`;
+
+    const formData = new FormData();
+    formData.set('username', username);
+    formData.set('email-to', emailTo);
+
+    // Email al usuario
+    fetch(url, {
+        method: 'POST',
+        body: formData,
+    });
+}
