@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
 export default function errorProfilePage() {
-  return <div>Error en Profile</div>;
+    return <div className="beer-foam">Error en Profile</div>;
 }

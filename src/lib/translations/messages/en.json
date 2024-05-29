@@ -848,5 +848,10 @@
     "slots_per_product": "Slots per product",
     "box_weight": "Box weight",
     "actual_slots_occupied": "Actual slots occupied",
-    "beer_style": "Beer Style"
+    "beer_style": "Beer Style",
+    "distributor_title_acc_data": "Distributor Information",
+    "profile_acc_authorized": "Profile Authorized",
+    "profile_acc_company_name": "Company Name",
+    "profile_acc_nif": "Identification Number",
+    "company_description": "Company"
 }

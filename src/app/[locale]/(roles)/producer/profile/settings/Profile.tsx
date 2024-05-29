@@ -9,7 +9,6 @@ import { Account } from './Account';
 import { Details } from './Details';
 import { Values } from './Values';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { useMessage } from '../../../../components/message/useMessage';
 import { ROLE_ENUM } from '../../../../../../lib/enums';
 import { UpDistributorModal } from '../../../../components/modals/UpDistributorModal';
 import { DownDistributorModal } from '../../../../components/modals/DownDistributorModal';
@@ -45,27 +44,6 @@ export default function Profile({ profile }: Props) {
     const handleShowDownDistributorModal = (show: boolean = false) => {
         setShowDownDistributorRole(show);
     };
-
-    // useEffect(() => {
-    //     const handleRPC = async () => {
-    //         await supabase.rpc('set_claim', {
-    //             uid: user.id,
-    //             claim: 'access_level',
-    //             value: [
-    //                 ROLE_ENUM.Cervezano,
-    //                 ROLE_ENUM.Productor,
-    //                 ROLE_ENUM.Distributor,
-    //                 ROLE_ENUM.Admin,
-    //             ],
-    //         });
-    //     };
-
-    //     if (user) {
-    //         console.log(user);
-
-    //         handleRPC();
-    //     }
-    // }, [user]);
 
     const renderSwitch = () => {
         switch (menuOption) {

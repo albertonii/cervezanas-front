@@ -29,8 +29,9 @@ async function getProfileData() {
         .from('producer_user')
         .select(
             `
-        *
-      `,
+                *,
+                users (*)
+            `,
         )
         .eq('user_id', session.id)
         .single();

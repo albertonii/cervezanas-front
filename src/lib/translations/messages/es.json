@@ -874,5 +874,10 @@
         "distribution_point": "Punto de Distribución",
         "event_organizer": "Organizador de Eventos",
         "experience_provider": "Proveedor de Experiencias"
-    }
+    },
+    "distributor_title_acc_data": "Información de Distribuidor",
+    "profile_acc_authorized": "Perfil Autorizado",
+    "profile_acc_company_name": "Nombre de la empresa",
+    "profile_acc_nif": "NIF",
+    "company_description": "Descripción de la empresa"
 }
