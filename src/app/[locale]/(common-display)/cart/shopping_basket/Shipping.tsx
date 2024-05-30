@@ -39,7 +39,7 @@ export default function Shipping({
     const handleRemoveShippingAddress = async () => {
         const shippingAddressId = selectedShippingAddress;
 
-        removeShippingAddressById(shippingAddressId)
+        await removeShippingAddressById(shippingAddressId)
             .then(() => {
                 handleMessage({
                     type: 'success',

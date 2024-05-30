@@ -13,6 +13,8 @@ import ModalWithForm from '../../../components/modals/ModalWithForm';
 import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Spinner from '../../../components/common/Spinner';
+import { insertShippingAddress } from '../actions';
+import { useMessage } from '../../../components/message/useMessage';
 
 const schema: ZodType<ModalShippingAddressFormData> = z.object({
     name: z.string().nonempty({ message: 'errors.input_required' }),
@@ -33,7 +35,8 @@ type ValidationSchema = z.infer<typeof schema>;
 
 export function NewShippingAddress() {
     const t = useTranslations();
-    const { supabase, user } = useAuth();
+    const { user } = useAuth();
+    const { handleMessage } = useMessage();
 
     const [isLoading, setIsLoading] = useState(false);
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -50,49 +53,43 @@ export function NewShippingAddress() {
     const handleAddShippingAddress = async (form: ValidationSchema) => {
         setIsLoading(true);
 
-        const {
-            name,
-            lastname,
-            document_id,
-            phone,
-            address,
-            address_extra,
-            address_observations,
-            country,
-            state,
-            city,
-            zipcode,
-            is_default,
-        } = form;
+        const object = {
+            user_id: user?.id,
+            name: form.name,
+            lastname: form.lastname,
+            document_id: form.document_id,
+            phone: form.phone,
+            address: form.address,
+            address_extra: form.address_extra,
+            address_observations: form.address_observations,
+            country: form.country,
+            zipcode: form.zipcode,
+            city: form.city,
+            state: form.state,
+            is_default: form.is_default,
+        };
 
-        const { error } = await supabase.from('shipping_info').insert({
-            owner_id: user?.id,
-            name,
-            lastname,
-            document_id,
-            phone,
-            address,
-            address_extra,
-            address_observations,
-            country,
-            zipcode,
-            city,
-            state,
-            is_default: is_default,
-        });
+        await insertShippingAddress(object)
+            .then(() => {
+                queryClient.invalidateQueries('shippingAddresses');
+                setShowModal(false);
+                setIsLoading(false);
+                setIsSubmitting(false);
+                reset();
 
-        if (error) {
-            console.error(error);
-
-            setIsLoading(false);
-            throw error;
-        }
-
-        queryClient.invalidateQueries('shippingAddresses');
-        setShowModal(false);
-        setIsLoading(false);
-        setIsSubmitting(false);
-        reset();
+                handleMessage({
+                    type: 'success',
+                    message: t('shipping_address_created_successfully'),
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+                setIsLoading(false);
+                handleMessage({
+                    type: 'error',
+                    message: t('error_creating_shipping_address'),
+                });
+            });
     };
 
     const insertShippingMutation = useMutation({
