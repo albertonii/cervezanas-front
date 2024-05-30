@@ -28,7 +28,9 @@ async function getNotificationsData() {
             `
         *,
         source_user:users!notifications_source_fkey (
-          username
+          id,
+          username,
+          role
         )
       `,
         )

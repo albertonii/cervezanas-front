@@ -1,45 +1,43 @@
+import readUserSession from '../../../../../../lib/actions';
+import createServerClient from '../../../../../../utils/supabaseServer';
 import { redirect } from 'next/navigation';
 import { BusinessOrders } from './BusinessOrders';
-import { VIEWS } from '../../../../../../constants';
-import readUserSession from '../../../../../../lib/actions';
-import { IOrder } from '../../../../../../lib/types/types';
-import createServerClient from '../../../../../../utils/supabaseServer';
+import { IBusinessOrder } from '../../../../../../lib/types/types';
 
 export default async function BusinessOrdersPage() {
-  const ordersData = await getBusinessOrdersData();
-  const [orders] = await Promise.all([ordersData]);
+    const bOrdersData = await getBusinessOrdersData();
+    const [bOrders] = await Promise.all([bOrdersData]);
 
-  return (
-    <>
-      <BusinessOrders orders={orders} />
-    </>
-  );
+    return (
+        <>
+            <BusinessOrders bOrders={bOrders} />
+        </>
+    );
 }
 
 async function getBusinessOrdersData() {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const session = await readUserSession();
+    const session = await readUserSession();
 
-  if (!session) {
+    if (!session) {
         redirect('/signin');
-  }
+    }
 
-  // Select only the orders where business orders have the distributor_id associated to session user id
-  const { data, error } = await supabase
-    .from('orders')
-    .select(
-      `
-        *, 
-        business_orders (
-          *
+    const { data, error } = await supabase
+        .from('business_orders')
+        .select(
+            `
+                *, 
+                orders (
+                    *
+                )
+            `,
         )
-      `,
-    )
-    .eq('business_orders.distributor_id', [session.id])
-    .order('created_at', { ascending: false });
+        .eq('distributor_id', [session.id])
+        .order('created_at', { ascending: false });
 
-  if (error) throw error;
+    if (error) throw error;
 
-  return data as IOrder[];
+    return data as IBusinessOrder[];
 }

@@ -19,9 +19,9 @@ async function getDistributorProfile(distributorId: string) {
         .from('distributor_user')
         .select(
             `
-        *,
-        users (*)
-      `,
+                *,
+                users (*)
+            `,
         )
         .eq('user_id', distributorId)
         .single();

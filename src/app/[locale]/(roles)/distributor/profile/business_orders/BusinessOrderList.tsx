@@ -3,7 +3,7 @@
 import PaginationFooter from '../../../../components/common/PaginationFooter';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { IOrder } from '../../../../../../lib/types/types';
+import { IBusinessOrder } from '../../../../../../lib/types/types';
 import Spinner from '../../../../components/common/Spinner';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import InputSearch from '../../../../components/common/InputSearch';
@@ -11,24 +11,24 @@ import useFetchOrdersByDistributorId from '../../../../../../hooks/useFetchOrder
 import ODistributorTableData from './ODistributorTableData';
 
 interface Props {
-    orders: IOrder[];
+    bOrders: IBusinessOrder[];
 }
 
 interface ColumnsProps {
     header: string;
 }
 
-export function BusinessOrderList({ orders: os }: Props) {
+export function BusinessOrderList({ bOrders: bOs }: Props) {
     const { user } = useAuth();
     if (!user) return null;
 
     const t = useTranslations();
 
-    const [orders, setOrders] = useState<IOrder[]>(os);
+    const [bOrders, setBOrders] = useState<IBusinessOrder[]>(bOs);
     const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 
-    const counter = os.length;
+    const counter = bOs.length;
     const resultsPerPage = 100;
 
     const { isError, isLoading, refetch } = useFetchOrdersByDistributorId(
@@ -39,8 +39,8 @@ export function BusinessOrderList({ orders: os }: Props) {
 
     useEffect(() => {
         refetch().then((res) => {
-            const orders = res.data as IOrder[];
-            setOrders(orders);
+            const orders = res.data as IBusinessOrder[];
+            setBOrders(orders);
         });
     }, [currentPage]);
 
@@ -56,11 +56,11 @@ export function BusinessOrderList({ orders: os }: Props) {
     ];
 
     const filteredItemsByStatus = useMemo(() => {
-        if (!orders) return [];
-        return orders.filter((orders) => {
-            return orders.status.toLowerCase().includes(query.toLowerCase());
+        if (!bOrders) return [];
+        return bOrders.filter((bOrder) => {
+            return bOrder.status.toLowerCase().includes(query.toLowerCase());
         });
-    }, [orders, query]);
+    }, [bOrders, query]);
 
     return (
         <section className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg bg-beer-foam">
@@ -81,7 +81,7 @@ export function BusinessOrderList({ orders: os }: Props) {
                 />
             )}
 
-            {!isError && !isLoading && orders && orders.length === 0 ? (
+            {!isError && !isLoading && bOrders && bOrders.length === 0 ? (
                 <div className="flex items-center justify-center">
                     <p className="text-gray-500 dark:text-gray-400">
                         {t('no_orders')}
@@ -115,15 +115,15 @@ export function BusinessOrderList({ orders: os }: Props) {
                         </thead>
 
                         <tbody>
-                            {filteredItemsByStatus.map((order) => {
+                            {filteredItemsByStatus.map((bOrder) => {
                                 return (
                                     <ODistributorTableData
-                                        order={order}
-                                        key={order.id}
+                                        bOrder={bOrder}
+                                        key={bOrder.id}
                                     />
                                 );
                             })}
-                            {!orders && (
+                            {!bOrders && (
                                 <tr>
                                     <td
                                         colSpan={6}

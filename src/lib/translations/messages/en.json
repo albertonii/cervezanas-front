@@ -761,6 +761,7 @@
     "mark_as_pending": "Mark as pending",
     "mark_as_resolved": "Mark as resolved",
     "is_read": "Is read",
+    "sent_by": "Send by",
     "access_level": "Role",
     "authorized": "Authorized",
     "tooltips": {
@@ -768,8 +769,8 @@
     },
     "question": "Question",
     "out_of": "out of",
-    "producer_disclaimer_read_and_accepantance": "I have read and accept the producer disclaimer",
-    "distributor_disclaimer_read_and_accepantance": "I have read and accept the distributor disclaimer",
+    "producer_disclaimer_read_and_accepantance": "I have read and accept the producer service agreement",
+    "distributor_disclaimer_read_and_accepantance": "I have read and accept the distributor service agreement",
     "click_here_to_download": "Click here to download",
     "producer_read_disclaimer": "Producer Disclaimer Agreement",
     "distributor_read_disclaimer": "Distributor Disclaimer Agreement",
@@ -847,5 +848,15 @@
     "slots_per_product": "Slots per product",
     "box_weight": "Box weight",
     "actual_slots_occupied": "Actual slots occupied",
-    "beer_style": "Beer Style"
+    "beer_style": "Beer Style",
+    "distributor_title_acc_data": "Distributor Information",
+    "producer_title_acc_data": "Producer Information",
+    "profile_acc_authorized": "Profile Authorized",
+    "profile_acc_company_name": "Company Name",
+    "profile_acc_nif": "Identification Number",
+    "company_description": "Company",
+    "req_producer_rejected": "Your request to become a producer has been rejected.",
+    "req_distributor_rejected": "Your request to become a distributor has been rejected.",
+    "req_producer_accepted": "Your request to become a producer has been accepted.",
+    "req_distributor_accepted": "Your request to become a distributor has been accepted."
 }

@@ -23,8 +23,11 @@ import {
     SupabaseClient,
 } from '@supabase/supabase-js';
 import { ROLE_ENUM } from '../../../../lib/enums';
-import { sendPushNotification } from '../../../../lib/actions';
-import { redirect } from 'next/navigation';
+import {
+    sendNewDistributorEmail,
+    sendNewProducerEmail,
+    sendPushNotification,
+} from '../../../../lib/actions';
 
 enum PROVIDER_TYPE {
     GOOGLE = 'google',
@@ -258,112 +261,106 @@ export const AuthContextProvider = ({
     }, [serverSession, supabase, router]);
 
     const signUp = async (payload: SignUpWithPasswordCredentials) => {
-        try {
-            const signUpMessage = t('messages.sign_up_success');
-            const userAlreadyRegisteredMessage = t(
-                'messages.user_already_registered',
-            );
+        const signUpMessage = t('messages.sign_up_success');
+        const userAlreadyRegisteredMessage = t(
+            'messages.user_already_registered',
+        );
 
-            // Check if user exists
-            const { data: user, error: emailError } = await supabase
-                .from('users')
-                .select(
-                    `
+        // Check if user exists
+        const { data: user, error: emailError } = await supabase
+            .from('users')
+            .select(
+                `
                         *
                     `,
-                )
-                .eq('email', payload.email);
+            )
+            .eq('email', payload.email);
 
-            if (user && user.length > 0) {
-                handleMessage({
-                    message: userAlreadyRegisteredMessage,
-                    type: 'error',
-                });
-                return;
-            }
-
-            if (emailError) {
-                handleMessage({
-                    message: emailError.message,
-                    type: 'error',
-                });
-                return;
-            }
-
-            const { error, data } = (await supabase.auth.signUp(
-                payload,
-            )) as AuthResponse;
-
-            if (!data || !data.user) {
-                handleMessage({
-                    message: error?.message ?? t('messages.sign_up_error'),
-                    type: 'error',
-                });
-
-                return null;
-            }
-
-            // Get access_level from the user
-            const access_level = role;
-            // const access_level = data.user?.user_metadata.access_level;
-
-            if (access_level === ROLE_ENUM.Productor) {
-                // Notificar a administrador que se ha registrado un nuevo productor y está esperando aprobación
-                const newProducerMessage = `El productor ${data.user?.user_metadata.username} se ha registrado y está esperando aprobación`;
-                const producerLink = `${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_AUTHORIZED_USERS}`;
-
-                sendPushNotification(
-                    process.env.NEXT_PUBLIC_ADMIN_ID as string,
-                    newProducerMessage,
-                    producerLink,
-                );
-
-                clearMessages();
-                handleMessage({
-                    message: signUpMessage,
-                    type: 'success',
-                });
-
-                return data;
-            } else if (access_level === ROLE_ENUM.Distributor) {
-                // Notificar a administrador que se ha registrado un nuevo distribuidor y está esperando aprobación
-                const newDistributorMessage = `El distribuidor ${data.user?.user_metadata.username} se ha registrado y está esperando aprobación`;
-                const distributorLink = `${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_AUTHORIZED_USERS}`;
-
-                sendPushNotification(
-                    process.env.NEXT_PUBLIC_ADMIN_ID as string,
-                    newDistributorMessage,
-                    distributorLink,
-                );
-
-                clearMessages();
-                handleMessage({
-                    message: signUpMessage,
-                    type: 'success',
-                });
-
-                return data;
-            }
-
-            if (error) {
-                handleMessage({ message: error.message, type: 'error' });
-            } else {
-                clearMessages();
-                handleMessage({
-                    message: signUpMessage,
-                    type: 'success',
-                });
-            }
-
-            return data;
-        } catch (error: any) {
+        if (user && user.length > 0) {
             handleMessage({
-                message: error.error_description ?? error,
+                message: userAlreadyRegisteredMessage,
+                type: 'error',
+            });
+            return;
+        }
+
+        if (emailError) {
+            handleMessage({
+                message: emailError.message,
+                type: 'error',
+            });
+            return;
+        }
+
+        const { error, data } = (await supabase.auth.signUp(
+            payload,
+        )) as AuthResponse;
+
+        if (!data || !data.user) {
+            handleMessage({
+                message: error?.message ?? t('messages.sign_up_error'),
                 type: 'error',
             });
 
             return null;
         }
+
+        // Get access_level from the user
+        const access_level = data.user?.user_metadata.access_level[0];
+
+        if (access_level === ROLE_ENUM.Productor) {
+            // Notificar a administrador que se ha registrado un nuevo productor y está esperando aprobación
+            const newProducerMessage = `El productor ${data.user?.user_metadata.username} se ha registrado y está esperando aprobación`;
+            const producerLink = `${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_AUTHORIZED_USERS}`;
+
+            await sendNewProducerEmail(payload.email as string);
+
+            await sendPushNotification(
+                process.env.NEXT_PUBLIC_ADMIN_ID as string,
+                newProducerMessage,
+                producerLink,
+            );
+
+            clearMessages();
+            handleMessage({
+                message: signUpMessage,
+                type: 'success',
+            });
+
+            return data;
+        } else if (access_level === ROLE_ENUM.Distributor) {
+            // Notificar a administrador que se ha registrado un nuevo distribuidor y está esperando aprobación
+            const newDistributorMessage = `El distribuidor ${data.user?.user_metadata.username} se ha registrado y está esperando aprobación`;
+            const distributorLink = `${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_AUTHORIZED_USERS}`;
+
+            await sendNewDistributorEmail(payload.email as string);
+
+            await sendPushNotification(
+                process.env.NEXT_PUBLIC_ADMIN_ID as string,
+                newDistributorMessage,
+                distributorLink,
+            );
+
+            clearMessages();
+            handleMessage({
+                message: signUpMessage,
+                type: 'success',
+            });
+
+            return data;
+        }
+
+        if (error) {
+            handleMessage({ message: error.message, type: 'error' });
+        } else {
+            clearMessages();
+            handleMessage({
+                message: signUpMessage,
+                type: 'success',
+            });
+        }
+
+        return data;
     };
 
     const signIn = async (email: string, password: string) => {

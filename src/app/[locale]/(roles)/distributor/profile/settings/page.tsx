@@ -31,7 +31,7 @@ async function getProfileData() {
             `
         user_id,
         created_at,
-        nif,
+        id_number,
         bank_account,
         company_name,
         company_description,

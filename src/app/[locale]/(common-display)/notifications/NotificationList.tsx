@@ -1,11 +1,11 @@
 'use client';
 
+import NotificationTableData from './NotificationTableData';
+import InputSearch from '../../components/common/InputSearch';
+import PaginationFooter from '../../components/common/PaginationFooter';
 import React, { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { INotification } from '../../../../lib/types/types';
-import InputSearch from '../../components/common/InputSearch';
-import PaginationFooter from '../../components/common/PaginationFooter';
-import NotificationTableData from './NotificationTableData';
 
 interface Props {
     notifications: INotification[];
@@ -26,7 +26,7 @@ export function NotificationList({ notifications }: Props) {
 
     const COLUMNS = [
         { header: t('is_read') },
-        { header: t('username') },
+        { header: t('sent_by') },
         { header: t('link') },
         { header: t('created_at') },
         { header: t('action_header') },

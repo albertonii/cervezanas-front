@@ -1133,9 +1133,9 @@ export interface Database {
           company_description: string | null
           company_name: string | null
           created_at: string | null
+          id_number: string | null
           is_authorized: boolean | null
           location_id: string | null
-          nif: string | null
           user_id: string
         }
         Insert: {
@@ -1143,9 +1143,9 @@ export interface Database {
           company_description?: string | null
           company_name?: string | null
           created_at?: string | null
+          id_number?: string | null
           is_authorized?: boolean | null
           location_id?: string | null
-          nif?: string | null
           user_id: string
         }
         Update: {
@@ -1153,9 +1153,9 @@ export interface Database {
           company_description?: string | null
           company_name?: string | null
           created_at?: string | null
+          id_number?: string | null
           is_authorized?: boolean | null
           location_id?: string | null
-          nif?: string | null
           user_id?: string
         }
         Relationships: [
@@ -1942,6 +1942,7 @@ export interface Database {
           company_description: string | null
           company_name: string | null
           created_at: string
+          id_number: string | null
           is_authorized: boolean | null
           location_id: string | null
           user_id: string
@@ -1950,6 +1951,7 @@ export interface Database {
           company_description?: string | null
           company_name?: string | null
           created_at?: string
+          id_number?: string | null
           is_authorized?: boolean | null
           location_id?: string | null
           user_id: string
@@ -1958,6 +1960,7 @@ export interface Database {
           company_description?: string | null
           company_name?: string | null
           created_at?: string
+          id_number?: string | null
           is_authorized?: boolean | null
           location_id?: string | null
           user_id?: string
@@ -2576,6 +2579,14 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
+      correct_access_level_format: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      correct_specific_access_level_format: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       set_claim: {
         Args: {
           uid: string
@@ -2583,6 +2594,10 @@ export interface Database {
           value: Json
         }
         Returns: string
+      }
+      update_raw_user_meta_data: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
       }
     }
     Enums: {

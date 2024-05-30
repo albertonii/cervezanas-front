@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Button from '../../components/common/Button';
 import Spinner from '../../components/common/Spinner';
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
@@ -17,9 +17,11 @@ import { useMutation } from 'react-query';
 import { useAuth } from '../Context/useAuth';
 import { ROLE_ENUM, ROLE_OPTIONS } from '../../../../lib/enums';
 import { SupabaseProps } from '../../../../constants';
+import { useRouter } from 'next/navigation';
+import { ROUTE_SIGNIN } from '../../../../config';
 
 interface FormData {
-    access_level: string[];
+    access_level: string;
     username: string;
     email: string;
     password: string;
@@ -38,7 +40,7 @@ interface FormData {
 
 const schema: ZodType<FormData> = z
     .object({
-        access_level: z.array(z.string()),
+        access_level: z.string(),
         username: z.string().min(5, { message: 'Required' }),
         email: z
             .string()
@@ -65,6 +67,8 @@ type ValidationSchema = z.infer<typeof schema>;
 
 export const SignUpForm = () => {
     const t = useTranslations();
+    const router = useRouter();
+    const locale = useLocale();
 
     const { signUp, isLoading: loading } = useAuth();
     const [isProducer, setIsProducer] = useState(false);
@@ -73,7 +77,7 @@ export const SignUpForm = () => {
     const form = useForm<FormData>({
         resolver: zodResolver(schema),
         defaultValues: {
-            access_level: [ROLE_ENUM.Cervezano],
+            access_level: ROLE_ENUM.Cervezano,
             username: '',
             email: '',
             password: '',
@@ -119,6 +123,7 @@ export const SignUpForm = () => {
                 }
 
                 reset();
+                // router.push(`/${locale}${ROUTE_SIGNIN}`);
             }
         });
     };

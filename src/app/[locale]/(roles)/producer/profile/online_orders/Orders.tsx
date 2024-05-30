@@ -1,14 +1,14 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { IOrder } from '../../../../../../lib/types/types';
+import { IBusinessOrder } from '../../../../../../lib/types/types';
 import { BusinessOrderList } from './BusinessOrderList';
 
 interface Props {
-    orders: IOrder[];
+    bOrders: IBusinessOrder[];
 }
 
-export function Orders({ orders }: Props) {
+export function Orders({ bOrders }: Props) {
     const t = useTranslations();
 
     return (
@@ -22,7 +22,7 @@ export function Orders({ orders }: Props) {
                 </span>
             </p>
 
-            <BusinessOrderList orders={orders} />
+            <BusinessOrderList bOrders={bOrders} />
         </section>
     );
 }

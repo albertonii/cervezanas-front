@@ -1281,7 +1281,7 @@ export enum PROVIDER_TYPE {
 export interface IDistributorUser {
     user_id: string; // FK ID
     created_at: string;
-    nif: string;
+    id_number: string;
     bank_account: string;
     company_name: string;
     company_description: string;
@@ -1297,6 +1297,7 @@ export interface IProducerUser {
     created_at: string;
     company_name: string;
     company_description: string;
+    id_number: string;
     location_id: string;
     is_authorized: boolean;
     profile_location?: IProfileLocation[];
