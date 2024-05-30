@@ -65,6 +65,7 @@ const InputLabel = ({
             {(inputType === 'text' ||
                 inputType === 'number' ||
                 inputType === 'email' ||
+                inputType === 'tel' ||
                 inputType === 'date') && (
                 <label
                     className={`${'flex-col '} flex w-full items-start space-y-2 text-sm text-gray-600`}

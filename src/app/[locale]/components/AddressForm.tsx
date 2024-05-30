@@ -34,6 +34,10 @@ export default function AddressForm({ form, addressNameId }: Props) {
     } = form;
 
     useEffect(() => {
+        console.log(errors);
+    }, [errors]);
+
+    useEffect(() => {
         if (!selectedCountry) return;
 
         switch (selectedCountry) {
@@ -74,38 +78,42 @@ export default function AddressForm({ form, addressNameId }: Props) {
                         {t(`${addressNameId}_data`)}
                     </h2>
 
-                    <InputLabel
-                        form={form}
-                        label={'name'}
-                        registerOptions={{
-                            required: true,
-                        }}
-                    />
+                    <div className="flex gap-4">
+                        <InputLabel
+                            form={form}
+                            label={'name'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                        />
 
-                    <InputLabel
-                        form={form}
-                        label={'lastname'}
-                        registerOptions={{
-                            required: true,
-                        }}
-                    />
+                        <InputLabel
+                            form={form}
+                            label={'lastname'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                        />
+                    </div>
 
-                    <InputLabel
-                        form={form}
-                        label={'document_id'}
-                        registerOptions={{
-                            required: true,
-                        }}
-                    />
+                    <div className="flex gap-4">
+                        <InputLabel
+                            form={form}
+                            label={'document_id'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                        />
 
-                    <InputLabel
-                        form={form}
-                        label={'phone'}
-                        registerOptions={{
-                            required: true,
-                        }}
-                        inputType={'tel'}
-                    />
+                        <InputLabel
+                            form={form}
+                            label={'phone'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            inputType={'tel'}
+                        />
+                    </div>
                 </address>
 
                 <address className="w-full space-y-2">

@@ -1,5 +1,4 @@
 import { useTranslations } from 'next-intl';
-import { useAuth } from '../../../(auth)/Context/useAuth';
 import AddressRadioInput from './AddressRadioInput';
 import React, { ComponentProps, useState } from 'react';
 import { NewBillingAddress } from './NewBillingAddress';
@@ -10,6 +9,7 @@ import { useMessage } from '../../../components/message/useMessage';
 import { DeleteAddress } from '../../../components/modals/DeleteAddress';
 import { DisplayInputError } from '../../../components/common/DisplayInputError';
 import { FormBillingData, ValidationSchemaShipping } from './ShoppingBasket';
+import { removeBillingAddressById } from '../actions';
 
 interface Props {
     selectedBillingAddress: string;
@@ -33,26 +33,27 @@ export default function Billing({
     } = formBilling;
 
     const { handleMessage } = useMessage();
-    const { supabase } = useAuth();
     const queryClient = useQueryClient();
 
     // Triggers when the user clicks on the button "Delete" in the modal for Campaign deletion
     const handleRemoveBillingAddress = async () => {
         const billingAddressId = selectedBillingAddress;
 
-        const { error: billingAddressError } = await supabase
-            .from('billing_info')
-            .delete()
-            .eq('id', billingAddressId);
+        removeBillingAddressById(billingAddressId)
+            .then(() => {
+                handleMessage({
+                    type: 'success',
+                    message: 'billing_address_removed_successfully',
+                });
 
-        if (billingAddressError) throw billingAddressError;
-
-        handleMessage({
-            type: 'success',
-            message: 'billing_address_removed_successfully',
-        });
-
-        queryClient.invalidateQueries('billingAddresses');
+                queryClient.invalidateQueries('billingAddresses');
+            })
+            .catch(() => {
+                handleMessage({
+                    type: 'error',
+                    message: 'error_removing_billing_address',
+                });
+            });
     };
 
     const deleteBillingAddress = useMutation({

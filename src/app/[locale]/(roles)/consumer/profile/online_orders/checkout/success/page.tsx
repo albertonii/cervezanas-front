@@ -2,7 +2,6 @@ import SuccessCheckout from './SuccessCheckout';
 import { redirect } from 'next/navigation';
 import { decodeBase64 } from '../../../../../../../../utils/utils';
 import createServerClient from '../../../../../../../../utils/supabaseServer';
-import { VIEWS } from '../../../../../../../../constants';
 import { IOrder } from '../../../../../../../../lib/types/types';
 import readUserSession from '../../../../../../../../lib/actions';
 
@@ -40,6 +39,7 @@ export default async function SuccessPage({ searchParams }: any) {
     const { orderData, isError } = await getSuccessData(searchParams);
     const [order] = await Promise.all([orderData]);
     if (!order) return <></>;
+    console.log(order);
     return <>{order && <SuccessCheckout order={order} isError={isError} />}</>;
 }
 

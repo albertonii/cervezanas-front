@@ -97,7 +97,6 @@ export async function sendEmailCancelUserAsProducer(
     });
 }
 
-
 export async function sendEmailAcceptUserAsDistributor(
     username: string,
     emailTo: string,

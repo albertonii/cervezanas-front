@@ -3,7 +3,6 @@ import { redirect } from 'next/navigation';
 import { decodeBase64 } from '../../../../../utils/utils';
 import createServerClient from '../../../../../utils/supabaseServer';
 import readUserSession from '../../../../../lib/actions';
-import { VIEWS } from '../../../../../constants';
 import { IOrder } from '../../../../../lib/types/types';
 
 export async function generateMetadata({ searchParams }: any) {
@@ -40,6 +39,7 @@ export default async function SuccessPage({ searchParams }: any) {
     const { orderData, isError } = await getSuccessData(searchParams);
     const [order] = await Promise.all([orderData]);
     if (!order) return <></>;
+    console.log(order);
     return <>{order && <SuccessCheckout order={order} isError={isError} />}</>;
 }
 
@@ -66,22 +66,22 @@ async function getSuccessData(searchParams: any) {
         .from('orders')
         .select(
             `
-      *,
-      shipping_info (id, *),
-      billing_info (id, *),
-      business_orders!business_orders_order_id_fkey (
-        *,
-        order_items (
-          *,
-          product_packs (
-            *,
-            products (
-              *,
-              product_multimedia (*)
-            )
-          )
-        )
-      )
+                *,
+                shipping_info (id, *),
+                billing_info (id, *),
+                business_orders!business_orders_order_id_fkey (
+                    *,
+                    order_items (
+                        *,
+                        product_packs (
+                            *,
+                            products (
+                            *,
+                            product_multimedia (*)
+                            )
+                        )
+                    )
+                )
     `,
         )
         .eq('order_number', orderNumber)
