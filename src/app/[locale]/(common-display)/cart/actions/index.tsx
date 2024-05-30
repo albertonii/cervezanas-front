@@ -147,3 +147,40 @@ export async function insertBillingAddress(form: {
         message: res.statusText,
     };
 }
+
+interface InsertOnlineOrderProps {
+    user_id: string;
+    name: string;
+    lastname: string;
+    total: number;
+    subtotal: number;
+    delivery_cost: number;
+    discount: number;
+    discount_code: string;
+    currency: string;
+    order_number: string;
+    type: string;
+    tax: number;
+    shipping_info_id: string;
+    billing_info_id: string;
+}
+
+export async function insertOnlineOrder(form: InsertOnlineOrderProps) {
+    const url = `${baseUrl}/api/shopping_basket/online_order`;
+
+    const formData = new FormData();
+
+    Object.entries(form).forEach(([key, value]) => {
+        formData.set(key, value.toString());
+    });
+
+    const res = await fetch(url, {
+        method: 'POST',
+        body: formData,
+    });
+
+    return {
+        status: res.status,
+        message: res.statusText,
+    };
+}

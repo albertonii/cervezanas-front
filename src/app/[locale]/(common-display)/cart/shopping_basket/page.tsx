@@ -1,7 +1,6 @@
 import readUserSession from '../../../../../lib/actions';
 import createServerClient from '../../../../../utils/supabaseServer';
 import { redirect } from 'next/navigation';
-import { VIEWS } from '../../../../../constants';
 import { IUserTable } from '../../../../../lib/types/types';
 import { ShoppingBasket } from './ShoppingBasket';
 
