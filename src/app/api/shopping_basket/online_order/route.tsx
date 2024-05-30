@@ -1,5 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
+import {
+    ROUTE_BUSINESS_ORDERS,
+    ROUTE_DISTRIBUTOR,
+    ROUTE_ONLINE_ORDERS,
+    ROUTE_PRODUCER,
+    ROUTE_PROFILE,
+} from '../../../../config';
 import { ONLINE_ORDER_STATUS } from '../../../../constants';
+import { sendPushNotification } from '../../../../lib/actions';
+import { IProductPackCartItem } from '../../../../lib/types/types';
 import createServerClient from '../../../../utils/supabaseServer';
 
 export async function POST(request: NextRequest) {
@@ -21,6 +30,7 @@ export async function POST(request: NextRequest) {
     const tax = Number(formData.get('tax'));
     const shippingInfoId = formData.get('shipping_info_id') as string;
     const billingInfoId = formData.get('billing_info_id') as string;
+    const items = JSON.parse(formData.get('items') as string);
 
     const { data: order, error: orderError } = await supabase
         .from('orders')
@@ -54,6 +64,59 @@ export async function POST(request: NextRequest) {
             { status: 500 },
         );
     }
+
+    // Estoy recorriendo todos los elementos del carrito de la compra,
+    // aquellos que tengan un pack, los inserto en la tabla order_items
+    // además, como son del mismo pack y del mismo producto, los agrupo
+    // y asigno el mismo identificador de pedido para el negocio - business_order_id
+    items.map((item: IProductPackCartItem) => {
+        item.packs.map(async (pack) => {
+            const distributorId = item.distributor_id;
+            const producerId = item.producer_id;
+
+            const { data: businessOrder, error: businessOrderError } =
+                await supabase
+                    .from('business_orders')
+                    .insert({
+                        order_id: order.id,
+                        producer_id: producerId,
+                        distributor_id: distributorId,
+                    })
+                    .select('id')
+                    .single();
+
+            if (businessOrderError) throw businessOrderError;
+
+            const { error: orderItemError } = await supabase
+                .from('order_items')
+                .insert({
+                    business_order_id: businessOrder.id,
+                    product_pack_id: pack.id,
+                    quantity: pack.quantity,
+                    is_reviewed: false,
+                });
+
+            pack.products?.owner_id;
+
+            if (orderItemError) throw orderItemError;
+
+            // Notification to distributor
+            const distributorMessage = `Tienes un nuevo pedido online de ${name} ${lastname} con número de pedido ${orderNumber} y con identificador de negocio ${businessOrder.id}`;
+            const distributorLink = `${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_BUSINESS_ORDERS}`;
+
+            sendPushNotification(
+                distributorId,
+                distributorMessage,
+                distributorLink,
+            );
+
+            // Notification to producer
+            const producerMessage = `Tienes un nuevo pedido online de ${name} ${lastname} con número de pedido ${orderNumber} y con identificador de negocio ${businessOrder.id}`;
+            const producerLink = `${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_ONLINE_ORDERS}`;
+
+            sendPushNotification(producerId, producerMessage, producerLink);
+        });
+    });
 
     return NextResponse.json({ message: order.id }, { status: 201 });
 }

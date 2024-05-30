@@ -1,5 +1,7 @@
 'use server';
 
+import { IProductPackCartItem } from '../../../../../lib/types/types';
+
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function removeBillingAddressById(billingAddressId: string) {
@@ -163,6 +165,7 @@ interface InsertOnlineOrderProps {
     tax: number;
     shipping_info_id: string;
     billing_info_id: string;
+    items: IProductPackCartItem[];
 }
 
 export async function insertOnlineOrder(form: InsertOnlineOrderProps) {
@@ -170,9 +173,21 @@ export async function insertOnlineOrder(form: InsertOnlineOrderProps) {
 
     const formData = new FormData();
 
-    Object.entries(form).forEach(([key, value]) => {
-        formData.set(key, value.toString());
-    });
+    formData.set('user_id', form.user_id);
+    formData.set('name', form.name);
+    formData.set('lastname', form.lastname);
+    formData.set('total', form.total.toString());
+    formData.set('subtotal', form.subtotal.toString());
+    formData.set('delivery_cost', form.delivery_cost.toString());
+    formData.set('discount', form.discount.toString());
+    formData.set('discount_code', form.discount_code);
+    formData.set('currency', form.currency);
+    formData.set('order_number', form.order_number);
+    formData.set('type', form.type);
+    formData.set('tax', form.tax.toString());
+    formData.set('shipping_info_id', form.shipping_info_id);
+    formData.set('billing_info_id', form.billing_info_id);
+    formData.set('items', JSON.stringify(form.items));
 
     const res = await fetch(url, {
         method: 'POST',

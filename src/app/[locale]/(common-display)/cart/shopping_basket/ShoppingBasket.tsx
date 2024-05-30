@@ -78,7 +78,7 @@ interface Props {
 export function ShoppingBasket({ user }: Props) {
     const t = useTranslations();
 
-    const { isLoading, supabase } = useAuth();
+    const { isLoading } = useAuth();
     const { handleMessage } = useMessage();
 
     const { items, clearCart, checkIsShoppingCartDeliverable } =
@@ -225,79 +225,18 @@ export function ShoppingBasket({ user }: Props) {
             tax: tax,
             shipping_info_id: shippingInfoId,
             billing_info_id: billingInfoId,
+            items: items,
         };
 
         await insertOnlineOrder(object)
-            .then((res) => {
-                const orderId = res.message as string;
-
-                // Estoy recorriendo todos los elementos del carrito de la compra,
-                // aquellos que tengan un pack, los inserto en la tabla order_items
-                // además, como son del mismo pack y del mismo producto, los agrupo
-                // y asigno el mismo identificador de pedido para el negocio - business_order_id
-                items.map((item) => {
-                    item.packs.map(async (pack) => {
-                        const distributorId = item.distributor_id;
-                        const producerId = item.producer_id;
-
-                        const {
-                            data: businessOrder,
-                            error: businessOrderError,
-                        } = await supabase
-                            .from('business_orders')
-                            .insert({
-                                order_id: orderId,
-                                producer_id: producerId,
-                                distributor_id: distributorId,
-                            })
-                            .select('id')
-                            .single();
-
-                        if (businessOrderError) throw businessOrderError;
-
-                        const { error: orderItemError } = await supabase
-                            .from('order_items')
-                            .insert({
-                                business_order_id: businessOrder.id,
-                                product_pack_id: pack.id,
-                                quantity: pack.quantity,
-                                is_reviewed: false,
-                            });
-
-                        pack.products?.owner_id;
-
-                        if (orderItemError) throw orderItemError;
-
-                        // Notification to distributor
-                        const distributorMessage = `Tienes un nuevo pedido online de ${user?.name} ${user?.lastname} con número de pedido ${orderNumber} con identificador de negocio ${businessOrder.id}`;
-                        const distributorLink = `${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_BUSINESS_ORDERS}`;
-
-                        sendPushNotification(
-                            distributorId,
-                            distributorMessage,
-                            distributorLink,
-                        );
-
-                        // Notification to producer
-                        const producerMessage = `Tienes un nuevo pedido online de ${user?.name} ${user?.lastname} con número de pedido ${orderNumber} con identificador de negocio ${businessOrder.id}`;
-                        const producerLink = `${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_ONLINE_ORDERS}`;
-
-                        sendPushNotification(
-                            producerId,
-                            producerMessage,
-                            producerLink,
-                        );
-                    });
-                });
-
+            .then(() => {
                 setIsFormReady(true);
             })
             .catch((error) => {
                 console.error(error);
-
                 handleMessage({
                     type: 'error',
-                    message: t('error_creating_order'),
+                    message: t('error_inserting_order'),
                 });
             });
     };
