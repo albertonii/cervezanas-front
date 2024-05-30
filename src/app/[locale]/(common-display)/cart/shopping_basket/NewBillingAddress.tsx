@@ -1,6 +1,8 @@
 'use client';
 
+import Spinner from '../../../components/common/Spinner';
 import AddressForm from '../../../components/AddressForm';
+import ModalWithForm from '../../../components/modals/ModalWithForm';
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
@@ -8,10 +10,10 @@ import { useAuth } from '../../../(auth)/Context/useAuth';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
 import { ModalBillingAddressFormData } from '../../../../../lib/types/types';
-import ModalWithForm from '../../../components/modals/ModalWithForm';
 import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Spinner from '../../../components/common/Spinner';
+import { insertBillingAddress } from '../actions';
+import { useMessage } from '../../../components/message/useMessage';
 
 const schema: ZodType<ModalBillingAddressFormData> = z.object({
     name: z.string().nonempty({ message: 'errors.input_required' }),
@@ -32,7 +34,8 @@ type ValidationSchema = z.infer<typeof schema>;
 export function NewBillingAddress() {
     const t = useTranslations();
 
-    const { user, supabase } = useAuth();
+    const { user } = useAuth();
+    const { handleMessage } = useMessage();
 
     const [isLoading, setIsLoading] = useState(false);
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -50,45 +53,44 @@ export function NewBillingAddress() {
     const handleAddBillingAddress = async (form: ValidationSchema) => {
         setIsLoading(true);
 
-        const {
-            name,
-            lastname,
-            document_id,
-            phone,
-            address,
-            country,
-            state,
-            city,
-            zipcode,
-            is_default,
-        } = form;
+        const object = {
+            user_id: user?.id,
+            name: form.name,
+            lastname: form.lastname,
+            document_id: form.document_id,
+            phone: form.phone,
+            address: form.address,
+            country: form.country,
+            zipcode: form.zipcode,
+            city: form.city,
+            state: form.state,
+            is_default: form.is_default,
+        };
 
-        const { error } = await supabase.from('billing_info').insert({
-            owner_id: user?.id,
-            name,
-            lastname,
-            document_id,
-            phone,
-            address,
-            country,
-            zipcode,
-            city,
-            state,
-            is_default,
-        });
+        await insertBillingAddress(object)
+            .then(() => {
+                queryClient.invalidateQueries('billingAddresses');
+                setShowModal(false);
+                setIsLoading(false);
+                setIsSubmitting(false);
+                reset();
 
-        if (error) {
-            console.error(error);
+                handleMessage({
+                    type: 'success',
+                    message: t('billing_address_created_successfully'),
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+                setIsLoading(false);
+                handleMessage({
+                    type: 'error',
+                    message: t('error_creating_billing_address'),
+                });
+            });
 
-            setIsLoading(false);
-            throw error;
-        }
 
-        setIsLoading(false);
-        setShowModal(false);
-        queryClient.invalidateQueries('billingAddresses');
 
-        reset();
     };
 
     const insertBillingMutation = useMutation({

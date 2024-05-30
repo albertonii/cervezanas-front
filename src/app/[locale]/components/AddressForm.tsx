@@ -132,22 +132,26 @@ export default function AddressForm({ form, addressNameId }: Props) {
                         }}
                     />
 
-                    <InputLabel
-                        form={form}
-                        label={'address_extra'}
-                        registerOptions={{
-                            required: false,
-                        }}
-                    />
+                    {addressNameId === 'shipping' && (
+                        <>
+                            <InputLabel
+                                form={form}
+                                label={'address_extra'}
+                                registerOptions={{
+                                    required: false,
+                                }}
+                            />
 
-                    <InputLabel
-                        form={form}
-                        label={'address_observations'}
-                        registerOptions={{
-                            required: false,
-                        }}
-                        placeholder={`${t('address_observations')}*`}
-                    />
+                            <InputLabel
+                                form={form}
+                                label={'address_observations'}
+                                registerOptions={{
+                                    required: false,
+                                }}
+                                placeholder={`${t('address_observations')}*`}
+                            />
+                        </>
+                    )}
 
                     {apiCallError && (
                         <DisplayInputError
