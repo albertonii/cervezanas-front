@@ -39,6 +39,7 @@ export enum ROLE_ENUM {
     Productor = 'producer',
     Moderator = 'moderator',
     Distributor = 'distributor',
+    Consumption_point = 'consumption_point',
     Admin = 'admin',
 }
 
@@ -54,6 +55,10 @@ export const ROLE_OPTIONS = [
     {
         label: 'Distribuidor',
         value: ROLE_ENUM.Distributor,
+    },
+    {
+        label: 'Punto de Consumo',
+        value: ROLE_ENUM.Consumption_point,
     },
 ];
 

@@ -139,9 +139,6 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
             return;
         }
 
-        console.log(pack?.id);
-        console.log(pack?.product_id);
-
         const packCartItem: IProductPack = {
             id: pack?.id ?? '',
             created_at: pack?.created_at ?? '',

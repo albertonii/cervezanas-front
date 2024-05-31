@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Button from '../../components/common/Button';
 import Spinner from '../../components/common/Spinner';
 import { useState } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
@@ -17,8 +17,7 @@ import { useMutation } from 'react-query';
 import { useAuth } from '../Context/useAuth';
 import { ROLE_ENUM, ROLE_OPTIONS } from '../../../../lib/enums';
 import { SupabaseProps } from '../../../../constants';
-import { useRouter } from 'next/navigation';
-import { ROUTE_SIGNIN } from '../../../../config';
+import ConsumptionPointDisclaimerModal from '../../(roles)/admin/profile/consumption_points/ConsumptionPointDisclaimerModal';
 
 interface FormData {
     access_level: string;
@@ -67,12 +66,11 @@ type ValidationSchema = z.infer<typeof schema>;
 
 export const SignUpForm = () => {
     const t = useTranslations();
-    const router = useRouter();
-    const locale = useLocale();
 
     const { signUp, isLoading: loading } = useAuth();
     const [isProducer, setIsProducer] = useState(false);
     const [isDistributor, setIsDistributor] = useState(false);
+    const [isConsumptionPoint, setIsConsumptionPoint] = useState(false);
 
     const form = useForm<FormData>({
         resolver: zodResolver(schema),
@@ -120,10 +118,11 @@ export const SignUpForm = () => {
                     setIsProducer(true);
                 } else if (role === ROLE_ENUM.Distributor) {
                     setIsDistributor(true);
+                } else if (role === ROLE_ENUM.Consumption_point) {
+                    setIsConsumptionPoint(true);
                 }
 
                 reset();
-                // router.push(`/${locale}${ROUTE_SIGNIN}`);
             }
         });
     };
@@ -150,6 +149,7 @@ export const SignUpForm = () => {
     const handleCloseModal = () => {
         setIsProducer(false);
         setIsDistributor(false);
+        setIsConsumptionPoint(false);
     };
 
     const handleSetIsProducer = (isProducer: boolean) => {
@@ -158,6 +158,10 @@ export const SignUpForm = () => {
 
     const handleSetIsDistributor = (isDistributor: boolean) => {
         setIsDistributor(isDistributor);
+    };
+
+    const handleSetIsConsumptionPoint = (isConsumptionPoint: boolean) => {
+        setIsConsumptionPoint(isConsumptionPoint);
     };
 
     return (
@@ -324,6 +328,46 @@ export const SignUpForm = () => {
                 </div>
             )}
 
+            {role === ROLE_ENUM.Consumption_point && (
+                <div className="flex w-full flex-col space-y-2">
+                    <div className="w-full">
+                        <label
+                            className={
+                                'flex w-full flex-row-reverse  items-end justify-end gap-1 space-y-2 text-sm text-gray-600'
+                            }
+                        >
+                            <span className="font-medium">
+                                {t(
+                                    'consumption_point_disclaimer_read_and_accepantance',
+                                )}
+                            </span>
+
+                            <input
+                                type="checkbox"
+                                className={
+                                    'float-right h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde'
+                                }
+                            />
+                        </label>
+                    </div>
+
+                    <p className="text-xs text-gray-500">
+                        <Link
+                            href={
+                                SupabaseProps.BASE_DOCUMENTS_URL +
+                                '/acuerdo_punto_consumo_cervezanas.pdf?t=2024-01-24T17%3A51%3A27.332Z'
+                            }
+                            target={'_blank'}
+                        >
+                            <span className="mx-1 text-beer-darkGold hover:underline">
+                                {t('click_here_to_download')}{' '}
+                                {t('consumption_point_read_disclaimer')}
+                            </span>
+                        </Link>
+                    </p>
+                </div>
+            )}
+
             {loading ? (
                 <span>
                     <Spinner color={''} size={''} />
@@ -339,6 +383,14 @@ export const SignUpForm = () => {
                     <DistributorDisclaimerModal
                         isDistributor={isDistributor}
                         handleSetIsDistributor={handleSetIsDistributor}
+                        handleCloseModal={handleCloseModal}
+                    />
+
+                    <ConsumptionPointDisclaimerModal
+                        isConsumptionPoint={isConsumptionPoint}
+                        handleSetIsConsumptionPoint={
+                            handleSetIsConsumptionPoint
+                        }
                         handleCloseModal={handleCloseModal}
                     />
 

@@ -199,3 +199,16 @@ export async function insertOnlineOrder(form: InsertOnlineOrderProps) {
         message: res.statusText,
     };
 }
+
+export async function getShippingInfoById(shippingInfoId: string) {
+    const url = `${baseUrl}/api/shopping_basket/shipping_address?shipping_info_id=${shippingInfoId}`;
+
+    const res = await fetch(url, {
+        method: 'GET',
+    });
+
+    return {
+        status: res.status,
+        message: res.statusText,
+    };
+}

@@ -15,9 +15,6 @@ export async function PUT(request: NextRequest) {
             product_id: string;
         }[] = JSON.parse(formData.get('box_packs') as string);
 
-        console.log(boxPackId);
-        console.log(boxPackItems);
-
         // Remove all box pack items
         const { error: errorDeleteBoxPackItems } = await supabase
             .from('box_pack_items')

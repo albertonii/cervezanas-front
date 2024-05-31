@@ -3,25 +3,25 @@ import React, { ComponentProps } from 'react';
 import Modal from '../../../../components/modals/Modal';
 
 interface Props {
-    isDistributor: boolean;
-    handleSetIsDistributor: ComponentProps<any>;
+    isConsumptionPoint: boolean;
+    handleSetIsConsumptionPoint: ComponentProps<any>;
     handleCloseModal: ComponentProps<any>;
 }
 
-export default function DistributorDisclaimerModal({
-    isDistributor,
-    handleSetIsDistributor,
+export default function ConsumptionPointDisclaimerModal({
+    isConsumptionPoint,
+    handleSetIsConsumptionPoint,
     handleCloseModal,
 }: Props) {
     const t = useTranslations();
     return (
         <Modal
             showBtn={false}
-            showModal={isDistributor}
-            setShowModal={handleSetIsDistributor}
+            showModal={isConsumptionPoint}
+            setShowModal={handleSetIsConsumptionPoint}
             btnTitle={t('accept')}
             title={'Bienvenido a Cervezanas'}
-            description={'¡Gracias por registrarse como distribuidor!'}
+            description={'¡Gracias por registrarse como Punto de Consumo!'}
             handler={() => handleCloseModal()}
             handlerClose={() => handleCloseModal()}
             classIcon={''}
@@ -30,10 +30,11 @@ export default function DistributorDisclaimerModal({
             <section className="space-y-4">
                 <p>
                     Al registrarse como{' '}
-                    <span className="font-semibold">distribuidor</span> en la
-                    aplicación Cervezanas, acepta que su acceso a las funciones
-                    y servicios ofrecidos por la plataforma está sujeto a una
-                    revisión y aprobación por parte de nuestro equipo.
+                    <span className="font-semibold">PUNTO DE CONSUMO</span> en
+                    la aplicación Cervezanas, acepta que su acceso a las
+                    funciones y servicios ofrecidos por la plataforma está
+                    sujeto a una revisión y aprobación por parte de nuestro
+                    equipo.
                 </p>
                 <p>Por favor, tenga en cuenta lo siguiente:</p>
 
@@ -41,8 +42,8 @@ export default function DistributorDisclaimerModal({
                     <span className="font-semibold">
                         Revisión de la Solicitud:
                     </span>{' '}
-                    Su solicitud de registro como distribuidor será revisada por
-                    nuestro equipo. Este proceso puede tomar cierto tiempo
+                    Su solicitud de registro como PUNTO DE CONSUMO será revisada
+                    por nuestro equipo. Este proceso puede tomar cierto tiempo
                     mientras verificamos la información proporcionada y
                     aseguramos que cumple con nuestros estándares de calidad y
                     normativas legales.

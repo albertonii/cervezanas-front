@@ -16,7 +16,6 @@ export default function BusinessOrderDetails({ bOrder }: Props) {
     const t = useTranslations();
     const locale = useLocale();
 
-    console.log(bOrder);
     if (!bOrder.order_items || bOrder.order_items.length === 0) return <></>;
 
     const productName = bOrder.order_items[0].product_packs?.products?.name;

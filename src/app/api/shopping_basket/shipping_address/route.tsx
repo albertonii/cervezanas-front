@@ -1,6 +1,35 @@
 import { NextRequest, NextResponse } from 'next/server';
 import createServerClient from '../../../../utils/supabaseServer';
 
+export async function GET(request: NextRequest) {
+    const supabase = await createServerClient();
+    const { searchParams } = new URL(request.url);
+
+    // Extract shipping_info_id from url
+    const shippingInfoId = searchParams.get('shipping_info_id');
+
+    if (!shippingInfoId)
+        return NextResponse.json(
+            { message: 'Shipping address id is required' },
+            { status: 400 },
+        );
+
+    const { data: shipping, error } = await supabase
+        .from('shipping_info')
+        .select(`*`)
+        .eq('id', shippingInfoId)
+        .single();
+
+    if (error) {
+        return NextResponse.json(
+            { message: 'Error fetching shipping address' },
+            { status: 500 },
+        );
+    }
+
+    return NextResponse.json({ shipping });
+}
+
 export async function POST(request: NextRequest) {
     const supabase = await createServerClient();
 
