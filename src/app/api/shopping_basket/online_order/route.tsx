@@ -71,6 +71,9 @@ export async function POST(request: NextRequest) {
     // y asigno el mismo identificador de pedido para el negocio - business_order_id
     items.map((item: IProductPackCartItem) => {
         item.packs.map(async (pack) => {
+            // HAY UN ERROR EN PACKS -> Si nos fijamos en el valor de pack.id es el mismo que product_id -> Hay que buscar la causa de esto
+
+            console.log(pack);
             const distributorId = item.distributor_id;
             const producerId = item.producer_id;
 

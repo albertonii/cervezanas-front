@@ -37,9 +37,21 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
     const [pack, setPack] = useState<IProductPack>();
 
     useEffect(() => {
-        // Create new pack
+        if (
+            !product.product_packs ||
+            product.product_packs[0] === undefined ||
+            !product.product_packs[0].id
+        ) {
+            handleMessage({
+                type: 'error',
+                message: 'no_product_packs',
+            });
+
+            return;
+        }
+
         const newPack: IProductPack = {
-            id: product.id,
+            id: product.product_packs[0].id,
             product_id: product.id,
             created_at: product.created_at,
             quantity: 1,
@@ -126,6 +138,9 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
             });
             return;
         }
+
+        console.log(pack?.id);
+        console.log(pack?.product_id);
 
         const packCartItem: IProductPack = {
             id: pack?.id ?? '',

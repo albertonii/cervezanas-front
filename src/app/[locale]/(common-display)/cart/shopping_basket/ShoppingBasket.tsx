@@ -21,7 +21,7 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { formatCurrency } from '../../../../../utils/formatCurrency';
 import { CustomLoading } from '../../../components/common/CustomLoading';
-import { API_METHODS, ONLINE_ORDER_STATUS } from '../../../../../constants';
+import { API_METHODS } from '../../../../../constants';
 import { useShoppingCart } from '../../../../context/ShoppingCartContext';
 import {
     createRedirectForm,
@@ -30,23 +30,9 @@ import {
 import BillingAddressItem from './BillingAddressItemInfo';
 import Spinner from '../../../components/common/Spinner';
 import { IUserTable } from '../../../../../lib/types/types';
-import {
-    ROUTE_BUSINESS_ORDERS,
-    ROUTE_DISTRIBUTOR,
-    ROUTE_ONLINE_ORDERS,
-    ROUTE_PRODUCER,
-    ROUTE_PROFILE,
-} from '../../../../../config';
-import { sendPushNotification } from '../../../../../lib/actions';
+
 import { insertOnlineOrder } from '../actions';
 import { useMessage } from '../../../components/message/useMessage';
-
-// const DynamicSpinner = dynamic(
-//     () => import('../../../components/common/Spinner'),
-//     {
-//         ssr: false,
-//     },
-// );
 
 export type FormShippingData = {
     shipping_info_id: string;
