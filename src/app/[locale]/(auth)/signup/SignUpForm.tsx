@@ -89,6 +89,8 @@ export const SignUpForm = () => {
     const handleChangeRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value: any = event?.target.value;
 
+        console.log(value);
+
         setRole(value);
     };
 
@@ -182,19 +184,19 @@ export const SignUpForm = () => {
             />
 
             {/* <div className="flex w-full flex-col space-y-2">
-        <select
-          {...register("access_level")}
-          value={role}
-          onChange={handleChangeRole}
-          className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-        >
-          {ROLE_OPTIONS.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </div> */}
+                <select
+                {...register("access_level")}
+                value={role}
+                onChange={handleChangeRole}
+                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                >
+                {ROLE_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                    {option.label}
+                    </option>
+                ))}
+                </select>
+            </div> */}
 
             <InputLabel
                 form={form}

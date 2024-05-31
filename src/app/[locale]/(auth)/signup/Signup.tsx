@@ -47,7 +47,7 @@ export default function Signup() {
         <section className="w-full lg:grid lg:grid-cols-2">
             {/* Signup form  */}
             <article className="mx-auto flex w-[80vw] sm:w-[60vw] flex-1 gap-4 flex-col justify-start px-4 py-12 sm:px-6 lg:w-full lg:flex-none lg:px-20 xl:px-24">
-                <div className="mx-auto w-full max-w-sm lg:w-96">
+                <div className="mx-auto flex w-full flex-1 flex-col justify-start lg:flex-none ">
                     <span>
                         <h2 className="mt-6 text-start text-3xl font-bold tracking-tight text-gray-900">
                             {t('create_account')}

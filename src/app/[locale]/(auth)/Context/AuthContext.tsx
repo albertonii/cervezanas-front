@@ -266,13 +266,15 @@ export const AuthContextProvider = ({
             'messages.user_already_registered',
         );
 
+        console.log(payload.options?.data);
+
         // Check if user exists
         const { data: user, error: emailError } = await supabase
             .from('users')
             .select(
                 `
-                        *
-                    `,
+                    *
+                `,
             )
             .eq('email', payload.email);
 
@@ -291,6 +293,8 @@ export const AuthContextProvider = ({
             });
             return;
         }
+
+        console.log(payload);
 
         const { error, data } = (await supabase.auth.signUp(
             payload,
@@ -321,12 +325,6 @@ export const AuthContextProvider = ({
                 producerLink,
             );
 
-            clearMessages();
-            handleMessage({
-                message: signUpMessage,
-                type: 'success',
-            });
-
             return data;
         } else if (access_level === ROLE_ENUM.Distributor) {
             // Notificar a administrador que se ha registrado un nuevo distribuidor y está esperando aprobación
@@ -341,24 +339,32 @@ export const AuthContextProvider = ({
                 distributorLink,
             );
 
-            clearMessages();
-            handleMessage({
-                message: signUpMessage,
-                type: 'success',
-            });
+            return data;
+        } else if (access_level === ROLE_ENUM.Consumption_point) {
+            // Notificar a administrador que se ha registrado un nuevo punto de consumo y está esperando aprobación
+            const newConsumptionPointMessage = `El punto de consumo ${data.user?.user_metadata.username} se ha registrado y está esperando aprobación`;
+            const consumptionPointLink = `${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_AUTHORIZED_USERS}`;
+
+            // TODO -> Crear funcion sendNewConsumptionPointEmail
+            await sendNewDistributorEmail(payload.email as string);
+
+            await sendPushNotification(
+                process.env.NEXT_PUBLIC_ADMIN_ID as string,
+                newConsumptionPointMessage,
+                consumptionPointLink,
+            );
 
             return data;
         }
 
         if (error) {
             handleMessage({ message: error.message, type: 'error' });
-        } else {
-            clearMessages();
-            handleMessage({
-                message: signUpMessage,
-                type: 'success',
-            });
         }
+        clearMessages();
+        handleMessage({
+            message: signUpMessage,
+            type: 'success',
+        });
 
         return data;
     };

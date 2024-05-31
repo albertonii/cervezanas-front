@@ -1304,6 +1304,15 @@ export interface IProducerUser {
     users?: IUserTable; // To access embeded information we need to get into the table and the look for data
 }
 
+export interface IConsumptionPointUser {
+    user_id: string; // FK ID
+    created_at: string;
+    company_name: string;
+    company_description: string;
+    is_authorized: boolean;
+    users?: IUserTable;
+}
+
 export interface IDistributionContract {
     producer_id: string;
     distributor_id: string;
