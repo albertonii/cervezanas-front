@@ -40,10 +40,9 @@ export default function BoxProductSlotsSection({ form }: Props) {
         );
 
         setBoxWeight(
-            boxPack.boxPackItems.reduce(
-                (acc, item) => acc + item.quantity * item.products!.weight,
-                0,
-            ),
+            boxPack.boxPackItems.reduce((acc, item) => {
+                return acc + item.quantity * item.products!.weight;
+            }, 0),
         );
     }, [boxPack.boxPackItems]);
 
@@ -104,10 +103,12 @@ export default function BoxProductSlotsSection({ form }: Props) {
                 />
             </div>
 
+            {/* Left side  */}
             <div className="col-span-1">
                 <BoxProductSlotsSelection />
             </div>
 
+            {/* Right side  */}
             <div className="col-span-1">
                 <SearchCheckboxProductSlot form={form} />
             </div>

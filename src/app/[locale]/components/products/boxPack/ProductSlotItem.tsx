@@ -32,10 +32,10 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
     const [showAccordion, setShowAccordion] = useState(false);
 
     const [quantity, setQuantity] = useState(
-        boxPack.boxPackItems[index]?.quantity,
+        boxPack.boxPackItems[index]?.quantity ?? 1,
     );
     const [slotsPerProduct, setSlotsPerProduct] = useState(
-        boxPack.boxPackItems[index]?.slots_per_product,
+        boxPack.boxPackItems[index]?.slots_per_product ?? 1,
     );
 
     const [checkboxError, setCheckboxError] = useState(false);
