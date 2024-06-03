@@ -167,7 +167,9 @@ export default function Modal(props: Props) {
                             isLoading
                                 ? 'overflow-hidden overscroll-none'
                                 : 'overflow-y-auto overflow-x-hidden'
-                        } fixed inset-0 z-50 flex items-start justify-center  pt-16 outline-none focus:outline-none`}
+                        } fixed inset-0 z-50 flex items-start justify-center  pt-16 outline-none focus:outline-none
+                            bg-beer-blonde bg-opacity-50
+                        `}
                     >
                         {/* The modal  */}
                         <div

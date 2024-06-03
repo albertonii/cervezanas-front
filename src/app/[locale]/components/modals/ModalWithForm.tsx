@@ -172,7 +172,10 @@ export default function ModalWithForm(props: Props) {
                             isLoading
                                 ? 'overflow-hidden overscroll-none'
                                 : 'overflow-y-auto overflow-x-hidden'
-                        } fixed inset-0 z-50 flex items-start justify-center  pt-16 outline-none focus:outline-none`}
+                        } fixed inset-0 z-50 flex items-start justify-center  pt-16 outline-none focus:outline-none
+                            bg-beer-blonde bg-opacity-50
+
+                            `}
                     >
                         {/* The modal  */}
                         <div
@@ -196,7 +199,9 @@ export default function ModalWithForm(props: Props) {
                                         <span className=" block h-6 w-6 text-2xl text-black outline-none focus:outline-none">
                                             <FontAwesomeIcon
                                                 icon={faXmark}
-                                                style={{ color: 'beer-dark' }}
+                                                style={{
+                                                    color: 'beer-dark',
+                                                }}
                                                 onClick={() => handleClose()}
                                                 title={'Close Modal'}
                                             />
