@@ -268,11 +268,12 @@ export default function UpdateEventModal({
     const onSubmit: SubmitHandler<ValidationSchema> = (
         formValues: ModalUpdateFormData,
     ) => {
-        try {
-            updateEventMutation.mutate(formValues);
-        } catch (e) {
-            console.error(e);
-        }
+        return new Promise<void>((resolve, reject) => {
+            updateEventMutation.mutate(formValues, {
+                onSuccess: () => resolve(),
+                onError: (error) => reject(error),
+            });
+        });
     };
 
     return (

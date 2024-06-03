@@ -1,19 +1,19 @@
 import AddressForm from '../../../components/AddressForm';
+import Spinner from '../../../components/common/Spinner';
+import ModalWithForm from '../../../components/modals/ModalWithForm';
 import React, { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
+import { insertShippingAddress } from '../actions';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import {
     IAddressForm,
     ModalShippingAddressFormData,
 } from '../../../../../lib/types/types';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
-import ModalWithForm from '../../../components/modals/ModalWithForm';
 import { z, ZodType } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Spinner from '../../../components/common/Spinner';
-import { insertShippingAddress } from '../actions';
 import { useMessage } from '../../../components/message/useMessage';
 
 const schema: ZodType<ModalShippingAddressFormData> = z.object({
@@ -107,11 +107,12 @@ export function NewShippingAddress() {
     const onSubmit: SubmitHandler<ValidationSchema> = (
         formValues: ModalShippingAddressFormData,
     ) => {
-        try {
-            insertShippingMutation.mutate(formValues);
-        } catch (e) {
-            console.error(e);
-        }
+        return new Promise<void>((resolve, reject) => {
+            insertShippingMutation.mutate(formValues, {
+                onSuccess: () => resolve(),
+                onError: (error: any) => reject(error),
+            });
+        });
     };
 
     return (
@@ -126,16 +127,10 @@ export function NewShippingAddress() {
             handler={handleSubmit(onSubmit)}
             btnSize={'large'}
             classIcon={'w-6 h-6'}
-            classContainer={`!w-1/2 ${isSubmitting && 'opacity-50'}`}
+            classContainer={`!w-1/2 ${isSubmitting && 'opacity-75'}`}
             form={form}
         >
             <>
-                {isLoading && (
-                    <div className="h-[50vh]">
-                        <Spinner size="xxLarge" color="beer-blonde" center />
-                    </div>
-                )}
-
                 <AddressForm form={form} addressNameId={'shipping'} />
             </>
         </ModalWithForm>

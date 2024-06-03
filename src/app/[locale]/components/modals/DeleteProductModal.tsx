@@ -245,7 +245,7 @@ export function DeleteProductModal({
             <>
                 {isLoading && (
                     <div className="h-[50vh]">
-                        <Spinner size="xxLarge" color="beer-blonde" center />
+                        <Spinner size="xxLarge" color="beer-blonde" />
                     </div>
                 )}
             </>

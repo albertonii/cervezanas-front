@@ -183,17 +183,17 @@ export function AddBoxPackModal() {
             return;
         }
 
-            handleMessage({
-                type: 'success',
-                message: 'Box pack created successfully',
-            });
+        handleMessage({
+            type: 'success',
+            message: 'Box pack created successfully',
+        });
 
-            setShowModal(false);
-            queryClient.invalidateQueries('productList');
+        setShowModal(false);
+        queryClient.invalidateQueries('productList');
 
-            clear();
-            reset();
-            setIsLoading(false);
+        clear();
+        reset();
+        setIsLoading(false);
     };
 
     const insertProductMutation = useMutation({
@@ -214,11 +214,12 @@ export function AddBoxPackModal() {
     const onSubmit: SubmitHandler<ValidationSchema> = (
         formValues: ModalAddBoxPackFormData,
     ) => {
-        try {
-            insertProductMutation.mutate(formValues);
-        } catch (e) {
-            console.error(e);
-        }
+        return new Promise<void>((resolve, reject) => {
+            insertProductMutation.mutate(formValues, {
+                onSuccess: () => resolve(),
+                onError: (error: any) => reject(error),
+            });
+        });
     };
 
     return (

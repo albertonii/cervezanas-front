@@ -196,11 +196,16 @@ export default function AddBeerMasterExperienceModal() {
     const onSubmit: SubmitHandler<ValidationSchema> = (
         formValues: IAddModalExperienceBeerMasterFormData,
     ) => {
-        try {
-            insertExperienceMutation.mutate(formValues);
-        } catch (error) {
-            console.error(error);
-        }
+        return new Promise<void>((resolve, reject) => {
+            insertExperienceMutation.mutate(formValues, {
+                onSuccess: () => {
+                    resolve();
+                },
+                onError: (error) => {
+                    reject(error);
+                },
+            });
+        });
     };
 
     return (

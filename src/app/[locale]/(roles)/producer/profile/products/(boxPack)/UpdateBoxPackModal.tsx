@@ -148,8 +148,6 @@ export function UpdateBoxPackModal({
     };
 
     const updateBasicSection = async (formValues: ValidationSchema) => {
-        setIsLoading(true);
-
         const { name, description, price, weight, is_public, slots_per_box } =
             formValues;
 
@@ -182,12 +180,11 @@ export function UpdateBoxPackModal({
         }
 
         queryClient.invalidateQueries('productList');
+        // handleEditShowModal(false);
         setIsLoading(false);
     };
 
     const updateSlotsSection = async () => {
-        setIsLoading(true);
-
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
         const url = `${baseUrl}/api/products/box_packs/box_slots`;
 
@@ -214,12 +211,11 @@ export function UpdateBoxPackModal({
         }
 
         queryClient.invalidateQueries('productList');
+        // handleEditShowModal(false);
         setIsLoading(false);
     };
 
     const handleUpdateBoxPack = async (form: ValidationSchema) => {
-        setIsLoading(true);
-
         if (
             dirtyFields.name ||
             dirtyFields.description ||
@@ -228,11 +224,11 @@ export function UpdateBoxPackModal({
             dirtyFields.is_public ||
             dirtyFields.slots_per_box
         ) {
-            updateBasicSection(form);
+            await updateBasicSection(form);
         }
 
         if (boxPack.is_box_pack_dirty) {
-            updateSlotsSection();
+            await updateSlotsSection();
         }
 
         handleMessage({
@@ -240,11 +236,8 @@ export function UpdateBoxPackModal({
             message: 'Box pack created successfully',
         });
 
-        handleEditShowModal(false);
-
         clear();
         reset();
-        setIsLoading(false);
     };
 
     const updateProductMutation = useMutation({
@@ -252,6 +245,7 @@ export function UpdateBoxPackModal({
         mutationFn: handleUpdateBoxPack,
         onMutate: () => {
             setIsSubmitting(true);
+            setIsLoading(true);
         },
         onSuccess: () => {
             setIsSubmitting(false);
@@ -265,11 +259,12 @@ export function UpdateBoxPackModal({
     const onSubmit: SubmitHandler<ValidationSchema> = (
         formValues: ModalUpdateBoxPackFormData,
     ) => {
-        try {
-            updateProductMutation.mutate(formValues);
-        } catch (e) {
-            console.error(e);
-        }
+        return new Promise<void>((resolve, reject) => {
+            updateProductMutation.mutate(formValues, {
+                onSuccess: () => resolve(),
+                onError: (error) => reject(error),
+            });
+        });
     };
 
     return (
@@ -289,38 +284,32 @@ export function UpdateBoxPackModal({
             }}
             form={form}
         >
-            {isLoading ? (
-                <div className="h-[50vh]">
-                    <Spinner size="xxLarge" color="beer-blonde" center />
-                </div>
-            ) : (
-                <form>
-                    <BoxPackStepper
-                        activeStep={activeStep}
-                        handleSetActiveStep={handleSetActiveStep}
-                        isSubmitting={isSubmitting}
-                    >
-                        <>
-                            <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
-                                {t('modal_product_description')}
-                            </p>
+            <form>
+                <BoxPackStepper
+                    activeStep={activeStep}
+                    handleSetActiveStep={handleSetActiveStep}
+                    isSubmitting={isSubmitting}
+                >
+                    <>
+                        <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
+                            {t('modal_product_description')}
+                        </p>
 
-                            {activeStep === 0 ? (
-                                <UpdateBoxPackInfoSection form={form} />
-                            ) : activeStep === 1 ? (
-                                <UpdateBoxProductSlotsSection form={form} />
-                            ) : activeStep === 2 ? (
-                                <UpdateBoxMultimediaSection
-                                    form={form}
-                                    productId={product.id}
-                                />
-                            ) : (
-                                <UpdateBoxSummary form={form} />
-                            )}
-                        </>
-                    </BoxPackStepper>
-                </form>
-            )}
+                        {activeStep === 0 ? (
+                            <UpdateBoxPackInfoSection form={form} />
+                        ) : activeStep === 1 ? (
+                            <UpdateBoxProductSlotsSection form={form} />
+                        ) : activeStep === 2 ? (
+                            <UpdateBoxMultimediaSection
+                                form={form}
+                                productId={product.id}
+                            />
+                        ) : (
+                            <UpdateBoxSummary form={form} />
+                        )}
+                    </>
+                </BoxPackStepper>
+            </form>
         </ModalWithForm>
     );
 }

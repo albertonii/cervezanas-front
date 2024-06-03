@@ -591,11 +591,12 @@ export function AddProductModal() {
     const onSubmit: SubmitHandler<ValidationSchema> = (
         formValues: ModalAddProductFormData,
     ) => {
-        try {
-            insertProductMutation.mutate(formValues);
-        } catch (e) {
-            console.error(e);
-        }
+        return new Promise<void>((resolve, reject) => {
+            insertProductMutation.mutate(formValues, {
+                onSuccess: () => resolve(),
+                onError: (error) => reject(error),
+            });
+        });
     };
 
     return (

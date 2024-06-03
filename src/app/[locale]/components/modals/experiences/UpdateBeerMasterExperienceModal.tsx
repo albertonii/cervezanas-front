@@ -126,7 +126,7 @@ export default function UpdateBeerMasterExperienceModal({
     } = form;
 
     const handleUpdateBeerMasterExperience = async (form: ValidationSchema) => {
-        setIsLoading(true)
+        setIsLoading(true);
 
         const { name, description, type, questions } = form;
 
@@ -143,7 +143,7 @@ export default function UpdateBeerMasterExperienceModal({
             .single();
 
         if (!experience) {
-        setIsLoading(false);
+            setIsLoading(false);
             return;
         }
 
@@ -261,7 +261,6 @@ export default function UpdateBeerMasterExperienceModal({
         reset();
         setIsLoading(false);
         setTimeout(() => {
-            
             queryClient.invalidateQueries('experiences');
         }, 300);
     };
@@ -277,11 +276,16 @@ export default function UpdateBeerMasterExperienceModal({
     const onSubmit: SubmitHandler<ValidationSchema> = (
         formValues: IUpdModalExperienceBeerMasterFormData,
     ) => {
-        try {
-            updateExperienceMutation.mutate(formValues);
-        } catch (error) {
-            console.error(error);
-        }
+        return new Promise<void>((resolve, reject) => {
+            updateExperienceMutation.mutate(formValues, {
+                onSuccess: () => {
+                    resolve();
+                },
+                onError: (error) => {
+                    reject(error);
+                },
+            });
+        });
     };
 
     return (
@@ -301,26 +305,26 @@ export default function UpdateBeerMasterExperienceModal({
                     <Spinner size="xxLarge" color="beer-blonde" center />
                 </div>
             ) : (
-            <form>
-                <UpdExperienceBasicForm
-                    form={form}
-                    setIsBeerMasterExperience={setIsBeerMasterExperience}
-                />
+                <form>
+                    <UpdExperienceBasicForm
+                        form={form}
+                        setIsBeerMasterExperience={setIsBeerMasterExperience}
+                    />
 
-                {/* List of Q&A for Beer Master Experience  */}
-                {isBeerMasterExperience && (
-                    <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                        <legend className="text-2xl">
-                            {t('questions_and_answers_experience')}
-                        </legend>
+                    {/* List of Q&A for Beer Master Experience  */}
+                    {isBeerMasterExperience && (
+                        <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                            <legend className="text-2xl">
+                                {t('questions_and_answers_experience')}
+                            </legend>
 
-                        <UpdBeerMasterQuestions
-                            form={form}
-                            experienceId={selectedExperience.id}
-                        />
-                    </fieldset>
-                )}
-            </form>
+                            <UpdBeerMasterQuestions
+                                form={form}
+                                experienceId={selectedExperience.id}
+                            />
+                        </fieldset>
+                    )}
+                </form>
             )}
         </ModalWithForm>
     );

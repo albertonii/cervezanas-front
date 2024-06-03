@@ -285,11 +285,12 @@ export default function AddCPFixedModal({ cpsId }: Props) {
     const onSubmit: SubmitHandler<ValidationSchema> = (
         formValues: ModalAddCPFixedFormData,
     ) => {
-        try {
-            insertCPFixedMutation.mutate(formValues);
-        } catch (e) {
-            console.error(e);
-        }
+        return new Promise<void>((resolve, reject) => {
+            insertCPFixedMutation.mutate(formValues, {
+                onSuccess: () => resolve(),
+                onError: (error) => reject(error),
+            });
+         })
     };
 
     return (

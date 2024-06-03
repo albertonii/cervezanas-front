@@ -230,11 +230,12 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
     const onSubmit: SubmitHandler<ValidationSchema> = (
         formValues: ModalAddEventFormData,
     ) => {
-        try {
-            insertEventMutation.mutate(formValues);
-        } catch (error) {
-            console.error(error);
-        }
+        return new Promise<void>((resolve, reject) => {
+            insertEventMutation.mutate(formValues, {
+                onSuccess: () => resolve(),
+                onError: (error) => reject(error),
+            });
+        });
     };
 
     return (

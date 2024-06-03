@@ -97,10 +97,6 @@ export function ProductList({
         if (error) throw error;
     };
 
-    useEffect(() => {
-        console.log(isLoading);
-    }, [isLoading]);
-
     const handleDeleteClick = (product: IProduct) => {
         handleEditShowModal(false);
         handleDeleteShowModal(true);

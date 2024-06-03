@@ -88,9 +88,6 @@ export function NewBillingAddress() {
                     message: t('error_creating_billing_address'),
                 });
             });
-
-
-
     };
 
     const insertBillingMutation = useMutation({
@@ -111,11 +108,12 @@ export function NewBillingAddress() {
     const onSubmit: SubmitHandler<ValidationSchema> = (
         formValues: ModalBillingAddressFormData,
     ) => {
-        try {
-            insertBillingMutation.mutate(formValues);
-        } catch (e) {
-            console.error(e);
-        }
+        return new Promise<void>((resolve, reject) => {
+            insertBillingMutation.mutate(formValues, {
+                onSuccess: () => resolve(),
+                onError: (error) => reject(error),
+            });
+        });
     };
 
     return (
@@ -134,12 +132,6 @@ export function NewBillingAddress() {
             form={form}
         >
             <>
-                {isLoading && (
-                    <div className="h-[50vh]">
-                        <Spinner size="xxLarge" color="beer-blonde" center />
-                    </div>
-                )}
-
                 <AddressForm form={form} addressNameId={'billing'} />
             </>
         </ModalWithForm>

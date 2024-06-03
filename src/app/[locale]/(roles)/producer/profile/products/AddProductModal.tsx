@@ -358,11 +358,16 @@ export function AddProductModal() {
     const onSubmit: SubmitHandler<ValidationSchema> = (
         formValues: ModalAddProductFormData,
     ) => {
-        try {
-            insertProductMutation.mutate(formValues);
-        } catch (e) {
-            console.error(e);
-        }
+        return new Promise<void>((resolve, reject) => {
+            insertProductMutation.mutate(formValues, {
+                onSuccess: () => {
+                    resolve();
+                },
+                onError: (error) => {
+                    reject(error);
+                },
+            });
+        });
     };
 
     return (
@@ -383,36 +388,30 @@ export function AddProductModal() {
             form={form}
         >
             <form>
-                {isLoading ? (
-                    <div className="h-[50vh]">
-                        <Spinner size="xxLarge" color="beer-blonde" center />
-                    </div>
-                ) : (
-                    <ProductStepper
-                        activeStep={activeStep}
-                        handleSetActiveStep={handleSetActiveStep}
-                        isSubmitting={isSubmitting}
-                    >
-                        <>
-                            <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
-                                {t('modal_product_description')}
-                            </p>
+                <ProductStepper
+                    activeStep={activeStep}
+                    handleSetActiveStep={handleSetActiveStep}
+                    isSubmitting={isSubmitting}
+                >
+                    <>
+                        <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
+                            {t('modal_product_description')}
+                        </p>
 
-                            {activeStep === 0 ? (
-                                <ProductInfoSection
-                                    form={form}
-                                    customizeSettings={customizeSettings}
-                                />
-                            ) : activeStep === 1 ? (
-                                <MultimediaSection form={form} />
-                            ) : activeStep === 2 ? (
-                                <AwardsSection form={form} />
-                            ) : (
-                                <ProductSummary form={form} />
-                            )}
-                        </>
-                    </ProductStepper>
-                )}
+                        {activeStep === 0 ? (
+                            <ProductInfoSection
+                                form={form}
+                                customizeSettings={customizeSettings}
+                            />
+                        ) : activeStep === 1 ? (
+                            <MultimediaSection form={form} />
+                        ) : activeStep === 2 ? (
+                            <AwardsSection form={form} />
+                        ) : (
+                            <ProductSummary form={form} />
+                        )}
+                    </>
+                </ProductStepper>
             </form>
         </ModalWithForm>
     );

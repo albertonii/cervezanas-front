@@ -277,11 +277,17 @@ export default function AddCPMobileModal({ cpsId }: Props) {
     const onSubmit: SubmitHandler<ValidationSchema> = (
         formValues: ModalAddCPMobileFormData,
     ) => {
-        try {
-            insertCPMobileMutation.mutate(formValues);
-        } catch (e) {
-            console.error(e);
-        }
+        return new Promise<void>((resolve, reject) => {
+            insertCPMobileMutation.mutate(formValues, {
+                onSuccess: () => {
+                    resolve();
+                },
+                onError: (error) => {
+                    console.error(error);
+                    reject();
+                },
+            });
+        });
     };
 
     return (

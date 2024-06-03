@@ -157,11 +157,12 @@ export function AddCampaign() {
     const onSubmit: SubmitHandler<ValidationSchema> = (
         formValues: ModalAddCampaignFormData,
     ) => {
-        try {
-            insertCampaignMutation.mutate(formValues);
-        } catch (e) {
-            console.error(e);
-        }
+        return new Promise<void>((resolve, reject) => {
+            insertCampaignMutation.mutate(formValues, {
+                onSuccess: () => resolve(),
+                onError: (error: any) => reject(error),
+            });
+        });
     };
 
     return (

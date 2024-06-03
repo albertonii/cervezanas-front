@@ -178,11 +178,17 @@ export default function AddMonthlyProduct({
     const onSubmit: SubmitHandler<ValidationSchema> = async (
         formValues: FormData,
     ) => {
-        try {
-            handleInsertMProductMutation.mutate(formValues);
-        } catch (e) {
-            console.error(e);
-        }
+        return new Promise<void>((resolve, reject) => {
+            handleInsertMProductMutation.mutate(formValues,{
+                onSuccess: () => {
+                    resolve();
+                },
+                onError: (error: Error) => {
+                    reject(error);
+                }
+            });
+       
+        })
     };
 
     return (

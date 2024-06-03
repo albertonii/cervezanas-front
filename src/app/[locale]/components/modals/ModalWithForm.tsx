@@ -1,6 +1,5 @@
 import Button from '../common/Button';
 import PortalModal from './PortalModal';
-import Spinner from '../common/Spinner';
 import useOnClickOutside from '../../../../hooks/useOnOutsideClickDOM';
 import React, {
     ComponentProps,
@@ -31,7 +30,7 @@ interface Props {
     setShowModal: (b: boolean) => void;
     showFooter?: boolean;
     btnCancelTitle?: string;
-    handler: ComponentProps<any>;
+    handler: () => ComponentProps<any>;
     handlerClose?: () => void;
     handleCustomClose?: () => void;
     form: UseFormReturn<any, any>;
@@ -77,23 +76,21 @@ export default function ModalWithForm(props: Props) {
     };
 
     const handleAccept = async () => {
-        trigger().then((res: boolean) => {
-            if (!res) return;
+        setIsLoading(true);
 
-            setIsLoading(true);
+        const isFormValid = await trigger();
 
-            setTimeout(() => {
-                handler()
-                    .then(() => {
-                        // TODO: Tener en cuenta si hay errores en el formulario antes de cerrar el modal
-                        // handleShowModal(false);
-                        setIsLoading(false);
-                    })
-                    .catch((e: Error) => {
-                        console.error(e);
-                    });
-            }, 300);
-        });
+        if (!isFormValid) return;
+
+        try {
+            await handler();
+            setIsLoading(false);
+            handleShowModal(false);
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const handleClose = () => {
@@ -167,119 +164,116 @@ export default function ModalWithForm(props: Props) {
 
             {showModal && (
                 <PortalModal wrapperId="form-modal-portal">
-                    <section
-                        className={`${
-                            isLoading
-                                ? 'overflow-hidden overscroll-none'
-                                : 'overflow-y-auto overflow-x-hidden'
-                        } fixed inset-0 z-50 flex items-start justify-center  pt-16 outline-none focus:outline-none
+                    <>
+                        <section
+                            className={`${
+                                isLoading
+                                    ? 'overflow-hidden overscroll-none'
+                                    : 'overflow-y-auto overflow-x-hidden'
+                            } fixed inset-0 z-50 flex items-start justify-center  pt-16 outline-none focus:outline-none
                             bg-beer-blonde bg-opacity-50
 
                             `}
-                    >
-                        {/* The modal  */}
-                        <div
-                            className={`relative mx-4 my-6 w-[94vw] lg:w-3/4 lg:max-w-none xl:w-3/5`}
-                            ref={modalRef}
                         >
-                            {/*content*/}
+                            {/* The modal  */}
                             <div
-                                className={`relative flex w-full flex-col rounded-lg border-0 bg-beer-foam shadow-lg outline-none focus:outline-none`}
+                                className={`relative mx-4 my-6 w-[94vw] lg:w-3/4 lg:max-w-none xl:w-3/5`}
+                                ref={modalRef}
                             >
-                                {/*header*/}
-                                <div className="border-slate-200 flex items-start justify-between rounded-t border-b border-solid p-5">
-                                    <h3 className="text-3xl font-semibold">
-                                        {t(title)}
-                                    </h3>
+                                {/*content*/}
+                                <div
+                                    className={`relative flex w-full flex-col rounded-lg border-0 bg-beer-foam shadow-lg outline-none focus:outline-none`}
+                                >
+                                    {/*header*/}
+                                    <div className="border-slate-200 flex items-start justify-between rounded-t border-b border-solid p-5">
+                                        <h3 className="text-3xl font-semibold">
+                                            {t(title)}
+                                        </h3>
 
-                                    <button
-                                        className="float-right ml-auto border-0 p-1 text-3xl font-semibold leading-none text-black outline-none focus:outline-none"
-                                        onClick={() => handleClose()}
-                                    >
-                                        <span className=" block h-6 w-6 text-2xl text-black outline-none focus:outline-none">
-                                            <FontAwesomeIcon
-                                                icon={faXmark}
-                                                style={{
-                                                    color: 'beer-dark',
-                                                }}
-                                                onClick={() => handleClose()}
-                                                title={'Close Modal'}
-                                            />
-                                        </span>
-                                    </button>
-                                </div>
-
-                                {/*body*/}
-                                <div className="relative flex-auto p-5">
-                                    {!isEmpty(description) && (
-                                        <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
-                                            {t(description)}
-                                        </p>
-                                    )}
-
-                                    {children}
-                                </div>
-
-                                {/*footer*/}
-                                {showFooter && (
-                                    <footer className="border-slate-200 grid grid-cols-1 place-items-center gap-2 rounded-b border-t border-solid p-6 sm:grid-cols-2">
-                                        <Button
-                                            primary
-                                            class="mr-4"
-                                            medium
-                                            btnType="submit"
-                                            onClick={handleAccept}
+                                        <button
+                                            className="float-right ml-auto border-0 p-1 text-3xl font-semibold leading-none text-black outline-none focus:outline-none"
+                                            onClick={() => handleClose()}
                                         >
-                                            {t(btnTitle)}
-                                        </Button>
+                                            <span className=" block h-6 w-6 text-2xl text-black outline-none focus:outline-none">
+                                                <FontAwesomeIcon
+                                                    icon={faXmark}
+                                                    style={{
+                                                        color: 'beer-dark',
+                                                    }}
+                                                    onClick={() =>
+                                                        handleClose()
+                                                    }
+                                                    title={'Close Modal'}
+                                                />
+                                            </span>
+                                        </button>
+                                    </div>
 
-                                        {btnCancelTitle ? (
-                                            <>
+                                    {/*body*/}
+                                    <div className="relative flex-auto p-5">
+                                        {!isEmpty(description) && (
+                                            <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
+                                                {t(description)}
+                                            </p>
+                                        )}
+
+                                        {children}
+                                    </div>
+
+                                    {/*footer*/}
+                                    {showFooter && (
+                                        <footer className="border-slate-200 grid grid-cols-1 place-items-center gap-2 rounded-b border-t border-solid p-6 sm:grid-cols-2">
+                                            <Button
+                                                primary
+                                                class="mr-4"
+                                                medium
+                                                btnType="submit"
+                                                onClick={handleAccept}
+                                                disabled={isLoading}
+                                            >
+                                                {t(btnTitle)}
+                                            </Button>
+
+                                            {btnCancelTitle ? (
+                                                <>
+                                                    <Button
+                                                        accent
+                                                        class=""
+                                                        btnType="button"
+                                                        medium
+                                                        onClick={
+                                                            handleCustomClose
+                                                        }
+                                                        disabled={isLoading}
+                                                    >
+                                                        {t(btnCancelTitle)}
+                                                    </Button>
+                                                </>
+                                            ) : (
                                                 <Button
                                                     accent
                                                     class=""
                                                     btnType="button"
                                                     medium
-                                                    onClick={handleCustomClose}
+                                                    onClick={handleClose}
+                                                    disabled={isLoading}
                                                 >
-                                                    {t(btnCancelTitle)}
+                                                    {t('close')}
                                                 </Button>
-                                            </>
-                                        ) : (
-                                            <Button
-                                                accent
-                                                class=""
-                                                btnType="button"
-                                                medium
-                                                onClick={handleClose}
-                                            >
-                                                {t('close')}
-                                            </Button>
-                                        )}
-                                    </footer>
-                                )}
+                                            )}
+                                        </footer>
+                                    )}
+                                </div>
 
-                                {isLoading && (
-                                    <figure className="fixed inset-0 z-50 flex items-center justify-center">
-                                        <Spinner
-                                            size="large"
-                                            color="blonde-beer"
-                                            center={true}
-                                            absolute={true}
-                                            class="z-50"
-                                        />
-                                    </figure>
-                                )}
+                                <figure
+                                    className={`${
+                                        isLoading &&
+                                        'absolute inset-0 z-40 bg-beer-softBlondeBubble opacity-75'
+                                    }`}
+                                ></figure>
                             </div>
-
-                            <figure
-                                className={`${
-                                    isLoading &&
-                                    'absolute inset-0 z-40 bg-beer-softBlondeBubble opacity-75'
-                                }`}
-                            ></figure>
-                        </div>
-                    </section>
+                        </section>
+                    </>
                 </PortalModal>
             )}
         </>

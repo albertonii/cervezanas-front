@@ -210,11 +210,16 @@ export default function UpdateCPMEventModal({
     const onSubmit: SubmitHandler<ValidationSchema> = (
         formValues: ModalUpdCPMEventFormData,
     ) => {
-        try {
-            updateEventMutation.mutate(formValues);
-        } catch (e) {
-            console.error(e);
-        }
+        return new Promise<void>((resolve, reject) => {
+            updateEventMutation.mutate(formValues, {
+                onSuccess: () => {
+                    resolve();
+                },
+                onError: (error) => {
+                    reject(error);
+                },
+            });
+        });
     };
 
     return (
@@ -233,11 +238,7 @@ export default function UpdateCPMEventModal({
             form={form}
         >
             <>
-                {isLoading ? (
-                    <div className="h-[50vh]">
-                        <Spinner size="xxLarge" color="beer-blonde" center />
-                    </div>
-                ) : (
+               
                     <form>
                         {/* Event Information  */}
                         <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
@@ -321,7 +322,6 @@ export default function UpdateCPMEventModal({
                             />
                         </fieldset>
                     </form>
-                )}
             </>
         </ModalWithForm>
     );

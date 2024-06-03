@@ -644,36 +644,30 @@ export function UpdateProductModal({
             form={form}
         >
             <form>
-                {isLoading ? (
-                    <div className="h-[50vh]">
-                        <Spinner size="xxLarge" color="beer-blonde" center />
-                    </div>
-                ) : (
-                    <ProductStepper
-                        activeStep={activeStep}
-                        handleSetActiveStep={handleSetActiveStep}
-                        isSubmitting={isSubmitting}
-                    >
-                        <>
-                            <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
-                                {t('modal_product_description')}
-                            </p>
+                <ProductStepper
+                    activeStep={activeStep}
+                    handleSetActiveStep={handleSetActiveStep}
+                    isSubmitting={isSubmitting}
+                >
+                    <>
+                        <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
+                            {t('modal_product_description')}
+                        </p>
 
-                            {activeStep === 0 ? (
-                                <UpdateProductInfoSection form={form} />
-                            ) : activeStep === 1 ? (
-                                <UpdateMultimediaSection
-                                    form={form}
-                                    productId={product.id}
-                                />
-                            ) : activeStep === 2 ? (
-                                <UpdateAwardsSection form={form} />
-                            ) : (
-                                <UpdateProductSummary form={form} />
-                            )}
-                        </>
-                    </ProductStepper>
-                )}
+                        {activeStep === 0 ? (
+                            <UpdateProductInfoSection form={form} />
+                        ) : activeStep === 1 ? (
+                            <UpdateMultimediaSection
+                                form={form}
+                                productId={product.id}
+                            />
+                        ) : activeStep === 2 ? (
+                            <UpdateAwardsSection form={form} />
+                        ) : (
+                            <UpdateProductSummary form={form} />
+                        )}
+                    </>
+                </ProductStepper>
             </form>
         </ModalWithForm>
     );
