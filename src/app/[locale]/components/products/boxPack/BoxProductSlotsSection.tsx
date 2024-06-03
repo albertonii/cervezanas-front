@@ -18,7 +18,7 @@ export default function BoxProductSlotsSection({ form }: Props) {
     const t = useTranslations();
 
     const { setError, clearErrors } = form;
-    const { boxPack, onChangeSlotsPerBox } = useBoxPackStore();
+    const { boxPack, onChangeSlotsPerBox, clear } = useBoxPackStore();
     const { setValue } = form;
 
     const [boxWeight, setBoxWeight] = useState(0);
@@ -30,6 +30,10 @@ export default function BoxProductSlotsSection({ form }: Props) {
             0,
         ),
     );
+
+    useEffect(() => {
+        clear();
+    }, []);
 
     useEffect(() => {
         setActualSlotsPerBox(
