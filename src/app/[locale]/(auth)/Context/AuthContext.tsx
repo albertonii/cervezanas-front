@@ -1,5 +1,3 @@
-
-
 'use client';
 
 import useSWR from 'swr';
@@ -268,8 +266,6 @@ export const AuthContextProvider = ({
             'messages.user_already_registered',
         );
 
-        console.log(payload.options?.data);
-
         // Check if user exists
         const { data: user, error: emailError } = await supabase
             .from('users')
@@ -295,8 +291,6 @@ export const AuthContextProvider = ({
             });
             return;
         }
-
-        console.log(payload);
 
         const { error, data } = (await supabase.auth.signUp(
             payload,

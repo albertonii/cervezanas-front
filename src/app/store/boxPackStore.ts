@@ -11,6 +11,7 @@ interface BoxCartType {
     p_extra_1: any;
     p_extra_2: any;
     p_extra_3: any;
+    is_box_pack_dirty: boolean;
 }
 
 interface BoxCartState {
@@ -43,6 +44,7 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
             p_extra_1: null,
             p_extra_2: null,
             p_extra_3: null,
+            is_box_pack_dirty: false,
         },
     };
 
@@ -73,10 +75,10 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
                         products: boxPackItem.products,
                     };
 
-
                     const newBoxPack: BoxCartType = {
                         ...boxPack,
                         boxPackItems: [...boxPack.boxPackItems, newProduct],
+                        is_box_pack_dirty: true,
                     };
 
                     return { boxPack: newBoxPack };
@@ -85,6 +87,7 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
                 return { boxPack };
             });
         },
+
         onChangeSlotsPerProduct: (
             productId: string,
             slotsPerProduct: number,
@@ -107,6 +110,7 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
                     });
 
                     boxPack.boxPackItems = newBoxPackItems;
+                    boxPack.is_box_pack_dirty = true;
 
                     return { boxPack };
                 }
@@ -134,6 +138,7 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
                     });
 
                     boxPack.boxPackItems = newBoxPackItems;
+                    boxPack.is_box_pack_dirty = true;
 
                     return { boxPack };
                 }
@@ -147,6 +152,7 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
                 const { boxPack } = state;
 
                 boxPack.slots_per_box = slotsPerBox;
+                boxPack.is_box_pack_dirty = true;
 
                 return { boxPack };
             });
@@ -169,6 +175,8 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
                         }
                         return item;
                     });
+
+                    boxPack.is_box_pack_dirty = true;
 
                     return { boxPack };
                 }
@@ -195,6 +203,8 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
                         return item;
                     });
 
+                    boxPack.is_box_pack_dirty = true;
+
                     return { boxPack };
                 } else {
                     return { boxPack };
@@ -212,6 +222,7 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
                 );
 
                 boxPack.boxPackItems = newBoxPackItems;
+                boxPack.is_box_pack_dirty = true;
 
                 return { boxPack };
             });
@@ -229,6 +240,7 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
                         p_extra_1: null,
                         p_extra_2: null,
                         p_extra_3: null,
+                        is_box_pack_dirty: false,
                     },
                 };
             });
@@ -257,6 +269,7 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
                         p_extra_3:
                             boxPack.products?.[0].product_multimedia
                                 ?.p_extra_3 ?? '',
+                        is_box_pack_dirty: false,
                     },
                 };
             });

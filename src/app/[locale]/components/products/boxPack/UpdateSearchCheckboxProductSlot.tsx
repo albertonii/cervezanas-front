@@ -7,7 +7,6 @@ import { IProduct } from '../../../../../lib/types/types';
 import InputSearch from '../../common/InputSearch';
 import PaginationFooter from '../../common/PaginationFooter';
 import Spinner from '../../common/Spinner';
-import ProductSlotList from './ProductSlotList';
 import UpdateProductSlotList from './UpdateProductSlotList';
 
 interface Props {
@@ -31,7 +30,13 @@ export function UpdateSearchCheckboxProductSlot({ form }: Props) {
     useEffect(() => {
         refetch().then((res) => {
             const products = res.data as IProduct[];
-            setProducts(products);
+
+            // Only include products with type "BEER"
+            const filteredProducts = products.filter(
+                (product) => product.type === 'BEER',
+            );
+
+            setProducts(filteredProducts);
         });
     }, [currentPage]);
 

@@ -1,6 +1,6 @@
 import InputLabel from '../../common/InputLabel';
 import useBoxPackStore from '../../../../store/boxPackStore';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { useMessage } from '../../message/useMessage';
@@ -31,12 +31,9 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
 
     const [showAccordion, setShowAccordion] = useState(false);
 
-    const [quantity, setQuantity] = useState(
-        boxPack.boxPackItems[index]?.quantity ?? 1,
-    );
-    const [slotsPerProduct, setSlotsPerProduct] = useState(
-        boxPack.boxPackItems[index]?.slots_per_product ?? 1,
-    );
+    const [quantity, setQuantity] = useState(1);
+
+    const [slotsPerProduct, setSlotsPerProduct] = useState(1);
 
     const [checkboxError, setCheckboxError] = useState(false);
 
@@ -47,8 +44,18 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
         removeProductSlot,
     } = useBoxPackStore();
 
-    if (product.type !== Type.BEER) return <></>;
-    // if (!selectedPacks) return <></>;
+    useEffect(() => {
+        if (product) {
+            const selectedProduct = boxPack.boxPackItems.find(
+                (item) => item.product_id === product.id,
+            );
+
+            if (selectedProduct) {
+                setQuantity(selectedProduct.quantity);
+                setSlotsPerProduct(selectedProduct.slots_per_product);
+            }
+        }
+    }, [product]);
 
     const handleCheckboxChange = (productId: string, isChecked: boolean) => {
         setSelectedPacks((prevSelectedPacks) => {
@@ -265,7 +272,7 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
                         valueAsNumber: true,
                         min: 1,
                     }}
-                    defaultValue={1}
+                    defaultValue={quantity}
                     onChange={(e) =>
                         handleOnChangeQuantity(
                             product.id,

@@ -98,6 +98,7 @@ const InputLabel = ({
                         disabled={disabled}
                         min={registerOptions?.min}
                         max={registerOptions?.max}
+                        value={value}
                     />
                 </label>
             )}

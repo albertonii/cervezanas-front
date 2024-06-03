@@ -34,10 +34,6 @@ export default function AddressForm({ form, addressNameId }: Props) {
     } = form;
 
     useEffect(() => {
-        console.log(errors);
-    }, [errors]);
-
-    useEffect(() => {
         if (!selectedCountry) return;
 
         switch (selectedCountry) {

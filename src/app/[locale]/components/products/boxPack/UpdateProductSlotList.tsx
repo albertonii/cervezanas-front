@@ -1,8 +1,8 @@
 import React from 'react';
-import { UseFormReturn } from 'react-hook-form';
-import { IProduct } from '../../../../../lib/types/types';
 import Spinner from '../../common/Spinner';
 import ProductSlotItem from './ProductSlotItem';
+import { UseFormReturn } from 'react-hook-form';
+import { IProduct } from '../../../../../lib/types/types';
 
 interface Props {
     products: IProduct[];

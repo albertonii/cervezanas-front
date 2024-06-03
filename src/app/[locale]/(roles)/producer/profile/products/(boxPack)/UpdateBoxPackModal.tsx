@@ -147,10 +147,6 @@ export function UpdateBoxPackModal({
         setActiveStep(value);
     };
 
-    useEffect(() => {
-        console.info(dirtyFields);
-    }, [dirtyFields]);
-
     const updateBasicSection = async (formValues: ValidationSchema) => {
         setIsLoading(true);
 
@@ -224,9 +220,6 @@ export function UpdateBoxPackModal({
     const handleUpdateBoxPack = async (form: ValidationSchema) => {
         setIsLoading(true);
 
-        console.log(dirtyFields);
-        console.log(form);
-
         if (
             dirtyFields.name ||
             dirtyFields.description ||
@@ -238,7 +231,7 @@ export function UpdateBoxPackModal({
             updateBasicSection(form);
         }
 
-        if (dirtyFields.box_pack_items) {
+        if (boxPack.is_box_pack_dirty) {
             updateSlotsSection();
         }
 

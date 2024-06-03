@@ -6,7 +6,7 @@ import Spinner from '../../../../components/common/Spinner';
 import InputSearch from '../../../../components/common/InputSearch';
 import PaginationFooter from '../../../../components/common/PaginationFooter';
 import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
-import React, { ComponentProps, useMemo, useState } from 'react';
+import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
 import { IProduct } from '../../../../../../lib/types/types';
@@ -96,6 +96,10 @@ export function ProductList({
 
         if (error) throw error;
     };
+
+    useEffect(() => {
+        console.log(isLoading);
+    }, [isLoading]);
 
     const handleDeleteClick = (product: IProduct) => {
         handleEditShowModal(false);

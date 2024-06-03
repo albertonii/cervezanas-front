@@ -89,8 +89,6 @@ export const SignUpForm = () => {
     const handleChangeRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value: any = event?.target.value;
 
-        console.log(value);
-
         setRole(value);
     };
 
