@@ -10,82 +10,90 @@ import { useLocale, useTranslations } from 'next-intl';
 import { getTimeElapsed } from '../../../utils/formatDate';
 
 interface Props {
-  open: boolean;
-  setOpen: ComponentProps<any>;
-  notifications: INotification[];
+    open: boolean;
+    setOpen: ComponentProps<any>;
+    notifications: INotification[];
 }
 
 export function NotificationPopup({ open, setOpen, notifications }: Props) {
-  const { supabase } = useAuth();
+    const { supabase } = useAuth();
 
-  const t = useTranslations();
-  const locale = useLocale();
-  const notificationRef = useRef<HTMLDivElement>(null);
-  useOnClickOutside(notificationRef, () => handleClickOutsideCallback());
+    const t = useTranslations();
+    const locale = useLocale();
+    const notificationRef = useRef<HTMLDivElement>(null);
+    useOnClickOutside(notificationRef, () => handleClickOutsideCallback());
 
-  const router = useRouter();
-  if (!open) return null;
+    const router = useRouter();
+    if (!open) return null;
 
-  const handleOnClick = (notification: INotification) => {
-    if (!notification) return;
+    const handleOnClick = (notification: INotification) => {
+        if (!notification) return;
 
-    supabase
-      .from('notifications')
-      .update({ read: true })
-      .eq('id', notification.id)
-      .then(() => {
-        router.push(`/${locale}${notification.link}`);
-      });
-  };
+        supabase
+            .from('notifications')
+            .update({ read: true })
+            .eq('id', notification.id)
+            .then(() => {
+                router.push(`/${locale}${notification.link}`);
+            });
+    };
 
-  const handleClickOutsideCallback = () => {
-    setOpen(false);
-  };
+    const handleClickOutsideCallback = () => {
+        setOpen(false);
+    };
 
-  if (!notifications) return <></>;
+    if (!notifications) return <></>;
 
-  return (
-    <section ref={notificationRef}>
-      <div className="absolute -right-10 top-10 z-50 flex items-center justify-center">
-        <div className="w-80 overflow-hidden rounded-lg bg-white shadow-lg lg:w-[35vw]">
-          <div className="bg-beer-softFoam p-4">
-            <h3 className="text-2xl font-bold">{t('notifications')}</h3>
-          </div>
-          <div className="divide-y divide-gray-200">
-            {notifications.length === 0 ? (
-              <div className="p-4 text-gray-500">{t('no_notifications')}</div>
-            ) : (
-              notifications.map((notification) => (
-                <div
-                  className="cursor-pointer px-4 py-2 hover:bg-beer-softBlondeBubble"
-                  onClick={() => handleOnClick(notification)}
-                  key={notification.id}
-                >
-                  <div className="flex items-center justify-between  space-x-4">
-                    <div className="flex items-center space-x-4">
-                      <Image
-                        width={36}
-                        height={36}
-                        src={'/icons/watch-icon.png'}
-                        loader={() => '/icons/watch-icon.png'}
-                        alt="read notification"
-                        className="rounded-full"
-                      />
-                      <span className="text-lg font-medium">
-                        {notification.message}
-                      </span>
+    return (
+        <section ref={notificationRef}>
+            <div className="absolute -right-10 top-10 z-50 flex items-center justify-center">
+                <div className="w-80 overflow-hidden rounded-lg bg-white shadow-lg lg:w-[35vw]">
+                    <div className="bg-beer-softFoam p-4">
+                        <h3 className="text-2xl font-bold">
+                            {t('notifications')}
+                        </h3>
                     </div>
+                    <div className="max-h-80 overflow-y-auto divide-y divide-gray-200">
+                        {notifications.length === 0 ? (
+                            <div className="p-4 text-gray-500">
+                                {t('no_notifications')}
+                            </div>
+                        ) : (
+                            notifications.map((notification) => (
+                                <div
+                                    className="cursor-pointer px-4 py-2 hover:bg-beer-softBlondeBubble"
+                                    onClick={() => handleOnClick(notification)}
+                                    key={notification.id}
+                                >
+                                    <div className="flex items-center justify-between  space-x-4">
+                                        <div className="flex items-center space-x-4">
+                                            <Image
+                                                width={36}
+                                                height={36}
+                                                src={'/icons/watch-icon.png'}
+                                                loader={() =>
+                                                    '/icons/watch-icon.png'
+                                                }
+                                                alt="read notification"
+                                                className="rounded-full"
+                                            />
+                                            <span className="text-base font-medium">
+                                                {notification.message}
+                                            </span>
+                                        </div>
 
-                    <span className="text-sm text-gray-500">
-                      {getTimeElapsed(notification.created_at)}
-                    </span>
-                  </div>
+                                        <span className="text-sm text-gray-500">
+                                            {getTimeElapsed(
+                                                notification.created_at,
+                                            )}
+                                        </span>
+                                    </div>
+                                </div>
+                            ))
+                        )}
+                    </div>
                 </div>
-              ))
-            )}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+            </div>
+        </section>
+    );
 }
