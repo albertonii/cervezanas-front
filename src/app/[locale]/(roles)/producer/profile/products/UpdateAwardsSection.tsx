@@ -14,7 +14,7 @@ const emptyAward: IAward = {
     name: '',
     description: '',
     img_url: '',
-    year: 0,
+    year: 2024,
     product_id: '',
 };
 
@@ -154,7 +154,6 @@ export function UpdateAwardsSection({ form }: Props) {
                         }}
                         placeholder={t('input_product_award_year_placeholder')}
                         inputType="number"
-                        defaultValue={2021}
                     />
 
                     <div className="space-y w-full">

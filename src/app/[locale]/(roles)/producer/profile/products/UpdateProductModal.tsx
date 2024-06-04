@@ -502,11 +502,11 @@ export function UpdateProductModal({
         formData.append('product_id', product.id);
         formData.append('random_uuid', randomUUID);
 
-        awards.map((award) => {
-            formData.append('name', award.name);
-            formData.append('description', award.description);
-            formData.append('year', award.year.toString());
-            formData.append('img_url', award.img_url);
+        awards.map((award, index) => {
+            formData.append(`awards[${index}].name`, award.name);
+            formData.append(`awards[${index}].description`, award.description);
+            formData.append(`awards[${index}].year`, award.year.toString());
+            formData.append(`awards[${index}].img_url`, award.img_url);
         });
 
         formData.append('awards_size', awards.length.toString());
@@ -588,12 +588,7 @@ export function UpdateProductModal({
             }
 
             // Awards
-            if (
-                dirtyFields.awards &&
-                awards &&
-                isNotEmptyArray(awards) &&
-                isValidObject(awards[0].img_url)
-            ) {
+            if (dirtyFields.awards && awards && isNotEmptyArray(awards)) {
                 await updateAwards(awards, randomUUID);
             }
         }

@@ -20,8 +20,8 @@ export async function PUT(request: NextRequest) {
         for (let i = 0; i < awardsSize; i++) {
             const award = {
                 name: formData.get(`awards[${i}].name`) as string,
-                year: parseInt(formData.get(`awards[${i}].year`) as string),
                 description: formData.get(`awards[${i}].description`) as string,
+                year: parseInt(formData.get(`awards[${i}].year`) as string),
                 img_url: formData.get(`awards[${i}].img_url`) as File,
             };
 
@@ -48,19 +48,23 @@ export async function PUT(request: NextRequest) {
                 (x) => `${SupabaseProps.AWARDS_URL}${productId}/${x.name}`,
             );
 
-            const { error: errorRemoveAwardList } = await supabase.storage
-                .from('products')
-                .remove(filesToRemove);
+            if (filesToRemove.length > 0) {
+                const { error: errorRemoveAwardList } = await supabase.storage
+                    .from('products')
+                    .remove(filesToRemove);
 
-            if (errorRemoveAwardList) {
-                return NextResponse.json(
-                    { message: 'Error removing awards list' },
-                    { status: 500 },
-                );
+                if (errorRemoveAwardList) {
+                    return NextResponse.json(
+                        { message: 'Error removing awards list' },
+                        { status: 500 },
+                    );
+                }
             }
 
             // 2. Insert new images
             awards.map(async (award, index) => {
+                console.log(award);
+
                 const fileName = `${SupabaseProps.AWARDS_URL}${productId}/${randomUUID}_${index}`;
                 const award_url = encodeURIComponent(
                     `${fileName}${generateFileNameExtension(

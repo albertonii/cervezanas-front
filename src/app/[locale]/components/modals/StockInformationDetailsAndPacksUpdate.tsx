@@ -120,19 +120,6 @@ export default function StockInformationDetailsAndPacksUpdate({ form }: Props) {
                     </span>
                 </div>
 
-                <code style={{ display: 'block', marginTop: 24 }}>
-                    formState.isDirty: {`${isDirty}`}
-                </code>
-
-                <code style={{ display: 'block', marginTop: 24 }}>
-                    Values: {watch('era')}
-                </code>
-
-                <code style={{ display: 'block', marginTop: 24 }}>
-                    Dirty Fields:{' '}
-                    {dirtyFields.packs?.map((field) => `${field.name}, `)}
-                </code>
-
                 {fields.map((pack, index) => (
                     <>
                         <ProductUpdatePackItems

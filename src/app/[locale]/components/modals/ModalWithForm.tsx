@@ -80,7 +80,10 @@ export default function ModalWithForm(props: Props) {
 
         const isFormValid = await trigger();
 
-        if (!isFormValid) return;
+        if (!isFormValid) {
+            setIsLoading(false);
+            return;
+        }
 
         try {
             await handler();
