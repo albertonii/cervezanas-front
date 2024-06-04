@@ -6,6 +6,7 @@ import {
     color_options,
     era_options,
     family_options,
+    Fermentation,
     fermentation_options,
     format_options,
     origin_options,
@@ -83,6 +84,44 @@ export default function UpdateBeerInfoSection({
         trigger('volume');
     };
 
+    const handleOnChangeFermentation = (
+        e: React.ChangeEvent<HTMLSelectElement>,
+    ) => {
+        // convert to number
+        const fermentation = parseInt(e.target.value);
+        setValue('fermentation', fermentation);
+    };
+
+    const handleOnChangeColor = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        // convert to number
+        const color = parseInt(e.target.value);
+        setValue('color', color);
+    };
+
+    const handleOnChangeOrigin = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        // convert to number
+        const origin = parseInt(e.target.value);
+        setValue('origin', origin);
+    };
+
+    const handleOnChangeFamily = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        // convert to number
+        const family = parseInt(e.target.value);
+        setValue('family', family);
+    };
+
+    const handleOnChangeEra = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        // convert to number
+        const era = parseInt(e.target.value);
+        setValue('era', era);
+    };
+
+    const handleOnChangeAroma = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        // convert to number
+        const aroma = parseInt(e.target.value);
+        setValue('aroma', aroma);
+    };
+
     return (
         <section className="relative flex-auto space-y-4 pt-6">
             <p className="text-slate-500 my-4 text-xl leading-relaxed">
@@ -137,6 +176,7 @@ export default function UpdateBeerInfoSection({
                         required: true,
                         valueAsNumber: true,
                     }}
+                    onChange={handleOnChangeFermentation}
                 />
             </div>
 
@@ -151,6 +191,7 @@ export default function UpdateBeerInfoSection({
                         required: true,
                         valueAsNumber: true,
                     }}
+                    onChange={handleOnChangeColor}
                 />
 
                 <SelectInput
@@ -162,6 +203,7 @@ export default function UpdateBeerInfoSection({
                         required: true,
                         valueAsNumber: true,
                     }}
+                    onChange={handleOnChangeOrigin}
                 />
             </div>
 
@@ -176,6 +218,7 @@ export default function UpdateBeerInfoSection({
                         required: true,
                         valueAsNumber: true,
                     }}
+                    onChange={handleOnChangeFamily}
                 />
 
                 {/*
@@ -220,6 +263,7 @@ export default function UpdateBeerInfoSection({
                         required: true,
                         valueAsNumber: true,
                     }}
+                    onChange={handleOnChangeEra}
                 />
             </div>
 
@@ -234,6 +278,7 @@ export default function UpdateBeerInfoSection({
                         required: true,
                         valueAsNumber: true,
                     }}
+                    onChange={handleOnChangeAroma}
                 />
 
                 {/* IBU  */}

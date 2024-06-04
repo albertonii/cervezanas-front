@@ -6,20 +6,28 @@ export async function PUT(request: NextRequest) {
         const formData = await request.formData();
 
         // Beer Attributes
-        const intensity = parseFloat(formData.get('beer.intensity') as string);
-        const fermentation = formData.get('beer.fermentation') as string;
-        const color = formData.get('beer.color') as string;
-        const aroma = formData.get('beer.aroma') as string;
-        const family = formData.get('beer.family') as string;
-        const origin = formData.get('beer.origin') as string;
-        const era = formData.get('beer.era') as string;
-        const is_gluten = (formData.get('beer.is_gluten') as string) === 'true';
-        const volume = parseFloat(formData.get('beer.volume') as string);
-        const format = formData.get('beer.format') as string;
-        const ibu = parseFloat(formData.get('beer.ibu') as string);
+        const intensity = parseFloat(formData.get('intensity') as string);
+        const fermentation = formData.get('fermentation') as string;
+        const color = formData.get('color') as string;
+        const aroma = formData.get('aroma') as string;
+        const family = formData.get('family') as string;
+        const origin = formData.get('origin') as string;
+        const era = formData.get('era') as string;
+        const is_gluten = (formData.get('is_gluten') as string) === 'true';
+        const volume = parseFloat(formData.get('volume') as string);
+        const format = formData.get('format') as string;
+        const ibu = parseFloat(formData.get('ibu') as string);
+
         const productId = formData.get('product_id') as string;
 
         const supabase = await createServerClient();
+
+        if (!productId) {
+            return NextResponse.json(
+                { message: 'Product ID is required' },
+                { status: 400 },
+            );
+        }
 
         const { error: beerError } = await supabase
             .from('beers')

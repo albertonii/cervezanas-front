@@ -391,6 +391,8 @@ export function UpdateProductModal({
         formData.append('format', format);
         formData.append('ibu', ibu.toString());
 
+        formData.append('product_id', product.id);
+
         const response = await fetch(url, {
             method: 'PUT',
             body: formData,
@@ -538,6 +540,8 @@ export function UpdateProductModal({
         }
 
         // Beer type
+        console.log(dirtyFields);
+
         if (product_type_options[0].label === product.type) {
             if (
                 dirtyFields.intensity ||
