@@ -16,6 +16,13 @@ export async function PUT(request: NextRequest) {
         const supabase = await createServerClient();
         const userId = (await supabase.auth.getSession()).data.session?.user.id;
 
+        if (!productId) {
+            return NextResponse.json(
+                { message: 'Product ID is required' },
+                { status: 400 },
+            );
+        }
+
         const { error: errorProduct } = await supabase
             .from('products')
             .update({

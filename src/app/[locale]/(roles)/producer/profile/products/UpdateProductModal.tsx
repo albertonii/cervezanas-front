@@ -328,7 +328,7 @@ export function UpdateProductModal({
             formValues;
 
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-        const url = `${baseUrl}/api/products/product_packs/details`;
+        const url = `${baseUrl}/api/products/details`;
 
         const formData = new FormData();
 
@@ -338,6 +338,7 @@ export function UpdateProductModal({
         formData.append('price', price.toString());
         formData.append('is_public', is_public.toString());
         formData.append('weight', weight.toString());
+        formData.append('product_id', product.id);
 
         const response = await fetch(url, {
             method: 'PUT',
@@ -370,33 +371,43 @@ export function UpdateProductModal({
             is_gluten,
             volume,
             format,
-            weight,
             ibu,
         } = formValues;
 
-        const { data: beerData, error: beerError } = await supabase
-            .from('beers')
-            .update({
-                intensity,
-                fermentation,
-                color,
-                aroma,
-                family,
-                origin,
-                era,
-                is_gluten,
-                volume,
-                format,
-                weight,
-                ibu,
-            })
-            .eq('product_id', product.id)
-            .select('*')
-            .single();
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+        const url = `${baseUrl}/api/products/beer_attributes`;
 
-        if (beerError) throw beerError;
+        const formData = new FormData();
 
-        if (!beerData) throw new Error('No data returned from supabase');
+        formData.append('intensity', intensity.toString());
+        formData.append('fermentation', fermentation.toString());
+        formData.append('color', color.toString());
+        formData.append('aroma', aroma.toString());
+        formData.append('family', family.toString());
+        formData.append('origin', origin.toString());
+        formData.append('era', era.toString());
+        formData.append('is_gluten', is_gluten.toString());
+        formData.append('volume', volume.toString());
+        formData.append('format', format);
+        formData.append('ibu', ibu.toString());
+
+        const response = await fetch(url, {
+            method: 'PUT',
+            body: formData,
+        });
+
+        if (response.status !== 200) {
+            handleMessage({
+                type: 'error',
+                message: t('error_update_beer_attributes'),
+            });
+
+            setIsLoading(false);
+            return;
+        }
+
+        setIsLoading(false);
+        queryClient.invalidateQueries('productList');
     };
 
     const updateInventory = async (formValues: any) => {
@@ -588,12 +599,17 @@ export function UpdateProductModal({
     });
 
     const onSubmit = (formValues: ModalUpdateProductFormData) => {
-        try {
-            if (isDirty) {
-                updateProductMutation.mutate(formValues);
-            }
-        } catch (e) {
-            console.error(e);
+        if (isDirty) {
+            return new Promise<void>((resolve, reject) => {
+                updateProductMutation.mutate(formValues, {
+                    onSuccess: () => {
+                        resolve();
+                    },
+                    onError: (error) => {
+                        reject(error);
+                    },
+                });
+            });
         }
     };
 
