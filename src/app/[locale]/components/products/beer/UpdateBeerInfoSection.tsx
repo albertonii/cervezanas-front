@@ -80,8 +80,7 @@ export default function UpdateBeerInfoSection({
 
     const handleSelectVolume = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setVolume(parseInt(e.target.value));
-        setValue('volume', parseInt(e.target.value));
-        trigger('volume');
+        setValue('volume', parseInt(e.target.value), { shouldDirty: true });
     };
 
     const handleOnChangeFermentation = (
@@ -89,37 +88,37 @@ export default function UpdateBeerInfoSection({
     ) => {
         // convert to number
         const fermentation = parseInt(e.target.value);
-        setValue('fermentation', fermentation);
+        setValue('fermentation', fermentation, { shouldDirty: true });
     };
 
     const handleOnChangeColor = (e: React.ChangeEvent<HTMLSelectElement>) => {
         // convert to number
         const color = parseInt(e.target.value);
-        setValue('color', color);
+        setValue('color', color, { shouldDirty: true });
     };
 
     const handleOnChangeOrigin = (e: React.ChangeEvent<HTMLSelectElement>) => {
         // convert to number
         const origin = parseInt(e.target.value);
-        setValue('origin', origin);
+        setValue('origin', origin, { shouldDirty: true });
     };
 
     const handleOnChangeFamily = (e: React.ChangeEvent<HTMLSelectElement>) => {
         // convert to number
         const family = parseInt(e.target.value);
-        setValue('family', family);
+        setValue('family', family, { shouldDirty: true });
     };
 
     const handleOnChangeEra = (e: React.ChangeEvent<HTMLSelectElement>) => {
         // convert to number
         const era = parseInt(e.target.value);
-        setValue('era', era);
+        setValue('era', era, { shouldDirty: true });
     };
 
     const handleOnChangeAroma = (e: React.ChangeEvent<HTMLSelectElement>) => {
         // convert to number
         const aroma = parseInt(e.target.value);
-        setValue('aroma', aroma);
+        setValue('aroma', aroma, { shouldDirty: true });
     };
 
     return (

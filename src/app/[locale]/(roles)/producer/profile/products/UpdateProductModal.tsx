@@ -359,7 +359,7 @@ export function UpdateProductModal({
         queryClient.invalidateQueries('productList');
     };
 
-    const updateBeerSection = async (formValues: any) => {
+    const updateBeerSection = async (formValues: ValidationSchema) => {
         const {
             intensity,
             fermentation,
@@ -412,21 +412,38 @@ export function UpdateProductModal({
         queryClient.invalidateQueries('productList');
     };
 
-    const updateInventory = async (formValues: any) => {
-        const { stock_quantity, stock_limit_notification } = formValues;
+    const updateInventory = async (formValues: ValidationSchema) => {
+        setIsLoading(true);
 
-        // Inventory - Stock
-        const stock: IProductInventory = {
-            product_id: product.id,
-            quantity: stock_quantity,
-            limit_notification: stock_limit_notification,
-        };
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+        const url = `${baseUrl}/api/products/inventory`;
 
-        const { error: stockError } = await supabase
-            .from('product_inventory')
-            .update(stock)
-            .eq('product_id', product.id);
-        if (stockError) throw stockError;
+        const formData = new FormData();
+
+        formData.append('stock_quantity', formValues.stock_quantity.toString());
+        formData.append(
+            'stock_limit_notification',
+            formValues.stock_limit_notification.toString(),
+        );
+        formData.append('product_id', formValues.product_id);
+
+        const response = await fetch(url, {
+            method: 'PUT',
+            body: formData,
+        });
+
+        if (response.status !== 200) {
+            handleMessage({
+                type: 'error',
+                message: t('error_update_stock'),
+            });
+
+            setIsLoading(false);
+            return;
+        }
+
+        setIsLoading(false);
+        queryClient.invalidateQueries('productList');
     };
 
     const updatePacks = async (packs: ModalUpdateProductPackFormData[]) => {
@@ -540,8 +557,6 @@ export function UpdateProductModal({
         }
 
         // Beer type
-        console.log(dirtyFields);
-
         if (product_type_options[0].label === product.type) {
             if (
                 dirtyFields.intensity ||
@@ -557,19 +572,19 @@ export function UpdateProductModal({
                 dirtyFields.weight ||
                 dirtyFields.ibu
             ) {
-                updateBeerSection(formValues);
+                await updateBeerSection(formValues);
             }
 
             if (
                 dirtyFields.stock_quantity ||
                 dirtyFields.stock_limit_notification
             ) {
-                updateInventory(formValues);
+                await updateInventory(formValues);
             }
 
             // Packs
             if (dirtyFields.packs && isNotEmptyArray(packs)) {
-                updatePacks(packs);
+                await updatePacks(packs);
             }
 
             // Awards
@@ -579,7 +594,7 @@ export function UpdateProductModal({
                 isNotEmptyArray(awards) &&
                 isValidObject(awards[0].img_url)
             ) {
-                updateAwards(awards, randomUUID);
+                await updateAwards(awards, randomUUID);
             }
         }
 
