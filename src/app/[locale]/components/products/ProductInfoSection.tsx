@@ -6,6 +6,7 @@ import {
     ModalAddProductFormData,
 } from '../../../../lib/types/types';
 import BeerInfoSection from './beer/BeerInfoSection';
+import { product_type_options } from '../../../../lib/beerEnum';
 
 interface Props {
     form: UseFormReturn<ModalAddProductFormData, any>;
@@ -76,15 +77,15 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                         onChange={handleProductType}
                         className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                     >
-                        <option key={0} value={'BEER'} selected>
-                            {t('beer')}
-                        </option>
-                        {/* 
                         {product_type_options.map((option) => (
-                            <option key={option.value} value={option.value} selected={option.label === "beer"}>
+                            <option
+                                key={option.value}
+                                value={option.value}
+                                selected={option.label === 'beer'}
+                            >
                                 {t(option.label.toLowerCase())}
                             </option>
-                        ))} */}
+                        ))}
                     </select>
                 </div>
             </section>

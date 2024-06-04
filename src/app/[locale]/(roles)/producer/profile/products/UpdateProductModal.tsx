@@ -1,5 +1,6 @@
 'use client';
 
+import ModalWithForm from '../../../../components/modals/ModalWithForm';
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -41,9 +42,7 @@ import { UpdateProductSummary } from './UpdateProductSummary';
 import { useAppContext } from '../../../../../context/AppContext';
 import { UpdateAwardsSection } from './UpdateAwardsSection';
 import { ProductStepper } from '../../../../components/products/ProductStepper';
-import ModalWithForm from '../../../../components/modals/ModalWithForm';
 import { useMessage } from '../../../../components/message/useMessage';
-import Spinner from '../../../../components/common/Spinner';
 
 // This is the list of mime types you will accept with the schema
 const ACCEPTED_MIME_TYPES = [
@@ -655,7 +654,10 @@ export function UpdateProductModal({
                         </p>
 
                         {activeStep === 0 ? (
-                            <UpdateProductInfoSection form={form} />
+                            <UpdateProductInfoSection
+                                form={form}
+                                customizeSettings={customizeSettings}
+                            />
                         ) : activeStep === 1 ? (
                             <UpdateMultimediaSection
                                 form={form}

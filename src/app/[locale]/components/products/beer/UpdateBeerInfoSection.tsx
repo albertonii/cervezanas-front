@@ -15,7 +15,7 @@ import {
 } from '../../../../../lib/beerEnum';
 import {
     ICustomizeSettings,
-    ModalAddProductFormData,
+    ModalUpdateProductFormData,
 } from '../../../../../lib/types/types';
 import { formatCurrency } from '../../../../../utils/formatCurrency';
 import { capitalizeFirstLetter } from '../../../../../utils/formatWords';
@@ -23,14 +23,17 @@ import { DisplayInputError } from '../../common/DisplayInputError';
 import InputLabel from '../../common/InputLabel';
 import InputTextarea from '../../common/InputTextarea';
 import SelectInput from '../../common/SelectInput';
-import StockInformationDetailsAndPacksAdd from '../../StockInformationDetailsAndPacksAdd';
+import StockInformationDetailsAndPacksUpdate from '../../modals/StockInformationDetailsAndPacksUpdate';
 
 interface Props {
-    form: UseFormReturn<ModalAddProductFormData>;
+    form: UseFormReturn<ModalUpdateProductFormData>;
     customizeSettings: ICustomizeSettings;
 }
 
-export default function BeerInfoSection({ form, customizeSettings }: Props) {
+export default function UpdateBeerInfoSection({
+    form,
+    customizeSettings,
+}: Props) {
     const t = useTranslations();
 
     const {
@@ -38,6 +41,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
         formState: { errors },
         trigger,
         setValue,
+        getValues,
     } = form;
 
     const [formatOptions, setFormatOptions] = useState<string>(
@@ -82,10 +86,10 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
     return (
         <section className="relative flex-auto space-y-4 pt-6">
             <p className="text-slate-500 my-4 text-xl leading-relaxed">
-                {t('modal_product_add_details_title')}
+                {t('modal_product_update_details_title')}
             </p>
 
-            {/* Name  */}
+            {/* Name & Campaign  */}
             <InputLabel
                 form={form}
                 label={'name'}
@@ -112,12 +116,14 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                 <InputLabel
                     form={form}
                     label={'intensity'}
+                    labelText={`${t('intensity')} (%)`}
                     registerOptions={{
                         required: true,
                         min: 0,
                         max: 100,
                         valueAsNumber: true,
                     }}
+                    placeholder="4.7"
                     inputType="number"
                     infoTooltip={t('intensity_tooltip')}
                 />
@@ -377,25 +383,24 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                 </div>
             </div>
 
-            {/* Individual Price  */}
-            <div className="flex w-full flex-row space-x-3 ">
-                <InputLabel
-                    form={form}
-                    label={'price'}
-                    labelText={`${t('pvpr')} (€)`}
-                    registerOptions={{
-                        required: true,
-                        min: 0,
-                        valueAsNumber: true,
-                    }}
-                    inputType="number"
-                    placeholder={formatCurrency(2.5)}
-                    infoTooltip={'pvpr_tooltip'}
-                />
-            </div>
+            {/* PVPR  */}
+            <InputLabel
+                form={form}
+                label={'price'}
+                labelText={`${t('pvpr')} (€)`}
+                registerOptions={{
+                    value: getValues('price'),
+                    required: true,
+                    min: 0,
+                    valueAsNumber: true,
+                }}
+                placeholder={formatCurrency(2.5)}
+                inputType="number"
+                infoTooltip={'pvpr_tooltip'}
+            />
 
             {/* Stock information and Packs */}
-            <StockInformationDetailsAndPacksAdd form={form} />
+            <StockInformationDetailsAndPacksUpdate form={form} />
         </section>
     );
 }

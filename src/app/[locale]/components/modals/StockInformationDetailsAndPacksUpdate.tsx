@@ -62,6 +62,8 @@ export default function StockInformationDetailsAndPacksUpdate({ form }: Props) {
         productId: string,
         index: number,
     ) => {
+        remove(index);
+
         if (packId) {
             const { error } = await supabase
                 .from('product_packs')
@@ -69,8 +71,6 @@ export default function StockInformationDetailsAndPacksUpdate({ form }: Props) {
                 .eq('product_id', productId);
 
             if (error) throw error;
-
-            remove(index);
         }
     };
 
