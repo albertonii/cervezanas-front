@@ -70,9 +70,10 @@ export const UpdateFilePreviewImageMultimedia = ({
 
         const updateValue = async () => {
             const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
             const url = `${baseUrl}/api/products/${
-                isBoxPack && 'box_packs/'
-            }multimedia`;
+                isBoxPack ? 'box_packs/multimedia' : 'multimedia'
+            }`;
 
             const file = getValues(registerName);
 
