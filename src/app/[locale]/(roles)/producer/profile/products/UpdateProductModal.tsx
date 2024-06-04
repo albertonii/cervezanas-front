@@ -33,11 +33,7 @@ import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
 import { UpdateMultimediaSection } from './UpdateMultimediaSection';
 import { UpdateProductInfoSection } from './UpdateProductInfoSection';
-import {
-    generateFileNameExtension,
-    isNotEmptyArray,
-    isValidObject,
-} from '../../../../../../utils/utils';
+import { isNotEmptyArray, isValidObject } from '../../../../../../utils/utils';
 import { UpdateProductSummary } from './UpdateProductSummary';
 import { useAppContext } from '../../../../../context/AppContext';
 import { UpdateAwardsSection } from './UpdateAwardsSection';
@@ -172,7 +168,7 @@ export function UpdateProductModal({
     handleEditShowModal,
 }: Props) {
     const t = useTranslations();
-    const { user, supabase } = useAuth();
+    const { supabase } = useAuth();
     const [activeStep, setActiveStep] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -252,19 +248,6 @@ export function UpdateProductModal({
         value: 4,
     };
 
-    // convert string to FileList image
-    // TODO: Comprobar que convertStringToFileList funciona
-    const convertStringToFileList = (img_url: string) => {
-        const file = new File([img_url], img_url, {
-            type: 'image/jpeg',
-        });
-
-        const fileList = new DataTransfer();
-        fileList.items.add(file);
-
-        return fileList.files;
-    };
-
     const form = useForm<ValidationSchema>({
         mode: 'onSubmit',
         resolver: zodResolver(schema),
@@ -296,9 +279,15 @@ export function UpdateProductModal({
             p_extra_1: product.product_multimedia?.p_extra_1,
             p_extra_2: product.product_multimedia?.p_extra_2,
             p_extra_3: product.product_multimedia?.p_extra_3,
-
-            packs: product.product_packs,
-            // awards: product.awards ?? [],
+            packs: product.product_packs?.map((pack) => ({
+                id: pack.id,
+                img_url: pack.img_url,
+                name: pack.name,
+                price: pack.price,
+                product_id: pack.product_id,
+                quantity: pack.quantity,
+                randomUUID: pack.randomUUID,
+            })),
             awards: product.awards?.map((award) => ({
                 name: award.name,
                 description: award.description,
@@ -422,74 +411,43 @@ export function UpdateProductModal({
         if (stockError) throw stockError;
     };
 
-    const updatePacks = async (
-        packs: ModalUpdateProductPackFormData[],
-        randomUUID: string,
-    ) => {
+    const updatePacks = async (packs: ModalUpdateProductPackFormData[]) => {
         const productId = product.id;
 
-        packs.map(
-            async (pack: ModalUpdateProductPackFormData, index: number) => {
-                const filename = `packs/${productId}/${randomUUID}_${index}`;
-                const pack_url = encodeURIComponent(
-                    `${filename}${generateFileNameExtension(pack.name)}`,
-                );
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+        const url = `${baseUrl}/api/products/product_packs`;
 
-                if (pack.product_id) {
-                    const { error: packsError } = await supabase
-                        .from('product_packs')
-                        .update({
-                            product_id: productId,
-                            quantity: pack.quantity,
-                            price: pack.price,
-                            name: pack.name,
-                            img_url: pack_url,
-                            randomUUID: randomUUID,
-                        })
-                        .eq('id', pack.product_id);
+        const formData = new FormData();
 
-                    if (packsError) throw packsError;
-                } else {
-                    const { error: packsError } = await supabase
-                        .from('product_packs')
-                        .insert({
-                            product_id: productId,
-                            quantity: pack.quantity,
-                            price: pack.price,
-                            name: pack.name,
-                            img_url: pack_url,
-                            randomUUID: randomUUID,
-                        })
-                        .eq('product_id', productId);
+        packs.map((pack: ModalUpdateProductPackFormData, index: number) => {
+            formData.append(
+                `packs[${index}].quantity`,
+                pack.quantity.toString(),
+            );
+            formData.append(`packs[${index}].price`, pack.price.toString());
+            formData.append(`packs[${index}].name`, pack.name);
+            formData.append(`packs[${index}].img_url`, pack.img_url);
+            formData.append(`packs[${index}].prev_img_url`, pack.img_url);
+        });
 
-                    if (packsError) throw packsError;
-                }
+        formData.append('packs_size', packs.length.toString());
+        formData.append('product_id', productId);
 
-                // Upd Img to Store
-                // check if image selected in file input is not empty and is an image
-                if (pack.img_url instanceof FileList) {
-                    const file = pack.img_url[0];
+        const response = await fetch(url, {
+            method: 'PUT',
+            body: formData,
+        });
 
-                    const { error: storagePacksError } = await supabase.storage
-                        .from('products')
-                        .upload(
-                            `${filename}${generateFileNameExtension(
-                                pack.name,
-                            )}`,
-                            file,
-                            {
-                                contentType: file.type,
-                                cacheControl: '3600',
-                                upsert: true,
-                            },
-                        );
+        if (response.status !== 200) {
+            handleMessage({
+                type: 'error',
+                message: t('error_update_packs'),
+            });
 
-                    if (storagePacksError) throw storagePacksError;
-                }
+            return;
+        }
 
-                removeImage(`packs.${index}.img_url`);
-            },
-        );
+        queryClient.invalidateQueries('productList');
     };
 
     const updateAwards = async (
@@ -543,8 +501,6 @@ export function UpdateProductModal({
 
         const randomUUID = generateUUID();
 
-        const formData = new FormData();
-
         // Basic Info
         if (
             dirtyFields.name ||
@@ -585,7 +541,7 @@ export function UpdateProductModal({
 
             // Packs
             if (dirtyFields.packs && isNotEmptyArray(packs)) {
-                updatePacks(packs, randomUUID);
+                updatePacks(packs);
             }
 
             // Awards

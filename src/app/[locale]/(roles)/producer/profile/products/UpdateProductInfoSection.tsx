@@ -11,8 +11,6 @@ import {
     ICustomizeSettings,
     ModalUpdateProductFormData,
 } from '../../../../../../lib/types/types';
-import InputLabel from '../../../../components/common/InputLabel';
-import StockInformationDetailsAndPacksUpdate from '../../../../components/modals/StockInformationDetailsAndPacksUpdate';
 import UpdateBeerInfoSection from '../../../../components/products/beer/UpdateBeerInfoSection';
 
 interface Props {
@@ -23,19 +21,15 @@ interface Props {
 export function UpdateProductInfoSection({ form, customizeSettings }: Props) {
     const t = useTranslations();
 
-    const {
-        register,
-        formState: { errors },
-        getValues,
-    } = form;
+    const { register, getValues } = form;
 
-    const [formatOptions, setFormatOptions] = useState<string>(
-        format_options[0].label,
-    );
+    // const [formatOptions, setFormatOptions] = useState<string>(
+    //     format_options[0].label,
+    // );
 
-    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setFormatOptions(event.target.value);
-    };
+    // const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    //     setFormatOptions(event.target.value);
+    // };
 
     return (
         <>

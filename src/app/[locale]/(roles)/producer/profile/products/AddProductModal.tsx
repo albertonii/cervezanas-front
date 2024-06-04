@@ -20,7 +20,6 @@ import { useAppContext } from '../../../../../context/AppContext';
 import dynamic from 'next/dynamic';
 import { useMessage } from '../../../../components/message/useMessage';
 import { AwardsSection } from '../../../../components/products/AwardsSection';
-import Spinner from '../../../../components/common/Spinner';
 
 const ModalWithForm = dynamic(
     () => import('../../../../components/modals/ModalWithForm'),

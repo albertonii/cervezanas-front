@@ -49,22 +49,30 @@ export default function StockInformationDetailsAndPacksUpdate({ form }: Props) {
         control,
     });
 
-    useEffect(() => {
-        console.info(dirtyFields);
-    }, [dirtyFields]);
+    // useEffect(() => {
+    //     console.info(dirtyFields);
+    // }, [dirtyFields]);
 
-    useEffect(() => {
-        console.info(isDirty);
-    }, [isDirty]);
+    // useEffect(() => {
+    //     console.info(isDirty);
+    // }, [isDirty]);
 
     const handleRemovePack = async (
         packId: string,
         productId: string,
         index: number,
     ) => {
-        remove(index);
-
         if (packId) {
+            const imgUrlToRemoveFromDB = getValues(`packs.${index}.img_url`);
+            const decodeUriPackImg = decodeURIComponent(imgUrlToRemoveFromDB);
+
+            // Remove the image from the storage
+            const { error: errorStorage } = await supabase.storage
+                .from('products')
+                .remove([decodeUriPackImg]);
+
+            if (errorStorage) throw errorStorage;
+
             const { error } = await supabase
                 .from('product_packs')
                 .delete()
@@ -72,6 +80,8 @@ export default function StockInformationDetailsAndPacksUpdate({ form }: Props) {
 
             if (error) throw error;
         }
+
+        remove(index);
     };
 
     const handleAddPack = () => {
@@ -79,7 +89,7 @@ export default function StockInformationDetailsAndPacksUpdate({ form }: Props) {
     };
 
     return (
-        <section className="container mt-4">
+        <section className="mt-4">
             <p className="text-slate-500 my-4 text-xl leading-relaxed">
                 {t('modal_product_add_price_title')}
             </p>
