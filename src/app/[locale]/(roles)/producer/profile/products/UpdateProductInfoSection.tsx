@@ -23,14 +23,6 @@ export function UpdateProductInfoSection({ form, customizeSettings }: Props) {
 
     const { register, getValues } = form;
 
-    // const [formatOptions, setFormatOptions] = useState<string>(
-    //     format_options[0].label,
-    // );
-
-    // const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    //     setFormatOptions(event.target.value);
-    // };
-
     return (
         <>
             {/* Select product type  */}

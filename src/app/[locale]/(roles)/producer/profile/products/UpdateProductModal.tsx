@@ -145,6 +145,8 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
                     message: 'errors.error_100_number_max_length',
                 }),
             img_url: z.custom<File>().superRefine(validateFile).or(z.string()),
+            prev_img_url: z.string().optional(),
+            product_id: z.string(),
         }),
     ),
     p_principal: z.custom<File>().superRefine(validateFile).optional(),
@@ -279,15 +281,18 @@ export function UpdateProductModal({
             p_extra_1: product.product_multimedia?.p_extra_1,
             p_extra_2: product.product_multimedia?.p_extra_2,
             p_extra_3: product.product_multimedia?.p_extra_3,
-            packs: product.product_packs?.map((pack) => ({
-                id: pack.id,
-                img_url: pack.img_url,
-                name: pack.name,
-                price: pack.price,
-                product_id: pack.product_id,
-                quantity: pack.quantity,
-                randomUUID: pack.randomUUID,
-            })),
+            packs: product.product_packs?.map((pack) => {
+                return {
+                    id: pack.id,
+                    img_url: pack.img_url,
+                    prev_img_url: pack.img_url,
+                    name: pack.name,
+                    price: pack.price,
+                    product_id: pack.product_id,
+                    quantity: pack.quantity,
+                    randomUUID: pack.randomUUID,
+                };
+            }),
             awards: product.awards?.map((award) => ({
                 name: award.name,
                 description: award.description,
@@ -420,6 +425,7 @@ export function UpdateProductModal({
         const formData = new FormData();
 
         packs.map((pack: ModalUpdateProductPackFormData, index: number) => {
+            formData.append(`packs[${index}].id`, pack.id ?? '');
             formData.append(
                 `packs[${index}].quantity`,
                 pack.quantity.toString(),
@@ -427,7 +433,14 @@ export function UpdateProductModal({
             formData.append(`packs[${index}].price`, pack.price.toString());
             formData.append(`packs[${index}].name`, pack.name);
             formData.append(`packs[${index}].img_url`, pack.img_url);
-            formData.append(`packs[${index}].prev_img_url`, pack.img_url);
+            formData.append(
+                `packs[${index}].prev_img_url`,
+                pack.prev_img_url ?? pack.img_url,
+            );
+            formData.append(
+                `packs[${index}].product_id`,
+                pack.product_id ?? '',
+            );
         });
 
         formData.append('packs_size', packs.length.toString());

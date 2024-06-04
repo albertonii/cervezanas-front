@@ -1,31 +1,49 @@
 import { useTranslations } from 'next-intl';
 import { memo, useState } from 'react';
-import { UseFormReturn } from 'react-hook-form';
-import { pack_type_options } from '../../../lib/beerEnum';
-import { ModalAddProductFormData } from '../../../lib/types/types';
-import { DeleteButton } from './common/DeleteButton';
-import { FilePreviewImageMultimedia } from './common/FilePreviewImageMultimedia';
-import InputLabel from './common/InputLabel';
-import Spinner from './common/Spinner';
+import { useFieldArray, UseFormReturn } from 'react-hook-form';
+import { SupabaseProps } from '../../../../constants';
+import { pack_type_options } from '../../../../lib/beerEnum';
+import {
+    ModalUpdateProductFormData,
+    ModalUpdateProductPackFormData,
+} from '../../../../lib/types/types';
+import { DeleteButton } from '../common/DeleteButton';
+import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
+import InputLabel from '../common/InputLabel';
+import Spinner from '../common/Spinner';
 
-const ProductAddPackItem = memo(
+const ProductUpdatePackItem = memo(
     ({
+        pack,
         onRemove,
         index,
         form,
     }: {
-        onRemove: (index: number) => void;
+        pack: ModalUpdateProductPackFormData;
+        onRemove: (packId: string, productId: string, index: number) => void;
         index: number;
-        form: UseFormReturn<ModalAddProductFormData, any>;
+        form: UseFormReturn<ModalUpdateProductFormData, any>;
     }) => {
         const t = useTranslations();
+
+        const preUrl =
+            SupabaseProps.BASE_URL + SupabaseProps.STORAGE_PRODUCTS_IMG_URL;
+
         const [isSubmitting, setIsSubmitting] = useState(false);
 
-        const { getValues, register } = form;
+        const { register, getValues, control } = form;
 
-        const handleRemovePack = (index: number) => {
+        const { remove } = useFieldArray({
+            name: 'packs',
+            control,
+        });
+
+        const handleRemovePack = async (
+            packId: string,
+            productId: string,
+            index: number,
+        ) => {
             if (isSubmitting) return;
-
             setIsSubmitting(true);
 
             setTimeout(() => {
@@ -33,7 +51,8 @@ const ProductAddPackItem = memo(
                 // so if we find the index it's going to remove it two times
                 // fields.findIndex((field) => field.id === id) > -1 &&
                 //     remove(fields.findIndex((field) => field.id === id));
-                onRemove(index);
+                onRemove(packId, productId, index);
+                remove(index);
                 setIsSubmitting(false);
             }, 1000);
         };
@@ -126,13 +145,22 @@ const ProductAddPackItem = memo(
                                 <FilePreviewImageMultimedia
                                     form={form}
                                     registerName={`packs.${index}.img_url`}
+                                    preUrl={preUrl}
                                 />
                             </div>
 
                             {/* Delete BTN  */}
                             <div className="flex-grow-0">
                                 <DeleteButton
-                                    onClick={() => handleRemovePack(index)}
+                                    onClick={() =>
+                                        handleRemovePack(
+                                            pack.id!,
+                                            getValues(
+                                                `packs.${index}.product_id`,
+                                            ),
+                                            index,
+                                        )
+                                    }
                                 />
                             </div>
                         </div>
@@ -143,4 +171,4 @@ const ProductAddPackItem = memo(
     },
 );
 
-export default ProductAddPackItem;
+export default ProductUpdatePackItem;

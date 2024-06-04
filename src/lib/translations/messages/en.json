@@ -179,7 +179,7 @@
     "modal_delete_lot_title": "Delete Lot",
     "modal_delete_lot_description": "Be careful! You are about to delete a product lot. This action will delete the information related to it from the database. Are you sure you want to delete the product lot?",
     "modal_product_add_details_title": "Details",
-    "modal_product_add_price_title": "Stock information",
+    "modal_product_add_stock_title": "Stock information",
     "modal_product_add_lot_title": "Lot",
     "modal_delete_campaign_title": "Delete Campaign",
     "modal_delete_campaign_description": "Be careful! You are about to delete a campaign. This action will delete the information related to it from the database. Are you sure you want to delete the campaign?",

@@ -61,7 +61,7 @@ export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
     return (
         <section className="pt-16">
             <p className="text-slate-500 my-4 text-2xl leading-relaxed">
-                {t('modal_product_add_price_title')}
+                {t('modal_product_add_stock_title')}
             </p>
 
             <div className="flex w-full flex-col space-y-16">

@@ -839,12 +839,13 @@ type ModalAddProductPackFormData = {
 };
 
 type ModalUpdateProductPackFormData = {
+    id?: string;
     product_id: string;
     quantity: number;
     price: number;
     img_url?: any;
+    prev_img_url?: any;
     name: string;
-    product_id?: string;
 };
 
 export type ModalAddCampaignFormData = {

@@ -179,7 +179,7 @@
     "modal_delete_lot_title": "Eliminar Lote",
     "modal_delete_lot_description": "¡Cuidado! Vas a eliminar un lote. Esta acción borrará de la base de datos la información relativa al mismo. ¿Estás seguro que quieres eliminar el lote?",
     "modal_product_add_details_title": "Detalles",
-    "modal_product_add_price_title": "Información de stock",
+    "modal_product_add_stock_title": "Información de stock",
     "modal_product_add_lot_title": "Lote",
     "modal_delete_campaign_title": "Eliminar Campaña",
     "modal_delete_campaign_description": "¡Cuidado! Vas a eliminar una campaña. Esta acción borrará de la base de datos la información relativa a la misma. ¿Estás seguro que quieres eliminar la campaña?",
