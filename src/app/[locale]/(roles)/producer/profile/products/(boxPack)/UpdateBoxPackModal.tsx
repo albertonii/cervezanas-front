@@ -1,7 +1,6 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import Spinner from '../../../../../components/common/Spinner';
 import useBoxPackStore from '../../../../../../store/boxPackStore';
 import UpdateBoxProductSlotsSection from '../../../../../components/products/boxPack/UpdateBoxProductSlotsSection';
 import React, { useState, useEffect, ComponentProps } from 'react';

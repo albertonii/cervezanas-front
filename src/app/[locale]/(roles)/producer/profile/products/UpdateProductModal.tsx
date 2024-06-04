@@ -83,12 +83,9 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
     name: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
         message: 'errors.error_50_number_max_length',
     }),
-    description: z
-        .string()
-        .max(2500, {
-            message: 'errors.error_2500_max_length',
-        })
-        .optional(),
+    description: z.string().max(2500, {
+        message: 'errors.error_2500_max_length',
+    }),
     price: z.number().min(0, { message: 'errors.input_min_0' }),
     fermentation: z.number().min(0, { message: 'errors.input_min_0' }),
     color: z.number().min(0, { message: 'errors.input_min_0' }),
@@ -104,10 +101,6 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
     }),
 
     is_public: z.boolean(),
-    // TODO: Bug in volume validation when adding product
-    // volume: z.number().min(0, { message: "Required" }).max(50, {
-    //   message: "Required",
-    // }),
     volume: z.number().min(0, { message: 'errors.input_min_0' }),
     weight: z.number().min(0, { message: 'errors.input_min_0' }),
     format: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
@@ -334,37 +327,41 @@ export function UpdateProductModal({
         return uuidv4();
     };
 
-    const updateBasicSection = async (formValues: any) => {
+    const updateBasicSection = async (formValues: ValidationSchema) => {
         setIsLoading(true);
-        const userId = user?.id;
 
         const { name, description, type, price, is_public, weight } =
             formValues;
 
-        const { data, error: productError } = await supabase
-            .from('products')
-            .update({
-                name,
-                description,
-                type,
-                owner_id: userId,
-                price,
-                is_public,
-                weight,
-            })
-            .eq('id', product.id)
-            .select();
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+        const url = `${baseUrl}/api/products/product_packs/details`;
 
-        if (productError) {
+        const formData = new FormData();
+
+        formData.append('name', name);
+        formData.append('description', description);
+        formData.append('type', type);
+        formData.append('price', price.toString());
+        formData.append('is_public', is_public.toString());
+        formData.append('weight', weight.toString());
+
+        const response = await fetch(url, {
+            method: 'PUT',
+            body: formData,
+        });
+
+        if (response.status !== 200) {
+            handleMessage({
+                type: 'error',
+                message: t('error_update_product'),
+            });
+
             setIsLoading(false);
-            throw productError;
+            return;
         }
 
-        if (!data) throw new Error('No data returned from supabase');
-
         setIsLoading(false);
-
-        return data[0] as IProduct;
+        queryClient.invalidateQueries('productList');
     };
 
     const updateBeerSection = async (formValues: any) => {
@@ -546,6 +543,9 @@ export function UpdateProductModal({
 
         const randomUUID = generateUUID();
 
+        const formData = new FormData();
+
+        // Basic Info
         if (
             dirtyFields.name ||
             dirtyFields.description ||
@@ -554,7 +554,7 @@ export function UpdateProductModal({
             dirtyFields.is_public ||
             dirtyFields.weight
         ) {
-            updateBasicSection(formValues);
+            await updateBasicSection(formValues);
         }
 
         // Beer type

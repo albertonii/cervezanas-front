@@ -781,7 +781,7 @@ export type ModalAddProductFormData = {
 export type ModalUpdateProductFormData = {
     product_id: string; // FK
     name: string;
-    description?: string;
+    description: string;
     price: number;
     fermentation: Fermentation;
     color: number;

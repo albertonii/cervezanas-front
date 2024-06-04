@@ -46,7 +46,7 @@ export async function PUT(request: NextRequest) {
 
             // 2. Remove image from Supabase Bucket if exists
             if (productMult.p_principal) {
-                // 2. Remove image from Supabase Bucket
+                // 3. Remove image from Supabase Bucket
                 const { error: deleteError } = await supabase.storage
                     .from('products')
                     .remove([decodeURIComponent(productMult.p_principal)]);
@@ -59,7 +59,7 @@ export async function PUT(request: NextRequest) {
                 }
             }
 
-            // 3. Update product_multimedia with new image
+            // 4. Update product_multimedia with new image
             const fileName = `${SupabaseProps.ARTICLES}${productId}${ROUTE_P_PRINCIPAL}/${randomUUID}`;
 
             const p_principal_url = encodeURIComponent(
@@ -123,7 +123,7 @@ export async function PUT(request: NextRequest) {
 
             // 2. Remove image from Supabase Bucket if exists
             if (productMult.p_back) {
-                // 2. Remove image from Supabase Bucket
+                // 3. Remove image from Supabase Bucket
                 const { error: deleteError } = await supabase.storage
                     .from('products')
                     .remove([decodeURIComponent(productMult.p_back)]);
@@ -136,7 +136,7 @@ export async function PUT(request: NextRequest) {
                 }
             }
 
-            // 3. Update product_multimedia with new image
+            // 4. Update product_multimedia with new image
             const fileName = `${SupabaseProps.ARTICLES}${productId}${ROUTE_P_BACK}/${randomUUID}`;
             const p_back_url = encodeURIComponent(
                 `${fileName}${generateFileNameExtension(multimedia.name)}`,
@@ -198,7 +198,7 @@ export async function PUT(request: NextRequest) {
 
             // 2. Remove image from Supabase Bucket if exists
             if (productMult.p_extra_1) {
-                // 2. Remove image from Supabase Bucket
+                // 3. Remove image from Supabase Bucket
                 const { error: deleteError } = await supabase.storage
                     .from('products')
                     .remove([decodeURIComponent(productMult.p_extra_1)]);
@@ -211,7 +211,7 @@ export async function PUT(request: NextRequest) {
                 }
             }
 
-            // 3. Update product_multimedia with new image
+            // 4. Update product_multimedia with new image
             const fileName = `${SupabaseProps.ARTICLES}${productId}${ROUTE_P_BACK}/${randomUUID}`;
             const p_extra_1_url = encodeURIComponent(
                 `${fileName}${generateFileNameExtension(multimedia.name)}`,
@@ -272,7 +272,7 @@ export async function PUT(request: NextRequest) {
 
             // 2. Remove image from Supabase Bucket if exists
             if (productMult.p_extra_1) {
-                // 2. Remove image from Supabase Bucket
+                // 3. Remove image from Supabase Bucket
                 const { error: deleteError } = await supabase.storage
                     .from('products')
                     .remove([decodeURIComponent(productMult.p_extra_1)]);
@@ -285,7 +285,7 @@ export async function PUT(request: NextRequest) {
                 }
             }
 
-            // 3. Update product_multimedia with new image
+            // 4. Update product_multimedia with new image
             const fileName = `${SupabaseProps.ARTICLES}${productId}${ROUTE_P_EXTRA_1}/${randomUUID}`;
             const p_extra_1_url = encodeURIComponent(
                 `${fileName}${generateFileNameExtension(multimedia.name)}`,
@@ -347,7 +347,7 @@ export async function PUT(request: NextRequest) {
 
             // 2. Remove image from Supabase Bucket if exists
             if (productMult.p_extra_2) {
-                // 2. Remove image from Supabase Bucket
+                // 3. Remove image from Supabase Bucket
                 const { error: deleteError } = await supabase.storage
                     .from('products')
                     .remove([decodeURIComponent(productMult.p_extra_2)]);
@@ -360,7 +360,7 @@ export async function PUT(request: NextRequest) {
                 }
             }
 
-            // 3. Update product_multimedia with new image
+            // 4. Update product_multimedia with new image
             const fileName = `${SupabaseProps.ARTICLES}${productId}${ROUTE_P_EXTRA_2}/${randomUUID}`;
             const p_extra_2_url = encodeURIComponent(
                 `${fileName}${generateFileNameExtension(multimedia.name)}`,
@@ -422,7 +422,7 @@ export async function PUT(request: NextRequest) {
 
             // 2. Remove image from Supabase Bucket if exists
             if (productMult.p_extra_3) {
-                // 2. Remove image from Supabase Bucket
+                // 3. Remove image from Supabase Bucket
                 const { error: deleteError } = await supabase.storage
                     .from('products')
                     .remove([decodeURIComponent(productMult.p_extra_3)]);
@@ -437,7 +437,7 @@ export async function PUT(request: NextRequest) {
                 }
             }
 
-            // 3. Update product_multimedia with new image
+            // 4. Update product_multimedia with new image
             const fileName = `${SupabaseProps.ARTICLES}${productId}${ROUTE_P_EXTRA_3}/${randomUUID}`;
             const p_extra_3_url = encodeURIComponent(
                 `${fileName}${generateFileNameExtension(multimedia.name)}`,

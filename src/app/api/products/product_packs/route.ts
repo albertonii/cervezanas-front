@@ -12,7 +12,6 @@ export async function DELETE(request: NextRequest) {
     for (let i = 0; i < packsSize; i++) {
         const packUrl = formData.get(`packs[${i}].img_url`) as string;
 
-
         const { error: packError } = await supabase.storage
             .from('products')
             .remove([`${decodeURIComponent(packUrl)}`]);
