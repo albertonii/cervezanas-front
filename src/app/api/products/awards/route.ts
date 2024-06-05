@@ -63,8 +63,6 @@ export async function PUT(request: NextRequest) {
 
             // 2. Insert new images
             awards.map(async (award, index) => {
-                console.log(award);
-
                 const fileName = `${SupabaseProps.AWARDS_URL}${productId}/${randomUUID}_${index}`;
                 const award_url = encodeURIComponent(
                     `${fileName}${generateFileNameExtension(

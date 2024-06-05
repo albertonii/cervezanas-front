@@ -170,11 +170,10 @@ export function UpdateProductModal({
     handleEditShowModal,
 }: Props) {
     const t = useTranslations();
-    const { supabase } = useAuth();
     const [activeStep, setActiveStep] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
 
-    const { customizeSettings, removeImage } = useAppContext();
+    const { customizeSettings } = useAppContext();
     const { handleMessage } = useMessage();
 
     const handleSetActiveStep = (value: number) => {
@@ -528,10 +527,6 @@ export function UpdateProductModal({
             return;
         }
     };
-
-    useEffect(() => {
-        console.info(dirtyFields);
-    }, [dirtyFields]);
 
     const handleUpdateProduct = async (formValues: any) => {
         const {

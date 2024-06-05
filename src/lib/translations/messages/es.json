@@ -885,5 +885,6 @@
     "req_producer_accepted": "Solicitud de productor aceptada",
     "req_distributor_accepted": "Solicitud de distribuidor aceptada",
     "req_producer_rejected": "Se ha rechazado tu solicitud de productor.",
-    "req_distributor_rejected": "Se ha rechazado tu solicitud de distribuidor."
+    "req_distributor_rejected": "Se ha rechazado tu solicitud de distribuidor.",
+    "modal_product_update_details_title": "Actualizar detalles del producto"
 }

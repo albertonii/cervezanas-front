@@ -51,12 +51,9 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
     name: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
         message: 'errors.error_50_number_max_length',
     }),
-    description: z
-        .string()
-        .max(2500, {
-            message: 'errors.error_2500_max_length',
-        })
-        .optional(),
+    description: z.string().max(2500, {
+        message: 'errors.error_2500_max_length',
+    }),
     price: z.number().min(0, { message: 'errors.input_min_0' }),
     fermentation: z.number().min(0, { message: 'errors.input_min_0' }),
     color: z.number().min(0, { message: 'errors.input_min_0' }),
@@ -128,6 +125,8 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
                     message: 'errors.error_100_number_max_length',
                 }),
             img_url: z.instanceof(FileList).optional().or(z.string()),
+            prev_img_url: z.string().optional(),
+            product_id: z.string(),
         }),
     ),
 });
@@ -735,7 +734,10 @@ export function UpdateProductAdmin({
                         </p>
 
                         {activeStep === 0 ? (
-                            <UpdateProductInfoSection form={form} />
+                            <UpdateProductInfoSection
+                                form={form}
+                                customizeSettings={customizeSettings}
+                            />
                         ) : activeStep === 1 ? (
                             <UpdateMultimediaSection
                                 form={form}

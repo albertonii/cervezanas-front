@@ -214,19 +214,73 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
             console.error(error);
         },
     });
-
     const onSubmit: SubmitHandler<ValidationSchema> = (
         formValues: ModalAddEventFormData,
     ) => {
-        return new Promise<void>((resolve, reject) => {
-            insertEventMutation.mutate(formValues, {
-                onSuccess: () => {
-                    resolve();
-                },
-                onError: (error) => {
-                    reject(error);
-                },
-            });
-        });
+        try {
+            insertEventMutation.mutate(formValues);
+        } catch (error) {
+            console.error(error);
+        }
     };
+
+    return (
+        <ModalWithForm
+            showBtn={true}
+            showModal={showModal}
+            setShowModal={setShowModal}
+            title={'add_new_event'}
+            btnTitle={'new_event'}
+            description={''}
+            classIcon={''}
+            classContainer={`${isLoading && ' opacity-75'}`}
+            handler={handleSubmit(onSubmit)}
+            form={form}
+        >
+            {isLoading ? (
+                <div className="h-[50vh]">
+                    <Spinner size="xxLarge" color="beer-blonde" center />
+                </div>
+            ) : (
+                <form>
+                    <BasicEventForm form={form} />
+
+                    {/* List of Mobile Consumption Points  */}
+                    <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                        <legend className="text-2xl">
+                            {t('cp_mobile_associated')}
+                        </legend>
+
+                        <SearchCheckboxCPMobiles
+                            cpsMobile={cpsMobile}
+                            form={form}
+                        />
+                    </fieldset>
+
+                    {/* List of Fixed Consumption Points  */}
+                    <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                        <legend className="text-2xl">
+                            {t('cp_fixed_associated')}
+                        </legend>
+
+                        <SearchCheckboxCPFixeds
+                            cpsFixed={cpsFixed}
+                            form={form}
+                        />
+                    </fieldset>
+
+                    {/* Listado de experiencias cervezanas configuradas por el usuario y habilitadas en el evento */}
+                    <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                        <legend className="text-2xl">{t('experiences')}</legend>
+
+                        <ExperienceForm
+                            form={form}
+                            cpsMobile={cpsMobile}
+                            cpsFixed={cpsFixed}
+                        />
+                    </fieldset>
+                </form>
+            )}
+        </ModalWithForm>
+    );
 }

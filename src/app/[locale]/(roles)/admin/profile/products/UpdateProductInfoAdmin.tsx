@@ -15,7 +15,7 @@ interface Props {
     customizeSettings: ICustomizeSettings;
 }
 
-export function UpdateProductInfoSection({ form, customizeSettings }: Props) {
+export function UpdateProductInfoAdmin({ form, customizeSettings }: Props) {
     const t = useTranslations();
 
     const { register, getValues } = form;

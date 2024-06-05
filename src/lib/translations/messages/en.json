@@ -859,5 +859,6 @@
     "req_producer_rejected": "Your request to become a producer has been rejected.",
     "req_distributor_rejected": "Your request to become a distributor has been rejected.",
     "req_producer_accepted": "Your request to become a producer has been accepted.",
-    "req_distributor_accepted": "Your request to become a distributor has been accepted."
+    "req_distributor_accepted": "Your request to become a distributor has been accepted.",
+    "modal_product_update_details_title": "Update product details"
 }
