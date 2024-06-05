@@ -45,6 +45,7 @@ import { UpdateProductInfoSection } from '../../../producer/profile/products/Upd
 import { UpdateMultimediaSection } from '../../../producer/profile/products/UpdateMultimediaSection';
 import { UpdateAwardsSection } from '../../../producer/profile/products/UpdateAwardsSection';
 import { UpdateProductSummary } from '../../../producer/profile/products/UpdateProductSummary';
+import { Type } from '../../../../../../lib/productEnum';
 
 const schema: ZodType<ModalUpdateProductFormData> = z.object({
     product_id: z.string(),
@@ -243,7 +244,7 @@ export function UpdateProductAdmin({
             category: product.category ?? '',
             name: product.name ?? '',
             description: product.description ?? '',
-            type: product.type ?? 'BEER',
+            type: product.type ?? Type.BEER,
             is_public: product.is_public ?? false,
             price: product.price ?? 0,
             stock_quantity: product.product_inventory?.quantity ?? 0,

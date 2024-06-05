@@ -9,6 +9,7 @@ import {
     ModalUpdateProductFormData,
 } from '../../../../../../lib/types/types';
 import UpdateBeerInfoSection from '../../../../components/products/beer/UpdateBeerInfoSection';
+import { Type } from '../../../../../../lib/productEnum';
 
 interface Props {
     form: UseFormReturn<ModalUpdateProductFormData, any>;
@@ -61,7 +62,7 @@ export function UpdateProductInfoSection({ form, customizeSettings }: Props) {
 
                     <select
                         id="product_type"
-                        defaultValue={getValues('type') ?? 'BEER'}
+                        defaultValue={getValues('type') ?? Type.BEER}
                         className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 hover:cursor-not-allowed hover:bg-gray-200 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                         disabled
                     >
@@ -75,7 +76,7 @@ export function UpdateProductInfoSection({ form, customizeSettings }: Props) {
             </section>
 
             {/* Beer type */}
-            {getValues('type') === 'BEER' && (
+            {getValues('type') === Type.BEER && (
                 <UpdateBeerInfoSection
                     form={form}
                     customizeSettings={customizeSettings}

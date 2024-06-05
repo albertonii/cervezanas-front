@@ -12,6 +12,7 @@ import {
     AnswerFormData,
 } from '../../../../../lib/types/quiz';
 import BMQuestionItem from './BMQuestionItem';
+import { Type } from '../../../../../lib/productEnum';
 
 interface Props {
     form: UseFormReturn<IAddModalExperienceBeerMasterFormData, any>;
@@ -77,7 +78,7 @@ export const AddBeerMasterQuestions = ({ form }: Props) => {
 
         const emptyQuestion: IAddBeerMasterQuestionFormData = {
             question: {
-                category: 'BEER',
+                category: Type.BEER,
                 difficulty: Difficulty.MEDIUM,
                 question: '',
                 type: 'multiple',

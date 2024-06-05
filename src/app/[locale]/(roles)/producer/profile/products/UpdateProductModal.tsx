@@ -39,6 +39,7 @@ import { useAppContext } from '../../../../../context/AppContext';
 import { UpdateAwardsSection } from './UpdateAwardsSection';
 import { ProductStepper } from '../../../../components/products/ProductStepper';
 import { useMessage } from '../../../../components/message/useMessage';
+import { Type } from '../../../../../../lib/productEnum';
 
 // This is the list of mime types you will accept with the schema
 const ACCEPTED_MIME_TYPES = [
@@ -257,7 +258,7 @@ export function UpdateProductModal({
             category: product.category ?? '',
             name: product.name ?? '',
             description: product.description ?? '',
-            type: product.type ?? 'BEER',
+            type: product.type ?? Type.BEER,
             is_public: product.is_public ?? false,
             price: product.price ?? 0,
             stock_quantity: product.product_inventory?.quantity ?? 0,

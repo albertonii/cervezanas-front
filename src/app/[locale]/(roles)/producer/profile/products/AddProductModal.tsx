@@ -20,6 +20,7 @@ import { useAppContext } from '../../../../../context/AppContext';
 import dynamic from 'next/dynamic';
 import { useMessage } from '../../../../components/message/useMessage';
 import { AwardsSection } from '../../../../components/products/AwardsSection';
+import { Type } from '../../../../../../lib/productEnum';
 
 const ModalWithForm = dynamic(
     () => import('../../../../components/modals/ModalWithForm'),
@@ -166,13 +167,13 @@ export function AddProductModal() {
         resolver: zodResolver(schema),
         defaultValues: {
             awards: [],
-            type: 'BEER',
+            type: Type.BEER,
             is_gluten: false,
             weight: 330,
             intensity: 4,
             ibu: 30,
             price: 0,
-            category: 'BEER',
+            category: Type.BEER,
         },
     });
 

@@ -8,6 +8,7 @@ import { ICarouselItem, IProduct } from '../../../../../lib/types/types';
 import { formatCurrency } from '../../../../../utils/formatCurrency';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import ProductsInsideBox from './ProductsInsideBox';
+import { Type } from '../../../../../lib/productEnum';
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 
@@ -193,14 +194,14 @@ export default function ProductDetails({ product, reviewRef }: Props) {
                 </section>
 
                 {/* Display Product Details if Type === BEER */}
-                {product.type === 'BEER' && (
+                {product.type === Type.BEER && (
                     <section aria-labelledby="packs" className="h-[20vh]">
                         <Packs product={product} />
                     </section>
                 )}
 
                 {/* List of products if Type === BOX_PACK */}
-                {product.type === 'BOX_PACK' && product.box_packs && (
+                {product.type === Type.BOX_PACK && product.box_packs && (
                     <section aria-labelledby="packs" className="h-[20vh]">
                         <ProductsInsideBox
                             product={product}

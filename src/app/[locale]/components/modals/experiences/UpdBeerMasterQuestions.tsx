@@ -16,6 +16,7 @@ import {
     IUpdModalExperienceBeerMasterFormData,
 } from '../../../../../lib/types/quiz';
 import SelectInput from '../../common/SelectInput';
+import { Type } from '../../../../../lib/productEnum';
 
 enum ExperienceTypes {
     beer_master = 'beer_master',
@@ -92,7 +93,7 @@ export const UpdBeerMasterQuestions = ({ form, experienceId }: Props) => {
     const handleAddQuestion = () => {
         const emptyQuestion: IUpdBeerMasterQuestionFormData = {
             question: {
-                category: 'BEER',
+                category: Type.BEER,
                 difficulty: Difficulty.MEDIUM,
                 question: '',
                 type: 'multiple',

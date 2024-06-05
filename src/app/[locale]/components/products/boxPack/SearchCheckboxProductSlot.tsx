@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import useFetchProductsByOwnerAndPagination from '../../../../../hooks/useFetchProductsByOwnerAndPagination';
+import { Type } from '../../../../../lib/productEnum';
 import { IProduct } from '../../../../../lib/types/types';
 import InputSearch from '../../common/InputSearch';
 import PaginationFooter from '../../common/PaginationFooter';
@@ -30,7 +31,13 @@ export function SearchCheckboxProductSlot({ form }: Props) {
     useEffect(() => {
         refetch().then((res) => {
             const products = res.data as IProduct[];
-            setProducts(products);
+
+            // Filter only type BEER
+            const filteredProducts = products.filter(
+                (product) => product.type === Type.BEER,
+            );
+
+            setProducts(filteredProducts);
         });
     }, [currentPage]);
 

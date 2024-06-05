@@ -35,7 +35,7 @@ export default function UpdateBoxProductSlotsSection({ form }: Props) {
         setActualSlotsPerBox(
             boxPack.boxPackItems.reduce(
                 (acc, item) => acc + item.quantity * item.slots_per_product,
-                0,
+                6,
             ),
         );
 

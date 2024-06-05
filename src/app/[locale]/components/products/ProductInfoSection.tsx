@@ -7,6 +7,7 @@ import {
 } from '../../../../lib/types/types';
 import BeerInfoSection from './beer/BeerInfoSection';
 import { product_type_options } from '../../../../lib/beerEnum';
+import { Type } from '../../../../lib/productEnum';
 
 interface Props {
     form: UseFormReturn<ModalAddProductFormData, any>;
@@ -23,7 +24,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
     // Function that switch between merchandising and beer when select option is clicked
     const handleProductType = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const category = event.target.value.toLowerCase();
-        if (category === 'BEER') {
+        if (category === Type.BEER) {
             setIsBeer(true);
         } else if (category === 'merchandising') {
             setIsBeer(false);
