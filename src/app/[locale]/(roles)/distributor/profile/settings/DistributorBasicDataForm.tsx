@@ -141,7 +141,7 @@ export function DistributorBasicDataForm({ profile }: Props) {
                     <InputLabel
                         form={form}
                         label={'id_number'}
-                        labelText={t('profile_acc_nif')}
+                        labelText={t('profile_acc_nif_cif')}
                         registerOptions={{
                             required: true,
                         }}
