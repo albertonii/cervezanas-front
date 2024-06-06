@@ -8,10 +8,8 @@ import { useTranslations } from 'next-intl';
 import {
     aroma_options,
     color_options,
-    era_options,
     family_options,
     fermentation_options,
-    origin_options,
     product_type_options,
 } from '../../../../../../lib/beerEnum';
 import { MultimediaSection } from '../../../../components/products/MultimediaSection';
@@ -70,8 +68,6 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
     ibu: z.number().min(0, { message: 'errors.input_min_0' }),
     aroma: z.number().min(0, { message: 'errors.input_min_0' }),
     family: z.number().min(0, { message: 'errors.input_min_0' }),
-    origin: z.number().min(0, { message: 'errors.input_min_0' }),
-    era: z.number().min(0, { message: 'errors.input_min_0' }),
     is_gluten: z.coerce.boolean(),
     type: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
         message: 'errors.input_required',
@@ -195,8 +191,6 @@ export function AddProductModal() {
             intensity,
             aroma,
             family,
-            origin,
-            era,
             is_gluten,
             type,
             awards,
@@ -410,8 +404,6 @@ export function AddProductModal() {
                     color: color_options[color].value.toString(),
                     aroma: aroma_options[aroma].value.toString(),
                     family: family_options[family].value.toString(),
-                    origin: origin_options[origin].value.toString(),
-                    era: era_options[era].value.toString(),
                     is_gluten,
                     volume,
                     format,

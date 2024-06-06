@@ -8,7 +8,6 @@ import {
     family_options,
     fermentation_options,
     format_options,
-    origin_options,
     volume_bottle_type_options,
     volume_can_type_options,
     volume_draft_type_options,
@@ -92,7 +91,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                 registerOptions={{
                     required: true,
                 }}
-                placeholder={t("introduce_beer_name")}
+                placeholder={t('introduce_beer_name')}
             />
 
             {/* Description  */}
@@ -103,7 +102,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                     registerOptions={{
                         required: true,
                     }}
-                    placeholder={t("introduce_beer_description")}
+                    placeholder={t('introduce_beer_description')}
                 />
             </div>
 
@@ -141,17 +140,6 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                     labelTooltip={'color_tooltip'}
                     options={color_options}
                     label={'color'}
-                    registerOptions={{
-                        required: true,
-                        valueAsNumber: true,
-                    }}
-                />
-
-                <SelectInput
-                    form={form}
-                    labelTooltip={'origin_tooltip'}
-                    options={origin_options}
-                    label={'origin'}
                     registerOptions={{
                         required: true,
                         valueAsNumber: true,

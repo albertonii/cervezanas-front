@@ -4,12 +4,9 @@ import { UseFormReturn } from 'react-hook-form';
 import {
     aroma_options,
     color_options,
-    era_options,
     family_options,
-    Fermentation,
     fermentation_options,
     format_options,
-    origin_options,
     volume_bottle_type_options,
     volume_can_type_options,
     volume_draft_type_options,
@@ -97,22 +94,10 @@ export default function UpdateBeerInfoSection({
         setValue('color', color, { shouldDirty: true });
     };
 
-    const handleOnChangeOrigin = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        // convert to number
-        const origin = parseInt(e.target.value);
-        setValue('origin', origin, { shouldDirty: true });
-    };
-
     const handleOnChangeFamily = (e: React.ChangeEvent<HTMLSelectElement>) => {
         // convert to number
         const family = parseInt(e.target.value);
         setValue('family', family, { shouldDirty: true });
-    };
-
-    const handleOnChangeEra = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        // convert to number
-        const era = parseInt(e.target.value);
-        setValue('era', era, { shouldDirty: true });
     };
 
     const handleOnChangeAroma = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -192,18 +177,6 @@ export default function UpdateBeerInfoSection({
                     }}
                     onChange={handleOnChangeColor}
                 />
-
-                <SelectInput
-                    form={form}
-                    labelTooltip={'origin_tooltip'}
-                    options={origin_options}
-                    label={'origin'}
-                    registerOptions={{
-                        required: true,
-                        valueAsNumber: true,
-                    }}
-                    onChange={handleOnChangeOrigin}
-                />
             </div>
 
             {/* Family  */}
@@ -252,18 +225,6 @@ export default function UpdateBeerInfoSection({
               {errors.family?.type === "required" && (
                 <p>{t("errors.input_required")}</p>
               )} */}
-
-                <SelectInput
-                    form={form}
-                    labelTooltip={'era_tooltip'}
-                    options={era_options}
-                    label={'era'}
-                    registerOptions={{
-                        required: true,
-                        valueAsNumber: true,
-                    }}
-                    onChange={handleOnChangeEra}
-                />
             </div>
 
             <div className="flex w-full flex-row space-x-3 ">

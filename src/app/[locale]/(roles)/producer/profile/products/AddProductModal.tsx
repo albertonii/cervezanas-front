@@ -79,8 +79,6 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
     ibu: z.number().min(0, { message: 'errors.input_min_0' }),
     aroma: z.number().min(0, { message: 'errors.input_min_0' }),
     family: z.number().min(0, { message: 'errors.input_min_0' }),
-    origin: z.number().min(0, { message: 'errors.input_min_0' }),
-    era: z.number().min(0, { message: 'errors.input_min_0' }),
     is_gluten: z.coerce.boolean(),
     type: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
         message: 'errors.input_required',
@@ -200,8 +198,6 @@ export function AddProductModal() {
             intensity,
             aroma,
             family,
-            origin,
-            era,
             is_gluten,
             type,
             awards,
@@ -244,8 +240,6 @@ export function AddProductModal() {
         formData.append('beer.color', color.toString());
         formData.append('beer.aroma', aroma.toString());
         formData.append('beer.family', family.toString());
-        formData.append('beer.origin', origin.toString());
-        formData.append('beer.era', era.toString());
         formData.append('beer.is_gluten', is_gluten.toString());
         formData.append('beer.volume', volume.toString());
         formData.append('beer.format', format);

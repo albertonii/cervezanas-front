@@ -23,14 +23,10 @@ import {
     aroma_options,
     Color,
     color_options,
-    Era,
-    era_options,
     Family,
     family_options,
     Fermentation,
     fermentation_options,
-    Origin,
-    origin_options,
     product_type_options,
 } from '../../../../../../lib/beerEnum';
 import {
@@ -62,8 +58,6 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
     ibu: z.number().min(0, { message: 'errors.input_min_0' }),
     aroma: z.number().min(0, { message: 'errors.input_min_0' }),
     family: z.number().min(0, { message: 'errors.input_min_0' }),
-    origin: z.number().min(0, { message: 'errors.input_min_0' }),
-    era: z.number().min(0, { message: 'errors.input_min_0' }),
     is_gluten: z.coerce.boolean(),
     type: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
         message: 'errors.input_required',
@@ -165,8 +159,6 @@ export function UpdateProductAdmin({
         aroma,
         family,
         fermentation,
-        origin,
-        era,
         volume,
         format,
         intensity,
@@ -207,22 +199,6 @@ export function UpdateProductAdmin({
         value: 7,
     };
 
-    const originDefault: {
-        label: string;
-        value: Origin;
-    } = origin_options.find((c) => c.value.toString() === origin) ?? {
-        label: 'none',
-        value: 7,
-    };
-
-    const eraDefault: {
-        label: string;
-        value: Era;
-    } = era_options.find((c) => c.value.toString() === era) ?? {
-        label: 'none',
-        value: 4,
-    };
-
     // convert string to FileList image
     // TODO: Comprobar que convertStringToFileList funciona
     const convertStringToFileList = (img_url: string) => {
@@ -259,8 +235,6 @@ export function UpdateProductAdmin({
             ibu: ibu,
             family: familyDefault.value,
             fermentation: fermentationDefault.value,
-            origin: originDefault.value,
-            era: eraDefault.value,
             is_gluten: product.beers?.is_gluten ?? false,
             p_principal: convertStringToFileList(
                 product.product_multimedia?.p_principal ?? '',
@@ -308,8 +282,6 @@ export function UpdateProductAdmin({
             intensity,
             aroma,
             family,
-            origin,
-            era,
             is_gluten,
             type,
             awards,
@@ -515,8 +487,6 @@ export function UpdateProductAdmin({
                     color,
                     aroma,
                     family,
-                    origin,
-                    era,
                     is_gluten,
                     volume,
                     format,

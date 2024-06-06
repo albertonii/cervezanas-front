@@ -83,26 +83,10 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                 <fieldset className="flex flex-row justify-between gap-2 space-x-4">
                     <h4 className="space-x-2">
                         <label className="text-md font-semibold text-gray-600">
-                            {t('origin_label')}
-                        </label>
-
-                        <span className="text-md">{getValues('origin')}</span>
-                    </h4>
-
-                    <h4 className="space-x-2">
-                        <label className="text-md font-semibold text-gray-600">
                             {t('family_label')}
                         </label>
 
                         <span className="text-md">{getValues('family')}</span>
-                    </h4>
-
-                    <h4 className="space-x-2">
-                        <label className="text-md font-semibold text-gray-600">
-                            {t('era_label')}
-                        </label>
-
-                        <span className="text-md">{getValues('era')}</span>
                     </h4>
                 </fieldset>
 
