@@ -227,8 +227,8 @@ export default function UpdateCPMEventModal({
             showBtn={false}
             showModal={isEditModal}
             setShowModal={handleEditModal}
-            title={t('edit_event') ?? 'Edit event'}
-            btnTitle={t('edit_event')}
+            title={'edit_event'}
+            btnTitle={'save'}
             description={''}
             icon={faAdd}
             handler={handleSubmit(onSubmit)}
@@ -238,90 +238,89 @@ export default function UpdateCPMEventModal({
             form={form}
         >
             <>
-               
-                    <form>
-                        {/* Event Information  */}
-                        <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                            {/* Is Activated  */}
-                            <div className="flex w-full flex-col items-end">
-                                <label
-                                    className="relative inline-flex cursor-pointer items-center"
-                                    htmlFor="is_activated"
-                                >
-                                    <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-beer-blonde peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-beer-softFoam dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-beer-blonde"></div>
+                <form>
+                    {/* Event Information  */}
+                    <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                        {/* Is Activated  */}
+                        <div className="flex w-full flex-col items-end">
+                            <label
+                                className="relative inline-flex cursor-pointer items-center"
+                                htmlFor="is_activated"
+                            >
+                                <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-beer-blonde peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-beer-softFoam dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-beer-blonde"></div>
 
-                                    <span className="ml-3 text-lg font-medium text-gray-900 dark:text-gray-300">
-                                        {t('is_activated')}
-                                    </span>
-                                </label>
-
-                                <span className="mt-2 text-sm font-medium text-gray-400 dark:text-gray-300">
-                                    {t('is_activated_description')}
+                                <span className="ml-3 text-lg font-medium text-gray-900 dark:text-gray-300">
+                                    {t('is_activated')}
                                 </span>
-                            </div>
+                            </label>
 
-                            <legend className="m-2 text-2xl">
-                                {t('events_info')}
-                            </legend>
+                            <span className="mt-2 text-sm font-medium text-gray-400 dark:text-gray-300">
+                                {t('is_activated_description')}
+                            </span>
+                        </div>
 
-                            {/* Event name  */}
+                        <legend className="m-2 text-2xl">
+                            {t('events_info')}
+                        </legend>
+
+                        {/* Event name  */}
+                        <InputLabel
+                            form={form}
+                            label={'event.name'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            disabled
+                        />
+
+                        {/* Event description  */}
+                        <InputTextarea
+                            form={form}
+                            label={'event.description'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder="The event every beer lover is waiting for!"
+                            disabled
+                        />
+
+                        {/* Start date and end date  */}
+                        <div className="flex flex-row space-x-2">
                             <InputLabel
                                 form={form}
-                                label={'event.name'}
+                                label={'event.start_date'}
                                 registerOptions={{
                                     required: true,
                                 }}
+                                inputType="date"
                                 disabled
                             />
 
-                            {/* Event description  */}
-                            <InputTextarea
+                            <InputLabel
                                 form={form}
-                                label={'event.description'}
+                                label={'event.end_date'}
                                 registerOptions={{
                                     required: true,
                                 }}
-                                placeholder="The event every beer lover is waiting for!"
+                                inputType="date"
                                 disabled
                             />
+                        </div>
+                    </fieldset>
 
-                            {/* Start date and end date  */}
-                            <div className="flex flex-row space-x-2">
-                                <InputLabel
-                                    form={form}
-                                    label={'event.start_date'}
-                                    registerOptions={{
-                                        required: true,
-                                    }}
-                                    inputType="date"
-                                    disabled
-                                />
+                    {/* Asociar las experiencias que tenga el productor configuradas al punto de consumo para ese evento  */}
+                    <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                        <legend className="m-2 text-2xl">
+                            {t('associate_experiences')}
+                        </legend>
 
-                                <InputLabel
-                                    form={form}
-                                    label={'event.end_date'}
-                                    registerOptions={{
-                                        required: true,
-                                    }}
-                                    inputType="date"
-                                    disabled
-                                />
-                            </div>
-                        </fieldset>
-
-                        {/* Asociar las experiencias que tenga el productor configuradas al punto de consumo para ese evento  */}
-                        <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                            <legend className="m-2 text-2xl">
-                                {t('associate_experiences')}
-                            </legend>
-
-                            <SearchCheckboxExperiences
-                                cpMobileId={selectedCPMEvent.cp_id}
-                                eventId={selectedCPMEvent.event_id}
-                                form={form}
-                            />
-                        </fieldset>
-                    </form>
+                        <SearchCheckboxExperiences
+                            cpMobileId={selectedCPMEvent.cp_id}
+                            eventId={selectedCPMEvent.event_id}
+                            form={form}
+                        />
+                    </fieldset>
+                </form>
             </>
         </ModalWithForm>
     );

@@ -453,7 +453,7 @@
     "price": "Precio",
     "add_new_pack": "Añadir pack",
     "add_pack": "Añadir pack",
-    "add_product_pack": "Añadir pack al producto",
+    "add_product_pack": "Generar Pack",
     "add_product_pack_description": "Presiona el botón de abajo y añade un pack al producto seleccionando los productos que lo componen y el precio del pack.",
     "packs": "Packs",
     "pack_quantity": "Cantidad en pack",
@@ -900,5 +900,8 @@
     "introduce_campaign_description": "Introduce la descripción de la campaña",
     "introduce_experience_description": "Introduce la descripción de la experiencia",
     "introduce_box_pack_description": "Introduce la descripción del pack variado",
-    "intensity_input": "ABV %"
+    "intensity_input": "ABV %",
+    "ibu_input": "IBU/Amargor",
+    "pvpr_input": "PVP Recomendado (€)",
+    "price_input": "Precio (€)"
 }

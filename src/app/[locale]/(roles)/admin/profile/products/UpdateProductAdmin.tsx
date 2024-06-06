@@ -685,7 +685,7 @@ export function UpdateProductAdmin({
             showModal={showModal}
             setShowModal={handleEditShowModal}
             title={'update_product'}
-            btnTitle={'update_product'}
+            btnTitle={'save'}
             description={''}
             classIcon={''}
             classContainer={''}

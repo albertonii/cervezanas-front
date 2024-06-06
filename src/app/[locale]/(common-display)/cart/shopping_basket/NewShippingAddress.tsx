@@ -121,7 +121,7 @@ export function NewShippingAddress() {
             showModal={showModal}
             setShowModal={setShowModal}
             title={t('add_shipping_address')}
-            btnTitle={t('add_shipping_address')}
+            btnTitle={t('save')}
             description={''}
             icon={faAdd}
             handler={handleSubmit(onSubmit)}

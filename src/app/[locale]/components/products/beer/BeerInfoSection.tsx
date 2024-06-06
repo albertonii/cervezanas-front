@@ -133,20 +133,6 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                 />
             </div>
 
-            {/* Color  */}
-            <div className="flex w-full flex-row space-x-3 ">
-                <SelectInput
-                    form={form}
-                    labelTooltip={'color_tooltip'}
-                    options={color_options}
-                    label={'color'}
-                    registerOptions={{
-                        required: true,
-                        valueAsNumber: true,
-                    }}
-                />
-            </div>
-
             {/* Family  */}
             <div className="flex w-full flex-row space-x-3 ">
                 <SelectInput
@@ -192,6 +178,18 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
               {errors.family?.type === "required" && (
                 <p>{t("errors.input_required")}</p>
               )} */}
+
+                {/* Color  */}
+                <SelectInput
+                    form={form}
+                    // labelTooltip={'color_tooltip'}
+                    options={color_options}
+                    label={'color'}
+                    registerOptions={{
+                        required: true,
+                        valueAsNumber: true,
+                    }}
+                />
             </div>
 
             <div className="flex w-full flex-row space-x-3 ">
@@ -211,6 +209,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                 <InputLabel
                     form={form}
                     label={'ibu'}
+                    labelText={t('ibu_input')}
                     registerOptions={{
                         required: true,
                         min: 0,
@@ -359,7 +358,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                 <InputLabel
                     form={form}
                     label={'price'}
-                    labelText={`${t('pvpr')} (€)`}
+                    labelText={`${t('pvpr_input')}`}
                     registerOptions={{
                         required: true,
                         min: 0,

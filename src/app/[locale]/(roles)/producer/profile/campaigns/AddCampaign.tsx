@@ -171,7 +171,7 @@ export function AddCampaign() {
             showModal={showModal}
             setShowModal={setShowModal}
             title={'add_campaign'}
-            btnTitle={'add_campaign'}
+            btnTitle={'save'}
             description={''}
             classIcon={''}
             classContainer={''}
@@ -240,9 +240,7 @@ export function AddCampaign() {
                     registerOptions={{
                         required: true,
                     }}
-                    placeholder={`${t(
-                        'introduce_campaign_description',
-                    )}`}
+                    placeholder={`${t('introduce_campaign_description')}`}
                 />
 
                 {/* Slogan  */}

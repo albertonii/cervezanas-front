@@ -156,7 +156,7 @@ export function UpdateLot({
             showModal={showModal}
             setShowModal={handleEditShowModal}
             title={'config_lot'}
-            btnTitle={'edit_lot'}
+            btnTitle={'save'}
             description={'modal_product_description'}
             handler={handleSubmit(onSubmit)}
             handlerClose={() => handleEditShowModal(false)}

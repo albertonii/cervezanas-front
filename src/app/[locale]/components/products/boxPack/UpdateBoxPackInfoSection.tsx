@@ -79,7 +79,7 @@ export function UpdateBoxPackInfoSection({ form }: Props) {
                         <InputLabel
                             form={form}
                             label={'price'}
-                            labelText={`${t('pvpr')} (€)`}
+                            labelText={`${t('price_input')}`}
                             registerOptions={{
                                 required: true,
                                 min: 0,

@@ -228,7 +228,7 @@ export function AddBoxPackModal() {
             showModal={showModal}
             setShowModal={setShowModal}
             title={'add_box_pack'}
-            btnTitle={'add_box_pack'}
+            btnTitle={'save'}
             description={''}
             classIcon={''}
             classContainer={`${isLoading && ' opacity-75'}`}

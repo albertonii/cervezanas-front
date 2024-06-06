@@ -244,7 +244,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
             showModal={showModal}
             setShowModal={setShowModal}
             title={'add_new_event'}
-            btnTitle={'new_event'}
+            btnTitle={'save'}
             description={''}
             icon={faAdd}
             btnSize={'large'}

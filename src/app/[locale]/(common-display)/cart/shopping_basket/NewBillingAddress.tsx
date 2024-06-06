@@ -122,7 +122,7 @@ export function NewBillingAddress() {
             showModal={showModal}
             setShowModal={setShowModal}
             title={t('add_billing_address')}
-            btnTitle={t('add_billing_address')}
+            btnTitle={t('save')}
             description={''}
             icon={faAdd}
             handler={handleSubmit(onSubmit)}

@@ -179,16 +179,15 @@ export default function AddMonthlyProduct({
         formValues: FormData,
     ) => {
         return new Promise<void>((resolve, reject) => {
-            handleInsertMProductMutation.mutate(formValues,{
+            handleInsertMProductMutation.mutate(formValues, {
                 onSuccess: () => {
                     resolve();
                 },
                 onError: (error: Error) => {
                     reject(error);
-                }
+                },
             });
-       
-        })
+        });
     };
 
     return (
@@ -196,8 +195,8 @@ export default function AddMonthlyProduct({
             showBtn={true}
             showModal={showModal}
             setShowModal={setShowModal}
-            title={t('add_monthly_product')}
-            btnTitle={t('new_monthly_product')}
+            title={'add_monthly_product'}
+            btnTitle={'save'}
             description={''}
             handler={handleSubmit(onSubmit)}
             classIcon={'w-6 h-6'}

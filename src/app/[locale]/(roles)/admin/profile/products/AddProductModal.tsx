@@ -598,7 +598,7 @@ export function AddProductModal() {
             showModal={showModal}
             setShowModal={setShowModal}
             title={'add_product'}
-            btnTitle={'add_product'}
+            btnTitle={'save'}
             description={''}
             classIcon={''}
             classContainer={`${isLoading && ' opacity-75'}`}

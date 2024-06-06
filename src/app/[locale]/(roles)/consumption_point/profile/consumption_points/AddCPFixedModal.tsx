@@ -290,7 +290,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
                 onSuccess: () => resolve(),
                 onError: (error) => reject(error),
             });
-         })
+        });
     };
 
     return (
@@ -298,8 +298,8 @@ export default function AddCPFixedModal({ cpsId }: Props) {
             showBtn={true}
             showModal={showModal}
             setShowModal={setShowModal}
-            title={t('add_new_cp_fixed')}
-            btnTitle={t('new_cp_fixed_config')}
+            title={'add_new_cp_fixed'}
+            btnTitle={t('save')}
             description={''}
             handler={handleSubmit(onSubmit)}
             classIcon={'w-6 h-6'}

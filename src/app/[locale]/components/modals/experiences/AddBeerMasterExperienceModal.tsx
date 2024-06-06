@@ -214,7 +214,7 @@ export default function AddBeerMasterExperienceModal() {
             showModal={showModal}
             setShowModal={setShowModal}
             title={'add_new_experience'}
-            btnTitle={'new_experience'}
+            btnTitle={'save'}
             description={''}
             classIcon={''}
             classContainer={`${isLoading && ' opacity-75'}`}

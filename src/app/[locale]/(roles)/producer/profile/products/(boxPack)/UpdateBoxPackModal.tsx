@@ -272,7 +272,7 @@ export function UpdateBoxPackModal({
             showModal={showModal}
             setShowModal={handleEditShowModal}
             title={'update_box_pack'}
-            btnTitle={'update_box_pack'}
+            btnTitle={'save'}
             description={''}
             classIcon={''}
             classContainer={`${isLoading && ' opacity-75'}`}

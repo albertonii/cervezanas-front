@@ -282,7 +282,7 @@ export default function UpdateEventModal({
             showModal={isEditModal}
             setShowModal={handleEditModal}
             title={t('edit_event') ?? 'Edit event'}
-            btnTitle={t('edit_event')}
+            btnTitle={'save'}
             description={''}
             icon={faAdd}
             handler={handleSubmit(onSubmit)}
