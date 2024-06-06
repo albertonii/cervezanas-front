@@ -23,7 +23,7 @@ export const FilePreviewImageMultimedia = ({
     const {
         getValues,
         setValue,
-        formState: { errors, dirtyFields },
+        formState: { errors },
     } = form;
 
     useEffect(() => {
@@ -41,45 +41,45 @@ export const FilePreviewImageMultimedia = ({
         }
     }, [registerName]);
 
-    const removeImageClick = () => {
+    const handleRemoveImage = () => {
         setValue(registerName, null);
         setImage(null); // Restablecer la URL de la imagen cuando se elimina
     };
 
-    const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return console.info('No hay archivos');
 
-        setImage(URL.createObjectURL(e.target.files[0])); // Almacenar la URL de la imagen en el estado
-        // setValue(registerName, e.target.files[0], { shouldDirty: true });
+        const url = URL.createObjectURL(e.target.files[0]);
+
+        setImage(url); // Almacenar la URL de la imagen en el estado
         setValue(registerName, e.target.files[0], { shouldDirty: true });
     };
 
     return (
-        <section className="flex w-full items-center justify-center rounded-md lg:w-full group">
-            {!image && (
-                <div className="hover:cursor-pointer relative h-32 w-full items-center overflow-hidden rounded-md border-2 border-dotted border-gray-400 shadow-md">
+        <section className="flex w-full flex-col items-center justify-center rounded-md bg-white p-4 shadow-md border border-gray-200">
+            {!image ? (
+                <div className="relative flex flex-col items-center justify-center h-32 w-full rounded-md border-2 border-dotted border-gray-400 hover:cursor-pointer bg-gray-50">
                     <input
                         type="file"
                         accept="image/gif, image/jpeg, image/png, image/webp"
-                        className="absolute z-10 h-full w-full opacity-0 hover:cursor-pointer"
-                        onChange={handleFile}
+                        className="absolute z-10 h-full w-full opacity-0 cursor-pointer"
+                        onChange={handleFileChange}
                         id={registerName}
                     />
-
-                    <div className="z-1 absolute top-0 flex h-full w-full flex-col items-center justify-center bg-gray-200 px-2 hover:cursor-pointer">
-                        <i className="mdi mdi-folder-open text-center text-[30px] text-gray-400"></i>
+                    <div className="flex flex-col items-center text-center justify-center text-gray-400">
+                        <i className="mdi mdi-folder-open text-[30px]"></i>
                         <span className="text-[12px]">
                             {t('drag_and_drop_file')}
                         </span>
                     </div>
                 </div>
-            )}
-
-            {image && (
-                <FilePreviewBlurImage
-                    image={image}
-                    removeImageClick={removeImageClick}
-                />
+            ) : (
+                <div className="relative flex flex-col items-center">
+                    <FilePreviewBlurImage
+                        image={image}
+                        removeImageClick={handleRemoveImage}
+                    />
+                </div>
             )}
 
             {errors[registerName] && (
