@@ -596,6 +596,7 @@
         "error_2500_max_length": "Maximum length of the field is 2500 characters",
         "error_3500_max_length": "Maximum length of the field is 3500 characters",
         "password_match": "Passwords do not match",
+        "password_8_length": "Password must be at least 8 characters long",
         "select_location_required": "Select a location is required",
         "input_min_0": "Number cannot be negative",
         "input_min_1": "The number must be greater than or equal to 1",
@@ -707,7 +708,8 @@
         "reset_password_email_sent": "An email has been sent to your inbox with instructions to reset your password",
         "sign_in_success": "Sign in success",
         "sign_up_success": "Signup successful. Please check your inbox for a confirmation email!",
-        "user_already_registered": "User already registered"
+        "user_already_registered": "User already registered",
+        "register_legal_age": "You must be of legal age to register"
     },
     "cancelled": "Cancelled",
     "in_transit": "In transit",
@@ -736,7 +738,7 @@
     "distributor_information": "Distributor information",
     "username": "Username",
     "is_legal_age": "I am legal age for user registration > 18 years old",
-    "is_legal_age_description": "You must be of legal age to register as a user.",
+    "is_legal_age_description": "In order to register you must be of legal age",
     "come_back_to_signin": "Come back to sign in",
     "distributors": "Distributors",
     "producers": "Producers",

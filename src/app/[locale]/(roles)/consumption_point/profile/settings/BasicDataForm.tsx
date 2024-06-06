@@ -23,10 +23,10 @@ interface Props {
 }
 
 const schema: ZodType<FormData> = z.object({
-    name: z.string().min(2, { message: 'Required' }).max(50, {
+    name: z.string().min(2, { message: 'errors.input_required' }).max(50, {
         message: 'errors.error_50_max_length',
     }),
-    lastname: z.string().min(2, { message: 'Required' }).max(50, {
+    lastname: z.string().min(2, { message: 'errors.input_required' }).max(50, {
         message: 'errors.error_50_max_length',
     }),
 });

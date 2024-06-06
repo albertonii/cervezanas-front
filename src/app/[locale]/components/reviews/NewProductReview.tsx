@@ -25,13 +25,13 @@ type FormValues = {
 };
 
 const schema: ZodType<FormValues> = z.object({
-    aroma: z.number().min(1, { message: 'Required' }).max(5),
-    appearance: z.number().min(1, { message: 'Required' }).max(5),
-    taste: z.number().min(1, { message: 'Required' }).max(5),
-    mouthfeel: z.number().min(1, { message: 'Required' }).max(5),
-    bitterness: z.number().min(1, { message: 'Required' }).max(5),
-    overall: z.number().min(1, { message: 'Required' }).max(5),
-    comment: z.string().min(1, { message: 'Required' }).max(500, {
+    aroma: z.number().min(1, { message: 'errors.input_required' }).max(5),
+    appearance: z.number().min(1, { message: 'errors.input_required' }).max(5),
+    taste: z.number().min(1, { message: 'errors.input_required' }).max(5),
+    mouthfeel: z.number().min(1, { message: 'errors.input_required' }).max(5),
+    bitterness: z.number().min(1, { message: 'errors.input_required' }).max(5),
+    overall: z.number().min(1, { message: 'errors.input_required' }).max(5),
+    comment: z.string().min(1, { message: 'errors.input_required' }).max(500, {
         message: 'The comment is too long, max length are 500 characters',
     }),
 });
@@ -173,7 +173,7 @@ export function NewProductReview({
             setLoading(true);
             setReviewModal(true);
         },
-         onError: (error: Error) => {
+        onError: (error: Error) => {
             handleMessage({
                 type: 'error',
                 message: error.message,

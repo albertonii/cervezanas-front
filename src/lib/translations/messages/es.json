@@ -588,7 +588,7 @@
     "served": "Servido",
     "product_item_order_status": "Estado del producto pedido",
     "errors": {
-        "input_required": "El campo es requerido",
+        "input_required": "El campo es obligatorio",
         "input_email_invalid": "El email no es válido",
         "product_modal_20_max_length": "El campo debe tener menos de 20 caracteres",
         "product_modal_min_0": "El número no puede ser negativo",
@@ -604,6 +604,7 @@
         "error_200_max_length": "El campo debe tener menos de 200 caracteres",
         "error_2500_max_length": "El campo debe tener menos de 2500 caracteres",
         "password_match": "Las contraseñas no coinciden",
+        "password_8_length": "La contraseña debe tener al menos 8 caracteres",
         "select_location_required": "Debes seleccionar una localización",
         "input_min_0": "El número no puede ser negativo",
         "input_min_1": "El número debe ser mayor o igual a 1",
@@ -618,7 +619,8 @@
         "lower_greater_than_upper": "El valor inferior debe ser menor que el valor superior",
         "inserting_report": "Error al insertar el informe.",
         "update_report": "Error al actualizar el informe.",
-        "answer_is_correct_marked": "Debe de marcar como mínimo una respuesta correcta."
+        "answer_is_correct_marked": "Debe de marcar como mínimo una respuesta correcta.",
+        "register_legal_age": "Debes ser mayor de edad para registrarte."
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",

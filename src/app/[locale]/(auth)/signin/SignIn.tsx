@@ -36,12 +36,10 @@ const signInSchema: ZodType<SigninFormData> = z.object({
     email: z
         .string()
         .email({
-            message: 'Must be a valid email',
+            message: 'errors.input_email_invalid',
         })
-        .min(5, { message: 'Required' }),
-    password: z
-        .string()
-        .min(8, { message: 'Password must be atleast 8 characters' }),
+        .min(5, { message: 'errors.input_required' }),
+    password: z.string().min(8, { message: 'errors.password_8_length' }),
 });
 
 type SignInValidationSchema = z.infer<typeof signInSchema>;
@@ -50,9 +48,9 @@ const resetSchema: ZodType<ResetFormData> = z.object({
     email: z
         .string()
         .email({
-            message: 'Must be a valid email',
+            message: 'errors.input_email_invalid',
         })
-        .min(5, { message: 'Required' }),
+        .min(5, { message: 'errors.input_required' }),
 });
 
 type ResetValidationSchema = z.infer<typeof resetSchema>;

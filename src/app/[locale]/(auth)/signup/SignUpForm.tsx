@@ -40,26 +40,24 @@ interface FormData {
 const schema: ZodType<FormData> = z
     .object({
         access_level: z.string(),
-        username: z.string().min(5, { message: 'Required' }),
+        username: z.string().min(5, { message: 'errors.input_required' }),
         email: z
             .string()
             .email({
-                message: 'Must be a valid email',
+                message: 'errors.input_email_invalid',
             })
-            .min(5, { message: 'Required' }),
-        password: z
-            .string()
-            .min(8, { message: 'Password must be atleast 8 characters' }),
+            .min(5, { message: 'errors.input_required' }),
+        password: z.string().min(8, { message: 'errors.password_8_length' }),
         confirm_password: z
             .string()
-            .min(8, { message: 'Password must be atleast 8 characters' }),
+            .min(8, { message: 'errors.password_8_length' }),
         is_legal_age: z.boolean().refine((data) => data === true, {
-            message: 'You must be of legal age',
+            message: 'errors.register_legal_age',
         }),
     })
     .refine((data) => data.password === data.confirm_password, {
         path: ['confirm_password'],
-        message: "Password don't match",
+        message: 'errors.password_match',
     });
 
 type ValidationSchema = z.infer<typeof schema>;

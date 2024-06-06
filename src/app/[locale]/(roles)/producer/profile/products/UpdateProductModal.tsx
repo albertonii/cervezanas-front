@@ -94,7 +94,7 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
     era: z.number().min(0, { message: 'errors.input_min_0' }),
     is_gluten: z.coerce.boolean(),
     type: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
-        message: 'Required',
+        message: 'errors.input_required',
     }),
 
     is_public: z.boolean(),

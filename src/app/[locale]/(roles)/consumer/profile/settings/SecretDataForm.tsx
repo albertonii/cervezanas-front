@@ -20,13 +20,15 @@ type FormData = {
 
 const schema: ZodType<FormData> = z
     .object({
-        old_password: z.string().min(8, { message: 'Required' }),
-        new_password: z.string().min(8, { message: 'Required' }),
-        confirm_password: z.string().min(8, { message: 'Required' }),
+        old_password: z.string().min(8, { message: 'errors.input_required' }),
+        new_password: z.string().min(8, { message: 'errors.input_required' }),
+        confirm_password: z
+            .string()
+            .min(8, { message: 'errors.input_required' }),
     })
     .refine((data) => data.new_password === data.confirm_password, {
         path: ['confirm_password'],
-        message: "Password don't match",
+        message: 'errors.password_match',
     });
 
 type ValidationSchema = z.infer<typeof schema>;

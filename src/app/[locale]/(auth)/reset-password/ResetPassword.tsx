@@ -19,16 +19,14 @@ type FormData = {
 
 const schema: ZodType<FormData> = z
     .object({
-        password: z
-            .string()
-            .min(8, { message: 'Password must be atleast 8 characters' }),
+        password: z.string().min(8, { message: 'errors.password_8_length' }),
         confirm_password: z
             .string()
-            .min(8, { message: 'Password must be atleast 8 characters' }),
+            .min(8, { message: 'errors.password_8_length' }),
     })
     .refine((data) => data.password === data.confirm_password, {
         path: ['confirm_password'],
-        message: "Password don't match",
+        message: 'errors.password_match',
     });
 
 type ValidationSchema = z.infer<typeof schema>;
