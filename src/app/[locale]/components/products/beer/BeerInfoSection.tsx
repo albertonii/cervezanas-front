@@ -4,7 +4,6 @@ import { UseFormReturn } from 'react-hook-form';
 import {
     aroma_options,
     color_options,
-    era_options,
     family_options,
     fermentation_options,
     format_options,
@@ -111,6 +110,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                 <InputLabel
                     form={form}
                     label={'intensity'}
+                    labelText={t('intensity_input')}
                     registerOptions={{
                         required: true,
                         min: 0,
@@ -192,17 +192,6 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
               {errors.family?.type === "required" && (
                 <p>{t("errors.input_required")}</p>
               )} */}
-
-                <SelectInput
-                    form={form}
-                    labelTooltip={'era_tooltip'}
-                    options={era_options}
-                    label={'era'}
-                    registerOptions={{
-                        required: true,
-                        valueAsNumber: true,
-                    }}
-                />
             </div>
 
             <div className="flex w-full flex-row space-x-3 ">

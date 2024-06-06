@@ -39,8 +39,6 @@ export async function POST(request: NextRequest) {
         const color = formData.get('beer.color') as string;
         const aroma = formData.get('beer.aroma') as string;
         const family = formData.get('beer.family') as string;
-        const origin = formData.get('beer.origin') as string;
-        const era = formData.get('beer.era') as string;
         const is_gluten = (formData.get('beer.is_gluten') as string) === 'true';
         const volume = parseFloat(formData.get('beer.volume') as string);
         const format = formData.get('beer.format') as string;
@@ -126,8 +124,6 @@ export async function POST(request: NextRequest) {
                 color,
                 aroma,
                 family,
-                origin,
-                era,
                 is_gluten,
                 volume,
                 format,

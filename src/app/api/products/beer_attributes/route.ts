@@ -11,8 +11,6 @@ export async function PUT(request: NextRequest) {
         const color = formData.get('color') as string;
         const aroma = formData.get('aroma') as string;
         const family = formData.get('family') as string;
-        const origin = formData.get('origin') as string;
-        const era = formData.get('era') as string;
         const is_gluten = (formData.get('is_gluten') as string) === 'true';
         const volume = parseFloat(formData.get('volume') as string);
         const format = formData.get('format') as string;
@@ -37,8 +35,6 @@ export async function PUT(request: NextRequest) {
                 color,
                 aroma,
                 family,
-                origin,
-                era,
                 is_gluten,
                 volume,
                 format,

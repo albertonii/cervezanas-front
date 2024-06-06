@@ -139,7 +139,7 @@ export default function UpdateBeerInfoSection({
                 <InputLabel
                     form={form}
                     label={'intensity'}
-                    labelText={`${t('intensity')} (%)`}
+                    labelText={t('intensity_input')}
                     registerOptions={{
                         required: true,
                         min: 0,

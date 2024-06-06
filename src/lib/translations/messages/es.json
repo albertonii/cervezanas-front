@@ -899,5 +899,6 @@
     "introduce_history_business_description": "Introduce la descripción de la empresa",
     "introduce_campaign_description": "Introduce la descripción de la campaña",
     "introduce_experience_description": "Introduce la descripción de la experiencia",
-    "introduce_box_pack_description": "Introduce la descripción del pack variado"
+    "introduce_box_pack_description": "Introduce la descripción del pack variado",
+    "intensity_input": "ABV %"
 }

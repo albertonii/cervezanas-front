@@ -56,7 +56,7 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                         </label>
 
                         <span className="text-md">
-                            {getValues('intensity')}
+                            {getValues('intensity')} %
                         </span>
                     </h4>
 

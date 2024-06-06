@@ -59,11 +59,11 @@ export function UpdateProductSummary({ form }: Props) {
                 <fieldset className="flex flex-row justify-between gap-2 space-x-4">
                     <h4 className="space-x-2">
                         <label className="text-md font-semibold text-gray-600">
-                            {t('intensity_label')} %
+                            {t('intensity_label')}
                         </label>
 
                         <span className="text-md">
-                            {getValues('intensity')}
+                            {getValues('intensity')} %
                         </span>
                     </h4>
 
