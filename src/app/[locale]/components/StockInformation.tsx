@@ -29,14 +29,12 @@ export default function StockInformation({ form }: Props) {
                 </p>
 
                 {/* Stock commitment notice */}
-                <div className="text-slate-600 my-4 text-base">
-                    <p>
-                        El stock que se compromete a introducir a través de este
-                        formulario es aquel que se compromete con la plataforma
-                        <span className="font-semibold"> CERVEZANAS.</span> Este
-                        stock debe estar disponible en todo momento.
-                    </p>
-                </div>
+                <p className="text-sm text-gray-600 mb-4 block">
+                    El stock que se compromete a introducir a través de este
+                    formulario es aquel que se compromete con la plataforma
+                    <span className="font-semibold"> CERVEZANAS.</span> Este
+                    stock debe estar disponible en todo momento.
+                </p>
 
                 {/* Stock quantity and Limitation */}
                 <div className="flex w-full flex-row space-x-4">
