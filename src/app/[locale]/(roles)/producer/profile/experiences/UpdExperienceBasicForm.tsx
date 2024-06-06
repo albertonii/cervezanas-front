@@ -84,7 +84,7 @@ export default function UpdExperienceBasicForm({
                 registerOptions={{
                     required: true,
                 }}
-                placeholder="The experience every beer lover is waiting for!"
+                placeholder={`${t('introduce_experience_description')}`}
             />
         </fieldset>
     );

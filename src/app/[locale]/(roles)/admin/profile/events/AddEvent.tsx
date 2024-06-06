@@ -310,7 +310,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
                             registerOptions={{
                                 required: true,
                             }}
-                            placeholder="Bienvenido al BBF, el festival de cerveza artesanal más grande de Barcelona. Te esperamos el 14, 15 y 16 de mayo en el Deportivo Lomas Altas. ¡No te lo pierdas!"
+                            placeholder={`${t('introduce_event_description')}`}
                         />
 
                         {/* Start date and end date  */}

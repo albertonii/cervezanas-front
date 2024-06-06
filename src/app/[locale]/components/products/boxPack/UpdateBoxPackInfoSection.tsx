@@ -68,7 +68,7 @@ export function UpdateBoxPackInfoSection({ form }: Props) {
                         registerOptions={{
                             required: true,
                         }}
-                        placeholder="Pack de 12 cervezas CCVK - 3 de cada tipo"
+                        placeholder={`${t('introduce_box_pack_description')}`}
                     />
                 </div>
 

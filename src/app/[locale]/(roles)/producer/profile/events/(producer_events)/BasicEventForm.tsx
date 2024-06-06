@@ -34,7 +34,7 @@ export default function BasicEventForm({ form }: Props) {
                     registerOptions={{
                         required: true,
                     }}
-                    placeholder="The event every beer lover is waiting for!"
+                    placeholder={`${t('introduce_event_description')}`}
                 />
 
                 {/* Start date and end date  */}

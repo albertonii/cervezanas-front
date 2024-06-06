@@ -145,7 +145,7 @@ export default function UpdateBeerInfoSection({
                     registerOptions={{
                         required: true,
                     }}
-                    placeholder="IPA Jaira is a beer with a strong and intense aroma, with a fruity and floral touch."
+                    placeholder={t('introduce_beer_description')}
                 />
             </div>
 

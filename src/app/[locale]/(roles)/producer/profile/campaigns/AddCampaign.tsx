@@ -240,7 +240,9 @@ export function AddCampaign() {
                     registerOptions={{
                         required: true,
                     }}
-                    placeholder="Jaira is launching this new campaign ..."
+                    placeholder={`${t(
+                        'introduce_campaign_description',
+                    )}`}
                 />
 
                 {/* Slogan  */}

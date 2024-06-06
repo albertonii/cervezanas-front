@@ -866,5 +866,12 @@
     "introduce_event_name": "Introduce the name of the event",
     "introduce_campaign_name": "Introduce the name of the campaign",
     "introduce_experience_name": "Introduce the name of the experience",
-    "introduce_box_pack_name": "Introduce the name of the box pack"
+    "introduce_box_pack_name": "Introduce the name of the box pack",
+    "introduce_beer_description": "Introduce the description of the beer",
+    "introduce_message_to_distributor": "Introduce message to the distributor",
+    "introduce_event_description": "Introduce event description",
+    "introduce_history_business_description": "Introduce the history of the business",
+    "introduce_campaign_description": "Introduce campaign description",
+    "introduce_experience_description": "Introduce experience description",
+    "introduce_box_pack_description": "Introduce box pack description"
 }

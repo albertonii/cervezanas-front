@@ -292,7 +292,9 @@ export default function UpdateEventModal({
                                 registerOptions={{
                                     required: true,
                                 }}
-                                placeholder="The event every beer lover is waiting for!"
+                                placeholder={`${t(
+                                    'introduce_event_description',
+                                )}`}
                             />
 
                             {/* Start date and end date  */}
