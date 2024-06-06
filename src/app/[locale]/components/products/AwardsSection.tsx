@@ -28,7 +28,10 @@ interface FileProps {
 }
 
 export const AwardsSection = ({ form }: Props) => {
-    const { control } = form;
+    const {
+        control,
+        formState: { errors },
+    } = form;
 
     const t = useTranslations();
 
@@ -67,13 +70,17 @@ export const AwardsSection = ({ form }: Props) => {
     };
 
     return (
-        <section id="Award" className="space-y-4">
+        <section
+            id="Award"
+            className="space-y-8 p-6 bg-white rounded-lg shadow-md border border-gray-200"
+        >
+            <h2 className="text-slate-500 text-xl font-semibold leading-relaxed">
+                {t('modal_product_awards_title')}
+            </h2>
+
             {fields.map((field, index) => (
-                <div
-                    key={field.id}
-                    className="relative flex-auto space-y-4 pt-6"
-                >
-                    <div className="flex flex-row items-end">
+                <div key={field.id} className="space-y-6">
+                    <div className="flex flex-col md:flex-row md:items-end space-y-4 md:space-y-0 md:space-x-4">
                         <InputLabel
                             form={form}
                             label={`awards.${index}.name`}
@@ -86,27 +93,27 @@ export const AwardsSection = ({ form }: Props) => {
                             )}
                         />
 
-                        <div className="ml-4">
-                            <DeleteButton
-                                onClick={() => handleRemoveAward(index)}
-                            />
-                        </div>
+                        <DeleteButton
+                            onClick={() => handleRemoveAward(index)}
+                        />
                     </div>
 
                     <InputLabel
                         form={form}
                         label={`awards.${index}.description`}
-                        labelText={'description'}
+                        labelText={t('description')}
                         registerOptions={{
                             required: true,
                         }}
-                        placeholder={t('description')}
+                        placeholder={t(
+                            'input_product_award_description_placeholder',
+                        )}
                     />
 
                     <InputLabel
                         form={form}
                         label={`awards.${index}.year`}
-                        labelText={'year'}
+                        labelText={t('year')}
                         registerOptions={{
                             required: true,
                             valueAsNumber: true,
@@ -116,9 +123,9 @@ export const AwardsSection = ({ form }: Props) => {
                         defaultValue={2021}
                     />
 
-                    <div className="space-y w-full">
+                    <div className="w-full">
                         <label
-                            htmlFor="award_img_url"
+                            htmlFor={`awards.${index}.img_url`}
                             className="text-sm text-gray-600"
                         >
                             {t('upload_img_url')}
@@ -129,15 +136,17 @@ export const AwardsSection = ({ form }: Props) => {
                             registerName={`awards.${index}.img_url`}
                         />
 
-                        {`errors.awards.${index}.img_url.type` ===
+                        {/* {errors[`awards.${index}.img_url`]?.type ===
                             'required' && (
-                            <DisplayInputError message="errors.input_required" />
-                        )}
+                            <DisplayInputError
+                                message={t('errors.input_required')}
+                            />
+                        )} */}
                     </div>
                 </div>
             ))}
 
-            <Button class="" primary medium onClick={() => handleAddAward()}>
+            <Button primary medium onClick={handleAddAward}>
                 {t('modal_product_award_add')}
             </Button>
         </section>
