@@ -75,7 +75,7 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
     p_extra_3: z.instanceof(FileList).optional().or(z.string()),
     is_public: z.boolean(),
     // TODO: Bug in volume validation when adding product
-    // volume: z.number().min(0, { message: "Required" }).max(50, {
+    // volume: z.number().min(0, { message: "errors.input_required" }).max(50, {
     //   message: "Required",
     // }),
     volume: z.number().min(0, { message: 'errors.input_min_0' }),

@@ -79,7 +79,7 @@ export default function DistributorDisclaimerModal({
                     <span className="font-semibold">Consultas y Contacto:</span>{' '}
                     Si tiene preguntas o necesita asistencia durante el proceso
                     de registro, por favor contáctenos a{' '}
-                    <i>aniironen@socialinnolabs.org</i> .
+                    <i>cervezanas@socialinnolabs.org</i> .
                 </p>
 
                 <p>
