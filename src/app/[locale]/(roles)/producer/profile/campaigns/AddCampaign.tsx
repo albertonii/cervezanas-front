@@ -215,10 +215,10 @@ export function AddCampaign() {
                         form={form}
                         label={'name'}
                         labelText={t('campaign_name')}
-                        placeholder={'Christmass campaign'}
                         registerOptions={{
                             required: true,
                         }}
+                        placeholder={t('introduce_campaign_name')}
                     />
 
                     <SelectInput

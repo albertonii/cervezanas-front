@@ -56,8 +56,8 @@ export function UpdateBoxPackInfoSection({ form }: Props) {
                     registerOptions={{
                         required: true,
                     }}
-                    placeholder="Pack de cervezas"
                     defaultValue={getValues('name')}
+                    placeholder={t('introduce_box_pack_name')}
                 />
 
                 {/* Description  */}

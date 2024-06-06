@@ -300,6 +300,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
                             registerOptions={{
                                 required: true,
                             }}
+                            placeholder={t('introduce_event_name')}
                         />
 
                         {/* Event description  */}

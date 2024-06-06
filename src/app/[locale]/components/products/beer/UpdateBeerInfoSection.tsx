@@ -134,7 +134,7 @@ export default function UpdateBeerInfoSection({
                 registerOptions={{
                     required: true,
                 }}
-                placeholder="IPA Jaira"
+                placeholder={t('introduce_beer_name')}
             />
 
             {/* Description  */}

@@ -92,7 +92,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                 registerOptions={{
                     required: true,
                 }}
-                placeholder="IPA Jaira"
+                placeholder={t("introduce_beer_name")}
             />
 
             {/* Description  */}

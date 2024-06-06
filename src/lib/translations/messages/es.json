@@ -860,7 +860,7 @@
     "question_add": "Añadir pregunta",
     "add_new_experience": "Añadir experiencia",
     "experiences_info": "Información de la experiencia",
-    "add_box_pack": "Añadir pack de caja",
+    "add_box_pack": "Añadir pack",
     "update_box_pack": "Actualizar",
     "slots": "Huecos",
     "slots_per_product": "Huecos por producto",
@@ -887,5 +887,10 @@
     "req_distributor_accepted": "Solicitud de distribuidor aceptada",
     "req_producer_rejected": "Se ha rechazado tu solicitud de productor.",
     "req_distributor_rejected": "Se ha rechazado tu solicitud de distribuidor.",
-    "modal_product_update_details_title": "Actualizar detalles del producto"
+    "modal_product_update_details_title": "Actualizar detalles del producto",
+    "introduce_beer_name": "Introduce el nombre de la cerveza",
+    "introduce_event_name": "Introduce el nombre del evento",
+    "introduce_campaign_name": "Introduce el nombre de la campaña",
+    "introduce_experience_name": "Introduce el nombre de la experiencia",
+    "introduce_box_pack_name": "Introduce el nombre del pack variado"
 }

@@ -336,6 +336,7 @@ export default function UpdateEventModal({
                                 registerOptions={{
                                     required: true,
                                 }}
+                                placeholder={t('introduce_event_name')}
                             />
 
                             {/* Event description  */}

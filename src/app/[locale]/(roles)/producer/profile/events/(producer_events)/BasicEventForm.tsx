@@ -24,6 +24,7 @@ export default function BasicEventForm({ form }: Props) {
                     registerOptions={{
                         required: true,
                     }}
+                    placeholder={t('introduce_event_name')}
                 />
 
                 {/* Event description  */}
