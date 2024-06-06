@@ -32,6 +32,11 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
     useOutsideClick(() => handleOpenCallback(), dropdown);
 
+    const handleOnClickOption = (option: string) => {
+        setOpen(false);
+        changeSidebarActive(option);
+    };
+
     const handleDropdownButton = (option: string) => {
         if (!role) return;
 
@@ -41,7 +46,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                     <Link href={generateLink(role, option)} locale={locale}>
                         <div
                             className={`bg-beer-foam p-2 hover:bg-beer-softBlondeBubble active:bg-beer-gold transition-all ease-in-out`}
-                            onClick={() => changeSidebarActive(option)}
+                            onClick={() => handleOnClickOption(option)}
                         >
                             <span
                                 className={`text-beer-dark dark:text-white `}
@@ -58,7 +63,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                     <Link href={generateLink(role, option)} locale={locale}>
                         <div
                             className={`bg-beer-foam p-2 hover:bg-beer-softBlondeBubble active:bg-beer-gold transition-all ease-in-out`}
-                            onClick={() => changeSidebarActive(option)}
+                            onClick={() => handleOnClickOption(option)}
                         >
                             <span
                                 className={`text-beer-dark dark:text-white `}
@@ -75,7 +80,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                     <Link href={generateLink(role, option)} locale={locale}>
                         <div
                             className={`bg-beer-foam p-2 hover:bg-beer-softBlondeBubble active:bg-beer-gold transition-all ease-in-out`}
-                            onClick={() => changeSidebarActive(option)}
+                            onClick={() => handleOnClickOption(option)}
                         >
                             <span
                                 className={`text-beer-dark dark:text-white `}
@@ -92,7 +97,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                     <Link href={generateLink(role, option)} locale={locale}>
                         <div
                             className={`bg-beer-foam p-2 hover:bg-beer-softBlondeBubble active:bg-beer-gold transition-all ease-in-out`}
-                            onClick={() => changeSidebarActive(option)}
+                            onClick={() => handleOnClickOption(option)}
                         >
                             <span
                                 className={`text-beer-dark dark:text-white `}
@@ -109,7 +114,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                     <Link href={generateLink(role, option)} locale={locale}>
                         <div
                             className={`bg-beer-foam p-2 hover:bg-beer-softBlondeBubble active:bg-beer-gold transition-all ease-in-out`}
-                            onClick={() => changeSidebarActive(option)}
+                            onClick={() => handleOnClickOption(option)}
                         >
                             <span
                                 className={`text-beer-dark dark:text-white `}
@@ -129,7 +134,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                     >
                         <div
                             className={`bg-beer-foam p-2 hover:bg-beer-softBlondeBubble active:bg-beer-gold transition-all ease-in-out`}
-                            onClick={() => changeSidebarActive(option)}
+                            onClick={() => handleOnClickOption(option)}
                         >
                             <span
                                 className={`text-beer-dark dark:text-white `}
@@ -147,7 +152,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                         {' '}
                         <div
                             className={`bg-beer-foam p-2 hover:bg-beer-softBlondeBubble active:bg-beer-gold transition-all ease-in-out`}
-                            onClick={() => changeSidebarActive(option)}
+                            onClick={() => handleOnClickOption(option)}
                         >
                             <span
                                 className={`text-beer-dark dark:text-white `}
@@ -164,7 +169,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                     <Link href={generateLink(role, option)} locale={locale}>
                         <div
                             className={`bg-beer-foam p-2 hover:bg-beer-softBlondeBubble active:bg-beer-gold transition-all ease-in-out`}
-                            onClick={() => changeSidebarActive(option)}
+                            onClick={() => handleOnClickOption(option)}
                         >
                             <span
                                 className={`text-beer-dark dark:text-white `}
@@ -181,7 +186,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                     <Link href={generateLink(role, option)} locale={locale}>
                         <div
                             className={`bg-beer-foam p-2 hover:bg-beer-softBlondeBubble active:bg-beer-gold transition-all ease-in-out`}
-                            onClick={() => changeSidebarActive(option)}
+                            onClick={() => handleOnClickOption(option)}
                         >
                             <span
                                 className={`text-beer-dark dark:text-white `}
@@ -198,7 +203,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                     <Link href={generateLink(role, option)} locale={locale}>
                         <div
                             className={`bg-beer-foam p-2 hover:bg-beer-softBlondeBubble active:bg-beer-gold transition-all ease-in-out`}
-                            onClick={() => changeSidebarActive(option)}
+                            onClick={() => handleOnClickOption(option)}
                         >
                             <span
                                 className={`text-beer-dark dark:text-white `}
@@ -215,7 +220,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                     <Link href={generateLink(role, option)} locale={locale}>
                         <div
                             className={`bg-beer-foam p-2 hover:bg-beer-softBlondeBubble active:bg-beer-gold transition-all ease-in-out`}
-                            onClick={() => changeSidebarActive(option)}
+                            onClick={() => handleOnClickOption(option)}
                         >
                             <span
                                 className={`text-beer-dark dark:text-white `}
@@ -232,7 +237,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                     <Link href={generateLink(role, option)} locale={locale}>
                         <div
                             className={`bg-beer-foam p-2 hover:bg-beer-softBlondeBubble active:bg-beer-gold transition-all ease-in-out`}
-                            onClick={() => changeSidebarActive(option)}
+                            onClick={() => handleOnClickOption(option)}
                         >
                             <span
                                 className={`text-beer-dark dark:text-white `}
@@ -249,7 +254,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                     <Link href={generateLink(role, option)} locale={locale}>
                         <div
                             className={`bg-beer-foam p-2 hover:bg-beer-softBlondeBubble active:bg-beer-gold transition-all ease-in-out`}
-                            onClick={() => changeSidebarActive(option)}
+                            onClick={() => handleOnClickOption(option)}
                         >
                             <span
                                 className={`text-beer-dark dark:text-white `}
@@ -267,7 +272,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                         <div
                             className={`bg-beer-foam p-2 hover:bg-beer-softBlondeBubble active:bg-beer-gold transition-all ease-in-out hover:cursor-pointer`}
                             onClick={() => {
-                                changeSidebarActive(option);
+                                handleOnClickOption(option);
                                 signOut();
                             }}
                         >
