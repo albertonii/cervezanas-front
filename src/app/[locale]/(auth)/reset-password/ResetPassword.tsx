@@ -1,6 +1,8 @@
 'use client';
 
 import Image from 'next/image';
+import Button from '../../components/common/Button';
+import InputLabel from '../../components/common/InputLabel';
 import React from 'react';
 import { z, ZodType } from 'zod';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
@@ -8,9 +10,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../Context/useAuth';
-import Button from '../../components/common/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import InputLabel from '../../components/common/InputLabel';
 
 type FormData = {
     password: string;

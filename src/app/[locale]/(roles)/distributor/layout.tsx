@@ -1,28 +1,32 @@
+import createServerClient from '../../../../utils/supabaseServer';
+import readUserSession from '../../../../lib/actions';
 import { User } from '@supabase/supabase-js';
 import { redirect } from 'next/navigation';
-import React from 'react';
-import readUserSession from '../../../../lib/actions';
 import { ROLE_ENUM } from '../../../../lib/enums';
-import createServerClient from '../../../../utils/supabaseServer';
+import AuthorizedAccessLayout from '../../components/AuthorizedAccessLayout';
+import IsNotYourRoleLayout from '../../components/IsNotYourRoleLayout';
 
 type LayoutProps = {
     children: React.ReactNode;
 };
 
 export default async function layout({ children }: LayoutProps) {
-    const hasAuthorization = await checkAuthorizatedUser();
+    const { isAuthorized, isRoleDistributor } = await checkAuthorizatedUser();
 
     return (
         <>
-            {hasAuthorization ? (
+            {isAuthorized && isRoleDistributor ? (
                 children
             ) : (
-                <section>
-                    <h2>
-                        No tienes los permisos necesarios para acceder a esta
-                        página
-                    </h2>
-                </section>
+                <>
+                    {!isAuthorized && isRoleDistributor && (
+                        <AuthorizedAccessLayout role={ROLE_ENUM.Distributor} />
+                    )}
+
+                    {!isRoleDistributor && (
+                        <IsNotYourRoleLayout role={ROLE_ENUM.Distributor} />
+                    )}
+                </>
             )}
         </>
     );
@@ -37,7 +41,8 @@ async function checkAuthorizatedUser() {
 
     const isRoleDistributor = await checkAuthorizatedUserByRole(session);
     const isAuthorized = await checkAuthorizedDistributorByAdmin(session.id);
-    return isRoleDistributor && isAuthorized;
+
+    return { isRoleDistributor, isAuthorized };
 }
 
 async function checkAuthorizatedUserByRole(user: User) {

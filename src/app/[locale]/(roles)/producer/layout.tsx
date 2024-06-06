@@ -1,9 +1,10 @@
 import React from 'react';
 import readUserSession from '../../../../lib/actions';
 import createServerClient from '../../../../utils/supabaseServer';
+import IsNotYourRoleLayout from '../../components/IsNotYourRoleLayout';
+import AuthorizedAccessLayout from '../../components/AuthorizedAccessLayout';
 import { redirect } from 'next/navigation';
 import { User } from '@supabase/supabase-js';
-import { VIEWS } from '../../../../constants';
 import { ROLE_ENUM } from '../../../../lib/enums';
 
 type LayoutProps = {
@@ -11,19 +12,22 @@ type LayoutProps = {
 };
 
 export default async function layout({ children }: LayoutProps) {
-    const hasAuthorization = await checkAuthorizatedUser();
+    const { isAuthorized, isRoleProducer } = await checkAuthorizatedUser();
 
     return (
         <>
-            {hasAuthorization ? (
+            {isAuthorized && isRoleProducer ? (
                 children
             ) : (
-                <section>
-                    <h2>
-                        No tienes los permisos necesarios para acceder a esta
-                        página
-                    </h2>
-                </section>
+                <>
+                    {!isAuthorized && isRoleProducer && (
+                        <AuthorizedAccessLayout role={ROLE_ENUM.Productor} />
+                    )}
+
+                    {!isRoleProducer && (
+                        <IsNotYourRoleLayout role={ROLE_ENUM.Productor} />
+                    )}
+                </>
             )}
         </>
     );
@@ -38,7 +42,7 @@ async function checkAuthorizatedUser() {
 
     const isRoleProducer = await checkAuthorizatedUserByRole(session);
     const isAuthorized = await checkAuthorizedProducerByAdmin(session.id);
-    return isRoleProducer && isAuthorized;
+    return { isRoleProducer, isAuthorized };
 }
 
 async function checkAuthorizatedUserByRole(user: User) {

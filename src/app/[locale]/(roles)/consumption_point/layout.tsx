@@ -4,25 +4,35 @@ import { ROLE_ENUM } from '../../../../lib/enums';
 import React from 'react';
 import readUserSession from '../../../../lib/actions';
 import createServerClient from '../../../../utils/supabaseServer';
+import AuthorizedAccessLayout from '../../components/AuthorizedAccessLayout';
+import IsNotYourRoleLayout from '../../components/IsNotYourRoleLayout';
 
 type LayoutProps = {
     children: React.ReactNode;
 };
 
 export default async function layout({ children }: LayoutProps) {
-    const hasAuthorization = await checkAuthorizatedUser();
+    const { isAuthorized, isRoleConsumptionPoint } =
+        await checkAuthorizatedUser();
 
     return (
         <>
-            {hasAuthorization ? (
+            {isAuthorized && isRoleConsumptionPoint ? (
                 children
             ) : (
-                <section>
-                    <h2>
-                        No tienes los permisos necesarios para acceder a esta
-                        página
-                    </h2>
-                </section>
+                <>
+                    {!isAuthorized && isRoleConsumptionPoint && (
+                        <AuthorizedAccessLayout
+                            role={ROLE_ENUM.Consumption_point}
+                        />
+                    )}
+
+                    {!isRoleConsumptionPoint && (
+                        <IsNotYourRoleLayout
+                            role={ROLE_ENUM.Consumption_point}
+                        />
+                    )}
+                </>
             )}
         </>
     );
@@ -39,7 +49,7 @@ async function checkAuthorizatedUser() {
     const isAuthorized = await checkAuthorizedConsumptionPointByAdmin(
         session.id,
     );
-    return isRoleConsumptionPoint && isAuthorized;
+    return { isRoleConsumptionPoint, isAuthorized };
 }
 
 async function checkAuthorizatedUserByRole(user: User) {
