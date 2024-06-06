@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
 import Button from './common/Button';
 import InputLabel from './common/InputLabel';
+import React, { useState } from 'react';
 import ProductAddPackItem from './ProductAddPackItems';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
@@ -9,6 +9,9 @@ import {
     ModalAddProductFormData,
 } from '../../../lib/types/types';
 import { v4 as uuidv4 } from 'uuid'; // Ensure uuid is installed
+import { faEnvelopeCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import StockInformation from './StockInformation';
 
 interface Props {
     form: UseFormReturn<ModalAddProductFormData, any>;
@@ -60,43 +63,8 @@ export default function StockInformationDetailsAndPacksAdd({ form }: Props) {
 
     return (
         <section className="pt-16">
-            <p className="text-slate-500 my-4 text-2xl leading-relaxed">
-                {t('modal_product_add_stock_title')}
-            </p>
-
             <div className="flex w-full flex-col space-y-16">
-                {/* Stock quantity and Limitation */}
-                <div className="flex w-full flex-row space-x-3 ">
-                    <InputLabel
-                        form={form}
-                        label={'stock_quantity'}
-                        labelText={t('stock_quantity_label')}
-                        registerOptions={{
-                            value: getValues('stock_quantity'),
-                            required: true,
-                            min: 0,
-                            valueAsNumber: true,
-                        }}
-                        placeholder="500"
-                        inputType="number"
-                        defaultValue={500}
-                    />
-
-                    <InputLabel
-                        form={form}
-                        label={'stock_limit_notification'}
-                        labelText={t('stock_limit_notification_label')}
-                        registerOptions={{
-                            value: getValues('stock_limit_notification'),
-                            required: true,
-                            min: 0,
-                            valueAsNumber: true,
-                        }}
-                        placeholder="20"
-                        inputType="number"
-                        defaultValue={20}
-                    />
-                </div>
+                <StockInformation form={form} />
 
                 {/* Packs */}
                 <div className="flex flex-col space-y-2">
