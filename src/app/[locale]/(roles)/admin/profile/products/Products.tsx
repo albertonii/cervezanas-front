@@ -17,8 +17,8 @@ export function Products() {
     }, []);
 
     const [isEditShowModal, setIsEditShowModal] = useState(false);
-    const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
     const [productModal, setProductModal] = useState<IProduct>();
+    const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
 
     const handleEditShowModal = (value: boolean) => {
         setIsEditShowModal(value);
