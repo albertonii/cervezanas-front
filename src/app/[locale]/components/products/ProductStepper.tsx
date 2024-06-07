@@ -19,7 +19,7 @@ export function ProductStepper({
 
     const statusPastClass = 'border-beer-softBlonde';
     const statusPresentClass = 'bg-beer-blonde';
-    const statusFutureClass = 'border-beer-softBlonde';
+    const statusFutureClass = 'border-gray-200';
 
     const statusPastIconClass = '#fdc300'; // Beer Blonde
     const statusPresentIconClass = 'white';
@@ -88,8 +88,9 @@ export function ProductStepper({
     return (
         <section className={`p-5 ${isSubmitting && 'opacity-50'}`}>
             <div className="flex items-center">
-                <div className="relative flex items-center text-beer-draft">
-                    <figure
+                {/* Details  */}
+                <figure className="relative flex items-center text-beer-draft">
+                    <div
                         className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${detailsClass} `}
                     >
                         <svg
@@ -106,18 +107,20 @@ export function ProductStepper({
                         >
                             <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
                         </svg>
-                    </figure>
+                    </div>
+
                     <h3 className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
                         {t('details')}
                     </h3>
-                </div>
+                </figure>
 
-                <div
-                    className={`flex-auto border-t-2 transition duration-500 ease-in-out ${multimediaClass}`}
-                ></div>
+                <span
+                    className={`flex-auto border-t-2 transition duration-500 ease-in-out ${detailsClass}`}
+                />
 
-                <div className="relative flex items-center text-gray-500">
-                    <figure
+                {/* Multimedia  */}
+                <figure className="relative flex items-center text-gray-500">
+                    <div
                         className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${multimediaClass}`}
                     >
                         <svg
@@ -139,16 +142,17 @@ export function ProductStepper({
                                 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm80 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z"
                             />
                         </svg>
-                    </figure>
+                    </div>
 
                     <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
                         {t('multimedia')}
                     </div>
-                </div>
+                </figure>
 
-                <div
-                    className={`flex-auto border-t-2 transition duration-500 ease-in-out ${awardsClass}`}
-                ></div>
+                {/* Awards  */}
+                <span
+                    className={`flex-auto border-t-2 transition duration-500 ease-in-out ${multimediaClass}`}
+                ></span>
 
                 <figure className="relative flex items-center text-white">
                     <div
@@ -179,14 +183,17 @@ export function ProductStepper({
                             />
                         </svg>
                     </div>
+
                     <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
                         {t('awards')}
                     </div>
                 </figure>
 
-                <div
-                    className={`flex-auto border-t-2 transition duration-500 ease-in-out ${confirmClass}`}
-                ></div>
+                {/* Confirm  */}
+                <span
+                    className={`flex-auto border-t-2 transition duration-500 ease-in-out ${awardsClass}`}
+                ></span>
+
                 <figure className="relative flex items-center text-gray-500">
                     <div
                         className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${confirmClass}`}
