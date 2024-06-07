@@ -60,7 +60,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                     </label>
 
                     <span className="mt-2 text-sm font-medium text-gray-400 dark:text-gray-300">
-                        {t('is_public_description')}
+                        {t('is_public_product_description')}
                     </span>
                 </div>
 

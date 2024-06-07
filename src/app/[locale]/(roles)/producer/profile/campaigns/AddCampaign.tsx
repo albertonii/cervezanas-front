@@ -41,12 +41,12 @@ export const campaign_status_options: {
 ];
 
 const schema: ZodType<ModalAddCampaignFormData> = z.object({
-    name: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
+    name: z.string().min(2, { message: 'errors.input_number__min_2' }).max(50, {
         message: 'errors.error_50_number_max_length',
     }),
     description: z
         .string()
-        .min(2, { message: 'errors.input_min_2' })
+        .min(2, { message: 'errors.input_number__min_2' })
         .max(2500, {
             message: 'errors.error_2500_max_length',
         }),
@@ -54,10 +54,13 @@ const schema: ZodType<ModalAddCampaignFormData> = z.object({
     is_public: z.boolean(),
     start_date: z.date(),
     end_date: z.date(),
-    slogan: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
-        message: 'errors.error_50_number_max_length',
-    }),
-    goal: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
+    slogan: z
+        .string()
+        .min(2, { message: 'errors.input_number__min_2' })
+        .max(50, {
+            message: 'errors.error_50_number_max_length',
+        }),
+    goal: z.string().min(2, { message: 'errors.input_number__min_2' }).max(50, {
         message: 'errors.error_50_number_max_length',
     }),
     status: z.string().nonempty({

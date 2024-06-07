@@ -294,21 +294,22 @@ export function UpdateProductSummary({ form }: Props) {
                 {/* Errores detectados:  */}
                 {Object.keys(errors).length > 0 && (
                     <fieldset className="flex flex-col gap-2 space-y-4 rounded border p-2">
-                        <h4 className="text-xl text-beer-draft">
+                        <h4 className="text-xl text-red-600">
                             <label className="text-md font-semibold text-gray-600">
-                                {t('form_errors_detected')}
+                                {t('errors.form_errors_detected')}
                             </label>
                         </h4>
+
+                        <span className="text-md text-red-600">
+                            {t('errors.correct_and_submit')}
+                        </span>
 
                         {Object.keys(errors).map((error, index) => (
                             <div key={index} className="text-md">
                                 Campo: <DisplayInputError message={error} />
+                                Mensaje de error: {error}
                             </div>
                         ))}
-
-                        <div className="text-md">
-                            {t('errors.correct_and_submit')}
-                        </div>
                     </fieldset>
                 )}
             </section>

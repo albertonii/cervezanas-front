@@ -71,57 +71,63 @@ const validateFile = (f: File, ctx: any) => {
 
 const schema: ZodType<ModalUpdateProductFormData> = z.object({
     product_id: z.string(),
-    name: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
+    name: z.string().min(2, { message: 'errors.input_number__min_2' }).max(50, {
         message: 'errors.error_50_number_max_length',
     }),
     description: z.string().max(2500, {
         message: 'errors.error_2500_max_length',
     }),
-    price: z.number().min(0, { message: 'errors.input_min_0' }),
-    fermentation: z.number().min(0, { message: 'errors.input_min_0' }),
-    color: z.number().min(0, { message: 'errors.input_min_0' }),
-    intensity: z.number().min(0, { message: 'errors.input_min_0' }),
-    ibu: z.number().min(0, { message: 'errors.input_min_0' }),
-    aroma: z.number().min(0, { message: 'errors.input_min_0' }),
-    family: z.number().min(0, { message: 'errors.input_min_0' }),
+    price: z.number().min(0, { message: 'errors.input_number_min_0' }),
+    fermentation: z.number().min(0, { message: 'errors.input_number_min_0' }),
+    color: z.number().min(0, { message: 'errors.input_number_min_0' }),
+    intensity: z.number().min(0, { message: 'errors.input_number_min_0' }),
+    ibu: z.number().min(0, { message: 'errors.input_number_min_0' }),
+    aroma: z.number().min(0, { message: 'errors.input_number_min_0' }),
+    family: z.number().min(0, { message: 'errors.input_number_min_0' }),
     is_gluten: z.coerce.boolean(),
-    type: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
+    type: z.string().min(2, { message: 'errors.input_number__min_2' }).max(50, {
         message: 'errors.input_required',
     }),
 
     is_public: z.boolean(),
-    volume: z.number().min(0, { message: 'errors.input_min_0' }),
-    weight: z.number().min(0, { message: 'errors.input_min_0' }),
-    format: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
-        message: 'errors.error_50_number_max_length',
-    }),
-    stock_quantity: z.number().min(0, { message: 'errors.input_min_0' }),
+    volume: z.number().min(0, { message: 'errors.input_number_min_0' }),
+    weight: z.number().min(0, { message: 'errors.input_number_min_0' }),
+    format: z
+        .string()
+        .min(2, { message: 'errors.input_number__min_2' })
+        .max(50, {
+            message: 'errors.error_50_number_max_length',
+        }),
+    stock_quantity: z.number().min(0, { message: 'errors.input_number_min_0' }),
     stock_limit_notification: z
         .number()
         .min(0, { message: 'errors.input_required' }),
-    category: z.string().min(2, { message: 'errors.input_min_2' }).max(50, {
-        message: 'errors.error_50_number_max_length',
-    }),
+    category: z
+        .string()
+        .min(2, { message: 'errors.input_number__min_2' })
+        .max(50, {
+            message: 'errors.error_50_number_max_length',
+        }),
 
     awards: z.array(
         z.object({
             name: z
                 .string()
-                .min(2, { message: 'errors.input_min_2' })
+                .min(2, { message: 'errors.input_number__min_2' })
                 .max(150, {
-                    message: 'errors.input_max_150',
+                    message: 'errors.input_number_max_150',
                 }),
             description: z
                 .string()
-                .min(2, { message: 'errors.input_min_2' })
+                .min(2, { message: 'errors.input_number__min_2' })
                 .max(500, {
-                    message: 'errors.input_max_500',
+                    message: 'errors.input_number_max_500',
                 }),
             year: z
                 .number()
-                .min(1900, { message: 'errors.input_min_1900' })
+                .min(1900, { message: 'errors.input_number_min_1900' })
                 .max(2030, {
-                    message: 'errors.input_max_2030',
+                    message: 'errors.input_number_max_2030',
                 }),
             img_url: z.custom<File>().superRefine(validateFile).or(z.string()),
         }),
@@ -129,11 +135,13 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
     packs: z.array(
         z.object({
             id: z.string().optional(),
-            quantity: z.number().min(0, { message: 'errors.input_min_0' }),
-            price: z.number().min(0, { message: 'errors.input_min_0' }),
+            quantity: z
+                .number()
+                .min(0, { message: 'errors.input_number_min_0' }),
+            price: z.number().min(0, { message: 'errors.input_number_min_0' }),
             name: z
                 .string()
-                .min(2, { message: 'errors.input_min_2' })
+                .min(2, { message: 'errors.input_number__min_2' })
                 .max(100, {
                     message: 'errors.error_100_number_max_length',
                 }),
