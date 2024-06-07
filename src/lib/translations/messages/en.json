@@ -526,7 +526,7 @@
     "expert_committee": "Expert committee",
     "experimental": "Experimental",
     "monthly_products": "Monthly products",
-    "pagination_footer_nums": "Showing {{from}} to {{to}} of {{total}} entries",
+    "pagination_footer_nums": "Showing {from} to {to} of {total} entries",
     "notifications": "Notifications",
     "no_notifications": "No notifications",
     "my_account": "My account",
