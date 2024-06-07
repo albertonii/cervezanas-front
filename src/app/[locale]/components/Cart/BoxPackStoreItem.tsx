@@ -160,7 +160,7 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
             ) : (
                 <>
                     <article className="relative mb-4 flex justify-center">
-                        <header className="absolute right-0 top-0 p-3">
+                        <header className="absolute right-0 top-0 p-3 z-10">
                             <IconButton
                                 icon={faHeart}
                                 onClick={handleLike}
@@ -211,7 +211,7 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
                         </div>
 
                         <div className="text-lg font-semibold text-gray-800">
-                            {pack?.quantity} : {t('unit')} /
+                            {pack?.quantity} {t('unit')} /
                             {formatCurrency(pack?.price ?? 0)}
                         </div>
 

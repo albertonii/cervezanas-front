@@ -149,7 +149,7 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
             ) : (
                 <>
                     <article className="relative mb-4 flex justify-center">
-                        <header className="absolute right-0 top-0 p-3">
+                        <header className="absolute right-0 top-0 p-3 z-10">
                             <IconButton
                                 icon={faHeart}
                                 onClick={handleLike}
