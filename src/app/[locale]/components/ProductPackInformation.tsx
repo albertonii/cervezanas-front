@@ -1,4 +1,4 @@
-import ProductAddPackItem from './ProductAddPackItems';
+import AddProductPackItemForm from './AddProductPackItemForm';
 import Button from './common/Button';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
@@ -59,7 +59,7 @@ export default function ProductPackInformation({ form }: Props) {
     };
 
     return (
-        <div className="relative border-2 rounded-lg border-gray-200 p-6 bg-white shadow-md">
+        <section className="relative border-2 rounded-lg border-gray-200 p-6 bg-white shadow-md">
             <FontAwesomeIcon
                 icon={faMoneyBillWave}
                 title={'Product Pack Price Icon'}
@@ -67,9 +67,9 @@ export default function ProductPackInformation({ form }: Props) {
             />
 
             <div className="mx-10">
-                <span className="text-2xl text-gray-800 font-semibold">
+                <h2 className="text-2xl text-gray-800 font-semibold">
                     {t('add_product_pack')}
-                </span>
+                </h2>
 
                 <div className="space-y-2">
                     <span className="text-sm text-gray-600 mb-4 block">
@@ -83,7 +83,7 @@ export default function ProductPackInformation({ form }: Props) {
 
                 {fields.map((pack, index) => (
                     <div key={pack.id} className="relative mb-4">
-                        <ProductAddPackItem
+                        <AddProductPackItemForm
                             onRemove={handleRemovePack}
                             index={index}
                             form={form}
@@ -101,6 +101,6 @@ export default function ProductPackInformation({ form }: Props) {
                     {t('add_pack')}
                 </Button>
             </div>
-        </div>
+        </section>
     );
 }

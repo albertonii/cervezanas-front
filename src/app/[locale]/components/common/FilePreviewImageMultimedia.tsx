@@ -74,7 +74,7 @@ export const FilePreviewImageMultimedia = ({
                     </div>
                 </div>
             ) : (
-                <div className="relative flex flex-col items-center">
+                <div className="relative flex flex-col items-center w-full">
                     <FilePreviewBlurImage
                         image={image}
                         removeImageClick={handleRemoveImage}

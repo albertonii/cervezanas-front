@@ -8,7 +8,7 @@ import { FilePreviewImageMultimedia } from './common/FilePreviewImageMultimedia'
 import InputLabel from './common/InputLabel';
 import Spinner from './common/Spinner';
 
-const ProductAddPackItem = memo(
+const AddProductPackItemForm = memo(
     ({
         onRemove,
         index,
@@ -99,6 +99,13 @@ const ProductAddPackItem = memo(
                                 inputType="number"
                                 defaultValue={3}
                             />
+
+                            {/* Delete BTN */}
+                            <div className="flex-grow-0">
+                                <DeleteButton
+                                    onClick={() => handleRemovePack(index)}
+                                />
+                            </div>
                         </div>
 
                         {/* Pack name */}
@@ -127,13 +134,6 @@ const ProductAddPackItem = memo(
                                     registerName={`packs.${index}.img_url`}
                                 />
                             </div>
-
-                            {/* Delete BTN */}
-                            <div className="flex-grow-0">
-                                <DeleteButton
-                                    onClick={() => handleRemovePack(index)}
-                                />
-                            </div>
                         </div>
                     </div>
                 )}
@@ -142,4 +142,4 @@ const ProductAddPackItem = memo(
     },
 );
 
-export default ProductAddPackItem;
+export default AddProductPackItemForm;

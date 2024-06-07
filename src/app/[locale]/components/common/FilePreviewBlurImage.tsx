@@ -13,23 +13,22 @@ export default function FilePreviewBlurImage({
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     return (
-        <div className="z-1 relative flex h-32 w-full cursor-pointer items-center justify-center overflow-hidden rounded-md border-2  border-dotted border-gray-400 bg-gray-200 shadow-md">
+        <div className="z-1 relative py-22 flex h-32 w-full cursor-pointer items-center justify-center overflow-hidden rounded-md border-2  border-dotted border-gray-400 bg-gray-200 shadow-md">
             <figure
                 className={`    
                 ${
                     isLoading ?? 'animate-pulse grayscale-0 blur-2xl'
-                } flex h-32 flex-row items-center gap-2 group-hover:opacity-75 transition-all duration-300
+                } w-full flex h-32 flex-row items-center gap-2 group-hover:opacity-75 transition-all duration-300
                 `}
             >
                 <Image
                     className={`
-                        h-full w-full rounded
-                        
+                        h-full w-full rounded 
                      `}
                     src={image}
                     loader={() => image}
                     alt={''}
-                    objectFit="cover"
+                    objectFit="contain"
                     layout="fill"
                     onLoadingComplete={() => {
                         setTimeout(() => {

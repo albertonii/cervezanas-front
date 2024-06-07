@@ -1,13 +1,12 @@
+import AddAwardInformationForm from './AddAwardInformationForm';
 import Button from '../common/Button';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { IAward } from '../../../../lib/types/types';
-import { DeleteButton } from '../common/DeleteButton';
 import { ModalAddProductFormData } from '../../../../lib/types/types';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
-import { DisplayInputError } from '../common/DisplayInputError';
-import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
-import InputLabel from '../common/InputLabel';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrophy } from '@fortawesome/free-solid-svg-icons';
 
 const emptyAward: IAward = {
     id: '',
@@ -34,6 +33,7 @@ export const AwardsSection = ({ form }: Props) => {
     } = form;
 
     const t = useTranslations();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { fields, append, remove } = useFieldArray({
         name: 'awards',
@@ -58,11 +58,19 @@ export const AwardsSection = ({ form }: Props) => {
     }, [selectedFiles]);
 
     const handleRemoveAward = (index: number) => {
+        if (isSubmitting) return;
+
+        setIsSubmitting(true);
+
         setSelectedFiles((current) =>
             current.filter((selectedFile) => selectedFile.index !== index),
         );
 
         remove(index);
+
+        setTimeout(() => {
+            setIsSubmitting(false);
+        }, 100);
     };
 
     const handleAddAward = () => {
@@ -72,83 +80,44 @@ export const AwardsSection = ({ form }: Props) => {
     return (
         <section
             id="Award"
-            className="space-y-8 p-6 bg-white rounded-lg shadow-md border border-gray-200"
+            className="relative border-2 rounded-lg border-gray-200 p-6 bg-white shadow-md"
         >
-            <h2 className="text-slate-500 text-xl font-semibold leading-relaxed">
-                {t('modal_product_awards_title')}
-            </h2>
+            <FontAwesomeIcon
+                icon={faTrophy}
+                title={'Awards Icon'}
+                className="h-12 w-12 text-beer-blonde absolute -top-4 -left-4 bg-white p-2 rounded-full shadow-lg"
+            />
 
-            {fields.map((field, index) => (
-                <div key={field.id} className="space-y-6">
-                    <div className="flex flex-col md:flex-row md:items-end space-y-4 md:space-y-0 md:space-x-4">
-                        <InputLabel
-                            form={form}
-                            label={`awards.${index}.name`}
-                            labelText={`${index + 1} ${t('name')}`}
-                            registerOptions={{
-                                required: true,
-                            }}
-                            placeholder={t(
-                                'input_product_award_name_placeholder',
-                            )}
-                        />
+            <div className="mx-10">
+                <h2 className="text-slate-500 text-xl font-semibold leading-relaxed">
+                    {t('modal_product_awards_title')}
+                </h2>
 
-                        <DeleteButton
-                            onClick={() => handleRemoveAward(index)}
-                        />
-                    </div>
-
-                    <InputLabel
-                        form={form}
-                        label={`awards.${index}.description`}
-                        labelText={t('description')}
-                        registerOptions={{
-                            required: true,
-                        }}
-                        placeholder={t(
-                            'input_product_award_description_placeholder',
-                        )}
-                    />
-
-                    <InputLabel
-                        form={form}
-                        label={`awards.${index}.year`}
-                        labelText={t('year')}
-                        registerOptions={{
-                            required: true,
-                            valueAsNumber: true,
-                        }}
-                        placeholder={t('input_product_award_year_placeholder')}
-                        inputType="number"
-                        defaultValue={2021}
-                    />
-
-                    <div className="w-full">
-                        <label
-                            htmlFor={`awards.${index}.img_url`}
-                            className="text-sm text-gray-600"
-                        >
-                            {t('upload_img_url')}
-                        </label>
-
-                        <FilePreviewImageMultimedia
-                            form={form}
-                            registerName={`awards.${index}.img_url`}
-                        />
-
-                        {/* {errors[`awards.${index}.img_url`]?.type ===
-                            'required' && (
-                            <DisplayInputError
-                                message={t('errors.input_required')}
-                            />
-                        )} */}
-                    </div>
+                <div className="space-y-2">
+                    <span className="text-sm text-gray-600 mb-4 block">
+                        {t('add_award_description')}
+                    </span>
                 </div>
-            ))}
 
-            <Button primary medium onClick={handleAddAward}>
-                {t('modal_product_award_add')}
-            </Button>
+                {fields.map((field, index) => (
+                    <div key={field.id} className="space-y-6 py-4">
+                        <AddAwardInformationForm
+                            form={form}
+                            index={index}
+                            handleRemoveAward={handleRemoveAward}
+                        />
+                    </div>
+                ))}
+
+                <Button
+                    primary
+                    medium
+                    onClick={handleAddAward}
+                    disabled={isSubmitting}
+                >
+                    {t('modal_product_award_add')}
+                </Button>
+            </div>
         </section>
     );
 };

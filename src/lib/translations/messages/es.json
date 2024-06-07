@@ -904,5 +904,7 @@
     "intensity_input": "ABV %",
     "ibu_input": "IBU/Amargor",
     "pvpr_input": "PVP Recomendado (€)",
-    "price_input": "Precio (€)"
+    "price_input": "Precio (€)",
+    "modal_product_awards_title": "Premios",
+    "add_award_description": "Has saber a tus consumidores que tu producto ha sido premiado. Añade todos los reconocimientos conseguidos presionando en el botón `AÑADIR PREMIO`."
 }
