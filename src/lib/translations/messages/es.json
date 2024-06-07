@@ -535,7 +535,7 @@
     "expert_committee": "Comité de expertos",
     "experimental": "Experimental",
     "monthly_products": "Productos mensuales",
-    "pagination_footer_nums": "Mostrando {{from}} a {{to}} de {{total}} registros",
+    "pagination_footer_nums": "Mostrando {from} a {to} de {total} registros totales",
     "notifications": "Notificaciones",
     "no_notifications": "No tienes notificaciones",
     "my_account": "Mi cuenta",

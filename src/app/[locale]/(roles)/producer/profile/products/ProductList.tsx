@@ -72,8 +72,6 @@ export function ProductList({
     };
 
     const handleArchive = async (product: any) => {
-        // Update product state to archived and isPublic to false
-        // Update product
         const updatedProduct = {
             ...product,
             is_archived: true,
@@ -87,7 +85,6 @@ export function ProductList({
         delete updatedProduct.product_lots;
         delete updatedProduct.product_multimedia;
 
-        // Send product to supabase database
         const { error } = await supabase
             .from('products')
             .update(updatedProduct)
@@ -111,10 +108,10 @@ export function ProductList({
     }, [products, query]);
 
     return (
-        <section className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg bg-beer-foam">
+        <section className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg bg-white">
             {isError && (
-                <div className="flex items-center justify-center">
-                    <p className="text-gray-500 dark:text-gray-400">
+                <div className="flex items-center justify-center py-6">
+                    <p className="text-gray-500">
                         {t('error_fetching_products')}
                     </p>
                 </div>
@@ -131,138 +128,118 @@ export function ProductList({
 
             {!isError && !isLoading && products?.length === 0 ? (
                 <div className="my-[10vh] flex items-center justify-center">
-                    <p className="text-2xl text-gray-500 dark:text-gray-400">
-                        {t('no_products')}
-                    </p>
+                    <p className="text-2xl text-gray-500">{t('no_products')}</p>
                 </div>
             ) : (
                 <>
-                    <InputSearch
-                        query={query}
-                        setQuery={setQuery}
-                        searchPlaceholder={'search_products'}
-                    />
+                    <div className="px-4 py-2 bg-gray-50 border-b">
+                        <InputSearch
+                            query={query}
+                            setQuery={setQuery}
+                            searchPlaceholder={'search_products'}
+                        />
+                    </div>
 
-                    <div className="overflow-x-scroll border-2 ">
-                        <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400 border-2 ">
-                            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full text-center text-sm text-gray-500">
+                            <thead className="bg-gray-100 text-xs uppercase text-gray-700">
                                 <tr>
-                                    {COLUMNS.map(
-                                        (
-                                            column: ColumnsProps,
-                                            index: number,
-                                        ) => {
-                                            return (
-                                                <th
-                                                    key={index}
-                                                    scope="col"
-                                                    className="px-6 py-3"
-                                                >
-                                                    {column.header}
-                                                </th>
-                                            );
-                                        },
-                                    )}
+                                    {COLUMNS.map((column, index) => (
+                                        <th
+                                            key={index}
+                                            scope="col"
+                                            className="px-6 py-3"
+                                        >
+                                            {column.header}
+                                        </th>
+                                    ))}
                                 </tr>
                             </thead>
 
-                            <tbody>
+                            <tbody className="bg-white divide-y divide-gray-200">
                                 {products &&
-                                    filteredItems.map((product) => {
-                                        return (
-                                            <tr key={product.id} className="">
-                                                <>
-                                                    <th
-                                                        scope="row"
-                                                        className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                                                    >
-                                                        <Image
-                                                            width={128}
-                                                            height={128}
-                                                            className="h-8 w-8 rounded-full"
-                                                            src="/icons/beer-240.png"
-                                                            alt="Beer Type"
-                                                        />
-                                                    </th>
+                                    filteredItems.map((product) => (
+                                        <tr
+                                            key={product.id}
+                                            className="hover:bg-gray-50"
+                                        >
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <Image
+                                                    width={32}
+                                                    height={32}
+                                                    className="rounded-full"
+                                                    src="/icons/beer-240.png"
+                                                    alt="Beer Type"
+                                                />
+                                            </td>
 
-                                                    <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                                                        <Link
-                                                            href={`/products/${product.id}`}
-                                                            locale={locale}
-                                                        >
-                                                            {product.name}
-                                                        </Link>
-                                                    </td>
+                                            <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+                                                <Link
+                                                    href={`/products/${product.id}`}
+                                                    locale={locale}
+                                                >
+                                                    {product.name}
+                                                </Link>
+                                            </td>
 
-                                                    <td className="px-6 py-4">
-                                                        {formatCurrency(
-                                                            product.price,
-                                                        )}
-                                                    </td>
+                                            <td className="px-6 py-4">
+                                                {formatCurrency(product.price)}
+                                            </td>
 
-                                                    <td className="px-6 py-4">
-                                                        {product.product_inventory &&
-                                                        product
-                                                            .product_inventory
-                                                            ?.quantity
-                                                            ? product
-                                                                  .product_inventory
-                                                                  .quantity
-                                                            : '-'}
-                                                    </td>
+                                            <td className="px-6 py-4">
+                                                {product.product_inventory &&
+                                                product.product_inventory
+                                                    .quantity
+                                                    ? product.product_inventory
+                                                          .quantity
+                                                    : '-'}
+                                            </td>
 
-                                                    <td className="px-6 py-4">
-                                                        {product.product_lots &&
-                                                        product.product_lots[0]
-                                                            ?.lot_id
-                                                            ? product
-                                                                  .product_lots[0]
-                                                                  ?.lot_id
-                                                            : '-'}
-                                                    </td>
+                                            <td className="px-6 py-4">
+                                                {product.product_lots &&
+                                                product.product_lots[0]?.lot_id
+                                                    ? product.product_lots[0]
+                                                          ?.lot_id
+                                                    : '-'}
+                                            </td>
 
-                                                    <td className="px-6 py-4">
-                                                        {product.is_public
-                                                            ? t('yes')
-                                                            : t('no')}
-                                                    </td>
+                                            <td className="px-6 py-4">
+                                                {product.is_public
+                                                    ? t('yes')
+                                                    : t('no')}
+                                            </td>
 
-                                                    <td className="px-6 py-4">
-                                                        <div className="flex space-x-1">
-                                                            <EditButton
-                                                                onClick={() =>
-                                                                    handleEditClick(
-                                                                        product,
-                                                                    )
-                                                                }
-                                                            />
-
-                                                            <DeleteButton
-                                                                onClick={() =>
-                                                                    handleDeleteClick(
-                                                                        product,
-                                                                    )
-                                                                }
-                                                            />
-
-                                                            <ArchiveButton
-                                                                onClick={() =>
-                                                                    handleArchive(
-                                                                        product,
-                                                                    )
-                                                                }
-                                                            />
-                                                        </div>
-                                                    </td>
-                                                </>
-                                            </tr>
-                                        );
-                                    })}
+                                            <td className="px-6 py-4">
+                                                <div className="flex justify-center space-x-2">
+                                                    <EditButton
+                                                        onClick={() =>
+                                                            handleEditClick(
+                                                                product,
+                                                            )
+                                                        }
+                                                    />
+                                                    <DeleteButton
+                                                        onClick={() =>
+                                                            handleDeleteClick(
+                                                                product,
+                                                            )
+                                                        }
+                                                    />
+                                                    <ArchiveButton
+                                                        onClick={() =>
+                                                            handleArchive(
+                                                                product,
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
                             </tbody>
                         </table>
                     </div>
 
-                    {/* Prev and Next button for pagination  */}
                     <div className="my-4 flex items-center justify-around">
                         <PaginationFooter
                             counter={counter}
@@ -271,41 +248,8 @@ export function ProductList({
                             setCurrentPage={setCurrentPage}
                         />
                     </div>
-                    {/* 
-          <Footer
-            counter={counter}
-            resultsPerPage={resultsPerPage}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          /> */}
                 </>
             )}
         </section>
     );
 }
-
-// interface FooterProps {
-//   counter: number;
-//   resultsPerPage: number;
-//   currentPage: number;
-//   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-// }
-
-// const Footer = memo(function Footer({
-//   counter,
-//   resultsPerPage,
-//   currentPage,
-//   setCurrentPage,
-// }: FooterProps) {
-//   return (
-//     <div className="my-4 flex items-center justify-around">
-//       {/* Prev and Next button for pagination  */}
-//       <PaginationFooter
-//         counter={counter}
-//         resultsPerPage={resultsPerPage}
-//         currentPage={currentPage}
-//         setCurrentPage={setCurrentPage}
-//       />
-//     </div>
-//   );
-// });
