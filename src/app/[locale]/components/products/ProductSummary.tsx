@@ -4,7 +4,6 @@ import { useTranslations } from 'next-intl';
 import { formatCurrency } from '../../../../utils/formatCurrency';
 import { FilePreview } from '../common/FilePreview';
 import { ModalAddProductFormData } from '../../../../lib/types/types';
-import { DisplayInputError } from '../common/DisplayInputError';
 
 interface Props {
     form: UseFormReturn<ModalAddProductFormData, any>;
@@ -56,7 +55,6 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                 </li>
             );
         } else {
-            console.log('3', error);
             return (
                 <li key={field} className="mt-2">
                     <strong>{t(`${field}`)}:</strong> {error?.message}
@@ -69,6 +67,25 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
         <>
             {/* Resumen de las características del producto que se va a crear  */}
             <section className="flex flex-col gap-4 p-6 bg-white rounded-lg shadow-md border border-gray-200">
+                {/* Errores detectados */}
+                {Object.keys(errors).length > 0 && (
+                    <div className="flex flex-col gap-4 p-4 bg-red-50 rounded-lg border border-red-200">
+                        <h4 className="text-xl font-semibold text-red-600">
+                            {t('errors.form_errors_detected')}
+                        </h4>
+                        <span className="text-md text-red-600">
+                            {t('errors.correct_and_submit')}
+                        </span>
+                        <ul className="list-disc list-inside text-md text-red-600">
+                            {Object.keys(errors).map((key, index) => {
+                                const field =
+                                    key as keyof ModalAddProductFormData;
+                                return renderError(field, errors[field]);
+                            })}
+                        </ul>
+                    </div>
+                )}
+
                 {/* Public */}
                 <div className="flex flex-row gap-4">
                     <label className="text-md font-semibold text-gray-600">
@@ -289,25 +306,6 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                             </div>
                         ))}
                     </>
-                )}
-
-                {/* Errores detectados */}
-                {Object.keys(errors).length > 0 && (
-                    <div className="flex flex-col gap-4 p-4 bg-red-50 rounded-lg border border-red-200">
-                        <h4 className="text-xl font-semibold text-red-600">
-                            {t('errors.form_errors_detected')}
-                        </h4>
-                        <span className="text-md text-red-600">
-                            {t('errors.correct_and_submit')}
-                        </span>
-                        <ul className="list-disc list-inside text-md text-red-600">
-                            {Object.keys(errors).map((key, index) => {
-                                const field =
-                                    key as keyof ModalAddProductFormData;
-                                return renderError(field, errors[field]);
-                            })}
-                        </ul>
-                    </div>
                 )}
             </section>
         </>
