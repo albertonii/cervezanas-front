@@ -10,14 +10,17 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useAppContext } from '../../../context/AppContext';
 import { generateLink } from '../../../../utils/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import {
+    faBars,
+    faTimes,
+    IconDefinition,
+} from '@fortawesome/free-solid-svg-icons';
 
 type Props = {
-    sidebarLinks: { name: string; icon: string; option: string }[];
+    sidebarLinks: { name: string; icon: IconDefinition; option: string }[];
 };
 
 export function Sidebar({ sidebarLinks }: Props) {
-    const sLinks = sidebarLinks;
     const { sidebar, changeSidebarActive } = useAppContext();
     const { role } = useAuth();
     const device = useDeviceDetection();
@@ -39,11 +42,9 @@ export function Sidebar({ sidebarLinks }: Props) {
     };
 
     const handleKeyPress = useCallback((event: KeyboardEvent) => {
-        const handleClose = () => {
+        if (event.key === 'Escape') {
             setOpen(false);
-        };
-
-        if (event.key === 'Escape') handleClose();
+        }
     }, []);
 
     useEffect(() => {
@@ -58,122 +59,77 @@ export function Sidebar({ sidebarLinks }: Props) {
 
     return (
         <>
-            {device === 'Mobile' ? (
-                <>
-                    <div className=" z-10">
-                        <Button
-                            data-drawer-target="default-sidebar"
-                            data-drawer-toggle="default-sidebar"
-                            aria-controls="default-sidebar"
-                            btnType="button"
-                            class={`sticky top-24 mx-2 mt-2 bg-beer-softFoam hover:bg-beer-blonde h-6 w-6 rounded-full p-2 text-sm text-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 lg:hidden`}
-                            onClick={() => {
-                                handleClick();
-                            }}
-                        >
-                            {open ? (
-                                <FontAwesomeIcon
-                                    icon={faCircleChevronLeft}
-                                    style={{ color: '#432a14' }}
-                                    title={'chevron_circle_down'}
-                                    width={20}
-                                    height={20}
-                                    className={`absolute bottom-0 right-0 h-full`}
-                                />
-                            ) : (
-                                <FontAwesomeIcon
-                                    icon={faCircleChevronLeft}
-                                    style={{ color: '#432a14' }}
-                                    title={'chevron_circle_down'}
-                                    width={20}
-                                    height={20}
-                                    className={`absolute bottom-0 right-0 h-full rotate-180`}
-                                />
-                            )}
-                        </Button>
-                    </div>
-                </>
-            ) : (
-                <div className="relative">
-                    <Button
-                        data-drawer-target="default-sidebar"
-                        data-drawer-toggle="default-sidebar"
-                        aria-controls="default-sidebar"
-                        btnType="button"
-                        class={`sticky top-20 mx-2 mt-2 h-6 w-6 rounded-full p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 lg:hidden`}
-                        onClick={() => {
-                            handleClick();
-                        }}
-                    >
-                        {open ? (
-                            <FontAwesomeIcon
-                                icon={faCircleChevronLeft}
-                                style={{ color: '#432a14' }}
-                                title={'chevron_circle_down'}
-                                width={20}
-                                height={20}
-                                className={`absolute bottom-0 right-0 h-full`}
-                            />
-                        ) : (
-                            <FontAwesomeIcon
-                                icon={faCircleChevronLeft}
-                                style={{ color: '#432a14' }}
-                                title={'chevron_circle_down'}
-                                width={20}
-                                height={20}
-                                className={`absolute bottom-0 right-0 h-full rotate-180`}
-                            />
-                        )}
-                    </Button>
-                </div>
-            )}
+            <div className="lg:hidden fixed top-4 left-4 z-10">
+                <Button
+                    aria-controls="default-sidebar"
+                    btnType="button"
+                    class="bg-beer-softFoam hover:bg-beer-blonde h-10 w-10 rounded-full p-2 text-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                    onClick={handleClick}
+                >
+                    <FontAwesomeIcon
+                        icon={open ? faTimes : faBars}
+                        className="h-6 w-6 text-gray-700"
+                    />
+                </Button>
+            </div>
 
             {role && (
                 <aside
-                    className={`
-                    ${
+                    className={`${
                         open
                             ? 'translate-x-0'
-                            : '-translate-x-[100%] lg:translate-x-0'
-                    }  sm:top-0 absolute z-10 h-full transform bg-white duration-300 ease-in-out sm:min-h-[50vh] lg:relative lg:block bg-[url('/assets/rec-graf4b.png')] bg-repeat bg-top bg-auto
+                            : '-translate-x-full lg:translate-x-0'
+                    } fixed top-0 left-0 z-10 h-full w-64 transform bg-white duration-300 ease-in-out shadow-lg lg:relative lg:top-0 
+                        lg:left-0 lg:shadow-none lg:transform-none lg:block bg-[url('/assets/rec-graf4b.png')] bg-repeat bg-top bg-auto
+                        overflow-y-auto dark:bg-gray-800
                     `}
                     aria-label="Sidebar"
                     id="default-sidebar"
                     ref={sidebarRef}
                 >
-                    <div
-                        className={`h-full w-56 overflow-y-auto rounded bg-gray-100 px-3 py-4 dark:bg-gray-800 bg-opacity-80`}
-                    >
-                        <ul className="space-y-2 font-medium">
-                            {sLinks.map((link) => (
-                                <li
-                                    className={`
-                flex items-center uppercase rounded-lg text-sm font-normal text-gray-600 hover:cursor-pointer hover:bg-beer-blonde dark:text-white dark:hover:bg-gray-700
-                ${
-                    sidebar === link.option
-                        ? 'bg-beer-softBlonde text-gray-700'
-                        : 'text-gray-600'
-                } `}
-                                    key={link.name}
-                                >
-                                    <Link
-                                        href={generateLink(role, link.option)}
-                                        className="w-full p-2 px-4 font-semibold tracking-wide"
-                                        locale={locale}
-                                        onClick={() => {
-                                            if (link.option !== sidebar) {
-                                                changeSidebarActive(
-                                                    link.option,
-                                                );
-                                            }
-                                        }}
-                                    >
-                                        {t(link.name)}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
+                    <div className="lg:hidden absolute top-4 right-4">
+                        <Button
+                            aria-controls="default-sidebar"
+                            btnType="button"
+                            class="text-gray-500 hover:text-gray-700 focus:outline-none"
+                            onClick={handleClick}
+                        >
+                            <FontAwesomeIcon
+                                icon={faTimes}
+                                className="h-6 w-6"
+                            />
+                        </Button>
                     </div>
+
+                    <ul className="space-y-2 font-medium px-4 py-6">
+                        {sidebarLinks.map((link) => (
+                            <li
+                                key={link.name}
+                                className={`flex items-center rounded-lg p-2 text-sm font-normal text-gray-600 hover:bg-beer-blonde dark:text-white dark:hover:bg-gray-700 ${
+                                    sidebar === link.option
+                                        ? 'bg-beer-softBlonde text-gray-700'
+                                        : 'text-gray-600'
+                                }`}
+                            >
+                                <Link
+                                    href={generateLink(role, link.option)}
+                                    className="w-full font-semibold tracking-wide"
+                                    locale={locale}
+                                    onClick={() => {
+                                        if (link.option !== sidebar) {
+                                            changeSidebarActive(link.option);
+                                        }
+                                    }}
+                                >
+                                    <FontAwesomeIcon
+                                        icon={link.icon}
+                                        className="mr-3 text-lg"
+                                    />
+                                    {t(link.name)}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
                 </aside>
             )}
         </>

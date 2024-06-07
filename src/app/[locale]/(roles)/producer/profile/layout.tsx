@@ -4,7 +4,7 @@ import Image from 'next/image';
 import DisplayImageProfile from '../../../components/common/DisplayImageProfile';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useAuth } from '../../../(auth)/Context/useAuth';
-import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faUpload, faUser, faBox, faTruck, faMapMarkerAlt, faStar, faShoppingCart, faBell } from '@fortawesome/free-solid-svg-icons';
 import { Sidebar } from '../../../components/common/Sidebar';
 import { useAppContext } from '../../../../context/AppContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,56 +18,27 @@ const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
 
 export default function layout({ children }: LayoutProps) {
     const sidebarLinks = [
-        {
-            name: 'profile',
-            icon: 'user',
-            option: 'settings',
-        },
-        {
-            name: 'products',
-            icon: 'box',
-            option: 'products',
-        },
+        { name: 'profile', icon: faUser, option: 'settings' },
+        { name: 'products', icon: faBox, option: 'products' },
         {
             name: 'distributors_associated',
-            icon: 'truck',
+            icon: faTruck,
             option: 'distributors_associated',
         },
-        // {
-        //   name: ("campaigns"),
-        //   icon: "gift",
-        //   option: "campaigns",
-        // },
-        {
-            name: 'events',
-            icon: 'location',
-            option: 'events',
-        },
+        { name: 'events', icon: faMapMarkerAlt, option: 'events' },
         {
             name: 'consumption_points',
-            icon: 'location',
+            icon: faMapMarkerAlt,
             option: 'consumption_points',
         },
-        {
-            name: 'experiences',
-            icon: 'star',
-            option: 'experiences',
-        },
+        { name: 'experiences', icon: faStar, option: 'experiences' },
         {
             name: 'online_orders',
-            icon: 'shopping-cart',
+            icon: faShoppingCart,
             option: 'online_orders',
         },
-        {
-            name: 'event_orders',
-            icon: 'shopping-cart',
-            option: 'event_orders',
-        },
-        {
-            name: 'notifications',
-            icon: 'bell',
-            option: 'notifications',
-        },
+        { name: 'event_orders', icon: faShoppingCart, option: 'event_orders' },
+        { name: 'notifications', icon: faBell, option: 'notifications' },
     ];
 
     const { user, supabase } = useAuth();
