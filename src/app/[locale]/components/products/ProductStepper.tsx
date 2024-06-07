@@ -221,7 +221,7 @@ export function ProductStepper({
                 </figure>
             </div>
 
-            <div className="mt-8 pt-8">
+            <footer className="mt-8 pt-8">
                 <ProductStepperButtons
                     activeStep={activeStep}
                     handleStepper={handleStepper}
@@ -233,7 +233,7 @@ export function ProductStepper({
                     activeStep={activeStep}
                     handleStepper={handleStepper}
                 />
-            </div>
+            </footer>
         </section>
     );
 }
