@@ -20,15 +20,29 @@ export default function HorizontalSections({ handleMenuClick, tabs }: Props) {
 
     return (
         <>
-            <ul className="text-md grid grid-cols-2 divide-x divide-gray-200 rounded-lg pb-6 text-center font-medium text-gray-500 dark:divide-gray-700 dark:text-gray-400 sm:grid-cols-3 lg:pr-6 lg:pl-72 xl:flex">
+            <ul className="mx-16 flex justify-center bg-white rounded-lg shadow-md overflow-hidden border-2 border-gray-300">
                 {tabs.map((tab, index) => (
                     <li
                         key={index}
                         className={`
-          ${activeTab === tab ? 'bg-gray-100  text-beer-gold' : 'bg-beer-foam'}
-          ${index === 0 ? 'rounded-l-lg' : ''}
-          ${index === tabs.length - 1 ? 'rounded-r-lg' : ''}
-          active flex w-full items-center justify-center p-4 hover:cursor-pointer hover:bg-gray-50 hover:text-beer-draft focus:outline-none focus:ring-4 focus:ring-beer-blonde dark:bg-gray-700 dark:text-white uppercase font-semibold shadow-xl border-2`}
+                            flex-1 
+                            text-center 
+                            px-4 
+                            py-2
+                            cursor-pointer 
+                            font-semibold 
+                            uppercase 
+                            transition-colors 
+                            duration-300
+                            hover:text-beer-blonde
+                        ${
+                            activeTab === tab
+                                ? 'bg-beer-draft text-white'
+                                : 'bg-white text-gray-500 hover:bg-gray-100'
+                        }
+                        ${index === 0 ? 'rounded-l-lg' : ''}
+                        ${index === tabs.length - 1 ? 'rounded-r-lg' : ''}
+                        `}
                         onClick={() => handleClick(tab)}
                     >
                         {t(tab)}
