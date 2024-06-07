@@ -20,6 +20,7 @@ interface Props {
     showModal: boolean;
     title: string;
     btnTitle: string;
+    triggerBtnTitle?: string;
     description: string;
     children: JSX.Element;
     icon?: IconDefinition;
@@ -39,6 +40,7 @@ interface Props {
 export default function ModalWithForm(props: Props) {
     const {
         btnTitle,
+        triggerBtnTitle,
         title,
         description,
         children,
@@ -150,7 +152,7 @@ export default function ModalWithForm(props: Props) {
                             title={title}
                             size={btnSize}
                         >
-                            {t(btnTitle)}
+                            {triggerBtnTitle ? t(triggerBtnTitle) : t(btnTitle)}
                         </IconButton>
                     ) : (
                         <Button
@@ -159,7 +161,7 @@ export default function ModalWithForm(props: Props) {
                             title={title}
                             primary
                         >
-                            {t(btnTitle)}
+                            {triggerBtnTitle ? t(triggerBtnTitle) : t(btnTitle)}
                         </Button>
                     )}
                 </>

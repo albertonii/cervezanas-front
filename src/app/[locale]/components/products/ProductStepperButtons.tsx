@@ -1,5 +1,6 @@
 import { useTranslations } from 'next-intl';
 import React from 'react';
+import Button from '../common/Button';
 
 interface Props {
     activeStep: number;
