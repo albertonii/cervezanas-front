@@ -77,10 +77,9 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
 
     const [packQuantity, setPackQuantity] = useState(1);
 
-    const heartColor = { filled: '#fdc300', unfilled: 'grey' };
+    const heartColor = { filled: '#ff4d4f', unfilled: '#d9d9d9' };
 
     async function handleLike() {
-        // Notification if user is not logged in
         if (!isLoggedIn) {
             handleMessage({
                 type: 'info',
@@ -144,58 +143,52 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
     };
 
     return (
-        <section className="m-auto max-w-[300px] border-2 bg-[url('/assets/rec-graf4c.png')] bg-contain bg-top bg-no-repeat p-6 shadow-md md:max-w-full">
+        <section className="bg-[url('/assets/rec-graf4c.png')] bg-contain bg-top bg-no-repeat  m-auto max-w-sm bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6">
             {isLoading ? (
                 <Spinner color="beer-blonde" size="medium" />
             ) : (
                 <>
-                    <article className="relative mb-1 flex justify-center">
+                    <article className="relative mb-4 flex justify-center">
                         <header className="absolute right-0 top-0 p-3">
                             <IconButton
                                 icon={faHeart}
-                                onClick={() => handleLike()}
+                                onClick={handleLike}
                                 isActive={isLike}
                                 color={heartColor}
-                                classContainer={
-                                    ' bg-white shadow hover:shadow-md text-gray-500 w-auto h-9 text-center p-2 !rounded-full !m-0'
-                                }
-                                classIcon={''}
+                                classContainer="bg-white shadow hover:shadow-md text-gray-500 w-auto h-9 text-center p-2 rounded-full"
+                                classIcon=""
                                 title={t('add_to_favs')}
-                            ></IconButton>
+                            />
                         </header>
 
                         <DisplayImageProduct
-                            width={120}
-                            height={120}
+                            width={220}
+                            height={220}
                             alt="Principal Product Image store item"
                             imgSrc={src}
-                            class={
-                                ' h-[220px] w-[220px]  border-2 object-contain hover:cursor-pointer'
-                            }
+                            class="h-[220px] w-[220px] rounded-lg object-cover cursor-pointer transition-transform transform hover:scale-105"
                             onClick={() =>
                                 router.push(`/${locale}/products/${product.id}`)
                             }
                         />
                     </article>
 
-                    <section className="flex flex-col justify-between ">
-                        <div className="flex flex-wrap ">
-                            <figure className="flex w-full flex-none items-center text-sm text-gray-600">
+                    <section className="flex flex-col justify-between">
+                        <div className="flex flex-wrap">
+                            <figure className="flex w-full items-center text-sm text-gray-600">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    className="mr-1 h-4 w-4 text-beer-blonde"
+                                    className="mr-1 h-4 w-4 text-yellow-500"
                                     viewBox="0 0 20 20"
                                     fill="currentColor"
                                 >
                                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                 </svg>
-                                <span className="mr-3 mt-2 whitespace-nowrap text-gray-400">
-                                    {overAll}
-                                </span>
+                                <span className="text-gray-400">{overAll}</span>
                             </figure>
 
-                            <div className="flex w-full min-w-0 items-center justify-between ">
-                                <h2 className="hover:text-purple-500 m-auto mr-auto cursor-pointer truncate py-2 text-2xl font-semibold text-beer-draft transition-all hover:text-beer-blonde">
+                            <div className="flex w-full min-w-0 items-center justify-between">
+                                <h2 className="truncate py-2 text-xl font-semibold text-gray-800 transition-all hover:text-yellow-500">
                                     <Link
                                         href={`/products/${product.id}`}
                                         locale={locale}
@@ -203,20 +196,10 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
                                         {product.name}
                                     </Link>
                                 </h2>
-                                {/* {beer.product_inventory?.quantity > 0 ? (
-                                    <div className="flex items-center bg-green-400 text-white text-sm px-2 py-1 ml-3 rounded-lg">
-                                        {t('instock')}
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center bg-red-400 text-white text-sm px-2 py-1 ml-3 rounded-lg">
-                                        {t('outstock')}
-                                    </div>
-                                )} */}
                             </div>
                         </div>
 
-                        {/* Información sobre el pack seleccionado detallada y minimalista  */}
-                        <div className="m-auto mt-1 text-base font-semibold text-bear-dark">
+                        <div className="text-lg font-semibold text-gray-800">
                             {selectedPack?.quantity}{' '}
                             {selectedPack && selectedPack?.quantity > 1
                                 ? t('units')
@@ -224,16 +207,12 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
                             /{formatCurrency(selectedPack?.price ?? 0)}
                         </div>
 
-                        <div className="mt-1 text-lg font-semibold text-bear-dark"></div>
-
-                        <div className="mt-2 flex flex-col items-start justify-between space-y-2 overflow-x-hidden text-sm font-medium">
+                        <div className="mt-2 flex flex-col items-start space-y-2 text-sm font-medium text-gray-800">
                             <select
-                                className="text-md w-full  border-beer-softBlondeBubble px-2 py-1 focus:border-beer-blonde focus:outline-none"
-                                id="is_external_organizer"
-                                onClick={(e: any) => {
-                                    const value = e.target.value;
+                                className="w-full rounded border-gray-300 px-2 py-1 focus:border-yellow-400 focus:outline-none"
+                                onChange={(e) => {
                                     const pack = packs?.find(
-                                        (pack) => pack.id === value,
+                                        (pack) => pack.id === e.target.value,
                                     );
                                     setSelectedPack(pack as IProductPack);
                                 }}
@@ -241,7 +220,7 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
                                 {packs &&
                                     packs
                                         .sort((a, b) => a.quantity - b.quantity)
-                                        .map((pack: IProductPack) => (
+                                        .map((pack) => (
                                             <option
                                                 key={pack.id}
                                                 value={pack.id}
@@ -251,27 +230,26 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
                                         ))}
                             </select>
 
-                            {/* Añadir al carrito */}
-                            {product.product_packs && (
-                                <div className="mt-6 flex w-full justify-between space-x-2">
+                            <div className="mt-4 flex w-full justify-between space-x-2">
+                                {product.product_packs && (
                                     <MarketCartButtons2
                                         item={product.product_packs[0]}
                                         quantity={packQuantity}
-                                        handleIncreaseCartQuantity={() =>
-                                            handleIncreasePackQuantity()
+                                        handleIncreaseCartQuantity={
+                                            handleIncreasePackQuantity
                                         }
-                                        handleDecreaseCartQuantity={() =>
-                                            handleDecreasePackQuantity()
+                                        handleDecreaseCartQuantity={
+                                            handleDecreasePackQuantity
                                         }
                                         handleRemoveFromCart={() => void 0}
                                     />
+                                )}
 
-                                    <AddCardButton
-                                        withText={true}
-                                        onClick={() => handleAddToCart()}
-                                    />
-                                </div>
-                            )}
+                                <AddCardButton
+                                    withText={true}
+                                    onClick={handleAddToCart}
+                                />
+                            </div>
                         </div>
                     </section>
                 </>
