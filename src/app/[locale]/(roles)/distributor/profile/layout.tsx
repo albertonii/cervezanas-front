@@ -2,6 +2,13 @@
 
 import React from 'react';
 import { Sidebar } from '../../../components/common/Sidebar';
+import {
+    faUser,
+    faBox,
+    faBell,
+    faTruck,
+    faShoppingCart,
+} from '@fortawesome/free-solid-svg-icons';
 
 type LayoutProps = {
     children: React.ReactNode;
@@ -11,32 +18,27 @@ export default function layout({ children }: LayoutProps) {
     const sidebarLinks = [
         {
             name: 'profile',
-            icon: 'user',
+            icon: faUser,
             option: 'settings',
         },
         {
             name: 'logistics',
-            icon: 'box',
+            icon: faTruck,
             option: 'logistics',
         },
         {
             name: 'contracts',
-            icon: 'box',
+            icon: faBox,
             option: 'contracts',
         },
         {
             name: 'online_orders',
-            icon: 'box',
+            icon: faShoppingCart,
             option: 'business_orders',
         },
-        // {
-        //   name: ("distributor_feedback"),
-        //   icon: "box",
-        //   option: "reviews",
-        // },
         {
             name: 'notifications',
-            icon: 'bell',
+            icon: faBell,
             option: 'notifications',
         },
     ];

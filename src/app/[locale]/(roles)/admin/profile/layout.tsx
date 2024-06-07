@@ -2,64 +2,71 @@ import React from 'react';
 import readUserSession from '../../../../../lib/actions';
 import { redirect } from 'next/navigation';
 import { User } from '@supabase/supabase-js';
-import { VIEWS } from '../../../../../constants';
 import { ROLE_ENUM } from '../../../../../lib/enums';
 import { Sidebar } from '../../../components/common/Sidebar';
+import {
+    faUser,
+    faBox,
+    faBell
+} from '@fortawesome/free-solid-svg-icons';
 
 type LayoutProps = {
     children: React.ReactNode;
 };
 
+
+const sidebarLinks = [
+    {
+        name: 'contracts_cps',
+        icon: faUser,
+        option: 'contracts_cps',
+    },
+    {
+        name: 'monthly_products',
+        icon: faBox,
+        option: 'monthly_products',
+    },
+    {
+        name: 'admin_products',
+        icon: faBox,
+        option: 'products',
+    },
+    {
+        name: 'admin_events',
+        icon: faBox,
+        option: 'events',
+    },
+    {
+        name: 'admin_cps',
+        icon: faBox,
+        option: 'consumption_points',
+    },
+    {
+        name: 'admin_campaigns',
+        icon: faBox,
+        option: 'campaigns',
+    },
+    {
+        name: 'notifications',
+        icon: faBell,
+        option: 'notifications',
+    },
+    {
+        name: 'user_reports',
+        icon: faBell,
+        option: 'reports',
+    },
+    {
+        name: 'authorized_users',
+        icon: faUser,
+        option: 'authorized_users',
+    },
+];
+
 export default async function layout({ children }: LayoutProps) {
     const hasAuthorization = await checkAuthorizatedUser();
 
-    const sidebarLinks = [
-        {
-            name: 'contracts_cps',
-            icon: 'user',
-            option: 'contracts_cps',
-        },
-        {
-            name: 'monthly_products',
-            icon: 'box',
-            option: 'monthly_products',
-        },
-        {
-            name: 'admin_products',
-            icon: 'box',
-            option: 'products',
-        },
-        {
-            name: 'admin_events',
-            icon: 'box',
-            option: 'events',
-        },
-        {
-            name: 'admin_cps',
-            icon: 'box',
-            option: 'consumption_points',
-        },
-        {
-            name: 'admin_campaigns',
-            icon: 'box',
-            option: 'campaigns',
-        },
-        {
-            name: 'notifications',
-            icon: 'bell',
-            option: 'notifications',
-        },
-        {
-            name: 'user_reports',
-            icon: 'bell',
-            option: 'reports',
-        },
-        {
-            name: 'authorized_users',
-            icon: 'user',
-            option: 'authorized_users',
-        },
-    ];
+   
 
     return (
         <>

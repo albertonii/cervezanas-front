@@ -4,7 +4,13 @@ import Image from 'next/image';
 import DisplayImageProfile from '../../../components/common/DisplayImageProfile';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useAuth } from '../../../(auth)/Context/useAuth';
-import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import {
+    faUpload,
+    faUser,
+    faShoppingCart,
+    faBell,
+    faStar,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { COMMON, SupabaseProps } from '../../../../../constants';
 import { useAppContext } from '../../../../context/AppContext';
@@ -23,38 +29,34 @@ export default async function layout({ children }: LayoutProps) {
 
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const sidebarLinks = [
-        {
-            name: 'profile',
-            icon: 'user',
-            option: 'settings',
-        },
-        {
-            name: 'event_orders',
-            icon: 'shopping-cart',
-            option: 'event_orders',
-        },
-        {
-            name: 'online_orders',
-            icon: 'shopping-cart',
-            option: 'online_orders',
-        },
-        {
-            name: 'reviews',
-            icon: 'review',
-            option: 'reviews',
-        },
-        // {
-        //   name: ("watchlist"),
-        //   icon: "watchlist",
-        //   option: "likes_history",
-        // },
-        {
-            name: 'notifications',
-            icon: 'bell',
-            option: 'notifications',
-        },
-    ];
+     const sidebarLinks = [
+         {
+             name: 'profile',
+             icon: faUser,
+             option: 'settings',
+         },
+         {
+             name: 'event_orders',
+             icon: faShoppingCart,
+             option: 'event_orders',
+         },
+         {
+             name: 'online_orders',
+             icon: faShoppingCart,
+             option: 'online_orders',
+         },
+         {
+             name: 'reviews',
+             icon: faStar,
+             option: 'reviews',
+         },
+         {
+             name: 'notifications',
+             icon: faBell,
+             option: 'notifications',
+         },
+     ];
+
 
     const handleClick = () => {
         inputRef.current?.click();
