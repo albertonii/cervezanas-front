@@ -930,5 +930,6 @@
         "boxpack_created": "Mixed pack created successfully",
         "boxpack_update": "Mixed pack updated successfully",
         "monthly_product_inserted": "Monthly product inserted successfully"
-    }
+    },
+    "num_of_packs": "Number of packs"
 }

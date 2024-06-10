@@ -21,10 +21,6 @@ interface Props {
     handleProductModal: ComponentProps<any>;
 }
 
-interface ColumnsProps {
-    header: string;
-}
-
 export function ProductList({
     handleEditShowModal,
     handleDeleteShowModal,
@@ -59,6 +55,7 @@ export function ProductList({
         { header: t('product_type_header') },
         { header: t('name_header') },
         { header: t('price_header') },
+        { header: t('num_of_packs') },
         { header: t('stock_header') },
         { header: t('lot_header') },
         { header: t('public_header') },
@@ -172,6 +169,7 @@ export function ProductList({
                                                     alt="Beer Type"
                                                 />
                                             </td>
+
                                             <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                                                 <Link
                                                     href={`/products/${product.id}`}
@@ -180,9 +178,16 @@ export function ProductList({
                                                     {product.name}
                                                 </Link>
                                             </td>
+
                                             <td className="px-6 py-4">
                                                 {formatCurrency(product.price)}
                                             </td>
+
+                                            <td className="px-6 py-4">
+                                                {product.product_packs
+                                                    ?.length ?? 1}
+                                            </td>
+
                                             <td className="px-6 py-4">
                                                 {product.product_inventory &&
                                                 product.product_inventory

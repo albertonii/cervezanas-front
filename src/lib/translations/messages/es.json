@@ -958,5 +958,6 @@
         "boxpack_created": "Pack variado creado correctamente",
         "boxpack_update": "Pack variado actualizado correctamente",
         "monthly_product_inserted": "Producto mensual insertado correctamente"
-    }
+    },
+    "num_of_packs": "Número de packs"
 }
