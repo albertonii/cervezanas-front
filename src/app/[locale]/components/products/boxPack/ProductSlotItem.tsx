@@ -75,7 +75,7 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
 
                     setError('slots_per_box', {
                         type: 'custom',
-                        message: `${t('max_slots_per_box_exceeded')}`,
+                        message: `${t('errors.max_slots_per_box_exceeded')}`,
                     });
 
                     return prevSelectedPacks;
@@ -141,7 +141,7 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
 
             setError('slots_per_box', {
                 type: 'custom',
-                message: `${t('max_slots_per_box_exceeded')}`,
+                message: `${t('errors.max_slots_per_box_exceeded')}`,
             });
 
             // Allow to reduce the input quantity so we can get rid of error message
@@ -187,7 +187,7 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
 
             setError('slots_per_box', {
                 type: 'custom',
-                message: `${t('max_slots_per_box_exceeded')}`,
+                message: `${t('errors.max_slots_per_box_exceeded')}`,
             });
 
             // Allow to reduce the input slot_per_product so we can get rid of error message

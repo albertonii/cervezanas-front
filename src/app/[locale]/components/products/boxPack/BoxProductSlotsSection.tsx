@@ -9,6 +9,7 @@ import {
 import { SearchCheckboxProductSlot } from './SearchCheckboxProductSlot';
 import useBoxPackStore from '../../../../store/boxPackStore';
 import { useTranslations } from 'next-intl';
+import DrawingSlotsFromBox from './DrawingSlotsFromBox';
 
 interface Props {
     form: UseFormReturn<ModalAddBoxPackFormData, any>;
@@ -89,6 +90,11 @@ export default function BoxProductSlotsSection({ form }: Props) {
                     {t('box_weight')}: {boxWeight} gr
                 </h2>
             </div>
+
+            <DrawingSlotsFromBox
+                slotsPerBox={slotsPerBox}
+                actualSlotsPerBox={actualSlotsPerBox}
+            />
 
             <div className="col-span-2">
                 <InputLabel
