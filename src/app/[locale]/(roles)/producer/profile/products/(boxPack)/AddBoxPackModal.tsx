@@ -16,6 +16,7 @@ import { BoxPackStepper } from '../../../../../components/products/boxPack/BoxPa
 import { BoxSummary } from '../../../../../components/products/boxPack/BoxSummary';
 import { BoxMultimediaSection } from '../../../../../components/products/boxPack/BoxMultimediaSection';
 import Spinner from '../../../../../components/common/Spinner';
+import { faBoxes } from '@fortawesome/free-solid-svg-icons';
 
 const ModalWithForm = dynamic(
     () => import('../../../../../components/modals/ModalWithForm'),
@@ -232,6 +233,7 @@ export function AddBoxPackModal() {
             description={''}
             classIcon={''}
             classContainer={`${isLoading && ' opacity-75'}`}
+            icon={faBoxes}
             handler={handleSubmit(onSubmit)}
             handlerClose={() => {
                 setActiveStep(0);

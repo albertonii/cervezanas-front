@@ -224,20 +224,13 @@ export default function SignIn() {
                                 {/* submit  */}
                                 <Button
                                     title={'sign_in'}
-                                    class={
-                                        'group relative my-4 flex w-full justify-center rounded-md border border-none border-transparent bg-beer-blonde px-4 py-2 text-sm font-medium hover:bg-beer-draft hover:font-semibold hover:text-beer-blonde focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 '
-                                    }
+                                    class="w-full bg-beer-blonde text-white py-2 rounded-md hover:bg-beer-draft transition"
                                     btnType="submit"
-                                    form="login-form"
                                 >
-                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                        <FontAwesomeIcon
-                                            icon={faLock}
-                                            style={{ color: 'bear-dark' }}
-                                            title={'Lock'}
-                                            className="text-base text-beer-softBlonde group-hover:text-beer-blonde"
-                                        />
-                                    </span>
+                                    <FontAwesomeIcon
+                                        icon={faLock}
+                                        className="mr-2"
+                                    />
                                     {t('access')}
                                 </Button>
                             </fieldset>

@@ -10,7 +10,6 @@ import React, {
 } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import { IconButton } from '../common/IconButton';
 import { isEmpty } from '../../../../utils/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, IconDefinition } from '@fortawesome/free-solid-svg-icons';
@@ -141,29 +140,15 @@ export default function ModalWithForm(props: Props) {
         <>
             {showBtn && (
                 <>
-                    {icon ? (
-                        <IconButton
-                            icon={icon}
-                            classIcon={classIcon}
-                            classContainer={classContainer}
-                            onClick={() => handleShowModal(true)}
-                            isActive={false}
-                            color={color}
-                            title={title}
-                            size={btnSize}
-                        >
-                            {triggerBtnTitle ? t(triggerBtnTitle) : t(btnTitle)}
-                        </IconButton>
-                    ) : (
-                        <Button
-                            class={`${classContainer} px-2 py-1`}
-                            onClick={() => handleShowModal(true)}
-                            title={title}
-                            primary
-                        >
-                            {triggerBtnTitle ? t(triggerBtnTitle) : t(btnTitle)}
-                        </Button>
-                    )}
+                    <Button
+                        class={`${classContainer} px-2 py-1`}
+                        onClick={() => handleShowModal(true)}
+                        title={title}
+                        primary
+                        icon={icon}
+                    >
+                        {triggerBtnTitle ? t(triggerBtnTitle) : t(btnTitle)}
+                    </Button>
                 </>
             )}
 

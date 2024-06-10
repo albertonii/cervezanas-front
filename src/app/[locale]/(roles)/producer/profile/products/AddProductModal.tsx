@@ -1,5 +1,6 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import React, { useState, useEffect } from 'react';
 import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,10 +18,10 @@ import { useMutation, useQueryClient } from 'react-query';
 import { ProductStepper } from '../../../../components/products/ProductStepper';
 import { ProductInfoSection } from '../../../../components/products/ProductInfoSection';
 import { useAppContext } from '../../../../../context/AppContext';
-import dynamic from 'next/dynamic';
 import { useMessage } from '../../../../components/message/useMessage';
 import { AwardsSection } from '../../../../components/products/AwardsSection';
 import { Type } from '../../../../../../lib/productEnum';
+import { faBox } from '@fortawesome/free-solid-svg-icons';
 
 const ModalWithForm = dynamic(
     () => import('../../../../components/modals/ModalWithForm'),
@@ -382,6 +383,7 @@ export function AddProductModal() {
             triggerBtnTitle={'add_product'}
             description={''}
             classIcon={''}
+            icon={faBox}
             classContainer={`${isLoading && ' opacity-75'}`}
             handler={handleSubmit(onSubmit)}
             handlerClose={() => {

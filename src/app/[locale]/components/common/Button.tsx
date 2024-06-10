@@ -1,4 +1,6 @@
-import React, { memo } from 'react';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { memo, useMemo, useState } from 'react';
 
 interface ButtonProps {
     onClick?: () => void;
@@ -21,6 +23,9 @@ interface ButtonProps {
     form?: string;
     fullSize?: boolean;
     isLoading?: boolean;
+    icon?: IconDefinition;
+    classIcon?: string;
+    colorIcon?: { filled: string; unfilled: string };
 }
 
 const Button = memo(function PaginationFooter({
@@ -42,8 +47,14 @@ const Button = memo(function PaginationFooter({
     form, // If set to empty string, the button will not be a submit button
     fullSize = false,
     isLoading = false,
+    icon,
+    classIcon,
+    colorIcon,
 }: ButtonProps) {
     const hoverColor = isActive ? 'filled' : 'unfilled';
+    const [hoverIconColor, setHoverIconColor] = useState(
+        isActive ? 'filled' : 'unfilled',
+    );
 
     const getSizeClass = () => {
         if (small) return 'text-md px-4';
@@ -71,6 +82,26 @@ const Button = memo(function PaginationFooter({
                 return 'button';
         }
     };
+
+    const iconButton = useMemo(() => {
+        if (!icon) return null;
+
+        const getColor = () => {
+            return isActive ? colorIcon?.filled : colorIcon?.unfilled;
+        };
+
+        return (
+            <FontAwesomeIcon
+                className={`${classIcon} `}
+                icon={icon}
+                style={{ color: getColor() }}
+                onMouseEnter={() => setHoverIconColor('filled')}
+                onMouseLeave={() => setHoverIconColor('unfilled')}
+                title={'icon_title'}
+                color={hoverColor}
+            />
+        );
+    }, [classIcon, colorIcon?.filled, colorIcon?.unfilled, icon, isActive]);
 
     return (
         <button
@@ -112,9 +143,15 @@ const Button = memo(function PaginationFooter({
                     ></path>
                 </svg>
             ) : (
-                <span className={`font-semibold ${getSizeClass()}`}>
-                    {children}
-                </span>
+                <div className="space-x-2">
+                    {iconButton ?? (
+                        <span className={`text-bear-dark`}>{iconButton}</span>
+                    )}
+
+                    <span className={`font-semibold ${getSizeClass()}`}>
+                        {children}
+                    </span>
+                </div>
             )}
         </button>
     );
