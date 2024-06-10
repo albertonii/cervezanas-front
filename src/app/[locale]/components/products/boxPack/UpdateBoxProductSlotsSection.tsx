@@ -22,7 +22,7 @@ export default function UpdateBoxProductSlotsSection({ form }: Props) {
     const { setValue } = form;
 
     const [boxWeight, setBoxWeight] = useState(0);
-    const [slotsPerBox, setSlotsPerBox] = useState(6);
+    const [maxSlotsPerBox, setMaxSlotsPerBox] = useState(6);
 
     const [actualSlotsPerBox, setActualSlotsPerBox] = useState(
         boxPack.boxPackItems.reduce(
@@ -32,10 +32,12 @@ export default function UpdateBoxProductSlotsSection({ form }: Props) {
     );
 
     useEffect(() => {
+        setMaxSlotsPerBox(boxPack.slots_per_box);
+
         setActualSlotsPerBox(
             boxPack.boxPackItems.reduce(
                 (acc, item) => acc + item.quantity * item.slots_per_product,
-                6,
+                0,
             ),
         );
 
@@ -70,7 +72,7 @@ export default function UpdateBoxProductSlotsSection({ form }: Props) {
 
         clearErrors('slots_per_box');
 
-        setSlotsPerBox(e.target.valueAsNumber);
+        setMaxSlotsPerBox(e.target.valueAsNumber);
 
         onChangeSlotsPerBox(e.target.valueAsNumber);
     };
@@ -99,7 +101,7 @@ export default function UpdateBoxProductSlotsSection({ form }: Props) {
                     inputType="number"
                     labelText="Max Slots per box"
                     onChange={(e) => handleOnChangeSlotsPerBox(e)}
-                    value={slotsPerBox}
+                    value={maxSlotsPerBox}
                 />
             </div>
 

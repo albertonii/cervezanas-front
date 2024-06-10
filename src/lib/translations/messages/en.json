@@ -645,7 +645,8 @@
         "update_packs": "Error updating packs.",
         "update_awards": "Error updating awards.",
         "slots_exceeded": "The number of slots exceeds the number of products.",
-        "slots_per_box": "The number of slots per box must be greater than 0."
+        "slots_per_box": "The number of slots per box must be greater than 0.",
+        "max_slots_per_box_exceeded":"Update maximum slots per box to add more products in the box"
     },
     "product_packs": "Product packs",
     "units": "Units",
@@ -880,7 +881,7 @@
     "add_new_experience": "Add new experience",
     "experiences_info": "Experience information",
     "add_box_pack": "Add mixed pack",
-    "update_box_pack": "Update",
+    "update_box_pack": "Update Box Pack",
     "slots": "Slots",
     "slots_per_product": "Slots per product",
     "box_weight": "Box weight",

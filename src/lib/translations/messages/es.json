@@ -656,7 +656,8 @@
         "update_packs": "Error al actualizar los packs.",
         "update_awards": "Error al actualizar los premios.",
         "slots_exceeded": "Se ha excedido el número de slots permitidos.",
-        "slots_per_box": "Número de slots por caja"
+        "slots_per_box": "Número de slots por caja",
+        "max_slots_per_box_exceeded": "Actualiza el número máximo de unidades que caben en la caja para poder añadir más productos al pack variado."
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",
@@ -898,7 +899,7 @@
     "add_new_experience": "Añadir experiencia",
     "experiences_info": "Información de la experiencia",
     "add_box_pack": "Añadir pack variado",
-    "update_box_pack": "Actualizar",
+    "update_box_pack": "Actualizar Pack Variado",
     "slots": "Huecos",
     "slots_per_product": "Huecos por producto",
     "box_weight": "Peso de la caja",
@@ -956,7 +957,7 @@
         "report_updated": "Reporte actualizado correctamente",
         "campaign_added": "Campaña añadida correctamente",
         "boxpack_created": "Pack variado creado correctamente",
-        "boxpack_update": "Pack variado actualizado correctamente",
+        "boxpack_updated": "Pack variado actualizado correctamente",
         "monthly_product_inserted": "Producto mensual insertado correctamente"
     },
     "num_of_packs": "Número de packs"

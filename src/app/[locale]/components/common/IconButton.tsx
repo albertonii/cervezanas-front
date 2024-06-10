@@ -19,13 +19,8 @@ interface IconButtonProps {
     disabled?: boolean;
     primary?: boolean;
     accent?: boolean;
-    small?: boolean;
-    medium?: boolean;
-    large?: boolean;
-    xLarge?: boolean;
-    xxLarge?: boolean;
     btnType?: string;
-    isLoading?: boolean;
+    size?: 'small' | 'medium' | 'large' | 'xLarge' | 'xxLarge';
 }
 
 export function IconButton({
@@ -34,22 +29,17 @@ export function IconButton({
     isActive,
     color,
     children,
-    classContainer,
-    classIcon,
-    classSpanChildren,
+    classContainer: classNameContainer,
+    classIcon: classNameIcon,
+    classSpanChildren: classNameSpan,
     title,
     box,
-    danger = false,
-    disabled = false,
-    primary = false,
-    accent = false,
-    small = false,
-    medium = false,
-    large = false,
-    xLarge = false,
-    xxLarge = false,
-    btnType = '',
-    isLoading = false,
+    danger,
+    disabled,
+    primary,
+    accent,
+    btnType,
+    size,
 }: IconButtonProps) {
     const [hoverColor, setHoverColor] = useState(
         isActive ? 'filled' : 'unfilled',
@@ -62,16 +52,25 @@ export function IconButton({
 
         return (
             <FontAwesomeIcon
-                className={`${classIcon} `}
+                className={`${classNameIcon} `}
                 icon={icon}
                 style={{ color: getColor() }}
                 onMouseEnter={() => setHoverColor('filled')}
                 onMouseLeave={() => setHoverColor('unfilled')}
+                // onClick={onClick}
                 title={title}
                 titleId={title}
             />
         );
-    }, [classIcon, color?.filled, color?.unfilled, icon, isActive, title]);
+    }, [
+        classNameIcon,
+        color?.filled,
+        color?.unfilled,
+        icon,
+        isActive,
+        onClick,
+        title,
+    ]);
 
     const getButtonType = () => {
         switch (btnType) {
@@ -82,48 +81,49 @@ export function IconButton({
         }
     };
 
-    const getSizeClass = () => {
-        if (small) return 'text-md px-4 py-2';
-        if (medium) return 'px-4 py-2 text-base';
-        if (large) return 'px-5 py-3 text-lg';
-        if (xLarge) return 'px-6 py-3 text-xl';
-        if (xxLarge) return 'px-6 py-3 text-2xl';
-        return '';
-    };
-
-    const getColorClass = () => {
-        if (primary)
-            return 'border-2 border-beer-blonde bg-beer-softBlonde hover:bg-beer-blonde';
-        if (accent)
-            return 'border-2 border-beer-blonde bg-beer-foam hover:bg-beer-softFoam';
-        if (danger) return 'bg-red-500 hover:bg-red-600';
-        return 'shrink-0 hover:bg-beer-softBlonde';
-    };
-
     return (
         <button
-            disabled={disabled || isLoading}
-            type={getButtonType()}
+            type={`${getButtonType()}`}
             onClick={onClick}
             color={hoverColor}
             className={`
-                inline-flex items-center justify-center rounded-md border transition duration-200 ease-in-out
-                ${getSizeClass()}
-                ${getColorClass()}
+                mt-0 flex items-center justify-center rounded border-2 border-beer-blonde p-1 transition duration-100 ease-in
                 ${box ? 'h-auto w-10' : ''}
                 ${disabled ? 'cursor-not-allowed opacity-50' : ''}
-                ${classContainer}
+                ${size === 'small' ? 'w-24' : ''} 
+                ${size === 'medium' ? 'w-32' : ''}
+                ${size === 'large' ? 'w-52' : ''}
+                ${size === 'xLarge' ? 'w-64' : ''}
+                ${size === 'xxLarge' ? 'w-80' : ''}
+                ${
+                    primary
+                        ? ' border-2 border-beer-blonde bg-beer-softBlonde hover:bg-beer-blonde'
+                        : 'hover:bg-beer-softBlonde'
+                }
+                ${accent ? 'border-2 border-beer-blonde bg-beer-foam' : ''}
+                ${danger ? 'bg-red-500 hover:bg-red-600 ' : ''}
+                ${classNameContainer} 
             `}
-            data-testid={title}
+            data-testid={`${title}`}
         >
-            <span className={`${children ? 'mr-1' : ''} text-bear-dark`}>
+            <span
+                className={`${children != null ? 'mr-1' : ''}  text-bear-dark`}
+            >
                 {iconButton}
             </span>
+
             <span
-                className={`text-bear-dark ${danger ? 'text-beer-foam' : ''} 
-                ${primary ? 'text-beer-dark' : 'text-beer-dark'} 
-                ${accent ? 'text-beer-dark hover:text-beer-dark' : ''} 
-                ${classSpanChildren}`}
+                className={`text-bear-dark
+                    ${danger ? 'text-beer-foam ' : ''} 
+                    ${primary ? 'text-beer-dark ' : 'text-beer-dark'}}
+                    ${accent ? 'text-beer-dark hover:text-beer-dark' : ''}
+                    ${size === 'small' ? 'text-md px-4 py-2' : ''} 
+                    ${size === 'medium' ? 'px-4 py-2 text-base' : ''}
+                    ${size === 'large' ? 'px-5 py-3 text-lg' : ''}
+                    ${size === 'xLarge' ? 'px-6 py-3 text-xl' : ''}
+                    ${size === 'xxLarge' ? 'px-6 py-3 text-2xl' : ''}
+                    ${classNameSpan}
+                `}
             >
                 {children}
             </span>

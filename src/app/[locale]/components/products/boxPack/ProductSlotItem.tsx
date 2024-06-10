@@ -8,7 +8,6 @@ import { IProduct } from '../../../../../lib/types/types';
 import { IBoxPackItem } from '../../../../../lib/types/product';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
-import { Type } from '../../../../../lib/productEnum';
 
 interface Props {
     product: IProduct;
@@ -76,8 +75,7 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
 
                     setError('slots_per_box', {
                         type: 'custom',
-                        message:
-                            'Update maximum slots per box to add more products in the box',
+                        message: `${t('max_slots_per_box_exceeded')}`,
                     });
 
                     return prevSelectedPacks;
@@ -143,8 +141,7 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
 
             setError('slots_per_box', {
                 type: 'custom',
-                message:
-                    'Update maximum slots per box to add more products in the box',
+                message: `${t('max_slots_per_box_exceeded')}`,
             });
 
             // Allow to reduce the input quantity so we can get rid of error message
@@ -190,8 +187,7 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
 
             setError('slots_per_box', {
                 type: 'custom',
-                message:
-                    'Update maximum slots per box to add more products in the box',
+                message: `${t('max_slots_per_box_exceeded')}`,
             });
 
             // Allow to reduce the input slot_per_product so we can get rid of error message
