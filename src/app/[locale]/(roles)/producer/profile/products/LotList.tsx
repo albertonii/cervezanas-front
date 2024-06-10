@@ -75,7 +75,7 @@ export function LotList({
             {isError && (
                 <div className="flex items-center justify-center">
                     <p className="text-gray-500 dark:text-gray-400">
-                        {t('error_fetching_lots')}
+                        {t('errors.fetching_lots')}
                     </p>
                 </div>
             )}

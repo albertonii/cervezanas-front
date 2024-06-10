@@ -222,7 +222,7 @@ export function ShoppingBasket({ user }: Props) {
                 console.error(error);
                 handleMessage({
                     type: 'error',
-                    message: t('error_inserting_order'),
+                    message: t('errors.inserting_order'),
                 });
             });
     };

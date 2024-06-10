@@ -84,7 +84,7 @@ export function CampaignList({
             {isError && (
                 <div className="flex items-center justify-center">
                     <p className="text-gray-500 dark:text-gray-400">
-                        {t('error_fetching_campaigns')}
+                        {t('errors.fetching_campaigns')}
                     </p>
                 </div>
             )}

@@ -112,7 +112,7 @@ export function ProductList({
             {isError && (
                 <div className="flex items-center justify-center py-6">
                     <p className="text-gray-500">
-                        {t('error_fetching_products')}
+                        {t('errors.fetching_products')}
                     </p>
                 </div>
             )}

@@ -546,7 +546,7 @@ export function AddProductModal() {
             // ERROR - No se ha podido insertar el producto
             handleMessage({
                 type: 'error',
-                message: t('error_insert_product'),
+                message: t('errors.insert_product'),
             });
 
             // Deshacer la inserción del producto

@@ -73,7 +73,7 @@ export function EventOrderList() {
             {isError && (
                 <div className="flex items-center justify-center">
                     <span className="text-gray-500 dark:text-gray-400">
-                        {t('error_fetching_event_orders')}
+                        {t('error.fetching_event_orders')}
                     </span>
                 </div>
             )}

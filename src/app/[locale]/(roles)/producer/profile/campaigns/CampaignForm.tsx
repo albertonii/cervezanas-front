@@ -138,7 +138,7 @@ export function CampaignForm({
 
         handleMessage({
             type: 'success',
-            message: `${t('campaign_added_successfully')} , ${campaign.name}`,
+            message: `${t('success.campaign_added')} , ${campaign.name}`,
         });
     };
 

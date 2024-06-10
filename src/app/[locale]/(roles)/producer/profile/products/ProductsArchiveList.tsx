@@ -120,13 +120,18 @@ export function ProductsArchiveList({
             {isError && (
                 <div className="flex items-center justify-center">
                     <p className="text-gray-500 dark:text-gray-400">
-                        {t('error_fetching_products')}
+                        {t('errors.fetching_products')}
                     </p>
                 </div>
             )}
 
             {isLoading && (
-                <Spinner color="beer-blonde" size="xLarge" absolute flexCenter />
+                <Spinner
+                    color="beer-blonde"
+                    size="xLarge"
+                    absolute
+                    flexCenter
+                />
             )}
 
             {!isError && !isLoading && products.length === 0 ? (

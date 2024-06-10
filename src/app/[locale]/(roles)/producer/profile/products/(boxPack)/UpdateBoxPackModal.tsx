@@ -232,7 +232,7 @@ export function UpdateBoxPackModal({
 
         handleMessage({
             type: 'success',
-            message: 'Box pack created successfully',
+            message: `${t('success.boxpack_updated')}`,
         });
 
         clear();

@@ -36,7 +36,7 @@ export default function ProductsInsideBox({ product, boxPack }: Props) {
         if (!product) {
             handleMessage({
                 type: 'error',
-                message: 'error_adding_product_to_cart',
+                message: 'errors.adding_product_to_cart',
             });
             return;
         }

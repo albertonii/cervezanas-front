@@ -83,7 +83,7 @@ export function EventOrderList({ eventOrders: os }: Props) {
             {isError && (
                 <div className="flex items-center justify-center">
                     <p className="text-gray-500 dark:text-gray-400">
-                        {t('error_fetching_event_orders')}
+                        {t('errors.fetching_event_orders')}
                     </p>
                 </div>
             )}

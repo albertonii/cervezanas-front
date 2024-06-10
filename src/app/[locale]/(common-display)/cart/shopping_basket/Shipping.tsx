@@ -43,7 +43,7 @@ export default function Shipping({
             .then(() => {
                 handleMessage({
                     type: 'success',
-                    message: 'shipping_address_removed_successfully',
+                    message: 'success.shipping_address_removed',
                 });
 
                 queryClient.invalidateQueries('shippingAddresses');
@@ -51,7 +51,7 @@ export default function Shipping({
             .catch(() => {
                 handleMessage({
                     type: 'error',
-                    message: 'error_removing_shipping_address',
+                    message: 'errors.removing_shipping_address',
                 });
             });
     };

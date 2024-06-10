@@ -67,7 +67,7 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
             {isError && (
                 <p className="flex items-center justify-center">
                     <h2 className="text-gray-500 dark:text-gray-400">
-                        {t('error_fetching_online_orders')}
+                        {t('errors.fetching_online_orders')}
                     </h2>
                 </p>
             )}

@@ -77,7 +77,7 @@ export function NewBillingAddress() {
 
                 handleMessage({
                     type: 'success',
-                    message: t('billing_address_created_successfully'),
+                    message: t('success.billing_address_created'),
                 });
             })
             .catch((error) => {
@@ -85,7 +85,7 @@ export function NewBillingAddress() {
                 setIsLoading(false);
                 handleMessage({
                     type: 'error',
-                    message: t('error_creating_billing_address'),
+                    message: t('errors.creating_billing_address'),
                 });
             });
     };

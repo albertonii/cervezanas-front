@@ -130,7 +130,7 @@ export function ListCPMobile({ cpsId }: Props) {
             {isError && (
                 <div className="flex items-center justify-center">
                     <p className="text-gray-500 dark:text-gray-400">
-                        {t('error_fetching_cp_mobile')}
+                        {t('errors.fetching_cp_mobile')}
                     </p>
                 </div>
             )}

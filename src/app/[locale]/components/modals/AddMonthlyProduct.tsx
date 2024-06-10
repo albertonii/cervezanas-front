@@ -158,7 +158,7 @@ export default function AddMonthlyProduct({
 
         handleMessage({
             type: 'success',
-            message: `${t('inserted_successfully')}`,
+            message: `${t('success.monthly_product_inserted')}`,
         });
 
         reset();

@@ -128,7 +128,7 @@ export function ListCPFixed({ cpsId }: Props) {
             {isError && (
                 <div className="flex items-center justify-center">
                     <p className="text-gray-500 dark:text-gray-400">
-                        {t('error_fetching_cp_fixed')}
+                        {t('errors.fetching_cp_fixed')}
                     </p>
                 </div>
             )}

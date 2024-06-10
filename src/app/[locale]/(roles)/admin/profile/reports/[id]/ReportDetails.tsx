@@ -57,7 +57,7 @@ export default function ReportDetails({ report }: Props) {
 
     handleMessage({
       type: 'success',
-      message: `${t('report_updated_successfully')}`,
+      message: `${t('success.report_updated')}`,
     });
   };
 

@@ -185,7 +185,7 @@ export function AddBoxPackModal() {
 
         handleMessage({
             type: 'success',
-            message: 'Box pack created successfully',
+            message: `${t('success.boxpack_created')}`,
         });
 
         setShowModal(false);

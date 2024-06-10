@@ -43,7 +43,7 @@ export default function Billing({
             .then(() => {
                 handleMessage({
                     type: 'success',
-                    message: 'billing_address_removed_successfully',
+                    message: 'success.billing_address_removed',
                 });
 
                 queryClient.invalidateQueries('billingAddresses');
@@ -51,7 +51,7 @@ export default function Billing({
             .catch(() => {
                 handleMessage({
                     type: 'error',
-                    message: 'error_removing_billing_address',
+                    message: 'errors.removing_billing_address',
                 });
             });
     };

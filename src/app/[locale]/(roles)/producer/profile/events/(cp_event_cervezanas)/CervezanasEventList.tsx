@@ -139,7 +139,7 @@ export default function CervezanasEventList({ counter }: Props) {
             {isError && (
                 <div className="flex items-center justify-center">
                     <p className="text-gray-500 dark:text-gray-400">
-                        {t('error_fetching_events')}
+                        {t('errors.fetching_events')}
                     </p>
                 </div>
             )}

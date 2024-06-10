@@ -132,7 +132,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
             {isError && (
                 <div className="flex items-center justify-center">
                     <p className="text-gray-500 dark:text-gray-400">
-                        {t('error_fetching_experiences')}
+                        {t('errors.fetching_experiences')}
                     </p>
                 </div>
             )}

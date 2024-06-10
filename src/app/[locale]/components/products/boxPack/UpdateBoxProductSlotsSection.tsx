@@ -62,7 +62,7 @@ export default function UpdateBoxProductSlotsSection({ form }: Props) {
         if (!isValid) {
             setError('slots_per_box', {
                 type: 'custom',
-                message: 'error_slots_per_box',
+                message: 'errors.slots_per_box',
             });
 
             return;

@@ -130,7 +130,7 @@ const UpdateProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
         if (!isValid) {
             handleMessage({
                 type: 'error',
-                message: t('error_slots_exceeded', {
+                message: t('errors.slots_exceeded', {
                     slots: boxPack.slots_per_box,
                 }),
             });
@@ -177,7 +177,7 @@ const UpdateProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
         if (!isValid) {
             handleMessage({
                 type: 'error',
-                message: t('error_slots_exceeded', {
+                message: t('errors.slots_exceeded', {
                     slots: boxPack.slots_per_box,
                 }),
             });
