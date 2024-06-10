@@ -75,40 +75,31 @@ export default function Billing({
     };
 
     return (
-        <>
-            <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
-                {t('billing_info')}{' '}
+        <section className="w-full space-y-6 p-6 rounded-lg shadow-md bg-gray-50 dark:bg-gray-800">
+            <h3 className="text-2xl font-semibold text-gray-800 dark:text-white">
+                {t('billing_info')}
             </h3>
 
-            <span className="flex w-full flex-col items-start justify-start space-y-4">
-                <label
-                    htmlFor="billing"
-                    className="text-sm font-medium text-gray-500"
-                >
-                    {t('billing')}
-                </label>
-            </span>
+            <label className="block text-sm font-medium text-gray-500 dark:text-gray-400">
+                {t('billing')}
+            </label>
 
-            {/* Radio button for select billing address */}
-            <ul className="grid w-full gap-6 md:grid-cols-1">
-                {billingAddresses.map((address) => {
-                    return (
-                        <div key={address.id}>
-                            <li
-                                onClick={() => handleOnClickBilling(address.id)}
-                            >
-                                <AddressRadioInput
-                                    register={register}
-                                    address={address}
-                                    addressNameId={'billing'}
-                                    setShowDeleteModal={setShowDeleteModal}
-                                />
-                            </li>
-                        </div>
-                    );
-                })}
+            <ul className="space-y-4">
+                {billingAddresses.map((address) => (
+                    <li
+                        key={address.id}
+                        className="flex items-center justify-between p-4 bg-white rounded-lg shadow-md dark:bg-gray-700"
+                        onClick={() => handleOnClickBilling(address.id)}
+                    >
+                        <AddressRadioInput
+                            register={register}
+                            address={address}
+                            addressNameId={'billing'}
+                            setShowDeleteModal={setShowDeleteModal}
+                        />
+                    </li>
+                ))}
 
-                {/* Error input displaying */}
                 {errors.billing_info_id && (
                     <DisplayInputError
                         message={errors.billing_info_id.message}
@@ -116,7 +107,6 @@ export default function Billing({
                 )}
             </ul>
 
-            {/* Add Billing Information */}
             {billingAddresses.length < 5 && <NewBillingAddress />}
 
             {showDeleteModal && (
@@ -126,6 +116,6 @@ export default function Billing({
                     setShowModal={setShowDeleteModal}
                 />
             )}
-        </>
+        </section>
     );
 }

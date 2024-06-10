@@ -78,39 +78,31 @@ export default function Shipping({
     };
 
     return (
-        <>
-            <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
-                {t('shipping_info')}{' '}
+        <section className="w-full space-y-6 p-6 rounded-lg shadow-md bg-gray-50 dark:bg-gray-800">
+            <h3 className="text-2xl font-semibold text-gray-800 dark:text-white">
+                {t('shipping_info')}
             </h3>
 
-            <span className="flex w-full flex-col items-start justify-start space-y-4">
-                <label className="text-sm font-medium text-gray-500">
-                    {t('shipping')}
-                </label>
-            </span>
+            <label className="block text-sm font-medium text-gray-500 dark:text-gray-400">
+                {t('shipping')}
+            </label>
 
-            {/* Radio button for select shipping address */}
-            <ul className="grid w-full gap-6 md:grid-cols-1">
-                {shippingAddresses.map((address) => {
-                    return (
-                        <article key={address.id}>
-                            <li
-                                onClick={() =>
-                                    handleOnClickShipping(address.id)
-                                }
-                            >
-                                <AddressRadioInput
-                                    register={register}
-                                    address={address}
-                                    addressNameId={'shipping'}
-                                    setShowDeleteModal={setShowDeleteModal}
-                                />
-                            </li>
-                        </article>
-                    );
-                })}
+            <ul className="space-y-4">
+                {shippingAddresses.map((address) => (
+                    <li
+                        key={address.id}
+                        className="flex items-center justify-between p-4 bg-white rounded-lg shadow-md dark:bg-gray-700"
+                        onClick={() => handleOnClickShipping(address.id)}
+                    >
+                        <AddressRadioInput
+                            register={register}
+                            address={address}
+                            addressNameId={'shipping'}
+                            setShowDeleteModal={setShowDeleteModal}
+                        />
+                    </li>
+                ))}
 
-                {/* Error input displaying */}
                 {errors.shipping_info_id && (
                     <DisplayInputError
                         message={errors.shipping_info_id.message}
@@ -118,7 +110,6 @@ export default function Shipping({
                 )}
             </ul>
 
-            {/* Add Shipping Information */}
             {shippingAddresses.length < 5 && <NewShippingAddress />}
 
             {showDeleteModal && (
@@ -128,6 +119,6 @@ export default function Shipping({
                     setShowModal={setShowDeleteModal}
                 />
             )}
-        </>
+        </section>
     );
 }
