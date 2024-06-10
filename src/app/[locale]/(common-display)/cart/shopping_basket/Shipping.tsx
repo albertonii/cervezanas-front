@@ -1,7 +1,8 @@
-import { useTranslations } from 'next-intl';
-import { IAddress } from '../../../../../lib/types/types';
 import AddressRadioInput from './AddressRadioInput';
 import React, { ComponentProps, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { removeShippingAddressById } from '../actions';
+import { IAddress } from '../../../../../lib/types/types';
 import { useMutation, useQueryClient } from 'react-query';
 import { NewShippingAddress } from './NewShippingAddress';
 import { UseFormReturn, SubmitHandler } from 'react-hook-form';
@@ -9,8 +10,8 @@ import { useMessage } from '../../../components/message/useMessage';
 import { DeleteAddress } from '../../../components/modals/DeleteAddress';
 import { FormShippingData, ValidationSchemaShipping } from './ShoppingBasket';
 import { DisplayInputError } from '../../../components/common/DisplayInputError';
-import { removeShippingAddressById } from '../actions';
-
+import { faShippingFast } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 interface Props {
     shippingAddresses: IAddress[];
     selectedShippingAddress: string;
@@ -78,7 +79,14 @@ export default function Shipping({
     };
 
     return (
-        <section className="w-full space-y-6 p-6 rounded-lg shadow-md bg-gray-50 dark:bg-gray-800">
+        <section className="relative w-full space-y-6 p-6 rounded-lg shadow-md bg-gray-50 dark:bg-gray-800">
+            <FontAwesomeIcon
+                icon={faShippingFast}
+                title={'Shipping Info Icon'}
+                className="text-beer-blonde absolute -top-4 -left-4 bg-white p-2 rounded-full shadow-lg"
+                size="2xl"
+            />
+
             <h3 className="text-2xl font-semibold text-gray-800 dark:text-white">
                 {t('shipping_info')}
             </h3>

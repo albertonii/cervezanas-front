@@ -10,7 +10,8 @@ import { DeleteAddress } from '../../../components/modals/DeleteAddress';
 import { DisplayInputError } from '../../../components/common/DisplayInputError';
 import { FormBillingData, ValidationSchemaShipping } from './ShoppingBasket';
 import { removeBillingAddressById } from '../actions';
-
+import { faMoneyBill } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 interface Props {
     selectedBillingAddress: string;
     billingAddresses: IBillingAddress[];
@@ -75,7 +76,14 @@ export default function Billing({
     };
 
     return (
-        <section className="w-full space-y-6 p-6 rounded-lg shadow-md bg-gray-50 dark:bg-gray-800">
+        <section className="relative w-full space-y-6 p-6 rounded-lg shadow-md bg-gray-50 dark:bg-gray-800">
+            <FontAwesomeIcon
+                icon={faMoneyBill}
+                title={'Billing Info Icon'}
+                className="text-beer-blonde absolute -top-4 -left-4 bg-white p-2 rounded-full shadow-lg"
+                size="2xl"
+            />
+
             <h3 className="text-2xl font-semibold text-gray-800 dark:text-white">
                 {t('billing_info')}
             </h3>
