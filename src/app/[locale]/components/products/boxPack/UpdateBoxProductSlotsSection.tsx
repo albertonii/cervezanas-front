@@ -9,6 +9,7 @@ import {
 } from '../../../../../lib/types/product';
 import { useTranslations } from 'next-intl';
 import { UpdateSearchCheckboxProductSlot } from './UpdateSearchCheckboxProductSlot';
+import DrawingSlotsFromBox from './DrawingSlotsFromBox';
 
 interface Props {
     form: UseFormReturn<ModalUpdateBoxPackFormData, any>;
@@ -88,6 +89,11 @@ export default function UpdateBoxProductSlotsSection({ form }: Props) {
                     {t('box_weight')}: {boxWeight} gr
                 </h2>
             </div>
+
+            <DrawingSlotsFromBox
+                slotsPerBox={maxSlotsPerBox}
+                actualSlotsPerBox={actualSlotsPerBox}
+            />
 
             <div className="col-span-2">
                 <InputLabel

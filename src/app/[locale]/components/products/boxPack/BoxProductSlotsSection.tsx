@@ -23,7 +23,7 @@ export default function BoxProductSlotsSection({ form }: Props) {
     const { setValue } = form;
 
     const [boxWeight, setBoxWeight] = useState(0);
-    const [slotsPerBox, setSlotsPerBox] = useState(6);
+    const [maxSlotsPerBox, setMaxSlotsPerBox] = useState(6);
 
     const [actualSlotsPerBox, setActualSlotsPerBox] = useState(
         boxPack.boxPackItems.reduce(
@@ -74,7 +74,7 @@ export default function BoxProductSlotsSection({ form }: Props) {
 
         clearErrors('slots_per_box');
 
-        setSlotsPerBox(e.target.valueAsNumber);
+        setMaxSlotsPerBox(e.target.valueAsNumber);
 
         onChangeSlotsPerBox(e.target.valueAsNumber);
     };
@@ -92,7 +92,7 @@ export default function BoxProductSlotsSection({ form }: Props) {
             </div>
 
             <DrawingSlotsFromBox
-                slotsPerBox={slotsPerBox}
+                slotsPerBox={maxSlotsPerBox}
                 actualSlotsPerBox={actualSlotsPerBox}
             />
 
@@ -108,7 +108,7 @@ export default function BoxProductSlotsSection({ form }: Props) {
                     inputType="number"
                     labelText="Max Slots per box"
                     onChange={(e) => handleOnChangeSlotsPerBox(e)}
-                    value={slotsPerBox}
+                    value={maxSlotsPerBox}
                 />
             </div>
 
