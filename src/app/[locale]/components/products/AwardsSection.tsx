@@ -109,14 +109,25 @@ export const AwardsSection = ({ form }: Props) => {
                     </div>
                 ))}
 
-                <Button
-                    primary
-                    medium
-                    onClick={handleAddAward}
-                    disabled={isSubmitting}
-                >
-                    {t('modal_product_award_add')}
-                </Button>
+                {fields.length > 0 ? (
+                    <Button
+                        primary
+                        medium
+                        onClick={handleAddAward}
+                        disabled={isSubmitting}
+                    >
+                        {t('modal_product_award_add_another')}
+                    </Button>
+                ) : (
+                    <Button
+                        primary
+                        medium
+                        onClick={handleAddAward}
+                        disabled={isSubmitting}
+                    >
+                        {t('modal_product_award_add')}
+                    </Button>
+                )}
             </div>
         </section>
     );

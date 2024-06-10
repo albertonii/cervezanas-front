@@ -4,6 +4,11 @@ import { useTranslations } from 'next-intl';
 import { formatCurrency } from '../../../../utils/formatCurrency';
 import { FilePreview } from '../common/FilePreview';
 import { ModalAddProductFormData } from '../../../../lib/types/types';
+import {
+    color_options,
+    family_options,
+    fermentation_options,
+} from '../../../../lib/beerEnum';
 
 interface Props {
     form: UseFormReturn<ModalAddProductFormData, any>;
@@ -13,6 +18,14 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
     const t = useTranslations();
 
     const { errors } = formState;
+
+    const fermentationLabel = t(
+        fermentation_options[getValues('fermentation')].label,
+    );
+
+    const colorLabel = t(color_options[getValues('color')].label);
+
+    const familyLabel = t(family_options[getValues('family')].label);
 
     const renderError = (field: string, error: FieldError | any) => {
         if (Array.isArray(error)) {
@@ -104,91 +117,100 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                     <span className="text-md">{getValues('name')}</span>
                 </div>
 
-                {/* Description */}
-                <div className="flex flex-row gap-4">
-                    <label className="text-md font-semibold text-gray-600">
-                        {t('description')}
-                    </label>
-                    <span className="text-md">{getValues('description')}</span>
-                </div>
+                {/* Añadir border y demás  */}
+                <div className="flex flex-col gap-4 p-6 bg-white rounded-lg shadow-md border border-gray-200">
+                    {/* Description */}
+                    <div className="flex flex-row gap-4">
+                        <label className="text-md font-semibold text-gray-600">
+                            {t('description')}
+                        </label>
+                        <span className="text-md">
+                            {getValues('description')}
+                        </span>
+                    </div>
 
-                {/* ABV Fermentation Color */}
-                <div className="flex flex-row justify-between gap-4">
-                    <div className="flex flex-col">
-                        <label className="text-md font-semibold text-gray-600">
-                            {t('intensity_label')}
-                        </label>
-                        <span className="text-md">
-                            {getValues('intensity')} %
-                        </span>
-                    </div>
-                    <div className="flex flex-col">
-                        <label className="text-md font-semibold text-gray-600">
-                            {t('fermentation_label')}
-                        </label>
-                        <span className="text-md">
-                            {getValues('fermentation')}
-                        </span>
-                    </div>
-                    <div className="flex flex-col">
-                        <label className="text-md font-semibold text-gray-600">
-                            {t('color_label')}
-                        </label>
-                        <span className="text-md">{getValues('color')}</span>
-                    </div>
-                </div>
+                    {/* ABV Fermentation */}
+                    <div className="flex flex-row justify-between gap-4">
+                        <div className="flex flex-col">
+                            <label className="text-md font-semibold text-gray-600">
+                                {t('intensity_label')}
+                            </label>
 
-                {/* Region Family Era */}
-                <div className="flex flex-row gap-4">
-                    <label className="text-md font-semibold text-gray-600">
-                        {t('family_label')}
-                    </label>
-                    <span className="text-md">{getValues('family')}</span>
-                </div>
+                            <span className="text-md">
+                                {getValues('intensity')} %
+                            </span>
+                        </div>
+                        <div className="flex flex-col">
+                            <label className="text-md font-semibold text-gray-600">
+                                {t('fermentation_label')}
+                            </label>
+                            <span className="text-md">{fermentationLabel}</span>
+                        </div>
+                    </div>
 
-                {/* Format Volume Price */}
-                <div className="flex flex-row justify-between gap-4">
-                    <div className="flex flex-col">
-                        <label className="text-md font-semibold text-gray-600">
-                            {t('format_label')}
-                        </label>
-                        <span className="text-md">
-                            {t(getValues('format'))}
-                        </span>
-                    </div>
-                    <div className="flex flex-col">
-                        <label className="text-md font-semibold text-gray-600">
-                            {t('volume_label')}
-                        </label>
-                        <span className="text-md">{getValues('volume')}</span>
-                    </div>
-                    <div className="flex flex-col">
-                        <label className="text-md font-semibold text-gray-600">
-                            {t('price')}
-                        </label>
-                        <span className="text-md">
-                            {formatCurrency(getValues('price'))}
-                        </span>
-                    </div>
-                </div>
+                    {/* Color Family  */}
+                    <div className="flex flex-row justify-between gap-4">
+                        <div className="flex flex-col">
+                            <label className="text-md font-semibold text-gray-600">
+                                {t('color_label')}
+                            </label>
+                            <span className="text-md">{colorLabel}</span>
+                        </div>
 
-                {/* Stock Quantity and Notification */}
-                <div className="flex flex-row justify-between gap-4">
-                    <div className="flex flex-col">
-                        <label className="text-md font-semibold text-gray-600">
-                            {t('stock_quantity_label')}
-                        </label>
-                        <span className="text-md">
-                            {getValues('stock_quantity')}
-                        </span>
+                        <div className="flex flex-col">
+                            <label className="text-md font-semibold text-gray-600">
+                                {t('family_label')}
+                            </label>
+                            <span className="text-md">{familyLabel}</span>
+                        </div>
                     </div>
-                    <div className="flex flex-col">
-                        <label className="text-md font-semibold text-gray-600">
-                            {t('stock_limit_notification_label')}
-                        </label>
-                        <span className="text-md">
-                            {getValues('stock_limit_notification')}
-                        </span>
+
+                    {/* Format Volume Price */}
+                    <div className="flex flex-row justify-between gap-4">
+                        <div className="flex flex-col">
+                            <label className="text-md font-semibold text-gray-600">
+                                {t('format_label')}
+                            </label>
+                            <span className="text-md">
+                                {t(getValues('format'))}
+                            </span>
+                        </div>
+                        <div className="flex flex-col">
+                            <label className="text-md font-semibold text-gray-600">
+                                {t('volume_label')} (ml)
+                            </label>
+                            <span className="text-md">
+                                {getValues('volume')}
+                            </span>
+                        </div>
+                        <div className="flex flex-col">
+                            <label className="text-md font-semibold text-gray-600">
+                                {t('price')}
+                            </label>
+                            <span className="text-md">
+                                {formatCurrency(getValues('price'))}
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Stock Quantity and Notification */}
+                    <div className="flex flex-row justify-between gap-4">
+                        <div className="flex flex-col">
+                            <label className="text-md font-semibold text-gray-600">
+                                {t('stock_quantity_label')}
+                            </label>
+                            <span className="text-md">
+                                {getValues('stock_quantity')}
+                            </span>
+                        </div>
+                        <div className="flex flex-col">
+                            <label className="text-md font-semibold text-gray-600">
+                                {t('stock_limit_notification_label')}
+                            </label>
+                            <span className="text-md">
+                                {getValues('stock_limit_notification')}
+                            </span>
+                        </div>
                     </div>
                 </div>
 

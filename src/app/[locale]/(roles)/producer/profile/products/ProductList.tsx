@@ -163,7 +163,7 @@ export function ProductList({
                                             key={product.id}
                                             className="hover:bg-gray-50"
                                         >
-                                            <td className="px-6 py-4 whitespace-nowrap">
+                                            <td className="px-6 py-4 whitespace-nowrap flex justify-center">
                                                 <Image
                                                     width={32}
                                                     height={32}
@@ -172,7 +172,6 @@ export function ProductList({
                                                     alt="Beer Type"
                                                 />
                                             </td>
-
                                             <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                                                 <Link
                                                     href={`/products/${product.id}`}
@@ -181,11 +180,9 @@ export function ProductList({
                                                     {product.name}
                                                 </Link>
                                             </td>
-
                                             <td className="px-6 py-4">
                                                 {formatCurrency(product.price)}
                                             </td>
-
                                             <td className="px-6 py-4">
                                                 {product.product_inventory &&
                                                 product.product_inventory
@@ -194,7 +191,6 @@ export function ProductList({
                                                           .quantity
                                                     : '-'}
                                             </td>
-
                                             <td className="px-6 py-4">
                                                 {product.product_lots &&
                                                 product.product_lots[0]?.lot_id
@@ -202,13 +198,11 @@ export function ProductList({
                                                           ?.lot_id
                                                     : '-'}
                                             </td>
-
                                             <td className="px-6 py-4">
                                                 {product.is_public
                                                     ? t('yes')
                                                     : t('no')}
                                             </td>
-
                                             <td className="px-6 py-4">
                                                 <div className="flex justify-center space-x-2">
                                                     <EditButton

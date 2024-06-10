@@ -2,12 +2,12 @@
 
 import useFilters from '../../../../hooks/useFilters';
 import React from 'react';
-import { ProductPackStoreItem } from '../../components/Cart/ProductPackStoreItem';
-import { IProduct } from '../../../../lib/types/types';
 import { Filters } from '../../components/Filters';
-import { MarketplaceHeader } from '../../components/MarketplaceHeader';
 import { Type } from '../../../../lib/productEnum';
+import { IProduct } from '../../../../lib/types/types';
+import { MarketplaceHeader } from '../../components/MarketplaceHeader';
 import { BoxPackStoreItem } from '../../components/Cart/BoxPackStoreItem';
+import { ProductPackStoreItem } from '../../components/Cart/ProductPackStoreItem';
 
 interface Props {
     products: IProduct[];
