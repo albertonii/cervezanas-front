@@ -180,7 +180,7 @@ export interface Database {
           {
             foreignKeyName: "billing_info_owner_id_fkey"
             columns: ["owner_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -570,6 +570,38 @@ export interface Database {
             foreignKeyName: "campaigns_owner_id_fkey"
             columns: ["owner_id"]
             isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      consumption_point_user: {
+        Row: {
+          company_description: string | null
+          company_name: string | null
+          created_at: string
+          is_authorized: boolean | null
+          user_id: string
+        }
+        Insert: {
+          company_description?: string | null
+          company_name?: string | null
+          created_at?: string
+          is_authorized?: boolean | null
+          user_id?: string
+        }
+        Update: {
+          company_description?: string | null
+          company_name?: string | null
+          created_at?: string
+          is_authorized?: boolean | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "consumption_point_user_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -999,6 +1031,42 @@ export interface Database {
           }
         ]
       }
+      discount_codes: {
+        Row: {
+          code: string | null
+          created_at: string
+          discount_type: string | null
+          discount_value: number | null
+          expiration_date: string | null
+          id: string
+          max_uses: number | null
+          updated_at: string | null
+          uses: number | null
+        }
+        Insert: {
+          code?: string | null
+          created_at?: string
+          discount_type?: string | null
+          discount_value?: number | null
+          expiration_date?: string | null
+          id?: string
+          max_uses?: number | null
+          updated_at?: string | null
+          uses?: number | null
+        }
+        Update: {
+          code?: string | null
+          created_at?: string
+          discount_type?: string | null
+          discount_value?: number | null
+          expiration_date?: string | null
+          id?: string
+          max_uses?: number | null
+          updated_at?: string | null
+          uses?: number | null
+        }
+        Relationships: []
+      }
       distribution: {
         Row: {
           business_order_id: string | null
@@ -1273,7 +1341,7 @@ export interface Database {
           {
             foreignKeyName: "event_order_items_product_pack_id_fkey"
             columns: ["product_pack_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "product_packs"
             referencedColumns: ["id"]
           }
@@ -1517,7 +1585,7 @@ export interface Database {
           {
             foreignKeyName: "fixed_event_order_items_product_id_fkey"
             columns: ["product_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
           }
@@ -1837,7 +1905,7 @@ export interface Database {
           {
             foreignKeyName: "order_items_product_pack_id_fkey"
             columns: ["product_pack_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "product_packs"
             referencedColumns: ["id"]
           }
@@ -2447,7 +2515,7 @@ export interface Database {
           {
             foreignKeyName: "shipping_info_owner_id_fkey"
             columns: ["owner_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -2479,6 +2547,42 @@ export interface Database {
           trigger_name?: string | null
         }
         Relationships: []
+      }
+      user_discount_codes: {
+        Row: {
+          discount_code_id: string | null
+          id: string
+          used_at: string | null
+          user_id: string
+        }
+        Insert: {
+          discount_code_id?: string | null
+          id?: string
+          used_at?: string | null
+          user_id?: string
+        }
+        Update: {
+          discount_code_id?: string | null
+          id?: string
+          used_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_discount_codes_discount_code_id_fkey"
+            columns: ["discount_code_id"]
+            isOneToOne: false
+            referencedRelation: "discount_codes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_discount_codes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       user_reports: {
         Row: {

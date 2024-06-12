@@ -38,3 +38,8 @@ export function getTimeElapsed(startDate: any): string {
     return `${seconds}s ago`;
   }
 }
+
+// Convert a date string to a Date object
+export function convertToDate(dateString: string): Date {
+  return new Date(dateString);
+}

@@ -213,11 +213,16 @@ export async function getShippingInfoById(shippingInfoId: string) {
     };
 }
 
-export async function validatePromoCode(code: string) {
-    const url = `${baseUrl}/api/shopping_basket/promo_code?code=${code}`;
+export async function validatePromoCode(code: string, userId: string) {
+    const url = `${baseUrl}/api/shopping_basket/promo_code`;
+
+    const formData = new FormData();
+    formData.set('code', code);
+    formData.set('user_id', userId);
 
     const res = await fetch(url, {
-        method: 'GET',
+        method: 'POST',
+        body: formData,
     });
 
     const data = await res.json();

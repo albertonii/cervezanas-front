@@ -14,6 +14,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Spinner from '../../../components/common/Spinner';
+import { useAuth } from '../../../(auth)/Context/useAuth';
 
 const promoCodeSchema: ZodType<{ code: string }> = z.object({
     code: z.string().nonempty({ message: 'errors.input_required' }),
@@ -27,8 +28,9 @@ interface Props {
 
 export default function PromoCode() {
     const t = useTranslations();
+
     const { handleMessage } = useMessage();
-    // const queryClient = useQueryClient();
+    const { user } = useAuth();
     const [promotionData, setPromotionData] = useState<any>(null);
     const [isFetching, setIsFetching] = useState(false);
 
@@ -45,7 +47,8 @@ export default function PromoCode() {
         setIsFetching(true);
 
         // Aquí puedes hacer la llamada a tu backend para validar el código promocional
-        const response = await validatePromoCode(code); // Reemplaza con tu función real
+        const response = await validatePromoCode(code, user.id); // Reemplaza con tu función real
+        console.log(response);
 
         setTimeout(() => {
             setIsFetching(false);

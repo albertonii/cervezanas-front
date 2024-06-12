@@ -1592,3 +1592,22 @@ export interface IBMExperienceUserResponseFormData {
     participation_id: string;
     is_correct: boolean;
 }
+
+export interface IDiscountCode {
+    id: string;
+    created_at: string;
+    code: string;
+    discount_type: string;
+    discount_value: number;
+    max_uses: number;
+    uses: number;
+    expiration_date: string;
+    updated_at: string;
+}
+
+export interface IUserDiscountCode {
+    id: string;
+    user_id: string;
+    discount_code_id: string;
+    used_at: string;
+}
