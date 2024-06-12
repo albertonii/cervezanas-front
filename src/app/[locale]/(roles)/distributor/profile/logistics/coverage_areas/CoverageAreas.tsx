@@ -113,7 +113,7 @@ export default function CoverageAreas() {
     };
 
     return (
-        <fieldset className="w-full rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
+        <fieldset className="space-y-4 rounded-xl border border-b-gray-200 bg-beer-foam p-4">
             <legend className="text-2xl font-medium text-beer-dark">
                 {t('distribution_destination')}
             </legend>

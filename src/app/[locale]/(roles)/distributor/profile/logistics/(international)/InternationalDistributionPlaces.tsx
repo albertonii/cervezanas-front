@@ -1,15 +1,16 @@
+import Button from '../../../../../components/common/Button';
 import useFetchAllCountries from '../useFetchAllCountries';
+import InputSearch from '../../../../../components/common/InputSearch';
+import PaginationFooter from '../../../../../components/common/PaginationFooter';
 import { useForm, UseFormRegister } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { ICountry } from 'country-state-city/lib/interface';
 import { filterSearchInputQuery } from '../../../../../../../utils/utils';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
-import Button from '../../../../../components/common/Button';
 import { useMessage } from '../../../../../components/message/useMessage';
 import { useTranslations } from 'next-intl';
-import React, { useEffect, useState } from 'react';
-import InputSearch from '../../../../../components/common/InputSearch';
-import PaginationFooter from '../../../../../components/common/PaginationFooter';
+import DistributionChipCard from '../DistributionChipCard';
 
 type Props = {
     countries: string[];
@@ -220,38 +221,12 @@ export default function InternationalDistributionPlaces({
                         (country: string, index: number) => {
                             // We can delete from the list one country just by clicking on it
                             return (
-                                <span
-                                    key={country + index}
-                                    className="flex rounded-full bg-gray-100 px-2 py-1 text-sm text-gray-600 hover:bg-gray-200"
-                                >
-                                    {country.toLowerCase()}
-
-                                    <figure
-                                        className="ml-2 hover:cursor-pointer "
-                                        onClick={() => {
-                                            setSelectedCountries(
-                                                selectedCountries.filter(
-                                                    (selectedCountry) =>
-                                                        selectedCountry !==
-                                                        country,
-                                                ),
-                                            );
-                                        }}
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="hover:text-bold h-4 w-4 text-gray-600 transition-all hover:scale-150 hover:text-red-700"
-                                            viewBox="0 0 20 20"
-                                            fill="currentColor"
-                                        >
-                                            <path
-                                                fillRule="evenodd"
-                                                d="M10.707 10l4.147-4.146a.5.5 0 10-.708-.708L10 9.293 5.854 5.146a.5.5 0 10-.708.708L9.293 10l-4.147 4.146a.5.5 0 00.708.708L10 10.707l4.146 4.147a.5.5 0 00.708-.708L10.707 10z"
-                                                clipRule="evenodd"
-                                            />
-                                        </svg>
-                                    </figure>
-                                </span>
+                                <DistributionChipCard
+                                    name={country}
+                                    index={index}
+                                    selectedNames={selectedCountries}
+                                    setSelectedNames={setSelectedCountries}
+                                />
                             );
                         },
                     )}

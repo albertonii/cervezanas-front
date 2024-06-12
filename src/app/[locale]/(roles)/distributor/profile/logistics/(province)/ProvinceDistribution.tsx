@@ -13,6 +13,7 @@ import {
     slicePaginationResults,
 } from '../../../../../../../utils/utils';
 import InputSearch from '../../../../../components/common/InputSearch';
+import DistributionChipCard from '../DistributionChipCard';
 
 type Props = {
     provinces: string[];
@@ -223,7 +224,7 @@ export default function ProvinceDistribution({
     };
 
     return (
-        <section className="space-y-4">
+        <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
             {isLoading ? (
                 <Loading />
             ) : (
@@ -275,6 +276,29 @@ export default function ProvinceDistribution({
                             setQuery={setQuery}
                             searchPlaceholder={'search_by_name'}
                         />
+
+                        {/* Names of the countries selected by the distributor  */}
+                        {selectedProvinces && selectedProvinces.length > 0 && (
+                            <div className="flex flex-row flex-wrap space-x-2 space-y-1">
+                                {selectedProvinces?.map(
+                                    (province: string, index: number) => {
+                                        // We can delete from the list one country just by clicking on it
+                                        return (
+                                            <DistributionChipCard
+                                                name={province}
+                                                index={index}
+                                                selectedNames={
+                                                    selectedProvinces
+                                                }
+                                                setSelectedNames={
+                                                    setSelectedProvinces
+                                                }
+                                            />
+                                        );
+                                    },
+                                )}
+                            </div>
+                        )}
 
                         {/* List of provinces in the country  */}
                         {tenProvinces && tenProvinces.length > 0 && (

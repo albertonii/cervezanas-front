@@ -9,46 +9,46 @@ import FlatrateCostForm from './FlatrateCostForm';
 import PriceRangeCostForm from './PriceRangeCostForm';
 
 interface Props {
-  distributionCosts: IDistributionCost;
+    distributionCosts: IDistributionCost;
 }
 
 export default function DistributionCost({ distributionCosts }: Props) {
-  const t = useTranslations();
+    const t = useTranslations();
 
-  const [menuOption, setMenuOption] = useState<string>(
-    DistributionCostType.FLATRATE,
-  );
+    const [menuOption, setMenuOption] = useState<string>(
+        DistributionCostType.FLATRATE,
+    );
 
-  // Tarifa de envío por franja de peso del pedido (kg)
-  // Tarifa de envío por franja de volumen del pedido (m3)
-  // Tarifa de envío por franja de unidades del pedido (unidades)
-  const renderSwitch = () => {
-    switch (menuOption) {
-      case DistributionCostType.RANGE:
-        return <PriceRangeCostForm />;
+    // Tarifa de envío por franja de peso del pedido (kg)
+    // Tarifa de envío por franja de volumen del pedido (m3)
+    // Tarifa de envío por franja de unidades del pedido (unidades)
+    const renderSwitch = () => {
+        switch (menuOption) {
+            case DistributionCostType.RANGE:
+                return <PriceRangeCostForm />;
 
-      case DistributionCostType.FLATRATE:
-        return (
-          <FlatrateCostForm
-            flatrateCost={distributionCosts.flatrate_cost}
-            distributionCostId={distributionCosts.id}
-          />
-        );
+            case DistributionCostType.FLATRATE:
+                return (
+                    <FlatrateCostForm
+                        flatrateCost={distributionCosts.flatrate_cost}
+                        distributionCostId={distributionCosts.id}
+                    />
+                );
 
-      default:
-        return <></>;
-    }
-  };
+            default:
+                return <></>;
+        }
+    };
 
-  return (
-    <fieldset className="space-y-4 rounded-xl border border-b-gray-200 bg-beer-foam p-4">
-      <legend className="text-2xl font-medium text-beer-dark">
-        {t('distribution_cost')}
-      </legend>
+    return (
+        <fieldset className="space-y-4 rounded-xl border border-b-gray-200 bg-beer-foam p-4">
+            <legend className="text-2xl font-medium text-beer-dark">
+                {t('distribution_cost')}
+            </legend>
 
-      <HorizontalMenuCoverageCost setMenuOption={setMenuOption} />
+            <HorizontalMenuCoverageCost setMenuOption={setMenuOption} />
 
-      {renderSwitch()}
-    </fieldset>
-  );
+            {renderSwitch()}
+        </fieldset>
+    );
 }

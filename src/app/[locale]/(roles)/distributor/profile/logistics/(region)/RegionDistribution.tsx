@@ -13,6 +13,7 @@ import {
 } from '../../../../../../../utils/utils';
 import InputSearch from '../../../../../components/common/InputSearch';
 import useFetchSpanishRegions from '../useFetchSpanishRegions';
+import DistributionChipCard from '../DistributionChipCard';
 
 type Props = {
     regions: string[];
@@ -220,7 +221,7 @@ export default function RegionDistribution({ regions, coverageAreaId }: Props) {
     };
 
     return (
-        <section className="space-y-4">
+        <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
             {isLoading ? (
                 <Loading />
             ) : (
@@ -264,6 +265,27 @@ export default function RegionDistribution({ regions, coverageAreaId }: Props) {
                             searchPlaceholder={'search_by_name'}
                         />
 
+                        {/* Names of the regions selected by the distributor  */}
+                        {setSelectedRegions && setSelectedRegions.length > 0 && (
+                            <div className="flex flex-row flex-wrap space-x-2 space-y-1">
+                                {selectedRegions?.map(
+                                    (region: string, index: number) => {
+                                        // We can delete from the list one country just by clicking on it
+                                        return (
+                                            <DistributionChipCard
+                                                name={region}
+                                                index={index}
+                                                selectedNames={selectedRegions}
+                                                setSelectedNames={
+                                                    setSelectedRegions
+                                                }
+                                            />
+                                        );
+                                    },
+                                )}
+                            </div>
+                        )}
+
                         {/* List of regions in the country  */}
                         {tenRegions && tenRegions.length > 0 && (
                             <>
@@ -285,7 +307,7 @@ export default function RegionDistribution({ regions, coverageAreaId }: Props) {
                                         />
 
                                         <span className="text-sm text-gray-600">
-                                            {t('select_all_regions_by_region')}
+                                            {t('select_all_regions')}
                                         </span>
                                     </label>
                                 </div>

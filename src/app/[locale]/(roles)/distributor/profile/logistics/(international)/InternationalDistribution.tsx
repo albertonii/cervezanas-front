@@ -1,5 +1,5 @@
-import React from "react";
-import InternationalDistributionPlaces from "./InternationalDistributionPlaces";
+import React from 'react';
+import InternationalDistributionPlaces from './InternationalDistributionPlaces';
 
 // interface ICountry {
 //   id: string;
@@ -8,20 +8,20 @@ import InternationalDistributionPlaces from "./InternationalDistributionPlaces";
 // }
 
 type Props = {
-  countries: string[];
-  coverageAreaId: string;
+    countries: string[];
+    coverageAreaId: string;
 };
 
 export default function InternationalDistribution({
-  countries,
-  coverageAreaId,
+    countries,
+    coverageAreaId,
 }: Props) {
-  return (
-    <section className="space-y-4 ">
-      <InternationalDistributionPlaces
-        countries={countries}
-        coverageAreaId={coverageAreaId}
-      />
-    </section>
-  );
+    return (
+        <section className="space-y-4 ">
+            <InternationalDistributionPlaces
+                countries={countries}
+                coverageAreaId={coverageAreaId}
+            />
+        </section>
+    );
 }
