@@ -245,6 +245,20 @@
     "superb": "Superb",
     "not_qualified": "Not reviewed yet",
     "reviews": "Reviews",
+    "continue_shopping": "Continue shopping",
+    "checkout": "Checkout",
+    "view_products_in_cart": "View articles in cart",
+    "cart": "Cart",
+    "cart_empty": "Cart Empty",
+    "cart_empty_description": "Your cart is empty. Add products to continue shopping.",
+    "cart_total": "Total",
+    "cart_total_items": "Total items",
+    "cart_total_price": "Total price",
+    "cart_total_shipping": "Total shipping",
+    "cart_total_taxes": "Total taxes",
+    "cart_total_discount": "Total discount",
+    "or": "or",
+    "and": "and",
     "likes_history": "Favorites",
     "shipping_and_taxes_calculated_at_checkout": "Shipping and taxes calculated at checkout",
     "go_to_checkout_for_final_price": "Go to checkout for final price",
@@ -646,7 +660,7 @@
         "update_awards": "Error updating awards.",
         "slots_exceeded": "The number of slots exceeds the number of products.",
         "slots_per_box": "The number of slots per box must be greater than 0.",
-        "max_slots_per_box_exceeded":"Update maximum slots per box to add more products in the box"
+        "max_slots_per_box_exceeded": "Update maximum slots per box to add more products in the box"
     },
     "product_packs": "Product packs",
     "units": "Units",
@@ -932,5 +946,9 @@
         "boxpack_update": "Mixed pack updated successfully",
         "monthly_product_inserted": "Monthly product inserted successfully"
     },
-    "num_of_packs": "Number of packs"
+    "num_of_packs": "Number of packs",
+    "promo_code": "Promo code",
+    "code": "Code",
+    "enter_promo_code": "Enter promo code",
+    "apply_promo_code": "Apply promo code"
 }

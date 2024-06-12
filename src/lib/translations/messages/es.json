@@ -239,6 +239,7 @@
     "reviews": "Opiniones",
     "continue_shopping": "Continuar comprando",
     "checkout": "Pagar",
+    "view_products_in_cart": "Ver artículos en tu cesta",
     "cart": "Carrito",
     "cart_empty": "El carrito está vacío",
     "cart_empty_description": "No hay productos en el carrito",
@@ -960,5 +961,9 @@
         "boxpack_updated": "Pack variado actualizado correctamente",
         "monthly_product_inserted": "Producto mensual insertado correctamente"
     },
-    "num_of_packs": "Número de packs"
+    "num_of_packs": "Número de packs",
+    "promo_code": "Código promocional",
+    "code": "Código",
+    "enter_promo_code": "Introduce el código promocional",
+    "apply_promo_code": "Aplicar código promocional"
 }

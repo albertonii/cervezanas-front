@@ -212,3 +212,18 @@ export async function getShippingInfoById(shippingInfoId: string) {
         message: res.statusText,
     };
 }
+
+export async function validatePromoCode(code: string) {
+    const url = `${baseUrl}/api/shopping_basket/promo_code?code=${code}`;
+
+    const res = await fetch(url, {
+        method: 'GET',
+    });
+
+    const data = await res.json();
+
+    return {
+        status: res.status,
+        data,
+    };
+}

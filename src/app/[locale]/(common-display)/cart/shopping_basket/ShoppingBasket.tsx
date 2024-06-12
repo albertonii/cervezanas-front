@@ -546,6 +546,7 @@ export function ShoppingBasket({ user }: Props) {
                                                 </div>
                                             </div>
                                         </div>
+                                        {/*                                         
                                         <div className="flex w-full items-center justify-center md:items-start md:justify-start">
                                             <Button
                                                 xLarge
@@ -555,7 +556,7 @@ export function ShoppingBasket({ user }: Props) {
                                             >
                                                 {t('edit_details')}
                                             </Button>
-                                        </div>
+                                        </div> */}
                                     </address>
                                 </div>
                             </div>
