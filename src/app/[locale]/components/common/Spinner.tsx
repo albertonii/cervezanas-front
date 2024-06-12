@@ -27,8 +27,8 @@ export default function Spinner({
             'fixed inset-0 z-10 flex h-full items-center justify-center'
         }
         ${absolute ? 'absolute' : 'relative'} 
-        rounded-lg bg-beer-softBlonde bg-opacity-90 p-4 my-4
-      `}
+            rounded-lg bg-beer-softBlonde bg-opacity-90 p-4 my-4
+        `}
         >
             <svg
                 aria-hidden="true"

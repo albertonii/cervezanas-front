@@ -2,7 +2,7 @@
 
 import InputLabel from '../../../components/common/InputLabel';
 import Button from '../../../components/common/Button';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useMutation } from 'react-query';
 import { useMessage } from '../../../components/message/useMessage';
@@ -13,6 +13,7 @@ import { DisplayInputError } from '../../../components/common/DisplayInputError'
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Spinner from '../../../components/common/Spinner';
 
 const promoCodeSchema: ZodType<{ code: string }> = z.object({
     code: z.string().nonempty({ message: 'errors.input_required' }),
@@ -28,6 +29,8 @@ export default function PromoCode() {
     const t = useTranslations();
     const { handleMessage } = useMessage();
     // const queryClient = useQueryClient();
+    const [promotionData, setPromotionData] = useState<any>(null);
+    const [isFetching, setIsFetching] = useState(false);
 
     const form = useForm<PromoCodeValidationSchema>({
         resolver: zodResolver(promoCodeSchema),
@@ -39,15 +42,22 @@ export default function PromoCode() {
     } = form;
 
     const validatePromo = async (code: string) => {
+        setIsFetching(true);
+
         // Aquí puedes hacer la llamada a tu backend para validar el código promocional
         const response = await validatePromoCode(code); // Reemplaza con tu función real
+
+        setTimeout(() => {
+            setIsFetching(false);
+        }, 1000);
+
         return response;
     };
 
     const validatePromoMutation = useMutation({
         mutationFn: validatePromo,
         onSuccess: (data) => {
-            console.log(data);
+            setPromotionData(data);
             // if (data.isValid) {
             //     applyDiscount(data.discount);
             //     handleMessage({
@@ -89,6 +99,14 @@ export default function PromoCode() {
                 size="2xl"
             />
 
+            {isFetching && (
+                <Spinner
+                    class=" top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
+                    size="xxLarge"
+                    absolute
+                />
+            )}
+
             <h3 className="text-2xl font-semibold text-gray-800 dark:text-white">
                 {t('promo_code')}
             </h3>
@@ -99,6 +117,7 @@ export default function PromoCode() {
                     form={form}
                     registerOptions={{ required: true }}
                     placeholder={t('enter_promo_code')}
+                    disabled={isFetching}
                 />
 
                 {errors.code && (
@@ -110,10 +129,29 @@ export default function PromoCode() {
                     primary
                     large
                     btnType="submit"
+                    disabled={isFetching}
                 >
                     {t('apply_promo_code')}
                 </Button>
             </form>
+
+            {/* Información del código promocional: */}
+            {promotionData && (
+                <div className="flex flex-col space-y-2">
+                    <p className="text-sm text-gray-800 dark:text-white">
+                        {t('promo_code')}:{' '}
+                        <span className="font-semibold">
+                            {JSON.stringify(promotionData)}
+                            {/* {promotionData.code} */}
+                        </span>
+                        <br />
+                        {t('discount')}:{' '}
+                        <span className="font-semibold">
+                            {/* {promotionData.discount} */}
+                        </span>
+                    </p>
+                </div>
+            )}
         </section>
     );
 }
