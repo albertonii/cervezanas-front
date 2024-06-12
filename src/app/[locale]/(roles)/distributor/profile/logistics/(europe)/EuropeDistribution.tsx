@@ -33,7 +33,7 @@ export default function EuropeDistribution({ coverageAreaId }: Props) {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [counter, setCounter] = useState(0);
-    const resultsPerPage = 20;
+    const resultsPerPage = 10;
 
     const [query, setQuery] = useState('');
 

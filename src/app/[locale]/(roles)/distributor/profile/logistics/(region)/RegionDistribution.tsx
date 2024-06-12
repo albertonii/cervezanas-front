@@ -1,49 +1,47 @@
 import Loading from '../../../../../loading';
-import useFetchStatesByCountry from '../useFetchStatesByCountry';
 import PaginationFooter from '../../../../../components/common/PaginationFooter';
+import Button from '../../../../../components/common/Button';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useMutation, useQueryClient } from 'react-query';
 import { useForm, UseFormRegister } from 'react-hook-form';
 import { Country, ICountry, IState } from 'country-state-city';
-import Button from '../../../../../components/common/Button';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import {
     filterSearchInputQuery,
     slicePaginationResults,
 } from '../../../../../../../utils/utils';
 import InputSearch from '../../../../../components/common/InputSearch';
+import useFetchSpanishRegions from '../useFetchSpanishRegions';
 
 type Props = {
-    provinces: string[];
+    regions: string[];
     coverageAreaId: string;
 };
 
 interface FormData {
     country: string;
     region: string;
-    provinces: IState[];
+    regions: IState[];
 }
 
-export default function ProvinceDistribution({
-    provinces,
-    coverageAreaId,
-}: Props) {
+export default function RegionDistribution({ regions, coverageAreaId }: Props) {
     const t = useTranslations();
 
     const [isLoading, setIsLoading] = useState(false);
 
     const [addressCountry, setAddressCountry] = useState<string>();
-    const [tenProvinces, setTenProvinces] = useState<IState[] | undefined>([]);
-    const [listOfAllProvincesByRegion, setListOfAllProvincesByRegion] =
-        useState<IState[] | undefined>([]);
+    const [tenRegions, setTenRegions] = useState<
+        { id: string; name: string }[] | undefined
+    >([]);
+    const [listOfAllRegionsByRegion, setListOfAllRegions] = useState<
+        { id: string; name: string }[] | undefined
+    >([]);
 
-    const [selectedProvinces, setSelectedProvinces] =
-        useState<string[]>(provinces);
+    const [selectedRegions, setSelectedRegions] = useState<string[]>(regions);
     const [selectAllCurrentPage, setSelectAllCurrentPage] = useState(false);
 
-    const [selectAllProvincesByRegion, setSelectAllProvincesByRegion] =
-        useState(false); // rastrear si todaslas ciudades de la región están seleccionadas, independientemente de la paginación
+    const [selectAllRegions, setSelectAllRegionsByRegion] = useState(false); // rastrear si todas las ciudades de la región están seleccionadas, independientemente de la paginación
 
     const [currentPage, setCurrentPage] = useState(1);
     const [counter, setCounter] = useState(0);
@@ -55,13 +53,14 @@ export default function ProvinceDistribution({
 
     const queryClient = useQueryClient();
 
-    const countryData = Country.getAllCountries();
+    // const countryData = Country.getAllCountries();
+    const countryData = ['Spain'];
 
     const form = useForm<FormData>();
 
     const { handleSubmit, register } = form;
 
-    const { refetch } = useFetchStatesByCountry(addressCountry ?? 'ES');
+    const { refetch } = useFetchSpanishRegions();
 
     useEffect(() => {
         const country = Country.getCountryByCode('ES') as ICountry;
@@ -71,73 +70,73 @@ export default function ProvinceDistribution({
     useEffect(() => {
         if (!addressCountry) return;
 
-        const getProvinceData = async () => {
+        const getRegionData = async () => {
             return await refetch().then((res) => {
-                const { data: provinceData, error } = res;
+                const { data: regionData, error } = res;
 
-                if (error || !provinceData) {
+                if (error || !regionData) {
                     console.error(error);
                     return;
                 }
 
-                const lOfProvinces = slicePaginationResults(
-                    provinceData,
+                const lOfRegions = slicePaginationResults(
+                    regionData,
                     currentPage,
                     resultsPerPage,
                 );
 
-                setListOfAllProvincesByRegion(provinceData ?? []);
-                setCounter(provinceData?.length ?? 0);
+                setListOfAllRegions(regionData ?? []);
+                setCounter(regionData?.length ?? 0);
 
-                setTenProvinces(lOfProvinces);
+                setTenRegions(lOfRegions);
             });
         };
 
-        // const provinceData = State.getStatesOfCountry(addressCountry);
-        getProvinceData().then();
+        // const regionData = State.getStatesOfCountry(addressCountry);
+        getRegionData().then();
     }, [addressCountry]);
 
     useEffect(() => {
-        if (!listOfAllProvincesByRegion) return;
+        if (!listOfAllRegionsByRegion) return;
 
-        const lOfProvinces = filterSearchInputQuery(
-            listOfAllProvincesByRegion,
+        const lOfRegions = filterSearchInputQuery(
+            listOfAllRegionsByRegion,
             query,
             currentPage,
             resultsPerPage,
         );
-        setTenProvinces(lOfProvinces);
+        setTenRegions(lOfRegions);
 
-        // Update selectAllCurrentPage based on whether all provinces on this page are selected
+        // Update selectAllCurrentPage based on whether all regions on this page are selected
         setSelectAllCurrentPage(
-            lOfProvinces?.every((province) =>
-                selectedProvinces.includes(province.name),
+            lOfRegions?.every((region) =>
+                selectedRegions.includes(region.name),
             ) ?? false,
         );
     }, [currentPage]);
 
     useEffect(() => {
-        if (!listOfAllProvincesByRegion) return;
+        if (!listOfAllRegionsByRegion) return;
 
-        const lAllProvinces = filterSearchInputQuery(
-            listOfAllProvincesByRegion,
+        const lAllRegions = filterSearchInputQuery(
+            listOfAllRegionsByRegion,
             query,
             currentPage,
             resultsPerPage,
         );
 
-        setTenProvinces(lAllProvinces);
+        setTenRegions(lAllRegions);
     }, [query]);
 
     const handleAddressCountry = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setAddressCountry(e.target.value);
-        setTenProvinces([]);
+        setTenRegions([]);
     };
 
     const handleUpdatePronvicesDistribution = async () => {
         const { error } = await supabase
             .from('coverage_areas')
-            .update({ provinces: selectedProvinces })
+            .update({ regions: selectedRegions })
             .eq('id', coverageAreaId);
 
         if (error) {
@@ -149,8 +148,8 @@ export default function ProvinceDistribution({
         setIsLoading(false);
     };
 
-    const updateProvincesDistributionMutation = useMutation({
-        mutationKey: 'updateProvincesDistribution',
+    const updateRegionsDistributionMutation = useMutation({
+        mutationKey: 'updateRegionsDistribution',
         mutationFn: handleUpdatePronvicesDistribution,
         onMutate: () => {
             console.info('onMutate');
@@ -165,7 +164,7 @@ export default function ProvinceDistribution({
 
     const onSubmit = () => {
         try {
-            updateProvincesDistributionMutation.mutate();
+            updateRegionsDistributionMutation.mutate();
         } catch (error) {
             console.error(error);
         }
@@ -173,52 +172,50 @@ export default function ProvinceDistribution({
 
     const handleCheckbox = (
         e: React.ChangeEvent<HTMLInputElement>,
-        province: string,
+        region: string,
     ) => {
-        const updatedSelectedProvinces = e.target.checked
-            ? [...selectedProvinces, province]
-            : selectedProvinces.filter((item) => item !== province);
+        const updatedSelectedRegions = e.target.checked
+            ? [...selectedRegions, region]
+            : selectedRegions.filter((item) => item !== region);
 
-        setSelectedProvinces(updatedSelectedProvinces);
+        setSelectedRegions(updatedSelectedRegions);
     };
 
     const handleSelectAllCurrentPage = (
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
-        const listOfCityNames =
-            tenProvinces?.map((province) => province.name) || [];
+        const listOfCityNames = tenRegions?.map((region) => region.name) || [];
 
-        const updatedSelectedProvinces = e.target.checked
-            ? [...selectedProvinces, ...listOfCityNames]
-            : selectedProvinces.filter(
+        const updatedSelectedRegions = e.target.checked
+            ? [...selectedRegions, ...listOfCityNames]
+            : selectedRegions.filter(
                   (checkedCity) => !listOfCityNames.includes(checkedCity),
               );
 
-        setSelectedProvinces(updatedSelectedProvinces);
+        setSelectedRegions(updatedSelectedRegions);
         setSelectAllCurrentPage(e.target.checked);
     };
 
-    const handleSelectAllProvincesByRegion = (
+    const handleSelectAllRegionsByRegion = (
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
-        let updatedSelectedProvinces = [...selectedProvinces];
+        let updatedSelectedRegions = [...selectedRegions];
         if (e.target.checked) {
-            updatedSelectedProvinces.push(
-                ...(listOfAllProvincesByRegion?.map(
-                    (province) => province.name,
-                ) ?? []),
+            updatedSelectedRegions.push(
+                ...(listOfAllRegionsByRegion?.map((region) => region.name) ??
+                    []),
             );
         } else {
-            updatedSelectedProvinces = updatedSelectedProvinces.filter(
+            updatedSelectedRegions = updatedSelectedRegions.filter(
                 (selectedCity) =>
-                    !listOfAllProvincesByRegion
-                        ?.map((province) => province.name)
+                    !listOfAllRegionsByRegion
+                        ?.map((region) => region.name)
                         .includes(selectedCity),
             );
         }
 
-        setSelectedProvinces(updatedSelectedProvinces);
-        setSelectAllProvincesByRegion(e.target.checked);
+        setSelectedRegions(updatedSelectedRegions);
+        setSelectAllRegionsByRegion(e.target.checked);
         setSelectAllCurrentPage(e.target.checked);
     };
 
@@ -255,17 +252,8 @@ export default function ProvinceDistribution({
                                 onChange={(e) => handleAddressCountry(e)}
                                 value={addressCountry}
                             >
-                                <option key={'ES'} value={'ES'}>
-                                    Spain
-                                </option>
-
-                                {countryData.map((country: ICountry) => (
-                                    <option
-                                        key={country.isoCode}
-                                        value={country.isoCode}
-                                    >
-                                        {country.name}
-                                    </option>
+                                {countryData.map((country: string) => (
+                                    <option>{country}</option>
                                 ))}
                             </select>
                         </address>
@@ -276,41 +264,39 @@ export default function ProvinceDistribution({
                             searchPlaceholder={'search_by_name'}
                         />
 
-                        {/* List of provinces in the country  */}
-                        {tenProvinces && tenProvinces.length > 0 && (
+                        {/* List of regions in the country  */}
+                        {tenRegions && tenRegions.length > 0 && (
                             <>
                                 <div className="">
                                     <label
-                                        htmlFor="allProvincesByRegion"
+                                        htmlFor="allRegionsByRegion"
                                         className="space-x-2 text-lg text-gray-600"
                                     >
                                         <input
-                                            id="allProvincesByRegion"
+                                            id="allRegionsByRegion"
                                             type="checkbox"
                                             onChange={(e) => {
-                                                handleSelectAllProvincesByRegion(
+                                                handleSelectAllRegionsByRegion(
                                                     e,
                                                 );
                                             }}
-                                            checked={selectAllProvincesByRegion}
+                                            checked={selectAllRegions}
                                             className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
                                         />
 
                                         <span className="text-sm text-gray-600">
-                                            {t(
-                                                'select_all_provinces_by_region',
-                                            )}
+                                            {t('select_all_regions_by_region')}
                                         </span>
                                     </label>
                                 </div>
 
                                 <div className="w-full">
-                                    {/* Display selectable table with all provinces in the country selected */}
+                                    {/* Display selectable table with all regions in the country selected */}
                                     <label
                                         htmlFor="addressCity"
                                         className="text-sm text-gray-600"
                                     >
-                                        {t('loc_province')}
+                                        {t('loc_region')}
                                     </label>
 
                                     <table className="bg-beer-foam w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
@@ -337,15 +323,18 @@ export default function ProvinceDistribution({
                                                     scope="col"
                                                     className="px-6 py-3"
                                                 >
-                                                    {t('province')}
+                                                    {t('region')}
                                                 </th>
                                             </tr>
                                         </thead>
 
                                         <tbody>
-                                            {tenProvinces?.map(
+                                            {tenRegions?.map(
                                                 (
-                                                    province: IState,
+                                                    region: {
+                                                        id: string;
+                                                        name: string;
+                                                    },
                                                     index: number,
                                                 ) => {
                                                     const startIndex =
@@ -357,20 +346,18 @@ export default function ProvinceDistribution({
                                                     return (
                                                         <tr
                                                             key={
-                                                                province.name +
+                                                                region.name +
                                                                 currentPage
                                                             }
                                                             className=""
                                                         >
-                                                            <ProvinceRow
-                                                                province={
-                                                                    province
-                                                                }
+                                                            <RegionRow
+                                                                region={region}
                                                                 globalIndex={
                                                                     globalIndex
                                                                 }
-                                                                selectedProvinces={
-                                                                    selectedProvinces
+                                                                selectedRegions={
+                                                                    selectedRegions
                                                                 }
                                                                 handleCheckbox={
                                                                     handleCheckbox
@@ -402,10 +389,10 @@ export default function ProvinceDistribution({
     );
 }
 
-interface ProvinceRowProps {
-    province: IState;
+interface RegionRowProps {
+    region: { id: string; name: string };
     globalIndex: number;
-    selectedProvinces: string[];
+    selectedRegions: string[];
     handleCheckbox: (
         e: React.ChangeEvent<HTMLInputElement>,
         name: string,
@@ -413,15 +400,15 @@ interface ProvinceRowProps {
     register: UseFormRegister<any>;
 }
 
-const ProvinceRow = ({
-    province,
+const RegionRow = ({
+    region,
     globalIndex,
     handleCheckbox,
     register,
-    selectedProvinces,
-}: ProvinceRowProps) => {
-    const isChecked = (province: IState) => {
-        return selectedProvinces.includes(province.name);
+    selectedRegions,
+}: RegionRowProps) => {
+    const isChecked = (region: { id: string; name: string }) => {
+        return selectedRegions.includes(region.name);
     };
 
     return (
@@ -432,21 +419,21 @@ const ProvinceRow = ({
             >
                 <input
                     type="checkbox"
-                    {...register(`provinces`)}
-                    // {...register(`provinces.${globalIndex}.name`)}
-                    // {...register(`provinces.${globalIndex}-${province.name}.name`)}
-                    id={`provinces.${globalIndex}.${province.name}}`}
-                    value={province.name}
-                    checked={isChecked(province)}
+                    {...register(`regions`)}
+                    // {...register(`regions.${globalIndex}.name`)}
+                    // {...register(`regions.${globalIndex}-${region.name}.name`)}
+                    id={`regions.${globalIndex}.${region.name}}`}
+                    value={region.name}
+                    checked={isChecked(region)}
                     onChange={(e) => {
-                        handleCheckbox(e, province.name);
+                        handleCheckbox(e, region.name);
                     }}
                     className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
                 />
             </th>
 
             <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                {province.name}
+                {region.name}
             </td>
         </>
     );

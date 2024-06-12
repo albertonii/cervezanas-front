@@ -774,6 +774,7 @@
     "upper_limit": "Límite superior",
     "shipping_cost": "Coste de envío",
     "flatrate": "Tarifa plana",
+    "flatrate_and_weight": "Tarifa plana y peso",
     "range": "Rango",
     "volume_and_weight": "Volumen y peso",
     "distance": "Distancia",

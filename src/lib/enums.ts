@@ -20,6 +20,7 @@ export enum DistributionDestinationType {
 
 export enum DistributionCostType {
     FLATRATE = 'flatrate',
+    FLATRATE_AND_WEIGHT = 'flatrate_and_weight',
     DISTANCE = 'distance',
     VOLUME_AND_WEIGHT = 'volume_and_weight',
     RANGE = 'range',

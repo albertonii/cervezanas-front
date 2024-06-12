@@ -1,31 +1,31 @@
-import React from "react";
-import HorizontalSections from "../../../../components/common/HorizontalSections";
-import { DistributionDestinationType } from "../../../../../../lib/enums";
+import React from 'react';
+import HorizontalSections from '../../../../components/common/HorizontalSections';
+import { DistributionDestinationType } from '../../../../../../lib/enums';
 
 type Props = {
-  setMenuOption: (opt: string) => void;
+    setMenuOption: (opt: string) => void;
 };
 
 export default function HorizontalMenuCoverageDestination({
-  setMenuOption,
+    setMenuOption,
 }: Props) {
-  const handleMenuClick = (opt: string): void => {
-    setMenuOption(opt);
-  };
+    const handleMenuClick = (opt: string): void => {
+        setMenuOption(opt);
+    };
 
-  return (
-    <>
-      <HorizontalSections
-        handleMenuClick={handleMenuClick}
-        tabs={[
-          // DistributionDestinationType.LOCAL,
-          // DistributionDestinationType.CITY,
-          // DistributionDestinationType.PROVINCE,
-          // DistributionDestinationType.REGION,
-          // DistributionDestinationType.EUROPE,
-          DistributionDestinationType.INTERNATIONAL,
-        ]}
-      />
-    </>
-  );
+    return (
+        <>
+            <HorizontalSections
+                handleMenuClick={handleMenuClick}
+                tabs={[
+                    // DistributionDestinationType.LOCAL,
+                    DistributionDestinationType.CITY,
+                    DistributionDestinationType.PROVINCE,
+                    DistributionDestinationType.REGION,
+                    // DistributionDestinationType.EUROPE,
+                    DistributionDestinationType.INTERNATIONAL,
+                ]}
+            />
+        </>
+    );
 }

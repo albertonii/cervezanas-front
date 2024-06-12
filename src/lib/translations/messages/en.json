@@ -772,6 +772,7 @@
     "upper_limit": "Upper limit",
     "shipping_cost": "Shipping cost",
     "flatrate": "Flatrate",
+    "flatrate_and_weight": "Flatrate and weight",
     "range": "Range",
     "volume_and_weight": "Volume and weight",
     "distance": "Distance",

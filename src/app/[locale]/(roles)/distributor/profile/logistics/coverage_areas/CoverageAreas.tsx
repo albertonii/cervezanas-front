@@ -9,6 +9,7 @@ import EuropeDistribution from '../(europe)/EuropeDistribution';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DistributionDestinationType } from '../../../../../../../lib/enums';
+import RegionDistribution from '../(region)/RegionDistribution';
 
 export default function CoverageAreas() {
     const t = useTranslations();
@@ -39,12 +40,12 @@ export default function CoverageAreas() {
                 return (
                     <>
                         {/* {distribution && (
-              <LocalDistribution
-                localDistribution={
-                  distribution.coverage_areas.local_distribution
-                }
-              />
-            )} */}
+                            <LocalDistribution
+                                localDistribution={
+                                distribution.coverage_areas.local_distribution
+                                }
+                            />
+                        )} */}
                     </>
                 );
 
@@ -72,7 +73,16 @@ export default function CoverageAreas() {
                 );
 
             case DistributionDestinationType.REGION:
-                return <span>Region</span>;
+                return (
+                    <>
+                        {distributor && (
+                            <RegionDistribution
+                                regions={distributor.coverage_areas.regions}
+                                coverageAreaId={distributor.coverage_areas.id}
+                            />
+                        )}
+                    </>
+                );
 
             case DistributionDestinationType.EUROPE:
                 return (
