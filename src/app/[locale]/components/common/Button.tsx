@@ -143,7 +143,7 @@ const Button = memo(function PaginationFooter({
                     ></path>
                 </svg>
             ) : (
-                <div className="space-x-2">
+                <div className="">
                     {iconButton ?? (
                         <span className={`text-bear-dark`}>{iconButton}</span>
                     )}

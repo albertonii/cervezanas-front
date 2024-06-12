@@ -33,9 +33,9 @@ export function DeviceScreenNotification({ notifications }: Props) {
         <li className={`relative flex items-center pr-2`}>
             <Button
                 class={`
-          ${animateNotifications && 'animate-wiggle'}
-          border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent
-        `}
+                    ${animateNotifications && 'animate-wiggle'}
+                    border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent
+                `}
                 onClick={() => handleClickBell()}
                 title={''}
             >
@@ -43,7 +43,7 @@ export function DeviceScreenNotification({ notifications }: Props) {
                     <Image
                         alt={'Notification bell'}
                         className={
-                            'lg:h[48px] mt-2 rounded-full bg-beer-blonde lg:w-[48px] p-[5px] border-beer-softBlondeBubble border-2'
+                            'rounded-full bg-beer-blonde lg:w-[48px] p-[5px] border-beer-softBlondeBubble border-2'
                         }
                         width={0}
                         height={0}

@@ -88,7 +88,7 @@ const ScreenMenu = memo(function ScreenMenu({
         'block text-sm font-bold text-beer-dark hover:bg-cerv-banana hover:bg-opacity-50 px-3 py-3 bg-beer-softBlonde bg-opacity-50 rounded-xl hover:text-white border-2 border-beer-softFoam mt-1 mb-1 uppercase';
 
     return (
-        <section className="hidden rounded border-gray-200 bg-[url('/assets/header-bg.jpg')] bg-cover bg-center bg-no-repeat dark:bg-gray-900 sm:block sm:px-4">
+        <section className="py-1 hidden rounded border-gray-200 bg-[url('/assets/header-bg.jpg')] bg-cover bg-center bg-no-repeat dark:bg-gray-900 sm:block sm:px-4">
             <nav className="container grid max-w-full grid-cols-3 bg-beer-darkGold sm:flex sm:justify-between sm:gap-2 sm:bg-transparent  w-[1250px] m-auto">
                 {/* Left elements  */}
 
@@ -171,7 +171,7 @@ const ScreenMenu = memo(function ScreenMenu({
                             return (
                                 <li
                                     key={locale}
-                                    className="mt-4 h-[32px] w-[32px] min-w-[32px] rounded-full border-2 bg-beer-blonde p-1 pt-[6px] text-center text-xs uppercase text-beer-dark hover:text-white hover:bg-beer-draft font-semibold ml-0"
+                                    className="mt-3 h-[30px] w-[30px] rounded-full border-2 bg-beer-blonde p-1 text-center text-xs uppercase text-beer-dark hover:text-white hover:bg-beer-draft font-semibold"
                                 >
                                     <Link href={redirectedPathName(locale)}>
                                         {locale}
@@ -211,7 +211,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                     >
                                         <Button
                                             class={
-                                                'border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent'
+                                                'border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent '
                                             }
                                             onClick={() => openCart()}
                                             title={''}
@@ -245,14 +245,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                     notifications={notifications}
                                 />
 
-                                <li className="flex items-center relative w-[85px]">
-                                    {/*  <span
-                                        onClick={handleOnClickRole}
-                                        className="hover:cursor-pointer hover:bg-beer-softFoam transition-all ease-in-out bg-beer-foam border-2 border-beer-draft rounded-lg ring-beer-draft p-1 m-1 text-sm text-beer-draft font-semibold dark:text-white "
-                                    >
-                                        {t('role.' + `${role}`)}
-                            </span> */}
-
+                                <li className="flex items-center relative">
                                     {displayDropdownRoles && (
                                         <DropdownRoleList
                                             handleOnClickRoleOutside={
