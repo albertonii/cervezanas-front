@@ -110,7 +110,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                     </>
                 </Button>
 
-             {!user && (
+                {!user && (
                     <div className="m-auto absolute left-2/4 -ml-24 mt-2 z-20">
                         <Button
                             class={`${MENU_ITEM_STYLES} bg-beer-softBlonde text-beer-dark m-auto font-bold`}
@@ -119,25 +119,25 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             {t('sign_up_now').toUpperCase()}
                         </Button>
                     </div>
-                ) }
+                )}
 
-            {/* Logo Cervezanas  */}
-            <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24">
-                <figure className="absolute flex h-[70px] w-[70px] right-0 p-2 sm:h-[143px] sm:w-[141px] sm:p-2 lg:h-[153] lg:w-[151px] ">
-                    <Link href={'/'} locale={locale}>
-                        <Image
-                            src="/logo_cervezanas.svg"
-                            alt="Cervezanas Logo"
-                            width={100}
-                            height={100}
-                            style={{ objectFit: 'contain' }}
-                            priority={true}
-                            sizes="100px"
-                        />
-                    </Link>
-                    <div className="absolute -bottom-5 h-[22px] w-full pt-[22px]"></div>
-                </figure>
-            </div>
+                {/* Logo Cervezanas  */}
+                <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24">
+                    <figure className="absolute flex h-[70px] w-[70px] right-0 p-2 sm:h-[143px] sm:w-[141px] sm:p-2 lg:h-[153] lg:w-[151px] ">
+                        <Link href={'/'} locale={locale}>
+                            <Image
+                                src="/logo_cervezanas.svg"
+                                alt="Cervezanas Logo"
+                                width={100}
+                                height={100}
+                                style={{ objectFit: 'contain' }}
+                                priority={true}
+                                sizes="100px"
+                            />
+                        </Link>
+                        <div className="absolute -bottom-5 h-[22px] w-full pt-[22px]"></div>
+                    </figure>
+                </div>
 
                 <div
                     ref={sidebarRef}
@@ -183,8 +183,8 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                                 width={0}
                                                 height={0}
                                                 style={{
-                                                    width: '45px',
-                                                    height: '45px',
+                                                    width: '50px',
+                                                    height: '50px',
                                                 }}
                                                 src={
                                                     '/icons/notification-icon.svg'

@@ -10,6 +10,8 @@ import { useAppContext } from '../context/AppContext';
 import { useOutsideClick } from '../../hooks/useOnOutsideClick';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
+import { ROLE_ENUM } from '../../lib/enums';
+import DropdownRoleList from './components/DropdownRoleList';
 
 interface DropdownProps {
     options: string[];
@@ -17,7 +19,7 @@ interface DropdownProps {
 
 export function HeaderDropdownButton({ options }: DropdownProps) {
     const [open, setOpen] = useState(false);
-    const { role, signOut, user } = useAuth();
+    const { role, signOut, changeRole, user } = useAuth();
 
     const dropdown = useRef<HTMLDivElement>(null);
 
@@ -29,6 +31,34 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
     const handleOpenCallback = () => {
         setOpen(false);
     };
+    const imageSrc =
+        role === ROLE_ENUM.Admin
+            ? '/icons/icon-admin.png'
+            : role === ROLE_ENUM.Distributor
+            ? '/icons/icon-distrib.png'
+            : role === ROLE_ENUM.Productor
+            ? '/icons/icon-prod.png'
+            : '/icons/icon-cerv.png';
+    {
+        /* const { user, role, changeRole } = useAuth();*/
+    }
+    const [animateShoppingCart, setAnimateShoppingCart] = useState(false);
+    const [displayDropdownRoles, setDisplayDropdownRoles] = useState(false);
+    const [isArrowDown, setIsArrowDown] = useState(false);
+    const handleOnClickRole = () => {
+        setDisplayDropdownRoles(true);
+        setIsArrowDown((prevState) => !prevState);
+    };
+
+    const handleOnClickRoleOutside = () => {
+        setDisplayDropdownRoles(false);
+    };
+
+    const handleChangeRole = (role: ROLE_ENUM) => {
+        changeRole(role);
+        setDisplayDropdownRoles(false);
+    };
+    const [symbol, setSymbol] = useState('>');
 
     useOutsideClick(() => handleOpenCallback(), dropdown);
 
@@ -45,7 +75,8 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                         >
                             <span
                                 className={`text-beer-dark dark:text-white `}
-                                aria-current="page"
+                                aria-current="page" 
+                                
                             >
                                 {t(option)}
                             </span>
@@ -286,7 +317,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
     return (
         <div
-            className="relative flex h-full w-12 items-center justify-center font-medium  "
+            className="relative flex h-full items-center justify-center font-medium  "
             id="profile-dropdown"
             ref={dropdown}
         >
@@ -298,7 +329,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                     src={'/icons/user-profile.svg'}
                     alt={'Profile'}
                     className={
-                        'h-[40px] mt-2 rounded-full bg-beer-blonde w-[40px]'
+                        'lg:h[50px] mt-2 rounded-full bg-beer-blonde lg:w-[50px] p-[5px] border-beer-softBlondeBubble border-2'
                     }
                     width={0}
                     height={0}
@@ -322,17 +353,61 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                 ${open ? 'block ' : 'hidden'}`}
             >
                 {/* Display user role  */}
-                <div className="flex border-2 border-beer-gold ring-2 rounded-sm ring-beer-draft items-center justify-center bg-beer-darkGold p-1">
-                    <span className=" text-sm text-white font-semibold dark:text-white ">
+                <div className="">
+                    <span
+                        onClick={handleOnClickRole}
+                        className="hover:cursor-pointer hover:bg-beer-softFoam transition-all ease-in-out flex border-2 border-beer-gold ring-2 rounded-sm ring-beer-draft items-center justify-center bg-beer-darkGold p-1 text-white font-semibold text-lg hover:text-beer-dark"
+                    >
+                        {/* }  {t('role.' + `${role}`) + ' >'} */}
                         {t('role.' + `${role}`)}
+                        <Image
+                            src={
+                                isArrowDown
+                                    ? '/icons/arrow-down.svg'
+                                    : '/icons/arrow-up.svg'
+                            }
+                            alt="Arrow icon"
+                            className="ml-2"
+                            width={20}
+                            height={20}
+                        />
                     </span>
+                    {displayDropdownRoles && (
+                        <DropdownRoleList
+                            handleOnClickRoleOutside={handleOnClickRoleOutside}
+                        />
+                    )}
+
+                    {/*  <span className=" text-sm text-white font-semibold dark:text-white ">
+                        {t('role.' + `${role}`)}
+                    </span>*/}
                 </div>
 
                 <div
                     className={`min-w-[14vw] sm:min-w-[20vw] lg:min-w-[14vw] p-1 bg-beer-foam rounded-lg border-4 text-center`}
                 >
                     {/* Little container with username photo and username  */}
-                    <figure className="flex flex-col rounded-t-lg items-center justify-center bg-beer-darkGold p-1">
+                    <figure className="flex flex-col rounded-t-lg items-center justify-center bg-beer-darkGold p-1 bg-[url('/assets/header-bg.jpg')] bg-cover bg-center bg-no-repeat">
+                        <Image
+                            src={imageSrc}
+                            alt={'Profile icon'}
+                            className={'rounded-full w-full'}
+                            width={70}
+                            height={70}
+                            style={{ width: '70px', height: '70px' }}
+                        />
+                        {role && (
+                            <span className="p-2 ml-2 w-full text-sm text-white font-semibold dark:text-white hover:cursor-pointer hover:text-beer-draft transition-all ease-in-out">
+                                <Link
+                                    href={generateLink(role, 'profile')}
+                                    locale={locale}
+                                >
+                                    {user?.username}
+                                </Link>
+                            </span>
+                        )}
+                    </figure>
+                    {/*  <figure className="flex flex-col rounded-t-lg items-center justify-center bg-beer-darkGold p-1">
                         <Image
                             src={'/icons/user-profile.svg'}
                             alt={'Go to Shopping cart'}
@@ -352,7 +427,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                                 </Link>
                             </span>
                         )}
-                    </figure>
+                    </figure> */}
 
                     <ul
                         className={`overflow-y-auto shadow dark:text-gray-200 rounded-b-lg`}

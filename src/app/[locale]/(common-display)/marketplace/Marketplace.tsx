@@ -2,6 +2,7 @@
 
 import useFilters from '../../../../hooks/useFilters';
 import React from 'react';
+import Image from 'next/image';
 import { ProductPackStoreItem } from '../../components/Cart/ProductPackStoreItem';
 import { IProduct } from '../../../../lib/types/types';
 import { Filters } from '../../components/Filters';
@@ -18,12 +19,23 @@ export default function Marketplace({ products }: Props) {
     const filteredProducts = filterProducts(products);
 
     return (
-        <section className="container mx-auto bg-cerv-coal bg-[url('/assets/rec-graf6.png')] bg-contain sm:py-2 lg:py-3 ">
+        <section>
+            <div className="">
+                <figure className="m-auto text-center">
+                    <Image
+                        className="m-auto"
+                        src="/assets/banners/banner-mercado.webp"
+                        width={1600}
+                        height={263}
+                        alt="Marketplace"
+                    />
+                </figure>
+            </div>
             <MarketplaceHeader>
                 <Filters />
             </MarketplaceHeader>
 
-            <article className="m-auto grid grid-cols-1 bg-white pt-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
+            <article className="m-auto grid grid-cols-1 bg-white pt-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
                 {filteredProducts &&
                     filteredProducts.map((product) => (
                         <div

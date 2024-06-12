@@ -1,9 +1,9 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode } from 'react';
 
 interface Props {
-  children: ReactNode;
+    children: ReactNode;
 }
 
 export function MarketplaceHeader({ children }: Props) {
-  return <div className="my-5 px-8">{children}</div>;
+    return <div className="">{children}</div>;
 }

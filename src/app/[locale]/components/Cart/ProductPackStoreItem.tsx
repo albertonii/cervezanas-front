@@ -149,7 +149,7 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
                 <Spinner color="beer-blonde" size="medium" />
             ) : (
                 <>
-                    <article className="relative mb-1 flex justify-center">
+                    <article className="relative mb-1 flex justify-center bg-white">
                         <header className="absolute right-0 top-0 p-3">
                             <IconButton
                                 icon={faHeart}
@@ -195,7 +195,7 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
                             </figure>
 
                             <div className="flex w-full min-w-0 items-center justify-between ">
-                                <h2 className="hover:text-purple-500 m-auto mr-auto cursor-pointer truncate py-2 text-2xl font-semibold text-beer-draft transition-all hover:text-beer-blonde">
+                                <h2 className="hover:text-purple-500 m-auto mr-auto cursor-pointer truncate py-2 text-2xl font-bold text-beer-draft transition-all hover:text-beer-blonde">
                                     <Link
                                         href={`/products/${product.id}`}
                                         locale={locale}

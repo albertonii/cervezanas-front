@@ -159,7 +159,7 @@ export default function DisplayEvent({
             </div>
 
             {/* Display all the information inside the Mobile Consumption Point */}
-            <h1 className="mb-2 text-4xl font-bold text-beer-blonde">
+            <h1 className="mb-2 text-4xl font-bold text-beer-draft py-6 px-4 bg-gradient-to-r from-beer-softFoam to-transparent border-b-4 border-beer-draft rounded-t-2xl">
                 {event.name}
             </h1>
             <h2 className="mb-4 text-lg text-gray-500">{event.description}</h2>

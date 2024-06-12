@@ -52,7 +52,7 @@ export function IconButton({
 
         return (
             <FontAwesomeIcon
-                className={`${classNameIcon} `}
+                className={`w-[20px] h-[20px] ${classNameIcon}`}
                 icon={icon}
                 style={{ color: getColor() }}
                 onMouseEnter={() => setHoverColor('filled')}
@@ -97,7 +97,7 @@ export function IconButton({
         ${size === 'xxLarge' ? 'w-80' : ''}
         ${
             primary
-                ? ' border-2 border-beer-blonde bg-beer-softBlonde hover:bg-beer-blonde'
+                ? ' border-2 border-beer-blonde bg-beer-blonde hover:bg-beer-softBlonde'
                 : 'hover:bg-beer-softBlonde'
         }
         ${accent ? 'border-2 border-beer-blonde bg-beer-foam' : ''}

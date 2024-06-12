@@ -185,7 +185,7 @@ export default function ProductDetails({ product, reviewRef }: Props) {
                     </div>
                     <div className="mt-6">
                         <div className="flex min-h-[6vh] items-center pr-6">
-                            <p className="max-w-none  text-justify text-sm">
+                            <p className="max-w-none  text-justify text-xl">
                                 {product.description}
                             </p>
                         </div>

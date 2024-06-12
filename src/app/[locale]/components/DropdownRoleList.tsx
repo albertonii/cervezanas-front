@@ -20,6 +20,11 @@ export default function DropdownRoleList({ handleOnClickRoleOutside }: Props) {
 
     useOnClickOutside(dropdownRoleListRef, () => handleOnClickRoleOutside());
 
+    const handleRoleClick = (role: ROLE_ENUM) => {
+        changeRole(role);
+        handleOnClickRoleOutside();
+    };
+
     return (
         <>
             {isAuthLoading && (
@@ -32,7 +37,7 @@ export default function DropdownRoleList({ handleOnClickRoleOutside }: Props) {
                 className="absolute top-12 left-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700"
             >
                 <ul
-                    className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                    className="py-2 text-sm text-gray-700 dark:text-gray-200 shadow-sm border-2 border-cerv-titlehigh  bg-cerv-cream"
                     aria-labelledby="dropdownDefaultButton"
                 >
                     {roles?.map((role) => (
@@ -48,11 +53,11 @@ export default function DropdownRoleList({ handleOnClickRoleOutside }: Props) {
                                 onLoadStart={() => setIsAuthLoading(true)}
                             >
                                 <div
-                                    className={`bg-beer-foam p-2 hover:bg-beer-softBlondeBubble active:bg-beer-gold transition-all ease-in-out`}
-                                    onClick={() => changeRole(role)}
+                                    className={`bg-beer-foam p-2 bg-cerv-cream active:bg-beer-gold transition-all ease-in-out hover:bg-cerv-titlehigh font-semibold`}
+                                    onClick={() => handleRoleClick(role)}
                                 >
                                     <span
-                                        className={`text-beer-dark dark:text-white `}
+                                        className={`text-beer-dark dark:text-white hover:text-white `}
                                         aria-current="page"
                                     >
                                         {t('role.' + `${role}`)}
