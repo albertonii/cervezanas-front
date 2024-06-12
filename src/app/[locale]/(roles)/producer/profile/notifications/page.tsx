@@ -22,17 +22,19 @@ async function getNotificationsData() {
 
   // Select only the orders where business orders have the distributor_id associated to session user id
   const { data, error } = await supabase
-    .from('notifications')
-    .select(
-      `
+      .from('notifications')
+      .select(
+          `
         *,
         source_user:users!notifications_source_fkey (
-          username
+          id,
+          username,
+          role
         )
       `,
-    )
-    .eq('user_id', [session.id])
-    .order('created_at', { ascending: false });
+      )
+      .eq('user_id', [session.id])
+      .order('created_at', { ascending: false });
   if (error) throw error;
 
   return data as INotification[];

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from './components/common/Button';
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { COMMON } from '../../constants';
 import { ROUTE_SIGNIN } from '../../config';
 import { INotification } from '../../lib/types/types';
@@ -13,6 +13,9 @@ import { usePathname, useRouter } from 'next/navigation';
 import { HeaderDropdownButton } from './HeaderDropdownButton';
 import { useShoppingCart } from '../context/ShoppingCartContext';
 import { DeviceScreenNotification } from './components/DeviceScreenNotification';
+import { ROLE_ENUM } from '../../lib/enums';
+import DropdownRoleList from './components/DropdownRoleList';
+import useOnClickOutside from '../../hooks/useOnOutsideClickDOM';
 
 interface Props {
     notifications: INotification[];
@@ -23,7 +26,7 @@ const ScreenMenu = memo(function ScreenMenu({
     notifications,
     i18nLocaleArray,
 }: Props) {
-    const { user, role } = useAuth();
+    const { user, role, changeRole } = useAuth();
     const locale = useLocale();
     const t = useTranslations();
     const pathName = usePathname();
@@ -31,6 +34,8 @@ const ScreenMenu = memo(function ScreenMenu({
     const router = useRouter();
 
     const [animateShoppingCart, setAnimateShoppingCart] = useState(false);
+    const [displayDropdownRoles, setDisplayDropdownRoles] = useState(false);
+
     const { cartQuantity, openCart } = useShoppingCart();
 
     useEffect(() => {
@@ -41,6 +46,19 @@ const ScreenMenu = memo(function ScreenMenu({
             }, 600);
         }, 300);
     }, [cartQuantity]);
+
+    const handleOnClickRole = () => {
+        setDisplayDropdownRoles(true);
+    };
+
+    const handleOnClickRoleOutside = () => {
+        setDisplayDropdownRoles(false);
+    };
+
+    const handleChangeRole = (role: ROLE_ENUM) => {
+        changeRole(role);
+        setDisplayDropdownRoles(false);
+    };
 
     // const onChangeLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     //   const redirectedPathName = (locale: string) => {
@@ -67,7 +85,7 @@ const ScreenMenu = memo(function ScreenMenu({
     };
 
     const MENU_ITEM_STYLES =
-        'block text-sm font-bold text-black hover:bg-cerv-banana hover:bg-opacity-50 px-3 py-3 bg-beer-softBlonde bg-opacity-50 rounded-xl hover:text-white border-2 border-beer-softFoam mt-1 mb-1 uppercase';
+        'block text-sm font-bold text-beer-dark hover:bg-cerv-banana hover:bg-opacity-50 px-3 py-3 bg-beer-softBlonde bg-opacity-50 rounded-xl hover:text-white border-2 border-beer-softFoam mt-1 mb-1 uppercase';
 
     return (
         <section className="hidden rounded border-gray-200 bg-[url('/assets/header-bg.jpg')] bg-cover bg-center bg-no-repeat dark:bg-gray-900 sm:block sm:px-4">
@@ -93,7 +111,7 @@ const ScreenMenu = memo(function ScreenMenu({
                     </div>
                 </section>
                 <section className="flex w-full items-right justify-end sm:w-[350px] lg:w-[400px] ml-auto">
-                    <ul className="align-center sm:flex md:mt-0 md:flex-row md:space-x-4 md:text-sm md:font-medium">
+                    <ul className="align-center sm:flex md:mt-0 md:flex-row md:space-x-4 md:text-sm md:font-medium mx-6">
                         <li className="flex items-center">
                             <Link href="/marketplace" locale={locale}>
                                 <span className={`${MENU_ITEM_STYLES}`}>
@@ -125,56 +143,35 @@ const ScreenMenu = memo(function ScreenMenu({
                     </ul>
                 </section>
 
-                {/* Logo Cervezanas  */}
-                {/*
-        <section className="w-full" id="navbar-default">
-          <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24">
-            <div className="relative flex h-[100px] w-[110px] justify-center bg-beer-gold p-2 sm:h-[143px] sm:w-[141px] sm:p-2 lg:h-[153] lg:w-[151px] ">
-              <Link href={"/"} locale={locale}>
-                <Image
-                  alt="Cervezanas Logo"
-                  width={160}
-                  height={160}
-                  style={{ objectFit: "contain" }}
-                  priority={true}
-                  sizes="100px"
-                  src={"/logo_cervezanas.svg"}
-                />
-              </Link>
-              <p className="absolute -bottom-5 h-[22px] w-full bg-beer-darkGold pt-[22px]"></p>
-            </div>
-          </div>
-        </section>
-*/}
                 {/* Right elements  */}
                 <section className="w-[320px] ">
-                    <ul className="py-2 pt-1  :flex sm:flex-row sm:justify-end sm:gap-4 sm:align-middle md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium flex">
+                    <ul className="py-2 pt-1  :flex sm:flex-row sm:justify-end sm:gap-0 sm:align-middle md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium flex">
                         {/* Language  */}
                         {/* <li className="flex max-w-[50px] items-center">
-              <Select
-                size="tiny"
-                name="language"
-                style={{
-                  backgroundColor: "transparent",
-                  maxWidth: "50px",
-                }}
-                onChange={onChangeLanguage}
-                className=""
-              >
-                <Select.Option value="es">
-                  <Link href={redirectedPathName(locale)}>🇪🇸</Link>
-                </Select.Option>
-                <Select.Option value="en">
-                  <Link href={redirectedPathName(locale)}>🇬🇧</Link>
-                </Select.Option>
-              </Select>
-            </li> */}
+                            <Select
+                                size="tiny"
+                                name="language"
+                                style={{
+                                backgroundColor: "transparent",
+                                maxWidth: "50px",
+                                }}
+                                onChange={onChangeLanguage}
+                                className=""
+                            >
+                                <Select.Option value="es">
+                                <Link href={redirectedPathName(locale)}>🇪🇸</Link>
+                                </Select.Option>
+                                <Select.Option value="en">
+                                <Link href={redirectedPathName(locale)}>🇬🇧</Link>
+                                </Select.Option>
+                            </Select>
+                            </li> */}
 
                         {i18nLocaleArray.map((locale) => {
                             return (
                                 <li
                                     key={locale}
-                                    className="mt-3 h-[30px] w-[30px] rounded-full border-2 bg-beer-blonde p-1 text-center text-xs uppercase text-beer-dark hover:text-white hover:bg-beer-draft font-semibold"
+                                    className="mt-4 h-[32px] w-[32px] min-w-[32px] rounded-full border-2 bg-beer-blonde p-1 pt-[6px] text-center text-xs uppercase text-beer-dark hover:text-white hover:bg-beer-draft font-semibold ml-0"
                                 >
                                     <Link href={redirectedPathName(locale)}>
                                         {locale}
@@ -205,7 +202,7 @@ const ScreenMenu = memo(function ScreenMenu({
                         ) : (
                             <>
                                 {/* Cart  */}
-                                {role === 'consumer' && (
+                                {role === ROLE_ENUM.Cervezano && (
                                     <li
                                         className={`items´center flex ${
                                             animateShoppingCart &&
@@ -228,12 +225,13 @@ const ScreenMenu = memo(function ScreenMenu({
                                                     height={40}
                                                     alt={'Go to Shopping cart'}
                                                     className={
-                                                        'lg:h[40px] mt-2 rounded-full bg-beer-blonde lg:w-[40px]'
+                                                        'lg:h[50px] mt-2 rounded-full bg-beer-blonde lg:w-[50px] p-[5px] border-beer-softBlondeBubble border-2'
                                                     }
                                                 />
                                                 <div
-                                                    className={`white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde 
-                          `}
+                                                    className={`
+                                                        white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-softBlonde 
+                                                    `}
                                                 >
                                                     {cartQuantity()}
                                                 </div>
@@ -247,10 +245,25 @@ const ScreenMenu = memo(function ScreenMenu({
                                     notifications={notifications}
                                 />
 
-                                <li className="flex items-center">
+                                <li className="flex items-center relative w-[85px]">
+                                    {/*  <span
+                                        onClick={handleOnClickRole}
+                                        className="hover:cursor-pointer hover:bg-beer-softFoam transition-all ease-in-out bg-beer-foam border-2 border-beer-draft rounded-lg ring-beer-draft p-1 m-1 text-sm text-beer-draft font-semibold dark:text-white "
+                                    >
+                                        {t('role.' + `${role}`)}
+                            </span> */}
+
+                                    {displayDropdownRoles && (
+                                        <DropdownRoleList
+                                            handleOnClickRoleOutside={
+                                                handleOnClickRoleOutside
+                                            }
+                                        />
+                                    )}
+
                                     <HeaderDropdownButton
                                         options={
-                                            role === 'admin'
+                                            role === ROLE_ENUM.Admin
                                                 ? [
                                                       'events',
                                                       'submitted_aps',
@@ -258,7 +271,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                                       'notifications',
                                                       'signout',
                                                   ]
-                                                : role === 'distributor'
+                                                : role === ROLE_ENUM.Distributor
                                                 ? [
                                                       'profile',
                                                       'logistics',
@@ -266,7 +279,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                                       'business_orders',
                                                       'signout',
                                                   ]
-                                                : role === 'producer'
+                                                : role === ROLE_ENUM.Productor
                                                 ? [
                                                       'profile',
                                                       'products',

@@ -123,10 +123,11 @@ export const SupabaseProps = {
     CUSTOM_BG_URL: 'custom_bg/',
     PROFILE_PHOTO_URL: 'profile_photo/',
     AWARDS_URL: 'awards/',
+    PACKS_URL: 'packs/',
 };
 
 export const DS_API = {
-    DS_URL: `https://distributionsystemapi-dev-tdzj.2.ie-1.fl0.io/`,
+    DS_URL: `https://distributionsystemapi.onrender.com/`,
     DS_COUNTRIES: 'countries/',
     DS_COMMUNITIES: 'communities/',
     DS_PROVINCES: 'provinces/',

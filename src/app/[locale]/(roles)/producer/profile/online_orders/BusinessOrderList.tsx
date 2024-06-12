@@ -1,34 +1,34 @@
 'use client';
 
+import OProducerTableData from './OProducerTableData';
+import Spinner from '../../../../components/common/Spinner';
+import InputSearch from '../../../../components/common/InputSearch';
 import PaginationFooter from '../../../../components/common/PaginationFooter';
+import useFetchOrdersByProducerId from '../../../../../../hooks/useFetchOrdersByProducerId';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { IOrder } from '../../../../../../lib/types/types';
-import Spinner from '../../../../components/common/Spinner';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import OProducerTableData from './OProducerTableData';
-import InputSearch from '../../../../components/common/InputSearch';
-import useFetchOrdersByProducerId from '../../../../../../hooks/useFetchOrdersByProducerId';
+import { IBusinessOrder } from '../../../../../../lib/types/types';
 
 interface Props {
-    orders: IOrder[];
+    bOrders: IBusinessOrder[];
 }
 
 interface ColumnsProps {
     header: string;
 }
 
-export function BusinessOrderList({ orders: os }: Props) {
+export function BusinessOrderList({ bOrders: bOs }: Props) {
     const { user } = useAuth();
     if (!user) return null;
 
     const t = useTranslations();
 
-    const [orders, setOrders] = useState<IOrder[]>(os);
+    const [orders, setOrders] = useState<IBusinessOrder[]>(bOs);
     const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 
-    const counter = os.length;
+    const counter = bOs.length;
     const resultsPerPage = 100;
 
     const { isError, isLoading, refetch } = useFetchOrdersByProducerId(
@@ -39,7 +39,7 @@ export function BusinessOrderList({ orders: os }: Props) {
 
     useEffect(() => {
         refetch().then((res) => {
-            const orders = res.data as IOrder[];
+            const orders = res.data as IBusinessOrder[];
             setOrders(orders);
         });
     }, [currentPage]);
@@ -63,7 +63,7 @@ export function BusinessOrderList({ orders: os }: Props) {
     }, [orders, query]);
 
     return (
-        <section className="relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
+        <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
             {isError && (
                 <p className="flex items-center justify-center">
                     <h2 className="text-gray-500 dark:text-gray-400">
@@ -119,11 +119,11 @@ export function BusinessOrderList({ orders: os }: Props) {
                             </thead>
 
                             <tbody>
-                                {filteredItemsByStatus.map((order) => {
+                                {filteredItemsByStatus.map((bOrder) => {
                                     return (
                                         <OProducerTableData
-                                            order={order}
-                                            key={order.id}
+                                            bOrder={bOrder}
+                                            key={bOrder.id}
                                         />
                                     );
                                 })}

@@ -86,7 +86,7 @@ export default function ModalWithForm(props: Props) {
                 handler()
                     .then(() => {
                         // TODO: Tener en cuenta si hay errores en el formulario antes de cerrar el modal
-                        handleShowModal(false);
+                        // handleShowModal(false);
                         setIsLoading(false);
                     })
                     .catch((e: Error) => {

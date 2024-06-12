@@ -1,84 +1,65 @@
 import DisplayImageProduct from '../../../components/common/DisplayImageProduct';
 import React, { useState } from 'react';
 import { IProduct, IProductPack } from '../../../../../lib/types/types';
-import { SupabaseProps } from '../../../../../constants';
 import { useTranslations } from 'next-intl';
+import ProductPackMiniature from '../../../components/ProductPackMiniature';
 
 interface Props {
-  product: IProduct;
-  pack: IProductPack;
-  handleItemSelected: (item: IProductPack) => void;
-  selectedPackId: string;
+    product: IProduct;
+    pack: IProductPack;
+    handleItemSelected: (item: IProductPack) => void;
+    selectedPackId: string;
 }
 
 export default function PackItem({
-  pack,
-  handleItemSelected,
-  selectedPackId,
+    pack,
+    handleItemSelected,
+    selectedPackId,
 }: Props) {
-  const t = useTranslations();
-  const [isHovering, setIsHovering] = useState(false);
+    const t = useTranslations();
+    const [isHovering, setIsHovering] = useState(false);
 
-  // const handleDecreaseFromCartItem = () => {
-  //   if (quantity > 0) setQuantity(quantity - 1);
-  //   decreaseCartQuantity(productId, pack.id);
-  //   if (getItemQuantity(productId) > 1) return;
-  //   removeMarketplaceItems(productId);
-  // };
-
-  return (
-    <li
-      className="flex flex-row space-x-4"
-      onClick={() => handleItemSelected(pack)}
-    >
-      <div
-        className={`relative w-full rounded-md ${
-          selectedPackId === pack.id && 'bg-beer-softBlondeBubble ring-2 '
-        }`}
-        key={pack.id}
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-      >
-        {/* <!-- Active: "ring-2 ring-indigo-500" --> */}
-        <label
-          className={`group relative flex cursor-pointer items-center justify-center border px-4 py-3 text-sm uppercase text-white hover:bg-cerv-banana focus:outline-none sm:flex-1 bg-cerv-brown bg-opacity-40 font-semibold hover:text-black
-     `}
+    return (
+        <li
+            className="flex flex-row space-x-4"
+            onClick={() => handleItemSelected(pack)}
         >
-          <input
-            type="radio"
-            id={`pack-${pack.id}`}
-            value={pack.id}
-            className={'hidden'}
-          />
-          <span id="size-choice-0-label">
-            {pack.quantity} {t('units')}
-          </span>
-        </label>
+            <div
+                className={`relative w-full rounded-md ${
+                    selectedPackId === pack.id &&
+                    'bg-beer-softBlondeBubble ring-2 '
+                }`}
+                key={pack.id}
+                onMouseEnter={() => setIsHovering(true)}
+                onMouseLeave={() => setIsHovering(false)}
+            >
+                {/* <!-- Active: "ring-2 ring-indigo-500" --> */}
+                <label
+                    className={`
+                        ${
+                            pack.id === selectedPackId &&
+                            'bg-beer-dark text-beer-gold border-beer-gold ring-2 ring-beer-gold'
+                        }
+                        transition-all ease-in-out duration-300 
+                      group relative flex cursor-pointer items-center justify-center border px-4 py-3 text-sm uppercase
+                    text-white hover:bg-cerv-banana focus:outline-none sm:flex-1 bg-cerv-brown bg-opacity-40 font-semibold hover:text-black
+                    `}
+                >
+                    <input
+                        type="radio"
+                        id={`pack-${pack.id}`}
+                        value={pack.id}
+                        className={'hidden'}
+                    />
+                    <span id="size-choice-0-label">
+                        {pack.quantity} {t('units')}
+                    </span>
+                </label>
 
-        <div
-          className={`absolute bottom-full left-1/2 m-auto w-[70vw] -translate-x-1/2 -translate-y-[2rem] transform rounded-md bg-beer-foam shadow-xl transition-all duration-300 ease-in-out sm:w-[35vw] lg:w-[15vw]
-        ${!isHovering && 'hidden'}`}
-        >
-          <div className="m-4 flex flex-col items-center text-lg">
-            <span className="font-semibold">{pack.name}</span>
-            <span className="">
-              {pack.quantity} {pack.quantity > 1 ? t('units') : t('unit')} -{' '}
-              {pack.price} €
-            </span>
-
-            <DisplayImageProduct
-              imgSrc={
-                SupabaseProps.BASE_PRODUCTS_URL +
-                decodeURIComponent(pack.img_url)
-              }
-              alt={pack.name}
-              width={600}
-              height={600}
-              class="w-[30vw] px-2 py-2 sm:w-[25vw] md:w-[20vw] lg:w-[10vw]"
-            />
-          </div>
-        </div>
-      </div>
-    </li>
-  );
+                <div className={`${!isHovering && 'hidden'}`}>
+                    <ProductPackMiniature pack={pack} />
+                </div>
+            </div>
+        </li>
+    );
 }

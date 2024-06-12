@@ -26,6 +26,7 @@ import {
     ROUTE_PROFILE,
 } from '../../../../../../config';
 import { sendPushNotification } from '../../../../../../lib/actions';
+import Spinner from '../../../../components/common/Spinner';
 
 export type ModalAddEventFormData = {
     is_activated: boolean;
@@ -63,6 +64,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
     const { user, supabase } = useAuth();
     const { handleMessage } = useMessage();
 
+    const [isLoading, setIsLoading] = useState(false);
     const [showModal, setShowModal] = useState<boolean>(false);
 
     const queryClient = useQueryClient();
@@ -73,18 +75,11 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
         defaultValues: {},
     });
 
-    const {
-        handleSubmit,
-        reset,
-        formState: { errors },
-        register,
-    } = form;
-
-    useEffect(() => {
-        console.log(errors);
-    }, [errors]);
+    const { handleSubmit, reset, register } = form;
 
     const handleInsertEvent = async (form: ValidationSchema) => {
+        setIsLoading(true);
+
         const {
             is_activated,
             name,
@@ -122,12 +117,17 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
             .single();
 
         if (eventError) {
+            setIsLoading(false);
             throw eventError;
         }
         if (!cps_mobile) {
+            setIsLoading(false);
+
             return;
         }
         if (!event) {
+            setIsLoading(false);
+
             return;
         }
 
@@ -159,6 +159,8 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
                     });
 
                 if (cpError) {
+                    setIsLoading(false);
+
                     throw cpError;
                 }
 
@@ -192,6 +194,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
                     });
 
                 if (cpError) {
+                    setIsLoading(false);
                     throw cpError;
                 }
 
@@ -210,6 +213,8 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
         setTimeout(() => {
             queryClient.invalidateQueries('events');
             setShowModal(false);
+            setIsLoading(false);
+
             reset();
         }, 500);
     };
@@ -243,118 +248,129 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
             icon={faAdd}
             btnSize={'large'}
             classIcon={'w-6 h-6'}
-            classContainer={''}
+            classContainer={`${isLoading && ' opacity-75'}`}
             handler={handleSubmit(onSubmit)}
             form={form}
         >
-            <form>
-                {/* Event Information  */}
-                <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                    {/* Is Activated  */}
-                    <div className="flex w-full flex-col items-end">
-                        <label
-                            className="relative inline-flex cursor-pointer items-center"
-                            htmlFor="is_activated"
-                        >
-                            <input
-                                id="is_activated"
-                                type="checkbox"
-                                className="peer sr-only"
-                                {...register('is_activated', {
+            {isLoading ? (
+                <div className="h-[50vh]">
+                    <Spinner size="xxLarge" color="beer-blonde" center />
+                </div>
+            ) : (
+                <form>
+                    {/* Event Information  */}
+                    <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                        {/* Is Activated  */}
+                        <div className="flex w-full flex-col items-end">
+                            <label
+                                className="relative inline-flex cursor-pointer items-center"
+                                htmlFor="is_activated"
+                            >
+                                <input
+                                    id="is_activated"
+                                    type="checkbox"
+                                    className="peer sr-only"
+                                    {...register('is_activated', {
+                                        required: true,
+                                    })}
+                                    defaultChecked={true}
+                                />
+
+                                <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-beer-blonde peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-beer-softFoam dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-beer-blonde"></div>
+
+                                <span className="ml-3 text-lg font-medium text-gray-900 dark:text-gray-300">
+                                    {t('is_activated')}
+                                </span>
+                            </label>
+
+                            <span className="mt-2 text-sm font-medium text-gray-400 dark:text-gray-300">
+                                {t('is_activated_description')}
+                            </span>
+                        </div>
+
+                        <legend className="m-2 text-2xl">
+                            {t('events_info')}
+                        </legend>
+
+                        {/* Event name  */}
+                        <InputLabel
+                            form={form}
+                            label={'name'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                        />
+
+                        {/* Event description  */}
+                        <InputTextarea
+                            form={form}
+                            label={'description'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder="Bienvenido al BBF, el festival de cerveza artesanal más grande de Barcelona. Te esperamos el 14, 15 y 16 de mayo en el Deportivo Lomas Altas. ¡No te lo pierdas!"
+                        />
+
+                        {/* Start date and end date  */}
+                        <div className="flex flex-row space-x-2">
+                            <InputLabel
+                                form={form}
+                                label={'start_date'}
+                                registerOptions={{
                                     required: true,
-                                })}
-                                defaultChecked={true}
+                                    valueAsDate: true,
+                                }}
+                                inputType="date"
                             />
 
-                            <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-beer-blonde peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-beer-softFoam dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-beer-blonde"></div>
+                            <InputLabel
+                                form={form}
+                                label={'end_date'}
+                                registerOptions={{
+                                    required: true,
+                                    valueAsDate: true,
+                                }}
+                                inputType="date"
+                            />
+                        </div>
+                    </fieldset>
 
-                            <span className="ml-3 text-lg font-medium text-gray-900 dark:text-gray-300">
-                                {t('is_activated')}
-                            </span>
-                        </label>
+                    {/* Logo and publicitary img */}
+                    <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                        <legend className="text-2xl">
+                            {t('event_advertising')}
+                        </legend>
 
-                        <span className="mt-2 text-sm font-medium text-gray-400 dark:text-gray-300">
-                            {t('is_activated_description')}
-                        </span>
-                    </div>
+                        {/* Logo */}
 
-                    <legend className="m-2 text-2xl">{t('events_info')}</legend>
+                        {/* AD Img  */}
+                    </fieldset>
 
-                    {/* Event name  */}
-                    <InputLabel
-                        form={form}
-                        label={'name'}
-                        registerOptions={{
-                            required: true,
-                        }}
-                    />
+                    {/* List of Mobil Consumption Points  */}
+                    <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                        <legend className="text-2xl">
+                            {t('cp_mobile_associated')}
+                        </legend>
 
-                    {/* Event description  */}
-                    <InputTextarea
-                        form={form}
-                        label={'description'}
-                        registerOptions={{
-                            required: true,
-                        }}
-                        placeholder="Bienvenido al BBF, el festival de cerveza artesanal más grande de Barcelona. Te esperamos el 14, 15 y 16 de mayo en el Deportivo Lomas Altas. ¡No te lo pierdas!"
-                    />
-
-                    {/* Start date and end date  */}
-                    <div className="flex flex-row space-x-2">
-                        <InputLabel
+                        <SearchCheckboxCPMobiles
+                            cpsMobile={cpsMobile}
                             form={form}
-                            label={'start_date'}
-                            registerOptions={{
-                                required: true,
-                                valueAsDate: true,
-                            }}
-                            inputType="date"
                         />
+                    </fieldset>
 
-                        <InputLabel
+                    {/* List of Fixed Consumption Points  */}
+                    <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                        <legend className="text-2xl">
+                            {t('cp_fixed_associated')}
+                        </legend>
+
+                        <SearchCheckboxCPFixeds
+                            cpsFixed={cpsFixed}
                             form={form}
-                            label={'end_date'}
-                            registerOptions={{
-                                required: true,
-                                valueAsDate: true,
-                            }}
-                            inputType="date"
                         />
-                    </div>
-                </fieldset>
-
-                {/* Logo and publicitary img */}
-                <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                    <legend className="text-2xl">
-                        {t('event_advertising')}
-                    </legend>
-
-                    {/* Logo */}
-
-                    {/* AD Img  */}
-                </fieldset>
-
-                {/* List of Mobil Consumption Points  */}
-                <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                    <legend className="text-2xl">
-                        {t('cp_mobile_associated')}
-                    </legend>
-
-                    <SearchCheckboxCPMobiles
-                        cpsMobile={cpsMobile}
-                        form={form}
-                    />
-                </fieldset>
-
-                {/* List of Fixed Consumption Points  */}
-                <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                    <legend className="text-2xl">
-                        {t('cp_fixed_associated')}
-                    </legend>
-
-                    <SearchCheckboxCPFixeds cpsFixed={cpsFixed} form={form} />
-                </fieldset>
-            </form>
+                    </fieldset>
+                </form>
+            )}
         </ModalWithForm>
     );
 }

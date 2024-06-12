@@ -66,22 +66,22 @@ async function getSuccessData(searchParams: any) {
         .from('orders')
         .select(
             `
-      *,
-      shipping_info (id, *),
-      billing_info (id, *),
-      business_orders!business_orders_order_id_fkey (
-        *,
-        order_items (
-          *,
-          product_packs (
             *,
-            products (
-              *,
-              product_multimedia (*)
+            shipping_info (id, *),
+            billing_info (id, *),
+            business_orders!business_orders_order_id_fkey (
+                *,
+                order_items (
+                *,
+                product_packs (
+                    *,
+                    products (
+                    *,
+                    product_multimedia (*)
+                    )
+                )
+                )
             )
-          )
-        )
-      )
     `,
         )
         .eq('order_number', orderNumber)

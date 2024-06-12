@@ -15,9 +15,9 @@ import { AddBeerMasterQuestions } from './AddBeerMasterQuestions';
 import {
     Difficulty,
     IAddModalExperienceBeerMasterFormData,
-    QuestionFormData,
 } from '../../../../../lib/types/quiz';
 import { DisplayInputError } from '../../common/DisplayInputError';
+import Spinner from '../../common/Spinner';
 
 const difficulties = z.union([
     z.literal(Difficulty.EASY),
@@ -89,6 +89,7 @@ export default function AddBeerMasterExperienceModal() {
     const t = useTranslations();
     const { supabase, user } = useAuth();
 
+    const [isLoading, setIsLoading] = useState(false);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [isBeerMasterExperience, setIsBeerMasterExperience] =
         useState<boolean>(true);
@@ -114,6 +115,8 @@ export default function AddBeerMasterExperienceModal() {
     } = form;
 
     const handleInsertBeerMasterExperience = async (form: ValidationSchema) => {
+        setIsLoading(true);
+
         const { name, description, type, questions, price } = form;
 
         // Create experience
@@ -130,10 +133,12 @@ export default function AddBeerMasterExperienceModal() {
             .single();
 
         if (!experience) {
+            setIsLoading(false);
             return;
         }
 
         if (experienceError) {
+            setIsLoading(false);
             throw experienceError;
         }
 
@@ -164,16 +169,18 @@ export default function AddBeerMasterExperienceModal() {
                 .single();
 
             if (!questionData) {
+                setIsLoading(false);
                 return;
             }
 
             if (questionError) {
+                setIsLoading(false);
                 throw questionError;
             }
         });
 
         reset();
-
+        setIsLoading(false);
         queryClient.invalidateQueries('experiences');
         setShowModal(false);
     };
@@ -205,39 +212,45 @@ export default function AddBeerMasterExperienceModal() {
             btnTitle={'new_experience'}
             description={''}
             classIcon={''}
-            classContainer={''}
+            classContainer={`${isLoading && ' opacity-75'}`}
             handler={handleSubmit(onSubmit)}
             form={form}
         >
-            <form>
-                <AddExperienceBasicForm
-                    form={form}
-                    setIsBeerMasterExperience={setIsBeerMasterExperience}
-                />
+            {isLoading ? (
+                <div className="h-[50vh]">
+                    <Spinner size="xxLarge" color="beer-blonde" center />
+                </div>
+            ) : (
+                <form>
+                    <AddExperienceBasicForm
+                        form={form}
+                        setIsBeerMasterExperience={setIsBeerMasterExperience}
+                    />
 
-                {/* List of Q&A for Beer Master Experience  */}
-                {isBeerMasterExperience && (
-                    <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                        <legend className="text-2xl">
-                            {t('questions_and_answers_experience')}
-                        </legend>
+                    {/* List of Q&A for Beer Master Experience  */}
+                    {isBeerMasterExperience && (
+                        <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                            <legend className="text-2xl">
+                                {t('questions_and_answers_experience')}
+                            </legend>
 
-                        {errors.questions && (
-                            <DisplayInputError
-                                message={errors.questions?.message}
-                            />
-                        )}
+                            {errors.questions && (
+                                <DisplayInputError
+                                    message={errors.questions?.message}
+                                />
+                            )}
 
-                        {errors.questions?.root && (
-                            <DisplayInputError
-                                message={errors.questions?.root.message}
-                            />
-                        )}
+                            {errors.questions?.root && (
+                                <DisplayInputError
+                                    message={errors.questions?.root.message}
+                                />
+                            )}
 
-                        <AddBeerMasterQuestions form={form} />
-                    </fieldset>
-                )}
-            </form>
+                            <AddBeerMasterQuestions form={form} />
+                        </fieldset>
+                    )}
+                </form>
+            )}
         </ModalWithForm>
     );
 }

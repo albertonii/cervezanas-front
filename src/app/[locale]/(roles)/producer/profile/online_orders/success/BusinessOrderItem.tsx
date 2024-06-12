@@ -25,7 +25,6 @@ export default function BusinessOrderItem({ bOrder }: Props) {
 
     const orderItems = bOrder.order_items;
 
-    console.log(orderItems);
 
     if (!orderItems || orderItems.length === 0) return <></>;
 

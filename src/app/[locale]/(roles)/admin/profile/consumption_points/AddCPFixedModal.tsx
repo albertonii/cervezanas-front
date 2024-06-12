@@ -17,6 +17,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import SelectInput from '../../../../components/common/SelectInput';
 import InputLabel from '../../../../components/common/InputLabel';
 import InputTextarea from '../../../../components/common/InputTextarea';
+import Spinner from '../../../../components/common/Spinner';
 
 enum CPFixedStatus {
     active = 'active',
@@ -81,6 +82,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
     const t = useTranslations();
     const { user, supabase } = useAuth();
 
+    const [isLoading, setIsLoading] = useState(false);
     const [isInternalOrganizer, setIsInternalOrganizer] =
         useState<boolean>(true);
     const [addressInputRequired, setAddressInputRequired] =
@@ -139,6 +141,8 @@ export default function AddCPFixedModal({ cpsId }: Props) {
     };
 
     const handleInsertCPFixed = async (form: ValidationSchema) => {
+        setIsLoading(true);
+
         if (!selectedEOrganizer && !isInternalOrganizer) {
             setErrorOnSelectEOrganizer(true);
             return;
@@ -186,6 +190,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
             .select();
 
         if (error) {
+            setIsLoading(false);
             throw error;
         }
 
@@ -210,6 +215,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
                             });
 
                         if (error) {
+                            setIsLoading(false);
                             throw error;
                         }
                     });
@@ -222,6 +228,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
                         });
 
                     if (error) {
+                        setIsLoading(false);
                         throw error;
                     }
                 }
@@ -244,6 +251,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
 
         queryClient.invalidateQueries('cpFixed');
         setShowModal(false);
+        setIsLoading(false);
 
         reset();
     };
@@ -267,7 +275,6 @@ export default function AddCPFixedModal({ cpsId }: Props) {
     const insertCPFixedMutation = useMutation({
         mutationKey: 'insertCPFixed',
         mutationFn: handleInsertCPFixed,
-
         onError: (error: any) => {
             console.error(error);
         },
@@ -293,209 +300,220 @@ export default function AddCPFixedModal({ cpsId }: Props) {
             description={''}
             handler={handleSubmit(onSubmit)}
             classIcon={'w-6 h-6'}
-            classContainer={''}
+            classContainer={`${isLoading && ' opacity-75'}`}
             form={form}
         >
-            <form>
-                <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                    <legend className="m-2 text-2xl">
-                        {t('cp_fixed_info')}
-                    </legend>
+            {isLoading ? (
+                <div className="h-[50vh]">
+                    <Spinner size="xxLarge" color="beer-blonde" center />
+                </div>
+            ) : (
+                <form>
+                    <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                        <legend className="m-2 text-2xl">
+                            {t('cp_fixed_info')}
+                        </legend>
 
-                    {/* Status */}
-                    <SelectInput
-                        form={form}
-                        labelTooltip={'cp_fixed_status_tooltip'}
-                        options={cp_fixed_status_options}
-                        label={'status'}
-                        registerOptions={{
-                            required: true,
-                        }}
-                    />
-
-                    {/* Event name  */}
-                    <InputLabel
-                        form={form}
-                        label={'cp_name'}
-                        registerOptions={{
-                            required: true,
-                        }}
-                    />
-
-                    {/* Event description  */}
-                    <InputTextarea
-                        form={form}
-                        label={'cp_description'}
-                        labelText={t('description')}
-                        registerOptions={{
-                            required: true,
-                        }}
-                    />
-
-                    {/* Start date and end date  */}
-                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                        <InputLabel
+                        {/* Status */}
+                        <SelectInput
                             form={form}
-                            label={'start_date'}
+                            labelTooltip={'cp_fixed_status_tooltip'}
+                            options={cp_fixed_status_options}
+                            label={'status'}
                             registerOptions={{
                                 required: true,
                             }}
-                            inputType="date"
                         />
 
+                        {/* Event name  */}
                         <InputLabel
                             form={form}
-                            label={'end_date'}
+                            label={'cp_name'}
                             registerOptions={{
                                 required: true,
                             }}
-                            inputType="date"
                         />
-                    </div>
-                </fieldset>
 
-                {/* Organizer Information  */}
-                <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                    <legend className="text-2xl">{t('organizer_info')}</legend>
+                        {/* Event description  */}
+                        <InputTextarea
+                            form={form}
+                            label={'cp_description'}
+                            labelText={t('description')}
+                            registerOptions={{
+                                required: true,
+                            }}
+                        />
 
-                    {/* Is internal organizer value  */}
-                    <div className="flex flex-row space-x-2">
-                        <div className="flex w-full flex-col">
-                            <label htmlFor="is_internal_organizer">
-                                {t('is_internal_organizer')}
-                            </label>
-
-                            <select onChange={handleIsInternalOrganizer}>
-                                <option value="true">{t('yes')}</option>
-                                <option value="false">{t('no')}</option>
-                            </select>
-
-                            {errors.is_internal_organizer && (
-                                <DisplayInputError message="errors.input_required" />
-                            )}
-                        </div>
-                    </div>
-
-                    {/* In case organizer is internal from company*/}
-                    {isInternalOrganizer && (
-                        <>
-                            {/* Organizer name and lastname  */}
-                            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                                <InputLabel
-                                    form={form}
-                                    label={'organizer_name'}
-                                    labelText={t('name')}
-                                    registerOptions={{
-                                        required: true,
-                                    }}
-                                />
-
-                                <InputLabel
-                                    form={form}
-                                    label={'organizer_lastname'}
-                                    labelText={t('lastname')}
-                                    registerOptions={{
-                                        required: true,
-                                    }}
-                                />
-                            </div>
-
-                            {/* Email and phone  */}
-                            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                                <InputLabel
-                                    form={form}
-                                    label={'organizer_email'}
-                                    labelText={t('email')}
-                                    registerOptions={{
-                                        required: true,
-                                    }}
-                                    inputType="email"
-                                />
-
-                                <InputLabel
-                                    form={form}
-                                    label={'organizer_phone'}
-                                    labelText={t('phone')}
-                                    registerOptions={{
-                                        required: true,
-                                    }}
-                                />
-                            </div>
-                        </>
-                    )}
-
-                    {/* In case organizer is external from company*/}
-                    {!isInternalOrganizer && (
-                        <div className="flex w-full flex-col">
-                            <span className="mb-2 mt-2">
-                                Selecciona del listado de abajo el organizador
-                                externo responsable de este evento. Una vez
-                                creado el evento enviaremos una confirmación al
-                                organizador externo para que pueda gestionar el
-                                evento y acepta los términos y condiciones de
-                                uso de la plataforma. Dicho evento tendrá el
-                                estado `Pendiente de confirmación` hasta que el
-                                organizador externo acepte los términos y
-                                condiciones.
-                            </span>
-
-                            <select
-                                className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
-                                id="is_external_organizer"
-                                onClick={(e: any) => {
-                                    const value = e.target.value;
-                                    setSelectedEOrganizer(value);
+                        {/* Start date and end date  */}
+                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                            <InputLabel
+                                form={form}
+                                label={'start_date'}
+                                registerOptions={{
+                                    required: true,
                                 }}
-                            >
-                                {externalOrganizers &&
-                                    externalOrganizers.map((organizer: any) => (
-                                        <option
-                                            key={organizer.id}
-                                            value={organizer.id}
-                                            onSelect={() => {
-                                                setSelectedEOrganizer(
-                                                    organizer,
-                                                );
-                                                setErrorOnSelectEOrganizer(
-                                                    false,
-                                                );
-                                            }}
-                                        >
-                                            {organizer.name}{' '}
-                                            {organizer.lastname}
-                                        </option>
-                                    ))}
-                            </select>
+                                inputType="date"
+                            />
 
-                            {errorOnSelectEOrganizer && (
-                                <DisplayInputError message="errors.input_required" />
-                            )}
+                            <InputLabel
+                                form={form}
+                                label={'end_date'}
+                                registerOptions={{
+                                    required: true,
+                                }}
+                                inputType="date"
+                            />
                         </div>
-                    )}
-                </fieldset>
+                    </fieldset>
 
-                <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                    <legend className="text-2xl">
-                        {t('cp_fixed_location')}
-                    </legend>
+                    {/* Organizer Information  */}
+                    <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                        <legend className="text-2xl">
+                            {t('organizer_info')}
+                        </legend>
 
-                    {addressInputRequired && (
-                        <DisplayInputError message="errors.input_required" />
-                    )}
+                        {/* Is internal organizer value  */}
+                        <div className="flex flex-row space-x-2">
+                            <div className="flex w-full flex-col">
+                                <label htmlFor="is_internal_organizer">
+                                    {t('is_internal_organizer')}
+                                </label>
 
-                    {/* Address  */}
-                    <CPGoogleMap handleAddress={handleAddress} />
-                </fieldset>
+                                <select onChange={handleIsInternalOrganizer}>
+                                    <option value="true">{t('yes')}</option>
+                                    <option value="false">{t('no')}</option>
+                                </select>
 
-                <fieldset className="mt-4 flex flex-col space-y-4">
-                    <legend className="text-2xl">
-                        {t('cp_fixed_products')}
-                    </legend>
+                                {errors.is_internal_organizer && (
+                                    <DisplayInputError message="errors.input_required" />
+                                )}
+                            </div>
+                        </div>
 
-                    {/* List of selectable products that the owner can use */}
-                    <ListCPMProducts form={form} />
-                </fieldset>
-            </form>
+                        {/* In case organizer is internal from company*/}
+                        {isInternalOrganizer && (
+                            <>
+                                {/* Organizer name and lastname  */}
+                                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                                    <InputLabel
+                                        form={form}
+                                        label={'organizer_name'}
+                                        labelText={t('name')}
+                                        registerOptions={{
+                                            required: true,
+                                        }}
+                                    />
+
+                                    <InputLabel
+                                        form={form}
+                                        label={'organizer_lastname'}
+                                        labelText={t('lastname')}
+                                        registerOptions={{
+                                            required: true,
+                                        }}
+                                    />
+                                </div>
+
+                                {/* Email and phone  */}
+                                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                                    <InputLabel
+                                        form={form}
+                                        label={'organizer_email'}
+                                        labelText={t('email')}
+                                        registerOptions={{
+                                            required: true,
+                                        }}
+                                        inputType="email"
+                                    />
+
+                                    <InputLabel
+                                        form={form}
+                                        label={'organizer_phone'}
+                                        labelText={t('phone')}
+                                        registerOptions={{
+                                            required: true,
+                                        }}
+                                    />
+                                </div>
+                            </>
+                        )}
+
+                        {/* In case organizer is external from company*/}
+                        {!isInternalOrganizer && (
+                            <div className="flex w-full flex-col">
+                                <span className="mb-2 mt-2">
+                                    Selecciona del listado de abajo el
+                                    organizador externo responsable de este
+                                    evento. Una vez creado el evento enviaremos
+                                    una confirmación al organizador externo para
+                                    que pueda gestionar el evento y acepta los
+                                    términos y condiciones de uso de la
+                                    plataforma. Dicho evento tendrá el estado
+                                    `Pendiente de confirmación` hasta que el
+                                    organizador externo acepte los términos y
+                                    condiciones.
+                                </span>
+
+                                <select
+                                    className="text-md rounded-md border-2 border-beer-softBlondeBubble bg-beer-softFoam px-2 py-1 focus:border-beer-blonde focus:outline-none "
+                                    id="is_external_organizer"
+                                    onClick={(e: any) => {
+                                        const value = e.target.value;
+                                        setSelectedEOrganizer(value);
+                                    }}
+                                >
+                                    {externalOrganizers &&
+                                        externalOrganizers.map(
+                                            (organizer: any) => (
+                                                <option
+                                                    key={organizer.id}
+                                                    value={organizer.id}
+                                                    onSelect={() => {
+                                                        setSelectedEOrganizer(
+                                                            organizer,
+                                                        );
+                                                        setErrorOnSelectEOrganizer(
+                                                            false,
+                                                        );
+                                                    }}
+                                                >
+                                                    {organizer.name}{' '}
+                                                    {organizer.lastname}
+                                                </option>
+                                            ),
+                                        )}
+                                </select>
+
+                                {errorOnSelectEOrganizer && (
+                                    <DisplayInputError message="errors.input_required" />
+                                )}
+                            </div>
+                        )}
+                    </fieldset>
+
+                    <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                        <legend className="text-2xl">
+                            {t('cp_fixed_location')}
+                        </legend>
+
+                        {addressInputRequired && (
+                            <DisplayInputError message="errors.input_required" />
+                        )}
+
+                        {/* Address  */}
+                        <CPGoogleMap handleAddress={handleAddress} />
+                    </fieldset>
+
+                    <fieldset className="mt-4 flex flex-col space-y-4">
+                        <legend className="text-2xl">
+                            {t('cp_fixed_products')}
+                        </legend>
+
+                        {/* List of selectable products that the owner can use */}
+                        <ListCPMProducts form={form} />
+                    </fieldset>
+                </form>
+            )}
         </ModalWithForm>
     );
 }

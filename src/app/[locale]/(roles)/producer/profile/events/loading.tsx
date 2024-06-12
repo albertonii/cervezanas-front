@@ -1,5 +1,6 @@
-import React from "react";
+import React from 'react';
+import Spinner from '../../../../components/common/Spinner';
 
 export default function Loading() {
-  return <section>loading</section>;
+    return <Spinner color="beer-blonde" size="fullScreen" absolute />;
 }

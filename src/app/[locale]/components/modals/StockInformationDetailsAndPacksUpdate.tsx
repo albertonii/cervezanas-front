@@ -1,6 +1,6 @@
 import Button from '../common/Button';
 import InputLabel from '../common/InputLabel';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import {
     IProductPack,
@@ -36,12 +36,26 @@ export default function StockInformationDetailsAndPacksUpdate({ form }: Props) {
 
     const { supabase } = useAuth();
 
-    const { register, getValues, control } = form;
+    const {
+        register,
+        getValues,
+        control,
+        formState: { dirtyFields, isDirty },
+        watch,
+    } = form;
 
     const { fields, append, remove } = useFieldArray({
         name: 'packs',
         control,
     });
+
+    useEffect(() => {
+        console.info(dirtyFields);
+    }, [dirtyFields]);
+
+    useEffect(() => {
+        console.info(isDirty);
+    }, [isDirty]);
 
     const handleRemovePack = async (
         packId: string,
@@ -111,6 +125,18 @@ export default function StockInformationDetailsAndPacksUpdate({ form }: Props) {
                     </span>
                 </div>
 
+                <code style={{ display: 'block', marginTop: 24 }}>
+                    formState.isDirty: {`${isDirty}`}
+                </code>
+                <code style={{ display: 'block', marginTop: 24 }}>
+                    Values: {watch('packs').map((field) => `${field.name}, `)}
+                </code>
+
+                <code style={{ display: 'block', marginTop: 24 }}>
+                    Dirty Fields:{' '}
+                    {dirtyFields.packs?.map((field) => `${field.name}, `)}
+                </code>
+
                 {fields.map((pack, index) => (
                     <fieldset
                         className="border border-solid border-gray-300 p-3"
@@ -160,7 +186,7 @@ export default function StockInformationDetailsAndPacksUpdate({ form }: Props) {
 
                                 <InputLabel
                                     form={form}
-                                    label={`packs.${index}.price`}
+                                    label={`packs.${index}.price` as const}
                                     labelText={`${t('pack_price')} €`}
                                     registerOptions={{
                                         value: getValues(
@@ -179,7 +205,7 @@ export default function StockInformationDetailsAndPacksUpdate({ form }: Props) {
                             {/* Pack name  */}
                             <InputLabel
                                 form={form}
-                                label={`packs.${index}.name`}
+                                label={`packs.${index}.name` as const}
                                 labelText={t('pack_name')}
                                 registerOptions={{
                                     value: getValues(`packs.${index}.name`),

@@ -36,7 +36,6 @@ import { ProductInfoSection } from '../../../../components/products/ProductInfoS
 import { useAppContext } from '../../../../../context/AppContext';
 import dynamic from 'next/dynamic';
 import {
-    ROUTE_ADMIN,
     ROUTE_ARTICLES,
     ROUTE_P_BACK,
     ROUTE_P_EXTRA_1,
@@ -46,6 +45,7 @@ import {
 } from '../../../../../../config';
 import { useMessage } from '../../../../components/message/useMessage';
 import { AwardsSection } from '../../../../components/products/AwardsSection';
+import Spinner from '../../../../components/common/Spinner';
 
 const ModalWithForm = dynamic(
     () => import('../../../../components/modals/ModalWithForm'),
@@ -134,12 +134,14 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
 
 type ValidationSchema = z.infer<typeof schema>;
 
+// TODO: ACTUALIZAR A LA NUEVA VERSIóON
 export function AddProductModal() {
     const t = useTranslations();
 
     const { customizeSettings, removeImage } = useAppContext();
     const { user, supabase } = useAuth();
 
+    const [isLoading, setIsLoading] = useState(false);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [activeStep, setActiveStep] = useState<number>(0);
 
@@ -174,8 +176,8 @@ export function AddProductModal() {
     const queryClient = useQueryClient();
 
     useEffect(() => {
-        if (errors) {
-            console.log('Errores detectados creando un producto', errors);
+        if (Object.keys(errors).length > 0) {
+            console.info('Errores detectados creando un producto', errors);
         }
     }, [errors]);
 
@@ -184,6 +186,7 @@ export function AddProductModal() {
     };
 
     const handleInsertProduct = async (form: ValidationSchema) => {
+        setIsLoading(true);
         const {
             // campaign,
             fermentation,
@@ -385,7 +388,10 @@ export function AddProductModal() {
                 p_extra_3: p_extra_3_url ?? '',
             });
 
-        if (multError) throw multError;
+        if (multError) {
+            setIsLoading(false);
+            throw multError;
+        }
 
         setActiveStep(0);
 
@@ -532,6 +538,8 @@ export function AddProductModal() {
                 );
             }
 
+            setIsLoading(false);
+
             reset();
         } else {
             // ERROR - No se ha podido insertar el producto
@@ -599,7 +607,7 @@ export function AddProductModal() {
             btnTitle={'add_product'}
             description={''}
             classIcon={''}
-            classContainer={''}
+            classContainer={`${isLoading && ' opacity-75'}`}
             handler={handleSubmit(onSubmit)}
             handlerClose={() => {
                 setActiveStep(0);
@@ -607,32 +615,38 @@ export function AddProductModal() {
             }}
             form={form}
         >
-            <form>
-                <ProductStepper
-                    activeStep={activeStep}
-                    handleSetActiveStep={handleSetActiveStep}
-                    isSubmitting={isSubmitting}
-                >
-                    <>
-                        <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
-                            {t('modal_product_description')}
-                        </p>
+            {isLoading ? (
+                <div className="h-[50vh]">
+                    <Spinner size="xxLarge" color="beer-blonde" center />
+                </div>
+            ) : (
+                <form>
+                    <ProductStepper
+                        activeStep={activeStep}
+                        handleSetActiveStep={handleSetActiveStep}
+                        isSubmitting={isSubmitting}
+                    >
+                        <>
+                            <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
+                                {t('modal_product_description')}
+                            </p>
 
-                        {activeStep === 0 ? (
-                            <ProductInfoSection
-                                form={form}
-                                customizeSettings={customizeSettings}
-                            />
-                        ) : activeStep === 1 ? (
-                            <MultimediaSection form={form} />
-                        ) : activeStep === 2 ? (
-                            <AwardsSection form={form} />
-                        ) : (
-                            <ProductSummary form={form} />
-                        )}
-                    </>
-                </ProductStepper>
-            </form>
+                            {activeStep === 0 ? (
+                                <ProductInfoSection
+                                    form={form}
+                                    customizeSettings={customizeSettings}
+                                />
+                            ) : activeStep === 1 ? (
+                                <MultimediaSection form={form} />
+                            ) : activeStep === 2 ? (
+                                <AwardsSection form={form} />
+                            ) : (
+                                <ProductSummary form={form} />
+                            )}
+                        </>
+                    </ProductStepper>
+                </form>
+            )}
         </ModalWithForm>
     );
 }

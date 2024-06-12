@@ -284,7 +284,7 @@ export function ShoppingBasket({ user }: Props) {
                 );
 
                 // Notification to producer
-                const producerMessage = `Tienes un nuevo online pedido de ${user?.name} ${user?.lastname} con número de pedido ${orderNumber} con identificador de negocio ${businessOrder.id}`;
+                const producerMessage = `Tienes un nuevo pedido online de ${user?.name} ${user?.lastname} con número de pedido ${orderNumber} con identificador de negocio ${businessOrder.id}`;
                 const producerLink = `${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_ONLINE_ORDERS}`;
 
                 sendPushNotification(producerId, producerMessage, producerLink);

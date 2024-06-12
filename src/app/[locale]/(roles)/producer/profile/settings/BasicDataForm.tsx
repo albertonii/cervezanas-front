@@ -1,6 +1,9 @@
 'use client';
 
+import Button from '../../../../components/common/Button';
+import Spinner from '../../../../components/common/Spinner';
 import { z, ZodType } from 'zod';
+import InputLabel from '../../../../components/common/InputLabel';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
@@ -8,10 +11,7 @@ import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { IProducerUser } from '../../../../../../lib/types/types';
-import Button from '../../../../components/common/Button';
-import Spinner from '../../../../components/common/Spinner';
 import { useMessage } from '../../../../components/message/useMessage';
-import InputLabel from '../../../../components/common/InputLabel';
 
 type FormData = {
     name: string;
@@ -38,13 +38,12 @@ export function BasicDataForm({ profile }: Props) {
     const successMessage = t('profile_acc_data_updated');
 
     const { supabase } = useAuth();
+    const { handleMessage } = useMessage();
+    const [loading, setLoading] = useState(false);
 
     if (!profile.users) return <></>;
 
     const { id, username, name, lastname, email } = profile.users;
-    const { handleMessage } = useMessage();
-
-    const [loading, setLoading] = useState(false);
 
     const form = useForm({
         resolver: zodResolver(schema),

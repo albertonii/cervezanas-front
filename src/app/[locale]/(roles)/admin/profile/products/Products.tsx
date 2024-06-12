@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { ProductList } from './ProductList';
 import { IProduct } from '../../../../../../lib/types/types';
-import { DeleteProduct } from '../../../../components/modals/DeleteProduct';
+import { DeleteProductModal } from '../../../../components/modals/DeleteProductModal';
 import { UpdateProductAdmin } from './UpdateProductAdmin';
 import { AddProductModal } from './AddProductModal';
 
@@ -66,7 +66,7 @@ export function Products() {
             )}
 
             {isDeleteShowModal && productModal && (
-                <DeleteProduct
+                <DeleteProductModal
                     product={productModal}
                     showModal={isDeleteShowModal}
                     handleDeleteShowModal={handleDeleteShowModal}

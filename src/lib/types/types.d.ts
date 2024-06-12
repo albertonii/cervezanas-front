@@ -10,6 +10,7 @@ import { ThemeVariables } from '../../../common/theming';
 import { Session } from '@supabase/gotrue-js/src/lib/types.d';
 import { Type as ProductType } from '../productEnum';
 import { Fermentation } from '../beerEnum';
+import { IBoxPack } from './product';
 
 export type ButtonTypes = 'button' | 'submit' | 'reset';
 
@@ -759,11 +760,11 @@ export type ModalAddProductFormData = {
     era: number;
     is_gluten: boolean;
     type: string;
-    p_principal?: FileList;
-    p_back?: FileList;
-    p_extra_1?: FileList;
-    p_extra_2?: FileList;
-    p_extra_3?: FileList;
+    p_principal?: any;
+    p_back?: any;
+    p_extra_1?: any;
+    p_extra_2?: any;
+    p_extra_3?: any;
     is_public: boolean;
     volume: number;
     weight: number;
@@ -792,11 +793,11 @@ export type ModalUpdateProductFormData = {
     era: number;
     is_gluten: boolean;
     type: string;
-    p_principal?: FileList | string;
-    p_back?: FileList | string;
-    p_extra_1?: FileList | string;
-    p_extra_2?: FileList | string;
-    p_extra_3?: FileList | string;
+    p_principal?: any;
+    p_back?: any;
+    p_extra_1?: any;
+    p_extra_2?: any;
+    p_extra_3?: any;
     is_public: boolean;
     volume: number;
     weight: number;
@@ -949,6 +950,7 @@ export interface IProduct {
     users?: IUserTable;
     product_inventory?: IProductInventory;
     product_multimedia?: IProductMultimedia;
+    box_packs?: IBoxPack[];
 }
 
 export interface IEventProduct {
@@ -1246,7 +1248,7 @@ export interface IUserTable {
     lastname: string;
     email: string;
     username: string;
-    role: string;
+    role: string[];
     avatar_url: string;
     bg_url: string;
     updated_at: string;
@@ -1262,7 +1264,7 @@ export interface IUserProfile {
     email: string;
     name: string;
     lastname: string;
-    role: string;
+    role: string[];
     updated_at: string;
     provider: string;
     created_at: string;
@@ -1279,7 +1281,7 @@ export enum PROVIDER_TYPE {
 export interface IDistributorUser {
     user_id: string; // FK ID
     created_at: string;
-    nif: string;
+    id_number: string;
     bank_account: string;
     company_name: string;
     company_description: string;
@@ -1295,6 +1297,7 @@ export interface IProducerUser {
     created_at: string;
     company_name: string;
     company_description: string;
+    id_number: string;
     location_id: string;
     is_authorized: boolean;
     profile_location?: IProfileLocation[];

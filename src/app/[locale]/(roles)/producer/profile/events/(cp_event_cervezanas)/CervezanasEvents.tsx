@@ -20,20 +20,16 @@ export default function CervezanasEvents({
 
     return (
         <section className="px-4 py-6" aria-label="Events">
-            <header className="flex flex-col space-y-4">
-                <p className="flex justify-between py-4" id="header">
-                    <span
-                        id="title"
-                        className="text-5xl font-semibold text-beer-blonde"
-                    >
-                        {t('cervezanas_events')}
-                    </span>
-                </p>
-            </header>
+            <p className="flex justify-between py-4" id="header">
+                <span
+                    id="title"
+                    className="text-5xl uppercase font-semibold text-white"
+                >
+                    {t('cervezanas_events')}
+                </span>
+            </p>
 
-            <CervezanasEventList
-                counter={counter}
-            />
+            <CervezanasEventList counter={counter} />
         </section>
     );
 }

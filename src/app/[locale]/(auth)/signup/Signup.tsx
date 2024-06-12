@@ -72,17 +72,17 @@ export default function Signup() {
             </article>
 
             {/* Hero Image */}
-            <div className="hidden w-full justify-center lg:flex">
+            <figure className="hidden w-full justify-center lg:flex">
                 <Image
                     style={{ aspectRatio: '4/5' }}
-                    className="inset-0 rounded-3xl lg:w-[30vw]"
+                    className="inset-0 rounded-3xl w-auto lg:w-[40vw] xl:w-[30vw]"
                     alt="Cervezanas artesanales"
                     sizes="(max-width: 1024px) 100vw, 1024px"
                     width={1024}
                     height={768}
                     src={'/assets/profile_signup.jpg'}
                 />
-            </div>
+            </figure>
         </section>
     );
 }

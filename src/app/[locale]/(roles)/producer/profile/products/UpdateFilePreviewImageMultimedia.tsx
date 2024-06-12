@@ -5,24 +5,15 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { DisplayInputError } from '../../../../components/common/DisplayInputError';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { generateFileNameExtension } from '../../../../../../utils/utils';
-import { v4 as uuidv4 } from 'uuid';
-import {
-    ROUTE_ARTICLES,
-    ROUTE_P_BACK,
-    ROUTE_P_EXTRA_1,
-    ROUTE_P_EXTRA_2,
-    ROUTE_P_EXTRA_3,
-    ROUTE_P_PRINCIPAL,
-} from '../../../../../../config';
 import { MULTIMEDIA } from '../../../../../../constants';
+import { useMessage } from '../../../../components/message/useMessage';
 
 interface Props {
     productId: string;
     form: UseFormReturn<any, any>;
     registerName: string;
     preUrl?: string;
+    isBoxPack?: boolean;
 }
 
 export const UpdateFilePreviewImageMultimedia = ({
@@ -30,17 +21,13 @@ export const UpdateFilePreviewImageMultimedia = ({
     form,
     registerName,
     preUrl,
+    isBoxPack,
 }: Props) => {
     const t = useTranslations();
     const [image, setImage] = useState<string | null>(); // Nuevo estado para almacenar la URL de la imagen
-    const { supabase } = useAuth();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const generateUUID = () => {
-        return uuidv4();
-    };
-
-    const randomUUID = generateUUID();
+    const { handleMessage } = useMessage();
 
     const {
         getValues,
@@ -57,6 +44,11 @@ export const UpdateFilePreviewImageMultimedia = ({
                     ? getValues(registerName)[0].name
                     : getValues(registerName);
 
+            if (!file) {
+                setImage('/assets/nobeer.png');
+                return;
+            }
+
             preUrl
                 ? setImage(preUrl + decodeURIComponent(file))
                 : setImage(URL.createObjectURL(getValues(registerName)[0]));
@@ -72,142 +64,146 @@ export const UpdateFilePreviewImageMultimedia = ({
         if (!e.target.files) return console.info('No hay archivos');
         setImage(URL.createObjectURL(e.target.files[0])); // Almacenar la URL de la imagen en el estado
         setValue(registerName, e.target.files);
+        // setValue(registerName, e.target.files, { shouldDirty: true });
 
         setIsLoading(true);
 
         const updateValue = async () => {
+            const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+            const url = `${baseUrl}/api/products/${
+                isBoxPack && 'box_packs/'
+            }multimedia`;
+
             const file = getValues(registerName);
 
+            const formData = new FormData();
+            formData.append('product_id', productId);
+
             if (registerName === MULTIMEDIA.P_PRINCIPAL) {
-                const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_PRINCIPAL}/${randomUUID}`;
-                const p_principal_url = encodeURIComponent(
-                    `${fileName}${generateFileNameExtension(file[0].name)}`,
-                );
+                const multimedia_type = MULTIMEDIA.P_PRINCIPAL;
 
-                const { error } = await supabase.storage
-                    .from('products')
-                    .upload(
-                        `${fileName}${generateFileNameExtension(file[0].name)}`,
-                        file[0],
-                        {
-                            cacheControl: '3600',
-                            upsert: false,
-                        },
-                    );
-                if (error) throw error;
+                formData.append('multimedia_type', multimedia_type);
+                formData.append('multimedia', file[0]);
 
-                const { error: multError } = await supabase
-                    .from('product_multimedia')
-                    .update({
-                        p_principal: p_principal_url,
-                    })
-                    .eq('product_id', productId);
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    body: formData,
+                });
 
-                if (multError) throw multError;
+                if (response.status !== 200) {
+                    handleMessage({
+                        type: 'error',
+                        message: t('error_update_product_multimedia'),
+                    });
+                    return;
+                }
+
+                if (response.status === 200) {
+                    handleMessage({
+                        type: 'success',
+                        message: t('success_update_product_multimedia'),
+                    });
+                }
             } else if (registerName === MULTIMEDIA.P_BACK) {
-                const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_BACK}/${randomUUID}`;
-                const p_back_url = encodeURIComponent(
-                    `${fileName}${generateFileNameExtension(file[0].name)}`,
-                );
+                const multimedia_type = MULTIMEDIA.P_BACK;
 
-                const { error } = await supabase.storage
-                    .from('products')
-                    .upload(
-                        `${fileName}${generateFileNameExtension(file[0].name)}`,
-                        file[0],
-                        {
-                            cacheControl: '3600',
-                            upsert: false,
-                        },
-                    );
-                if (error) throw error;
+                formData.append('multimedia_type', multimedia_type);
+                formData.append('multimedia', file[0]);
 
-                const { error: multError } = await supabase
-                    .from('product_multimedia')
-                    .update({
-                        p_back: p_back_url,
-                    })
-                    .eq('product_id', productId);
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    body: formData,
+                });
 
-                if (multError) throw multError;
+                if (response.status !== 200) {
+                    handleMessage({
+                        type: 'error',
+                        message: t('error_update_product_multimedia'),
+                    });
+                    return;
+                }
+
+                if (response.status === 200) {
+                    handleMessage({
+                        type: 'success',
+                        message: t('success_update_product_multimedia'),
+                    });
+                }
             } else if (registerName === MULTIMEDIA.P_EXTRA_1) {
-                const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_EXTRA_1}/${randomUUID}`;
-                const p_extra_1_url = encodeURIComponent(
-                    `${fileName}${generateFileNameExtension(file[0].name)}`,
-                );
+                const multimedia_type = MULTIMEDIA.P_EXTRA_1;
 
-                const { error } = await supabase.storage
-                    .from('products')
-                    .upload(
-                        `${fileName}${generateFileNameExtension(file[0].name)}`,
-                        file[0],
-                        {
-                            cacheControl: '3600',
-                            upsert: false,
-                        },
-                    );
-                if (error) throw error;
+                formData.append('multimedia_type', multimedia_type);
+                formData.append('multimedia', file[0]);
 
-                const { error: multError } = await supabase
-                    .from('product_multimedia')
-                    .update({
-                        p_back: p_extra_1_url,
-                    })
-                    .eq('product_id', productId);
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    body: formData,
+                });
 
-                if (multError) throw multError;
+                if (response.status !== 200) {
+                    handleMessage({
+                        type: 'error',
+                        message: t('error_update_product_multimedia'),
+                    });
+                    return;
+                }
+
+                if (response.status === 200) {
+                    handleMessage({
+                        type: 'success',
+                        message: t('success_update_product_multimedia'),
+                    });
+                }
             } else if (registerName === MULTIMEDIA.P_EXTRA_2) {
-                const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_EXTRA_2}/${randomUUID}`;
-                const p_extra_2_url = encodeURIComponent(
-                    `${fileName}${generateFileNameExtension(file[0].name)}`,
-                );
+                const multimedia_type = MULTIMEDIA.P_EXTRA_2;
 
-                const { error } = await supabase.storage
-                    .from('products')
-                    .upload(
-                        `${fileName}${generateFileNameExtension(file[0].name)}`,
-                        file[0],
-                        {
-                            cacheControl: '3600',
-                            upsert: false,
-                        },
-                    );
-                if (error) throw error;
+                formData.append('multimedia_type', multimedia_type);
+                formData.append('multimedia', file[0]);
 
-                const { error: multError } = await supabase
-                    .from('product_multimedia')
-                    .update({
-                        p_back: p_extra_2_url,
-                    })
-                    .eq('product_id', productId);
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    body: formData,
+                });
 
-                if (multError) throw multError;
+                if (response.status !== 200) {
+                    handleMessage({
+                        type: 'error',
+                        message: t('error_update_product_multimedia'),
+                    });
+                    return;
+                }
+
+                if (response.status === 200) {
+                    handleMessage({
+                        type: 'success',
+                        message: t('success_update_product_multimedia'),
+                    });
+                }
             } else if (registerName === MULTIMEDIA.P_EXTRA_3) {
-                const fileName = `${ROUTE_ARTICLES}/${productId}${ROUTE_P_EXTRA_3}/${randomUUID}`;
-                const p_extra_3_url = encodeURIComponent(
-                    `${fileName}${generateFileNameExtension(file[0].name)}`,
-                );
+                const multimedia_type = MULTIMEDIA.P_EXTRA_3;
 
-                const { error } = await supabase.storage
-                    .from('products')
-                    .upload(
-                        `${fileName}${generateFileNameExtension(file[0].name)}`,
-                        file[0],
-                        {
-                            cacheControl: '3600',
-                            upsert: false,
-                        },
-                    );
-                if (error) throw error;
+                formData.append('multimedia_type', multimedia_type);
+                formData.append('multimedia', file[0]);
 
-                const { error: multError } = await supabase
-                    .from('product_multimedia')
-                    .update({
-                        p_back: p_extra_3_url,
-                    })
-                    .eq('product_id', productId);
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    body: formData,
+                });
 
-                if (multError) throw multError;
+                if (response.status !== 200) {
+                    handleMessage({
+                        type: 'error',
+                        message: t('error_update_product_multimedia'),
+                    });
+                    return;
+                }
+
+                if (response.status === 200) {
+                    handleMessage({
+                        type: 'success',
+                        message: t('success_update_product_multimedia'),
+                    });
+                }
             }
 
             setTimeout(() => {
@@ -235,7 +231,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                 <div className="relative h-32 w-full cursor-pointer items-center overflow-hidden rounded-md border-2 border-dotted   border-gray-400 shadow-md">
                     <input
                         type="file"
-                        accept="image/*"
+                        accept="image/gif, image/jpeg, image/png, image/webp"
                         className="absolute z-10 h-full w-full opacity-0"
                         onChange={handleFile}
                     />

@@ -1,11 +1,12 @@
 import ErrorCheckout from './ErrorCheckout';
 import React from 'react';
-import { redirect } from 'next/navigation';
 import { decodeBase64 } from '../../../../../utils/utils';
 import createServerClient from '../../../../../utils/supabaseServer';
 import readUserSession from '../../../../../lib/actions';
-import { VIEWS } from '../../../../../constants';
 import { IOrder } from '../../../../../lib/types/types';
+import { redirect } from 'next/navigation';
+import ErrorComponents from './ErrorComponent';
+import ErrorComponent from './ErrorComponent';
 
 export async function generateMetadata({ searchParams }: any) {
     try {
@@ -41,7 +42,13 @@ export async function generateMetadata({ searchParams }: any) {
 export default async function Error({ searchParams }: any) {
     const { orderData, isError } = await getCheckoutErrorData(searchParams);
     const [order] = await Promise.all([orderData]);
+
+    if (isError) {
+        return <ErrorComponent />;
+    }
+
     if (!order) return <></>;
+
     return (
         <>
             <ErrorCheckout order={order} isError={isError} />
@@ -56,6 +63,13 @@ async function getCheckoutErrorData(searchParams: any) {
         Ds_Signature: string;
     };
 
+    if (!Ds_MerchantParameters) {
+        return {
+            orderData: null,
+            isError: true,
+        };
+    }
+
     const { Ds_Order: orderId, Ds_Response } = JSON.parse(
         decodeBase64(Ds_MerchantParameters),
     );
@@ -69,7 +83,7 @@ async function getCheckoutErrorData(searchParams: any) {
         redirect('/signin');
     }
 
-    console.log('RESPONSE CODE FROM PAYMENT SERVICE:', Ds_Response);
+    console.info('RESPONSE CODE FROM PAYMENT SERVICE:', Ds_Response);
 
     // Código de error Paypal - 9299 9300 9301 9700
     // Código de error Bizum - 9672 9673 9674 9675 9676 9677 9966

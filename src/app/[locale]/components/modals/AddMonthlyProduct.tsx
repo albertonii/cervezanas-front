@@ -15,6 +15,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from 'react-query';
 import ModalWithForm from './ModalWithForm';
 import { useMessage } from '../message/useMessage';
+import Spinner from '../common/Spinner';
 
 enum SortBy {
     NONE = 'none',
@@ -59,6 +60,7 @@ export default function AddMonthlyProduct({
     const { handleMessage } = useMessage();
 
     const [query, setQuery] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -122,6 +124,8 @@ export default function AddMonthlyProduct({
     };
 
     const handleInsertMonthlyProduct = async (form: ValidationSchema) => {
+        setIsLoading(true);
+
         const { category, month, year } = form;
 
         if (!selectedProduct) return console.info('No product selected');
@@ -137,6 +141,8 @@ export default function AddMonthlyProduct({
             .select('product_id, category, month, year');
 
         if (error) {
+            setIsLoading(false);
+
             handleMessage({
                 type: 'error',
                 message: `${t(
@@ -147,6 +153,7 @@ export default function AddMonthlyProduct({
         }
 
         setShowModal(false);
+        setIsLoading(false);
         handleAddProduct(data[0]);
 
         handleMessage({
@@ -188,158 +195,176 @@ export default function AddMonthlyProduct({
             description={''}
             handler={handleSubmit(onSubmit)}
             classIcon={'w-6 h-6'}
-            classContainer={''}
+            classContainer={`${isLoading && ' opacity-75'}`}
             form={form}
         >
-            <form>
-                <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                    <legend className="m-2 text-2xl">
-                        {t('cp_fixed_info')}
-                    </legend>
+            {isLoading ? (
+                <div className="h-[50vh]">
+                    <Spinner size="xxLarge" color="beer-blonde" center />
+                </div>
+            ) : (
+                <form>
+                    <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+                        <legend className="m-2 text-2xl">
+                            {t('cp_fixed_info')}
+                        </legend>
 
-                    {/* Category  */}
-                    <div className="flex flex-col space-y-2">
-                        <select
-                            id="category"
-                            {...register('category', { required: true })}
-                            defaultValue={category_options[0].label}
-                            className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                        >
-                            {category_options.map((option) => (
-                                <option key={option.value} value={option.value}>
-                                    {t(option.label)}
-                                </option>
-                            ))}
-                        </select>
-                        {errors.category && (
-                            <DisplayInputError
-                                message={errors.category.message}
-                            />
-                        )}
-                    </div>
-
-                    {/* Month and Year */}
-                    <div className="flex flex-row space-x-4">
-                        <div className="flex w-full flex-row items-center">
-                            <label htmlFor="month" className="mr-2">
-                                {t('month')}
-                            </label>
-
+                        {/* Category  */}
+                        <div className="flex flex-col space-y-2">
                             <select
-                                id="month"
-                                name="month"
-                                className="block rounded-lg border border-gray-300 bg-gray-50 p-2.5 pr-8 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                                onClick={(e) => handleMonthClicked(e)}
-                                value={new Date().getMonth() + 1}
+                                id="category"
+                                {...register('category', { required: true })}
+                                defaultValue={category_options[0].label}
+                                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                             >
-                                <option value="0">{t('select_month')}</option>
-                                <option value="1">{t('january')}</option>
-                                <option value="2">{t('february')}</option>
-                                <option value="3">{t('march')}</option>
-                                <option value="4">{t('april')}</option>
-                                <option value="5">{t('may')}</option>
-                                <option value="6">{t('june')}</option>
-                                <option value="7">{t('july')}</option>
-                                <option value="8">{t('august')}</option>
-                                <option value="9">{t('september')}</option>
-                                <option value="10">{t('october')}</option>
-                                <option value="11">{t('november')}</option>
-                                <option value="12">{t('december')}</option>
-                            </select>
-                        </div>
-
-                        {/* Year */}
-                        <div className="flex w-full flex-row items-center">
-                            <label htmlFor="year" className="mr-2">
-                                {t('year')}
-                            </label>
-
-                            <select
-                                id="year"
-                                name="year"
-                                className="block rounded-lg border border-gray-300 bg-gray-50 p-2.5 pr-8 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                                onClick={(e) => handleYearClicked(e)}
-                                value={new Date().getFullYear()}
-                            >
-                                <option value="0">{t('select_year')}</option>
-                                <option value="2023">{t('2023')}</option>
-                                <option value="2024">{t('2024')}</option>
-                                <option value="2025">{t('2025')}</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    {/* List of products */}
-                    <div className="flex flex-col space-y-2">
-                        <label htmlFor="product" className="mr-2">
-                            {t('product')}
-                        </label>
-
-                        <InputSearch
-                            query={query}
-                            setQuery={setQuery}
-                            searchPlaceholder={'search_products'}
-                        />
-
-                        <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
-                            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th scope="col" className="px-6 py-3"></th>
-
-                                    <th
-                                        scope="col"
-                                        className="px-6 py-3 hover:cursor-pointer"
-                                        onClick={() => {
-                                            handleChangeSort(SortBy.NAME);
-                                        }}
+                                {category_options.map((option) => (
+                                    <option
+                                        key={option.value}
+                                        value={option.value}
                                     >
-                                        {t('name_header')}
-                                    </th>
+                                        {t(option.label)}
+                                    </option>
+                                ))}
+                            </select>
+                            {errors.category && (
+                                <DisplayInputError
+                                    message={errors.category.message}
+                                />
+                            )}
+                        </div>
 
-                                    <th scope="col" className="px-6 py-3 ">
-                                        {t('action_header')}
-                                    </th>
-                                </tr>
-                            </thead>
+                        {/* Month and Year */}
+                        <div className="flex flex-row space-x-4">
+                            <div className="flex w-full flex-row items-center">
+                                <label htmlFor="month" className="mr-2">
+                                    {t('month')}
+                                </label>
 
-                            <tbody>
-                                {sortedItems.map((product) => {
-                                    return (
-                                        <tr
-                                            key={product.id}
-                                            className={` border-b dark:border-gray-700 dark:bg-gray-800 
+                                <select
+                                    id="month"
+                                    name="month"
+                                    className="block rounded-lg border border-gray-300 bg-gray-50 p-2.5 pr-8 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                    onClick={(e) => handleMonthClicked(e)}
+                                    value={new Date().getMonth() + 1}
+                                >
+                                    <option value="0">
+                                        {t('select_month')}
+                                    </option>
+                                    <option value="1">{t('january')}</option>
+                                    <option value="2">{t('february')}</option>
+                                    <option value="3">{t('march')}</option>
+                                    <option value="4">{t('april')}</option>
+                                    <option value="5">{t('may')}</option>
+                                    <option value="6">{t('june')}</option>
+                                    <option value="7">{t('july')}</option>
+                                    <option value="8">{t('august')}</option>
+                                    <option value="9">{t('september')}</option>
+                                    <option value="10">{t('october')}</option>
+                                    <option value="11">{t('november')}</option>
+                                    <option value="12">{t('december')}</option>
+                                </select>
+                            </div>
+
+                            {/* Year */}
+                            <div className="flex w-full flex-row items-center">
+                                <label htmlFor="year" className="mr-2">
+                                    {t('year')}
+                                </label>
+
+                                <select
+                                    id="year"
+                                    name="year"
+                                    className="block rounded-lg border border-gray-300 bg-gray-50 p-2.5 pr-8 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                    onClick={(e) => handleYearClicked(e)}
+                                    value={new Date().getFullYear()}
+                                >
+                                    <option value="0">
+                                        {t('select_year')}
+                                    </option>
+                                    <option value="2023">{t('2023')}</option>
+                                    <option value="2024">{t('2024')}</option>
+                                    <option value="2025">{t('2025')}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        {/* List of products */}
+                        <div className="flex flex-col space-y-2">
+                            <label htmlFor="product" className="mr-2">
+                                {t('product')}
+                            </label>
+
+                            <InputSearch
+                                query={query}
+                                setQuery={setQuery}
+                                searchPlaceholder={'search_products'}
+                            />
+
+                            <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
+                                <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th
+                                            scope="col"
+                                            className="px-6 py-3"
+                                        ></th>
+
+                                        <th
+                                            scope="col"
+                                            className="px-6 py-3 hover:cursor-pointer"
+                                            onClick={() => {
+                                                handleChangeSort(SortBy.NAME);
+                                            }}
+                                        >
+                                            {t('name_header')}
+                                        </th>
+
+                                        <th scope="col" className="px-6 py-3 ">
+                                            {t('action_header')}
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {sortedItems.map((product) => {
+                                        return (
+                                            <tr
+                                                key={product.id}
+                                                className={` border-b dark:border-gray-700 dark:bg-gray-800 
                       ${
                           product.id === selectedProduct?.id && `bg-beer-draft`
                       } `}
-                                        >
-                                            <th
-                                                scope="row"
-                                                className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                                            ></th>
+                                            >
+                                                <th
+                                                    scope="row"
+                                                    className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                                                ></th>
 
-                                            <td className="px-6 py-4 font-semibold text-beer-blonde ">
-                                                {product.name}
-                                            </td>
+                                                <td className="px-6 py-4 font-semibold text-beer-blonde ">
+                                                    {product.name}
+                                                </td>
 
-                                            <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                                                <IconButton
-                                                    onClick={() =>
-                                                        handleProductClicked(
-                                                            product,
-                                                        )
-                                                    }
-                                                    icon={faHandPointer}
-                                                    title={t('select_product')}
-                                                />
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
-                    </div>
-                </fieldset>
-            </form>
+                                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+                                                    <IconButton
+                                                        onClick={() =>
+                                                            handleProductClicked(
+                                                                product,
+                                                            )
+                                                        }
+                                                        icon={faHandPointer}
+                                                        title={t(
+                                                            'select_product',
+                                                        )}
+                                                    />
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </fieldset>
+                </form>
+            )}
         </ModalWithForm>
     );
 }

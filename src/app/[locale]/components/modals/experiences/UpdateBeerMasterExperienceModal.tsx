@@ -16,6 +16,7 @@ import {
     IUpdModalExperienceBeerMasterFormData,
 } from '../../../../../lib/types/quiz';
 import { shuffleArray } from '../../../../../utils/utils';
+import Spinner from '../../common/Spinner';
 
 const difficulties = z.union([
     z.literal(Difficulty.EASY),
@@ -78,6 +79,7 @@ export default function UpdateBeerMasterExperienceModal({
     const t = useTranslations();
     const { supabase } = useAuth();
 
+    const [isLoading, setIsLoading] = useState(false);
     const [isBeerMasterExperience, setIsBeerMasterExperience] =
         useState<boolean>(true);
 
@@ -124,6 +126,8 @@ export default function UpdateBeerMasterExperienceModal({
     } = form;
 
     const handleUpdateBeerMasterExperience = async (form: ValidationSchema) => {
+        setIsLoading(true)
+
         const { name, description, type, questions } = form;
 
         // Update experience
@@ -139,10 +143,12 @@ export default function UpdateBeerMasterExperienceModal({
             .single();
 
         if (!experience) {
+        setIsLoading(false);
             return;
         }
 
         if (experienceError) {
+            setIsLoading(false);
             throw experienceError;
         }
 
@@ -177,6 +183,7 @@ export default function UpdateBeerMasterExperienceModal({
                     .single();
 
                 if (questionError) {
+                    setIsLoading(false);
                     throw questionError;
                 }
 
@@ -225,6 +232,7 @@ export default function UpdateBeerMasterExperienceModal({
                         .single();
 
                 if (!questionData) {
+                    setIsLoading(false);
                     return;
                 }
 
@@ -251,7 +259,9 @@ export default function UpdateBeerMasterExperienceModal({
 
         handleEditModal(false);
         reset();
+        setIsLoading(false);
         setTimeout(() => {
+            
             queryClient.invalidateQueries('experiences');
         }, 300);
     };
@@ -282,10 +292,15 @@ export default function UpdateBeerMasterExperienceModal({
             btnTitle={'save'}
             description={''}
             classIcon={''}
-            classContainer={''}
+            classContainer={`${isLoading && ' opacity-75'}`}
             handler={handleSubmit(onSubmit)}
             form={form}
         >
+            {isLoading ? (
+                <div className="h-[50vh]">
+                    <Spinner size="xxLarge" color="beer-blonde" center />
+                </div>
+            ) : (
             <form>
                 <UpdExperienceBasicForm
                     form={form}
@@ -306,6 +321,7 @@ export default function UpdateBeerMasterExperienceModal({
                     </fieldset>
                 )}
             </form>
+            )}
         </ModalWithForm>
     );
 }

@@ -75,7 +75,7 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
                 />
               </div>
 
-              <div className="w-full px-10 py-3 2xl:container 2xl:mx-auto 2xl:px-0">
+              <div className="w-full px-3 py-3 2xl:container 2xl:mx-auto 2xl:px-0">
                 <Carousel
                   gallery={gallery}
                   handleSetGalleryIndex={handleSetGalleryIndex}

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Button from '../../components/common/Button';
 import Spinner from '../../components/common/Spinner';
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
@@ -14,10 +14,11 @@ import { SignUpWithPasswordCredentials } from '../Context/AuthContext';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
-import { useMessage } from '../../components/message/useMessage';
 import { useAuth } from '../Context/useAuth';
 import { ROLE_ENUM, ROLE_OPTIONS } from '../../../../lib/enums';
 import { SupabaseProps } from '../../../../constants';
+import { useRouter } from 'next/navigation';
+import { ROUTE_SIGNIN } from '../../../../config';
 
 interface FormData {
     access_level: string;
@@ -66,6 +67,8 @@ type ValidationSchema = z.infer<typeof schema>;
 
 export const SignUpForm = () => {
     const t = useTranslations();
+    const router = useRouter();
+    const locale = useLocale();
 
     const { signUp, isLoading: loading } = useAuth();
     const [isProducer, setIsProducer] = useState(false);
@@ -95,7 +98,7 @@ export const SignUpForm = () => {
         const { username, email, password } = form;
 
         const data = {
-            access_level: role,
+            access_level: [role],
             username: username,
             email: email,
             email_verified: false,
@@ -120,6 +123,7 @@ export const SignUpForm = () => {
                 }
 
                 reset();
+                // router.push(`/${locale}${ROUTE_SIGNIN}`);
             }
         });
     };

@@ -111,8 +111,6 @@ export default function EventExperience({ eventExperience }: Props) {
                 if (bmExperienceParticipant) {
                     setIsRegistered(true);
 
-                    console.log('DENTRON Y SE CAMBIARÁ FINISHED');
-
                     setExperienceParticipant(bmExperienceParticipant);
                     setIsFinished(bmExperienceParticipant.is_finished);
                     setIsPaymentValid(bmExperienceParticipant.is_paid);

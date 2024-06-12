@@ -366,6 +366,71 @@ export interface Database {
           }
         ]
       }
+      box_pack_items: {
+        Row: {
+          box_pack_id: string | null
+          id: string
+          product_id: string | null
+          quantity: number | null
+          slots_per_product: number | null
+        }
+        Insert: {
+          box_pack_id?: string | null
+          id?: string
+          product_id?: string | null
+          quantity?: number | null
+          slots_per_product?: number | null
+        }
+        Update: {
+          box_pack_id?: string | null
+          id?: string
+          product_id?: string | null
+          quantity?: number | null
+          slots_per_product?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "box_pack_items_box_pack_id_fkey"
+            columns: ["box_pack_id"]
+            isOneToOne: false
+            referencedRelation: "box_packs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "box_pack_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      box_packs: {
+        Row: {
+          id: string
+          product_id: string | null
+          slots_per_box: number | null
+        }
+        Insert: {
+          id?: string
+          product_id?: string | null
+          slots_per_box?: number | null
+        }
+        Update: {
+          id?: string
+          product_id?: string | null
+          slots_per_box?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "public_box_pack_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       business_orders: {
         Row: {
           created_at: string | null
@@ -1068,9 +1133,9 @@ export interface Database {
           company_description: string | null
           company_name: string | null
           created_at: string | null
+          id_number: string | null
           is_authorized: boolean | null
           location_id: string | null
-          nif: string | null
           user_id: string
         }
         Insert: {
@@ -1078,9 +1143,9 @@ export interface Database {
           company_description?: string | null
           company_name?: string | null
           created_at?: string | null
+          id_number?: string | null
           is_authorized?: boolean | null
           location_id?: string | null
-          nif?: string | null
           user_id: string
         }
         Update: {
@@ -1088,9 +1153,9 @@ export interface Database {
           company_description?: string | null
           company_name?: string | null
           created_at?: string | null
+          id_number?: string | null
           is_authorized?: boolean | null
           location_id?: string | null
-          nif?: string | null
           user_id?: string
         }
         Relationships: [
@@ -1877,6 +1942,7 @@ export interface Database {
           company_description: string | null
           company_name: string | null
           created_at: string
+          id_number: string | null
           is_authorized: boolean | null
           location_id: string | null
           user_id: string
@@ -1885,6 +1951,7 @@ export interface Database {
           company_description?: string | null
           company_name?: string | null
           created_at?: string
+          id_number?: string | null
           is_authorized?: boolean | null
           location_id?: string | null
           user_id: string
@@ -1893,6 +1960,7 @@ export interface Database {
           company_description?: string | null
           company_name?: string | null
           created_at?: string
+          id_number?: string | null
           is_authorized?: boolean | null
           location_id?: string | null
           user_id?: string
@@ -2462,7 +2530,7 @@ export interface Database {
           lastname: string | null
           name: string | null
           provider: string | null
-          role: string | null
+          role: string[] | null
           updated_at: string | null
           username: string | null
         }
@@ -2477,7 +2545,7 @@ export interface Database {
           lastname?: string | null
           name?: string | null
           provider?: string | null
-          role?: string | null
+          role?: string[] | null
           updated_at?: string | null
           username?: string | null
         }
@@ -2492,7 +2560,7 @@ export interface Database {
           lastname?: string | null
           name?: string | null
           provider?: string | null
-          role?: string | null
+          role?: string[] | null
           updated_at?: string | null
           username?: string | null
         }
@@ -2511,6 +2579,14 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
+      correct_access_level_format: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      correct_specific_access_level_format: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       set_claim: {
         Args: {
           uid: string
@@ -2518,6 +2594,10 @@ export interface Database {
           value: Json
         }
         Returns: string
+      }
+      update_raw_user_meta_data: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
       }
     }
     Enums: {

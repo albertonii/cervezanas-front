@@ -98,6 +98,6 @@ async function checkAuthorizatedUser() {
 }
 
 async function checkAuthorizatedUserByRole(user: User) {
-    const role = user.user_metadata.access_level;
-    return role === ROLE_ENUM.Admin;
+    const roles: string[] = user.user_metadata.access_level;
+    return roles.includes(ROLE_ENUM.Admin);
 }

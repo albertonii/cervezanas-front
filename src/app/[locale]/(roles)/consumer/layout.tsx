@@ -40,7 +40,7 @@ async function checkAuthorizatedUser() {
 }
 
 async function checkAuthorizatedUserByRole(user: User) {
-    const role = user.user_metadata.access_level;
+    const roles: string[] = user.user_metadata.access_level;
     const isFromProvider = user.app_metadata.provider === 'google';
-    return role === ROLE_ENUM.Cervezano || isFromProvider;
+    return roles.includes(ROLE_ENUM.Cervezano) || isFromProvider;
 }

@@ -1,14 +1,14 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { IOrder } from '../../../../../../lib/types/types';
+import { IBusinessOrder } from '../../../../../../lib/types/types';
 import { BusinessOrderList } from './BusinessOrderList';
 
 interface Props {
-    orders: IOrder[];
+    bOrders: IBusinessOrder[];
 }
 
-export function Orders({ orders }: Props) {
+export function Orders({ bOrders }: Props) {
     const t = useTranslations();
 
     return (
@@ -16,15 +16,13 @@ export function Orders({ orders }: Props) {
             <p className="flex justify-between py-4" id="header">
                 <span
                     id="title"
-                    className="text-5xl font-semibold text-beer-blonde"
+                    className="text-5xl uppercase font-semibold text-white"
                 >
                     {t('marketplace_orders')}
                 </span>
             </p>
 
-            {orders && orders.length > 0 && (
-                <BusinessOrderList orders={orders} />
-            )}
+            <BusinessOrderList bOrders={bOrders} />
         </section>
     );
 }

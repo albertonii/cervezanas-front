@@ -52,7 +52,7 @@ export function IconButton({
 
         return (
             <FontAwesomeIcon
-                className={`${classNameIcon} `}
+                className={`w-[20px] h-[20px] ${classNameIcon}`}
                 icon={icon}
                 style={{ color: getColor() }}
                 onMouseEnter={() => setHoverColor('filled')}
@@ -87,7 +87,7 @@ export function IconButton({
             onClick={onClick}
             color={hoverColor}
             className={`
-        mt-0 flex items-center justify-center rounded border-2 border-beer-blonde p-2 transition duration-100 ease-in
+        mt-0 flex items-center justify-center rounded border-2 border-beer-blonde p-1 transition duration-100 ease-in
         ${box ? 'h-auto w-10' : ''}
         ${disabled ? 'cursor-not-allowed opacity-50' : ''}
         ${size === 'small' ? 'w-24' : ''} 
@@ -97,7 +97,7 @@ export function IconButton({
         ${size === 'xxLarge' ? 'w-80' : ''}
         ${
             primary
-                ? ' border-2 border-beer-blonde bg-beer-softBlonde hover:bg-beer-blonde'
+                ? ' border-2 border-beer-blonde bg-beer-blonde hover:bg-beer-softBlonde'
                 : 'hover:bg-beer-softBlonde'
         }
         ${accent ? 'border-2 border-beer-blonde bg-beer-foam' : ''}
