@@ -70,7 +70,7 @@ export function ImageModal(props: Props) {
 
                     return (
                         <PortalModal wrapperId="image-modal-portal">
-                            <section className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto overflow-x-hidden bg-beer-blonde/40 outline-none focus:outline-none">
+                            <section className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto overflow-x-hidden bg-cerv-coffee/60 outline-none focus:outline-none">
                                 {/* The modal  */}
                                 <div className="relative mx-4 my-6 h-screen w-screen shadow-lg ">
                                     {/* Close modal */}

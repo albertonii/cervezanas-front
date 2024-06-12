@@ -198,8 +198,8 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
                                 <span className="text-gray-400">{overAll}</span>
                             </figure>
 
-                            <div className="flex w-full min-w-0 items-center justify-between">
-                                <h2 className="truncate py-2 text-xl font-semibold text-gray-800 transition-all hover:text-yellow-500">
+                            <div className="flex w-full min-w-0 items-center justify-between ">
+                                <h2 className="hover:text-purple-500 m-auto mr-auto cursor-pointer truncate py-2 text-2xl font-bold text-beer-draft transition-all hover:text-beer-blonde">
                                     <Link
                                         href={`/products/${product.id}`}
                                         locale={locale}

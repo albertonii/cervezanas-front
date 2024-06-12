@@ -52,7 +52,7 @@ export function IconButton({
 
         return (
             <FontAwesomeIcon
-                className={`${classNameIcon} w-[20px] h-[20px]`}
+                className={`w-[20px] h-[20px] ${classNameIcon}`}
                 icon={icon}
                 style={{ color: getColor() }}
                 onMouseEnter={() => setHoverColor('filled')}

@@ -61,8 +61,8 @@ export default async function AppLocaleLayout({
                     <Breadcrumb
                         homeElement={'Home'}
                         separator={<span> | </span>}
-                        containerClasses="flex py-5 bg-gradient-to-r from-purple-600 to-blue-600"
-                        listClasses="hover:underline mx-2 font-bold"
+                        containerClasses="flex py-1 bg-gradient-to-r from-purple-600 to-blue-600 bg-beer-dark text-beer-blonde text-sm px-4"
+                        listClasses="hover:underline mx-1"
                         activeClasses="text-amber-500"
                         capitalizeLinks={true}
                     />
@@ -70,7 +70,7 @@ export default async function AppLocaleLayout({
 
                 <main
                     className={classNames(
-                        'relative mx-auto my-4 min-h-[60vh] w-full transform pt-0 transition lg:container',
+                        'relative mx-auto my-0 min-h-[60vh] w-full transform pt-0 transition lg:container',
                     )}
                 >
                     <MessageList />
