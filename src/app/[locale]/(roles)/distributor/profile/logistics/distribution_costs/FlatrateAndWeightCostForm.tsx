@@ -18,6 +18,7 @@ import {
 } from '../../../../../../../lib/types/types';
 import FlatrateAndWeightCostTable from './FlatrateAndWeightCostTable';
 import FlatrateAndWeightCostFormRow from './FlatrateAndWeightCostFormRow';
+import { updateFlatrateAndWeightShippingCost } from '../../../actions';
 
 const rangeObjectSchema = z
     .object({
@@ -56,7 +57,6 @@ const FlatrateAndWeightCostForm = ({
     const { handleMessage } = useMessage();
     const submitSuccessMessage = t('messages.updated_successfully');
     const submitErrorMessage = t('messages.submit_error');
-    const { supabase } = useAuth();
     const [costRanges, setCostRanges] = useState(flatrateAndWeightCost ?? []);
 
     const form = useForm<WeightRangeCostFormValidationSchema>({
@@ -78,7 +78,23 @@ const FlatrateAndWeightCostForm = ({
     const handleUpdateFlatrateCostAndWeight = async (
         form: WeightRangeCostFormValidationSchema,
     ) => {
-        
+        const res = await updateFlatrateAndWeightShippingCost(
+            distributionCostId,
+            costRanges,
+        );
+
+        if (res.status !== 200) {
+            handleMessage({
+                message: submitErrorMessage,
+                type: 'error',
+            });
+            return;
+        }
+
+        handleMessage({
+            message: submitSuccessMessage,
+            type: 'success',
+        });
     };
 
     const handleUpdateFlatrateCostMutation = useMutation({

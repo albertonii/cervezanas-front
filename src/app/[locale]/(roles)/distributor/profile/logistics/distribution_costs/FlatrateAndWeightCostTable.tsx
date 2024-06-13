@@ -20,10 +20,10 @@ export default function FlatrateAndWeightCostTable({ flatrateRanges }: Props) {
             <thead>
                 <tr>
                     <th className="border-b-2 border-gray-300 px-6 py-3 text-left leading-4 tracking-wider text-beer-draft">
-                        {t('flatrate_weight_to')}
+                        {t('flatrate_weight_from')}
                     </th>
                     <th className="border-b-2 border-gray-300 px-6 py-3 text-left leading-4 tracking-wider text-beer-draft">
-                        {t('flatrate_weight_from')}
+                        {t('flatrate_weight_to')}
                     </th>
                     <th className="border-b-2 border-gray-300 px-6 py-3 text-left leading-4 tracking-wider text-beer-draft">
                         {t('flatrate_base_cost')}
@@ -41,7 +41,7 @@ export default function FlatrateAndWeightCostTable({ flatrateRanges }: Props) {
                             {range.weight_from} Kg
                         </td>
                         <td className="whitespace-no-wrap border-b border-gray-500 px-6 py-4">
-                            {range.weight_from} Kg
+                            {range.weight_to} Kg
                         </td>
                         <td className="whitespace-no-wrap border-b border-gray-500 px-6 py-4">
                             {range.base_cost} €
