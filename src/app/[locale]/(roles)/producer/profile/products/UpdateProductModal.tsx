@@ -298,6 +298,7 @@ export function UpdateProductModal({
     }, [errors]);
 
     const generateUUID = () => {
+        'use server';
         return uuidv4();
     };
 
@@ -560,7 +561,6 @@ export function UpdateProductModal({
             // Awards
             if (dirtyFields.awards && awards && isNotEmptyArray(awards)) {
                 await updateAwards(awards, randomUUID);
-                
             }
         }
 
