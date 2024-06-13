@@ -1,5 +1,5 @@
-import { useTranslations } from 'next-intl';
 import React, { useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { DeleteButton } from '../../../../../components/common/DeleteButton';
 import { DisplayInputError } from '../../../../../components/common/DisplayInputError';
@@ -47,47 +47,54 @@ export default function FlatrateAndWeightCostFormRow({
 
     return (
         <>
-            <fieldset className="mr-2 flex flex-col gap-4 rounded-xl border p-2 ">
+            <fieldset className="mr-2 flex flex-col gap-4 rounded-xl border p-2  w-full ">
                 {/* Display all the errors messages at once */}
-                {errors.weight_range_cost && errors.weight_range_cost[index] && (
+                {errors.weight_range_cost && (
                     <div className="flex flex-col gap-2">
-                        {errors.weight_range_cost[index]?.weight_from && (
-                            <DisplayInputError
-                                message={
-                                    errors.weight_range_cost[index]?.weight_from
-                                        ?.message
-                                }
-                            />
+                        {errors.weight_range_cost[index] && (
+                            <>
+                                {errors.weight_range_cost[index]
+                                    ?.weight_from && (
+                                    <DisplayInputError
+                                        message={
+                                            errors.weight_range_cost[index]
+                                                ?.weight_from?.message
+                                        }
+                                    />
+                                )}
+
+                                {errors.weight_range_cost[index]?.weight_to && (
+                                    <DisplayInputError
+                                        message={
+                                            errors.weight_range_cost[index]
+                                                ?.weight_to?.message
+                                        }
+                                    />
+                                )}
+
+                                {errors.weight_range_cost[index]?.base_cost && (
+                                    <DisplayInputError
+                                        message={
+                                            errors.weight_range_cost[index]
+                                                ?.base_cost?.message
+                                        }
+                                    />
+                                )}
+
+                                {errors.weight_range_cost &&
+                                    errors.weight_range_cost[index]
+                                        ?.extra_cost_per_kg && (
+                                        <DisplayInputError
+                                            message={
+                                                errors.weight_range_cost[index]
+                                                    ?.extra_cost_per_kg?.message
+                                            }
+                                        />
+                                    )}
+                            </>
                         )}
 
-                        {errors.weight_range_cost[index]?.weight_to && (
-                            <DisplayInputError
-                                message={
-                                    errors.weight_range_cost[index]?.weight_to
-                                        ?.message
-                                }
-                            />
-                        )}
-
-                        {errors.weight_range_cost[index]?.base_cost && (
-                            <DisplayInputError
-                                message={
-                                    errors.weight_range_cost[index]?.base_cost
-                                        ?.message
-                                }
-                            />
-                        )}
-
-                        {errors.weight_range_cost &&
-                            errors.weight_range_cost[index]
-                                ?.extra_cost_per_kg && (
-                                <DisplayInputError
-                                    message={
-                                        errors.weight_range_cost[index]
-                                            ?.extra_cost_per_kg?.message
-                                    }
-                                />
-                            )}
+                       
                     </div>
                 )}
 
@@ -95,7 +102,7 @@ export default function FlatrateAndWeightCostFormRow({
                     Franja de Precio {index + 1}
                 </legend>
 
-                <div className="flex">
+                <div className="flex justify-between gap-2">
                     <label className="">
                         {t('weight_from') + ' (Kg)'}
 
@@ -113,13 +120,13 @@ export default function FlatrateAndWeightCostFormRow({
                             }
                             placeholder="0"
                             className={`
-                        ${
-                            errors.weight_range_cost &&
-                            errors.weight_range_cost[index]?.weight_from &&
-                            'border-red-500 focus:border-red-500'
-                        }
-                        relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 
-                        focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm`}
+                            ${
+                                errors.weight_range_cost &&
+                                errors.weight_range_cost[index]?.weight_from &&
+                                'border-red-500 focus:border-red-500'
+                            }
+                            relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 
+                            focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm`}
                             min={0}
                         />
                     </label>
@@ -140,13 +147,13 @@ export default function FlatrateAndWeightCostFormRow({
                             }
                             placeholder="50"
                             className={`
-                        ${
-                            errors.weight_range_cost &&
-                            errors.weight_range_cost[index]?.weight_to &&
-                            'border-red-500 focus:border-red-500'
-                        }
-                        relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 
-                        focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm`}
+                            ${
+                                errors.weight_range_cost &&
+                                errors.weight_range_cost[index]?.weight_to &&
+                                'border-red-500 focus:border-red-500'
+                            }
+                            relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 
+                            focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm`}
                             min={0}
                         />
                     </label>

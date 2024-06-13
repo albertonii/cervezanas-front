@@ -28,51 +28,50 @@ export async function calculateFlatrateAndWeightShippingCost(
         .order('weight_from', { ascending: true });
 
     if (error) {
-        throw new Error('Error fetching distribution costs');
+        return 0;
     }
 
     let shippingCost = 0;
 
-    costRanges.map((_, index) => {
-        const range = costRanges[index];
+    if (!costRanges) {
+        return shippingCost;
+    }
+
+    for (let i = 0; i < costRanges.length; i++) {
+        const range = costRanges[i];
 
         if (
-            !range.weight_from ||
-            !range.weight_to ||
-            !range.base_cost ||
-            !range.extra_cost_per_kg
+            range.weight_from === null ||
+            range.weight_to === null ||
+            range.base_cost === null ||
+            range.extra_cost_per_kg === null
         ) {
-            return;
+            continue;
         }
-
-        console.log('totalWeight', totalWeight);
-        console.log('range.weight_from', range.weight_from);
-        console.log('range.weight_to', range.weight_to);
-
-        console.log(totalWeight > range.weight_to);
-
-        console.log(totalWeight >= range.weight_from);
 
         if (totalWeight > range.weight_to) {
-            console.log('dentro primero');
+            console.log('BASE COST', range.base_cost);
+            console.log('Weight from', range.weight_from);
+            console.log('Weight to ', range.weight_to);
 
-            shippingCost +=
-                (range.weight_to - range.weight_from) *
-                    range.extra_cost_per_kg +
-                range.base_cost;
-        } else if (totalWeight >= range.weight_from) {
-            console.log('dentro segundo');
+            console.log('Diferencia de pesos', totalWeight - range.weight_to);
+            console.log('Precio extra por kg', range.extra_cost_per_kg);
 
-            shippingCost +=
-                (totalWeight - range.weight_from) * range.extra_cost_per_kg +
-                range.base_cost;
-            return;
-        } else {
-            console.log('dentro tercero');
+            // El peso excede el rango actual, por lo que calculamos el coste total para este rango
+            shippingCost =
+                range.base_cost +
+                (totalWeight - range.weight_to) * range.extra_cost_per_kg;
+        } else if (
+            totalWeight >= range.weight_from &&
+            totalWeight <= range.weight_to
+        ) {
+            // El peso está dentro del rango actual, aplicamos el coste para el peso dentro del rango
+            shippingCost = range.base_cost;
+
+            break; // Una vez encontrado el rango aplicable, salimos del bucle
         }
-    });
+    }
 
-    console.log('shippingCost', shippingCost);
 
     return shippingCost;
 }

@@ -20,6 +20,7 @@ import {
     calculateFlatrateAndWeightShippingCost,
     updateFlatrateAndWeightShippingCost,
 } from '../../../actions';
+import { DisplayInputError } from '../../../../../components/common/DisplayInputError';
 
 const rangeObjectSchema = z
     .object({
@@ -39,27 +40,27 @@ const rangeObjectSchema = z
 
 const schema: ZodType<FlatrateAndWeightCostFormData> = z.object({
     distribution_costs_id: z.string().uuid(),
-    weight_range_cost: z.array(rangeObjectSchema).refine(
-        (
-            ranges: {
-                weight_from: number;
-                weight_to: number;
-                base_cost: number;
-                extra_cost_per_kg: number;
-            }[],
-        ) => {
-            // Validar que cada rango esté correctamente definido
-            for (let i = 0; i < ranges.length; i++) {
-                if (ranges[i].weight_from >= ranges[i].weight_to) {
-                    return false;
+    weight_range_cost: z
+        .array(rangeObjectSchema)
+        .refine(
+            (ranges) => ranges.length === 0 || ranges[0].weight_from === 0,
+            {
+                message: 'errors.must_start_from_zero',
+            },
+        )
+        .refine(
+            (ranges) => {
+                for (let i = 1; i < ranges.length; i++) {
+                    if (ranges[i - 1].weight_to !== ranges[i].weight_from) {
+                        return false;
+                    }
                 }
-                if (i > 0 && ranges[i].weight_from <= ranges[i - 1].weight_to) {
-                    return false;
-                }
-            }
-            return true;
-        },
-    ),
+                return true;
+            },
+            {
+                message: 'errors.ranges_not_continuous',
+            },
+        ),
 });
 
 export type WeightRangeCostFormValidationSchema = z.infer<typeof schema>;
@@ -94,7 +95,12 @@ const FlatrateAndWeightCostForm = ({
         },
     });
 
-    const { handleSubmit, control, trigger } = form;
+    const {
+        handleSubmit,
+        control,
+        trigger,
+        formState: { errors },
+    } = form;
 
     const { fields, append, remove } = useFieldArray({
         name: 'weight_range_cost',
@@ -108,7 +114,7 @@ const FlatrateAndWeightCostForm = ({
     }, [fields]);
 
     useEffect(() => {
-        calculateFlatrateAndWeightShippingCost(distributionCostId, 2);
+        calculateFlatrateAndWeightShippingCost(distributionCostId, 30);
     }, []);
 
     const handleUpdateFlatrateCostAndWeight = async (
@@ -193,9 +199,13 @@ const FlatrateAndWeightCostForm = ({
     };
 
     const addWeightPriceRange = () => {
-        const weightPriceRange: IFlatrateAndWeightCost = {
-            weight_from: 0,
+        const lastRange = costRanges[costRanges.length - 1] || {
             weight_to: 0,
+        };
+
+        const weightPriceRange: IFlatrateAndWeightCost = {
+            weight_from: lastRange.weight_to,
+            weight_to: lastRange.weight_to + 10,
             base_cost: 0,
             extra_cost_per_kg: 0,
         };
@@ -211,7 +221,10 @@ const FlatrateAndWeightCostForm = ({
     };
 
     return (
-        <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
+        <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4 ">
+            {/* Tabla informativa  */}
+            <FlatrateAndWeightCostTable flatrateRanges={costRanges} />
+
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="w-full space-y-4"
@@ -238,6 +251,13 @@ const FlatrateAndWeightCostForm = ({
                 </div>
 
                 <div className="space-y-4">
+                    {errors.weight_range_cost &&
+                        errors.weight_range_cost.root && (
+                            <DisplayInputError
+                                message={errors.weight_range_cost.root?.message}
+                            />
+                        )}
+
                     {sortedFields.map((field, index) => (
                         <div
                             key={field.id}
@@ -264,8 +284,6 @@ const FlatrateAndWeightCostForm = ({
                     ))}
                 </div>
             </form>
-
-            <FlatrateAndWeightCostTable flatrateRanges={costRanges} />
         </section>
     );
 };
