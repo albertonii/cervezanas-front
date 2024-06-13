@@ -980,5 +980,6 @@
     "cities_distribution_cost": "Coste de distribución por ciudades",
     "provinces_distribution_cost": "Coste de distribución por provincias",
     "regions_distribution_cost": "Coste de distribución por regiones",
-    "country_distribution_cost": "Coste de distribución por país"
+    "country_distribution_cost": "Coste de distribución por país",
+    "add_weight_price_range": "Añadir rango de peso y precio"
 }

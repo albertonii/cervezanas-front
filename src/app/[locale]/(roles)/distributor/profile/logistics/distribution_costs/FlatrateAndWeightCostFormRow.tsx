@@ -97,7 +97,7 @@ export default function FlatrateAndWeightCostFormRow({
 
                 <div className="flex">
                     <label className="">
-                        {t('weight_from') + ' (€)'}
+                        {t('weight_from') + ' (Kg)'}
 
                         <input
                             type="number"
@@ -125,7 +125,7 @@ export default function FlatrateAndWeightCostFormRow({
                     </label>
 
                     <label className="">
-                        {t('weight_to') + ' (€)'}
+                        {t('weight_to') + ' (Kg)'}
                         <input
                             type="number"
                             {...register(

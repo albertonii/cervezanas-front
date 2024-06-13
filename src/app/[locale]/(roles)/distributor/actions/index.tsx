@@ -6,8 +6,8 @@ import createServerClient from '../../../../../utils/supabaseServer';
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function calculateFlatrateAndWeightShippingCost(
-    distributor_id: string,
-    total_weight: number,
+    distributionCostId: string,
+    totalWeight: number,
 ) {
     const supabase = await createServerClient();
 
@@ -24,7 +24,7 @@ export async function calculateFlatrateAndWeightShippingCost(
                 updated_at
             `,
         )
-        .eq('distributor_id', distributor_id)
+        .eq('distribution_costs_id', distributionCostId)
         .order('weight_from', { ascending: true });
 
     if (error) {
@@ -33,19 +33,46 @@ export async function calculateFlatrateAndWeightShippingCost(
 
     let shippingCost = 0;
 
-    // for (let range of costRanges) {
-    //     if (total_weight > range.weight_to) {
-    //         shippingCost +=
-    //             (range.weight_to - range.weight_from) *
-    //                 range.extra_cost_per_kg +
-    //             range.base_cost;
-    //     } else if (total_weight > range.weight_from) {
-    //         shippingCost +=
-    //             (total_weight - range.weight_from) * range.extra_cost_per_kg +
-    //             range.base_cost;
-    //         break;
-    //     }
-    // }
+    costRanges.map((_, index) => {
+        const range = costRanges[index];
+
+        if (
+            !range.weight_from ||
+            !range.weight_to ||
+            !range.base_cost ||
+            !range.extra_cost_per_kg
+        ) {
+            return;
+        }
+
+        console.log('totalWeight', totalWeight);
+        console.log('range.weight_from', range.weight_from);
+        console.log('range.weight_to', range.weight_to);
+
+        console.log(totalWeight > range.weight_to);
+
+        console.log(totalWeight >= range.weight_from);
+
+        if (totalWeight > range.weight_to) {
+            console.log('dentro primero');
+
+            shippingCost +=
+                (range.weight_to - range.weight_from) *
+                    range.extra_cost_per_kg +
+                range.base_cost;
+        } else if (totalWeight >= range.weight_from) {
+            console.log('dentro segundo');
+
+            shippingCost +=
+                (totalWeight - range.weight_from) * range.extra_cost_per_kg +
+                range.base_cost;
+            return;
+        } else {
+            console.log('dentro tercero');
+        }
+    });
+
+    console.log('shippingCost', shippingCost);
 
     return shippingCost;
 }

@@ -2,7 +2,7 @@
 
 import Error from 'next/error';
 import Button from '../../../../../components/common/Button';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
@@ -16,7 +16,10 @@ import {
 } from '../../../../../../../lib/types/types';
 import FlatrateAndWeightCostTable from './FlatrateAndWeightCostTable';
 import FlatrateAndWeightCostFormRow from './FlatrateAndWeightCostFormRow';
-import { updateFlatrateAndWeightShippingCost } from '../../../actions';
+import {
+    calculateFlatrateAndWeightShippingCost,
+    updateFlatrateAndWeightShippingCost,
+} from '../../../actions';
 
 const rangeObjectSchema = z
     .object({
@@ -36,7 +39,27 @@ const rangeObjectSchema = z
 
 const schema: ZodType<FlatrateAndWeightCostFormData> = z.object({
     distribution_costs_id: z.string().uuid(),
-    weight_range_cost: z.array(rangeObjectSchema),
+    weight_range_cost: z.array(rangeObjectSchema).refine(
+        (
+            ranges: {
+                weight_from: number;
+                weight_to: number;
+                base_cost: number;
+                extra_cost_per_kg: number;
+            }[],
+        ) => {
+            // Validar que cada rango esté correctamente definido
+            for (let i = 0; i < ranges.length; i++) {
+                if (ranges[i].weight_from >= ranges[i].weight_to) {
+                    return false;
+                }
+                if (i > 0 && ranges[i].weight_from <= ranges[i - 1].weight_to) {
+                    return false;
+                }
+            }
+            return true;
+        },
+    ),
 });
 
 export type WeightRangeCostFormValidationSchema = z.infer<typeof schema>;
@@ -53,9 +76,14 @@ const FlatrateAndWeightCostForm = ({
 }: Props) => {
     const t = useTranslations();
     const { handleMessage } = useMessage();
+
+    const [costRanges, setCostRanges] = useState(flatrateAndWeightCost ?? []);
+    const [sortedFields, setSortedFields] = useState<IFlatrateAndWeightCost[]>(
+        [],
+    );
+
     const submitSuccessMessage = t('messages.updated_successfully');
     const submitErrorMessage = t('messages.submit_error');
-    const [costRanges, setCostRanges] = useState(flatrateAndWeightCost ?? []);
 
     const form = useForm<WeightRangeCostFormValidationSchema>({
         mode: 'onSubmit',
@@ -72,6 +100,16 @@ const FlatrateAndWeightCostForm = ({
         name: 'weight_range_cost',
         control,
     });
+
+    useEffect(() => {
+        setSortedFields(
+            costRanges.sort((a, b) => a.weight_from - b.weight_from),
+        );
+    }, [fields]);
+
+    useEffect(() => {
+        calculateFlatrateAndWeightShippingCost(distributionCostId, 2);
+    }, []);
 
     const handleUpdateFlatrateCostAndWeight = async (
         form: WeightRangeCostFormValidationSchema,
@@ -174,28 +212,33 @@ const FlatrateAndWeightCostForm = ({
 
     return (
         <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
-            <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-                <Button
-                    btnType="submit"
-                    onClick={handleSubmit(onSubmit)}
-                    class="col-span-2 w-24"
-                    primary
-                    medium
-                >
-                    {t('save')}
-                </Button>
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="w-full space-y-4"
+            >
+                <div className="flex space-x-4">
+                    <Button
+                        btnType="submit"
+                        onClick={handleSubmit(onSubmit)}
+                        class="col-span-2 w-24"
+                        primary
+                        medium
+                    >
+                        {t('save')}
+                    </Button>
 
-                <Button
-                    onClick={addWeightPriceRange}
-                    btnType={'button'}
-                    accent
-                    small
-                >
-                    Añadir Rango de Peso
-                </Button>
+                    <Button
+                        onClick={addWeightPriceRange}
+                        btnType={'button'}
+                        accent
+                        small
+                    >
+                        {t('add_weight_price_range')}
+                    </Button>
+                </div>
 
                 <div className="space-y-4">
-                    {fields.map((field, index) => (
+                    {sortedFields.map((field, index) => (
                         <div
                             key={field.id}
                             className="flex items-center space-x-4"
