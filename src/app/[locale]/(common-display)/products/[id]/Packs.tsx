@@ -51,6 +51,7 @@ export default function Packs({ product }: Props) {
             name: selectedPack.name,
             img_url: selectedPack.img_url,
             randomUUID: selectedPack.randomUUID,
+            products: selectedPack.products,
         };
 
         addPackToCart(product, packCartItem);

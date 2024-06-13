@@ -10,6 +10,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { IProductPackCartItem } from '../../../../../lib/types/types';
 import { useShoppingCart } from '../../../../context/ShoppingCartContext';
 import dynamic from 'next/dynamic';
+import { calculateFlatrateAndWeightShippingCost } from '../../../(roles)/distributor/actions';
 
 interface Props {
     productPack: IProductPackCartItem;
@@ -50,6 +51,7 @@ export function CheckoutItem({
             const response: {
                 can_deliver: boolean;
                 distributor_id: string;
+                distribution_costs_id: string;
                 delivery_type: string;
             } = await initShipmentLogic(
                 selectedShippingAddress,
@@ -59,15 +61,27 @@ export function CheckoutItem({
             if (response.can_deliver) {
                 // Dependiendo del tipo de entrega se debe de asociar el precio de envío al producto
                 // llama a api de nextjs con deliveryType y distributor_id como parámetros
-                const { distributor_id, delivery_type } = response;
+                const { distributor_id, distribution_costs_id, delivery_type } =
+                    response;
 
-                fetch(
-                    `/api/distribution_costs?distributor_id=${distributor_id}&delivery_type=${delivery_type}`,
-                )
-                    .then((res) => res.json())
-                    .then((orderItemCost: number) => {
-                        handleDeliveryCost(orderItemCost);
-                    });
+                const totalWeight = calculateProductPacksWeight(productPack);
+
+                const shippingCost =
+                    await calculateFlatrateAndWeightShippingCost(
+                        distribution_costs_id,
+                        totalWeight,
+                    );
+
+                handleDeliveryCost(shippingCost);
+
+                // Flatrate cost
+                // fetch(
+                //     `/api/distribution_costs?distributor_id=${distributor_id}&delivery_type=${delivery_type}`,
+                // )
+                //     .then((res) => res.json())
+                //     .then((orderItemCost: number) => {
+                //         handleDeliveryCost(orderItemCost);
+                //     });
 
                 // Si el producto se puede enviar a la dirección seleccionada,
                 // entonces vinculamos el pack del producto con el distribuidor que puede enviarlo
@@ -150,3 +164,12 @@ export function CheckoutItem({
         </>
     );
 }
+
+const calculateProductPacksWeight = (productPack: IProductPackCartItem) => {
+    const packQuantity = productPack.packs[0].quantity;
+    const packWeight = productPack.products?.weight ?? 0;
+    const totalWeight = packWeight * packQuantity;
+
+    // Convert gr to KG
+    return totalWeight / 1000;
+};

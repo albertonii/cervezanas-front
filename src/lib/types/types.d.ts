@@ -1291,6 +1291,7 @@ export interface IDistributorUser {
     profile_location?: IProfileLocation[];
     users?: IUserTable; // To access embeded information we need to get into the table and the look for data
     coverage_areas?: ICoverageArea;
+    distribution_costs?: IDistributionCost;
 }
 
 export interface IProducerUser {

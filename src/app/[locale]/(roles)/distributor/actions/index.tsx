@@ -27,14 +27,18 @@ export async function calculateFlatrateAndWeightShippingCost(
         .eq('distribution_costs_id', distributionCostId)
         .order('weight_from', { ascending: true });
 
+    console.log(costRanges);
+    console.log(error);
+    console.log(distributionCostId);
+
     if (error) {
-        return 0;
+        throw new Error('Error fetching cost ranges');
     }
 
     let shippingCost = 0;
 
-    if (!costRanges) {
-        return shippingCost;
+    if (costRanges === null) {
+        throw new Error('No cost ranges found');
     }
 
     for (let i = 0; i < costRanges.length; i++) {
@@ -71,7 +75,6 @@ export async function calculateFlatrateAndWeightShippingCost(
             break; // Una vez encontrado el rango aplicable, salimos del bucle
         }
     }
-
 
     return shippingCost;
 }

@@ -16,26 +16,32 @@ export const initShipmentLogic = async (
     const shippingInfo = await getShippingInfo(shippingInfoId);
 
     // 2. Get the list of distributors associated to the seller/producer of the product
-    const listOfDistributors = await getListOfDistributorsBasedOnProducerId(
-        producerId,
-    );
+    const listOfDistributorsContracts =
+        await getListOfDistributorsBasedOnProducerId(producerId);
 
-    if (listOfDistributors.length === 0)
+    if (listOfDistributorsContracts.length === 0)
         return {
             can_deliver: false,
             distributor_id: '',
+            distribution_costs_id: '',
             delivery_type: DeliveryType.NONE,
         };
 
+    console.log(listOfDistributorsContracts);
+
     // 3. Iterate through the list of distributors and check if they can deliver to the address. If one of them can, return true. If none of them can, return false.
-    for (const distributor of listOfDistributors) {
+    for (const distributor of listOfDistributorsContracts) {
         const { canDeliver, delivery_type } =
             await canDistributorDeliverToAddress(distributor, shippingInfo);
 
         if (canDeliver) {
+            console.log(distributor.distributor_user);
+
             return {
                 can_deliver: canDeliver,
                 distributor_id: distributor.distributor_id,
+                distribution_costs_id:
+                    distributor.distributor_user.distribution_costs.id,
                 delivery_type,
             };
         }
@@ -44,6 +50,7 @@ export const initShipmentLogic = async (
     return {
         can_deliver: false,
         distributor_id: '',
+        distribution_costs_id: '',
         delivery_type: DeliveryType.NONE,
     };
 };
@@ -69,15 +76,18 @@ const getListOfDistributorsBasedOnProducerId = async (producerId: string) => {
         .from('distribution_contracts')
         .select(
             `
-        *,
-        distributor_user!distribution_contracts_distributor_id_fkey (
-            *,
-            coverage_areas (*)
-        )
-    `,
+                *,
+                distributor_user!distribution_contracts_distributor_id_fkey (
+                    *,
+                    coverage_areas (*),
+                    distribution_costs (id)
+                )
+            `,
         )
         .eq('producer_id', producerId)
         .eq('status', DistributionStatus.ACCEPTED);
+
+    console.log(contracts);
 
     if (error) throw error;
 

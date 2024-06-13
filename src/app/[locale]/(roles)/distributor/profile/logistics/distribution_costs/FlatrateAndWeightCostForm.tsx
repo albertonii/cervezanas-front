@@ -16,10 +16,7 @@ import {
 } from '../../../../../../../lib/types/types';
 import FlatrateAndWeightCostTable from './FlatrateAndWeightCostTable';
 import FlatrateAndWeightCostFormRow from './FlatrateAndWeightCostFormRow';
-import {
-    calculateFlatrateAndWeightShippingCost,
-    updateFlatrateAndWeightShippingCost,
-} from '../../../actions';
+import { updateFlatrateAndWeightShippingCost } from '../../../actions';
 import { DisplayInputError } from '../../../../../components/common/DisplayInputError';
 
 const rangeObjectSchema = z
@@ -112,10 +109,6 @@ const FlatrateAndWeightCostForm = ({
             costRanges.sort((a, b) => a.weight_from - b.weight_from),
         );
     }, [fields]);
-
-    useEffect(() => {
-        calculateFlatrateAndWeightShippingCost(distributionCostId, 30);
-    }, []);
 
     const handleUpdateFlatrateCostAndWeight = async (
         form: WeightRangeCostFormValidationSchema,
