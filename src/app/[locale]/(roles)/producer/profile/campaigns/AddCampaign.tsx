@@ -17,9 +17,9 @@ import InputTextarea from '../../../../components/common/InputTextarea';
 import { v4 as uuidv4 } from 'uuid';
 import { generateFileNameExtension } from '../../../../../../utils/utils';
 
-const generateUUID = () => {
-    return uuidv4();
-};
+// const generateUUID = () => {
+//     return uuidv4();
+// };
 
 enum CampaignStatus {
     uninitialized = 'uninitialized',
@@ -112,15 +112,15 @@ export function AddCampaign() {
         const startDateToString = start_date?.toISOString();
         const endDateToString = end_date?.toISOString();
 
-        const randomUUID = generateUUID();
+        // const randomUUID = generateUUID();
 
-        const filename = `campaign/${user.id}/${randomUUID}`;
+        // const filename = `campaign/${user.id}/${randomUUID}`;
         let campaign_img_url = '';
-        if (img_url && img_url[0]) {
-            campaign_img_url = encodeURIComponent(
-                `${filename}${generateFileNameExtension(img_url[0].name)}`,
-            );
-        }
+        // if (img_url && img_url[0]) {
+        //     campaign_img_url = encodeURIComponent(
+        //         `${filename}${generateFileNameExtension(img_url[0].name)}`,
+        //     );
+        // }
 
         // TODO: Upload the campaign img_url to the storage
 

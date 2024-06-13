@@ -560,6 +560,7 @@ export function UpdateProductModal({
             // Awards
             if (dirtyFields.awards && awards && isNotEmptyArray(awards)) {
                 await updateAwards(awards, randomUUID);
+                
             }
         }
 
