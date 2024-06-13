@@ -17,7 +17,6 @@ import {
     fermentation_options,
     product_type_options,
 } from '../../../../../../lib/beerEnum';
-import { v4 as uuidv4 } from 'uuid';
 import {
     IProduct,
     ModalUpdateProductFormData,
@@ -34,6 +33,7 @@ import { UpdateAwardsSection } from './UpdateAwardsSection';
 import { ProductStepper } from '../../../../components/products/ProductStepper';
 import { useMessage } from '../../../../components/message/useMessage';
 import { Type } from '../../../../../../lib/productEnum';
+import { generateUUID } from '../../../../../../lib/actions';
 
 // This is the list of mime types you will accept with the schema
 const ACCEPTED_MIME_TYPES = [
@@ -297,11 +297,6 @@ export function UpdateProductModal({
         }
     }, [errors]);
 
-    const generateUUID = () => {
-        'use server';
-        return uuidv4();
-    };
-
     const updateBasicSection = async (formValues: ValidationSchema) => {
         setIsLoading(true);
 
@@ -515,7 +510,7 @@ export function UpdateProductModal({
 
         setActiveStep(0);
 
-        const randomUUID = generateUUID();
+        const randomUUID = await generateUUID();
 
         // Basic Info
         if (
