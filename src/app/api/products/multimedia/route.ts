@@ -7,9 +7,9 @@ import {
     ROUTE_P_PRINCIPAL,
 } from '../../../../config';
 import { MULTIMEDIA, SupabaseProps } from '../../../../constants';
-import { v4 as uuidv4 } from 'uuid';
 import { generateFileNameExtension } from '../../../../utils/utils';
 import createServerClient from '../../../../utils/supabaseServer';
+import { generateUUID } from '../../../../lib/actions';
 
 export async function PUT(request: NextRequest) {
     try {
@@ -21,9 +21,6 @@ export async function PUT(request: NextRequest) {
 
         const supabase = await createServerClient();
 
-        const generateUUID = () => {
-            return uuidv4();
-        };
 
         const randomUUID = generateUUID();
 

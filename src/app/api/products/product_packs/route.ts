@@ -1,16 +1,12 @@
 import createServerClient from '../../../../utils/supabaseServer';
 import { NextRequest, NextResponse } from 'next/server';
 import { SupabaseProps } from '../../../../constants';
-import { v4 as uuidv4 } from 'uuid';
 import { generateFileNameExtension } from '../../../../utils/utils';
+import { generateUUID } from '../../../../lib/actions';
 
 export async function PUT(request: NextRequest) {
     try {
-        const generateUUID = () => {
-            return uuidv4();
-        };
-
-        const randomUUID = generateUUID();
+        const randomUUID = await generateUUID();
 
         const supabase = await createServerClient();
         const formData = await request.formData();

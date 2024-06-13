@@ -1,5 +1,4 @@
 import createServerClient from '../../../../../utils/supabaseServer';
-import { v4 as uuidv4 } from 'uuid';
 import { NextRequest, NextResponse } from 'next/server';
 import {
     ROUTE_P_BACK,
@@ -10,6 +9,7 @@ import {
 } from '../../../../../config';
 import { MULTIMEDIA, SupabaseProps } from '../../../../../constants';
 import { generateFileNameExtension } from '../../../../../utils/utils';
+import { generateUUID } from '../../../../../lib/actions';
 
 export async function PUT(request: NextRequest) {
     try {
@@ -20,10 +20,6 @@ export async function PUT(request: NextRequest) {
         const multimedia = formData.get('multimedia') as File;
 
         const supabase = await createServerClient();
-
-        const generateUUID = () => {
-            return uuidv4();
-        };
 
         const randomUUID = generateUUID();
 

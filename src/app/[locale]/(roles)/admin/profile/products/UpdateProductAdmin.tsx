@@ -6,8 +6,6 @@ import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import { useMutation, useQueryClient } from 'react-query';
 import {
     IAward,

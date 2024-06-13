@@ -14,7 +14,6 @@ import { SupabaseProps } from '../../../../../../constants';
 import { FilePreviewImageMultimedia } from '../../../../components/common/FilePreviewImageMultimedia';
 import InputLabel from '../../../../components/common/InputLabel';
 import InputTextarea from '../../../../components/common/InputTextarea';
-import { v4 as uuidv4 } from 'uuid';
 import { generateFileNameExtension } from '../../../../../../utils/utils';
 
 // const generateUUID = () => {
