@@ -968,5 +968,17 @@
     "promo_code": "Código promocional",
     "code": "Código",
     "enter_promo_code": "Introduce el código promocional",
-    "apply_promo_code": "Aplicar código promocional"
+    "apply_promo_code": "Aplicar código promocional",
+    "weight_from": "Peso desde",
+    "weight_to": "Peso hasta",
+    "base_cost": "Coste base",
+    "extra_cost_per_kg": "Coste extra por kg",
+    "flatrate_weight_from": "Peso desde (kg)",
+    "flatrate_weight_to": "Peso hasta (kg)",
+    "flatrate_base_cost": "Coste base (€)",
+    "flatrate_extra_cost_per_kg": "Coste extra por kg (€)",
+    "cities_distribution_cost": "Coste de distribución por ciudades",
+    "provinces_distribution_cost": "Coste de distribución por provincias",
+    "regions_distribution_cost": "Coste de distribución por regiones",
+    "country_distribution_cost": "Coste de distribución por país"
 }

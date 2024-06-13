@@ -2,15 +2,13 @@
 
 import Error from 'next/error';
 import Button from '../../../../../components/common/Button';
-import InputLabel from '../../../../../components/common/InputLabel';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
 import { useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import { useMessage } from '../../../../../components/message/useMessage';
 import {
     FlatrateAndWeightCostFormData,
@@ -33,7 +31,7 @@ const rangeObjectSchema = z
     })
     .refine((data) => data.weight_from < data.weight_to, {
         message: 'errors.lower_greater_than_upper',
-        path: ['upper'],
+        path: ['weight_from'],
     });
 
 const schema: ZodType<FlatrateAndWeightCostFormData> = z.object({
@@ -68,7 +66,7 @@ const FlatrateAndWeightCostForm = ({
         },
     });
 
-    const { handleSubmit, control } = form;
+    const { handleSubmit, control, trigger } = form;
 
     const { fields, append, remove } = useFieldArray({
         name: 'weight_range_cost',
@@ -78,6 +76,8 @@ const FlatrateAndWeightCostForm = ({
     const handleUpdateFlatrateCostAndWeight = async (
         form: WeightRangeCostFormValidationSchema,
     ) => {
+        trigger();
+
         const res = await updateFlatrateAndWeightShippingCost(
             distributionCostId,
             costRanges,
@@ -194,27 +194,32 @@ const FlatrateAndWeightCostForm = ({
                     Añadir Rango de Peso
                 </Button>
 
-                {fields.map((field, index) => (
-                    <div key={field.id} className="flex items-center space-x-4">
-                        <FlatrateAndWeightCostFormRow
-                            index={index}
-                            handleInputWeightFromChange={
-                                handleInputWeightFromChange
-                            }
-                            handleInputWeightToChange={
-                                handleInputWeightToChange
-                            }
-                            handleInputBaseCostChange={
-                                handleInputBaseCostChange
-                            }
-                            handleInputExtraCostPerKgChange={
-                                handleInputExtraCostPerKgChange
-                            }
-                            removePriceRange={removeWeightPriceRange}
-                            form={form}
-                        />
-                    </div>
-                ))}
+                <div className="space-y-4">
+                    {fields.map((field, index) => (
+                        <div
+                            key={field.id}
+                            className="flex items-center space-x-4"
+                        >
+                            <FlatrateAndWeightCostFormRow
+                                index={index}
+                                handleInputWeightFromChange={
+                                    handleInputWeightFromChange
+                                }
+                                handleInputWeightToChange={
+                                    handleInputWeightToChange
+                                }
+                                handleInputBaseCostChange={
+                                    handleInputBaseCostChange
+                                }
+                                handleInputExtraCostPerKgChange={
+                                    handleInputExtraCostPerKgChange
+                                }
+                                removePriceRange={removeWeightPriceRange}
+                                form={form}
+                            />
+                        </div>
+                    ))}
+                </div>
             </form>
 
             <FlatrateAndWeightCostTable flatrateRanges={costRanges} />
