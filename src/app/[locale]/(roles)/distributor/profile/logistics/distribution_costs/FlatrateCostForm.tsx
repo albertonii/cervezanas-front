@@ -6,8 +6,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../../../../../components/common/Button';
 import { z, ZodType } from 'zod';
 import {
-  FlatrateCostFormData,
-  IFlatrateCost,
+    FlatrateCostFormData,
+    IFlatrateCost,
 } from '../../../../../../../lib/types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from 'react-query';
@@ -17,196 +17,200 @@ import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import InputLabel from '../../../../../components/common/InputLabel';
 
 const schema: ZodType<FlatrateCostFormData> = z.object({
-  local_distribution_cost: z.number().min(0),
-  national_distribution_cost: z.number().min(0),
-  europe_distribution_cost: z.number().min(0),
-  international_distribution_cost: z.number().min(0),
-  is_checked_local: z.boolean().optional(),
-  is_checked_national: z.boolean().optional(),
-  is_checked_europe: z.boolean().optional(),
-  is_checked_international: z.boolean().optional(),
+    local_distribution_cost: z.number().min(0),
+    national_distribution_cost: z.number().min(0),
+    europe_distribution_cost: z.number().min(0),
+    international_distribution_cost: z.number().min(0),
+    is_checked_local: z.boolean().optional(),
+    is_checked_national: z.boolean().optional(),
+    is_checked_europe: z.boolean().optional(),
+    is_checked_international: z.boolean().optional(),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
 
 interface Props {
-  flatrateCost?: IFlatrateCost;
-  distributionCostId: string;
+    flatrateCost?: IFlatrateCost;
+    distributionCostId: string;
 }
 
 /* Tarifa de envío por rango de coste del pedido */
 const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
-  const t = useTranslations();
-  const { handleMessage } = useMessage();
-  const submitSuccessMessage = t('messages.updated_successfully');
-  const submitErrorMessage = t('messages.submit_error');
-  const { supabase } = useAuth();
+    const t = useTranslations();
+    const { handleMessage } = useMessage();
+    const submitSuccessMessage = t('messages.updated_successfully');
+    const submitErrorMessage = t('messages.submit_error');
+    const { supabase } = useAuth();
 
-  const form = useForm<ValidationSchema>({
-    mode: 'onSubmit',
-    resolver: zodResolver(schema),
-    defaultValues: {
-      local_distribution_cost: flatrateCost?.local_distribution_cost ?? 0,
-      national_distribution_cost: flatrateCost?.national_distribution_cost ?? 0,
-      europe_distribution_cost: flatrateCost?.europe_distribution_cost ?? 0,
-      international_distribution_cost:
-        flatrateCost?.international_distribution_cost ?? 0,
-    },
-  });
+    const form = useForm<ValidationSchema>({
+        mode: 'onSubmit',
+        resolver: zodResolver(schema),
+        defaultValues: {
+            local_distribution_cost: flatrateCost?.local_distribution_cost ?? 0,
+            national_distribution_cost:
+                flatrateCost?.national_distribution_cost ?? 0,
+            europe_distribution_cost:
+                flatrateCost?.europe_distribution_cost ?? 0,
+            international_distribution_cost:
+                flatrateCost?.international_distribution_cost ?? 0,
+        },
+    });
 
-  const { handleSubmit } = form;
+    const { handleSubmit } = form;
 
-  const handleUpdateFlatrateCost = async (form: ValidationSchema) => {
-    const {
-      local_distribution_cost,
-      national_distribution_cost,
-      europe_distribution_cost,
-      international_distribution_cost,
-      is_checked_local,
-      is_checked_national,
-      is_checked_europe,
-      is_checked_international,
-    } = form;
+    const handleUpdateFlatrateCost = async (form: ValidationSchema) => {
+        const {
+            local_distribution_cost,
+            national_distribution_cost,
+            europe_distribution_cost,
+            international_distribution_cost,
+            is_checked_local,
+            is_checked_national,
+            is_checked_europe,
+            is_checked_international,
+        } = form;
 
-    const flatrateCost = {
-      local_distribution_cost,
-      national_distribution_cost,
-      europe_distribution_cost,
-      international_distribution_cost,
-      is_checked_local,
-      is_checked_national,
-      is_checked_europe,
-      is_checked_international,
-      distribution_costs_id: distributionCostId,
+        const flatrateCost = {
+            local_distribution_cost,
+            national_distribution_cost,
+            europe_distribution_cost,
+            international_distribution_cost,
+            is_checked_local,
+            is_checked_national,
+            is_checked_europe,
+            is_checked_international,
+            distribution_costs_id: distributionCostId,
+        };
+
+        const { error } = await supabase
+            .from('flatrate_cost')
+            .upsert(flatrateCost);
+
+        if (error) {
+            handleMessage({
+                type: 'error',
+                message: submitErrorMessage,
+            });
+            throw error;
+        }
+
+        handleMessage({
+            type: 'success',
+            message: submitSuccessMessage,
+        });
     };
 
-    const { error } = await supabase.from('flatrate_cost').upsert(flatrateCost);
-
-    if (error) {
-      handleMessage({
-        type: 'error',
-        message: submitErrorMessage,
-      });
-      throw error;
-    }
-
-    handleMessage({
-      type: 'success',
-      message: submitSuccessMessage,
+    const handleUpdateFlatrateCostMutation = useMutation({
+        mutationKey: 'updateFlatrateCost',
+        mutationFn: handleUpdateFlatrateCost,
+        onSuccess: () => {
+            console.info('Flatrate cost updated successfully');
+        },
+        onError: (error: Error) => {
+            console.error(error);
+        },
     });
-  };
 
-  const handleUpdateFlatrateCostMutation = useMutation({
-    mutationKey: 'updateFlatrateCost',
-    mutationFn: handleUpdateFlatrateCost,
-    onSuccess: () => {
-      console.info('Flatrate cost updated successfully');
-    },
-    onError: (error: Error) => {
-      console.error(error);
-    },
-  });
+    const onSubmit: SubmitHandler<ValidationSchema> = (
+        formValues: FlatrateCostFormData,
+    ) => {
+        try {
+            handleUpdateFlatrateCostMutation.mutate(formValues);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
-  const onSubmit: SubmitHandler<ValidationSchema> = (
-    formValues: FlatrateCostFormData,
-  ) => {
-    try {
-      handleUpdateFlatrateCostMutation.mutate(formValues);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    return (
+        <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="grid w-full grid-cols-2 gap-4"
+            >
+                <Button
+                    btnType="submit"
+                    onClick={handleSubmit(onSubmit)}
+                    class="col-span-2 w-24"
+                    primary
+                    medium
+                >
+                    {t('save')}
+                </Button>
 
-  return (
-    <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="grid w-full grid-cols-2 gap-4"
-      >
-        <Button
-          btnType="submit"
-          onClick={handleSubmit(onSubmit)}
-          class="col-span-2 w-24"
-          primary
-          medium
-        >
-          {t('save')}
-        </Button>
+                <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
+                    <legend className=" text-gray-600">
+                        {t('cities_distribution_cost')}
+                    </legend>
 
-        <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
-          <legend className=" text-gray-600">
-            {t('local_distribution_cost')}
-          </legend>
+                    <InputLabel
+                        form={form}
+                        label={'cities_distribution_cost'}
+                        labelText={`${t('cities_distribution_cost')} (€) `}
+                        registerOptions={{
+                            required: true,
+                            valueAsNumber: true,
+                        }}
+                        placeholder={'0'}
+                        inputType="number"
+                    />
+                </fieldset>
 
-          <InputLabel
-            form={form}
-            label={'local_distribution_cost'}
-            labelText={`${t('local_distribution_cost')} (€) `}
-            registerOptions={{
-              required: true,
-              valueAsNumber: true,
-            }}
-            placeholder={'0'}
-            inputType="number"
-          />
-        </fieldset>
+                <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
+                    <legend className=" text-gray-600">
+                        {t('provinces_distribution_cost')}
+                    </legend>
 
-        <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
-          <legend className=" text-gray-600">
-            {t('national_distribution_cost')}
-          </legend>
+                    <InputLabel
+                        form={form}
+                        label={'provinces_distribution_cost'}
+                        labelText={`${t('provinces_distribution_cost')} (€) `}
+                        registerOptions={{
+                            required: true,
+                            valueAsNumber: true,
+                        }}
+                        placeholder={'0'}
+                        inputType="number"
+                    />
+                </fieldset>
 
-          <InputLabel
-            form={form}
-            label={'national_distribution_cost'}
-            labelText={`${t('national_distribution_cost')} (€) `}
-            registerOptions={{
-              required: true,
-              valueAsNumber: true,
-            }}
-            placeholder={'0'}
-            inputType="number"
-          />
-        </fieldset>
+                <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
+                    <legend className=" text-gray-600">
+                        {t('regions_distribution_cost') + ' (€)'}
+                    </legend>
 
-        <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
-          <legend className=" text-gray-600">
-            {t('europe_distribution_cost') + ' (€)'}
-          </legend>
+                    <InputLabel
+                        form={form}
+                        label={'regions_distribution_cost'}
+                        labelText={`${t('regions_distribution_cost')} (€) `}
+                        registerOptions={{
+                            required: true,
+                            valueAsNumber: true,
+                        }}
+                        placeholder={'0'}
+                        inputType="number"
+                    />
+                </fieldset>
 
-          <InputLabel
-            form={form}
-            label={'europe_distribution_cost'}
-            labelText={`${t('europe_distribution_cost')} (€) `}
-            registerOptions={{
-              required: true,
-              valueAsNumber: true,
-            }}
-            placeholder={'0'}
-            inputType="number"
-          />
-        </fieldset>
+                <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
+                    <legend className=" text-gray-600">
+                        {t('country_distribution_cost') + ' (€)'}
+                    </legend>
 
-        <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
-          <legend className=" text-gray-600">
-            {t('international_distribution_cost') + ' (€)'}
-          </legend>
-
-          <InputLabel
-            form={form}
-            label={'international_distribution_cost'}
-            labelText={`${t('international_distribution_cost')} (€) `}
-            registerOptions={{
-              required: true,
-              valueAsNumber: true,
-            }}
-            placeholder={'0'}
-            inputType="number"
-          />
-        </fieldset>
-      </form>
-    </section>
-  );
+                    <InputLabel
+                        form={form}
+                        label={'country_distribution_cost'}
+                        labelText={`${t('country_distribution_cost')} (€) `}
+                        registerOptions={{
+                            required: true,
+                            valueAsNumber: true,
+                        }}
+                        placeholder={'0'}
+                        inputType="number"
+                    />
+                </fieldset>
+            </form>
+        </section>
+    );
 };
 
 export default FlatrateCostForm;

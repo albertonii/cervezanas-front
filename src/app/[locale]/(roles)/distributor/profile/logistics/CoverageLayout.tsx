@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
 import OriginInfo from './OriginInfo';
 import CoverageAreas from './coverage_areas/CoverageAreas';
-import DistributionCost from './distribution_costs/DistributionCost';
 import HorizontalMenuLogistics from './HorizontalMenuLogistics';
+import DistributionCost from './distribution_costs/DistributionCost';
+import React, { useState } from 'react';
 import { DistributionOption } from '../../../../../../lib/enums';
 import { IDistributionCost } from '../../../../../../lib/types/types';
 

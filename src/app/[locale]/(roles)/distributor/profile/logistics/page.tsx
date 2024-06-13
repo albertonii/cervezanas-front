@@ -24,22 +24,32 @@ async function getDistributionCost() {
             .from('distribution_costs')
             .select(
                 `
-          id,
-          created_at,
-          distributor_id,
-          flatrate_cost!flatrate_cost_distribution_costs_id_fkey (
-            created_at,
-            distribution_costs_id,
-            local_distribution_cost,
-            national_distribution_cost,
-            europe_distribution_cost,
-            international_distribution_cost,
-            is_checked_local,
-            is_checked_national,
-            is_checked_europe,
-            is_checked_international
-          )
-        `,
+                id,
+                created_at,
+                distributor_id,
+                flatrate_cost!flatrate_cost_distribution_costs_id_fkey (
+                    created_at,
+                    distribution_costs_id,
+                    local_distribution_cost,
+                    national_distribution_cost,
+                    europe_distribution_cost,
+                    international_distribution_cost,
+                    is_checked_local,
+                    is_checked_national,
+                    is_checked_europe,
+                    is_checked_international
+                ),
+                flatrate_and_weight_cost (
+                    id,
+                    distribution_costs_id,
+                    created_at,
+                    updated_at,
+                    weight_from,
+                    weight_to,
+                    base_cost,
+                    extra_cost_per_kg
+                )
+            `,
             )
             .eq('distributor_id', session.id)
             .single();

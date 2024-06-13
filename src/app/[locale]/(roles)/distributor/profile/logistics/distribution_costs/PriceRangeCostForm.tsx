@@ -1,15 +1,15 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import React from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import PriceRangeRow from './PriceRangeRow';
 import Button from '../../../../../components/common/Button';
+import { useTranslations } from 'next-intl';
 import { useFieldArray } from 'react-hook-form';
 import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DisplayInputError } from '../../../../../components/common/DisplayInputError';
-import PriceRangeRow from './PriceRangeRow';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { PriceRangeCostFormData } from '../../../../../../../lib/types/types';
+import { DisplayInputError } from '../../../../../components/common/DisplayInputError';
 
 const rangeObjectSchema = z
     .object({
@@ -136,11 +136,11 @@ const PriceRangeCostForm: React.FC = () => {
 
     return (
         <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} className="w-full">
                 <Button
                     btnType="submit"
                     onClick={handleSubmit(onSubmit)}
-                    class=""
+                    class="col-span-2 w-24"
                     primary
                     medium
                 >

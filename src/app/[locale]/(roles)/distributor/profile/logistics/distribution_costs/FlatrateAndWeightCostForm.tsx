@@ -1,0 +1,209 @@
+'use client';
+
+import Error from 'next/error';
+import Button from '../../../../../components/common/Button';
+import InputLabel from '../../../../../components/common/InputLabel';
+import React, { useEffect, useState } from 'react';
+import { z, ZodType } from 'zod';
+import { useMutation } from 'react-query';
+import { useTranslations } from 'next-intl';
+import { useFieldArray } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useAuth } from '../../../../../(auth)/Context/useAuth';
+import { useMessage } from '../../../../../components/message/useMessage';
+import {
+    FlatrateAndWeightCostFormData,
+    IFlatrateAndWeightCost,
+} from '../../../../../../../lib/types/types';
+import FlatrateAndWeightCostTable from './FlatrateAndWeightCostTable';
+import FlatrateAndWeightCostFormRow from './FlatrateAndWeightCostFormRow';
+
+const rangeObjectSchema = z
+    .object({
+        weight_from: z
+            .number()
+            .min(0, { message: 'errors.input_number_min_0' }),
+        weight_to: z.number().min(0, { message: 'errors.input_number_min_0' }),
+        base_cost: z.number().min(0, { message: 'errors.input_number_min_0' }),
+        extra_cost_per_kg: z
+            .number()
+            .min(0, { message: 'errors.input_number_min_0' }),
+    })
+    .refine((data) => data.weight_from < data.weight_to, {
+        message: 'errors.lower_greater_than_upper',
+        path: ['upper'],
+    });
+
+const schema: ZodType<FlatrateAndWeightCostFormData> = z.object({
+    distribution_costs_id: z.string().uuid(),
+    weight_range_cost: z.array(rangeObjectSchema),
+});
+
+export type WeightRangeCostFormValidationSchema = z.infer<typeof schema>;
+
+interface Props {
+    flatrateAndWeightCost?: IFlatrateAndWeightCost[];
+    distributionCostId: string;
+}
+
+/* Tarifa de envío por rango de coste del pedido */
+const FlatrateAndWeightCostForm = ({
+    flatrateAndWeightCost,
+    distributionCostId,
+}: Props) => {
+    const t = useTranslations();
+    const { handleMessage } = useMessage();
+    const submitSuccessMessage = t('messages.updated_successfully');
+    const submitErrorMessage = t('messages.submit_error');
+    const { supabase } = useAuth();
+    const [costRanges, setCostRanges] = useState(flatrateAndWeightCost ?? []);
+
+    const form = useForm<WeightRangeCostFormValidationSchema>({
+        mode: 'onSubmit',
+        resolver: zodResolver(schema),
+        defaultValues: {
+            distribution_costs_id: distributionCostId,
+            weight_range_cost: flatrateAndWeightCost,
+        },
+    });
+
+    const { handleSubmit, control } = form;
+
+    const { fields, append, remove } = useFieldArray({
+        name: 'weight_range_cost',
+        control,
+    });
+
+    const handleUpdateFlatrateCostAndWeight = async (
+        form: WeightRangeCostFormValidationSchema,
+    ) => {
+        
+    };
+
+    const handleUpdateFlatrateCostMutation = useMutation({
+        mutationKey: 'updateFlatrateCost',
+        mutationFn: handleUpdateFlatrateCostAndWeight,
+        onSuccess: () => {
+            console.info('Flatrate cost updated successfully');
+        },
+        onError: (error: Error) => {
+            console.error(error);
+        },
+    });
+
+    const onSubmit: SubmitHandler<WeightRangeCostFormValidationSchema> = (
+        formValues: FlatrateAndWeightCostFormData,
+    ) => {
+        try {
+            handleUpdateFlatrateCostMutation.mutate(formValues);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleInputWeightFromChange = (
+        index: number,
+        event: React.ChangeEvent<HTMLInputElement>,
+    ) => {
+        const newRanges = [...costRanges];
+        newRanges[index].weight_from = Number(event.target.value);
+        setCostRanges(newRanges);
+    };
+
+    const handleInputWeightToChange = (
+        index: number,
+        event: React.ChangeEvent<HTMLInputElement>,
+    ) => {
+        const newRanges = [...costRanges];
+        newRanges[index].weight_to = Number(event.target.value);
+        setCostRanges(newRanges);
+    };
+
+    const handleInputBaseCostChange = (
+        index: number,
+        event: React.ChangeEvent<HTMLInputElement>,
+    ) => {
+        const newRanges = [...costRanges];
+        newRanges[index].base_cost = Number(event.target.value);
+        setCostRanges(newRanges);
+    };
+
+    const handleInputExtraCostPerKgChange = (
+        index: number,
+        event: React.ChangeEvent<HTMLInputElement>,
+    ) => {
+        const newRanges = [...costRanges];
+        newRanges[index].extra_cost_per_kg = Number(event.target.value);
+        setCostRanges(newRanges);
+    };
+
+    const addWeightPriceRange = () => {
+        const weightPriceRange: IFlatrateAndWeightCost = {
+            weight_from: 0,
+            weight_to: 0,
+            base_cost: 0,
+            extra_cost_per_kg: 0,
+        };
+
+        append(weightPriceRange);
+
+        setCostRanges([...costRanges, weightPriceRange]);
+    };
+
+    const removeWeightPriceRange = (index: number) => {
+        remove(index);
+        setCostRanges(costRanges.filter((_, i) => i !== index));
+    };
+
+    return (
+        <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+                <Button
+                    btnType="submit"
+                    onClick={handleSubmit(onSubmit)}
+                    class="col-span-2 w-24"
+                    primary
+                    medium
+                >
+                    {t('save')}
+                </Button>
+
+                <Button
+                    onClick={addWeightPriceRange}
+                    btnType={'button'}
+                    accent
+                    small
+                >
+                    Añadir Rango de Peso
+                </Button>
+
+                {fields.map((field, index) => (
+                    <div key={field.id} className="flex items-center space-x-4">
+                        <FlatrateAndWeightCostFormRow
+                            index={index}
+                            handleInputWeightFromChange={
+                                handleInputWeightFromChange
+                            }
+                            handleInputWeightToChange={
+                                handleInputWeightToChange
+                            }
+                            handleInputBaseCostChange={
+                                handleInputBaseCostChange
+                            }
+                            handleInputExtraCostPerKgChange={
+                                handleInputExtraCostPerKgChange
+                            }
+                            removePriceRange={removeWeightPriceRange}
+                            form={form}
+                        />
+                    </div>
+                ))}
+            </form>
+
+            <FlatrateAndWeightCostTable flatrateRanges={costRanges} />
+        </section>
+    );
+};
+
+export default FlatrateAndWeightCostForm;

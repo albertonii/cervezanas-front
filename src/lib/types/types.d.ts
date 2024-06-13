@@ -1400,6 +1400,16 @@ export interface FlatrateCostFormData {
     is_checked_international?: boolean;
 }
 
+export interface FlatrateAndWeightCostFormData {
+    distribution_costs_id: string;
+    weight_range_cost: {
+        weight_from: number;
+        weight_to: number;
+        base_cost: number;
+        extra_cost_per_kg: number;
+    }[];
+}
+
 export interface PriceRangeCostFormData {
     distribution_range_cost: {
         lower: number;
@@ -1418,7 +1428,8 @@ export interface IDistributionCost {
     id: string;
     distributor_id: string;
     distributor_user?: IDistributorUser;
-    flatrate_cost: IFlatrateCost;
+    flatrate_cost?: IFlatrateCost;
+    flatrate_and_weight_cost?: IFlatrateAndWeightCost[];
 }
 
 export interface IFlatrateCost {
@@ -1432,6 +1443,28 @@ export interface IFlatrateCost {
     is_checked_national?: boolean;
     is_checked_europe?: boolean;
     is_checked_international?: boolean;
+}
+
+export interface IFlatrateAndWeightCost {
+    id?: string;
+    distribution_costs_id?: string;
+    created_at?: string;
+    updated_at?: string;
+    weight_from: number;
+    weight_to: number;
+    base_cost: number;
+    extra_cost_per_kg: number;
+}
+
+export interface IFlatrateAndWeightCostForm {
+    id?: string;
+    distribution_costs_id?: string;
+    created_at?: string;
+    updated_at?: string;
+    weight_from: number;
+    weight_to: number;
+    base_cost: number;
+    extra_cost_per_kg: number;
 }
 
 export interface IUserReport {

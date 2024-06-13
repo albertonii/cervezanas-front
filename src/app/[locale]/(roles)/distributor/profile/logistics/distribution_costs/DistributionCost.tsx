@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { DistributionCostType } from '../../../../../../../lib/enums';
 import { IDistributionCost } from '../../../../../../../lib/types/types';
 import HorizontalMenuCoverageCost from '../HorizontalMenuCoverageCost';
+import FlatrateAndWeightCostForm from './FlatrateAndWeightCostForm';
 import FlatrateCostForm from './FlatrateCostForm';
 import PriceRangeCostForm from './PriceRangeCostForm';
 
@@ -31,6 +32,16 @@ export default function DistributionCost({ distributionCosts }: Props) {
                 return (
                     <FlatrateCostForm
                         flatrateCost={distributionCosts.flatrate_cost}
+                        distributionCostId={distributionCosts.id}
+                    />
+                );
+
+            case DistributionCostType.FLATRATE_AND_WEIGHT:
+                return (
+                    <FlatrateAndWeightCostForm
+                        flatrateAndWeightCost={
+                            distributionCosts.flatrate_and_weight_cost
+                        }
                         distributionCostId={distributionCosts.id}
                     />
                 );

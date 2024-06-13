@@ -1654,6 +1654,47 @@ export interface Database {
           }
         ]
       }
+      flatrate_and_weight_cost: {
+        Row: {
+          base_cost: number | null
+          created_at: string
+          distribution_costs_id: string
+          extra_cost_per_kg: number | null
+          id: string
+          updated_at: string | null
+          weight_from: number | null
+          weight_to: number | null
+        }
+        Insert: {
+          base_cost?: number | null
+          created_at?: string
+          distribution_costs_id: string
+          extra_cost_per_kg?: number | null
+          id?: string
+          updated_at?: string | null
+          weight_from?: number | null
+          weight_to?: number | null
+        }
+        Update: {
+          base_cost?: number | null
+          created_at?: string
+          distribution_costs_id?: string
+          extra_cost_per_kg?: number | null
+          id?: string
+          updated_at?: string | null
+          weight_from?: number | null
+          weight_to?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "flatrate_and_weight_cost_distribution_costs_id_fkey"
+            columns: ["distribution_costs_id"]
+            isOneToOne: false
+            referencedRelation: "distribution_costs"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       flatrate_cost: {
         Row: {
           created_at: string
