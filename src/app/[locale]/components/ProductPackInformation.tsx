@@ -7,9 +7,9 @@ import {
     ModalAddProductFormData,
 } from '../../../lib/types/types';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
-import { v4 as uuidv4 } from 'uuid'; // Ensure uuid is installed
 import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { generateUUID } from '../../../lib/actions';
 
 const emptyPack: IProductPack = {
     id: '',
@@ -26,7 +26,7 @@ interface Props {
     form: UseFormReturn<ModalAddProductFormData, any>;
 }
 
-export default function ProductPackInformation({ form }: Props) {
+export default async function ProductPackInformation({ form }: Props) {
     const t = useTranslations();
     const { control } = form;
 
@@ -36,6 +36,7 @@ export default function ProductPackInformation({ form }: Props) {
     });
 
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const uuidV4 = await generateUUID();
 
     const handleRemovePack = (index: number) => {
         if (isSubmitting) return;
@@ -55,7 +56,7 @@ export default function ProductPackInformation({ form }: Props) {
 
     const handleAddPack = () => {
         // Append a new pack with a unique id
-        append({ ...emptyPack, id: uuidv4() });
+        append({ ...emptyPack, id: uuidV4 });
     };
 
     return (
