@@ -278,9 +278,9 @@ export function UpdateProductAdmin({
         }
     }, [errors]);
 
-    const generateUUID = () => {
-        return uuidv4();
-    };
+    // const generateUUID = () => {
+    //     return uuidv4();
+    // };
 
     const handleUpdateProduct = async (formValues: any) => {
         const {
@@ -333,7 +333,7 @@ export function UpdateProductAdmin({
         const productId = product.id;
 
         // Multimedia
-        const randomUUID = generateUUID();
+        // const randomUUID = generateUUID();
 
         let p_principal_url = '';
         let p_back_url = '';
@@ -341,134 +341,134 @@ export function UpdateProductAdmin({
         let p_extra_2_url = '';
         let p_extra_3_url = '';
 
-        if (p_principal && !isFileEmpty(p_principal[0])) {
-            const fileName = `articles/${productId}/p_principal/${randomUUID}`;
-            // .../articles/1/p_principal/uuid.jpg
-            p_principal_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(p_principal[0].name)}`,
-            );
+        // if (p_principal && !isFileEmpty(p_principal[0])) {
+        //     const fileName = `articles/${productId}/p_principal/${randomUUID}`;
+        //     // .../articles/1/p_principal/uuid.jpg
+        //     p_principal_url = encodeURIComponent(
+        //         `${fileName}${generateFileNameExtension(p_principal[0].name)}`,
+        //     );
 
-            const { error: pPrincipalError } = await supabase.storage
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(
-                        p_principal[0].name,
-                    )}`,
-                    p_principal[0],
-                    {
-                        contentType: p_principal[0].type,
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
-            if (pPrincipalError) throw pPrincipalError;
+        //     const { error: pPrincipalError } = await supabase.storage
+        //         .from('products')
+        //         .upload(
+        //             `${fileName}${generateFileNameExtension(
+        //                 p_principal[0].name,
+        //             )}`,
+        //             p_principal[0],
+        //             {
+        //                 contentType: p_principal[0].type,
+        //                 cacheControl: '3600',
+        //                 upsert: false,
+        //             },
+        //         );
+        //     if (pPrincipalError) throw pPrincipalError;
 
-            removeImage('p_principal');
-        }
+        //     removeImage('p_principal');
+        // }
 
-        if (p_back && !isFileEmpty(p_back[0])) {
-            const fileName = `articles/${productId}/p_back/${randomUUID}`;
+        // if (p_back && !isFileEmpty(p_back[0])) {
+        //     const fileName = `articles/${productId}/p_back/${randomUUID}`;
 
-            p_back_url =
-                p_back &&
-                encodeURIComponent(
-                    `${fileName}${generateFileNameExtension(p_back[0].name)}`,
-                );
+        //     p_back_url =
+        //         p_back &&
+        //         encodeURIComponent(
+        //             `${fileName}${generateFileNameExtension(p_back[0].name)}`,
+        //         );
 
-            const { error: pBackError } = await supabase.storage
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(p_back[0].name)}`,
-                    p_back[0],
-                    {
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
-            if (pBackError) throw pBackError;
+        //     const { error: pBackError } = await supabase.storage
+        //         .from('products')
+        //         .upload(
+        //             `${fileName}${generateFileNameExtension(p_back[0].name)}`,
+        //             p_back[0],
+        //             {
+        //                 cacheControl: '3600',
+        //                 upsert: false,
+        //             },
+        //         );
+        //     if (pBackError) throw pBackError;
 
-            removeImage('p_back');
-        }
+        //     removeImage('p_back');
+        // }
 
-        if (p_extra_1 && !isFileEmpty(p_extra_1[0])) {
-            const fileName = `articles/${productId}/p_extra_1/${randomUUID}`;
+        // if (p_extra_1 && !isFileEmpty(p_extra_1[0])) {
+        //     const fileName = `articles/${productId}/p_extra_1/${randomUUID}`;
 
-            p_extra_1_url =
-                p_extra_1 &&
-                encodeURIComponent(
-                    `${fileName}${generateFileNameExtension(
-                        p_extra_1[0].name,
-                    )}`,
-                );
+        //     p_extra_1_url =
+        //         p_extra_1 &&
+        //         encodeURIComponent(
+        //             `${fileName}${generateFileNameExtension(
+        //                 p_extra_1[0].name,
+        //             )}`,
+        //         );
 
-            const { error: pExtra1Error } = await supabase.storage
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(
-                        p_extra_1[0].name,
-                    )}`,
-                    p_extra_1[0],
-                    {
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
-            if (pExtra1Error) throw pExtra1Error;
+        //     const { error: pExtra1Error } = await supabase.storage
+        //         .from('products')
+        //         .upload(
+        //             `${fileName}${generateFileNameExtension(
+        //                 p_extra_1[0].name,
+        //             )}`,
+        //             p_extra_1[0],
+        //             {
+        //                 cacheControl: '3600',
+        //                 upsert: false,
+        //             },
+        //         );
+        //     if (pExtra1Error) throw pExtra1Error;
 
-            removeImage('p_extra_1');
-        }
+        //     removeImage('p_extra_1');
+        // }
 
-        if (p_extra_2 && !isFileEmpty(p_extra_2[0])) {
-            const fileName = `articles/${productId}/p_extra_2/${randomUUID}`;
+        // if (p_extra_2 && !isFileEmpty(p_extra_2[0])) {
+        //     const fileName = `articles/${productId}/p_extra_2/${randomUUID}`;
 
-            p_extra_2_url =
-                p_extra_2 &&
-                encodeURIComponent(
-                    `${fileName}${generateFileNameExtension(
-                        p_extra_2[0].name,
-                    )}`,
-                );
+        //     p_extra_2_url =
+        //         p_extra_2 &&
+        //         encodeURIComponent(
+        //             `${fileName}${generateFileNameExtension(
+        //                 p_extra_2[0].name,
+        //             )}`,
+        //         );
 
-            const { error: pExtra2Error } = await supabase.storage
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(
-                        p_extra_2[0].name,
-                    )}`,
-                    p_extra_2[0],
-                    {
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
-            if (pExtra2Error) throw pExtra2Error;
+        //     const { error: pExtra2Error } = await supabase.storage
+        //         .from('products')
+        //         .upload(
+        //             `${fileName}${generateFileNameExtension(
+        //                 p_extra_2[0].name,
+        //             )}`,
+        //             p_extra_2[0],
+        //             {
+        //                 cacheControl: '3600',
+        //                 upsert: false,
+        //             },
+        //         );
+        //     if (pExtra2Error) throw pExtra2Error;
 
-            removeImage('p_extra_2');
-        }
+        //     removeImage('p_extra_2');
+        // }
 
-        if (p_extra_3 && !isFileEmpty(p_extra_3[0])) {
-            const fileName = `articles/${productId}/p_extra_3/${randomUUID}`;
+        // if (p_extra_3 && !isFileEmpty(p_extra_3[0])) {
+        //     const fileName = `articles/${productId}/p_extra_3/${randomUUID}`;
 
-            p_extra_3_url =
-                p_extra_3 &&
-                `${fileName}${generateFileNameExtension(p_extra_3[0].name)}`;
+        //     p_extra_3_url =
+        //         p_extra_3 &&
+        //         `${fileName}${generateFileNameExtension(p_extra_3[0].name)}`;
 
-            const { error: pExtra3Error } = await supabase.storage
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(
-                        p_extra_3[0].name,
-                    )}`,
-                    p_extra_3[0],
-                    {
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
-            if (pExtra3Error) throw pExtra3Error;
+        //     const { error: pExtra3Error } = await supabase.storage
+        //         .from('products')
+        //         .upload(
+        //             `${fileName}${generateFileNameExtension(
+        //                 p_extra_3[0].name,
+        //             )}`,
+        //             p_extra_3[0],
+        //             {
+        //                 cacheControl: '3600',
+        //                 upsert: false,
+        //             },
+        //         );
+        //     if (pExtra3Error) throw pExtra3Error;
 
-            removeImage('p_extra_3');
-        }
+        //     removeImage('p_extra_3');
+        // }
 
         const { error: multError } = await supabase
             .from('product_multimedia')
@@ -523,139 +523,139 @@ export function UpdateProductAdmin({
             if (stockError) throw stockError;
 
             // Packs Stock
-            if (dirtyFields.packs && isNotEmptyArray(packs)) {
-                packs.map(
-                    async (pack: IModalUpdateProductPack, index: number) => {
-                        const filename = `packs/${productId}/${randomUUID}_${index}`;
-                        const pack_url = encodeURIComponent(
-                            `${filename}${generateFileNameExtension(
-                                pack.name,
-                            )}`,
-                        );
+            // if (dirtyFields.packs && isNotEmptyArray(packs)) {
+            //     packs.map(
+            //         async (pack: IModalUpdateProductPack, index: number) => {
+            //             const filename = `packs/${productId}/${randomUUID}_${index}`;
+            //             const pack_url = encodeURIComponent(
+            //                 `${filename}${generateFileNameExtension(
+            //                     pack.name,
+            //                 )}`,
+            //             );
 
-                        if (pack.id) {
-                            const { error: packsError } = await supabase
-                                .from('product_packs')
-                                .update({
-                                    product_id: productId,
-                                    quantity: pack.quantity,
-                                    price: pack.price,
-                                    name: pack.name,
-                                    img_url: pack_url,
-                                    randomUUID: randomUUID,
-                                })
-                                .eq('id', pack.id);
+            //             if (pack.id) {
+            //                 const { error: packsError } = await supabase
+            //                     .from('product_packs')
+            //                     .update({
+            //                         product_id: productId,
+            //                         quantity: pack.quantity,
+            //                         price: pack.price,
+            //                         name: pack.name,
+            //                         img_url: pack_url,
+            //                         randomUUID: randomUUID,
+            //                     })
+            //                     .eq('id', pack.id);
 
-                            if (packsError) throw packsError;
-                        } else {
-                            const { error: packsError } = await supabase
-                                .from('product_packs')
-                                .insert({
-                                    product_id: productId,
-                                    quantity: pack.quantity,
-                                    price: pack.price,
-                                    name: pack.name,
-                                    img_url: pack_url,
-                                    randomUUID: randomUUID,
-                                })
-                                .eq('product_id', productId);
+            //                 if (packsError) throw packsError;
+            //             } else {
+            //                 const { error: packsError } = await supabase
+            //                     .from('product_packs')
+            //                     .insert({
+            //                         product_id: productId,
+            //                         quantity: pack.quantity,
+            //                         price: pack.price,
+            //                         name: pack.name,
+            //                         img_url: pack_url,
+            //                         randomUUID: randomUUID,
+            //                     })
+            //                     .eq('product_id', productId);
 
-                            if (packsError) throw packsError;
-                        }
+            //                 if (packsError) throw packsError;
+            //             }
 
-                        // Upd Img to Store
-                        // check if image selected in file input is not empty and is an image
-                        if (pack.img_url instanceof FileList) {
-                            const file = pack.img_url[0];
+            //             // Upd Img to Store
+            //             // check if image selected in file input is not empty and is an image
+            //             if (pack.img_url instanceof FileList) {
+            //                 const file = pack.img_url[0];
 
-                            const { error: storagePacksError } =
-                                await supabase.storage
-                                    .from('products')
-                                    .upload(
-                                        `${filename}${generateFileNameExtension(
-                                            pack.name,
-                                        )}`,
-                                        file,
-                                        {
-                                            contentType: file.type,
-                                            cacheControl: '3600',
-                                            upsert: true,
-                                        },
-                                    );
+            //                 const { error: storagePacksError } =
+            //                     await supabase.storage
+            //                         .from('products')
+            //                         .upload(
+            //                             `${filename}${generateFileNameExtension(
+            //                                 pack.name,
+            //                             )}`,
+            //                             file,
+            //                             {
+            //                                 contentType: file.type,
+            //                                 cacheControl: '3600',
+            //                                 upsert: true,
+            //                             },
+            //                         );
 
-                            if (storagePacksError) throw storagePacksError;
-                        }
+            //                 if (storagePacksError) throw storagePacksError;
+            //             }
 
-                        removeImage(`packs.${index}.img_url`);
-                    },
-                );
-            }
+            //             removeImage(`packs.${index}.img_url`);
+            //         },
+            //     );
+            // }
 
-            // Awards
-            if (
-                dirtyFields.awards &&
-                awards &&
-                isNotEmptyArray(awards) &&
-                isValidObject(awards[0].img_url)
-            ) {
-                awards.map(async (award: IAward, index: number) => {
-                    if (award && !isFileEmpty(award.img_url)) {
-                        const file = award.img_url[0];
+            // // Awards
+            // if (
+            //     dirtyFields.awards &&
+            //     awards &&
+            //     isNotEmptyArray(awards) &&
+            //     isValidObject(awards[0].img_url)
+            // ) {
+            //     awards.map(async (award: IAward, index: number) => {
+            //         if (award && !isFileEmpty(award.img_url)) {
+            //             const file = award.img_url[0];
 
-                        const filename = `awards/${productId}/${randomUUID}_${index}`;
-                        const award_url = encodeURIComponent(
-                            `${filename}${generateFileNameExtension(
-                                file.name,
-                            )}`,
-                        );
+            //             const filename = `awards/${productId}/${randomUUID}_${index}`;
+            //             const award_url = encodeURIComponent(
+            //                 `${filename}${generateFileNameExtension(
+            //                     file.name,
+            //                 )}`,
+            //             );
 
-                        if (award.id) {
-                            const { error: awardsError } = await supabase
-                                .from('awards')
-                                .update({
-                                    product_id: productId,
-                                    name: award.name,
-                                    description: award.description,
-                                    year: award.year,
-                                    img_url: award_url,
-                                })
-                                .eq('product_id', product.id);
+            //             if (award.id) {
+            //                 const { error: awardsError } = await supabase
+            //                     .from('awards')
+            //                     .update({
+            //                         product_id: productId,
+            //                         name: award.name,
+            //                         description: award.description,
+            //                         year: award.year,
+            //                         img_url: award_url,
+            //                     })
+            //                     .eq('product_id', product.id);
 
-                            if (awardsError) throw awardsError;
-                        } else {
-                            const { error: awardsError } = await supabase
-                                .from('awards')
-                                .insert({
-                                    product_id: productId,
-                                    name: award.name,
-                                    description: award.description,
-                                    year: award.year,
-                                    img_url: award_url,
-                                });
+            //                 if (awardsError) throw awardsError;
+            //             } else {
+            //                 const { error: awardsError } = await supabase
+            //                     .from('awards')
+            //                     .insert({
+            //                         product_id: productId,
+            //                         name: award.name,
+            //                         description: award.description,
+            //                         year: award.year,
+            //                         img_url: award_url,
+            //                     });
 
-                            if (awardsError) throw awardsError;
-                        }
+            //                 if (awardsError) throw awardsError;
+            //             }
 
-                        const { error: storageAwardsError } =
-                            await supabase.storage
-                                .from('products')
-                                .upload(
-                                    `${filename}${generateFileNameExtension(
-                                        file.name,
-                                    )}`,
-                                    file,
-                                    {
-                                        contentType: file.type,
-                                        cacheControl: '3600',
-                                        upsert: false,
-                                    },
-                                );
-                        if (storageAwardsError) throw storageAwardsError;
+            //             const { error: storageAwardsError } =
+            //                 await supabase.storage
+            //                     .from('products')
+            //                     .upload(
+            //                         `${filename}${generateFileNameExtension(
+            //                             file.name,
+            //                         )}`,
+            //                         file,
+            //                         {
+            //                             contentType: file.type,
+            //                             cacheControl: '3600',
+            //                             upsert: false,
+            //                         },
+            //                     );
+            //             if (storageAwardsError) throw storageAwardsError;
 
-                        removeImage(`awards.${index}.img_url`);
-                    }
-                });
-            }
+            //             removeImage(`awards.${index}.img_url`);
+            //         }
+            //     });
+            // }
         }
 
         handleEditShowModal(false);
