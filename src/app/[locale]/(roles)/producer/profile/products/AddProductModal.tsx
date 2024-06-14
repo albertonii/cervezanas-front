@@ -312,9 +312,21 @@ export function AddProductModal() {
             formData.append('p_extra_3', p_extra_3);
         }
 
+        const headers = new Headers();
+        // CORS
+        headers.append('Access-Control-Allow-Origin', '*');
+        headers.append('Access-Control-Allow-Methods', 'POST');
+        headers.append('Access-Control-Allow-Headers', 'Content-Type');
+        headers.append('Access-Control-Allow-Credentials', 'true');
+        headers.append(
+            'Access-Control-Allow-Headers',
+            'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+        );
+
         const response = await fetch(url, {
             method: 'POST',
             body: formData,
+            headers: headers,
         });
 
         if (response.status !== 200) {
