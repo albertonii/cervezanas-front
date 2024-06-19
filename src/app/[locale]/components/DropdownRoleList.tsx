@@ -6,6 +6,7 @@ import { useAuth } from '../(auth)/Context/useAuth';
 import { generateLink } from '../../../utils/utils';
 import { useLocale, useTranslations } from 'next-intl';
 import { ROLE_ENUM } from '../../../lib/enums';
+import { useAppContext } from '../../context/AppContext';
 
 interface Props {
     handleOnClickRoleOutside: () => void;
@@ -13,6 +14,8 @@ interface Props {
 
 export default function DropdownRoleList({ handleOnClickRoleOutside }: Props) {
     const { roles, changeRole, isAuthLoading, setIsAuthLoading } = useAuth();
+    const { changeSidebarActive } = useAppContext();
+
     const t = useTranslations();
     const locale = useLocale();
 
@@ -21,6 +24,7 @@ export default function DropdownRoleList({ handleOnClickRoleOutside }: Props) {
     useOnClickOutside(dropdownRoleListRef, () => handleOnClickRoleOutside());
 
     const handleRoleClick = (role: ROLE_ENUM) => {
+        changeSidebarActive('settings');
         changeRole(role);
         handleOnClickRoleOutside();
     };
@@ -53,7 +57,7 @@ export default function DropdownRoleList({ handleOnClickRoleOutside }: Props) {
                                 onLoadStart={() => setIsAuthLoading(true)}
                             >
                                 <div
-                                    className={`bg-beer-foam p-2 bg-cerv-cream active:bg-beer-gold transition-all ease-in-out hover:bg-cerv-titlehigh font-semibold`}
+                                    className={`p-2 bg-cerv-cream active:bg-beer-gold transition-all ease-in-out hover:bg-cerv-titlehigh font-semibold`}
                                     onClick={() => handleRoleClick(role)}
                                 >
                                     <span

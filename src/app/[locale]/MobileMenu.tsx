@@ -430,8 +430,6 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
 
                         {role === ROLE_ENUM.Distributor && (
                             <>
-                                'profile', 'logistics', 'contracts',
-                                'business_orders', 'signout',
                                 <li className="flex items-center">
                                     <Link
                                         href={`${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_SETTINGS}`}
