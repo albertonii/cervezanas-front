@@ -78,6 +78,7 @@ export default function AddressForm({ form, addressNameId }: Props) {
                         <InputLabel
                             form={form}
                             label={'name'}
+                            labelText={'loc_name'}
                             registerOptions={{
                                 required: true,
                             }}
@@ -214,6 +215,7 @@ export default function AddressForm({ form, addressNameId }: Props) {
                         <InputLabel
                             form={form}
                             label={'zipcode'}
+                            labelText={'loc_pc'}
                             registerOptions={{
                                 required: true,
                             }}

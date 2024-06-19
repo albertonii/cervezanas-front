@@ -11,6 +11,7 @@ import { IProductPackCartItem } from '../../../../../lib/types/types';
 import { useShoppingCart } from '../../../../context/ShoppingCartContext';
 import dynamic from 'next/dynamic';
 import { calculateFlatrateAndWeightShippingCost } from '../../../(roles)/distributor/actions';
+import { calculateProductPacksWeight } from '../actions';
 
 interface Props {
     productPack: IProductPackCartItem;
@@ -64,7 +65,9 @@ export function CheckoutItem({
                 const { distributor_id, distribution_costs_id, delivery_type } =
                     response;
 
-                const totalWeight = calculateProductPacksWeight(productPack);
+                const totalWeight = await calculateProductPacksWeight(
+                    productPack,
+                );
 
                 const shippingCost =
                     await calculateFlatrateAndWeightShippingCost(
@@ -164,12 +167,3 @@ export function CheckoutItem({
         </>
     );
 }
-
-const calculateProductPacksWeight = (productPack: IProductPackCartItem) => {
-    const packQuantity = productPack.packs[0].quantity;
-    const packWeight = productPack.products?.weight ?? 0;
-    const totalWeight = packWeight * packQuantity;
-
-    // Convert gr to KG
-    return totalWeight / 1000;
-};
