@@ -10,7 +10,7 @@ interface Props {
     content: string;
     direction?: 'top' | 'bottom' | 'left' | 'right';
     delay: number;
-    width?: number;
+    width?: number | string;
 }
 
 const InfoTooltip = memo(({ content, direction, delay, width }: Props) => {

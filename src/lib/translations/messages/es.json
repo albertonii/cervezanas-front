@@ -674,7 +674,8 @@
         "slots_per_box": "Número de slots por caja",
         "max_slots_per_box_exceeded": "Actualiza el número máximo de unidades que caben en la caja para poder añadir más productos al pack variado.",
         "must_start_from_zero": "Debe de existir un rango que empiece en 0.",
-        "ranges_not_continuous": "Los rangos no son continuos."
+        "ranges_not_continuous": "Los rangos no son continuos.",
+        "product_pack_not_exists": "Este producto no tiene packs de venta configurados y no es visible en el mercado"
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",

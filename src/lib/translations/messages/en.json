@@ -676,7 +676,8 @@
         "slots_per_box": "The number of slots per box must be greater than 0.",
         "max_slots_per_box_exceeded": "Update maximum slots per box to add more products in the box",
         "must_start_from_zero": "Must be a range starting from 0",
-        "ranges_not_continuous": "Ranges must be continuous"
+        "ranges_not_continuous": "Ranges must be continuous",
+        "product_pack_not_exists": "This product does not have selling packs configured and is not visible on marketplace"
     },
     "product_packs": "Product packs",
     "units": "Units",

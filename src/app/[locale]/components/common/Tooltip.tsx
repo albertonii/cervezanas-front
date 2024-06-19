@@ -7,7 +7,7 @@ interface Props {
     content: ReactNode;
     direction?: 'top' | 'bottom' | 'left' | 'right';
     delay: number;
-    width?: number;
+    width?: number | string;
 }
 
 export function Tooltip({
@@ -21,7 +21,7 @@ export function Tooltip({
 
     const [active, setActive] = useState(false);
 
-    const [width, setWidth] = useState(0);
+    const [width, setWidth] = useState<number | string>(0);
     const showTip = () => {
         timeout = setTimeout(() => {
             setActive(true);
@@ -49,14 +49,16 @@ export function Tooltip({
             {/* Wrapping */}
             {children}
             <div
-                style={{ width: `${width}px` }}
+                style={{ width: `${typeof width === "string" ? `${width}`:  `${width}px` } ` }}
                 className={`Tooltip-Tip 
-          ${!active ? 'hidden' : ' transition-2'}
-          ${direction === 'top' ? 'bottom-[150%]' : ''} 
-          ${direction === 'bottom' ? 'top-[150%]' : ''} 
-          ${direction === 'left' ? '-left-[0%] -top-[100%]' : ''}
-          ${direction === 'right' ? 'left-[25%] -top-[100%]' : ''} absolute
-             left-1/2 z-50 flex -translate-x-1/2 transform items-center justify-center rounded-lg bg-beer-blonde px-4 py-3 text-sm leading-tight shadow-lg `}
+                ${!active ? 'hidden' : ' transition-2'}
+                ${direction === 'top' ? 'bottom-[150%]' : ''} 
+                ${direction === 'bottom' ? 'top-[150%]' : ''} 
+                ${direction === 'left' ? '-left-[0%] -top-[100%]' : ''}
+                ${
+                    direction === 'right' ? 'left-[25%] -top-[100%]' : ''
+                } absolute
+                    left-1/2 z-50 flex -translate-x-1/2 transform items-center justify-center rounded-lg bg-beer-blonde px-4 py-3 text-sm leading-tight shadow-lg `}
             >
                 {/* Content */}
                 <dfn className="break-words ">{content}</dfn>

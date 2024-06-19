@@ -6,7 +6,7 @@ import Spinner from '../../../../components/common/Spinner';
 import InputSearch from '../../../../components/common/InputSearch';
 import PaginationFooter from '../../../../components/common/PaginationFooter';
 import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
-import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
+import React, { ComponentProps, useMemo, useState } from 'react';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
 import { IProduct } from '../../../../../../lib/types/types';
@@ -14,6 +14,9 @@ import { EditButton } from '../../../../components/common/EditButton';
 import { formatCurrency } from '../../../../../../utils/formatCurrency';
 import { DeleteButton } from '../../../../components/common/DeleteButton';
 import { ArchiveButton } from '../../../../components/common/ArchiveButton';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { InfoTooltip } from '../../../../components/common/InfoTooltip';
 
 interface Props {
     handleEditShowModal: ComponentProps<any>;
@@ -155,86 +158,105 @@ export function ProductList({
 
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {products &&
-                                    filteredItems.map((product) => (
-                                        <tr
-                                            key={product.id}
-                                            className="hover:bg-gray-50"
-                                        >
-                                            <td className="px-6 py-4 whitespace-nowrap flex justify-center">
-                                                <Image
-                                                    width={32}
-                                                    height={32}
-                                                    className="rounded-full"
-                                                    src="/icons/beer-240.png"
-                                                    alt="Beer Type"
-                                                />
-                                            </td>
-
-                                            <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                                                <Link
-                                                    href={`/products/${product.id}`}
-                                                    locale={locale}
-                                                >
-                                                    {product.name}
-                                                </Link>
-                                            </td>
-
-                                            <td className="px-6 py-4">
-                                                {formatCurrency(product.price)}
-                                            </td>
-
-                                            <td className="px-6 py-4">
-                                                {product.product_packs
-                                                    ?.length ?? 1}
-                                            </td>
-
-                                            <td className="px-6 py-4">
-                                                {product.product_inventory &&
-                                                product.product_inventory
-                                                    .quantity
-                                                    ? product.product_inventory
-                                                          .quantity
-                                                    : '-'}
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                {product.product_lots &&
-                                                product.product_lots[0]?.lot_id
-                                                    ? product.product_lots[0]
-                                                          ?.lot_id
-                                                    : '-'}
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                {product.is_public
-                                                    ? t('yes')
-                                                    : t('no')}
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <div className="flex justify-center space-x-2">
-                                                    <EditButton
-                                                        onClick={() =>
-                                                            handleEditClick(
-                                                                product,
-                                                            )
-                                                        }
+                                    filteredItems.map((product) => {
+                                        return (
+                                            <tr
+                                                key={product.id}
+                                                className="hover:bg-gray-50"
+                                            >
+                                                <td className="px-6 py-4 whitespace-nowrap flex justify-center">
+                                                    <Image
+                                                        width={32}
+                                                        height={32}
+                                                        className="rounded-full"
+                                                        src="/icons/beer-240.png"
+                                                        alt="Beer Type"
                                                     />
-                                                    <DeleteButton
-                                                        onClick={() =>
-                                                            handleDeleteClick(
-                                                                product,
-                                                            )
-                                                        }
-                                                    />
-                                                    <ArchiveButton
-                                                        onClick={() =>
-                                                            handleArchive(
-                                                                product,
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                                </td>
+
+                                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+                                                    <Link
+                                                        href={`/products/${product.id}`}
+                                                        locale={locale}
+                                                    >
+                                                        {product.name}
+                                                    </Link>
+
+                                                    {product.product_packs
+                                                        .length === 0 && (
+                                                        <InfoTooltip
+                                                            content={`${t(
+                                                                'errors.product_pack_not_exists',
+                                                            )}`}
+                                                            delay={0}
+                                                            width={'auto'}
+                                                            direction={'top'}
+                                                        />
+                                                    )}
+                                                </td>
+
+                                                <td className="px-6 py-4">
+                                                    {formatCurrency(
+                                                        product.price,
+                                                    )}
+                                                </td>
+
+                                                <td className="px-6 py-4">
+                                                    {product.product_packs
+                                                        ?.length ?? 1}
+                                                </td>
+
+                                                <td className="px-6 py-4">
+                                                    {product.product_inventory &&
+                                                    product.product_inventory
+                                                        .quantity
+                                                        ? product
+                                                              .product_inventory
+                                                              .quantity
+                                                        : '-'}
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    {product.product_lots &&
+                                                    product.product_lots[0]
+                                                        ?.lot_id
+                                                        ? product
+                                                              .product_lots[0]
+                                                              ?.lot_id
+                                                        : '-'}
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    {product.is_public
+                                                        ? t('yes')
+                                                        : t('no')}
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <div className="flex justify-center space-x-2">
+                                                        <EditButton
+                                                            onClick={() =>
+                                                                handleEditClick(
+                                                                    product,
+                                                                )
+                                                            }
+                                                        />
+                                                        <DeleteButton
+                                                            onClick={() =>
+                                                                handleDeleteClick(
+                                                                    product,
+                                                                )
+                                                            }
+                                                        />
+                                                        <ArchiveButton
+                                                            onClick={() =>
+                                                                handleArchive(
+                                                                    product,
+                                                                )
+                                                            }
+                                                        />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
                             </tbody>
                         </table>
                     </div>
