@@ -312,8 +312,8 @@ export function AddProductModal() {
             formData.append('p_extra_3', p_extra_3);
         }
 
-        const headers = new Headers();
         // CORS
+        const headers = new Headers();
         headers.append('Access-Control-Allow-Origin', '*');
         headers.append('Access-Control-Allow-Methods', 'POST');
         headers.append('Access-Control-Allow-Headers', 'Content-Type');

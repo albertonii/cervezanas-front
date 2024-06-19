@@ -40,7 +40,8 @@ async function getMarketplaceProducts() {
               product_packs (*)
             `,
         )
-        .eq('is_public', true);
+        .eq('is_public', true)
+        .not('product_packs', 'is', null);
 
     // const { data: productsData, error: productsError } = await supabase
     //     .from('products')
