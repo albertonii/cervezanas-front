@@ -54,6 +54,7 @@ export function CheckoutItem({
                 distributor_id: string;
                 distribution_costs_id: string;
                 delivery_type: string;
+                cost_extra_per_kg: number;
             } = await initShipmentLogic(
                 selectedShippingAddress,
                 productWithInfo.owner_id,
@@ -73,6 +74,7 @@ export function CheckoutItem({
                     await calculateFlatrateAndWeightShippingCost(
                         distribution_costs_id,
                         totalWeight,
+                        response.cost_extra_per_kg,
                     );
 
                 handleDeliveryCost(shippingCost);

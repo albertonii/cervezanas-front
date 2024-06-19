@@ -60,17 +60,15 @@ const schema: ZodType<FlatrateAndWeightCostFormData> = z.object({
         ),
 });
 
-export type FlatrateAndWeightCostFormValidationSchema = z.infer<typeof schema>;
+export type WeightRangeCostFormValidationSchema = z.infer<typeof schema>;
 
 interface Props {
-    extraCostPerKG: number;
     flatrateAndWeightCost?: IFlatrateAndWeightCost[];
     distributionCostId: string;
 }
 
 /* Tarifa de envío por rango de coste del pedido */
-const FlatrateAndWeightCostForm = ({
-    extraCostPerKG,
+const AreaAndWeightCostFormData = ({
     flatrateAndWeightCost,
     distributionCostId,
 }: Props) => {
@@ -85,11 +83,10 @@ const FlatrateAndWeightCostForm = ({
     const submitSuccessMessage = t('messages.updated_successfully');
     const submitErrorMessage = t('messages.submit_error');
 
-    const form = useForm<FlatrateAndWeightCostFormValidationSchema>({
+    const form = useForm<WeightRangeCostFormValidationSchema>({
         mode: 'onSubmit',
         resolver: zodResolver(schema),
         defaultValues: {
-            cost_extra_per_kg: extraCostPerKG,
             distribution_costs_id: distributionCostId,
             weight_range_cost: flatrateAndWeightCost,
         },
@@ -99,8 +96,7 @@ const FlatrateAndWeightCostForm = ({
         handleSubmit,
         control,
         trigger,
-        formState: { errors, dirtyFields },
-        register,
+        formState: { errors },
     } = form;
 
     const { fields, append, remove } = useFieldArray({
@@ -115,7 +111,7 @@ const FlatrateAndWeightCostForm = ({
     }, [fields]);
 
     const handleUpdateFlatrateCostAndWeight = async (
-        form: FlatrateAndWeightCostFormValidationSchema,
+        form: WeightRangeCostFormValidationSchema,
     ) => {
         trigger();
 
@@ -152,7 +148,7 @@ const FlatrateAndWeightCostForm = ({
         },
     });
 
-    const onSubmit: SubmitHandler<FlatrateAndWeightCostFormValidationSchema> = (
+    const onSubmit: SubmitHandler<WeightRangeCostFormValidationSchema> = (
         formValues: FlatrateAndWeightCostFormData,
     ) => {
         try {
@@ -211,7 +207,7 @@ const FlatrateAndWeightCostForm = ({
     };
 
     return (
-        <section className="flex flex-col items-start space-y-4 rounded-xl border-2 border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4 ">
+        <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4 ">
             <span className="pb-4">
                 <strong>Tarifa Plana y Peso:</strong> Configura un rango de
                 pesos con un coste específico para cada rango. Incluye un coste
@@ -223,9 +219,9 @@ const FlatrateAndWeightCostForm = ({
 
             <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="w-full space-y-4 border border-beer-softBlondeBubble p-2 rounded-xl flex flex-col"
+                className="w-full space-y-4"
             >
-                <div className="flex space-x-4 mt-4">
+                <div className="flex space-x-4">
                     <Button
                         btnType="submit"
                         onClick={handleSubmit(onSubmit)}
@@ -245,32 +241,6 @@ const FlatrateAndWeightCostForm = ({
                         {t('add_weight_price_range')}
                     </Button>
                 </div>
-
-                <label className="">
-                    {t('extra_cost_per_kg') + ' (€)'}
-                    <input
-                        type="number"
-                        {...register(`cost_extra_per_kg`, {
-                            required: true,
-                            valueAsNumber: true,
-                        })}
-                        placeholder="5"
-                        className={`
-                        ${
-                            errors.cost_extra_per_kg &&
-                            'border-red-500 focus:border-red-500'
-                        }
-                        relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 
-                        focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm`}
-                        min={0}
-                    />
-
-                    {errors.cost_extra_per_kg && (
-                        <DisplayInputError
-                            message={errors.cost_extra_per_kg?.message}
-                        />
-                    )}
-                </label>
 
                 <div className="space-y-4">
                     {errors.weight_range_cost &&
@@ -307,4 +277,4 @@ const FlatrateAndWeightCostForm = ({
     );
 };
 
-export default FlatrateAndWeightCostForm;
+export default AreaAndWeightCostFormData;

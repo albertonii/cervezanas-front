@@ -123,6 +123,11 @@ const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
 
     return (
         <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
+            <span className="pb-4">
+                <strong>Tarifa Plana:</strong> Precio único para cualquier tipo
+                de envío, sin tener en cuenta el peso del paquete.
+            </span>
+
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="grid w-full grid-cols-2 gap-4"

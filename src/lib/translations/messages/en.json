@@ -970,5 +970,18 @@
     "code": "Code",
     "enter_promo_code": "Enter promo code",
     "apply_promo_code": "Apply promo code",
+    "weight_from": "Weight from",
+    "weight_to": "Weight to",
+    "base_cost": "Base cost",
+    "extra_cost_per_kg": "Extra cost per kg",
+    "flatrate_weight_from": "Weight from (kg)",
+    "flatrate_weight_to": "Weight to (kg)",
+    "flatrate_base_cost": "Base cost (€)",
+    "flatrate_extra_cost_per_kg": "Extra cost per kg (€)",
+    "area_and_weight": "Area and weight",
+    "cities_distribution_cost": "Cities distribution cost",
+    "provinces_distribution_cost": "Provinces distribution cost",
+    "regions_distribution_cost": "Regions distribution cost",
+    "country_distribution_cost": "Country distribution cost",
     "add_weight_price_range": "Add weight and price range"
 }

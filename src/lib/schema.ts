@@ -1156,14 +1156,14 @@ export interface Database {
           {
             foreignKeyName: "distribution_contracts_distributor_id_fkey"
             columns: ["distributor_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "distributor_user"
             referencedColumns: ["user_id"]
           },
           {
             foreignKeyName: "distribution_contracts_producer_id_fkey"
             columns: ["producer_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "producer_user"
             referencedColumns: ["user_id"]
           }
@@ -1171,16 +1171,19 @@ export interface Database {
       }
       distribution_costs: {
         Row: {
+          cost_extra_per_kg: number | null
           created_at: string
           distributor_id: string | null
           id: string
         }
         Insert: {
+          cost_extra_per_kg?: number | null
           created_at?: string
           distributor_id?: string | null
           id?: string
         }
         Update: {
+          cost_extra_per_kg?: number | null
           created_at?: string
           distributor_id?: string | null
           id?: string

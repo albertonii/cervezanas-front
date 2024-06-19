@@ -8,6 +8,7 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 export async function calculateFlatrateAndWeightShippingCost(
     distributionCostId: string,
     totalWeight: number,
+    costExtraPerKG: number,
 ) {
     const supabase = await createServerClient();
 
@@ -20,7 +21,6 @@ export async function calculateFlatrateAndWeightShippingCost(
                 weight_from,
                 weight_to,
                 base_cost,
-                extra_cost_per_kg,
                 updated_at
             `,
         )
@@ -47,8 +47,7 @@ export async function calculateFlatrateAndWeightShippingCost(
         if (
             range.weight_from === null ||
             range.weight_to === null ||
-            range.base_cost === null ||
-            range.extra_cost_per_kg === null
+            range.base_cost === null
         ) {
             continue;
         }
@@ -59,12 +58,12 @@ export async function calculateFlatrateAndWeightShippingCost(
             console.log('Weight to ', range.weight_to);
 
             console.log('Diferencia de pesos', totalWeight - range.weight_to);
-            console.log('Precio extra por kg', range.extra_cost_per_kg);
+            console.log('Precio extra por kg', costExtraPerKG);
 
             // El peso excede el rango actual, por lo que calculamos el coste total para este rango
             shippingCost =
                 range.base_cost +
-                (totalWeight - range.weight_to) * range.extra_cost_per_kg;
+                (totalWeight - range.weight_to) * costExtraPerKG;
         } else if (
             totalWeight >= range.weight_from &&
             totalWeight <= range.weight_to
@@ -80,6 +79,7 @@ export async function calculateFlatrateAndWeightShippingCost(
 }
 
 export async function updateFlatrateAndWeightShippingCost(
+    cost_extra_per_kg: number,
     distribution_costs_id: string,
     flatrateWeightCostRange: IFlatrateAndWeightCostForm[],
 ) {
@@ -130,16 +130,14 @@ export async function updateFlatrateAndWeightShippingCost(
             `flatrate_weight[${index}].base_cost`,
             range.base_cost.toString(),
         );
-        formData.append(
-            `flatrate_weight[${index}].extra_cost_per_kg`,
-            range.extra_cost_per_kg.toString(),
-        );
     });
 
     formData.append(
         'flatrate_weight_size',
         flatrateWeightCostRange.length.toString(),
     );
+
+    formData.append('cost_extra_per_kg', cost_extra_per_kg.toString());
 
     const resPost = await fetch(urlPOST, {
         method: 'POST',

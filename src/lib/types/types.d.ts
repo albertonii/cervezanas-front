@@ -1407,8 +1407,8 @@ export interface FlatrateAndWeightCostFormData {
         weight_from: number;
         weight_to: number;
         base_cost: number;
-        extra_cost_per_kg: number;
     }[];
+    cost_extra_per_kg: number;
 }
 
 export interface PriceRangeCostFormData {
@@ -1428,6 +1428,7 @@ export interface DistributionRangeCost {
 export interface IDistributionCost {
     id: string;
     distributor_id: string;
+    cost_extra_per_kg: number;
     distributor_user?: IDistributorUser;
     flatrate_cost?: IFlatrateCost;
     flatrate_and_weight_cost?: IFlatrateAndWeightCost[];
@@ -1454,7 +1455,6 @@ export interface IFlatrateAndWeightCost {
     weight_from: number;
     weight_to: number;
     base_cost: number;
-    extra_cost_per_kg: number;
 }
 
 export interface IFlatrateAndWeightCostForm {
@@ -1465,7 +1465,6 @@ export interface IFlatrateAndWeightCostForm {
     weight_from: number;
     weight_to: number;
     base_cost: number;
-    extra_cost_per_kg: number;
 }
 
 export interface IUserReport {

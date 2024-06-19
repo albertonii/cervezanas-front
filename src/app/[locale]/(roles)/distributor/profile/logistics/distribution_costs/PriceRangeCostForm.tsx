@@ -136,6 +136,13 @@ const PriceRangeCostForm: React.FC = () => {
 
     return (
         <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
+            <span className="pb-4">
+                <strong>Rango de Precios:</strong> Basado en el valor de los
+                productos vendidos. Ejemplo: Para ventas entre 10 y 50 euros, el
+                coste de envío es de 10 euros. Para ventas de 50 euros o más, el
+                coste de envío es 0 euros.
+            </span>
+
             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
                 <Button
                     btnType="submit"
@@ -175,7 +182,6 @@ const PriceRangeCostForm: React.FC = () => {
                     Añadir Franja de Precio
                 </Button>
             </form>
-
             {/* Minimalistic and simple table displaying all the ranges and costs. Información obtenida del array registrado en "distribution_range_cost*/}
             <table className="min-w-full bg-white">
                 <thead>

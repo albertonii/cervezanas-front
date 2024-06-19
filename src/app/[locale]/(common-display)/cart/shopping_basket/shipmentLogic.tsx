@@ -25,9 +25,8 @@ export const initShipmentLogic = async (
             distributor_id: '',
             distribution_costs_id: '',
             delivery_type: DeliveryType.NONE,
+            cost_extra_per_kg: 0,
         };
-
-    console.log(listOfDistributorsContracts);
 
     // 3. Iterate through the list of distributors and check if they can deliver to the address. If one of them can, return true. If none of them can, return false.
     for (const distributor of listOfDistributorsContracts) {
@@ -43,6 +42,9 @@ export const initShipmentLogic = async (
                 distribution_costs_id:
                     distributor.distributor_user.distribution_costs.id,
                 delivery_type,
+                cost_extra_per_kg:
+                    distributor.distributor_user.distribution_costs
+                        .cost_extra_per_kg,
             };
         }
     }
@@ -52,6 +54,7 @@ export const initShipmentLogic = async (
         distributor_id: '',
         distribution_costs_id: '',
         delivery_type: DeliveryType.NONE,
+        cost_extra_per_kg: 0,
     };
 };
 

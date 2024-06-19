@@ -39,6 +39,7 @@ export default function DistributionCost({ distributionCosts }: Props) {
             case DistributionCostType.FLATRATE_AND_WEIGHT:
                 return (
                     <FlatrateAndWeightCostForm
+                        extraCostPerKG={distributionCosts.cost_extra_per_kg}
                         flatrateAndWeightCost={
                             distributionCosts.flatrate_and_weight_cost
                         }
@@ -53,9 +54,36 @@ export default function DistributionCost({ distributionCosts }: Props) {
 
     return (
         <fieldset className="space-y-4 rounded-xl border border-b-gray-200 bg-beer-foam p-4">
-            <legend className="text-2xl font-medium text-beer-dark">
-                {t('distribution_cost')}
-            </legend>
+            <p className="flex flex-col justify-between py-4" id="header">
+                <h2
+                    id="title"
+                    className="text-2xl uppercase font-semibold text-beer-dark"
+                >
+                    {t('distribution_cost')}
+                </h2>
+
+                <span className="text-gray-700 text-sm">
+                    Aquí puedes seleccionar la opción que mejor se adapte a tus
+                    necesidades como distribuidor. A continuación, se presentan
+                    las opciones disponibles:
+                    <ul className="list-disc pl-5 mt-2">
+                        <li>
+                            <strong>Por Zona y Peso:</strong> Configura zonas de
+                            cobertura y calcula los costes de distribución según
+                            el peso y la zona de destino.
+                        </li>
+                        <li>
+                            <strong>
+                                Coste de Distribución Incluido en el Producto:
+                            </strong>{' '}
+                            Elige esta opción si el coste de envío ya está
+                            incluido en el precio del producto. El coste de
+                            envío será 0, pero el precio del producto cubrirá
+                            los costes de distribución.
+                        </li>
+                    </ul>
+                </span>
+            </p>
 
             <HorizontalMenuCoverageCost setMenuOption={setMenuOption} />
 

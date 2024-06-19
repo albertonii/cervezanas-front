@@ -993,6 +993,7 @@
     "flatrate_weight_to": "Peso hasta (kg)",
     "flatrate_base_cost": "Coste base (€)",
     "flatrate_extra_cost_per_kg": "Coste extra por kg adicional (€)",
+    "area_and_weight": "Área y peso",
     "cities_distribution_cost": "Coste de distribución por ciudades",
     "provinces_distribution_cost": "Coste de distribución por provincias",
     "regions_distribution_cost": "Coste de distribución por regiones",

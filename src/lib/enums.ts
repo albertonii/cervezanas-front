@@ -24,6 +24,7 @@ export enum DistributionCostType {
     DISTANCE = 'distance',
     VOLUME_AND_WEIGHT = 'volume_and_weight',
     RANGE = 'range',
+    AREA_AND_WEIGHT = 'area_and_weight',
 }
 
 export enum DistributionStatus {

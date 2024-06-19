@@ -111,7 +111,7 @@ export function BasicDataForm({ profile }: Props) {
     return (
         <section
             id="account_basic_data"
-            className="mb-4 space-y-3 bg-white px-6 py-4"
+            className="mb-4 space-y-3 bg-white px-6 py-4 rounded-xl border"
         >
             <span id="account-data" className="text-2xl">
                 {t('profile_title_acc_data')}

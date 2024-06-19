@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { DeleteButton } from '../../../../../components/common/DeleteButton';
 import { DisplayInputError } from '../../../../../components/common/DisplayInputError';
-import { WeightRangeCostFormValidationSchema } from './FlatrateAndWeightCostForm';
+import { FlatrateAndWeightCostForm } from './FlatrateAndWeightCostForm';
 
 interface Props {
     index: number;
@@ -20,11 +20,7 @@ interface Props {
         index: number,
         event: React.ChangeEvent<HTMLInputElement>,
     ) => void;
-    handleInputExtraCostPerKgChange: (
-        index: number,
-        event: React.ChangeEvent<HTMLInputElement>,
-    ) => void;
-    form: UseFormReturn<WeightRangeCostFormValidationSchema, any>;
+    form: UseFormReturn<FlatrateAndWeightCostForm, any>;
 }
 
 export default function FlatrateAndWeightCostFormRow({
@@ -33,7 +29,6 @@ export default function FlatrateAndWeightCostFormRow({
     handleInputWeightFromChange,
     handleInputWeightToChange,
     handleInputBaseCostChange,
-    handleInputExtraCostPerKgChange,
     form: {
         register,
         formState: { errors },
@@ -80,21 +75,8 @@ export default function FlatrateAndWeightCostFormRow({
                                         }
                                     />
                                 )}
-
-                                {errors.weight_range_cost &&
-                                    errors.weight_range_cost[index]
-                                        ?.extra_cost_per_kg && (
-                                        <DisplayInputError
-                                            message={
-                                                errors.weight_range_cost[index]
-                                                    ?.extra_cost_per_kg?.message
-                                            }
-                                        />
-                                    )}
                             </>
                         )}
-
-                       
                     </div>
                 )}
 
@@ -177,34 +159,6 @@ export default function FlatrateAndWeightCostFormRow({
                         ${
                             errors.weight_range_cost &&
                             errors.weight_range_cost[index]?.base_cost &&
-                            'border-red-500 focus:border-red-500'
-                        }
-                        relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 
-                        focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm`}
-                            min={0}
-                        />
-                    </label>
-
-                    <label className="">
-                        {t('extra_cost_per_kg') + ' (€)'}
-                        <input
-                            type="number"
-                            {...register(
-                                `weight_range_cost.${index}.extra_cost_per_kg`,
-                                {
-                                    required: true,
-                                    valueAsNumber: true,
-                                },
-                            )}
-                            onChange={(event) =>
-                                handleInputExtraCostPerKgChange(index, event)
-                            }
-                            placeholder="30"
-                            className={`
-                        ${
-                            errors.weight_range_cost &&
-                            errors.weight_range_cost[index]
-                                ?.extra_cost_per_kg &&
                             'border-red-500 focus:border-red-500'
                         }
                         relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 
