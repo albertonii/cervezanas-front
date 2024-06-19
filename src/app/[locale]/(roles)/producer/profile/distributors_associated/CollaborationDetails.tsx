@@ -130,8 +130,8 @@ export default function CollaborationDetails({ distributorId }: Props) {
                 </div>
 
                 <p>
-                    En adelante, referidos como `&quot;`el Productor`&quot;` y
-                    `&quot;`el Distribuidor`&quot;` respectivamente.
+                    En adelante, referidos como &quot;el Productor&quot; y
+                    &quot;el Distribuidor&quot; respectivamente.
                 </p>
             </section>
         </section>

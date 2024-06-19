@@ -19,10 +19,12 @@ enum SortBy {
 }
 
 interface Props {
+    producerId: string;
     handleDistributor: ComponentProps<any>;
 }
 
 export default function AvailableDistributorsList({
+    producerId,
     handleDistributor,
 }: Props) {
     const t = useTranslations();
@@ -47,7 +49,8 @@ export default function AvailableDistributorsList({
         isError,
         isLoading,
         refetch,
-    } = useFetchDistributors();
+    } = useFetchDistributors(producerId);
+
     const [listDistributors, setListDistributors] = useState(
         distributors ?? [],
     );

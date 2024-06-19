@@ -5,28 +5,52 @@ import { IDistributorUser } from '../lib/types/types';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { SupabaseClient } from '@supabase/supabase-js';
 
-const fetchDistributors = async (supabase: SupabaseClient<any>) => {
-  const { data, error } = await supabase.from('distributor_user').select(
-    `
-        *,
-        users (*)
-      `,
-  );
-  // .eq("role", "distributor");
-  if (error) throw error;
+const fetchDistributors = async (
+    supabase: SupabaseClient<any>,
+    producerId: string,
+) => {
+    // Paso 1: Obtener todos los distribuidores
+    const { data: distributors, error: distributorsError } = await supabase
+        .from('distributor_user')
+        .select(
+            `
+              *,
+              users (*)
+            `,
+        );
 
-  return data as IDistributorUser[];
+    if (distributorsError) throw distributorsError;
+
+    // Paso 2: Obtener los distributor_id que tienen contratos vinculantes
+    const { data: boundDistributors, error: boundDistributorsError } =
+        await supabase
+            .from('distribution_contracts')
+            .select('distributor_id')
+            .eq('producer_id', producerId);
+
+    if (boundDistributorsError) throw boundDistributorsError;
+
+    const boundDistributorIds = boundDistributors.map(
+        (contract) => contract.distributor_id,
+    );
+
+    // Paso 3: Filtrar distribuidores que no tienen contratos vinculantes
+    const filteredDistributors = distributors.filter(
+        (distributor) => !boundDistributorIds.includes(distributor.user_id),
+    );
+
+    return filteredDistributors as IDistributorUser[];
 };
 
-const useFetchDistributors = () => {
-  const { supabase } = useAuth();
+const useFetchDistributors = (producerId: string) => {
+    const { supabase } = useAuth();
 
-  return useQuery({
-    queryKey: ['distributors'],
-    queryFn: () => fetchDistributors(supabase),
-    enabled: true,
-    refetchOnWindowFocus: false,
-  });
+    return useQuery({
+        queryKey: ['distributors'],
+        queryFn: () => fetchDistributors(supabase, producerId),
+        enabled: true,
+        refetchOnWindowFocus: false,
+    });
 };
 
 export default useFetchDistributors;

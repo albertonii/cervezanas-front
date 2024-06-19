@@ -142,6 +142,7 @@ export default function LinkDistributor({ producerId }: Props) {
                     />
                 ) : (
                     <AvailableDistributorsList
+                        producerId={producerId}
                         handleDistributor={handleDistributor}
                     />
                 )}
