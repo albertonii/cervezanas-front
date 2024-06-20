@@ -793,7 +793,7 @@
     "shipping_cost": "Coste de envío",
     "flatrate": "Tarifa plana",
     "flatrate_and_weight": "Tarifa plana y peso",
-    "range": "Rango",
+    "price_range": "Rango de precios",
     "volume_and_weight": "Volumen y peso",
     "distance": "Distancia",
     "cost": "Coste",

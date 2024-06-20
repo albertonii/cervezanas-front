@@ -193,3 +193,35 @@ async function flatrateAndWeightCostRangeDelete(distributionCostsId: string) {
         message: 'Flatrate and weight costs deleted successfully',
     };
 }
+
+export async function updateIsDistributionCostsIncludedInProduct(
+    distribution_costs_id: string,
+    isDistributionCostIncluded: boolean,
+) {
+    const formData = new FormData();
+
+    formData.append('distribution_costs_id', distribution_costs_id);
+    formData.append(
+        'distribution_costs_in_product',
+        isDistributionCostIncluded.toString(),
+    );
+
+    const urlPUT = `${baseUrl}/api/distribution_costs/distribution_costs_in_product`;
+
+    const resPut = await fetch(urlPUT, {
+        method: 'PUT',
+        body: formData,
+    });
+
+    if (!resPut.ok) {
+        return {
+            status: resPut.status,
+            message: 'Error updating is_distribution_costs_in_product',
+        };
+    }
+
+    return {
+        status: resPut.status,
+        message: 'is_distribution_costs_in_product updated successfully',
+    };
+}

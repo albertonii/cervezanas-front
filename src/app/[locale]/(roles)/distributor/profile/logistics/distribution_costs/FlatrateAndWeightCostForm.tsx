@@ -69,11 +69,11 @@ interface Props {
 }
 
 /* Tarifa de envío por rango de coste del pedido */
-const FlatrateAndWeightCostForm = ({
+export default function FlatrateAndWeightCostForm({
     extraCostPerKG,
     flatrateAndWeightCost,
     distributionCostId,
-}: Props) => {
+}: Props) {
     const t = useTranslations();
     const { handleMessage } = useMessage();
 
@@ -214,8 +214,8 @@ const FlatrateAndWeightCostForm = ({
         <section className="flex flex-col items-start space-y-4 rounded-xl border-2 border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4 ">
             <span className="pb-4">
                 <strong>Tarifa Plana y Peso:</strong> Configura un rango de
-                pesos con un coste específico para cada rango. Incluye un coste
-                adicional si el peso excede el máximo del rango.
+                pesos con un coste específico para cada uno de ellos. Incluye un
+                coste adicional si el peso excede el máximo del rango.
             </span>
 
             {/* Tabla informativa  */}
@@ -305,6 +305,4 @@ const FlatrateAndWeightCostForm = ({
             </form>
         </section>
     );
-};
-
-export default FlatrateAndWeightCostForm;
+}

@@ -63,12 +63,14 @@ const schema: ZodType<FlatrateAndWeightCostFormData> = z.object({
 export type WeightRangeCostFormValidationSchema = z.infer<typeof schema>;
 
 interface Props {
+    extraCostPerKG: number;
     flatrateAndWeightCost?: IFlatrateAndWeightCost[];
     distributionCostId: string;
 }
 
 /* Tarifa de envío por rango de coste del pedido */
 const AreaAndWeightCostFormData = ({
+    extraCostPerKG,
     flatrateAndWeightCost,
     distributionCostId,
 }: Props) => {
@@ -209,9 +211,9 @@ const AreaAndWeightCostFormData = ({
     return (
         <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4 ">
             <span className="pb-4">
-                <strong>Tarifa Plana y Peso:</strong> Configura un rango de
-                pesos con un coste específico para cada rango. Incluye un coste
-                adicional si el peso excede el máximo del rango.
+                <strong>Por Zona y Peso:</strong> Configura zonas de cobertura y
+                calcula los costes de distribución según el peso y la zona de
+                destino.
             </span>
 
             {/* Tabla informativa  */}

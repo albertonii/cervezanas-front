@@ -137,10 +137,9 @@ const PriceRangeCostForm: React.FC = () => {
     return (
         <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
             <span className="pb-4">
-                <strong>Rango de Precios:</strong> Basado en el valor de los
-                productos vendidos. Ejemplo: Para ventas entre 10 y 50 euros, el
-                coste de envío es de 10 euros. Para ventas de 50 euros o más, el
-                coste de envío es 0 euros.
+                <strong>Por Zona y Peso:</strong> Configura zonas de cobertura y
+                calcula los costes de distribución según el peso y la zona de
+                destino.
             </span>
 
             <form onSubmit={handleSubmit(onSubmit)} className="w-full">

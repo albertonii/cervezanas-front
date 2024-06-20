@@ -1173,18 +1173,21 @@ export interface Database {
         Row: {
           cost_extra_per_kg: number | null
           created_at: string
+          distribution_costs_in_product: boolean | null
           distributor_id: string | null
           id: string
         }
         Insert: {
           cost_extra_per_kg?: number | null
           created_at?: string
+          distribution_costs_in_product?: boolean | null
           distributor_id?: string | null
           id?: string
         }
         Update: {
           cost_extra_per_kg?: number | null
           created_at?: string
+          distribution_costs_in_product?: boolean | null
           distributor_id?: string | null
           id?: string
         }
@@ -1662,7 +1665,6 @@ export interface Database {
           base_cost: number | null
           created_at: string
           distribution_costs_id: string
-          extra_cost_per_kg: number | null
           id: string
           updated_at: string | null
           weight_from: number | null
@@ -1672,7 +1674,6 @@ export interface Database {
           base_cost?: number | null
           created_at?: string
           distribution_costs_id: string
-          extra_cost_per_kg?: number | null
           id?: string
           updated_at?: string | null
           weight_from?: number | null
@@ -1682,7 +1683,6 @@ export interface Database {
           base_cost?: number | null
           created_at?: string
           distribution_costs_id?: string
-          extra_cost_per_kg?: number | null
           id?: string
           updated_at?: string | null
           weight_from?: number | null

@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { DeleteButton } from '../../../../../components/common/DeleteButton';
 import { DisplayInputError } from '../../../../../components/common/DisplayInputError';
-import { FlatrateAndWeightCostForm } from './FlatrateAndWeightCostForm';
+import { FlatrateAndWeightCostFormData } from '../../../../../../../lib/types/types';
 
 interface Props {
     index: number;
@@ -20,7 +20,7 @@ interface Props {
         index: number,
         event: React.ChangeEvent<HTMLInputElement>,
     ) => void;
-    form: UseFormReturn<FlatrateAndWeightCostForm, any>;
+    form: UseFormReturn<FlatrateAndWeightCostFormData, any>;
 }
 
 export default function FlatrateAndWeightCostFormRow({

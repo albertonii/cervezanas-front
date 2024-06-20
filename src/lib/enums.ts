@@ -23,7 +23,7 @@ export enum DistributionCostType {
     FLATRATE_AND_WEIGHT = 'flatrate_and_weight',
     DISTANCE = 'distance',
     VOLUME_AND_WEIGHT = 'volume_and_weight',
-    RANGE = 'range',
+    PRICE_RANGE = 'price_range',
     AREA_AND_WEIGHT = 'area_and_weight',
 }
 
