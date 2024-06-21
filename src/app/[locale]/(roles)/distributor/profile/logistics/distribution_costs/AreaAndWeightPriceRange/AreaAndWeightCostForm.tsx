@@ -1,25 +1,12 @@
 'use client';
 
-import Error from 'next/error';
-import Button from '../../../../../../components/common/Button';
-import React, { useEffect, useState } from 'react';
+import AreaSidebar from './AreaSidebar';
+import React, { useState } from 'react';
 import { z, ZodType } from 'zod';
-import { useMutation } from 'react-query';
-import { useTranslations } from 'next-intl';
-import { useFieldArray } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useMessage } from '../../../../../../components/message/useMessage';
 import {
     FlatrateAndWeightCostFormData,
     IFlatrateAndWeightCost,
 } from '../../../../../../../../lib/types/types';
-import FlatrateAndWeightCostTable from '../FlatrateAndWeight/FlatrateAndWeightCostTable';
-import FlatrateAndWeightCostFormRow from '../FlatrateAndWeight/FlatrateAndWeightCostFormRow';
-import { updateFlatrateAndWeightShippingCost } from '../../../../actions';
-import { DisplayInputError } from '../../../../../../components/common/DisplayInputError';
-import AreaAndWeightRangeForm from './AreaAndWeightRangeForm';
-import AreaSidebar from './AreaSidebar';
 
 const rangeObjectSchema = z
     .object({
@@ -78,10 +65,17 @@ const AreaAndWeightCostFormData = ({
 }: Props) => {
     const [selectedArea, setSelectedArea] = useState('');
 
-    console.log(flatrateAndWeightCost);
-
     // Supongamos que `areas` es la lista de áreas que obtuviste de la base de datos
-    const areas = ['Madrid', 'Barcelona' /* ... */];
+    const areas = {
+        cities: ['Madrid', 'Barcelona'],
+        provinces: [],
+        regions: [],
+        international: ['Spain'],
+    };
+
+    const onItemClick = (area: string) => {
+        setSelectedArea(area);
+    };
 
     return (
         <div>
