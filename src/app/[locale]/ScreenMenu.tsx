@@ -171,7 +171,7 @@ const ScreenMenu = memo(function ScreenMenu({
                             return (
                                 <li
                                     key={locale}
-                                    className="mt-3 h-[30px] w-[30px] rounded-full border-2 bg-beer-blonde p-1 text-center text-xs uppercase text-beer-dark hover:text-white hover:bg-beer-draft font-semibold"
+                                    className="mt-3 h-[30px] w-[40px] rounded-full border-2 bg-beer-blonde p-1 text-center text-xs uppercase text-beer-dark hover:text-white hover:bg-beer-draft font-semibold pt-[5px]"
                                 >
                                     <Link href={redirectedPathName(locale)}>
                                         {locale}
@@ -225,7 +225,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                                     height={40}
                                                     alt={'Go to Shopping cart'}
                                                     className={
-                                                        'lg:h[50px] mt-2 rounded-full bg-beer-blonde lg:w-[50px] p-[5px] border-beer-softBlondeBubble border-2'
+                                                        'lg:h[50px] rounded-full bg-beer-blonde lg:w-[50px] p-[5px] border-beer-softBlondeBubble border-2'
                                                     }
                                                 />
                                                 <div

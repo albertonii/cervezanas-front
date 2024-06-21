@@ -80,8 +80,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                         >
                             <span
                                 className={`text-beer-dark dark:text-white `}
-                                aria-current="page" 
-                                
+                                aria-current="page"
                             >
                                 {t(option)}
                             </span>
@@ -322,7 +321,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
 
     return (
         <div
-            className="relative flex h-full items-center justify-center font-medium  "
+            className="relative flex h-full items-center justify-center font-medium w-[50px]"
             id="profile-dropdown"
             ref={dropdown}
         >
@@ -334,7 +333,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                     src={'/icons/user-profile.svg'}
                     alt={'Profile'}
                     className={
-                        'lg:h[50px] mt-2 rounded-full bg-beer-blonde lg:w-[50px] p-[5px] border-beer-softBlondeBubble border-2'
+                        'lg:h[50px] rounded-full bg-beer-blonde lg:w-[50px] p-[5px] border-beer-softBlondeBubble border-2'
                     }
                     width={0}
                     height={0}
