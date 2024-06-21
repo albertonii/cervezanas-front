@@ -1411,6 +1411,27 @@ export interface FlatrateAndWeightCostFormData {
     cost_extra_per_kg: number;
 }
 
+export interface AreaAndWeightCostFormData {
+    distribution_costs_id: string;
+    cities: AreaNameFormData[];
+    provinces: AreaNameFormData[];
+    regions: AreaNameFormData[];
+    international: AreaNameFormData[];
+}
+
+interface AreaAndWeightInformationFormData {
+    id: string;
+    type: string; // City, Province, Region, International
+    name: string;
+    area_weight_cost_range: AreaAndWeightRangeFormData[];
+}
+
+interface AreaAndWeightRangeFormData {
+    weight_from: number;
+    weight_to: number;
+    base_cost: number;
+}
+
 export interface PriceRangeCostFormData {
     distribution_range_cost: {
         lower: number;
@@ -1432,6 +1453,7 @@ export interface IDistributionCost {
     distributor_user?: IDistributorUser;
     flatrate_cost?: IFlatrateCost;
     flatrate_and_weight_cost?: IFlatrateAndWeightCost[];
+    area_and_weight_cost?: IAreaAndWeightCost[];
 }
 
 export interface IFlatrateCost {
@@ -1455,6 +1477,28 @@ export interface IFlatrateAndWeightCost {
     weight_from: number;
     weight_to: number;
     base_cost: number;
+}
+
+export interface IAreaAndWeightCost {
+    id?: string;
+    distribution_costs_id?: string;
+    area_and_weight_information?: IAreaAndWeightInformation[];
+}
+
+export interface IAreaAndWeightInformation {
+    id: string;
+    type: string;
+    name: string;
+    area_and_weight_cost_id: string;
+    area_weight_cost_range?: IAreaAndWeightCostRange[];
+}
+
+export interface IAreaAndWeightCostRange {
+    id?: string;
+    weight_from: number;
+    weight_to: number;
+    base_cost: number;
+    area_and_weight_information_id: string;
 }
 
 export interface IFlatrateAndWeightCostForm {

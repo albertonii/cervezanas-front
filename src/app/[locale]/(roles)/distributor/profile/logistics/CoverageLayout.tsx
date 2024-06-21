@@ -40,7 +40,7 @@ export default function CoverageLayout({ distributionCosts }: Props) {
         <section className="space-y-4 px-1 py-1 lg:container sm:px-6 sm:py-4">
             <HorizontalMenuLogistics setMenuOption={setMenuOption} />
 
-            {renderSwitch()}
+            <div className="min-h-screen">{renderSwitch()}</div>
         </section>
     );
 }

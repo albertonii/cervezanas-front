@@ -1,9 +1,9 @@
 'use client';
 
 import HorizontalMenuCoverageCost from '../HorizontalMenuCoverageCost';
-import AreaAndWeightCostFormData from './AreaAndWeightPriceRange/AreaAndWeightCostForm';
+import AreaAndWeightCostForm from './AreaAndWeightPriceRange/AreaAndWeightCostForm';
 import FlatrateAndWeightCostForm from './FlatrateAndWeight/FlatrateAndWeightCostForm';
-import FlatrateCostForm from './FlatrateAndWeight/FlatrateCostForm';
+import FlatrateCostForm from './FlatrateCost/FlatrateCostForm';
 import PriceRangeCostForm from './PriceRangeCostForm';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
@@ -73,10 +73,10 @@ export default function DistributionCost({ distributionCosts }: Props) {
 
             case DistributionCostType.AREA_AND_WEIGHT:
                 return (
-                    <AreaAndWeightCostFormData
+                    <AreaAndWeightCostForm
                         extraCostPerKG={distributionCosts.cost_extra_per_kg}
-                        flatrateAndWeightCost={
-                            distributionCosts.flatrate_and_weight_cost
+                        areaAndWeightCost={
+                            distributionCosts.area_and_weight_cost![0]
                         }
                         distributionCostId={distributionCosts.id}
                     />

@@ -4,53 +4,78 @@ import {
     faChevronDown,
     faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
+import { UseFormReturn } from 'react-hook-form';
+import { WeightRangeCostFormValidationSchema } from './AreaAndWeightCostForm';
 
 interface SidebarProps {
-    items: {
-        cities: string[];
-        provinces: string[];
-        regions: string[];
-        international: string[];
-    };
+    // items: {
+    //     cities: string[];
+    //     provinces: string[];
+    //     regions: string[];
+    //     international: string[];
+    // };
+    form: UseFormReturn<WeightRangeCostFormValidationSchema>;
     onItemClick: (area: string) => void;
 }
 
-const AreaSidebar: React.FC<SidebarProps> = ({ items, onItemClick }) => {
+const AreaSidebar: React.FC<SidebarProps> = ({ form, onItemClick }) => {
     const [expanded, setExpanded] = useState<string | null>(null);
     const [selected, setSelected] = useState<string | null>(null);
 
+    const { getValues } = form;
+
+    const { cities, provinces, regions, international } = getValues();
+
+    const items = {
+        cities,
+        provinces,
+        regions,
+        international,
+    };
+
+    console.log(items);
+
+    console.log(Object.entries(items));
+
     return (
         <aside
-            className="rounded-xl transform duration-300 ease-in-out shadow-lg lg:relative lg:top-0 
+            className="
+                        lg:absolute lg:top-0 lg:right-full lg:mr-10 lg:z-10
+                        rounded-xl transform duration-300 ease-in-out shadow-lg 
                         bg-[url('/assets/rec-graf4b.png')] bg-repeat bg-top bg-auto overflow-y-auto 
                         dark:bg-gray-800 w-40 min-h-[20vh] h-auto max-h-screen bg-gray-800 text-white 
-                        overflow-auto"
+                        overflow-auto
+                    "
         >
-            {Object.entries(items).map(([key, values]) => (
-                <div key={key}>
-                    <button
-                        className="w-full flex justify-between items-center text-left px-4 py-2 hover:bg-gray-600"
-                        onClick={() =>
-                            setExpanded(key === expanded ? null : key)
-                        }
-                    >
-                        {key}
-                        <FontAwesomeIcon
-                            icon={
-                                expanded === key
-                                    ? faChevronDown
-                                    : faChevronRight
-                            }
-                            className="transition-transform duration-200"
-                        />
-                    </button>
+            {Object.entries(items).map(([key, values], index) => {
+                console.log(key);
+                console.log(values);
 
-                    <ul className="space-y-2 font-medium px-4 py-2">
-                        {expanded === key &&
-                            values.map((value) => (
-                                <li
-                                    key={value}
-                                    className={`flex items-center rounded-lg p-2 text-sm font-normal text-gray-200 
+                return (
+                    <div key={key + index}>
+                        <button
+                            className="w-full flex justify-between items-center text-left px-4 py-2 hover:bg-gray-600"
+                            onClick={() =>
+                                setExpanded(key === expanded ? null : key)
+                            }
+                        >
+                            {key}
+                            <FontAwesomeIcon
+                                icon={
+                                    expanded === key
+                                        ? faChevronDown
+                                        : faChevronRight
+                                }
+                                className="transition-transform duration-200"
+                            />
+                        </button>
+
+                        <ul className="space-y-2 font-medium px-4 py-2">
+                            {expanded === key &&
+                                values.map((value) => (
+                                    <li
+                                        key={value}
+                                        className={`flex items-center rounded-lg p-2 text-sm font-normal text-gray-200 
                                         hover:bg-beer-blonde hover:text-gray-800 transition-all ease-in-out duration-100
                                         dark:text-white dark:hover:bg-gray-700 hover:cursor-pointer 
                                         ${
@@ -58,17 +83,18 @@ const AreaSidebar: React.FC<SidebarProps> = ({ items, onItemClick }) => {
                                                 ? 'bg-gray-700'
                                                 : ''
                                         }`}
-                                    onClick={() => {
-                                        setSelected(value);
-                                        onItemClick(value);
-                                    }}
-                                >
-                                    {value}
-                                </li>
-                            ))}
-                    </ul>
-                </div>
-            ))}
+                                        onClick={() => {
+                                            setSelected(value);
+                                            onItemClick(value);
+                                        }}
+                                    >
+                                        {value.name}
+                                    </li>
+                                ))}
+                        </ul>
+                    </div>
+                );
+            })}
         </aside>
     );
 };

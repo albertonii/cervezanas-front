@@ -48,8 +48,25 @@ async function getDistributionCost() {
                     weight_from,
                     weight_to,
                     base_cost
+                ),
+                area_and_weight_cost (
+                    id,
+                    distribution_costs_id,
+                    area_and_weight_information (
+                        id,
+                        type,
+                        name,
+                        area_and_weight_cost_id,
+                        area_weight_cost_range (
+                            id,
+                            weight_from,
+                            weight_to,
+                            base_cost,
+                            area_and_weight_information_id
+                        )
+                    )
                 )
-            `,
+                `,
             )
             .eq('distributor_id', session.id)
             .single();

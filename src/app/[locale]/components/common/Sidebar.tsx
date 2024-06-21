@@ -25,8 +25,6 @@ export function Sidebar({ sidebarLinks }: Props) {
     const { role } = useAuth();
     const device = useDeviceDetection();
 
-    console.log(sidebar);
-
     const t = useTranslations();
     const locale = useLocale();
     const [open, setOpen] = useState(false);
