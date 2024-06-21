@@ -1,9 +1,9 @@
 'use client';
 
 import HorizontalMenuCoverageCost from '../HorizontalMenuCoverageCost';
-import AreaAndWeightCostFormData from './AreaAndWeightCostForm';
-import FlatrateAndWeightCostForm from './FlatrateAndWeightCostForm';
-import FlatrateCostForm from './FlatrateCostForm';
+import AreaAndWeightCostFormData from './AreaAndWeightPriceRange/AreaAndWeightCostForm';
+import FlatrateAndWeightCostForm from './FlatrateAndWeight/FlatrateAndWeightCostForm';
+import FlatrateCostForm from './FlatrateAndWeight/FlatrateCostForm';
 import PriceRangeCostForm from './PriceRangeCostForm';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';

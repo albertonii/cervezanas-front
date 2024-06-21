@@ -1,6 +1,6 @@
 'use client';
 
-import OriginInfo from './OriginInfo';
+import OriginInfo from './distribution_costs/OriginInfo/OriginInfo';
 import CoverageAreas from './coverage_areas/CoverageAreas';
 import HorizontalMenuLogistics from './HorizontalMenuLogistics';
 import DistributionCost from './distribution_costs/DistributionCost';

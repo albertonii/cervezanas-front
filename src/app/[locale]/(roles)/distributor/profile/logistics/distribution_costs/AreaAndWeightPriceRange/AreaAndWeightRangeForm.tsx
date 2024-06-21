@@ -3,18 +3,18 @@
 import { useTranslations } from 'next-intl';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import Button from '../../../../../components/common/Button';
+import Button from '../../../../../../components/common/Button';
 import { z, ZodType } from 'zod';
 import {
     FlatrateCostFormData,
-    IFlatrateCost,
-} from '../../../../../../../lib/types/types';
+    IFlatrateAndWeightCost,
+} from '../../../../../../../../lib/types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from 'react-query';
-import { useMessage } from '../../../../../components/message/useMessage';
+import { useMessage } from '../../../../../../components/message/useMessage';
 import Error from 'next/error';
-import { useAuth } from '../../../../../(auth)/Context/useAuth';
-import InputLabel from '../../../../../components/common/InputLabel';
+import { useAuth } from '../../../../../../(auth)/Context/useAuth';
+import InputLabel from '../../../../../../components/common/InputLabel';
 
 const schema: ZodType<FlatrateCostFormData> = z.object({
     local_distribution_cost: z.number().min(0),
@@ -30,12 +30,15 @@ const schema: ZodType<FlatrateCostFormData> = z.object({
 type ValidationSchema = z.infer<typeof schema>;
 
 interface Props {
-    flatrateCost?: IFlatrateCost;
+    flatrateAndWeightCost?: IFlatrateAndWeightCost;
     distributionCostId: string;
 }
 
 /* Tarifa de envío por rango de coste del pedido */
-const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
+const AreaAndWeightRangeForm = ({
+    flatrateAndWeightCost,
+    distributionCostId,
+}: Props) => {
     const t = useTranslations();
     const { handleMessage } = useMessage();
     const submitSuccessMessage = t('messages.updated_successfully');
@@ -46,13 +49,13 @@ const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
         mode: 'onSubmit',
         resolver: zodResolver(schema),
         defaultValues: {
-            local_distribution_cost: flatrateCost?.local_distribution_cost ?? 0,
-            national_distribution_cost:
-                flatrateCost?.national_distribution_cost ?? 0,
-            europe_distribution_cost:
-                flatrateCost?.europe_distribution_cost ?? 0,
-            international_distribution_cost:
-                flatrateCost?.international_distribution_cost ?? 0,
+            // local_distribution_cost: flatrateCost?.local_distribution_cost ?? 0,
+            // national_distribution_cost:
+            //     flatrateCost?.national_distribution_cost ?? 0,
+            // europe_distribution_cost:
+            //     flatrateCost?.europe_distribution_cost ?? 0,
+            // international_distribution_cost:
+            //     flatrateCost?.international_distribution_cost ?? 0,
         },
     });
 
@@ -218,4 +221,4 @@ const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
     );
 };
 
-export default FlatrateCostForm;
+export default AreaAndWeightRangeForm;
