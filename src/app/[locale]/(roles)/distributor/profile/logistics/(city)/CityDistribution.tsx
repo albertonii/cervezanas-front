@@ -2,16 +2,21 @@ import useFetchAllCountries from '../useFetchAllCountries';
 import useFetchCitiesOfState from '../useFetchCitiesOfState';
 import useFetchStatesByCountry from '../useFetchStatesByCountry';
 import PaginationFooter from '../../../../../components/common/PaginationFooter';
-import React, { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { Country } from 'country-state-city';
-import { useMutation, useQueryClient } from 'react-query';
-import { useForm, UseFormRegister } from 'react-hook-form';
 import Button from '../../../../../components/common/Button';
 import Spinner from '../../../../../components/common/Spinner';
-import { IState, ICity, ICountry } from 'country-state-city/lib/interface';
+import InputSearch from '../../../../../components/common/InputSearch';
+import DistributionChipCard from '../DistributionChipCard';
+import React, { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { useMutation, useQueryClient } from 'react-query';
+import { useForm, UseFormRegister } from 'react-hook-form';
 import { slicePaginationResults } from '../../../../../../../utils/utils';
-
+import {
+    ICity,
+    ICountry,
+    IState,
+} from '../../../../../../../lib/types/distribution_areas';
+import { Country } from 'country-state-city';
 // interface ICountry {
 //   id: string;
 //   name: string;
@@ -32,7 +37,7 @@ export default function CityDistribution({ cities }: Props) {
     const t = useTranslations();
 
     const [addressCountry, setAddressCountry] = useState<string>('ES');
-    const [addressRegion, setAddressRegion] = useState<string>();
+    const [addressRegion, setAddressRegion] = useState<string>('C'); // A Coruña
     const [listOfRegions, setListOfRegions] = useState<IState[] | undefined>();
     const [listOfCities, setListOfCities] = useState<ICity[] | undefined>();
     const [regionIsEnable, setRegionIsEnable] = useState<boolean>(false);
@@ -56,14 +61,15 @@ export default function CityDistribution({ cities }: Props) {
 
     const { refetch: getCities } = useFetchCitiesOfState(
         addressCountry ?? 'ES',
-        addressRegion ?? '',
+        addressRegion ?? 'C', // A Coruña
     );
 
     const [currentPage, setCurrentPage] = useState(1);
     const [counter, setCounter] = useState(0);
     const resultsPerPage = 20;
 
-    // const { supabase } = useAuth();
+    const [query, setQuery] = useState('');
+
     const queryClient = useQueryClient();
 
     const [countryData, setCountryData] = useState<ICountry[]>([]);
@@ -74,22 +80,23 @@ export default function CityDistribution({ cities }: Props) {
 
     // Get all the countries
     useEffect(() => {
-        const getAllCountries = async () => {
-            return await getCountries().then((res) => {
-                const { data, error } = res;
+        // const getAllCountries = async () => {
+        //     return await getCountries().then((res) => {
+        //         const { data, error } = res;
 
-                if (error) {
-                    console.error(error);
-                    return;
-                }
-                setCountryData(data ?? []);
-            });
-        };
+        //         if (error) {
+        //             console.error(error);
+        //             return;
+        //         }
+        //         setCountryData(data ?? []);
+        //     });
+        // };
 
-        getAllCountries();
+        // getAllCountries();
 
         const country = Country.getCountryByCode('ES') as ICountry;
-        setAddressCountry(country.isoCode ?? '');
+
+        setAddressCountry(country.iso2 ?? 'ES');
     }, []);
 
     // Get all the states of selected country and set the first one as default in select input
@@ -111,7 +118,7 @@ export default function CityDistribution({ cities }: Props) {
 
                 setListOfRegions(regionData ?? []);
                 setRegionIsEnable(regionData.length > 0);
-                setAddressRegion(regionData[0]?.isoCode);
+                setAddressRegion(regionData[0]?.iso2);
             });
         };
 
@@ -323,8 +330,8 @@ export default function CityDistribution({ cities }: Props) {
                             {countryData &&
                                 countryData.map((country: ICountry) => (
                                     <option
-                                        key={country.isoCode}
-                                        value={country.isoCode}
+                                        key={country.iso2}
+                                        value={country.iso2}
                                     >
                                         {country.name}
                                     </option>
@@ -351,10 +358,7 @@ export default function CityDistribution({ cities }: Props) {
                             }
                         >
                             {listOfRegions?.map((state: IState) => (
-                                <option
-                                    key={state.isoCode}
-                                    value={state.isoCode}
-                                >
+                                <option key={state.iso2} value={state.iso2}>
                                     {state.name}
                                 </option>
                             ))}
@@ -362,16 +366,30 @@ export default function CityDistribution({ cities }: Props) {
                     </address>
                 </div>
 
-                {/* Map with all cities in the country selected */}
-                {/* <div className="w-full">
-          <label htmlFor="addressCity" className="text-sm text-gray-600">
-            {t("loc_city")}
-          </label>
+                <InputSearch
+                    query={query}
+                    setQuery={setQuery}
+                    searchPlaceholder={'search_by_name'}
+                />
 
-          <div className="h-96 w-full sm:h-full">
-            <CityMap cities={cities} />
-          </div>
-        </div> */}
+                {/* Names of the cities selected by the distributor  */}
+                {selectedCities && selectedCities.length > 0 && (
+                    <div className="flex flex-row flex-wrap space-x-2 space-y-1">
+                        {selectedCities?.map(
+                            (province: string, index: number) => {
+                                // We can delete from the list one country just by clicking on it
+                                return (
+                                    <DistributionChipCard
+                                        name={province}
+                                        index={index}
+                                        selectedNames={selectedCities}
+                                        setSelectedNames={setSelectedCities}
+                                    />
+                                );
+                            },
+                        )}
+                    </div>
+                )}
 
                 {/* List of cities in the country  */}
                 {isRegionLoading ? (
@@ -385,13 +403,13 @@ export default function CityDistribution({ cities }: Props) {
                             listOfCities.length > 0 &&
                             listOfRegions.length > 0 && (
                                 <>
-                                    <address className="">
+                                    <div className="">
                                         <label
-                                            htmlFor="allCitiesByRegion"
+                                            htmlFor="allProvincesByRegion"
                                             className="space-x-2 text-lg text-gray-600"
                                         >
                                             <input
-                                                id="allCitiesByRegion"
+                                                id="allProvincesByRegion"
                                                 type="checkbox"
                                                 onChange={(e) => {
                                                     handleSelectAllCitiesByRegion(
@@ -410,7 +428,7 @@ export default function CityDistribution({ cities }: Props) {
                                                 )}
                                             </span>
                                         </label>
-                                    </address>
+                                    </div>
 
                                     <address className="w-full">
                                         {/* Display selectable table with all cities in the country selected */}

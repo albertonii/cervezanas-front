@@ -6,6 +6,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { UseFormReturn } from 'react-hook-form';
 import { WeightRangeCostFormValidationSchema } from './AreaAndWeightCostForm';
+import { useTranslations } from 'next-intl';
 
 interface SidebarProps {
     // items: {
@@ -19,6 +20,8 @@ interface SidebarProps {
 }
 
 const AreaSidebar: React.FC<SidebarProps> = ({ form, onItemClick }) => {
+    const t = useTranslations();
+
     const [expanded, setExpanded] = useState<string | null>(null);
     const [selected, setSelected] = useState<string | null>(null);
 
@@ -59,7 +62,7 @@ const AreaSidebar: React.FC<SidebarProps> = ({ form, onItemClick }) => {
                                 setExpanded(key === expanded ? null : key)
                             }
                         >
-                            {key}
+                            {t(key)}
                             <FontAwesomeIcon
                                 icon={
                                     expanded === key

@@ -17,7 +17,7 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 export default function CoverageAreas() {
     const t = useTranslations();
     const [menuOption, setMenuOption] = useState<string>(
-        DistributionDestinationType.INTERNATIONAL,
+        DistributionDestinationType.CITY,
     );
 
     const { data: distributor, error } = useFetchDistributionByOwnerId();
