@@ -58,6 +58,7 @@ export default function CoverageAreas() {
                         {distributor && (
                             <CityDistribution
                                 cities={distributor.coverage_areas.cities}
+                                coverageAreaId={distributor.coverage_areas.id}
                             />
                         )}
                     </>

@@ -105,6 +105,7 @@ export default function InternationalDistributionPlaces({
             .from('coverage_areas')
             .update({ international: selectedCountries })
             .eq('id', coverageAreaId);
+
         if (error) {
             console.error(error);
 

@@ -17,6 +17,7 @@ import {
     IState,
 } from '../../../../../../../lib/types/distribution_areas';
 import { Country } from 'country-state-city';
+import { useAuth } from '../../../../../(auth)/Context/useAuth';
 // interface ICountry {
 //   id: string;
 //   name: string;
@@ -25,6 +26,7 @@ import { Country } from 'country-state-city';
 
 type Props = {
     cities: string[];
+    coverageAreaId: string;
 };
 
 interface FormData {
@@ -33,8 +35,10 @@ interface FormData {
     cities: ICity[];
 }
 
-export default function CityDistribution({ cities }: Props) {
+export default function CityDistribution({ cities, coverageAreaId }: Props) {
     const t = useTranslations();
+
+    const { supabase } = useAuth();
 
     const [addressCountry, setAddressCountry] = useState<string>('ES');
     const [addressRegion, setAddressRegion] = useState<string>('C'); // A Coruña
@@ -190,21 +194,19 @@ export default function CityDistribution({ cities }: Props) {
     };
 
     const handleUpdateCityDistribution = async (form: FormData) => {
-        const { country, region, cities } = form;
+        // const { country, region, cities } = form;
 
         // Filter cities
-        const filteredCities = cities.filter((city) => city.name);
+        // const filteredCities = cities.filter((city) => city.name);
+        const { error } = await supabase
+            .from('coverage_areas')
+            .update({ cities: selectedCities })
+            .eq('id', coverageAreaId);
 
-        // const { data, error } = await supabase
-        //   .from("city_distribution")
-        //   .select("*")
-        //   .eq("country", country)
-        //   .eq("region", region);
-
-        // if (error) {
-        //   console.error(error);
-        //   return;
-        // }
+        if (error) {
+            console.error(error);
+            return;
+        }
 
         queryClient.invalidateQueries('distribution');
     };
