@@ -36,6 +36,7 @@ interface FormData {
 }
 
 export default function CityDistribution({ cities, coverageAreaId }: Props) {
+    console.log(cities);
     const t = useTranslations();
 
     const { supabase } = useAuth();
@@ -49,7 +50,9 @@ export default function CityDistribution({ cities, coverageAreaId }: Props) {
         ICity[] | undefined
     >();
 
-    const [selectedCities, setSelectedCities] = useState<string[]>([]);
+    const [selectedCities, setSelectedCities] = useState<string[]>(
+        cities ?? [],
+    );
     const [selectAllCurrentPage, setSelectAllCurrentPage] = useState(false);
     // rastrear si todas las ciudades de la región están seleccionadas, independientemente de la paginación
     const [selectAllCitiesByRegion, setSelectAllCitiesByRegion] =
@@ -207,6 +210,18 @@ export default function CityDistribution({ cities, coverageAreaId }: Props) {
             console.error(error);
             return;
         }
+
+        // Update in area_and_weight_information -
+        // We need to know area_and_weight_cost_id from user distributor
+        // const { error: error2 } = await supabase
+        //     .from('area_and_weight_information')
+        //     .upsert(
+        //         selectedCities.map((city) => ({
+        //             type: 'city',
+        //             name: city,
+        //             area_and_weight_cost_id: coverageAreaId,
+        //         })),
+        //     ).eq('area_and_weight_cost_id', coverageAreaId);
 
         queryClient.invalidateQueries('distribution');
     };
