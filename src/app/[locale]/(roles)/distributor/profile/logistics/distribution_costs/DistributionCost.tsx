@@ -152,10 +152,21 @@ export default function DistributionCost({ distributionCosts }: Props) {
                     </>
                 )}
 
-                <HorizontalMenuCoverageCost setMenuOption={setMenuOption} />
+                <div
+                    className={`
+                        ${includeDistributionCost ? 'hidden' : 'block'}
+                    `}
+                >
+                    <HorizontalMenuCoverageCost setMenuOption={setMenuOption} />
+                </div>
             </div>
 
-            <div className="transition-opacity duration-300 ease-in-out">
+            <div
+                className={`
+                    ${includeDistributionCost ? 'hidden' : 'block'}
+                    transition-opacity duration-300 ease-in-out
+                `}
+            >
                 {renderSwitch()}
             </div>
         </fieldset>
