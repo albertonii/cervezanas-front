@@ -122,10 +122,7 @@ const AreaAndWeightCostForm = ({
 
             {selectedArea && (
                 <fieldset className="space-y-6 p-6 rounded-lg border border-gray-300 bg-white shadow-sm max-w-3xl mx-auto">
-                    <AreaAndWeightRangeForm
-                        selectedArea={selectedArea}
-                        distributionCostId={distributionCostId}
-                    />
+                    <AreaAndWeightRangeForm selectedArea={selectedArea} />
                 </fieldset>
             )}
         </section>

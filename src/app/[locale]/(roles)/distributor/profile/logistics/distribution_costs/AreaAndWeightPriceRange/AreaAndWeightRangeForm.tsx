@@ -67,14 +67,10 @@ const areaAndWeightInformationObjectSchema = z.object({
 
 interface Props {
     selectedArea: IAreaAndWeightInformation;
-    distributionCostId: string;
 }
 
 /* Tarifa de envío por rango de coste del pedido */
-const AreaAndWeightRangeForm = ({
-    selectedArea,
-    distributionCostId,
-}: Props) => {
+const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
     const t = useTranslations();
     const { handleMessage } = useMessage();
 
@@ -98,7 +94,6 @@ const AreaAndWeightRangeForm = ({
     const {
         handleSubmit,
         control,
-        trigger,
         formState: { errors, dirtyFields },
         setValue,
     } = form;
@@ -217,8 +212,7 @@ const AreaAndWeightRangeForm = ({
             weight_from: lastRange.weight_to,
             weight_to: lastRange.weight_to + 10,
             base_cost: 0,
-            area_and_weight_information_id:
-                selectedArea.area_and_weight_cost_id,
+            area_and_weight_information_id: selectedArea.id,
         };
 
         append(weightPriceRange);

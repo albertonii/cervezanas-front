@@ -230,6 +230,8 @@ export async function updateAreaAndWeightRangeByAreaAndWeightInformationId(
 ) {
     const formData = new FormData();
 
+    console.log(area_weight_range);
+
     area_weight_range.forEach((range, index) => {
         formData.append(
             `area_weight_range[${index}].weight_from`,
