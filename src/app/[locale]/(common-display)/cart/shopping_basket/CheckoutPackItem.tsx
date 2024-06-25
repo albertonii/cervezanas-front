@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DisplayImageProduct from '../../../components/common/DisplayImageProduct';
 import MarketCartButtons from '../../../components/common/MarketCartButtons';
 import { SupabaseProps } from '../../../../../constants';
@@ -11,6 +11,8 @@ import { formatCurrency } from '../../../../../utils/formatCurrency';
 import { Type } from '../../../../../lib/productEnum';
 import { useTranslations } from 'next-intl';
 import { useShoppingCart } from '../../../../context/ShoppingCartContext';
+import { calculateProductPacksWeight } from '../actions';
+import Spinner from '../../../components/common/Spinner';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -28,6 +30,20 @@ export default function CheckoutPackItem({
     const t = useTranslations();
 
     const [animateRemove, setAnimateRemove] = useState(false);
+    const [packWeight, setPackWeight] = useState(0);
+    const [isLoadingWeightCalculations, setIsLoadingWeightCalculations] =
+        useState(false);
+
+    useEffect(() => {
+        setIsLoadingWeightCalculations(true);
+        const getPackWeight = async () => {
+            setPackWeight(await calculateProductPacksWeight(productPack));
+
+            setIsLoadingWeightCalculations(false);
+        };
+
+        getPackWeight();
+    }, [productPack]);
 
     const {
         removeFromCart,
@@ -74,7 +90,7 @@ export default function CheckoutPackItem({
                 />
             </figure>
 
-            <article className="flex w-full flex-col items-start justify-between space-y-4 md:flex-row md:space-y-0">
+            <article className="flex w-full flex-col justify-between space-y-4 md:flex-row md:space-y-0 items-center">
                 <div className="flex w-full flex-col items-start justify-start space-y-2">
                     <span className="text-xl font-semibold leading-6 text-gray-800 dark:text-white xl:text-2xl">
                         {pack.name}
@@ -119,6 +135,26 @@ export default function CheckoutPackItem({
                             </p>
                         </div>
                     )}
+                </div>
+
+                {/* Peso del pack  */}
+                <div className="flex w-full flex-col items-center justify-between space-x-2">
+                    <p className="text-base leading-6 text-gray-800 dark:text-white xl:text-lg ">
+                        {isLoadingWeightCalculations ? (
+                            <Spinner color="beer-blonde" size="small" />
+                        ) : (
+                            <span>
+                                <span className="text-gray-600 dark:text-gray-400">
+                                    {t('weight')}:{' '}
+                                </span>
+
+                                <span className="text-gray-800 dark:text-white">
+                                    {packWeight}
+                                    {t('g')}
+                                </span>
+                            </span>
+                        )}
+                    </p>
                 </div>
 
                 <div className="flex w-full flex-col items-center justify-between space-y-2 sm:flex-row sm:space-x-8">

@@ -3,18 +3,18 @@
 import { useTranslations } from 'next-intl';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import Button from '../../../../../components/common/Button';
+import Button from '../../../../../../components/common/Button';
 import { z, ZodType } from 'zod';
 import {
     FlatrateCostFormData,
     IFlatrateCost,
-} from '../../../../../../../lib/types/types';
+} from '../../../../../../../../lib/types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from 'react-query';
-import { useMessage } from '../../../../../components/message/useMessage';
+import { useMessage } from '../../../../../../components/message/useMessage';
 import Error from 'next/error';
-import { useAuth } from '../../../../../(auth)/Context/useAuth';
-import InputLabel from '../../../../../components/common/InputLabel';
+import { useAuth } from '../../../../../../(auth)/Context/useAuth';
+import InputLabel from '../../../../../../components/common/InputLabel';
 
 const schema: ZodType<FlatrateCostFormData> = z.object({
     local_distribution_cost: z.number().min(0),
@@ -123,6 +123,11 @@ const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
 
     return (
         <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
+            <span className="pb-4">
+                <strong>Tarifa Plana:</strong> Precio único para cualquier tipo
+                de envío, sin tener en cuenta el peso del paquete.
+            </span>
+
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="grid w-full grid-cols-2 gap-4"

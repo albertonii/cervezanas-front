@@ -11,6 +11,7 @@ import { IProductPackCartItem } from '../../../../../lib/types/types';
 import { useShoppingCart } from '../../../../context/ShoppingCartContext';
 import dynamic from 'next/dynamic';
 import { calculateFlatrateAndWeightShippingCost } from '../../../(roles)/distributor/actions';
+import { calculateProductPacksWeight } from '../actions';
 
 interface Props {
     productPack: IProductPackCartItem;
@@ -53,6 +54,7 @@ export function CheckoutItem({
                 distributor_id: string;
                 distribution_costs_id: string;
                 delivery_type: string;
+                cost_extra_per_kg: number;
             } = await initShipmentLogic(
                 selectedShippingAddress,
                 productWithInfo.owner_id,
@@ -64,12 +66,15 @@ export function CheckoutItem({
                 const { distributor_id, distribution_costs_id, delivery_type } =
                     response;
 
-                const totalWeight = calculateProductPacksWeight(productPack);
+                const totalWeight = await calculateProductPacksWeight(
+                    productPack,
+                );
 
                 const shippingCost =
                     await calculateFlatrateAndWeightShippingCost(
                         distribution_costs_id,
                         totalWeight,
+                        response.cost_extra_per_kg,
                     );
 
                 handleDeliveryCost(shippingCost);
@@ -164,12 +169,3 @@ export function CheckoutItem({
         </>
     );
 }
-
-const calculateProductPacksWeight = (productPack: IProductPackCartItem) => {
-    const packQuantity = productPack.packs[0].quantity;
-    const packWeight = productPack.products?.weight ?? 0;
-    const totalWeight = packWeight * packQuantity;
-
-    // Convert gr to KG
-    return totalWeight / 1000;
-};

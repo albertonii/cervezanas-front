@@ -232,3 +232,14 @@ export async function validatePromoCode(code: string, userId: string) {
         data,
     };
 }
+
+export async function calculateProductPacksWeight(
+    productPack: IProductPackCartItem,
+) {
+    const packQuantity = productPack.packs[0].quantity;
+    const packWeight = productPack.products?.weight ?? 0;
+    const totalWeight = packWeight * packQuantity;
+
+    // Convert gr to KG
+    return totalWeight / 1000;
+}

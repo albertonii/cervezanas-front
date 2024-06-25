@@ -1,6 +1,9 @@
 'use server';
 
-import { IFlatrateAndWeightCostForm } from '../../../../../lib/types/types';
+import {
+    IAreaAndWeightCostRange,
+    IFlatrateAndWeightCostForm,
+} from '../../../../../lib/types/types';
 import createServerClient from '../../../../../utils/supabaseServer';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -8,6 +11,7 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 export async function calculateFlatrateAndWeightShippingCost(
     distributionCostId: string,
     totalWeight: number,
+    costExtraPerKG: number,
 ) {
     const supabase = await createServerClient();
 
@@ -20,16 +24,11 @@ export async function calculateFlatrateAndWeightShippingCost(
                 weight_from,
                 weight_to,
                 base_cost,
-                extra_cost_per_kg,
                 updated_at
             `,
         )
         .eq('distribution_costs_id', distributionCostId)
         .order('weight_from', { ascending: true });
-
-    console.log(costRanges);
-    console.log(error);
-    console.log(distributionCostId);
 
     if (error) {
         throw new Error('Error fetching cost ranges');
@@ -47,8 +46,7 @@ export async function calculateFlatrateAndWeightShippingCost(
         if (
             range.weight_from === null ||
             range.weight_to === null ||
-            range.base_cost === null ||
-            range.extra_cost_per_kg === null
+            range.base_cost === null
         ) {
             continue;
         }
@@ -59,12 +57,12 @@ export async function calculateFlatrateAndWeightShippingCost(
             console.log('Weight to ', range.weight_to);
 
             console.log('Diferencia de pesos', totalWeight - range.weight_to);
-            console.log('Precio extra por kg', range.extra_cost_per_kg);
+            console.log('Precio extra por kg', costExtraPerKG);
 
             // El peso excede el rango actual, por lo que calculamos el coste total para este rango
             shippingCost =
                 range.base_cost +
-                (totalWeight - range.weight_to) * range.extra_cost_per_kg;
+                (totalWeight - range.weight_to) * costExtraPerKG;
         } else if (
             totalWeight >= range.weight_from &&
             totalWeight <= range.weight_to
@@ -80,6 +78,7 @@ export async function calculateFlatrateAndWeightShippingCost(
 }
 
 export async function updateFlatrateAndWeightShippingCost(
+    cost_extra_per_kg: number,
     distribution_costs_id: string,
     flatrateWeightCostRange: IFlatrateAndWeightCostForm[],
 ) {
@@ -130,16 +129,14 @@ export async function updateFlatrateAndWeightShippingCost(
             `flatrate_weight[${index}].base_cost`,
             range.base_cost.toString(),
         );
-        formData.append(
-            `flatrate_weight[${index}].extra_cost_per_kg`,
-            range.extra_cost_per_kg.toString(),
-        );
     });
 
     formData.append(
         'flatrate_weight_size',
         flatrateWeightCostRange.length.toString(),
     );
+
+    formData.append('cost_extra_per_kg', cost_extra_per_kg.toString());
 
     const resPost = await fetch(urlPOST, {
         method: 'POST',
@@ -193,5 +190,184 @@ async function flatrateAndWeightCostRangeDelete(distributionCostsId: string) {
     return {
         status: 200,
         message: 'Flatrate and weight costs deleted successfully',
+    };
+}
+
+export async function updateIsDistributionCostsIncludedInProduct(
+    distribution_costs_id: string,
+    isDistributionCostIncluded: boolean,
+) {
+    const formData = new FormData();
+
+    formData.append('distribution_costs_id', distribution_costs_id);
+    formData.append(
+        'distribution_costs_in_product',
+        isDistributionCostIncluded.toString(),
+    );
+
+    const urlPUT = `${baseUrl}/api/distribution_costs/distribution_costs_in_product`;
+
+    const resPut = await fetch(urlPUT, {
+        method: 'PUT',
+        body: formData,
+    });
+
+    if (!resPut.ok) {
+        return {
+            status: resPut.status,
+            message: 'Error updating is_distribution_costs_in_product',
+        };
+    }
+
+    return {
+        status: resPut.status,
+        message: 'is_distribution_costs_in_product updated successfully',
+    };
+}
+
+export async function updateAreaAndWeightRangeByAreaAndWeightInformationId(
+    area_weight_range: IAreaAndWeightCostRange[],
+) {
+    const formData = new FormData();
+
+    console.log(area_weight_range);
+
+    area_weight_range.forEach((range, index) => {
+        formData.append(
+            `area_weight_range[${index}].weight_from`,
+            range.weight_from.toString(),
+        );
+        formData.append(
+            `area_weight_range[${index}].weight_to`,
+            range.weight_to.toString(),
+        );
+        formData.append(
+            `area_weight_range[${index}].base_cost`,
+            range.base_cost.toString(),
+        );
+        formData.append(
+            `area_weight_range[${index}].area_and_weight_information_id`,
+            range.area_and_weight_information_id,
+        );
+    });
+
+    formData.append(
+        'area_weight_range_size',
+        area_weight_range.length.toString(),
+    );
+
+    const urlPUT = `${baseUrl}/api/distribution_costs/area_and_weight_cost`;
+
+    const resPut = await fetch(urlPUT, {
+        method: 'PUT',
+        body: formData,
+    });
+
+    if (!resPut.ok) {
+        return {
+            status: resPut.status,
+            message: 'Error updating area_weight_range',
+        };
+    }
+
+    return {
+        status: resPut.status,
+        message: 'area_weight_range updated successfully',
+    };
+}
+
+export async function updateCityDistribution(
+    unCheckedCities: string[],
+    newSelectedCities: string[],
+    selectedCities: string[],
+    coverageAreaId: string,
+    areaAndWeightId: string,
+) {
+    const url = `${baseUrl}/api/coverage_areas/cities`;
+
+    const formData = new FormData();
+
+    formData.append('to_delete_cities', JSON.stringify(unCheckedCities));
+    formData.append('to_add_cities', JSON.stringify(newSelectedCities));
+    formData.append('cities', JSON.stringify(selectedCities));
+    formData.append('coverage_area_id', coverageAreaId);
+    formData.append('area_and_weight_cost_id', areaAndWeightId);
+
+    // CORS
+    const headers = new Headers();
+
+    headers.append('Access-Control-Allow-Origin', '*');
+    headers.append('Access-Control-Allow-Methods', 'PUT');
+    headers.append('Access-Control-Allow-Headers', 'Content-Type');
+    headers.append('Access-Control-Allow-Credentials', 'true');
+    headers.append(
+        'Access-Control-Allow-Headers',
+        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+    );
+
+    const response = await fetch(url, {
+        method: 'PUT',
+        body: formData,
+        headers: headers,
+    });
+
+    if (!response.ok) {
+        return {
+            status: response.status,
+            message: 'Error updating city distribution',
+        };
+    }
+
+    return {
+        status: response.status,
+        message: 'City distribution updated successfully',
+    };
+}
+
+export async function updateProvinceDistribution(
+    unCheckedProvinces: string[],
+    newSelectedProvinces: string[],
+    selectedProvinces: string[],
+    coverageAreaId: string,
+    areaAndWeightId: string,
+) {
+    const url = `${baseUrl}/api/coverage_areas/provinces`;
+
+    const formData = new FormData();
+
+    formData.append('to_delete_provinces', JSON.stringify(unCheckedProvinces));
+    formData.append('to_add_provinces', JSON.stringify(newSelectedProvinces));
+    formData.append('provinces', JSON.stringify(selectedProvinces));
+    formData.append('coverage_area_id', coverageAreaId);
+    formData.append('area_and_weight_cost_id', areaAndWeightId);
+
+    // CORS
+    const headers = new Headers();
+
+    headers.append('Access-Control-Allow-Origin', '*');
+    headers.append('Access-Control-Allow-Methods', 'PUT');
+    headers.append('Access-Control-Allow-Headers', 'Content-Type');
+    headers.append('Access-Control-Allow-Credentials', 'true');
+    headers.append(
+        'Access-Control-Allow-Headers',
+        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+    );
+
+    const response = await fetch(url, {
+        method: 'PUT',
+        body: formData,
+        headers: headers,
+    });
+
+    if (!response.ok) {
+        return {
+            status: response.status,
+            message: 'Error updating province distribution',
+        };
+    }
+
+    return {
+        status: response.status,
+        message: 'Province distribution updated successfully',
     };
 }

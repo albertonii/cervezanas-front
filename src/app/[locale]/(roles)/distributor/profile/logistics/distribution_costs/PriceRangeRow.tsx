@@ -36,11 +36,6 @@ export default function PriceRangeRow({
 }: Props) {
     const t = useTranslations();
 
-    // useEffect(() => {
-    //   console.log("Errors: ", errors);
-    //   console.log("Index: ", index);
-    // }, [errors, index]);
-
     return (
         <>
             <fieldset className="mr-2 flex flex-col gap-4 rounded-xl border p-2 sm:flex-row">

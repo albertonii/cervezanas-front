@@ -136,6 +136,12 @@ const PriceRangeCostForm: React.FC = () => {
 
     return (
         <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
+            <span className="pb-4">
+                <strong>Por Zona y Peso:</strong> Configura zonas de cobertura y
+                calcula los costes de distribución según el peso y la zona de
+                destino.
+            </span>
+
             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
                 <Button
                     btnType="submit"
@@ -175,7 +181,6 @@ const PriceRangeCostForm: React.FC = () => {
                     Añadir Franja de Precio
                 </Button>
             </form>
-
             {/* Minimalistic and simple table displaying all the ranges and costs. Información obtenida del array registrado en "distribution_range_cost*/}
             <table className="min-w-full bg-white">
                 <thead>

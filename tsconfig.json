@@ -26,7 +26,8 @@
     "**/*.tsx",
     "src/pages/checkout/success",
     "src/pages/checkout/invoice",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "src/app/[locale]/(roles)/distributor/profile/logistics/distribution_costs/FlatrateAndWeight"
   ],
   "exclude": ["node_modules"]
 }

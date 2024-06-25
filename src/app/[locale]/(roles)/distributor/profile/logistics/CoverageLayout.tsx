@@ -1,6 +1,6 @@
 'use client';
 
-import OriginInfo from './OriginInfo';
+import OriginInfo from './distribution_costs/OriginInfo/OriginInfo';
 import CoverageAreas from './coverage_areas/CoverageAreas';
 import HorizontalMenuLogistics from './HorizontalMenuLogistics';
 import DistributionCost from './distribution_costs/DistributionCost';
@@ -40,7 +40,7 @@ export default function CoverageLayout({ distributionCosts }: Props) {
         <section className="space-y-4 px-1 py-1 lg:container sm:px-6 sm:py-4">
             <HorizontalMenuLogistics setMenuOption={setMenuOption} />
 
-            {renderSwitch()}
+            <div className="min-h-screen">{renderSwitch()}</div>
         </section>
     );
 }

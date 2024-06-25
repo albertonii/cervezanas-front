@@ -9,6 +9,103 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      area_and_weight_cost: {
+        Row: {
+          cost_extra_per_kg: number | null
+          distribution_costs_id: string
+          id: string
+        }
+        Insert: {
+          cost_extra_per_kg?: number | null
+          distribution_costs_id?: string
+          id?: string
+        }
+        Update: {
+          cost_extra_per_kg?: number | null
+          distribution_costs_id?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "area_and_weight_cost_distribution_costs_id_fkey"
+            columns: ["distribution_costs_id"]
+            isOneToOne: true
+            referencedRelation: "distribution_costs"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      area_and_weight_information: {
+        Row: {
+          area_and_weight_cost_id: string | null
+          coverage_area_id: string | null
+          id: string
+          name: string | null
+          type: string
+        }
+        Insert: {
+          area_and_weight_cost_id?: string | null
+          coverage_area_id?: string | null
+          id?: string
+          name?: string | null
+          type?: string
+        }
+        Update: {
+          area_and_weight_cost_id?: string | null
+          coverage_area_id?: string | null
+          id?: string
+          name?: string | null
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "area_and_weight_information_area_and_weight_cost_id_fkey"
+            columns: ["area_and_weight_cost_id"]
+            isOneToOne: false
+            referencedRelation: "area_and_weight_cost"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "area_and_weight_information_coverage_area_id_fkey"
+            columns: ["coverage_area_id"]
+            isOneToOne: false
+            referencedRelation: "coverage_areas"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      area_weight_cost_range: {
+        Row: {
+          area_and_weight_information_id: string
+          base_cost: number | null
+          id: string
+          weight_from: number | null
+          weight_to: number | null
+        }
+        Insert: {
+          area_and_weight_information_id?: string
+          base_cost?: number | null
+          id?: string
+          weight_from?: number | null
+          weight_to?: number | null
+        }
+        Update: {
+          area_and_weight_information_id?: string
+          base_cost?: number | null
+          id?: string
+          weight_from?: number | null
+          weight_to?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "area_weight_cost_range_area_and_wight_information_id_fkey"
+            columns: ["area_and_weight_information_id"]
+            isOneToOne: false
+            referencedRelation: "area_and_weight_information"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       awards: {
         Row: {
           created_at: string | null
@@ -1156,14 +1253,14 @@ export interface Database {
           {
             foreignKeyName: "distribution_contracts_distributor_id_fkey"
             columns: ["distributor_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "distributor_user"
             referencedColumns: ["user_id"]
           },
           {
             foreignKeyName: "distribution_contracts_producer_id_fkey"
             columns: ["producer_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "producer_user"
             referencedColumns: ["user_id"]
           }
@@ -1171,17 +1268,23 @@ export interface Database {
       }
       distribution_costs: {
         Row: {
+          cost_extra_per_kg: number | null
           created_at: string
+          distribution_costs_in_product: boolean | null
           distributor_id: string | null
           id: string
         }
         Insert: {
+          cost_extra_per_kg?: number | null
           created_at?: string
+          distribution_costs_in_product?: boolean | null
           distributor_id?: string | null
           id?: string
         }
         Update: {
+          cost_extra_per_kg?: number | null
           created_at?: string
+          distribution_costs_in_product?: boolean | null
           distributor_id?: string | null
           id?: string
         }
@@ -1659,7 +1762,6 @@ export interface Database {
           base_cost: number | null
           created_at: string
           distribution_costs_id: string
-          extra_cost_per_kg: number | null
           id: string
           updated_at: string | null
           weight_from: number | null
@@ -1669,7 +1771,6 @@ export interface Database {
           base_cost?: number | null
           created_at?: string
           distribution_costs_id: string
-          extra_cost_per_kg?: number | null
           id?: string
           updated_at?: string | null
           weight_from?: number | null
@@ -1679,7 +1780,6 @@ export interface Database {
           base_cost?: number | null
           created_at?: string
           distribution_costs_id?: string
-          extra_cost_per_kg?: number | null
           id?: string
           updated_at?: string | null
           weight_from?: number | null

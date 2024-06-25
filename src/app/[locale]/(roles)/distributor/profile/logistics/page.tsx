@@ -27,6 +27,7 @@ async function getDistributionCost() {
                 id,
                 created_at,
                 distributor_id,
+                cost_extra_per_kg,
                 flatrate_cost!flatrate_cost_distribution_costs_id_fkey (
                     created_at,
                     distribution_costs_id,
@@ -46,10 +47,26 @@ async function getDistributionCost() {
                     updated_at,
                     weight_from,
                     weight_to,
-                    base_cost,
-                    extra_cost_per_kg
+                    base_cost
+                ),
+                area_and_weight_cost (
+                    id,
+                    distribution_costs_id,
+                    area_and_weight_information (
+                        id,
+                        type,
+                        name,
+                        area_and_weight_cost_id,
+                        area_weight_cost_range (
+                            id,
+                            weight_from,
+                            weight_to,
+                            base_cost,
+                            area_and_weight_information_id
+                        )
+                    )
                 )
-            `,
+                `,
             )
             .eq('distributor_id', session.id)
             .single();

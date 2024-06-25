@@ -14,6 +14,7 @@ import {
 import InputSearch from '../../../../../components/common/InputSearch';
 import useFetchSpanishRegions from '../useFetchSpanishRegions';
 import DistributionChipCard from '../DistributionChipCard';
+import Spinner from '../../../../../components/common/Spinner';
 
 type Props = {
     regions: string[];
@@ -222,191 +223,179 @@ export default function RegionDistribution({ regions, coverageAreaId }: Props) {
 
     return (
         <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
-            {isLoading ? (
-                <Loading />
-            ) : (
-                <>
-                    <Button
-                        btnType="submit"
-                        onClick={handleSubmit(onSubmit)}
-                        class=""
-                        primary
-                        medium
+            {isLoading && (
+                <Spinner size={'large'} color={'beer-blonde'} center absolute />
+            )}
+
+            <Button
+                btnType="submit"
+                onClick={handleSubmit(onSubmit)}
+                class=""
+                primary
+                medium
+            >
+                {t('save')}
+            </Button>
+
+            <div
+                className={`
+                            flex flex-col items-start space-y-4
+                            ${isLoading ? 'opacity-50 pointer-events-none' : ''}
+                        `}
+            >
+                <address className="grid w-full grid-cols-2 gap-4">
+                    <label
+                        htmlFor="addressCountry"
+                        className="text-sm text-gray-600"
                     >
-                        {t('save')}
-                    </Button>
+                        {t('loc_country')}
+                    </label>
 
-                    <div className="flex flex-col items-start space-y-4">
-                        <address className="grid w-full grid-cols-2 gap-4">
-                            <label
-                                htmlFor="addressCountry"
-                                className="text-sm text-gray-600"
-                            >
-                                {t('loc_country')}
-                            </label>
+                    {/* Display all countries  */}
+                    <select
+                        name="addressCountry"
+                        id="addressCountry"
+                        className=" w-full rounded-lg border-transparent bg-gray-100 px-4 py-2 text-base text-gray-700 focus:border-gray-500 focus:bg-white focus:ring-0"
+                        onChange={(e) => handleAddressCountry(e)}
+                        value={addressCountry}
+                    >
+                        {countryData.map((country: string) => (
+                            <option>{country}</option>
+                        ))}
+                    </select>
+                </address>
 
-                            {/* Display all countries  */}
-                            <select
-                                name="addressCountry"
-                                id="addressCountry"
-                                className=" w-full rounded-lg border-transparent bg-gray-100 px-4 py-2 text-base text-gray-700 focus:border-gray-500 focus:bg-white focus:ring-0"
-                                onChange={(e) => handleAddressCountry(e)}
-                                value={addressCountry}
-                            >
-                                {countryData.map((country: string) => (
-                                    <option>{country}</option>
-                                ))}
-                            </select>
-                        </address>
+                <InputSearch
+                    query={query}
+                    setQuery={setQuery}
+                    searchPlaceholder={'search_by_name'}
+                />
 
-                        <InputSearch
-                            query={query}
-                            setQuery={setQuery}
-                            searchPlaceholder={'search_by_name'}
-                        />
-
-                        {/* Names of the regions selected by the distributor  */}
-                        {setSelectedRegions && setSelectedRegions.length > 0 && (
-                            <div className="flex flex-row flex-wrap space-x-2 space-y-1">
-                                {selectedRegions?.map(
-                                    (region: string, index: number) => {
-                                        // We can delete from the list one country just by clicking on it
-                                        return (
-                                            <DistributionChipCard
-                                                name={region}
-                                                index={index}
-                                                selectedNames={selectedRegions}
-                                                setSelectedNames={
-                                                    setSelectedRegions
-                                                }
-                                            />
-                                        );
-                                    },
-                                )}
-                            </div>
-                        )}
-
-                        {/* List of regions in the country  */}
-                        {tenRegions && tenRegions.length > 0 && (
-                            <>
-                                <div className="">
-                                    <label
-                                        htmlFor="allRegionsByRegion"
-                                        className="space-x-2 text-lg text-gray-600"
-                                    >
-                                        <input
-                                            id="allRegionsByRegion"
-                                            type="checkbox"
-                                            onChange={(e) => {
-                                                handleSelectAllRegionsByRegion(
-                                                    e,
-                                                );
-                                            }}
-                                            checked={selectAllRegions}
-                                            className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                                        />
-
-                                        <span className="text-sm text-gray-600">
-                                            {t('select_all_regions')}
-                                        </span>
-                                    </label>
-                                </div>
-
-                                <div className="w-full">
-                                    {/* Display selectable table with all regions in the country selected */}
-                                    <label
-                                        htmlFor="addressCity"
-                                        className="text-sm text-gray-600"
-                                    >
-                                        {t('loc_region')}
-                                    </label>
-
-                                    <table className="bg-beer-foam w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
-                                        <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                                            <tr>
-                                                <th
-                                                    scope="col"
-                                                    className="px-6 py-3"
-                                                >
-                                                    <input
-                                                        type="checkbox"
-                                                        onChange={(e) => {
-                                                            handleSelectAllCurrentPage(
-                                                                e,
-                                                            );
-                                                        }}
-                                                        checked={
-                                                            selectAllCurrentPage
-                                                        }
-                                                        className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                                                    />
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    className="px-6 py-3"
-                                                >
-                                                    {t('region')}
-                                                </th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-                                            {tenRegions?.map(
-                                                (
-                                                    region: {
-                                                        id: string;
-                                                        name: string;
-                                                    },
-                                                    index: number,
-                                                ) => {
-                                                    const startIndex =
-                                                        currentPage *
-                                                        resultsPerPage;
-                                                    const globalIndex =
-                                                        startIndex + index;
-
-                                                    return (
-                                                        <tr
-                                                            key={
-                                                                region.name +
-                                                                currentPage
-                                                            }
-                                                            className=""
-                                                        >
-                                                            <RegionRow
-                                                                region={region}
-                                                                globalIndex={
-                                                                    globalIndex
-                                                                }
-                                                                selectedRegions={
-                                                                    selectedRegions
-                                                                }
-                                                                handleCheckbox={
-                                                                    handleCheckbox
-                                                                }
-                                                                register={
-                                                                    register
-                                                                }
-                                                            />
-                                                        </tr>
-                                                    );
-                                                },
-                                            )}
-                                        </tbody>
-                                    </table>
-
-                                    <PaginationFooter
-                                        counter={counter}
-                                        resultsPerPage={resultsPerPage}
-                                        currentPage={currentPage}
-                                        setCurrentPage={setCurrentPage}
+                {/* Names of the regions selected by the distributor  */}
+                {setSelectedRegions && setSelectedRegions.length > 0 && (
+                    <div className="flex flex-row flex-wrap space-x-2 space-y-1">
+                        {selectedRegions?.map(
+                            (region: string, index: number) => {
+                                // We can delete from the list one country just by clicking on it
+                                return (
+                                    <DistributionChipCard
+                                        name={region}
+                                        index={index}
+                                        selectedNames={selectedRegions}
+                                        setSelectedNames={setSelectedRegions}
                                     />
-                                </div>
-                            </>
+                                );
+                            },
                         )}
                     </div>
-                </>
-            )}
+                )}
+
+                {/* List of regions in the country  */}
+                {tenRegions && tenRegions.length > 0 && (
+                    <>
+                        <div className="">
+                            <label
+                                htmlFor="allRegionsByRegion"
+                                className="space-x-2 text-lg text-gray-600"
+                            >
+                                <input
+                                    id="allRegionsByRegion"
+                                    type="checkbox"
+                                    onChange={(e) => {
+                                        handleSelectAllRegionsByRegion(e);
+                                    }}
+                                    checked={selectAllRegions}
+                                    className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                                />
+
+                                <span className="text-sm text-gray-600">
+                                    {t('select_all_regions')}
+                                </span>
+                            </label>
+                        </div>
+
+                        <div className="w-full">
+                            {/* Display selectable table with all regions in the country selected */}
+                            <label
+                                htmlFor="addressCity"
+                                className="text-sm text-gray-600"
+                            >
+                                {t('loc_region')}
+                            </label>
+
+                            <table className="bg-beer-foam w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
+                                <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th scope="col" className="px-6 py-3">
+                                            <input
+                                                type="checkbox"
+                                                onChange={(e) => {
+                                                    handleSelectAllCurrentPage(
+                                                        e,
+                                                    );
+                                                }}
+                                                checked={selectAllCurrentPage}
+                                                className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                                            />
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            {t('region')}
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {tenRegions?.map(
+                                        (
+                                            region: {
+                                                id: string;
+                                                name: string;
+                                            },
+                                            index: number,
+                                        ) => {
+                                            const startIndex =
+                                                currentPage * resultsPerPage;
+                                            const globalIndex =
+                                                startIndex + index;
+
+                                            return (
+                                                <tr
+                                                    key={
+                                                        region.name +
+                                                        currentPage
+                                                    }
+                                                    className=""
+                                                >
+                                                    <RegionRow
+                                                        region={region}
+                                                        globalIndex={
+                                                            globalIndex
+                                                        }
+                                                        selectedRegions={
+                                                            selectedRegions
+                                                        }
+                                                        handleCheckbox={
+                                                            handleCheckbox
+                                                        }
+                                                        register={register}
+                                                    />
+                                                </tr>
+                                            );
+                                        },
+                                    )}
+                                </tbody>
+                            </table>
+
+                            <PaginationFooter
+                                counter={counter}
+                                resultsPerPage={resultsPerPage}
+                                currentPage={currentPage}
+                                setCurrentPage={setCurrentPage}
+                            />
+                        </div>
+                    </>
+                )}
+            </div>
         </section>
     );
 }

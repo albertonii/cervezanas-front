@@ -6,15 +6,18 @@ import HorizontalMenu from '../HorizontalMenuCoverageDestination';
 import ProvinceDistribution from '../(province)/ProvinceDistribution';
 import InternationalDistribution from '../(international)/InternationalDistribution';
 import EuropeDistribution from '../(europe)/EuropeDistribution';
+import RegionDistribution from '../(region)/RegionDistribution';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DistributionDestinationType } from '../../../../../../../lib/enums';
-import RegionDistribution from '../(region)/RegionDistribution';
+import { Tooltip } from '../../../../../components/common/Tooltip';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 export default function CoverageAreas() {
     const t = useTranslations();
     const [menuOption, setMenuOption] = useState<string>(
-        DistributionDestinationType.INTERNATIONAL,
+        DistributionDestinationType.CITY,
     );
 
     const { data: distributor, error } = useFetchDistributionByOwnerId();
@@ -28,13 +31,15 @@ export default function CoverageAreas() {
     // tiene el distribuidor. Si lo hacemos de la manera de abajo
     // hay causíticas que no ten<zemos en cuenta: Bosnia and Herzegovina no se marcaría
     const internationalCountries =
-        distributor?.coverage_areas.international?.map((country) => {
+        distributor?.coverage_areas?.international?.map((country) => {
             return country.replace(/\w\S*/g, (txt) => {
                 return txt.replace(/\b\w/g, (v) => v.toUpperCase());
             });
         }) ?? [];
 
     const renderSwitch = () => {
+        if (distributor?.coverage_areas === undefined) return null;
+
         switch (menuOption) {
             case DistributionDestinationType.LOCAL:
                 return (
@@ -55,6 +60,10 @@ export default function CoverageAreas() {
                         {distributor && (
                             <CityDistribution
                                 cities={distributor.coverage_areas.cities}
+                                coverageAreaId={distributor.coverage_areas.id}
+                                distributionCosts={
+                                    distributor.distribution_costs!
+                                }
                             />
                         )}
                     </>
@@ -67,6 +76,9 @@ export default function CoverageAreas() {
                             <ProvinceDistribution
                                 provinces={distributor.coverage_areas.provinces}
                                 coverageAreaId={distributor.coverage_areas.id}
+                                distributionCosts={
+                                    distributor.distribution_costs!
+                                }
                             />
                         )}
                     </>
@@ -113,10 +125,27 @@ export default function CoverageAreas() {
     };
 
     return (
-        <fieldset className="space-y-4 rounded-xl border border-b-gray-200 bg-beer-foam p-4">
-            <legend className="text-2xl font-medium text-beer-dark">
-                {t('distribution_destination')}
-            </legend>
+        <fieldset className="space-y-6 p-6 rounded-lg border border-gray-300 bg-white shadow-sm max-w-3xl mx-auto">
+            <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                    <h2 className="text-3xl font-semibold text-gray-800">
+                        {t('distribution_destination')}
+                    </h2>
+
+                    <Tooltip
+                        content="Configure los destinos de distribución para la venta online"
+                        delay={0}
+                        width={200}
+                    >
+                        <FontAwesomeIcon
+                            icon={faInfoCircle}
+                            style={{ color: '#90470b' }}
+                            title={'Information'}
+                            className="h-14 w-14 fill-beer-blonde text-base"
+                        />
+                    </Tooltip>
+                </div>
+            </div>
 
             {/* Horizontal menu  */}
             <HorizontalMenu setMenuOption={setMenuOption} />

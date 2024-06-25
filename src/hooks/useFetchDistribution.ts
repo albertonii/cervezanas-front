@@ -3,7 +3,7 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 import { useQuery, UseQueryResult } from 'react-query';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
-import { IDistribution, IDistributorUser } from '../lib/types/types';
+import { IDistributorUser } from '../lib/types/types';
 
 const fetchDistributionByOwnerId = async (
     userId: string,
@@ -18,19 +18,24 @@ const fetchDistributionByOwnerId = async (
               coverage_areas (
                 *,
                 local_distribution (*)
+              ),
+              distribution_costs (
+                id,
+                area_and_weight_cost (
+                    id, cost_extra_per_kg
+                )
               )
             `,
         )
         .eq('user_id', userId)
         .single();
 
-
     if (error) throw error;
     return data as IDistributorUser;
 };
 
 const useFetchDistributionByOwnerId = (): UseQueryResult<
-    IDistribution,
+    IDistributorUser,
     unknown
 > => {
     const { user, supabase } = useAuth();

@@ -67,6 +67,9 @@ export async function POST(request: NextRequest) {
     const flatrateWeightSize = parseInt(
         formData.get('flatrate_weight_size') as string,
     );
+    const costExtraPerKG = parseFloat(
+        formData.get('cost_extra_per_kg') as string,
+    );
 
     let flatrateWeights = [];
 
@@ -80,15 +83,11 @@ export async function POST(request: NextRequest) {
         const baseCost = parseFloat(
             formData.get(`flatrate_weight[${i}].base_cost`) as string,
         );
-        const extraCostPerKg = parseFloat(
-            formData.get(`flatrate_weight[${i}].extra_cost_per_kg`) as string,
-        );
 
         flatrateWeights.push({
             weight_from: weightFrom,
             weight_to: weightFo,
             base_cost: baseCost,
-            extra_cost_per_kg: extraCostPerKg,
         });
     }
 
@@ -96,14 +95,13 @@ export async function POST(request: NextRequest) {
 
     // Insert all the flatrate and weight costs linked with the distribution_costs_id
     flatrateWeights.map(async (flatrateWeight) => {
-        const { data, error: flatrateAndWeightCostsError } = await supabase
+        const { error: flatrateAndWeightCostsError } = await supabase
             .from('flatrate_and_weight_cost')
             .insert({
                 distribution_costs_id: distributionCostsId,
                 weight_from: flatrateWeight.weight_from,
                 weight_to: flatrateWeight.weight_to,
                 base_cost: flatrateWeight.base_cost,
-                extra_cost_per_kg: flatrateWeight.extra_cost_per_kg,
             });
 
         if (flatrateAndWeightCostsError) {
@@ -113,6 +111,21 @@ export async function POST(request: NextRequest) {
             );
         }
     });
+
+    // Update costExtraPerKG in distribution_costs
+    const { error: distributionCostsError } = await supabase
+        .from('distribution_costs')
+        .update({
+            cost_extra_per_kg: costExtraPerKG,
+        })
+        .eq('id', distributionCostsId);
+
+    if (distributionCostsError) {
+        return NextResponse.json(
+            { message: 'Error updating cost extra per kg' },
+            { status: 500 },
+        );
+    }
 
     return NextResponse.json(
         { message: 'Flatrate and weight costs created' },

@@ -71,7 +71,7 @@ const InputLabel = ({
                     className={`${'flex-col '} flex w-full items-start space-y-2 text-sm text-gray-600`}
                 >
                     <span className="font-medium">
-                        {labelText ? labelText : t(label)}
+                        {labelText ? t(labelText) : t(label)}
                         {infoTooltip && (
                             <InfoTooltip
                                 content={`${t(infoTooltip)}`}

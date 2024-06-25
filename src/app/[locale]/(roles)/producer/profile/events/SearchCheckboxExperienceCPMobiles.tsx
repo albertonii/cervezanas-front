@@ -19,7 +19,7 @@ export function SearchCheckboxExperiencesCPMobiles({
     experienceId,
 }: Props) {
     const [query, setQuery] = useState('');
-    const { register, setValue, control } = form;
+    const { setValue, control } = form;
 
     const [checkedCPsState, setCheckedCPsState] = useState<ICPM_events[]>(
         checkedCPs ?? [],
