@@ -76,7 +76,7 @@ export default function DistributionCost({ distributionCosts }: Props) {
                     <AreaAndWeightCostForm
                         extraCostPerKG={distributionCosts.cost_extra_per_kg}
                         areaAndWeightCost={
-                            distributionCosts.area_and_weight_cost![0]
+                            distributionCosts.area_and_weight_cost
                         }
                         distributionCostId={distributionCosts.id}
                     />

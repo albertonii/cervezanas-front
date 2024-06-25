@@ -1453,7 +1453,7 @@ export interface IDistributionCost {
     distributor_user?: IDistributorUser;
     flatrate_cost?: IFlatrateCost;
     flatrate_and_weight_cost?: IFlatrateAndWeightCost[];
-    area_and_weight_cost?: IAreaAndWeightCost[];
+    area_and_weight_cost?: IAreaAndWeightCost;
 }
 
 export interface IFlatrateCost {

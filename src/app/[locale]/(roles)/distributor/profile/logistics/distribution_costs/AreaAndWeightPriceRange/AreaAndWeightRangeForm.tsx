@@ -2,7 +2,6 @@
 
 import Error from 'next/error';
 import Button from '../../../../../../components/common/Button';
-import FlatrateAndWeightCostFormRow from '../FlatrateAndWeight/FlatrateAndWeightCostFormRow';
 import React, { useState } from 'react';
 import { z, ZodType } from 'zod';
 import {
@@ -13,11 +12,9 @@ import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
-import { useAuth } from '../../../../../../(auth)/Context/useAuth';
+import { updateFlatrateAndWeightShippingCost } from '../../../../actions';
 import { useMessage } from '../../../../../../components/message/useMessage';
 import { DisplayInputError } from '../../../../../../components/common/DisplayInputError';
-import { FlatrateAndWeightCostFormValidationSchema } from '../FlatrateAndWeight/FlatrateAndWeightCostForm';
-import { updateFlatrateAndWeightShippingCost } from '../../../../actions';
 
 const rangeObjectSchema = z
     .object({
@@ -32,8 +29,11 @@ const rangeObjectSchema = z
         path: ['weight_from'],
     });
 
-const areaNameObjectSchema = z.object({
-    name: z.string().nonempty({ message: 'errors.input_required' }),
+const areaAndWeightObjectSchema = z.object({
+    distribution_costs_id: z.string().uuid(),
+    cost_extra_per_kg: z
+        .number()
+        .min(0, { message: 'errors.input_number_min_0' }),
     area_weight_range_cost: z
         .array(rangeObjectSchema)
         .refine(
@@ -57,32 +57,29 @@ const areaNameObjectSchema = z.object({
         ),
 });
 
-const schema: ZodType<AreaAndWeightCostFormData> = z.object({
-    distribution_costs_id: z.string().uuid(),
-
-    cities: z.array(areaNameObjectSchema),
-    provinces: z.array(areaNameObjectSchema),
-    regions: z.array(areaNameObjectSchema),
-    international: z.array(areaNameObjectSchema),
-});
-
-type ValidationSchema = z.infer<typeof schema>;
+type ValidationSchema = z.infer<typeof areaAndWeightObjectSchema>;
 
 interface Props {
-    flatrateAndWeightCost?: IAreaAndWeightCostRange[];
+    selectedArea: {
+        id: string;
+        name: string;
+        type: string;
+        area_and_weight_cost_id: string;
+    };
+    areaAndWeightCostRange?: IAreaAndWeightCostRange[];
     distributionCostId: string;
 }
 
 /* Tarifa de envío por rango de coste del pedido */
 const AreaAndWeightRangeForm = ({
-    flatrateAndWeightCost,
+    selectedArea,
+    areaAndWeightCostRange,
     distributionCostId,
 }: Props) => {
     const t = useTranslations();
     const { handleMessage } = useMessage();
 
-    const { supabase } = useAuth();
-    const [costRanges, setCostRanges] = useState(flatrateAndWeightCost ?? []);
+    const [costRanges, setCostRanges] = useState(areaAndWeightCostRange ?? []);
     const [sortedFields, setSortedFields] = useState<IAreaAndWeightCostRange[]>(
         [],
     );
@@ -92,15 +89,11 @@ const AreaAndWeightRangeForm = ({
 
     const form = useForm<ValidationSchema>({
         mode: 'onSubmit',
-        resolver: zodResolver(schema),
+        resolver: zodResolver(areaAndWeightObjectSchema),
         defaultValues: {
-            // local_distribution_cost: flatrateCost?.local_distribution_cost ?? 0,
-            // national_distribution_cost:
-            //     flatrateCost?.national_distribution_cost ?? 0,
-            // europe_distribution_cost:
-            //     flatrateCost?.europe_distribution_cost ?? 0,
-            // international_distribution_cost:
-            //     flatrateCost?.international_distribution_cost ?? 0,
+            distribution_costs_id: distributionCostId,
+            cost_extra_per_kg: 0,
+            area_weight_range_cost: costRanges,
         },
     });
 
@@ -118,7 +111,7 @@ const AreaAndWeightRangeForm = ({
     });
 
     const handleUpdateFlatrateCostAndWeight = async (
-        form: FlatrateAndWeightCostFormValidationSchema,
+        form: ValidationSchema,
     ) => {
         trigger();
 
@@ -144,7 +137,7 @@ const AreaAndWeightRangeForm = ({
         });
     };
 
-    const handleUpdateFlatrateCostMutation = useMutation({
+    const handleUpdateAreaAndWeightCostMutation = useMutation({
         mutationKey: 'updateFlatrateCost',
         mutationFn: handleUpdateFlatrateCostAndWeight,
         onSuccess: () => {
@@ -155,11 +148,11 @@ const AreaAndWeightRangeForm = ({
         },
     });
 
-    const onSubmit: SubmitHandler<FlatrateAndWeightCostFormValidationSchema> = (
-        formValues: AreaAndWeightCostFormData,
+    const onSubmit: SubmitHandler<ValidationSchema> = (
+        formValues: ValidationSchema,
     ) => {
         try {
-            handleUpdateFlatrateCostMutation.mutate(formValues);
+            handleUpdateAreaAndWeightCostMutation.mutate(formValues);
         } catch (error) {
             console.error(error);
         }
@@ -201,6 +194,8 @@ const AreaAndWeightRangeForm = ({
             weight_from: lastRange.weight_to,
             weight_to: lastRange.weight_to + 10,
             base_cost: 0,
+            area_and_weight_information_id:
+                selectedArea.area_and_weight_cost_id,
         };
 
         append(weightPriceRange);
@@ -241,7 +236,7 @@ const AreaAndWeightRangeForm = ({
                 </div>
 
                 <label className="">
-                    {t('extra_cost_per_kg') + ' (€)'}
+                    {t('cost_extra_per_kg') + ' (€)'}
                     <input
                         type="number"
                         {...register(`cost_extra_per_kg`, {
@@ -267,10 +262,12 @@ const AreaAndWeightRangeForm = ({
                 </label>
 
                 <div className="space-y-4">
-                    {errors.weight_range_cost &&
-                        errors.weight_range_cost.root && (
+                    {errors.area_weight_range_cost &&
+                        errors.area_weight_range_cost.root && (
                             <DisplayInputError
-                                message={errors.weight_range_cost.root?.message}
+                                message={
+                                    errors.area_weight_range_cost.root?.message
+                                }
                             />
                         )}
 
@@ -279,7 +276,7 @@ const AreaAndWeightRangeForm = ({
                             key={field.id}
                             className="flex items-center space-x-4"
                         >
-                            <FlatrateAndWeightCostFormRow
+                            {/* <FlatrateAndWeightCostFormRow
                                 index={index}
                                 handleInputWeightFromChange={
                                     handleInputWeightFromChange
@@ -292,7 +289,7 @@ const AreaAndWeightRangeForm = ({
                                 }
                                 removePriceRange={removeWeightPriceRange}
                                 form={form}
-                            />
+                            /> */}
                         </div>
                     ))}
                 </div>

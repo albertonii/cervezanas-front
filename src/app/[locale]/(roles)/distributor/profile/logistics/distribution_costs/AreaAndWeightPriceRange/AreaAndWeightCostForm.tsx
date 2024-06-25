@@ -51,7 +51,6 @@ const areaNameObjectSchema = z.object({
 
 const schema: ZodType<AreaAndWeightCostFormData> = z.object({
     distribution_costs_id: z.string().uuid(),
-
     cities: z.array(areaNameObjectSchema),
     provinces: z.array(areaNameObjectSchema),
     regions: z.array(areaNameObjectSchema),
@@ -72,7 +71,14 @@ const AreaAndWeightCostForm = ({
     areaAndWeightCost,
     distributionCostId,
 }: Props) => {
-    const [selectedArea, setSelectedArea] = useState('');
+    const [selectedArea, setSelectedArea] = useState<{
+        id: string;
+        name: string;
+        type: string;
+        area_and_weight_cost_id: string;
+    }>();
+
+    console.log(areaAndWeightCost);
 
     const form = useForm<WeightRangeCostFormValidationSchema>({
         mode: 'onSubmit',
@@ -98,18 +104,23 @@ const AreaAndWeightCostForm = ({
         },
     });
 
-    const onItemClick = (area: string) => {
+    const onItemClick = (area: {
+        id: string;
+        name: string;
+        type: string;
+        area_and_weight_cost_id: string;
+    }) => {
         setSelectedArea(area);
     };
 
     return (
         <section className="relative">
-            <AreaSidebar form={form} onItemClick={setSelectedArea} />
+            <AreaSidebar form={form} onItemClick={onItemClick} />
 
             {selectedArea && (
                 <fieldset className="space-y-6 p-6 rounded-lg border border-gray-300 bg-white shadow-sm max-w-3xl mx-auto">
                     <AreaAndWeightRangeForm
-                        // area={selectedArea}
+                        selectedArea={selectedArea}
                         // flatrateAndWeightCost={flatrateAndWeightCost}
                         distributionCostId={distributionCostId}
                     />

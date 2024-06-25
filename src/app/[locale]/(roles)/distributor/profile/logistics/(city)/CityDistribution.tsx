@@ -1,4 +1,3 @@
-import useFetchAllCountries from '../useFetchAllCountries';
 import useFetchCitiesOfState from '../useFetchCitiesOfState';
 import useFetchStatesByCountry from '../useFetchStatesByCountry';
 import PaginationFooter from '../../../../../components/common/PaginationFooter';
@@ -17,17 +16,8 @@ import {
     IState,
 } from '../../../../../../../lib/types/distribution_areas';
 import { Country } from 'country-state-city';
-import { useAuth } from '../../../../../(auth)/Context/useAuth';
-// interface ICountry {
-//   id: string;
-//   name: string;
-//   isoCode: string;
-// }
-
-type Props = {
-    cities: string[];
-    coverageAreaId: string;
-};
+import { useMessage } from '../../../../../components/message/useMessage';
+import { IDistributionCost } from '../../../../../../../lib/types/types';
 
 interface FormData {
     country: string;
@@ -35,11 +25,21 @@ interface FormData {
     cities: ICity[];
 }
 
-export default function CityDistribution({ cities, coverageAreaId }: Props) {
-    console.log(cities);
-    const t = useTranslations();
+type Props = {
+    cities: string[];
+    coverageAreaId: string;
+    distributionCosts: IDistributionCost;
+};
 
-    const { supabase } = useAuth();
+export default function CityDistribution({
+    cities,
+    coverageAreaId,
+    distributionCosts,
+}: Props) {
+    const t = useTranslations();
+    const { handleMessage } = useMessage();
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const [addressCountry, setAddressCountry] = useState<string>('ES');
     const [addressRegion, setAddressRegion] = useState<string>('C'); // A Coruña
@@ -50,9 +50,12 @@ export default function CityDistribution({ cities, coverageAreaId }: Props) {
         ICity[] | undefined
     >();
 
+    const [unCheckedCities, setUnCheckedCities] = useState<string[]>([]);
+    const [newSelectedCities, setNewSelectedCities] = useState<string[]>([]);
     const [selectedCities, setSelectedCities] = useState<string[]>(
         cities ?? [],
     );
+
     const [selectAllCurrentPage, setSelectAllCurrentPage] = useState(false);
     // rastrear si todas las ciudades de la región están seleccionadas, independientemente de la paginación
     const [selectAllCitiesByRegion, setSelectAllCitiesByRegion] =
@@ -60,7 +63,7 @@ export default function CityDistribution({ cities, coverageAreaId }: Props) {
 
     const [isRegionLoading, setIsRegionLoading] = useState(false);
 
-    const { refetch: getCountries } = useFetchAllCountries();
+    // const { refetch: getCountries } = useFetchAllCountries();
 
     const { refetch: getStates } = useFetchStatesByCountry(
         addressCountry ?? 'ES',
@@ -79,7 +82,7 @@ export default function CityDistribution({ cities, coverageAreaId }: Props) {
 
     const queryClient = useQueryClient();
 
-    const [countryData, setCountryData] = useState<ICountry[]>([]);
+    // const [countryData, setCountryData] = useState<ICountry[]>([]);
 
     const form = useForm<FormData>();
 
@@ -196,34 +199,76 @@ export default function CityDistribution({ cities, coverageAreaId }: Props) {
         setListOfCities([]);
     };
 
-    const handleUpdateCityDistribution = async (form: FormData) => {
-        // const { country, region, cities } = form;
+    const handleUpdateCityDistribution = async (formValues: FormData) => {
+        setIsLoading(true);
 
-        // Filter cities
-        // const filteredCities = cities.filter((city) => city.name);
-        const { error } = await supabase
-            .from('coverage_areas')
-            .update({ cities: selectedCities })
-            .eq('id', coverageAreaId);
+        const areaAndWeightId = distributionCosts?.area_and_weight_cost?.id;
 
-        if (error) {
-            console.error(error);
-            return;
+        if (!areaAndWeightId) {
+            handleMessage({
+                type: 'error',
+                message: t('errors.update_city_coverage_area'),
+            });
+
+            setIsLoading(false);
+        } else {
+            const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+            const url = `${baseUrl}/api/coverage_areas/cities`;
+
+            const formData = new FormData();
+
+            console.log('TO DELETE', unCheckedCities);
+            console.log('TO ADD', newSelectedCities);
+
+            formData.append(
+                'to_delete_cities',
+                JSON.stringify(unCheckedCities),
+            );
+            formData.append('to_add_cities', JSON.stringify(newSelectedCities));
+            formData.append('cities', JSON.stringify(selectedCities));
+            formData.append('coverage_area_id', coverageAreaId);
+            formData.append('area_and_weight_cost_id', areaAndWeightId);
+
+            // CORS
+            const headers = new Headers();
+
+            headers.append('Access-Control-Allow-Origin', '*');
+            headers.append('Access-Control-Allow-Methods', 'PUT');
+            headers.append('Access-Control-Allow-Headers', 'Content-Type');
+            headers.append('Access-Control-Allow-Credentials', 'true');
+            headers.append(
+                'Access-Control-Allow-Headers',
+                'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+            );
+
+            const response = await fetch(url, {
+                method: 'PUT',
+                body: formData,
+                headers: headers,
+            });
+
+            if (!response.ok) {
+                handleMessage({
+                    type: 'error',
+                    message: t('errors.update_city_coverage_area'),
+                });
+
+                setIsLoading(false);
+                return;
+            }
+
+            handleMessage({
+                type: 'success',
+                message: t('success.update_city_coverage_area'),
+            });
+
+            queryClient.invalidateQueries('distribution');
+
+            setUnCheckedCities([]);
+            setNewSelectedCities([]);
+
+            setIsLoading(false);
         }
-
-        // Update in area_and_weight_information -
-        // We need to know area_and_weight_cost_id from user distributor
-        // const { error: error2 } = await supabase
-        //     .from('area_and_weight_information')
-        //     .upsert(
-        //         selectedCities.map((city) => ({
-        //             type: 'city',
-        //             name: city,
-        //             area_and_weight_cost_id: coverageAreaId,
-        //         })),
-        //     ).eq('area_and_weight_cost_id', coverageAreaId);
-
-        queryClient.invalidateQueries('distribution');
     };
 
     const updateCityDistributionMutation = useMutation({
@@ -252,6 +297,25 @@ export default function CityDistribution({ cities, coverageAreaId }: Props) {
         e: React.ChangeEvent<HTMLInputElement>,
         city: string,
     ) => {
+        // If the city is unchecked, add it to the list of unchecked cities
+        if (!e.target.checked) {
+            setUnCheckedCities([...unCheckedCities, city]);
+        } else {
+            // If the city is checked, remove it from the list of unchecked cities
+            setUnCheckedCities(unCheckedCities.filter((item) => item !== city));
+        }
+
+        // If the city has never been selected, add it to the list of new selected cities
+        if (!cities.includes(city)) {
+            setNewSelectedCities([...newSelectedCities, city]);
+        } else {
+            // If the city has been selected before, remove it from the list of new selected cities
+            setNewSelectedCities(
+                newSelectedCities.filter((item) => item !== city),
+            );
+        }
+
+        // If the city is checked, add it to the list of selected cities
         const updatedSelectedCities = e.target.checked
             ? [...selectedCities, city]
             : selectedCities.filter((item) => item !== city);
@@ -267,6 +331,17 @@ export default function CityDistribution({ cities, coverageAreaId }: Props) {
             : selectedCities.filter(
                   (checkedCity) => !listOfCityNames.includes(checkedCity),
               );
+
+        // Add to the list of new selected cities all the cities that are not already selected and are on the current page of the table
+        const newSelectedCities = listOfCityNames.filter(
+            (city) => !selectedCities.includes(city),
+        );
+        setNewSelectedCities(newSelectedCities);
+
+        // If the user unchecks the select all checkbox, remove all the cities from the list of new selected cities and add them to the list of unchecked cities if they are not already there (they were previously selected)
+        if (!e.target.checked) {
+            setUnCheckedCities([...unCheckedCities, ...listOfCityNames]);
+        }
 
         setSelectedCities(updatedSelectedCities);
         setSelectAllCurrentPage(e.target.checked);
@@ -294,7 +369,7 @@ export default function CityDistribution({ cities, coverageAreaId }: Props) {
     };
 
     return (
-        <section className="space-y-4">
+        <section className="space-y-4 relative">
             <Button
                 btnType="submit"
                 onClick={handleSubmit(onSubmit)}
@@ -305,24 +380,20 @@ export default function CityDistribution({ cities, coverageAreaId }: Props) {
                 {t('save')}
             </Button>
 
-            {/* List with all cities selected  */}
-            {/* <div>
-        <div className="flex items-center space-x-2">
-          <span className="text-sm text-gray-600">{t("selected_cities")}</span>
-          <span className="text-sm text-gray-600">{selectedCities.length}</span>
-        </div>
+            {isLoading && (
+                <Spinner size={'large'} color={'beer-blonde'} center absolute />
+            )}
 
-        <div className="space-x-2">
-          {selectedCities.length > 0 &&
-            selectedCities.map((city) => (
-              <span key={city} className="text-sm text-gray-600">
-                {city}
-              </span>
-            ))}
-        </div>
-      </div> */}
-
-            <div className="flex flex-col items-start space-y-4">
+            <div
+                className={`
+                                flex flex-col items-start space-y-4
+                                ${
+                                    isLoading
+                                        ? 'opacity-50 pointer-events-none'
+                                        : ''
+                                }
+                            `}
+            >
                 <div className="grid w-full grid-cols-2 gap-4">
                     <address>
                         <label
@@ -344,7 +415,7 @@ export default function CityDistribution({ cities, coverageAreaId }: Props) {
                                 Spain
                             </option>
 
-                            {countryData &&
+                            {/* {countryData &&
                                 countryData.map((country: ICountry) => (
                                     <option
                                         key={country.iso2}
@@ -352,7 +423,7 @@ export default function CityDistribution({ cities, coverageAreaId }: Props) {
                                     >
                                         {country.name}
                                     </option>
-                                ))}
+                                ))} */}
                         </select>
                     </address>
 

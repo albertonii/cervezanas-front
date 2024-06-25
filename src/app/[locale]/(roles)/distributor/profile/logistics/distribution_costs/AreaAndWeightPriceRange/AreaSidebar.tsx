@@ -9,14 +9,13 @@ import { WeightRangeCostFormValidationSchema } from './AreaAndWeightCostForm';
 import { useTranslations } from 'next-intl';
 
 interface SidebarProps {
-    // items: {
-    //     cities: string[];
-    //     provinces: string[];
-    //     regions: string[];
-    //     international: string[];
-    // };
     form: UseFormReturn<WeightRangeCostFormValidationSchema>;
-    onItemClick: (area: string) => void;
+    onItemClick: (area: {
+        id: string;
+        name: string;
+        type: string;
+        area_and_weight_cost_id: string;
+    }) => void;
 }
 
 const AreaSidebar: React.FC<SidebarProps> = ({ form, onItemClick }) => {
@@ -38,8 +37,6 @@ const AreaSidebar: React.FC<SidebarProps> = ({ form, onItemClick }) => {
 
     console.log(items);
 
-    console.log(Object.entries(items));
-
     return (
         <aside
             className="
@@ -51,9 +48,6 @@ const AreaSidebar: React.FC<SidebarProps> = ({ form, onItemClick }) => {
                     "
         >
             {Object.entries(items).map(([key, values], index) => {
-                console.log(key);
-                console.log(values);
-
                 return (
                     <div key={key + index}>
                         <button

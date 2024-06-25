@@ -11,14 +11,17 @@ export interface Database {
     Tables: {
       area_and_weight_cost: {
         Row: {
+          cost_extra_per_kg: number | null
           distribution_costs_id: string
           id: string
         }
         Insert: {
+          cost_extra_per_kg?: number | null
           distribution_costs_id?: string
           id?: string
         }
         Update: {
+          cost_extra_per_kg?: number | null
           distribution_costs_id?: string
           id?: string
         }
@@ -26,7 +29,7 @@ export interface Database {
           {
             foreignKeyName: "area_and_weight_cost_distribution_costs_id_fkey"
             columns: ["distribution_costs_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "distribution_costs"
             referencedColumns: ["id"]
           }
@@ -35,18 +38,21 @@ export interface Database {
       area_and_weight_information: {
         Row: {
           area_and_weight_cost_id: string | null
+          coverage_area_id: string | null
           id: string
           name: string | null
           type: string
         }
         Insert: {
           area_and_weight_cost_id?: string | null
+          coverage_area_id?: string | null
           id?: string
           name?: string | null
           type?: string
         }
         Update: {
           area_and_weight_cost_id?: string | null
+          coverage_area_id?: string | null
           id?: string
           name?: string | null
           type?: string
@@ -57,6 +63,13 @@ export interface Database {
             columns: ["area_and_weight_cost_id"]
             isOneToOne: false
             referencedRelation: "area_and_weight_cost"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "area_and_weight_information_coverage_area_id_fkey"
+            columns: ["coverage_area_id"]
+            isOneToOne: false
+            referencedRelation: "coverage_areas"
             referencedColumns: ["id"]
           }
         ]

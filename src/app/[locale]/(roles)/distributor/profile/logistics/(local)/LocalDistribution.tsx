@@ -1,18 +1,18 @@
 import PCRanges from './PCRanges';
+import countries from 'i18n-iso-countries';
 import Label from '../../../../../components/Label';
 import enLocale from 'i18n-iso-countries/langs/en.json';
 import esLocale from 'i18n-iso-countries/langs/es.json';
-import countries from 'i18n-iso-countries';
-import React, { useEffect, useState } from 'react';
-import { CountryDropdown } from 'react-country-region-selector';
-import { useTranslations } from 'next-intl';
 import Button from '../../../../../components/common/Button';
-import { IconButton } from '../../../../../components/common/IconButton';
+import React, { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { ILocal, IPCRangesProps } from '../../../../../../../lib/types/types';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { CountryDropdown } from 'react-country-region-selector';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
+import { IconButton } from '../../../../../components/common/IconButton';
+import { ILocal, IPCRangesProps } from '../../../../../../../lib/types/types';
 
 interface FormData {
     country: string;
@@ -43,17 +43,14 @@ export default function LocalDistribution({
         };
     });
 
-    const {
-        register,
-        formState: { errors },
-        handleSubmit,
-        control,
-    } = useForm({
+    const form = useForm({
         defaultValues: {
             country: countryOption,
             ranges: defaultRanges,
         },
     });
+
+    const { handleSubmit, control } = form;
 
     const { fields, append, remove } = useFieldArray({
         name: 'ranges',
@@ -179,7 +176,7 @@ export default function LocalDistribution({
                                         className="grid w-full grid-cols-2 space-x-4 rounded-md border-2 border-beer-gold p-4"
                                     >
                                         <PCRanges
-                                            register={register}
+                                            form={form}
                                             item={item}
                                             index={index}
                                         />

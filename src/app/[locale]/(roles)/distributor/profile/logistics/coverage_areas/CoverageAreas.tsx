@@ -31,13 +31,15 @@ export default function CoverageAreas() {
     // tiene el distribuidor. Si lo hacemos de la manera de abajo
     // hay causíticas que no ten<zemos en cuenta: Bosnia and Herzegovina no se marcaría
     const internationalCountries =
-        distributor?.coverage_areas.international?.map((country) => {
+        distributor?.coverage_areas?.international?.map((country) => {
             return country.replace(/\w\S*/g, (txt) => {
                 return txt.replace(/\b\w/g, (v) => v.toUpperCase());
             });
         }) ?? [];
 
     const renderSwitch = () => {
+        if (distributor?.coverage_areas === undefined) return null;
+
         switch (menuOption) {
             case DistributionDestinationType.LOCAL:
                 return (
@@ -59,6 +61,9 @@ export default function CoverageAreas() {
                             <CityDistribution
                                 cities={distributor.coverage_areas.cities}
                                 coverageAreaId={distributor.coverage_areas.id}
+                                distributionCosts={
+                                    distributor.distribution_costs!
+                                }
                             />
                         )}
                     </>
