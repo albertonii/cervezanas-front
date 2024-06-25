@@ -2,6 +2,7 @@
 
 import Error from 'next/error';
 import Button from '../../../../../../components/common/Button';
+import Spinner from '../../../../../../components/common/Spinner';
 import AreaAndWeightRangeFormRow from './AreaAndWeightRangeFormRow';
 import React, { useEffect, useState } from 'react';
 import { z } from 'zod';
@@ -74,6 +75,8 @@ const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
     const t = useTranslations();
     const { handleMessage } = useMessage();
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const [costRanges, setCostRanges] = useState<IAreaAndWeightCostRange[]>(
         selectedArea.area_weight_cost_range ?? [],
     );
@@ -125,6 +128,8 @@ const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
         form: AreaAndWeightInformationSchema,
     ) => {
         if (dirtyFields.area_weight_range) {
+            setIsLoading(true);
+
             const { area_weight_range } = form;
 
             const res =
@@ -137,13 +142,18 @@ const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
                     message: submitErrorMessage,
                     type: 'error',
                 });
+
+                setIsLoading(false);
                 return;
             }
 
-            handleMessage({
-                message: submitSuccessMessage,
-                type: 'success',
-            });
+            setTimeout(() => {
+                setIsLoading(false);
+                handleMessage({
+                    message: submitSuccessMessage,
+                    type: 'success',
+                });
+            }, 1000);
         }
     };
 
@@ -235,7 +245,16 @@ const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
     };
 
     return (
-        <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
+        <section
+            className={`flex flex-col items-start space-y-4 rounded-xl border 
+                border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4
+                ${isLoading ? 'opacity-50 pointer-events-none' : ''}
+            `}
+        >
+            {isLoading && (
+                <Spinner size={'large'} color={'beer-blonde'} center absolute />
+            )}
+
             <span className="pb-4">
                 <strong>Tarifa con área y peso:</strong> configura los costes de
                 envío para cada área y rango de peso.

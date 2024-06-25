@@ -2,6 +2,7 @@
 
 import Error from 'next/error';
 import Button from '../../../../../../components/common/Button';
+import Spinner from '../../../../../../components/common/Spinner';
 import React, { useEffect, useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
@@ -84,6 +85,8 @@ export default function FlatrateAndWeightCostForm({
     const t = useTranslations();
     const { handleMessage } = useMessage();
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const [costRanges, setCostRanges] = useState(flatrateAndWeightCost ?? []);
     const [sortedFields, setSortedFields] = useState<IFlatrateAndWeightCost[]>(
         [],
@@ -124,6 +127,8 @@ export default function FlatrateAndWeightCostForm({
     const handleUpdateFlatrateCostAndWeight = async (
         form: FlatrateAndWeightCostFormValidationSchema,
     ) => {
+        setIsLoading(true);
+
         trigger();
 
         const { cost_extra_per_kg } = form;
@@ -139,13 +144,18 @@ export default function FlatrateAndWeightCostForm({
                 message: submitErrorMessage,
                 type: 'error',
             });
+
+            setIsLoading(false);
             return;
         }
 
-        handleMessage({
-            message: submitSuccessMessage,
-            type: 'success',
-        });
+        setTimeout(() => {
+            setIsLoading(false);
+            handleMessage({
+                message: submitSuccessMessage,
+                type: 'success',
+            });
+        }, 1000);
     };
 
     const handleUpdateFlatrateCostMutation = useMutation({
@@ -218,7 +228,16 @@ export default function FlatrateAndWeightCostForm({
     };
 
     return (
-        <section className="flex flex-col items-start space-y-4 rounded-xl border-2 border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4 ">
+        <section
+            className={`flex flex-col items-start space-y-4 rounded-xl border 
+            border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4
+            ${isLoading ? 'opacity-50 pointer-events-none' : ''}
+        `}
+        >
+            {isLoading && (
+                <Spinner size={'large'} color={'beer-blonde'} center absolute />
+            )}
+
             <span className="pb-4">
                 <strong>Tarifa Plana y Peso:</strong> Configura un rango de
                 pesos con un coste específico para cada uno de ellos. Incluye un
