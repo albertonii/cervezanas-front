@@ -89,8 +89,8 @@ export default function FlatrateAndWeightCostForm({
         mode: 'onSubmit',
         resolver: zodResolver(schema),
         defaultValues: {
-            cost_extra_per_kg: extraCostPerKG,
             distribution_costs_id: distributionCostId,
+            cost_extra_per_kg: extraCostPerKG,
             weight_range_cost: flatrateAndWeightCost,
         },
     });
@@ -99,7 +99,7 @@ export default function FlatrateAndWeightCostForm({
         handleSubmit,
         control,
         trigger,
-        formState: { errors, dirtyFields },
+        formState: { errors },
         register,
     } = form;
 

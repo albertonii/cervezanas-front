@@ -11,7 +11,7 @@ import AreaAndWeightRangeForm from './AreaAndWeightRangeForm';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-const rangeObjectSchema = z
+const areaWeightCostRange = z
     .object({
         weight_from: z
             .number()
@@ -24,10 +24,11 @@ const rangeObjectSchema = z
         path: ['weight_from'],
     });
 
-const areaNameObjectSchema = z.object({
+const areaAndWeightInformationObjectSchema = z.object({
     name: z.string().nonempty({ message: 'errors.input_required' }),
-    area_weight_range_cost: z
-        .array(rangeObjectSchema)
+    type: z.string().nonempty({ message: 'errors.input_required' }),
+    area_weight_range: z
+        .array(areaWeightCostRange)
         .refine(
             (ranges) => ranges.length === 0 || ranges[0].weight_from === 0,
             {
@@ -51,13 +52,16 @@ const areaNameObjectSchema = z.object({
 
 const schema: ZodType<AreaAndWeightCostFormData> = z.object({
     distribution_costs_id: z.string().uuid(),
-    cities: z.array(areaNameObjectSchema),
-    provinces: z.array(areaNameObjectSchema),
-    regions: z.array(areaNameObjectSchema),
-    international: z.array(areaNameObjectSchema),
+    cities: z.array(areaAndWeightInformationObjectSchema),
+    provinces: z.array(areaAndWeightInformationObjectSchema),
+    regions: z.array(areaAndWeightInformationObjectSchema),
+    international: z.array(areaAndWeightInformationObjectSchema),
 });
 
-export type WeightRangeCostFormValidationSchema = z.infer<typeof schema>;
+export type AreaAndWeightInformationSchema = z.infer<
+    typeof areaAndWeightInformationObjectSchema
+>;
+export type AreaAndWeightCostFormValidationSchema = z.infer<typeof schema>;
 
 interface Props {
     extraCostPerKG: number;
@@ -78,9 +82,7 @@ const AreaAndWeightCostForm = ({
         area_and_weight_cost_id: string;
     }>();
 
-    console.log(areaAndWeightCost);
-
-    const form = useForm<WeightRangeCostFormValidationSchema>({
+    const form = useForm<AreaAndWeightCostFormValidationSchema>({
         mode: 'onSubmit',
         resolver: zodResolver(schema),
         defaultValues: {

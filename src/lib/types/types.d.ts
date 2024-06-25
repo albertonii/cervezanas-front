@@ -1420,10 +1420,10 @@ export interface AreaAndWeightCostFormData {
 }
 
 interface AreaAndWeightInformationFormData {
-    id: string;
+    id?: string;
     type: string; // City, Province, Region, International
     name: string;
-    area_weight_cost_range: AreaAndWeightRangeFormData[];
+    area_weight_range: AreaAndWeightRangeFormData[];
 }
 
 interface AreaAndWeightRangeFormData {
