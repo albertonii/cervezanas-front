@@ -3,17 +3,20 @@
 import Error from 'next/error';
 import Button from '../../../../../../components/common/Button';
 import AreaAndWeightRangeFormRow from './AreaAndWeightRangeFormRow';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { z } from 'zod';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { AreaAndWeightInformationSchema } from './AreaAndWeightCostForm';
-import { updateFlatrateAndWeightShippingCost } from '../../../../actions';
 import { useMessage } from '../../../../../../components/message/useMessage';
-import { IAreaAndWeightCostRange } from '../../../../../../../../lib/types/types';
+import {
+    IAreaAndWeightCostRange,
+    IAreaAndWeightInformation,
+} from '../../../../../../../../lib/types/types';
 import { DisplayInputError } from '../../../../../../components/common/DisplayInputError';
+import { updateAreaAndWeightRangeByAreaAndWeightInformationId } from '../../../../actions';
 
 const areaWeightCostRange = z
     .object({
@@ -22,6 +25,7 @@ const areaWeightCostRange = z
             .min(0, { message: 'errors.input_number_min_0' }),
         weight_to: z.number().min(0, { message: 'errors.input_number_min_0' }),
         base_cost: z.number().min(0, { message: 'errors.input_number_min_0' }),
+        area_and_weight_information_id: z.string().uuid(),
     })
     .refine((data) => data.weight_from < data.weight_to, {
         message: 'errors.lower_greater_than_upper',
@@ -34,13 +38,20 @@ const areaAndWeightInformationObjectSchema = z.object({
     area_weight_range: z
         .array(areaWeightCostRange)
         .refine(
-            (ranges) => ranges.length === 0 || ranges[0].weight_from === 0,
+            (ranges) =>
+                ranges.length === 0 ||
+                ranges.some((range) => range.weight_from === 0),
             {
                 message: 'errors.must_start_from_zero',
             },
         )
         .refine(
             (ranges) => {
+                if (ranges.length === 0) return true;
+
+                // Ordenar los rangos por `weight_from` para facilitar la verificación
+                ranges.sort((a, b) => a.weight_from - b.weight_from);
+
                 for (let i = 1; i < ranges.length; i++) {
                     if (ranges[i - 1].weight_to !== ranges[i].weight_from) {
                         return false;
@@ -55,28 +66,20 @@ const areaAndWeightInformationObjectSchema = z.object({
 });
 
 interface Props {
-    selectedArea: {
-        id: string;
-        name: string;
-        type: string;
-        area_and_weight_cost_id: string;
-    };
-    areaAndWeightCostRange?: IAreaAndWeightCostRange[];
+    selectedArea: IAreaAndWeightInformation;
     distributionCostId: string;
 }
 
 /* Tarifa de envío por rango de coste del pedido */
 const AreaAndWeightRangeForm = ({
     selectedArea,
-    areaAndWeightCostRange,
     distributionCostId,
 }: Props) => {
     const t = useTranslations();
     const { handleMessage } = useMessage();
 
-    const [costRanges, setCostRanges] = useState(areaAndWeightCostRange ?? []);
-    const [sortedFields, setSortedFields] = useState<IAreaAndWeightCostRange[]>(
-        [],
+    const [costRanges, setCostRanges] = useState<IAreaAndWeightCostRange[]>(
+        selectedArea.area_weight_cost_range ?? [],
     );
 
     const submitSuccessMessage = t('messages.updated_successfully');
@@ -88,6 +91,7 @@ const AreaAndWeightRangeForm = ({
         defaultValues: {
             name: selectedArea.name,
             type: selectedArea.type,
+            area_weight_range: selectedArea.area_weight_cost_range,
         },
     });
 
@@ -95,47 +99,62 @@ const AreaAndWeightRangeForm = ({
         handleSubmit,
         control,
         trigger,
-        formState: { errors },
+        formState: { errors, dirtyFields },
+        setValue,
     } = form;
+
+    useEffect(() => {
+        if (selectedArea.area_weight_cost_range) {
+            const sortedRanges = [...selectedArea.area_weight_cost_range].sort(
+                (a, b) => a.weight_from - b.weight_from,
+            );
+
+            setCostRanges(sortedRanges);
+            setValue('area_weight_range', sortedRanges);
+            setValue('name', selectedArea.name);
+            setValue('type', selectedArea.type);
+        }
+    }, [selectedArea.area_weight_cost_range]);
+
+    useEffect(() => {
+        console.log('errors', errors);
+        console.log('dirtyFields', dirtyFields);
+    }, [errors, dirtyFields]);
 
     const { append, remove } = useFieldArray({
         name: 'area_weight_range',
         control,
     });
 
-    const handleUpdateFlatrateCostAndWeight = async (
+    const handleUpdateAreaWeightRange = async (
         form: AreaAndWeightInformationSchema,
     ) => {
-        trigger();
+        if (dirtyFields.area_weight_range) {
+            const { area_weight_range } = form;
 
-        // const { cost_extra_per_kg } = form;
+            const res =
+                await updateAreaAndWeightRangeByAreaAndWeightInformationId(
+                    area_weight_range,
+                );
 
-        // const res = await updateFlatrateAndWeightShippingCost(
-        //     cost_extra_per_kg,
-        //     distributionCostId,
-        //     costRanges,
-        // );
+            if (res.status !== 200) {
+                handleMessage({
+                    message: submitErrorMessage,
+                    type: 'error',
+                });
+                return;
+            }
 
-        // if (res.status !== 200) {
-        //     handleMessage({
-        //         message: submitErrorMessage,
-        //         type: 'error',
-        //     });
-        //     return;
-        // }
-
-        handleMessage({
-            message: submitSuccessMessage,
-            type: 'success',
-        });
+            handleMessage({
+                message: submitSuccessMessage,
+                type: 'success',
+            });
+        }
     };
 
     const handleUpdateAreaAndWeightCostMutation = useMutation({
-        mutationKey: 'updateFlatrateCost',
-        mutationFn: handleUpdateFlatrateCostAndWeight,
-        onSuccess: () => {
-            console.info('Area and weight cost updated successfully');
-        },
+        mutationKey: 'updateAreaWeightRangeCost',
+        mutationFn: handleUpdateAreaWeightRange,
         onError: (error: Error) => {
             console.error(error);
         },
@@ -157,7 +176,12 @@ const AreaAndWeightRangeForm = ({
     ) => {
         const newRanges = [...costRanges];
         newRanges[index].weight_from = Number(event.target.value);
-        setCostRanges(newRanges);
+
+        // Ordenar los rangos por `weight_from` para facilitar la verificación
+        const sortedRanges = newRanges.sort(
+            (a, b) => a.weight_from - b.weight_from,
+        );
+        setCostRanges(sortedRanges);
     };
 
     const handleInputWeightToChange = (
@@ -166,7 +190,10 @@ const AreaAndWeightRangeForm = ({
     ) => {
         const newRanges = [...costRanges];
         newRanges[index].weight_to = Number(event.target.value);
-        setCostRanges(newRanges);
+        const sortedRanges = newRanges.sort(
+            (a, b) => a.weight_from - b.weight_from,
+        );
+        setCostRanges(sortedRanges);
     };
 
     const handleInputBaseCostChange = (
@@ -175,7 +202,10 @@ const AreaAndWeightRangeForm = ({
     ) => {
         const newRanges = [...costRanges];
         newRanges[index].base_cost = Number(event.target.value);
-        setCostRanges(newRanges);
+        const sortedRanges = newRanges.sort(
+            (a, b) => a.weight_from - b.weight_from,
+        );
+        setCostRanges(sortedRanges);
     };
 
     const addWeightPriceRange = () => {
@@ -191,15 +221,23 @@ const AreaAndWeightRangeForm = ({
                 selectedArea.area_and_weight_cost_id,
         };
 
-        console.log(weightPriceRange);
         append(weightPriceRange);
 
-        setCostRanges([...costRanges, weightPriceRange]);
+        const newRanges = [...costRanges, weightPriceRange];
+        const sortedRanges = newRanges.sort(
+            (a, b) => a.weight_from - b.weight_from,
+        );
+        setCostRanges(sortedRanges);
     };
 
     const removeWeightPriceRange = (index: number) => {
+        const newRanges = costRanges.filter((_, i) => i !== index);
+        const sortedRanges = newRanges.sort(
+            (a, b) => a.weight_from - b.weight_from,
+        );
+
         remove(index);
-        setCostRanges(costRanges.filter((_, i) => i !== index));
+        setCostRanges(sortedRanges);
     };
 
     return (
@@ -268,7 +306,7 @@ const AreaAndWeightRangeForm = ({
                             />
                         )}
 
-                    {sortedFields.map((field, index) => (
+                    {costRanges.map((field, index) => (
                         <div
                             key={field.id}
                             className="flex items-center space-x-4"

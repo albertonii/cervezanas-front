@@ -40,13 +40,20 @@ const schema: ZodType<FlatrateAndWeightCostFormData> = z.object({
     weight_range_cost: z
         .array(rangeObjectSchema)
         .refine(
-            (ranges) => ranges.length === 0 || ranges[0].weight_from === 0,
+            (ranges) =>
+                ranges.length === 0 ||
+                ranges.some((range) => range.weight_from === 0),
             {
                 message: 'errors.must_start_from_zero',
             },
         )
         .refine(
             (ranges) => {
+                if (ranges.length === 0) return true;
+
+                // Ordenar los rangos por `weight_from` para facilitar la verificación
+                ranges.sort((a, b) => a.weight_from - b.weight_from);
+
                 for (let i = 1; i < ranges.length; i++) {
                     if (ranges[i - 1].weight_to !== ranges[i].weight_from) {
                         return false;

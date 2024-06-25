@@ -1,12 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { DeleteButton } from '../../../../../../components/common/DeleteButton';
 import { DisplayInputError } from '../../../../../../components/common/DisplayInputError';
-import {
-    AreaAndWeightInformationFormData,
-    FlatrateAndWeightCostFormData,
-} from '../../../../../../../../lib/types/types';
+import { AreaAndWeightInformationFormData } from '../../../../../../../../lib/types/types';
 
 interface Props {
     index: number;
@@ -38,10 +35,6 @@ export default function AreaAndWeightCostFormRow({
     },
 }: Props) {
     const t = useTranslations();
-
-    useEffect(() => {
-        console.log(errors);
-    }, [errors]);
 
     return (
         <>

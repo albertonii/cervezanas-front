@@ -1430,6 +1430,7 @@ interface AreaAndWeightRangeFormData {
     weight_from: number;
     weight_to: number;
     base_cost: number;
+    area_and_weight_information_id: string;
 }
 
 export interface PriceRangeCostFormData {

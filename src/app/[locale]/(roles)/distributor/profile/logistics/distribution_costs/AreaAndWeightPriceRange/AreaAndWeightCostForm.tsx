@@ -6,6 +6,8 @@ import { z, ZodType } from 'zod';
 import {
     AreaAndWeightCostFormData,
     IAreaAndWeightCost,
+    IAreaAndWeightCostRange,
+    IAreaAndWeightInformation,
 } from '../../../../../../../../lib/types/types';
 import AreaAndWeightRangeForm from './AreaAndWeightRangeForm';
 import { useForm } from 'react-hook-form';
@@ -18,6 +20,7 @@ const areaWeightCostRange = z
             .min(0, { message: 'errors.input_number_min_0' }),
         weight_to: z.number().min(0, { message: 'errors.input_number_min_0' }),
         base_cost: z.number().min(0, { message: 'errors.input_number_min_0' }),
+        area_and_weight_information_id: z.string().uuid(),
     })
     .refine((data) => data.weight_from < data.weight_to, {
         message: 'errors.lower_greater_than_upper',
@@ -30,13 +33,20 @@ const areaAndWeightInformationObjectSchema = z.object({
     area_weight_range: z
         .array(areaWeightCostRange)
         .refine(
-            (ranges) => ranges.length === 0 || ranges[0].weight_from === 0,
+            (ranges) =>
+                ranges.length === 0 ||
+                ranges.some((range) => range.weight_from === 0),
             {
                 message: 'errors.must_start_from_zero',
             },
         )
         .refine(
             (ranges) => {
+                if (ranges.length === 0) return true;
+
+                // Ordenar los rangos por `weight_from` para facilitar la verificación
+                ranges.sort((a, b) => a.weight_from - b.weight_from);
+
                 for (let i = 1; i < ranges.length; i++) {
                     if (ranges[i - 1].weight_to !== ranges[i].weight_from) {
                         return false;
@@ -75,12 +85,8 @@ const AreaAndWeightCostForm = ({
     areaAndWeightCost,
     distributionCostId,
 }: Props) => {
-    const [selectedArea, setSelectedArea] = useState<{
-        id: string;
-        name: string;
-        type: string;
-        area_and_weight_cost_id: string;
-    }>();
+    const [selectedArea, setSelectedArea] =
+        useState<IAreaAndWeightInformation>();
 
     const form = useForm<AreaAndWeightCostFormValidationSchema>({
         mode: 'onSubmit',
@@ -106,12 +112,7 @@ const AreaAndWeightCostForm = ({
         },
     });
 
-    const onItemClick = (area: {
-        id: string;
-        name: string;
-        type: string;
-        area_and_weight_cost_id: string;
-    }) => {
+    const onItemClick = (area: IAreaAndWeightInformation) => {
         setSelectedArea(area);
     };
 
@@ -123,7 +124,6 @@ const AreaAndWeightCostForm = ({
                 <fieldset className="space-y-6 p-6 rounded-lg border border-gray-300 bg-white shadow-sm max-w-3xl mx-auto">
                     <AreaAndWeightRangeForm
                         selectedArea={selectedArea}
-                        // flatrateAndWeightCost={flatrateAndWeightCost}
                         distributionCostId={distributionCostId}
                     />
                 </fieldset>

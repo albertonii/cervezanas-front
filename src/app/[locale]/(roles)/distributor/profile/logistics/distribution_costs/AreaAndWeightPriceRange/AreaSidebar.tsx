@@ -4,18 +4,17 @@ import {
     faChevronDown,
     faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
-import { UseFormReturn } from 'react-hook-form';
-import { WeightRangeCostFormValidationSchema } from './AreaAndWeightCostForm';
 import { useTranslations } from 'next-intl';
+import { UseFormReturn } from 'react-hook-form';
+import { AreaAndWeightCostFormValidationSchema } from './AreaAndWeightCostForm';
+import {
+    IAreaAndWeightCostRange,
+    IAreaAndWeightInformation,
+} from '../../../../../../../../lib/types/types';
 
 interface SidebarProps {
-    form: UseFormReturn<WeightRangeCostFormValidationSchema>;
-    onItemClick: (area: {
-        id: string;
-        name: string;
-        type: string;
-        area_and_weight_cost_id: string;
-    }) => void;
+    form: UseFormReturn<AreaAndWeightCostFormValidationSchema>;
+    onItemClick: (area: IAreaAndWeightInformation) => void;
 }
 
 const AreaSidebar: React.FC<SidebarProps> = ({ form, onItemClick }) => {
@@ -34,8 +33,6 @@ const AreaSidebar: React.FC<SidebarProps> = ({ form, onItemClick }) => {
         regions,
         international,
     };
-
-    console.log(items);
 
     return (
         <aside

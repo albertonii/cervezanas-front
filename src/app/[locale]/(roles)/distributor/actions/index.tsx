@@ -1,6 +1,9 @@
 'use server';
 
-import { IFlatrateAndWeightCostForm } from '../../../../../lib/types/types';
+import {
+    IAreaAndWeightCostRange,
+    IFlatrateAndWeightCostForm,
+} from '../../../../../lib/types/types';
 import createServerClient from '../../../../../utils/supabaseServer';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -26,10 +29,6 @@ export async function calculateFlatrateAndWeightShippingCost(
         )
         .eq('distribution_costs_id', distributionCostId)
         .order('weight_from', { ascending: true });
-
-    console.log(costRanges);
-    console.log(error);
-    console.log(distributionCostId);
 
     if (error) {
         throw new Error('Error fetching cost ranges');
@@ -223,5 +222,54 @@ export async function updateIsDistributionCostsIncludedInProduct(
     return {
         status: resPut.status,
         message: 'is_distribution_costs_in_product updated successfully',
+    };
+}
+
+export async function updateAreaAndWeightRangeByAreaAndWeightInformationId(
+    area_weight_range: IAreaAndWeightCostRange[],
+) {
+    const formData = new FormData();
+
+    area_weight_range.forEach((range, index) => {
+        formData.append(
+            `area_weight_range[${index}].weight_from`,
+            range.weight_from.toString(),
+        );
+        formData.append(
+            `area_weight_range[${index}].weight_to`,
+            range.weight_to.toString(),
+        );
+        formData.append(
+            `area_weight_range[${index}].base_cost`,
+            range.base_cost.toString(),
+        );
+        formData.append(
+            `area_weight_range[${index}].area_and_weight_information_id`,
+            range.area_and_weight_information_id,
+        );
+    });
+
+    formData.append(
+        'area_weight_range_size',
+        area_weight_range.length.toString(),
+    );
+
+    const urlPUT = `${baseUrl}/api/distribution_costs/area_and_weight_cost`;
+
+    const resPut = await fetch(urlPUT, {
+        method: 'PUT',
+        body: formData,
+    });
+
+    if (!resPut.ok) {
+        return {
+            status: resPut.status,
+            message: 'Error updating area_weight_range',
+        };
+    }
+
+    return {
+        status: resPut.status,
+        message: 'area_weight_range updated successfully',
     };
 }
