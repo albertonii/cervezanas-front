@@ -88,6 +88,8 @@ const AreaAndWeightCostForm = ({
     const [selectedArea, setSelectedArea] =
         useState<IAreaAndWeightInformation>();
 
+    console.log('areaAndWeightCost', areaAndWeightCost);
+
     const form = useForm<AreaAndWeightCostFormValidationSchema>({
         mode: 'onSubmit',
         resolver: zodResolver(schema),

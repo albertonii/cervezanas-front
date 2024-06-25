@@ -18,6 +18,7 @@ import {
 import { Country } from 'country-state-city';
 import { useMessage } from '../../../../../components/message/useMessage';
 import { IDistributionCost } from '../../../../../../../lib/types/types';
+import { updateCityDistribution } from '../../../actions';
 
 interface FormData {
     country: string;
@@ -212,42 +213,15 @@ export default function CityDistribution({
 
             setIsLoading(false);
         } else {
-            const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-            const url = `${baseUrl}/api/coverage_areas/cities`;
-
-            const formData = new FormData();
-
-            console.log('TO DELETE', unCheckedCities);
-            console.log('TO ADD', newSelectedCities);
-
-            formData.append(
-                'to_delete_cities',
-                JSON.stringify(unCheckedCities),
-            );
-            formData.append('to_add_cities', JSON.stringify(newSelectedCities));
-            formData.append('cities', JSON.stringify(selectedCities));
-            formData.append('coverage_area_id', coverageAreaId);
-            formData.append('area_and_weight_cost_id', areaAndWeightId);
-
-            // CORS
-            const headers = new Headers();
-
-            headers.append('Access-Control-Allow-Origin', '*');
-            headers.append('Access-Control-Allow-Methods', 'PUT');
-            headers.append('Access-Control-Allow-Headers', 'Content-Type');
-            headers.append('Access-Control-Allow-Credentials', 'true');
-            headers.append(
-                'Access-Control-Allow-Headers',
-                'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+            const res = await updateCityDistribution(
+                unCheckedCities,
+                newSelectedCities,
+                selectedCities,
+                coverageAreaId,
+                areaAndWeightId,
             );
 
-            const response = await fetch(url, {
-                method: 'PUT',
-                body: formData,
-                headers: headers,
-            });
-
-            if (!response.ok) {
+            if (!res || res.status !== 200) {
                 handleMessage({
                     type: 'error',
                     message: t('errors.update_city_coverage_area'),
@@ -276,14 +250,8 @@ export default function CityDistribution({
     const updateCityDistributionMutation = useMutation({
         mutationKey: 'updateCityDistribution',
         mutationFn: handleUpdateCityDistribution,
-        onMutate: () => {
-            console.info('onMutate');
-        },
-        onSuccess: () => {
-            console.info('onSuccess');
-        },
-        onError: () => {
-            console.error('onError');
+        onError: (error) => {
+            console.error('Error', error);
         },
     });
 
@@ -325,7 +293,9 @@ export default function CityDistribution({
         setSelectedCities(updatedSelectedCities);
     };
 
-    const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSelectAllCurrentPage = (
+        e: React.ChangeEvent<HTMLInputElement>,
+    ) => {
         const listOfCityNames = listOfCities?.map((city) => city.name) || [];
 
         const updatedSelectedCities = e.target.checked
@@ -349,6 +319,7 @@ export default function CityDistribution({
         setSelectAllCurrentPage(e.target.checked);
     };
 
+    // COMPROBAR COMO HACEMOS EL BORRADO Y LA INSERCIÓN DE CIUDADES EN EL ARRAY DE CIUDADES
     const handleSelectAllCitiesByRegion = (
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
@@ -535,7 +506,7 @@ export default function CityDistribution({
                                                         <input
                                                             type="checkbox"
                                                             onChange={(e) => {
-                                                                handleSelectAll(
+                                                                handleSelectAllCurrentPage(
                                                                     e,
                                                                 );
                                                             }}

@@ -275,3 +275,99 @@ export async function updateAreaAndWeightRangeByAreaAndWeightInformationId(
         message: 'area_weight_range updated successfully',
     };
 }
+
+export async function updateCityDistribution(
+    unCheckedCities: string[],
+    newSelectedCities: string[],
+    selectedCities: string[],
+    coverageAreaId: string,
+    areaAndWeightId: string,
+) {
+    const url = `${baseUrl}/api/coverage_areas/cities`;
+
+    const formData = new FormData();
+
+    formData.append('to_delete_cities', JSON.stringify(unCheckedCities));
+    formData.append('to_add_cities', JSON.stringify(newSelectedCities));
+    formData.append('cities', JSON.stringify(selectedCities));
+    formData.append('coverage_area_id', coverageAreaId);
+    formData.append('area_and_weight_cost_id', areaAndWeightId);
+
+    // CORS
+    const headers = new Headers();
+
+    headers.append('Access-Control-Allow-Origin', '*');
+    headers.append('Access-Control-Allow-Methods', 'PUT');
+    headers.append('Access-Control-Allow-Headers', 'Content-Type');
+    headers.append('Access-Control-Allow-Credentials', 'true');
+    headers.append(
+        'Access-Control-Allow-Headers',
+        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+    );
+
+    const response = await fetch(url, {
+        method: 'PUT',
+        body: formData,
+        headers: headers,
+    });
+
+    if (!response.ok) {
+        return {
+            status: response.status,
+            message: 'Error updating city distribution',
+        };
+    }
+
+    return {
+        status: response.status,
+        message: 'City distribution updated successfully',
+    };
+}
+
+export async function updateProvinceDistribution(
+    unCheckedProvinces: string[],
+    newSelectedProvinces: string[],
+    selectedProvinces: string[],
+    coverageAreaId: string,
+    areaAndWeightId: string,
+) {
+    const url = `${baseUrl}/api/coverage_areas/provinces`;
+
+    const formData = new FormData();
+
+    formData.append('to_delete_provinces', JSON.stringify(unCheckedProvinces));
+    formData.append('to_add_provinces', JSON.stringify(newSelectedProvinces));
+    formData.append('provinces', JSON.stringify(selectedProvinces));
+    formData.append('coverage_area_id', coverageAreaId);
+    formData.append('area_and_weight_cost_id', areaAndWeightId);
+
+    // CORS
+    const headers = new Headers();
+
+    headers.append('Access-Control-Allow-Origin', '*');
+    headers.append('Access-Control-Allow-Methods', 'PUT');
+    headers.append('Access-Control-Allow-Headers', 'Content-Type');
+    headers.append('Access-Control-Allow-Credentials', 'true');
+    headers.append(
+        'Access-Control-Allow-Headers',
+        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+    );
+
+    const response = await fetch(url, {
+        method: 'PUT',
+        body: formData,
+        headers: headers,
+    });
+
+    if (!response.ok) {
+        return {
+            status: response.status,
+            message: 'Error updating province distribution',
+        };
+    }
+
+    return {
+        status: response.status,
+        message: 'Province distribution updated successfully',
+    };
+}

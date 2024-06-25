@@ -76,6 +76,9 @@ export default function CoverageAreas() {
                             <ProvinceDistribution
                                 provinces={distributor.coverage_areas.provinces}
                                 coverageAreaId={distributor.coverage_areas.id}
+                                distributionCosts={
+                                    distributor.distribution_costs!
+                                }
                             />
                         )}
                     </>
