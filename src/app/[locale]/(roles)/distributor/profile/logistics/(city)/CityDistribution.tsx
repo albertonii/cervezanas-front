@@ -267,7 +267,9 @@ export default function CityDistribution({
             setUnCheckedCities([]);
             setNewSelectedCities([]);
 
-            setIsLoading(false);
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 1000);
         }
     };
 
@@ -369,7 +371,11 @@ export default function CityDistribution({
     };
 
     return (
-        <section className="space-y-4 relative">
+        <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
+            {isLoading && (
+                <Spinner size={'large'} color={'beer-blonde'} center absolute />
+            )}
+
             <Button
                 btnType="submit"
                 onClick={handleSubmit(onSubmit)}
@@ -380,19 +386,11 @@ export default function CityDistribution({
                 {t('save')}
             </Button>
 
-            {isLoading && (
-                <Spinner size={'large'} color={'beer-blonde'} center absolute />
-            )}
-
             <div
                 className={`
-                                flex flex-col items-start space-y-4
-                                ${
-                                    isLoading
-                                        ? 'opacity-50 pointer-events-none'
-                                        : ''
-                                }
-                            `}
+                            flex flex-col items-start space-y-4
+                            ${isLoading ? 'opacity-50 pointer-events-none' : ''}
+                        `}
             >
                 <div className="grid w-full grid-cols-2 gap-4">
                     <address>

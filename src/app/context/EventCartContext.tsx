@@ -165,8 +165,6 @@ export function EventCartProvider({ children }: Props) {
             return isSameId && isSameCPMid;
         });
 
-        // console.log("¿Producto encontrado? ", productFind);
-
         if (productFind) {
             const packFind = productFind.packs.find((p) => {
                 return p.id === pack.id;
@@ -218,7 +216,6 @@ export function EventCartProvider({ children }: Props) {
 
         // setEventCarts((currCarts) => {
         // if (productFind) {
-        //   console.log(" existe el producto");
         //   // Si existe el producto dentro del carrito, buscamos el pack
         //   const packFind = productFind.packs.find((p) => {
         //     const isSameId = p.id === pack.product_id;
@@ -249,8 +246,6 @@ export function EventCartProvider({ children }: Props) {
         //     };
         //   }
         // } else {
-        //   console.log("no existe el producto");
-        //   console.log(currCarts);
         //   const newPack: IProductPackEventCartItem = {
         //     id: product.id,
         //     quantity: 1,

@@ -35,8 +35,6 @@ export async function PUT(request: NextRequest) {
         });
     }
 
-    console.log(areaAndWeightInformationId);
-
     const supabase = await createServerClient();
 
     // Delete previous area and weight costs linked with the area_and_weight_information_id

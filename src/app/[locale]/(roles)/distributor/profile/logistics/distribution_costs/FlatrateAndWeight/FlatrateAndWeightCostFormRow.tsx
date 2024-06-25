@@ -36,10 +36,6 @@ export default function FlatrateAndWeightCostFormRow({
 }: Props) {
     const t = useTranslations();
 
-    useEffect(() => {
-        console.log(errors);
-    }, [errors]);
-
     return (
         <>
             <fieldset className="mr-2 flex flex-col gap-4 rounded-xl border p-2  w-full ">

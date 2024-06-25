@@ -106,9 +106,6 @@ export async function PUT(request: NextRequest) {
         }
     }
 
-    console.log('To Add ', toAddCitiesArray);
-    console.log('To Delete', toDeleteCitiesArray);
-
     if (toAddCitiesArray.length > 0) {
         const { error: error2 } = await supabase
             .from('area_and_weight_information')
