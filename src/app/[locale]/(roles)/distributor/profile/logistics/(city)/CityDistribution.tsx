@@ -78,7 +78,7 @@ export default function CityDistribution({
 
     const [currentPage, setCurrentPage] = useState(1);
     const [counter, setCounter] = useState(0);
-    const resultsPerPage = 20;
+    const resultsPerPage = 10;
 
     const [query, setQuery] = useState('');
 
@@ -302,12 +302,6 @@ export default function CityDistribution({
         if (!cities.includes(city)) {
             setNewSelectedCities([...newSelectedCities, city]);
         }
-        // else {
-        //     // If the city has been selected before, remove it from the list of new selected cities
-        //     setNewSelectedCities(
-        //         newSelectedCities.filter((item) => item !== city),
-        //     );
-        // }
 
         // If the city is checked, add it to the list of selected cities
         const updatedSelectedCities = e.target.checked

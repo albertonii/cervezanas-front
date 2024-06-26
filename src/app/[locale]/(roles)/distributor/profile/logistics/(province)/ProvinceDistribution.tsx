@@ -52,6 +52,10 @@ export default function ProvinceDistribution({
     );
     const [selectedProvinces, setSelectedProvinces] =
         useState<string[]>(provinces);
+    const [fromDBProvinces, setFromDBProvinces] = useState<string[]>(
+        provinces ?? [],
+    );
+
     const [selectAllCurrentPage, setSelectAllCurrentPage] = useState(false);
 
     const [selectAllProvincesByRegion, setSelectAllProvincesByRegion] =
@@ -157,8 +161,15 @@ export default function ProvinceDistribution({
 
             setIsLoading(false);
         } else {
+            // Remove the cities from unCheckedProvinces that are already in the list of selected provinces
+            const filteredUnCheckedProvinces = unCheckedProvinces.filter(
+                (province) => fromDBProvinces.includes(province),
+            );
+
             // Eliminate duplicated provinces
-            const unCheckedProvinces_ = Array.from(new Set(unCheckedProvinces));
+            const unCheckedProvinces_ = Array.from(
+                new Set(filteredUnCheckedProvinces),
+            );
             const newSelectedProvinces_ = Array.from(
                 new Set(newSelectedProvinces),
             );
@@ -172,7 +183,10 @@ export default function ProvinceDistribution({
                 areaAndWeightId,
             );
 
-            if (!res || res.status !== 200) {
+            if (
+                !res ||
+                (res.status !== 200 && res.status !== 201 && res.status !== 202)
+            ) {
                 handleMessage({
                     type: 'error',
                     message: t('errors.update_province_coverage_area'),
@@ -191,6 +205,7 @@ export default function ProvinceDistribution({
 
             setUnCheckedProvinces([]);
             setNewSelectedProvinces([]);
+            setFromDBProvinces(selectedProvinces_); // Update the list of provinces that are already in the database
 
             setTimeout(() => {
                 setIsLoading(false);
@@ -235,11 +250,6 @@ export default function ProvinceDistribution({
         // If the province has never been selected, add it to the list of selected provinces
         if (!provinces.includes(province)) {
             setNewSelectedProvinces([...newSelectedProvinces, province]);
-        } else {
-            // If the province has been selected, remove it from the list of selected provinces
-            setNewSelectedProvinces(
-                newSelectedProvinces.filter((item) => item !== province),
-            );
         }
 
         // If the province is checked, add it to the list of selected provinces
@@ -256,31 +266,49 @@ export default function ProvinceDistribution({
         const listOfProvincesNames =
             tenProvinces?.map((province) => province.name) || [];
 
-        const updatedSelectedProvinces = e.target.checked
-            ? [...selectedProvinces, ...listOfProvincesNames]
-            : selectedProvinces.filter(
-                  (checkedProvince) =>
-                      !listOfProvincesNames.includes(checkedProvince),
-              );
-
-        // Add to the list of new selected provinces all the provinces that are not already selected and are on the current page of the table
-        const newSelectedProvinces = listOfProvincesNames.filter(
-            (item) => !selectedProvinces.includes(item),
-        );
-
-        console.log(newSelectedProvinces);
-
-        setNewSelectedProvinces(newSelectedProvinces);
-
-        // If the user unchecks the select all checkbox, remove all the provinces that are on the current page of the table from the list of selected provinces
+        // If the user unchecks the select all checkbox button
         if (!e.target.checked) {
+            // Add all the cities to unchecked list
             setUnCheckedProvinces([
                 ...unCheckedProvinces,
                 ...listOfProvincesNames,
             ]);
+
+            // Remove all provinces from the list of new selected provinces
+            setNewSelectedProvinces(
+                newSelectedProvinces.filter(
+                    (province) => !listOfProvincesNames.includes(province),
+                ),
+            );
+
+            // Remove all provinces from the list of selected provinces
+            setSelectedProvinces(
+                selectedProvinces.filter(
+                    (province) => !listOfProvincesNames.includes(province),
+                ),
+            );
+        } else {
+            // If the user checks the select all checkbox button
+            // Remove all the provinces from the unchecked list
+            setUnCheckedProvinces(
+                unCheckedProvinces.filter(
+                    (province) => !listOfProvincesNames.includes(province),
+                ),
+            );
+
+            // Add all the provinces to the list of new selected provinces
+            setNewSelectedProvinces([
+                ...newSelectedProvinces,
+                ...listOfProvincesNames,
+            ]);
+
+            // Add all the provinces to the list of selected provinces
+            setSelectedProvinces([
+                ...selectedProvinces,
+                ...listOfProvincesNames,
+            ]);
         }
 
-        setSelectedProvinces(updatedSelectedProvinces);
         setSelectAllCurrentPage(e.target.checked);
     };
 
