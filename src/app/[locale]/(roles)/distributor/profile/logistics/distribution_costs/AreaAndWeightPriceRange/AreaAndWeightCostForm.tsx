@@ -119,7 +119,7 @@ const AreaAndWeightCostForm = ({
     };
 
     return (
-        <section className="relative">
+        <section className="relative flex gap-4">
             <AreaSidebar form={form} onItemClick={onItemClick} />
 
             {selectedArea && (

@@ -157,10 +157,17 @@ export default function ProvinceDistribution({
 
             setIsLoading(false);
         } else {
+            // Eliminate duplicated provinces
+            const unCheckedProvinces_ = Array.from(new Set(unCheckedProvinces));
+            const newSelectedProvinces_ = Array.from(
+                new Set(newSelectedProvinces),
+            );
+            const selectedProvinces_ = Array.from(new Set(selectedProvinces));
+
             const res = await updateProvinceDistribution(
-                unCheckedProvinces,
-                newSelectedProvinces,
-                selectedProvinces,
+                unCheckedProvinces_,
+                newSelectedProvinces_,
+                selectedProvinces_,
                 coverageAreaId,
                 areaAndWeightId,
             );

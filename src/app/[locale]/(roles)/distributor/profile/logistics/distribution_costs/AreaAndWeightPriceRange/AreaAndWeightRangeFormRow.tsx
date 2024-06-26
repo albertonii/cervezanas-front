@@ -80,7 +80,7 @@ export default function AreaAndWeightCostFormRow({
                     Franja de Precio {index + 1}
                 </legend>
 
-                <div className="flex justify-between gap-2">
+                <div className="flex sm:flex-row flex-col justify-between gap-2">
                     <label className="">
                         {t('weight_from') + ' (Kg)'}
 

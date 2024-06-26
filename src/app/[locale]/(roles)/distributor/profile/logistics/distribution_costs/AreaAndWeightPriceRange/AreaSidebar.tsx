@@ -40,13 +40,13 @@ const AreaSidebar: React.FC<SidebarProps> = ({ form, onItemClick }) => {
                         lg:absolute lg:top-0 lg:right-full lg:mr-10 lg:z-10
                         rounded-xl transform duration-300 ease-in-out shadow-lg 
                         bg-[url('/assets/rec-graf4b.png')] bg-repeat bg-top bg-auto overflow-y-auto 
-                        dark:bg-gray-800 w-40 min-h-[20vh] h-auto max-h-screen bg-gray-800 text-white 
-                        overflow-auto
+                        dark:bg-gray-800 w-40 min-h-[20vh] h-auto max-h-[40vh] lg:max-h-screen bg-gray-800 text-white 
+                        overflow-auto min-w-[10vw]
                     "
         >
             {Object.entries(items).map(([key, values], index) => {
                 return (
-                    <div key={key + index}>
+                    <div key={key + index} className="py-2">
                         <button
                             className="w-full flex justify-between items-center text-left px-4 py-2 hover:bg-gray-600"
                             onClick={() =>
@@ -64,7 +64,7 @@ const AreaSidebar: React.FC<SidebarProps> = ({ form, onItemClick }) => {
                             />
                         </button>
 
-                        <ul className="space-y-2 font-medium px-4 py-2">
+                        <ul className="space-y-2 font-medium px-4 max-h-[24vh] lg:max-h-[40vh] overflow-y-auto bg-gray-700 bg-opacity-50">
                             {expanded === key &&
                                 values.map((value) => (
                                     <li

@@ -246,8 +246,7 @@ const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
 
     return (
         <section
-            className={`flex flex-col items-start space-y-4 rounded-xl border 
-                border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4
+            className={`flex flex-col items-start space-y-4 
                 ${isLoading ? 'opacity-50 pointer-events-none' : ''}
             `}
         >
@@ -268,7 +267,6 @@ const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
                     <Button
                         btnType="submit"
                         onClick={handleSubmit(onSubmit)}
-                        class="col-span-2 w-24"
                         primary
                         medium
                     >
@@ -279,7 +277,7 @@ const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
                         onClick={addWeightPriceRange}
                         btnType={'button'}
                         accent
-                        small
+                        medium
                     >
                         {t('add_weight_price_range')}
                     </Button>

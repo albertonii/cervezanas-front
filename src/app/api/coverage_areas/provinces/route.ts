@@ -36,6 +36,7 @@ export async function PUT(request: NextRequest) {
     console.log('COVERAGE AREA ID', coverageAreaId);
     console.log('toDeleteProvincesArray', toDeleteProvincesArray);
     console.log('toAddProvincesrray', toAddProvincesArray);
+    console.log('SELECTED PROVINCES', selectedProvincesArray);
 
     if (toDeleteProvincesArray.length > 0) {
         const { error: error1 } = await supabase
@@ -53,6 +54,53 @@ export async function PUT(request: NextRequest) {
     }
 
     if (toAddProvincesArray.length > 0) {
+        // Check for existing entries to avoid duplicates
+        const { data: existingEntries, error: checkError } = await supabase
+            .from('area_and_weight_information')
+            .select('name, type')
+            .eq('area_and_weight_cost_id', areaAndWeightCostId)
+            .in(
+                'name',
+                toAddProvincesArray.map((province: string) => province),
+            );
+
+        if (checkError) {
+            return NextResponse.json(
+                { message: 'Error checking existing provinces' },
+                { status: 500 },
+            );
+        }
+
+        const existingNames = existingEntries.map((entry) => entry.name);
+
+        // Filter out the provinces that already exist
+        const newProvinces = toAddProvincesArray.filter(
+            (province: string) => !existingNames.includes(province),
+        );
+
+        console.log('TO ADD', toAddProvincesArray);
+        console.log('NEW PROVINCES', newProvinces);
+
+        if (newProvinces.length > 0) {
+            const { error: error2 } = await supabase
+                .from('area_and_weight_information')
+                .upsert(
+                    newProvinces.map((province: string) => ({
+                        type: 'province',
+                        name: province,
+                        area_and_weight_cost_id: areaAndWeightCostId,
+                        coverage_area_id: coverageAreaId,
+                    })),
+                );
+
+            if (error2) {
+                return NextResponse.json(
+                    { message: 'Error adding provinces' },
+                    { status: 500 },
+                );
+            }
+        }
+
         const { error: error2 } = await supabase
             .from('area_and_weight_information')
             .upsert(
@@ -78,14 +126,14 @@ export async function PUT(request: NextRequest) {
     ) {
         return NextResponse.json(
             { message: 'No changes made' },
-            { status: 200 },
+            { status: 204 },
         );
     }
 
     return NextResponse.json(
         { message: 'Coverage area for Provinces updated' },
         {
-            status: 200,
+            status: 201,
         },
     );
 }

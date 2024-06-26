@@ -1,5 +1,6 @@
 'use server';
 
+import axios from 'axios';
 import {
     IAreaAndWeightCostRange,
     IFlatrateAndWeightCostForm,
@@ -230,8 +231,6 @@ export async function updateAreaAndWeightRangeByAreaAndWeightInformationId(
 ) {
     const formData = new FormData();
 
-    console.log(area_weight_range);
-
     area_weight_range.forEach((range, index) => {
         formData.append(
             `area_weight_range[${index}].weight_from`,
@@ -296,32 +295,38 @@ export async function updateCityDistribution(
     // CORS
     const headers = new Headers();
 
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Access-Control-Allow-Methods', 'PUT');
-    headers.append('Access-Control-Allow-Headers', 'Content-Type');
-    headers.append('Access-Control-Allow-Credentials', 'true');
-    headers.append(
-        'Access-Control-Allow-Headers',
-        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
-    );
+    try {
+        const response = await axios.put(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
 
-    const response = await fetch(url, {
-        method: 'PUT',
-        body: formData,
-        headers: headers,
-    });
+        if (
+            response.status !== 200 &&
+            response.status !== 201 &&
+            response.status !== 202
+        ) {
+            console.log('dentro');
 
-    if (!response.ok) {
+            return {
+                status: response.status,
+                message:
+                    response.data.message || 'Error updating city distribution',
+            };
+        }
+
         return {
             status: response.status,
-            message: 'Error updating city distribution',
+            message: 'City distribution updated successfully',
+        };
+    } catch (error: any) {
+        console.error('Error updating city distribution:', error);
+        return {
+            status: error.response?.status || 500,
+            message: error.response?.data.message || 'Internal Server Error',
         };
     }
-
-    return {
-        status: response.status,
-        message: 'City distribution updated successfully',
-    };
 }
 
 export async function updateProvinceDistribution(
@@ -329,7 +334,7 @@ export async function updateProvinceDistribution(
     newSelectedProvinces: string[],
     selectedProvinces: string[],
     coverageAreaId: string,
-    areaAndWeightId: string,
+    areaAndWeightCostId: string,
 ) {
     const url = `${baseUrl}/api/coverage_areas/provinces`;
 
@@ -339,7 +344,7 @@ export async function updateProvinceDistribution(
     formData.append('to_add_provinces', JSON.stringify(newSelectedProvinces));
     formData.append('provinces', JSON.stringify(selectedProvinces));
     formData.append('coverage_area_id', coverageAreaId);
-    formData.append('area_and_weight_cost_id', areaAndWeightId);
+    formData.append('area_and_weight_cost_id', areaAndWeightCostId);
 
     // CORS
     const headers = new Headers();
