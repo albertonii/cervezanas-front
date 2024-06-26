@@ -2,7 +2,6 @@ import createServerClient from '../../../../utils/supabaseServer';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function PUT(request: NextRequest) {
-    console.log('tamos dentro wey');
     const formData = await request.formData();
 
     const coverageAreaId = formData.get('coverage_area_id') as string;
@@ -32,11 +31,6 @@ export async function PUT(request: NextRequest) {
             { status: 500 },
         );
     }
-
-    console.log('COVERAGE AREA ID', coverageAreaId);
-    console.log('toDeleteProvincesArray', toDeleteProvincesArray);
-    console.log('toAddProvincesrray', toAddProvincesArray);
-    console.log('SELECTED PROVINCES', selectedProvincesArray);
 
     if (toDeleteProvincesArray.length > 0) {
         const { error: error1 } = await supabase
@@ -78,9 +72,6 @@ export async function PUT(request: NextRequest) {
             (province: string) => !existingNames.includes(province),
         );
 
-        console.log('TO ADD', toAddProvincesArray);
-        console.log('NEW PROVINCES', newProvinces);
-
         if (newProvinces.length > 0) {
             const { error: error2 } = await supabase
                 .from('area_and_weight_information')
@@ -100,24 +91,6 @@ export async function PUT(request: NextRequest) {
                 );
             }
         }
-
-        const { error: error2 } = await supabase
-            .from('area_and_weight_information')
-            .upsert(
-                toAddProvincesArray.map((province: string) => ({
-                    type: 'province',
-                    name: province,
-                    area_and_weight_cost_id: areaAndWeightCostId,
-                    coverage_area_id: coverageAreaId,
-                })),
-            );
-
-        if (error2) {
-            return NextResponse.json(
-                { message: 'Error adding provinces' },
-                { status: 500 },
-            );
-        }
     }
 
     if (
@@ -126,7 +99,7 @@ export async function PUT(request: NextRequest) {
     ) {
         return NextResponse.json(
             { message: 'No changes made' },
-            { status: 204 },
+            { status: 202 },
         );
     }
 

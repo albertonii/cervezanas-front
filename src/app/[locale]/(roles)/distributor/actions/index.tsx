@@ -293,12 +293,16 @@ export async function updateCityDistribution(
     formData.append('area_and_weight_cost_id', areaAndWeightId);
 
     // CORS
-    const headers = new Headers();
 
     try {
         const response = await axios.put(url, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'PUT',
+                'Access-Control-Allow-Credentials': 'true',
+                'Access-Control-Allow-Headers':
+                    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
             },
         });
 
@@ -307,8 +311,6 @@ export async function updateCityDistribution(
             response.status !== 201 &&
             response.status !== 202
         ) {
-            console.log('dentro');
-
             return {
                 status: response.status,
                 message:
@@ -346,33 +348,40 @@ export async function updateProvinceDistribution(
     formData.append('coverage_area_id', coverageAreaId);
     formData.append('area_and_weight_cost_id', areaAndWeightCostId);
 
-    // CORS
-    const headers = new Headers();
+    try {
+        const response = await axios.put(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'PUT',
+                'Access-Control-Allow-Credentials': 'true',
+                'Access-Control-Allow-Headers':
+                    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+            },
+        });
 
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Access-Control-Allow-Methods', 'PUT');
-    headers.append('Access-Control-Allow-Headers', 'Content-Type');
-    headers.append('Access-Control-Allow-Credentials', 'true');
-    headers.append(
-        'Access-Control-Allow-Headers',
-        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
-    );
+        if (
+            response.status !== 200 &&
+            response.status !== 201 &&
+            response.status !== 202
+        ) {
+            return {
+                status: response.status,
+                message:
+                    response.data.message ||
+                    'Error updating province distribution',
+            };
+        }
 
-    const response = await fetch(url, {
-        method: 'PUT',
-        body: formData,
-        headers: headers,
-    });
-
-    if (!response.ok) {
         return {
             status: response.status,
-            message: 'Error updating province distribution',
+            message: 'Province distribution updated successfully',
+        };
+    } catch (error: any) {
+        console.error('Error updating province distribution:', error);
+        return {
+            status: error.response?.status || 500,
+            message: error.response?.data.message || 'Internal Server Error',
         };
     }
-
-    return {
-        status: response.status,
-        message: 'Province distribution updated successfully',
-    };
 }
