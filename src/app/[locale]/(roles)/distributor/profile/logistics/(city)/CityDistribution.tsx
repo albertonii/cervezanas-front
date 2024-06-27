@@ -47,7 +47,7 @@ export default function CityDistribution({
     const [listOfRegions, setListOfRegions] = useState<IState[] | undefined>();
     const [listOfCities, setListOfCities] = useState<ICity[] | undefined>();
     const [regionIsEnable, setRegionIsEnable] = useState<boolean>(false);
-    const [listOfAllCitiesByRegion, setListOfAllCitiesByRegion] = useState<
+    const [listOfAllCitiesByProvince, setlistOfAllCitiesByProvince] = useState<
         ICity[] | undefined
     >();
 
@@ -165,7 +165,7 @@ export default function CityDistribution({
                 setListOfCities(lOfCities);
                 setCounter(cityData?.length);
 
-                setListOfAllCitiesByRegion(cityData);
+                setlistOfAllCitiesByProvince(cityData);
 
                 // Update selectAllCurrentPage based on whether all cities on this page are selected
                 setSelectAllCurrentPage(
@@ -180,7 +180,7 @@ export default function CityDistribution({
 
         // // Update selectAllCities based on whether all cities in the region are selected
         // setSelectAllCitiesByRegion(
-        //   listOfAllCitiesByRegion?.every((city) =>
+        //   listOfAllCitiesByProvince?.every((city) =>
         //     selectedCities.includes(city.name)
         //   ) ?? false
         // );
@@ -354,18 +354,18 @@ export default function CityDistribution({
     };
 
     // COMPROBAR COMO HACEMOS EL BORRADO Y LA INSERCIÓN DE CIUDADES EN EL ARRAY DE CIUDADES
-    const handleSelectAllCitiesByRegion = (
+    const handleSelectAllCitiesByProvince = (
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
         let updatedSelectedCities = [...selectedCities];
         if (e.target.checked) {
             updatedSelectedCities.push(
-                ...(listOfAllCitiesByRegion?.map((city) => city.name) ?? []),
+                ...(listOfAllCitiesByProvince?.map((city) => city.name) ?? []),
             );
         } else {
             updatedSelectedCities = updatedSelectedCities.filter(
                 (selectedCity) =>
-                    !listOfAllCitiesByRegion
+                    !listOfAllCitiesByProvince
                         ?.map((city) => city.name)
                         .includes(selectedCity),
             );
@@ -393,7 +393,7 @@ export default function CityDistribution({
 
             <div
                 className={`
-                            flex flex-col items-start space-y-4
+                            flex flex-col items-start space-y-4 w-full
                             ${isLoading ? 'opacity-50 pointer-events-none' : ''}
                         `}
             >
@@ -436,7 +436,7 @@ export default function CityDistribution({
                             htmlFor="addressRegion"
                             className="text-sm text-gray-600"
                         >
-                            {t('loc_state')}
+                            {t('loc_province')}
                         </label>
 
                         <select
@@ -504,14 +504,14 @@ export default function CityDistribution({
 
                                         <div className="">
                                             <label
-                                                htmlFor="allProvincesByRegion"
+                                                htmlFor="allCitiesByProvince"
                                                 className="space-x-2 text-lg text-gray-600"
                                             >
                                                 <input
-                                                    id="allProvincesByRegion"
+                                                    id="allCitiesByProvince"
                                                     type="checkbox"
                                                     onChange={(e) => {
-                                                        handleSelectAllCitiesByRegion(
+                                                        handleSelectAllCitiesByProvince(
                                                             e,
                                                         );
                                                     }}

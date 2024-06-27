@@ -342,6 +342,7 @@ export default function ProvinceDistribution({
             {isLoading && (
                 <Spinner size={'large'} color={'beer-blonde'} center absolute />
             )}
+
             <Button
                 btnType="submit"
                 onClick={handleSubmit(onSubmit)}
@@ -354,7 +355,7 @@ export default function ProvinceDistribution({
 
             <div
                 className={`
-                            flex flex-col items-start space-y-4
+                            flex flex-col items-start space-y-4 w-full
                             ${isLoading ? 'opacity-50 pointer-events-none' : ''}
                         `}
             >
@@ -416,7 +417,14 @@ export default function ProvinceDistribution({
 
                 {/* List of provinces in the country  */}
                 {tenProvinces && tenProvinces.length > 0 && (
-                    <>
+                    <div className="w-full">
+                        <PaginationFooter
+                            counter={counter}
+                            resultsPerPage={resultsPerPage}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                        />
+
                         <div className="">
                             <label
                                 htmlFor="allProvincesByRegion"
@@ -433,7 +441,7 @@ export default function ProvinceDistribution({
                                 />
 
                                 <span className="text-sm text-gray-600">
-                                    {t('select_all_provinces_by_region')}
+                                    {t('select_all_provinces')}
                                 </span>
                             </label>
                         </div>
@@ -511,7 +519,7 @@ export default function ProvinceDistribution({
                                 setCurrentPage={setCurrentPage}
                             />
                         </div>
-                    </>
+                    </div>
                 )}
             </div>
         </section>

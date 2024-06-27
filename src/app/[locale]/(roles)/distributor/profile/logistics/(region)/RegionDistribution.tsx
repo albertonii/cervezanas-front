@@ -239,7 +239,7 @@ export default function RegionDistribution({ regions, coverageAreaId }: Props) {
 
             <div
                 className={`
-                            flex flex-col items-start space-y-4
+                            flex flex-col items-start space-y-4 w-full
                             ${isLoading ? 'opacity-50 pointer-events-none' : ''}
                         `}
             >

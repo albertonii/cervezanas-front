@@ -1001,5 +1001,6 @@
     "add_weight_price_range": "Añadir rango de peso y precio",
     "cities": "Ciudades",
     "provinces": "Provincias",
-    "regions": "Regiones"
+    "regions": "Regiones",
+    "select_all_provinces": "Seleccionar todas las provincias"
 }

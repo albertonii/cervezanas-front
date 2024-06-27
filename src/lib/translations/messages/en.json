@@ -986,5 +986,6 @@
     "add_weight_price_range": "Add weight and price range",
     "cities": "Cities",
     "provinces": "Provinces",
-    "regions": "Regions"
+    "regions": "Regions",
+    "select_all_provinces": "Select all provinces"
 }
