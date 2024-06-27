@@ -1,4 +1,3 @@
-import Loading from '../../../../../loading';
 import PaginationFooter from '../../../../../components/common/PaginationFooter';
 import Button from '../../../../../components/common/Button';
 import React, { useEffect, useState } from 'react';
@@ -15,11 +14,8 @@ import InputSearch from '../../../../../components/common/InputSearch';
 import useFetchSpanishRegions from '../useFetchSpanishRegions';
 import DistributionChipCard from '../DistributionChipCard';
 import Spinner from '../../../../../components/common/Spinner';
-
-type Props = {
-    regions: string[];
-    coverageAreaId: string;
-};
+import { useMessage } from '../../../../../components/message/useMessage';
+import { IDistributionCost } from '../../../../../../../lib/types/types';
 
 interface FormData {
     country: string;
@@ -27,8 +23,19 @@ interface FormData {
     regions: IState[];
 }
 
-export default function RegionDistribution({ regions, coverageAreaId }: Props) {
+type Props = {
+    regions: string[];
+    coverageAreaId: string;
+    distributionCosts: IDistributionCost;
+};
+
+export default function RegionDistribution({
+    regions,
+    coverageAreaId,
+    distributionCosts,
+}: Props) {
     const t = useTranslations();
+    const { handleMessage } = useMessage();
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -40,6 +47,9 @@ export default function RegionDistribution({ regions, coverageAreaId }: Props) {
         { id: string; name: string }[] | undefined
     >([]);
 
+    const [unCheckedRegions, setUnCheckedRegions] = useState<string[]>([]);
+    const [newSelectedRegions, setNewSelectedRegions] = useState<string[]>([]);
+    const [fromDBRegions, setFromDBRegions] = useState<string[]>(regions ?? []);
     const [selectedRegions, setSelectedRegions] = useState<string[]>(regions);
     const [selectAllCurrentPage, setSelectAllCurrentPage] = useState(false);
 
@@ -48,8 +58,6 @@ export default function RegionDistribution({ regions, coverageAreaId }: Props) {
     const [currentPage, setCurrentPage] = useState(1);
     const [counter, setCounter] = useState(0);
     const resultsPerPage = 10;
-
-    const { supabase } = useAuth();
 
     const [query, setQuery] = useState('');
 
@@ -135,24 +143,77 @@ export default function RegionDistribution({ regions, coverageAreaId }: Props) {
         setTenRegions([]);
     };
 
-    const handleUpdatePronvicesDistribution = async () => {
-        const { error } = await supabase
-            .from('coverage_areas')
-            .update({ regions: selectedRegions })
-            .eq('id', coverageAreaId);
+    const handleUpdateRegionDistribution = async () => {
+        setIsLoading(true);
 
-        if (error) {
-            console.error(error);
-            return;
+        const areaAndWeightId = distributionCosts?.area_and_weight_cost?.id;
+
+        if (!areaAndWeightId) {
+            handleMessage({
+                type: 'error',
+                message: t('errors.update_city_coverage_area'),
+            });
+
+            setIsLoading(false);
+        } else {
+            // Remove the regions from uncheckedRegions that are not present in fromDBRegions
+            const filteredUncheckedRegions_ = unCheckedRegions.filter(
+                (region) => fromDBRegions.includes(region),
+            );
+
+            // Eliminate duplicated regions
+            const unCheckedRegions_ = Array.from(
+                new Set(filteredUncheckedRegions_),
+            );
+            const newSelectedRegions_ = Array.from(new Set(newSelectedRegions));
+            const selectedRegions_ = Array.from(new Set(selectedRegions));
+
+            const res = await updateRegionDistribution(
+                unCheckedRegions_,
+                newSelectedRegions_,
+                selectedRegions_,
+                coverageAreaId,
+                areaAndWeightId,
+            );
+
+            if (
+                !res ||
+                (res.status !== 200 && res.status !== 201 && res.status !== 202)
+            ) {
+                handleMessage({
+                    type: 'error',
+                    message: t('errors.update_region_coverage_area'),
+                });
+
+                setIsLoading(false);
+                return;
+            }
+
+            handleMessage({
+                type: 'success',
+                message: t('success.update_region_coverage_area'),
+            });
+
+            queryClient.invalidateQueries('distribution');
+
+            setUnCheckedRegions([]);
+            setNewSelectedRegions([]);
+            setFromDBRegions(selectedRegions_);
+
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 1000);
         }
 
-        queryClient.invalidateQueries('distribution');
-        setIsLoading(false);
+        // const { error } = await supabase
+        //     .from('coverage_areas')
+        //     .update({ regions: selectedRegions })
+        //     .eq('id', coverageAreaId);
     };
 
     const updateRegionsDistributionMutation = useMutation({
         mutationKey: 'updateRegionsDistribution',
-        mutationFn: handleUpdatePronvicesDistribution,
+        mutationFn: handleUpdateRegionDistribution,
         onMutate: () => {
             console.info('onMutate');
             setIsLoading(true);
@@ -292,7 +353,14 @@ export default function RegionDistribution({ regions, coverageAreaId }: Props) {
 
                 {/* List of regions in the country  */}
                 {tenRegions && tenRegions.length > 0 && (
-                    <>
+                    <div className="w-full">
+                        <PaginationFooter
+                            counter={counter}
+                            resultsPerPage={resultsPerPage}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                        />
+
                         <div className="">
                             <label
                                 htmlFor="allRegionsByRegion"
@@ -393,7 +461,7 @@ export default function RegionDistribution({ regions, coverageAreaId }: Props) {
                                 setCurrentPage={setCurrentPage}
                             />
                         </div>
-                    </>
+                    </div>
                 )}
             </div>
         </section>

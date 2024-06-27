@@ -264,12 +264,6 @@ export default function CityDistribution({
         }
     };
 
-    useEffect(() => {
-        console.log('UNCHECKED CITIES', unCheckedCities);
-        console.log('NEW SELECTED CITIES', newSelectedCities);
-        console.log('SELECTED CITIES', selectedCities);
-    }, [unCheckedCities, newSelectedCities, selectedCities]);
-
     const updateCityDistributionMutation = useMutation({
         mutationKey: 'updateCityDistribution',
         mutationFn: handleUpdateCityDistribution,

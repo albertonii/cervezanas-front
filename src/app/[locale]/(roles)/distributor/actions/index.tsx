@@ -385,3 +385,58 @@ export async function updateProvinceDistribution(
         };
     }
 }
+
+export async function updateRegionDistribution(
+    unCheckedRegions: string[],
+    newSelectedRegions: string[],
+    selectedRegions: string[],
+    coverageAreaId: string,
+    areaAndWeightCostId: string,
+) {
+    const url = `${baseUrl}/api/coverage_areas/regions`;
+
+    const formData = new FormData();
+
+    formData.append('to_delete_regions', JSON.stringify(unCheckedRegions));
+    formData.append('to_add_regions', JSON.stringify(newSelectedRegions));
+    formData.append('regions', JSON.stringify(selectedRegions));
+    formData.append('coverage_area_id', coverageAreaId);
+    formData.append('area_and_weight_cost_id', areaAndWeightCostId);
+
+    try {
+        const response = await axios.put(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'PUT',
+                'Access-Control-Allow-Credentials': 'true',
+                'Access-Control-Allow-Headers':
+                    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+            },
+        });
+
+        if (
+            response.status !== 200 &&
+            response.status !== 201 &&
+            response.status !== 202
+        ) {
+            return {
+                status: response.status,
+                message:
+                    response.data.message ||
+                    'Error updating region distribution',
+            };
+        }
+
+        return {
+            status: response.status,
+            message: 'Region distribution updated successfully',
+        };
+    } catch (error: any) {
+        console.error('Error updating region distribution:', error);
+        return {
+            status: error.response?.status || 500,
+            message: error.response?.data.message || 'Internal Server Error',
+        };
+    }
+}
