@@ -1,21 +1,21 @@
-import PaginationFooter from '../../../../../components/common/PaginationFooter';
+import DistributionChipCard from '../DistributionChipCard';
 import Button from '../../../../../components/common/Button';
+import Spinner from '../../../../../components/common/Spinner';
+import useFetchSpanishRegions from '../useFetchSpanishRegions';
+import InputSearch from '../../../../../components/common/InputSearch';
+import PaginationFooter from '../../../../../components/common/PaginationFooter';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useMutation, useQueryClient } from 'react-query';
 import { useForm, UseFormRegister } from 'react-hook-form';
 import { Country, ICountry, IState } from 'country-state-city';
-import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import {
     filterSearchInputQuery,
     slicePaginationResults,
 } from '../../../../../../../utils/utils';
-import InputSearch from '../../../../../components/common/InputSearch';
-import useFetchSpanishRegions from '../useFetchSpanishRegions';
-import DistributionChipCard from '../DistributionChipCard';
-import Spinner from '../../../../../components/common/Spinner';
 import { useMessage } from '../../../../../components/message/useMessage';
 import { IDistributionCost } from '../../../../../../../lib/types/types';
+import { updateRegionDistribution } from '../../../actions';
 
 interface FormData {
     country: string;
@@ -151,7 +151,7 @@ export default function RegionDistribution({
         if (!areaAndWeightId) {
             handleMessage({
                 type: 'error',
-                message: t('errors.update_city_coverage_area'),
+                message: t('errors.update_region_coverage_area'),
             });
 
             setIsLoading(false);
@@ -237,6 +237,22 @@ export default function RegionDistribution({
         e: React.ChangeEvent<HTMLInputElement>,
         region: string,
     ) => {
+        // If the region is unchecked, add it to the list of regions to be removed
+        if (!e.target.checked) {
+            setUnCheckedRegions([...unCheckedRegions, region]);
+        } else {
+            // If the region is checked, remove it from the list of regions to be removed
+            setUnCheckedRegions(
+                unCheckedRegions.filter((item) => item !== region),
+            );
+        }
+
+        // If the region has never beer selected, add it to the list of new selected regions
+        if (!fromDBRegions.includes(region)) {
+            setNewSelectedRegions([...newSelectedRegions, region]);
+        }
+
+        // If the region is checked, add it to the list of selected regions
         const updatedSelectedRegions = e.target.checked
             ? [...selectedRegions, region]
             : selectedRegions.filter((item) => item !== region);
@@ -247,15 +263,47 @@ export default function RegionDistribution({
     const handleSelectAllCurrentPage = (
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
-        const listOfCityNames = tenRegions?.map((region) => region.name) || [];
+        const listOfRegionsNames =
+            tenRegions?.map((region) => region.name) || [];
 
-        const updatedSelectedRegions = e.target.checked
-            ? [...selectedRegions, ...listOfCityNames]
-            : selectedRegions.filter(
-                  (checkedCity) => !listOfCityNames.includes(checkedCity),
-              );
+        // If the user unchecks the select all checkbox
+        if (!e.target.checked) {
+            // Add all regions to the list of regions to be removed
+            setUnCheckedRegions([...unCheckedRegions, ...listOfRegionsNames]);
 
-        setSelectedRegions(updatedSelectedRegions);
+            // Remove all regions from the list of new selected regions
+            setNewSelectedRegions(
+                newSelectedRegions.filter(
+                    (item) => !listOfRegionsNames.includes(item),
+                ),
+            );
+
+            // Remove all regions from the list of selected regions
+            setSelectedRegions(
+                selectedRegions.filter(
+                    (item) => !listOfRegionsNames.includes(item),
+                ),
+            );
+        } else {
+            // If the user checks the select all checkbox
+            // Remove all regions from the list of regions to be removed
+            setUnCheckedRegions(
+                unCheckedRegions.filter(
+                    (uncheckedCity) =>
+                        !listOfRegionsNames.includes(uncheckedCity),
+                ),
+            );
+
+            // Add all regions to the list of new selected regions
+            setNewSelectedRegions([
+                ...newSelectedRegions,
+                ...listOfRegionsNames,
+            ]);
+
+            // Add all regions to the list of selected regions
+            setSelectedRegions([...selectedRegions, ...listOfRegionsNames]);
+        }
+
         setSelectAllCurrentPage(e.target.checked);
     };
 

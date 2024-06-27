@@ -248,7 +248,7 @@ export default function ProvinceDistribution({
         }
 
         // If the province has never been selected, add it to the list of selected provinces
-        if (!provinces.includes(province)) {
+        if (!fromDBProvinces.includes(province)) {
             setNewSelectedProvinces([...newSelectedProvinces, province]);
         }
 
@@ -277,7 +277,7 @@ export default function ProvinceDistribution({
             // Remove all provinces from the list of new selected provinces
             setNewSelectedProvinces(
                 newSelectedProvinces.filter(
-                    (province) => !listOfProvincesNames.includes(province),
+                    (item) => !listOfProvincesNames.includes(item),
                 ),
             );
 

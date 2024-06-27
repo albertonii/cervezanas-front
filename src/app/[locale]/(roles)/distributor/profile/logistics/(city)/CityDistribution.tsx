@@ -293,7 +293,7 @@ export default function CityDistribution({
         }
 
         // If the city has never been selected, add it to the list of new selected cities
-        if (!cities.includes(city)) {
+        if (!fromDBCities.includes(city)) {
             setNewSelectedCities([...newSelectedCities, city]);
         }
 
