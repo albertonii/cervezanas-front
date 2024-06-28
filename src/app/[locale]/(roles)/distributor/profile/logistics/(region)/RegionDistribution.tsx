@@ -409,7 +409,7 @@ export default function RegionDistribution({
                             setCurrentPage={setCurrentPage}
                         />
 
-                        <div className="">
+                        {/* <div className="">
                             <label
                                 htmlFor="allRegionsByRegion"
                                 className="space-x-2 text-lg text-gray-600"
@@ -428,7 +428,7 @@ export default function RegionDistribution({
                                     {t('select_all_regions')}
                                 </span>
                             </label>
-                        </div>
+                        </div> */}
 
                         <div className="w-full">
                             {/* Display selectable table with all regions in the country selected */}

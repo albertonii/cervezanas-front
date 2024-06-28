@@ -90,6 +90,12 @@ export default function CityDistribution({
 
     const { handleSubmit, register } = form;
 
+    useEffect(() => {
+        console.log('unCheckedCities', unCheckedCities);
+        console.log('newSelectedCities', newSelectedCities);
+        console.log('selectedCities', selectedCities);
+    }, [unCheckedCities, newSelectedCities, selectedCities]);
+
     // Get all the countries
     useEffect(() => {
         // const getAllCountries = async () => {
@@ -352,20 +358,46 @@ export default function CityDistribution({
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
         let updatedSelectedCities = [...selectedCities];
-        if (e.target.checked) {
-            updatedSelectedCities.push(
-                ...(listOfAllCitiesByProvince?.map((city) => city.name) ?? []),
-            );
-        } else {
+
+        // If the user unchecks the select all checkbox
+        if (!e.target.checked) {
             updatedSelectedCities = updatedSelectedCities.filter(
                 (selectedCity) =>
                     !listOfAllCitiesByProvince
                         ?.map((city) => city.name)
                         .includes(selectedCity),
             );
+
+            // Add all the cities to the list of unchecked cities
+            setUnCheckedCities([...unCheckedCities, ...selectedCities]);
+
+            // Remove all the cities from the list of new selected cities
+            setNewSelectedCities(
+                newSelectedCities.filter(
+                    (checkedCity) => !selectedCities.includes(checkedCity),
+                ),
+            );
+
+            // Remove all the cities from the list of selected cities
+            setSelectedCities(updatedSelectedCities);
+        } else {
+            // If the user checks the select all checbkox
+            // Remove all the cities from the list of unchecked cities
+            setUnCheckedCities([]);
+
+            // Add all the new cities to the list of new selected cities
+            setNewSelectedCities([...newSelectedCities, ...selectedCities]);
+
+            // Add all the cities to the list of selected cities
+            setSelectedCities([...selectedCities]);
+
+            updatedSelectedCities.push(
+                ...(listOfAllCitiesByProvince?.map((city) => city.name) ?? []),
+            );
+
+            setSelectedCities(updatedSelectedCities);
         }
 
-        setSelectedCities(updatedSelectedCities);
         setSelectAllCitiesByRegion(e.target.checked);
     };
 
@@ -496,7 +528,7 @@ export default function CityDistribution({
                                             setCurrentPage={setCurrentPage}
                                         />
 
-                                        <div className="">
+                                        {/* <div className="">
                                             <label
                                                 htmlFor="allCitiesByProvince"
                                                 className="space-x-2 text-lg text-gray-600"
@@ -521,7 +553,7 @@ export default function CityDistribution({
                                                     )}
                                                 </span>
                                             </label>
-                                        </div>
+                                        </div> */}
 
                                         {/* Display selectable table with all cities in the country selected */}
                                         <label

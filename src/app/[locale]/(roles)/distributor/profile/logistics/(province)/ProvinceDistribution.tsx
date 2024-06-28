@@ -425,7 +425,7 @@ export default function ProvinceDistribution({
                             setCurrentPage={setCurrentPage}
                         />
 
-                        <div className="">
+                        {/* <div className="">
                             <label
                                 htmlFor="allProvincesByRegion"
                                 className="space-x-2 text-lg text-gray-600"
@@ -444,7 +444,7 @@ export default function ProvinceDistribution({
                                     {t('select_all_provinces')}
                                 </span>
                             </label>
-                        </div>
+                        </div> */}
 
                         <div className="w-full">
                             {/* Display selectable table with all provinces in the country selected */}

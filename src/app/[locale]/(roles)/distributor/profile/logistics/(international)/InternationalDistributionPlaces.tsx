@@ -257,7 +257,7 @@ export default function InternationalDistributionPlaces({
                 {/* List of countries  */}
                 {tableCountries && tableCountries.length > 0 && (
                     <>
-                        <address>
+                        {/* <address>
                             <label
                                 htmlFor="allCountries"
                                 className="space-x-2 text-lg text-gray-600"
@@ -276,7 +276,7 @@ export default function InternationalDistributionPlaces({
                                     {t('select_all_countries')}
                                 </span>
                             </label>
-                        </address>
+                        </address> */}
 
                         <address className="w-full">
                             {/* Display selectable table with all countries in the country selected */}
