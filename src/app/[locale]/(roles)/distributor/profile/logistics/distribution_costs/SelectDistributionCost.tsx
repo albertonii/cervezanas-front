@@ -1,5 +1,5 @@
+import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import React from 'react';
 import { useMessage } from '../../../../../components/message/useMessage';
 import { handleSelectedDistributionCostType } from '../../../actions';
 
@@ -22,6 +22,10 @@ const SelectDistributionCost = ({
     const t = useTranslations();
     const { handleMessage } = useMessage();
 
+    const [checkboxChecked, setCheckboxChecked] = useState(
+        fromDBDistributionType === distributionType ? true : false,
+    );
+
     const handleCheckboxChange = async () => {
         const res = await handleSelectedDistributionCostType(
             distributionType,
@@ -37,8 +41,14 @@ const SelectDistributionCost = ({
             return;
         }
 
+        const successMessage = `Ahora ${t(
+            distributionType,
+        )} es el modelo de costes de distribución por defecto`;
+
+        setCheckboxChecked(true);
+
         handleMessage({
-            message: 'Se ha seleccionado el modelo de costes de distribución',
+            message: successMessage,
             type: 'success',
         });
     };
@@ -48,9 +58,7 @@ const SelectDistributionCost = ({
             <input
                 type="checkbox"
                 id="distributionType"
-                checked={
-                    fromDBDistributionType === distributionType ? true : false
-                }
+                checked={checkboxChecked}
                 onChange={handleCheckboxChange}
                 className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
             />
