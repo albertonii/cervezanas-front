@@ -3,11 +3,9 @@
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import Decimal from 'decimal.js';
 import EmptyCart from './EmptyCart';
-import ShippingAddressItem from './ShippingAddressItemInfo';
 import ShippingBillingContainer from './ShippingBillingContainer';
 import useFetchShippingByOwnerId from '../../../../../hooks/useFetchShippingByOwnerId';
 import useFetchBillingByOwnerId from '../../../../../hooks/useFetchBillingByOwnerId';
-import Button from '../../../components/common/Button';
 import React, { useState, useEffect, useRef } from 'react';
 import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
@@ -27,14 +25,13 @@ import {
     createRedirectForm,
     merchantInfo,
 } from '../../../components/TPV/redsysClient';
-import BillingAddressItem from './BillingAddressItemInfo';
 import Spinner from '../../../components/common/Spinner';
 import { IUserTable } from '../../../../../lib/types/types';
 
 import { insertOnlineOrder } from '../actions';
 import { useMessage } from '../../../components/message/useMessage';
-import ShoppingBasketAddresses from './ShoppingBasketAddressesSummary';
 import ShoppingBasketOrderSummary from './ShoppingBasketOrderSummary';
+import OrderItems from './OrderItems';
 
 export type FormShippingData = {
     shipping_info_id: string;
@@ -360,35 +357,13 @@ export function ShoppingBasket({ user }: Props) {
                                 </p>
 
                                 {items.length > 0 ? (
-                                    <div className="w-full">
-                                        {items.map((productPack) => (
-                                            <div key={productPack.id}>
-                                                <CheckoutItem
-                                                    productPack={productPack}
-                                                    selectedShippingAddress={
-                                                        selectedShippingAddress
-                                                    }
-                                                    handleDeliveryCost={
-                                                        handleDeliveryCost
-                                                    }
-                                                />
-                                            </div>
-                                        ))}
-
-                                        {/* Subtotal */}
-                                        <div className="mt-4 flex w-full flex-row items-center justify-between">
-                                            <div className="flex flex-col items-start justify-start space-y-2">
-                                                <p className="text-2xl text-gray-500">
-                                                    {t('subtotal')}
-                                                    <span className="ml-6 font-semibold text-gray-800">
-                                                        {formatCurrency(
-                                                            subtotal,
-                                                        )}
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <OrderItems
+                                        subtotal={subtotal}
+                                        selectedShippingAddress={
+                                            selectedShippingAddress
+                                        }
+                                        handleDeliveryCost={handleDeliveryCost}
+                                    />
                                 ) : (
                                     <EmptyCart />
                                 )}
