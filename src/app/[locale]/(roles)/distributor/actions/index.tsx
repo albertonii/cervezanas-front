@@ -53,13 +53,6 @@ export async function calculateFlatrateAndWeightShippingCost(
         }
 
         if (totalWeight > range.weight_to) {
-            console.log('BASE COST', range.base_cost);
-            console.log('Weight from', range.weight_from);
-            console.log('Weight to ', range.weight_to);
-
-            console.log('Diferencia de pesos', totalWeight - range.weight_to);
-            console.log('Precio extra por kg', costExtraPerKG);
-
             // El peso excede el rango actual, por lo que calculamos el coste total para este rango
             shippingCost =
                 range.base_cost +
