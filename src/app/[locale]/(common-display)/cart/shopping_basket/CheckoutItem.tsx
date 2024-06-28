@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import DeliveryError from '../DeliveryError';
 import CheckoutPackItem from './CheckoutPackItem';
 import useFetchProductById from '../../../../../hooks/useFetchProductById';
@@ -9,7 +10,6 @@ import { initShipmentLogic } from './shipmentLogic';
 import { useLocale, useTranslations } from 'next-intl';
 import { IProductPackCartItem } from '../../../../../lib/types/types';
 import { useShoppingCart } from '../../../../context/ShoppingCartContext';
-import dynamic from 'next/dynamic';
 import { calculateFlatrateAndWeightShippingCost } from '../../../(roles)/distributor/actions';
 import { calculateProductPacksWeight } from '../actions';
 
