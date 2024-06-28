@@ -6,12 +6,13 @@ import { z, ZodType } from 'zod';
 import {
     AreaAndWeightCostFormData,
     IAreaAndWeightCost,
-    IAreaAndWeightCostRange,
     IAreaAndWeightInformation,
 } from '../../../../../../../../lib/types/types';
 import AreaAndWeightRangeForm from './AreaAndWeightRangeForm';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import SelectDistributionCost from '../SelectDistributionCost';
+import { DistributionCostType } from '../../../../../../../../lib/enums';
 
 const areaWeightCostRange = z
     .object({
@@ -77,6 +78,7 @@ interface Props {
     extraCostPerKG: number;
     areaAndWeightCost?: IAreaAndWeightCost;
     distributionCostId: string;
+    fromDBDistributionType: string;
 }
 
 /* Tarifa de envío por rango de coste del pedido */
@@ -84,6 +86,7 @@ const AreaAndWeightCostForm = ({
     extraCostPerKG,
     areaAndWeightCost,
     distributionCostId,
+    fromDBDistributionType,
 }: Props) => {
     const [selectedArea, setSelectedArea] =
         useState<IAreaAndWeightInformation>();
@@ -117,14 +120,40 @@ const AreaAndWeightCostForm = ({
     };
 
     return (
-        <section className="relative flex gap-4">
-            <AreaSidebar form={form} onItemClick={onItemClick} />
+        <section
+            className={`flex flex-col items-start space-y-4 rounded-xl border 
+            border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4
+        `}
+        >
+            <SelectDistributionCost
+                distributionCostsId={distributionCostId}
+                fromDBDistributionType={fromDBDistributionType}
+                distributionType={DistributionCostType.AREA_AND_WEIGHT}
+            />
 
-            {selectedArea && (
-                <fieldset className="space-y-6 p-6 rounded-lg border border-gray-300 bg-white shadow-sm max-w-3xl mx-auto">
-                    <AreaAndWeightRangeForm selectedArea={selectedArea} />
-                </fieldset>
-            )}
+            <span className="pb-4">
+                <strong>Área y peso:</strong> Configura tus costes de
+                distribución en base a las áreas de cobertura seleccionadas en
+                la sección "ÁREA DE COBERTURAS" y sus respectivos rangos de peso
+                por zona (ciudad, provincia, región o país) para asignar un
+                coste base por rango de peso.
+            </span>
+
+            <span className="pb-4">
+                Además, debes de indicar cual es la tarifa adicional por
+                kilogramo que se aplicará a los envíos que superen el rango de
+                peso establecido.
+            </span>
+
+            <section className="relative flex gap-4">
+                <AreaSidebar form={form} onItemClick={onItemClick} />
+
+                {selectedArea && (
+                    <fieldset className="space-y-6 p-6 rounded-lg border border-gray-300 bg-white shadow-sm max-w-3xl mx-auto">
+                        <AreaAndWeightRangeForm selectedArea={selectedArea} />
+                    </fieldset>
+                )}
+            </section>
         </section>
     );
 };

@@ -1451,6 +1451,8 @@ export interface IDistributionCost {
     id: string;
     distributor_id: string;
     cost_extra_per_kg: number;
+    distribution_costs_in_product: boolean;
+    selected_method: string;
     distributor_user?: IDistributorUser;
     flatrate_cost?: IFlatrateCost;
     flatrate_and_weight_cost?: IFlatrateAndWeightCost[];

@@ -433,3 +433,52 @@ export async function updateRegionDistribution(
         };
     }
 }
+
+export async function handleSelectedDistributionCostType(
+    type: string,
+    distributionCostsId: string,
+) {
+    const url = `${baseUrl}/api/distribution_costs/distribution_cost_type`;
+
+    const formData = new FormData();
+
+    formData.append('distribution_costs_id', distributionCostsId);
+    formData.append('distribution_cost_type', type);
+
+    try {
+        const response = await axios.put(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'PUT',
+                'Access-Control-Allow-Credentials': 'true',
+                'Access-Control-Allow-Headers':
+                    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+            },
+        });
+
+        if (
+            response.status !== 200 &&
+            response.status !== 201 &&
+            response.status !== 202
+        ) {
+            return {
+                status: response.status,
+                message:
+                    response.data.message ||
+                    'Error updating distribution cost type',
+            };
+        }
+
+        return {
+            status: response.status,
+            message: 'Distribution cost type updated successfully',
+        };
+    } catch (error: any) {
+        console.error('Error updating distribution cost type:', error);
+        return {
+            status: error.response?.status || 500,
+            message: error.response?.data.message || 'Internal Server Error',
+        };
+    }
+}

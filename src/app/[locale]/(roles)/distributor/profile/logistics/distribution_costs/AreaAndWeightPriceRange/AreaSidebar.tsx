@@ -37,7 +37,7 @@ const AreaSidebar: React.FC<SidebarProps> = ({ form, onItemClick }) => {
     return (
         <aside
             className="
-                        lg:absolute lg:top-0 lg:right-full lg:mr-10 lg:z-10
+                        lg:absolute lg:-top-40 lg:right-full lg:mr-10 lg:z-10
                         rounded-xl transform duration-300 ease-in-out shadow-lg 
                         bg-[url('/assets/rec-graf4b.png')] bg-repeat bg-top bg-auto overflow-y-auto 
                         dark:bg-gray-800 w-40 min-h-[20vh] h-auto max-h-[40vh] lg:max-h-screen bg-gray-800 text-white 

@@ -68,6 +68,9 @@ export default function DistributionCost({ distributionCosts }: Props) {
                             distributionCosts.flatrate_and_weight_cost
                         }
                         distributionCostId={distributionCosts.id}
+                        fromDBDistributionType={
+                            distributionCosts.selected_method
+                        }
                     />
                 );
 
@@ -79,6 +82,9 @@ export default function DistributionCost({ distributionCosts }: Props) {
                             distributionCosts.area_and_weight_cost
                         }
                         distributionCostId={distributionCosts.id}
+                        fromDBDistributionType={
+                            distributionCosts.selected_method
+                        }
                     />
                 );
 

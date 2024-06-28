@@ -28,6 +28,8 @@ async function getDistributionCost() {
                 created_at,
                 distributor_id,
                 cost_extra_per_kg,
+                distribution_costs_in_product,
+                selected_method,
                 flatrate_cost!flatrate_cost_distribution_costs_id_fkey (
                     created_at,
                     distribution_costs_id,

@@ -1273,6 +1273,7 @@ export interface Database {
           distribution_costs_in_product: boolean | null
           distributor_id: string | null
           id: string
+          selected_method: string | null
         }
         Insert: {
           cost_extra_per_kg?: number | null
@@ -1280,6 +1281,7 @@ export interface Database {
           distribution_costs_in_product?: boolean | null
           distributor_id?: string | null
           id?: string
+          selected_method?: string | null
         }
         Update: {
           cost_extra_per_kg?: number | null
@@ -1287,6 +1289,7 @@ export interface Database {
           distribution_costs_in_product?: boolean | null
           distributor_id?: string | null
           id?: string
+          selected_method?: string | null
         }
         Relationships: [
           {
