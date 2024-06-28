@@ -11,7 +11,7 @@ interface Props {
     selectedShippingAddress: string;
 }
 
-const ShoppingBasketAddresses = ({
+const ShoppingBasketAddressesSummary = ({
     billingAddresses,
     selectedBillingAddress,
     shippingAddresses,
@@ -78,4 +78,4 @@ const ShoppingBasketAddresses = ({
     );
 };
 
-export default ShoppingBasketAddresses;
+export default ShoppingBasketAddressesSummary;
