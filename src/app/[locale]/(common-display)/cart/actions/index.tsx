@@ -1,6 +1,14 @@
 'use server';
 
-import { IProductPackCartItem } from '../../../../../lib/types/types';
+import axios from 'axios';
+import { API_METHODS, DS_API } from '../../../../../constants';
+import { DeliveryType, DistributionCostType } from '../../../../../lib/enums';
+import {
+    IDistributionContract,
+    IDistributorUser,
+    IProductPackCartItem,
+    IShippingInfo,
+} from '../../../../../lib/types/types';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -243,3 +251,198 @@ export async function calculateProductPacksWeight(
     // Convert gr to KG
     return totalWeight / 1000;
 }
+
+export async function calculateShippingCosts(
+    items: IProductPackCartItem[],
+    shippingInfoId: string,
+    totalWeight: number,
+) {
+    // GET Consumer Shipping Information
+    const shippingInfo = await getShippingInfo(shippingInfoId);
+
+    // Agrupar todos aquellos items que tengan el mismo productor id
+    const itemsByProducer = items.reduce((acc: any, item) => {
+        if (!acc[item.producer_id]) {
+            acc[item.producer_id] = [];
+        }
+
+        acc[item.producer_id].push(item);
+
+        return acc;
+    }, {});
+
+    // Array de distribuidores que tienen configurado en su área de cobertura la dirección de envío
+    const distributors: IDistributionContract[] = [];
+
+    // Por cada productor, necesitamos saber cuales son los distribuidores que están asociados a él
+    // y que pueden enviar los productos a la dirección de envío seleccionada
+    for (const producerId in itemsByProducer) {
+        // Get the list of distributors associated to the seller/producer of the product
+        const listOfDistributorsContracts =
+            await getListOfDistributorsBasedOnProducerId(producerId);
+
+        // Check if the list of distributors is empty
+        if (listOfDistributorsContracts.length === 0) {
+            console.log('No distributors found');
+            continue;
+        }
+
+        // Iterate through the list of distributors and check if they can deliver to the address
+        // If so -> Add the distributor to the list of distributors
+        for (const distributor of listOfDistributorsContracts) {
+            const canDeliver = await canDistributorDeliverToAddress(
+                distributor,
+                shippingInfo,
+            );
+
+            if (canDeliver) {
+                distributors.push(distributor);
+            }
+        }
+    }
+
+    // Get the list of distributors associated to the seller/producer of the product
+}
+
+async function getShippingInfo(shippingInfoId: string) {
+    const url = `${baseUrl}/api/calculate_shipping/shipping_info`;
+
+    const response = await axios.get(url, {
+        params: {
+            shipping_info_id: shippingInfoId,
+        },
+    });
+
+    // Throw exception if code status comes from error
+    if (response.status >= 400 && response.status < 600) {
+        throw new Error('Error fetching shipping info');
+    }
+
+    return response.data as IShippingInfo;
+}
+
+const getListOfDistributorsBasedOnProducerId = async (producerId: string) => {
+    const url = `${baseUrl}/api/calculate_shipping/list_of_distributors_by_producer_id`;
+
+    const response = await axios.get(url, {
+        params: {
+            producer_id: producerId,
+        },
+    });
+
+    // Throw exception if code status comes from error
+    if (response.status >= 400 && response.status < 600) {
+        throw new Error('Error fetching list of distributors');
+    }
+
+    return response.data as IDistributionContract[];
+};
+
+const canDistributorDeliverToAddress = async (
+    dContract: IDistributionContract,
+    clientShippingInfo: IShippingInfo,
+) => {
+    let canDeliver = false;
+
+    // 1. Get coverage areas of the distributor
+    if (
+        !dContract.distributor_user ||
+        !dContract.distributor_user.coverage_areas
+    )
+        return {
+            canDeliver,
+            delivery_type: DeliveryType.NONE,
+        };
+
+    const coverageAreas = dContract.distributor_user.coverage_areas;
+
+    // 2. Get Latitud and Longitud of client shipping address
+    const address = `${clientShippingInfo.address}, ${clientShippingInfo.city}, ${clientShippingInfo.zipcode}, ${clientShippingInfo.country}`;
+    const clientLatLng = await convertAddressToLatLng(address);
+
+    if (!clientLatLng) {
+        console.error(
+            'Error: Could not convert address to [latitude, longitude]',
+        );
+        return {
+            canDeliver,
+            delivery_type: DeliveryType.NONE,
+        };
+    }
+
+    // 3. Check if the point [latitude, longitude] is in the coverage area. We need to check by priority order:
+    // CITY -> PROVINCE -> REGION -> INTERNATIONAL
+
+    // CITY
+    if (coverageAreas.cities.length > 0) {
+        canDeliver = await canDeliverToAddressCity(
+            coverageAreas.cities,
+            clientLatLng,
+        );
+
+        if (canDeliver) {
+            return {
+                canDeliver: canDeliver,
+            };
+        }
+    }
+
+    return { canDeliver, delivery_type: DeliveryType.NONE };
+};
+
+const convertAddressToLatLng = async (address: string) => {
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+
+    // Construye la URL de la solicitud a la API de geocodificación de Google Maps.
+    const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+        address,
+    )}&key=${apiKey}`;
+
+    const response = await fetch(apiUrl)
+        .then((response) => response.json())
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
+    if (response.status !== 'OK') {
+        return null;
+    }
+
+    const location = response.results[0].geometry.location;
+    return location as google.maps.LatLng;
+};
+
+const canDeliverToAddressCity = async (
+    cities: string[],
+    clientLatLng: google.maps.LatLng,
+) => {
+    let canDeliver = false;
+    for (const city of cities) {
+        const lat = clientLatLng.lat;
+        const lng = clientLatLng.lng;
+        canDeliver = await isInsideCity(city, lat, lng);
+
+        if (canDeliver) return canDeliver;
+    }
+
+    return canDeliver;
+};
+
+const isInsideCity = async (
+    city: string,
+    lat: () => number,
+    lng: () => number,
+) => {
+    const ds_url = DS_API.DS_URL + DS_API.DS_CITIES + city;
+
+    const data = await fetch(`${ds_url}/inside?lat=${lat}&lng=${lng}`, {
+        method: API_METHODS.GET,
+    })
+        .then((res) => res.json())
+        .catch((error) => {
+            console.error('Error:', error);
+            return false;
+        });
+
+    return data;
+};

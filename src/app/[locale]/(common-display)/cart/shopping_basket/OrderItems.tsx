@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { formatCurrency } from '../../../../../utils/formatCurrency';
 import { useShoppingCart } from '../../../../context/ShoppingCartContext';
 import { CheckoutItem } from './CheckoutItem';
+import { calculateShippingCosts } from '../actions';
 
 interface Props {
     selectedShippingAddress: string;
@@ -19,15 +20,28 @@ const OrderItems = ({
 
     const { items } = useShoppingCart();
 
+    useEffect(() => {
+        if (!selectedShippingAddress) return;
+
+        // Obtener información de envío
+        calculateShippingCosts(items, selectedShippingAddress, 100);
+
+        // Debemos de saber quienes serán los distribuidores encargados de enviar los productos
+        // Obtener el listado de los distribuidores que tienen contrato vinculante con el productor encargado de la venta del producto para cada item
+        // Una vez obtenido este listado,
+
+        return () => {};
+    }, [selectedShippingAddress]);
+
     return (
         <div className="w-full">
             {items.map((productPack) => (
                 <div key={productPack.id}>
-                    <CheckoutItem
+                    {/* <CheckoutItem
                         productPack={productPack}
                         selectedShippingAddress={selectedShippingAddress}
                         handleDeliveryCost={handleDeliveryCost}
-                    />
+                    /> */}
                 </div>
             ))}
 

@@ -90,8 +90,6 @@ const getListOfDistributorsBasedOnProducerId = async (producerId: string) => {
         .eq('producer_id', producerId)
         .eq('status', DistributionStatus.ACCEPTED);
 
-    console.log(contracts);
-
     if (error) throw error;
 
     // return contracts as IDistributionContract[];

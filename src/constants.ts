@@ -131,6 +131,7 @@ export const DS_API = {
     DS_COUNTRIES: 'countries/',
     DS_COMMUNITIES: 'communities/',
     DS_PROVINCES: 'provinces/',
+    DS_CITIES: 'cities/',
 };
 
 export const API_METHODS = {
