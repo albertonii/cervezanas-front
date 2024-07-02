@@ -2,20 +2,22 @@
 
 import Link from 'next/link';
 import React, { useState, useRef, useEffect, Fragment } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-import { XMarkIcon } from '@heroicons/react/24/outline';
-import { useShoppingCart } from '../../../context/ShoppingCartContext';
-import { formatCurrency } from '../../../../utils/formatCurrency';
-import { useLocale, useTranslations } from 'next-intl';
 import { CartItem } from './CartItem';
+import { Dialog, Transition } from '@headlessui/react';
+import { useLocale, useTranslations } from 'next-intl';
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { formatCurrency } from '../../../../utils/formatCurrency';
+import { useShoppingCart } from '../../../context/ShoppingCartContext';
 
 export function ShoppingCart() {
     const t = useTranslations();
     const locale = useLocale();
     const { items, isOpen, closeCart } = useShoppingCart();
-    const [subTotal, setSubTotal] = useState(0);
-    const dialogDivRef = useRef<HTMLDivElement>(null);
+
     const [isLoading, setIsLoading] = useState(true);
+    const [subTotal, setSubTotal] = useState(0);
+
+    const dialogDivRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         let total = 0;
@@ -149,11 +151,6 @@ export function ShoppingCart() {
                                                     href={{
                                                         pathname:
                                                             '/cart/shopping_basket',
-                                                        query: {
-                                                            items: JSON.stringify(
-                                                                items,
-                                                            ),
-                                                        },
                                                     }}
                                                     onClick={() => {
                                                         closeCart();

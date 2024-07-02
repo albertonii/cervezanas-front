@@ -37,11 +37,11 @@ const OrderItems = ({
         <div className="w-full">
             {items.map((productPack) => (
                 <div key={productPack.id}>
-                    {/* <CheckoutItem
+                    <CheckoutItem
                         productPack={productPack}
                         selectedShippingAddress={selectedShippingAddress}
                         handleDeliveryCost={handleDeliveryCost}
-                    /> */}
+                    />
                 </div>
             ))}
 

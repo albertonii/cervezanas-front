@@ -9,7 +9,6 @@ import useFetchBillingByOwnerId from '../../../../../hooks/useFetchBillingByOwne
 import React, { useState, useEffect, useRef } from 'react';
 import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
-import { CheckoutItem } from './CheckoutItem';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,7 +16,6 @@ import { useMutation, useQueryClient } from 'react-query';
 import { randomTransactionId, CURRENCIES } from 'redsys-easy';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { formatCurrency } from '../../../../../utils/formatCurrency';
 import { CustomLoading } from '../../../components/common/CustomLoading';
 import { API_METHODS } from '../../../../../constants';
 import { useShoppingCart } from '../../../../context/ShoppingCartContext';
