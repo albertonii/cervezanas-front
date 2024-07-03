@@ -1,5 +1,6 @@
 import createServerClient from '../../../../utils/supabaseServer';
 import { NextRequest, NextResponse } from 'next/server';
+import { DistributionDestinationType } from '../../../../lib/enums';
 
 export async function PUT(request: NextRequest) {
     const formData = await request.formData();
@@ -77,7 +78,7 @@ export async function PUT(request: NextRequest) {
                 .from('area_and_weight_information')
                 .upsert(
                     newProvinces.map((province: string) => ({
-                        type: 'province',
+                        type: DistributionDestinationType.PROVINCE,
                         name: province,
                         area_and_weight_cost_id: areaAndWeightCostId,
                         coverage_area_id: coverageAreaId,

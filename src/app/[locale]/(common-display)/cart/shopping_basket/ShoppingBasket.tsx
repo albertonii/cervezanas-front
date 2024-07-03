@@ -64,8 +64,12 @@ export function ShoppingBasket({ user }: Props) {
     const { isLoading } = useAuth();
     const { handleMessage } = useMessage();
 
-    const { items, clearCart, checkIsShoppingCartDeliverable } =
-        useShoppingCart();
+    const {
+        items,
+        clearCart,
+        checkIsShoppingCartDeliverable,
+        calculateShippingCostCartContext,
+    } = useShoppingCart();
 
     const formRef = useRef<HTMLFormElement>(null);
     const btnRef = useRef<HTMLButtonElement>(null);
@@ -134,6 +138,8 @@ export function ShoppingBasket({ user }: Props) {
             items.length > 0 &&
             selectedBillingAddress !== '' &&
             selectedShippingAddress !== '';
+
+        calculateShippingCostCartContext(selectedShippingAddress);
 
         setCanMakeThePayment(canMakeThePayment);
     }, [items, selectedShippingAddress, selectedBillingAddress]);

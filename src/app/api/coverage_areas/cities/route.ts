@@ -1,5 +1,6 @@
 import createServerClient from '../../../../utils/supabaseServer';
 import { NextRequest, NextResponse } from 'next/server';
+import { DistributionDestinationType } from '../../../../lib/enums';
 
 export async function PUT(request: NextRequest) {
     try {
@@ -78,7 +79,7 @@ export async function PUT(request: NextRequest) {
                     .from('area_and_weight_information')
                     .upsert(
                         newCities.map((city: string) => ({
-                            type: 'city',
+                            type: DistributionDestinationType.CITY,
                             name: city,
                             area_and_weight_cost_id: areaAndWeightCostId,
                             coverage_area_id: coverageAreaId,

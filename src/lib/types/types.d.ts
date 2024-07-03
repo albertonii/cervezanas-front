@@ -1492,6 +1492,7 @@ export interface IAreaAndWeightInformation {
     id: string;
     type: string;
     name: string;
+    coverage_area_id: string;
     area_and_weight_cost_id: string;
     area_weight_cost_range?: IAreaAndWeightCostRange[];
 }

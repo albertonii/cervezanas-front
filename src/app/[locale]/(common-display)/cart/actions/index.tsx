@@ -252,30 +252,66 @@ export async function calculateProductPacksWeight(
     return totalWeight / 1000;
 }
 
-export async function calculateShippingCosts(
-    items: IProductPackCartItem[],
+/**
+ * En base a una serie de productos que comparten el mismo distribuidor, vamos a buscar cual es el que ofrezca un precio más económico
+ *
+ * @param items
+ * @param shippingInfoId
+ * @param totalWeight
+ */
+export async function calculateCheapestShippingCosts(
+    itemsByProducer: IProductPackCartItem[],
     shippingInfoId: string,
-    totalWeight: number,
+    distributors: IDistributionContract[],
 ) {
-    // GET Consumer Shipping Information
-    const shippingInfo = await getShippingInfo(shippingInfoId);
+    // Sumar el peso total de los productos
+    const totalWeight = await Promise.all(
+        itemsByProducer.map(async (productPack) => {
+            return await calculateProductPacksWeight(productPack);
+        }),
+    ).then((weights) => weights.reduce((prev, current) => prev + current, 0));
 
-    // Agrupar todos aquellos items que tengan el mismo productor id
-    const itemsByProducer = items.reduce((acc: any, item) => {
-        if (!acc[item.producer_id]) {
-            acc[item.producer_id] = [];
-        }
+    // Obtener el costo de envío de cada distribuidor
+    const shippingCosts = await Promise.all(
+        distributors.map(async (distributor) => {
+            const url = `${baseUrl}/api/calculate_shipping`;
 
-        acc[item.producer_id].push(item);
+            const response = await axios.get(url, {
+                params: {
+                    distributor_id: distributor.distributor_id,
+                    total_weight: totalWeight,
+                    shipping_info_id: shippingInfoId,
+                },
+            });
 
-        return acc;
-    }, {});
+            if (!response.data) {
+                return {
+                    cost: 0,
+                    distributor_id: distributor.distributor_id,
+                };
+            }
 
+            return response.data;
+        }),
+    );
+
+    // Obtener el costo de envío más económico
+    const cheapestShippingCost = shippingCosts.reduce((prev, current) =>
+        prev.cost < current.cost ? prev : current,
+    );
+
+    return cheapestShippingCost;
+}
+
+// Por cada productor, necesitamos saber cuales son los distribuidores que están asociados a él
+// y que pueden enviar los productos a la dirección de envío seleccionada
+export async function getListAsociatedDistributors(
+    itemsByProducer: IProductPackCartItem[],
+    shippingInfo: IShippingInfo,
+) {
     // Array de distribuidores que tienen configurado en su área de cobertura la dirección de envío
     const distributors: IDistributionContract[] = [];
 
-    // Por cada productor, necesitamos saber cuales son los distribuidores que están asociados a él
-    // y que pueden enviar los productos a la dirección de envío seleccionada
     for (const producerId in itemsByProducer) {
         // Get the list of distributors associated to the seller/producer of the product
         const listOfDistributorsContracts =
@@ -301,10 +337,10 @@ export async function calculateShippingCosts(
         }
     }
 
-    // Get the list of distributors associated to the seller/producer of the product
+    return distributors;
 }
 
-async function getShippingInfo(shippingInfoId: string) {
+export async function getShippingInfo(shippingInfoId: string) {
     const url = `${baseUrl}/api/calculate_shipping/shipping_info`;
 
     const response = await axios.get(url, {

@@ -12,7 +12,10 @@ import AreaAndWeightRangeForm from './AreaAndWeightRangeForm';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import SelectDistributionCost from '../SelectDistributionCost';
-import { DistributionCostType } from '../../../../../../../../lib/enums';
+import {
+    DistributionCostType,
+    DistributionDestinationType,
+} from '../../../../../../../../lib/enums';
 
 const areaWeightCostRange = z
     .object({
@@ -98,19 +101,21 @@ const AreaAndWeightCostForm = ({
             distribution_costs_id: distributionCostId,
             cities:
                 areaAndWeightCost?.area_and_weight_information?.filter(
-                    (area) => area.type === 'city',
+                    (area) => area.type === DistributionDestinationType.CITY,
                 ) || [],
             provinces:
                 areaAndWeightCost?.area_and_weight_information?.filter(
-                    (area) => area.type === 'province',
+                    (area) =>
+                        area.type === DistributionDestinationType.PROVINCE,
                 ) || [],
             regions:
                 areaAndWeightCost?.area_and_weight_information?.filter(
-                    (area) => area.type === 'region',
+                    (area) => area.type === DistributionDestinationType.REGION,
                 ) || [],
             international:
                 areaAndWeightCost?.area_and_weight_information?.filter(
-                    (area) => area.type === 'international',
+                    (area) =>
+                        area.type === DistributionDestinationType.INTERNATIONAL,
                 ) || [],
         },
     });
