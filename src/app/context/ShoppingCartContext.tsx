@@ -126,13 +126,10 @@ export function ShoppingCartProvider({ children }: Props) {
                 distributors,
             );
 
-            totalShippingCost += shippingCost;
+            totalShippingCost += shippingCost.cost;
         }
 
-        // console.log(totalShippingCost);
-
-        // return totalShippingCost;
-        return 0;
+        return totalShippingCost;
     };
 
     const getItemQuantity = (id: string) => {

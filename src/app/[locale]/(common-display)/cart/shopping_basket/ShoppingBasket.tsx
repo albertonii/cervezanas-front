@@ -133,15 +133,25 @@ export function ShoppingBasket({ user }: Props) {
     }, [isFormReady]);
 
     useEffect(() => {
-        const canMakeThePayment =
-            checkIsShoppingCartDeliverable() &&
-            items.length > 0 &&
-            selectedBillingAddress !== '' &&
-            selectedShippingAddress !== '';
+        const handleShippingCost = async () => {
+            const canMakeThePayment =
+                checkIsShoppingCartDeliverable() &&
+                items.length > 0 &&
+                selectedBillingAddress !== '' &&
+                selectedShippingAddress !== '';
 
-        calculateShippingCostCartContext(selectedShippingAddress);
+            const cheapestShippingCost = await calculateShippingCostCartContext(
+                selectedShippingAddress,
+            );
 
-        setCanMakeThePayment(canMakeThePayment);
+            if (cheapestShippingCost) {
+                setDeliveryCost(cheapestShippingCost);
+            }
+
+            setCanMakeThePayment(canMakeThePayment);
+        };
+
+        handleShippingCost();
     }, [items, selectedShippingAddress, selectedBillingAddress]);
 
     const handleDeliveryCost = (deliveryCost: number) => {

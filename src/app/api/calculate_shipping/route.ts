@@ -53,14 +53,14 @@ export async function GET(request: NextRequest) {
     }
 
     if (distributionCosts.distribution_costs_in_product) {
-        return NextResponse.json(0, { status: 200 });
+        return NextResponse.json({ costs: null }, { status: 200 });
     }
 
     if (
         distributionCosts.selected_method ===
         DistributionCostType.FLATRATE_AND_WEIGHT
     ) {
-        return NextResponse.json(0, { status: 200 });
+        return NextResponse.json({ costs: null }, { status: 200 });
     } else if (
         distributionCosts.selected_method ===
         DistributionCostType.AREA_AND_WEIGHT
@@ -126,10 +126,6 @@ export async function GET(request: NextRequest) {
             );
 
         const cityFound = areaTypeCity.find((area: any) => {
-            console.log('AREA', area.name);
-            console.log('AREA', shippingInfo.city);
-            console.log(area.name === shippingInfo.city);
-
             // Convertir a minúsculas y quitar acentos y espacios en blanco extra para comparar
             const areaName = area.name
                 .toLowerCase()
@@ -145,13 +141,6 @@ export async function GET(request: NextRequest) {
 
             return areaName === shippingCity;
         });
-
-        // console.log(
-        //     'AREA AND  WEIGHT INFO',
-        //     areaAndWeightCost.area_and_weight_information,
-        // );
-        // console.log('AREA TYPE CITY', areaTypeCity);
-        // console.log('SHIPPING CITY NAME', shippingInfo.city);
 
         if (cityFound) {
             // Comprobar que no esté vacío los rangos de peso y peso
@@ -169,8 +158,6 @@ export async function GET(request: NextRequest) {
                         totalWeight <= range.weight_to,
                 );
 
-            console.log('AREA AND WEIGHT COST RANGE', areaAndWeightCostRange);
-
             if (!areaAndWeightCostRange) {
                 return NextResponse.json(
                     { message: 'Area and weight cost range not found' },
@@ -187,32 +174,37 @@ export async function GET(request: NextRequest) {
             const shippingCost =
                 baseCost + costExtraPerKg * parseFloat(totalWeight);
 
-            return NextResponse.json(shippingCost, { status: 200 });
+            console.log('COSTES DE ENVIO', shippingCost);
+
+            return NextResponse.json({ cost: shippingCost }, { status: 200 });
         }
 
-        return NextResponse.json({ message: 'OK' }, { status: 200 });
+        return NextResponse.json(
+            { message: 'City not found in area and weight cost' },
+            { status: 500 },
+        );
 
         // 2. Province
-        const areaTypeProvince =
-            areaAndWeightCost.area_and_weight_information.filter(
-                (area: any) =>
-                    area.type === DistributionDestinationType.PROVINCE,
-            );
+        // const areaTypeProvince =
+        //     areaAndWeightCost.area_and_weight_information.filter(
+        //         (area: any) =>
+        //             area.type === DistributionDestinationType.PROVINCE,
+        //     );
 
-        // 3. Region
-        const areaTypeRegion =
-            areaAndWeightCost.area_and_weight_information.filter(
-                (area: any) => area.type === DistributionDestinationType.REGION,
-            );
+        // // 3. Region
+        // const areaTypeRegion =
+        //     areaAndWeightCost.area_and_weight_information.filter(
+        //         (area: any) => area.type === DistributionDestinationType.REGION,
+        //     );
 
-        // 4. Country
-        const areaTypeCountry =
-            areaAndWeightCost.area_and_weight_information.filter(
-                (area: any) =>
-                    area.type === DistributionDestinationType.INTERNATIONAL,
-            );
+        // // 4. Country
+        // const areaTypeCountry =
+        //     areaAndWeightCost.area_and_weight_information.filter(
+        //         (area: any) =>
+        //             area.type === DistributionDestinationType.INTERNATIONAL,
+        //     );
 
-        const weight = parseFloat(totalWeight);
+        // const weight = parseFloat(totalWeight);
 
         // const areaAndWeightCostRange =
         //     areaAndWeightCost.area_and_weight_information.area_weight_cost_range.find(
