@@ -37,24 +37,24 @@ export interface Database {
       }
       area_and_weight_information: {
         Row: {
-          area_and_weight_cost_id: string | null
-          coverage_area_id: string | null
+          area_and_weight_cost_id: string
+          coverage_area_id: string
           id: string
-          name: string | null
+          name: string
           type: string
         }
         Insert: {
-          area_and_weight_cost_id?: string | null
-          coverage_area_id?: string | null
+          area_and_weight_cost_id?: string
+          coverage_area_id?: string
           id?: string
-          name?: string | null
+          name: string
           type?: string
         }
         Update: {
-          area_and_weight_cost_id?: string | null
-          coverage_area_id?: string | null
+          area_and_weight_cost_id?: string
+          coverage_area_id?: string
           id?: string
-          name?: string | null
+          name?: string
           type?: string
         }
         Relationships: [
@@ -77,24 +77,24 @@ export interface Database {
       area_weight_cost_range: {
         Row: {
           area_and_weight_information_id: string
-          base_cost: number | null
+          base_cost: number
           id: string
-          weight_from: number | null
-          weight_to: number | null
+          weight_from: number
+          weight_to: number
         }
         Insert: {
           area_and_weight_information_id?: string
-          base_cost?: number | null
+          base_cost?: number
           id?: string
-          weight_from?: number | null
-          weight_to?: number | null
+          weight_from?: number
+          weight_to?: number
         }
         Update: {
           area_and_weight_information_id?: string
-          base_cost?: number | null
+          base_cost?: number
           id?: string
-          weight_from?: number | null
-          weight_to?: number | null
+          weight_from?: number
+          weight_to?: number
         }
         Relationships: [
           {
@@ -1268,28 +1268,28 @@ export interface Database {
       }
       distribution_costs: {
         Row: {
-          cost_extra_per_kg: number | null
+          cost_extra_per_kg: number
           created_at: string
-          distribution_costs_in_product: boolean | null
-          distributor_id: string | null
+          distribution_costs_in_product: boolean
+          distributor_id: string
           id: string
-          selected_method: string | null
+          selected_method: string
         }
         Insert: {
-          cost_extra_per_kg?: number | null
+          cost_extra_per_kg?: number
           created_at?: string
-          distribution_costs_in_product?: boolean | null
-          distributor_id?: string | null
+          distribution_costs_in_product?: boolean
+          distributor_id: string
           id?: string
-          selected_method?: string | null
+          selected_method?: string
         }
         Update: {
-          cost_extra_per_kg?: number | null
+          cost_extra_per_kg?: number
           created_at?: string
-          distribution_costs_in_product?: boolean | null
-          distributor_id?: string | null
+          distribution_costs_in_product?: boolean
+          distributor_id?: string
           id?: string
-          selected_method?: string | null
+          selected_method?: string
         }
         Relationships: [
           {

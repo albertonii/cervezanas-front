@@ -1494,7 +1494,9 @@ export interface IAreaAndWeightInformation {
     name: string;
     coverage_area_id: string;
     area_and_weight_cost_id: string;
+    coverage_area_id: string;
     area_weight_cost_range?: IAreaAndWeightCostRange[];
+    coverage_areas?: ICoverageArea[];
 }
 
 export interface IAreaAndWeightCostRange {
