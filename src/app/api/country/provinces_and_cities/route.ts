@@ -1,7 +1,7 @@
+import { JSONSubRegion } from '../../../../lib/types/distribution_areas';
 import { NextRequest, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
-import { JSONProvince } from '../../../../lib/types/distribution_areas';
 
 export async function GET(request: NextRequest) {
     const requestUrl = new URL(request.url);
@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
         return data;
     };
 
-    const resJson = (await loadFile()) as JSONProvince[];
+    const resJson = (await loadFile()) as JSONSubRegion[];
 
     return NextResponse.json(resJson);
 }

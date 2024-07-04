@@ -1,9 +1,9 @@
 import useSWRMutation from 'swr/mutation';
+import InputLabel from './common/InputLabel';
+import React, { ComponentProps, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DisplayInputError } from './common/DisplayInputError';
-import React, { ComponentProps, useEffect, useState } from 'react';
-import InputLabel from './common/InputLabel';
-import { JSONProvince } from '../../../lib/types/distribution_areas';
+import { JSONSubRegion } from '../../../lib/types/distribution_areas';
 
 interface Props {
     form: ComponentProps<any>;
@@ -18,8 +18,7 @@ export default function AddressForm({ form, addressNameId }: Props) {
 
     const [selectedCountry, setSelectCountry] = useState<string>();
     const [subRegionType, setSubRegionType] = useState<string>();
-    const [regions, setRegions] = useState<JSONProvince[]>([]);
-    const [subRegions, setSubRegions] = useState<JSONProvince[]>([]);
+    const [subRegions, setSubRegions] = useState<JSONSubRegion[]>([]);
     const [citiesInSubRegions, setCitiesInSubRegions] = useState<string[]>();
 
     const {
@@ -35,6 +34,7 @@ export default function AddressForm({ form, addressNameId }: Props) {
     const {
         formState: { errors },
         register,
+        setValue,
     } = form;
 
     useEffect(() => {
@@ -72,13 +72,15 @@ export default function AddressForm({ form, addressNameId }: Props) {
     const handleSelectSubRegion = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedSubRegion = e.target.value.toString();
 
-        const subRegion: JSONProvince | undefined = subRegions.find(
-            (subRegion_: JSONProvince) => subRegion_.name === selectedSubRegion,
+        const subRegion: JSONSubRegion | undefined = subRegions.find(
+            (subRegion_: JSONSubRegion) =>
+                subRegion_.name === selectedSubRegion,
         );
 
         if (!subRegion) return;
 
         setCitiesInSubRegions(subRegion.cities);
+        setValue('region', subRegion.region);
     };
 
     return (
@@ -212,7 +214,9 @@ export default function AddressForm({ form, addressNameId }: Props) {
 
                                 <select
                                     className=" w-full rounded-lg border-transparent bg-gray-100 px-4 py-2 text-base text-gray-700 focus:border-gray-500 focus:bg-white focus:ring-0"
-                                    {...register('state', { required: true })}
+                                    {...register('sub_region', {
+                                        required: true,
+                                    })}
                                     disabled={
                                         !subRegions || subRegions.length === 0
                                     }
@@ -231,9 +235,9 @@ export default function AddressForm({ form, addressNameId }: Props) {
                                         ))}
                                 </select>
 
-                                {errors.state && (
+                                {errors.sub_region && (
                                     <DisplayInputError
-                                        message={errors.state.message}
+                                        message={errors.sub_region.message}
                                     />
                                 )}
                             </label>
@@ -291,9 +295,9 @@ export default function AddressForm({ form, addressNameId }: Props) {
                                         )}
                                 </select>
 
-                                {errors.state && (
+                                {errors.city && (
                                     <DisplayInputError
-                                        message={errors.state.message}
+                                        message={errors.city.message}
                                     />
                                 )}
                             </label>

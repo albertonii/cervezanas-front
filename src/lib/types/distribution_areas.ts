@@ -48,10 +48,11 @@ export interface JSONCountry {
 
 export interface JSONRegion {
     name: string;
-    provinces: JSONProvince[];
+    subregions: JSONSubRegion[];
 }
 
-export interface JSONProvince {
+export interface JSONSubRegion {
     name: string;
     cities: string[];
+    region: string;
 }

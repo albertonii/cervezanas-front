@@ -1,19 +1,18 @@
 'use client';
 
-import Spinner from '../../../components/common/Spinner';
 import AddressForm from '../../../components/AddressForm';
 import ModalWithForm from '../../../components/modals/ModalWithForm';
 import React, { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
+import { insertBillingAddress } from '../actions';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
-import { ModalBillingAddressFormData } from '../../../../../lib/types/types';
-import { z, ZodType } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { insertBillingAddress } from '../actions';
 import { useMessage } from '../../../components/message/useMessage';
+import { ModalBillingAddressFormData } from '../../../../../lib/types/types';
 
 const schema: ZodType<ModalBillingAddressFormData> = z.object({
     name: z.string().nonempty({ message: 'errors.input_required' }),
@@ -22,7 +21,8 @@ const schema: ZodType<ModalBillingAddressFormData> = z.object({
     phone: z.string().nonempty({ message: 'errors.input_required' }),
     address: z.string().nonempty({ message: 'errors.input_required' }),
     country: z.string().nonempty({ message: 'errors.input_required' }),
-    state: z.string().nonempty({ message: 'errors.input_required' }),
+    region: z.string().nonempty({ message: 'errors.input_required' }),
+    sub_region: z.string().nonempty({ message: 'errors.input_required' }),
     city: z.string().nonempty({ message: 'errors.input_required' }),
     zipcode: z.string().nonempty({ message: 'errors.input_required' }),
     is_default: z.boolean(),
@@ -60,10 +60,11 @@ export function NewBillingAddress() {
             document_id: form.document_id,
             phone: form.phone,
             address: form.address,
-            country: form.country,
             zipcode: form.zipcode,
+            country: form.country,
+            region: form.region,
+            sub_region: form.sub_region,
             city: form.city,
-            state: form.state,
             is_default: form.is_default,
         };
 

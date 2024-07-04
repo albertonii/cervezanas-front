@@ -237,7 +237,8 @@ export interface Database {
           name: string | null
           owner_id: string | null
           phone: string | null
-          state: string | null
+          region: string | null
+          sub_region: string | null
           updated_at: string | null
           zipcode: string | null
         }
@@ -253,7 +254,8 @@ export interface Database {
           name?: string | null
           owner_id?: string | null
           phone?: string | null
-          state?: string | null
+          region?: string | null
+          sub_region?: string | null
           updated_at?: string | null
           zipcode?: string | null
         }
@@ -269,7 +271,8 @@ export interface Database {
           name?: string | null
           owner_id?: string | null
           phone?: string | null
-          state?: string | null
+          region?: string | null
+          sub_region?: string | null
           updated_at?: string | null
           zipcode?: string | null
         }
@@ -2615,7 +2618,8 @@ export interface Database {
           name: string | null
           owner_id: string | null
           phone: string | null
-          state: string | null
+          region: string | null
+          sub_region: string | null
           updated_at: string | null
           zipcode: string | null
         }
@@ -2633,7 +2637,8 @@ export interface Database {
           name?: string | null
           owner_id?: string | null
           phone?: string | null
-          state?: string | null
+          region?: string | null
+          sub_region?: string | null
           updated_at?: string | null
           zipcode?: string | null
         }
@@ -2651,7 +2656,8 @@ export interface Database {
           name?: string | null
           owner_id?: string | null
           phone?: string | null
-          state?: string | null
+          region?: string | null
+          sub_region?: string | null
           updated_at?: string | null
           zipcode?: string | null
         }

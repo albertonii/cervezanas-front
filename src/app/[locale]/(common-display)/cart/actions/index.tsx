@@ -56,9 +56,10 @@ export async function insertShippingAddress(form: {
     address_extra?: string;
     address_observations?: string;
     country: string;
-    zipcode: string;
+    region: string;
+    sub_region: string;
     city: string;
-    state: string;
+    zipcode: string;
     is_default: boolean;
 }) {
     const {
@@ -71,9 +72,10 @@ export async function insertShippingAddress(form: {
         address_extra,
         address_observations,
         country,
-        zipcode,
+        region,
+        sub_region,
         city,
-        state,
+        zipcode,
         is_default,
     } = form;
 
@@ -89,9 +91,10 @@ export async function insertShippingAddress(form: {
     formData.set('address_extra', address_extra ?? '');
     formData.set('address_observations', address_observations ?? '');
     formData.set('country', country);
-    formData.set('zipcode', zipcode);
+    formData.set('region', region);
+    formData.set('sub_region', sub_region);
     formData.set('city', city);
-    formData.set('state', state);
+    formData.set('zipcode', zipcode);
     formData.set('is_default', is_default.toString());
 
     const res = await fetch(url, {
@@ -113,9 +116,10 @@ export async function insertBillingAddress(form: {
     phone: string;
     address: string;
     country: string;
-    zipcode: string;
+    region: string;
+    sub_region: string;
     city: string;
-    state: string;
+    zipcode: string;
     is_default: boolean;
 }) {
     const {
@@ -126,9 +130,10 @@ export async function insertBillingAddress(form: {
         phone,
         address,
         country,
-        zipcode,
+        region,
+        sub_region,
         city,
-        state,
+        zipcode,
         is_default,
     } = form;
 
@@ -142,9 +147,10 @@ export async function insertBillingAddress(form: {
     formData.set('phone', phone);
     formData.set('address', address);
     formData.set('country', country);
-    formData.set('zipcode', zipcode);
+    formData.set('region', region);
+    formData.set('sub_region', sub_region);
     formData.set('city', city);
-    formData.set('state', state);
+    formData.set('zipcode', zipcode);
     formData.set('is_default', is_default.toString());
 
     const res = await fetch(url, {

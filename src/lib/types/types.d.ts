@@ -1152,7 +1152,8 @@ export interface ModalShippingAddressFormData {
     country: string;
     zipcode: string;
     city: string;
-    state: string;
+    region: string;
+    sub_region: string;
     is_default: boolean;
 }
 
@@ -1164,9 +1165,12 @@ export interface ModalBillingAddressFormData {
     address: string;
     address_extra?: string;
     country: string;
+    region: string;
+    sub_region: string;
     zipcode: string;
     city: string;
-    state: string;
+    region: string;
+    sub_region: string;
     is_default: boolean;
 }
 
@@ -1180,7 +1184,8 @@ export interface IAddress {
     address_extra?: string;
     address_observations?: string;
     country: string;
-    state: string;
+    region: string;
+    sub_region: string;
     city: string;
     zipcode: string;
     is_default: boolean;
