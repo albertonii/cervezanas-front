@@ -209,7 +209,7 @@ export default function AddressForm({ form, addressNameId }: Props) {
 
                             <label className="my-3 flex flex-col h-12 w-1/2 items-start space-y-2 text-sm text-gray-600 py-3">
                                 <span className="font-medium">
-                                    {t('loc_province')}
+                                    {t('loc_sub_region')}
                                 </span>
 
                                 <select
@@ -263,7 +263,7 @@ export default function AddressForm({ form, addressNameId }: Props) {
                                 registerOptions={{
                                     required: true,
                                 }}
-                                placeholder={`${t('loc_town')}`}
+                                placeholder={`${t('loc_city')}`}
                                 disabled={
                                     !subRegions || subRegions.length === 0
                                 }

@@ -505,8 +505,9 @@ export interface IProfileLocation {
     phone: string;
     postalcode: number;
     country: string;
-    province: string;
-    town: string;
+    region: string;
+    sub_region: string;
+    city: string;
     address_1: string;
     address_2: string;
 }
@@ -521,8 +522,9 @@ export interface ILocation {
     phone: string;
     postalcode: number;
     country: string;
-    province: string;
-    town: string;
+    region: string;
+    sub_region: string;
+    city: string;
     address_1: string;
     address_2: string;
 }
@@ -1381,8 +1383,8 @@ export interface ICoverageArea {
     distributor_user?: IDistributorUser;
     local_distribution: ILocal;
     cities: string[];
+    sub_regions: string[];
     regions: string[];
-    provinces: string[];
     europe: string[];
     international: string[];
 }
@@ -1426,14 +1428,14 @@ export interface FlatrateAndWeightCostFormData {
 export interface AreaAndWeightCostFormData {
     distribution_costs_id: string;
     cities: AreaNameFormData[];
-    provinces: AreaNameFormData[];
+    sub_regions: AreaNameFormData[];
     regions: AreaNameFormData[];
     international: AreaNameFormData[];
 }
 
 interface AreaAndWeightInformationFormData {
     id?: string;
-    type: string; // City, Province, Region, International
+    type: string; // City, SubRegion, Region, International
     name: string;
     area_weight_range: AreaAndWeightRangeFormData[];
 }

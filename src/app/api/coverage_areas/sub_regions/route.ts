@@ -1,5 +1,5 @@
-import createServerClient from '../../../../utils/supabaseServer';
 import { NextRequest, NextResponse } from 'next/server';
+import createServerClient from '../../../../utils/supabaseServer';
 import { DistributionDestinationType } from '../../../../lib/enums';
 
 export async function PUT(request: NextRequest) {
@@ -10,20 +10,20 @@ export async function PUT(request: NextRequest) {
         'area_and_weight_cost_id',
     ) as string;
 
-    const selectedProvinces = formData.get('provinces') as string;
-    const toDeleteProvinces = formData.get('to_delete_provinces') as string;
-    const toAddProvinces = formData.get('to_add_provinces') as string;
+    const selectedSubRegions = formData.get('sub_regions') as string;
+    const toDeleteSubRegions = formData.get('to_delete_sub_regions') as string;
+    const toAddSubRegions = formData.get('to_add_sub_regions') as string;
 
     // Convert JSON to string[]
-    const selectedProvincesArray = JSON.parse(selectedProvinces);
-    const toDeleteProvincesArray = JSON.parse(toDeleteProvinces);
-    const toAddProvincesArray = JSON.parse(toAddProvinces);
+    const selectedSubRegionsArray = JSON.parse(selectedSubRegions);
+    const toDeleteSubRegionsArray = JSON.parse(toDeleteSubRegions);
+    const toAddSubRegionsArray = JSON.parse(toAddSubRegions);
 
     const supabase = await createServerClient();
 
     const { error } = await supabase
         .from('coverage_areas')
-        .update({ provinces: selectedProvincesArray })
+        .update({ sub_regions: selectedSubRegionsArray })
         .eq('id', coverageAreaId);
 
     if (error) {
@@ -33,22 +33,22 @@ export async function PUT(request: NextRequest) {
         );
     }
 
-    if (toDeleteProvincesArray.length > 0) {
+    if (toDeleteSubRegionsArray.length > 0) {
         const { error: error1 } = await supabase
             .from('area_and_weight_information')
             .delete()
-            .in('name', toDeleteProvincesArray)
+            .in('name', toDeleteSubRegionsArray)
             .eq('coverage_area_id', coverageAreaId);
 
         if (error1) {
             return NextResponse.json(
-                { message: 'Error deleting provinces' },
+                { message: 'Error deleting sub_regions' },
                 { status: 500 },
             );
         }
     }
 
-    if (toAddProvincesArray.length > 0) {
+    if (toAddSubRegionsArray.length > 0) {
         // Check for existing entries to avoid duplicates
         const { data: existingEntries, error: checkError } = await supabase
             .from('area_and_weight_information')
@@ -56,30 +56,30 @@ export async function PUT(request: NextRequest) {
             .eq('area_and_weight_cost_id', areaAndWeightCostId)
             .in(
                 'name',
-                toAddProvincesArray.map((province: string) => province),
+                toAddSubRegionsArray.map((sub_region: string) => sub_region),
             );
 
         if (checkError) {
             return NextResponse.json(
-                { message: 'Error checking existing provinces' },
+                { message: 'Error checking existing sub_regions' },
                 { status: 500 },
             );
         }
 
         const existingNames = existingEntries.map((entry) => entry.name);
 
-        // Filter out the provinces that already exist
-        const newProvinces = toAddProvincesArray.filter(
-            (province: string) => !existingNames.includes(province),
+        // Filter out the sub_regions that already exist
+        const newSubRegions = toAddSubRegionsArray.filter(
+            (sub_region: string) => !existingNames.includes(sub_region),
         );
 
-        if (newProvinces.length > 0) {
+        if (newSubRegions.length > 0) {
             const { error: error2 } = await supabase
                 .from('area_and_weight_information')
                 .upsert(
-                    newProvinces.map((province: string) => ({
-                        type: DistributionDestinationType.PROVINCE,
-                        name: province,
+                    newSubRegions.map((sub_region: string) => ({
+                        type: DistributionDestinationType.SUB_REGION,
+                        name: sub_region,
                         area_and_weight_cost_id: areaAndWeightCostId,
                         coverage_area_id: coverageAreaId,
                     })),
@@ -87,7 +87,7 @@ export async function PUT(request: NextRequest) {
 
             if (error2) {
                 return NextResponse.json(
-                    { message: 'Error adding provinces' },
+                    { message: 'Error adding sub_regions' },
                     { status: 500 },
                 );
             }
@@ -95,8 +95,8 @@ export async function PUT(request: NextRequest) {
     }
 
     if (
-        toDeleteProvincesArray.length === 0 &&
-        toAddProvincesArray.length === 0
+        toDeleteSubRegionsArray.length === 0 &&
+        toAddSubRegionsArray.length === 0
     ) {
         return NextResponse.json(
             { message: 'No changes made' },
@@ -105,7 +105,7 @@ export async function PUT(request: NextRequest) {
     }
 
     return NextResponse.json(
-        { message: 'Coverage area for Provinces updated' },
+        { message: 'Coverage area for SubRegions updated' },
         {
             status: 201,
         },

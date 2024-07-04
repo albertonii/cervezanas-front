@@ -42,7 +42,7 @@ async function getDistributionCost() {
                     is_checked_europe,
                     is_checked_international
                 ),
-                flatrate_cost:flatrate_cost_distribution_costs_id_fkey (
+                flatrate_and_weight_cost (
                     id,
                     distribution_costs_id,
                     created_at,

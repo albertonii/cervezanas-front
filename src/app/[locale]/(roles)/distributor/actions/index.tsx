@@ -324,20 +324,26 @@ export async function updateCityDistribution(
     }
 }
 
-export async function updateProvinceDistribution(
-    unCheckedProvinces: string[],
-    newSelectedProvinces: string[],
-    selectedProvinces: string[],
+export async function updateSubRegionDistribution(
+    unCheckedSubRegions: string[],
+    newSelectedSubRegions: string[],
+    selectedSubRegions: string[],
     coverageAreaId: string,
     areaAndWeightCostId: string,
 ) {
-    const url = `${baseUrl}/api/coverage_areas/provinces`;
+    const url = `${baseUrl}/api/coverage_areas/sub_region`;
 
     const formData = new FormData();
 
-    formData.append('to_delete_provinces', JSON.stringify(unCheckedProvinces));
-    formData.append('to_add_provinces', JSON.stringify(newSelectedProvinces));
-    formData.append('provinces', JSON.stringify(selectedProvinces));
+    formData.append(
+        'to_delete_sub_regions',
+        JSON.stringify(unCheckedSubRegions),
+    );
+    formData.append(
+        'to_add_sub_regions',
+        JSON.stringify(newSelectedSubRegions),
+    );
+    formData.append('sub_regions', JSON.stringify(selectedSubRegions));
     formData.append('coverage_area_id', coverageAreaId);
     formData.append('area_and_weight_cost_id', areaAndWeightCostId);
 
@@ -362,16 +368,16 @@ export async function updateProvinceDistribution(
                 status: response.status,
                 message:
                     response.data.message ||
-                    'Error updating province distribution',
+                    'Error updating sub_region distribution',
             };
         }
 
         return {
             status: response.status,
-            message: 'Province distribution updated successfully',
+            message: 'SubRegion distribution updated successfully',
         };
     } catch (error: any) {
-        console.error('Error updating province distribution:', error);
+        console.error('Error updating sub_region distribution:', error);
         return {
             status: error.response?.status || 500,
             message: error.response?.data.message || 'Internal Server Error',

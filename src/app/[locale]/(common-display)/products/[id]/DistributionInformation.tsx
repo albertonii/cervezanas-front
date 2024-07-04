@@ -96,7 +96,7 @@ const isDistributionCities = (coverageAreas: ICoverageArea) => {
 };
 
 const isDistributionProvinces = (coverageAreas: ICoverageArea) => {
-    return coverageAreas.provinces.length > 0;
+    return coverageAreas.sub_regions.length > 0;
 };
 
 const isDistributionRegions = (coverageAreas: ICoverageArea) => {

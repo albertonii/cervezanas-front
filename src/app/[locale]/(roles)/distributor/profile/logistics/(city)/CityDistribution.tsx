@@ -47,9 +47,8 @@ export default function CityDistribution({
     const [listOfRegions, setListOfRegions] = useState<IState[] | undefined>();
     const [listOfCities, setListOfCities] = useState<ICity[] | undefined>();
     const [regionIsEnable, setRegionIsEnable] = useState<boolean>(false);
-    const [listOfAllCitiesByProvince, setlistOfAllCitiesByProvince] = useState<
-        ICity[] | undefined
-    >();
+    const [listOfAllCitiesBySubRegion, setlistOfAllCitiesBySubRegion] =
+        useState<ICity[] | undefined>();
 
     const [unCheckedCities, setUnCheckedCities] = useState<string[]>([]);
     const [newSelectedCities, setNewSelectedCities] = useState<string[]>([]);
@@ -171,7 +170,7 @@ export default function CityDistribution({
                 setListOfCities(lOfCities);
                 setCounter(cityData?.length);
 
-                setlistOfAllCitiesByProvince(cityData);
+                setlistOfAllCitiesBySubRegion(cityData);
 
                 // Update selectAllCurrentPage based on whether all cities on this page are selected
                 setSelectAllCurrentPage(
@@ -186,7 +185,7 @@ export default function CityDistribution({
 
         // // Update selectAllCities based on whether all cities in the region are selected
         // setSelectAllCitiesByRegion(
-        //   listOfAllCitiesByProvince?.every((city) =>
+        //   listOfAllCitiesBySubRegion?.every((city) =>
         //     selectedCities.includes(city.name)
         //   ) ?? false
         // );
@@ -354,7 +353,7 @@ export default function CityDistribution({
     };
 
     // COMPROBAR COMO HACEMOS EL BORRADO Y LA INSERCIÓN DE CIUDADES EN EL ARRAY DE CIUDADES
-    const handleSelectAllCitiesByProvince = (
+    const handleSelectAllCitiesBySubRegion = (
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
         let updatedSelectedCities = [...selectedCities];
@@ -363,7 +362,7 @@ export default function CityDistribution({
         if (!e.target.checked) {
             updatedSelectedCities = updatedSelectedCities.filter(
                 (selectedCity) =>
-                    !listOfAllCitiesByProvince
+                    !listOfAllCitiesBySubRegion
                         ?.map((city) => city.name)
                         .includes(selectedCity),
             );
@@ -392,7 +391,7 @@ export default function CityDistribution({
             setSelectedCities([...selectedCities]);
 
             updatedSelectedCities.push(
-                ...(listOfAllCitiesByProvince?.map((city) => city.name) ?? []),
+                ...(listOfAllCitiesBySubRegion?.map((city) => city.name) ?? []),
             );
 
             setSelectedCities(updatedSelectedCities);
@@ -462,7 +461,7 @@ export default function CityDistribution({
                             htmlFor="addressRegion"
                             className="text-sm text-gray-600"
                         >
-                            {t('loc_province')}
+                            {t('loc_')}
                         </label>
 
                         <select
@@ -493,11 +492,11 @@ export default function CityDistribution({
                 {selectedCities && selectedCities.length > 0 && (
                     <div className="flex flex-row flex-wrap space-x-2 space-y-1">
                         {selectedCities?.map(
-                            (province: string, index: number) => {
+                            (sub_region: string, index: number) => {
                                 // We can delete from the list one country just by clicking on it
                                 return (
                                     <DistributionChipCard
-                                        name={province}
+                                        name={sub_region}
                                         index={index}
                                         selectedNames={selectedCities}
                                         setSelectedNames={setSelectedCities}
@@ -530,14 +529,14 @@ export default function CityDistribution({
 
                                         {/* <div className="">
                                             <label
-                                                htmlFor="allCitiesByProvince"
+                                                htmlFor="allCitiesBySubRegion"
                                                 className="space-x-2 text-lg text-gray-600"
                                             >
                                                 <input
-                                                    id="allCitiesByProvince"
+                                                    id="allCitiesBySubRegion"
                                                     type="checkbox"
                                                     onChange={(e) => {
-                                                        handleSelectAllCitiesByProvince(
+                                                        handleSelectAllCitiesBySubRegion(
                                                             e,
                                                         );
                                                     }}

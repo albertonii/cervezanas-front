@@ -129,6 +129,8 @@ export const SupabaseProps = {
 export const DS_API = {
     DS_URL: `https://distributionsystemapi.onrender.com/`,
     DS_COUNTRIES: 'countries/',
+    DS_REGIONS: 'regions/',
+    DS_SUB_REGIONS: 'sub_regions/',
     DS_COMMUNITIES: 'communities/',
     DS_PROVINCES: 'provinces/',
     DS_CITIES: 'cities/',

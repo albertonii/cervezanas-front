@@ -67,7 +67,7 @@ const areaAndWeightInformationObjectSchema = z.object({
 const schema: ZodType<AreaAndWeightCostFormData> = z.object({
     distribution_costs_id: z.string().uuid(),
     cities: z.array(areaAndWeightInformationObjectSchema),
-    provinces: z.array(areaAndWeightInformationObjectSchema),
+    sub_regions: z.array(areaAndWeightInformationObjectSchema),
     regions: z.array(areaAndWeightInformationObjectSchema),
     international: z.array(areaAndWeightInformationObjectSchema),
 });
@@ -103,10 +103,10 @@ const AreaAndWeightCostForm = ({
                 areaAndWeightCost?.area_and_weight_information?.filter(
                     (area) => area.type === DistributionDestinationType.CITY,
                 ) || [],
-            provinces:
+            sub_regions:
                 areaAndWeightCost?.area_and_weight_information?.filter(
                     (area) =>
-                        area.type === DistributionDestinationType.PROVINCE,
+                        area.type === DistributionDestinationType.SUB_REGION,
                 ) || [],
             regions:
                 areaAndWeightCost?.area_and_weight_information?.filter(

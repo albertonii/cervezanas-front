@@ -118,7 +118,7 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        // Sort area_and_weight_information by type (city, province, region, country)
+        // Sort area_and_weight_information by type (city, sub_region, region, country)
         // 1. City
         const areaTypeCity =
             areaAndWeightCost.area_and_weight_information.filter(
@@ -184,11 +184,11 @@ export async function GET(request: NextRequest) {
             { status: 500 },
         );
 
-        // 2. Province
-        // const areaTypeProvince =
+        // 2. SubRegion
+        // const areaTypeSubRegion =
         //     areaAndWeightCost.area_and_weight_information.filter(
         //         (area: any) =>
-        //             area.type === DistributionDestinationType.PROVINCE,
+        //             area.type === DistributionDestinationType.SUB_REGION,
         //     );
 
         // // 3. Region

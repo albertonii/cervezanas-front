@@ -750,8 +750,8 @@ export interface Database {
           europe: string[] | null
           id: string
           international: string[] | null
-          provinces: string[] | null
           regions: string[] | null
+          sub_regions: string[] | null
         }
         Insert: {
           cities?: string[] | null
@@ -760,8 +760,8 @@ export interface Database {
           europe?: string[] | null
           id?: string
           international?: string[] | null
-          provinces?: string[] | null
           regions?: string[] | null
+          sub_regions?: string[] | null
         }
         Update: {
           cities?: string[] | null
@@ -770,8 +770,8 @@ export interface Database {
           europe?: string[] | null
           id?: string
           international?: string[] | null
-          provinces?: string[] | null
           regions?: string[] | null
+          sub_regions?: string[] | null
         }
         Relationships: [
           {
@@ -2488,6 +2488,7 @@ export interface Database {
         Row: {
           address_1: string | null
           address_2: string | null
+          city: string | null
           company: string | null
           country: string | null
           created_at: string | null
@@ -2498,12 +2499,13 @@ export interface Database {
           owner_id: string | null
           phone: string | null
           postalcode: number | null
-          province: string | null
-          town: string | null
+          region: string | null
+          sub_region: string | null
         }
         Insert: {
           address_1?: string | null
           address_2?: string | null
+          city?: string | null
           company?: string | null
           country?: string | null
           created_at?: string | null
@@ -2514,12 +2516,13 @@ export interface Database {
           owner_id?: string | null
           phone?: string | null
           postalcode?: number | null
-          province?: string | null
-          town?: string | null
+          region?: string | null
+          sub_region?: string | null
         }
         Update: {
           address_1?: string | null
           address_2?: string | null
+          city?: string | null
           company?: string | null
           country?: string | null
           created_at?: string | null
@@ -2530,8 +2533,8 @@ export interface Database {
           owner_id?: string | null
           phone?: string | null
           postalcode?: number | null
-          province?: string | null
-          town?: string | null
+          region?: string | null
+          sub_region?: string | null
         }
         Relationships: [
           {

@@ -12,7 +12,7 @@ export enum EventOption {
 export enum DistributionDestinationType {
     LOCAL = 'local',
     CITY = 'city',
-    PROVINCE = 'province',
+    SUB_REGION = 'sub_region',
     REGION = 'region',
     EUROPE = 'europe',
     INTERNATIONAL = 'international',

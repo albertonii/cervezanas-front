@@ -431,10 +431,21 @@ const canDistributorDeliverToAddress = async (
     }
 
     // 3. Check if the point [latitude, longitude] is in the coverage area. We need to check by priority order:
-    // CITY -> PROVINCE -> REGION -> INTERNATIONAL
+    // CITY -> SUBREGION/PROVINCE -> REGION/COMUNIDAD AUTONOMA -> INTERNATIONAL
 
     // CITY
     if (coverageAreas.cities.length > 0) {
+        // Check if the name of the city is in the list of cities of the distributor
+        const city = clientShippingInfo.city;
+        canDeliver = coverageAreas.cities.includes(city);
+
+        if (canDeliver) {
+            return {
+                canDeliver,
+            };
+        }
+
+        // Check if the point [latitude, longitude] is inside the city
         canDeliver = await canDeliverToAddressCity(
             coverageAreas.cities,
             clientLatLng,
@@ -443,6 +454,45 @@ const canDistributorDeliverToAddress = async (
         if (canDeliver) {
             return {
                 canDeliver: canDeliver,
+            };
+        }
+    }
+
+    // SUBREGION - PROVINCE
+    if (coverageAreas.sub_regions.length > 0) {
+        // Check if the name of the subregion is in the list of subregions of the distributor
+        const subregion = clientShippingInfo.sub_region;
+        canDeliver = coverageAreas.sub_regions.includes(subregion);
+
+        if (canDeliver) {
+            return {
+                canDeliver,
+            };
+        }
+    }
+
+    // REGION - COMUNIDAD AUTONOMA
+    if (coverageAreas.regions.length > 0) {
+        // Check if the name of the region is in the list of regions of the distributor
+        const region = clientShippingInfo.region;
+        canDeliver = coverageAreas.regions.includes(region);
+
+        if (canDeliver) {
+            return {
+                canDeliver,
+            };
+        }
+    }
+
+    // INTERNATIONAL
+    if (coverageAreas.international) {
+        // Check if the point [latitude, longitude] is inside the international area
+        const country = clientShippingInfo.country;
+        canDeliver = coverageAreas.international.includes(country);
+
+        if (canDeliver) {
+            return {
+                canDeliver,
             };
         }
     }
@@ -477,6 +527,9 @@ const canDeliverToAddressCity = async (
     clientLatLng: google.maps.LatLng,
 ) => {
     let canDeliver = false;
+
+    console.log(cities);
+
     for (const city of cities) {
         const lat = clientLatLng.lat;
         const lng = clientLatLng.lng;
@@ -495,7 +548,10 @@ const isInsideCity = async (
 ) => {
     const ds_url = DS_API.DS_URL + DS_API.DS_CITIES + city;
 
-    const data = await fetch(`${ds_url}/inside?lat=${lat}&lng=${lng}`, {
+    console.log(city);
+    console.log(lat, lng);
+
+    const response = await fetch(`${ds_url}/inside?lat=${lat}&lng=${lng}`, {
         method: API_METHODS.GET,
     })
         .then((res) => res.json())
@@ -504,5 +560,11 @@ const isInsideCity = async (
             return false;
         });
 
-    return data;
+    try {
+        const responseJson = JSON.parse(response);
+        return responseJson;
+    } catch (error) {
+        console.error('Error:', error);
+        return false;
+    }
 };

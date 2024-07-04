@@ -25,11 +25,11 @@ const AreaSidebar: React.FC<SidebarProps> = ({ form, onItemClick }) => {
 
     const { getValues } = form;
 
-    const { cities, provinces, regions, international } = getValues();
+    const { cities, sub_regions, regions, international } = getValues();
 
     const items = {
         cities,
-        provinces,
+        sub_regions,
         regions,
         international,
     };

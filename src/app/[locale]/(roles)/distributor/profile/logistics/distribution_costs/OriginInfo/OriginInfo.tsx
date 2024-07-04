@@ -21,8 +21,9 @@ interface FormData {
     phone: string;
     postalcode: string;
     country: string;
-    province: string;
-    town: string;
+    region: string;
+    sub_region: string;
+    city: string;
     address_1: string;
     address_2: string;
 }
@@ -53,8 +54,9 @@ export default function OriginInfo() {
     //     phone,
     //     postalcode,
     //     country,
-    //     province,
-    //     town,
+    //     region,
+    //     sub_region,
+    //     city,
     //     address_1,
     //     address_2,
     //   } = formValues;

@@ -20,7 +20,7 @@ export default function HorizontalMenuCoverageDestination({
                 tabs={[
                     // DistributionDestinationType.LOCAL,
                     DistributionDestinationType.CITY,
-                    DistributionDestinationType.PROVINCE,
+                    DistributionDestinationType.SUB_REGION,
                     DistributionDestinationType.REGION,
                     // DistributionDestinationType.EUROPE,
                     DistributionDestinationType.INTERNATIONAL,

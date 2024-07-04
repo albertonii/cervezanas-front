@@ -162,13 +162,13 @@ const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
 
                 <fieldset className="mr-2 flex gap-4 rounded-xl border p-2">
                     <legend className=" text-gray-600">
-                        {t('provinces_distribution_cost')}
+                        {t('sub_regions_distribution_cost')}
                     </legend>
 
                     <InputLabel
                         form={form}
-                        label={'provinces_distribution_cost'}
-                        labelText={`${t('provinces_distribution_cost')} (€) `}
+                        label={'sub_regions_distribution_cost'}
+                        labelText={`${t('sub_regions_distribution_cost')} (€) `}
                         registerOptions={{
                             required: true,
                             valueAsNumber: true,
