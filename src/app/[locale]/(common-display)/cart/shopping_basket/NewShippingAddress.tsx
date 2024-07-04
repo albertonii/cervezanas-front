@@ -1,5 +1,4 @@
 import AddressForm from '../../../components/AddressForm';
-import Spinner from '../../../components/common/Spinner';
 import ModalWithForm from '../../../components/modals/ModalWithForm';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
@@ -23,7 +22,8 @@ const schema: ZodType<ModalShippingAddressFormData> = z.object({
     phone: z.string().nonempty({ message: 'errors.input_required' }),
     address: z.string().nonempty({ message: 'errors.input_required' }),
     country: z.string().nonempty({ message: 'errors.input_required' }),
-    state: z.string().nonempty({ message: 'errors.input_required' }),
+    region: z.string().nonempty({ message: 'errors.input_required' }),
+    sub_region: z.string().nonempty({ message: 'errors.input_required' }),
     city: z.string().nonempty({ message: 'errors.input_required' }),
     zipcode: z.string().nonempty({ message: 'errors.input_required' }),
     is_default: z.boolean(),
@@ -63,9 +63,10 @@ export function NewShippingAddress() {
             address_extra: form.address_extra,
             address_observations: form.address_observations,
             country: form.country,
-            zipcode: form.zipcode,
+            region: form.region,
+            sub_region: form.sub_region,
             city: form.city,
-            state: form.state,
+            zipcode: form.zipcode,
             is_default: form.is_default,
         };
 

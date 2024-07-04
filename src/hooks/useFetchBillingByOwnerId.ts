@@ -7,30 +7,30 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import { Database } from '../lib/schema';
 
 const fetchBillingByOwnerId = async (
-  ownerId: string,
-  supabase: SupabaseClient<Database>,
+    ownerId: string,
+    supabase: SupabaseClient<Database>,
 ) => {
-  if (!ownerId) throw new Error('ownerId is required');
+    if (!ownerId) throw new Error('ownerId is required');
 
-  const { data, error } = await supabase
-    .from('billing_info')
-    .select(`*`)
-    .eq('owner_id', ownerId);
+    const { data, error } = await supabase
+        .from('billing_info')
+        .select(`*`)
+        .eq('owner_id', ownerId);
 
-  if (error) throw error;
+    if (error) throw error;
 
-  return data as IBillingInfo[];
+    return data as IBillingInfo[];
 };
 
 const useFetchBillingByOwnerId = (ownerId: string) => {
-  const { supabase } = useAuth();
+    const { supabase } = useAuth();
 
-  return useQuery({
-    queryKey: ['billingAddresses', ownerId],
-    queryFn: () => fetchBillingByOwnerId(ownerId, supabase),
-    enabled: true,
-    refetchOnWindowFocus: false,
-  });
+    return useQuery({
+        queryKey: ['billingAddresses', ownerId],
+        queryFn: () => fetchBillingByOwnerId(ownerId, supabase),
+        enabled: true,
+        refetchOnWindowFocus: false,
+    });
 };
 
 export default useFetchBillingByOwnerId;

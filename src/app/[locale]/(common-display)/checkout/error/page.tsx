@@ -149,9 +149,10 @@ async function getCheckoutErrorData(searchParams: any) {
             address_extra,
             address_observations,
             country,
-            zipcode,
+            region,
+            sub_region,
             city,
-            state,
+            zipcode,
             is_default
           ),
           billing_info!orders_billing_info_id_fkey (
@@ -165,9 +166,10 @@ async function getCheckoutErrorData(searchParams: any) {
             phone,
             address,
             country,
-            zipcode,
+            region,
+            sub_region,
             city,
-            state,
+            zipcode,
             is_default
           ),
           business_orders!business_orders_order_id_fkey (

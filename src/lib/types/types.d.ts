@@ -316,10 +316,11 @@ export interface IProfile {
     lastname: string;
     phone: string;
     address: string;
-    city: string;
-    state: string;
-    zip: string;
     country: string;
+    region: string;
+    sub_region: string;
+    city: string;
+    zipcode: string;
     img_url: any;
     is_public: boolean;
     users?: User;
@@ -655,9 +656,10 @@ export interface IShippingInfo {
     address_extra: string;
     address_observations: string;
     country: string;
-    zipcode: string;
+    region: string;
+    sub_region: string;
     city: string;
-    state: string;
+    zipcode: string;
     is_default: boolean;
 }
 
@@ -672,9 +674,10 @@ export interface IBillingInfo {
     phone: string;
     address: string;
     country: string;
-    zipcode: string;
+    region: string;
+    sub_region: string;
     city: string;
-    state: string;
+    zipcode: string;
     is_default: boolean;
     users?: IUserTable;
 }
@@ -689,9 +692,10 @@ export interface IAddressForm {
     address_extra: string;
     address_observations: string;
     country: string;
-    zipcode: string;
+    region: string;
+    sub_region: string;
     city: string;
-    state: string;
+    zipcode: string;
     is_default: boolean;
 }
 
@@ -1120,9 +1124,10 @@ export interface IModalShippingAddress {
     address_extra?: string;
     address_observations?: string;
     country: string;
-    zipcode: string;
+    region: string;
+    sub_region: string;
     city: string;
-    state: string;
+    zipcode: string;
     is_default: boolean;
 }
 
@@ -1135,9 +1140,10 @@ export interface IModalBillingAddress {
     address: string;
     address_extra?: string;
     country: string;
-    zipcode: string;
+    region: string;
+    sub_region: string;
     city: string;
-    state: string;
+    zipcode: string;
     is_default: boolean;
 }
 
@@ -1199,7 +1205,8 @@ export interface IBillingAddress {
     phone: string;
     address: string;
     country: string;
-    state: string;
+    region: string;
+    sub_region: string;
     city: string;
     zipcode: string;
     is_default: boolean;
