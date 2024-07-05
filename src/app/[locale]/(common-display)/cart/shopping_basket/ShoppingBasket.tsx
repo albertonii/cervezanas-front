@@ -61,7 +61,8 @@ interface Props {
 export function ShoppingBasket({ user }: Props) {
     const t = useTranslations();
 
-    const { isLoading } = useAuth();
+    const [isShippingCostLoading, setIsShippingCostLoading] = useState(false);
+
     const { handleMessage } = useMessage();
 
     const {
@@ -134,6 +135,8 @@ export function ShoppingBasket({ user }: Props) {
 
     useEffect(() => {
         const handleShippingCost = async () => {
+            setIsShippingCostLoading(true);
+
             const canMakeThePayment =
                 checkIsShoppingCartDeliverable() &&
                 items.length > 0 &&
@@ -149,6 +152,7 @@ export function ShoppingBasket({ user }: Props) {
             }
 
             setCanMakeThePayment(canMakeThePayment);
+            setIsShippingCostLoading(false);
         };
 
         handleShippingCost();
@@ -300,8 +304,6 @@ export function ShoppingBasket({ user }: Props) {
 
     if (!user) return <Spinner color="beer-blonde" size="medium" />;
 
-    if (isLoading) return <Spinner color="beer-blonde" size="medium" />;
-
     return (
         <section className="flex w-full flex-col items-center justify-center sm:my-2">
             <form
@@ -361,7 +363,12 @@ export function ShoppingBasket({ user }: Props) {
                         </figure>
                     </div>
 
-                    <div className="jusitfy-center mt-10 flex w-full flex-col items-stretch space-y-4 md:space-y-6 xl:flex-row xl:space-x-8 xl:space-y-0">
+                    <div
+                        className={`
+                            ${isShippingCostLoading ? 'animate-pulse' : ''}
+                            jusitfy-center mt-10 flex w-full flex-col items-stretch space-y-4 md:space-y-6 xl:flex-row xl:space-x-8 xl:space-y-0
+                        `}
+                    >
                         {/* Products  */}
                         <div className="flex w-full flex-col items-start justify-start space-y-4 md:space-y-6 xl:space-y-8">
                             {/* Customer's Cart */}
@@ -377,6 +384,9 @@ export function ShoppingBasket({ user }: Props) {
                                             selectedShippingAddress
                                         }
                                         handleDeliveryCost={handleDeliveryCost}
+                                        isShippingCostLoading={
+                                            isShippingCostLoading
+                                        }
                                     />
                                 ) : (
                                     <EmptyCart />

@@ -461,7 +461,7 @@ export default function CityDistribution({
                             htmlFor="addressRegion"
                             className="text-sm text-gray-600"
                         >
-                            {t('loc_')}
+                            {t('loc_city')}
                         </label>
 
                         <select

@@ -1002,5 +1002,8 @@
     "cities": "Ciudades",
     "provinces": "Provincias",
     "regions": "Regiones",
-    "select_all_provinces": "Seleccionar todas las provincias"
+    "sub_region": "Subregión",
+    "sub_regions": "Subregiones",
+    "select_all_provinces": "Seleccionar todas las provincias",
+    "can_not_deliver_to_address": "Lo sentimos, este artículo no se puede enviar a la dirección seleccionada. Cambia la dirección de envío o elimina el artículo de tu pedido."
 }

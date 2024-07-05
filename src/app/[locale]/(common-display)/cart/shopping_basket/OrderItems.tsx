@@ -1,32 +1,40 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslations } from 'next-intl';
+import { CheckoutItem } from './CheckoutItem';
 import { formatCurrency } from '../../../../../utils/formatCurrency';
 import { useShoppingCart } from '../../../../context/ShoppingCartContext';
-import { CheckoutItem } from './CheckoutItem';
 
 interface Props {
     selectedShippingAddress: string;
     handleDeliveryCost: (deliveryCost: number) => void;
     subtotal: number;
+    isShippingCostLoading: boolean;
 }
 
 const OrderItems = ({
     selectedShippingAddress,
     handleDeliveryCost,
     subtotal,
+    isShippingCostLoading,
 }: Props) => {
     const t = useTranslations();
 
     const { items } = useShoppingCart();
 
     return (
-        <div className="w-full">
+        <div
+            className={`
+                ${isShippingCostLoading && 'opacity-50'}
+                w-full
+            `}
+        >
             {items.map((productPack) => (
                 <div key={productPack.id}>
                     <CheckoutItem
                         productPack={productPack}
                         selectedShippingAddress={selectedShippingAddress}
                         handleDeliveryCost={handleDeliveryCost}
+                        isShippingCostLoading={isShippingCostLoading}
                     />
                 </div>
             ))}

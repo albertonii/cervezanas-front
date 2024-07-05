@@ -334,34 +334,36 @@ export async function getListAsociatedDistributors(
     shippingInfo: IShippingInfo,
 ) {
     // Array de distribuidores que tienen configurado en su área de cobertura la dirección de envío
-    const distributors: IDistributionContract[] = [];
+    const availableDistributorContracts: IDistributionContract[] = [];
 
     for (const producerId in itemsByProducer) {
         // Get the list of distributors associated to the seller/producer of the product
-        const listOfDistributorsContracts =
+        const listOfDistributorsContracts: IDistributionContract[] =
             await getListOfDistributorsBasedOnProducerId(producerId);
 
         // Check if the list of distributors is empty
         if (listOfDistributorsContracts.length === 0) {
-            console.log('No distributors found');
+            console.info('No distributors found');
             continue;
         }
 
         // Iterate through the list of distributors and check if they can deliver to the address
         // If so -> Add the distributor to the list of distributors
-        for (const distributor of listOfDistributorsContracts) {
+        for (const distributorContract of listOfDistributorsContracts) {
+            if (!distributorContract.distributor_user) continue;
+
             const canDeliver = await canDistributorDeliverToAddress(
-                distributor,
+                distributorContract.distributor_user,
                 shippingInfo,
             );
 
             if (canDeliver) {
-                distributors.push(distributor);
+                availableDistributorContracts.push(distributorContract);
             }
         }
     }
 
-    return distributors;
+    return availableDistributorContracts;
 }
 
 export async function getShippingInfo(shippingInfoId: string) {
@@ -398,23 +400,20 @@ const getListOfDistributorsBasedOnProducerId = async (producerId: string) => {
     return response.data as IDistributionContract[];
 };
 
-const canDistributorDeliverToAddress = async (
-    dContract: IDistributionContract,
+export async function canDistributorDeliverToAddress(
+    distributorUser: IDistributorUser,
     clientShippingInfo: IShippingInfo,
-) => {
+) {
     let canDeliver = false;
 
     // 1. Get coverage areas of the distributor
-    if (
-        !dContract.distributor_user ||
-        !dContract.distributor_user.coverage_areas
-    )
+    if (!distributorUser || !distributorUser.coverage_areas)
         return {
             canDeliver,
             delivery_type: DeliveryType.NONE,
         };
 
-    const coverageAreas = dContract.distributor_user.coverage_areas;
+    const coverageAreas = distributorUser.coverage_areas;
 
     // 2. Get Latitud and Longitud of client shipping address
     const address = `${clientShippingInfo.address}, ${clientShippingInfo.city}, ${clientShippingInfo.zipcode}, ${clientShippingInfo.country}`;
@@ -498,7 +497,7 @@ const canDistributorDeliverToAddress = async (
     }
 
     return { canDeliver, delivery_type: DeliveryType.NONE };
-};
+}
 
 const convertAddressToLatLng = async (address: string) => {
     const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;

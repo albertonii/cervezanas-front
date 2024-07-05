@@ -114,7 +114,7 @@ export function ShoppingCartProvider({ children }: Props) {
                 selectedShippingInfo,
             );
 
-        // Recorrer listado de productos por productor y obtener el costo de envío más barato
+        // Recorrer listado de productos por PRODUCTOR y obtener el costo de envío más barato
         let totalShippingCost = 0;
 
         for (const producerId in producerIdAndItems) {

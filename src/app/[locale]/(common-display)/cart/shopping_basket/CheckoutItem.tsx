@@ -12,17 +12,20 @@ import { IProductPackCartItem } from '../../../../../lib/types/types';
 import { useShoppingCart } from '../../../../context/ShoppingCartContext';
 import { calculateFlatrateAndWeightShippingCost } from '../../../(roles)/distributor/actions';
 import { calculateProductPacksWeight } from '../actions';
+import Spinner from '../../../components/common/Spinner';
 
 interface Props {
     productPack: IProductPackCartItem;
     selectedShippingAddress: string;
     handleDeliveryCost: ComponentProps<any>;
+    isShippingCostLoading: boolean;
 }
 
 export function CheckoutItem({
     productPack,
     selectedShippingAddress,
     handleDeliveryCost,
+    isShippingCostLoading,
 }: Props) {
     const t = useTranslations();
     const locale = useLocale();
@@ -134,38 +137,37 @@ export function CheckoutItem({
 
     return (
         <>
-            {productPack && (
-                <article className={`mt-4 space-y-4`}>
-                    <Link
-                        href={`/products/${productWithInfo.id}`}
-                        locale={locale}
-                    >
-                        <p className="space-x-2 text-xl">
-                            <span className="font-semibold ">
-                                {t('product_name')}:
-                            </span>
+            <article
+                className={`mt-4 space-y-4 ${
+                    isShippingCostLoading ? 'pointer-events-none' : ''
+                }`}
+            >
+                <Link href={`/products/${productWithInfo.id}`} locale={locale}>
+                    <p className="space-x-2 text-xl">
+                        <span className="font-semibold ">
+                            {t('product_name')}:
+                        </span>
 
-                            <span className="hover:font-semibold hover:text-beer-gold">
-                                {productPack.name}
-                            </span>
-                        </p>
-                    </Link>
-
+                        <span className="hover:font-semibold hover:text-beer-gold">
+                            {productPack.name}
+                        </span>
+                    </p>
+                </Link>
+                {/* 
                     {selectedShippingAddress && !canDeliver && (
                         <DeliveryError />
-                    )}
+                    )} */}
 
-                    {productPack.packs.map((pack) => (
-                        <div key={pack.id}>
-                            <CheckoutPackItem
-                                productPack={productPack}
-                                productWithInfo={productWithInfo}
-                                pack={pack}
-                            />
-                        </div>
-                    ))}
-                </article>
-            )}
+                {productPack.packs.map((pack) => (
+                    <div key={pack.id}>
+                        <CheckoutPackItem
+                            productPack={productPack}
+                            productWithInfo={productWithInfo}
+                            pack={pack}
+                        />
+                    </div>
+                ))}
+            </article>
         </>
     );
 }

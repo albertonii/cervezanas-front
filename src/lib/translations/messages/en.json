@@ -987,5 +987,8 @@
     "cities": "Cities",
     "provinces": "Provinces",
     "regions": "Regions",
-    "select_all_provinces": "Select all provinces"
+    "sub_region": "Sub region",
+    "sub_regions": "Sub regions",
+    "select_all_provinces": "Select all provinces",
+    "can_not_deliver_to_address": "Sorry, this item cannot be shipped to the selected address. Please change the shipping address or remove the item from your order"
 }
