@@ -48,7 +48,6 @@ export default function PromoCode() {
 
         // Aquí puedes hacer la llamada a tu backend para validar el código promocional
         const response = await validatePromoCode(code, user.id); // Reemplaza con tu función real
-        console.log(response);
 
         setTimeout(() => {
             setIsFetching(false);

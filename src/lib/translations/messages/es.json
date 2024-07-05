@@ -978,7 +978,11 @@
         "campaign_added": "Campaña añadida correctamente",
         "boxpack_created": "Pack variado creado correctamente",
         "boxpack_updated": "Pack variado actualizado correctamente",
-        "monthly_product_inserted": "Producto mensual insertado correctamente"
+        "monthly_product_inserted": "Producto mensual insertado correctamente",
+        "update_city_coverage_area": "Área de cobertura de la ciudad actualizada correctamente",
+        "update_sub_region_coverage_area": "Área de cobertura de la subregión actualizada correctamente",
+        "update_region_coverage_area": "Área de cobertura de la región actualizada correctamente",
+        "update_country_coverage_area": "Área de cobertura del país actualizado correctamente"
     },
     "num_of_packs": "Número de packs",
     "promo_code": "Código promocional",

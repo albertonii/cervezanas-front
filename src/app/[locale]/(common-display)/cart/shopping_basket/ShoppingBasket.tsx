@@ -4,20 +4,19 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 import Decimal from 'decimal.js';
 import EmptyCart from './EmptyCart';
 import ShippingBillingContainer from './ShippingBillingContainer';
-import useFetchShippingByOwnerId from '../../../../../hooks/useFetchShippingByOwnerId';
 import useFetchBillingByOwnerId from '../../../../../hooks/useFetchBillingByOwnerId';
+import useFetchShippingByOwnerId from '../../../../../hooks/useFetchShippingByOwnerId';
 import React, { useState, useEffect, useRef } from 'react';
 import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
-import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { API_METHODS } from '../../../../../constants';
 import { useMutation, useQueryClient } from 'react-query';
 import { randomTransactionId, CURRENCIES } from 'redsys-easy';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CustomLoading } from '../../../components/common/CustomLoading';
-import { API_METHODS } from '../../../../../constants';
 import { useShoppingCart } from '../../../../context/ShoppingCartContext';
 import {
     createRedirectForm,

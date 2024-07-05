@@ -331,7 +331,7 @@ export async function updateSubRegionDistribution(
     coverageAreaId: string,
     areaAndWeightCostId: string,
 ) {
-    const url = `${baseUrl}/api/coverage_areas/sub_region`;
+    const url = `${baseUrl}/api/coverage_areas/sub_regions`;
 
     const formData = new FormData();
 

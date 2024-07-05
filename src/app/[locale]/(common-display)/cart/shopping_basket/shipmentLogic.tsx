@@ -34,8 +34,6 @@ export const initShipmentLogic = async (
             await canDistributorDeliverToAddress(distributor, shippingInfo);
 
         if (canDeliver) {
-            console.log(distributor.distributor_user);
-
             return {
                 can_deliver: canDeliver,
                 distributor_id: distributor.distributor_id,

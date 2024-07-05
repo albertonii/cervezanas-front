@@ -302,7 +302,7 @@ export async function calculateCheapestShippingCosts(
                     return null;
                 }
             } catch (error) {
-                console.log('Error fetching shipping costs', error);
+                console.error('Error fetching shipping costs', error);
                 return null;
             }
         }),
@@ -312,7 +312,7 @@ export async function calculateCheapestShippingCosts(
     const validShippingCosts = shippingCosts.filter((cost) => cost !== null);
 
     if (validShippingCosts.length === 0) {
-        console.log('No valid shipping costs found');
+        console.info('No valid shipping costs found');
         return null;
     }
 
@@ -433,40 +433,45 @@ export async function canDistributorDeliverToAddress(
     // CITY -> SUBREGION/PROVINCE -> REGION/COMUNIDAD AUTONOMA -> INTERNATIONAL
 
     // CITY
-    if (coverageAreas.cities.length > 0) {
-        // Check if the name of the city is in the list of cities of the distributor
-        const city = clientShippingInfo.city;
-        canDeliver = coverageAreas.cities.includes(city);
+    // if (coverageAreas.cities.length > 0) {
+    //     // Check if the name of the city is in the list of cities of the distributor
+    //     const city = clientShippingInfo.city;
+    //     const cityNameInCoverageArea = coverageAreas.cities.includes(city);
 
-        if (canDeliver) {
-            return {
-                canDeliver,
-            };
-        }
+    //     if (cityNameInCoverageArea) {
+    //         // Check if the point [latitude, longitude] is inside the city
+    //         canDeliver = await checkAddressIsInsideCityGeospatial(
+    //             city,
+    //             clientLatLng,
+    //         );
 
-        // Check if the point [latitude, longitude] is inside the city
-        canDeliver = await canDeliverToAddressCity(
-            coverageAreas.cities,
-            clientLatLng,
-        );
-
-        if (canDeliver) {
-            return {
-                canDeliver: canDeliver,
-            };
-        }
-    }
+    //         if (canDeliver) {
+    //             return {
+    //                 canDeliver: canDeliver,
+    //             };
+    //         }
+    //     }
+    // }
 
     // SUBREGION - PROVINCE
     if (coverageAreas.sub_regions.length > 0) {
         // Check if the name of the subregion is in the list of subregions of the distributor
         const subregion = clientShippingInfo.sub_region;
-        canDeliver = coverageAreas.sub_regions.includes(subregion);
+        const subregionNameInCoverageArea =
+            coverageAreas.sub_regions.includes(subregion);
 
-        if (canDeliver) {
-            return {
-                canDeliver,
-            };
+        if (subregionNameInCoverageArea) {
+            // Check if the point [latitude, longitude] is inside the subregion
+            canDeliver = await checkAddressIsInsideSubregionGeospatial(
+                subregion,
+                clientLatLng,
+            );
+
+            if (canDeliver) {
+                return {
+                    canDeliver,
+                };
+            }
         }
     }
 
@@ -521,13 +526,35 @@ const convertAddressToLatLng = async (address: string) => {
     return location as google.maps.LatLng;
 };
 
-const canDeliverToAddressCity = async (
+const checkAddressIsInsideCityGeospatial = async (
+    city: string,
+    clientLatLng: google.maps.LatLng,
+) => {
+    const lat = clientLatLng.lat;
+    const lng = clientLatLng.lng;
+    const canDeliver = await isInsideCity(city, lat, lng);
+
+    return canDeliver;
+};
+
+const checkAddressIsInsideSubregionGeospatial = async (
+    subregion: string,
+    clientLatLng: google.maps.LatLng,
+) => {
+    const canDeliver = await isInsideSubRegion(
+        subregion,
+        clientLatLng.lat,
+        clientLatLng.lng,
+    );
+
+    return canDeliver;
+};
+
+const checkCanDeliverToAddressCities = async (
     cities: string[],
     clientLatLng: google.maps.LatLng,
 ) => {
     let canDeliver = false;
-
-    console.log(cities);
 
     for (const city of cities) {
         const lat = clientLatLng.lat;
@@ -545,10 +572,38 @@ const isInsideCity = async (
     lat: () => number,
     lng: () => number,
 ) => {
-    const ds_url = DS_API.DS_URL + DS_API.DS_CITIES + city;
+    const ds_url = DS_API.DS_URL + DS_API.DS_CITIES + encodeURIComponent(city);
 
-    console.log(city);
-    console.log(lat, lng);
+    const response = await fetch(`${ds_url}/inside?lat=${lat}&lng=${lng}`, {
+        method: API_METHODS.GET,
+    })
+        .then(async (res) => {
+            console.log('RESPUESTA ANTES JSON', await res.json());
+            return await res.json();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            return false;
+        });
+
+    try {
+        const responseJson = JSON.parse(response);
+        return responseJson;
+    } catch (error) {
+        console.error('Error:', error);
+        return false;
+    }
+};
+
+const isInsideSubRegion = async (
+    subRegion: string,
+    lat: () => number,
+    lng: () => number,
+) => {
+    const ds_url =
+        DS_API.DS_URL + DS_API.DS_PROVINCES + encodeURIComponent(subRegion);
+
+    console.log(ds_url + '/inside?lat=' + lat + '&lng=' + lng);
 
     const response = await fetch(`${ds_url}/inside?lat=${lat}&lng=${lng}`, {
         method: API_METHODS.GET,

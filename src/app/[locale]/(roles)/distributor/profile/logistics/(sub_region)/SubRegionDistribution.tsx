@@ -151,7 +151,7 @@ export default function SubRegionDistribution({
         setTenSubRegions([]);
     };
 
-    const handleUpdatePronvicesDistribution = async () => {
+    const handleUpdateSubRegionsDistribution = async () => {
         setIsLoading(true);
 
         const areaAndWeightId = distributionCosts?.area_and_weight_cost?.id;
@@ -218,7 +218,7 @@ export default function SubRegionDistribution({
 
     const updateSubRegionsDistributionMutation = useMutation({
         mutationKey: 'updateSubRegionsDistribution',
-        mutationFn: handleUpdatePronvicesDistribution,
+        mutationFn: handleUpdateSubRegionsDistribution,
         onMutate: () => {
             setIsLoading(true);
         },
