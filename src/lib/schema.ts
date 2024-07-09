@@ -2546,6 +2546,38 @@ export interface Database {
           }
         ]
       }
+      region_coverage_areas: {
+        Row: {
+          country: string | null
+          country_iso_code: string
+          distributor_id: string | null
+          id: string
+          regions: string[]
+        }
+        Insert: {
+          country?: string | null
+          country_iso_code?: string
+          distributor_id?: string | null
+          id?: string
+          regions?: string[]
+        }
+        Update: {
+          country?: string | null
+          country_iso_code?: string
+          distributor_id?: string | null
+          id?: string
+          regions?: string[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "region_coverage_areas_distributor_id_fkey"
+            columns: ["distributor_id"]
+            isOneToOne: false
+            referencedRelation: "distributor_user"
+            referencedColumns: ["user_id"]
+          }
+        ]
+      }
       reviews: {
         Row: {
           appearance: number | null
@@ -2671,6 +2703,41 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
+          }
+        ]
+      }
+      sub_region_coverage_areas: {
+        Row: {
+          country: string | null
+          country_iso_code: string
+          distributor_id: string | null
+          id: string
+          name: string
+          region: string
+        }
+        Insert: {
+          country?: string | null
+          country_iso_code?: string
+          distributor_id?: string | null
+          id?: string
+          name?: string
+          region: string
+        }
+        Update: {
+          country?: string | null
+          country_iso_code?: string
+          distributor_id?: string | null
+          id?: string
+          name?: string
+          region?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subregion_coverage_areas_distributor_id_fkey"
+            columns: ["distributor_id"]
+            isOneToOne: false
+            referencedRelation: "distributor_user"
+            referencedColumns: ["user_id"]
           }
         ]
       }

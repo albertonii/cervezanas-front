@@ -1,6 +1,7 @@
 'use server';
 
 import axios from 'axios';
+import { ISubRegionCoverageAreas } from '../../../../../lib/types/distribution_areas';
 import {
     IAreaAndWeightCostRange,
     IFlatrateAndWeightCostForm,
@@ -325,9 +326,9 @@ export async function updateCityDistribution(
 }
 
 export async function updateSubRegionDistribution(
-    unCheckedSubRegions: string[],
-    newSelectedSubRegions: string[],
-    selectedSubRegions: string[],
+    unCheckedSubRegions: ISubRegionCoverageAreas[],
+    newSelectedSubRegions: ISubRegionCoverageAreas[],
+    selectedSubRegions: ISubRegionCoverageAreas[],
     coverageAreaId: string,
     areaAndWeightCostId: string,
 ) {

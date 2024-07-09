@@ -1,52 +1,297 @@
 [
-  { "name": "Álava", "autonomous_community": "País Vasco" },
-  { "name": "Albacete", "autonomous_community": "Castilla-La Mancha" },
-  { "name": "Alicante", "autonomous_community": "Comunidad Valenciana" },
-  { "name": "Almería", "autonomous_community": "Andalucía" },
-  { "name": "Asturias", "autonomous_community": "Asturias" },
-  { "name": "Ávila", "autonomous_community": "Castilla y León" },
-  { "name": "Badajoz", "autonomous_community": "Extremadura" },
-  { "name": "Barcelona", "autonomous_community": "Cataluña" },
-  { "name": "Burgos", "autonomous_community": "Castilla y León" },
-  { "name": "Cáceres", "autonomous_community": "Extremadura" },
-  { "name": "Cádiz", "autonomous_community": "Andalucía" },
-  { "name": "Cantabria", "autonomous_community": "Cantabria" },
-  { "name": "Castellón", "autonomous_community": "Comunidad Valenciana" },
-  { "name": "Ciudad Real", "autonomous_community": "Castilla-La Mancha" },
-  { "name": "Córdoba", "autonomous_community": "Andalucía" },
-  { "name": "Cuenca", "autonomous_community": "Castilla-La Mancha" },
-  { "name": "Gerona", "autonomous_community": "Cataluña" },
-  { "name": "Granada", "autonomous_community": "Andalucía" },
-  { "name": "Guadalajara", "autonomous_community": "Castilla-La Mancha" },
-  { "name": "Guipúzcoa", "autonomous_community": "País Vasco" },
-  { "name": "Huelva", "autonomous_community": "Andalucía" },
-  { "name": "Huesca", "autonomous_community": "Aragón" },
-  { "name": "Islas Baleares", "autonomous_community": "Islas Baleares" },
-  { "name": "Jaén", "autonomous_community": "Andalucía" },
-  { "name": "La Coruña", "autonomous_community": "Galicia" },
-  { "name": "La Rioja", "autonomous_community": "La Rioja" },
-  { "name": "Las Palmas", "autonomous_community": "Canarias" },
-  { "name": "León", "autonomous_community": "Castilla y León" },
-  { "name": "Lérida", "autonomous_community": "Cataluña" },
-  { "name": "Lugo", "autonomous_community": "Galicia" },
-  { "name": "Madrid", "autonomous_community": "Madrid" },
-  { "name": "Málaga", "autonomous_community": "Andalucía" },
-  { "name": "Murcia", "autonomous_community": "Murcia" },
-  { "name": "Navarra", "autonomous_community": "Navarra" },
-  { "name": "Orense", "autonomous_community": "Galicia" },
-  { "name": "Palencia", "autonomous_community": "Castilla y León" },
-  { "name": "Pontevedra", "autonomous_community": "Galicia" },
-  { "name": "Salamanca", "autonomous_community": "Castilla y León" },
-  { "name": "Santa Cruz de Tenerife", "autonomous_community": "Canarias" },
-  { "name": "Segovia", "autonomous_community": "Castilla y León" },
-  { "name": "Sevilla", "autonomous_community": "Andalucía" },
-  { "name": "Soria", "autonomous_community": "Castilla y León" },
-  { "name": "Tarragona", "autonomous_community": "Cataluña" },
-  { "name": "Teruel", "autonomous_community": "Aragón" },
-  { "name": "Toledo", "autonomous_community": "Castilla-La Mancha" },
-  { "name": "Valencia", "autonomous_community": "Comunidad Valenciana" },
-  { "name": "Valladolid", "autonomous_community": "Castilla y León" },
-  { "name": "Vizcaya", "autonomous_community": "País Vasco" },
-  { "name": "Zamora", "autonomous_community": "Castilla y León" },
-  { "name": "Zaragoza", "autonomous_community": "Aragón" }
+  {
+    "name": "Álava",
+    "region": "País Vasco",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Albacete",
+    "region": "Castilla-La Mancha",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Alicante",
+    "region": "Comunidad Valenciana",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Almería",
+    "region": "Andalucía",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Asturias",
+    "region": "Asturias",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Ávila",
+    "region": "Castilla y León",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Badajoz",
+    "region": "Extremadura",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Barcelona",
+    "region": "Cataluña",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Burgos",
+    "region": "Castilla y León",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Cáceres",
+    "region": "Extremadura",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Cádiz",
+    "region": "Andalucía",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Cantabria",
+    "region": "Cantabria",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Castellón",
+    "region": "Comunidad Valenciana",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Ciudad Real",
+    "region": "Castilla-La Mancha",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Córdoba",
+    "region": "Andalucía",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Cuenca",
+    "region": "Castilla-La Mancha",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Gerona",
+    "region": "Cataluña",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Granada",
+    "region": "Andalucía",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Guadalajara",
+    "region": "Castilla-La Mancha",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Guipúzcoa",
+    "region": "País Vasco",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Huelva",
+    "region": "Andalucía",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Huesca",
+    "region": "Aragón",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Islas Baleares",
+    "region": "Islas Baleares",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Jaén",
+    "region": "Andalucía",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "La Coruña",
+    "region": "Galicia",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "La Rioja",
+    "region": "La Rioja",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Las Palmas",
+    "region": "Canarias",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "León",
+    "region": "Castilla y León",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Lérida",
+    "region": "Cataluña",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Lugo",
+    "region": "Galicia",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Madrid",
+    "region": "Madrid",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Málaga",
+    "region": "Andalucía",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Murcia",
+    "region": "Murcia",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Navarra",
+    "region": "Navarra",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Orense",
+    "region": "Galicia",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Palencia",
+    "region": "Castilla y León",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Pontevedra",
+    "region": "Galicia",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Salamanca",
+    "region": "Castilla y León",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Santa Cruz de Tenerife",
+    "region": "Canarias",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Segovia",
+    "region": "Castilla y León",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Sevilla",
+    "region": "Andalucía",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Soria",
+    "region": "Castilla y León",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Tarragona",
+    "region": "Cataluña",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Teruel",
+    "region": "Aragón",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Toledo",
+    "region": "Castilla-La Mancha",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Valencia",
+    "region": "Comunidad Valenciana",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Valladolid",
+    "region": "Castilla y León",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Vizcaya",
+    "region": "País Vasco",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Zamora",
+    "region": "Castilla y León",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  { "name": "Zaragoza", "region": "Aragón" }
 ]

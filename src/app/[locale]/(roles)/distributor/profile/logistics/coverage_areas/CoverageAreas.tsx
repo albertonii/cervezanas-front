@@ -54,28 +54,31 @@ export default function CoverageAreas() {
                     </>
                 );
 
-            case DistributionDestinationType.CITY:
-                return (
-                    <>
-                        {distributor && (
-                            <CityDistribution
-                                cities={distributor.coverage_areas.cities}
-                                coverageAreaId={distributor.coverage_areas.id}
-                                distributionCosts={
-                                    distributor.distribution_costs!
-                                }
-                            />
-                        )}
-                    </>
-                );
+            // case DistributionDestinationType.CITY:
+            //     return (
+            //         <>
+            //             {distributor && (
+            //                 <CityDistribution
+            //                     cities={distributor.coverage_areas.cities}
+            //                     coverageAreaId={distributor.coverage_areas.id}
+            //                     distributionCosts={
+            //                         distributor.distribution_costs!
+            //                     }
+            //                 />
+            //             )}
+            //         </>
+            //     );
 
             case DistributionDestinationType.SUB_REGION:
                 return (
                     <>
-                        {distributor && (
+                        {distributor.sub_region_coverage_areas && (
                             <SubRegionDistribution
-                                sub_regions={
-                                    distributor.coverage_areas.sub_regions
+                                // sub_regions={
+                                //     distributor.coverage_areas.sub_regions
+                                // }
+                                new_sub_regions={
+                                    distributor.sub_region_coverage_areas
                                 }
                                 coverageAreaId={distributor.coverage_areas.id}
                                 distributionCosts={
@@ -101,29 +104,29 @@ export default function CoverageAreas() {
                     </>
                 );
 
-            case DistributionDestinationType.EUROPE:
-                return (
-                    <>
-                        {distributor && (
-                            <EuropeDistribution
-                                countries={distributor?.coverage_areas.europe}
-                                coverageAreaId={distributor.coverage_areas.id}
-                            />
-                        )}
-                    </>
-                );
+            // case DistributionDestinationType.EUROPE:
+            //     return (
+            //         <>
+            //             {distributor && (
+            //                 <EuropeDistribution
+            //                     countries={distributor?.coverage_areas.europe}
+            //                     coverageAreaId={distributor.coverage_areas.id}
+            //                 />
+            //             )}
+            //         </>
+            //     );
 
-            case DistributionDestinationType.INTERNATIONAL:
-                return (
-                    <>
-                        {distributor && (
-                            <InternationalDistribution
-                                countries={internationalCountries}
-                                coverageAreaId={distributor.coverage_areas.id}
-                            />
-                        )}
-                    </>
-                );
+            // case DistributionDestinationType.INTERNATIONAL:
+            //     return (
+            //         <>
+            //             {distributor && (
+            //                 <InternationalDistribution
+            //                     countries={internationalCountries}
+            //                     coverageAreaId={distributor.coverage_areas.id}
+            //                 />
+            //             )}
+            //         </>
+            //     );
             default:
                 return <span>local</span>;
         }
