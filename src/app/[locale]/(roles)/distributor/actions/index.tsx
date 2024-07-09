@@ -1,5 +1,6 @@
 'use server';
 
+import axios from 'axios';
 import {
     IAreaAndWeightCostRange,
     IFlatrateAndWeightCostForm,
@@ -52,13 +53,6 @@ export async function calculateFlatrateAndWeightShippingCost(
         }
 
         if (totalWeight > range.weight_to) {
-            console.log('BASE COST', range.base_cost);
-            console.log('Weight from', range.weight_from);
-            console.log('Weight to ', range.weight_to);
-
-            console.log('Diferencia de pesos', totalWeight - range.weight_to);
-            console.log('Precio extra por kg', costExtraPerKG);
-
             // El peso excede el rango actual, por lo que calculamos el coste total para este rango
             shippingCost =
                 range.base_cost +
@@ -230,8 +224,6 @@ export async function updateAreaAndWeightRangeByAreaAndWeightInformationId(
 ) {
     const formData = new FormData();
 
-    console.log(area_weight_range);
-
     area_weight_range.forEach((range, index) => {
         formData.append(
             `area_weight_range[${index}].weight_from`,
@@ -294,80 +286,205 @@ export async function updateCityDistribution(
     formData.append('area_and_weight_cost_id', areaAndWeightId);
 
     // CORS
-    const headers = new Headers();
 
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Access-Control-Allow-Methods', 'PUT');
-    headers.append('Access-Control-Allow-Headers', 'Content-Type');
-    headers.append('Access-Control-Allow-Credentials', 'true');
-    headers.append(
-        'Access-Control-Allow-Headers',
-        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
-    );
+    try {
+        const response = await axios.put(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'PUT',
+                'Access-Control-Allow-Credentials': 'true',
+                'Access-Control-Allow-Headers':
+                    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+            },
+        });
 
-    const response = await fetch(url, {
-        method: 'PUT',
-        body: formData,
-        headers: headers,
-    });
+        if (
+            response.status !== 200 &&
+            response.status !== 201 &&
+            response.status !== 202
+        ) {
+            return {
+                status: response.status,
+                message:
+                    response.data.message || 'Error updating city distribution',
+            };
+        }
 
-    if (!response.ok) {
         return {
             status: response.status,
-            message: 'Error updating city distribution',
+            message: 'City distribution updated successfully',
+        };
+    } catch (error: any) {
+        console.error('Error updating city distribution:', error);
+        return {
+            status: error.response?.status || 500,
+            message: error.response?.data.message || 'Internal Server Error',
         };
     }
-
-    return {
-        status: response.status,
-        message: 'City distribution updated successfully',
-    };
 }
 
-export async function updateProvinceDistribution(
-    unCheckedProvinces: string[],
-    newSelectedProvinces: string[],
-    selectedProvinces: string[],
+export async function updateSubRegionDistribution(
+    unCheckedSubRegions: string[],
+    newSelectedSubRegions: string[],
+    selectedSubRegions: string[],
     coverageAreaId: string,
-    areaAndWeightId: string,
+    areaAndWeightCostId: string,
 ) {
-    const url = `${baseUrl}/api/coverage_areas/provinces`;
+    const url = `${baseUrl}/api/coverage_areas/sub_regions`;
 
     const formData = new FormData();
 
-    formData.append('to_delete_provinces', JSON.stringify(unCheckedProvinces));
-    formData.append('to_add_provinces', JSON.stringify(newSelectedProvinces));
-    formData.append('provinces', JSON.stringify(selectedProvinces));
-    formData.append('coverage_area_id', coverageAreaId);
-    formData.append('area_and_weight_cost_id', areaAndWeightId);
-
-    // CORS
-    const headers = new Headers();
-
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Access-Control-Allow-Methods', 'PUT');
-    headers.append('Access-Control-Allow-Headers', 'Content-Type');
-    headers.append('Access-Control-Allow-Credentials', 'true');
-    headers.append(
-        'Access-Control-Allow-Headers',
-        'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+    formData.append(
+        'to_delete_sub_regions',
+        JSON.stringify(unCheckedSubRegions),
     );
+    formData.append(
+        'to_add_sub_regions',
+        JSON.stringify(newSelectedSubRegions),
+    );
+    formData.append('sub_regions', JSON.stringify(selectedSubRegions));
+    formData.append('coverage_area_id', coverageAreaId);
+    formData.append('area_and_weight_cost_id', areaAndWeightCostId);
 
-    const response = await fetch(url, {
-        method: 'PUT',
-        body: formData,
-        headers: headers,
-    });
+    try {
+        const response = await axios.put(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'PUT',
+                'Access-Control-Allow-Credentials': 'true',
+                'Access-Control-Allow-Headers':
+                    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+            },
+        });
 
-    if (!response.ok) {
+        if (
+            response.status !== 200 &&
+            response.status !== 201 &&
+            response.status !== 202
+        ) {
+            return {
+                status: response.status,
+                message:
+                    response.data.message ||
+                    'Error updating sub_region distribution',
+            };
+        }
+
         return {
             status: response.status,
-            message: 'Error updating province distribution',
+            message: 'SubRegion distribution updated successfully',
+        };
+    } catch (error: any) {
+        console.error('Error updating sub_region distribution:', error);
+        return {
+            status: error.response?.status || 500,
+            message: error.response?.data.message || 'Internal Server Error',
         };
     }
+}
 
-    return {
-        status: response.status,
-        message: 'Province distribution updated successfully',
-    };
+export async function updateRegionDistribution(
+    unCheckedRegions: string[],
+    newSelectedRegions: string[],
+    selectedRegions: string[],
+    coverageAreaId: string,
+    areaAndWeightCostId: string,
+) {
+    const url = `${baseUrl}/api/coverage_areas/regions`;
+
+    const formData = new FormData();
+
+    formData.append('to_delete_regions', JSON.stringify(unCheckedRegions));
+    formData.append('to_add_regions', JSON.stringify(newSelectedRegions));
+    formData.append('regions', JSON.stringify(selectedRegions));
+    formData.append('coverage_area_id', coverageAreaId);
+    formData.append('area_and_weight_cost_id', areaAndWeightCostId);
+
+    try {
+        const response = await axios.put(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'PUT',
+                'Access-Control-Allow-Credentials': 'true',
+                'Access-Control-Allow-Headers':
+                    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+            },
+        });
+
+        if (
+            response.status !== 200 &&
+            response.status !== 201 &&
+            response.status !== 202
+        ) {
+            return {
+                status: response.status,
+                message:
+                    response.data.message ||
+                    'Error updating region distribution',
+            };
+        }
+
+        return {
+            status: response.status,
+            message: 'Region distribution updated successfully',
+        };
+    } catch (error: any) {
+        console.error('Error updating region distribution:', error);
+        return {
+            status: error.response?.status || 500,
+            message: error.response?.data.message || 'Internal Server Error',
+        };
+    }
+}
+
+export async function handleSelectedDistributionCostType(
+    type: string,
+    distributionCostsId: string,
+) {
+    const url = `${baseUrl}/api/distribution_costs/distribution_cost_type`;
+
+    const formData = new FormData();
+
+    formData.append('distribution_costs_id', distributionCostsId);
+    formData.append('distribution_cost_type', type);
+
+    try {
+        const response = await axios.put(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'PUT',
+                'Access-Control-Allow-Credentials': 'true',
+                'Access-Control-Allow-Headers':
+                    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+            },
+        });
+
+        if (
+            response.status !== 200 &&
+            response.status !== 201 &&
+            response.status !== 202
+        ) {
+            return {
+                status: response.status,
+                message:
+                    response.data.message ||
+                    'Error updating distribution cost type',
+            };
+        }
+
+        return {
+            status: response.status,
+            message: 'Distribution cost type updated successfully',
+        };
+    } catch (error: any) {
+        console.error('Error updating distribution cost type:', error);
+        return {
+            status: error.response?.status || 500,
+            message: error.response?.data.message || 'Internal Server Error',
+        };
+    }
 }

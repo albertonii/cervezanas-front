@@ -1,10 +1,10 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTranslations } from 'next-intl';
 import { UseFormRegister } from 'react-hook-form';
 import { IAddress } from '../../../../../lib/types/types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconButton } from '../../../components/common/IconButton';
 import { faLongArrowRight, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { useTranslations } from 'next-intl';
 
 interface Props {
     address: IAddress;
@@ -47,8 +47,9 @@ export default function AddressRadioInput({
                         {address.name} {address.lastname}
                     </span>
                     <span className="w-full">
-                        {address.address}, {address.city}, {address.state},{' '}
-                        {address.zipcode}, {t(address.country)}
+                        {address.address}, {address.city}, {address.sub_region}{' '}
+                        - {address.region}, {address.zipcode},{' '}
+                        {t(address.country)}
                     </span>
                 </address>
 

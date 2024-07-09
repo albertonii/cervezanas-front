@@ -77,11 +77,16 @@ export default function CollaborationDetails({ distributorId }: Props) {
                                             distributor.profile_location[0]
                                                 ?.address_1
                                         }{' '}
-                                        {distributor.profile_location[0]?.town}{' '}
+                                        {distributor.profile_location[0]?.city}{' '}
                                         -{' '}
                                         {
                                             distributor.profile_location[0]
-                                                ?.province
+                                                ?.sub_region
+                                        }{' '}
+                                        -{' '}
+                                        {
+                                            distributor.profile_location[0]
+                                                ?.region
                                         }{' '}
                                         -{' '}
                                         {

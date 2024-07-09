@@ -76,9 +76,9 @@ export default function CheckoutPackItem({
         <section
             className={`${
                 animateRemove ? 'animate-ping' : ''
-            } mt-4 flex w-full flex-col items-start justify-start border-b border-gray-200 pb-8 dark:border-gray-700 md:mt-6 md:flex-row md:items-center md:space-x-6 xl:space-x-8`}
+            } mt-4 flex w-full flex-col items-start justify-start border-b border-gray-200 dark:border-gray-700 md:mt-6 md:flex-row md:items-center md:space-x-6 xl:space-x-8`}
         >
-            <figure className="pb-4 md:pb-8">
+            <figure className="pb-2 md:pb-4">
                 <DisplayImageProduct
                     imgSrc={
                         BASE_PRODUCTS_URL + decodeURIComponent(pack.img_url)

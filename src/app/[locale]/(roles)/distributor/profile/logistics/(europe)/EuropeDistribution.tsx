@@ -191,7 +191,7 @@ export default function EuropeDistribution({ coverageAreaId }: Props) {
                 {t('save')}
             </Button>
 
-            <div className="flex flex-col items-start space-y-4">
+            <div className="flex flex-col items-start space-y-4 w-full">
                 <div className="grid w-full grid-cols-2 gap-4">
                     <div>
                         <label

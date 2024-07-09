@@ -37,24 +37,24 @@ export interface Database {
       }
       area_and_weight_information: {
         Row: {
-          area_and_weight_cost_id: string | null
-          coverage_area_id: string | null
+          area_and_weight_cost_id: string
+          coverage_area_id: string
           id: string
-          name: string | null
+          name: string
           type: string
         }
         Insert: {
-          area_and_weight_cost_id?: string | null
-          coverage_area_id?: string | null
+          area_and_weight_cost_id?: string
+          coverage_area_id?: string
           id?: string
-          name?: string | null
+          name: string
           type?: string
         }
         Update: {
-          area_and_weight_cost_id?: string | null
-          coverage_area_id?: string | null
+          area_and_weight_cost_id?: string
+          coverage_area_id?: string
           id?: string
-          name?: string | null
+          name?: string
           type?: string
         }
         Relationships: [
@@ -77,24 +77,24 @@ export interface Database {
       area_weight_cost_range: {
         Row: {
           area_and_weight_information_id: string
-          base_cost: number | null
+          base_cost: number
           id: string
-          weight_from: number | null
-          weight_to: number | null
+          weight_from: number
+          weight_to: number
         }
         Insert: {
           area_and_weight_information_id?: string
-          base_cost?: number | null
+          base_cost?: number
           id?: string
-          weight_from?: number | null
-          weight_to?: number | null
+          weight_from?: number
+          weight_to?: number
         }
         Update: {
           area_and_weight_information_id?: string
-          base_cost?: number | null
+          base_cost?: number
           id?: string
-          weight_from?: number | null
-          weight_to?: number | null
+          weight_from?: number
+          weight_to?: number
         }
         Relationships: [
           {
@@ -237,7 +237,8 @@ export interface Database {
           name: string | null
           owner_id: string | null
           phone: string | null
-          state: string | null
+          region: string | null
+          sub_region: string | null
           updated_at: string | null
           zipcode: string | null
         }
@@ -253,7 +254,8 @@ export interface Database {
           name?: string | null
           owner_id?: string | null
           phone?: string | null
-          state?: string | null
+          region?: string | null
+          sub_region?: string | null
           updated_at?: string | null
           zipcode?: string | null
         }
@@ -269,7 +271,8 @@ export interface Database {
           name?: string | null
           owner_id?: string | null
           phone?: string | null
-          state?: string | null
+          region?: string | null
+          sub_region?: string | null
           updated_at?: string | null
           zipcode?: string | null
         }
@@ -747,8 +750,8 @@ export interface Database {
           europe: string[] | null
           id: string
           international: string[] | null
-          provinces: string[] | null
           regions: string[] | null
+          sub_regions: string[] | null
         }
         Insert: {
           cities?: string[] | null
@@ -757,8 +760,8 @@ export interface Database {
           europe?: string[] | null
           id?: string
           international?: string[] | null
-          provinces?: string[] | null
           regions?: string[] | null
+          sub_regions?: string[] | null
         }
         Update: {
           cities?: string[] | null
@@ -767,8 +770,8 @@ export interface Database {
           europe?: string[] | null
           id?: string
           international?: string[] | null
-          provinces?: string[] | null
           regions?: string[] | null
+          sub_regions?: string[] | null
         }
         Relationships: [
           {
@@ -1268,25 +1271,28 @@ export interface Database {
       }
       distribution_costs: {
         Row: {
-          cost_extra_per_kg: number | null
+          cost_extra_per_kg: number
           created_at: string
-          distribution_costs_in_product: boolean | null
-          distributor_id: string | null
+          distribution_costs_in_product: boolean
+          distributor_id: string
           id: string
+          selected_method: string
         }
         Insert: {
-          cost_extra_per_kg?: number | null
+          cost_extra_per_kg?: number
           created_at?: string
-          distribution_costs_in_product?: boolean | null
-          distributor_id?: string | null
+          distribution_costs_in_product?: boolean
+          distributor_id: string
           id?: string
+          selected_method?: string
         }
         Update: {
-          cost_extra_per_kg?: number | null
+          cost_extra_per_kg?: number
           created_at?: string
-          distribution_costs_in_product?: boolean | null
-          distributor_id?: string | null
+          distribution_costs_in_product?: boolean
+          distributor_id?: string
           id?: string
+          selected_method?: string
         }
         Relationships: [
           {
@@ -2482,6 +2488,7 @@ export interface Database {
         Row: {
           address_1: string | null
           address_2: string | null
+          city: string | null
           company: string | null
           country: string | null
           created_at: string | null
@@ -2492,12 +2499,13 @@ export interface Database {
           owner_id: string | null
           phone: string | null
           postalcode: number | null
-          province: string | null
-          town: string | null
+          region: string | null
+          sub_region: string | null
         }
         Insert: {
           address_1?: string | null
           address_2?: string | null
+          city?: string | null
           company?: string | null
           country?: string | null
           created_at?: string | null
@@ -2508,12 +2516,13 @@ export interface Database {
           owner_id?: string | null
           phone?: string | null
           postalcode?: number | null
-          province?: string | null
-          town?: string | null
+          region?: string | null
+          sub_region?: string | null
         }
         Update: {
           address_1?: string | null
           address_2?: string | null
+          city?: string | null
           company?: string | null
           country?: string | null
           created_at?: string | null
@@ -2524,8 +2533,8 @@ export interface Database {
           owner_id?: string | null
           phone?: string | null
           postalcode?: number | null
-          province?: string | null
-          town?: string | null
+          region?: string | null
+          sub_region?: string | null
         }
         Relationships: [
           {
@@ -2612,7 +2621,8 @@ export interface Database {
           name: string | null
           owner_id: string | null
           phone: string | null
-          state: string | null
+          region: string | null
+          sub_region: string | null
           updated_at: string | null
           zipcode: string | null
         }
@@ -2630,7 +2640,8 @@ export interface Database {
           name?: string | null
           owner_id?: string | null
           phone?: string | null
-          state?: string | null
+          region?: string | null
+          sub_region?: string | null
           updated_at?: string | null
           zipcode?: string | null
         }
@@ -2648,7 +2659,8 @@ export interface Database {
           name?: string | null
           owner_id?: string | null
           phone?: string | null
-          state?: string | null
+          region?: string | null
+          sub_region?: string | null
           updated_at?: string | null
           zipcode?: string | null
         }

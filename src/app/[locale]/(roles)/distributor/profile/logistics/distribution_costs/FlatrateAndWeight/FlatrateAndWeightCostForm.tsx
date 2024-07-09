@@ -19,6 +19,8 @@ import FlatrateAndWeightCostTable from './FlatrateAndWeightCostTable';
 import FlatrateAndWeightCostFormRow from './FlatrateAndWeightCostFormRow';
 import { updateFlatrateAndWeightShippingCost } from '../../../../actions';
 import { DisplayInputError } from '../../../../../../components/common/DisplayInputError';
+import SelectDistributionCost from '../SelectDistributionCost';
+import { DistributionCostType } from '../../../../../../../../lib/enums';
 
 const rangeObjectSchema = z
     .object({
@@ -74,6 +76,7 @@ interface Props {
     extraCostPerKG: number;
     flatrateAndWeightCost?: IFlatrateAndWeightCost[];
     distributionCostId: string;
+    fromDBDistributionType: string;
 }
 
 /* Tarifa de envío por rango de coste del pedido */
@@ -81,6 +84,7 @@ export default function FlatrateAndWeightCostForm({
     extraCostPerKG,
     flatrateAndWeightCost,
     distributionCostId,
+    fromDBDistributionType,
 }: Props) {
     const t = useTranslations();
     const { handleMessage } = useMessage();
@@ -237,6 +241,12 @@ export default function FlatrateAndWeightCostForm({
             {isLoading && (
                 <Spinner size={'large'} color={'beer-blonde'} center absolute />
             )}
+
+            <SelectDistributionCost
+                distributionCostsId={distributionCostId}
+                fromDBDistributionType={fromDBDistributionType}
+                distributionType={DistributionCostType.FLATRATE_AND_WEIGHT}
+            />
 
             <span className="pb-4">
                 <strong>Tarifa Plana y Peso:</strong> Configura un rango de

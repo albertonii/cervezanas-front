@@ -316,10 +316,11 @@ export interface IProfile {
     lastname: string;
     phone: string;
     address: string;
-    city: string;
-    state: string;
-    zip: string;
     country: string;
+    region: string;
+    sub_region: string;
+    city: string;
+    zipcode: string;
     img_url: any;
     is_public: boolean;
     users?: User;
@@ -504,8 +505,9 @@ export interface IProfileLocation {
     phone: string;
     postalcode: number;
     country: string;
-    province: string;
-    town: string;
+    region: string;
+    sub_region: string;
+    city: string;
     address_1: string;
     address_2: string;
 }
@@ -520,8 +522,9 @@ export interface ILocation {
     phone: string;
     postalcode: number;
     country: string;
-    province: string;
-    town: string;
+    region: string;
+    sub_region: string;
+    city: string;
     address_1: string;
     address_2: string;
 }
@@ -655,9 +658,10 @@ export interface IShippingInfo {
     address_extra: string;
     address_observations: string;
     country: string;
-    zipcode: string;
+    region: string;
+    sub_region: string;
     city: string;
-    state: string;
+    zipcode: string;
     is_default: boolean;
 }
 
@@ -672,9 +676,10 @@ export interface IBillingInfo {
     phone: string;
     address: string;
     country: string;
-    zipcode: string;
+    region: string;
+    sub_region: string;
     city: string;
-    state: string;
+    zipcode: string;
     is_default: boolean;
     users?: IUserTable;
 }
@@ -689,9 +694,10 @@ export interface IAddressForm {
     address_extra: string;
     address_observations: string;
     country: string;
-    zipcode: string;
+    region: string;
+    sub_region: string;
     city: string;
-    state: string;
+    zipcode: string;
     is_default: boolean;
 }
 
@@ -1120,9 +1126,10 @@ export interface IModalShippingAddress {
     address_extra?: string;
     address_observations?: string;
     country: string;
-    zipcode: string;
+    region: string;
+    sub_region: string;
     city: string;
-    state: string;
+    zipcode: string;
     is_default: boolean;
 }
 
@@ -1135,9 +1142,10 @@ export interface IModalBillingAddress {
     address: string;
     address_extra?: string;
     country: string;
-    zipcode: string;
+    region: string;
+    sub_region: string;
     city: string;
-    state: string;
+    zipcode: string;
     is_default: boolean;
 }
 
@@ -1152,7 +1160,8 @@ export interface ModalShippingAddressFormData {
     country: string;
     zipcode: string;
     city: string;
-    state: string;
+    region: string;
+    sub_region: string;
     is_default: boolean;
 }
 
@@ -1164,9 +1173,12 @@ export interface ModalBillingAddressFormData {
     address: string;
     address_extra?: string;
     country: string;
+    region: string;
+    sub_region: string;
     zipcode: string;
     city: string;
-    state: string;
+    region: string;
+    sub_region: string;
     is_default: boolean;
 }
 
@@ -1180,7 +1192,8 @@ export interface IAddress {
     address_extra?: string;
     address_observations?: string;
     country: string;
-    state: string;
+    region: string;
+    sub_region: string;
     city: string;
     zipcode: string;
     is_default: boolean;
@@ -1194,7 +1207,8 @@ export interface IBillingAddress {
     phone: string;
     address: string;
     country: string;
-    state: string;
+    region: string;
+    sub_region: string;
     city: string;
     zipcode: string;
     is_default: boolean;
@@ -1369,8 +1383,8 @@ export interface ICoverageArea {
     distributor_user?: IDistributorUser;
     local_distribution: ILocal;
     cities: string[];
+    sub_regions: string[];
     regions: string[];
-    provinces: string[];
     europe: string[];
     international: string[];
 }
@@ -1414,14 +1428,14 @@ export interface FlatrateAndWeightCostFormData {
 export interface AreaAndWeightCostFormData {
     distribution_costs_id: string;
     cities: AreaNameFormData[];
-    provinces: AreaNameFormData[];
+    sub_regions: AreaNameFormData[];
     regions: AreaNameFormData[];
     international: AreaNameFormData[];
 }
 
 interface AreaAndWeightInformationFormData {
     id?: string;
-    type: string; // City, Province, Region, International
+    type: string; // City, SubRegion, Region, International
     name: string;
     area_weight_range: AreaAndWeightRangeFormData[];
 }
@@ -1451,6 +1465,8 @@ export interface IDistributionCost {
     id: string;
     distributor_id: string;
     cost_extra_per_kg: number;
+    distribution_costs_in_product: boolean;
+    selected_method: string;
     distributor_user?: IDistributorUser;
     flatrate_cost?: IFlatrateCost;
     flatrate_and_weight_cost?: IFlatrateAndWeightCost[];
@@ -1490,8 +1506,11 @@ export interface IAreaAndWeightInformation {
     id: string;
     type: string;
     name: string;
+    coverage_area_id: string;
     area_and_weight_cost_id: string;
+    coverage_area_id: string;
     area_weight_cost_range?: IAreaAndWeightCostRange[];
+    coverage_areas?: ICoverageArea[];
 }
 
 export interface IAreaAndWeightCostRange {

@@ -49,9 +49,9 @@
     "loc_company": "Empresa",
     "loc_phone": "Teléfono",
     "loc_pc": "Código Postal",
-    "loc_town": "Población",
     "loc_country": "Seleccionar País",
     "loc_region": "Seleccionar Región",
+    "loc_sub_region": "Seleccionar Subregión",
     "loc_province": "Seleccionar Provincia",
     "loc_state": "Seleccionar Estado",
     "loc_city": "Seleccionar Ciudad",
@@ -978,7 +978,11 @@
         "campaign_added": "Campaña añadida correctamente",
         "boxpack_created": "Pack variado creado correctamente",
         "boxpack_updated": "Pack variado actualizado correctamente",
-        "monthly_product_inserted": "Producto mensual insertado correctamente"
+        "monthly_product_inserted": "Producto mensual insertado correctamente",
+        "update_city_coverage_area": "Área de cobertura de la ciudad actualizada correctamente",
+        "update_sub_region_coverage_area": "Área de cobertura de la subregión actualizada correctamente",
+        "update_region_coverage_area": "Área de cobertura de la región actualizada correctamente",
+        "update_country_coverage_area": "Área de cobertura del país actualizado correctamente"
     },
     "num_of_packs": "Número de packs",
     "promo_code": "Código promocional",
@@ -1001,5 +1005,9 @@
     "add_weight_price_range": "Añadir rango de peso y precio",
     "cities": "Ciudades",
     "provinces": "Provincias",
-    "regions": "Regiones"
+    "regions": "Regiones",
+    "sub_region": "Subregión",
+    "sub_regions": "Subregiones",
+    "select_all_provinces": "Seleccionar todas las provincias",
+    "can_not_deliver_to_address": "Lo sentimos, este artículo no se puede enviar a la dirección seleccionada. Cambia la dirección de envío o elimina el artículo de tu pedido."
 }

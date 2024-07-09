@@ -44,9 +44,10 @@ export async function POST(request: NextRequest) {
     const address_extra = formData.get('address_extra') as string;
     const address_observations = formData.get('address_observations') as string;
     const country = formData.get('country') as string;
-    const zipcode = formData.get('zipcode') as string;
+    const region = formData.get('region') as string;
+    const sub_region = formData.get('sub_region') as string;
     const city = formData.get('city') as string;
-    const state = formData.get('state') as string;
+    const zipcode = formData.get('zipcode') as string;
     const is_default = formData.get('is_default') === 'true';
 
     const { data: shippingAddress, error: shippingAddressError } =
@@ -60,9 +61,10 @@ export async function POST(request: NextRequest) {
             address_extra,
             address_observations,
             country,
-            zipcode,
+            region,
+            sub_region,
             city,
-            state,
+            zipcode,
             is_default,
         });
 

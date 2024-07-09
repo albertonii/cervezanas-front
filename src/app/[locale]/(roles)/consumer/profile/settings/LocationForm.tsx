@@ -1,291 +1,315 @@
 'use client';
 
+import InputLabel from '../../../../components/common/InputLabel';
+import Button from '../../../../components/common/Button';
+import Spinner from '../../../../components/common/Spinner';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
+import { isEmpty } from '../../../../../../utils/utils';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import Button from '../../../../components/common/Button';
-import Spinner from '../../../../components/common/Spinner';
 import { IProfileLocation } from '../../../../../../lib/types/types';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import { DisplayInputError } from '../../../../components/common/DisplayInputError';
-import { isEmpty } from '../../../../../../utils/utils';
-import InputLabel from '../../../../components/common/InputLabel';
 
 interface FormProps {
-  addressName: string;
-  addressLastname: string;
-  addressDoc: string;
-  addressCompany: string;
-  addressPhone: string;
-  address1: string;
-  address2: string;
-  addressPC: number;
-  addressTown: string;
-  addressCountry: string;
-  addressProvince: string;
+    addressName: string;
+    addressLastname: string;
+    addressDoc: string;
+    addressCompany: string;
+    addressPhone: string;
+    address1: string;
+    address2: string;
+    addressPC: number;
+    addressCity: string;
+    addressCountry: string;
+    addressSubRegion: string;
 }
 
 interface Props {
-  profile_location: IProfileLocation;
+    profile_location: IProfileLocation;
 }
 
 export function LocationForm({ profile_location }: Props) {
-  const t = useTranslations();
-  const { user, supabase } = useAuth();
+    const t = useTranslations();
+    const { user, supabase } = useAuth();
 
-  const [loading, setLoading] = useState(false);
-
-  const {
-    id: profile_location_id,
-    name,
-    lastname,
-    document_id,
-    company,
-    phone,
-    postalcode,
-    country,
-    province,
-    town,
-    address_1,
-    address_2,
-  } = profile_location ?? {};
-
-  const form = useForm<FormProps>({
-    mode: 'onSubmit',
-    defaultValues: {
-      addressName: name,
-      addressLastname: lastname,
-      addressDoc: document_id,
-      addressCompany: company,
-      addressPhone: phone,
-      address1: address_1,
-      address2: address_2,
-      addressPC: postalcode,
-      addressTown: town,
-    },
-  });
-
-  const {
-    formState: { errors },
-    handleSubmit,
-  } = form;
-
-  const [addressCountry, setAddressCountry] = useState(country);
-  const [addressProvince, setAddressProvince] = useState(province);
-
-  const selectCountry = (val: string) => {
-    setAddressCountry(val);
-  };
-
-  const selectRegion = (val: string) => {
-    setAddressProvince(val);
-  };
-
-  const onSubmit = async (formValues: FormProps) => {
-    setLoading(true);
+    const [loading, setLoading] = useState(false);
 
     const {
-      addressName,
-      addressLastname,
-      addressDoc,
-      addressCompany,
-      addressPhone,
-      address1,
-      address2,
-      addressPC,
-      addressTown,
-    } = formValues;
+        id: profile_location_id,
+        name,
+        lastname,
+        document_id,
+        company,
+        phone,
+        postalcode,
+        country,
+        region,
+        sub_region,
+        city,
+        address_1,
+        address_2,
+    } = profile_location ?? {};
 
-    setTimeout(async () => {
-      if (!isEmpty(profile_location_id) || profile_location_id === '') {
-        const { error } = await supabase.from('profile_location').insert([
-          {
-            name: addressName,
-            lastname: addressLastname,
-            document_id: addressDoc,
-            company: addressCompany,
-            phone: addressPhone,
-            address_1: address1,
-            address_2: address2,
-            postalcode: addressPC,
-            town: addressTown,
-            country: addressCountry,
-            province: addressProvince,
-            owner_id: user?.id,
-          },
-        ]);
-        if (error) throw error;
-      } else {
-        const { error } = await supabase
-          .from('profile_location')
-          .update({
-            name: addressName,
-            lastname: addressLastname,
-            document_id: addressDoc,
-            company: addressCompany,
-            phone: addressPhone,
-            address_1: address1,
-            address_2: address2,
-            postalcode: addressPC,
-            town: addressTown,
-            country: addressCountry,
-            province: addressProvince,
-          })
-          .eq('id', profile_location_id);
+    const form = useForm<FormProps>({
+        mode: 'onSubmit',
+        defaultValues: {
+            addressName: name,
+            addressLastname: lastname,
+            addressDoc: document_id,
+            addressCompany: company,
+            addressPhone: phone,
+            address1: address_1,
+            address2: address_2,
+            addressPC: postalcode,
+            addressCity: city,
+        },
+    });
 
-        if (error) throw error;
-      }
+    const {
+        formState: { errors },
+        handleSubmit,
+    } = form;
 
-      setLoading(false);
-    }, 700);
-  };
+    const [addressCountry, setAddressCountry] = useState(country);
+    const [addressSubRegion, setAddressSubRegion] = useState(sub_region);
+    const [addressRegion, setAddressRegion] = useState(region);
 
-  return (
-    <section
-      id="location_data"
-      className="mb-4 space-y-3 bg-white px-6 py-4 border-2 rounded-md border-beer-blonde shadow-2xl"
-    >
-      <h2 id="location-data-title" className="text-2xl">
-        {t('location')}
-      </h2>
+    const selectCountry = (val: string) => {
+        setAddressCountry(val);
+    };
 
-      <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-2">
-        <div className="flex w-full flex-row space-x-3 ">
-          <InputLabel
-            form={form}
-            label={'addressName'}
-            labelText={t('loc_name')}
-            registerOptions={{
-              required: true,
-            }}
-          />
+    const selectSubRegion = (val: string) => {
+        setAddressSubRegion(val);
+    };
 
-          <InputLabel
-            form={form}
-            label={'addressLastname'}
-            labelText={t('lastname')}
-            registerOptions={{
-              required: true,
-            }}
-          />
-        </div>
+    const onSubmit = async (formValues: FormProps) => {
+        setLoading(true);
 
-        <div className="flex w-full flex-row space-x-3">
-          <InputLabel
-            form={form}
-            label={'addressDoc'}
-            labelText={t('document_id')}
-            registerOptions={{
-              required: true,
-            }}
-          />
+        const {
+            addressName,
+            addressLastname,
+            addressDoc,
+            addressCompany,
+            addressPhone,
+            address1,
+            address2,
+            addressPC,
+            addressCity,
+        } = formValues;
 
-          <InputLabel
-            form={form}
-            label={'addressCompany'}
-            labelText={t('loc_company')}
-            registerOptions={{
-              required: true,
-            }}
-          />
+        setTimeout(async () => {
+            if (!isEmpty(profile_location_id) || profile_location_id === '') {
+                const { error } = await supabase
+                    .from('profile_location')
+                    .insert([
+                        {
+                            name: addressName,
+                            lastname: addressLastname,
+                            document_id: addressDoc,
+                            company: addressCompany,
+                            phone: addressPhone,
+                            address_1: address1,
+                            address_2: address2,
+                            postalcode: addressPC,
+                            country: addressCountry,
+                            region: addressRegion,
+                            sub_region: addressSubRegion,
+                            city: addressCity,
+                            owner_id: user?.id,
+                        },
+                    ]);
+                if (error) throw error;
+            } else {
+                const { error } = await supabase
+                    .from('profile_location')
+                    .update({
+                        name: addressName,
+                        lastname: addressLastname,
+                        document_id: addressDoc,
+                        company: addressCompany,
+                        phone: addressPhone,
+                        address_1: address1,
+                        address_2: address2,
+                        postalcode: addressPC,
+                        country: addressCountry,
+                        region: addressRegion,
+                        sub_region: addressSubRegion,
+                        city: addressCity,
+                    })
+                    .eq('id', profile_location_id);
 
-          <InputLabel
-            form={form}
-            label={'addressPhone'}
-            labelText={t('loc_phone')}
-            registerOptions={{
-              required: true,
-            }}
-          />
-        </div>
+                if (error) throw error;
+            }
 
-        <InputLabel
-          form={form}
-          label={'address1'}
-          labelText={t('loc_location')}
-          registerOptions={{
-            required: true,
-          }}
-          placeholder="Calle España 123"
-        />
+            setLoading(false);
+        }, 700);
+    };
 
-        <InputLabel
-          form={form}
-          label={'address2'}
-          labelText={t('loc_location')}
-          registerOptions={{
-            required: true,
-          }}
-          placeholder=" - "
-        />
+    return (
+        <section
+            id="location_data"
+            className="mb-4 space-y-3 bg-white px-6 py-4 border-2 rounded-md border-beer-blonde shadow-2xl"
+        >
+            <h2 id="location-data-title" className="text-2xl">
+                {t('location')}
+            </h2>
 
-        <div className="flex flex-row space-x-3">
-          <InputLabel
-            form={form}
-            label={'addressPC'}
-            labelText={t('loc_pc')}
-            registerOptions={{
-              required: true,
-            }}
-            placeholder="27018"
-            inputType="number"
-          />
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="relative space-y-2"
+            >
+                <div className="flex w-full flex-row space-x-3 ">
+                    <InputLabel
+                        form={form}
+                        label={'addressName'}
+                        labelText={t('loc_name')}
+                        registerOptions={{
+                            required: true,
+                        }}
+                    />
 
-          <InputLabel
-            form={form}
-            label={'addressTown'}
-            labelText={t('loc_town')}
-            registerOptions={{
-              required: true,
-            }}
-            placeholder="Madrid"
-          />
-        </div>
+                    <InputLabel
+                        form={form}
+                        label={'addressLastname'}
+                        labelText={t('lastname')}
+                        registerOptions={{
+                            required: true,
+                        }}
+                    />
+                </div>
 
-        <address className="flex flex-row items-end space-x-3">
-          <div className="w-full">
-            <label htmlFor="addressCountry" className="text-sm text-gray-600">
-              {t('loc_country')}
-            </label>
+                <div className="flex w-full flex-row space-x-3">
+                    <InputLabel
+                        form={form}
+                        label={'addressDoc'}
+                        labelText={t('document_id')}
+                        registerOptions={{
+                            required: true,
+                        }}
+                    />
 
-            <CountryDropdown
-              classes="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              value={addressCountry}
-              onChange={(val) => selectCountry(val)}
-            />
+                    <InputLabel
+                        form={form}
+                        label={'addressCompany'}
+                        labelText={t('loc_company')}
+                        registerOptions={{
+                            required: true,
+                        }}
+                    />
 
-            {errors.addressCountry && (
-              <DisplayInputError message={errors.addressCountry.message} />
-            )}
-          </div>
+                    <InputLabel
+                        form={form}
+                        label={'addressPhone'}
+                        labelText={t('loc_phone')}
+                        registerOptions={{
+                            required: true,
+                        }}
+                    />
+                </div>
 
-          <div className="w-full">
-            <label htmlFor="addressProvince" className="text-sm text-gray-600">
-              {t('loc_province')}
-            </label>
+                <InputLabel
+                    form={form}
+                    label={'address1'}
+                    labelText={t('loc_location')}
+                    registerOptions={{
+                        required: true,
+                    }}
+                    placeholder="Calle España 123"
+                />
 
-            <RegionDropdown
-              classes="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-              country={addressCountry}
-              value={addressProvince}
-              onChange={(val) => selectRegion(val)}
-            />
+                <InputLabel
+                    form={form}
+                    label={'address2'}
+                    labelText={t('loc_location')}
+                    registerOptions={{
+                        required: true,
+                    }}
+                    placeholder=" - "
+                />
 
-            {errors.addressProvince && (
-              <DisplayInputError message={errors.addressProvince.message} />
-            )}
-          </div>
-        </address>
+                <div className="flex flex-row space-x-3">
+                    <InputLabel
+                        form={form}
+                        label={'addressPC'}
+                        labelText={t('loc_pc')}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder="27018"
+                        inputType="number"
+                    />
 
-        {loading && (
-          <Spinner color="beer-blonde" size={'xLarge'} absolute center />
-        )}
+                    <InputLabel
+                        form={form}
+                        label={'addressCity'}
+                        labelText={t('loc_city')}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder="Madrid"
+                    />
+                </div>
 
-        <Button primary medium btnType={'submit'} disabled={loading}>
-          {t('save')}
-        </Button>
-      </form>
-    </section>
-  );
+                <address className="flex flex-row items-end space-x-3">
+                    <div className="w-full">
+                        <label
+                            htmlFor="addressCountry"
+                            className="text-sm text-gray-600"
+                        >
+                            {t('loc_country')}
+                        </label>
+
+                        <CountryDropdown
+                            classes="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                            value={addressCountry}
+                            onChange={(val) => selectCountry(val)}
+                        />
+
+                        {errors.addressCountry && (
+                            <DisplayInputError
+                                message={errors.addressCountry.message}
+                            />
+                        )}
+                    </div>
+
+                    <div className="w-full">
+                        <label
+                            htmlFor="addressSubRegion"
+                            className="text-sm text-gray-600"
+                        >
+                            {t('loc_sub_region')}
+                        </label>
+
+                        <RegionDropdown
+                            classes="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                            country={addressCountry}
+                            value={addressSubRegion}
+                            onChange={(val) => selectSubRegion(val)}
+                        />
+
+                        {errors.addressSubRegion && (
+                            <DisplayInputError
+                                message={errors.addressSubRegion.message}
+                            />
+                        )}
+                    </div>
+                </address>
+
+                {loading && (
+                    <Spinner
+                        color="beer-blonde"
+                        size={'xLarge'}
+                        absolute
+                        center
+                    />
+                )}
+
+                <Button primary medium btnType={'submit'} disabled={loading}>
+                    {t('save')}
+                </Button>
+            </form>
+        </section>
+    );
 }

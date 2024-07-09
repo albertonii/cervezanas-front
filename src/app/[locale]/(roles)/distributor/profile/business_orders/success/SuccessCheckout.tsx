@@ -196,8 +196,9 @@ export default function SuccessCheckout({ order, isError }: Props) {
                                 <span className="block">
                                     {order.shipping_info.address},{' '}
                                     {order.shipping_info.city},
-                                    {order.shipping_info.state},{' '}
                                     {order.shipping_info.zipcode},
+                                    {order.shipping_info.sub_region} -{' '}
+                                    {order.shipping_info.region},{' '}
                                     {order.shipping_info.country}
                                 </span>
 
@@ -237,8 +238,9 @@ export default function SuccessCheckout({ order, isError }: Props) {
                                 <span className="block">
                                     {order.billing_info.address},{' '}
                                     {order.billing_info.city},
-                                    {order.billing_info.state},{' '}
                                     {order.billing_info.zipcode},
+                                    {order.billing_info.sub_region}-{' '}
+                                    {order.billing_info.region},{' '}
                                     {order.billing_info.country}
                                 </span>
                             </dd>

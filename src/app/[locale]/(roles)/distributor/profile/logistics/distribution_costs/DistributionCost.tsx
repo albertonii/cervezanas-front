@@ -4,7 +4,7 @@ import HorizontalMenuCoverageCost from '../HorizontalMenuCoverageCost';
 import AreaAndWeightCostForm from './AreaAndWeightPriceRange/AreaAndWeightCostForm';
 import FlatrateAndWeightCostForm from './FlatrateAndWeight/FlatrateAndWeightCostForm';
 import FlatrateCostForm from './FlatrateCost/FlatrateCostForm';
-import PriceRangeCostForm from './PriceRangeCostForm';
+import PriceRangeCostForm from './PrinceRange/PriceRangeCostForm';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DistributionCostType } from '../../../../../../../lib/enums';
@@ -29,7 +29,7 @@ export default function DistributionCost({ distributionCosts }: Props) {
     ] = useState(false);
 
     const [menuOption, setMenuOption] = useState<string>(
-        DistributionCostType.FLATRATE_AND_WEIGHT,
+        DistributionCostType.AREA_AND_WEIGHT,
     );
 
     const handleCheckboxChange = async () => {
@@ -68,6 +68,9 @@ export default function DistributionCost({ distributionCosts }: Props) {
                             distributionCosts.flatrate_and_weight_cost
                         }
                         distributionCostId={distributionCosts.id}
+                        fromDBDistributionType={
+                            distributionCosts.selected_method
+                        }
                     />
                 );
 
@@ -79,6 +82,9 @@ export default function DistributionCost({ distributionCosts }: Props) {
                             distributionCosts.area_and_weight_cost
                         }
                         distributionCostId={distributionCosts.id}
+                        fromDBDistributionType={
+                            distributionCosts.selected_method
+                        }
                     />
                 );
 

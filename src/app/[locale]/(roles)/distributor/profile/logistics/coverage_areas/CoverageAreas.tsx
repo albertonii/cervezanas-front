@@ -3,7 +3,7 @@
 import useFetchDistributionByOwnerId from '../../../../../../../hooks/useFetchDistribution';
 import CityDistribution from '../(city)/CityDistribution';
 import HorizontalMenu from '../HorizontalMenuCoverageDestination';
-import ProvinceDistribution from '../(province)/ProvinceDistribution';
+import SubRegionDistribution from '../(sub_region)/SubRegionDistribution';
 import InternationalDistribution from '../(international)/InternationalDistribution';
 import EuropeDistribution from '../(europe)/EuropeDistribution';
 import RegionDistribution from '../(region)/RegionDistribution';
@@ -69,12 +69,14 @@ export default function CoverageAreas() {
                     </>
                 );
 
-            case DistributionDestinationType.PROVINCE:
+            case DistributionDestinationType.SUB_REGION:
                 return (
                     <>
                         {distributor && (
-                            <ProvinceDistribution
-                                provinces={distributor.coverage_areas.provinces}
+                            <SubRegionDistribution
+                                sub_regions={
+                                    distributor.coverage_areas.sub_regions
+                                }
                                 coverageAreaId={distributor.coverage_areas.id}
                                 distributionCosts={
                                     distributor.distribution_costs!
@@ -91,6 +93,9 @@ export default function CoverageAreas() {
                             <RegionDistribution
                                 regions={distributor.coverage_areas.regions}
                                 coverageAreaId={distributor.coverage_areas.id}
+                                distributionCosts={
+                                    distributor.distribution_costs!
+                                }
                             />
                         )}
                     </>

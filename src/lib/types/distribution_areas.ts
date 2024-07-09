@@ -40,3 +40,19 @@ export interface ICity {
     getCitiesOfState?(): ICity[];
     getCitiesOfCountry?(): ICity[];
 }
+
+export interface JSONCountry {
+    name: string;
+    regions: JSONRegion[];
+}
+
+export interface JSONRegion {
+    name: string;
+    subregions: JSONSubRegion[];
+}
+
+export interface JSONSubRegion {
+    name: string;
+    cities: string[];
+    region: string;
+}

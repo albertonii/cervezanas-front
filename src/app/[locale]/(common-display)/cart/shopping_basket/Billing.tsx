@@ -1,17 +1,18 @@
-import { useTranslations } from 'next-intl';
 import AddressRadioInput from './AddressRadioInput';
 import React, { ComponentProps, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { removeBillingAddressById } from '../actions';
 import { NewBillingAddress } from './NewBillingAddress';
 import { useMutation, useQueryClient } from 'react-query';
 import { IBillingAddress } from '../../../../../lib/types/types';
+import { faMoneyBill } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { useMessage } from '../../../components/message/useMessage';
 import { DeleteAddress } from '../../../components/modals/DeleteAddress';
-import { DisplayInputError } from '../../../components/common/DisplayInputError';
 import { FormBillingData, ValidationSchemaShipping } from './ShoppingBasket';
-import { removeBillingAddressById } from '../actions';
-import { faMoneyBill } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { DisplayInputError } from '../../../components/common/DisplayInputError';
+
 interface Props {
     selectedBillingAddress: string;
     billingAddresses: IBillingAddress[];

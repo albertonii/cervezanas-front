@@ -68,7 +68,7 @@ const InputLabel = ({
                 inputType === 'tel' ||
                 inputType === 'date') && (
                 <label
-                    className={`${'flex-col '} flex w-full items-start space-y-2 text-sm text-gray-600`}
+                    className={`flex-col flex w-full items-start space-y-2 text-sm text-gray-600`}
                 >
                     <span className="font-medium">
                         {labelText ? t(labelText) : t(label)}

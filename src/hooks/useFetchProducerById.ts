@@ -6,13 +6,13 @@ import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { SupabaseClient } from '@supabase/supabase-js';
 
 const fetchProducerById = async (
-  supabase: SupabaseClient<any>,
-  producerId: string,
+    supabase: SupabaseClient<any>,
+    producerId: string,
 ) => {
-  const { data, error } = await supabase
-    .from('users')
-    .select(
-      `
+    const { data, error } = await supabase
+        .from('users')
+        .select(
+            `
         *,
         producer_user (*),
         profile_location (
@@ -23,27 +23,30 @@ const fetchProducerById = async (
           phone, 
           postalcode, 
           country,
-          province,address_1, 
-          address_2,
-          town)
+          region,
+          sub_region,
+          city,
+          address_1, 
+          address_2
+          )
       `,
-    )
-    .eq('id', producerId);
+        )
+        .eq('id', producerId);
 
-  if (error) throw error;
+    if (error) throw error;
 
-  return data[0] as IProducerUser;
+    return data[0] as IProducerUser;
 };
 
 const useFetchProducerById = (producerId: string) => {
-  const { supabase } = useAuth();
+    const { supabase } = useAuth();
 
-  return useQuery({
-    queryKey: ['producerById', producerId],
-    queryFn: () => fetchProducerById(supabase, producerId),
-    enabled: true,
-    refetchOnWindowFocus: false,
-  });
+    return useQuery({
+        queryKey: ['producerById', producerId],
+        queryFn: () => fetchProducerById(supabase, producerId),
+        enabled: true,
+        refetchOnWindowFocus: false,
+    });
 };
 
 export default useFetchProducerById;

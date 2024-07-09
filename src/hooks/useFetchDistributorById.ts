@@ -6,13 +6,13 @@ import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { SupabaseClient } from '@supabase/supabase-js';
 
 const fetchDistributorById = async (
-  supabase: SupabaseClient<any>,
-  distributorId: string,
+    supabase: SupabaseClient<any>,
+    distributorId: string,
 ) => {
-  const { data, error } = await supabase
-    .from('users')
-    .select(
-      `
+    const { data, error } = await supabase
+        .from('users')
+        .select(
+            `
         *,
         distributor_user (*),
         profile_location (
@@ -23,27 +23,30 @@ const fetchDistributorById = async (
           phone, 
           postalcode, 
           country,
-          province,address_1, 
-          address_2,
-          town)
+          sub_region, 
+          region,
+          city,
+          address_1, 
+          address_2
+        )
       `,
-    )
-    .eq('id', distributorId);
+        )
+        .eq('id', distributorId);
 
-  if (error) throw error;
+    if (error) throw error;
 
-  return data[0] as IDistributorUser;
+    return data[0] as IDistributorUser;
 };
 
 const useFetchDistributorById = (distributorId: string) => {
-  const { supabase } = useAuth();
+    const { supabase } = useAuth();
 
-  return useQuery({
-    queryKey: ['distributorById', distributorId],
-    queryFn: () => fetchDistributorById(supabase, distributorId),
-    enabled: true,
-    refetchOnWindowFocus: false,
-  });
+    return useQuery({
+        queryKey: ['distributorById', distributorId],
+        queryFn: () => fetchDistributorById(supabase, distributorId),
+        enabled: true,
+        refetchOnWindowFocus: false,
+    });
 };
 
 export default useFetchDistributorById;

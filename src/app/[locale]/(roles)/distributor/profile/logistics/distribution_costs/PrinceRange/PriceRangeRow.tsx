@@ -1,9 +1,9 @@
 import { useTranslations } from 'next-intl';
 import React, { useEffect } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { DeleteButton } from '../../../../../components/common/DeleteButton';
-import { DisplayInputError } from '../../../../../components/common/DisplayInputError';
-import { PriceRangeCostFormValidationSchema } from './PriceRangeCostForm';
+import { DeleteButton } from '../../../../../../components/common/DeleteButton';
+import { DisplayInputError } from '../../../../../../components/common/DisplayInputError';
+import { PriceRangeCostFormValidationSchema } from '../PrinceRange/PriceRangeCostForm';
 
 interface Props {
     index: number;

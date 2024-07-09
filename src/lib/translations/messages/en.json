@@ -49,9 +49,9 @@
     "loc_company": "Compnay",
     "loc_phone": "Phone Number",
     "loc_pc": "Postal Code",
-    "loc_town": "Town",
     "loc_country": "Select Country",
     "local_region": "Select Region",
+    "loc_sub_region": "Select Sub region",
     "loc_province": "Select Province",
     "loc_state": "Select State/region",
     "loc_city": "Select City",
@@ -963,7 +963,11 @@
         "campaign_added": "Campaign added successfully",
         "boxpack_created": "Mixed pack created successfully",
         "boxpack_update": "Mixed pack updated successfully",
-        "monthly_product_inserted": "Monthly product inserted successfully"
+        "monthly_product_inserted": "Monthly product inserted successfully",
+        "update_city_coverage_area": "City coverage area correctly updated",
+        "update_sub_region_coverage_area": "Subregion coverage area correctly updated",
+        "update_region_coverage_area": "Region coverage area correctly updated",
+        "update_country_coverage_area": "Country coverage area correctly updated"
     },
     "num_of_packs": "Number of packs",
     "promo_code": "Promo code",
@@ -986,5 +990,9 @@
     "add_weight_price_range": "Add weight and price range",
     "cities": "Cities",
     "provinces": "Provinces",
-    "regions": "Regions"
+    "regions": "Regions",
+    "sub_region": "Sub region",
+    "sub_regions": "Sub regions",
+    "select_all_provinces": "Select all provinces",
+    "can_not_deliver_to_address": "Sorry, this item cannot be shipped to the selected address. Please change the shipping address or remove the item from your order"
 }

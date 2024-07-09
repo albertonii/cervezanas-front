@@ -47,15 +47,15 @@ export default function CityDistribution({
     const [listOfRegions, setListOfRegions] = useState<IState[] | undefined>();
     const [listOfCities, setListOfCities] = useState<ICity[] | undefined>();
     const [regionIsEnable, setRegionIsEnable] = useState<boolean>(false);
-    const [listOfAllCitiesByRegion, setListOfAllCitiesByRegion] = useState<
-        ICity[] | undefined
-    >();
+    const [listOfAllCitiesBySubRegion, setlistOfAllCitiesBySubRegion] =
+        useState<ICity[] | undefined>();
 
     const [unCheckedCities, setUnCheckedCities] = useState<string[]>([]);
     const [newSelectedCities, setNewSelectedCities] = useState<string[]>([]);
     const [selectedCities, setSelectedCities] = useState<string[]>(
         cities ?? [],
     );
+    const [fromDBCities, setFromDBCities] = useState<string[]>(cities ?? []);
 
     const [selectAllCurrentPage, setSelectAllCurrentPage] = useState(false);
     // rastrear si todas las ciudades de la región están seleccionadas, independientemente de la paginación
@@ -77,7 +77,7 @@ export default function CityDistribution({
 
     const [currentPage, setCurrentPage] = useState(1);
     const [counter, setCounter] = useState(0);
-    const resultsPerPage = 20;
+    const resultsPerPage = 10;
 
     const [query, setQuery] = useState('');
 
@@ -88,6 +88,12 @@ export default function CityDistribution({
     const form = useForm<FormData>();
 
     const { handleSubmit, register } = form;
+
+    useEffect(() => {
+        console.log('unCheckedCities', unCheckedCities);
+        console.log('newSelectedCities', newSelectedCities);
+        console.log('selectedCities', selectedCities);
+    }, [unCheckedCities, newSelectedCities, selectedCities]);
 
     // Get all the countries
     useEffect(() => {
@@ -164,7 +170,7 @@ export default function CityDistribution({
                 setListOfCities(lOfCities);
                 setCounter(cityData?.length);
 
-                setListOfAllCitiesByRegion(cityData);
+                setlistOfAllCitiesBySubRegion(cityData);
 
                 // Update selectAllCurrentPage based on whether all cities on this page are selected
                 setSelectAllCurrentPage(
@@ -179,7 +185,7 @@ export default function CityDistribution({
 
         // // Update selectAllCities based on whether all cities in the region are selected
         // setSelectAllCitiesByRegion(
-        //   listOfAllCitiesByRegion?.every((city) =>
+        //   listOfAllCitiesBySubRegion?.every((city) =>
         //     selectedCities.includes(city.name)
         //   ) ?? false
         // );
@@ -213,15 +219,30 @@ export default function CityDistribution({
 
             setIsLoading(false);
         } else {
+            // Remove the cities from unCheckedCities that are not present in fromDBCities
+            const filteredUnCheckedCities_ = unCheckedCities.filter((city) =>
+                fromDBCities.includes(city),
+            );
+
+            // Eliminate duplicated cities
+            const unCheckedCities_ = Array.from(
+                new Set(filteredUnCheckedCities_),
+            );
+            const newSelectedCities_ = Array.from(new Set(newSelectedCities));
+            const selectedCities_ = Array.from(new Set(selectedCities));
+
             const res = await updateCityDistribution(
-                unCheckedCities,
-                newSelectedCities,
-                selectedCities,
+                unCheckedCities_,
+                newSelectedCities_,
+                selectedCities_,
                 coverageAreaId,
                 areaAndWeightId,
             );
 
-            if (!res || res.status !== 200) {
+            if (
+                !res ||
+                (res.status !== 200 && res.status !== 201 && res.status !== 202)
+            ) {
                 handleMessage({
                     type: 'error',
                     message: t('errors.update_city_coverage_area'),
@@ -240,6 +261,7 @@ export default function CityDistribution({
 
             setUnCheckedCities([]);
             setNewSelectedCities([]);
+            setFromDBCities(selectedCities_);
 
             setTimeout(() => {
                 setIsLoading(false);
@@ -276,13 +298,8 @@ export default function CityDistribution({
         }
 
         // If the city has never been selected, add it to the list of new selected cities
-        if (!cities.includes(city)) {
+        if (!fromDBCities.includes(city)) {
             setNewSelectedCities([...newSelectedCities, city]);
-        } else {
-            // If the city has been selected before, remove it from the list of new selected cities
-            setNewSelectedCities(
-                newSelectedCities.filter((item) => item !== city),
-            );
         }
 
         // If the city is checked, add it to the list of selected cities
@@ -298,46 +315,88 @@ export default function CityDistribution({
     ) => {
         const listOfCityNames = listOfCities?.map((city) => city.name) || [];
 
-        const updatedSelectedCities = e.target.checked
-            ? [...selectedCities, ...listOfCityNames]
-            : selectedCities.filter(
-                  (checkedCity) => !listOfCityNames.includes(checkedCity),
-              );
-
-        // Add to the list of new selected cities all the cities that are not already selected and are on the current page of the table
-        const newSelectedCities = listOfCityNames.filter(
-            (city) => !selectedCities.includes(city),
-        );
-        setNewSelectedCities(newSelectedCities);
-
-        // If the user unchecks the select all checkbox, remove all the cities from the list of new selected cities and add them to the list of unchecked cities if they are not already there (they were previously selected)
+        // If the user unchecks the select all checkbox
         if (!e.target.checked) {
+            // Add all the cities to the list of unchecked cities
             setUnCheckedCities([...unCheckedCities, ...listOfCityNames]);
+
+            // Remove all the cities from the list of new selected cities
+            setNewSelectedCities(
+                newSelectedCities.filter(
+                    (checkedCity) => !listOfCityNames.includes(checkedCity),
+                ),
+            );
+
+            // Remove all the cities from the list of selected cities
+            setSelectedCities(
+                selectedCities.filter(
+                    (checkedCity) => !listOfCityNames.includes(checkedCity),
+                ),
+            );
+        } else {
+            // If the user checks the select all checbkox
+            // Remove all the cities from the list of unchecked cities
+            setUnCheckedCities(
+                unCheckedCities.filter(
+                    (checkedCity) => !listOfCityNames.includes(checkedCity),
+                ),
+            );
+
+            // Add all the new cities to the list of new selected cities
+            setNewSelectedCities([...newSelectedCities, ...listOfCityNames]);
+
+            // Add all the cities to the list of selected cities
+            setSelectedCities([...selectedCities, ...listOfCityNames]);
         }
 
-        setSelectedCities(updatedSelectedCities);
         setSelectAllCurrentPage(e.target.checked);
     };
 
     // COMPROBAR COMO HACEMOS EL BORRADO Y LA INSERCIÓN DE CIUDADES EN EL ARRAY DE CIUDADES
-    const handleSelectAllCitiesByRegion = (
+    const handleSelectAllCitiesBySubRegion = (
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
         let updatedSelectedCities = [...selectedCities];
-        if (e.target.checked) {
-            updatedSelectedCities.push(
-                ...(listOfAllCitiesByRegion?.map((city) => city.name) ?? []),
-            );
-        } else {
+
+        // If the user unchecks the select all checkbox
+        if (!e.target.checked) {
             updatedSelectedCities = updatedSelectedCities.filter(
                 (selectedCity) =>
-                    !listOfAllCitiesByRegion
+                    !listOfAllCitiesBySubRegion
                         ?.map((city) => city.name)
                         .includes(selectedCity),
             );
+
+            // Add all the cities to the list of unchecked cities
+            setUnCheckedCities([...unCheckedCities, ...selectedCities]);
+
+            // Remove all the cities from the list of new selected cities
+            setNewSelectedCities(
+                newSelectedCities.filter(
+                    (checkedCity) => !selectedCities.includes(checkedCity),
+                ),
+            );
+
+            // Remove all the cities from the list of selected cities
+            setSelectedCities(updatedSelectedCities);
+        } else {
+            // If the user checks the select all checbkox
+            // Remove all the cities from the list of unchecked cities
+            setUnCheckedCities([]);
+
+            // Add all the new cities to the list of new selected cities
+            setNewSelectedCities([...newSelectedCities, ...selectedCities]);
+
+            // Add all the cities to the list of selected cities
+            setSelectedCities([...selectedCities]);
+
+            updatedSelectedCities.push(
+                ...(listOfAllCitiesBySubRegion?.map((city) => city.name) ?? []),
+            );
+
+            setSelectedCities(updatedSelectedCities);
         }
 
-        setSelectedCities(updatedSelectedCities);
         setSelectAllCitiesByRegion(e.target.checked);
     };
 
@@ -359,7 +418,7 @@ export default function CityDistribution({
 
             <div
                 className={`
-                            flex flex-col items-start space-y-4
+                            flex flex-col items-start space-y-4 w-full
                             ${isLoading ? 'opacity-50 pointer-events-none' : ''}
                         `}
             >
@@ -402,7 +461,7 @@ export default function CityDistribution({
                             htmlFor="addressRegion"
                             className="text-sm text-gray-600"
                         >
-                            {t('loc_state')}
+                            {t('loc_city')}
                         </label>
 
                         <select
@@ -433,11 +492,11 @@ export default function CityDistribution({
                 {selectedCities && selectedCities.length > 0 && (
                     <div className="flex flex-row flex-wrap space-x-2 space-y-1">
                         {selectedCities?.map(
-                            (province: string, index: number) => {
+                            (sub_region: string, index: number) => {
                                 // We can delete from the list one country just by clicking on it
                                 return (
                                     <DistributionChipCard
-                                        name={province}
+                                        name={sub_region}
                                         index={index}
                                         selectedNames={selectedCities}
                                         setSelectedNames={setSelectedCities}
@@ -460,34 +519,41 @@ export default function CityDistribution({
                             listOfCities.length > 0 &&
                             listOfRegions.length > 0 && (
                                 <>
-                                    <div className="">
-                                        <label
-                                            htmlFor="allProvincesByRegion"
-                                            className="space-x-2 text-lg text-gray-600"
-                                        >
-                                            <input
-                                                id="allProvincesByRegion"
-                                                type="checkbox"
-                                                onChange={(e) => {
-                                                    handleSelectAllCitiesByRegion(
-                                                        e,
-                                                    );
-                                                }}
-                                                checked={
-                                                    selectAllCitiesByRegion
-                                                }
-                                                className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                                            />
+                                    <div className="w-full">
+                                        <PaginationFooter
+                                            counter={counter}
+                                            resultsPerPage={resultsPerPage}
+                                            currentPage={currentPage}
+                                            setCurrentPage={setCurrentPage}
+                                        />
 
-                                            <span className="text-sm text-gray-600">
-                                                {t(
-                                                    'select_all_cities_by_region',
-                                                )}
-                                            </span>
-                                        </label>
-                                    </div>
+                                        {/* <div className="">
+                                            <label
+                                                htmlFor="allCitiesBySubRegion"
+                                                className="space-x-2 text-lg text-gray-600"
+                                            >
+                                                <input
+                                                    id="allCitiesBySubRegion"
+                                                    type="checkbox"
+                                                    onChange={(e) => {
+                                                        handleSelectAllCitiesBySubRegion(
+                                                            e,
+                                                        );
+                                                    }}
+                                                    checked={
+                                                        selectAllCitiesByRegion
+                                                    }
+                                                    className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
+                                                />
 
-                                    <address className="w-full">
+                                                <span className="text-sm text-gray-600">
+                                                    {t(
+                                                        'select_all_cities_by_region',
+                                                    )}
+                                                </span>
+                                            </label>
+                                        </div> */}
+
                                         {/* Display selectable table with all cities in the country selected */}
                                         <label
                                             htmlFor="addressCity"
@@ -577,13 +643,7 @@ export default function CityDistribution({
                                             currentPage={currentPage}
                                             setCurrentPage={setCurrentPage}
                                         />
-
-                                        {/* 
-                    {errors.addressCountry && (
-                      <DisplayInputError message={errors.addressCountry.message} />
-                    )} 
-                    */}
-                                    </address>
+                                    </div>
                                 </>
                             )}
                     </>
