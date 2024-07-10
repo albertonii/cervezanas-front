@@ -197,16 +197,21 @@ export default function SubRegionDistribution({
         );
 
         setTenSubRegions(lOfSubRegions);
-
-        if (lOfSubRegions.length > 0) {
-            // Update selectAllCurrentPage based on whether all sub_regions on this page are selected
-            setSelectAllCurrentPage(
-                lOfSubRegions?.every((sub_region) =>
-                    selectedSubRegions.includes(sub_region.name),
-                ) ?? false,
-            );
-        }
     }, [currentPage]);
+
+    useEffect(() => {
+        if (tenSubRegions.length > 0) {
+            // Update selectAllCurrentPage based on whether all sub_regions on this page are selected
+            const allSubRegionsSelected = tenSubRegions.every(
+                (sub_region: any) =>
+                    selectedSubRegions.some((item) =>
+                        isSameSubRegion(item, sub_region),
+                    ),
+            );
+
+            setSelectAllCurrentPage(allSubRegionsSelected);
+        }
+    }, [tenSubRegions]);
 
     useEffect(() => {
         if (!listOfAllSubRegionsByRegion) return;
@@ -307,6 +312,7 @@ export default function SubRegionDistribution({
             setUnCheckedSubRegions([]);
             setNewSelectedSubRegions([]);
             setFromDBSubRegions(selectedSubRegions_); // Update the list of sub_regions that are already in the database
+            setSelectedSubRegions(selectedSubRegions_); // Update the list of sub_regions that are already in the database
 
             setTimeout(() => {
                 setIsLoading(false);
@@ -417,94 +423,89 @@ export default function SubRegionDistribution({
         setFromDBSubRegions(selectedSubRegions);
     };
 
-    const handleSelectAllCurrentPage = (
+    const handleSelectAllFromCurrentPage = (
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
+        // Convertir JSONSubRegion a ISubRegionCoverageAreas
+        const tenSubRegions_: ISubRegionCoverageAreas[] = tenSubRegions.map(
+            (sub_region: JSONSubRegion) => {
+                return {
+                    country: sub_region.country,
+                    country_iso_code: sub_region.country_iso_code,
+                    region: sub_region.region,
+                    name: sub_region.name,
+                    distributor_id: user.id,
+                };
+            },
+        );
+
         // If the checkbox is checked, add all the sub_regions on the current page to the list of selected sub_regions
         if (e.target.checked) {
-            // Convertir JSONSubRegion a ISubRegionCoverageAreas
-            const tenSubRegions_: ISubRegionCoverageAreas[] = tenSubRegions.map(
-                (sub_region: JSONSubRegion) => {
-                    return {
-                        country: sub_region.country,
-                        country_iso_code: sub_region.country_iso_code,
-                        region: sub_region.region,
-                        name: sub_region.name,
-                        distributor_id: user.id,
-                    };
-                },
+            const updatedSelectedSubRegions = Array.from(
+                new Set([...selectedSubRegions, ...tenSubRegions_]),
+            );
+
+            // 1. Añadir los elementos al array de selectedSubRegions y quitar posibles duplicados
+            setSelectedSubRegions(updatedSelectedSubRegions);
+
+            // 2. Eliminar los elementos del array de unCheckedSubRegions
+            setUnCheckedSubRegions(
+                unCheckedSubRegions.filter(
+                    (item) =>
+                        !tenSubRegions_.some((sub_region) =>
+                            isSameSubRegion(item, sub_region),
+                        ),
+                ),
+            );
+
+            // 3. Añadir los elementos al array de newSelectedSubRegions
+            // 3.1 comprobar que no existan previamente en el array de newSelectedSubRegions
+            const newSelectedSubRegions_ = tenSubRegions_.filter(
+                (sub_region) =>
+                    !newSelectedSubRegions.some((item) =>
+                        isSameSubRegion(item, sub_region),
+                    ),
             );
 
             setNewSelectedSubRegions([
                 ...newSelectedSubRegions,
-                ...tenSubRegions_,
+                ...newSelectedSubRegions_,
+            ]);
+        } else {
+            // If the checkbox is unchecked, remove all the sub_regions on the current page from the list of selected sub_regions
+            // 1. Eliminar los elementos del array de selectedSubRegions
+            setSelectedSubRegions(
+                selectedSubRegions.filter(
+                    (item) =>
+                        !tenSubRegions_.some((sub_region) =>
+                            isSameSubRegion(item, sub_region),
+                        ),
+                ),
+            );
+
+            // 2. Añadir los elementos al array de unCheckedSubRegions
+            // 2.1 Solo añadimos al array de unCheckedSubRegions si existen en el array de BBDD subRegionsFromDB
+            setUnCheckedSubRegions([
+                ...unCheckedSubRegions,
+                ...tenSubRegions_.filter((sub_region) =>
+                    subRegionsFromDB.some((item) =>
+                        isSameSubRegion(item, sub_region),
+                    ),
+                ),
             ]);
 
-            // Add all the sub_regions on the current page to the list of selected sub_regions
-            const updatedSelectedSubRegions = [
-                ...selectedSubRegions,
-                ...tenSubRegions_,
-            ];
-
-            setSelectedSubRegions(updatedSelectedSubRegions);
-
-            // Eliminar de la lista de uncheckedSubRegions los sub_regions que ya están en la lista de selectedSubRegions
-            const filteredUnCheckedSubRegions = unCheckedSubRegions.filter(
-                (sub_region) => selectedSubRegions.includes(sub_region),
+            // 3. Eliminar los elementos del array de newSelectedSubRegions
+            setNewSelectedSubRegions(
+                newSelectedSubRegions.filter(
+                    (item) =>
+                        !tenSubRegions_.some((sub_region) =>
+                            isSameSubRegion(item, sub_region),
+                        ),
+                ),
             );
-
-            setUnCheckedSubRegions(filteredUnCheckedSubRegions);
-        } else {
-            // Convertir JSONSubRegion a ISubRegionCoverageAreas
-            const tenSubRegions_: ISubRegionCoverageAreas[] = tenSubRegions.map(
-                (sub_region: JSONSubRegion) => {
-                    return {
-                        country: sub_region.country,
-                        country_iso_code: sub_region.country_iso_code,
-                        region: sub_region.region,
-                        name: sub_region.name,
-                        distributor_id: user.id,
-                    };
-                },
-            );
-
-            // If the checkbox is unchecked, remove all the sub_regions on the current page from the list of selected sub_regions
-            const updatedSelectedSubRegions = selectedSubRegions.filter(
-                (selectedSubRegion) =>
-                    !tenSubRegions_.some(
-                        (sub_region) =>
-                            sub_region.name === selectedSubRegion.name &&
-                            sub_region.region === selectedSubRegion.region &&
-                            sub_region.country === selectedSubRegion.country,
-                    ),
-            );
-            setSelectedSubRegions(updatedSelectedSubRegions);
-
-            // Add all the sub_regions on the current page to the list of unchecked sub_regions
-            const updatedUnCheckedSubRegions = [
-                ...unCheckedSubRegions,
-                ...tenSubRegions_,
-            ];
-
-            // Eliminate duplicated sub_regions
-            setUnCheckedSubRegions(
-                Array.from(new Set(updatedUnCheckedSubRegions)),
-            );
-
-            // Remove the sub_regions on the current page from the list of new selected sub_regions
-            const updatedNewSelectedSubRegions = newSelectedSubRegions.filter(
-                (newSelectedSubRegion) =>
-                    !tenSubRegions_.some(
-                        (sub_region) =>
-                            sub_region.name === newSelectedSubRegion.name &&
-                            sub_region.region === newSelectedSubRegion.region &&
-                            sub_region.country === newSelectedSubRegion.country,
-                    ),
-            );
-
-            setNewSelectedSubRegions(updatedNewSelectedSubRegions);
         }
 
+        // 4. Actualizamos checkbox toggle de la página actual
         setSelectAllCurrentPage(e.target.checked);
     };
 
@@ -622,6 +623,8 @@ export default function SubRegionDistribution({
                     selectedSubRegions={selectedSubRegions}
                     handleCheckbox={handleCheckbox}
                     register={register}
+                    handleSelectAllCurrentPage={handleSelectAllFromCurrentPage}
+                    selectAllCurrentPage={selectAllCurrentPage}
                 />
             </div>
         </section>

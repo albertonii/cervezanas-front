@@ -19,11 +19,11 @@ export default function HorizontalMenuCoverageDestination({
                 handleMenuClick={handleMenuClick}
                 tabs={[
                     // DistributionDestinationType.LOCAL,
-                    DistributionDestinationType.CITY,
+                    // DistributionDestinationType.CITY,
                     DistributionDestinationType.SUB_REGION,
                     DistributionDestinationType.REGION,
                     // DistributionDestinationType.EUROPE,
-                    DistributionDestinationType.INTERNATIONAL,
+                    // DistributionDestinationType.INTERNATIONAL,
                 ]}
             />
         </>
