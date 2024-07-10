@@ -77,10 +77,7 @@ export default function CoverageAreas() {
                                 // sub_regions={
                                 //     distributor.coverage_areas.sub_regions
                                 // }
-                                new_sub_regions={
-                                    distributor.sub_region_coverage_areas
-                                }
-                                coverageAreaId={distributor.coverage_areas.id}
+                                fromDB={distributor.sub_region_coverage_areas}
                                 distributionCosts={
                                     distributor.distribution_costs!
                                 }

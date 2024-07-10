@@ -35,7 +35,7 @@ const SubRegionTable = ({ subRegions }: Props) => {
     const subRegionArray = Object.values(regions);
 
     return (
-        <div className="flex flex-col items-center w-full">
+        <div className="flex flex-col items-center w-full max-h-[42vh]">
             <div className="overflow-x-auto w-full">
                 <div className="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
                     <table className="min-w-full leading-normal">
@@ -63,7 +63,9 @@ const SubRegionTable = ({ subRegions }: Props) => {
                                         colSpan={3}
                                     >
                                         <p className="text-gray-900 whitespace-no-wrap">
-                                            {`${area.country}`}
+                                            {`${t(
+                                                'countries.' + area.country,
+                                            )}`}
                                         </p>
                                     </td>
 

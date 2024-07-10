@@ -1,11 +1,10 @@
 import SubRegionTable from './SubRegionTable';
 import Button from '../../../../../components/common/Button';
 import useFetchStatesByCountry from '../useFetchStatesByCountry';
-import PaginationFooter from '../../../../../components/common/PaginationFooter';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useMutation, useQueryClient } from 'react-query';
-import { useForm, UseFormRegister } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { Country, ICountry, IState } from 'country-state-city';
 import {
     filterSearchInputQuery,
@@ -18,13 +17,13 @@ import { updateSubRegionDistribution } from '../../../actions';
 import { IDistributionCost } from '../../../../../../../lib/types/types';
 import { useMessage } from '../../../../../components/message/useMessage';
 import {
-    IRegionCoverageAreas,
     ISubRegionCoverageAreas,
-    JSONRegion,
     JSONSubRegion,
 } from '../../../../../../../lib/types/distribution_areas';
 import useSWRMutation from 'swr/mutation';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
+import CheckboxListSubRegions from './CheckboxListSubRegions';
+import { isSameSubRegion } from '../../../../../../../utils/distribution';
 
 interface FormData {
     country: string;
@@ -35,9 +34,8 @@ interface FormData {
 
 type Props = {
     // sub_regions: string[];
-    coverageAreaId: string;
     distributionCosts: IDistributionCost;
-    new_sub_regions: ISubRegionCoverageAreas[];
+    fromDB: ISubRegionCoverageAreas[];
 };
 
 const fetcher = (arg: any, ...args: any) =>
@@ -45,11 +43,9 @@ const fetcher = (arg: any, ...args: any) =>
 
 export default function SubRegionDistribution({
     // sub_regions,
-    coverageAreaId,
     distributionCosts,
-    new_sub_regions,
+    fromDB,
 }: Props) {
-    console.log(new_sub_regions);
     const t = useTranslations();
 
     const { handleMessage } = useMessage();
@@ -78,11 +74,11 @@ export default function SubRegionDistribution({
 
     const [selectedSubRegions, setSelectedSubRegions] = useState<
         ISubRegionCoverageAreas[]
-    >([]);
+    >(fromDB ?? []);
 
-    const [regionsFromDB, setFromDBSubRegions] = useState<
+    const [subRegionsFromDB, setFromDBSubRegions] = useState<
         ISubRegionCoverageAreas[]
-    >(new_sub_regions ?? []);
+    >(fromDB ?? []);
 
     const [selectAllCurrentPage, setSelectAllCurrentPage] = useState(false);
 
@@ -246,12 +242,12 @@ export default function SubRegionDistribution({
         console.log('Unchecked subregions', unCheckedSubRegions);
         console.log('New selected subregions', newSelectedSubRegions);
         console.log('SELECTED', selectedSubRegions);
-        console.log('FROM DB', regionsFromDB);
+        console.log('FROM DB', subRegionsFromDB);
     }, [
         unCheckedSubRegions,
         newSelectedSubRegions,
         selectedSubRegions,
-        regionsFromDB,
+        subRegionsFromDB,
     ]);
 
     const handleCountryISOCode = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -272,14 +268,9 @@ export default function SubRegionDistribution({
 
             setIsLoading(false);
         } else {
-            // Remove the cities from unCheckedSubRegions that are already in the list of selected sub_regions
-            const filteredUnCheckedSubRegions = unCheckedSubRegions.filter(
-                (sub_region) => regionsFromDB.includes(sub_region),
-            );
-
             // Eliminate duplicated sub_regions
             const unCheckedSubRegions_ = Array.from(
-                new Set(filteredUnCheckedSubRegions),
+                new Set(unCheckedSubRegions),
             );
             const newSelectedSubRegions_ = Array.from(
                 new Set(newSelectedSubRegions),
@@ -290,7 +281,6 @@ export default function SubRegionDistribution({
                 unCheckedSubRegions_,
                 newSelectedSubRegions_,
                 selectedSubRegions_,
-                coverageAreaId,
                 areaAndWeightId,
             );
 
@@ -344,7 +334,7 @@ export default function SubRegionDistribution({
         }
     };
 
-    const handleCheckbox = (
+    const handleCheckbox = async (
         e: React.ChangeEvent<HTMLInputElement>,
         sub_region: JSONSubRegion,
     ) => {
@@ -359,20 +349,16 @@ export default function SubRegionDistribution({
 
         // If the sub_region is unchecked, add it to the list of unchecked sub_regions
         if (!e.target.checked) {
-            setUnCheckedSubRegions([...unCheckedSubRegions, subRegion_]);
+            // 1. Si existe en el array de BD, añadirlo al array de uncheckedSubRegions
+            if (
+                subRegionsFromDB.some((item) =>
+                    isSameSubRegion(item, subRegion_),
+                )
+            ) {
+                setUnCheckedSubRegions([...unCheckedSubRegions, subRegion_]);
+            }
 
-            // Remove the sub_region from the list of selected sub_regions
-            setSelectedSubRegions(
-                selectedSubRegions.filter((item) => {
-                    return (
-                        item.region !== subRegion_.region ||
-                        item.country !== subRegion_.country ||
-                        item.name !== subRegion_.name
-                    );
-                }),
-            );
-
-            // Remove the sub_region from the list of new selected sub_regions
+            // 2. Si el elemento existe en el array de newSelectedSubRegions, eliminarlo
             setNewSelectedSubRegions(
                 newSelectedSubRegions.filter((item) => {
                     return (
@@ -382,49 +368,53 @@ export default function SubRegionDistribution({
                     );
                 }),
             );
+
+            // 3. Eliminar el elemento del array de selectedSubRegions
+            setSelectedSubRegions(
+                selectedSubRegions.filter((item) => {
+                    return (
+                        item.region !== subRegion_.region ||
+                        item.country !== subRegion_.country ||
+                        item.name !== subRegion_.name
+                    );
+                }),
+            );
         } else {
-            // If the sub_region is checked, remove it from the list of unchecked sub_regions
-            setUnCheckedSubRegions(
-                unCheckedSubRegions.filter((item) => item !== subRegion_),
+            // 1. Si el elemento NO existe en el array de BBDD entonces lo añadimos en newSelectedSubRegions
+            const subRegionExistsInDB = subRegionsFromDB.find((item) =>
+                isSameSubRegion(item, subRegion_),
             );
 
-            // Check If the sub_region has never been selected, add it to the list of selected sub_regions
-            const subRegionExists = selectedSubRegions.find(
-                (item) =>
-                    item.name === subRegion_.name &&
-                    item.region === subRegion_.region &&
-                    item.country === subRegion_.country,
-            );
-
-            // Add the sub_region to the list of selected sub_regions
-            if (!subRegionExists) {
-                setSelectedSubRegions([...selectedSubRegions, subRegion_]);
-            }
-
-            // Check if the sub_region has never been selected, add it to the list of new selected sub_regions
-            const newSelectedSubRegionExists = newSelectedSubRegions.find(
-                (item) =>
-                    item.name === subRegion_.name &&
-                    item.region === subRegion_.region &&
-                    item.country === subRegion_.country,
-            );
-
-            // Add the sub_region to the list of new selected sub_regions
-            if (!newSelectedSubRegionExists) {
+            if (!subRegionExistsInDB) {
                 setNewSelectedSubRegions([
                     ...newSelectedSubRegions,
                     subRegion_,
                 ]);
             }
+
+            // 2. Si el elemento existe en el array de unCheckedSubRegions, eliminarlo
+            setUnCheckedSubRegions(
+                unCheckedSubRegions.filter((item) => {
+                    return (
+                        item.region !== subRegion_.region ||
+                        item.country !== subRegion_.country ||
+                        item.name !== subRegion_.name
+                    );
+                }),
+            );
+
+            // 3. Si el elemento no existe en el array de selectedSubRegions, añadirlo
+            if (
+                !selectedSubRegions.some((item) =>
+                    isSameSubRegion(item, subRegion_),
+                )
+            ) {
+                setSelectedSubRegions([...selectedSubRegions, subRegion_]);
+            }
         }
 
-        // Check if the subRegions from DB are already in the list of selected sub_regions
-        // If the sub_region has never been selected, add it to the list of selected sub_regions
-        regionsFromDB.map((region: ISubRegionCoverageAreas) => {
-            if (!selectedSubRegions.includes(region)) {
-                setSelectedSubRegions([...selectedSubRegions, region]);
-            }
-        });
+        // 4. Actualizamos el array fromDBSubRegions con los elementos nuevos que están seleccionados del array de selectedSubRegions
+        setFromDBSubRegions(selectedSubRegions);
     };
 
     const handleSelectAllCurrentPage = (
@@ -565,6 +555,8 @@ export default function SubRegionDistribution({
                             ${isLoading ? 'opacity-50 pointer-events-none' : ''}
                         `}
             >
+                <SubRegionTable subRegions={selectedSubRegions} />
+
                 <address className="grid w-full grid-cols-2 gap-4">
                     <label
                         htmlFor="countryISOCode"
@@ -596,8 +588,6 @@ export default function SubRegionDistribution({
                     </select>
                 </address>
 
-                <SubRegionTable subRegions={newSelectedSubRegions} />
-
                 <InputSearch
                     query={query}
                     setQuery={setQuery}
@@ -623,169 +613,17 @@ export default function SubRegionDistribution({
                     </div>
                 )} */}
 
-                {/* List of sub_regions in the country  */}
-                {tenSubRegions && tenSubRegions.length > 0 && (
-                    <div className="w-full">
-                        <PaginationFooter
-                            counter={counter}
-                            resultsPerPage={resultsPerPage}
-                            currentPage={currentPage}
-                            setCurrentPage={setCurrentPage}
-                        />
-
-                        {/* <div className="">
-                            <label
-                                htmlFor="allSubRegionsByRegion"
-                                className="space-x-2 text-lg text-gray-600"
-                            >
-                                <input
-                                    id="allSubRegionsByRegion"
-                                    type="checkbox"
-                                    onChange={(e) => {
-                                        handleSelectAllSubRegionsByRegion(e);
-                                    }}
-                                    checked={selectAllSubRegionsByRegion}
-                                    className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                                />
-
-                                <span className="text-sm text-gray-600">
-                                    {t('select_all_sub_regions')}
-                                </span>
-                            </label>
-                        </div> */}
-
-                        <div className="w-full">
-                            {/* Display selectable table with all sub_regions in the country selected */}
-                            <label
-                                htmlFor="addressSubRegion"
-                                className="text-sm text-gray-600"
-                            >
-                                {t('loc_sub_region')}
-                            </label>
-
-                            <table className="bg-beer-foam w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
-                                <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                                    <tr>
-                                        <th scope="col" className="px-6 py-3">
-                                            <input
-                                                type="checkbox"
-                                                onChange={(e) => {
-                                                    handleSelectAllCurrentPage(
-                                                        e,
-                                                    );
-                                                }}
-                                                checked={selectAllCurrentPage}
-                                                className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                                            />
-                                        </th>
-                                        <th scope="col" className="px-6 py-3">
-                                            {t('sub_region')}
-                                        </th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    {tenSubRegions?.map(
-                                        (
-                                            sub_region: JSONSubRegion,
-                                            index: number,
-                                        ) => {
-                                            const startIndex =
-                                                currentPage * resultsPerPage;
-                                            const globalIndex =
-                                                startIndex + index;
-
-                                            return (
-                                                <tr
-                                                    key={
-                                                        sub_region.name +
-                                                        currentPage
-                                                    }
-                                                    className=""
-                                                >
-                                                    <SubRegionRow
-                                                        sub_region={sub_region}
-                                                        globalIndex={
-                                                            globalIndex
-                                                        }
-                                                        selectedSubRegions={
-                                                            selectedSubRegions
-                                                        }
-                                                        handleCheckbox={
-                                                            handleCheckbox
-                                                        }
-                                                        register={register}
-                                                    />
-                                                </tr>
-                                            );
-                                        },
-                                    )}
-                                </tbody>
-                            </table>
-
-                            <PaginationFooter
-                                counter={counter}
-                                resultsPerPage={resultsPerPage}
-                                currentPage={currentPage}
-                                setCurrentPage={setCurrentPage}
-                            />
-                        </div>
-                    </div>
-                )}
+                <CheckboxListSubRegions
+                    tenSubRegions={tenSubRegions}
+                    counter={counter}
+                    resultsPerPage={resultsPerPage}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    selectedSubRegions={selectedSubRegions}
+                    handleCheckbox={handleCheckbox}
+                    register={register}
+                />
             </div>
         </section>
     );
 }
-
-interface SubRegionRowProps {
-    sub_region: JSONSubRegion;
-    globalIndex: number;
-    selectedSubRegions: ISubRegionCoverageAreas[];
-    handleCheckbox: (
-        e: React.ChangeEvent<HTMLInputElement>,
-        name: JSONSubRegion,
-    ) => void;
-    register: UseFormRegister<any>;
-}
-
-const SubRegionRow = ({
-    sub_region,
-    globalIndex,
-    selectedSubRegions,
-    handleCheckbox,
-    register,
-}: SubRegionRowProps) => {
-    const isChecked = (sub_region: JSONSubRegion) => {
-        return selectedSubRegions.some(
-            (item) =>
-                item.name === sub_region.name &&
-                item.region === sub_region.region &&
-                item.country === sub_region.country,
-        );
-    };
-
-    return (
-        <>
-            <th
-                scope="row"
-                className="w-20 whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-            >
-                <input
-                    type="checkbox"
-                    {...register(`sub_regions`)}
-                    id={`sub_regions.${globalIndex}.${sub_region.name}}`}
-                    value={sub_region.name}
-                    checked={isChecked(sub_region)}
-                    onChange={(e) => {
-                        handleCheckbox(e, sub_region);
-                    }}
-                    className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                />
-            </th>
-
-            <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                {sub_region.name}
-            </td>
-        </>
-    );
-};

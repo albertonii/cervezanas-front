@@ -329,7 +329,6 @@ export async function updateSubRegionDistribution(
     unCheckedSubRegions: ISubRegionCoverageAreas[],
     newSelectedSubRegions: ISubRegionCoverageAreas[],
     selectedSubRegions: ISubRegionCoverageAreas[],
-    coverageAreaId: string,
     areaAndWeightCostId: string,
 ) {
     const url = `${baseUrl}/api/coverage_areas/sub_regions`;
@@ -345,7 +344,6 @@ export async function updateSubRegionDistribution(
         JSON.stringify(newSelectedSubRegions),
     );
     formData.append('sub_regions', JSON.stringify(selectedSubRegions));
-    formData.append('coverage_area_id', coverageAreaId);
     formData.append('area_and_weight_cost_id', areaAndWeightCostId);
 
     try {
