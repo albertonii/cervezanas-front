@@ -65,20 +65,6 @@ async function getDistributionCost() {
                     distribution_costs_id,
                     area_and_weight_information (
                         id,
-                        type,
-                        name,
-                        area_and_weight_cost_id,
-                        coverage_area_id, 
-                        area_weight_cost_range (
-                            id,
-                            weight_from,
-                            weight_to,
-                            base_cost,
-                            area_and_weight_information_id
-                        )
-                    ),
-                    area_and_weight_information_ (
-                        id,
                         area_and_weight_cost_id,
                         coverage_area_id,
                         coverage_areas (
@@ -91,7 +77,7 @@ async function getDistributionCost() {
                             administrative_division,
                             distributor_id
                         ),
-                        area_weight_cost_range_ (
+                        area_weight_cost_range (
                             id,
                             weight_from,
                             weight_to,

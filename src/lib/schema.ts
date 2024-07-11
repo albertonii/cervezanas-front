@@ -40,38 +40,6 @@ export interface Database {
           area_and_weight_cost_id: string
           coverage_area_id: string
           id: string
-          name: string
-          type: string
-        }
-        Insert: {
-          area_and_weight_cost_id?: string
-          coverage_area_id?: string
-          id?: string
-          name: string
-          type?: string
-        }
-        Update: {
-          area_and_weight_cost_id?: string
-          coverage_area_id?: string
-          id?: string
-          name?: string
-          type?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "area_and_weight_information_area_and_weight_cost_id_fkey"
-            columns: ["area_and_weight_cost_id"]
-            isOneToOne: false
-            referencedRelation: "area_and_weight_cost"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      area_and_weight_information_: {
-        Row: {
-          area_and_weight_cost_id: string
-          coverage_area_id: string
-          id: string
         }
         Insert: {
           area_and_weight_cost_id?: string
@@ -102,38 +70,6 @@ export interface Database {
       }
       area_weight_cost_range: {
         Row: {
-          area_and_weight_information_id: string
-          base_cost: number
-          id: string
-          weight_from: number
-          weight_to: number
-        }
-        Insert: {
-          area_and_weight_information_id?: string
-          base_cost?: number
-          id?: string
-          weight_from?: number
-          weight_to?: number
-        }
-        Update: {
-          area_and_weight_information_id?: string
-          base_cost?: number
-          id?: string
-          weight_from?: number
-          weight_to?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "area_weight_cost_range_area_and_wight_information_id_fkey"
-            columns: ["area_and_weight_information_id"]
-            isOneToOne: false
-            referencedRelation: "area_and_weight_information"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      area_weight_cost_range_: {
-        Row: {
           area_and_weight_information_id: string | null
           base_cost: number | null
           id: string
@@ -159,7 +95,7 @@ export interface Database {
             foreignKeyName: "area_weight_cost_range_sub_re_area_and_weight_information__fkey"
             columns: ["area_and_weight_information_id"]
             isOneToOne: false
-            referencedRelation: "area_and_weight_information_"
+            referencedRelation: "area_and_weight_information"
             referencedColumns: ["id"]
           }
         ]

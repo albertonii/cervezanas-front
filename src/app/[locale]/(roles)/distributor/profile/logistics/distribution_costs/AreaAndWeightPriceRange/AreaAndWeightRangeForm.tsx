@@ -14,7 +14,7 @@ import { AreaAndWeightInformationSchema } from './AreaAndWeightCostForm';
 import { useMessage } from '../../../../../../components/message/useMessage';
 import {
     IAreaAndWeightCostRange,
-    IAreaAndWeightInformation_,
+    IAreaAndWeightInformation,
 } from '../../../../../../../../lib/types/types';
 import { DisplayInputError } from '../../../../../../components/common/DisplayInputError';
 import { updateAreaAndWeightRangeByAreaAndWeightInformationId } from '../../../../actions';
@@ -65,7 +65,7 @@ const areaAndWeightInformationObjectSchema = z.object({
 });
 
 interface Props {
-    selectedArea: IAreaAndWeightInformation_;
+    selectedArea: IAreaAndWeightInformation;
 }
 
 /* Tarifa de envío por rango de coste del pedido */
@@ -76,7 +76,7 @@ const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const [costRanges, setCostRanges] = useState<IAreaAndWeightCostRange[]>(
-        selectedArea.area_weight_cost_range_ ?? [],
+        selectedArea.area_weight_cost_range ?? [],
     );
 
     const submitSuccessMessage = t('messages.updated_successfully');
@@ -86,7 +86,7 @@ const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
         mode: 'onSubmit',
         resolver: zodResolver(areaAndWeightInformationObjectSchema),
         defaultValues: {
-            area_weight_range: selectedArea.area_weight_cost_range_?.map(
+            area_weight_range: selectedArea.area_weight_cost_range?.map(
                 (range) => {
                     return {
                         weight_from: range.weight_from,
@@ -108,17 +108,17 @@ const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
 
     useEffect(() => {
         if (
-            selectedArea.area_weight_cost_range_ &&
+            selectedArea.area_weight_cost_range &&
             selectedArea.coverage_areas?.administrative_division
         ) {
-            const sortedRanges = [...selectedArea.area_weight_cost_range_].sort(
+            const sortedRanges = [...selectedArea.area_weight_cost_range].sort(
                 (a, b) => a.weight_from - b.weight_from,
             );
 
             setCostRanges(sortedRanges);
             setValue('area_weight_range', sortedRanges);
         }
-    }, [selectedArea.area_weight_cost_range_]);
+    }, [selectedArea.area_weight_cost_range]);
 
     useEffect(() => {
         console.log('errors', errors);

@@ -138,9 +138,8 @@ export function CheckoutItem({
     return (
         <>
             <article
-                className={`mt-4 space-y-4 ${
-                    isShippingCostLoading ? 'pointer-events-none' : ''
-                }`}
+                className={`mt-4 space-y-4 
+                     ${isShippingCostLoading ? 'pointer-events-none' : ''}`}
             >
                 <Link href={`/products/${productWithInfo.id}`} locale={locale}>
                     <p className="space-x-2 text-xl">

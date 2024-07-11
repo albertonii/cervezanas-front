@@ -41,7 +41,7 @@ export default function DropdownRoleList({ handleOnClickRoleOutside }: Props) {
                 className="absolute top-12 left-0 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700"
             >
                 <ul
-                    className="py-2 text-sm text-gray-700 dark:text-gray-200 shadow-sm border-2 border-cerv-titlehigh  bg-cerv-cream"
+                    className="py-2 text-sm text-gray-700 dark:text-gray-200 shadow-sm border-2 border-cerv-titlehigh  bg-cerv-cream dark:bg-gray-700 dark:border-gray-800 rounded-lg"
                     aria-labelledby="dropdownDefaultButton"
                 >
                     {roles?.map((role) => (
@@ -57,7 +57,7 @@ export default function DropdownRoleList({ handleOnClickRoleOutside }: Props) {
                                 onLoadStart={() => setIsAuthLoading(true)}
                             >
                                 <div
-                                    className={`p-2 bg-cerv-cream active:bg-beer-gold transition-all ease-in-out hover:bg-cerv-titlehigh font-semibold`}
+                                    className={`p-2 bg-cerv-cream active:bg-beer-gold transition-all ease-in-out hover:bg-cerv-titlehigh font-semibold dark:bg-gray-700 dark:hover:bg-gray-800 dark:active:bg-gray-900`}
                                     onClick={() => handleRoleClick(role)}
                                 >
                                     <span

@@ -67,32 +67,32 @@ export async function PUT(request: NextRequest) {
                 );
             }
 
-            const existingNames = existingEntries.map((entry) => entry.name);
+            // const existingNames = existingEntries.map((entry) => entry.name);
 
             // Filter out the cities that already exist
-            const newCities = toAddCitiesArray.filter(
-                (city: string) => !existingNames.includes(city),
-            );
+            // const newCities = toAddCitiesArray.filter(
+            //     (city: string) => !existingNames.includes(city),
+            // );
 
-            if (newCities.length > 0) {
-                const { error: error2 } = await supabase
-                    .from('area_and_weight_information')
-                    .upsert(
-                        newCities.map((city: string) => ({
-                            type: DistributionDestinationType.CITY,
-                            name: city,
-                            area_and_weight_cost_id: areaAndWeightCostId,
-                            coverage_area_id: coverageAreaId,
-                        })),
-                    );
+            // if (newCities.length > 0) {
+            //     const { error: error2 } = await supabase
+            //         .from('area_and_weight_information')
+            //         .upsert(
+            //             newCities.map((city: string) => ({
+            //                 type: DistributionDestinationType.CITY,
+            //                 name: city,
+            //                 area_and_weight_cost_id: areaAndWeightCostId,
+            //                 coverage_area_id: coverageAreaId,
+            //             })),
+            //         );
 
-                if (error2) {
-                    return NextResponse.json(
-                        { message: 'Error adding cities' },
-                        { status: 500 },
-                    );
-                }
-            }
+            //     if (error2) {
+            //         return NextResponse.json(
+            //             { message: 'Error adding cities' },
+            //             { status: 500 },
+            //         );
+            //     }
+            // }
         }
 
         if (toDeleteCitiesArray.length === 0 && toAddCitiesArray.length === 0) {

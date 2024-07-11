@@ -1485,37 +1485,18 @@ export interface IAreaAndWeightCost {
     id?: string;
     distribution_costs_id?: string;
     area_and_weight_information?: IAreaAndWeightInformation[];
-    area_and_weight_information_?: IAreaAndWeightInformationSubRegion[];
+    cost_extra_per_kg: number;
 }
 
 export interface IAreaAndWeightInformation {
     id: string;
-    type: string;
-    name: string;
-    coverage_area_id: string;
-    area_and_weight_cost_id: string;
-    coverage_area_id: string;
-    area_weight_cost_range?: IAreaAndWeightCostRange[];
-    coverage_areas?: ICoverageArea_[];
-}
-
-export interface IAreaAndWeightCostRange {
-    id?: string;
-    weight_from: number;
-    weight_to: number;
-    base_cost: number;
-    area_and_weight_information_id: string;
-}
-
-export interface IAreaAndWeightInformation_ {
-    id: string;
     coverage_area_id: string;
     area_and_weight_cost_id: string;
     coverage_areas?: ICoverageArea_;
-    area_weight_cost_range_?: IAreaAndWeightCostRange_[];
+    area_weight_cost_range?: IAreaAndWeightCostRange[];
 }
 
-export interface IAreaAndWeightCostRange_ {
+export interface IAreaAndWeightCostRange {
     id?: string;
     weight_from: number;
     weight_to: number;

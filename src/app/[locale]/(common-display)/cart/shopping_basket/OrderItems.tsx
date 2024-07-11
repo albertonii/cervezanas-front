@@ -25,7 +25,7 @@ const OrderItems = ({
         <div
             className={`
                 ${isShippingCostLoading && 'opacity-50'}
-                w-full
+                w-full dark:bg-gray-800 bg-white p-4 rounded-lg shadow-md
             `}
         >
             {items.map((productPack) => (

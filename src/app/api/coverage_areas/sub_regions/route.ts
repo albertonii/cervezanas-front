@@ -77,7 +77,7 @@ export async function PUT(request: NextRequest) {
         // que vincula las sub regiones con el rango de precios por pesos y área
         if (toAddSubRegionsSelect && toAddSubRegionsSelect.length > 0) {
             const { error: errorAddSubRegions } = await supabase
-                .from('area_and_weight_information_')
+                .from('area_and_weight_information')
                 .insert(
                     toAddSubRegionsSelect.map((sub_region: ICoverageArea_) => ({
                         coverage_area_id: sub_region.id,

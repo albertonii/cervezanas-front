@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 import {
-    IAreaAndWeightCostRange_,
+    IAreaAndWeightCostRange,
     ICoverageArea_,
     IFlatrateAndWeightCostForm,
 } from '../../../../../lib/types/types';
@@ -221,7 +221,7 @@ export async function updateIsDistributionCostsIncludedInProduct(
 }
 
 export async function updateAreaAndWeightRangeByAreaAndWeightInformationId(
-    area_weight_range: IAreaAndWeightCostRange_[],
+    area_weight_range: IAreaAndWeightCostRange[],
 ) {
     const formData = new FormData();
 

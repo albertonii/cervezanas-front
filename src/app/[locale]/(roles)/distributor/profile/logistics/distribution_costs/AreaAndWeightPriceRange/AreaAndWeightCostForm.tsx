@@ -6,7 +6,7 @@ import { z, ZodType } from 'zod';
 import {
     AreaAndWeightCostFormData,
     IAreaAndWeightCost,
-    IAreaAndWeightInformation_,
+    IAreaAndWeightInformation,
 } from '../../../../../../../../lib/types/types';
 import AreaAndWeightRangeForm from './AreaAndWeightRangeForm';
 import { useForm } from 'react-hook-form';
@@ -92,10 +92,10 @@ const AreaAndWeightCostForm = ({
     fromDBDistributionType,
 }: Props) => {
     const [selectedArea, setSelectedArea] =
-        useState<IAreaAndWeightInformation_>();
+        useState<IAreaAndWeightInformation>();
 
-    const areaWeightInformationSubRegion: IAreaAndWeightInformation_[] =
-        areaAndWeightCost?.area_and_weight_information_ || [];
+    const areaWeightInformationSubRegion: IAreaAndWeightInformation[] =
+        areaAndWeightCost?.area_and_weight_information || [];
 
     const form = useForm<AreaAndWeightCostFormValidationSchema>({
         mode: 'onSubmit',
@@ -107,7 +107,7 @@ const AreaAndWeightCostForm = ({
             //         (area) => area.type === DistributionDestinationType.CITY,
             //     ) || [],
             sub_regions: areaWeightInformationSubRegion.map(
-                (area: IAreaAndWeightInformation_) => ({
+                (area: IAreaAndWeightInformation) => ({
                     id: area.id,
                     name: area.coverage_areas?.sub_region,
                     type: DistributionDestinationType.SUB_REGION,

@@ -7,11 +7,7 @@ import {
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { AreaAndWeightCostFormValidationSchema } from './AreaAndWeightCostForm';
-import {
-    AreaAndWeightInformationFormData,
-    IAreaAndWeightInformation,
-    IAreaAndWeightInformation_,
-} from '../../../../../../../../lib/types/types';
+import { AreaAndWeightInformationFormData } from '../../../../../../../../lib/types/types';
 
 interface SidebarProps {
     form: UseFormReturn<AreaAndWeightCostFormValidationSchema>;

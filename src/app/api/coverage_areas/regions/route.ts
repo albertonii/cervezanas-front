@@ -66,32 +66,32 @@ export async function PUT(request: NextRequest) {
             );
         }
 
-        const existingNames = existingEntries.map((entry) => entry.name);
+        // const existingNames = existingEntries.map((entry) => entry.name);
 
-        // Filter out the regions that already exist
-        const newRegions = toAddRegionsArray.filter(
-            (region: string) => !existingNames.includes(region),
-        );
+        // // Filter out the regions that already exist
+        // const newRegions = toAddRegionsArray.filter(
+        //     (region: string) => !existingNames.includes(region),
+        // );
 
-        if (newRegions.length > 0) {
-            const { error: error2 } = await supabase
-                .from('area_and_weight_information')
-                .upsert(
-                    newRegions.map((region: string) => ({
-                        type: DistributionDestinationType.REGION,
-                        name: region,
-                        area_and_weight_cost_id: areaAndWeightCostId,
-                        coverage_area_id: coverageAreaId,
-                    })),
-                );
+        // if (newRegions.length > 0) {
+        //     const { error: error2 } = await supabase
+        //         .from('area_and_weight_information')
+        //         .upsert(
+        //             newRegions.map((region: string) => ({
+        //                 type: DistributionDestinationType.REGION,
+        //                 name: region,
+        //                 area_and_weight_cost_id: areaAndWeightCostId,
+        //                 coverage_area_id: coverageAreaId,
+        //             })),
+        //         );
 
-            if (error2) {
-                return NextResponse.json(
-                    { message: 'Error adding regions' },
-                    { status: 500 },
-                );
-            }
-        }
+        //     if (error2) {
+        //         return NextResponse.json(
+        //             { message: 'Error adding regions' },
+        //             { status: 500 },
+        //         );
+        //     }
+        // }
     }
 
     if (toDeleteRegionsArray.length === 0 && toAddRegionsArray.length === 0) {
