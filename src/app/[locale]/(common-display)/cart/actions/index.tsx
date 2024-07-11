@@ -454,52 +454,52 @@ export async function canDistributorDeliverToAddress(
     // }
 
     // SUBREGION - PROVINCE
-    if (coverageAreas.sub_regions.length > 0) {
-        // Check if the name of the subregion is in the list of subregions of the distributor
-        const subregion = clientShippingInfo.sub_region;
-        const subregionNameInCoverageArea =
-            coverageAreas.sub_regions.includes(subregion);
+    // if (coverageAreas.sub_regions.length > 0) {
+    //     // Check if the name of the subregion is in the list of subregions of the distributor
+    //     const subregion = clientShippingInfo.sub_region;
+    //     const subregionNameInCoverageArea =
+    //         coverageAreas.sub_regions.includes(subregion);
 
-        if (subregionNameInCoverageArea) {
-            // Check if the point [latitude, longitude] is inside the subregion
-            canDeliver = await checkAddressIsInsideSubregionGeospatial(
-                subregion,
-                clientLatLng,
-            );
+    //     if (subregionNameInCoverageArea) {
+    //         // Check if the point [latitude, longitude] is inside the subregion
+    //         canDeliver = await checkAddressIsInsideSubregionGeospatial(
+    //             subregion,
+    //             clientLatLng,
+    //         );
 
-            if (canDeliver) {
-                return {
-                    canDeliver,
-                };
-            }
-        }
-    }
+    //         if (canDeliver) {
+    //             return {
+    //                 canDeliver,
+    //             };
+    //         }
+    //     }
+    // }
 
-    // REGION - COMUNIDAD AUTONOMA
-    if (coverageAreas.regions.length > 0) {
-        // Check if the name of the region is in the list of regions of the distributor
-        const region = clientShippingInfo.region;
-        canDeliver = coverageAreas.regions.includes(region);
+    // // REGION - COMUNIDAD AUTONOMA
+    // if (coverageAreas.regions.length > 0) {
+    //     // Check if the name of the region is in the list of regions of the distributor
+    //     const region = clientShippingInfo.region;
+    //     canDeliver = coverageAreas.regions.includes(region);
 
-        if (canDeliver) {
-            return {
-                canDeliver,
-            };
-        }
-    }
+    //     if (canDeliver) {
+    //         return {
+    //             canDeliver,
+    //         };
+    //     }
+    // }
 
-    // INTERNATIONAL
-    if (coverageAreas.international) {
-        // Check if the point [latitude, longitude] is inside the international area
-        const country = clientShippingInfo.country;
-        canDeliver = coverageAreas.international.includes(country);
+    // // INTERNATIONAL
+    // if (coverageAreas.international) {
+    //     // Check if the point [latitude, longitude] is inside the international area
+    //     const country = clientShippingInfo.country;
+    //     canDeliver = coverageAreas.international.includes(country);
 
-        if (canDeliver) {
-            return {
-                canDeliver,
-            };
-        }
-    }
+    //     if (canDeliver) {
+    //         return {
+    //             canDeliver,
+    //         };
+    //     }
+    // }
 
     return { canDeliver, delivery_type: DeliveryType.NONE };
 }

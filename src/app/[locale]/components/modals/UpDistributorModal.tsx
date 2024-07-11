@@ -69,27 +69,6 @@ export function UpDistributorModal({
                 return;
             }
 
-            // insert into public.coverage_areas (distributor_id) values (new.id);
-            const { error: coverageAreasError } = await supabase
-                .from('coverage_areas')
-                .insert({
-                    distributor_id: user.id,
-                });
-
-            if (coverageAreasError) {
-                console.error(
-                    'Error creating coverage areas:',
-                    coverageAreasError,
-                );
-
-                handleMessage({
-                    type: 'error',
-                    message: 'Error creating coverage areas',
-                });
-
-                return;
-            }
-
             // insert into public.distribution_costs (distributor_id) values (new.id);
             const { error: distributionCostsError } = await supabase
                 .from('distribution_costs')

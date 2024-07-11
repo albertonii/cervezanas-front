@@ -22,17 +22,17 @@ export async function PUT(request: NextRequest) {
 
         const supabase = await createServerClient();
 
-        const { error } = await supabase
-            .from('coverage_areas')
-            .update({ cities: selectedCitiesArray })
-            .eq('id', coverageAreaId);
+        // const { error } = await supabase
+        //     .from('coverage_areas')
+        //     .update({ cities: selectedCitiesArray })
+        //     .eq('id', coverageAreaId);
 
-        if (error) {
-            return NextResponse.json(
-                { message: 'Error updating coverage areas' },
-                { status: 500 },
-            );
-        }
+        // if (error) {
+        //     return NextResponse.json(
+        //         { message: 'Error updating coverage areas' },
+        //         { status: 500 },
+        //     );
+        // }
 
         if (toDeleteCitiesArray.length > 0) {
             const { error: error1 } = await supabase

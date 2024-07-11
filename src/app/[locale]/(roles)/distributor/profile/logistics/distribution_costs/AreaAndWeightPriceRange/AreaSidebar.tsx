@@ -75,13 +75,13 @@ const AreaSidebar: React.FC<SidebarProps> = ({ form, onItemClick }) => {
                                             <li
                                                 key={value.id}
                                                 className={`flex items-center rounded-lg p-2 text-sm font-normal text-gray-200 
-                                        hover:bg-beer-blonde hover:text-gray-800 transition-all ease-in-out duration-100
-                                        dark:text-white dark:hover:bg-gray-700 hover:cursor-pointer 
-                                        ${
-                                            selected === value.name
-                                                ? 'bg-gray-700'
-                                                : ''
-                                        }`}
+                                                    hover:bg-beer-blonde hover:text-gray-800 transition-all ease-in-out duration-100
+                                                    dark:text-white dark:hover:bg-gray-700 hover:cursor-pointer dark:hover:text-gray-200 
+                                                    ${
+                                                        selected === value.name
+                                                            ? 'bg-gray-700'
+                                                            : ''
+                                                    }`}
                                                 onClick={() => {
                                                     setSelected(
                                                         value.name ?? null,

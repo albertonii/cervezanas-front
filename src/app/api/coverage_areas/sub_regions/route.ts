@@ -38,7 +38,7 @@ export async function PUT(request: NextRequest) {
     for (const subRegion of toDeleteSubRegionsArray) {
         const { data: toDeleteSubRegionsSelect, error: deleteError } =
             await supabase
-                .from('coverage_areas_')
+                .from('coverage_areas')
                 .delete()
                 .eq('country_iso_code', subRegion.country_iso_code)
                 .eq('region', subRegion.region)
@@ -57,7 +57,7 @@ export async function PUT(request: NextRequest) {
     if (toAddSubRegionsArray.length > 0) {
         const { data: toAddSubRegionsData, error: errorAddSubRegions } =
             await supabase
-                .from('coverage_areas_')
+                .from('coverage_areas')
                 .insert(
                     toAddSubRegionsArray.map((sub_region: ICoverageArea_) => ({
                         distributor_id: sub_region.distributor_id,

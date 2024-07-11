@@ -59,15 +59,6 @@ export interface JSONSubRegion {
     cities?: string[];
 }
 
-export interface ISubRegionCoverageAreas {
-    id?: string;
-    country_iso_code: string;
-    country: string;
-    region: string;
-    name: string;
-    distributor_id: string;
-}
-
 export interface IRegionCoverageAreas {
     id: string;
     country_iso_code: string;

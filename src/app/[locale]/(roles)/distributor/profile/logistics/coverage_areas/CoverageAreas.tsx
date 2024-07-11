@@ -30,30 +30,17 @@ export default function CoverageAreas() {
     // para puedan estar autoseleccionados al momento de recibir el listado de países que
     // tiene el distribuidor. Si lo hacemos de la manera de abajo
     // hay causíticas que no ten<zemos en cuenta: Bosnia and Herzegovina no se marcaría
-    const internationalCountries =
-        distributor?.coverage_areas?.international?.map((country) => {
-            return country.replace(/\w\S*/g, (txt) => {
-                return txt.replace(/\b\w/g, (v) => v.toUpperCase());
-            });
-        }) ?? [];
+    // const internationalCountries =
+    //     distributor?.coverage_areas?.international?.map((country) => {
+    //         return country.replace(/\w\S*/g, (txt) => {
+    //             return txt.replace(/\b\w/g, (v) => v.toUpperCase());
+    //         });
+    //     }) ?? [];
 
     const renderSwitch = () => {
         if (distributor?.coverage_areas === undefined) return null;
 
         switch (menuOption) {
-            case DistributionDestinationType.LOCAL:
-                return (
-                    <>
-                        {/* {distribution && (
-                            <LocalDistribution
-                                localDistribution={
-                                distribution.coverage_areas.local_distribution
-                                }
-                            />
-                        )} */}
-                    </>
-                );
-
             // case DistributionDestinationType.CITY:
             //     return (
             //         <>
@@ -72,12 +59,12 @@ export default function CoverageAreas() {
             case DistributionDestinationType.SUB_REGION:
                 return (
                     <>
-                        {distributor.coverage_areas_ && (
+                        {distributor.coverage_areas && (
                             <SubRegionDistribution
                                 // sub_regions={
                                 //     distributor.coverage_areas.sub_regions
                                 // }
-                                fromDB={distributor.coverage_areas_}
+                                fromDB={distributor.coverage_areas}
                                 distributionCosts={
                                     distributor.distribution_costs!
                                 }
@@ -86,20 +73,20 @@ export default function CoverageAreas() {
                     </>
                 );
 
-            case DistributionDestinationType.REGION:
-                return (
-                    <>
-                        {distributor && (
-                            <RegionDistribution
-                                regions={distributor.coverage_areas.regions}
-                                coverageAreaId={distributor.coverage_areas.id}
-                                distributionCosts={
-                                    distributor.distribution_costs!
-                                }
-                            />
-                        )}
-                    </>
-                );
+            // case DistributionDestinationType.REGION:
+            //     return (
+            //         <>
+            //             {distributor && (
+            //                 <RegionDistribution
+            //                     regions={distributor.coverage_areas.regions}
+            //                     coverageAreaId={distributor.coverage_areas.id}
+            //                     distributionCosts={
+            //                         distributor.distribution_costs!
+            //                     }
+            //                 />
+            //             )}
+            //         </>
+            //     );
 
             // case DistributionDestinationType.EUROPE:
             //     return (

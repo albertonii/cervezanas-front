@@ -21,17 +21,17 @@ export async function PUT(request: NextRequest) {
 
     const supabase = await createServerClient();
 
-    const { error } = await supabase
-        .from('coverage_areas')
-        .update({ regions: selectedRegionsArray })
-        .eq('id', coverageAreaId);
+    // const { error } = await supabase
+    //     .from('coverage_areas')
+    //     .update({ regions: selectedRegionsArray })
+    //     .eq('id', coverageAreaId);
 
-    if (error) {
-        return NextResponse.json(
-            { message: 'Error updating cost extra per kg' },
-            { status: 500 },
-        );
-    }
+    // if (error) {
+    //     return NextResponse.json(
+    //         { message: 'Error updating cost extra per kg' },
+    //         { status: 500 },
+    //     );
+    // }
 
     if (toDeleteRegionsArray.length > 0) {
         const { error: error1 } = await supabase

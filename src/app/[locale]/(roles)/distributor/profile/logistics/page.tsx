@@ -81,7 +81,7 @@ async function getDistributionCost() {
                         id,
                         area_and_weight_cost_id,
                         coverage_area_id,
-                        coverage_areas_ (
+                        coverage_areas (
                             id,
                             country_iso_code,
                             country,
@@ -123,7 +123,7 @@ async function getCoverageArea() {
     const supabase = await createServerClient();
 
     const { data: coverageAreas, error: coverageAreasError } = await supabase
-        .from('coverage_areas_')
+        .from('coverage_areas')
         .select(
             `
                 id,

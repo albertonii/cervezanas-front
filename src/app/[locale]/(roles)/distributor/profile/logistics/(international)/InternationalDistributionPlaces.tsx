@@ -105,23 +105,23 @@ export default function InternationalDistributionPlaces({
     const handleUpdateInternationalDistribution = async () => {
         setIsLoading(true);
 
-        const { error } = await supabase
-            .from('coverage_areas')
-            .update({ international: selectedCountries })
-            .eq('id', coverageAreaId);
+        // const { error } = await supabase
+        //     .from('coverage_areas')
+        //     .update({ international: selectedCountries })
+        //     .eq('id', coverageAreaId);
 
-        if (error) {
-            console.error(error);
+        // if (error) {
+        //     console.error(error);
 
-            handleMessage({
-                type: 'error',
-                message: submitErrorMessage,
-            });
+        //     handleMessage({
+        //         type: 'error',
+        //         message: submitErrorMessage,
+        //     });
 
-            setIsLoading(false);
+        //     setIsLoading(false);
 
-            return;
-        }
+        //     return;
+        // }
 
         handleMessage({
             type: 'success',

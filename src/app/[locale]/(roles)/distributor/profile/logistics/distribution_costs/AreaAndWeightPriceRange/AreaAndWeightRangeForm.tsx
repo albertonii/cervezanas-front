@@ -109,7 +109,7 @@ const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
     useEffect(() => {
         if (
             selectedArea.area_weight_cost_range_ &&
-            selectedArea.coverage_areas_?.administrative_division
+            selectedArea.coverage_areas?.administrative_division
         ) {
             const sortedRanges = [...selectedArea.area_weight_cost_range_].sort(
                 (a, b) => a.weight_from - b.weight_from,
@@ -262,24 +262,24 @@ const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
 
             {/* Información del área seleccionada  */}
             <div className="flex gap-4">
-                {selectedArea.coverage_areas_?.region && (
+                {selectedArea.coverage_areas?.region && (
                     <span className="">
                         <strong>{t('region')}:</strong>{' '}
-                        {selectedArea.coverage_areas_?.region}
+                        {selectedArea.coverage_areas?.region}
                     </span>
                 )}
 
-                {selectedArea.coverage_areas_?.sub_region && (
+                {selectedArea.coverage_areas?.sub_region && (
                     <span className="">
                         <strong>{t('sub_region')}:</strong>{' '}
-                        {selectedArea.coverage_areas_?.sub_region}
+                        {selectedArea.coverage_areas?.sub_region}
                     </span>
                 )}
 
-                {selectedArea.coverage_areas_?.city && (
+                {selectedArea.coverage_areas?.city && (
                     <span className="">
                         <strong>{t('city')}:</strong>{' '}
-                        {selectedArea.coverage_areas_?.city}
+                        {selectedArea.coverage_areas?.city}
                     </span>
                 )}
             </div>

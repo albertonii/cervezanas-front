@@ -1,9 +1,7 @@
 'use server';
 
 import axios from 'axios';
-import { ISubRegionCoverageAreas } from '../../../../../lib/types/distribution_areas';
 import {
-    IAreaAndWeightCostRange,
     IAreaAndWeightCostRange_,
     ICoverageArea_,
     IFlatrateAndWeightCostForm,

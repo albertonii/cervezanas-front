@@ -11,10 +11,6 @@ import { Session } from '@supabase/gotrue-js/src/lib/types.d';
 import { Type as ProductType } from '../productEnum';
 import { Fermentation } from '../beerEnum';
 import { IBoxPack } from './product';
-import {
-    ISubRegionCoverageAreas,
-    IRegionCoverageAreas,
-} from './distribution_areas';
 
 export type ButtonTypes = 'button' | 'submit' | 'reset';
 
@@ -1308,11 +1304,8 @@ export interface IDistributorUser {
     is_authorized: boolean;
     profile_location?: IProfileLocation[];
     users?: IUserTable; // To access embeded information we need to get into the table and the look for data
-    coverage_areas?: ICoverageArea;
-    coverage_areas_?: ICoverageArea_[];
+    coverage_areas?: ICoverageArea_[];
     distribution_costs?: IDistributionCost;
-    sub_region_coverage_areas?: ISubRegionCoverageAreas[];
-    region_coverage_areas?: IRegionCoverageAreas[];
 }
 
 export interface IProducerUser {
@@ -1381,19 +1374,7 @@ export interface IDistribution {
     feedback: string;
     business_orders: IBusinessOrder;
     origin_distributor: IDistributorUser;
-    coverage_areas: ICoverageArea;
-}
-
-export interface ICoverageArea {
-    id: string;
-    distributor_id: string;
-    distributor_user?: IDistributorUser;
-    local_distribution: ILocal;
-    cities: string[];
-    sub_regions: string[];
-    regions: string[];
-    europe: string[];
-    international: string[];
+    coverage_areas: ICoverageArea_;
 }
 
 export interface ICoverageArea_ {
@@ -1406,21 +1387,6 @@ export interface ICoverageArea_ {
     city?: string;
     administrative_division: string; // Provincia, Distrito, Región, Comarca, Comunidad Autónoma, etc
     distributor_user?: IDistributorUser;
-}
-
-export interface ILocal {
-    id: string;
-    created_at: string;
-    coverage_area_id: string;
-    country: string;
-    from: number; // CP From
-    to: number; // CP To [35600 - 35699]
-    coverage_areas?: ICoverageArea;
-}
-
-export interface IPCRangesProps {
-    from: number;
-    to: number;
 }
 
 export interface FlatrateCostFormData {
@@ -1530,7 +1496,7 @@ export interface IAreaAndWeightInformation {
     area_and_weight_cost_id: string;
     coverage_area_id: string;
     area_weight_cost_range?: IAreaAndWeightCostRange[];
-    coverage_areas?: ICoverageArea[];
+    coverage_areas?: ICoverageArea_[];
 }
 
 export interface IAreaAndWeightCostRange {
@@ -1545,7 +1511,7 @@ export interface IAreaAndWeightInformation_ {
     id: string;
     coverage_area_id: string;
     area_and_weight_cost_id: string;
-    coverage_areas_?: ICoverageArea_;
+    coverage_areas?: ICoverageArea_;
     area_weight_cost_range_?: IAreaAndWeightCostRange_[];
 }
 

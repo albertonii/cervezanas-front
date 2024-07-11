@@ -3,7 +3,7 @@ import useFetchShippingByOwnerId from '../../../../../hooks/useFetchShippingByOw
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import {
-    ICoverageArea,
+    ICoverageArea_,
     IDistributorUser,
     IProduct,
     IAddress,
@@ -90,23 +90,3 @@ export default function DistributionInformation({ product }: Props) {
         </section>
     );
 }
-
-const isDistributionCities = (coverageAreas: ICoverageArea) => {
-    return coverageAreas.cities.length > 0;
-};
-
-const isDistributionProvinces = (coverageAreas: ICoverageArea) => {
-    return coverageAreas.sub_regions.length > 0;
-};
-
-const isDistributionRegions = (coverageAreas: ICoverageArea) => {
-    return coverageAreas.regions.length > 0;
-};
-
-const isDistributionEurope = (coverageAreas: ICoverageArea) => {
-    return coverageAreas.europe.length > 0;
-};
-
-const isDistributionInternational = (coverageAreas: ICoverageArea) => {
-    return coverageAreas.international.length > 0;
-};

@@ -16,9 +16,6 @@ const fetchDistributionByOwnerId = async (
             `
               *,
               coverage_areas (
-                *
-              ),
-              coverage_areas_ (
                 id,
                 country_iso_code,
                 country,

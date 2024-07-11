@@ -1,75 +1,83 @@
-import { ISubRegionCoverageAreas } from '../../../../../lib/types/distribution_areas';
-import { isSameSubRegion } from '../actions';
+import { ICoverageArea_ } from '../../../../../lib/types/types';
+import { isSameSubRegion } from '../../../../../utils/distribution';
 
 describe('isSameSubRegion', () => {
     it('should return true for identical sub-regions', async () => {
-        const subRegion1: ISubRegionCoverageAreas = {
+        const subRegion1: ICoverageArea_ = {
             country: 'US',
             country_iso_code: 'US',
             region: 'California',
-            name: 'Bay Area',
+            sub_region: 'Bay Area',
             distributor_id: '1',
+            administrative_division: 'sub_region',
         };
-        const subRegion2: ISubRegionCoverageAreas = {
+        const subRegion2: ICoverageArea_ = {
             country: 'US',
             country_iso_code: 'US',
             region: 'California',
-            name: 'Bay Area',
+            sub_region: 'Bay Area',
             distributor_id: '1',
+            administrative_division: 'sub_region',
         };
         expect(await isSameSubRegion(subRegion1, subRegion2)).toBe(true);
     });
 
     it('should return false for different countries', async () => {
-        const subRegion1: ISubRegionCoverageAreas = {
+        const subRegion1: ICoverageArea_ = {
             country: 'US',
             country_iso_code: 'US',
             region: 'California',
-            name: 'Bay Area',
+            sub_region: 'Bay Area',
             distributor_id: '1',
+            administrative_division: 'sub_region',
         };
-        const subRegion2: ISubRegionCoverageAreas = {
+        const subRegion2: ICoverageArea_ = {
             country: 'US',
             country_iso_code: 'CA',
             region: 'California',
-            name: 'Bay Area',
+            sub_region: 'Bay Area',
             distributor_id: '1',
+            administrative_division: 'sub_region',
         };
         expect(await isSameSubRegion(subRegion1, subRegion2)).toBe(false);
     });
 
     it('should return false for different regions', async () => {
-        const subRegion1: ISubRegionCoverageAreas = {
+        const subRegion1: ICoverageArea_ = {
             country: 'US',
             country_iso_code: 'CA',
             region: 'California',
-            name: 'Bay Area',
+            sub_region: 'Bay Area',
             distributor_id: '1',
+            administrative_division: 'sub_region',
         };
-        const subRegion2: ISubRegionCoverageAreas = {
+        const subRegion2: ICoverageArea_ = {
             country: 'US',
             country_iso_code: 'US',
             region: 'Nevada',
-            name: 'Bay Area',
+            sub_region: 'Bay Area',
             distributor_id: '1',
+            administrative_division: 'sub_region',
         };
         expect(await isSameSubRegion(subRegion1, subRegion2)).toBe(false);
     });
 
     it('should return false for different names', async () => {
-        const subRegion1: ISubRegionCoverageAreas = {
+        const subRegion1: ICoverageArea_ = {
             country: 'US',
             country_iso_code: 'CA',
             region: 'California',
-            name: 'Bay Area',
+            sub_region: 'Bay Area',
             distributor_id: '1',
+            administrative_division: 'sub_region',
         };
-        const subRegion2: ISubRegionCoverageAreas = {
+        const subRegion2: ICoverageArea_ = {
             country: 'US',
             country_iso_code: 'US',
             region: 'California',
-            name: 'Los Angeles',
+            sub_region: 'Los Angeles',
             distributor_id: '1',
+            administrative_division: 'sub_region',
         };
         expect(await isSameSubRegion(subRegion1, subRegion2)).toBe(false);
     });

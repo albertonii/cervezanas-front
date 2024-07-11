@@ -64,13 +64,6 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "area_and_weight_cost"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "area_and_weight_information_coverage_area_id_fkey"
-            columns: ["coverage_area_id"]
-            isOneToOne: false
-            referencedRelation: "coverage_areas"
-            referencedColumns: ["id"]
           }
         ]
       }
@@ -102,7 +95,7 @@ export interface Database {
             foreignKeyName: "area_and_weight_information_sub_region_coverage_id_fkey"
             columns: ["coverage_area_id"]
             isOneToOne: false
-            referencedRelation: "coverage_areas_"
+            referencedRelation: "coverage_areas"
             referencedColumns: ["id"]
           }
         ]
@@ -808,47 +801,6 @@ export interface Database {
         ]
       }
       coverage_areas: {
-        Row: {
-          cities: string[] | null
-          created_at: string | null
-          distributor_id: string | null
-          europe: string[] | null
-          id: string
-          international: string[] | null
-          regions: string[] | null
-          sub_regions: string[] | null
-        }
-        Insert: {
-          cities?: string[] | null
-          created_at?: string | null
-          distributor_id?: string | null
-          europe?: string[] | null
-          id?: string
-          international?: string[] | null
-          regions?: string[] | null
-          sub_regions?: string[] | null
-        }
-        Update: {
-          cities?: string[] | null
-          created_at?: string | null
-          distributor_id?: string | null
-          europe?: string[] | null
-          id?: string
-          international?: string[] | null
-          regions?: string[] | null
-          sub_regions?: string[] | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "coverage_areas_distributor_id_fkey"
-            columns: ["distributor_id"]
-            isOneToOne: true
-            referencedRelation: "distributor_user"
-            referencedColumns: ["user_id"]
-          }
-        ]
-      }
-      coverage_areas_: {
         Row: {
           administrative_division: string
           city: string | null
@@ -2038,15 +1990,7 @@ export interface Database {
           id?: string
           to?: number | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "local_distribution_coverage_area_id_fkey"
-            columns: ["coverage_area_id"]
-            isOneToOne: true
-            referencedRelation: "coverage_areas"
-            referencedColumns: ["id"]
-          }
-        ]
+        Relationships: []
       }
       monthly_products: {
         Row: {
@@ -2652,38 +2596,6 @@ export interface Database {
           }
         ]
       }
-      region_coverage_areas: {
-        Row: {
-          country: string | null
-          country_iso_code: string
-          distributor_id: string | null
-          id: string
-          regions: string[]
-        }
-        Insert: {
-          country?: string | null
-          country_iso_code?: string
-          distributor_id?: string | null
-          id?: string
-          regions?: string[]
-        }
-        Update: {
-          country?: string | null
-          country_iso_code?: string
-          distributor_id?: string | null
-          id?: string
-          regions?: string[]
-        }
-        Relationships: [
-          {
-            foreignKeyName: "region_coverage_areas_distributor_id_fkey"
-            columns: ["distributor_id"]
-            isOneToOne: false
-            referencedRelation: "distributor_user"
-            referencedColumns: ["user_id"]
-          }
-        ]
-      }
       reviews: {
         Row: {
           appearance: number | null
@@ -2809,41 +2721,6 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
-        ]
-      }
-      sub_region_coverage_areas: {
-        Row: {
-          country: string
-          country_iso_code: string
-          distributor_id: string
-          id: string
-          name: string
-          region: string
-        }
-        Insert: {
-          country?: string
-          country_iso_code?: string
-          distributor_id?: string
-          id?: string
-          name?: string
-          region: string
-        }
-        Update: {
-          country?: string
-          country_iso_code?: string
-          distributor_id?: string
-          id?: string
-          name?: string
-          region?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "subregion_coverage_areas_distributor_id_fkey"
-            columns: ["distributor_id"]
-            isOneToOne: false
-            referencedRelation: "distributor_user"
-            referencedColumns: ["user_id"]
           }
         ]
       }

@@ -109,7 +109,7 @@ const AreaAndWeightCostForm = ({
             sub_regions: areaWeightInformationSubRegion.map(
                 (area: IAreaAndWeightInformation_) => ({
                     id: area.id,
-                    name: area.coverage_areas_?.sub_region,
+                    name: area.coverage_areas?.sub_region,
                     type: DistributionDestinationType.SUB_REGION,
                 }),
             ),
