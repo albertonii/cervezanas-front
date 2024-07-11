@@ -1,9 +1,9 @@
-import { useTranslations } from 'next-intl';
 import React from 'react';
-import { ISubRegionCoverageAreas } from '../../../../../../../lib/types/distribution_areas';
+import { useTranslations } from 'next-intl';
+import { ICoverageArea_ } from '../../../../../../../lib/types/types';
 
 interface Props {
-    subRegions: ISubRegionCoverageAreas[];
+    subRegions: ICoverageArea_[];
 }
 
 const SubRegionTable = ({ subRegions }: Props) => {
@@ -15,9 +15,9 @@ const SubRegionTable = ({ subRegions }: Props) => {
                 string,
                 { country: string; region: string; sub_regions: string[] }
             >,
-            subRegion: ISubRegionCoverageAreas,
+            subRegion: ICoverageArea_,
         ) => {
-            const { country, region, name } = subRegion;
+            const { country, region, sub_region } = subRegion;
             const key = `${country}-${region}`;
             if (!acc[key]) {
                 acc[key] = {
@@ -26,7 +26,9 @@ const SubRegionTable = ({ subRegions }: Props) => {
                     sub_regions: [],
                 };
             }
-            acc[key].sub_regions.push(name);
+
+            if (sub_region !== null && sub_region !== undefined)
+                acc[key].sub_regions.push(sub_region);
             return acc;
         },
         {},

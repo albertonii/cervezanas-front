@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import createServerClient from '../../../../utils/supabaseServer';
 import { DistributionDestinationType } from '../../../../lib/enums';
-import { ISubRegionCoverageAreas } from '../../../../lib/types/distribution_areas';
+import { ICoverageArea_ } from '../../../../lib/types/types';
 
 export async function PUT(request: NextRequest) {
     const formData = await request.formData();
@@ -10,17 +10,23 @@ export async function PUT(request: NextRequest) {
         'area_and_weight_cost_id',
     ) as string;
 
+    if (!areaAndWeightCostId) {
+        return NextResponse.json(
+            { message: 'No area_and_weight_cost_id provided' },
+            { status: 400 },
+        );
+    }
+
     const selectedSubRegions = formData.get('sub_regions') as string;
     const toDeleteSubRegions = formData.get('to_delete_sub_regions') as string;
     const toAddSubRegions = formData.get('to_add_sub_regions') as string;
 
     // Convert JSON to string[]
-    const selectedSubRegionsArray: ISubRegionCoverageAreas[] =
+    const selectedSubRegionsArray: ICoverageArea_[] =
         JSON.parse(selectedSubRegions);
-    const toDeleteSubRegionsArray: ISubRegionCoverageAreas[] =
+    const toDeleteSubRegionsArray: ICoverageArea_[] =
         JSON.parse(toDeleteSubRegions);
-    const toAddSubRegionsArray: ISubRegionCoverageAreas[] =
-        JSON.parse(toAddSubRegions);
+    const toAddSubRegionsArray: ICoverageArea_[] = JSON.parse(toAddSubRegions);
 
     console.log('SELECTED SUB REGIONS', selectedSubRegionsArray);
     console.log('REMOVE SUB REGIONS', toDeleteSubRegionsArray);
@@ -30,13 +36,15 @@ export async function PUT(request: NextRequest) {
 
     // Delete sub_regions from array toDeleteSubRegionsArray
     for (const subRegion of toDeleteSubRegionsArray) {
-        const { error: deleteError } = await supabase
-            .from('sub_region_coverage_areas')
-            .delete()
-            .eq('country_iso_code', subRegion.country_iso_code)
-            .eq('region', subRegion.region)
-            .eq('name', subRegion.name)
-            .eq('distributor_id', subRegion.distributor_id);
+        const { data: toDeleteSubRegionsSelect, error: deleteError } =
+            await supabase
+                .from('coverage_areas_')
+                .delete()
+                .eq('country_iso_code', subRegion.country_iso_code)
+                .eq('region', subRegion.region)
+                .eq('sub_region', subRegion.sub_region!)
+                .eq('distributor_id', subRegion.distributor_id)
+                .single();
 
         if (deleteError) {
             return NextResponse.json(
@@ -45,107 +53,46 @@ export async function PUT(request: NextRequest) {
             );
         }
     }
-    const { data: newSubRegions, error: errorAddSubRegions } = await supabase
-        .from('sub_region_coverage_areas')
-        .insert(
-            toAddSubRegionsArray.map((sub_region: ISubRegionCoverageAreas) => ({
-                distributor_id: sub_region.distributor_id,
-                country_iso_code: sub_region.country_iso_code,
-                country: sub_region.country,
-                region: sub_region.region,
-                name: sub_region.name,
-            })),
-        );
 
-    if (errorAddSubRegions) {
-        return NextResponse.json(
-            { message: 'Error adding new sub_regions' },
-            { status: 500 },
-        );
+    if (toAddSubRegionsArray.length > 0) {
+        const { data: toAddSubRegionsData, error: errorAddSubRegions } =
+            await supabase
+                .from('coverage_areas_')
+                .insert(
+                    toAddSubRegionsArray.map((sub_region: ICoverageArea_) => ({
+                        distributor_id: sub_region.distributor_id,
+                        country_iso_code: sub_region.country_iso_code,
+                        country: sub_region.country,
+                        region: sub_region.region,
+                        sub_region: sub_region.sub_region,
+                        administrative_division:
+                            DistributionDestinationType.SUB_REGION,
+                    })),
+                )
+                .select('id');
+
+        const toAddSubRegionsSelect = toAddSubRegionsData as ICoverageArea_[];
+
+        // Por cada sub region -> Habrá una entrada en la tabla AREA AND WEIGHT INFORMATION
+        // que vincula las sub regiones con el rango de precios por pesos y área
+        if (toAddSubRegionsSelect && toAddSubRegionsSelect.length > 0) {
+            const { error: errorAddSubRegions } = await supabase
+                .from('area_and_weight_information_')
+                .insert(
+                    toAddSubRegionsSelect.map((sub_region: ICoverageArea_) => ({
+                        coverage_area_id: sub_region.id,
+                        area_and_weight_cost_id: areaAndWeightCostId,
+                    })),
+                );
+
+            if (errorAddSubRegions) {
+                return NextResponse.json(
+                    { message: 'Error adding new sub_regions' },
+                    { status: 500 },
+                );
+            }
+        }
     }
-
-    // const { error } = await supabase
-    //     .from('coverage_areas')
-    //     .update({ sub_regions: selectedSubRegionsArray })
-    //     .eq('id', coverageAreaId);
-
-    // if (error) {
-    //     return NextResponse.json(
-    //         { message: 'Error updating cost extra per kg' },
-    //         { status: 500 },
-    //     );
-    // }
-
-    // if (toDeleteSubRegionsArray.length > 0) {
-    //     const { error: error1 } = await supabase
-    //         .from('area_and_weight_information')
-    //         .delete()
-    //         .in('name', toDeleteSubRegionsArray)
-    //         .eq('coverage_area_id', coverageAreaId);
-
-    //     if (error1) {
-    //         return NextResponse.json(
-    //             { message: 'Error deleting sub_regions' },
-    //             { status: 500 },
-    //         );
-    //     }
-    // }
-
-    // if (toAddSubRegionsArray.length > 0) {
-    //     // Check for existing entries to avoid duplicates
-    //     const { data: existingEntries, error: checkError } = await supabase
-    //         .from('area_and_weight_information')
-    //         .select('name, type')
-    //         .eq('area_and_weight_cost_id', areaAndWeightCostId)
-    //         .in(
-    //             'name',
-    //             toAddSubRegionsArray.map((sub_region: string) => sub_region),
-    //         );
-
-    //     if (checkError) {
-    //         return NextResponse.json(
-    //             { message: 'Error checking existing sub_regions' },
-    //             { status: 500 },
-    //         );
-    //     }
-
-    //     const existingNames = existingEntries.map((entry) => entry.name);
-
-    //     // Filter out the sub_regions that already exist
-    //     const newSubRegions = toAddSubRegionsArray.filter(
-    //         (sub_region: string) => !existingNames.includes(sub_region),
-    //     );
-
-    //     if (newSubRegions.length > 0) {
-    //         const { error: error2 } = await supabase
-    //             .from('area_and_weight_information')
-    //             .upsert(
-    //                 newSubRegions.map((sub_region: string) => ({
-    //                     type: DistributionDestinationType.SUB_REGION,
-    //                     name: sub_region,
-    //                     area_and_weight_cost_id: areaAndWeightCostId,
-    //                     coverage_area_id: coverageAreaId,
-    //                 })),
-    //             );
-
-    //         if (error2) {
-    //             return NextResponse.json(
-    //                 { message: 'Error adding sub_regions' },
-    //                 { status: 500 },
-    //             );
-    //         }
-    //     }
-    // }
-
-    // if (
-    //     toDeleteSubRegionsArray.length === 0 &&
-    //     toAddSubRegionsArray.length === 0
-    // ) {
-    //     return NextResponse.json(
-    //         { message: 'No changes made' },
-    //         { status: 202 },
-    //     );
-    // }
 
     return NextResponse.json(
         { message: 'Coverage area for SubRegions updated' },

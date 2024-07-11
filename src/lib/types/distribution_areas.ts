@@ -74,3 +74,12 @@ export interface IRegionCoverageAreas {
     regions: string[];
     distributor_id: string;
 }
+
+export interface ISubRegionCoverageAreasForDB {
+    id: string;
+    country_iso_code: string;
+    country: string;
+    region: string;
+    name: string;
+    distributor_id: string;
+}

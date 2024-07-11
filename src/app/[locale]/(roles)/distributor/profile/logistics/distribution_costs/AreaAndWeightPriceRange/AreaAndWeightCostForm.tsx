@@ -6,7 +6,7 @@ import { z, ZodType } from 'zod';
 import {
     AreaAndWeightCostFormData,
     IAreaAndWeightCost,
-    IAreaAndWeightInformation,
+    IAreaAndWeightInformation_,
 } from '../../../../../../../../lib/types/types';
 import AreaAndWeightRangeForm from './AreaAndWeightRangeForm';
 import { useForm } from 'react-hook-form';
@@ -92,35 +92,39 @@ const AreaAndWeightCostForm = ({
     fromDBDistributionType,
 }: Props) => {
     const [selectedArea, setSelectedArea] =
-        useState<IAreaAndWeightInformation>();
+        useState<IAreaAndWeightInformation_>();
+
+    const areaWeightInformationSubRegion: IAreaAndWeightInformation_[] =
+        areaAndWeightCost?.area_and_weight_information_ || [];
 
     const form = useForm<AreaAndWeightCostFormValidationSchema>({
         mode: 'onSubmit',
         resolver: zodResolver(schema),
         defaultValues: {
             distribution_costs_id: distributionCostId,
-            cities:
-                areaAndWeightCost?.area_and_weight_information?.filter(
-                    (area) => area.type === DistributionDestinationType.CITY,
-                ) || [],
-            sub_regions:
-                areaAndWeightCost?.area_and_weight_information?.filter(
-                    (area) =>
-                        area.type === DistributionDestinationType.SUB_REGION,
-                ) || [],
-            regions:
-                areaAndWeightCost?.area_and_weight_information?.filter(
-                    (area) => area.type === DistributionDestinationType.REGION,
-                ) || [],
-            international:
-                areaAndWeightCost?.area_and_weight_information?.filter(
-                    (area) =>
-                        area.type === DistributionDestinationType.INTERNATIONAL,
-                ) || [],
+            // cities:
+            //     areaAndWeightCost?.area_and_weight_information?.filter(
+            //         (area) => area.type === DistributionDestinationType.CITY,
+            //     ) || [],
+            sub_regions: areaWeightInformationSubRegion.map(
+                (area: IAreaAndWeightInformation_) => ({
+                    name: area.coverage_areas_?.sub_region,
+                    type: DistributionDestinationType.SUB_REGION,
+                }),
+            ),
+            // regions:
+            //     areaAndWeightCost?.area_and_weight_information?.filter(
+            //         (area) => area.type === DistributionDestinationType.REGION,
+            //     ) || [],
+            // international:
+            //     areaAndWeightCost?.area_and_weight_information?.filter(
+            //         (area) =>
+            //             area.type === DistributionDestinationType.INTERNATIONAL,
+            //     ) || [],
         },
     });
 
-    const onItemClick = (area: IAreaAndWeightInformation) => {
+    const onItemClick = (area: IAreaAndWeightInformation_) => {
         setSelectedArea(area);
     };
 

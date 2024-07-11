@@ -1,12 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import SubRegionRow from './SubRegionRow';
 import PaginationFooter from '../../../../../components/common/PaginationFooter';
 import { useTranslations } from 'next-intl';
-import {
-    ISubRegionCoverageAreas,
-    JSONSubRegion,
-} from '../../../../../../../lib/types/distribution_areas';
-import { isSameSubRegion } from '../../../../../../../utils/distribution';
+import { JSONSubRegion } from '../../../../../../../lib/types/distribution_areas';
+import { ICoverageArea_ } from '../../../../../../../lib/types/types';
 
 interface Props {
     tenSubRegions: JSONSubRegion[];
@@ -14,7 +11,7 @@ interface Props {
     resultsPerPage: number;
     currentPage: number;
     setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-    selectedSubRegions: ISubRegionCoverageAreas[];
+    selectedSubRegions: ICoverageArea_[];
     handleCheckbox: (
         e: React.ChangeEvent<HTMLInputElement>,
         name: JSONSubRegion,

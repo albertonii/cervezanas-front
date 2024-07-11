@@ -14,16 +14,20 @@ import InputSearch from '../../../../../components/common/InputSearch';
 import DistributionChipCard from '../DistributionChipCard';
 import Spinner from '../../../../../components/common/Spinner';
 import { updateSubRegionDistribution } from '../../../actions';
-import { IDistributionCost } from '../../../../../../../lib/types/types';
-import { useMessage } from '../../../../../components/message/useMessage';
 import {
-    ISubRegionCoverageAreas,
-    JSONSubRegion,
-} from '../../../../../../../lib/types/distribution_areas';
+    ICoverageArea_,
+    IDistributionCost,
+} from '../../../../../../../lib/types/types';
+import { useMessage } from '../../../../../components/message/useMessage';
+import { JSONSubRegion } from '../../../../../../../lib/types/distribution_areas';
 import useSWRMutation from 'swr/mutation';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import CheckboxListSubRegions from './CheckboxListSubRegions';
 import { isSameSubRegion } from '../../../../../../../utils/distribution';
+import {
+    DistributionCostType,
+    DistributionDestinationType,
+} from '../../../../../../../lib/enums';
 
 interface FormData {
     country: string;
@@ -33,19 +37,21 @@ interface FormData {
 }
 
 type Props = {
-    // sub_regions: string[];
     distributionCosts: IDistributionCost;
-    fromDB: ISubRegionCoverageAreas[];
+    fromDB: ICoverageArea_[];
 };
 
 const fetcher = (arg: any, ...args: any) =>
     fetch(arg, ...args).then((res) => res.json());
 
 export default function SubRegionDistribution({
-    // sub_regions,
     distributionCosts,
     fromDB,
 }: Props) {
+    console.log('DENTRO');
+    console.log(distributionCosts);
+    console.log(fromDB);
+
     const t = useTranslations();
 
     const { handleMessage } = useMessage();
@@ -65,20 +71,20 @@ export default function SubRegionDistribution({
         useState<JSONSubRegion[]>([]);
 
     const [unCheckedSubRegions, setUnCheckedSubRegions] = useState<
-        ISubRegionCoverageAreas[]
+        ICoverageArea_[]
     >([]);
 
     const [newSelectedSubRegions, setNewSelectedSubRegions] = useState<
-        ISubRegionCoverageAreas[]
+        ICoverageArea_[]
     >([]);
 
     const [selectedSubRegions, setSelectedSubRegions] = useState<
-        ISubRegionCoverageAreas[]
+        ICoverageArea_[]
     >(fromDB ?? []);
 
-    const [subRegionsFromDB, setFromDBSubRegions] = useState<
-        ISubRegionCoverageAreas[]
-    >(fromDB ?? []);
+    const [subRegionsFromDB, setFromDBSubRegions] = useState<ICoverageArea_[]>(
+        fromDB ?? [],
+    );
 
     const [selectAllCurrentPage, setSelectAllCurrentPage] = useState(false);
 
@@ -344,13 +350,14 @@ export default function SubRegionDistribution({
         e: React.ChangeEvent<HTMLInputElement>,
         sub_region: JSONSubRegion,
     ) => {
-        // Convertir sub_region a ISubRegionCoverageAreas
-        const subRegion_: ISubRegionCoverageAreas = {
+        // Convertir sub_region a ICoverageArea_
+        const subRegion_: ICoverageArea_ = {
             country: sub_region.country,
             country_iso_code: sub_region.country_iso_code,
             region: sub_region.region,
-            name: sub_region.name,
+            sub_region: sub_region.name,
             distributor_id: user.id,
+            administrative_division: DistributionDestinationType.SUB_REGION,
         };
 
         // If the sub_region is unchecked, add it to the list of unchecked sub_regions
@@ -368,9 +375,9 @@ export default function SubRegionDistribution({
             setNewSelectedSubRegions(
                 newSelectedSubRegions.filter((item) => {
                     return (
-                        item.region !== subRegion_.region ||
                         item.country !== subRegion_.country ||
-                        item.name !== subRegion_.name
+                        item.region !== subRegion_.region ||
+                        item.sub_region !== subRegion_.sub_region
                     );
                 }),
             );
@@ -379,9 +386,9 @@ export default function SubRegionDistribution({
             setSelectedSubRegions(
                 selectedSubRegions.filter((item) => {
                     return (
-                        item.region !== subRegion_.region ||
                         item.country !== subRegion_.country ||
-                        item.name !== subRegion_.name
+                        item.region !== subRegion_.region ||
+                        item.sub_region !== subRegion_.sub_region
                     );
                 }),
             );
@@ -404,7 +411,7 @@ export default function SubRegionDistribution({
                     return (
                         item.region !== subRegion_.region ||
                         item.country !== subRegion_.country ||
-                        item.name !== subRegion_.name
+                        item.sub_region !== subRegion_.sub_region
                     );
                 }),
             );
@@ -426,15 +433,17 @@ export default function SubRegionDistribution({
     const handleSelectAllFromCurrentPage = (
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
-        // Convertir JSONSubRegion a ISubRegionCoverageAreas
-        const tenSubRegions_: ISubRegionCoverageAreas[] = tenSubRegions.map(
+        // Convertir JSONSubRegion a ICoverageArea_
+        const tenSubRegions_: ICoverageArea_[] = tenSubRegions.map(
             (sub_region: JSONSubRegion) => {
                 return {
                     country: sub_region.country,
                     country_iso_code: sub_region.country_iso_code,
                     region: sub_region.region,
-                    name: sub_region.name,
+                    sub_region: sub_region.name,
                     distributor_id: user.id,
+                    administrative_division:
+                        DistributionDestinationType.SUB_REGION,
                 };
             },
         );

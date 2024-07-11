@@ -2,12 +2,21 @@ import CoverageLayout from './CoverageLayout';
 import readUserSession from '../../../../../../lib/actions';
 import createServerClient from '../../../../../../utils/supabaseServer';
 import { redirect } from 'next/navigation';
-import { IDistributionCost } from '../../../../../../lib/types/types';
+import {
+    ICoverageArea_,
+    IDistributionCost,
+} from '../../../../../../lib/types/types';
 
 export default async function OrdersPage() {
     const distributionCosts = await getDistributionCost();
+    const coverageAreas = await getCoverageArea();
 
-    return <CoverageLayout distributionCosts={distributionCosts} />;
+    return (
+        <CoverageLayout
+            distributionCosts={distributionCosts}
+            coverageAreas={coverageAreas}
+        />
+    );
 }
 
 async function getDistributionCost() {
@@ -80,4 +89,37 @@ async function getDistributionCost() {
     }
 
     return distributionCosts as IDistributionCost;
+}
+
+async function getCoverageArea() {
+    const session = await readUserSession();
+
+    if (!session) {
+        redirect('/signin');
+    }
+
+    const supabase = await createServerClient();
+
+    const { data: coverageAreas, error: coverageAreasError } = await supabase
+        .from('coverage_areas_')
+        .select(
+            `
+                id,
+                country_iso_code,
+                country,
+                region,
+                sub_region,
+                city,
+                administrative_division,
+                distributor_id
+            `,
+        )
+        .eq('distributor_id', session.id);
+
+    if (coverageAreasError) {
+        console.error(coverageAreasError);
+        throw coverageAreasError;
+    }
+
+    return coverageAreas as ICoverageArea_[];
 }

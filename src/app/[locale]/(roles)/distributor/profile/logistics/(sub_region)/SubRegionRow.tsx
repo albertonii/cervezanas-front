@@ -1,13 +1,11 @@
 import { UseFormRegister } from 'react-hook-form';
-import {
-    ISubRegionCoverageAreas,
-    JSONSubRegion,
-} from '../../../../../../../lib/types/distribution_areas';
+import { JSONSubRegion } from '../../../../../../../lib/types/distribution_areas';
+import { ICoverageArea_ } from '../../../../../../../lib/types/types';
 
 interface SubRegionRowProps {
     sub_region: JSONSubRegion;
     globalIndex: number;
-    selectedSubRegions: ISubRegionCoverageAreas[];
+    selectedSubRegions: ICoverageArea_[];
     handleCheckbox: (
         e: React.ChangeEvent<HTMLInputElement>,
         name: JSONSubRegion,
@@ -25,7 +23,7 @@ const SubRegionRow = ({
     const isChecked = (sub_region: JSONSubRegion) => {
         return selectedSubRegions.some(
             (item) =>
-                item.name === sub_region.name &&
+                item.sub_region === sub_region.name &&
                 item.region === sub_region.region &&
                 item.country === sub_region.country,
         );

@@ -8,7 +8,10 @@ import PriceRangeCostForm from './PrinceRange/PriceRangeCostForm';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DistributionCostType } from '../../../../../../../lib/enums';
-import { IDistributionCost } from '../../../../../../../lib/types/types';
+import {
+    ICoverageArea_,
+    IDistributionCost,
+} from '../../../../../../../lib/types/types';
 import { Tooltip } from '../../../../../components/common/Tooltip';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,9 +19,13 @@ import { updateIsDistributionCostsIncludedInProduct } from '../../../actions';
 
 interface Props {
     distributionCosts: IDistributionCost;
+    coverageAreas: ICoverageArea_[];
 }
 
-export default function DistributionCost({ distributionCosts }: Props) {
+export default function DistributionCost({
+    distributionCosts,
+    coverageAreas,
+}: Props) {
     const t = useTranslations();
     const [includeDistributionCost, setIncludeDistributionCost] =
         useState<boolean>(false);

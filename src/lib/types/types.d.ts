@@ -1309,6 +1309,7 @@ export interface IDistributorUser {
     profile_location?: IProfileLocation[];
     users?: IUserTable; // To access embeded information we need to get into the table and the look for data
     coverage_areas?: ICoverageArea;
+    coverage_areas_?: ICoverageArea_[];
     distribution_costs?: IDistributionCost;
     sub_region_coverage_areas?: ISubRegionCoverageAreas[];
     region_coverage_areas?: IRegionCoverageAreas[];
@@ -1393,6 +1394,18 @@ export interface ICoverageArea {
     regions: string[];
     europe: string[];
     international: string[];
+}
+
+export interface ICoverageArea_ {
+    id?: string;
+    distributor_id: string;
+    country_iso_code: string;
+    country: string;
+    region: string;
+    sub_region?: string;
+    city?: string;
+    administrative_division: string; // Provincia, Distrito, Región, Comarca, Comunidad Autónoma, etc
+    distributor_user?: IDistributorUser;
 }
 
 export interface ILocal {
@@ -1506,6 +1519,7 @@ export interface IAreaAndWeightCost {
     id?: string;
     distribution_costs_id?: string;
     area_and_weight_information?: IAreaAndWeightInformation[];
+    area_and_weight_information_?: IAreaAndWeightInformationSubRegion[];
 }
 
 export interface IAreaAndWeightInformation {
@@ -1520,6 +1534,22 @@ export interface IAreaAndWeightInformation {
 }
 
 export interface IAreaAndWeightCostRange {
+    id?: string;
+    weight_from: number;
+    weight_to: number;
+    base_cost: number;
+    area_and_weight_information_id: string;
+}
+
+export interface IAreaAndWeightInformation_ {
+    id: string;
+    coverage_area_id: string;
+    area_and_weight_cost_id: string;
+    coverage_areas_?: ICoverageArea_;
+    area_weight_cost_range_?: IAreaAndWeightCostRange_[];
+}
+
+export interface IAreaAndWeightCostRange_ {
     id?: string;
     weight_from: number;
     weight_to: number;

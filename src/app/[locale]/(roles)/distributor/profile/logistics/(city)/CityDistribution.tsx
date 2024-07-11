@@ -89,11 +89,11 @@ export default function CityDistribution({
 
     const { handleSubmit, register } = form;
 
-    useEffect(() => {
-        console.log('unCheckedCities', unCheckedCities);
-        console.log('newSelectedCities', newSelectedCities);
-        console.log('selectedCities', selectedCities);
-    }, [unCheckedCities, newSelectedCities, selectedCities]);
+    // useEffect(() => {
+    //     console.log('unCheckedCities', unCheckedCities);
+    //     console.log('newSelectedCities', newSelectedCities);
+    //     console.log('selectedCities', selectedCities);
+    // }, [unCheckedCities, newSelectedCities, selectedCities]);
 
     // Get all the countries
     useEffect(() => {

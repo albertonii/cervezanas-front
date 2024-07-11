@@ -72,12 +72,12 @@ export default function CoverageAreas() {
             case DistributionDestinationType.SUB_REGION:
                 return (
                     <>
-                        {distributor.sub_region_coverage_areas && (
+                        {distributor.coverage_areas_ && (
                             <SubRegionDistribution
                                 // sub_regions={
                                 //     distributor.coverage_areas.sub_regions
                                 // }
-                                fromDB={distributor.sub_region_coverage_areas}
+                                fromDB={distributor.coverage_areas_}
                                 distributionCosts={
                                     distributor.distribution_costs!
                                 }

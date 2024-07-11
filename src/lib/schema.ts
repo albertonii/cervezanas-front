@@ -74,6 +74,39 @@ export interface Database {
           }
         ]
       }
+      area_and_weight_information_: {
+        Row: {
+          area_and_weight_cost_id: string
+          coverage_area_id: string
+          id: string
+        }
+        Insert: {
+          area_and_weight_cost_id?: string
+          coverage_area_id?: string
+          id?: string
+        }
+        Update: {
+          area_and_weight_cost_id?: string
+          coverage_area_id?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "area_and_weight_information_sub_re_area_and_weight_cost_id_fkey"
+            columns: ["area_and_weight_cost_id"]
+            isOneToOne: false
+            referencedRelation: "area_and_weight_cost"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "area_and_weight_information_sub_region_coverage_id_fkey"
+            columns: ["coverage_area_id"]
+            isOneToOne: false
+            referencedRelation: "coverage_areas_"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       area_weight_cost_range: {
         Row: {
           area_and_weight_information_id: string
@@ -102,6 +135,38 @@ export interface Database {
             columns: ["area_and_weight_information_id"]
             isOneToOne: false
             referencedRelation: "area_and_weight_information"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      area_weight_cost_range_: {
+        Row: {
+          area_and_weight_information_id: string | null
+          base_cost: number | null
+          id: string
+          weight_from: number | null
+          weight_to: number | null
+        }
+        Insert: {
+          area_and_weight_information_id?: string | null
+          base_cost?: number | null
+          id?: string
+          weight_from?: number | null
+          weight_to?: number | null
+        }
+        Update: {
+          area_and_weight_information_id?: string | null
+          base_cost?: number | null
+          id?: string
+          weight_from?: number | null
+          weight_to?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "area_weight_cost_range_sub_re_area_and_weight_information__fkey"
+            columns: ["area_and_weight_information_id"]
+            isOneToOne: false
+            referencedRelation: "area_and_weight_information_"
             referencedColumns: ["id"]
           }
         ]
@@ -778,6 +843,47 @@ export interface Database {
             foreignKeyName: "coverage_areas_distributor_id_fkey"
             columns: ["distributor_id"]
             isOneToOne: true
+            referencedRelation: "distributor_user"
+            referencedColumns: ["user_id"]
+          }
+        ]
+      }
+      coverage_areas_: {
+        Row: {
+          administrative_division: string
+          city: string | null
+          country: string
+          country_iso_code: string
+          distributor_id: string
+          id: string
+          region: string
+          sub_region: string | null
+        }
+        Insert: {
+          administrative_division: string
+          city?: string | null
+          country?: string
+          country_iso_code?: string
+          distributor_id?: string
+          id?: string
+          region: string
+          sub_region?: string | null
+        }
+        Update: {
+          administrative_division?: string
+          city?: string | null
+          country?: string
+          country_iso_code?: string
+          distributor_id?: string
+          id?: string
+          region?: string
+          sub_region?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coverage_areas__distributor_id_fkey"
+            columns: ["distributor_id"]
+            isOneToOne: false
             referencedRelation: "distributor_user"
             referencedColumns: ["user_id"]
           }
@@ -2708,25 +2814,25 @@ export interface Database {
       }
       sub_region_coverage_areas: {
         Row: {
-          country: string | null
+          country: string
           country_iso_code: string
-          distributor_id: string | null
+          distributor_id: string
           id: string
           name: string
           region: string
         }
         Insert: {
-          country?: string | null
+          country?: string
           country_iso_code?: string
-          distributor_id?: string | null
+          distributor_id?: string
           id?: string
           name?: string
           region: string
         }
         Update: {
-          country?: string | null
+          country?: string
           country_iso_code?: string
-          distributor_id?: string | null
+          distributor_id?: string
           id?: string
           name?: string
           region?: string

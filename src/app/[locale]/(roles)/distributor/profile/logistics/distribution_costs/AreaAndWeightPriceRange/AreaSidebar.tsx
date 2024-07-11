@@ -7,10 +7,7 @@ import {
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { AreaAndWeightCostFormValidationSchema } from './AreaAndWeightCostForm';
-import {
-    IAreaAndWeightCostRange,
-    IAreaAndWeightInformation,
-} from '../../../../../../../../lib/types/types';
+import { IAreaAndWeightInformation } from '../../../../../../../../lib/types/types';
 
 interface SidebarProps {
     form: UseFormReturn<AreaAndWeightCostFormValidationSchema>;
@@ -28,10 +25,10 @@ const AreaSidebar: React.FC<SidebarProps> = ({ form, onItemClick }) => {
     const { cities, sub_regions, regions, international } = getValues();
 
     const items = {
-        cities,
+        // cities,
         sub_regions,
-        regions,
-        international,
+        // regions,
+        // international,
     };
 
     return (
