@@ -76,6 +76,28 @@ async function getDistributionCost() {
                             base_cost,
                             area_and_weight_information_id
                         )
+                    ),
+                    area_and_weight_information_ (
+                        id,
+                        area_and_weight_cost_id,
+                        coverage_area_id,
+                        coverage_areas_ (
+                            id,
+                            country_iso_code,
+                            country,
+                            region,
+                            sub_region,
+                            city,
+                            administrative_division,
+                            distributor_id
+                        ),
+                        area_weight_cost_range_ (
+                            id,
+                            weight_from,
+                            weight_to,
+                            base_cost,
+                            area_and_weight_information_id
+                        )
                     )
                 )
                 `,

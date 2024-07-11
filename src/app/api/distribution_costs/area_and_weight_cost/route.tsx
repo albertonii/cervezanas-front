@@ -39,7 +39,7 @@ export async function PUT(request: NextRequest) {
 
     // Delete previous area and weight costs linked with the area_and_weight_information_id
     const { error: deleteAreaAndWeightCostsError } = await supabase
-        .from('area_weight_cost_range')
+        .from('area_weight_cost_range_')
         .delete()
         .eq('area_and_weight_information_id', areaAndWeightInformationId);
 
@@ -53,7 +53,7 @@ export async function PUT(request: NextRequest) {
     // Insert all the area and weight costs linked with the area_and_weight_information_id
     areaWeightRange.map(async (range) => {
         const { error: areaAndWeightCostsError } = await supabase
-            .from('area_weight_cost_range')
+            .from('area_weight_cost_range_')
             .insert({
                 area_and_weight_information_id: areaAndWeightInformationId,
                 weight_from: range.weight_from,

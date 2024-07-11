@@ -1446,16 +1446,16 @@ export interface FlatrateAndWeightCostFormData {
 
 export interface AreaAndWeightCostFormData {
     distribution_costs_id: string;
-    cities: AreaNameFormData[];
-    sub_regions: AreaNameFormData[];
-    regions: AreaNameFormData[];
-    international: AreaNameFormData[];
+    cities: AreaAndWeightInformationFormData[];
+    sub_regions: AreaAndWeightInformationFormData[];
+    regions: AreaAndWeightInformationFormData[];
+    international: AreaAndWeightInformationFormData[];
 }
 
 interface AreaAndWeightInformationFormData {
     id?: string;
-    type: string; // City, SubRegion, Region, International
-    name: string;
+    type?: string; // City, SubRegion, Region, International
+    name?: string;
     area_weight_range: AreaAndWeightRangeFormData[];
 }
 

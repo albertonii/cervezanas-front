@@ -32,8 +32,8 @@ const areaWeightCostRange = z
     });
 
 const areaAndWeightInformationObjectSchema = z.object({
-    name: z.string().nonempty({ message: 'errors.input_required' }),
-    type: z.string().nonempty({ message: 'errors.input_required' }),
+    // name: z.string().nonempty({ message: 'errors.input_required' }),
+    // type: z.string().nonempty({ message: 'errors.input_required' }),
     area_weight_range: z
         .array(areaWeightCostRange)
         .refine(
@@ -108,6 +108,7 @@ const AreaAndWeightCostForm = ({
             //     ) || [],
             sub_regions: areaWeightInformationSubRegion.map(
                 (area: IAreaAndWeightInformation_) => ({
+                    id: area.id,
                     name: area.coverage_areas_?.sub_region,
                     type: DistributionDestinationType.SUB_REGION,
                 }),
@@ -124,7 +125,11 @@ const AreaAndWeightCostForm = ({
         },
     });
 
-    const onItemClick = (area: IAreaAndWeightInformation_) => {
+    const onItemClick = (areaId: string) => {
+        const area = areaWeightInformationSubRegion.find(
+            (area) => area.id === areaId,
+        );
+
         setSelectedArea(area);
     };
 
