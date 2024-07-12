@@ -46,9 +46,9 @@ export function NotificationPopup({ open, setOpen, notifications }: Props) {
 
     return (
         <section ref={notificationRef}>
-            <div className="absolute -right-10 top-10 z-50 flex items-center justify-center">
-                <div className="w-80 overflow-hidden rounded-lg bg-white shadow-lg lg:w-[35vw]">
-                    <div className="bg-beer-softFoam p-4">
+            <div className="absolute -right-10 top-10 z-50 flex items-center justify-center ">
+                <div className="w-80 overflow-hidden rounded-lg bg-white shadow-lg dark:bg-gray-800 lg:w-[35vw]">
+                    <div className="bg-beer-softFoam p-4 dark:bg-beer-dark">
                         <h3 className="text-2xl font-bold">
                             {t('notifications')}
                         </h3>
@@ -61,7 +61,7 @@ export function NotificationPopup({ open, setOpen, notifications }: Props) {
                         ) : (
                             notifications.map((notification) => (
                                 <div
-                                    className="cursor-pointer px-4 py-2 hover:bg-beer-softBlondeBubble"
+                                    className="cursor-pointer px-4 py-2 hover:bg-beer-softBlondeBubble dark:hover:bg-gray-700"
                                     onClick={() => handleOnClick(notification)}
                                     key={notification.id}
                                 >
