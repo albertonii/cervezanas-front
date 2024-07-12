@@ -88,7 +88,7 @@ const ScreenMenu = memo(function ScreenMenu({
         'block text-sm font-bold text-beer-dark hover:bg-cerv-banana hover:bg-opacity-50 px-3 py-3 bg-beer-softBlonde bg-opacity-50 rounded-xl hover:text-white border-2 border-beer-softFoam mt-1 mb-1 uppercase';
 
     return (
-        <section className="py-1 hidden rounded border-gray-200 bg-[url('/assets/header-bg.jpg')] bg-cover bg-center bg-no-repeat dark:bg-gray-900 sm:block sm:px-4">
+        <section className="py-1 hidden rounded border-gray-200 bg-[url('/assets/header-bg.jpg')] bg-cover bg-center bg-no-repeat dark:bg-gray-900 sm:block sm:px-4 dark:text-white">
             <nav className="container grid max-w-full grid-cols-3 bg-beer-darkGold sm:flex sm:justify-between sm:gap-2 sm:bg-transparent  w-[1250px] m-auto">
                 {/* Left elements  */}
 

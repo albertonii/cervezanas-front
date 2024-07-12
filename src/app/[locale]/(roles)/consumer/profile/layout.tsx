@@ -29,34 +29,33 @@ export default async function layout({ children }: LayoutProps) {
 
     const inputRef = useRef<HTMLInputElement>(null);
 
-     const sidebarLinks = [
-         {
-             name: 'profile',
-             icon: faUser,
-             option: 'settings',
-         },
-         {
-             name: 'event_orders',
-             icon: faShoppingCart,
-             option: 'event_orders',
-         },
-         {
-             name: 'online_orders',
-             icon: faShoppingCart,
-             option: 'online_orders',
-         },
-         {
-             name: 'reviews',
-             icon: faStar,
-             option: 'reviews',
-         },
-         {
-             name: 'notifications',
-             icon: faBell,
-             option: 'notifications',
-         },
-     ];
-
+    const sidebarLinks = [
+        {
+            name: 'profile',
+            icon: faUser,
+            option: 'settings',
+        },
+        {
+            name: 'event_orders',
+            icon: faShoppingCart,
+            option: 'event_orders',
+        },
+        {
+            name: 'online_orders',
+            icon: faShoppingCart,
+            option: 'online_orders',
+        },
+        {
+            name: 'reviews',
+            icon: faStar,
+            option: 'reviews',
+        },
+        {
+            name: 'notifications',
+            icon: faBell,
+            option: 'notifications',
+        },
+    ];
 
     const handleClick = () => {
         inputRef.current?.click();
@@ -196,7 +195,7 @@ export default async function layout({ children }: LayoutProps) {
                         </section>
 
                         <div
-                            className="w-full bg-cerv-coffee bg-[url('/assets/madera-account.webp')] bg-auto bg-top bg-repeat sm:pt-[5vh] md:overflow-hidden md:pt-[5vh] lg:col-span-4"
+                            className="w-full bg-cerv-coffee bg-[url('/assets/madera-account.webp')] bg-auto bg-top bg-repeat sm:pt-[5vh] md:overflow-hidden md:pt-[5vh] lg:col-span-4 rounded-b-2xl"
                             aria-label="Container Consumer settings"
                         >
                             {children}

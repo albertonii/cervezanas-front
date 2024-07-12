@@ -48,7 +48,7 @@ export default async function AppLocaleLayout({
 
     return (
         <Providers session={session} messages={messages} locale={locale}>
-            <section className="relative flex flex-col bg-beer-foam">
+            <section className="relative flex flex-col bg-beer-foam dark:bg-gray-800">
                 <Header
                     notifications={notifications ?? []}
                     i18nLocaleArray={i18n.locales}
@@ -70,7 +70,7 @@ export default async function AppLocaleLayout({
 
                 <main
                     className={classNames(
-                        'relative mx-auto my-0 min-h-[60vh] w-full transform pt-0 transition lg:container',
+                        'relative mx-auto my-0 min-h-[60vh] w-full transform pt-0 transition lg:container mb-10',
                     )}
                 >
                     <MessageList />
