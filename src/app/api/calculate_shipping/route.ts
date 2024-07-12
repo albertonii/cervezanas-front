@@ -43,7 +43,11 @@ export async function GET(request: NextRequest) {
         await supabase
             .from('distribution_costs')
             .select(
-                'id, cost_extra_per_kg, distribution_costs_in_product, selected_method',
+                `
+                    id, 
+                    distribution_costs_in_product, 
+                    selected_method
+                `,
             )
             .eq('distributor_id', distributorId)
             .single();
@@ -101,9 +105,13 @@ export async function GET(request: NextRequest) {
             await supabase
                 .from('area_and_weight_information')
                 .select(
-                    `
+                    `   
+                        *,
                         coverage_areas (*),
-                        area_weight_cost_range (*)
+                        area_weight_cost_range (*),
+                        area_and_weight_cost (
+                            cost_extra_per_kg
+                        )
                     `,
                 )
                 .eq('distributor_id', distributorId);
@@ -148,19 +156,30 @@ export async function GET(request: NextRequest) {
         });
 
         if (matchingArea) {
-            const areaCostRange = matchingArea.area_weight_cost_range?.find(
-                (range) =>
-                    totalWeight >= range.weight_from &&
-                    totalWeight <= range.weight_to,
-            );
+            // Buscamos el rango de peso que coincida con el peso total o el rango de peso que supere el peso total para aplicar precio por KG extra
+            const areaCostRange =
+                matchingArea.area_weight_cost_range?.find(
+                    (range) =>
+                        totalWeight >= range.weight_from &&
+                        totalWeight <= range.weight_to,
+                ) ||
+                matchingArea.area_weight_cost_range?.find(
+                    (range) => totalWeight > range.weight_to,
+                );
 
             // Use the coverageAreas data as needed
             if (areaCostRange) {
                 const baseCost = areaCostRange.base_cost || 0;
-                // const costExtraPerKg = matchingArea.cost_extra_per_kg || 0;
+                const costExtraPerKg =
+                    matchingArea.area_and_weight_cost?.cost_extra_per_kg || 0;
 
-                // const shippingCost = baseCost + costExtraPerKg * totalWeight;
-                const shippingCost = baseCost;
+                // Para obtener cuanto más se cobrará por cada kg adicional, hay que saber cual es el margen final de peso entre el último rango de peso (ramge.weight_to) y el peso total (totalWeight)
+                // Luego se multiplica ese margen por el costo extra por kg
+                const extraWeight = totalWeight - areaCostRange.weight_to;
+                // Si el valor de extraCost es negativo, se establece en 0
+                const extraCost = Math.max(0, extraWeight * costExtraPerKg);
+
+                const shippingCost = baseCost + extraCost;
 
                 return NextResponse.json(
                     { cost: shippingCost },
@@ -168,6 +187,7 @@ export async function GET(request: NextRequest) {
                 );
             }
         }
+
         return NextResponse.json(
             { message: 'No matching area found' },
             { status: 404 },

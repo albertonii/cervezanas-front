@@ -143,11 +143,11 @@ export function CheckoutItem({
             >
                 <Link href={`/products/${productWithInfo.id}`} locale={locale}>
                     <p className="space-x-2 text-xl">
-                        <span className="font-semibold ">
+                        <span className="font-semibold dark:text-white">
                             {t('product_name')}:
                         </span>
 
-                        <span className="hover:font-semibold hover:text-beer-gold">
+                        <span className="hover:font-semibold hover:text-beer-gold dark:text-white">
                             {productPack.name}
                         </span>
                     </p>

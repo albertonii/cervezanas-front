@@ -1449,7 +1449,6 @@ export interface DistributionRangeCost {
 export interface IDistributionCost {
     id: string;
     distributor_id: string;
-    cost_extra_per_kg: number;
     distribution_costs_in_product: boolean;
     selected_method: string;
     distributor_user?: IDistributorUser;
@@ -1493,6 +1492,7 @@ export interface IAreaAndWeightInformation {
     coverage_area_id: string;
     area_and_weight_cost_id: string;
     coverage_areas?: ICoverageArea;
+    area_and_weight_cost?: IAreaAndWeightCost;
     area_weight_cost_range?: IAreaAndWeightCostRange[];
 }
 

@@ -339,7 +339,7 @@ export function ShoppingBasket({ user }: Props) {
             ) : (
                 <div className="container sm:py-4 lg:py-6">
                     <div className="flex items-center justify-start space-x-2 space-y-2">
-                        <header className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+                        <header className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl dark:text-beer-blonde">
                             {t('checkout')}
                         </header>
                         <figure className="flex w-full flex-row items-center border-b pb-4 sm:w-auto sm:border-b-0 sm:pb-0">
