@@ -3,7 +3,6 @@ import useFetchShippingByOwnerId from '../../../../../hooks/useFetchShippingByOw
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import {
-    ICoverageArea_,
     IDistributorUser,
     IProduct,
     IAddress,

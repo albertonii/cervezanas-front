@@ -15,7 +15,7 @@ import DistributionChipCard from '../DistributionChipCard';
 import Spinner from '../../../../../components/common/Spinner';
 import { updateSubRegionDistribution } from '../../../actions';
 import {
-    ICoverageArea_,
+    ICoverageArea,
     IDistributionCost,
 } from '../../../../../../../lib/types/types';
 import { useMessage } from '../../../../../components/message/useMessage';
@@ -38,7 +38,7 @@ interface FormData {
 
 type Props = {
     distributionCosts: IDistributionCost;
-    fromDB: ICoverageArea_[];
+    fromDB: ICoverageArea[];
 };
 
 const fetcher = (arg: any, ...args: any) =>
@@ -71,18 +71,18 @@ export default function SubRegionDistribution({
         useState<JSONSubRegion[]>([]);
 
     const [unCheckedSubRegions, setUnCheckedSubRegions] = useState<
-        ICoverageArea_[]
+        ICoverageArea[]
     >([]);
 
     const [newSelectedSubRegions, setNewSelectedSubRegions] = useState<
-        ICoverageArea_[]
+        ICoverageArea[]
     >([]);
 
     const [selectedSubRegions, setSelectedSubRegions] = useState<
-        ICoverageArea_[]
+        ICoverageArea[]
     >(fromDB ?? []);
 
-    const [subRegionsFromDB, setFromDBSubRegions] = useState<ICoverageArea_[]>(
+    const [subRegionsFromDB, setFromDBSubRegions] = useState<ICoverageArea[]>(
         fromDB ?? [],
     );
 
@@ -350,8 +350,8 @@ export default function SubRegionDistribution({
         e: React.ChangeEvent<HTMLInputElement>,
         sub_region: JSONSubRegion,
     ) => {
-        // Convertir sub_region a ICoverageArea_
-        const subRegion_: ICoverageArea_ = {
+        // Convertir sub_region a ICoverageArea
+        const subRegion_: ICoverageArea = {
             country: sub_region.country,
             country_iso_code: sub_region.country_iso_code,
             region: sub_region.region,
@@ -433,8 +433,8 @@ export default function SubRegionDistribution({
     const handleSelectAllFromCurrentPage = (
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
-        // Convertir JSONSubRegion a ICoverageArea_
-        const tenSubRegions_: ICoverageArea_[] = tenSubRegions.map(
+        // Convertir JSONSubRegion a ICoverageArea
+        const tenSubRegions_: ICoverageArea[] = tenSubRegions.map(
             (sub_region: JSONSubRegion) => {
                 return {
                     country: sub_region.country,

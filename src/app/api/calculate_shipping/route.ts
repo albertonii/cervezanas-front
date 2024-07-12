@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { DistributionCostType } from '../../../lib/enums';
 import {
-    DistributionCostType,
-    DistributionDestinationType,
-} from '../../../lib/enums';
-import { IAreaAndWeightCost } from '../../../lib/types/types';
+    IAreaAndWeightInformation,
+    IShippingInfo,
+} from '../../../lib/types/types';
+import { normalizeAddress } from '../../../utils/distribution';
 import { createBrowserClient } from '../../../utils/supabaseBrowser';
 
 export async function GET(request: NextRequest) {
@@ -67,58 +68,19 @@ export async function GET(request: NextRequest) {
         distributionCosts.selected_method ===
         DistributionCostType.AREA_AND_WEIGHT
     ) {
-        const { data: areaAndWeightCostData, error: areaAndWeightCostError } =
+        // Obtener dirección de envío para calcular el costo de envío
+        const { data: shippingInfoData, error: shippingInfoError } =
             await supabase
-                .from('area_and_weight_cost')
+                .from('shipping_info')
                 .select(
                     `
-                        id,
-                        distribution_costs_id,
-                        cost_extra_per_kg,
-                        area_and_weight_information_id,
-                        area_and_weight_information (
-                           *,
-                            area_weight_cost_range (
-                                id,
-                                weight_from,
-                                weight_to,
-                                base_cost
-                            ),
-                            coverage_areas (
-                                id,
-                                country_iso_code,
-                                country,
-                                region,
-                                sub_region,
-                                city,
-                                administrative_division,
-                                distributor_id
-                            )
-                        )
-                    `,
-                )
-                .eq('distribution_costs_id', distributionCosts.id)
-                .single();
-
-        const areaAndWeightCost = areaAndWeightCostData as IAreaAndWeightCost;
-
-        if (areaAndWeightCostError) {
-            return NextResponse.json(
-                { message: 'Error fetching area and weight cost' },
-                { status: 500 },
-            );
-        }
-
-        // Obtener dirección de envío para calcular el costo de envío
-        const { data: shippingInfo, error: shippingInfoError } = await supabase
-            .from('shipping_info')
-            .select(
-                `
                     *
                 `,
-            )
-            .eq('id', shippingInfoId)
-            .single();
+                )
+                .eq('id', shippingInfoId)
+                .single();
+
+        const shippingInfo: IShippingInfo = shippingInfoData as IShippingInfo;
 
         if (shippingInfoError) {
             return NextResponse.json(
@@ -127,185 +89,88 @@ export async function GET(request: NextRequest) {
             );
         }
 
-        console.log(shippingInfo);
+        const countryNormalized = normalizeAddress(shippingInfo.country);
 
-        // Normalize shipping info data
-        const countryNormalized = shippingInfo.country
-            ?.toLowerCase()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .replace(/\s+/g, '');
+        const regionNormalized = normalizeAddress(shippingInfo.region);
 
-        const regionNormalized = shippingInfo.region
-            ?.toLowerCase()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .replace(/\s+/g, '');
+        const subRegionNormalized = normalizeAddress(shippingInfo.sub_region);
 
-        const subRegionNormalized = shippingInfo.sub_region
-            ?.toLowerCase()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .replace(/\s+/g, '');
+        const cityNormalized = normalizeAddress(shippingInfo.city);
 
-        const cityNormalized = shippingInfo.city
-            ?.toLowerCase()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .replace(/\s+/g, '');
+        const { data: areaWeightInfoData, error: areaWeightInfoError } =
+            await supabase
+                .from('area_and_weight_information')
+                .select(
+                    `
+                        coverage_areas (*),
+                        area_weight_cost_range (*)
+                    `,
+                )
+                .eq('distributor_id', distributorId);
 
-        areaAndWeightCost.area_and_weight_information?.map((area_info) => {
-            const city = area_info.coverage_areas?.city;
-            const subRegion = area_info.coverage_areas?.sub_region;
-            const region = area_info.coverage_areas?.region;
-            const country = area_info.coverage_areas?.country;
-            const administrativeDivision =
-                area_info.coverage_areas?.administrative_division;
+        if (areaWeightInfoError) {
+            return NextResponse.json(
+                { message: 'Error fetching area and weight information' },
+                { status: 500 },
+            );
+        }
 
+        const areaAndWeightInfo =
+            areaWeightInfoData as IAreaAndWeightInformation[];
+
+        // Buscar el área coincidente
+        const matchingArea = areaAndWeightInfo.find((area) => {
             if (
-                administrativeDivision ===
-                DistributionDestinationType.SUB_REGION
+                !area.coverage_areas ||
+                !area.coverage_areas.country ||
+                !area.coverage_areas.region ||
+                !area.coverage_areas.sub_region
             ) {
-                if (
-                    country === countryNormalized &&
-                    region === regionNormalized &&
-                    subRegion === subRegionNormalized
-                ) {
-                    // Comprobar que no esté vacío los rangos de peso y peso
-                    if (area_info.area_weight_cost_range?.length === 0) {
-                        return;
-                    }
-
-                    const areaAndWeightCostRange =
-                        area_info.area_weight_cost_range?.find(
-                            (range) =>
-                                totalWeight >= range.weight_from &&
-                                totalWeight <= range.weight_to,
-                        );
-
-                    if (!areaAndWeightCostRange) {
-                        return;
-                    }
-
-                    const baseCost = areaAndWeightCostRange.base_cost || 0;
-
-                    const costExtraPerKg =
-                        areaAndWeightCost.cost_extra_per_kg || 0;
-
-                    const shippingCost =
-                        baseCost + costExtraPerKg * totalWeight;
-
-                    console.log('COSTES DE ENVIO', shippingCost);
-
-                    return NextResponse.json(
-                        { cost: shippingCost },
-                        { status: 200 },
-                    );
-                }
+                return false;
             }
+
+            const normalizedCountry = normalizeAddress(
+                area.coverage_areas.country,
+            );
+
+            const normalizedRegion = normalizeAddress(
+                area.coverage_areas.region,
+            );
+            const normalizedSubRegion = normalizeAddress(
+                area.coverage_areas.sub_region,
+            );
+
+            return (
+                normalizedCountry === countryNormalized &&
+                normalizedRegion === regionNormalized &&
+                normalizedSubRegion === subRegionNormalized
+            );
         });
 
-        // Sort area_and_weight_information by type (city, sub_region, region, country)
-        // 1. City
-        // const areaTypeCity =
-        //     areaAndWeightCost.area_and_weight_information.filter(
-        //         (area: any) => area.type === DistributionDestinationType.CITY,
-        //     );
+        if (matchingArea) {
+            const areaCostRange = matchingArea.area_weight_cost_range?.find(
+                (range) =>
+                    totalWeight >= range.weight_from &&
+                    totalWeight <= range.weight_to,
+            );
 
-        // const cityFound = areaTypeCity.find((area: any) => {
-        //     // Convertir a minúsculas y quitar acentos y espacios en blanco extra para comparar
-        //     const areaName = area.name
-        //         .toLowerCase()
-        //         .normalize('NFD')
-        //         .replace(/[\u0300-\u036f]/g, '')
-        //         .replace(/\s+/g, '');
+            // Use the coverageAreas data as needed
+            if (areaCostRange) {
+                const baseCost = areaCostRange.base_cost || 0;
+                // const costExtraPerKg = matchingArea.cost_extra_per_kg || 0;
 
-        //     const shippingCity = shippingInfo
-        //         .city!.toLowerCase()
-        //         .normalize('NFD')
-        //         .replace(/[\u0300-\u036f]/g, '')
-        //         .replace(/\s+/g, '');
+                // const shippingCost = baseCost + costExtraPerKg * totalWeight;
+                const shippingCost = baseCost;
 
-        //     return areaName === shippingCity;
-        // });
-
-        // if (cityFound) {
-        //     // Comprobar que no esté vacío los rangos de peso y peso
-        //     if (cityFound.area_weight_cost_range.length === 0) {
-        //         return NextResponse.json(
-        //             { message: 'Area and weight cost range is empty' },
-        //             { status: 500 },
-        //         );
-        //     }
-
-        //     const areaAndWeightCostRange =
-        //         cityFound.area_weight_cost_range.find(
-        //             (range: any) =>
-        //                 totalWeight >= range.weight_from &&
-        //                 totalWeight <= range.weight_to,
-        //         );
-
-        //     if (!areaAndWeightCostRange) {
-        //         return NextResponse.json(
-        //             { message: 'Area and weight cost range not found' },
-        //             { status: 500 },
-        //         );
-        //     }
-
-        //     const baseCost = areaAndWeightCostRange.base_cost || 0;
-        //     const costExtraPerKg = areaAndWeightCost.cost_extra_per_kg || 0;
-
-        //     // TODO: PARA PODER APLICAR EL COSTE EXTRA HAY QUE SABER SI NOS
-        //     // ESTAMOS PASANDO DE PESO Y CUÁNTO NOS ESTAMOS PASANDO DE PESO
-
-        //     const shippingCost =
-        //         baseCost + costExtraPerKg * parseFloat(totalWeight);
-
-        //     console.log('COSTES DE ENVIO', shippingCost);
-
-        //     return NextResponse.json({ cost: shippingCost }, { status: 200 });
-        // }
-
+                return NextResponse.json(
+                    { cost: shippingCost },
+                    { status: 200 },
+                );
+            }
+        }
         return NextResponse.json(
-            { message: 'City not found in area and weight cost' },
-            { status: 500 },
-        );
-
-        // 2. SubRegion
-        // const areaTypeSubRegion =
-        //     areaAndWeightCost.area_and_weight_information.filter(
-        //         (area: any) =>
-        //             area.type === DistributionDestinationType.SUB_REGION,
-        //     );
-
-        // // 3. Region
-        // const areaTypeRegion =
-        //     areaAndWeightCost.area_and_weight_information.filter(
-        //         (area: any) => area.type === DistributionDestinationType.REGION,
-        //     );
-
-        // // 4. Country
-        // const areaTypeCountry =
-        //     areaAndWeightCost.area_and_weight_information.filter(
-        //         (area: any) =>
-        //             area.type === DistributionDestinationType.INTERNATIONAL,
-        //     );
-
-        // const weight = parseFloat(totalWeight);
-
-        // const areaAndWeightCostRange =
-        //     areaAndWeightCost.area_and_weight_information.area_weight_cost_range.find(
-        //         (range: IAreaAndWeightCostRange) =>
-        //             weight >= range.weight_from && weight <= range.weight_to,
-        //     );
-
-        // const shippingCost =
-        //     areaAndWeightCostRange.base_cost +
-        //     areaAndWeightCost.cost_extra_per_kg * weight;
-
-        return NextResponse.json(
-            { message: 'Area and weight shipping cost not implemented' },
-            { status: 501 },
+            { message: 'No matching area found' },
+            { status: 404 },
         );
     }
 

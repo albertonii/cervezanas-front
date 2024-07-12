@@ -7,14 +7,14 @@ import DistributionCost from './distribution_costs/DistributionCost';
 import React, { useState } from 'react';
 import { DistributionOption } from '../../../../../../lib/enums';
 import {
-    ICoverageArea_,
+    ICoverageArea,
     IDistributionCost,
 } from '../../../../../../lib/types/types';
 
 interface Props {
     // coverageArea: Database["public"]["Tables"]["coverage_areas"]["Row"];
     distributionCosts: IDistributionCost;
-    coverageAreas: ICoverageArea_[];
+    coverageAreas: ICoverageArea[];
 }
 
 export default function CoverageLayout({

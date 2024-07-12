@@ -1,9 +1,9 @@
-import { ICoverageArea_ } from '../../../../../lib/types/types';
+import { ICoverageArea } from '../../../../../lib/types/types';
 import { isSameSubRegion } from '../../../../../utils/distribution';
 
 describe('isSameSubRegion', () => {
     it('should return true for identical sub-regions', async () => {
-        const subRegion1: ICoverageArea_ = {
+        const subRegion1: ICoverageArea = {
             country: 'US',
             country_iso_code: 'US',
             region: 'California',
@@ -11,7 +11,7 @@ describe('isSameSubRegion', () => {
             distributor_id: '1',
             administrative_division: 'sub_region',
         };
-        const subRegion2: ICoverageArea_ = {
+        const subRegion2: ICoverageArea = {
             country: 'US',
             country_iso_code: 'US',
             region: 'California',
@@ -23,7 +23,7 @@ describe('isSameSubRegion', () => {
     });
 
     it('should return false for different countries', async () => {
-        const subRegion1: ICoverageArea_ = {
+        const subRegion1: ICoverageArea = {
             country: 'US',
             country_iso_code: 'US',
             region: 'California',
@@ -31,7 +31,7 @@ describe('isSameSubRegion', () => {
             distributor_id: '1',
             administrative_division: 'sub_region',
         };
-        const subRegion2: ICoverageArea_ = {
+        const subRegion2: ICoverageArea = {
             country: 'US',
             country_iso_code: 'CA',
             region: 'California',
@@ -43,7 +43,7 @@ describe('isSameSubRegion', () => {
     });
 
     it('should return false for different regions', async () => {
-        const subRegion1: ICoverageArea_ = {
+        const subRegion1: ICoverageArea = {
             country: 'US',
             country_iso_code: 'CA',
             region: 'California',
@@ -51,7 +51,7 @@ describe('isSameSubRegion', () => {
             distributor_id: '1',
             administrative_division: 'sub_region',
         };
-        const subRegion2: ICoverageArea_ = {
+        const subRegion2: ICoverageArea = {
             country: 'US',
             country_iso_code: 'US',
             region: 'Nevada',
@@ -63,7 +63,7 @@ describe('isSameSubRegion', () => {
     });
 
     it('should return false for different names', async () => {
-        const subRegion1: ICoverageArea_ = {
+        const subRegion1: ICoverageArea = {
             country: 'US',
             country_iso_code: 'CA',
             region: 'California',
@@ -71,7 +71,7 @@ describe('isSameSubRegion', () => {
             distributor_id: '1',
             administrative_division: 'sub_region',
         };
-        const subRegion2: ICoverageArea_ = {
+        const subRegion2: ICoverageArea = {
             country: 'US',
             country_iso_code: 'US',
             region: 'California',

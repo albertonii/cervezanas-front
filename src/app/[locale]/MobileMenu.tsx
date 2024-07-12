@@ -169,7 +169,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
 
                                     <Button
                                         class={
-                                            'border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent '
+                                            'border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent dark:bg-transparent dark:hover:bg-transparent'
                                         }
                                         onClick={() =>
                                             setOpenNotification(true)
@@ -205,7 +205,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                     {/* Cart  */}
                                     <Button
                                         class={
-                                            'border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent'
+                                            'border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent dark:bg-transparent dark:hover:bg-transparent'
                                         }
                                         onClick={() => openCart()}
                                         title={'Cart Items'}

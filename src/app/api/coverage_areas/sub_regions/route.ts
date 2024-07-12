@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import createServerClient from '../../../../utils/supabaseServer';
 import { DistributionDestinationType } from '../../../../lib/enums';
-import { ICoverageArea_ } from '../../../../lib/types/types';
+import { ICoverageArea } from '../../../../lib/types/types';
 
 export async function PUT(request: NextRequest) {
     const formData = await request.formData();
@@ -22,11 +22,11 @@ export async function PUT(request: NextRequest) {
     const toAddSubRegions = formData.get('to_add_sub_regions') as string;
 
     // Convert JSON to string[]
-    const selectedSubRegionsArray: ICoverageArea_[] =
+    const selectedSubRegionsArray: ICoverageArea[] =
         JSON.parse(selectedSubRegions);
-    const toDeleteSubRegionsArray: ICoverageArea_[] =
+    const toDeleteSubRegionsArray: ICoverageArea[] =
         JSON.parse(toDeleteSubRegions);
-    const toAddSubRegionsArray: ICoverageArea_[] = JSON.parse(toAddSubRegions);
+    const toAddSubRegionsArray: ICoverageArea[] = JSON.parse(toAddSubRegions);
 
     console.log('SELECTED SUB REGIONS', selectedSubRegionsArray);
     console.log('REMOVE SUB REGIONS', toDeleteSubRegionsArray);
@@ -59,7 +59,7 @@ export async function PUT(request: NextRequest) {
             await supabase
                 .from('coverage_areas')
                 .insert(
-                    toAddSubRegionsArray.map((sub_region: ICoverageArea_) => ({
+                    toAddSubRegionsArray.map((sub_region: ICoverageArea) => ({
                         distributor_id: sub_region.distributor_id,
                         country_iso_code: sub_region.country_iso_code,
                         country: sub_region.country,
@@ -69,9 +69,9 @@ export async function PUT(request: NextRequest) {
                             DistributionDestinationType.SUB_REGION,
                     })),
                 )
-                .select('id');
+                .select('id, distributor_id');
 
-        const toAddSubRegionsSelect = toAddSubRegionsData as ICoverageArea_[];
+        const toAddSubRegionsSelect = toAddSubRegionsData as ICoverageArea[];
 
         // Por cada sub region -> Habrá una entrada en la tabla AREA AND WEIGHT INFORMATION
         // que vincula las sub regiones con el rango de precios por pesos y área
@@ -79,13 +79,45 @@ export async function PUT(request: NextRequest) {
             const { error: errorAddSubRegions } = await supabase
                 .from('area_and_weight_information')
                 .insert(
-                    toAddSubRegionsSelect.map((sub_region: ICoverageArea_) => ({
+                    toAddSubRegionsSelect.map((sub_region: ICoverageArea) => ({
                         coverage_area_id: sub_region.id,
                         area_and_weight_cost_id: areaAndWeightCostId,
+                        distributor_id: sub_region.distributor_id,
                     })),
                 );
 
             if (errorAddSubRegions) {
+                // Rollback
+                for (const subRegion of toAddSubRegionsSelect) {
+                    const subRegionId = subRegion.id;
+
+                    if (!subRegionId) {
+                        return NextResponse.json(
+                            {
+                                message:
+                                    'Error adding new sub_regions. Subregion ID not found',
+                            },
+                            { status: 500 },
+                        );
+                    }
+
+                    const { error: errorRollbackCoverageAreasDelete } =
+                        await supabase
+                            .from('coverage_areas')
+                            .delete()
+                            .eq('id', subRegionId);
+
+                    if (errorRollbackCoverageAreasDelete) {
+                        return NextResponse.json(
+                            {
+                                message:
+                                    'Error in rollback deleting sub_regions',
+                            },
+                            { status: 500 },
+                        );
+                    }
+                }
+
                 return NextResponse.json(
                     { message: 'Error adding new sub_regions' },
                     { status: 500 },

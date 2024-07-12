@@ -307,7 +307,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                             }}
                         >
                             <span
-                                className="text-md  block text-beer-dark dark:text-white  md:bg-transparent md:p-0"
+                                className="text-md  block text-beer-dark dark:text-white  md:bg-transparent md:p-0 dark:bg-transparent dark:hover:bg-transparent"
                                 aria-current="page"
                                 onClick={() => signOut()}
                             >

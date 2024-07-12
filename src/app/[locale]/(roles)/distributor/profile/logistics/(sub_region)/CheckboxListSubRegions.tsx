@@ -3,7 +3,7 @@ import SubRegionRow from './SubRegionRow';
 import PaginationFooter from '../../../../../components/common/PaginationFooter';
 import { useTranslations } from 'next-intl';
 import { JSONSubRegion } from '../../../../../../../lib/types/distribution_areas';
-import { ICoverageArea_ } from '../../../../../../../lib/types/types';
+import { ICoverageArea } from '../../../../../../../lib/types/types';
 
 interface Props {
     tenSubRegions: JSONSubRegion[];
@@ -11,7 +11,7 @@ interface Props {
     resultsPerPage: number;
     currentPage: number;
     setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-    selectedSubRegions: ICoverageArea_[];
+    selectedSubRegions: ICoverageArea[];
     handleCheckbox: (
         e: React.ChangeEvent<HTMLInputElement>,
         name: JSONSubRegion,

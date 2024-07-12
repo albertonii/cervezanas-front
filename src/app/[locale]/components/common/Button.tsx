@@ -70,7 +70,7 @@ const Button = memo(function PaginationFooter({
             return 'border-2 border-beer-blonde bg-beer-softBlonde hover:bg-beer-blonde';
         if (accent)
             return 'border-2 border-beer-blonde bg-beer-foam hover:bg-beer-softFoam';
-        if (danger) return 'bg-red-500 hover:bg-red-600';
+        if (danger) return 'bg-red-500 hover:bg-red-600 dark:bg-red-600';
         return 'shrink-0 hover:bg-beer-softBlonde';
     };
 
@@ -112,6 +112,7 @@ const Button = memo(function PaginationFooter({
             form={form}
             className={`
                 inline-flex items-center justify-center rounded-md border transition duration-200 ease-in-out
+                dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:border-gray-600 dark:bg-gray-700
                 ${getSizeClass()}
                 ${getColorClass()}
                 ${box ? 'h-auto w-10' : ''}

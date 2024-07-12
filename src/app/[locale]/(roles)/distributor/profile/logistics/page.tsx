@@ -3,7 +3,7 @@ import readUserSession from '../../../../../../lib/actions';
 import createServerClient from '../../../../../../utils/supabaseServer';
 import { redirect } from 'next/navigation';
 import {
-    ICoverageArea_,
+    ICoverageArea,
     IDistributionCost,
 } from '../../../../../../lib/types/types';
 
@@ -63,6 +63,7 @@ async function getDistributionCost() {
                 area_and_weight_cost (
                     id,
                     distribution_costs_id,
+                    cost_extra_per_kg,
                     area_and_weight_information (
                         id,
                         area_and_weight_cost_id,
@@ -129,5 +130,5 @@ async function getCoverageArea() {
         throw coverageAreasError;
     }
 
-    return coverageAreas as ICoverageArea_[];
+    return coverageAreas as ICoverageArea[];
 }

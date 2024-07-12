@@ -1304,7 +1304,7 @@ export interface IDistributorUser {
     is_authorized: boolean;
     profile_location?: IProfileLocation[];
     users?: IUserTable; // To access embeded information we need to get into the table and the look for data
-    coverage_areas?: ICoverageArea_[];
+    coverage_areas?: ICoverageArea[];
     distribution_costs?: IDistributionCost;
 }
 
@@ -1374,10 +1374,10 @@ export interface IDistribution {
     feedback: string;
     business_orders: IBusinessOrder;
     origin_distributor: IDistributorUser;
-    coverage_areas: ICoverageArea_;
+    coverage_areas: ICoverageArea;
 }
 
-export interface ICoverageArea_ {
+export interface ICoverageArea {
     id?: string;
     distributor_id: string;
     country_iso_code: string;
@@ -1492,7 +1492,7 @@ export interface IAreaAndWeightInformation {
     id: string;
     coverage_area_id: string;
     area_and_weight_cost_id: string;
-    coverage_areas?: ICoverageArea_;
+    coverage_areas?: ICoverageArea;
     area_weight_cost_range?: IAreaAndWeightCostRange[];
 }
 

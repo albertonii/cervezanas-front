@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DistributionCostType } from '../../../../../../../lib/enums';
 import {
-    ICoverageArea_,
+    ICoverageArea,
     IDistributionCost,
 } from '../../../../../../../lib/types/types';
 import { Tooltip } from '../../../../../components/common/Tooltip';
@@ -19,7 +19,7 @@ import { updateIsDistributionCostsIncludedInProduct } from '../../../actions';
 
 interface Props {
     distributionCosts: IDistributionCost;
-    coverageAreas: ICoverageArea_[];
+    coverageAreas: ICoverageArea[];
 }
 
 export default function DistributionCost({

@@ -211,7 +211,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                     >
                                         <Button
                                             class={
-                                                'border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent '
+                                                'border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent dark:bg-transparent dark:hover:bg-transparent'
                                             }
                                             onClick={() => openCart()}
                                             title={''}
@@ -225,7 +225,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                                     height={40}
                                                     alt={'Go to Shopping cart'}
                                                     className={
-                                                        'lg:h[50px] mt-2 rounded-full bg-beer-blonde lg:w-[50px] p-[5px] border-beer-softBlondeBubble border-2'
+                                                        'lg:h[50px] mt-2 rounded-full bg-beer-blonde lg:w-[50px] p-[5px] border-beer-softBlondeBubble border-2 '
                                                     }
                                                 />
                                                 <div

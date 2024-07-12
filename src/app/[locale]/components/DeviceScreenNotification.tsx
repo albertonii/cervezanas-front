@@ -34,7 +34,7 @@ export function DeviceScreenNotification({ notifications }: Props) {
             <Button
                 class={`
                     ${animateNotifications && 'animate-wiggle'}
-                    border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent
+                    border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent dark:bg-transparent dark:hover:bg-transparent
                 `}
                 onClick={() => handleClickBell()}
                 title={''}

@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { ICoverageArea_ } from '../../../../../../../lib/types/types';
+import { ICoverageArea } from '../../../../../../../lib/types/types';
 
 interface Props {
-    subRegions: ICoverageArea_[];
+    subRegions: ICoverageArea[];
 }
 
 const SubRegionTable = ({ subRegions }: Props) => {
@@ -15,7 +15,7 @@ const SubRegionTable = ({ subRegions }: Props) => {
                 string,
                 { country: string; region: string; sub_regions: string[] }
             >,
-            subRegion: ICoverageArea_,
+            subRegion: ICoverageArea,
         ) => {
             const { country, region, sub_region } = subRegion;
             const key = `${country}-${region}`;

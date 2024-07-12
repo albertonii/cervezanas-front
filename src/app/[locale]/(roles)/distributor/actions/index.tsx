@@ -3,7 +3,7 @@
 import axios from 'axios';
 import {
     IAreaAndWeightCostRange,
-    ICoverageArea_,
+    ICoverageArea,
     IFlatrateAndWeightCostForm,
 } from '../../../../../lib/types/types';
 import createServerClient from '../../../../../utils/supabaseServer';
@@ -326,9 +326,9 @@ export async function updateCityDistribution(
 }
 
 export async function updateSubRegionDistribution(
-    unCheckedSubRegions: ICoverageArea_[],
-    newSelectedSubRegions: ICoverageArea_[],
-    selectedSubRegions: ICoverageArea_[],
+    unCheckedSubRegions: ICoverageArea[],
+    newSelectedSubRegions: ICoverageArea[],
+    selectedSubRegions: ICoverageArea[],
     areaAndWeightCostId: string,
 ) {
     const url = `${baseUrl}/api/coverage_areas/sub_regions`;

@@ -292,7 +292,6 @@ export async function calculateCheapestShippingCosts(
                 });
 
                 if (response.data && response.data.cost !== undefined) {
-                    console.info('RESPONSE', response.data);
                     return response.data;
                 } else {
                     console.error(
@@ -578,7 +577,6 @@ const isInsideCity = async (
         method: API_METHODS.GET,
     })
         .then(async (res) => {
-            console.log('RESPUESTA ANTES JSON', await res.json());
             return await res.json();
         })
         .catch((error) => {
@@ -602,8 +600,6 @@ const isInsideSubRegion = async (
 ) => {
     const ds_url =
         DS_API.DS_URL + DS_API.DS_PROVINCES + encodeURIComponent(subRegion);
-
-    console.log(ds_url + '/inside?lat=' + lat + '&lng=' + lng);
 
     const response = await fetch(`${ds_url}/inside?lat=${lat}&lng=${lng}`, {
         method: API_METHODS.GET,
