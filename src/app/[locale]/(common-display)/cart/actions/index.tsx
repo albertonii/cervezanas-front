@@ -307,7 +307,6 @@ export async function calculateCheapestShippingCosts(
         }),
     );
 
-    console.log(distributionContracts);
     console.log(shippingCosts);
 
     // Filtrar solo los costos válidos

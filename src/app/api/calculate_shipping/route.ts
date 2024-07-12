@@ -176,8 +176,15 @@ export async function GET(request: NextRequest) {
                 // Para obtener cuanto más se cobrará por cada kg adicional, hay que saber cual es el margen final de peso entre el último rango de peso (ramge.weight_to) y el peso total (totalWeight)
                 // Luego se multiplica ese margen por el costo extra por kg
                 const extraWeight = totalWeight - areaCostRange.weight_to;
+
+                // Redondear una unidad por arriba el peso extra
+                const extraWeightRounded = Math.ceil(extraWeight);
+
                 // Si el valor de extraCost es negativo, se establece en 0
-                const extraCost = Math.max(0, extraWeight * costExtraPerKg);
+                const extraCost = Math.max(
+                    0,
+                    extraWeightRounded * costExtraPerKg,
+                );
 
                 const shippingCost = baseCost + extraCost;
 
