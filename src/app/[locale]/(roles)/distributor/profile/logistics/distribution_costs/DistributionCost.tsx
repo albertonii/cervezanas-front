@@ -8,10 +8,7 @@ import PriceRangeCostForm from './PrinceRange/PriceRangeCostForm';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DistributionCostType } from '../../../../../../../lib/enums';
-import {
-    ICoverageArea,
-    IDistributionCost,
-} from '../../../../../../../lib/types/types';
+import { IDistributionCost } from '../../../../../../../lib/types/types';
 import { Tooltip } from '../../../../../components/common/Tooltip';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,13 +16,9 @@ import { updateIsDistributionCostsIncludedInProduct } from '../../../actions';
 
 interface Props {
     distributionCosts: IDistributionCost;
-    coverageAreas: ICoverageArea[];
 }
 
-export default function DistributionCost({
-    distributionCosts,
-    coverageAreas,
-}: Props) {
+export default function DistributionCost({ distributionCosts }: Props) {
     const t = useTranslations();
     const [includeDistributionCost, setIncludeDistributionCost] =
         useState<boolean>(false);
@@ -70,7 +63,10 @@ export default function DistributionCost({
             case DistributionCostType.FLATRATE_AND_WEIGHT:
                 return (
                     <FlatrateAndWeightCostForm
-                        extraCostPerKG={distributionCosts.cost_extra_per_kg}
+                        extraCostPerKG={
+                            distributionCosts.area_and_weight_cost!
+                                .cost_extra_per_kg
+                        }
                         flatrateAndWeightCost={
                             distributionCosts.flatrate_and_weight_cost
                         }
@@ -84,7 +80,10 @@ export default function DistributionCost({
             case DistributionCostType.AREA_AND_WEIGHT:
                 return (
                     <AreaAndWeightCostForm
-                        extraCostPerKG={distributionCosts.cost_extra_per_kg}
+                        extraCostPerKG={
+                            distributionCosts.area_and_weight_cost!
+                                .cost_extra_per_kg
+                        }
                         areaAndWeightCost={
                             distributionCosts.area_and_weight_cost
                         }

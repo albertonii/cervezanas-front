@@ -14,13 +14,9 @@ import {
 interface Props {
     // coverageArea: Database["public"]["Tables"]["coverage_areas"]["Row"];
     distributionCosts: IDistributionCost;
-    coverageAreas: ICoverageArea[];
 }
 
-export default function CoverageLayout({
-    distributionCosts,
-    coverageAreas,
-}: Props) {
+export default function CoverageLayout({ distributionCosts }: Props) {
     const [menuOption, setMenuOption] = useState<string>(
         DistributionOption.COST,
     );
@@ -32,10 +28,7 @@ export default function CoverageLayout({
 
             case DistributionOption.COST:
                 return (
-                    <DistributionCost
-                        distributionCosts={distributionCosts}
-                        coverageAreas={coverageAreas}
-                    />
+                    <DistributionCost distributionCosts={distributionCosts} />
                 );
 
             case DistributionOption.DESTINATION:

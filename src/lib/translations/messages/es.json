@@ -554,7 +554,6 @@
     "experimental": "Experimental",
     "monthly_products": "Productos mensuales",
     "pagination_footer_nums": "Mostrando {from} a {to} de {total} registros totales",
-    "notifications": "Notificaciones",
     "no_notifications": "No tienes notificaciones",
     "my_account": "Mi cuenta",
     "menu": "Menú",
@@ -1012,5 +1011,17 @@
         "czech_republic": "República Checa",
         "slovakia": "Eslovaquia",
         "hungary": "Hungría"
+    },
+    "cost_extra_per_kg": "Coste extra por kg",
+    "notifications": {
+        "label": "Notificaciones",
+        "req_producer_rejected": "Su solicitud de convertirse en productor ha sido rechazada.",
+        "req_distributor_rejected": "Su solicitud para convertirse en distribuidor ha sido rechazada.",
+        "req_producer_accepted": "Su solicitud de convertirse en productor ha sido aceptada.",
+        "req_distributor_accepted": "Su solicitud para convertirse en distribuidor ha sido aceptada.",
+        "mark_as_read": "Marcar como leído",
+        "mark_as_unread": "Marcar como no leído",
+        "is_read": "Leído",
+        "is_unread": "No leído"
     }
 }

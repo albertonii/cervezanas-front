@@ -35,6 +35,7 @@ export async function middleware(req: NextRequest) {
     const pathname = url.pathname;
     const locale = pathname.split('/')[1];
     const pathnameIsMissingLocale = !locales.includes(locale);
+
     // Redirect if there is no locale
     if (pathnameIsMissingLocale) {
         const locale = getLocale(req);
@@ -44,6 +45,8 @@ export async function middleware(req: NextRequest) {
             new URL(`/${locale}/${pathname}`, req.url),
         );
     }
+
+    // Check if the request is for accesing /profile
 
     const isIncluded = await isPrivateSectionIncluded(req);
 

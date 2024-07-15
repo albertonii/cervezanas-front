@@ -1413,6 +1413,7 @@ export interface FlatrateAndWeightCostFormData {
 
 export interface AreaAndWeightCostFormData {
     distribution_costs_id: string;
+    cost_extra_per_kg: number;
     cities: AreaAndWeightInformationFormData[];
     sub_regions: AreaAndWeightInformationFormData[];
     regions: AreaAndWeightInformationFormData[];

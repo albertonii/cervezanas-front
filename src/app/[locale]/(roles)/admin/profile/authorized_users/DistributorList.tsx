@@ -15,6 +15,7 @@ import {
     sendEmailAcceptUserAsProducer,
     sendEmailCancelUserAsDistributor,
 } from '../../../../../../lib/actions';
+import { ROLE_ENUM } from '../../../../../../lib/enums';
 
 enum SortBy {
     NONE = 'none',
@@ -91,7 +92,7 @@ export default function DistributorList({ distributors }: Props) {
             .then(() => {
                 setIsAcceptModal(false);
 
-                sendNotification(t('req_distributor_accepted'));
+                sendNotification(t('notifications.req_distributor_accepted'));
 
                 // Notify user by email that has been accepted has a producer
                 sendEmailAcceptUserAsProducer(
@@ -111,7 +112,7 @@ export default function DistributorList({ distributors }: Props) {
             .then(() => {
                 setIsRejectModal(false);
 
-                sendNotification(t('req_distributor_rejected'));
+                sendNotification(t('notifications.req_distributor_rejected'));
 
                 // Notify user by email that has been accepted has a producer
                 sendEmailCancelUserAsDistributor(
@@ -126,7 +127,7 @@ export default function DistributorList({ distributors }: Props) {
         const { error } = await supabase.from('notifications').insert({
             message: `${message}`,
             user_id: selectedDistributor?.user_id,
-            link: `${selectedDistributor?.users?.role}/profile?a=settings`,
+            link: `${ROLE_ENUM.Distributor}/profile?a=settings`,
             source: user?.id, // User that has created the consumption point
         });
         if (error) {

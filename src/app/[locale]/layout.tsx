@@ -1,15 +1,15 @@
 import '../../styles/globals.css';
 
-import Header from './Header';
+import HeaderMenu from './HeaderMenu';
 import classNames from 'classnames';
 import Providers from './providers';
 import Footer from './components/Footer';
 import readUserSession from '../../lib/actions';
+import Breadcrumb from './components/Breadcrumb';
 import createServerClient from '../../utils/supabaseServer';
 import { notFound } from 'next/navigation';
 import { INotification } from '../../lib/types/types';
 import { MessageList } from './components/message/MessageList';
-import Breadcrumb from './components/Breadcrumb';
 
 type LayoutProps = {
     children: React.ReactNode;
@@ -49,7 +49,7 @@ export default async function AppLocaleLayout({
     return (
         <Providers session={session} messages={messages} locale={locale}>
             <section className="relative flex flex-col bg-beer-foam dark:bg-gray-800">
-                <Header
+                <HeaderMenu
                     notifications={notifications ?? []}
                     i18nLocaleArray={i18n.locales}
                 />
@@ -96,11 +96,11 @@ const getNotifications = async () => {
 
         .select(
             `
-      *
-    `,
+                *
+            `,
         )
-        .eq('read', false)
-        .eq('user_id', session.id);
+        .eq('user_id', session.id)
+        .limit(15);
 
     if (notificationsError) throw notificationsError;
     return notifications as INotification[];

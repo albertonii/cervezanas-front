@@ -16,6 +16,10 @@ import {
     DistributionCostType,
     DistributionDestinationType,
 } from '../../../../../../../../lib/enums';
+import InputLabel from '../../../../../../components/common/InputLabel';
+import { useTranslations } from 'next-intl';
+import { DisplayInputError } from '../../../../../../components/common/DisplayInputError';
+import Button from '../../../../../../components/common/Button';
 
 const areaWeightCostRange = z
     .object({
@@ -32,8 +36,6 @@ const areaWeightCostRange = z
     });
 
 const areaAndWeightInformationObjectSchema = z.object({
-    // name: z.string().nonempty({ message: 'errors.input_required' }),
-    // type: z.string().nonempty({ message: 'errors.input_required' }),
     area_weight_range: z
         .array(areaWeightCostRange)
         .refine(
@@ -65,6 +67,9 @@ const areaAndWeightInformationObjectSchema = z.object({
 });
 
 const schema: ZodType<AreaAndWeightCostFormData> = z.object({
+    cost_extra_per_kg: z
+        .number()
+        .min(0, { message: 'errors.input_number_min_0' }),
     distribution_costs_id: z.string().uuid(),
     cities: z.array(areaAndWeightInformationObjectSchema),
     sub_regions: z.array(areaAndWeightInformationObjectSchema),
@@ -91,6 +96,8 @@ const AreaAndWeightCostForm = ({
     distributionCostId,
     fromDBDistributionType,
 }: Props) => {
+    const t = useTranslations();
+
     const [selectedArea, setSelectedArea] =
         useState<IAreaAndWeightInformation>();
 
@@ -101,6 +108,7 @@ const AreaAndWeightCostForm = ({
         mode: 'onSubmit',
         resolver: zodResolver(schema),
         defaultValues: {
+            cost_extra_per_kg: extraCostPerKG,
             distribution_costs_id: distributionCostId,
             // cities:
             //     areaAndWeightCost?.area_and_weight_information?.filter(
@@ -124,6 +132,10 @@ const AreaAndWeightCostForm = ({
             //     ) || [],
         },
     });
+
+    const {
+        formState: { errors },
+    } = form;
 
     const onItemClick = (areaId: string) => {
         const area = areaWeightInformationSubRegion.find(
@@ -159,7 +171,30 @@ const AreaAndWeightCostForm = ({
                 peso establecido.
             </span>
 
-            <section className="relative flex gap-4">
+            <section className="relative flex flex-col gap-4 w-full">
+                <form onSubmit={form.handleSubmit((data) => console.log(data))}>
+                    <div className="flex flex-row gap-4">
+                        <InputLabel
+                            form={form}
+                            label={'cost_extra_per_kg'}
+                            labelText={t('cost_extra_per_kg')}
+                            registerOptions={{
+                                required: true,
+                                min: 0,
+                            }}
+                            inputType="number"
+                        />
+
+                        {errors.cost_extra_per_kg && (
+                            <DisplayInputError message="errors.input_required" />
+                        )}
+
+                        <Button accent small>
+                            {t('save')}
+                        </Button>
+                    </div>
+                </form>
+
                 <AreaSidebar form={form} onItemClick={onItemClick} />
 
                 {selectedArea && (

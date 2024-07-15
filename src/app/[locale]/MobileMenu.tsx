@@ -28,7 +28,7 @@ import { INotification } from '../../lib/types/types';
 import { useAuth } from './(auth)/Context/useAuth';
 import { useAppContext } from '../context/AppContext';
 import { usePathname, useRouter } from 'next/navigation';
-import { NotificationPopup } from './components/NotificationPopup';
+import { NotificationPopup } from './components/notificationPopup/NotificationPopup';
 import { useShoppingCart } from '../context/ShoppingCartContext';
 import { ROLE_ENUM } from '../../lib/enums';
 
@@ -492,7 +492,9 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                             className={`${MENU_ITEM_STYLES}`}
                                             aria-current="page"
                                         >
-                                            {t('notifications').toUpperCase()}
+                                            {t(
+                                                'notifications.label',
+                                            ).toUpperCase()}
                                         </span>
                                     </Link>
                                 </li>
@@ -563,7 +565,9 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                             className={`${MENU_ITEM_STYLES}`}
                                             aria-current="page"
                                         >
-                                            {t('notifications').toUpperCase()}
+                                            {t(
+                                                'notifications.label',
+                                            ).toUpperCase()}
                                         </span>
                                     </Link>
                                 </li>

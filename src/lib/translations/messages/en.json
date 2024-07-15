@@ -558,7 +558,6 @@
     "experimental": "Experimental",
     "monthly_products": "Monthly products",
     "pagination_footer_nums": "Showing {from} to {to} of {total} entries",
-    "notifications": "Notifications",
     "no_notifications": "No notifications",
     "my_account": "My account",
     "menu": "Menu",
@@ -907,10 +906,6 @@
     "profile_acc_company_name": "Company Name",
     "profile_acc_nif_cif": "NIF/CIF/Document ID",
     "company_description": "Company",
-    "req_producer_rejected": "Your request to become a producer has been rejected.",
-    "req_distributor_rejected": "Your request to become a distributor has been rejected.",
-    "req_producer_accepted": "Your request to become a producer has been accepted.",
-    "req_distributor_accepted": "Your request to become a distributor has been accepted.",
     "modal_product_update_details_title": "Update product details",
     "introduce_beer_name": "Introduce the name of the beer",
     "introduce_event_name": "Introduce the name of the event",
@@ -996,5 +991,17 @@
         "czech_republic": "Czech Republic",
         "slovakia": "Slovakia",
         "hungary": "Hungary"
+    },
+    "cost_extra_per_kg": "Cost extra per kg",
+    "notifications": {
+        "label": "Notifications",
+        "req_producer_rejected": "Your request to become a producer has been rejected.",
+        "req_distributor_rejected": "Your request to become a distributor has been rejected.",
+        "req_producer_accepted": "Your request to become a producer has been accepted.",
+        "req_distributor_accepted": "Your request to become a distributor has been accepted.",
+        "mark_as_read": "Mark as read",
+        "mark_as_unread": "Mark as unread",
+        "is_read": "Read",
+        "is_unread": "Unread"
     }
 }

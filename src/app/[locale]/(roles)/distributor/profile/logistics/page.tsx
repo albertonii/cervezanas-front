@@ -9,14 +9,8 @@ import {
 
 export default async function OrdersPage() {
     const distributionCosts = await getDistributionCost();
-    const coverageAreas = await getCoverageArea();
 
-    return (
-        <CoverageLayout
-            distributionCosts={distributionCosts}
-            coverageAreas={coverageAreas}
-        />
-    );
+    return <CoverageLayout distributionCosts={distributionCosts} />;
 }
 
 async function getDistributionCost() {
@@ -97,37 +91,4 @@ async function getDistributionCost() {
     }
 
     return distributionCosts as IDistributionCost;
-}
-
-async function getCoverageArea() {
-    const session = await readUserSession();
-
-    if (!session) {
-        redirect('/signin');
-    }
-
-    const supabase = await createServerClient();
-
-    const { data: coverageAreas, error: coverageAreasError } = await supabase
-        .from('coverage_areas')
-        .select(
-            `
-                id,
-                country_iso_code,
-                country,
-                region,
-                sub_region,
-                city,
-                administrative_division,
-                distributor_id
-            `,
-        )
-        .eq('distributor_id', session.id);
-
-    if (coverageAreasError) {
-        console.error(coverageAreasError);
-        throw coverageAreasError;
-    }
-
-    return coverageAreas as ICoverageArea[];
 }
