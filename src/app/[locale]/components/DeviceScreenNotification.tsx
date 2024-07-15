@@ -25,6 +25,10 @@ export function DeviceScreenNotification({ notifications }: Props) {
         }, 300);
     }, [notifications]);
 
+    const numberOfUnreadNotifications = notifications.filter(
+        (notification) => !notification.read,
+    ).length;
+
     const handleClickBell = () => {
         setOpenNotification(true);
     };
@@ -51,7 +55,7 @@ export function DeviceScreenNotification({ notifications }: Props) {
                         src={'/icons/notification-icon.svg'}
                     />
                     <h2 className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-softBlonde">
-                        {notifications?.length ?? 0}
+                        {numberOfUnreadNotifications}
                     </h2>
                 </section>
             </Button>

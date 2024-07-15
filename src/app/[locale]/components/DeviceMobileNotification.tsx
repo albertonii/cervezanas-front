@@ -14,6 +14,10 @@ interface Props {
 export function DeviceScreenNotification({ notifications }: Props) {
     const { openNotification, setOpenNotification } = useAppContext();
 
+    const numberOfUnreadNotifications = notifications.filter(
+        (notification) => !notification.read,
+    ).length;
+
     return (
         <>
             <Button
@@ -33,7 +37,7 @@ export function DeviceScreenNotification({ notifications }: Props) {
                         src={'/icons/notification-icon.svg'}
                     />
                     <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
-                        {notifications?.length || 0}
+                        {numberOfUnreadNotifications}
                     </div>
                 </div>
             </Button>

@@ -52,7 +52,11 @@ const NotificationItem = ({ notification }: Props) => {
     return (
         <div
             className={`
-                ${isRead ? 'bg-gray-200' : 'bg-white'}
+                ${
+                    isRead
+                        ? 'bg-gray-200 hover:bg-gray-300'
+                        : 'bg-beer-foam hover:bg-gray-100'
+                }
                 px-4 py-2 flex items-center justify-between  space-x-4
             `}
         >
@@ -82,7 +86,11 @@ const NotificationItem = ({ notification }: Props) => {
             </div>
 
             <span
-                className="text-base font-medium justify-start w-full hover:underline hover:text-beer-darkGold hover:cursor-pointer transform transition-all duration-300 ease-in-out hover:font-semibold dark:text-beer-soft-blonde"
+                className={`
+                    ${isRead && 'text-gray-500'}
+                    text-sm lg:text-base font-medium justify-start w-full hover:underline hover:text-beer-darkGold
+                    hover:cursor-pointer transform transition-all duration-300 ease-in-out hover:font-semibold dark:text-beer-soft-blonde
+                `}
                 onClick={() => handleOnClick(notification)}
             >
                 {notification.message}

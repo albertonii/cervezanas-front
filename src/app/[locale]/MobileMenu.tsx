@@ -53,6 +53,10 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
     const [openHamburguer, setOpenHamburger] = useState(false);
     const router = useRouter();
 
+    const numberOfUnreadNotifications = notifications.filter(
+        (notification) => !notification.read,
+    ).length;
+
     const handleClickOutsideCallback = () => {
         setOpenHamburger(false);
     };
@@ -191,7 +195,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                                 }
                                             />
                                             <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
-                                                {notifications?.length || 0}
+                                                {numberOfUnreadNotifications}
                                             </div>
                                         </div>
                                     </Button>
