@@ -1271,6 +1271,7 @@ export interface IUserTable {
     cp_organizer_status: number;
     provider: string;
     distributor_user?: IDistributorUser;
+    producer_user?: IProducerUser;
 }
 
 export interface IUserProfile {

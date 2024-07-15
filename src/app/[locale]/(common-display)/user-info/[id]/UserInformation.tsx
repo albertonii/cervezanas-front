@@ -1,20 +1,33 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import DisplayImageProfile from '../../../components/common/DisplayImageProfile';
-import { IProducerUser } from '../../../../../lib/types/types';
+import { IUserTable } from '../../../../../lib/types/types';
 import { useTranslations } from 'next-intl';
 import { formatDateString } from '../../../../../utils/formatDate';
 
 interface Props {
-    producer: IProducerUser;
+    user: IUserTable;
 }
 
-export default function ProducerInformation({ producer }: Props) {
-    const t = useTranslations();
-    const accountCreatedDate = formatDateString(producer.created_at);
+export default function UserInformation({ user }: Props) {
+    const [showDistributorFullInfo, setShowDistributorFullInfo] =
+        useState(false);
 
-    const profileImg = `${producer.users?.avatar_url}`;
+    const [showProducerFullInfo, setShowProducerFullInfo] = useState(false);
+
+    const t = useTranslations();
+    const accountCreatedDate = formatDateString(user.created_at);
+
+    const profileImg = `${user.avatar_url}`;
+
+    const handleShowDistributorFullInfo = () => {
+        setShowDistributorFullInfo(!showDistributorFullInfo);
+    };
+
+    const handleShowProducerFullInfo = () => {
+        setShowProducerFullInfo(!showProducerFullInfo);
+    };
 
     return (
         <section className="container mx-auto my-5 p-5">
@@ -31,11 +44,11 @@ export default function ProducerInformation({ producer }: Props) {
                         </div>
 
                         <h1 className="my-1 text-xl font-bold leading-8 text-gray-900">
-                            {producer.users?.username}
+                            {user.username}
                         </h1>
 
                         <h3 className="font-lg text-semibold leading-6 text-gray-600">
-                            {/* {producer.producer_user.company_name} */}
+                            {/* {user.user_user.company_name} */}
                         </h3>
 
                         <p className="text-sm leading-6 text-gray-500 hover:text-gray-600">
@@ -158,16 +171,14 @@ export default function ProducerInformation({ producer }: Props) {
                                     <div className="px-4 py-2 font-semibold">
                                         {t('name')}
                                     </div>
-                                    <div className="px-4 py-2">
-                                        {producer.users?.name}
-                                    </div>
+                                    <div className="px-4 py-2">{user.name}</div>
                                 </div>
                                 <div className="grid grid-cols-2">
                                     <div className="px-4 py-2 font-semibold">
                                         {t('lastname')}
                                     </div>
                                     <div className="px-4 py-2">
-                                        {producer.users?.lastname}
+                                        {user.lastname}
                                     </div>
                                 </div>
 
@@ -185,20 +196,20 @@ export default function ProducerInformation({ producer }: Props) {
                                         {t('address')}
                                     </div>
                                     <div className="px-4 py-2">
-                                        {/* {producer.profile_location[0].address_1 ??
-                      "" + " " + producer.profile_location[0].address_2 ??
+                                        {/* {user.profile_location[0].address_1 ??
+                      "" + " " + user.profile_location[0].address_2 ??
                       ""}
 
                     <br />
 
-                    {producer.profile_location[0].city ??
-                      "" + ", " + producer.profile_location[0].province ??
-                      "" + ", " + producer.profile_location[0].country ??
+                    {user.profile_location[0].city ??
+                      "" + ", " + user.profile_location[0].province ??
+                      "" + ", " + user.profile_location[0].country ??
                       ""}
 
                     <br />
 
-                    {producer.profile_location[0].postalcode ?? ""} */}
+                    {user.profile_location[0].postalcode ?? ""} */}
                                     </div>
                                 </address>
                                 <div className="grid grid-cols-2">
@@ -216,9 +227,9 @@ export default function ProducerInformation({ producer }: Props) {
                                     <div className="px-4 py-2">
                                         <a
                                             className="text-beer-gold hover:text-beer-darkGold"
-                                            href={`mailto:${producer.users?.email}`}
+                                            href={`mailto:${user.email}`}
                                         >
-                                            {producer.users?.email}
+                                            {user.email}
                                         </a>
                                     </div>
                                 </div>
@@ -232,118 +243,164 @@ export default function ProducerInformation({ producer }: Props) {
 
                     <div className="my-4"></div>
 
-                    {/*  Experience and education  */}
-                    <div className="rounded-sm bg-white p-3 shadow-sm">
-                        <div className="grid grid-cols-2">
-                            <div>
-                                <div className="mb-3 flex items-center space-x-2 font-semibold leading-8 text-gray-900">
-                                    <span className=" text-beer-gold">
-                                        <svg
-                                            className="h-5"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth="2"
-                                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                                            />
-                                        </svg>
-                                    </span>
-                                    <span className="tracking-wide">
-                                        Experience
-                                    </span>
-                                </div>
-                                <ul className="list-inside space-y-2">
-                                    <li>
-                                        <div className="text-beer-draft">
-                                            Owner at Her Company Inc.
-                                        </div>
-                                        <div className="text-xs text-gray-500">
-                                            March 2020 - Now
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div className="text-beer-draft">
-                                            Owner at Her Company Inc.
-                                        </div>
-                                        <div className="text-xs text-gray-500">
-                                            March 2020 - Now
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div className="text-beer-draft">
-                                            Owner at Her Company Inc.
-                                        </div>
-                                        <div className="text-xs text-gray-500">
-                                            March 2020 - Now
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div className="text-beer-draft">
-                                            Owner at Her Company Inc.
-                                        </div>
-                                        <div className="text-xs text-gray-500">
-                                            March 2020 - Now
-                                        </div>
-                                    </li>
-                                </ul>
+                    {/* Información del distribuidor  */}
+                    {user.distributor_user && (
+                        <div className="rounded-sm bg-white p-3 shadow-sm">
+                            <div className="flex items-center space-x-2 font-semibold leading-8 text-gray-900">
+                                <span className=" text-beer-gold">
+                                    <svg
+                                        className="h-5"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                                        />
+                                    </svg>
+                                </span>
+                                <span className="tracking-wide">
+                                    Distributor Information
+                                </span>
                             </div>
-                            <div>
-                                <div className="mb-3 flex items-center space-x-2 font-semibold leading-8 text-gray-900">
-                                    <span className=" text-beer-gold">
-                                        <svg
-                                            className="h-5"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                fill="#fff"
-                                                d="M12 14l9-5-9-5-9 5 9 5z"
-                                            />
-                                            <path
-                                                fill="#fff"
-                                                d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"
-                                            />
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth="2"
-                                                d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"
-                                            />
-                                        </svg>
-                                    </span>
-                                    <span className="tracking-wide">
-                                        Education
-                                    </span>
+                            <div className="text-gray-700">
+                                <div className="grid text-sm md:grid-cols-2">
+                                    <div className="grid grid-cols-2">
+                                        <div className="px-4 py-2 font-semibold">
+                                            {t('company')}
+                                        </div>
+                                        <div className="px-4 py-2">
+                                            {user.distributor_user.company_name}
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-2">
+                                        <div className="px-4 py-2 font-semibold">
+                                            {t('phone')}
+                                        </div>
+                                        <div className="px-4 py-2">
+                                            665 668 994
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2">
+                                        <div className="px-4 py-2 font-semibold">
+                                            {t('address')}
+                                        </div>
+                                        <div className="px-4 py-2">prueba</div>
+                                    </div>
+                                    <div className="grid grid-cols-2">
+                                        <div className="px-4 py-2 font-semibold">
+                                            {t('email')}
+                                        </div>
+                                        <div className="px-4 py-2">
+                                            <a
+                                                className="text-beer-gold hover:text-beer-darkGold"
+                                                href={`mailto:${user.email}`}
+                                            >
+                                                {user.email}
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                                <ul className="list-inside space-y-2">
-                                    <li>
-                                        <div className="text-beer-draft">
-                                            Masters Degree in Oxford
-                                        </div>
-                                        <div className="text-xs text-gray-500">
-                                            March 2020 - Now
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div className="text-beer-draft">
-                                            Bachelors Degreen in LPU
-                                        </div>
-                                        <div className="text-xs text-gray-500">
-                                            March 2020 - Now
-                                        </div>
-                                    </li>
-                                </ul>
                             </div>
+
+                            {showDistributorFullInfo && <section></section>}
+
+                            <button
+                                className="focus:shadow-outline hover:shadow-xs my-4 block w-full rounded-lg p-3 text-sm font-semibold text-beer-gold hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
+                                onClick={handleShowDistributorFullInfo}
+                            >
+                                {showDistributorFullInfo
+                                    ? `${t('hide_full_info')}`
+                                    : `${t('show_full_info')}`}
+                            </button>
+
+                            {/*  End of distributor information  */}
                         </div>
-                        {/*  End of Experience and education grid  */}
-                    </div>
+                    )}
+
+                    {/* Información si es productor  */}
+                    {user.producer_user && (
+                        <div className="rounded-sm bg-white p-3 shadow-sm">
+                            <div className="flex items-center space-x-2 font-semibold leading-8 text-gray-900">
+                                <span className=" text-beer-gold">
+                                    <svg
+                                        className="h-5"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                                        />
+                                    </svg>
+                                </span>
+                                <span className="tracking-wide">
+                                    Producer Information
+                                </span>
+                            </div>
+                            <div className="text-gray-700">
+                                <div className="grid text-sm md:grid-cols-2">
+                                    <div className="grid grid-cols-2">
+                                        <div className="px-4 py-2 font-semibold">
+                                            {t('company')}
+                                        </div>
+                                        <div className="px-4 py-2">
+                                            {user.producer_user.company_name}
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-2">
+                                        <div className="px-4 py-2 font-semibold">
+                                            {t('phone')}
+                                        </div>
+                                        <div className="px-4 py-2">
+                                            665 668 994
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2">
+                                        <div className="px-4 py-2 font-semibold">
+                                            {t('address')}
+                                        </div>
+                                        <div className="px-4 py-2">prueba</div>
+                                    </div>
+                                    <div className="grid grid-cols-2">
+                                        <div className="px-4 py-2 font-semibold">
+                                            {t('email')}
+                                        </div>
+                                        <div className="px-4 py-2">
+                                            <a
+                                                className="text-beer-gold hover:text-beer-darkGold"
+                                                href={`mailto:${user.email}`}
+                                            >
+                                                {user.email}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {showProducerFullInfo && <section></section>}
+
+                            <button
+                                className="focus:shadow-outline hover:shadow-xs my-4 block w-full rounded-lg p-3 text-sm font-semibold text-beer-gold hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
+                                onClick={handleShowProducerFullInfo}
+                            >
+                                {showProducerFullInfo
+                                    ? `${t('hide_full_info')}`
+                                    : `${t('show_full_info')}`}
+                            </button>
+                        </div>
+                    )}
+
                     {/*  End of profile tab  */}
                 </div>
             </div>
