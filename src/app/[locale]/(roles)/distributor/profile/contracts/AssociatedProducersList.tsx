@@ -130,7 +130,7 @@ export default function AssociatedProducersList() {
             <InputSearch
                 query={query}
                 setQuery={setQuery}
-                searchPlaceholder={'search_contracts'}
+                searchPlaceholder={'search'}
             />
 
             <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
