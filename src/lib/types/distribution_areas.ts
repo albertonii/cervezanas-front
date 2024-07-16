@@ -48,6 +48,8 @@ export interface JSONCountry {
 
 export interface JSONRegion {
     name: string;
+    country: string;
+    country_iso_code: string;
     subregions: JSONSubRegion[];
 }
 

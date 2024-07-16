@@ -61,9 +61,6 @@ export default function CoverageAreas() {
                     <>
                         {distributor.coverage_areas && (
                             <SubRegionDistribution
-                                // sub_regions={
-                                //     distributor.coverage_areas.sub_regions
-                                // }
                                 fromDB={distributor.coverage_areas}
                                 distributionCosts={
                                     distributor.distribution_costs!
@@ -73,20 +70,19 @@ export default function CoverageAreas() {
                     </>
                 );
 
-            // case DistributionDestinationType.REGION:
-            //     return (
-            //         <>
-            //             {distributor && (
-            //                 <RegionDistribution
-            //                     regions={distributor.coverage_areas.regions}
-            //                     coverageAreaId={distributor.coverage_areas.id}
-            //                     distributionCosts={
-            //                         distributor.distribution_costs!
-            //                     }
-            //                 />
-            //             )}
-            //         </>
-            //     );
+            case DistributionDestinationType.REGION:
+                return (
+                    <>
+                        {distributor && (
+                            <RegionDistribution
+                                fromDB={distributor.coverage_areas}
+                                distributionCosts={
+                                    distributor.distribution_costs!
+                                }
+                            />
+                        )}
+                    </>
+                );
 
             // case DistributionDestinationType.EUROPE:
             //     return (

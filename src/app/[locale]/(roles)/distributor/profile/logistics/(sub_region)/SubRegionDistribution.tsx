@@ -1,33 +1,31 @@
+import useSWRMutation from 'swr/mutation';
 import SubRegionTable from './SubRegionTable';
 import Button from '../../../../../components/common/Button';
-import useFetchStatesByCountry from '../useFetchStatesByCountry';
+import CheckboxListSubRegions from './CheckboxListSubRegions';
+import Spinner from '../../../../../components/common/Spinner';
+import InputSearch from '../../../../../components/common/InputSearch';
 import React, { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { useMutation, useQueryClient } from 'react-query';
-import { useForm } from 'react-hook-form';
-import { Country, ICountry, IState } from 'country-state-city';
 import {
     filterSearchInputQuery,
     slicePaginationResults,
 } from '../../../../../../../utils/utils';
-import InputSearch from '../../../../../components/common/InputSearch';
-import DistributionChipCard from '../DistributionChipCard';
-import Spinner from '../../../../../components/common/Spinner';
-import { updateSubRegionDistribution } from '../../../actions';
 import {
     ICoverageArea,
     IDistributionCost,
 } from '../../../../../../../lib/types/types';
-import { useMessage } from '../../../../../components/message/useMessage';
-import { JSONSubRegion } from '../../../../../../../lib/types/distribution_areas';
-import useSWRMutation from 'swr/mutation';
+import { useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
+import { useMutation, useQueryClient } from 'react-query';
+import { Country, ICountry, IState } from 'country-state-city';
+import { updateSubRegionDistribution } from '../../../actions';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
-import CheckboxListSubRegions from './CheckboxListSubRegions';
+import { useMessage } from '../../../../../components/message/useMessage';
 import { isSameSubRegion } from '../../../../../../../utils/distribution';
-import {
-    DistributionCostType,
-    DistributionDestinationType,
-} from '../../../../../../../lib/enums';
+import { DistributionDestinationType } from '../../../../../../../lib/enums';
+import { JSONSubRegion } from '../../../../../../../lib/types/distribution_areas';
+
+const fetcher = (arg: any, ...args: any) =>
+    fetch(arg, ...args).then((res) => res.json());
 
 interface FormData {
     country: string;
@@ -41,17 +39,10 @@ type Props = {
     fromDB: ICoverageArea[];
 };
 
-const fetcher = (arg: any, ...args: any) =>
-    fetch(arg, ...args).then((res) => res.json());
-
 export default function SubRegionDistribution({
     distributionCosts,
     fromDB,
 }: Props) {
-    console.log('DENTRO');
-    console.log(distributionCosts);
-    console.log(fromDB);
-
     const t = useTranslations();
 
     const { handleMessage } = useMessage();
@@ -59,13 +50,11 @@ export default function SubRegionDistribution({
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const [countryISOCode, setCountryISOCode] = useState<string>();
+    const [countryISOCode, setCountryISOCode] = useState<string>('ES');
     const [translationISOCode, setTranslationISOCode] = useState<string>();
     const [subRegionFilename, setSubRegionFilename] = useState<string>();
 
     const [tenSubRegions, setTenSubRegions] = useState<JSONSubRegion[]>([]);
-
-    const [subRegions, setSubRegions] = useState<JSONSubRegion[]>([]);
 
     const [listOfAllSubRegionsByRegion, setListOfAllSubRegionsByRegion] =
         useState<JSONSubRegion[]>([]);
@@ -80,10 +69,20 @@ export default function SubRegionDistribution({
 
     const [selectedSubRegions, setSelectedSubRegions] = useState<
         ICoverageArea[]
-    >(fromDB ?? []);
+    >(
+        fromDB.filter(
+            (item) =>
+                item.administrative_division ===
+                DistributionDestinationType.SUB_REGION,
+        ) ?? [],
+    );
 
     const [subRegionsFromDB, setFromDBSubRegions] = useState<ICoverageArea[]>(
-        fromDB ?? [],
+        fromDB.filter(
+            (item) =>
+                item.administrative_division ===
+                DistributionDestinationType.SUB_REGION,
+        ) ?? [],
     );
 
     const [selectAllCurrentPage, setSelectAllCurrentPage] = useState(false);
@@ -114,23 +113,28 @@ export default function SubRegionDistribution({
         fetcher,
     );
 
-    // const { refetch } = useFetchStatesByCountry(countryISOCode ?? 'ES');
-
     useEffect(() => {
         if (!countryISOCode) return;
 
         switch (countryISOCode) {
             case 'ES':
                 setSubRegionFilename('provinces');
+                setTranslationISOCode('spain');
+
                 break;
             case 'IT':
                 setSubRegionFilename('provinces');
+                setTranslationISOCode('italy');
+
                 break;
             case 'FR':
                 setSubRegionFilename('departments');
+                setTranslationISOCode('france');
+
                 break;
             default:
                 setSubRegionFilename('provinces');
+                setTranslationISOCode('spain');
         }
     }, [countryISOCode]);
 
@@ -138,59 +142,6 @@ export default function SubRegionDistribution({
         if (!subRegionFilename) return;
         trigger();
     }, [subRegionFilename]);
-
-    useEffect(() => {
-        const country = Country.getCountryByCode('ES') as ICountry;
-        setCountryISOCode(country.isoCode ?? '');
-    }, []);
-
-    useEffect(() => {
-        switch (countryISOCode) {
-            case 'ES':
-                setTranslationISOCode('spain');
-                break;
-            case 'IT':
-                setTranslationISOCode('italy');
-                break;
-            case 'FR':
-                setTranslationISOCode('france');
-                break;
-            case 'PT':
-                setTranslationISOCode('portugal');
-                break;
-            default:
-                setTranslationISOCode('es');
-        }
-    }, [countryISOCode]);
-
-    // useEffect(() => {
-    //     if (!countryISOCode) return;
-
-    //     const getSubRegionData = async () => {
-    //         return await refetch().then((res) => {
-    //             const { data: sub_regionData, error } = res;
-
-    //             if (error || !sub_regionData) {
-    //                 console.error(error);
-    //                 return;
-    //             }
-
-    //             const lOfSubRegions = slicePaginationResults(
-    //                 sub_regionData,
-    //                 currentPage,
-    //                 resultsPerPage,
-    //             );
-
-    //             setListOfAllSubRegionsByRegion(sub_regionData ?? []);
-    //             setCounter(sub_regionData?.length ?? 0);
-
-    //             setTenSubRegions(lOfSubRegions);
-    //         });
-    //     };
-
-    //     // const sub_regionData = State.getStatesOfCountry(countryISOCode);
-    //     getSubRegionData().then();
-    // }, [countryISOCode]);
 
     useEffect(() => {
         if (!listOfAllSubRegionsByRegion) return;
@@ -235,8 +186,6 @@ export default function SubRegionDistribution({
     useEffect(() => {
         if (!subRegionsData) return;
 
-        setSubRegions(subRegionsData);
-
         const lOfSubRegions = slicePaginationResults(
             subRegionsData,
             currentPage,
@@ -248,18 +197,6 @@ export default function SubRegionDistribution({
 
         setTenSubRegions(lOfSubRegions);
     }, [subRegionsData]);
-
-    useEffect(() => {
-        console.log('Unchecked subregions', unCheckedSubRegions);
-        console.log('New selected subregions', newSelectedSubRegions);
-        console.log('SELECTED', selectedSubRegions);
-        console.log('FROM DB', subRegionsFromDB);
-    }, [
-        unCheckedSubRegions,
-        newSelectedSubRegions,
-        selectedSubRegions,
-        subRegionsFromDB,
-    ]);
 
     const handleCountryISOCode = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setCountryISOCode(e.target.value);
@@ -562,7 +499,7 @@ export default function SubRegionDistribution({
             <div
                 className={`
                             flex flex-col items-start space-y-4 w-full
-                            ${isLoading ? 'opacity-50 pointer-events-none' : ''}
+                            ${isLoading && 'opacity-50'}
                         `}
             >
                 <SubRegionTable subRegions={selectedSubRegions} />
@@ -584,7 +521,7 @@ export default function SubRegionDistribution({
                         value={countryISOCode}
                     >
                         <option key={'ES'} value={'ES'}>
-                            Spain
+                            {t('countries.spain')}
                         </option>
 
                         {countryData.map((country: ICountry) => (
@@ -603,25 +540,6 @@ export default function SubRegionDistribution({
                     setQuery={setQuery}
                     searchPlaceholder={'search_by_name'}
                 />
-
-                {/* Names of the countries selected by the distributor  */}
-                {/* {selectedSubRegions && selectedSubRegions.length > 0 && (
-                    <div className="flex flex-row flex-wrap space-x-2 space-y-1">
-                        {selectedSubRegions?.map(
-                            (sub_region: string, index: number) => {
-                                // We can delete from the list one sub region just by clicking on it
-                                return (
-                                    <DistributionChipCard
-                                        name={sub_region}
-                                        index={index}
-                                        selectedNames={selectedSubRegions}
-                                        setSelectedNames={setSelectedSubRegions}
-                                    />
-                                );
-                            },
-                        )}
-                    </div>
-                )} */}
 
                 <CheckboxListSubRegions
                     tenSubRegions={tenSubRegions}

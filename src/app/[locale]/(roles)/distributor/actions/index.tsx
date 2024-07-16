@@ -385,10 +385,9 @@ export async function updateSubRegionDistribution(
 }
 
 export async function updateRegionDistribution(
-    unCheckedRegions: string[],
-    newSelectedRegions: string[],
-    selectedRegions: string[],
-    coverageAreaId: string,
+    unCheckedRegions: ICoverageArea[],
+    newSelectedRegions: ICoverageArea[],
+    selectedRegions: ICoverageArea[],
     areaAndWeightCostId: string,
 ) {
     const url = `${baseUrl}/api/coverage_areas/regions`;
@@ -398,7 +397,6 @@ export async function updateRegionDistribution(
     formData.append('to_delete_regions', JSON.stringify(unCheckedRegions));
     formData.append('to_add_regions', JSON.stringify(newSelectedRegions));
     formData.append('regions', JSON.stringify(selectedRegions));
-    formData.append('coverage_area_id', coverageAreaId);
     formData.append('area_and_weight_cost_id', areaAndWeightCostId);
 
     try {

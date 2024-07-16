@@ -1,21 +1,31 @@
-import DistributionChipCard from '../DistributionChipCard';
+import RegionTable from './RegionTable';
+import useSWRMutation from 'swr/mutation';
+import CheckboxListRegions from './CheckboxListSubRegions';
 import Button from '../../../../../components/common/Button';
 import Spinner from '../../../../../components/common/Spinner';
-import useFetchSpanishRegions from '../useFetchSpanishRegions';
 import InputSearch from '../../../../../components/common/InputSearch';
-import PaginationFooter from '../../../../../components/common/PaginationFooter';
 import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import {
+    ICoverageArea,
+    IDistributionCost,
+} from '../../../../../../../lib/types/types';
 import { useTranslations } from 'next-intl';
 import { useMutation, useQueryClient } from 'react-query';
-import { useForm, UseFormRegister } from 'react-hook-form';
+import { updateRegionDistribution } from '../../../actions';
 import { Country, ICountry, IState } from 'country-state-city';
 import {
     filterSearchInputQuery,
     slicePaginationResults,
 } from '../../../../../../../utils/utils';
 import { useMessage } from '../../../../../components/message/useMessage';
-import { IDistributionCost } from '../../../../../../../lib/types/types';
-import { updateRegionDistribution } from '../../../actions';
+import { JSONRegion } from '../../../../../../../lib/types/distribution_areas';
+import { DistributionDestinationType } from '../../../../../../../lib/enums';
+import { useAuth } from '../../../../../(auth)/Context/useAuth';
+import { isSameRegion } from '../../../../../../../utils/distribution';
+
+const fetcher = (arg: any, ...args: any) =>
+    fetch(arg, ...args).then((res) => res.json());
 
 interface FormData {
     country: string;
@@ -24,33 +34,53 @@ interface FormData {
 }
 
 type Props = {
-    regions: string[];
-    coverageAreaId: string;
     distributionCosts: IDistributionCost;
+    fromDB: ICoverageArea[];
 };
 
 export default function RegionDistribution({
-    regions,
-    coverageAreaId,
     distributionCosts,
+    fromDB,
 }: Props) {
     const t = useTranslations();
+
     const { handleMessage } = useMessage();
+    const { user } = useAuth();
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const [addressCountry, setAddressCountry] = useState<string>();
-    const [tenRegions, setTenRegions] = useState<
-        { id: string; name: string }[] | undefined
-    >([]);
-    const [listOfAllRegionsByRegion, setListOfAllRegions] = useState<
-        { id: string; name: string }[] | undefined
+    const [countryISOCode, setCountryISOCode] = useState<string>();
+    const [translationISOCode, setTranslationISOCode] = useState<string>();
+    const [regionFilename, setRegionFilename] = useState<string>();
+
+    const [tenRegions, setTenRegions] = useState<JSONRegion[]>([]);
+
+    const [listOfAllRegionsByCountry, setListOfAllRegionsByCountry] = useState<
+        JSONRegion[] | undefined
     >([]);
 
-    const [unCheckedRegions, setUnCheckedRegions] = useState<string[]>([]);
-    const [newSelectedRegions, setNewSelectedRegions] = useState<string[]>([]);
-    const [fromDBRegions, setFromDBRegions] = useState<string[]>(regions ?? []);
-    const [selectedRegions, setSelectedRegions] = useState<string[]>(regions);
+    const [unCheckedRegions, setUnCheckedRegions] = useState<ICoverageArea[]>(
+        [],
+    );
+    const [newSelectedRegions, setNewSelectedRegions] = useState<
+        ICoverageArea[]
+    >([]);
+    const [selectedRegions, setSelectedRegions] = useState<ICoverageArea[]>(
+        fromDB.filter(
+            (item) =>
+                item.administrative_division ===
+                DistributionDestinationType.REGION,
+        ) ?? [],
+    );
+
+    const [regionsFromDB, setRegionsFromDB] = useState<ICoverageArea[]>(
+        fromDB.filter(
+            (item) =>
+                item.administrative_division ===
+                DistributionDestinationType.REGION,
+        ) ?? [],
+    );
+
     const [selectAllCurrentPage, setSelectAllCurrentPage] = useState(false);
 
     const [selectAllRegions, setSelectAllRegionsByRegion] = useState(false); // rastrear si todas las ciudades de la región están seleccionadas, independientemente de la paginación
@@ -63,73 +93,82 @@ export default function RegionDistribution({
 
     const queryClient = useQueryClient();
 
-    // const countryData = Country.getAllCountries();
-    const countryData = ['Spain'];
+    const countryData = Country.getAllCountries();
 
     const form = useForm<FormData>();
 
     const { handleSubmit, register } = form;
 
-    const { refetch } = useFetchSpanishRegions();
+    const {
+        data: regionsData,
+        trigger,
+        error: apiCallError,
+    } = useSWRMutation(
+        `/api/country/regions?name=${translationISOCode}&fileName=${regionFilename}`,
+        fetcher,
+    );
 
     useEffect(() => {
         const country = Country.getCountryByCode('ES') as ICountry;
-        setAddressCountry(country.isoCode ?? '');
+        setCountryISOCode(country.isoCode ?? '');
     }, []);
 
     useEffect(() => {
-        if (!addressCountry) return;
+        if (!countryISOCode) return;
 
-        const getRegionData = async () => {
-            return await refetch().then((res) => {
-                const { data: regionData, error } = res;
+        switch (countryISOCode) {
+            case 'ES':
+                setRegionFilename('autonomous_communities');
+                setTranslationISOCode('spain');
+                break;
+            case 'IT':
+                setRegionFilename('regions');
+                setTranslationISOCode('italy');
+                break;
 
-                if (error || !regionData) {
-                    console.error(error);
-                    return;
-                }
+            case 'FR':
+                setRegionFilename('regions');
+                setTranslationISOCode('france');
 
-                const lOfRegions = slicePaginationResults(
-                    regionData,
-                    currentPage,
-                    resultsPerPage,
-                );
-
-                setListOfAllRegions(regionData ?? []);
-                setCounter(regionData?.length ?? 0);
-
-                setTenRegions(lOfRegions);
-            });
-        };
-
-        // const regionData = State.getStatesOfCountry(addressCountry);
-        getRegionData().then();
-    }, [addressCountry]);
+            default:
+                setRegionFilename('regions');
+                setTranslationISOCode('spain');
+        }
+    }, [countryISOCode]);
 
     useEffect(() => {
-        if (!listOfAllRegionsByRegion) return;
+        if (!regionFilename) return;
+        trigger();
+    }, [regionFilename]);
+
+    useEffect(() => {
+        if (!listOfAllRegionsByCountry) return;
 
         const lOfRegions = filterSearchInputQuery(
-            listOfAllRegionsByRegion,
+            listOfAllRegionsByCountry,
             query,
             currentPage,
             resultsPerPage,
         );
         setTenRegions(lOfRegions);
-
-        // Update selectAllCurrentPage based on whether all regions on this page are selected
-        setSelectAllCurrentPage(
-            lOfRegions?.every((region) =>
-                selectedRegions.includes(region.name),
-            ) ?? false,
-        );
     }, [currentPage]);
 
     useEffect(() => {
-        if (!listOfAllRegionsByRegion) return;
+        if (tenRegions.length > 0) {
+            // Update selectAllCurrentPage based on whether all regions on this page are selected
+            const allRegionsSelected = tenRegions.every((region: any) =>
+                selectedRegions.some((item) => isSameRegion(item, region)),
+            );
+
+            setSelectAllCurrentPage(allRegionsSelected);
+        }
+    }, [tenRegions]);
+
+    useEffect(() => {
+        if (!listOfAllRegionsByCountry) return;
 
         const lAllRegions = filterSearchInputQuery(
-            listOfAllRegionsByRegion,
+            listOfAllRegionsByCountry,
             query,
             currentPage,
             resultsPerPage,
@@ -138,8 +177,23 @@ export default function RegionDistribution({
         setTenRegions(lAllRegions);
     }, [query]);
 
-    const handleAddressCountry = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setAddressCountry(e.target.value);
+    useEffect(() => {
+        if (!regionsData) return;
+
+        const lOfSubRegions = slicePaginationResults(
+            regionsData,
+            currentPage,
+            resultsPerPage,
+        );
+
+        setListOfAllRegionsByCountry(regionsData ?? []);
+        setCounter(regionsData?.length ?? 0);
+
+        setTenRegions(lOfSubRegions);
+    }, [regionsData]);
+
+    const handleCountryISOCode = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setCountryISOCode(e.target.value);
         setTenRegions([]);
     };
 
@@ -156,15 +210,8 @@ export default function RegionDistribution({
 
             setIsLoading(false);
         } else {
-            // Remove the regions from uncheckedRegions that are not present in fromDBRegions
-            const filteredUncheckedRegions_ = unCheckedRegions.filter(
-                (region) => fromDBRegions.includes(region),
-            );
-
             // Eliminate duplicated regions
-            const unCheckedRegions_ = Array.from(
-                new Set(filteredUncheckedRegions_),
-            );
+            const unCheckedRegions_ = Array.from(new Set(unCheckedRegions));
             const newSelectedRegions_ = Array.from(new Set(newSelectedRegions));
             const selectedRegions_ = Array.from(new Set(selectedRegions));
 
@@ -172,7 +219,6 @@ export default function RegionDistribution({
                 unCheckedRegions_,
                 newSelectedRegions_,
                 selectedRegions_,
-                coverageAreaId,
                 areaAndWeightId,
             );
 
@@ -198,17 +244,12 @@ export default function RegionDistribution({
 
             setUnCheckedRegions([]);
             setNewSelectedRegions([]);
-            setFromDBRegions(selectedRegions_);
+            setRegionsFromDB(selectedRegions_);
 
             setTimeout(() => {
                 setIsLoading(false);
             }, 1000);
         }
-
-        // const { error } = await supabase
-        //     .from('coverage_areas')
-        //     .update({ regions: selectedRegions })
-        //     .eq('id', coverageAreaId);
     };
 
     const updateRegionsDistributionMutation = useMutation({
@@ -235,100 +276,163 @@ export default function RegionDistribution({
 
     const handleCheckbox = (
         e: React.ChangeEvent<HTMLInputElement>,
-        region: string,
+        region: JSONRegion,
     ) => {
-        // If the region is unchecked, add it to the list of regions to be removed
+        // Convertir region a ICoverageArea
+        const region_: ICoverageArea = {
+            country: region.country,
+            country_iso_code: region.country_iso_code,
+            region: region.name,
+            distributor_id: user.id,
+            administrative_division: DistributionDestinationType.REGION,
+        };
+
+        // If region is unchecked, add it to the list of regions to be removed
         if (!e.target.checked) {
-            setUnCheckedRegions([...unCheckedRegions, region]);
-        } else {
-            // If the region is checked, remove it from the list of regions to be removed
-            setUnCheckedRegions(
-                unCheckedRegions.filter((item) => item !== region),
+            // 1. Si existe en el array de BBDD lo añadimos a la lista de regiones a deseleccionar
+            if (regionsFromDB.some((item) => isSameRegion(item, region_))) {
+                setUnCheckedRegions([...unCheckedRegions, region_]);
+            }
+
+            // 2. Si existe en el array de regiones seleccionadas lo eliminamos
+            setNewSelectedRegions(
+                newSelectedRegions.filter(
+                    (item) =>
+                        item.country !== region.country ||
+                        item.region !== region.name,
+                ),
             );
+
+            // 3. Si existe en el array de regiones seleccionadas lo eliminamos
+            setSelectedRegions(
+                selectedRegions.filter(
+                    (item) =>
+                        item.country !== region.country ||
+                        item.region !== region.name,
+                ),
+            );
+        } else {
+            // 1. Si NO existe en el array de BBDD lo añadimos a la lista de regiones a seleccionar
+            if (!regionsFromDB.some((item) => isSameRegion(item, region_))) {
+                setNewSelectedRegions([...newSelectedRegions, region_]);
+            }
+
+            // 2. Si existe en el array unCheckedRegions lo eliminamos
+            setUnCheckedRegions(
+                unCheckedRegions.filter(
+                    (item) =>
+                        item.country !== region.country ||
+                        item.region !== region.name,
+                ),
+            );
+
+            // 3. Si NO existe en el array de regiones seleccionadas lo añadimos
+            setSelectedRegions([...selectedRegions, region_]);
         }
 
-        // If the region has never beer selected, add it to the list of new selected regions
-        if (!fromDBRegions.includes(region)) {
-            setNewSelectedRegions([...newSelectedRegions, region]);
-        }
-
-        // If the region is checked, add it to the list of selected regions
-        const updatedSelectedRegions = e.target.checked
-            ? [...selectedRegions, region]
-            : selectedRegions.filter((item) => item !== region);
-
-        setSelectedRegions(updatedSelectedRegions);
+        // 4. Actualizamos array fromDBRegions con las regiones seleccionadas
+        setRegionsFromDB(selectedRegions);
     };
 
     const handleSelectAllCurrentPage = (
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
-        const listOfRegionsNames =
-            tenRegions?.map((region) => region.name) || [];
+        // Convertir JSONRegion a ICoverageArea
+        const tenRegions_: ICoverageArea[] =
+            tenRegions?.map((region) => ({
+                country: region.country,
+                country_iso_code: region.country_iso_code,
+                region: region.name,
+                distributor_id: user.id,
+                administrative_division: DistributionDestinationType.REGION,
+            })) || [];
 
-        // If the user unchecks the select all checkbox
-        if (!e.target.checked) {
-            // Add all regions to the list of regions to be removed
-            setUnCheckedRegions([...unCheckedRegions, ...listOfRegionsNames]);
-
-            // Remove all regions from the list of new selected regions
-            setNewSelectedRegions(
-                newSelectedRegions.filter(
-                    (item) => !listOfRegionsNames.includes(item),
-                ),
+        // If checkbox is checked, add all regions on the current page to the list of regions to be selected
+        if (e.target.checked) {
+            const updatedSelectedRegions = Array.from(
+                new Set([...selectedRegions, ...tenRegions_]),
             );
 
-            // Remove all regions from the list of selected regions
-            setSelectedRegions(
-                selectedRegions.filter(
-                    (item) => !listOfRegionsNames.includes(item),
-                ),
-            );
-        } else {
-            // If the user checks the select all checkbox
-            // Remove all regions from the list of regions to be removed
+            // 1. Añadir a la lista de regiones seleccionadas y quitar duplicados
+            setSelectedRegions(updatedSelectedRegions);
+
+            // 2. Eliminar elementos unCheckedRegions que estén en la lista de regiones seleccionadas
             setUnCheckedRegions(
                 unCheckedRegions.filter(
-                    (uncheckedCity) =>
-                        !listOfRegionsNames.includes(uncheckedCity),
+                    (region) =>
+                        !updatedSelectedRegions.some((item) =>
+                            isSameRegion(item, region),
+                        ),
                 ),
             );
 
-            // Add all regions to the list of new selected regions
+            // 3. Añadir elementos a newSelectedRegions que no estén en la lista de regiones seleccionadas
+            // 3.1 Comprobar que no existan previamente en newSelectedRegions
+            const newSelectedRegions_ = tenRegions_.filter(
+                (region) =>
+                    !newSelectedRegions.some((item) =>
+                        isSameRegion(item, region),
+                    ),
+            );
+
             setNewSelectedRegions([
                 ...newSelectedRegions,
-                ...listOfRegionsNames,
+                ...newSelectedRegions_,
+            ]);
+        } else {
+            // If checkbox is unchecked, remove all regions on the current page from the list of regions to be selected
+            // 1. Eliminar de la lista de regiones seleccionadas
+            setSelectedRegions(
+                selectedRegions.filter(
+                    (region) =>
+                        !tenRegions_.some((item) => isSameRegion(item, region)),
+                ),
+            );
+
+            // 2. Añadir a la lista de regiones a deseleccionar
+            // 2.1 Solo añadimos array unCheckedRegions si existe en fromDBRegions
+            setUnCheckedRegions([
+                ...unCheckedRegions,
+                ...tenRegions_.filter((region) =>
+                    regionsFromDB.some((item) => isSameRegion(item, region)),
+                ),
             ]);
 
-            // Add all regions to the list of selected regions
-            setSelectedRegions([...selectedRegions, ...listOfRegionsNames]);
-        }
-
-        setSelectAllCurrentPage(e.target.checked);
-    };
-
-    const handleSelectAllRegionsByRegion = (
-        e: React.ChangeEvent<HTMLInputElement>,
-    ) => {
-        let updatedSelectedRegions = [...selectedRegions];
-        if (e.target.checked) {
-            updatedSelectedRegions.push(
-                ...(listOfAllRegionsByRegion?.map((region) => region.name) ??
-                    []),
-            );
-        } else {
-            updatedSelectedRegions = updatedSelectedRegions.filter(
-                (selectedCity) =>
-                    !listOfAllRegionsByRegion
-                        ?.map((region) => region.name)
-                        .includes(selectedCity),
+            // 3. Eliminar de newSelectedRegions
+            setNewSelectedRegions(
+                newSelectedRegions.filter(
+                    (region) =>
+                        !tenRegions_.some((item) => isSameRegion(item, region)),
+                ),
             );
         }
 
-        setSelectedRegions(updatedSelectedRegions);
-        setSelectAllRegionsByRegion(e.target.checked);
+        // 4. Actualizamos checkbox toggle de la página actual
         setSelectAllCurrentPage(e.target.checked);
     };
+
+    // const handleSelectAllRegionsByRegion = (
+    //     e: React.ChangeEvent<HTMLInputElement>,
+    // ) => {
+    //     let updatedSelectedRegions = [...selectedRegions];
+    //     if (e.target.checked) {
+    //         updatedSelectedRegions.push(
+    //             ...(listOfAllRegionsByRegion?.map((region) => region.name) ??
+    //                 []),
+    //         );
+    //     } else {
+    //         updatedSelectedRegions = updatedSelectedRegions.filter(
+    //             (selectedCity) =>
+    //                 !listOfAllRegionsByRegion
+    //                     ?.map((region) => region.name)
+    //                     .includes(selectedCity),
+    //         );
+    //     }
+
+    //     setSelectedRegions(updatedSelectedRegions);
+    //     setSelectAllRegionsByRegion(e.target.checked);
+    //     setSelectAllCurrentPage(e.target.checked);
+    // };
 
     return (
         <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
@@ -349,12 +453,14 @@ export default function RegionDistribution({
             <div
                 className={`
                             flex flex-col items-start space-y-4 w-full
-                            ${isLoading ? 'opacity-50 pointer-events-none' : ''}
+                            ${isLoading && 'opacity-50 pointer-events-none'}
                         `}
             >
+                <RegionTable regions={selectedRegions} />
+
                 <address className="grid w-full grid-cols-2 gap-4">
                     <label
-                        htmlFor="addressCountry"
+                        htmlFor="countryISOCode"
                         className="text-sm text-gray-600"
                     >
                         {t('loc_country')}
@@ -362,14 +468,23 @@ export default function RegionDistribution({
 
                     {/* Display all countries  */}
                     <select
-                        name="addressCountry"
-                        id="addressCountry"
+                        name="countryISOCode"
+                        id="countryISOCode"
                         className=" w-full rounded-lg border-transparent bg-gray-100 px-4 py-2 text-base text-gray-700 focus:border-gray-500 focus:bg-white focus:ring-0"
-                        onChange={(e) => handleAddressCountry(e)}
-                        value={addressCountry}
+                        onChange={(e) => handleCountryISOCode(e)}
+                        value={countryISOCode}
                     >
-                        {countryData.map((country: string) => (
-                            <option>{country}</option>
+                        <option key={'ES'} value={'ES'}>
+                            {t('countries.spain')}
+                        </option>
+
+                        {countryData.map((country: ICountry) => (
+                            <option
+                                key={country.isoCode}
+                                value={country.isoCode}
+                            >
+                                {country.name}
+                            </option>
                         ))}
                     </select>
                 </address>
@@ -380,188 +495,19 @@ export default function RegionDistribution({
                     searchPlaceholder={'search_by_name'}
                 />
 
-                {/* Names of the regions selected by the distributor  */}
-                {setSelectedRegions && setSelectedRegions.length > 0 && (
-                    <div className="flex flex-row flex-wrap space-x-2 space-y-1">
-                        {selectedRegions?.map(
-                            (region: string, index: number) => {
-                                // We can delete from the list one country just by clicking on it
-                                return (
-                                    <DistributionChipCard
-                                        name={region}
-                                        index={index}
-                                        selectedNames={selectedRegions}
-                                        setSelectedNames={setSelectedRegions}
-                                    />
-                                );
-                            },
-                        )}
-                    </div>
-                )}
-
-                {/* List of regions in the country  */}
-                {tenRegions && tenRegions.length > 0 && (
-                    <div className="w-full">
-                        <PaginationFooter
-                            counter={counter}
-                            resultsPerPage={resultsPerPage}
-                            currentPage={currentPage}
-                            setCurrentPage={setCurrentPage}
-                        />
-
-                        {/* <div className="">
-                            <label
-                                htmlFor="allRegionsByRegion"
-                                className="space-x-2 text-lg text-gray-600"
-                            >
-                                <input
-                                    id="allRegionsByRegion"
-                                    type="checkbox"
-                                    onChange={(e) => {
-                                        handleSelectAllRegionsByRegion(e);
-                                    }}
-                                    checked={selectAllRegions}
-                                    className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                                />
-
-                                <span className="text-sm text-gray-600">
-                                    {t('select_all_regions')}
-                                </span>
-                            </label>
-                        </div> */}
-
-                        <div className="w-full">
-                            {/* Display selectable table with all regions in the country selected */}
-                            <label
-                                htmlFor="addressCity"
-                                className="text-sm text-gray-600"
-                            >
-                                {t('loc_region')}
-                            </label>
-
-                            <table className="bg-beer-foam w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
-                                <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                                    <tr>
-                                        <th scope="col" className="px-6 py-3">
-                                            <input
-                                                type="checkbox"
-                                                onChange={(e) => {
-                                                    handleSelectAllCurrentPage(
-                                                        e,
-                                                    );
-                                                }}
-                                                checked={selectAllCurrentPage}
-                                                className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                                            />
-                                        </th>
-                                        <th scope="col" className="px-6 py-3">
-                                            {t('region')}
-                                        </th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    {tenRegions?.map(
-                                        (
-                                            region: {
-                                                id: string;
-                                                name: string;
-                                            },
-                                            index: number,
-                                        ) => {
-                                            const startIndex =
-                                                currentPage * resultsPerPage;
-                                            const globalIndex =
-                                                startIndex + index;
-
-                                            return (
-                                                <tr
-                                                    key={
-                                                        region.name +
-                                                        currentPage
-                                                    }
-                                                    className=""
-                                                >
-                                                    <RegionRow
-                                                        region={region}
-                                                        globalIndex={
-                                                            globalIndex
-                                                        }
-                                                        selectedRegions={
-                                                            selectedRegions
-                                                        }
-                                                        handleCheckbox={
-                                                            handleCheckbox
-                                                        }
-                                                        register={register}
-                                                    />
-                                                </tr>
-                                            );
-                                        },
-                                    )}
-                                </tbody>
-                            </table>
-
-                            <PaginationFooter
-                                counter={counter}
-                                resultsPerPage={resultsPerPage}
-                                currentPage={currentPage}
-                                setCurrentPage={setCurrentPage}
-                            />
-                        </div>
-                    </div>
-                )}
+                <CheckboxListRegions
+                    tenRegions={tenRegions}
+                    counter={counter}
+                    resultsPerPage={resultsPerPage}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    selectedRegions={selectedRegions}
+                    handleCheckbox={handleCheckbox}
+                    register={register}
+                    handleSelectAllCurrentPage={handleSelectAllCurrentPage}
+                    selectAllCurrentPage={selectAllCurrentPage}
+                />
             </div>
         </section>
     );
 }
-
-interface RegionRowProps {
-    region: { id: string; name: string };
-    globalIndex: number;
-    selectedRegions: string[];
-    handleCheckbox: (
-        e: React.ChangeEvent<HTMLInputElement>,
-        name: string,
-    ) => void;
-    register: UseFormRegister<any>;
-}
-
-const RegionRow = ({
-    region,
-    globalIndex,
-    handleCheckbox,
-    register,
-    selectedRegions,
-}: RegionRowProps) => {
-    const isChecked = (region: { id: string; name: string }) => {
-        return selectedRegions.includes(region.name);
-    };
-
-    return (
-        <>
-            <th
-                scope="row"
-                className="w-20 whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-            >
-                <input
-                    type="checkbox"
-                    {...register(`regions`)}
-                    // {...register(`regions.${globalIndex}.name`)}
-                    // {...register(`regions.${globalIndex}-${region.name}.name`)}
-                    id={`regions.${globalIndex}.${region.name}}`}
-                    value={region.name}
-                    checked={isChecked(region)}
-                    onChange={(e) => {
-                        handleCheckbox(e, region.name);
-                    }}
-                    className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
-                />
-            </th>
-
-            <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                {region.name}
-            </td>
-        </>
-    );
-};

@@ -28,23 +28,17 @@ export async function PUT(request: NextRequest) {
         JSON.parse(toDeleteSubRegions);
     const toAddSubRegionsArray: ICoverageArea[] = JSON.parse(toAddSubRegions);
 
-    console.log('SELECTED SUB REGIONS', selectedSubRegionsArray);
-    console.log('REMOVE SUB REGIONS', toDeleteSubRegionsArray);
-    console.log('ADD SUB REGIONS', toAddSubRegionsArray);
-
     const supabase = await createServerClient();
 
     // Delete sub_regions from array toDeleteSubRegionsArray
     for (const subRegion of toDeleteSubRegionsArray) {
-        const { data: toDeleteSubRegionsSelect, error: deleteError } =
-            await supabase
-                .from('coverage_areas')
-                .delete()
-                .eq('country_iso_code', subRegion.country_iso_code)
-                .eq('region', subRegion.region)
-                .eq('sub_region', subRegion.sub_region!)
-                .eq('distributor_id', subRegion.distributor_id)
-                .single();
+        const { error: deleteError } = await supabase
+            .from('coverage_areas')
+            .delete()
+            .eq('country_iso_code', subRegion.country_iso_code)
+            .eq('region', subRegion.region)
+            .eq('sub_region', subRegion.sub_region!)
+            .eq('distributor_id', subRegion.distributor_id);
 
         if (deleteError) {
             return NextResponse.json(
@@ -70,6 +64,43 @@ export async function PUT(request: NextRequest) {
                     })),
                 )
                 .select('id, distributor_id');
+
+        if (errorAddSubRegions) {
+            // Rollback
+            toAddSubRegionsArray.forEach(async (subRegion) => {
+                const subRegionId = subRegion.id;
+
+                if (!subRegionId) {
+                    return NextResponse.json(
+                        {
+                            message:
+                                'Error adding new sub_regions. Subregion ID not found',
+                        },
+                        { status: 500 },
+                    );
+                }
+
+                const { error: errorRollbackCoverageAreasDelete } =
+                    await supabase
+                        .from('coverage_areas')
+                        .delete()
+                        .eq('id', subRegionId);
+
+                if (errorRollbackCoverageAreasDelete) {
+                    return NextResponse.json(
+                        {
+                            message: 'Error in rollback deleting sub_regions',
+                        },
+                        { status: 500 },
+                    );
+                }
+            });
+
+            return NextResponse.json(
+                { message: 'Error adding new sub_regions' },
+                { status: 500 },
+            );
+        }
 
         const toAddSubRegionsSelect = toAddSubRegionsData as ICoverageArea[];
 

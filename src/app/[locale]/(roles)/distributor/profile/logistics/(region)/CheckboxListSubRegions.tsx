@@ -1,20 +1,20 @@
 import React from 'react';
-import SubRegionRow from './SubRegionRow';
+import RegionRow from './RegionRow';
 import PaginationFooter from '../../../../../components/common/PaginationFooter';
 import { useTranslations } from 'next-intl';
 import { ICoverageArea } from '../../../../../../../lib/types/types';
-import { JSONSubRegion } from '../../../../../../../lib/types/distribution_areas';
+import { JSONRegion } from '../../../../../../../lib/types/distribution_areas';
 
 interface Props {
-    tenSubRegions: JSONSubRegion[];
+    tenRegions: JSONRegion[];
     counter: number;
     resultsPerPage: number;
     currentPage: number;
     setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-    selectedSubRegions: ICoverageArea[];
+    selectedRegions: ICoverageArea[];
     handleCheckbox: (
         e: React.ChangeEvent<HTMLInputElement>,
-        name: JSONSubRegion,
+        name: JSONRegion,
     ) => void;
     register: any;
     handleSelectAllCurrentPage: (
@@ -23,13 +23,13 @@ interface Props {
     selectAllCurrentPage: boolean;
 }
 
-const CheckboxListSubRegions = ({
-    tenSubRegions,
+const CheckboxListRegions = ({
+    tenRegions,
     counter,
     resultsPerPage,
     currentPage,
     setCurrentPage,
-    selectedSubRegions,
+    selectedRegions,
     handleCheckbox,
     register,
     handleSelectAllCurrentPage,
@@ -39,7 +39,7 @@ const CheckboxListSubRegions = ({
 
     return (
         <>
-            {tenSubRegions && tenSubRegions.length > 0 && (
+            {tenRegions && tenRegions.length > 0 && (
                 <div className="w-full">
                     <PaginationFooter
                         counter={counter}
@@ -50,32 +50,32 @@ const CheckboxListSubRegions = ({
 
                     {/* <div className="">
                     <label
-                        htmlFor="allSubRegionsByRegion"
+                        htmlFor="allRegionsByRegion"
                         className="space-x-2 text-lg text-gray-600"
                     >
                         <input
-                            id="allSubRegionsByRegion"
+                            id="allRegionsByRegion"
                             type="checkbox"
                             onChange={(e) => {
-                                handleSelectAllSubRegionsByRegion(e);
+                                handleSelectAllRegionsByRegion(e);
                             }}
-                            checked={selectAllSubRegionsByRegion}
+                            checked={selectAllRegionsByRegion}
                             className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
                         />
 
                         <span className="text-sm text-gray-600">
-                            {t('select_all_sub_regions')}
+                            {t('select_all_regions')}
                         </span>
                     </label>
                 </div> */}
 
                     <div className="w-full">
-                        {/* Display selectable table with all sub_regions in the country selected */}
+                        {/* Display selectable table with all regions in the country selected */}
                         <label
-                            htmlFor="addressSubRegion"
+                            htmlFor="addressRegion"
                             className="text-sm text-gray-600"
                         >
-                            {t('loc_sub_region')}
+                            {t('loc_region')}
                         </label>
 
                         <table className="bg-beer-foam w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
@@ -92,34 +92,28 @@ const CheckboxListSubRegions = ({
                                         />
                                     </th>
                                     <th scope="col" className="px-6 py-3">
-                                        {t('sub_region')}
+                                        {t('region')}
                                     </th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                {tenSubRegions?.map(
-                                    (
-                                        sub_region: JSONSubRegion,
-                                        index: number,
-                                    ) => {
+                                {tenRegions?.map(
+                                    (region: JSONRegion, index: number) => {
                                         const startIndex =
                                             currentPage * resultsPerPage;
                                         const globalIndex = startIndex + index;
 
                                         return (
                                             <tr
-                                                key={
-                                                    sub_region.name +
-                                                    currentPage
-                                                }
+                                                key={region.name + currentPage}
                                                 className=""
                                             >
-                                                <SubRegionRow
-                                                    sub_region={sub_region}
+                                                <RegionRow
+                                                    region={region}
                                                     globalIndex={globalIndex}
-                                                    selectedSubRegions={
-                                                        selectedSubRegions
+                                                    selectedRegions={
+                                                        selectedRegions
                                                     }
                                                     handleCheckbox={
                                                         handleCheckbox
@@ -146,4 +140,4 @@ const CheckboxListSubRegions = ({
     );
 };
 
-export default CheckboxListSubRegions;
+export default CheckboxListRegions;
