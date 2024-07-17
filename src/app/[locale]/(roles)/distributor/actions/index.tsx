@@ -3,6 +3,7 @@
 import axios from 'axios';
 import {
     IAreaAndWeightCostRange,
+    ICoverageArea,
     IFlatrateAndWeightCostForm,
 } from '../../../../../lib/types/types';
 import createServerClient from '../../../../../utils/supabaseServer';
@@ -325,10 +326,9 @@ export async function updateCityDistribution(
 }
 
 export async function updateSubRegionDistribution(
-    unCheckedSubRegions: string[],
-    newSelectedSubRegions: string[],
-    selectedSubRegions: string[],
-    coverageAreaId: string,
+    unCheckedSubRegions: ICoverageArea[],
+    newSelectedSubRegions: ICoverageArea[],
+    selectedSubRegions: ICoverageArea[],
     areaAndWeightCostId: string,
 ) {
     const url = `${baseUrl}/api/coverage_areas/sub_regions`;
@@ -344,7 +344,6 @@ export async function updateSubRegionDistribution(
         JSON.stringify(newSelectedSubRegions),
     );
     formData.append('sub_regions', JSON.stringify(selectedSubRegions));
-    formData.append('coverage_area_id', coverageAreaId);
     formData.append('area_and_weight_cost_id', areaAndWeightCostId);
 
     try {
@@ -386,10 +385,9 @@ export async function updateSubRegionDistribution(
 }
 
 export async function updateRegionDistribution(
-    unCheckedRegions: string[],
-    newSelectedRegions: string[],
-    selectedRegions: string[],
-    coverageAreaId: string,
+    unCheckedRegions: ICoverageArea[],
+    newSelectedRegions: ICoverageArea[],
+    selectedRegions: ICoverageArea[],
     areaAndWeightCostId: string,
 ) {
     const url = `${baseUrl}/api/coverage_areas/regions`;
@@ -399,7 +397,6 @@ export async function updateRegionDistribution(
     formData.append('to_delete_regions', JSON.stringify(unCheckedRegions));
     formData.append('to_add_regions', JSON.stringify(newSelectedRegions));
     formData.append('regions', JSON.stringify(selectedRegions));
-    formData.append('coverage_area_id', coverageAreaId);
     formData.append('area_and_weight_cost_id', areaAndWeightCostId);
 
     try {

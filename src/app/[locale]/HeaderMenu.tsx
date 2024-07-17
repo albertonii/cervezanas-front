@@ -12,7 +12,7 @@ interface Props {
     i18nLocaleArray: string[];
 }
 
-export default function Header({ notifications, i18nLocaleArray }: Props) {
+export default function HeaderMenu({ notifications, i18nLocaleArray }: Props) {
     const device = useDeviceDetection();
     const { supabase } = useAuth();
 

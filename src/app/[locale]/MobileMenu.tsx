@@ -28,7 +28,7 @@ import { INotification } from '../../lib/types/types';
 import { useAuth } from './(auth)/Context/useAuth';
 import { useAppContext } from '../context/AppContext';
 import { usePathname, useRouter } from 'next/navigation';
-import { NotificationPopup } from './components/NotificationPopup';
+import { NotificationPopup } from './components/notificationPopup/NotificationPopup';
 import { useShoppingCart } from '../context/ShoppingCartContext';
 import { ROLE_ENUM } from '../../lib/enums';
 
@@ -52,6 +52,10 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
 
     const [openHamburguer, setOpenHamburger] = useState(false);
     const router = useRouter();
+
+    const numberOfUnreadNotifications = notifications.filter(
+        (notification) => !notification.read,
+    ).length;
 
     const handleClickOutsideCallback = () => {
         setOpenHamburger(false);
@@ -169,7 +173,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
 
                                     <Button
                                         class={
-                                            'border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent '
+                                            'border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent dark:bg-transparent dark:hover:bg-transparent'
                                         }
                                         onClick={() =>
                                             setOpenNotification(true)
@@ -191,7 +195,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                                 }
                                             />
                                             <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
-                                                {notifications?.length || 0}
+                                                {numberOfUnreadNotifications}
                                             </div>
                                         </div>
                                     </Button>
@@ -205,7 +209,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                     {/* Cart  */}
                                     <Button
                                         class={
-                                            'border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent'
+                                            'border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent dark:bg-transparent dark:hover:bg-transparent'
                                         }
                                         onClick={() => openCart()}
                                         title={'Cart Items'}
@@ -492,7 +496,9 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                             className={`${MENU_ITEM_STYLES}`}
                                             aria-current="page"
                                         >
-                                            {t('notifications').toUpperCase()}
+                                            {t(
+                                                'notifications.label',
+                                            ).toUpperCase()}
                                         </span>
                                     </Link>
                                 </li>
@@ -563,7 +569,9 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                             className={`${MENU_ITEM_STYLES}`}
                                             aria-current="page"
                                         >
-                                            {t('notifications').toUpperCase()}
+                                            {t(
+                                                'notifications.label',
+                                            ).toUpperCase()}
                                         </span>
                                     </Link>
                                 </li>

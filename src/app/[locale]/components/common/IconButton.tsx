@@ -88,40 +88,54 @@ export function IconButton({
             color={hoverColor}
             className={`
                 mt-0 flex items-center justify-center rounded border-2 border-beer-blonde p-1 transition duration-100 ease-in
-                ${box ? 'h-auto w-10' : ''}
-                ${disabled ? 'cursor-not-allowed opacity-50' : ''}
-                ${size === 'small' ? 'w-24' : ''} 
-                ${size === 'medium' ? 'w-32' : ''}
-                ${size === 'large' ? 'w-52' : ''}
-                ${size === 'xLarge' ? 'w-64' : ''}
-                ${size === 'xxLarge' ? 'w-80' : ''}
+                ${box && 'h-auto w-10'}
+                ${disabled && 'cursor-not-allowed opacity-50'}
+                ${size === 'small' && 'w-24'} 
+                ${size === 'medium' && 'w-32'}
+                ${size === 'large' && 'w-52'}
+                ${size === 'xLarge' && 'w-64'}
+                ${size === 'xxLarge' && 'w-80'}
                 ${
                     primary
-                        ? ' border-2 border-beer-blonde bg-beer-softBlonde hover:bg-beer-blonde'
+                        ? ' border-2 border-beer-blonde bg-beer-softBlonde hover:bg-beer-blonde dark:bg-beer-dark dark:hover:bg-beer-dark'
                         : 'hover:bg-beer-softBlonde'
                 }
-                ${accent ? 'border-2 border-beer-blonde bg-beer-foam' : ''}
-                ${danger ? 'bg-red-500 hover:bg-red-600 ' : ''}
+                ${
+                    accent &&
+                    'border-2 border-beer-blonde bg-beer-foam dark:bg-beer-dark'
+                }
+                ${
+                    danger &&
+                    'bg-red-500 hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-800'
+                }
                 ${classNameContainer} 
             `}
             data-testid={`${title}`}
         >
-            <span
-                className={`${children != null ? 'mr-1' : ''}  text-bear-dark`}
-            >
+            <span className={`${children != null && 'mr-1'} text-bear-dark`}>
                 {iconButton}
             </span>
 
             <span
                 className={`text-bear-dark
-                    ${danger ? 'text-beer-foam ' : ''} 
-                    ${primary ? 'text-beer-dark ' : 'text-beer-dark'}}
-                    ${accent ? 'text-beer-dark hover:text-beer-dark' : ''}
-                    ${size === 'small' ? 'text-md px-4 py-2' : ''} 
-                    ${size === 'medium' ? 'px-4 py-2 text-base' : ''}
-                    ${size === 'large' ? 'px-5 py-3 text-lg' : ''}
-                    ${size === 'xLarge' ? 'px-6 py-3 text-xl' : ''}
-                    ${size === 'xxLarge' ? 'px-6 py-3 text-2xl' : ''}
+                    ${
+                        danger &&
+                        'text-beer-foam dark:text-beer-dark dark:hover:text-beer-dark'
+                    } 
+                    ${
+                        primary
+                            ? 'text-beer-dark dark:text-beer-dark dark:hover:text-beer-dark dark:bg-beer-dark'
+                            : 'text-beer-dark dark:text-beer-dark'
+                    }}
+                    ${
+                        accent &&
+                        'text-beer-dark dark:text-beer-dark dark:hover:text-beer-dark dark:bg-beer-dark'
+                    }
+                    ${size === 'small' && 'text-md px-4 py-2'} 
+                    ${size === 'medium' && 'px-4 py-2 text-base'}
+                    ${size === 'large' && 'px-5 py-3 text-lg'}
+                    ${size === 'xLarge' && 'px-6 py-3 text-xl'}
+                    ${size === 'xxLarge' && 'px-6 py-3 text-2xl'}
                     ${classNameSpan}
                 `}
             >

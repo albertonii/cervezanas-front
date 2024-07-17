@@ -190,13 +190,13 @@ export default function AddressForm({ form, addressNameId }: Props) {
                                     }}
                                 >
                                     <option key={'ES'} value={'spain'}>
-                                        {t('spain')}
+                                        {t('countries.spain')}
                                     </option>
                                     <option key={'IT'} value={'italy'} selected>
-                                        {t('italy')}
+                                        {t('countries.italy')}
                                     </option>
                                     <option key={'FR'} value={'france'}>
-                                        {t('france')}
+                                        {t('countries.france')}
                                     </option>
                                 </select>
 

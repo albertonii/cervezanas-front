@@ -130,29 +130,29 @@ const canDistributorDeliverToAddress = async (
     // 3. Check if the point [latitude, longitude] is in the coverage area. We need to check by priority order:
     // International -> Europe -> Region -> Province -> City -> Postal Code
 
-    if (coverageAreas.international) {
-        canDeliver = await canDistributorDeliverToAddressInternational(
-            coverageAreas.international,
-            clientLatLng,
-        );
+    // if (coverageAreas.international) {
+    //     canDeliver = await canDistributorDeliverToAddressInternational(
+    //         coverageAreas.international,
+    //         clientLatLng,
+    //     );
 
-        if (canDeliver)
-            return {
-                canDeliver,
-                delivery_type: DeliveryType.FLATRATE_INTERNATIONAL,
-            };
-    }
+    //     if (canDeliver)
+    //         return {
+    //             canDeliver,
+    //             delivery_type: DeliveryType.FLATRATE_INTERNATIONAL,
+    //         };
+    // }
 
-    // b. Europe
-    if (coverageAreas.europe) {
-        canDeliver = await canDistributorDeliverToAddressEurope(
-            coverageAreas.international,
-            clientLatLng,
-        );
+    // // b. Europe
+    // if (coverageAreas.europe) {
+    //     canDeliver = await canDistributorDeliverToAddressEurope(
+    //         coverageAreas.international,
+    //         clientLatLng,
+    //     );
 
-        if (canDeliver)
-            return { canDeliver, delivery_type: DeliveryType.FLATRATE_EUROPE };
-    }
+    //     if (canDeliver)
+    //         return { canDeliver, delivery_type: DeliveryType.FLATRATE_EUROPE };
+    // }
 
     // c. Autonomous Communities
 

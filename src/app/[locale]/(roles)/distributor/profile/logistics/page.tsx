@@ -2,7 +2,10 @@ import CoverageLayout from './CoverageLayout';
 import readUserSession from '../../../../../../lib/actions';
 import createServerClient from '../../../../../../utils/supabaseServer';
 import { redirect } from 'next/navigation';
-import { IDistributionCost } from '../../../../../../lib/types/types';
+import {
+    ICoverageArea,
+    IDistributionCost,
+} from '../../../../../../lib/types/types';
 
 export default async function OrdersPage() {
     const distributionCosts = await getDistributionCost();
@@ -27,7 +30,6 @@ async function getDistributionCost() {
                 id,
                 created_at,
                 distributor_id,
-                cost_extra_per_kg,
                 distribution_costs_in_product,
                 selected_method,
                 flatrate_cost!flatrate_cost_distribution_costs_id_fkey (
@@ -54,12 +56,21 @@ async function getDistributionCost() {
                 area_and_weight_cost (
                     id,
                     distribution_costs_id,
+                    cost_extra_per_kg,
                     area_and_weight_information (
                         id,
-                        type,
-                        name,
                         area_and_weight_cost_id,
-                        coverage_area_id, 
+                        coverage_area_id,
+                        coverage_areas (
+                            id,
+                            country_iso_code,
+                            country,
+                            region,
+                            sub_region,
+                            city,
+                            administrative_division,
+                            distributor_id
+                        ),
                         area_weight_cost_range (
                             id,
                             weight_from,

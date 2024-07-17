@@ -127,7 +127,7 @@ Documentación creada.
 **https://app.diagrams.net/#G1q9oP0KnGLhab83OiCl2jmiIsUGwDaeu7**
 
 - [WBG] Me encuentro en un punto donde la reutilización del conocimiento es primordial para no generar technical debt.
-Para poder realizar una distribución efectiva, hay que tener en cuenta los factores que afectan al coste de distribución:
+  Para poder realizar una distribución efectiva, hay que tener en cuenta los factores que afectan al coste de distribución:
 
 - Tamaño y peso del paquete
 - Distancia
@@ -165,7 +165,7 @@ Seguimos con el sistema de distribución. Ahora mismo me interesa avanzar y, aun
 Se ha creado en BBDD el modelo flatrate_cost para asociar un precio a cada tipo de coste de distribución. Además, solo se comprobará si están sus booleanos a true.
 
 - [WBG] Diagrama relacional Sistema de Distribución:
-https://app.diagrams.net/#G1q9oP0KnGLhab83OiCl2jmiIsUGwDaeu7
+  https://app.diagrams.net/#G1q9oP0KnGLhab83OiCl2jmiIsUGwDaeu7
 
 ---
 
@@ -236,7 +236,7 @@ NOTIFICACIÓN para dar de alta productor y distribuidor
 ---
 
 - [x] Comprobar que sign in con Google sea igual que por usuario y contraseña
-  No está funcionando... ¿puede que haya que verificar APP con Google?
+      No está funcionando... ¿puede que haya que verificar APP con Google?
 
 ---
 
@@ -433,7 +433,7 @@ Hay que hacer los dossiers y demás con Gustavo.
 - [ ] Onboarding de los roles de usuario: añadir todas las funcionalidades, revisar con Gustavo para que pueda crear el Dossier.
 - [x] ERROR AL CREAR DISTRIBUIDOR:
 
-  Mostrar mensaje de error si no se ha creado el usuario. En el caso de distribuidor me lanza un mensaje de violación de foreign key constraint coverage_areas_distribution_id_fkey
+  Mostrar mensaje de error si no se ha creado el usuario. En el caso de distribuidor me lanza un mensaje de violación de foreign key constraint coverage_areasdistribution_id_fkey
   Cuando insertamos un nuevo distribuidor a través de los triggers-function de supabase hay que asegurarse que existan todas las relaciones anteriores, es decir, además de insertar en la tabla public.user insertaremos: public.distributor_user, public.coverage_areas, public.distribution_costs. Esto lo debemos de hacer así, PERO estamos usando una palabra reservada en distributor_user -> El identificador "user" está reservado, por lo que da error. Hay que cambiarlo por "user_id", luego realizar todas las modificaciones en la aplicación (types, llamadas api, etc) y luego podremos comprobar si está funcionando con el cambio.
 
   Lo que podemos hacer por ahora... es quitar la inserción a través de los triggers-function y hacerlo a través de la aplicación. De esta forma, nos aseguramos que se inserta correctamente.
@@ -814,11 +814,10 @@ Habilitar formulario para feedbacks/reporte de errores
 - [WBG] No permitir finalizar el juego si hay alguna pregunta que esté sin contestar. Mensaje de aviso.
 - [WBG] Al actualizar experiencias, no se relacionan correctamente con las que existen. Además de cambiar las relaciones del product_id al que está haciendo referencia la pregunta. BM_QUESTIONS
 - [WBG] Si se ha registrado con email y contraseña e intenta entrar con google. MENSAJE DE ERROR
-      https://www.lovilotfarmbrewery.com/es/contacto/
+  https://www.lovilotfarmbrewery.com/es/contacto/
 - ROLES: Punto de distribución y Punto de Consumo, proveedor de experiencias. Debemos de crear una experiencia fluida para que un mismo usuario pueda manejar sus diferentes roles. Algo similar a lo que hacen en MATCHREADY.
 - [WBG] Registrar la receta del Maestro Cervecero de cada CERVEZA -> AUTOR
 - [WBG] Contribución del proyecto social de Cervezanas -> INDICAR el PORCENTAJE en algún lado. PARA AHORA será del 5%
-
 
 ### 1 de abril
 

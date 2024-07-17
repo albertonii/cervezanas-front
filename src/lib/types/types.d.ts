@@ -1271,6 +1271,7 @@ export interface IUserTable {
     cp_organizer_status: number;
     provider: string;
     distributor_user?: IDistributorUser;
+    producer_user?: IProducerUser;
 }
 
 export interface IUserProfile {
@@ -1304,7 +1305,7 @@ export interface IDistributorUser {
     is_authorized: boolean;
     profile_location?: IProfileLocation[];
     users?: IUserTable; // To access embeded information we need to get into the table and the look for data
-    coverage_areas?: ICoverageArea;
+    coverage_areas?: ICoverageArea[];
     distribution_costs?: IDistributionCost;
 }
 
@@ -1378,30 +1379,15 @@ export interface IDistribution {
 }
 
 export interface ICoverageArea {
-    id: string;
+    id?: string;
     distributor_id: string;
-    distributor_user?: IDistributorUser;
-    local_distribution: ILocal;
-    cities: string[];
-    sub_regions: string[];
-    regions: string[];
-    europe: string[];
-    international: string[];
-}
-
-export interface ILocal {
-    id: string;
-    created_at: string;
-    coverage_area_id: string;
+    country_iso_code: string;
     country: string;
-    from: number; // CP From
-    to: number; // CP To [35600 - 35699]
-    coverage_areas?: ICoverageArea;
-}
-
-export interface IPCRangesProps {
-    from: number;
-    to: number;
+    region: string;
+    sub_region?: string;
+    city?: string;
+    administrative_division: string; // Provincia, Distrito, Región, Comarca, Comunidad Autónoma, etc
+    distributor_user?: IDistributorUser;
 }
 
 export interface FlatrateCostFormData {
@@ -1427,16 +1413,17 @@ export interface FlatrateAndWeightCostFormData {
 
 export interface AreaAndWeightCostFormData {
     distribution_costs_id: string;
-    cities: AreaNameFormData[];
-    sub_regions: AreaNameFormData[];
-    regions: AreaNameFormData[];
-    international: AreaNameFormData[];
+    cost_extra_per_kg: number;
+    cities: AreaAndWeightInformationFormData[];
+    sub_regions: AreaAndWeightInformationFormData[];
+    regions: AreaAndWeightInformationFormData[];
+    international: AreaAndWeightInformationFormData[];
 }
 
 interface AreaAndWeightInformationFormData {
     id?: string;
-    type: string; // City, SubRegion, Region, International
-    name: string;
+    type?: string; // City, SubRegion, Region, International
+    name?: string;
     area_weight_range: AreaAndWeightRangeFormData[];
 }
 
@@ -1464,7 +1451,6 @@ export interface DistributionRangeCost {
 export interface IDistributionCost {
     id: string;
     distributor_id: string;
-    cost_extra_per_kg: number;
     distribution_costs_in_product: boolean;
     selected_method: string;
     distributor_user?: IDistributorUser;
@@ -1500,17 +1486,16 @@ export interface IAreaAndWeightCost {
     id?: string;
     distribution_costs_id?: string;
     area_and_weight_information?: IAreaAndWeightInformation[];
+    cost_extra_per_kg: number;
 }
 
 export interface IAreaAndWeightInformation {
     id: string;
-    type: string;
-    name: string;
     coverage_area_id: string;
     area_and_weight_cost_id: string;
-    coverage_area_id: string;
+    coverage_areas?: ICoverageArea;
+    area_and_weight_cost?: IAreaAndWeightCost;
     area_weight_cost_range?: IAreaAndWeightCostRange[];
-    coverage_areas?: ICoverageArea[];
 }
 
 export interface IAreaAndWeightCostRange {

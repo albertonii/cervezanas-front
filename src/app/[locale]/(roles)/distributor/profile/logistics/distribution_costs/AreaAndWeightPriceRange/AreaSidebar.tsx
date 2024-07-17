@@ -7,14 +7,11 @@ import {
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { AreaAndWeightCostFormValidationSchema } from './AreaAndWeightCostForm';
-import {
-    IAreaAndWeightCostRange,
-    IAreaAndWeightInformation,
-} from '../../../../../../../../lib/types/types';
+import { AreaAndWeightInformationFormData } from '../../../../../../../../lib/types/types';
 
 interface SidebarProps {
     form: UseFormReturn<AreaAndWeightCostFormValidationSchema>;
-    onItemClick: (area: IAreaAndWeightInformation) => void;
+    onItemClick: (areaId: string) => void;
 }
 
 const AreaSidebar: React.FC<SidebarProps> = ({ form, onItemClick }) => {
@@ -23,15 +20,15 @@ const AreaSidebar: React.FC<SidebarProps> = ({ form, onItemClick }) => {
     const [expanded, setExpanded] = useState<string | null>(null);
     const [selected, setSelected] = useState<string | null>(null);
 
-    const { getValues } = form;
+    const { getValues, setValue } = form;
 
     const { cities, sub_regions, regions, international } = getValues();
 
     const items = {
-        cities,
+        // cities,
         sub_regions,
-        regions,
-        international,
+        // regions,
+        // international,
     };
 
     return (
@@ -66,25 +63,34 @@ const AreaSidebar: React.FC<SidebarProps> = ({ form, onItemClick }) => {
 
                         <ul className="space-y-2 font-medium px-4 max-h-[24vh] lg:max-h-[40vh] overflow-y-auto bg-gray-700 bg-opacity-50">
                             {expanded === key &&
-                                values.map((value) => (
-                                    <li
-                                        key={value}
-                                        className={`flex items-center rounded-lg p-2 text-sm font-normal text-gray-200 
-                                        hover:bg-beer-blonde hover:text-gray-800 transition-all ease-in-out duration-100
-                                        dark:text-white dark:hover:bg-gray-700 hover:cursor-pointer 
-                                        ${
-                                            selected === value
-                                                ? 'bg-gray-700'
-                                                : ''
-                                        }`}
-                                        onClick={() => {
-                                            setSelected(value);
-                                            onItemClick(value);
-                                        }}
-                                    >
-                                        {value.name}
-                                    </li>
-                                ))}
+                                values.map(
+                                    (
+                                        value: AreaAndWeightInformationFormData,
+                                    ) => {
+                                        return (
+                                            <li
+                                                key={value.id}
+                                                className={`flex items-center rounded-lg p-2 text-sm font-normal text-gray-200 
+                                                    hover:bg-beer-blonde hover:text-gray-800 transition-all ease-in-out duration-100
+                                                    dark:text-white dark:hover:bg-gray-700 hover:cursor-pointer dark:hover:text-gray-200 
+                                                    ${
+                                                        selected === value.name
+                                                            ? 'bg-gray-700'
+                                                            : ''
+                                                    }`}
+                                                onClick={() => {
+                                                    setSelected(
+                                                        value.name ?? null,
+                                                    );
+
+                                                    onItemClick(value.id!);
+                                                }}
+                                            >
+                                                {value.name}
+                                            </li>
+                                        );
+                                    },
+                                )}
                         </ul>
                     </div>
                 );

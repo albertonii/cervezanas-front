@@ -6,7 +6,10 @@ import HorizontalMenuLogistics from './HorizontalMenuLogistics';
 import DistributionCost from './distribution_costs/DistributionCost';
 import React, { useState } from 'react';
 import { DistributionOption } from '../../../../../../lib/enums';
-import { IDistributionCost } from '../../../../../../lib/types/types';
+import {
+    ICoverageArea,
+    IDistributionCost,
+} from '../../../../../../lib/types/types';
 
 interface Props {
     // coverageArea: Database["public"]["Tables"]["coverage_areas"]["Row"];

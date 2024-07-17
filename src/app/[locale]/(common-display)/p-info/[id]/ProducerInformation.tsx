@@ -5,7 +5,6 @@ import DisplayImageProfile from '../../../components/common/DisplayImageProfile'
 import { IProducerUser } from '../../../../../lib/types/types';
 import { useTranslations } from 'next-intl';
 import { formatDateString } from '../../../../../utils/formatDate';
-import { SupabaseProps } from '../../../../../constants';
 
 interface Props {
     producer: IProducerUser;

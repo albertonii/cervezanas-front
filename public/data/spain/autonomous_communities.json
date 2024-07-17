@@ -1,0 +1,97 @@
+[
+  {
+    "name": "Andalucía",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Aragón",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Asturias",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Baleares",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Canarias",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Cantabria",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Castilla-La Mancha",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Castilla y León",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Cataluña",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Ceuta",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Extremadura",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Galicia",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Madrid",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Melilla",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Murcia",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Navarra",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "La Rioja",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "País Vasco",
+    "country": "spain",
+    "country_iso_code": "ES"
+  },
+  {
+    "name": "Valencia",
+    "country": "spain",
+    "country_iso_code": "ES"
+  }
+]

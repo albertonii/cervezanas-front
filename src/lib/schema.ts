@@ -39,34 +39,38 @@ export interface Database {
         Row: {
           area_and_weight_cost_id: string
           coverage_area_id: string
+          distributor_id: string
           id: string
-          name: string
-          type: string
         }
         Insert: {
           area_and_weight_cost_id?: string
           coverage_area_id?: string
+          distributor_id?: string
           id?: string
-          name: string
-          type?: string
         }
         Update: {
           area_and_weight_cost_id?: string
           coverage_area_id?: string
+          distributor_id?: string
           id?: string
-          name?: string
-          type?: string
         }
         Relationships: [
           {
-            foreignKeyName: "area_and_weight_information_area_and_weight_cost_id_fkey"
+            foreignKeyName: "area_and_weight_information_distributor_id_fkey"
+            columns: ["distributor_id"]
+            isOneToOne: false
+            referencedRelation: "distributor_user"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "area_and_weight_information_sub_re_area_and_weight_cost_id_fkey"
             columns: ["area_and_weight_cost_id"]
             isOneToOne: false
             referencedRelation: "area_and_weight_cost"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "area_and_weight_information_coverage_area_id_fkey"
+            foreignKeyName: "area_and_weight_information_sub_region_coverage_id_fkey"
             columns: ["coverage_area_id"]
             isOneToOne: false
             referencedRelation: "coverage_areas"
@@ -76,29 +80,29 @@ export interface Database {
       }
       area_weight_cost_range: {
         Row: {
-          area_and_weight_information_id: string
-          base_cost: number
+          area_and_weight_information_id: string | null
+          base_cost: number | null
           id: string
-          weight_from: number
-          weight_to: number
+          weight_from: number | null
+          weight_to: number | null
         }
         Insert: {
-          area_and_weight_information_id?: string
-          base_cost?: number
+          area_and_weight_information_id?: string | null
+          base_cost?: number | null
           id?: string
-          weight_from?: number
-          weight_to?: number
+          weight_from?: number | null
+          weight_to?: number | null
         }
         Update: {
-          area_and_weight_information_id?: string
-          base_cost?: number
+          area_and_weight_information_id?: string | null
+          base_cost?: number | null
           id?: string
-          weight_from?: number
-          weight_to?: number
+          weight_from?: number | null
+          weight_to?: number | null
         }
         Relationships: [
           {
-            foreignKeyName: "area_weight_cost_range_area_and_wight_information_id_fkey"
+            foreignKeyName: "area_weight_cost_range_sub_re_area_and_weight_information__fkey"
             columns: ["area_and_weight_information_id"]
             isOneToOne: false
             referencedRelation: "area_and_weight_information"
@@ -744,40 +748,40 @@ export interface Database {
       }
       coverage_areas: {
         Row: {
-          cities: string[] | null
-          created_at: string | null
-          distributor_id: string | null
-          europe: string[] | null
+          administrative_division: string
+          city: string | null
+          country: string
+          country_iso_code: string
+          distributor_id: string
           id: string
-          international: string[] | null
-          regions: string[] | null
-          sub_regions: string[] | null
+          region: string
+          sub_region: string | null
         }
         Insert: {
-          cities?: string[] | null
-          created_at?: string | null
-          distributor_id?: string | null
-          europe?: string[] | null
+          administrative_division: string
+          city?: string | null
+          country?: string
+          country_iso_code?: string
+          distributor_id?: string
           id?: string
-          international?: string[] | null
-          regions?: string[] | null
-          sub_regions?: string[] | null
+          region: string
+          sub_region?: string | null
         }
         Update: {
-          cities?: string[] | null
-          created_at?: string | null
-          distributor_id?: string | null
-          europe?: string[] | null
+          administrative_division?: string
+          city?: string | null
+          country?: string
+          country_iso_code?: string
+          distributor_id?: string
           id?: string
-          international?: string[] | null
-          regions?: string[] | null
-          sub_regions?: string[] | null
+          region?: string
+          sub_region?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "coverage_areas_distributor_id_fkey"
+            foreignKeyName: "coverage_areas__distributor_id_fkey"
             columns: ["distributor_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "distributor_user"
             referencedColumns: ["user_id"]
           }
@@ -1271,7 +1275,6 @@ export interface Database {
       }
       distribution_costs: {
         Row: {
-          cost_extra_per_kg: number
           created_at: string
           distribution_costs_in_product: boolean
           distributor_id: string
@@ -1279,7 +1282,6 @@ export interface Database {
           selected_method: string
         }
         Insert: {
-          cost_extra_per_kg?: number
           created_at?: string
           distribution_costs_in_product?: boolean
           distributor_id: string
@@ -1287,7 +1289,6 @@ export interface Database {
           selected_method?: string
         }
         Update: {
-          cost_extra_per_kg?: number
           created_at?: string
           distribution_costs_in_product?: boolean
           distributor_id?: string
@@ -1932,15 +1933,7 @@ export interface Database {
           id?: string
           to?: number | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "local_distribution_coverage_area_id_fkey"
-            columns: ["coverage_area_id"]
-            isOneToOne: true
-            referencedRelation: "coverage_areas"
-            referencedColumns: ["id"]
-          }
-        ]
+        Relationships: []
       }
       monthly_products: {
         Row: {

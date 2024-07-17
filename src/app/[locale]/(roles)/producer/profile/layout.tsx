@@ -4,7 +4,16 @@ import Image from 'next/image';
 import DisplayImageProfile from '../../../components/common/DisplayImageProfile';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useAuth } from '../../../(auth)/Context/useAuth';
-import { faUpload, faUser, faBox, faTruck, faMapMarkerAlt, faStar, faShoppingCart, faBell } from '@fortawesome/free-solid-svg-icons';
+import {
+    faUpload,
+    faUser,
+    faBox,
+    faTruck,
+    faMapMarkerAlt,
+    faStar,
+    faShoppingCart,
+    faBell,
+} from '@fortawesome/free-solid-svg-icons';
 import { Sidebar } from '../../../components/common/Sidebar';
 import { useAppContext } from '../../../../context/AppContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -185,7 +194,7 @@ export default function layout({ children }: LayoutProps) {
                         </section>
 
                         <div
-                            className="w-full bg-[url('/assets/madera-account.webp')] bg-auto bg-top bg-repeat sm:pt-[5vh] md:pt-[5vh]"
+                            className="w-full bg-[url('/assets/madera-account.webp')] bg-auto bg-top bg-repeat sm:pt-[5vh] md:pt-[5vh] rounded-b-2xl"
                             aria-label="Container Producer settings"
                         >
                             {children}

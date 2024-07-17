@@ -1,17 +1,17 @@
-import PaginationFooter from '../../../../components/common/PaginationFooter';
+import Link from 'next/link';
 import DeleteContractModal from './DeleteContractModal';
 import CancelContractModal from './CancelContractModal';
+import Spinner from '../../../../components/common/Spinner';
+import InputSearch from '../../../../components/common/InputSearch';
+import PaginationFooter from '../../../../components/common/PaginationFooter';
 import useFetchDistributionContractsByProducerId from '../../../../../../hooks/useFetchDistributionContractsByProducerId';
 import React, { useEffect, useMemo, useState } from 'react';
-import { IconButton } from '../../../../components/common/IconButton';
-import Spinner from '../../../../components/common/Spinner';
-import { faTrash, faBan } from '@fortawesome/free-solid-svg-icons';
-import { IDistributionContract } from '../../../../../../lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { DistributionStatus } from '../../../../../../lib/enums';
+import { faTrash, faBan } from '@fortawesome/free-solid-svg-icons';
+import { IconButton } from '../../../../components/common/IconButton';
 import { formatDateString } from '../../../../../../utils/formatDate';
-import InputSearch from '../../../../components/common/InputSearch';
-import Link from 'next/link';
+import { IDistributionContract } from '../../../../../../lib/types/types';
 
 enum SortBy {
     NONE = 'none',

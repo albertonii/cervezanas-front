@@ -17,6 +17,7 @@ import { z, ZodType } from 'zod';
 import SelectInput from '../../../../components/common/SelectInput';
 import InputLabel from '../../../../components/common/InputLabel';
 import InputTextarea from '../../../../components/common/InputTextarea';
+import { ROLE_ENUM } from '../../../../../../lib/enums';
 
 enum CPMobileStatus {
     active = 'active',
@@ -232,7 +233,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
             const { error } = await supabase.from('notifications').insert({
                 message: `You have been assigned as organizer for the mobile consumption point ${cp_name}`,
                 user_id: selectedEOrganizer,
-                link: '/profile?a=consumption_points',
+                link: `${ROLE_ENUM.Productor}/profile?a=consumption_points`,
                 source: user?.id, // User that has created the consumption point
             });
 

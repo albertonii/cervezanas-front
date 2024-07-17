@@ -5,7 +5,7 @@ import React from 'react';
 import { INotification } from '../../../lib/types/types';
 import { useAppContext } from '../../context/AppContext';
 import Button from './common/Button';
-import { NotificationPopup } from './NotificationPopup';
+import { NotificationPopup } from './notificationPopup/NotificationPopup';
 
 interface Props {
     notifications: INotification[];
@@ -14,11 +14,15 @@ interface Props {
 export function DeviceScreenNotification({ notifications }: Props) {
     const { openNotification, setOpenNotification } = useAppContext();
 
+    const numberOfUnreadNotifications = notifications.filter(
+        (notification) => !notification.read,
+    ).length;
+
     return (
         <>
             <Button
                 class={
-                    'border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent '
+                    'border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent dark:bg-transparent dark:hover:bg-transparent'
                 }
                 onClick={() => setOpenNotification(true)}
                 title={''}
@@ -33,7 +37,7 @@ export function DeviceScreenNotification({ notifications }: Props) {
                         src={'/icons/notification-icon.svg'}
                     />
                     <div className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-blonde">
-                        {notifications?.length || 0}
+                        {numberOfUnreadNotifications}
                     </div>
                 </div>
             </Button>

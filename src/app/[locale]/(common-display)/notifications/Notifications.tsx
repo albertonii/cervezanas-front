@@ -18,7 +18,7 @@ export default function Notifications({ notifications }: Props) {
                     id="title"
                     className="text-5xl uppercase font-semibold text-white"
                 >
-                    {t('notifications')}
+                    {t('notifications.label')}
                 </span>
             </p>
 

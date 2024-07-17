@@ -1,14 +1,21 @@
 import createServerClient from '../../../../utils/supabaseServer';
 import { NextRequest, NextResponse } from 'next/server';
+import { ICoverageArea } from '../../../../lib/types/types';
 import { DistributionDestinationType } from '../../../../lib/enums';
 
 export async function PUT(request: NextRequest) {
     const formData = await request.formData();
 
-    const coverageAreaId = formData.get('coverage_area_id') as string;
     const areaAndWeightCostId = formData.get(
         'area_and_weight_cost_id',
     ) as string;
+
+    if (!areaAndWeightCostId) {
+        return NextResponse.json(
+            { message: 'No area_and_weight_cost_id provided' },
+            { status: 400 },
+        );
+    }
 
     const selectedRegions = formData.get('regions') as string;
     const toDeleteRegions = formData.get('to_delete_regions') as string;
@@ -21,26 +28,16 @@ export async function PUT(request: NextRequest) {
 
     const supabase = await createServerClient();
 
-    const { error } = await supabase
-        .from('coverage_areas')
-        .update({ regions: selectedRegionsArray })
-        .eq('id', coverageAreaId);
-
-    if (error) {
-        return NextResponse.json(
-            { message: 'Error updating cost extra per kg' },
-            { status: 500 },
-        );
-    }
-
-    if (toDeleteRegionsArray.length > 0) {
-        const { error: error1 } = await supabase
-            .from('area_and_weight_information')
+    // Delete regions from array toDeleteRegionsArray
+    for (const region of toDeleteRegionsArray) {
+        const { error } = await supabase
+            .from('coverage_areas')
             .delete()
-            .in('name', toDeleteRegionsArray)
-            .eq('coverage_area_id', coverageAreaId);
+            .eq('country_iso_code', region.country_iso_code)
+            .eq('region', region.region)
+            .eq('distributor_id', region.distributor_id);
 
-        if (error1) {
+        if (error) {
             return NextResponse.json(
                 { message: 'Error deleting regions' },
                 { status: 500 },
@@ -49,56 +46,106 @@ export async function PUT(request: NextRequest) {
     }
 
     if (toAddRegionsArray.length > 0) {
-        // Check for existing entries to avoid duplicates
-        const { data: existingEntries, error: checkError } = await supabase
-            .from('area_and_weight_information')
-            .select('name, type')
-            .eq('area_and_weight_cost_id', areaAndWeightCostId)
-            .in(
-                'name',
-                toAddRegionsArray.map((region: string) => region),
-            );
+        const { data: toAddRegionsData, error: errorAddRegions } =
+            await supabase
+                .from('coverage_areas')
+                .insert(
+                    toAddRegionsArray.map((region: ICoverageArea) => ({
+                        distributor_id: region.distributor_id,
+                        country_iso_code: region.country_iso_code,
+                        country: region.country,
+                        region: region.region,
+                        administrative_division:
+                            DistributionDestinationType.REGION,
+                    })),
+                )
+                .select('id, distributor_id');
 
-        if (checkError) {
+        if (errorAddRegions) {
+            // Rollback
+            toAddRegionsArray.forEach(async (region: ICoverageArea) => {
+                const regionId = region.id;
+
+                if (!regionId) {
+                    return NextResponse.json(
+                        {
+                            message:
+                                'Error adding regions. Region ID not found',
+                        },
+                        { status: 500 },
+                    );
+                }
+
+                const { error: errorRollbackCoverageAreasDelete } =
+                    await supabase
+                        .from('coverage_areas')
+                        .delete()
+                        .eq('id', regionId);
+
+                if (errorRollbackCoverageAreasDelete) {
+                    return NextResponse.json(
+                        { message: 'Error in rollback delete regions' },
+                        { status: 500 },
+                    );
+                }
+            });
+
             return NextResponse.json(
-                { message: 'Error checking existing regions' },
+                { message: 'Error adding regions' },
                 { status: 500 },
             );
         }
 
-        const existingNames = existingEntries.map((entry) => entry.name);
+        const toAddRegionsSelect = toAddRegionsData as ICoverageArea[];
 
-        // Filter out the regions that already exist
-        const newRegions = toAddRegionsArray.filter(
-            (region: string) => !existingNames.includes(region),
-        );
-
-        if (newRegions.length > 0) {
-            const { error: error2 } = await supabase
+        // Por cada region -> Habrá una entrada en la tabla AREA AND WEIGHT INFORMATION
+        // que vincula las regions con el rango de precios por pesos y área
+        if (toAddRegionsSelect && toAddRegionsSelect.length > 0) {
+            const { error: errorAddRegions } = await supabase
                 .from('area_and_weight_information')
-                .upsert(
-                    newRegions.map((region: string) => ({
-                        type: DistributionDestinationType.REGION,
-                        name: region,
+                .insert(
+                    toAddRegionsSelect.map((region: ICoverageArea) => ({
                         area_and_weight_cost_id: areaAndWeightCostId,
-                        coverage_area_id: coverageAreaId,
+                        coverage_area_id: region.id,
+                        distributor_id: region.distributor_id,
                     })),
                 );
 
-            if (error2) {
+            if (errorAddRegions) {
+                // Rollback
+                for (const region of toAddRegionsSelect) {
+                    const regionId = region.id;
+
+                    if (!regionId) {
+                        return NextResponse.json(
+                            {
+                                message:
+                                    'Error adding regions. Region ID not found',
+                            },
+                            { status: 500 },
+                        );
+                    }
+
+                    const { error: errorRollbackCoverageAreasDelete } =
+                        await supabase
+                            .from('coverage_areas')
+                            .delete()
+                            .eq('id', regionId);
+
+                    if (errorRollbackCoverageAreasDelete) {
+                        return NextResponse.json(
+                            { message: 'Error in rollback delete regions' },
+                            { status: 500 },
+                        );
+                    }
+                }
+
                 return NextResponse.json(
                     { message: 'Error adding regions' },
                     { status: 500 },
                 );
             }
         }
-    }
-
-    if (toDeleteRegionsArray.length === 0 && toAddRegionsArray.length === 0) {
-        return NextResponse.json(
-            { message: 'No changes made' },
-            { status: 202 },
-        );
     }
 
     return NextResponse.json(

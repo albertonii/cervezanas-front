@@ -34,8 +34,6 @@ const areaWeightCostRange = z
     });
 
 const areaAndWeightInformationObjectSchema = z.object({
-    name: z.string().nonempty({ message: 'errors.input_required' }),
-    type: z.string().nonempty({ message: 'errors.input_required' }),
     area_weight_range: z
         .array(areaWeightCostRange)
         .refine(
@@ -74,7 +72,7 @@ interface Props {
 const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
     const t = useTranslations();
     const { handleMessage } = useMessage();
-
+    console.log(selectedArea);
     const [isLoading, setIsLoading] = useState(false);
 
     const [costRanges, setCostRanges] = useState<IAreaAndWeightCostRange[]>(
@@ -88,9 +86,16 @@ const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
         mode: 'onSubmit',
         resolver: zodResolver(areaAndWeightInformationObjectSchema),
         defaultValues: {
-            name: selectedArea.name,
-            type: selectedArea.type,
-            area_weight_range: selectedArea.area_weight_cost_range,
+            area_weight_range: selectedArea.area_weight_cost_range?.map(
+                (range) => {
+                    return {
+                        weight_from: range.weight_from,
+                        weight_to: range.weight_to,
+                        base_cost: range.base_cost,
+                        area_and_weight_information_id: selectedArea.id,
+                    };
+                },
+            ),
         },
     });
 
@@ -102,15 +107,16 @@ const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
     } = form;
 
     useEffect(() => {
-        if (selectedArea.area_weight_cost_range) {
+        if (
+            selectedArea.area_weight_cost_range &&
+            selectedArea.coverage_areas?.administrative_division
+        ) {
             const sortedRanges = [...selectedArea.area_weight_cost_range].sort(
                 (a, b) => a.weight_from - b.weight_from,
             );
 
             setCostRanges(sortedRanges);
             setValue('area_weight_range', sortedRanges);
-            setValue('name', selectedArea.name);
-            setValue('type', selectedArea.type);
         }
     }, [selectedArea.area_weight_cost_range]);
 
@@ -253,6 +259,30 @@ const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
             {isLoading && (
                 <Spinner size={'large'} color={'beer-blonde'} center absolute />
             )}
+
+            {/* Información del área seleccionada  */}
+            <div className="flex gap-4">
+                {selectedArea.coverage_areas?.region && (
+                    <span className="">
+                        <strong>{t('region')}:</strong>{' '}
+                        {selectedArea.coverage_areas?.region}
+                    </span>
+                )}
+
+                {selectedArea.coverage_areas?.sub_region && (
+                    <span className="">
+                        <strong>{t('sub_region')}:</strong>{' '}
+                        {selectedArea.coverage_areas?.sub_region}
+                    </span>
+                )}
+
+                {selectedArea.coverage_areas?.city && (
+                    <span className="">
+                        <strong>{t('city')}:</strong>{' '}
+                        {selectedArea.coverage_areas?.city}
+                    </span>
+                )}
+            </div>
 
             <span className="pb-4">
                 <strong>Tarifa con área y peso:</strong> configura los costes de

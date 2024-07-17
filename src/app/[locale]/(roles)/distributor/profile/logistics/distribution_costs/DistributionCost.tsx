@@ -63,7 +63,10 @@ export default function DistributionCost({ distributionCosts }: Props) {
             case DistributionCostType.FLATRATE_AND_WEIGHT:
                 return (
                     <FlatrateAndWeightCostForm
-                        extraCostPerKG={distributionCosts.cost_extra_per_kg}
+                        extraCostPerKG={
+                            distributionCosts.area_and_weight_cost!
+                                .cost_extra_per_kg
+                        }
                         flatrateAndWeightCost={
                             distributionCosts.flatrate_and_weight_cost
                         }
@@ -77,7 +80,10 @@ export default function DistributionCost({ distributionCosts }: Props) {
             case DistributionCostType.AREA_AND_WEIGHT:
                 return (
                     <AreaAndWeightCostForm
-                        extraCostPerKG={distributionCosts.cost_extra_per_kg}
+                        extraCostPerKG={
+                            distributionCosts.area_and_weight_cost!
+                                .cost_extra_per_kg
+                        }
                         areaAndWeightCost={
                             distributionCosts.area_and_weight_cost
                         }

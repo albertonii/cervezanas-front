@@ -48,11 +48,31 @@ export interface JSONCountry {
 
 export interface JSONRegion {
     name: string;
+    country: string;
+    country_iso_code: string;
     subregions: JSONSubRegion[];
 }
 
 export interface JSONSubRegion {
     name: string;
-    cities: string[];
+    country: string;
+    country_iso_code: string;
     region: string;
+    cities?: string[];
+}
+
+export interface IRegionCoverageAreas {
+    id: string;
+    country_iso_code: string;
+    regions: string[];
+    distributor_id: string;
+}
+
+export interface ISubRegionCoverageAreasForDB {
+    id: string;
+    country_iso_code: string;
+    country: string;
+    region: string;
+    name: string;
+    distributor_id: string;
 }
