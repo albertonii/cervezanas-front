@@ -27,7 +27,7 @@ const AreaSidebar: React.FC<SidebarProps> = ({ form, onItemClick }) => {
     const items = {
         // cities,
         sub_regions,
-        // regions,
+        regions,
         // international,
     };
 
@@ -67,6 +67,7 @@ const AreaSidebar: React.FC<SidebarProps> = ({ form, onItemClick }) => {
                                     (
                                         value: AreaAndWeightInformationFormData,
                                     ) => {
+                                        console.log(value);
                                         return (
                                             <li
                                                 key={value.id}

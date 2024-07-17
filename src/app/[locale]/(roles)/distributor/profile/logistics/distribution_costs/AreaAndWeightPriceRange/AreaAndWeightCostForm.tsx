@@ -114,17 +114,28 @@ const AreaAndWeightCostForm = ({
             //     areaAndWeightCost?.area_and_weight_information?.filter(
             //         (area) => area.type === DistributionDestinationType.CITY,
             //     ) || [],
-            sub_regions: areaWeightInformationSubRegion.map(
-                (area: IAreaAndWeightInformation) => ({
+            sub_regions: areaWeightInformationSubRegion
+                .filter(
+                    (item) =>
+                        item.coverage_areas?.administrative_division ===
+                        DistributionDestinationType.SUB_REGION,
+                )
+                .map((area: IAreaAndWeightInformation) => ({
                     id: area.id,
                     name: area.coverage_areas?.sub_region,
                     type: DistributionDestinationType.SUB_REGION,
-                }),
-            ),
-            // regions:
-            //     areaAndWeightCost?.area_and_weight_information?.filter(
-            //         (area) => area.type === DistributionDestinationType.REGION,
-            //     ) || [],
+                })),
+            regions: areaWeightInformationSubRegion
+                .filter(
+                    (item) =>
+                        item.coverage_areas?.administrative_division ===
+                        DistributionDestinationType.REGION,
+                )
+                .map((area: IAreaAndWeightInformation) => ({
+                    id: area.id,
+                    name: area.coverage_areas?.region,
+                    type: DistributionDestinationType.REGION,
+                })),
             // international:
             //     areaAndWeightCost?.area_and_weight_information?.filter(
             //         (area) =>
