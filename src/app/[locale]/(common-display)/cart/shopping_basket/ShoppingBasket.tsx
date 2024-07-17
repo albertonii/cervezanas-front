@@ -139,14 +139,28 @@ export function ShoppingBasket({ user }: Props) {
     }, [isFormReady]);
 
     useEffect(() => {
+        // Si se eliminan elementos del carrito y además coincide que son elementos en el listado de undeliverableItems
+        // Se debe de actualizar el listado de undeliverableItems
+        const undeliverableItems_ = undeliverableItems.filter(
+            (item) => !items.find((cartItem) => cartItem.id === item.id),
+        );
+
+        setUndeliverableItems(undeliverableItems_);
+
+        // Check if the cart is deliverable
+        const isDeliverable =
+            // checkIsShoppingCartDeliverable() &&
+            items.length > 0 &&
+            selectedBillingAddress !== '' &&
+            selectedShippingAddress !== '' &&
+            undeliverableItems_.length === 0;
+
+        setCanMakeThePayment(isDeliverable);
+    }, [items]);
+
+    useEffect(() => {
         const handleShippingCost = async () => {
             setIsShippingCostLoading(true);
-
-            const canMakeThePayment =
-                checkIsShoppingCartDeliverable() &&
-                items.length > 0 &&
-                selectedBillingAddress !== '' &&
-                selectedShippingAddress !== '';
 
             const cheapestShippingCost = await calculateShippingCostCartContext(
                 selectedShippingAddress,
@@ -163,7 +177,6 @@ export function ShoppingBasket({ user }: Props) {
                 const totalShippingCost: number = Object.values(
                     shippingCostInformation,
                 ).reduce((acc, { shippingCost }) => acc + shippingCost, 0);
-                console.log(undeliverableItems);
 
                 // Obtener listado de elementos que no se pueden enviar - Son aquellos donde el shippingCost es null para el productor
                 const undeliverableItems_: {
@@ -181,7 +194,6 @@ export function ShoppingBasket({ user }: Props) {
                 setDeliveryCost(totalShippingCost);
             }
 
-            setCanMakeThePayment(canMakeThePayment);
             setIsShippingCostLoading(false);
         };
 
