@@ -44,8 +44,6 @@ async function getProducerProfile(producerId: string) {
         .eq('id', producerId)
         .single();
 
-    console.log(data);
-
     // const { data: producer, error: producerError } = await supabase
     //   .from("users")
     //   .select(

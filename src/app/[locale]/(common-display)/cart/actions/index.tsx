@@ -307,10 +307,10 @@ export async function calculateCheapestShippingCosts(
         }),
     );
 
-    console.log(shippingCosts);
-
     // Filtrar solo los costos válidos
-    const validShippingCosts = shippingCosts.filter((cost) => cost !== null);
+    const validShippingCosts: { cost: number }[] = shippingCosts.filter(
+        (cost) => cost !== null,
+    );
 
     if (validShippingCosts.length === 0) {
         console.info('No valid shipping costs found');
@@ -321,7 +321,7 @@ export async function calculateCheapestShippingCosts(
     const cheapestShippingCost =
         validShippingCosts.length === 1
             ? validShippingCosts[0]
-            : shippingCosts.reduce((prev, current) =>
+            : validShippingCosts.reduce((prev, current) =>
                   prev.cost < current.cost ? prev : current,
               );
 

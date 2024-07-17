@@ -7,7 +7,6 @@ import {
     IProductPackCartItem,
     IProduct,
     IProductPack,
-    IShippingInfo,
     IDistributionContract,
 } from '../../lib/types/types';
 import {
@@ -33,7 +32,12 @@ type ShoppingCartContextType = {
     checkIsShoppingCartDeliverable: () => boolean;
     calculateShippingCostCartContext: (
         selectedShippingInfoId: string,
-    ) => Promise<number>;
+    ) => Promise<{
+        [producerId: string]: {
+            items: IProductPackCartItem[];
+            shippingCost: number;
+        };
+    }>;
 };
 
 const ShoppingCartContext = createContext<ShoppingCartContextType>({
@@ -51,7 +55,15 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
     isOpen: false,
     updateCartItem: () => void {},
     checkIsShoppingCartDeliverable: () => false,
-    calculateShippingCostCartContext: () => Promise.resolve(0),
+    calculateShippingCostCartContext: () =>
+        Promise.resolve(
+            {} as {
+                [producerId: string]: {
+                    items: IProductPackCartItem[];
+                    shippingCost: number;
+                };
+            },
+        ),
 });
 
 interface Props {
@@ -86,10 +98,28 @@ export function ShoppingCartProvider({ children }: Props) {
 
     const calculateShippingCostCartContext = async (
         selectedShippingInfoId: string,
-    ) => {
-        if (!items) return 0;
+    ): Promise<{
+        [producerId: string]: {
+            items: IProductPackCartItem[];
+            shippingCost: number;
+        };
+    }> => {
+        // Vamos a crear un array de productores con los items que le corresponden y sus costes asociados
+        let producerIdAndItemsWithCosts: {
+            [producerId: string]: {
+                items: IProductPackCartItem[];
+                shippingCost: number | null;
+            };
+        } = {};
 
-        if (!selectedShippingInfoId) return 0;
+        if (!items || !selectedShippingInfoId) {
+            return {} as {
+                [producerId: string]: {
+                    items: IProductPackCartItem[];
+                    shippingCost: number;
+                };
+            };
+        }
 
         // Agrupar todos aquellos productos que tengan el mismo productor id
         const producerIdAndItems = items.reduce((acc: any, item) => {
@@ -108,28 +138,37 @@ export function ShoppingCartProvider({ children }: Props) {
         );
 
         // Debido a que un productor puede tener varios distribuidores, obtenemos el listado de aquellos que pueden enviar los productos
-        const distributors: IDistributionContract[] =
+        const distributorsContracts: IDistributionContract[] =
             await getListAsociatedDistributors(
                 producerIdAndItems,
                 selectedShippingInfo,
             );
 
-        // Recorrer listado de productos por PRODUCTOR y obtener el costo de envío más barato
-        let totalShippingCost = 0;
-
         for (const producerId in producerIdAndItems) {
             const itemsProducer = producerIdAndItems[producerId];
+            const distributorContractsByProducerId =
+                distributorsContracts.filter(
+                    (distributor) => distributor.producer_id === producerId,
+                );
 
             const shippingCost = await calculateCheapestShippingCosts(
                 itemsProducer,
                 selectedShippingInfo.id,
-                distributors,
+                distributorContractsByProducerId,
             );
 
-            totalShippingCost += shippingCost.cost;
+            producerIdAndItemsWithCosts[producerId] = {
+                items: itemsProducer,
+                shippingCost: shippingCost ? shippingCost.cost : null,
+            };
         }
 
-        return totalShippingCost;
+        return producerIdAndItemsWithCosts as {
+            [producerId: string]: {
+                items: IProductPackCartItem[];
+                shippingCost: number;
+            };
+        };
     };
 
     const getItemQuantity = (id: string) => {

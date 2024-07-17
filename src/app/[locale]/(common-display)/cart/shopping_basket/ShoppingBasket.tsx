@@ -23,7 +23,10 @@ import {
     merchantInfo,
 } from '../../../components/TPV/redsysClient';
 import Spinner from '../../../components/common/Spinner';
-import { IUserTable } from '../../../../../lib/types/types';
+import {
+    IProductPackCartItem,
+    IUserTable,
+} from '../../../../../lib/types/types';
 
 import { insertOnlineOrder } from '../actions';
 import { useMessage } from '../../../components/message/useMessage';
@@ -84,6 +87,9 @@ export function ShoppingBasket({ user }: Props) {
     const [merchantSignature, setMerchantSignature] = useState('');
     const [selectedShippingAddress, setSelectedShippingAddress] = useState('');
     const [selectedBillingAddress, setSelectedBillingAddress] = useState('');
+    const [undeliverableItems, setUndeliverableItems] = useState<
+        IProductPackCartItem[]
+    >([]);
 
     const [canMakeThePayment, setCanMakeThePayment] = useState(false);
 
@@ -147,7 +153,32 @@ export function ShoppingBasket({ user }: Props) {
             );
 
             if (cheapestShippingCost) {
-                setDeliveryCost(cheapestShippingCost);
+                const shippingCostInformation: {
+                    [producerId: string]: {
+                        items: IProductPackCartItem[];
+                        shippingCost: number;
+                    };
+                } = cheapestShippingCost;
+
+                const totalShippingCost: number = Object.values(
+                    shippingCostInformation,
+                ).reduce((acc, { shippingCost }) => acc + shippingCost, 0);
+                console.log(undeliverableItems);
+
+                // Obtener listado de elementos que no se pueden enviar - Son aquellos donde el shippingCost es null para el productor
+                const undeliverableItems_: {
+                    items: IProductPackCartItem[];
+                    shippingCost: number;
+                }[] = Object.values(shippingCostInformation).filter(
+                    ({ shippingCost }) => shippingCost === null,
+                );
+
+                const undeliverableItemsFlat: IProductPackCartItem[] =
+                    undeliverableItems_.map(({ items }) => items).flat();
+
+                setUndeliverableItems(undeliverableItemsFlat);
+
+                setDeliveryCost(totalShippingCost);
             }
 
             setCanMakeThePayment(canMakeThePayment);
@@ -386,6 +417,7 @@ export function ShoppingBasket({ user }: Props) {
                                         isShippingCostLoading={
                                             isShippingCostLoading
                                         }
+                                        undeliverableItems={undeliverableItems}
                                     />
                                 ) : (
                                     <EmptyCart />

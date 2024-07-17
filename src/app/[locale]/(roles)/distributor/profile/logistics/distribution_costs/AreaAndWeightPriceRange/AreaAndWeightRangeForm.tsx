@@ -192,6 +192,16 @@ const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
         const sortedRanges = newRanges.sort(
             (a, b) => a.weight_from - b.weight_from,
         );
+
+        // Update the form field and mark it as dirty
+        setValue(
+            `area_weight_range.${index}.weight_from`,
+            Number(event.target.value),
+            {
+                shouldDirty: true,
+            },
+        );
+
         setCostRanges(sortedRanges);
     };
 
@@ -204,6 +214,16 @@ const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
         const sortedRanges = newRanges.sort(
             (a, b) => a.weight_from - b.weight_from,
         );
+
+        // Update the form field and mark it as dirty
+        setValue(
+            `area_weight_range.${index}.weight_to`,
+            Number(event.target.value),
+            {
+                shouldDirty: true,
+            },
+        );
+
         setCostRanges(sortedRanges);
     };
 
@@ -216,6 +236,16 @@ const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
         const sortedRanges = newRanges.sort(
             (a, b) => a.weight_from - b.weight_from,
         );
+
+        // Update the form field and mark it as dirty
+        setValue(
+            `area_weight_range.${index}.base_cost`,
+            Number(event.target.value),
+            {
+                shouldDirty: true,
+            },
+        );
+
         setCostRanges(sortedRanges);
     };
 
@@ -237,6 +267,7 @@ const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
         const sortedRanges = newRanges.sort(
             (a, b) => a.weight_from - b.weight_from,
         );
+
         setCostRanges(sortedRanges);
     };
 
