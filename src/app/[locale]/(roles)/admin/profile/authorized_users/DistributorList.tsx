@@ -127,7 +127,7 @@ export default function DistributorList({ distributors }: Props) {
         const { error } = await supabase.from('notifications').insert({
             message: `${message}`,
             user_id: selectedDistributor?.user_id,
-            link: `${ROLE_ENUM.Distributor}/profile?a=settings`,
+            link: `/${ROLE_ENUM.Distributor}/profile?a=settings`,
             source: user?.id, // User that has created the consumption point
         });
         if (error) {

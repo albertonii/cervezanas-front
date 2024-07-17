@@ -93,7 +93,6 @@ const getNotifications = async () => {
 
     const { data: notifications, error: notificationsError } = await supabase
         .from('notifications')
-
         .select(
             `
                 *
@@ -101,6 +100,8 @@ const getNotifications = async () => {
         )
         .eq('user_id', session.id)
         .limit(15);
+
+    console.log(notifications);
 
     if (notificationsError) throw notificationsError;
     return notifications as INotification[];

@@ -124,7 +124,7 @@ export default function ProducerList({ producers }: Props) {
         const { error } = await supabase.from('notifications').insert({
             message: `${message}`,
             user_id: selectedProducer?.user_id,
-            link: `${ROLE_ENUM.Productor}/profile?a=settings`,
+            link: `/${ROLE_ENUM.Productor}/profile?a=settings`,
             source: user?.id, // User that has created the consumption point
         });
 
