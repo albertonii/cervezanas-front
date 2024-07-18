@@ -12,9 +12,10 @@ export default function ProductPackMiniature({ pack }: Props) {
     const t = useTranslations();
     return (
         <div
-            className={`absolute bottom-full left-1/2 m-auto w-[70vw] -translate-x-1/2 -translate-y-[2rem] 
-                      transform rounded-md bg-beer-foam shadow-xl transition-all duration-300 ease-in-out sm:w-[35vw] lg:w-[15vw]
-                      `}
+            className={`
+                absolute bottom-full left-1/2 m-auto w-[70vw] -translate-x-1/2 -translate-y-[2rem] 
+                transform rounded-md bg-beer-foam shadow-xl transition-all duration-300 ease-in-out sm:w-[35vw] lg:w-[15vw] z-10
+            `}
         >
             <div className="m-4 flex flex-col items-center text-lg">
                 <span className="font-semibold">{pack.name}</span>

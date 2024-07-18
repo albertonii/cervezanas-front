@@ -75,16 +75,15 @@ export default function Packs({ product }: Props) {
                             {product.product_packs
                                 .slice() // Copy the array to avoid mutating the original
                                 .sort((a, b) => a.quantity - b.quantity) // Sort by quantity
-                                .map((p) => (
-                                    <div key={p.product_id}>
+                                .map((productPack) => (
+                                    <div key={productPack.id}>
                                         <PackItem
-                                            product={product}
-                                            pack={p}
+                                            pack={productPack}
                                             handleItemSelected={
                                                 handleItemSelected
                                             }
                                             selectedPackId={
-                                                selectedPack?.product_id ?? ''
+                                                selectedPack?.id ?? ''
                                             }
                                         />
                                     </div>
