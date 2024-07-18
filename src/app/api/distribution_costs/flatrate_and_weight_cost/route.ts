@@ -114,19 +114,19 @@ export async function POST(request: NextRequest) {
 
     // Update costExtraPerKG in distribution_costs
     // TODO: ESTÁ MAL, Cost extra per kg no existe en distribution_cost, hay que hacer como en area_and_weight_cost -> Que se asigne en su tabla el coste extra.
-    const { error: distributionCostsError } = await supabase
-        .from('distribution_costs')
-        .update({
-            cost_extra_per_kg: costExtraPerKG,
-        })
-        .eq('id', distributionCostsId);
+    // const { error: distributionCostsError } = await supabase
+    //     .from('distribution_costs')
+    //     .update({
+    //         cost_extra_per_kg: costExtraPerKG,
+    //     })
+    //     .eq('id', distributionCostsId);
 
-    if (distributionCostsError) {
-        return NextResponse.json(
-            { message: 'Error updating cost extra per kg' },
-            { status: 500 },
-        );
-    }
+    // if (distributionCostsError) {
+    //     return NextResponse.json(
+    //         { message: 'Error updating cost extra per kg' },
+    //         { status: 500 },
+    //     );
+    // }
 
     return NextResponse.json(
         { message: 'Flatrate and weight costs created' },

@@ -1,14 +1,14 @@
 import Packs from './Packs';
+import ProductsInsideBox from './ProductsInsideBox';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { Type } from '../../../../../lib/productEnum';
 import { Rate } from '../../../components/reviews/Rate';
 import { SupabaseProps } from '../../../../../constants';
 import { ProductGallery } from '../../../components/ProductGallery';
-import { ICarouselItem, IProduct } from '../../../../../lib/types/types';
 import { formatCurrency } from '../../../../../utils/formatCurrency';
-import { useAuth } from '../../../(auth)/Context/useAuth';
-import ProductsInsideBox from './ProductsInsideBox';
-import { Type } from '../../../../../lib/productEnum';
+import { ICarouselItem, IProduct } from '../../../../../lib/types/types';
+import { handleProductLike } from '../actions';
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 
@@ -19,7 +19,8 @@ interface Props {
 
 export default function ProductDetails({ product, reviewRef }: Props) {
     const t = useTranslations();
-    const { supabase } = useAuth();
+
+    console.log(product);
 
     const [isLike, setIsLike] = useState<boolean>(
         Boolean(product.likes?.length),
@@ -31,8 +32,9 @@ export default function ProductDetails({ product, reviewRef }: Props) {
     const selectedMultimedia = product.product_multimedia;
 
     const handleSetIsLike = async (value: React.SetStateAction<boolean>) => {
-        setIsLike(value);
-        await handleLike();
+        await handleLike()
+            .then(() => setIsLike(value))
+            .catch(() => console.error('Error setting like'));
     };
 
     const productStars = useMemo(() => {
@@ -47,22 +49,7 @@ export default function ProductDetails({ product, reviewRef }: Props) {
     );
 
     async function handleLike() {
-        if (!isLike) {
-            const { error } = await supabase
-                .from('likes')
-                .insert([
-                    { product_id: product.id, owner_id: product.owner_id },
-                ]);
-
-            if (error) throw error;
-        } else {
-            const { error } = await supabase
-                .from('likes')
-                .delete()
-                .match({ product_id: product.id, owner_id: product.owner_id });
-
-            if (error) throw error;
-        }
+        handleProductLike(product.id, product.owner_id, isLike);
     }
 
     useEffect(() => {
@@ -184,13 +171,6 @@ export default function ProductDetails({ product, reviewRef }: Props) {
                             width="80"
                         ></img>
                     </div>
-                    <div className="mt-6">
-                        <div className="flex min-h-[6vh] items-center pr-6">
-                            <p className="max-w-none  text-justify text-xl">
-                                {product.description}
-                            </p>
-                        </div>
-                    </div>
                 </section>
 
                 {/* Display Product Details if Type === BEER */}
@@ -218,6 +198,20 @@ export default function ProductDetails({ product, reviewRef }: Props) {
 
                     <DistributionInformation product={product} />
                 </section> */}
+            </section>
+
+            {/* Sobre el producto  */}
+            <section
+                aria-labelledby="product-description-heading"
+                className={
+                    'aspect-w-2 aspect-h-3 col-span-12 mx-6 flex h-[100%] items-center justify-center rounded-lg bg-beer-softBlonde bg-cover bg-top bg-repeat-y md:overflow-hidden p-4'
+                }
+            >
+                <h3 id="product-description-heading" className="sr-only">
+                    {t('product_description')}
+                </h3>
+
+                <p className="text-gray-900">{product.description}</p>
             </section>
         </>
     );

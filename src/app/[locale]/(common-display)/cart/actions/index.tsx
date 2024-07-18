@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 import { API_METHODS, DS_API } from '../../../../../constants';
-import { DeliveryType, DistributionCostType } from '../../../../../lib/enums';
+import { DeliveryType } from '../../../../../lib/enums';
 import {
     IDistributionContract,
     IDistributorUser,
