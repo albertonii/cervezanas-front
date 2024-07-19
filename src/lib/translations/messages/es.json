@@ -1023,5 +1023,9 @@
         "mark_as_unread": "Marcar como no leído",
         "is_read": "Leído",
         "is_unread": "No leído"
-    }
+    },
+    "request_distributor_deregistration": "Solicitar baja como distribuidor",
+    "request_producer_deregistration": "Solicitar baja como productor",
+    "request_distributor_registration": "Solicitar alta como distribuidor",
+    "request_producer_registration": "Solicitar alta como productor"
 }

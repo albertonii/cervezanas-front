@@ -4,6 +4,7 @@ import { useMutation } from 'react-query';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useMessage } from '../message/useMessage';
 import { ROLE_ENUM } from '../../../../lib/enums';
+import { IDistributionCost } from '../../../../lib/types/types';
 
 interface Props {
     handleShowUpDistributorModal: ComponentProps<any>;
@@ -70,11 +71,13 @@ export function UpDistributorModal({
             }
 
             // insert into public.distribution_costs (distributor_id) values (new.id);
-            const { error: distributionCostsError } = await supabase
-                .from('distribution_costs')
-                .insert({
-                    distributor_id: user.id,
-                });
+            const { data: distributionCosts, error: distributionCostsError } =
+                await supabase
+                    .from('distribution_costs')
+                    .insert({
+                        distributor_id: user.id,
+                    })
+                    .single();
 
             if (distributionCostsError) {
                 console.error(
@@ -90,30 +93,24 @@ export function UpDistributorModal({
                 return;
             }
 
-            // insert into public.gamification (user_id, score) values (new.id, 0);
-            // Because gamification have unique user_id constraint
-            const { data: gamificationData } = await supabase
-                .from('gamification')
-                .select('user_id')
-                .eq('user_id', user.id);
+            if (distributionCosts) {
+                const dCosts = distributionCosts as IDistributionCost;
 
-            if (!gamificationData) {
-                const { error: gamificationError } = await supabase
-                    .from('gamification')
+                const { error: areaAndWeigtCostsError } = await supabase
+                    .from('area_and_weight_costs')
                     .insert({
-                        user_id: user.id,
-                        score: 0,
+                        distribution_costs_id: dCosts.id,
                     });
 
-                if (gamificationError) {
+                if (areaAndWeigtCostsError) {
                     console.error(
-                        'Error creating gamification:',
-                        gamificationError,
+                        'Error creating area and weight costs:',
+                        areaAndWeigtCostsError,
                     );
 
                     handleMessage({
                         type: 'error',
-                        message: 'Error creating gamification',
+                        message: 'Error creating area and weight costs',
                     });
 
                     return;

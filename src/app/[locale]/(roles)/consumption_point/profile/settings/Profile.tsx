@@ -34,7 +34,8 @@ export default function Profile({ profile }: Props) {
         <>
             <HorizontalSections
                 handleMenuClick={handleMenuClick}
-                tabs={['account', 'details', 'values']}
+                // tabs={['account', 'details', 'values']}
+                tabs={['account']}
             />
 
             {loading ? (
