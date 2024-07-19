@@ -156,7 +156,12 @@ export function ShoppingBasket({ user }: Props) {
             undeliverableItems_.length === 0;
 
         setCanMakeThePayment(isDeliverable);
-    }, [items]);
+    }, [
+        items,
+        selectedShippingAddress,
+        selectedBillingAddress,
+        undeliverableItems,
+    ]);
 
     useEffect(() => {
         const handleShippingCost = async () => {
