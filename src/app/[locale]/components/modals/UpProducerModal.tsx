@@ -4,10 +4,9 @@ import { useMutation } from 'react-query';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useMessage } from '../message/useMessage';
 import { ROLE_ENUM } from '../../../../lib/enums';
-import { IDistributionCost } from '../../../../lib/types/types';
 
 interface Props {
-    handleShowUpProducerModal: ComponentProps<any>;
+    handleShowUpProducerModal: (show: boolean) => void;
     showModal: boolean;
 }
 
@@ -49,65 +48,110 @@ export function UpProducerModal({
                 });
             }
 
-            // insert into public.producer_user (user_id) values (new.id);
-            const { error: producerUserError } = await supabase
-                .from('producer_user')
-                .insert({
-                    user_id: user.id,
-                });
+            // Si ya existe una entrada en producer_user -> Solo hay que cambiar  el estado a activo
+            const { data: producerUser, error: producerUserSelectError } =
+                await supabase
+                    .from('producer_user')
+                    .select('*')
+                    .eq('user_id', user.id);
 
-            if (producerUserError) {
+            if (producerUserSelectError) {
                 console.error(
-                    'Error creating producer user:',
-                    producerUserError,
+                    'Error selecting producer user:',
+                    producerUserSelectError,
                 );
 
                 handleMessage({
                     type: 'error',
-                    message: 'Error creating producer user',
+                    message: 'Error selecting producer user',
                 });
 
                 return;
             }
 
-            const { error: consumptionPointsError } = await supabase
-                .from('consumption_points')
-                .insert({
-                    owner_id: user.id,
-                });
+            if (!producerUser) {
+                // insert into public.producer_user (user_id) values (new.id);
+                const { error: producerUserError } = await supabase
+                    .from('producer_user')
+                    .insert({
+                        user_id: user.id,
+                    });
 
-            if (consumptionPointsError) {
-                console.error(
-                    'Error creating consumption points:',
-                    consumptionPointsError,
-                );
+                if (producerUserError) {
+                    console.error(
+                        'Error creating producer user:',
+                        producerUserError,
+                    );
 
-                handleMessage({
-                    type: 'error',
-                    message: 'Error creating consumption points',
-                });
+                    handleMessage({
+                        type: 'error',
+                        message: 'Error creating producer user',
+                    });
 
-                return;
-            }
+                    return;
+                }
 
-            const { error: customizeSettingsError } = await supabase
-                .from('customize_settings')
-                .insert({
-                    owner_id: user.id,
-                });
+                const { error: consumptionPointsError } = await supabase
+                    .from('consumption_points')
+                    .insert({
+                        owner_id: user.id,
+                    });
 
-            if (customizeSettingsError) {
-                console.error(
-                    'Error creating customize settings:',
-                    customizeSettingsError,
-                );
+                if (consumptionPointsError) {
+                    console.error(
+                        'Error creating consumption points:',
+                        consumptionPointsError,
+                    );
 
-                handleMessage({
-                    type: 'error',
-                    message: 'Error creating customize settings',
-                });
+                    handleMessage({
+                        type: 'error',
+                        message: 'Error creating consumption points',
+                    });
 
-                return;
+                    return;
+                }
+
+                const { error: customizeSettingsError } = await supabase
+                    .from('customize_settings')
+                    .insert({
+                        owner_id: user.id,
+                    });
+
+                if (customizeSettingsError) {
+                    console.error(
+                        'Error creating customize settings:',
+                        customizeSettingsError,
+                    );
+
+                    handleMessage({
+                        type: 'error',
+                        message: 'Error creating customize settings',
+                    });
+
+                    return;
+                }
+            } else {
+                // Actualizamos el estado a activo
+                const { error: producerUserError } = await supabase
+                    .from('producer_user')
+                    .update({
+                        is_active: true,
+                    })
+                    .eq('user_id', user.id);
+
+                if (producerUserError) {
+                    console.error(
+                        'Error updating producer user:',
+                        producerUserError,
+                    );
+
+                    handleMessage({
+                        type: 'error',
+                        message: 'Error updating producer user',
+                    });
+
+                    return;
+                }
             }
         }
     };
@@ -118,11 +162,7 @@ export function UpProducerModal({
     });
 
     const handleSubmitUpNewProducer = () => {
-        try {
-            newProducerMutation.mutate();
-        } catch (error) {
-            console.error(error);
-        }
+        return newProducerMutation.mutateAsync();
     };
 
     return (
@@ -131,11 +171,9 @@ export function UpProducerModal({
             showModal={showModal}
             setShowModal={handleShowUpProducerModal}
             title={'modal_up_producer_title'}
-            btnTitle={'delete'}
+            btnTitle={'accept'}
             description={'modal_up_producer_description'}
-            handler={() => {
-                handleSubmitUpNewProducer();
-            }}
+            handler={handleSubmitUpNewProducer}
             handlerClose={() => handleShowUpProducerModal(false)}
             classIcon={''}
             classContainer={''}

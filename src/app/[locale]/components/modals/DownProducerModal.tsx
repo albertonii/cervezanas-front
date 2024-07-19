@@ -6,7 +6,7 @@ import { useMessage } from '../message/useMessage';
 import { ROLE_ENUM } from '../../../../lib/enums';
 
 interface Props {
-    handleShowDownProducerModal: ComponentProps<any>;
+    handleShowDownProducerModal: (show: boolean) => void;
     showModal: boolean;
 }
 
@@ -18,7 +18,7 @@ export function DownProducerModal({
     const { handleMessage } = useMessage();
 
     const handleSignDownAsProducer = async () => {
-        if (!user.role.includes(ROLE_ENUM.Productor)) {
+        if (user.role.includes(ROLE_ENUM.Productor)) {
             const delRoles = user.role.filter(
                 (role: string) => role !== ROLE_ENUM.Productor,
             );
@@ -26,7 +26,7 @@ export function DownProducerModal({
             const { error: roleError } = await supabase
                 .from('users')
                 .update({
-                    role: [delRoles],
+                    role: delRoles,
                 })
                 .eq('id', user.id);
 
@@ -45,7 +45,7 @@ export function DownProducerModal({
             await supabase.rpc('set_claim', {
                 uid: user.id,
                 claim: 'access_level',
-                value: [delRoles],
+                value: delRoles,
             });
 
             // Para no perder toda la información previa de distribuidores -> Hacemos que se quede inactivo
@@ -73,16 +73,12 @@ export function DownProducerModal({
     };
 
     const delProducerMutation = useMutation({
-        mutationKey: ['newProducer'],
+        mutationKey: ['downProducer'],
         mutationFn: handleSignDownAsProducer,
     });
 
-    const handleSubmitUpNewProducer = () => {
-        try {
-            delProducerMutation.mutate();
-        } catch (error) {
-            console.error(error);
-        }
+    const handleSubmitDownProducer = () => {
+        return delProducerMutation.mutateAsync();
     };
 
     return (
@@ -91,11 +87,9 @@ export function DownProducerModal({
             showModal={showModal}
             setShowModal={handleShowDownProducerModal}
             title={'modal_down_producer_title'}
-            btnTitle={'delete'}
+            btnTitle={'accept'}
             description={'modal_down_producer_description'}
-            handler={() => {
-                handleSubmitUpNewProducer();
-            }}
+            handler={handleSubmitDownProducer}
             handlerClose={() => handleShowDownProducerModal(false)}
             classIcon={''}
             classContainer={''}

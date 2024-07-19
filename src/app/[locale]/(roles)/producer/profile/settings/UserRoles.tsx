@@ -24,19 +24,19 @@ const UserRoles = () => {
     const [showDownProducerRoleModal, setShowDownProducerRoleModal] =
         useState<boolean>(false);
 
-    const handleShowUpDistributorModal = (show: boolean = false) => {
+    const handleShowUpDistributorModal = async (show: boolean = false) => {
         setShowUpDistributorRoleModal(show);
     };
 
-    const handleShowDownDistributorModal = (show: boolean = false) => {
+    const handleShowDownDistributorModal = async (show: boolean = false) => {
         setShowDownDistributorRoleModal(show);
     };
 
-    const handleShowUpProducerModal = (show: boolean = false) => {
+    const handleShowUpProducerModal = async (show: boolean = false) => {
         setShowUpProducerRoleModal(show);
     };
 
-    const handleShowDownProducerModal = (show: boolean = false) => {
+    const handleShowDownProducerModal = async (show: boolean = false) => {
         setShowDownProducerRoleModal(show);
     };
 

@@ -1,12 +1,12 @@
 import Modal from './Modal';
-import React, { ComponentProps } from 'react';
+import React from 'react';
 import { useMutation } from 'react-query';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useMessage } from '../message/useMessage';
 import { ROLE_ENUM } from '../../../../lib/enums';
 
 interface Props {
-    handleShowDownDistributorModal: ComponentProps<any>;
+    handleShowDownDistributorModal: (show: boolean) => void;
     showModal: boolean;
 }
 
@@ -19,7 +19,7 @@ export function DownDistributorModal({
 
     // Hemos convertido role de string -> string[]
     const handleSignDownAsDistributor = async () => {
-        if (!user.role.includes(ROLE_ENUM.Distributor)) {
+        if (user.role.includes(ROLE_ENUM.Distributor)) {
             // Delete distributor role to the user table array
             const delRoles = user.role.filter(
                 (role: string) => role !== ROLE_ENUM.Distributor,
@@ -28,7 +28,7 @@ export function DownDistributorModal({
             const { error: roleError } = await supabase
                 .from('users')
                 .update({
-                    role: [delRoles],
+                    role: delRoles,
                 })
                 .eq('id', user.id);
 
@@ -46,7 +46,7 @@ export function DownDistributorModal({
             await supabase.rpc('set_claim', {
                 uid: user.id,
                 claim: 'access_level',
-                value: [delRoles],
+                value: delRoles,
             });
 
             // Para no perder toda la información previa de distribuidores -> Hacemos que se quede inactivo
@@ -79,11 +79,7 @@ export function DownDistributorModal({
     });
 
     const handleSubmitDownDistributor = () => {
-        try {
-            downDistributorMutation.mutate();
-        } catch (error) {
-            console.error(error);
-        }
+        return downDistributorMutation.mutateAsync();
     };
 
     return (
@@ -92,11 +88,9 @@ export function DownDistributorModal({
             showModal={showModal}
             setShowModal={handleShowDownDistributorModal}
             title={'modal_down_distributor_title'}
-            btnTitle={'delete'}
+            btnTitle={'accept'}
             description={'modal_down_distributor_description'}
-            handler={() => {
-                handleSubmitDownDistributor();
-            }}
+            handler={handleSubmitDownDistributor}
             handlerClose={() => handleShowDownDistributorModal(false)}
             classIcon={''}
             classContainer={''}
