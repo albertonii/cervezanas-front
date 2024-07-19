@@ -1303,6 +1303,7 @@ export interface IDistributorUser {
     company_description: string;
     location_id: string;
     is_authorized: boolean;
+    is_active: boolean;
     profile_location?: IProfileLocation[];
     users?: IUserTable; // To access embeded information we need to get into the table and the look for data
     coverage_areas?: ICoverageArea[];
@@ -1317,6 +1318,7 @@ export interface IProducerUser {
     id_number: string;
     location_id: string;
     is_authorized: boolean;
+    is_active: boolean;
     profile_location?: IProfileLocation[];
     users?: IUserTable; // To access embeded information we need to get into the table and the look for data
 }

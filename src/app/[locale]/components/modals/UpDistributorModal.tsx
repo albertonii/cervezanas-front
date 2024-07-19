@@ -137,9 +137,9 @@ export function UpDistributorModal({
             showBtn={false}
             showModal={showModal}
             setShowModal={handleShowUpDistributorModal}
-            title={'modal_up_new_distributor_title'}
+            title={'modal_up_distributor_title'}
             btnTitle={'delete'}
-            description={'modal_up_new_distributor_description'}
+            description={'modal_up_distributor_description'}
             handler={() => {
                 handleSubmitUpNewDistributor();
             }}

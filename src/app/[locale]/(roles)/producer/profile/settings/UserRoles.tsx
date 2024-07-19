@@ -85,7 +85,7 @@ const UserRoles = () => {
                         key={role}
                         className="bg-gray-200 text-gray-800 rounded-full px-2 py-1 m-1"
                     >
-                        {t(`role_${role}`)}
+                        {t(`role.${role}`)}
                     </div>
                 ))}
             </div>

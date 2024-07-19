@@ -48,9 +48,12 @@ export function DownProducerModal({
                 value: [delRoles],
             });
 
+            // Para no perder toda la información previa de distribuidores -> Hacemos que se quede inactivo
             const { error: producerUserError } = await supabase
                 .from('producer_user')
-                .delete()
+                .update({
+                    is_active: false,
+                })
                 .eq('user_id', user.id);
 
             if (producerUserError) {
@@ -87,7 +90,7 @@ export function DownProducerModal({
             showBtn={false}
             showModal={showModal}
             setShowModal={handleShowDownProducerModal}
-            title={'modal_producer_title'}
+            title={'modal_down_producer_title'}
             btnTitle={'delete'}
             description={'modal_down_producer_description'}
             handler={() => {

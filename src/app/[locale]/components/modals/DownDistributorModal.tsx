@@ -49,10 +49,12 @@ export function DownDistributorModal({
                 value: [delRoles],
             });
 
-            // ELIMINAR LA INFORMACIÓN DEL DISTRIBUIDOR -> O <- DEJARLO INACTIVO EL ROLE
+            // Para no perder toda la información previa de distribuidores -> Hacemos que se quede inactivo
             const { error: distributorUserError } = await supabase
                 .from('distributor_user')
-                .delete()
+                .update({
+                    is_active: false,
+                })
                 .eq('user_id', user.id);
 
             if (distributorUserError) {
@@ -89,7 +91,7 @@ export function DownDistributorModal({
             showBtn={false}
             showModal={showModal}
             setShowModal={handleShowDownDistributorModal}
-            title={'modal_distributor_title'}
+            title={'modal_down_distributor_title'}
             btnTitle={'delete'}
             description={'modal_down_distributor_description'}
             handler={() => {

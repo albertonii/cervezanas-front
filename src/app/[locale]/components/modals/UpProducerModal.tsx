@@ -130,9 +130,9 @@ export function UpProducerModal({
             showBtn={false}
             showModal={showModal}
             setShowModal={handleShowUpProducerModal}
-            title={'modal_up_new_producer_title'}
+            title={'modal_up_producer_title'}
             btnTitle={'delete'}
-            description={'modal_up_new_producer_description'}
+            description={'modal_up_producer_description'}
             handler={() => {
                 handleSubmitUpNewProducer();
             }}

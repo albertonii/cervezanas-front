@@ -197,6 +197,14 @@
     "modal_product_add_lot_title": "Lot",
     "modal_delete_campaign_title": "Delete Campaign",
     "modal_delete_campaign_description": "Be careful! You are about to delete a campaign. This action will delete the information related to it from the database. Are you sure you want to delete the campaign?",
+    "modal_up_producer_title": "Register as a producer",
+    "modal_up_producer_description": "If you are a beer producer, you can apply to become a producer. Once your application has been validated, you will be able to add your products and campaigns.",
+    "modal_down_producer_title": "Unregister as a producer",
+    "modal_down_producer_description": "If you are no longer a beer producer, you can apply to unregister as a producer. Once your application has been validated, you will not be able to add products or campaigns.",
+    "modal_up_distributor_title": "Register as a distributor",
+    "modal_up_distributor_description": "If you are a beer distributor, you can apply to become a distributor. Once your application has been validated, you will be able to add products and campaigns.",
+    "modal_down_distributor_title": "Unregister as a distributor",
+    "modal_down_distributor_description": "If you are no longer a beer distributor, you can apply to unregister as a distributor. Once your application has been validated, you will not be able to add products or campaigns.",
     "beer": "Beer",
     "merchandising": "Merchandising",
     "gift_card": "Gift Card",
@@ -1003,5 +1011,6 @@
         "mark_as_unread": "Mark as unread",
         "is_read": "Read",
         "is_unread": "Unread"
-    }
+    },
+    "profile_title_roles": "Roles"
 }

@@ -6,6 +6,7 @@ import { SecretDataForm } from './SecretDataForm';
 import { CustomizeProfileForm } from './CustomizeProfileForm';
 import { BasicDataForm } from './BasicDataForm';
 import { DistributorBasicDataForm } from './DistributorBasicDataForm';
+import UserRoles from '../../../producer/profile/settings/UserRoles';
 
 interface Props {
     profile: IDistributorUser;
@@ -30,6 +31,8 @@ export function Account({ profile }: Props) {
             <BasicDataForm profile={profile} />
             <DistributorBasicDataForm profile={profile} />
             <SecretDataForm />
+            <UserRoles />
+
             {/* <LocationForm profile_location={profile.profile_location} /> */}
             {/* <CustomizeProfileForm profile={profile} /> */}
         </section>

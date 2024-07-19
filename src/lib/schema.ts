@@ -1312,6 +1312,7 @@ export interface Database {
           company_name: string | null
           created_at: string | null
           id_number: string | null
+          is_active: boolean | null
           is_authorized: boolean | null
           location_id: string | null
           user_id: string
@@ -1322,6 +1323,7 @@ export interface Database {
           company_name?: string | null
           created_at?: string | null
           id_number?: string | null
+          is_active?: boolean | null
           is_authorized?: boolean | null
           location_id?: string | null
           user_id: string
@@ -1332,6 +1334,7 @@ export interface Database {
           company_name?: string | null
           created_at?: string | null
           id_number?: string | null
+          is_active?: boolean | null
           is_authorized?: boolean | null
           location_id?: string | null
           user_id?: string
@@ -1895,7 +1898,7 @@ export interface Database {
           {
             foreignKeyName: "likes_owner_id_fkey"
             columns: ["owner_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
@@ -2151,6 +2154,7 @@ export interface Database {
           company_name: string | null
           created_at: string
           id_number: string | null
+          is_active: boolean | null
           is_authorized: boolean | null
           location_id: string | null
           user_id: string
@@ -2160,6 +2164,7 @@ export interface Database {
           company_name?: string | null
           created_at?: string
           id_number?: string | null
+          is_active?: boolean | null
           is_authorized?: boolean | null
           location_id?: string | null
           user_id: string
@@ -2169,6 +2174,7 @@ export interface Database {
           company_name?: string | null
           created_at?: string
           id_number?: string | null
+          is_active?: boolean | null
           is_authorized?: boolean | null
           location_id?: string | null
           user_id?: string
