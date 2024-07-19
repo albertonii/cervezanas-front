@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import createServerClient from '../../../../utils/supabaseServer';
 
 export async function POST(request: NextRequest) {
-    console.log('POST');
     const formData = await request.formData();
 
     const productId = formData.get(`product_id`) as string;
@@ -28,7 +27,6 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-    console.log('DELETE');
     // Get the query parameters
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('owner_id');

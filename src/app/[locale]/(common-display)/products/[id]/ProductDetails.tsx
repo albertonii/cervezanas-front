@@ -9,6 +9,7 @@ import { ProductGallery } from '../../../components/ProductGallery';
 import { formatCurrency } from '../../../../../utils/formatCurrency';
 import { ICarouselItem, IProduct } from '../../../../../lib/types/types';
 import { handleProductLike } from '../actions';
+import ProductPropierties from './ProductPropierties';
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 
@@ -19,8 +20,6 @@ interface Props {
 
 export default function ProductDetails({ product, reviewRef }: Props) {
     const t = useTranslations();
-
-    console.log(product);
 
     const [isLike, setIsLike] = useState<boolean>(
         Boolean(product.likes?.length),
@@ -112,7 +111,12 @@ export default function ProductDetails({ product, reviewRef }: Props) {
 
     return (
         <>
-            <section className="aspect-w-2 aspect-h-3 col-span-12 mx-6 flex h-[100%] items-center justify-center rounded-lg bg-beer-softBlonde bg-[url('/assets/madera.webp')] bg-cover bg-top bg-repeat-y md:overflow-hidden lg:col-span-4">
+            <section
+                className="
+                    aspect-w-2 aspect-h-3 col-span-12 mx-6 flex h-[100%] items-start justify-center rounded-lg bg-beer-softBlonde bg-[url('/assets/madera.webp')]
+                    bg-cover bg-top bg-repeat-y md:overflow-hidden lg:col-span-4
+                "
+            >
                 <ProductGallery
                     gallery={gallery}
                     isLike={isLike}
@@ -175,8 +179,9 @@ export default function ProductDetails({ product, reviewRef }: Props) {
 
                 {/* Display Product Details if Type === BEER */}
                 {product.type === Type.BEER && (
-                    <section aria-labelledby="packs" className="h-[20vh]">
+                    <section aria-labelledby="packs" className="space-y-8">
                         <Packs product={product} />
+                        <ProductPropierties product={product} />
                     </section>
                 )}
 

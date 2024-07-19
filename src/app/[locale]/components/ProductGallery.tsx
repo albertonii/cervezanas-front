@@ -43,7 +43,7 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
         <>
             <section className="rounded-b-10xl w-full overflow-hidden container mx-auto px-4 relative -mx-4 justify-center">
                 {/* Add to fav button  */}
-                <figure className="index-50 absolute right-8 top-2">
+                <figure className="index-50 absolute right-8 top-6">
                     <IconButton
                         icon={faHeart}
                         onClick={() => handleSetIsLike(!isLike)}
@@ -68,7 +68,7 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
                             width={350}
                             height={150}
                             alt="Product Gallery Principal Image"
-                            class="h-full w-full max-w-[400px] h-[400px] md:max-w-[380px] md:h-[380px] lg:max-w-[500px] lg:h-[500px]"
+                            class="h-full w-[400px] h-[400px] md:max-w-[380px] md:h-[380px] lg:max-w-[500px] lg:h-[500px]"
                             objectFit="contain"
                         />
                     </div>
