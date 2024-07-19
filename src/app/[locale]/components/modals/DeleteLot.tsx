@@ -37,7 +37,7 @@ export function DeleteLot({
         mutationFn: handleDelete,
     });
 
-    const handleSubmitDelete = () => {
+    const handleSubmitDelete = async () => {
         try {
             deleteLotMutation.mutate();
         } catch (error) {
@@ -53,9 +53,7 @@ export function DeleteLot({
             title={'modal_delete_lot_title'}
             btnTitle={'delete'}
             description={'modal_delete_lot_description'}
-            handler={() => {
-                handleSubmitDelete();
-            }}
+            handler={handleSubmitDelete}
             handlerClose={() => handleDeleteShowModal(false)}
             classIcon={''}
             classContainer={''}

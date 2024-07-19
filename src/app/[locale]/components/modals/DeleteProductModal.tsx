@@ -220,7 +220,7 @@ export function DeleteProductModal({
         },
     });
 
-    const onSubmitDelete = () => {
+    const onSubmitDelete = async () => {
         try {
             deleteProductMutation.mutate();
         } catch (e) {
@@ -236,9 +236,7 @@ export function DeleteProductModal({
             title={'modal_delete_product_title'}
             btnTitle={'delete'}
             description={'modal_delete_product_description'}
-            handler={() => {
-                onSubmitDelete();
-            }}
+            handler={onSubmitDelete}
             classIcon={''}
             classContainer={`${isLoading && ' opacity-75'}`}
         >

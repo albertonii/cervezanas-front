@@ -45,7 +45,7 @@ export default function CancelContractModal({
 
     const onSubmitCancel = async () => {
         try {
-            cancelContractMutation.mutate();
+            return cancelContractMutation.mutate();
         } catch (e) {
             console.error(e);
         }
@@ -54,9 +54,7 @@ export default function CancelContractModal({
     return (
         <Modal
             title={t('cancel')}
-            handler={() => {
-                onSubmitCancel();
-            }}
+            handler={onSubmitCancel}
             description={t('cancel_contract_description_modal')}
             btnTitle={t('accept')}
             showModal={true}

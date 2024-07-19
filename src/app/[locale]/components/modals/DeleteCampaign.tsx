@@ -41,7 +41,7 @@ export function DeleteCampaign({
         },
     });
 
-    const onSubmitDelete = () => {
+    const onSubmitDelete = async () => {
         try {
             deleteCampaignMutation.mutate();
         } catch (e) {
@@ -57,9 +57,7 @@ export function DeleteCampaign({
             title={'modal_delete_campaign_title'}
             btnTitle={'delete'}
             description={'modal_delete_campaign_description'}
-            handler={() => {
-                onSubmitDelete();
-            }}
+            handler={onSubmitDelete}
             handlerClose={() => handleDeleteShowModal(false)}
             classIcon={''}
             classContainer={''}

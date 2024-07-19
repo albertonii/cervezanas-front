@@ -6,62 +6,56 @@ import { useAuth } from '../../(auth)/Context/useAuth';
 import { IMonthlyProduct } from '../../../../lib/types/types';
 
 interface Props {
-  products: IMonthlyProduct[];
-  product: IMonthlyProduct | undefined;
-  showModal: boolean;
-  handleDeleteShowModal: ComponentProps<any>;
-  handleSetProducts: ComponentProps<any>;
+    products: IMonthlyProduct[];
+    product: IMonthlyProduct | undefined;
+    showModal: boolean;
+    handleDeleteShowModal: ComponentProps<any>;
+    handleSetProducts: ComponentProps<any>;
 }
 
 export function DeleteMonthlyProduct({
-  products,
-  product,
-  showModal,
-  handleDeleteShowModal,
-  handleSetProducts,
+    products,
+    product,
+    showModal,
+    handleDeleteShowModal,
+    handleSetProducts,
 }: Props) {
-  const { supabase } = useAuth();
+    const { supabase } = useAuth();
 
-  const handleDeleteClick = () => {
-    const handleDelete = async () => {
-      if (!product) return;
+    const handleDeleteClick = async () => {
+        if (!product) return;
 
-      const { data, error: productError } = await supabase
-        .from('monthly_products')
-        .delete()
-        .eq('product_id', product.product_id);
+        const { data, error: productError } = await supabase
+            .from('monthly_products')
+            .delete()
+            .eq('product_id', product.product_id);
 
-      if (productError) throw productError;
+        if (productError) throw productError;
 
-      handleDeleteShowModal(false);
+        handleDeleteShowModal(false);
 
-      handleSetProducts(
-        products.filter((b) => {
-          return b.product_id !== product?.product_id;
-        }),
-      );
+        handleSetProducts(
+            products.filter((b) => {
+                return b.product_id !== product?.product_id;
+            }),
+        );
 
-      return data;
+        return data;
     };
 
-    handleDelete();
-  };
-
-  return (
-    <Modal
-      showBtn={false}
-      showModal={showModal}
-      setShowModal={handleDeleteShowModal}
-      title={'modal_delete_monthly_product_title'}
-      btnTitle={'delete'}
-      description={'modal_delete_monthly_product_description'}
-      handler={() => {
-        handleDeleteClick();
-      }}
-      classIcon={''}
-      classContainer={''}
-    >
-      <></>
-    </Modal>
-  );
+    return (
+        <Modal
+            showBtn={false}
+            showModal={showModal}
+            setShowModal={handleDeleteShowModal}
+            title={'modal_delete_monthly_product_title'}
+            btnTitle={'delete'}
+            description={'modal_delete_monthly_product_description'}
+            handler={handleDeleteClick}
+            classIcon={''}
+            classContainer={''}
+        >
+            <></>
+        </Modal>
+    );
 }
