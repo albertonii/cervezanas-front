@@ -6,14 +6,14 @@ import React, {
     useRef,
     useState,
 } from 'react';
-import { faXmark, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useTranslations } from 'next-intl';
 import Button from '../common/Button';
-import { IconButton } from '../common/IconButton';
 import Spinner from '../common/Spinner';
 import PortalModal from './PortalModal';
+import { useTranslations } from 'next-intl';
+import { IconButton } from '../common/IconButton';
 import { isEmpty } from '../../../../utils/utils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
     showBtn?: boolean;
@@ -30,7 +30,7 @@ interface Props {
     setShowModal: (b: boolean) => void;
     showFooter?: boolean;
     btnCancelTitle?: string;
-    handler: ComponentProps<any>;
+    handler: () => Promise<any>; // Asegúrate de que handler retorna una promesa
     handlerClose?: () => void;
     handleCustomClose?: () => void;
     hasErrors?: boolean;

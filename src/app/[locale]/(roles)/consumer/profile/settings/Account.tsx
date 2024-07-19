@@ -2,34 +2,36 @@
 
 import { useTranslations } from 'next-intl';
 import { IUserTable } from '../../../../../../lib/types/types';
+import UserRoles from '../../../producer/profile/settings/UserRoles';
 import { BasicDataForm } from './BasicDataForm';
 import { CustomizeProfileForm } from './CustomizeProfileForm';
 import { SecretDataForm } from './SecretDataForm';
 
 interface Props {
-  profile: IUserTable;
+    profile: IUserTable;
 }
 
 export function Account({ profile }: Props) {
-  if (!profile) return <></>;
+    if (!profile) return <></>;
 
-  const t = useTranslations();
+    const t = useTranslations();
 
-  return (
-    <section className="px-4 py-6" id="account-container">
-      <p className="flex justify-between py-4" id="header">
-        <span
-          id="title"
-          className="text-5xl uppercase font-semibold text-white"
-        >
-          {t('profile_title_my_data')}
-        </span>
-      </p>
+    return (
+        <section className="px-4 py-6" id="account-container">
+            <p className="flex justify-between py-4" id="header">
+                <span
+                    id="title"
+                    className="text-5xl uppercase font-semibold text-white"
+                >
+                    {t('profile_title_my_data')}
+                </span>
+            </p>
 
-      <BasicDataForm profile={profile} />
-      <SecretDataForm />
-      {/* <LocationForm profile_location={profile.profile_location} /> */}
-      <CustomizeProfileForm profile={profile} />
-    </section>
-  );
+            <BasicDataForm profile={profile} />
+            <SecretDataForm />
+            {/* <LocationForm profile_location={profile.profile_location} /> */}
+            <CustomizeProfileForm profile={profile} />
+            <UserRoles />
+        </section>
+    );
 }

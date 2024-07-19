@@ -241,7 +241,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
             const { error } = await supabase.from('notifications').insert({
                 message: `You have been assigned as organizer for the fixed consumption point ${cp_name}`,
                 user_id: selectedEOrganizer,
-                link: `${ROLE_ENUM.Productor}/profile?a=consumption_points`,
+                link: `/${ROLE_ENUM.Productor}/profile?a=consumption_points`,
                 source: user?.id, // User that has created the consumption point
             });
 

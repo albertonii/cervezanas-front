@@ -53,8 +53,6 @@ export function NewShippingAddress() {
     const handleAddShippingAddress = async (form: ValidationSchema) => {
         setIsLoading(true);
 
-        console.log(form);
-
         const object = {
             user_id: user?.id,
             name: form.name,

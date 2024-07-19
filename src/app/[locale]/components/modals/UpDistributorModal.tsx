@@ -4,9 +4,10 @@ import { useMutation } from 'react-query';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useMessage } from '../message/useMessage';
 import { ROLE_ENUM } from '../../../../lib/enums';
+import { IDistributionCost } from '../../../../lib/types/types';
 
 interface Props {
-    handleShowUpDistributorModal: ComponentProps<any>;
+    handleShowUpDistributorModal: (show: boolean) => void;
     showModal: boolean;
 }
 
@@ -48,72 +49,113 @@ export function UpDistributorModal({
                 });
             }
 
-            // insert into public.distributor_user (user_id) values (new.id);
-            const { error: distributorUserError } = await supabase
-                .from('distributor_user')
-                .insert({
-                    user_id: user.id,
-                });
+            // Si ya existe una entrada en distributor_user -> Solo hay que cambiar  el estado a activo
+            const { data: distributorUser, error: distributorUserSelectError } =
+                await supabase
+                    .from('distributor_user')
+                    .select('*')
+                    .eq('user_id', user.id);
 
-            if (distributorUserError) {
+            if (distributorUserSelectError) {
                 console.error(
-                    'Error creating distributor user:',
-                    distributorUserError,
+                    'Error selecting distributor user:',
+                    distributorUserSelectError,
                 );
 
                 handleMessage({
                     type: 'error',
-                    message: 'Error creating distributor user',
+                    message: 'Error selecting distributor user',
                 });
 
                 return;
             }
 
-            // insert into public.distribution_costs (distributor_id) values (new.id);
-            const { error: distributionCostsError } = await supabase
-                .from('distribution_costs')
-                .insert({
-                    distributor_id: user.id,
-                });
-
-            if (distributionCostsError) {
-                console.error(
-                    'Error creating distribution costs:',
-                    distributionCostsError,
-                );
-
-                handleMessage({
-                    type: 'error',
-                    message: 'Error creating distribution costs',
-                });
-
-                return;
-            }
-
-            // insert into public.gamification (user_id, score) values (new.id, 0);
-            // Because gamification have unique user_id constraint
-            const { data: gamificationData } = await supabase
-                .from('gamification')
-                .select('user_id')
-                .eq('user_id', user.id);
-
-            if (!gamificationData) {
-                const { error: gamificationError } = await supabase
-                    .from('gamification')
+            if (!distributorUser) {
+                const { error: distributorUserError } = await supabase
+                    .from('distributor_user')
                     .insert({
                         user_id: user.id,
-                        score: 0,
                     });
 
-                if (gamificationError) {
+                if (distributorUserError) {
                     console.error(
-                        'Error creating gamification:',
-                        gamificationError,
+                        'Error creating distributor user:',
+                        distributorUserError,
                     );
 
                     handleMessage({
                         type: 'error',
-                        message: 'Error creating gamification',
+                        message: 'Error creating distributor user',
+                    });
+
+                    return;
+                }
+
+                const {
+                    data: distributionCosts,
+                    error: distributionCostsError,
+                } = await supabase
+                    .from('distribution_costs')
+                    .insert({
+                        distributor_id: user.id,
+                    })
+                    .single();
+
+                if (distributionCostsError) {
+                    console.error(
+                        'Error creating distribution costs:',
+                        distributionCostsError,
+                    );
+
+                    handleMessage({
+                        type: 'error',
+                        message: 'Error creating distribution costs',
+                    });
+
+                    return;
+                }
+
+                if (distributionCosts) {
+                    const dCosts = distributionCosts as IDistributionCost;
+
+                    const { error: areaAndWeigtCostsError } = await supabase
+                        .from('area_and_weight_costs')
+                        .insert({
+                            distribution_costs_id: dCosts.id,
+                        });
+
+                    if (areaAndWeigtCostsError) {
+                        console.error(
+                            'Error creating area and weight costs:',
+                            areaAndWeigtCostsError,
+                        );
+
+                        handleMessage({
+                            type: 'error',
+                            message: 'Error creating area and weight costs',
+                        });
+
+                        return;
+                    }
+                }
+            } else {
+                // Actualizar el estado a activo
+                const { error: distributorUserError } = await supabase
+                    .from('distributor_user')
+                    .update({
+                        is_active: true,
+                    })
+                    .eq('user_id', user.id);
+
+                if (distributorUserError) {
+                    console.error(
+                        'Error updating distributor user:',
+                        distributorUserError,
+                    );
+
+                    handleMessage({
+                        type: 'error',
+                        message: 'Error updating distributor user',
                     });
 
                     return;
@@ -128,11 +170,7 @@ export function UpDistributorModal({
     });
 
     const handleSubmitUpNewDistributor = () => {
-        try {
-            newDistributorMutation.mutate();
-        } catch (error) {
-            console.error(error);
-        }
+        return newDistributorMutation.mutateAsync();
     };
 
     return (
@@ -140,12 +178,10 @@ export function UpDistributorModal({
             showBtn={false}
             showModal={showModal}
             setShowModal={handleShowUpDistributorModal}
-            title={'modal_up_new_distributor_title'}
-            btnTitle={'delete'}
-            description={'modal_up_new_distributor_description'}
-            handler={() => {
-                handleSubmitUpNewDistributor();
-            }}
+            title={'modal_up_distributor_title'}
+            btnTitle={'accept'}
+            description={'modal_up_distributor_description'}
+            handler={handleSubmitUpNewDistributor}
             handlerClose={() => handleShowUpDistributorModal(false)}
             classIcon={''}
             classContainer={''}

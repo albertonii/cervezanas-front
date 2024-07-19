@@ -18,7 +18,7 @@ interface Props {
     product: IProduct;
 }
 
-export default function Product({ product }: Props) {
+export default function PDProduct({ product }: Props) {
     const [loading, setLoading] = useState<boolean>(true);
 
     const [emptyReviews, setEmptyReviews] = useState(false);

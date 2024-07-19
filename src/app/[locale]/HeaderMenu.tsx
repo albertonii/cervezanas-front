@@ -6,18 +6,25 @@ import useDeviceDetection from '../../hooks/useDeviceDetection';
 import { useEffect, useState } from 'react';
 import { INotification } from '../../lib/types/types';
 import { useAuth } from './(auth)/Context/useAuth';
+import useNotifications from '../../hooks/useNotifications';
 
 interface Props {
-    notifications: INotification[];
     i18nLocaleArray: string[];
 }
 
-export default function HeaderMenu({ notifications, i18nLocaleArray }: Props) {
+export default function HeaderMenu({ i18nLocaleArray }: Props) {
     const device = useDeviceDetection();
-    const { supabase } = useAuth();
 
-    const [notificationState, setNotificationState] =
-        useState<INotification[]>(notifications);
+    const { supabase } = useAuth();
+    const { notifications } = useNotifications();
+
+    const [notificationState, setNotificationState] = useState<INotification[]>(
+        [],
+    );
+
+    useEffect(() => {
+        setNotificationState(notifications);
+    }, [notifications]);
 
     useEffect(() => {
         supabase

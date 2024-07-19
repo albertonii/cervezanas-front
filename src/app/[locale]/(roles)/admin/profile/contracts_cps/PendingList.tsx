@@ -149,7 +149,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
         const { error } = await supabase.from('notifications').insert({
             message: `${message}`,
             user_id: submittedCPs[0].users.id,
-            link: `${ROLE_ENUM.Productor}/profile?a=consumption_points`,
+            link: `/${ROLE_ENUM.Productor}/profile?a=consumption_points`,
             source: user?.id, // User that has created the consumption point
         });
 

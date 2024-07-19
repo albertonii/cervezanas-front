@@ -19,6 +19,7 @@ interface Props {
     selectedShippingAddress: string;
     handleDeliveryCost: ComponentProps<any>;
     isShippingCostLoading: boolean;
+    undeliverableItems: IProductPackCartItem[];
 }
 
 export function CheckoutItem({
@@ -26,6 +27,7 @@ export function CheckoutItem({
     selectedShippingAddress,
     handleDeliveryCost,
     isShippingCostLoading,
+    undeliverableItems,
 }: Props) {
     const t = useTranslations();
     const locale = useLocale();
@@ -152,10 +154,10 @@ export function CheckoutItem({
                         </span>
                     </p>
                 </Link>
-                {/* 
-                    {selectedShippingAddress && !canDeliver && (
-                        <DeliveryError />
-                    )} */}
+
+                {undeliverableItems.find(
+                    (item) => item.id === productPack.id,
+                ) && <DeliveryError />}
 
                 {productPack.packs.map((pack) => (
                     <div key={pack.id}>

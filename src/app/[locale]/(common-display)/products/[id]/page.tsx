@@ -1,20 +1,15 @@
-import Product from './Product';
-import { IProduct } from '../../../../../lib/types/types';
+import PDProduct from './PDProduct';
 import createServerClient from '../../../../../utils/supabaseServer';
+import { IProduct } from '../../../../../lib/types/types';
 
 export default async function ProductPage({ params }: any) {
     const { id } = params;
 
     const productData = await getProductData(id);
-    // const marketplaceData = await getMarketplaceData();
 
     const [product] = await Promise.all([productData]);
 
-    return (
-        <>
-            <Product product={product} />
-        </>
-    );
+    return <PDProduct product={product} />;
 }
 
 async function getProductData(productId: string) {
@@ -60,6 +55,12 @@ async function getProductData(productId: string) {
                   )
                 )
               )
+            ),
+            likes (
+              id,
+              created_at,
+              owner_id,
+              product_id
             )
           `,
         )
@@ -69,25 +70,4 @@ async function getProductData(productId: string) {
     if (productError) throw productError;
 
     return product as IProduct;
-}
-
-async function getMarketplaceData() {
-    const supabase = await createServerClient();
-
-    const { data: productsData, error: productsError } = await supabase
-        .from('products')
-        .select(
-            `
-            id,
-            price,
-            product_multimedia (
-              p_principal
-            )
-          `,
-        )
-        .eq('is_public', true);
-
-    if (productsError) throw productsError;
-
-    return productsData as IProduct[];
 }

@@ -197,6 +197,14 @@
     "modal_product_add_lot_title": "Lote",
     "modal_delete_campaign_title": "Eliminar Campaña",
     "modal_delete_campaign_description": "¡Cuidado! Vas a eliminar una campaña. Esta acción borrará de la base de datos la información relativa a la misma. ¿Estás seguro que quieres eliminar la campaña?",
+    "modal_up_producer_title": "Dar de alta como productor",
+    "modal_up_producer_description": "Si eres productor de cerveza, puedes solicitar tu alta como productor. Una vez validada tu solicitud, podrás añadir tus productos y campañas.",
+    "modal_down_producer_title": "Dar de baja como productor",
+    "modal_down_producer_description": "Si ya no eres productor de cerveza, puedes solicitar tu baja como productor. Una vez validada tu solicitud, no podrás añadir productos ni campañas.",
+    "modal_up_distributor_title": "Dar de alta como distribuidor",
+    "modal_up_distributor_description": "Si eres distribuidor de cerveza, puedes solicitar tu alta como distribuidor. Una vez validada tu solicitud, podrás añadir tus productos y campañas.",
+    "modal_down_distributor_title": "Dar de baja como distribuidor",
+    "modal_down_distributor_description": "Si ya no eres distribuidor de cerveza, puedes solicitar tu baja como distribuidor. Una vez validada tu solicitud, no podrás añadir productos ni campañas.",
     "beer": "Cerveza",
     "merchandising": "Merchandising",
     "gift_card": "Tarjeta Regalo",
@@ -1015,13 +1023,18 @@
     "cost_extra_per_kg": "Coste extra por kg",
     "notifications": {
         "label": "Notificaciones",
-        "req_producer_rejected": "Su solicitud de convertirse en productor ha sido rechazada.",
+        "req_producer_rejected": "Su solicitud para convertirse en productor ha sido rechazada.",
         "req_distributor_rejected": "Su solicitud para convertirse en distribuidor ha sido rechazada.",
-        "req_producer_accepted": "Su solicitud de convertirse en productor ha sido aceptada.",
+        "req_producer_accepted": "Su solicitud para convertirse en productor ha sido aceptada.",
         "req_distributor_accepted": "Su solicitud para convertirse en distribuidor ha sido aceptada.",
         "mark_as_read": "Marcar como leído",
         "mark_as_unread": "Marcar como no leído",
         "is_read": "Leído",
         "is_unread": "No leído"
-    }
+    },
+    "request_distributor_deregistration": "Solicitar baja como distribuidor",
+    "request_producer_deregistration": "Solicitar baja como productor",
+    "request_distributor_registration": "Solicitar alta como distribuidor",
+    "request_producer_registration": "Solicitar alta como productor",
+    "profile_title_roles": "Roles"
 }

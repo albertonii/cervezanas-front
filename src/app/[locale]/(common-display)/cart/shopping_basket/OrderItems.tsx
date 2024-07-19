@@ -3,12 +3,14 @@ import { useTranslations } from 'next-intl';
 import { CheckoutItem } from './CheckoutItem';
 import { formatCurrency } from '../../../../../utils/formatCurrency';
 import { useShoppingCart } from '../../../../context/ShoppingCartContext';
+import { IProductPackCartItem } from '../../../../../lib/types/types';
 
 interface Props {
     selectedShippingAddress: string;
     handleDeliveryCost: (deliveryCost: number) => void;
     subtotal: number;
     isShippingCostLoading: boolean;
+    undeliverableItems: IProductPackCartItem[];
 }
 
 const OrderItems = ({
@@ -16,6 +18,7 @@ const OrderItems = ({
     handleDeliveryCost,
     subtotal,
     isShippingCostLoading,
+    undeliverableItems,
 }: Props) => {
     const t = useTranslations();
 
@@ -35,6 +38,7 @@ const OrderItems = ({
                         selectedShippingAddress={selectedShippingAddress}
                         handleDeliveryCost={handleDeliveryCost}
                         isShippingCostLoading={isShippingCostLoading}
+                        undeliverableItems={undeliverableItems}
                     />
                 </div>
             ))}

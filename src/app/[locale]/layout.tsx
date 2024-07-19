@@ -4,11 +4,9 @@ import HeaderMenu from './HeaderMenu';
 import classNames from 'classnames';
 import Providers from './providers';
 import Footer from './components/Footer';
-import readUserSession from '../../lib/actions';
 import Breadcrumb from './components/Breadcrumb';
 import createServerClient from '../../utils/supabaseServer';
 import { notFound } from 'next/navigation';
-import { INotification } from '../../lib/types/types';
 import { MessageList } from './components/message/MessageList';
 
 type LayoutProps = {
@@ -39,8 +37,6 @@ export default async function AppLocaleLayout({
         notFound();
     }
 
-    const notifications = await getNotifications();
-
     const i18n = {
         defaultLocale: 'es',
         locales: ['es', 'en'],
@@ -49,10 +45,7 @@ export default async function AppLocaleLayout({
     return (
         <Providers session={session} messages={messages} locale={locale}>
             <section className="relative flex flex-col bg-beer-foam dark:bg-gray-800">
-                <HeaderMenu
-                    notifications={notifications ?? []}
-                    i18nLocaleArray={i18n.locales}
-                />
+                <HeaderMenu i18nLocaleArray={i18n.locales} />
                 <section
                     className={classNames(
                         'relative mx-auto w-full overflow-auto lg:container',
@@ -82,26 +75,3 @@ export default async function AppLocaleLayout({
         </Providers>
     );
 }
-
-const getNotifications = async () => {
-    const supabase = await createServerClient();
-
-    // Be careful when protecting pages. The server gets the user session from the cookies, which can be spoofed by anyone.
-    const session = await readUserSession();
-
-    if (!session) return;
-
-    const { data: notifications, error: notificationsError } = await supabase
-        .from('notifications')
-
-        .select(
-            `
-                *
-            `,
-        )
-        .eq('user_id', session.id)
-        .limit(15);
-
-    if (notificationsError) throw notificationsError;
-    return notifications as INotification[];
-};

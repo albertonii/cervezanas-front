@@ -1,28 +1,26 @@
 import Modal from './Modal';
-import React from 'react';
+import React, { ComponentProps } from 'react';
 import { useMutation } from 'react-query';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useMessage } from '../message/useMessage';
 import { ROLE_ENUM } from '../../../../lib/enums';
 
 interface Props {
-    handleShowDownDistributorModal: (show: boolean) => void;
+    handleShowDownProducerModal: (show: boolean) => void;
     showModal: boolean;
 }
 
-export function DownDistributorModal({
-    handleShowDownDistributorModal,
+export function DownProducerModal({
+    handleShowDownProducerModal,
     showModal,
 }: Props) {
     const { supabase, user } = useAuth();
     const { handleMessage } = useMessage();
 
-    // Hemos convertido role de string -> string[]
-    const handleSignDownAsDistributor = async () => {
-        if (user.role.includes(ROLE_ENUM.Distributor)) {
-            // Delete distributor role to the user table array
+    const handleSignDownAsProducer = async () => {
+        if (user.role.includes(ROLE_ENUM.Productor)) {
             const delRoles = user.role.filter(
-                (role: string) => role !== ROLE_ENUM.Distributor,
+                (role: string) => role !== ROLE_ENUM.Productor,
             );
 
             const { error: roleError } = await supabase
@@ -43,6 +41,7 @@ export function DownDistributorModal({
                 return;
             }
 
+            // Remove user role producer
             await supabase.rpc('set_claim', {
                 uid: user.id,
                 claim: 'access_level',
@@ -50,22 +49,22 @@ export function DownDistributorModal({
             });
 
             // Para no perder toda la información previa de distribuidores -> Hacemos que se quede inactivo
-            const { error: distributorUserError } = await supabase
-                .from('distributor_user')
+            const { error: producerUserError } = await supabase
+                .from('producer_user')
                 .update({
                     is_active: false,
                 })
                 .eq('user_id', user.id);
 
-            if (distributorUserError) {
+            if (producerUserError) {
                 console.error(
-                    'Error deleting distributor user:',
-                    distributorUserError,
+                    'Error deleting producer user:',
+                    producerUserError,
                 );
 
                 handleMessage({
                     type: 'error',
-                    message: 'Error deleting distributor user',
+                    message: 'Error deleting producer user',
                 });
 
                 return;
@@ -73,25 +72,25 @@ export function DownDistributorModal({
         }
     };
 
-    const downDistributorMutation = useMutation({
-        mutationKey: ['removeDistributor'],
-        mutationFn: handleSignDownAsDistributor,
+    const delProducerMutation = useMutation({
+        mutationKey: ['downProducer'],
+        mutationFn: handleSignDownAsProducer,
     });
 
-    const handleSubmitDownDistributor = () => {
-        return downDistributorMutation.mutateAsync();
+    const handleSubmitDownProducer = () => {
+        return delProducerMutation.mutateAsync();
     };
 
     return (
         <Modal
             showBtn={false}
             showModal={showModal}
-            setShowModal={handleShowDownDistributorModal}
-            title={'modal_down_distributor_title'}
+            setShowModal={handleShowDownProducerModal}
+            title={'modal_down_producer_title'}
             btnTitle={'accept'}
-            description={'modal_down_distributor_description'}
-            handler={handleSubmitDownDistributor}
-            handlerClose={() => handleShowDownDistributorModal(false)}
+            description={'modal_down_producer_description'}
+            handler={handleSubmitDownProducer}
+            handlerClose={() => handleShowDownProducerModal(false)}
             classIcon={''}
             classContainer={''}
         >

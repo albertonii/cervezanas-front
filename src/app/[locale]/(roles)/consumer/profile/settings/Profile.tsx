@@ -9,45 +9,46 @@ import { Details } from './Details';
 import { Values } from './Values';
 
 interface Props {
-  profile: IUserTable;
+    profile: IUserTable;
 }
 
 export default function Profile({ profile }: Props) {
-  const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(true);
 
-  const [menuOption, setMenuOption] = useState<string>('account');
+    const [menuOption, setMenuOption] = useState<string>('account');
 
-  const handleMenuClick = (opt: string): void => {
-    setMenuOption(opt);
-  };
+    const handleMenuClick = (opt: string): void => {
+        setMenuOption(opt);
+    };
 
-  useEffect(() => {
-    setLoading(false);
-  }, []);
+    useEffect(() => {
+        setLoading(false);
+    }, []);
 
-  const renderSwitch = () => {
-    switch (menuOption) {
-      case 'account':
-        return <Account profile={profile} />;
-      case 'details':
-        return <Details />;
-      case 'values':
-        return <Values />;
-    }
-  };
+    const renderSwitch = () => {
+        switch (menuOption) {
+            case 'account':
+                return <Account profile={profile} />;
+            case 'details':
+                return <Details />;
+            case 'values':
+                return <Values />;
+        }
+    };
 
-  return (
-    <>
-      <HorizontalSections
-        handleMenuClick={handleMenuClick}
-        tabs={['account', 'details', 'values']}
-      />
+    return (
+        <>
+            <HorizontalSections
+                handleMenuClick={handleMenuClick}
+                // tabs={['account', 'details', 'values']}
+                tabs={['account']}
+            />
 
-      {loading ? (
-        <Spinner color="beer-blonde" size={'medium'} />
-      ) : (
-        <>{renderSwitch()}</>
-      )}
-    </>
-  );
+            {loading ? (
+                <Spinner color="beer-blonde" size={'medium'} />
+            ) : (
+                <>{renderSwitch()}</>
+            )}
+        </>
+    );
 }

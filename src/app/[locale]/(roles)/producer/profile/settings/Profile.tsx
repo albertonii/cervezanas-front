@@ -10,21 +10,15 @@ import { Details } from './Details';
 import { Values } from './Values';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { ROLE_ENUM } from '../../../../../../lib/enums';
-import { UpDistributorModal } from '../../../../components/modals/UpDistributorModal';
-import { DownDistributorModal } from '../../../../components/modals/DownDistributorModal';
+import { useTranslations } from 'next-intl';
 
 interface Props {
     profile: IProducerUser;
 }
 
 export default function Profile({ profile }: Props) {
+    const t = useTranslations();
     const { roles } = useAuth();
-
-    const [showUpDistributorRole, setShowUpDistributorRole] =
-        useState<boolean>(false);
-
-    const [showDownDistributorRole, setShowDownDistributorRole] =
-        useState<boolean>(false);
 
     const [loading, setLoading] = useState<boolean>(true);
     const [menuOption, setMenuOption] = useState<string>('account');
@@ -35,16 +29,7 @@ export default function Profile({ profile }: Props) {
 
     useEffect(() => {
         setLoading(false);
-       
     }, []);
-
-    const handleShowUpDistributorModal = (show: boolean = false) => {
-        setShowUpDistributorRole(show);
-    };
-
-    const handleShowDownDistributorModal = (show: boolean = false) => {
-        setShowDownDistributorRole(show);
-    };
 
     const renderSwitch = () => {
         switch (menuOption) {
@@ -59,45 +44,10 @@ export default function Profile({ profile }: Props) {
 
     return (
         <>
-            {showUpDistributorRole && (
-                <UpDistributorModal
-                    handleShowUpDistributorModal={handleShowUpDistributorModal}
-                    showModal={showUpDistributorRole}
-                />
-            )}
-
-            {showDownDistributorRole && (
-                <DownDistributorModal
-                    handleShowDownDistributorModal={
-                        handleShowDownDistributorModal
-                    }
-                    showModal={showDownDistributorRole}
-                />
-            )}
-
-            <section>
-                {roles?.includes(ROLE_ENUM.Distributor) ? (
-                    <Button
-                        primary
-                        small
-                        onClick={() => handleShowDownDistributorModal(true)}
-                    >
-                        Solicitar baja como distribuidor
-                    </Button>
-                ) : (
-                    <Button
-                        onClick={() => handleShowUpDistributorModal(true)}
-                        primary
-                        small
-                    >
-                        Solicitar alta como distribuidor
-                    </Button>
-                )}
-            </section>
-
             <HorizontalSections
                 handleMenuClick={handleMenuClick}
-                tabs={['account', 'details', 'values']}
+                // tabs={['account', 'details', 'values']}
+                tabs={['account']}
             />
 
             {loading ? (

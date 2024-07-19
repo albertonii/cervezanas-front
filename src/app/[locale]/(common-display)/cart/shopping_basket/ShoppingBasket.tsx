@@ -23,7 +23,10 @@ import {
     merchantInfo,
 } from '../../../components/TPV/redsysClient';
 import Spinner from '../../../components/common/Spinner';
-import { IUserTable } from '../../../../../lib/types/types';
+import {
+    IProductPackCartItem,
+    IUserTable,
+} from '../../../../../lib/types/types';
 
 import { insertOnlineOrder } from '../actions';
 import { useMessage } from '../../../components/message/useMessage';
@@ -84,6 +87,9 @@ export function ShoppingBasket({ user }: Props) {
     const [merchantSignature, setMerchantSignature] = useState('');
     const [selectedShippingAddress, setSelectedShippingAddress] = useState('');
     const [selectedBillingAddress, setSelectedBillingAddress] = useState('');
+    const [undeliverableItems, setUndeliverableItems] = useState<
+        IProductPackCartItem[]
+    >([]);
 
     const [canMakeThePayment, setCanMakeThePayment] = useState(false);
 
@@ -133,24 +139,66 @@ export function ShoppingBasket({ user }: Props) {
     }, [isFormReady]);
 
     useEffect(() => {
+        // Si se eliminan elementos del carrito y además coincide que son elementos en el listado de undeliverableItems
+        // Se debe de actualizar el listado de undeliverableItems
+        const undeliverableItems_ = undeliverableItems.filter(
+            (item) => !items.find((cartItem) => cartItem.id === item.id),
+        );
+
+        setUndeliverableItems(undeliverableItems_);
+
+        // Check if the cart is deliverable
+        const isDeliverable =
+            // checkIsShoppingCartDeliverable() &&
+            items.length > 0 &&
+            selectedBillingAddress !== '' &&
+            selectedShippingAddress !== '' &&
+            undeliverableItems_.length === 0;
+
+        setCanMakeThePayment(isDeliverable);
+    }, [
+        items,
+        selectedShippingAddress,
+        selectedBillingAddress,
+        undeliverableItems,
+    ]);
+
+    useEffect(() => {
         const handleShippingCost = async () => {
             setIsShippingCostLoading(true);
-
-            const canMakeThePayment =
-                checkIsShoppingCartDeliverable() &&
-                items.length > 0 &&
-                selectedBillingAddress !== '' &&
-                selectedShippingAddress !== '';
 
             const cheapestShippingCost = await calculateShippingCostCartContext(
                 selectedShippingAddress,
             );
 
             if (cheapestShippingCost) {
-                setDeliveryCost(cheapestShippingCost);
+                const shippingCostInformation: {
+                    [producerId: string]: {
+                        items: IProductPackCartItem[];
+                        shippingCost: number;
+                    };
+                } = cheapestShippingCost;
+
+                const totalShippingCost: number = Object.values(
+                    shippingCostInformation,
+                ).reduce((acc, { shippingCost }) => acc + shippingCost, 0);
+
+                // Obtener listado de elementos que no se pueden enviar - Son aquellos donde el shippingCost es null para el productor
+                const undeliverableItems_: {
+                    items: IProductPackCartItem[];
+                    shippingCost: number;
+                }[] = Object.values(shippingCostInformation).filter(
+                    ({ shippingCost }) => shippingCost === null,
+                );
+
+                const undeliverableItemsFlat: IProductPackCartItem[] =
+                    undeliverableItems_.map(({ items }) => items).flat();
+
+                setUndeliverableItems(undeliverableItemsFlat);
+
+                setDeliveryCost(totalShippingCost);
             }
 
-            setCanMakeThePayment(canMakeThePayment);
             setIsShippingCostLoading(false);
         };
 
@@ -386,6 +434,7 @@ export function ShoppingBasket({ user }: Props) {
                                         isShippingCostLoading={
                                             isShippingCostLoading
                                         }
+                                        undeliverableItems={undeliverableItems}
                                     />
                                 ) : (
                                     <EmptyCart />

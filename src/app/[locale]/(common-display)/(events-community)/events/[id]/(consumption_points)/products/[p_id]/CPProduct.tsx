@@ -2,11 +2,11 @@
 
 import MarketCartButtons from '../../../../../../../components/common/MarketCartButtons';
 import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
 } from 'react';
 import { useTranslations } from 'next-intl';
 import { faCartArrowDown } from '@fortawesome/free-solid-svg-icons';
@@ -18,24 +18,24 @@ import { ProductReviews } from '../../../../../../../components/reviews/ProductR
 import { Rate } from '../../../../../../../components/reviews/Rate';
 import { SupabaseProps } from '../../../../../../../../../constants';
 import {
-  ICarouselItem,
-  ICPMProducts,
-  IProduct,
-  IProductPack,
-  IReview,
+    ICarouselItem,
+    ICPMProducts,
+    IProduct,
+    IProductPack,
+    IReview,
 } from '../../../../../../../../../lib/types/types';
 import dynamic from 'next/dynamic';
 
 const DynamicSpinner = dynamic(
-  () => import('../../../../../../../components/common/Spinner'),
-  {
-    ssr: false,
-  },
+    () => import('../../../../../../../components/common/Spinner'),
+    {
+        ssr: false,
+    },
 );
 
 interface Props {
-  product: ICPMProducts;
-  marketplaceProducts: IProduct[];
+    product: ICPMProducts;
+    marketplaceProducts: IProduct[];
 }
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_ARTICLE_IMG_URL}`;
@@ -46,7 +46,7 @@ const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_A
 const pExtra3Url = `${productsUrl}${SupabaseProps.P_EXTRA_3_URL}`;
 
 export default function CPProduct({ product, marketplaceProducts }: Props) {
-  /*
+    /*
   const { supabase } = useAuth();
   const selectedPack: IProductPack = product.product_pack_id;
 
@@ -215,9 +215,9 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
   }
   */
 
-  return (
-    <>
-      {/*
+    return (
+        <>
+            {/*
       {loading ? (
         <Spinner color="beer-blonde" size={"medium"} />
       ) : (
@@ -272,7 +272,7 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
                 </p>
 
                 <div className="mt-6">
-                  <div className="flex min-h-[6vh] items-center pr-6">
+                  <div className="flex min-h-[6vh] items-center">
                     <p className="text-lg">{selectedPack.description}</p>
                   </div>
                 </div>
@@ -344,12 +344,12 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
             </div>
 
             {/* Display Similar Products */}
-      {/*    <div className="col-span-12 mx-6">
+            {/*    <div className="col-span-12 mx-6">
         <DisplaySimilarProducts />
       </div>
 
       {/* Reviews */}
-      {/*  <div className="item-center col-span-12 mx-6 flex flex-col justify-center">
+            {/*  <div className="item-center col-span-12 mx-6 flex flex-col justify-center">
         <ProductOverallReview
           reviews={productReviews}
           emptyReviews={emptyReviews}
@@ -357,7 +357,7 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
       </div>
 
       {/* See user reviews */}
-      {/* {!emptyReviews && (
+            {/* {!emptyReviews && (
               <div
                 className="item-center col-span-12 mx-6 flex flex-col justify-center"
                 ref={reviewRef}
@@ -372,6 +372,6 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
         </div>
       )}
             */}
-    </>
-  );
+        </>
+    );
 }
