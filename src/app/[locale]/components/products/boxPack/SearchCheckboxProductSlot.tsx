@@ -49,7 +49,14 @@ export function SearchCheckboxProductSlot({ form }: Props) {
     }, [products, query]);
 
     if (isLoading) {
-        return <Spinner color="beer-blonde" size="xLarge" absolute center />;
+        return (
+            <Spinner
+                color="beer-blonde"
+                size="xLarge"
+                absolute
+                absolutePosition="center"
+            />
+        );
     }
 
     return (

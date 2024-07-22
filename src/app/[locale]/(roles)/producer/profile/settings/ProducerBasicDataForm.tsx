@@ -150,7 +150,7 @@ export function ProducerBasicDataForm({ profile }: Props) {
                         color="beer-blonde"
                         size={'xLarge'}
                         absolute
-                        center
+                        absolutePosition="center"
                     />
                 )}
 

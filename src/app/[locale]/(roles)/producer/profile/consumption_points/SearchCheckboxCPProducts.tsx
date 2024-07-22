@@ -53,7 +53,14 @@ export function SearchCheckboxCPProducts({ form }: Props) {
     ];
 
     if (isLoading) {
-        return <Spinner color="beer-blonde" size="xLarge" absolute center />;
+        return (
+            <Spinner
+                color="beer-blonde"
+                size="xLarge"
+                absolute
+                absolutePosition="center"
+            />
+        );
     }
 
     const filteredItemsByProductsName = useMemo(() => {

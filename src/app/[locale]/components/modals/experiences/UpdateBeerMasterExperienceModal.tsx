@@ -302,7 +302,12 @@ export default function UpdateBeerMasterExperienceModal({
         >
             {isLoading ? (
                 <div className="h-[50vh]">
-                    <Spinner size="xxLarge" color="beer-blonde" center />
+                    <Spinner
+                        size="xxLarge"
+                        color="beer-blonde"
+                        absolutePosition="center"
+                        absolute
+                    />
                 </div>
             ) : (
                 <form>

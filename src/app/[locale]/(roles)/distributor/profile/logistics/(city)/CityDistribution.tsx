@@ -399,7 +399,12 @@ export default function CityDistribution({
     return (
         <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
             {isLoading && (
-                <Spinner size={'large'} color={'beer-blonde'} center absolute />
+                <Spinner
+                    size={'large'}
+                    color={'beer-blonde'}
+                    absolutePosition="center"
+                    absolute
+                />
             )}
 
             <Button
@@ -506,7 +511,12 @@ export default function CityDistribution({
                 {/* List of cities in the country  */}
                 {isRegionLoading ? (
                     <div className="w-full">
-                        <Spinner size={'medium'} color={'beer-blonde'} center />
+                        <Spinner
+                            size={'medium'}
+                            color={'beer-blonde'}
+                            absolute
+                            absolutePosition="center"
+                        />
                     </div>
                 ) : (
                     <>

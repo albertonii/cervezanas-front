@@ -134,7 +134,12 @@ export function ListCPFixed({ cpsId }: Props) {
             )}
 
             {isLoading && (
-                <Spinner color="beer-blonde" size="xLarge" absolute center />
+                <Spinner
+                    color="beer-blonde"
+                    size="xLarge"
+                    absolute
+                    absolutePosition="center"
+                />
             )}
 
             {!isError && !isLoading && cpFixed.length === 0 ? (

@@ -24,7 +24,14 @@ const ExperienceAccordion: React.FC<Props> = ({
     }
 
     if (experiences.length === 0) {
-        return <Spinner color="beer-blonde" size="xLarge" absolute center />;
+        return (
+            <Spinner
+                color="beer-blonde"
+                size="xLarge"
+                absolute
+                absolutePosition="center"
+            />
+        );
     }
 
     return (

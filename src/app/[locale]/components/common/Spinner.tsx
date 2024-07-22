@@ -3,8 +3,8 @@ interface Props {
     size?: string;
     class?: string;
     absolute?: boolean;
-    center?: boolean;
     flexCenter?: boolean;
+    absolutePosition?: string;
 }
 
 export default function Spinner({
@@ -12,23 +12,31 @@ export default function Spinner({
     size,
     class: class_,
     absolute,
-    center,
     flexCenter,
+    absolutePosition,
 }: Props) {
     return (
         <section
             role="status"
             className={`
-        ${class_} 
-        ${flexCenter ?? 'flex justify-center'}
-        ${center ? 'bottom-[50%] left-1/2 -translate-x-1/2' : ''}
-        ${
-            size === 'fullScreen' &&
-            'fixed inset-0 z-10 flex h-full items-center justify-center'
-        }
-        ${absolute ? 'absolute' : 'relative'} 
-            rounded-lg bg-beer-softBlonde bg-opacity-90 p-4 my-4
-        `}
+            ${class_} 
+            ${flexCenter ?? 'flex justify-center'}
+            ${
+                size === 'fullScreen' &&
+                'fixed inset-0 z-10 flex h-full items-center justify-center'
+            }
+            ${absolute ? 'absolute' : 'relative'} 
+            ${absolutePosition === 'top' && 'top-10 left-1/2 -translate-x-1/2'}
+            ${
+                absolutePosition === 'bottom' &&
+                'bottom-0 left-1/2 -translate-x-1/2'
+            }
+            ${
+                absolutePosition === 'center' &&
+                'bottom-[50%] left-1/2 -translate-x-1/2'
+            }
+                rounded-lg bg-beer-softBlonde bg-opacity-90 p-4 my-4
+            `}
         >
             <svg
                 aria-hidden="true"

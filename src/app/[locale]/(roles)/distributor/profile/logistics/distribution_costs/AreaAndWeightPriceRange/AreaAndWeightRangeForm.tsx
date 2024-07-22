@@ -288,7 +288,12 @@ const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
             `}
         >
             {isLoading && (
-                <Spinner size={'large'} color={'beer-blonde'} center absolute />
+                <Spinner
+                    size={'large'}
+                    color={'beer-blonde'}
+                    absolutePosition="center"
+                    absolute
+                />
             )}
 
             {/* Información del área seleccionada  */}

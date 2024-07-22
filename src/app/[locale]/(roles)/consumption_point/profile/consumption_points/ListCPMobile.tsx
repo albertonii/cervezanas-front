@@ -136,7 +136,12 @@ export function ListCPMobile({ cpsId }: Props) {
             )}
 
             {isLoading && (
-                <Spinner color="beer-blonde" size="xLarge" absolute center />
+                <Spinner
+                    color="beer-blonde"
+                    size="xLarge"
+                    absolute
+                    absolutePosition="center"
+                />
             )}
 
             {!isError && !isLoading && cpMobile.length === 0 ? (

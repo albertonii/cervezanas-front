@@ -256,7 +256,7 @@ export default function Modal(props: Props) {
                                         <Spinner
                                             size="large"
                                             color="blonde-beer"
-                                            center={true}
+                                            absolutePosition="center"
                                             absolute={true}
                                             class="z-50"
                                         />

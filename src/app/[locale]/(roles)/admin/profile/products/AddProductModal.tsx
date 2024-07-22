@@ -524,7 +524,12 @@ export function AddProductModal() {
         >
             {isLoading ? (
                 <div className="h-[50vh]">
-                    <Spinner size="xxLarge" color="beer-blonde" center />
+                    <Spinner
+                        size="xxLarge"
+                        color="beer-blonde"
+                        absolute
+                        absolutePosition="center"
+                    />
                 </div>
             ) : (
                 <form>

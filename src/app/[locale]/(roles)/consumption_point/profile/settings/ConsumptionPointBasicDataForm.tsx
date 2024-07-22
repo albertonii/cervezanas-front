@@ -148,7 +148,7 @@ export function ConsumptionPointBasicDataForm({ profile }: Props) {
                         color="beer-blonde"
                         size={'xLarge'}
                         absolute
-                        center
+                        absolutePosition="center"
                     />
                 )}
 

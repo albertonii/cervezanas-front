@@ -20,7 +20,14 @@ const ProductAccordion: React.FC<Props> = ({
     }
 
     if (products.length === 0) {
-        return <Spinner color="beer-blonde" size="xLarge" absolute center />;
+        return (
+            <Spinner
+                color="beer-blonde"
+                size="xLarge"
+                absolute
+                absolutePosition="center"
+            />
+        );
     }
 
     return (

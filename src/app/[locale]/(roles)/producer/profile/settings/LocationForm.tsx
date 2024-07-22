@@ -311,7 +311,7 @@ export function LocationForm({ profile_location }: Props) {
                         color="beer-blonde"
                         size={'xLarge'}
                         absolute
-                        center
+                        absolutePosition="center"
                     />
                 )}
 

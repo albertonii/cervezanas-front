@@ -43,7 +43,14 @@ export function SearchCheckboxCPProductsPack({ form, productItems }: Props) {
     }, [products, query]);
 
     if (isLoading) {
-        return <Spinner color="beer-blonde" size="xLarge" absolute center />;
+        return (
+            <Spinner
+                color="beer-blonde"
+                size="xLarge"
+                absolute
+                absolutePosition="center"
+            />
+        );
     }
 
     return (

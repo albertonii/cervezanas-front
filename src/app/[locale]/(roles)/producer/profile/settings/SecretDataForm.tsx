@@ -150,7 +150,7 @@ export function SecretDataForm() {
                         color="beer-blonde"
                         size={'xLarge'}
                         absolute
-                        center
+                        absolutePosition="center"
                     />
                 )}
 

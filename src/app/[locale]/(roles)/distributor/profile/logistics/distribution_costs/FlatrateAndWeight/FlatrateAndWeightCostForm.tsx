@@ -239,7 +239,12 @@ export default function FlatrateAndWeightCostForm({
         `}
         >
             {isLoading && (
-                <Spinner size={'large'} color={'beer-blonde'} center absolute />
+                <Spinner
+                    size={'large'}
+                    color={'beer-blonde'}
+                    absolutePosition="center"
+                    absolute
+                />
             )}
 
             <SelectDistributionCost

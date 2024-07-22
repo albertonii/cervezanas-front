@@ -179,7 +179,7 @@ export function CustomizeProfileForm({ profile }: Props) {
                         color="beer-blonde"
                         size={'xLarge'}
                         absolute
-                        center
+                        absolutePosition="center"
                     />
                 )}
 

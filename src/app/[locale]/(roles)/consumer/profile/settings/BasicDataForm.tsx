@@ -175,7 +175,7 @@ export function BasicDataForm({ profile }: Props) {
                         color="beer-blonde"
                         size={'xLarge'}
                         absolute
-                        center
+                        absolutePosition="center"
                     />
                 )}
 

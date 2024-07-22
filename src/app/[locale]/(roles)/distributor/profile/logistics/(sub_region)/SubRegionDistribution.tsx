@@ -477,7 +477,12 @@ export default function SubRegionDistribution({
     return (
         <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
             {isLoading && (
-                <Spinner size={'large'} color={'beer-blonde'} center absolute />
+                <Spinner
+                    size={'large'}
+                    color={'beer-blonde'}
+                    absolutePosition="center"
+                    absolute
+                />
             )}
 
             <Button
