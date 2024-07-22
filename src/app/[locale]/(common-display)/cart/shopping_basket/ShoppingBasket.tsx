@@ -11,25 +11,22 @@ import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { API_METHODS } from '../../../../../constants';
+import { API_METHODS } from '@/constants';
 import { useMutation, useQueryClient } from 'react-query';
 import { randomTransactionId, CURRENCIES } from 'redsys-easy';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { CustomLoading } from '../../../components/common/CustomLoading';
-import { useShoppingCart } from '../../../../context/ShoppingCartContext';
+import { CustomLoading } from '@/app/[locale]/components/common/CustomLoading';
+import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import {
     createRedirectForm,
     merchantInfo,
-} from '../../../components/TPV/redsysClient';
-import Spinner from '../../../components/common/Spinner';
-import {
-    IProductPackCartItem,
-    IUserTable,
-} from '../../../../../lib/types/types';
+} from '@/app/[locale]/components/TPV/redsysClient';
+import Spinner from '@/app/[locale]/components/common/Spinner';
+import { IProductPackCartItem, IUserTable } from '@/lib//types/types';
 
 import { insertOnlineOrder } from '../actions';
-import { useMessage } from '../../../components/message/useMessage';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import ShoppingBasketOrderSummary from './ShoppingBasketOrderSummary';
 import OrderItems from './OrderItems';
 
@@ -69,8 +66,8 @@ export function ShoppingBasket({ user }: Props) {
 
     const {
         items,
+        handleUndeliverableItems,
         clearCart,
-        checkIsShoppingCartDeliverable,
         calculateShippingCostCartContext,
     } = useShoppingCart();
 
@@ -87,9 +84,6 @@ export function ShoppingBasket({ user }: Props) {
     const [merchantSignature, setMerchantSignature] = useState('');
     const [selectedShippingAddress, setSelectedShippingAddress] = useState('');
     const [selectedBillingAddress, setSelectedBillingAddress] = useState('');
-    const [undeliverableItems, setUndeliverableItems] = useState<
-        IProductPackCartItem[]
-    >([]);
 
     const [canMakeThePayment, setCanMakeThePayment] = useState(false);
 
@@ -139,29 +133,23 @@ export function ShoppingBasket({ user }: Props) {
     }, [isFormReady]);
 
     useEffect(() => {
-        // Si se eliminan elementos del carrito y además coincide que son elementos en el listado de undeliverableItems
-        // Se debe de actualizar el listado de undeliverableItems
-        const undeliverableItems_ = undeliverableItems.filter(
-            (item) => !items.find((cartItem) => cartItem.id === item.id),
-        );
+        // // Si se eliminan elementos del carrito y además coincide que son elementos en el listado de undeliverableItems
+        // // Se debe de actualizar el listado de undeliverableItems
+        // const undeliverableItems_ = undeliverableItems.filter(
+        //     (item) => !items.find((cartItem) => cartItem.id === item.id),
+        // );
 
-        setUndeliverableItems(undeliverableItems_);
+        // setUndeliverableItems(undeliverableItems_);
 
         // Check if the cart is deliverable
         const isDeliverable =
-            // checkIsShoppingCartDeliverable() &&
             items.length > 0 &&
             selectedBillingAddress !== '' &&
-            selectedShippingAddress !== '' &&
-            undeliverableItems_.length === 0;
+            selectedShippingAddress !== '';
+        // undeliverableItems_.length === 0;
 
         setCanMakeThePayment(isDeliverable);
-    }, [
-        items,
-        selectedShippingAddress,
-        selectedBillingAddress,
-        undeliverableItems,
-    ]);
+    }, [items, selectedShippingAddress, selectedBillingAddress]);
 
     useEffect(() => {
         const handleShippingCost = async () => {
@@ -194,7 +182,9 @@ export function ShoppingBasket({ user }: Props) {
                 const undeliverableItemsFlat: IProductPackCartItem[] =
                     undeliverableItems_.map(({ items }) => items).flat();
 
-                setUndeliverableItems(undeliverableItemsFlat);
+                console.log(undeliverableItemsFlat);
+
+                handleUndeliverableItems(undeliverableItemsFlat);
 
                 setDeliveryCost(totalShippingCost);
             }
@@ -427,14 +417,9 @@ export function ShoppingBasket({ user }: Props) {
                                 {items.length > 0 ? (
                                     <OrderItems
                                         subtotal={subtotal}
-                                        selectedShippingAddress={
-                                            selectedShippingAddress
-                                        }
-                                        handleDeliveryCost={handleDeliveryCost}
                                         isShippingCostLoading={
                                             isShippingCostLoading
                                         }
-                                        undeliverableItems={undeliverableItems}
                                     />
                                 ) : (
                                     <EmptyCart />

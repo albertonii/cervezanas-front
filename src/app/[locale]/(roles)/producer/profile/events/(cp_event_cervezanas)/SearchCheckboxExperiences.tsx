@@ -3,11 +3,8 @@ import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import useFetchEventExperiencesByEventIdAndCPMobileId from '../../../../../../../hooks/useFetchEventExperiencesByEventIdAndCPId';
 import useFetchExperiencesByProducerId from '../../../../../../../hooks/useFetchExperiencesByProducerId';
-import {
-    IEventExperience,
-    IExperience,
-} from '../../../../../../../lib/types/quiz';
-import InputSearch from '../../../../../components/common/InputSearch';
+import { IEventExperience, IExperience } from '@/lib/types/quiz';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
 
 interface Props {
     eventId: string;

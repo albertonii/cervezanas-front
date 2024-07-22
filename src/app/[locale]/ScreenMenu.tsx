@@ -4,18 +4,17 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Button from './components/common/Button';
 import { memo, useEffect, useRef, useState } from 'react';
-import { COMMON } from '../../constants';
-import { ROUTE_SIGNIN } from '../../config';
-import { INotification } from '../../lib/types/types';
+import { COMMON } from '@/constants';
+import { ROUTE_SIGNIN } from '@/config';
+import { INotification } from '@/lib/types/types';
 import { useAuth } from './(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
 import { usePathname, useRouter } from 'next/navigation';
 import { HeaderDropdownButton } from './HeaderDropdownButton';
-import { useShoppingCart } from '../context/ShoppingCartContext';
+import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { DeviceScreenNotification } from './components/DeviceScreenNotification';
-import { ROLE_ENUM } from '../../lib/enums';
+import { ROLE_ENUM } from '@/lib/enums';
 import DropdownRoleList from './components/DropdownRoleList';
-import useOnClickOutside from '../../hooks/useOnOutsideClickDOM';
 
 interface Props {
     notifications: INotification[];

@@ -5,7 +5,7 @@ import {
     createServerClient as createServerComponentClient,
 } from '@supabase/ssr';
 import { cookies } from 'next/headers';
-import { Database } from '../lib/schema';
+import { Database } from '@/lib//schema';
 
 export async function createSupabaseAppServerClient(serverComponent = false) {
     const supabaseURL = process.env.NEXT_PUBLIC_SUPABASE_URL;

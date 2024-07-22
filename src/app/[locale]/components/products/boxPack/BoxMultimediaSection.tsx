@@ -1,5 +1,5 @@
 import { UseFormReturn } from 'react-hook-form';
-import { ModalAddBoxPackFormData } from '../../../../../lib/types/product';
+import { ModalAddBoxPackFormData } from '@/lib//types/product';
 import { FilePreviewImageMultimedia } from '../../common/FilePreviewImageMultimedia';
 
 export interface Props {

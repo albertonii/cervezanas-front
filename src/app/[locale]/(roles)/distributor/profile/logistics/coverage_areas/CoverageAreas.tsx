@@ -9,8 +9,8 @@ import EuropeDistribution from '../(europe)/EuropeDistribution';
 import RegionDistribution from '../(region)/RegionDistribution';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { DistributionDestinationType } from '../../../../../../../lib/enums';
-import { Tooltip } from '../../../../../components/common/Tooltip';
+import { DistributionDestinationType } from '@/lib/enums';
+import { Tooltip } from '@/app/[locale]/components/common/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 

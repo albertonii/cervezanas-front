@@ -1,12 +1,12 @@
 import { useTranslations } from 'next-intl';
 import React, { useState } from 'react';
 import { useAuth } from '../../../(auth)/Context/useAuth';
-import { IBoxPack } from '../../../../../lib/types/product';
-import { IProduct, IProductPack } from '../../../../../lib/types/types';
-import { useShoppingCart } from '../../../../context/ShoppingCartContext';
-import { AddCardButton } from '../../../components/common/AddCartButton';
-import MarketCartButtons2 from '../../../components/common/MarketCartButtons2';
-import { useMessage } from '../../../components/message/useMessage';
+import { IBoxPack } from '@/lib//types/product';
+import { IProduct, IProductPack } from '@/lib//types/types';
+import { useShoppingCart } from '@/app/context/ShoppingCartContext';
+import { AddCardButton } from '@/app/[locale]/components/common/AddCartButton';
+import MarketCartButtons2 from '@/app/[locale]/components/common/MarketCartButtons2';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import BoxItem from './BoxItem';
 
 interface Props {

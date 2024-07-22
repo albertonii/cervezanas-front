@@ -1,10 +1,10 @@
 import Profile from './Profile';
-import { IUserTable } from '../../../../../../lib/types/types';
-import createServerClient from '../../../../../../utils/supabaseServer';
+import { IUserTable } from '@/lib//types/types';
+import createServerClient from '@/utils/supabaseServer';
 import { redirect } from 'next/navigation';
-import { VIEWS } from '../../../../../../constants';
+import { VIEWS } from '@/constants';
 import { Suspense } from 'react';
-import readUserSession from '../../../../../../lib/actions';
+import readUserSession from '@/lib//actions';
 
 export default async function ProfilePage() {
     const { profile } = await getProfileData();

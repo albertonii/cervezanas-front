@@ -5,11 +5,11 @@ import {
     ROUTE_P_EXTRA_2,
     ROUTE_P_EXTRA_3,
     ROUTE_P_PRINCIPAL,
-} from '../../../../config';
-import { MULTIMEDIA, SupabaseProps } from '../../../../constants';
-import { generateFileNameExtension } from '../../../../utils/utils';
-import createServerClient from '../../../../utils/supabaseServer';
-import { generateUUID } from '../../../../lib/actions';
+} from '@/config';
+import { MULTIMEDIA, SupabaseProps } from '@/constants';
+import { generateFileNameExtension } from '@/utils/utils';
+import createServerClient from '@/utils/supabaseServer';
+import { generateUUID } from '@/lib//actions';
 
 export async function PUT(request: NextRequest) {
     try {
@@ -20,7 +20,6 @@ export async function PUT(request: NextRequest) {
         const multimedia = formData.get('multimedia') as File;
 
         const supabase = await createServerClient();
-
 
         const randomUUID = generateUUID();
 

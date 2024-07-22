@@ -1,105 +1,107 @@
-import { NextRequest, NextResponse } from "next/server";
-import { APP_URLS, ONLINE_ORDER_STATUS } from "../../../constants";
-import createServerClient from "../../../utils/supabaseServer";
-import { isResponseCodeOk, ResponseJSONSuccess } from "redsys-easy";
-import { processRestNotification } from "../../[locale]/components/TPV/redsysClient";
+import { NextRequest, NextResponse } from 'next/server';
+import { APP_URLS, ONLINE_ORDER_STATUS } from '@/constants';
+import createServerClient from '@/utils/supabaseServer';
+import { isResponseCodeOk, ResponseJSONSuccess } from 'redsys-easy';
+import { processRestNotification } from '../../[locale]/components/TPV/redsysClient';
 
 export async function POST(req: NextRequest) {
-  const data = await req.formData();
-  const signatureVersion = data.get("Ds_SignatureVersion");
-  const merchantParameters = data.get("Ds_MerchantParameters");
-  const signature = data.get("Ds_Signature");
+    const data = await req.formData();
+    const signatureVersion = data.get('Ds_SignatureVersion');
+    const merchantParameters = data.get('Ds_MerchantParameters');
+    const signature = data.get('Ds_Signature');
 
-  const body: ResponseJSONSuccess = {
-    Ds_Signature: signature as string,
-    Ds_SignatureVersion: signatureVersion as string,
-    Ds_MerchantParameters: merchantParameters as string,
-  };
+    const body: ResponseJSONSuccess = {
+        Ds_Signature: signature as string,
+        Ds_SignatureVersion: signatureVersion as string,
+        Ds_MerchantParameters: merchantParameters as string,
+    };
 
-  const restNotification = processRestNotification(body);
+    const restNotification = processRestNotification(body);
 
-  /**
-   * Tabla Ds_Response CODE
-   * https://pagosonline.redsys.es/codigosRespuesta.html#codigo-dsresponse
-   * 0000 a 0099 -Transacción autorizada para pagos y preautorizaciones
-   * 0900 Transacción autorizada para devoluciones y confirmaciones
-   * 0400 Transacción autorizada para anulaciones
-   * 0101 Tarjeta caducada
-   * 0102 Tarjeta en excepción transitoria o bajo sospecha de fraude
-   * 0106 Intentos de PIN excedidos
-   * 0125 Tarjeta no efectiva
-   * 0129 Código de seguridad (CVV2/CVC2) incorrecto
-   * 172 Denegada, no repetir
-   */
-  const responseCode = restNotification.Ds_Response;
+    /**
+     * Tabla Ds_Response CODE
+     * https://pagosonline.redsys.es/codigosRespuesta.html#codigo-dsresponse
+     * 0000 a 0099 -Transacción autorizada para pagos y preautorizaciones
+     * 0900 Transacción autorizada para devoluciones y confirmaciones
+     * 0400 Transacción autorizada para anulaciones
+     * 0101 Tarjeta caducada
+     * 0102 Tarjeta en excepción transitoria o bajo sospecha de fraude
+     * 0106 Intentos de PIN excedidos
+     * 0125 Tarjeta no efectiva
+     * 0129 Código de seguridad (CVV2/CVC2) incorrecto
+     * 172 Denegada, no repetir
+     */
+    const responseCode = restNotification.Ds_Response;
 
-  const orderId = restNotification.Ds_Order;
+    const orderId = restNotification.Ds_Order;
 
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  if (isResponseCodeOk(responseCode)) {
-    console.info(`Payment for order ${orderId} succeded`);
+    if (isResponseCodeOk(responseCode)) {
+        console.info(`Payment for order ${orderId} succeded`);
 
-    // Update order status
-    const { error } = await supabase
-      .from("orders")
-      .update({ status: ONLINE_ORDER_STATUS.PAID })
-      .eq("order_number", orderId)
-      .select("business_order");
+        // Update order status
+        const { error } = await supabase
+            .from('orders')
+            .update({ status: ONLINE_ORDER_STATUS.PAID })
+            .eq('order_number', orderId)
+            .select('business_order');
 
-    if (error) {
-      console.error(`Error in payment for order ${orderId}. Error: ${error}`);
+        if (error) {
+            console.error(
+                `Error in payment for order ${orderId}. Error: ${error}`,
+            );
 
-      return NextResponse.json({
-        message: `Order number ${orderId} failed with error: ${error.message}. Error Code: ${error.code}`,
-      });
+            return NextResponse.json({
+                message: `Order number ${orderId} failed with error: ${error.message}. Error Code: ${error.code}`,
+            });
+        }
+
+        // Send notification to producer associated
+
+        // Notificación enviada al productor de que el pedido se ha generado con éxito
+        const producerMessage = `Se ha generado con éxito un nuevo pedido con número de pedido: ${orderId}. Puedes verlo en la sección de pedidos.`;
+
+        const { error: errorProducerNotification } = await supabase
+            .from('notifications')
+            .insert({
+                source: '',
+                user_id: '',
+                message: producerMessage,
+                link: APP_URLS.PRODUCER_ONLINE_ORDER,
+                read: false,
+            });
+
+        if (errorProducerNotification) {
+            console.error(
+                `Error in payment for order ${orderId}. Error: ${errorProducerNotification}`,
+            );
+        }
+
+        // Send notification to distributor associated
+
+        return NextResponse.json({
+            message: `Order number ${orderId} updated successfully`,
+        });
+    } else {
+        console.info(`Payment for order ${orderId} failed`);
+
+        // Update order status
+        const { error } = await supabase
+            .from('orders')
+            .update({ status: ONLINE_ORDER_STATUS.ERROR })
+            .eq('order_number', orderId);
+
+        if (error) {
+            console.error(error);
+
+            return NextResponse.json({
+                message: `Order number ${orderId} failed with error: ${error.message}. Error Code: ${error.code}`,
+            });
+        }
+
+        return NextResponse.json({
+            message: `Order number ${orderId} failed. Error Code: ${responseCode}`,
+        });
     }
-
-    // Send notification to producer associated
-
-    // Notificación enviada al productor de que el pedido se ha generado con éxito
-    const producerMessage = `Se ha generado con éxito un nuevo pedido con número de pedido: ${orderId}. Puedes verlo en la sección de pedidos.`;
-
-    const { error: errorProducerNotification } = await supabase
-      .from("notifications")
-      .insert({
-        source: "",
-        user_id: "",
-        message: producerMessage,
-        link: APP_URLS.PRODUCER_ONLINE_ORDER,
-        read: false,
-      });
-
-    if (errorProducerNotification) {
-      console.error(
-        `Error in payment for order ${orderId}. Error: ${errorProducerNotification}`
-      );
-    }
-
-    // Send notification to distributor associated
-
-    return NextResponse.json({
-      message: `Order number ${orderId} updated successfully`,
-    });
-  } else {
-    console.info(`Payment for order ${orderId} failed`);
-
-    // Update order status
-    const { error } = await supabase
-      .from("orders")
-      .update({ status: ONLINE_ORDER_STATUS.ERROR })
-      .eq("order_number", orderId);
-
-    if (error) {
-      console.error(error);
-
-      return NextResponse.json({
-        message: `Order number ${orderId} failed with error: ${error.message}. Error Code: ${error.code}`,
-      });
-    }
-
-    return NextResponse.json({
-      message: `Order number ${orderId} failed. Error Code: ${responseCode}`,
-    });
-  }
 }

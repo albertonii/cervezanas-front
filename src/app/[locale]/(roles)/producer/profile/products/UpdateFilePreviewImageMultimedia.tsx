@@ -4,9 +4,9 @@ import Image from 'next/image';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import { DisplayInputError } from '../../../../components/common/DisplayInputError';
-import { MULTIMEDIA } from '../../../../../../constants';
-import { useMessage } from '../../../../components/message/useMessage';
+import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
+import { MULTIMEDIA } from '@/constants';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 
 interface Props {
     productId: string;

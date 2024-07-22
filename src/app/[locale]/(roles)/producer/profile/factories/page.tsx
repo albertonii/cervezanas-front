@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import readUserSession from '../../../../../../lib/actions';
+import readUserSession from '@/lib//actions';
 import { Factories } from './Factories';
 
 export default async function FactoriesPage() {

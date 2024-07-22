@@ -1,30 +1,30 @@
-"use client";
+'use client';
 
-import HorizontalSections from "../../../../components/common/HorizontalSections";
-import React, { useState } from "react";
-import { Products } from "./Products";
+import HorizontalSections from '@/app/[locale]/components/common/HorizontalSections';
+import React, { useState } from 'react';
+import { Products } from './Products';
 
 export function ConfigureProducts() {
-  const [menuOption, setMenuOption] = useState<string>("products");
+    const [menuOption, setMenuOption] = useState<string>('products');
 
-  const renderSwitch = () => {
-    switch (menuOption) {
-      case "products":
-        return <Products />;
-    }
-  };
+    const renderSwitch = () => {
+        switch (menuOption) {
+            case 'products':
+                return <Products />;
+        }
+    };
 
-  const handleMenuClick = (opt: string): void => {
-    setMenuOption(opt);
-  };
+    const handleMenuClick = (opt: string): void => {
+        setMenuOption(opt);
+    };
 
-  return (
-    <>
-      <HorizontalSections
-        handleMenuClick={handleMenuClick}
-        tabs={["products"]}
-      />
-      {renderSwitch()}
-    </>
-  );
+    return (
+        <>
+            <HorizontalSections
+                handleMenuClick={handleMenuClick}
+                tabs={['products']}
+            />
+            {renderSwitch()}
+        </>
+    );
 }

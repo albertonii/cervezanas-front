@@ -1,16 +1,16 @@
 'use client';
 
-import PaginationFooter from '../../../../components/common/PaginationFooter';
+import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import Link from 'next/link';
 import React, { useEffect, useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IProduct } from '../../../../../../lib/types/types';
+import { IProduct } from '@/lib//types/types';
 import { useLocale, useTranslations } from 'next-intl';
-import Spinner from '../../../../components/common/Spinner';
-import { formatCurrency } from '../../../../../../utils/formatCurrency';
+import Spinner from '@/app/[locale]/components/common/Spinner';
+import { formatCurrency } from '@/utils/formatCurrency';
 import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
-import InputSearch from '../../../../components/common/InputSearch';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
 
 interface ColumnsProps {
     header: string;

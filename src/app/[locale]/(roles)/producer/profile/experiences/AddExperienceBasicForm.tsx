@@ -1,6 +1,6 @@
-import InputLabel from '../../../../components/common/InputLabel';
-import SelectInput from '../../../../components/common/SelectInput';
-import InputTextarea from '../../../../components/common/InputTextarea';
+import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import SelectInput from '@/app/[locale]/components/common/SelectInput';
+import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
 import React from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';

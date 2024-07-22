@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
 import React, { ComponentProps } from 'react';
-import Modal from '../../../../components/modals/Modal';
+import Modal from '@/app/[locale]/components/modals/Modal';
 
 interface Props {
     isProducer: boolean;

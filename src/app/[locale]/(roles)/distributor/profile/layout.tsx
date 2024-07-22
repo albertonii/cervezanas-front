@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Sidebar } from '../../../components/common/Sidebar';
+import { Sidebar } from '@/app/[locale]/components/common/Sidebar';
 import {
     faUser,
     faBox,

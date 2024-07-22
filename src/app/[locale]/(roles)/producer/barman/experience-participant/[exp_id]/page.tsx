@@ -1,8 +1,8 @@
-import readUserSession from '../../../../../../../lib/actions';
-import createServerClient from '../../../../../../../utils/supabaseServer';
+import readUserSession from '@/lib/actions';
+import createServerClient from '@/utils/supabaseServer';
 import ManageExperienceParticipation from './ManageExperienceParticipation';
 import { redirect } from 'next/navigation';
-import { IBMExperienceParticipants } from '../../../../../../../lib/types/quiz';
+import { IBMExperienceParticipants } from '@/lib/types/quiz';
 
 export default async function BarmanProductPage({ params }: any) {
     const { exp_id: experienceParticipantId } = params;

@@ -1,16 +1,13 @@
 'use client';
 
-import DisplayImageProduct from '../../../../../components/common/DisplayImageProduct';
+import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import Button from '../../../../../components/common/Button';
-import Spinner from '../../../../../components/common/Spinner';
-import { IEventOrderItem } from '../../../../../../../lib/types/types';
-import {
-    EVENT_ORDER_ITEM_STATUS,
-    SupabaseProps,
-} from '../../../../../../../constants';
-import { formatCurrency } from '../../../../../../../utils/formatCurrency';
+import Button from '@/app/[locale]/components/common/Button';
+import Spinner from '@/app/[locale]/components/common/Spinner';
+import { IEventOrderItem } from '@/lib/types/types';
+import { EVENT_ORDER_ITEM_STATUS, SupabaseProps } from '@/constants';
+import { formatCurrency } from '@/utils/formatCurrency';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 
 interface Props {

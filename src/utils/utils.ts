@@ -1,5 +1,5 @@
 import { uuid } from 'uuidv4';
-import { ROLE_ENUM } from '../lib/enums';
+import { ROLE_ENUM } from '@/lib//enums';
 
 export function isValidObject(object: any) {
     return object != null && object !== '' && !isEmpty(object);

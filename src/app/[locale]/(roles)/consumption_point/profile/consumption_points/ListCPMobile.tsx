@@ -4,15 +4,15 @@ import Link from 'next/link';
 import useFetchCPMobile from '../../../../../../hooks/useFetchCPMobile';
 import DeleteCPMobileModal from './DeleteCPMobileModal';
 import EditCPMobileModal from './EditCPMobileModal';
-import PaginationFooter from '../../../../components/common/PaginationFooter';
+import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import React, { useEffect, useMemo, useState } from 'react';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useLocale, useTranslations } from 'next-intl';
-import { ICPMobile } from '../../../../../../lib/types/types';
-import { IconButton } from '../../../../components/common/IconButton';
-import Spinner from '../../../../components/common/Spinner';
-import { formatDateString } from '../../../../../../utils/formatDate';
-import InputSearch from '../../../../components/common/InputSearch';
+import { ICPMobile } from '@/lib//types/types';
+import { IconButton } from '@/app/[locale]/components/common/IconButton';
+import Spinner from '@/app/[locale]/components/common/Spinner';
+import { formatDateString } from '@/utils/formatDate';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
 
 enum SortBy {
     NONE = 'none',

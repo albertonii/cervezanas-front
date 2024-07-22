@@ -2,16 +2,16 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useAuth } from './(auth)/Context/useAuth';
+import DropdownRoleList from './components/DropdownRoleList';
 import React, { useRef, useState } from 'react';
-import { generateLink } from '../../utils/utils';
+import { ROLE_ENUM } from '@/lib/enums';
+import { generateLink } from '@/utils/utils';
+import { useAuth } from './(auth)/Context/useAuth';
+import { useAppContext } from '@/app/context/AppContext';
 import { useLocale, useTranslations } from 'next-intl';
-import { useAppContext } from '../context/AppContext';
-import { useOutsideClick } from '../../hooks/useOnOutsideClick';
+import { useOutsideClick } from '@/hooks/useOnOutsideClick';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
-import { ROLE_ENUM } from '../../lib/enums';
-import DropdownRoleList from './components/DropdownRoleList';
 
 interface DropdownProps {
     options: string[];

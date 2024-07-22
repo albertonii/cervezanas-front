@@ -1,5 +1,5 @@
 import React, { ComponentProps } from 'react';
-import { capitalizeFirstLetter } from '../../../../utils/formatWords';
+import { capitalizeFirstLetter } from '@/utils/formatWords';
 
 interface Props {
     content: string;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IProduct } from '../../../../../lib/types/types';
+import { IProduct } from '@/lib//types/types';
 
 interface Props {
     product: IProduct;

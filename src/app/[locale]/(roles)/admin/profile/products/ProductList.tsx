@@ -5,19 +5,19 @@ import Link from 'next/link';
 import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IProduct } from '../../../../../../lib/types/types';
-import InputSearch from '../../../../components/common/InputSearch';
-import { formatCurrency } from '../../../../../../utils/formatCurrency';
-import { EditButton } from '../../../../components/common/EditButton';
-import { DeleteButton } from '../../../../components/common/DeleteButton';
-import { ArchiveButton } from '../../../../components/common/ArchiveButton';
-import PaginationFooter from '../../../../components/common/PaginationFooter';
+import { IProduct } from '@/lib//types/types';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { EditButton } from '@/app/[locale]/components/common/EditButton';
+import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
+import { ArchiveButton } from '@/app/[locale]/components/common/ArchiveButton';
+import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import dynamic from 'next/dynamic';
 import useFetchProductsAndPagination from '../../../../../../hooks/useFetchProductsAndPaginationByAdmin';
 import useFetchProductsAndPaginationByAdmin from '../../../../../../hooks/useFetchProductsAndPaginationByAdmin';
 
 const DynamicSpinner = dynamic(
-    () => import('../../../../components/common/Spinner'),
+    () => import('@/app/[locale]/components/common/Spinner'),
     {
         ssr: false,
     },

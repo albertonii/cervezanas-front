@@ -1,13 +1,10 @@
-import Modal from '../../../../../../components/modals/Modal';
+import Modal from '@/app/[locale]/components/modals/Modal';
 import React, { ComponentProps, useState } from 'react';
 import { useAuth } from '../../../../../../(auth)/Context/useAuth';
-import {
-    IEventExperience,
-    IExperience,
-} from '../../../../../../../../lib/types/types';
+import { IEventExperience, IExperience } from '@/lib/types/types';
 import { useTranslations } from 'next-intl';
-import Spinner from '../../../../../../components/common/Spinner';
-import { IBMExperienceParticipants } from '../../../../../../../../lib/types/quiz';
+import Spinner from '@/app/[locale]/components/common/Spinner';
+import { IBMExperienceParticipants } from '@/lib/types/quiz';
 
 interface Props {
     handleParticipate: ComponentProps<any>;

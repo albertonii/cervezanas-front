@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useMessage } from '../../../../../components/message/useMessage';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { handleSelectedDistributionCostType } from '../../../actions';
 
 interface Props {

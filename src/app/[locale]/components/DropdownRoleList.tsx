@@ -3,10 +3,10 @@ import Spinner from './common/Spinner';
 import useOnClickOutside from '../../../hooks/useOnOutsideClickDOM';
 import React, { useRef } from 'react';
 import { useAuth } from '../(auth)/Context/useAuth';
-import { generateLink } from '../../../utils/utils';
+import { generateLink } from '@/utils/utils';
 import { useLocale, useTranslations } from 'next-intl';
-import { ROLE_ENUM } from '../../../lib/enums';
-import { useAppContext } from '../../context/AppContext';
+import { ROLE_ENUM } from '@/lib//enums';
+import { useAppContext } from '@/app/context/AppContext';
 
 interface Props {
     handleOnClickRoleOutside: () => void;

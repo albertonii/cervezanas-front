@@ -1,6 +1,6 @@
-import createServerClient from '../../../../utils/supabaseServer';
+import createServerClient from '@/utils/supabaseServer';
 import { NextRequest, NextResponse } from 'next/server';
-import { DistributionDestinationType } from '../../../../lib/enums';
+import { DistributionDestinationType } from '@/lib//enums';
 
 export async function PUT(request: NextRequest) {
     try {

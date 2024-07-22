@@ -1,17 +1,17 @@
-import Button from '../../../../../components/common/Button';
+import Button from '@/app/[locale]/components/common/Button';
 import useFetchAllCountries from '../useFetchAllCountries';
-import InputSearch from '../../../../../components/common/InputSearch';
-import PaginationFooter from '../../../../../components/common/PaginationFooter';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import { useForm, UseFormRegister } from 'react-hook-form';
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { ICountry } from 'country-state-city/lib/interface';
-import { filterSearchInputQuery } from '../../../../../../../utils/utils';
+import { filterSearchInputQuery } from '@/utils/utils';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
-import { useMessage } from '../../../../../components/message/useMessage';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { useTranslations } from 'next-intl';
 import DistributionChipCard from '../DistributionChipCard';
-import Spinner from '../../../../../components/common/Spinner';
+import Spinner from '@/app/[locale]/components/common/Spinner';
 
 type Props = {
     countries: string[];

@@ -1,9 +1,9 @@
 'use client';
 
-import HorizontalSections from '../../../../components/common/HorizontalSections';
+import HorizontalSections from '@/app/[locale]/components/common/HorizontalSections';
 import React, { useEffect, useState } from 'react';
-import Spinner from '../../../../components/common/Spinner';
-import { IUserTable } from '../../../../../../lib/types/types';
+import Spinner from '@/app/[locale]/components/common/Spinner';
+import { IUserTable } from '@/lib//types/types';
 import { Account } from './Account';
 import { Details } from './Details';
 import { Values } from './Values';

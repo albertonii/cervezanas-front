@@ -4,10 +4,10 @@ import { useTranslations } from 'next-intl';
 import {
     ICustomizeSettings,
     ModalAddProductFormData,
-} from '../../../../lib/types/types';
+} from '@/lib//types/types';
 import BeerInfoSection from './beer/BeerInfoSection';
-import { product_type_options } from '../../../../lib/beerEnum';
-import { Type } from '../../../../lib/productEnum';
+import { product_type_options } from '@/lib//beerEnum';
+import { Type } from '@/lib//productEnum';
 
 interface Props {
     form: UseFormReturn<ModalAddProductFormData, any>;

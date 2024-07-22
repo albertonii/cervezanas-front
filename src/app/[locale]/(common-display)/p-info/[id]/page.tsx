@@ -1,7 +1,7 @@
 import React from 'react';
 import ProducerInformation from './ProducerInformation';
-import createServerClient from '../../../../../utils/supabaseServer';
-import { IProducerUser } from '../../../../../lib/types/types';
+import createServerClient from '@/utils/supabaseServer';
+import { IProducerUser } from '@/lib//types/types';
 
 export default async function page({ params }: any) {
     const { id } = params;

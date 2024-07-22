@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { ICPFixed, ICPMobile } from '../../../../../../../lib/types/types';
+import { ICPFixed, ICPMobile } from '@/lib/types/types';
 import CervezanasEventList from './CervezanasEventList';
 
 interface Props {

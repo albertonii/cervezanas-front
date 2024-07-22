@@ -1,11 +1,11 @@
 import React from 'react';
-import readUserSession from '../../../../lib/actions';
-import createServerClient from '../../../../utils/supabaseServer';
-import IsNotYourRoleLayout from '../../components/IsNotYourRoleLayout';
-import AuthorizedAccessLayout from '../../components/AuthorizedAccessLayout';
+import readUserSession from '@/lib//actions';
+import createServerClient from '@/utils/supabaseServer';
+import IsNotYourRoleLayout from '@/app/[locale]/components/IsNotYourRoleLayout';
+import AuthorizedAccessLayout from '@/app/[locale]/components/AuthorizedAccessLayout';
 import { redirect } from 'next/navigation';
 import { User } from '@supabase/supabase-js';
-import { ROLE_ENUM } from '../../../../lib/enums';
+import { ROLE_ENUM } from '@/lib//enums';
 
 type LayoutProps = {
     children: React.ReactNode;

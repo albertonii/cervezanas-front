@@ -3,23 +3,20 @@
 import AreaSidebar from './AreaSidebar';
 import AreaAndWeightRangeForm from './AreaAndWeightRangeForm';
 import SelectDistributionCost from '../SelectDistributionCost';
-import Button from '../../../../../../components/common/Button';
-import InputLabel from '../../../../../../components/common/InputLabel';
+import Button from '@/app/[locale]/components/common/Button';
+import InputLabel from '@/app/[locale]/components/common/InputLabel';
 import React, { useState } from 'react';
 import { z, ZodType } from 'zod';
 import {
     AreaAndWeightCostFormData,
     IAreaAndWeightCost,
     IAreaAndWeightInformation,
-} from '../../../../../../../../lib/types/types';
-import {
-    DistributionCostType,
-    DistributionDestinationType,
-} from '../../../../../../../../lib/enums';
+} from '@/lib/types/types';
+import { DistributionCostType, DistributionDestinationType } from '@/lib/enums';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DisplayInputError } from '../../../../../../components/common/DisplayInputError';
+import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 
 const areaWeightCostRange = z
     .object({

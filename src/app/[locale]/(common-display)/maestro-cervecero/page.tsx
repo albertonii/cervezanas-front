@@ -1,6 +1,6 @@
-import { IEventExperience } from '../../../../lib/types/quiz';
-import { IProduct } from '../../../../lib/types/types';
-import createServerClient from '../../../../utils/supabaseServer';
+import { IEventExperience } from '@/lib//types/quiz';
+import { IProduct } from '@/lib//types/types';
+import createServerClient from '@/utils/supabaseServer';
 import MainMaestroCervecero from './MainMaestroCervecero';
 
 export const metadata = {

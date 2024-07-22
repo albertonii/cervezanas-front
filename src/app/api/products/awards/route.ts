@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { SupabaseProps } from '../../../../constants';
-import { generateFileNameExtension } from '../../../../utils/utils';
-import createServerClient from '../../../../utils/supabaseServer';
+import { SupabaseProps } from '@/constants';
+import { generateFileNameExtension } from '@/utils/utils';
+import createServerClient from '@/utils/supabaseServer';
 
 export async function PUT(request: NextRequest) {
     try {

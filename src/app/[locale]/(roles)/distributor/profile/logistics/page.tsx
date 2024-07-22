@@ -1,11 +1,8 @@
 import CoverageLayout from './CoverageLayout';
-import readUserSession from '../../../../../../lib/actions';
-import createServerClient from '../../../../../../utils/supabaseServer';
+import readUserSession from '@/lib//actions';
+import createServerClient from '@/utils/supabaseServer';
 import { redirect } from 'next/navigation';
-import {
-    ICoverageArea,
-    IDistributionCost,
-} from '../../../../../../lib/types/types';
+import { ICoverageArea, IDistributionCost } from '@/lib//types/types';
 
 export default async function OrdersPage() {
     const distributionCosts = await getDistributionCost();

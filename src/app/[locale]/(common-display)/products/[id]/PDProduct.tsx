@@ -2,13 +2,13 @@
 
 import ProductDetails from './ProductDetails';
 import React, { useEffect, useRef, useState } from 'react';
-import { IProduct, IReview } from '../../../../../lib/types/types';
-import { ProductReviews } from '../../../components/reviews/ProductReviews';
-import { ProductOverallReview } from '../../../components/reviews/ProductOverallReview';
+import { IProduct, IReview } from '@/lib//types/types';
+import { ProductReviews } from '@/app/[locale]/components/reviews/ProductReviews';
+import { ProductOverallReview } from '@/app/[locale]/components/reviews/ProductOverallReview';
 import dynamic from 'next/dynamic';
 
 const DynamicSpinner = dynamic(
-    () => import('../../../components/common/Spinner'),
+    () => import('@/app/[locale]/components/common/Spinner'),
     {
         ssr: false,
     },

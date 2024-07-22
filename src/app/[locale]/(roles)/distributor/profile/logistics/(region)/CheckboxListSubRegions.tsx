@@ -1,9 +1,9 @@
 import React from 'react';
 import RegionRow from './RegionRow';
-import PaginationFooter from '../../../../../components/common/PaginationFooter';
+import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import { useTranslations } from 'next-intl';
-import { ICoverageArea } from '../../../../../../../lib/types/types';
-import { JSONRegion } from '../../../../../../../lib/types/distribution_areas';
+import { ICoverageArea } from '@/lib/types/types';
+import { JSONRegion } from '@/lib/types/distribution_areas';
 
 interface Props {
     tenRegions: JSONRegion[];

@@ -1,6 +1,6 @@
 import PDProduct from './PDProduct';
-import createServerClient from '../../../../../utils/supabaseServer';
-import { IProduct } from '../../../../../lib/types/types';
+import createServerClient from '@/utils/supabaseServer';
+import { IProduct } from '@/lib//types/types';
 
 export default async function ProductPage({ params }: any) {
     const { id } = params;

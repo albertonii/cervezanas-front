@@ -1,8 +1,8 @@
 'use client';
 
 import Error from 'next/error';
-import Button from '../../../../../../components/common/Button';
-import Spinner from '../../../../../../components/common/Spinner';
+import Button from '@/app/[locale]/components/common/Button';
+import Spinner from '@/app/[locale]/components/common/Spinner';
 import AreaAndWeightRangeFormRow from './AreaAndWeightRangeFormRow';
 import React, { useEffect, useState } from 'react';
 import { z } from 'zod';
@@ -11,12 +11,12 @@ import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { AreaAndWeightInformationSchema } from './AreaAndWeightCostForm';
-import { useMessage } from '../../../../../../components/message/useMessage';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import {
     IAreaAndWeightCostRange,
     IAreaAndWeightInformation,
-} from '../../../../../../../../lib/types/types';
-import { DisplayInputError } from '../../../../../../components/common/DisplayInputError';
+} from '@/lib/types/types';
+import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 import { updateAreaAndWeightRangeByAreaAndWeightInformationId } from '../../../../actions';
 
 const areaWeightCostRange = z

@@ -1,7 +1,7 @@
 'use server';
 
-import { IBMExperienceParticipants } from '../../../../../../../../../lib/types/quiz';
-import createServerClient from '../../../../../../../../../utils/supabaseServer';
+import { IBMExperienceParticipants } from '@/lib/types/quiz';
+import createServerClient from '@/utils/supabaseServer';
 
 export async function hasUserParticipatedInExperienceBefore(
     userId: string,

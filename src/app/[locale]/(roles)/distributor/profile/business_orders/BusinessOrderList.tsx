@@ -1,12 +1,12 @@
 'use client';
 
-import PaginationFooter from '../../../../components/common/PaginationFooter';
+import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { IBusinessOrder } from '../../../../../../lib/types/types';
-import Spinner from '../../../../components/common/Spinner';
+import { IBusinessOrder } from '@/lib//types/types';
+import Spinner from '@/app/[locale]/components/common/Spinner';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import InputSearch from '../../../../components/common/InputSearch';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
 import useFetchOrdersByDistributorId from '../../../../../../hooks/useFetchOrdersByDistributorId';
 import ODistributorTableData from './ODistributorTableData';
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import { DistributionCostType } from '../../../../../../lib/enums';
-import HorizontalSections from '../../../../components/common/HorizontalSections';
+import { DistributionCostType } from '@/lib//enums';
+import HorizontalSections from '@/app/[locale]/components/common/HorizontalSections';
 
 type Props = {
     setMenuOption: (opt: string) => void;

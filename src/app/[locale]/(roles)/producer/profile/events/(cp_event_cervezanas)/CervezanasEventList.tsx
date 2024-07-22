@@ -2,19 +2,19 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import DeleteCPM_event_Modal from '../../../../../components/modals/DeleteCPM_event_Modal';
+import DeleteCPM_event_Modal from '@/app/[locale]/components/modals/DeleteCPM_event_Modal';
 import UpdateCPMEventModal from './UpdateCPMEvent';
 import useFetchCervezanasEventsByOwnerId from '../../../../../../../hooks/useFetchCervezanasEventsByOwnerId';
-import PaginationFooter from '../../../../../components/common/PaginationFooter';
+import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { ICPM_events } from '../../../../../../../lib/types/types';
-import Spinner from '../../../../../components/common/Spinner';
-import InputSearch from '../../../../../components/common/InputSearch';
+import { ICPM_events } from '@/lib/types/types';
+import Spinner from '@/app/[locale]/components/common/Spinner';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { formatDateString } from '../../../../../../../utils/formatDate';
-import { IconButton } from '../../../../../components/common/IconButton';
-import { ROUTE_CP_MOBILE, ROUTE_EVENTS } from '../../../../../../../config';
+import { formatDateString } from '@/utils/formatDate';
+import { IconButton } from '@/app/[locale]/components/common/IconButton';
+import { ROUTE_CP_MOBILE, ROUTE_EVENTS } from '@/config';
 
 enum SortBy {
     NONE = 'none',

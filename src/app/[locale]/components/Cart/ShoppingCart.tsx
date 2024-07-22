@@ -6,7 +6,7 @@ import { CartItem } from './CartItem';
 import { Dialog, Transition } from '@headlessui/react';
 import { useLocale, useTranslations } from 'next-intl';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { formatCurrency } from '../../../../utils/formatCurrency';
+import { formatCurrency } from '@/utils/formatCurrency';
 import { useShoppingCart } from '../../../context/ShoppingCartContext';
 
 export function ShoppingCart() {

@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
-import InputLabel from '../../components/common/InputLabel';
-import Button from '../../components/common/Button';
+import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import Button from '@/app/[locale]/components/common/Button';
 import React, { useEffect, useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useLocale } from 'next-intl';
@@ -17,7 +17,7 @@ import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const DynamicSpinner = dynamic(
-    () => import('../../components/common/Spinner'),
+    () => import('@/app/[locale]/components/common/Spinner'),
     {
         ssr: false,
     },

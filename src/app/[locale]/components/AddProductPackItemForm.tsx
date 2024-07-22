@@ -1,8 +1,8 @@
 import { useTranslations } from 'next-intl';
 import { memo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { pack_type_options } from '../../../lib/beerEnum';
-import { ModalAddProductFormData } from '../../../lib/types/types';
+import { pack_type_options } from '@/lib//beerEnum';
+import { ModalAddProductFormData } from '@/lib//types/types';
 import { DeleteButton } from './common/DeleteButton';
 import { FilePreviewImageMultimedia } from './common/FilePreviewImageMultimedia';
 import InputLabel from './common/InputLabel';

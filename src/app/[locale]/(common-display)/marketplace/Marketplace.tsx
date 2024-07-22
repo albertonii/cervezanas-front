@@ -3,12 +3,12 @@
 import useFilters from '../../../../hooks/useFilters';
 import React from 'react';
 import Image from 'next/image';
-import { ProductPackStoreItem } from '../../components/Cart/ProductPackStoreItem';
-import { IProduct } from '../../../../lib/types/types';
-import { MarketplaceHeader } from '../../components/MarketplaceHeader';
-import { BoxPackStoreItem } from '../../components/Cart/BoxPackStoreItem';
-import { Filters } from '../../components/Filters';
-import { Type } from '../../../../lib/productEnum';
+import { ProductPackStoreItem } from '@/app/[locale]/components/Cart/ProductPackStoreItem';
+import { IProduct } from '@/lib//types/types';
+import { MarketplaceHeader } from '@/app/[locale]/components/MarketplaceHeader';
+import { BoxPackStoreItem } from '@/app/[locale]/components/Cart/BoxPackStoreItem';
+import { Filters } from '@/app/[locale]/components/Filters';
+import { Type } from '@/lib//productEnum';
 
 interface Props {
     products: IProduct[];

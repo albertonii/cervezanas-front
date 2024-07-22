@@ -4,14 +4,14 @@ import { useTranslations } from 'next-intl';
 import { removeBillingAddressById } from '../actions';
 import { NewBillingAddress } from './NewBillingAddress';
 import { useMutation, useQueryClient } from 'react-query';
-import { IBillingAddress } from '../../../../../lib/types/types';
+import { IBillingAddress } from '@/lib//types/types';
 import { faMoneyBill } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
-import { useMessage } from '../../../components/message/useMessage';
-import { DeleteAddress } from '../../../components/modals/DeleteAddress';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { DeleteAddress } from '@/app/[locale]/components/modals/DeleteAddress';
 import { FormBillingData, ValidationSchemaShipping } from './ShoppingBasket';
-import { DisplayInputError } from '../../../components/common/DisplayInputError';
+import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 
 interface Props {
     selectedBillingAddress: string;

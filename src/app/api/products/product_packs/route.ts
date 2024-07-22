@@ -1,8 +1,8 @@
-import createServerClient from '../../../../utils/supabaseServer';
+import createServerClient from '@/utils/supabaseServer';
 import { NextRequest, NextResponse } from 'next/server';
-import { SupabaseProps } from '../../../../constants';
-import { generateFileNameExtension } from '../../../../utils/utils';
-import { generateUUID } from '../../../../lib/actions';
+import { SupabaseProps } from '@/constants';
+import { generateFileNameExtension } from '@/utils/utils';
+import { generateUUID } from '@/lib//actions';
 
 export async function PUT(request: NextRequest) {
     try {

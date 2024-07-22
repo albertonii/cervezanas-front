@@ -1,14 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import Button from '../../components/common/Button';
+import Button from '@/app/[locale]/components/common/Button';
 import useDeviceDetection from '../../../../hooks/useDeviceDetection';
 import useOnClickOutside from '../../../../hooks/useOnOutsideClickDOM';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAppContext } from '../../../context/AppContext';
-import { generateLink } from '../../../../utils/utils';
+import { generateLink } from '@/utils/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faBars,

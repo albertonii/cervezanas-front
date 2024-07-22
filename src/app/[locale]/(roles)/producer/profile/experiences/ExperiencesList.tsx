@@ -2,18 +2,18 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import Spinner from '../../../../components/common/Spinner';
-import InputSearch from '../../../../components/common/InputSearch';
-import PaginationFooter from '../../../../components/common/PaginationFooter';
+import Spinner from '@/app/[locale]/components/common/Spinner';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import useFetchExperiencesByProducerId from '../../../../../../hooks/useFetchExperiencesByProducerIdWithPagination';
-import DeleteExperienceModal from '../../../../components/modals/experiences/DeleteBeerMasterExperienceModal';
+import DeleteExperienceModal from '@/app/[locale]/components/modals/experiences/DeleteBeerMasterExperienceModal';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { formatDateString } from '../../../../../../utils/formatDate';
-import { IconButton } from '../../../../components/common/IconButton';
-import UpdateBeerMasterExperienceModalNew from '../../../../components/modals/experiences/UpdateBeerMasterExperienceModal';
-import { IExperience } from '../../../../../../lib/types/quiz';
+import { formatDateString } from '@/utils/formatDate';
+import { IconButton } from '@/app/[locale]/components/common/IconButton';
+import UpdateBeerMasterExperienceModalNew from '@/app/[locale]/components/modals/experiences/UpdateBeerMasterExperienceModal';
+import { IExperience } from '@/lib//types/quiz';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 
 enum SortBy {

@@ -1,14 +1,14 @@
 'use server';
 
 import axios from 'axios';
-import { API_METHODS, DS_API } from '../../../../../constants';
-import { DeliveryType } from '../../../../../lib/enums';
+import { API_METHODS, DS_API } from '@/constants';
+import { DeliveryType } from '@/lib//enums';
 import {
     IDistributionContract,
     IDistributorUser,
     IProductPackCartItem,
     IShippingInfo,
-} from '../../../../../lib/types/types';
+} from '@/lib//types/types';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 

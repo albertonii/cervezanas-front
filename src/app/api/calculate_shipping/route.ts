@@ -1,11 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { DistributionCostType } from '../../../lib/enums';
-import {
-    IAreaAndWeightInformation,
-    IShippingInfo,
-} from '../../../lib/types/types';
-import { normalizeAddress } from '../../../utils/distribution';
-import { createBrowserClient } from '../../../utils/supabaseBrowser';
+import { DistributionCostType } from '@/lib//enums';
+import { IAreaAndWeightInformation, IShippingInfo } from '@/lib//types/types';
+import { normalizeAddress } from '@/utils/distribution';
+import { createBrowserClient } from '@/utils/supabaseBrowser';
 
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);

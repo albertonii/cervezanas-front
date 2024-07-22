@@ -6,9 +6,9 @@ import Shipping from './Shipping';
 import { useTranslations } from 'next-intl';
 import React, { ComponentProps } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import Button from '../../../components/common/Button';
-import { IBillingAddress, IAddress } from '../../../../../lib/types/types';
-import { formatCurrency } from '../../../../../utils/formatCurrency';
+import Button from '@/app/[locale]/components/common/Button';
+import { IBillingAddress, IAddress } from '@/lib//types/types';
+import { formatCurrency } from '@/utils/formatCurrency';
 import CarrierDetails from './CarrierDetails';
 import PromotionCode from './PromotionCode';
 

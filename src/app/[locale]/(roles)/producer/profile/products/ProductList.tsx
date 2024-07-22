@@ -2,21 +2,21 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import Spinner from '../../../../components/common/Spinner';
-import InputSearch from '../../../../components/common/InputSearch';
-import PaginationFooter from '../../../../components/common/PaginationFooter';
+import Spinner from '@/app/[locale]/components/common/Spinner';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
 import React, { ComponentProps, useMemo, useState } from 'react';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
-import { IProduct } from '../../../../../../lib/types/types';
-import { EditButton } from '../../../../components/common/EditButton';
-import { formatCurrency } from '../../../../../../utils/formatCurrency';
-import { DeleteButton } from '../../../../components/common/DeleteButton';
-import { ArchiveButton } from '../../../../components/common/ArchiveButton';
+import { IProduct } from '@/lib//types/types';
+import { EditButton } from '@/app/[locale]/components/common/EditButton';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
+import { ArchiveButton } from '@/app/[locale]/components/common/ArchiveButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
-import { InfoTooltip } from '../../../../components/common/InfoTooltip';
+import { InfoTooltip } from '@/app/[locale]/components/common/InfoTooltip';
 
 interface Props {
     handleEditShowModal: ComponentProps<any>;

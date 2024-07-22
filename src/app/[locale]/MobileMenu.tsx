@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from './components/common/Button';
-import useOnClickOutside from '../../hooks/useOnOutsideClickDOM';
+import useOnClickOutside from '@/hooks/useOnOutsideClickDOM';
 import { useLocale } from 'next-intl';
 import { useRef, useState } from 'react';
 import {
@@ -22,15 +22,15 @@ import {
     ROUTE_PROFILE,
     ROUTE_SETTINGS,
     ROUTE_SIGNIN,
-} from '../../config';
+} from '@/config';
 import { useTranslations } from 'next-intl';
-import { INotification } from '../../lib/types/types';
+import { INotification } from '@/lib/types/types';
 import { useAuth } from './(auth)/Context/useAuth';
-import { useAppContext } from '../context/AppContext';
+import { useAppContext } from '@/app/context/AppContext';
 import { usePathname, useRouter } from 'next/navigation';
 import { NotificationPopup } from './components/notificationPopup/NotificationPopup';
-import { useShoppingCart } from '../context/ShoppingCartContext';
-import { ROLE_ENUM } from '../../lib/enums';
+import { useShoppingCart } from '@/app/context/ShoppingCartContext';
+import { ROLE_ENUM } from '@/lib//enums';
 
 interface Props {
     notifications: INotification[];

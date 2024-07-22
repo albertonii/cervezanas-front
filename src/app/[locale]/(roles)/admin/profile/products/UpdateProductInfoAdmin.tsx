@@ -3,13 +3,13 @@
 import React from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { product_type_options } from '../../../../../../lib/beerEnum';
+import { product_type_options } from '@/lib//beerEnum';
 import {
     ICustomizeSettings,
     ModalUpdateProductFormData,
-} from '../../../../../../lib/types/types';
-import UpdateBeerInfoSection from '../../../../components/products/beer/UpdateBeerInfoSection';
-import { Type } from '../../../../../../lib/productEnum';
+} from '@/lib//types/types';
+import UpdateBeerInfoSection from '@/app/[locale]/components/products/beer/UpdateBeerInfoSection';
+import { Type } from '@/lib//productEnum';
 
 interface Props {
     form: UseFormReturn<ModalUpdateProductFormData, any>;

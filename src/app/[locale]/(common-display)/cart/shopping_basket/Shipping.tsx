@@ -2,14 +2,14 @@ import AddressRadioInput from './AddressRadioInput';
 import React, { ComponentProps, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { removeShippingAddressById } from '../actions';
-import { IAddress } from '../../../../../lib/types/types';
+import { IAddress } from '@/lib//types/types';
 import { useMutation, useQueryClient } from 'react-query';
 import { NewShippingAddress } from './NewShippingAddress';
 import { UseFormReturn, SubmitHandler } from 'react-hook-form';
-import { useMessage } from '../../../components/message/useMessage';
-import { DeleteAddress } from '../../../components/modals/DeleteAddress';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { DeleteAddress } from '@/app/[locale]/components/modals/DeleteAddress';
 import { FormShippingData, ValidationSchemaShipping } from './ShoppingBasket';
-import { DisplayInputError } from '../../../components/common/DisplayInputError';
+import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 import { faShippingFast } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

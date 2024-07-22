@@ -1,4 +1,4 @@
-import DeleteModal from '../../../../components/modals/DeleteModal';
+import DeleteModal from '@/app/[locale]/components/modals/DeleteModal';
 import React, { ComponentProps } from 'react';
 import { useTranslations } from 'next-intl';
 import { useMutation, useQueryClient } from 'react-query';

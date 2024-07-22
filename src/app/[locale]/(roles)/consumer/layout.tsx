@@ -1,8 +1,8 @@
 import React from 'react';
-import readUserSession from '../../../../lib/actions';
+import readUserSession from '@/lib//actions';
 import { User } from '@supabase/supabase-js';
 import { redirect } from 'next/navigation';
-import { ROLE_ENUM } from '../../../../lib/enums';
+import { ROLE_ENUM } from '@/lib//enums';
 
 type LayoutProps = {
     children: React.ReactNode;

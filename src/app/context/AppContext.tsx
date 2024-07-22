@@ -2,13 +2,13 @@
 
 import React, { createContext, useEffect, useState } from 'react';
 import { useContext } from 'react';
-import { SupabaseProps } from '../../constants';
+import { SupabaseProps } from '@/constants';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import {
     ICustomizeSettings,
     IProduct,
     IRefProductLot,
-} from '../../lib/types/types';
+} from '@/lib//types/types';
 import { useAuth } from '../[locale]/(auth)/Context/useAuth';
 
 // Definir el tipo de datos para el objeto de imágenes

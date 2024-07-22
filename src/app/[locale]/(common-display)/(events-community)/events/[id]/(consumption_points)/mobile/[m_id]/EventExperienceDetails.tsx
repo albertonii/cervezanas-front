@@ -1,15 +1,12 @@
 import React from 'react';
-import Button from '../../../../../../../components/common/Button';
+import Button from '@/app/[locale]/components/common/Button';
 import { useRouter } from 'next/navigation';
-import { IEventExperience } from '../../../../../../../../../lib/types/types';
+import { IEventExperience } from '@/lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../../../../(auth)/Context/useAuth';
-import { useMessage } from '../../../../../../../components/message/useMessage';
-import { ROLE_ENUM } from '../../../../../../../../../lib/enums';
-import {
-    ROUTE_EVENTS,
-    ROUTE_EXPERIENCES,
-} from '../../../../../../../../../config';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { ROLE_ENUM } from '@/lib/enums';
+import { ROUTE_EVENTS, ROUTE_EXPERIENCES } from '@/config';
 
 interface Props {
     eventExperience: IEventExperience;

@@ -1,11 +1,8 @@
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import React from 'react';
-import {
-    IBusinessOrder,
-    IOrderItem,
-} from '../../../../../../../../lib/types/types';
-import { StatusTimeline } from '../../../../../../components/StatusTimeline';
+import { IBusinessOrder, IOrderItem } from '@/lib/types/types';
+import { StatusTimeline } from '@/app/[locale]/components/StatusTimeline';
 import BOrderItem from './BOrderItem';
 
 interface Props {

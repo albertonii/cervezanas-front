@@ -3,15 +3,15 @@
 import Link from 'next/link';
 import RejectContractModal from './RejectContractModal';
 import ApproveContractModal from './ApproveContractModal';
-import InputSearch from '../../../../components/common/InputSearch';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
 import useFetchDistributionContractsByDistributorId from '../../../../../../hooks/useFetchDistributionContractsByDistributorId';
 import React, { useMemo, useState } from 'react';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IconButton } from '../../../../components/common/IconButton';
+import { IconButton } from '@/app/[locale]/components/common/IconButton';
 import { faCancel, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { IDistributionContract } from '../../../../../../lib/types/types';
+import { IDistributionContract } from '@/lib//types/types';
 import { useLocale, useTranslations } from 'next-intl';
-import { formatDateString } from '../../../../../../utils/formatDate';
+import { formatDateString } from '@/utils/formatDate';
 
 enum SortBy {
     NONE = 'none',

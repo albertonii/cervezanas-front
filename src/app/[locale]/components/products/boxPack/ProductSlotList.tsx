@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { IProduct } from '../../../../../lib/types/types';
+import { IProduct } from '@/lib//types/types';
 import Spinner from '../../common/Spinner';
 import ProductSlotItem from './ProductSlotItem';
 

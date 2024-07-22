@@ -4,11 +4,11 @@ import { useState } from 'react';
 import { ProductList } from './ProductList';
 import { useTranslations } from 'next-intl';
 import { AddProductModal } from './AddProductModal';
-import { IProduct } from '../../../../../../lib/types/types';
-import { DeleteProductModal } from '../../../../components/modals/DeleteProductModal';
+import { IProduct } from '@/lib//types/types';
+import { DeleteProductModal } from '@/app/[locale]/components/modals/DeleteProductModal';
 import { UpdateProductModal } from './UpdateProductModal';
 import { AddBoxPackModal } from './(boxPack)/AddBoxPackModal';
-import { Type as ProductType } from '../../../../../../lib/productEnum';
+import { Type as ProductType } from '@/lib//productEnum';
 import { UpdateBoxPackModal } from './(boxPack)/UpdateBoxPackModal';
 
 export function Products() {

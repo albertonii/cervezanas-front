@@ -5,13 +5,13 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../Context/useAuth';
-import { VIEWS } from '../../../../constants';
+import { VIEWS } from '@/constants';
 import { SignUpForm } from './SignUpForm';
 import { useLocale, useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 
 const DynamicSpinner = dynamic(
-    () => import('../../components/common/Spinner'),
+    () => import('@/app/[locale]/components/common/Spinner'),
     {
         ssr: false,
     },

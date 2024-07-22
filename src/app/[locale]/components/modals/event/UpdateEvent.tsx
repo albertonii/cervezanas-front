@@ -12,8 +12,8 @@ import {
     ICPMobile,
     ICPM_events,
     IEvent,
-} from '../../../../../lib/types/types';
-import { formatDateDefaultInput } from '../../../../../utils/formatDate';
+} from '@/lib//types/types';
+import { formatDateDefaultInput } from '@/utils/formatDate';
 import useFetchCPSMobileByEventsId from '../../../../../hooks/useFetchCPsMobileByEventId';
 import InputLabel from '../../common/InputLabel';
 import InputTextarea from '../../common/InputTextarea';

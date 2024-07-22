@@ -1,11 +1,11 @@
 import ErrorCheckout from './ErrorCheckout';
 import React from 'react';
 import { redirect } from 'next/navigation';
-import { VIEWS } from '../../../../../../../../constants';
-import { IOrder } from '../../../../../../../../lib/types/types';
-import { decodeBase64 } from '../../../../../../../../utils/utils';
-import createServerClient from '../../../../../../../../utils/supabaseServer';
-import readUserSession from '../../../../../../../../lib/actions';
+import { VIEWS } from '@/constants';
+import { IOrder } from '@/lib/types/types';
+import { decodeBase64 } from '@/utils/utils';
+import createServerClient from '@/utils/supabaseServer';
+import readUserSession from '@/lib/actions';
 
 export async function generateMetadata({ searchParams }: any) {
     try {

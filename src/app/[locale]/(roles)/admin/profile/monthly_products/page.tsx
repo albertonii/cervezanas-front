@@ -1,39 +1,39 @@
-import { IMonthlyProduct, IProduct } from '../../../../../../lib/types/types';
-import createServerClient from '../../../../../../utils/supabaseServer';
+import { IMonthlyProduct, IProduct } from '@/lib//types/types';
+import createServerClient from '@/utils/supabaseServer';
 import ProductsMenu from './ProductsMenu';
 
 export default async function MonthlyProductsPage() {
-  const productsData = getProductsData();
-  const monthlyProductsData = getMonthlyProductsData();
-  const [products, mProducts] = await Promise.all([
-    productsData,
-    monthlyProductsData,
-  ]);
+    const productsData = getProductsData();
+    const monthlyProductsData = getMonthlyProductsData();
+    const [products, mProducts] = await Promise.all([
+        productsData,
+        monthlyProductsData,
+    ]);
 
-  return <ProductsMenu products={products} mProducts={mProducts} />;
+    return <ProductsMenu products={products} mProducts={mProducts} />;
 }
 
 async function getProductsData() {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const { data: products, error } = await supabase.from('products').select(
-    `
+    const { data: products, error } = await supabase.from('products').select(
+        `
       *
     `,
-  );
+    );
 
-  if (error) throw error;
+    if (error) throw error;
 
-  return products as IProduct[];
+    return products as IProduct[];
 }
 
 async function getMonthlyProductsData() {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const { data: products, error } = await supabase
-    .from('monthly_products')
-    .select(
-      `
+    const { data: products, error } = await supabase
+        .from('monthly_products')
+        .select(
+            `
         *,
         products (
           id,
@@ -54,9 +54,9 @@ async function getMonthlyProductsData() {
           product_multimedia (*)
         )
       `,
-    );
+        );
 
-  if (error) throw error;
+    if (error) throw error;
 
-  return products as IMonthlyProduct[];
+    return products as IMonthlyProduct[];
 }

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getTimeElapsed } from '../../../../utils/formatDate';
+import { getTimeElapsed } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../(auth)/Context/useAuth';
-import { INotification } from '../../../../lib/types/types';
+import { INotification } from '@/lib//types/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 

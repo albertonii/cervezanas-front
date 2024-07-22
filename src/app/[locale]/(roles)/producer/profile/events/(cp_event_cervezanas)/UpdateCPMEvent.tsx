@@ -1,20 +1,20 @@
 'use client';
 
-import InputLabel from '../../../../../components/common/InputLabel';
-import InputTextarea from '../../../../../components/common/InputTextarea';
-import ModalWithForm from '../../../../../components/modals/ModalWithForm';
+import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
+import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
-import { ICPM_events } from '../../../../../../../lib/types/types';
-import { formatDateDefaultInput } from '../../../../../../../utils/formatDate';
+import { ICPM_events } from '@/lib/types/types';
+import { formatDateDefaultInput } from '@/utils/formatDate';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodType } from 'zod';
 import { SearchCheckboxExperiences } from './SearchCheckboxExperiences';
-import Spinner from '../../../../../components/common/Spinner';
+import Spinner from '@/app/[locale]/components/common/Spinner';
 
 type ModalUpdCPMEventFormData = {
     cp_id: string;

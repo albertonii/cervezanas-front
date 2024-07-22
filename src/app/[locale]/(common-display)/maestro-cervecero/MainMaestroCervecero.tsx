@@ -5,13 +5,9 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useAuth } from '../../(auth)/Context/useAuth';
-import {
-    ROUTE_CP_FIXED,
-    ROUTE_CP_MOBILE,
-    ROUTE_EVENTS,
-} from '../../../../config';
-import { IEventExperience } from '../../../../lib/types/quiz';
-import Button from '../../components/common/Button';
+import { ROUTE_CP_FIXED, ROUTE_CP_MOBILE, ROUTE_EVENTS } from '@/config';
+import { IEventExperience } from '@/lib//types/quiz';
+import Button from '@/app/[locale]/components/common/Button';
 
 interface Props {
     eventExperiences: IEventExperience[];
@@ -128,7 +124,7 @@ export default function MaestroCervecero({ eventExperiences }: Props) {
             <header>
                 <h1 className="font-bold text-4xl text-center sm:text-5xl mb-6 text-beer-draft">
                     Experiencia Maestro Cervecero en el Barcelona Beer Festival
-                    2024   
+                    2024
                 </h1>
                 <p className="text-xl text-center m-auto">
                     ¡Prepárate para convertirte en un Maestro Cervecero!

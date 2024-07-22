@@ -2,17 +2,17 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import PaginationFooter from '../../../../components/common/PaginationFooter';
+import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import React, { ComponentProps, useMemo, useState } from 'react';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
-import { ICampaign } from '../../../../../../lib/types/types';
-import Spinner from '../../../../components/common/Spinner';
-import { EditButton } from '../../../../components/common/EditButton';
-import { DeleteButton } from '../../../../components/common/DeleteButton';
-import InputSearch from '../../../../components/common/InputSearch';
+import { ICampaign } from '@/lib//types/types';
+import Spinner from '@/app/[locale]/components/common/Spinner';
+import { EditButton } from '@/app/[locale]/components/common/EditButton';
+import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
 import useFetchCampaignsByOwnerAndPagination from '../../../../../../hooks/useFetchCampaignsByOwnerAndPagination';
-import { formatDateString } from '../../../../../../utils/formatDate';
+import { formatDateString } from '@/utils/formatDate';
 
 interface Props {
     handleEditShowModal: ComponentProps<any>;

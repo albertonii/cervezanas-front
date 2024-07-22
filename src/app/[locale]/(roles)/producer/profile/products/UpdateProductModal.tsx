@@ -1,6 +1,6 @@
 'use client';
 
-import ModalWithForm from '../../../../components/modals/ModalWithForm';
+import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -16,24 +16,24 @@ import {
     Fermentation,
     fermentation_options,
     product_type_options,
-} from '../../../../../../lib/beerEnum';
+} from '@/lib//beerEnum';
 import {
     IProduct,
     ModalUpdateProductFormData,
     ModalUpdateProductPackFormData,
     ModalUpdateProductAwardFormData,
-} from '../../../../../../lib/types/types';
+} from '@/lib//types/types';
 import { useMutation, useQueryClient } from 'react-query';
 import { UpdateMultimediaSection } from './UpdateMultimediaSection';
 import { UpdateProductInfoSection } from './UpdateProductInfoSection';
-import { isNotEmptyArray } from '../../../../../../utils/utils';
+import { isNotEmptyArray } from '@/utils/utils';
 import { UpdateProductSummary } from './UpdateProductSummary';
-import { useAppContext } from '../../../../../context/AppContext';
+import { useAppContext } from '@/app/context/AppContext';
 import { UpdateAwardsSection } from './UpdateAwardsSection';
-import { ProductStepper } from '../../../../components/products/ProductStepper';
-import { useMessage } from '../../../../components/message/useMessage';
-import { Type } from '../../../../../../lib/productEnum';
-import { generateUUID } from '../../../../../../lib/actions';
+import { ProductStepper } from '@/app/[locale]/components/products/ProductStepper';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { Type } from '@/lib//productEnum';
+import { generateUUID } from '@/lib//actions';
 
 // This is the list of mime types you will accept with the schema
 const ACCEPTED_MIME_TYPES = [

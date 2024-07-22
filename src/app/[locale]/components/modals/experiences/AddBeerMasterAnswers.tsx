@@ -2,9 +2,9 @@ import React from 'react';
 import Button from '../../common/Button';
 import BMAnswerItem from './BMAnswerItem';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
-import { AnswerFormData } from '../../../../../lib/types/quiz';
+import { AnswerFormData } from '@/lib//types/quiz';
 import { useTranslations } from 'next-intl';
-import { IAddModalExperienceBeerMasterFormData } from '../../../../../lib/types/quiz';
+import { IAddModalExperienceBeerMasterFormData } from '@/lib//types/quiz';
 
 const emptyAnswer: AnswerFormData = {
     answer: '',

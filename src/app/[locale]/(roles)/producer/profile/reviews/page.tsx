@@ -1,8 +1,8 @@
-import createServerClient from '../../../../../../utils/supabaseServer';
+import createServerClient from '@/utils/supabaseServer';
 import { Reviews } from './Reviews';
 import { redirect } from 'next/navigation';
-import { IReview } from '../../../../../../lib/types/types';
-import readUserSession from '../../../../../../lib/actions';
+import { IReview } from '@/lib//types/types';
+import readUserSession from '@/lib//actions';
 
 export default async function ReviewsPage() {
     const { reviews } = await getReviewsData();

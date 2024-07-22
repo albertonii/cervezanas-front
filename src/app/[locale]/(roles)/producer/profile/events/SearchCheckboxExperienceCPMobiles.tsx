@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
-import { ICPMobile, ICPM_events } from '../../../../../../lib/types/types';
-import InputSearch from '../../../../components/common/InputSearch';
+import { ICPMobile, ICPM_events } from '@/lib//types/types';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
 
 interface Props {
     experienceId: string;

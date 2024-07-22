@@ -1,10 +1,10 @@
 import SuccessCheckout from './SuccessCheckout';
-import createServerClient from '../../../../../../../utils/supabaseServer';
-import readUserSession from '../../../../../../../lib/actions';
+import createServerClient from '@/utils/supabaseServer';
+import readUserSession from '@/lib/actions';
 import { redirect } from 'next/navigation';
-import { decodeBase64 } from '../../../../../../../utils/utils';
-import { VIEWS } from '../../../../../../../constants';
-import { IOrder } from '../../../../../../../lib/types/types';
+import { decodeBase64 } from '@/utils/utils';
+import { VIEWS } from '@/constants';
+import { IOrder } from '@/lib/types/types';
 
 export async function generateMetadata({ searchParams }: any) {
     try {

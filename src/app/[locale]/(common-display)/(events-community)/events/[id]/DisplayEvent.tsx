@@ -2,23 +2,16 @@
 
 import CPMobile from './CPMobile';
 import CPFixed from './CPFixed';
+import useEventCartStore from '@/app/store/eventCartStore';
+import Button from '@/app/[locale]/components/common/Button';
 import React, { useEffect } from 'react';
-import {
-    ICPF_events,
-    ICPM_events,
-    IEvent,
-} from '../../../../../../lib/types/types';
-import { useLocale, useTranslations } from 'next-intl';
-import { formatDateString } from '../../../../../../utils/formatDate';
-import useEventCartStore from '../../../../../store/eventCartStore';
-import {
-    IBMExperienceParticipants,
-    IEventExperience,
-} from '../../../../../../lib/types/quiz';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import Button from '../../../../components/common/Button';
-import { ROUTE_EVENTS } from '../../../../../../config';
+import { ROUTE_EVENTS } from '@/config';
 import { useRouter } from 'next/navigation';
+import { formatDateString } from '@/utils/formatDate';
+import { useLocale, useTranslations } from 'next-intl';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { ICPF_events, ICPM_events, IEvent } from '@/lib//types/types';
+import { IBMExperienceParticipants, IEventExperience } from '@/lib//types/quiz';
 
 interface Props {
     event: IEvent;

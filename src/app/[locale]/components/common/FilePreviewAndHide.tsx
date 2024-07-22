@@ -4,8 +4,8 @@ import Image from 'next/image';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { SupabaseProps } from '../../../../constants';
-import { isValidObject } from '../../../../utils/utils';
+import { SupabaseProps } from '@/constants';
+import { isValidObject } from '@/utils/utils';
 
 interface Props {
     form: UseFormReturn<any, any>;

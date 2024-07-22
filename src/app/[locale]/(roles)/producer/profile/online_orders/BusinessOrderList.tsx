@@ -1,14 +1,14 @@
 'use client';
 
 import OProducerTableData from './OProducerTableData';
-import Spinner from '../../../../components/common/Spinner';
-import InputSearch from '../../../../components/common/InputSearch';
-import PaginationFooter from '../../../../components/common/PaginationFooter';
+import Spinner from '@/app/[locale]/components/common/Spinner';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import useFetchOrdersByProducerId from '../../../../../../hooks/useFetchOrdersByProducerId';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IBusinessOrder } from '../../../../../../lib/types/types';
+import { IBusinessOrder } from '@/lib//types/types';
 
 interface Props {
     bOrders: IBusinessOrder[];

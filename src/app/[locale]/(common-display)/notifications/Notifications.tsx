@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { INotification } from '../../../../lib/types/types';
+import { INotification } from '@/lib//types/types';
 import { NotificationList } from './NotificationList';
 
 interface Props {

@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from 'react-query';
-import { API_METHODS } from '../../../../../../constants';
+import { API_METHODS } from '@/constants';
 
 const requestOptions = {
     method: API_METHODS.GET,

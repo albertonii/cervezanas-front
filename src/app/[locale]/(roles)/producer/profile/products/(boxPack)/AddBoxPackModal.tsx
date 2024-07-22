@@ -1,7 +1,7 @@
 'use client';
 
-import BoxProductSlotsSection from '../../../../../components/products/boxPack/BoxProductSlotsSection';
-import useBoxPackStore from '../../../../../../store/boxPackStore';
+import BoxProductSlotsSection from '@/app/[locale]/components/products/boxPack/BoxProductSlotsSection';
+import useBoxPackStore from '@/app/store//boxPackStore';
 import dynamic from 'next/dynamic';
 import React, { useState, useEffect } from 'react';
 import { z, ZodType } from 'zod';
@@ -9,17 +9,17 @@ import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from 'react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useMessage } from '../../../../../components/message/useMessage';
-import { ModalAddBoxPackFormData } from '../../../../../../../lib/types/product';
-import { BoxPackInfoSection } from '../../../../../components/products/boxPack/BoxPackInfoSection';
-import { BoxPackStepper } from '../../../../../components/products/boxPack/BoxPackStepper';
-import { BoxSummary } from '../../../../../components/products/boxPack/BoxSummary';
-import { BoxMultimediaSection } from '../../../../../components/products/boxPack/BoxMultimediaSection';
-import Spinner from '../../../../../components/common/Spinner';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { ModalAddBoxPackFormData } from '@/lib/types/product';
+import { BoxPackInfoSection } from '@/app/[locale]/components/products/boxPack/BoxPackInfoSection';
+import { BoxPackStepper } from '@/app/[locale]/components/products/boxPack/BoxPackStepper';
+import { BoxSummary } from '@/app/[locale]/components/products/boxPack/BoxSummary';
+import { BoxMultimediaSection } from '@/app/[locale]/components/products/boxPack/BoxMultimediaSection';
+import Spinner from '@/app/[locale]/components/common/Spinner';
 import { faBoxes } from '@fortawesome/free-solid-svg-icons';
 
 const ModalWithForm = dynamic(
-    () => import('../../../../../components/modals/ModalWithForm'),
+    () => import('@/app/[locale]/components/modals/ModalWithForm'),
     { ssr: false },
 );
 

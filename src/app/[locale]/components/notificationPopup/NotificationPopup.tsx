@@ -2,7 +2,7 @@
 
 import useOnClickOutside from '../../../../hooks/useOnOutsideClickDOM';
 import React, { ComponentProps, useRef } from 'react';
-import { INotification } from '../../../../lib/types/types';
+import { INotification } from '@/lib//types/types';
 import { useTranslations } from 'next-intl';
 import NotificationItem from './NotificationItem';
 

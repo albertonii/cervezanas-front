@@ -1,11 +1,11 @@
 import React from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { SupabaseProps } from '../../../../../../constants';
-import { ModalUpdateProductFormData } from '../../../../../../lib/types/types';
-import { formatCurrency } from '../../../../../../utils/formatCurrency';
-import { FilePreviewImageMultimedia } from '../../../../components/common/FilePreviewImageMultimedia';
-import { DisplayInputError } from '../../../../components/common/DisplayInputError';
+import { SupabaseProps } from '@/constants';
+import { ModalUpdateProductFormData } from '@/lib//types/types';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { FilePreviewImageMultimedia } from '@/app/[locale]/components/common/FilePreviewImageMultimedia';
+import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 
 interface Props {
     form: UseFormReturn<ModalUpdateProductFormData, any>;

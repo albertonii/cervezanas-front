@@ -1,19 +1,19 @@
 'use client';
 
 import { useQuery } from 'react-query';
-import { IProduct } from '../lib/types/types';
+import { IProduct } from '@/lib//types/types';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { Database } from '../lib/schema';
+import { Database } from '@/lib//schema';
 
 const fetchProductsByOwner = async (
-  ownerId: string,
-  supabase: SupabaseClient<Database>,
+    ownerId: string,
+    supabase: SupabaseClient<Database>,
 ) => {
-  const { data, error } = await supabase
-    .from('products')
-    .select(
-      `
+    const { data, error } = await supabase
+        .from('products')
+        .select(
+            `
         id,
         name, 
         description, 
@@ -23,26 +23,26 @@ const fetchProductsByOwner = async (
         type, 
         weight
       `,
-      {
-        count: 'exact',
-      },
-    )
-    .eq('owner_id', ownerId);
+            {
+                count: 'exact',
+            },
+        )
+        .eq('owner_id', ownerId);
 
-  if (error) throw error;
+    if (error) throw error;
 
-  return data as IProduct[];
+    return data as IProduct[];
 };
 
 const useFetchProductsByOwner = (ownerId: string) => {
-  const { supabase } = useAuth();
+    const { supabase } = useAuth();
 
-  return useQuery({
-    queryKey: ['productListByOwner', ownerId],
-    queryFn: () => fetchProductsByOwner(ownerId, supabase),
-    enabled: true,
-    refetchOnWindowFocus: false,
-  });
+    return useQuery({
+        queryKey: ['productListByOwner', ownerId],
+        queryFn: () => fetchProductsByOwner(ownerId, supabase),
+        enabled: true,
+        refetchOnWindowFocus: false,
+    });
 };
 
 export default useFetchProductsByOwner;

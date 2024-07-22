@@ -1,23 +1,16 @@
 import Link from 'next/link';
-import DisplayImageProduct from '../../../../../../../components/common/DisplayImageProduct';
-import MarketCartButtons2 from '../../../../../../../components/common/MarketCartButtons2';
+import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
+import MarketCartButtons2 from '@/app/[locale]/components/common/MarketCartButtons2';
 import React, { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { SupabaseProps } from '../../../../../../../../../constants';
-import {
-    ICPFixed,
-    IEventProduct,
-    IProductPack,
-} from '../../../../../../../../../lib/types/types';
-import useEventCartStore from '../../../../../../../../store/eventCartStore';
-import { formatCurrency } from '../../../../../../../../../utils/formatCurrency';
-import { AddCardButton } from '../../../../../../../components/common/AddCartButton';
+import { SupabaseProps } from '@/constants';
+import { ICPFixed, IEventProduct, IProductPack } from '@/lib/types/types';
+import useEventCartStore from '@/app/store//eventCartStore';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { AddCardButton } from '@/app/[locale]/components/common/AddCartButton';
 import { useAuth } from '../../../../../../../(auth)/Context/useAuth';
-import { useMessage } from '../../../../../../../components/message/useMessage';
-import {
-    ROUTE_EVENTS,
-    ROUTE_PRODUCTS,
-} from '../../../../../../../../../config';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { ROUTE_EVENTS, ROUTE_PRODUCTS } from '@/config';
 
 interface ProductProps {
     pack: IProductPack;

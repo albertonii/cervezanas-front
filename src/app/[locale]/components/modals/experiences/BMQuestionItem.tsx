@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { DeleteButton } from '../../common/DeleteButton';
 import { DisplayInputError } from '../../common/DisplayInputError';
-import { IAddModalExperienceBeerMasterFormData } from '../../../../../lib/types/quiz';
+import { IAddModalExperienceBeerMasterFormData } from '@/lib//types/quiz';
 
 interface Props {
     questionIndex: number;

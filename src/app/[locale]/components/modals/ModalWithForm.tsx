@@ -10,7 +10,7 @@ import React, {
 } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import { isEmpty } from '../../../../utils/utils';
+import { isEmpty } from '@/utils/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 

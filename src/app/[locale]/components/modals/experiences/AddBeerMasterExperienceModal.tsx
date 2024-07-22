@@ -15,7 +15,7 @@ import { AddBeerMasterQuestions } from './AddBeerMasterQuestions';
 import {
     Difficulty,
     IAddModalExperienceBeerMasterFormData,
-} from '../../../../../lib/types/quiz';
+} from '@/lib//types/quiz';
 import { DisplayInputError } from '../../common/DisplayInputError';
 import Spinner from '../../common/Spinner';
 

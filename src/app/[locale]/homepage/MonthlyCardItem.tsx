@@ -1,16 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import DisplayImageProduct from '../components/common/DisplayImageProduct';
+import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
 import React, { useEffect, useState } from 'react';
-import { SupabaseProps } from '../../../constants';
-import { IMonthlyProduct } from '../../../lib/types/types';
+import { SupabaseProps } from '@/constants';
+import { IMonthlyProduct } from '@/lib//types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../(auth)/Context/useAuth';
-import { MonthlyProductCategory } from '../../../lib/productEnum';
-import { IconButton } from '../components/common/IconButton';
-import Button from '../components/common/Button';
+import { MonthlyProductCategory } from '@/lib//productEnum';
+import { IconButton } from '@/app/[locale]/components/common/IconButton';
+import Button from '@/app/[locale]/components/common/Button';
 import useFetchProductLikes from '../../../hooks/useFetchProductLikes';
 
 interface Props {
@@ -111,13 +111,10 @@ export default function MonthlyCardItem({ mProduct }: Props) {
             setIsLike(true);
             setLikesCount(likesCounter + 1);
         } else {
-            const { error } = await supabase
-                .from('likes')
-                .delete()
-                .match({
-                    product_id: product?.id,
-                    owner_id: product?.owner_id,
-                });
+            const { error } = await supabase.from('likes').delete().match({
+                product_id: product?.id,
+                owner_id: product?.owner_id,
+            });
 
             if (error) throw error;
 

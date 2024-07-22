@@ -1,11 +1,11 @@
 'use client';
 
 import NotificationTableData from './NotificationTableData';
-import InputSearch from '../../components/common/InputSearch';
-import PaginationFooter from '../../components/common/PaginationFooter';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import React, { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { INotification } from '../../../../lib/types/types';
+import { INotification } from '@/lib//types/types';
 
 interface Props {
     notifications: INotification[];

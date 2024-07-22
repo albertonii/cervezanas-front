@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Carousel } from './common/Carousel';
 import { IconButton } from './common/IconButton';
 import { ImageModal } from './modals/ImageModal';
-import { ICarouselItem } from '../../../lib/types/types';
+import { ICarouselItem } from '@/lib//types/types';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import DisplayImageProduct from './common/DisplayImageProduct';
 

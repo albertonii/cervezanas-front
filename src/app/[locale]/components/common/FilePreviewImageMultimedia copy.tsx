@@ -5,7 +5,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { useAppContext } from '../../../context/AppContext';
-import { SupabaseProps } from '../../../../constants';
+import { SupabaseProps } from '@/constants';
 
 interface Props {
     form: UseFormReturn<any, any>;

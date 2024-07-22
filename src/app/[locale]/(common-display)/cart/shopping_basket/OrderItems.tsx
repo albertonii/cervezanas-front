@@ -1,25 +1,15 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { CheckoutItem } from './CheckoutItem';
-import { formatCurrency } from '../../../../../utils/formatCurrency';
-import { useShoppingCart } from '../../../../context/ShoppingCartContext';
-import { IProductPackCartItem } from '../../../../../lib/types/types';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 
 interface Props {
-    selectedShippingAddress: string;
-    handleDeliveryCost: (deliveryCost: number) => void;
     subtotal: number;
     isShippingCostLoading: boolean;
-    undeliverableItems: IProductPackCartItem[];
 }
 
-const OrderItems = ({
-    selectedShippingAddress,
-    handleDeliveryCost,
-    subtotal,
-    isShippingCostLoading,
-    undeliverableItems,
-}: Props) => {
+const OrderItems = ({ subtotal, isShippingCostLoading }: Props) => {
     const t = useTranslations();
 
     const { items } = useShoppingCart();
@@ -35,10 +25,7 @@ const OrderItems = ({
                 <div key={productPack.id}>
                     <CheckoutItem
                         productPack={productPack}
-                        selectedShippingAddress={selectedShippingAddress}
-                        handleDeliveryCost={handleDeliveryCost}
                         isShippingCostLoading={isShippingCostLoading}
-                        undeliverableItems={undeliverableItems}
                     />
                 </div>
             ))}

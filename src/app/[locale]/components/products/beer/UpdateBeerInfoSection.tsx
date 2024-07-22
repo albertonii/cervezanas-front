@@ -10,13 +10,13 @@ import {
     volume_bottle_type_options,
     volume_can_type_options,
     volume_draft_type_options,
-} from '../../../../../lib/beerEnum';
+} from '@/lib//beerEnum';
 import {
     ICustomizeSettings,
     ModalUpdateProductFormData,
-} from '../../../../../lib/types/types';
-import { formatCurrency } from '../../../../../utils/formatCurrency';
-import { capitalizeFirstLetter } from '../../../../../utils/formatWords';
+} from '@/lib//types/types';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { capitalizeFirstLetter } from '@/utils/formatWords';
 import { DisplayInputError } from '../../common/DisplayInputError';
 import InputLabel from '../../common/InputLabel';
 import InputTextarea from '../../common/InputTextarea';

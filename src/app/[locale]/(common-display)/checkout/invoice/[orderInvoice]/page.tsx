@@ -1,8 +1,8 @@
 import OrderInvoice from './OrderInvoice';
 import { redirect } from 'next/navigation';
-import createServerClient from '../../../../../../utils/supabaseServer';
-import readUserSession from '../../../../../../lib/actions';
-import { VIEWS } from '../../../../../../constants';
+import createServerClient from '@/utils/supabaseServer';
+import readUserSession from '@/lib//actions';
+import { VIEWS } from '@/constants';
 
 export default async function OrderInvoicePage({
     params,

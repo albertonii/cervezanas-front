@@ -1,14 +1,14 @@
 import AvailableDistributorsList from './AvailableDistributorsList';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Modal from '../../../../components/modals/Modal';
-import { IDistributorUser } from '../../../../../../lib/types/types';
+import Modal from '@/app/[locale]/components/modals/Modal';
+import { IDistributorUser } from '@/lib//types/types';
 import { SubmitContract } from './SubmitContract';
 import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from 'react-query';
-import { DistributionStatus } from '../../../../../../lib/enums';
-import { useMessage } from '../../../../components/message/useMessage';
+import { DistributionStatus } from '@/lib//enums';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useTranslations } from 'next-intl';
 

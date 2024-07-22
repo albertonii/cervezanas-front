@@ -1,4 +1,4 @@
-import createServerClient from '../../../../../utils/supabaseServer';
+import createServerClient from '@/utils/supabaseServer';
 import { NextRequest, NextResponse } from 'next/server';
 import {
     ROUTE_P_BACK,
@@ -6,10 +6,10 @@ import {
     ROUTE_P_EXTRA_2,
     ROUTE_P_EXTRA_3,
     ROUTE_P_PRINCIPAL,
-} from '../../../../../config';
-import { MULTIMEDIA, SupabaseProps } from '../../../../../constants';
-import { generateFileNameExtension } from '../../../../../utils/utils';
-import { generateUUID } from '../../../../../lib/actions';
+} from '@/config';
+import { MULTIMEDIA, SupabaseProps } from '@/constants';
+import { generateFileNameExtension } from '@/utils/utils';
+import { generateUUID } from '@/lib//actions';
 
 export async function PUT(request: NextRequest) {
     try {

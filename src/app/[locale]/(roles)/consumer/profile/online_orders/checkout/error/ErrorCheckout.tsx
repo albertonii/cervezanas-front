@@ -1,14 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import DisplayImageProduct from '../../../../../../components/common/DisplayImageProduct';
+import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../../../../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
-import { SupabaseProps } from '../../../../../../../../constants';
-import { IOrder, IOrderItem } from '../../../../../../../../lib/types/types';
-import { formatDateString } from '../../../../../../../../utils/formatDate';
-import { formatCurrency } from '../../../../../../../../utils/formatCurrency';
+import { SupabaseProps } from '@/constants';
+import { IOrder, IOrderItem } from '@/lib/types/types';
+import { formatDateString } from '@/utils/formatDate';
+import { formatCurrency } from '@/utils/formatCurrency';
 
 interface Props {
     isError?: boolean;

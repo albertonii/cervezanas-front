@@ -1,9 +1,9 @@
-import createServerClient from '../../../../../../../../utils/supabaseServer';
-import readUserSession from '../../../../../../../../lib/actions';
+import createServerClient from '@/utils/supabaseServer';
+import readUserSession from '@/lib/actions';
 import EventExperience from './EventExperience';
 import { redirect } from 'next/navigation';
-import { VIEWS } from '../../../../../../../../constants';
-import { IEventExperience } from '../../../../../../../../lib/types/quiz';
+import { VIEWS } from '@/constants';
+import { IEventExperience } from '@/lib/types/quiz';
 
 export default async function CPMobilePage({ params }: any) {
     const { ex_id: eventExperienceId } = params;

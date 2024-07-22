@@ -2,7 +2,7 @@
 
 import { ICity } from 'country-state-city';
 import { useQuery } from 'react-query';
-import { API_METHODS } from '../../../../../../constants';
+import { API_METHODS } from '@/constants';
 
 const headers = new Headers();
 headers.append(

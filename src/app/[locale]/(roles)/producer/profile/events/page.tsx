@@ -1,9 +1,9 @@
 import EventLayout from './EventLayout';
-import readUserSession from '../../../../../../lib/actions';
-import createServerClient from '../../../../../../utils/supabaseServer';
+import readUserSession from '@/lib//actions';
+import createServerClient from '@/utils/supabaseServer';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import { ICPFixed, ICPMobile } from '../../../../../../lib/types/types';
+import { ICPFixed, ICPMobile } from '@/lib//types/types';
 
 export default async function EventsPage() {
     const cpsMobileData = getCPMobileData();

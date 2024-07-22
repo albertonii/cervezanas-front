@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import React from 'react';
-import Button from '../../../components/common/Button';
+import Button from '@/app/[locale]/components/common/Button';
 import { useTranslations } from 'next-intl';
-import { formatCurrency } from '../../../../../utils/formatCurrency';
+import { formatCurrency } from '@/utils/formatCurrency';
 
 export default function CarrierDetails() {
     const t = useTranslations();

@@ -1,9 +1,9 @@
-import DeleteModal from '../../../../components/modals/DeleteModal';
+import DeleteModal from '@/app/[locale]/components/modals/DeleteModal';
 import React, { ComponentProps } from 'react';
 import { useTranslations } from 'next-intl';
 import { useMutation, useQueryClient } from 'react-query';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { useMessage } from '../../../../components/message/useMessage';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 
 interface Props {
     distributor_id: string;

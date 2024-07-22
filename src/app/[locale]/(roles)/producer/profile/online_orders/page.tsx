@@ -1,6 +1,6 @@
-import createServerClient from '../../../../../../utils/supabaseServer';
-import readUserSession from '../../../../../../lib/actions';
-import { IBusinessOrder } from '../../../../../../lib/types/types';
+import createServerClient from '@/utils/supabaseServer';
+import readUserSession from '@/lib//actions';
+import { IBusinessOrder } from '@/lib//types/types';
 import { redirect } from 'next/navigation';
 import { Orders } from './Orders';
 

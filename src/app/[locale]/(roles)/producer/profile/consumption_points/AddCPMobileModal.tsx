@@ -6,18 +6,18 @@ import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { getGeocode } from 'use-places-autocomplete';
-import { IUser } from '../../../../../../lib/types/types';
+import { IUser } from '@/lib//types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { cleanObject, isValidObject } from '../../../../../../utils/utils';
-import Modal from '../../../../components/modals/Modal';
-import { DisplayInputError } from '../../../../components/common/DisplayInputError';
+import { cleanObject, isValidObject } from '@/utils/utils';
+import Modal from '@/app/[locale]/components/modals/Modal';
+import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodType } from 'zod';
-import SelectInput from '../../../../components/common/SelectInput';
-import InputLabel from '../../../../components/common/InputLabel';
-import InputTextarea from '../../../../components/common/InputTextarea';
-import { ROLE_ENUM } from '../../../../../../lib/enums';
+import SelectInput from '@/app/[locale]/components/common/SelectInput';
+import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
+import { ROLE_ENUM } from '@/lib//enums';
 
 enum CPMobileStatus {
     active = 'active',

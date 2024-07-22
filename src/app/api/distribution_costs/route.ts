@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { DeliveryType } from '../../../lib/enums';
-import createServerClient from '../../../utils/supabaseServer';
+import { DeliveryType } from '@/lib//enums';
+import createServerClient from '@/utils/supabaseServer';
 
 export async function GET(request: NextRequest) {
     const requestUrl = new URL(request.url);

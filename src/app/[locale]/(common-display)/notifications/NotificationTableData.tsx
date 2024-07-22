@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { INotification, IUser } from '../../../../lib/types/types';
-import { formatDateString } from '../../../../utils/formatDate';
+import { INotification, IUser } from '@/lib//types/types';
+import { formatDateString } from '@/utils/formatDate';
 import {
     faChevronCircleDown,
     faEnvelope,
@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
-import { ROLE_ENUM } from '../../../../lib/enums';
+import { ROLE_ENUM } from '@/lib//enums';
 
 interface Props {
     notification: INotification;

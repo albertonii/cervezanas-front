@@ -1,7 +1,7 @@
-import readUserSession from '../../../../../lib/actions';
-import createServerClient from '../../../../../utils/supabaseServer';
+import readUserSession from '@/lib//actions';
+import createServerClient from '@/utils/supabaseServer';
 import { redirect } from 'next/navigation';
-import { IUserTable } from '../../../../../lib/types/types';
+import { IUserTable } from '@/lib//types/types';
 import { ShoppingBasket } from './ShoppingBasket';
 
 export default async function CheckoutPage() {

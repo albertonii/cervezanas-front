@@ -1,4 +1,4 @@
-import { ICoverageArea } from '../lib/types/types';
+import { ICoverageArea } from '@/lib//types/types';
 
 export function isSameRegion(region1: ICoverageArea, region2: ICoverageArea) {
     return (

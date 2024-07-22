@@ -13,9 +13,9 @@ import {
     IProduct,
     IProductInventory,
     ModalUpdateProductFormData,
-} from '../../../../../../lib/types/types';
+} from '@/lib//types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { useAppContext } from '../../../../../context/AppContext';
+import { useAppContext } from '@/app/context/AppContext';
 import {
     Aroma,
     aroma_options,
@@ -26,20 +26,20 @@ import {
     Fermentation,
     fermentation_options,
     product_type_options,
-} from '../../../../../../lib/beerEnum';
+} from '@/lib//beerEnum';
 import {
     generateFileNameExtension,
     isFileEmpty,
     isNotEmptyArray,
     isValidObject,
-} from '../../../../../../utils/utils';
-import ModalWithForm from '../../../../components/modals/ModalWithForm';
-import { ProductStepper } from '../../../../components/products/ProductStepper';
+} from '@/utils/utils';
+import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
+import { ProductStepper } from '@/app/[locale]/components/products/ProductStepper';
 import { UpdateProductInfoSection } from '../../../producer/profile/products/UpdateProductInfoSection';
 import { UpdateMultimediaSection } from '../../../producer/profile/products/UpdateMultimediaSection';
 import { UpdateAwardsSection } from '../../../producer/profile/products/UpdateAwardsSection';
 import { UpdateProductSummary } from '../../../producer/profile/products/UpdateProductSummary';
-import { Type } from '../../../../../../lib/productEnum';
+import { Type } from '@/lib//productEnum';
 
 const schema: ZodType<ModalUpdateProductFormData> = z.object({
     product_id: z.string(),

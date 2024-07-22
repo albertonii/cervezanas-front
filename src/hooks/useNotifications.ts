@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { INotification } from '../lib/types/types';
+import { INotification } from '@/lib//types/types';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 
 const useNotifications = () => {

@@ -11,17 +11,17 @@ import {
     ICPFixed,
     ICPMProductsEditCPFixedModal,
     IUser,
-} from '../../../../../../lib/types/types';
+} from '@/lib//types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import Modal from '../../../../components/modals/Modal';
-import { DisplayInputError } from '../../../../components/common/DisplayInputError';
+import Modal from '@/app/[locale]/components/modals/Modal';
+import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { GeocodeResult } from 'use-places-autocomplete';
-import { cleanObject, isValidObject } from '../../../../../../utils/utils';
-import { formatDateDefaultInput } from '../../../../../../utils/formatDate';
-import SelectInput from '../../../../components/common/SelectInput';
-import InputLabel from '../../../../components/common/InputLabel';
-import InputTextarea from '../../../../components/common/InputTextarea';
+import { cleanObject, isValidObject } from '@/utils/utils';
+import { formatDateDefaultInput } from '@/utils/formatDate';
+import SelectInput from '@/app/[locale]/components/common/SelectInput';
+import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
 
 enum CPFixedStatus {
     active = 'active',

@@ -1,14 +1,14 @@
 import InputLabel from '../../common/InputLabel';
-import useBoxPackStore from '../../../../store/boxPackStore';
+import useBoxPackStore from '@/app/store//boxPackStore';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { useMessage } from '../../message/useMessage';
-import { IProduct } from '../../../../../lib/types/types';
-import { IBoxPackItem } from '../../../../../lib/types/product';
+import { IProduct } from '@/lib//types/types';
+import { IBoxPackItem } from '@/lib//types/product';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
-import { Type } from '../../../../../lib/productEnum';
+import { Type } from '@/lib//productEnum';
 
 interface Props {
     product: IProduct;

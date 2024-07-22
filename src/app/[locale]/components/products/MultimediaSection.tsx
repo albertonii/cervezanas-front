@@ -1,6 +1,6 @@
 import { UseFormReturn } from 'react-hook-form';
 import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
-import { ModalAddProductFormData } from '../../../../lib/types/types';
+import { ModalAddProductFormData } from '@/lib//types/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 

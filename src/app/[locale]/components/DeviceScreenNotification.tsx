@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import { INotification } from '../../../lib/types/types';
-import { useAppContext } from '../../context/AppContext';
+import { INotification } from '@/lib//types/types';
+import { useAppContext } from '@/app/context/AppContext';
 import Button from './common/Button';
 import { NotificationPopup } from './notificationPopup/NotificationPopup';
 

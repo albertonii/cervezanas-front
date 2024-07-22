@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { BasicDataForm } from './BasicDataForm';
 import { SecretDataForm } from './SecretDataForm';
 import { ProducerBasicDataForm } from './ProducerBasicDataForm';
-import { IProducerUser } from '../../../../../../lib/types/types';
+import { IProducerUser } from '@/lib//types/types';
 
 interface Props {
     profile: IProducerUser;

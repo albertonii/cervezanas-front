@@ -3,7 +3,7 @@ import React, { ComponentProps } from 'react';
 import { useMutation } from 'react-query';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useMessage } from '../message/useMessage';
-import { ROLE_ENUM } from '../../../../lib/enums';
+import { ROLE_ENUM } from '@/lib//enums';
 
 interface Props {
     handleShowUpProducerModal: (show: boolean) => void;

@@ -1,8 +1,8 @@
 import { useTranslations } from 'next-intl';
 import React, { useEffect } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { DeleteButton } from '../../../../../../components/common/DeleteButton';
-import { DisplayInputError } from '../../../../../../components/common/DisplayInputError';
+import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
+import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 import { PriceRangeCostFormValidationSchema } from '../PrinceRange/PriceRangeCostForm';
 
 interface Props {

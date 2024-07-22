@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import Button from '../../components/common/Button';
-import InputLabel from '../../components/common/InputLabel';
+import Button from '@/app/[locale]/components/common/Button';
+import InputLabel from '@/app/[locale]/components/common/InputLabel';
 import React from 'react';
 import { z, ZodType } from 'zod';
 import { faLock } from '@fortawesome/free-solid-svg-icons';

@@ -2,10 +2,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { COMMON } from '../../../../../../constants';
-import { ICPFixed } from '../../../../../../lib/types/types';
-import { formatDateString } from '../../../../../../utils/formatDate';
-import { ROUTE_EVENTS } from '../../../../../../config';
+import { COMMON } from '@/constants';
+import { ICPFixed } from '@/lib//types/types';
+import { formatDateString } from '@/utils/formatDate';
+import { ROUTE_EVENTS } from '@/config';
 
 interface CPFixedProps {
     cp: ICPFixed;

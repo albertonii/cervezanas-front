@@ -2,10 +2,7 @@ import AddProductPackItemForm from './AddProductPackItemForm';
 import Button from './common/Button';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import {
-    IProductPack,
-    ModalAddProductFormData,
-} from '../../../lib/types/types';
+import { IProductPack, ModalAddProductFormData } from '@/lib//types/types';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid'; // Ensure uuid is installed
 import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';

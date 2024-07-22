@@ -1,67 +1,64 @@
 import { redirect } from 'next/navigation';
-import {
-  IProfile,
-  IConsumptionPoints,
-} from '../../../../../../lib/types/types';
-import createServerClient from '../../../../../../utils/supabaseServer';
-import readUserSession from '../../../../../../lib/actions';
+import { IProfile, IConsumptionPoints } from '@/lib//types/types';
+import createServerClient from '@/utils/supabaseServer';
+import readUserSession from '@/lib//actions';
 import { ConsumptionPoints } from './ConsumptionPoints';
 
 export default async function ProfilePage() {
-  const cpsData = getCPSData();
-  const profileData = getProfileData();
-  const [cps, profile] = await Promise.all([cpsData, profileData]);
-  if (!profile) return <></>;
+    const cpsData = getCPSData();
+    const profileData = getProfileData();
+    const [cps, profile] = await Promise.all([cpsData, profileData]);
+    if (!profile) return <></>;
 
-  return (
-    <>
-      <ConsumptionPoints cps={cps ?? []} profile={profile} />
-    </>
-  );
+    return (
+        <>
+            <ConsumptionPoints cps={cps ?? []} profile={profile} />
+        </>
+    );
 }
 
 async function getCPSData() {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const session = await readUserSession();
+    const session = await readUserSession();
 
-  if (!session) {
+    if (!session) {
         redirect('/signin');
-  }
+    }
 
-  const { data: cps, error: cpsError } = await supabase
-    .from('consumption_points')
-    .select(
-      `
+    const { data: cps, error: cpsError } = await supabase
+        .from('consumption_points')
+        .select(
+            `
         *,
         cp_fixed (*),
         cp_mobile (*)
       `,
-    )
-    .eq('owner_id', session.id);
-  if (cpsError) console.error(cpsError);
+        )
+        .eq('owner_id', session.id);
+    if (cpsError) console.error(cpsError);
 
-  return cps as IConsumptionPoints[];
+    return cps as IConsumptionPoints[];
 }
 
 async function getProfileData() {
-  const supabase = await createServerClient();
-  const session = await readUserSession();
+    const supabase = await createServerClient();
+    const session = await readUserSession();
 
-  if (!session) {
+    if (!session) {
         redirect('/signin');
-  }
+    }
 
-  const { data: profileData, error: profileError } = await supabase
-    .from('users')
-    .select(
-      `
+    const { data: profileData, error: profileError } = await supabase
+        .from('users')
+        .select(
+            `
         cp_organizer_status
       `,
-    )
-    .eq('id', session.id);
+        )
+        .eq('id', session.id);
 
-  if (profileError) throw profileError;
+    if (profileError) throw profileError;
 
-  return profileData[0] as IProfile;
+    return profileData[0] as IProfile;
 }

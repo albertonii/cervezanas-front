@@ -1,15 +1,15 @@
 'use client';
 
 import React from 'react';
-import InputForm from '../../../../../../components/InputForm';
-import Button from '../../../../../../components/common/Button';
+import InputForm from '@/app/[locale]/components/InputForm';
+import Button from '@/app/[locale]/components/common/Button';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { Tooltip } from '../../../../../../components/common/Tooltip';
-import InputLabel from '../../../../../../components/common/InputLabel';
+import { Tooltip } from '@/app/[locale]/components/common/Tooltip';
+import InputLabel from '@/app/[locale]/components/common/InputLabel';
 
 interface FormData {
     id: string;

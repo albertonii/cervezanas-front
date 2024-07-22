@@ -10,7 +10,7 @@ import { DisplayInputError } from '../../common/DisplayInputError';
 import {
     AnswerFormData,
     IUpdModalExperienceBeerMasterFormData,
-} from '../../../../../lib/types/quiz';
+} from '@/lib//types/quiz';
 import { defaultOverrides } from 'next/dist/server/require-hook';
 
 const emptyAnswer: AnswerFormData = {

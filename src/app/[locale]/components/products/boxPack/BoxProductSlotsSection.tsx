@@ -2,12 +2,9 @@ import BoxProductSlotsSelection from './BoxProductSlotsSelection';
 import React, { useEffect, useState } from 'react';
 import InputLabel from '../../common/InputLabel';
 import { UseFormReturn } from 'react-hook-form';
-import {
-    IBoxPackItem,
-    ModalAddBoxPackFormData,
-} from '../../../../../lib/types/product';
+import { IBoxPackItem, ModalAddBoxPackFormData } from '@/lib//types/product';
 import { SearchCheckboxProductSlot } from './SearchCheckboxProductSlot';
-import useBoxPackStore from '../../../../store/boxPackStore';
+import useBoxPackStore from '@/app/store//boxPackStore';
 import { useTranslations } from 'next-intl';
 import DrawingSlotsFromBox from './DrawingSlotsFromBox';
 

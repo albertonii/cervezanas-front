@@ -1,4 +1,4 @@
-// import messages from '../../lib/translations/messages/es.json';
+// import messages from '@/lib//translations/messages/es.json';
 // import React, { FC, ReactElement, ReactNode } from 'react';
 // import { render, RenderOptions } from '@testing-library/react';
 // import { NextIntlClientProvider } from 'next-intl';

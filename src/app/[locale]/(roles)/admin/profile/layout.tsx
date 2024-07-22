@@ -1,19 +1,14 @@
 import React from 'react';
-import readUserSession from '../../../../../lib/actions';
+import readUserSession from '@/lib//actions';
 import { redirect } from 'next/navigation';
 import { User } from '@supabase/supabase-js';
-import { ROLE_ENUM } from '../../../../../lib/enums';
-import { Sidebar } from '../../../components/common/Sidebar';
-import {
-    faUser,
-    faBox,
-    faBell
-} from '@fortawesome/free-solid-svg-icons';
+import { ROLE_ENUM } from '@/lib//enums';
+import { Sidebar } from '@/app/[locale]/components/common/Sidebar';
+import { faUser, faBox, faBell } from '@fortawesome/free-solid-svg-icons';
 
 type LayoutProps = {
     children: React.ReactNode;
 };
-
 
 const sidebarLinks = [
     {
@@ -65,8 +60,6 @@ const sidebarLinks = [
 
 export default async function layout({ children }: LayoutProps) {
     const hasAuthorization = await checkAuthorizatedUser();
-
-   
 
     return (
         <>

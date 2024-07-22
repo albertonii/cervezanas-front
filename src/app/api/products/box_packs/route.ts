@@ -5,12 +5,12 @@ import {
     ROUTE_P_EXTRA_2,
     ROUTE_P_EXTRA_3,
     ROUTE_P_PRINCIPAL,
-} from '../../../../config';
-import createServerClient from '../../../../utils/supabaseServer';
-import { generateFileNameExtension } from '../../../../utils/utils';
-import { SupabaseProps } from '../../../../constants';
-import { Type } from '../../../../lib/productEnum';
-import { generateUUID } from '../../../../lib/actions';
+} from '@/config';
+import createServerClient from '@/utils/supabaseServer';
+import { generateFileNameExtension } from '@/utils/utils';
+import { SupabaseProps } from '@/constants';
+import { Type } from '@/lib//productEnum';
+import { generateUUID } from '@/lib//actions';
 
 export async function POST(request: NextRequest) {
     try {

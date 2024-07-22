@@ -1,6 +1,6 @@
 import React from 'react';
-import { IUserTable } from '../../../../../lib/types/types';
-import createServerClient from '../../../../../utils/supabaseServer';
+import { IUserTable } from '@/lib//types/types';
+import createServerClient from '@/utils/supabaseServer';
 import UserInformation from './UserInformation';
 
 export default async function page({ params }: any) {

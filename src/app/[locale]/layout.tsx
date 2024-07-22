@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import Providers from './providers';
 import Footer from './components/Footer';
 import Breadcrumb from './components/Breadcrumb';
-import createServerClient from '../../utils/supabaseServer';
+import createServerClient from '@/utils/supabaseServer';
 import { notFound } from 'next/navigation';
 import { MessageList } from './components/message/MessageList';
 
@@ -30,9 +30,8 @@ export default async function AppLocaleLayout({
 
     let messages;
     try {
-        messages = (
-            await import(`../../lib/translations/messages/${locale}.json`)
-        ).default;
+        messages = (await import(`@/lib//translations/messages/${locale}.json`))
+            .default;
     } catch (error) {
         notFound();
     }

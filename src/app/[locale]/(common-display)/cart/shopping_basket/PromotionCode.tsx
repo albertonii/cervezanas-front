@@ -1,19 +1,19 @@
 'use client';
 
-import InputLabel from '../../../components/common/InputLabel';
-import Button from '../../../components/common/Button';
+import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import Button from '@/app/[locale]/components/common/Button';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useMutation } from 'react-query';
-import { useMessage } from '../../../components/message/useMessage';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { validatePromoCode } from '../actions'; // Asegúrate de crear esta función en tu backend
 import { faTicketAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { DisplayInputError } from '../../../components/common/DisplayInputError';
+import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Spinner from '../../../components/common/Spinner';
+import Spinner from '@/app/[locale]/components/common/Spinner';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 
 const promoCodeSchema: ZodType<{ code: string }> = z.object({

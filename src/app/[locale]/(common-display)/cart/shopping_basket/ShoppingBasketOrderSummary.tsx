@@ -1,8 +1,8 @@
 import { useTranslations } from 'next-intl';
 import React, { useEffect } from 'react';
-import { IAddress, IBillingInfo } from '../../../../../lib/types/types';
-import { formatCurrency } from '../../../../../utils/formatCurrency';
-import Button from '../../../components/common/Button';
+import { IAddress, IBillingInfo } from '@/lib//types/types';
+import { formatCurrency } from '@/utils/formatCurrency';
+import Button from '@/app/[locale]/components/common/Button';
 import ShoppingBasketAddressesSummary from './ShoppingBasketAddressesSummary';
 
 interface Props {

@@ -2,7 +2,7 @@ import InputLabel from '../../common/InputLabel';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import { IAddModalExperienceBeerMasterFormData } from '../../../../../lib/types/quiz';
+import { IAddModalExperienceBeerMasterFormData } from '@/lib//types/quiz';
 import { DeleteButton } from '../../common/DeleteButton';
 import { DisplayInputError } from '../../common/DisplayInputError';
 

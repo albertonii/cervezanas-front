@@ -1,18 +1,18 @@
 'use client';
 
 import BMPaymentModal from './BMPaymentModal';
-import QuizPanel from '../../../../../../components/quiz/QuizPanel';
-import Button from '../../../../../../components/common/Button';
+import QuizPanel from '@/app/[locale]/components/quiz/QuizPanel';
+import Button from '@/app/[locale]/components/common/Button';
 import React, { useEffect, useState } from 'react';
 import {
     IEventExperience,
     IBMExperienceParticipants,
     Question,
     QuestionsState,
-} from '../../../../../../../../lib/types/quiz';
+} from '@/lib/types/quiz';
 import { useAuth } from '../../../../../../(auth)/Context/useAuth';
-import { useMessage } from '../../../../../../components/message/useMessage';
-import { shuffleArray } from '../../../../../../../../utils/utils';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { shuffleArray } from '@/utils/utils';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import {
@@ -23,7 +23,7 @@ import {
     ROUTE_EVENTS,
     ROUTE_EXPERIENCE_PARTICIPANT,
     ROUTE_PRODUCER,
-} from '../../../../../../../../config';
+} from '@/config';
 import ParticipationQRCode from './ParticipationQRCode';
 import {
     getUserParticipant,

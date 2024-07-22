@@ -3,13 +3,13 @@
 import React, { ComponentProps } from 'react';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useTranslations } from 'next-intl';
-import { IDistributionContract } from '../../../../../../lib/types/types';
-import Modal from '../../../../components/modals/Modal';
+import { IDistributionContract } from '@/lib//types/types';
+import Modal from '@/app/[locale]/components/modals/Modal';
 import { useMutation, useQueryClient } from 'react-query';
-import { DistributionStatus } from '../../../../../../lib/enums';
-import { formatDateString } from '../../../../../../utils/formatDate';
+import { DistributionStatus } from '@/lib//enums';
+import { formatDateString } from '@/utils/formatDate';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { useMessage } from '../../../../components/message/useMessage';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 
 interface Props {
     selectedContract: IDistributionContract;

@@ -1,14 +1,14 @@
 import React from 'react';
 import { FieldError, UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { formatCurrency } from '../../../../utils/formatCurrency';
+import { formatCurrency } from '@/utils/formatCurrency';
 import { FilePreview } from '../common/FilePreview';
-import { ModalAddProductFormData } from '../../../../lib/types/types';
+import { ModalAddProductFormData } from '@/lib//types/types';
 import {
     color_options,
     family_options,
     fermentation_options,
-} from '../../../../lib/beerEnum';
+} from '@/lib//beerEnum';
 
 interface Props {
     form: UseFormReturn<ModalAddProductFormData, any>;

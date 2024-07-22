@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { IProduct } from '../../../../../../lib/types/types';
+import { IProduct } from '@/lib//types/types';
 import { ProductsArchiveList } from './ProductsArchiveList';
-import { DeleteProductModal } from '../../../../components/modals/DeleteProductModal';
+import { DeleteProductModal } from '@/app/[locale]/components/modals/DeleteProductModal';
 import { UpdateProductModal } from './UpdateProductModal';
 
 /**

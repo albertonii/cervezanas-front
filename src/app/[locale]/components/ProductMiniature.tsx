@@ -1,8 +1,8 @@
 import { useTranslations } from 'next-intl';
 import React from 'react';
-import { SupabaseProps } from '../../../constants';
-import { family_options } from '../../../lib/beerEnum';
-import { IProduct } from '../../../lib/types/types';
+import { SupabaseProps } from '@/constants';
+import { family_options } from '@/lib//beerEnum';
+import { IProduct } from '@/lib//types/types';
 import DisplayImageProduct from './common/DisplayImageProduct';
 
 interface Props {

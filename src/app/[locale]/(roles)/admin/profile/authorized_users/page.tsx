@@ -1,48 +1,45 @@
 import React from 'react';
-import {
-  IDistributorUser,
-  IProducerUser,
-} from '../../../../../../lib/types/types';
-import createServerClient from '../../../../../../utils/supabaseServer';
+import { IDistributorUser, IProducerUser } from '@/lib//types/types';
+import createServerClient from '@/utils/supabaseServer';
 import PendingList from './PendingList';
 
 export default async function AuthorizeUsersPage() {
-  const producers = await getPendingAuthProducers();
-  const distributors = await getPendingAuthDistributors();
+    const producers = await getPendingAuthProducers();
+    const distributors = await getPendingAuthDistributors();
 
-  return <PendingList producers={producers} distributors={distributors} />;
+    return <PendingList producers={producers} distributors={distributors} />;
 }
 
 async function getPendingAuthProducers() {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const { data, error: profileError } = await supabase
-    .from('producer_user')
-    .select(
-      `
+    const { data, error: profileError } = await supabase
+        .from('producer_user')
+        .select(
+            `
         *,
         users (*)
       `,
-    );
+        );
 
-  if (profileError) throw profileError;
+    if (profileError) throw profileError;
 
-  return data as IProducerUser[];
+    return data as IProducerUser[];
 }
 
 async function getPendingAuthDistributors() {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const { data, error: profileError } = await supabase
-    .from('distributor_user')
-    .select(
-      `
+    const { data, error: profileError } = await supabase
+        .from('distributor_user')
+        .select(
+            `
         *,
         users (*)
       `,
-    );
+        );
 
-  if (profileError) throw profileError;
+    if (profileError) throw profileError;
 
-  return data as IDistributorUser[];
+    return data as IDistributorUser[];
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import MarketCartButtons from '../../../../../../../components/common/MarketCartButtons';
+import MarketCartButtons from '@/app/[locale]/components/common/MarketCartButtons';
 import React, {
     useCallback,
     useEffect,
@@ -10,24 +10,24 @@ import React, {
 } from 'react';
 import { useTranslations } from 'next-intl';
 import { faCartArrowDown } from '@fortawesome/free-solid-svg-icons';
-import Button from '../../../../../../../components/common/Button';
-import { IconButton } from '../../../../../../../components/common/IconButton';
-import { useEventCart } from '../../../../../../../../context/EventCartContext';
-import { ProductOverallReview } from '../../../../../../../components/reviews/ProductOverallReview';
-import { ProductReviews } from '../../../../../../../components/reviews/ProductReviews';
-import { Rate } from '../../../../../../../components/reviews/Rate';
-import { SupabaseProps } from '../../../../../../../../../constants';
+import Button from '@/app/[locale]/components/common/Button';
+import { IconButton } from '@/app/[locale]/components/common/IconButton';
+import { useEventCart } from '@/app/context/EventCartContext';
+import { ProductOverallReview } from '@/app/[locale]/components/reviews/ProductOverallReview';
+import { ProductReviews } from '@/app/[locale]/components/reviews/ProductReviews';
+import { Rate } from '@/app/[locale]/components/reviews/Rate';
+import { SupabaseProps } from '@/constants';
 import {
     ICarouselItem,
     ICPMProducts,
     IProduct,
     IProductPack,
     IReview,
-} from '../../../../../../../../../lib/types/types';
+} from '@/lib/types/types';
 import dynamic from 'next/dynamic';
 
 const DynamicSpinner = dynamic(
-    () => import('../../../../../../../components/common/Spinner'),
+    () => import('@/app/[locale]/components/common/Spinner'),
     {
         ssr: false,
     },

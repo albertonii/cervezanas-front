@@ -1,7 +1,7 @@
 'use client';
 
-import AddressForm from '../../../components/AddressForm';
-import ModalWithForm from '../../../components/modals/ModalWithForm';
+import AddressForm from '@/app/[locale]/components/AddressForm';
+import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
 import React, { useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
@@ -11,8 +11,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
-import { useMessage } from '../../../components/message/useMessage';
-import { ModalBillingAddressFormData } from '../../../../../lib/types/types';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { ModalBillingAddressFormData } from '@/lib//types/types';
 
 const schema: ZodType<ModalBillingAddressFormData> = z.object({
     name: z.string().nonempty({ message: 'errors.input_required' }),

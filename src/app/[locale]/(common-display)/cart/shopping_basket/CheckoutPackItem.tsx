@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import DisplayImageProduct from '../../../components/common/DisplayImageProduct';
-import MarketCartButtons from '../../../components/common/MarketCartButtons';
-import { SupabaseProps } from '../../../../../constants';
+import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
+import MarketCartButtons from '@/app/[locale]/components/common/MarketCartButtons';
+import { SupabaseProps } from '@/constants';
 import {
     IProduct,
     IProductPack,
     IProductPackCartItem,
-} from '../../../../../lib/types/types';
-import { formatCurrency } from '../../../../../utils/formatCurrency';
-import { Type } from '../../../../../lib/productEnum';
+} from '@/lib//types/types';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { Type } from '@/lib//productEnum';
 import { useTranslations } from 'next-intl';
-import { useShoppingCart } from '../../../../context/ShoppingCartContext';
+import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { calculateProductPacksWeight } from '../actions';
-import Spinner from '../../../components/common/Spinner';
+import Spinner from '@/app/[locale]/components/common/Spinner';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 

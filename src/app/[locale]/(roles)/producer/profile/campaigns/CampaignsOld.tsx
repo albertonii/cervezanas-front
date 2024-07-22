@@ -4,25 +4,25 @@ import { useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import {
-  ICampaignFormProps,
-  ICampaign,
-  ICampaignItem,
-  IProduct,
-} from '../../../../../../lib/types/types';
+    ICampaignFormProps,
+    ICampaign,
+    ICampaignItem,
+    IProduct,
+} from '@/lib//types/types';
 import { CampaignForm } from './CampaignForm';
 import { SearchCheckboxListCampaign } from './SearchCheckboxListCampaign';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { useMessage } from '../../../../components/message/useMessage';
-import Button from '../../../../components/common/Button';
-import { DeleteCampaign } from '../../../../components/modals/DeleteCampaign';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import Button from '@/app/[locale]/components/common/Button';
+import { DeleteCampaign } from '@/app/[locale]/components/modals/DeleteCampaign';
 
 interface Props {
-  campaigns: ICampaign[];
-  products: IProduct[];
+    campaigns: ICampaign[];
+    products: IProduct[];
 }
 
 export function Campaigns({ campaigns: c, products }: Props) {
-  /*
+    /*
   const t = useTranslations();
 
   const { user, supabase } = useAuth();
@@ -178,9 +178,9 @@ export function Campaigns({ campaigns: c, products }: Props) {
   };
   */
 
-  return (
-    <section className="px-4 py-6 " aria-label="Campaigns">
-      {/* 
+    return (
+        <section className="px-4 py-6 " aria-label="Campaigns">
+            {/* 
       <header className="flex flex-col space-y-4">
         <p className="flex justify-between py-4" id="header">
         <span
@@ -244,6 +244,6 @@ export function Campaigns({ campaigns: c, products }: Props) {
         ))}
       </section>
  */}
-    </section>
-  );
+        </section>
+    );
 }

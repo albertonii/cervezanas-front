@@ -11,26 +11,26 @@ import {
     family_options,
     fermentation_options,
     product_type_options,
-} from '../../../../../../lib/beerEnum';
-import { MultimediaSection } from '../../../../components/products/MultimediaSection';
+} from '@/lib//beerEnum';
+import { MultimediaSection } from '@/app/[locale]/components/products/MultimediaSection';
 import {
     IProductInventory,
     IModalAddProductPack,
     ModalAddProductAwardFormData,
     ModalAddProductFormData,
-} from '../../../../../../lib/types/types';
+} from '@/lib//types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { ProductSummary } from '../../../../components/products/ProductSummary';
+import { ProductSummary } from '@/app/[locale]/components/products/ProductSummary';
 import {
     generateFileNameExtension,
     isFileEmpty,
     isNotEmptyArray,
     isValidObject,
-} from '../../../../../../utils/utils';
+} from '@/utils/utils';
 import { useMutation, useQueryClient } from 'react-query';
-import { ProductStepper } from '../../../../components/products/ProductStepper';
-import { ProductInfoSection } from '../../../../components/products/ProductInfoSection';
-import { useAppContext } from '../../../../../context/AppContext';
+import { ProductStepper } from '@/app/[locale]/components/products/ProductStepper';
+import { ProductInfoSection } from '@/app/[locale]/components/products/ProductInfoSection';
+import { useAppContext } from '@/app/context/AppContext';
 import dynamic from 'next/dynamic';
 import {
     ROUTE_ARTICLES,
@@ -39,14 +39,14 @@ import {
     ROUTE_P_EXTRA_2,
     ROUTE_P_EXTRA_3,
     ROUTE_P_PRINCIPAL,
-} from '../../../../../../config';
-import { useMessage } from '../../../../components/message/useMessage';
-import { AwardsSection } from '../../../../components/products/AwardsSection';
-import Spinner from '../../../../components/common/Spinner';
-import { Type } from '../../../../../../lib/productEnum';
+} from '@/config';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { AwardsSection } from '@/app/[locale]/components/products/AwardsSection';
+import Spinner from '@/app/[locale]/components/common/Spinner';
+import { Type } from '@/lib//productEnum';
 
 const ModalWithForm = dynamic(
-    () => import('../../../../components/modals/ModalWithForm'),
+    () => import('@/app/[locale]/components/modals/ModalWithForm'),
     { ssr: false },
 );
 

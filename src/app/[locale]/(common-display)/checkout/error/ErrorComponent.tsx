@@ -3,7 +3,7 @@
 import { useLocale } from 'next-intl';
 import { redirect, useRouter } from 'next/navigation';
 import React from 'react';
-import Button from '../../../components/common/Button';
+import Button from '@/app/[locale]/components/common/Button';
 
 export default function ErrorComponent() {
     const router = useRouter();

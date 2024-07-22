@@ -1,39 +1,39 @@
 'use client';
 
-import { IEvent } from '../lib/types/types';
+import { IEvent } from '@/lib//types/types';
 import { useQuery } from 'react-query';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { Database } from '../lib/schema';
+import { Database } from '@/lib//schema';
 
 const fetchProductLikes = async (
-  pId: string,
-  supabase: SupabaseClient<Database>,
+    pId: string,
+    supabase: SupabaseClient<Database>,
 ) => {
-  const { count, error } = await supabase
-    .from('likes')
-    .select(
-      `
+    const { count, error } = await supabase
+        .from('likes')
+        .select(
+            `
         id
       `,
-      {
-        count: 'exact',
-      },
-    )
-    .eq('product_id', pId);
+            {
+                count: 'exact',
+            },
+        )
+        .eq('product_id', pId);
 
-  if (error) throw error;
-  return count as number;
+    if (error) throw error;
+    return count as number;
 };
 
 const useFetchProductLikes = (pId: string) => {
-  const { supabase } = useAuth();
+    const { supabase } = useAuth();
 
-  return useQuery({
-    queryKey: ['likes', pId],
-    queryFn: () => fetchProductLikes(pId, supabase),
-    refetchOnWindowFocus: false,
-  });
+    return useQuery({
+        queryKey: ['likes', pId],
+        queryFn: () => fetchProductLikes(pId, supabase),
+        refetchOnWindowFocus: false,
+    });
 };
 
 export default useFetchProductLikes;

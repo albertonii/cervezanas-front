@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { IExperience } from '../../../../../../lib/types/quiz';
-import AddBeerMasterExperienceModal from '../../../../components/modals/experiences/AddBeerMasterExperienceModal';
+import { IExperience } from '@/lib//types/quiz';
+import AddBeerMasterExperienceModal from '@/app/[locale]/components/modals/experiences/AddBeerMasterExperienceModal';
 import ExperienceList from './ExperiencesList';
 
 interface Props {

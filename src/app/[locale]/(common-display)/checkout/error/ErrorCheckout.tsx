@@ -3,12 +3,12 @@
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { SupabaseProps } from '../../../../../constants';
-import { IOrder, IOrderItem } from '../../../../../lib/types/types';
-import { formatCurrency } from '../../../../../utils/formatCurrency';
-import { formatDateString } from '../../../../../utils/formatDate';
+import { SupabaseProps } from '@/constants';
+import { IOrder, IOrderItem } from '@/lib//types/types';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { formatDateString } from '@/utils/formatDate';
 import { useAuth } from '../../../(auth)/Context/useAuth';
-import DisplayImageProduct from '../../../components/common/DisplayImageProduct';
+import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
 
 interface Props {
     isError?: boolean;

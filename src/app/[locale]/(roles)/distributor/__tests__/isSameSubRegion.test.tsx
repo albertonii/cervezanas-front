@@ -1,5 +1,5 @@
-import { ICoverageArea } from '../../../../../lib/types/types';
-import { isSameSubRegion } from '../../../../../utils/distribution';
+import { ICoverageArea } from '@/lib//types/types';
+import { isSameSubRegion } from '@/utils/distribution';
 
 describe('isSameSubRegion', () => {
     it('should return true for identical sub-regions', async () => {

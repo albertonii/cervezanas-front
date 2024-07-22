@@ -1,15 +1,12 @@
 import Link from 'next/link';
 import React from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { SupabaseProps } from '../../../../../../../constants';
-import {
-    IBusinessOrder,
-    IOrderItem,
-} from '../../../../../../../lib/types/types';
-import DisplayImageProduct from '../../../../../components/common/DisplayImageProduct';
-import { formatCurrency } from '../../../../../../../utils/formatCurrency';
-import { StatusTimeline } from '../../../../../components/StatusTimeline';
-import DisplayImageProfile from '../../../../../components/common/DisplayImageProfile';
+import { SupabaseProps } from '@/constants';
+import { IBusinessOrder, IOrderItem } from '@/lib/types/types';
+import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { StatusTimeline } from '@/app/[locale]/components/StatusTimeline';
+import DisplayImageProfile from '@/app/[locale]/components/common/DisplayImageProfile';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -24,7 +21,6 @@ export default function BusinessOrderItem({ bOrder }: Props) {
     const locale = useLocale();
 
     const orderItems = bOrder.order_items;
-
 
     if (!orderItems || orderItems.length === 0) return <></>;
 

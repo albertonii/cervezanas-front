@@ -1,31 +1,31 @@
 import React from 'react';
-import createServerClient from '../../../../../utils/supabaseServer';
-import { IUserTable } from '../../../../../lib/types/types';
+import createServerClient from '@/utils/supabaseServer';
+import { IUserTable } from '@/lib//types/types';
 import ConsumerInformation from './ConsumerInformation';
 
 export default async function page({ params }: any) {
-  const { id } = params;
+    const { id } = params;
 
-  const consumerData = await getConsumerProfile(id);
-  const [consumer] = await Promise.all([consumerData]);
+    const consumerData = await getConsumerProfile(id);
+    const [consumer] = await Promise.all([consumerData]);
 
-  return <ConsumerInformation consumer={consumer} />;
+    return <ConsumerInformation consumer={consumer} />;
 }
 
 async function getConsumerProfile(consumerId: string) {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const { data: consumer, error: consumerError } = await supabase
-    .from('users')
-    .select(
-      `
+    const { data: consumer, error: consumerError } = await supabase
+        .from('users')
+        .select(
+            `
         *
       `,
-    )
-    .eq('id', consumerId)
-    .single();
+        )
+        .eq('id', consumerId)
+        .single();
 
-  if (consumerError) throw consumerError;
+    if (consumerError) throw consumerError;
 
-  return consumer as IUserTable;
+    return consumer as IUserTable;
 }

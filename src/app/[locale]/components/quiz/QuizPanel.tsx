@@ -7,7 +7,7 @@ import {
     IExperience,
     Question,
     QuestionsState,
-} from '../../../../lib/types/quiz';
+} from '@/lib//types/quiz';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useMessage } from '../message/useMessage';

@@ -1,9 +1,9 @@
 import { Reviews } from './Reviews';
 import { redirect } from 'next/navigation';
-import { VIEWS } from '../../../../../../constants';
-import { IReview } from '../../../../../../lib/types/types';
-import createServerClient from '../../../../../../utils/supabaseServer';
-import readUserSession from '../../../../../../lib/actions';
+import { VIEWS } from '@/constants';
+import { IReview } from '@/lib//types/types';
+import createServerClient from '@/utils/supabaseServer';
+import readUserSession from '@/lib//actions';
 
 export default async function ReviewsPage() {
     const { reviews } = await getReviewsData();

@@ -8,7 +8,7 @@ import {
     IProduct,
     IProductPack,
     IDistributionContract,
-} from '../../lib/types/types';
+} from '@/lib//types/types';
 import {
     calculateCheapestShippingCosts,
     getListAsociatedDistributors,
@@ -17,6 +17,8 @@ import {
 
 type ShoppingCartContextType = {
     items: IProductPackCartItem[];
+    undeliverableItems: IProductPackCartItem[];
+    handleUndeliverableItems: (items: IProductPackCartItem[]) => void;
     cartQuantity: () => number;
     clearItems: () => void;
     clearCart: () => void;
@@ -29,7 +31,6 @@ type ShoppingCartContextType = {
     closeCart: () => void;
     isOpen: boolean;
     updateCartItem: (newItem: IProductPackCartItem) => void;
-    checkIsShoppingCartDeliverable: () => boolean;
     calculateShippingCostCartContext: (
         selectedShippingInfoId: string,
     ) => Promise<{
@@ -42,6 +43,8 @@ type ShoppingCartContextType = {
 
 const ShoppingCartContext = createContext<ShoppingCartContextType>({
     items: [],
+    undeliverableItems: [],
+    handleUndeliverableItems: () => void {},
     cartQuantity: () => 0,
     clearItems: () => void {},
     clearCart: () => void {},
@@ -54,7 +57,6 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
     closeCart: () => void {},
     isOpen: false,
     updateCartItem: () => void {},
-    checkIsShoppingCartDeliverable: () => false,
     calculateShippingCostCartContext: () =>
         Promise.resolve(
             {} as {
@@ -77,6 +79,10 @@ export function ShoppingCartProvider({ children }: Props) {
         [],
     );
 
+    const [undeliverableItems, setUndeliverableItems] = useState<
+        IProductPackCartItem[]
+    >([]);
+
     const clearItems = () => {
         setItems([]);
     };
@@ -85,15 +91,10 @@ export function ShoppingCartProvider({ children }: Props) {
         clearItems();
     };
 
-    // Check if all the products in the cart are deliverable
-    const checkIsShoppingCartDeliverable = () => {
-        if (!items) return false;
-
-        const isDeliverable = items.every((item) => {
-            return item.distributor_id !== '';
-        });
-
-        return isDeliverable;
+    const handleUndeliverableItems = (
+        undeliverableItems_: IProductPackCartItem[],
+    ) => {
+        setUndeliverableItems(undeliverableItems_);
     };
 
     const calculateShippingCostCartContext = async (
@@ -360,6 +361,9 @@ export function ShoppingCartProvider({ children }: Props) {
 
     const value = {
         items,
+        undeliverableItems,
+        isOpen,
+        handleUndeliverableItems,
         clearItems,
         clearCart,
         getItemQuantity,
@@ -367,12 +371,10 @@ export function ShoppingCartProvider({ children }: Props) {
         openCart,
         closeCart,
         cartQuantity,
-        isOpen,
         addPackToCart,
         increaseOnePackCartQuantity,
         decreaseOnePackCartQuantity,
         updateCartItem,
-        checkIsShoppingCartDeliverable,
         calculateShippingCostCartContext,
     };
 

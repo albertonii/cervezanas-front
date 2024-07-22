@@ -3,7 +3,7 @@ import InputLabel from './common/InputLabel';
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DisplayInputError } from './common/DisplayInputError';
-import { JSONSubRegion } from '../../../lib/types/distribution_areas';
+import { JSONSubRegion } from '@/lib//types/distribution_areas';
 
 interface Props {
     form: ComponentProps<any>;

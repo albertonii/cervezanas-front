@@ -1,6 +1,6 @@
 'use client';
 import { create } from 'zustand';
-import { IBoxPack, IBoxPackItem } from '../../lib/types/product';
+import { IBoxPack, IBoxPackItem } from '@/lib//types/product';
 
 interface BoxCartType {
     id: string;

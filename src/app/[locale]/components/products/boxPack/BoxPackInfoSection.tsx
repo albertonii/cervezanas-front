@@ -3,8 +3,8 @@ import InputTextarea from '../../common/InputTextarea';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import { formatCurrency } from '../../../../../utils/formatCurrency';
-import { ModalAddBoxPackFormData } from '../../../../../lib/types/product';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { ModalAddBoxPackFormData } from '@/lib//types/product';
 
 interface Props {
     form: UseFormReturn<ModalAddBoxPackFormData, any>;

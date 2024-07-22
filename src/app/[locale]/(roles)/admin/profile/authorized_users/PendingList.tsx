@@ -1,13 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-    IDistributorUser,
-    IProducerUser,
-} from '../../../../../../lib/types/types';
+import { IDistributorUser, IProducerUser } from '@/lib//types/types';
 import ProducerList from './ProducerList';
 import DistributorList from './DistributorList';
-import HorizontalSections from '../../../../components/common/HorizontalSections';
+import HorizontalSections from '@/app/[locale]/components/common/HorizontalSections';
 
 interface Props {
     producers: IProducerUser[];

@@ -3,18 +3,15 @@
 import { useTranslations } from 'next-intl';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import Button from '../../../../../../components/common/Button';
+import Button from '@/app/[locale]/components/common/Button';
 import { z, ZodType } from 'zod';
-import {
-    FlatrateCostFormData,
-    IFlatrateCost,
-} from '../../../../../../../../lib/types/types';
+import { FlatrateCostFormData, IFlatrateCost } from '@/lib/types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from 'react-query';
-import { useMessage } from '../../../../../../components/message/useMessage';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import Error from 'next/error';
 import { useAuth } from '../../../../../../(auth)/Context/useAuth';
-import InputLabel from '../../../../../../components/common/InputLabel';
+import InputLabel from '@/app/[locale]/components/common/InputLabel';
 
 const schema: ZodType<FlatrateCostFormData> = z.object({
     local_distribution_cost: z.number().min(0),

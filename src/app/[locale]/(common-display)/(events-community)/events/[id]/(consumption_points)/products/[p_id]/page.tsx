@@ -1,5 +1,5 @@
-import { IProduct } from '../../../../../../../../../lib/types/types';
-import createServerClient from '../../../../../../../../../utils/supabaseServer';
+import { IProduct } from '@/lib/types/types';
+import createServerClient from '@/utils/supabaseServer';
 
 export default async function ProductId({ params }: any) {
     const { id } = params;

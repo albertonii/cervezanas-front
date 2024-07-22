@@ -3,12 +3,12 @@
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { IBusinessOrder, IOrder } from '../../../../../../../lib/types/types';
-import { formatDateString } from '../../../../../../../utils/formatDate';
-import { formatCurrency } from '../../../../../../../utils/formatCurrency';
+import { IBusinessOrder, IOrder } from '@/lib/types/types';
+import { formatDateString } from '@/utils/formatDate';
+import { formatCurrency } from '@/utils/formatCurrency';
 import BusinessOrderItem from './BusinessOrderItem';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
-import { ONLINE_ORDER_STATUS } from '../../../../../../../constants';
+import { ONLINE_ORDER_STATUS } from '@/constants';
 interface Props {
     isError?: boolean;
     order: IOrder;

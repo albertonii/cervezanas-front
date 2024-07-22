@@ -1,4 +1,4 @@
-import createServerClient from '../../../../utils/supabaseServer';
+import createServerClient from '@/utils/supabaseServer';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function DELETE(request: NextRequest) {

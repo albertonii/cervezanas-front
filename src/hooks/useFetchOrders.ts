@@ -2,18 +2,18 @@
 
 import { useQuery } from 'react-query';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
-import { IOrder } from '../lib/types/types';
+import { IOrder } from '@/lib//types/types';
 
 const fetchOrders = async (
-  ownerId: string,
-  currentPage: number,
-  resultsPerPage: number,
-  supabase: any,
+    ownerId: string,
+    currentPage: number,
+    resultsPerPage: number,
+    supabase: any,
 ) => {
-  const { data, error } = await supabase
-    .from('orders')
-    .select(
-      `
+    const { data, error } = await supabase
+        .from('orders')
+        .select(
+            `
       *,
       shipping_info(id, *),
       billing_info(id, *),
@@ -27,30 +27,31 @@ const fetchOrders = async (
         )
       )
     `,
-    )
-    .eq('owner_id', ownerId)
-    .range(
-      (currentPage - 1) * resultsPerPage,
-      currentPage * resultsPerPage - 1,
-    );
+        )
+        .eq('owner_id', ownerId)
+        .range(
+            (currentPage - 1) * resultsPerPage,
+            currentPage * resultsPerPage - 1,
+        );
 
-  if (error) throw error;
-  return data as IOrder[];
+    if (error) throw error;
+    return data as IOrder[];
 };
 
 const useFetchOrders = (
-  ownerId: string,
-  currentPage: number,
-  resultsPerPage: number,
+    ownerId: string,
+    currentPage: number,
+    resultsPerPage: number,
 ) => {
-  const { supabase } = useAuth();
+    const { supabase } = useAuth();
 
-  return useQuery({
-    queryKey: ['orders'],
-    queryFn: () => fetchOrders(ownerId, currentPage, resultsPerPage, supabase),
-    enabled: false,
-    refetchOnWindowFocus: false,
-  });
+    return useQuery({
+        queryKey: ['orders'],
+        queryFn: () =>
+            fetchOrders(ownerId, currentPage, resultsPerPage, supabase),
+        enabled: false,
+        refetchOnWindowFocus: false,
+    });
 };
 
 export default useFetchOrders;

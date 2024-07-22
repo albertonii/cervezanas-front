@@ -1,16 +1,16 @@
 'use client';
 
-import InputLabel from '../../../../components/common/InputLabel';
-import Button from '../../../../components/common/Button';
-import Spinner from '../../../../components/common/Spinner';
+import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import Button from '@/app/[locale]/components/common/Button';
+import Spinner from '@/app/[locale]/components/common/Spinner';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { isEmpty } from '../../../../../../utils/utils';
+import { isEmpty } from '@/utils/utils';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IProfileLocation } from '../../../../../../lib/types/types';
+import { IProfileLocation } from '@/lib//types/types';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
-import { DisplayInputError } from '../../../../components/common/DisplayInputError';
+import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 
 interface FormProps {
     addressName: string;

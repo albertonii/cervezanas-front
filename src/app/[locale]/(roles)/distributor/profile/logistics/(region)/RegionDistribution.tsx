@@ -1,28 +1,22 @@
 import RegionTable from './RegionTable';
 import useSWRMutation from 'swr/mutation';
 import CheckboxListRegions from './CheckboxListSubRegions';
-import Button from '../../../../../components/common/Button';
-import Spinner from '../../../../../components/common/Spinner';
-import InputSearch from '../../../../../components/common/InputSearch';
+import Button from '@/app/[locale]/components/common/Button';
+import Spinner from '@/app/[locale]/components/common/Spinner';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-    ICoverageArea,
-    IDistributionCost,
-} from '../../../../../../../lib/types/types';
+import { ICoverageArea, IDistributionCost } from '@/lib/types/types';
 import { useTranslations } from 'next-intl';
 import { useMutation, useQueryClient } from 'react-query';
 import { updateRegionDistribution } from '../../../actions';
 import { Country, ICountry, IState } from 'country-state-city';
-import {
-    filterSearchInputQuery,
-    slicePaginationResults,
-} from '../../../../../../../utils/utils';
-import { useMessage } from '../../../../../components/message/useMessage';
-import { JSONRegion } from '../../../../../../../lib/types/distribution_areas';
-import { DistributionDestinationType } from '../../../../../../../lib/enums';
+import { filterSearchInputQuery, slicePaginationResults } from '@/utils/utils';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { JSONRegion } from '@/lib/types/distribution_areas';
+import { DistributionDestinationType } from '@/lib/enums';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
-import { isSameRegion } from '../../../../../../../utils/distribution';
+import { isSameRegion } from '@/utils/distribution';
 
 const fetcher = (arg: any, ...args: any) =>
     fetch(arg, ...args).then((res) => res.json());

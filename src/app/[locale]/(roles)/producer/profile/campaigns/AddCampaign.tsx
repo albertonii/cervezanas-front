@@ -6,15 +6,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { useMutation, useQueryClient } from 'react-query';
-import ModalWithForm from '../../../../components/modals/ModalWithForm';
-import { ModalAddCampaignFormData } from '../../../../../../lib/types/types';
+import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
+import { ModalAddCampaignFormData } from '@/lib//types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import SelectInput from '../../../../components/common/SelectInput';
-import { SupabaseProps } from '../../../../../../constants';
-import { FilePreviewImageMultimedia } from '../../../../components/common/FilePreviewImageMultimedia';
-import InputLabel from '../../../../components/common/InputLabel';
-import InputTextarea from '../../../../components/common/InputTextarea';
-import { generateFileNameExtension } from '../../../../../../utils/utils';
+import SelectInput from '@/app/[locale]/components/common/SelectInput';
+import { SupabaseProps } from '@/constants';
+import { FilePreviewImageMultimedia } from '@/app/[locale]/components/common/FilePreviewImageMultimedia';
+import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
+import { generateFileNameExtension } from '@/utils/utils';
 
 // const generateUUID = () => {
 //     return uuidv4();

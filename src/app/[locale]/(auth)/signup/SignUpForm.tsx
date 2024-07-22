@@ -1,10 +1,10 @@
 import ProducerDisclaimerModal from '../../(roles)/admin/profile/consumption_points/ProducerDisclaimerModal';
 import DistributorDisclaimerModal from '../../(roles)/admin/profile/consumption_points/DistributorDisclaimerModal';
-import InputLabel from '../../components/common/InputLabel';
-import SelectInput from '../../components/common/SelectInput';
+import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import SelectInput from '@/app/[locale]/components/common/SelectInput';
 import Link from 'next/link';
-import Button from '../../components/common/Button';
-import Spinner from '../../components/common/Spinner';
+import Button from '@/app/[locale]/components/common/Button';
+import Spinner from '@/app/[locale]/components/common/Spinner';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -15,8 +15,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
 import { useAuth } from '../Context/useAuth';
-import { ROLE_ENUM, ROLE_OPTIONS } from '../../../../lib/enums';
-import { SupabaseProps } from '../../../../constants';
+import { ROLE_ENUM, ROLE_OPTIONS } from '@/lib//enums';
+import { SupabaseProps } from '@/constants';
 import ConsumptionPointDisclaimerModal from '../../(roles)/admin/profile/consumption_points/ConsumptionPointDisclaimerModal';
 
 interface FormData {

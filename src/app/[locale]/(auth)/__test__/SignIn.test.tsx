@@ -1,41 +1,41 @@
 import { NextIntlClientProvider } from 'next-intl';
-import { AppContextProvider } from '../../../context/AppContext';
-import createServerClient from '../../../../utils/supabaseServer';
+import { AppContextProvider } from '@/app/context/AppContext';
+import createServerClient from '@/utils/supabaseServer';
 import { AuthContextProvider } from '../Context/AuthContext';
 import ReactQueryWrapper from '../../ReactQueryWrapper';
 import SignIn from '../signin/SignIn';
 
 describe('Signin', () => {
-  it('should render the signin page', async () => {
-    // const supabase = createServerClient();
-    //     const session = await readUserSession();
-    // render(
-    //   <NextIntlClientProvider
-    //     locale={"es"}
-    //     messages={{
-    //       product_pack_name: "Pack",
-    //       product_name: "Producto",
-    //       quantity: "Cantidad",
-    //     }}
-    //   >
-    //     <ReactQueryWrapper>
-    //       <AuthContextProvider serverSession={session}>
-    //         <AppContextProvider>
-    //           <SignIn />
-    //         </AppContextProvider>
-    //       </AuthContextProvider>
-    //     </ReactQueryWrapper>
-    //   </NextIntlClientProvider>
-    // );
-  });
+    it('should render the signin page', async () => {
+        // const supabase = createServerClient();
+        //     const session = await readUserSession();
+        // render(
+        //   <NextIntlClientProvider
+        //     locale={"es"}
+        //     messages={{
+        //       product_pack_name: "Pack",
+        //       product_name: "Producto",
+        //       quantity: "Cantidad",
+        //     }}
+        //   >
+        //     <ReactQueryWrapper>
+        //       <AuthContextProvider serverSession={session}>
+        //         <AppContextProvider>
+        //           <SignIn />
+        //         </AppContextProvider>
+        //       </AuthContextProvider>
+        //     </ReactQueryWrapper>
+        //   </NextIntlClientProvider>
+        // );
+    });
 
-  // it("should render title correctly", () => {
-  //   render(<SignIn />);
-  //   const prueba = screen.getByText("prueba 23");
-  //   expect(prueba).toBeInTheDocument();
-  // });
+    // it("should render title correctly", () => {
+    //   render(<SignIn />);
+    //   const prueba = screen.getByText("prueba 23");
+    //   expect(prueba).toBeInTheDocument();
+    // });
 
-  /*
+    /*
     it("should return a 400 with an invalid email", async () => {
     return request(app)
       .post("/api/users/signin")

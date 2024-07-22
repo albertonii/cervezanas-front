@@ -1,19 +1,16 @@
-import AddressForm from '../../../components/AddressForm';
-import ModalWithForm from '../../../components/modals/ModalWithForm';
+import AddressForm from '@/app/[locale]/components/AddressForm';
+import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { insertShippingAddress } from '../actions';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useAuth } from '../../../(auth)/Context/useAuth';
-import {
-    IAddressForm,
-    ModalShippingAddressFormData,
-} from '../../../../../lib/types/types';
+import { IAddressForm, ModalShippingAddressFormData } from '@/lib//types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
 import { z, ZodType } from 'zod';
-import { useMessage } from '../../../components/message/useMessage';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 
 const schema: ZodType<ModalShippingAddressFormData> = z.object({
     name: z.string().nonempty({ message: 'errors.input_required' }),

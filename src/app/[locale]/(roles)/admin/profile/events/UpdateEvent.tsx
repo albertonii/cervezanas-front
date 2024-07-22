@@ -11,20 +11,16 @@ import {
     ICPMobile,
     ICPM_events,
     IEvent,
-} from '../../../../../../lib/types/types';
+} from '@/lib//types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import useFetchCPSMobileByEventsId from '../../../../../../hooks/useFetchCPsMobileByEventId';
 import useFetchCPSFixedByEventsId from '../../../../../../hooks/useFetchCPsFixedByEventId';
-import { formatDateDefaultInput } from '../../../../../../utils/formatDate';
-import ModalWithForm from '../../../../components/modals/ModalWithForm';
-import InputLabel from '../../../../components/common/InputLabel';
-import InputTextarea from '../../../../components/common/InputTextarea';
-import {
-    ROUTE_EVENTS,
-    ROUTE_PRODUCER,
-    ROUTE_PROFILE,
-} from '../../../../../../config';
-import { sendPushNotification } from '../../../../../../lib/actions';
+import { formatDateDefaultInput } from '@/utils/formatDate';
+import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
+import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
+import { ROUTE_EVENTS, ROUTE_PRODUCER, ROUTE_PROFILE } from '@/config';
+import { sendPushNotification } from '@/lib//actions';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodType } from 'zod';
 import { SearchCheckboxCPMobiles } from './SearchCheckboxCPMobiles';

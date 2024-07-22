@@ -1,15 +1,15 @@
 'use client';
 
-import Button from '../../../../components/common/Button';
-import Spinner from '../../../../components/common/Spinner';
-import HorizontalSections from '../../../../components/common/HorizontalSections';
+import Button from '@/app/[locale]/components/common/Button';
+import Spinner from '@/app/[locale]/components/common/Spinner';
+import HorizontalSections from '@/app/[locale]/components/common/HorizontalSections';
 import React, { useEffect, useState } from 'react';
-import { IProducerUser } from '../../../../../../lib/types/types';
+import { IProducerUser } from '@/lib//types/types';
 import { Account } from './Account';
 import { Details } from './Details';
 import { Values } from './Values';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { ROLE_ENUM } from '../../../../../../lib/enums';
+import { ROLE_ENUM } from '@/lib//enums';
 import { useTranslations } from 'next-intl';
 
 interface Props {

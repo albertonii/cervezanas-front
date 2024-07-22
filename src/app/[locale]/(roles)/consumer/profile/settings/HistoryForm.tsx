@@ -3,12 +3,12 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
-import Spinner from '../../../../components/common/Spinner';
+import Spinner from '@/app/[locale]/components/common/Spinner';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodType } from 'zod';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import InputTextarea from '../../../../components/common/InputTextarea';
-import InputLabel from '../../../../components/common/InputLabel';
+import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
+import InputLabel from '@/app/[locale]/components/common/InputLabel';
 
 type HistoryFormData = {
     description: string;

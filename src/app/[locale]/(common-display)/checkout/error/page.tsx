@@ -1,9 +1,9 @@
 import ErrorCheckout from './ErrorCheckout';
 import React from 'react';
-import { decodeBase64 } from '../../../../../utils/utils';
-import createServerClient from '../../../../../utils/supabaseServer';
-import readUserSession from '../../../../../lib/actions';
-import { IOrder } from '../../../../../lib/types/types';
+import { decodeBase64 } from '@/utils/utils';
+import createServerClient from '@/utils/supabaseServer';
+import readUserSession from '@/lib//actions';
+import { IOrder } from '@/lib//types/types';
 import { redirect } from 'next/navigation';
 import ErrorComponents from './ErrorComponent';
 import ErrorComponent from './ErrorComponent';

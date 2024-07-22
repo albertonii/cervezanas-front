@@ -1,17 +1,17 @@
 'use client';
 
 import EOTableData from './EOTableData';
-import PaginationFooter from '../../../../components/common/PaginationFooter';
+import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import useFetchEventOrders from '../../../../../../hooks/useFetchEventOrders';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useTranslations } from 'next-intl';
-import { IEventOrder } from '../../../../../../lib/types/types';
-import InputSearch from '../../../../components/common/InputSearch';
+import { IEventOrder } from '@/lib//types/types';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
 import dynamic from 'next/dynamic';
 
 const DynamicSpinner = dynamic(
-    () => import('../../../../components/common/Spinner'),
+    () => import('@/app/[locale]/components/common/Spinner'),
     {
         ssr: false,
     },

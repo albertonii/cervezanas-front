@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import createServerClient from '../../../../utils/supabaseServer';
-import { Type } from '../../../../lib/productEnum';
+import createServerClient from '@/utils/supabaseServer';
+import { Type } from '@/lib//productEnum';
 
 export async function PUT(request: NextRequest) {
     try {

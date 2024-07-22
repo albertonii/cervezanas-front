@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from 'react-query';
-import { format_options } from '../../../../lib/beerEnum';
+import { format_options } from '@/lib//beerEnum';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { SearchCheckboxProductsList } from '../common/SearchCheckboxProductsList';
 import dynamic from 'next/dynamic';

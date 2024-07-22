@@ -2,12 +2,12 @@ import Packs from './Packs';
 import ProductsInsideBox from './ProductsInsideBox';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Type } from '../../../../../lib/productEnum';
-import { Rate } from '../../../components/reviews/Rate';
-import { SupabaseProps } from '../../../../../constants';
-import { ProductGallery } from '../../../components/ProductGallery';
-import { formatCurrency } from '../../../../../utils/formatCurrency';
-import { ICarouselItem, IProduct } from '../../../../../lib/types/types';
+import { Type } from '@/lib//productEnum';
+import { Rate } from '@/app/[locale]/components/reviews/Rate';
+import { SupabaseProps } from '@/constants';
+import { ProductGallery } from '@/app/[locale]/components/ProductGallery';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { ICarouselItem, IProduct } from '@/lib//types/types';
 import { handleProductLike } from '../actions';
 import ProductPropierties from './ProductPropierties';
 

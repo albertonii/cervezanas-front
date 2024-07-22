@@ -2,10 +2,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { ICPMobile } from '../../../../../../lib/types/types';
-import { COMMON } from '../../../../../../constants';
-import { formatDateString } from '../../../../../../utils/formatDate';
-import { ROUTE_CP_MOBILE, ROUTE_EVENTS } from '../../../../../../config';
+import { ICPMobile } from '@/lib//types/types';
+import { COMMON } from '@/constants';
+import { formatDateString } from '@/utils/formatDate';
+import { ROUTE_CP_MOBILE, ROUTE_EVENTS } from '@/config';
 
 interface CPMobileProps {
     cp: ICPMobile;

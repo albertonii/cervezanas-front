@@ -2,16 +2,16 @@
 
 import dynamic from 'next/dynamic';
 import OTableData from './OTableData';
-import InputSearch from '../../../../components/common/InputSearch';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
 import useFetchOrders from '../../../../../../hooks/useFetchOrders';
-import PaginationFooter from '../../../../components/common/PaginationFooter';
+import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { IOrder } from '../../../../../../lib/types/types';
+import { IOrder } from '@/lib//types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 
 const DynamicSpinner = dynamic(
-    () => import('../../../../components/common/Spinner'),
+    () => import('@/app/[locale]/components/common/Spinner'),
     {
         ssr: false,
     },

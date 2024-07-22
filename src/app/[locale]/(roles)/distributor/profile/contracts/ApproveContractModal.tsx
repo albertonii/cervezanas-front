@@ -5,11 +5,11 @@ import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
-import Modal from '../../../../components/modals/Modal';
-import { DistributionStatus } from '../../../../../../lib/enums';
-import { IDistributionContract } from '../../../../../../lib/types/types';
-import { formatDateString } from '../../../../../../utils/formatDate';
-import { useMessage } from '../../../../components/message/useMessage';
+import Modal from '@/app/[locale]/components/modals/Modal';
+import { DistributionStatus } from '@/lib//enums';
+import { IDistributionContract } from '@/lib//types/types';
+import { formatDateString } from '@/utils/formatDate';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 
 interface Props {
     selectedContract: IDistributionContract;

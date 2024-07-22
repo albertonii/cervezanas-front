@@ -1,5 +1,5 @@
-import { ICPFixed, ICPMobile } from '../../../../../../lib/types/types';
-import createServerClient from '../../../../../../utils/supabaseServer';
+import { ICPFixed, ICPMobile } from '@/lib//types/types';
+import createServerClient from '@/utils/supabaseServer';
 import Events from './Events';
 
 export default async function EventsPage() {

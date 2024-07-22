@@ -5,11 +5,11 @@ import {
     ROUTE_ONLINE_ORDERS,
     ROUTE_PRODUCER,
     ROUTE_PROFILE,
-} from '../../../../config';
-import { ONLINE_ORDER_STATUS } from '../../../../constants';
-import { sendPushNotification } from '../../../../lib/actions';
-import { IProductPackCartItem } from '../../../../lib/types/types';
-import createServerClient from '../../../../utils/supabaseServer';
+} from '@/config';
+import { ONLINE_ORDER_STATUS } from '@/constants';
+import { sendPushNotification } from '@/lib//actions';
+import { IProductPackCartItem } from '@/lib//types/types';
+import createServerClient from '@/utils/supabaseServer';
 
 export async function POST(request: NextRequest) {
     const supabase = await createServerClient();

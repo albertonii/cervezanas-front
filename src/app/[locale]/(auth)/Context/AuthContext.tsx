@@ -3,18 +3,18 @@
 import useSWR from 'swr';
 import React, { useEffect, useState, createContext, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { Database } from '../../../../lib/schema';
+import { Database } from '@/lib//schema';
 import {
     ROUTE_ADMIN,
     ROUTE_AUTHORIZED_USERS,
     ROUTE_PROFILE,
     ROUTE_SIGNIN,
-} from '../../../../config';
-import { EVENTS, VIEWS } from '../../../../constants';
-import { IUserProfile } from '../../../../lib/types/types';
+} from '@/config';
+import { EVENTS, VIEWS } from '@/constants';
+import { IUserProfile } from '@/lib//types/types';
 import { useLocale, useTranslations } from 'next-intl';
-import { useMessage } from '../../components/message/useMessage';
-import { createBrowserClient } from '../../../../utils/supabaseBrowser';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { createBrowserClient } from '@/utils/supabaseBrowser';
 import {
     AuthChangeEvent,
     AuthResponse,
@@ -22,12 +22,12 @@ import {
     Session,
     SupabaseClient,
 } from '@supabase/supabase-js';
-import { ROLE_ENUM } from '../../../../lib/enums';
+import { ROLE_ENUM } from '@/lib//enums';
 import {
     sendNewDistributorEmail,
     sendNewProducerEmail,
     sendPushNotification,
-} from '../../../../lib/actions';
+} from '@/lib//actions';
 
 enum PROVIDER_TYPE {
     GOOGLE = 'google',

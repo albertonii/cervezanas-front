@@ -2,11 +2,11 @@
 
 import MobileMenu from './MobileMenu';
 import ScreenMenu from './ScreenMenu';
-import useDeviceDetection from '../../hooks/useDeviceDetection';
+import useDeviceDetection from '@/hooks/useDeviceDetection';
 import { useEffect, useState } from 'react';
-import { INotification } from '../../lib/types/types';
+import { INotification } from '@/lib/types/types';
 import { useAuth } from './(auth)/Context/useAuth';
-import useNotifications from '../../hooks/useNotifications';
+import useNotifications from '@/hooks/useNotifications';
 
 interface Props {
     i18nLocaleArray: string[];

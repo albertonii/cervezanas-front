@@ -1,12 +1,8 @@
 import React from 'react';
 import QRCode from 'react-qr-code';
 import { useLocale } from 'next-intl';
-import ShareLink from '../../../../components/ShareLink';
-import {
-    ROUTE_BARMAN,
-    ROUTE_PRODUCER,
-    ROUTE_PRODUCT,
-} from '../../../../../../config';
+import ShareLink from '@/app/[locale]/components/ShareLink';
+import { ROUTE_BARMAN, ROUTE_PRODUCER, ROUTE_PRODUCT } from '@/config';
 
 interface Props {
     eventOrderItemId: string;

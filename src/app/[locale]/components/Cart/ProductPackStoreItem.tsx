@@ -8,13 +8,13 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { IconButton } from '../common/IconButton';
 import { useMessage } from '../message/useMessage';
-import { SupabaseProps } from '../../../../constants';
+import { SupabaseProps } from '@/constants';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
 import { AddCardButton } from '../common/AddCartButton';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { formatCurrency } from '../../../../utils/formatCurrency';
-import { IProduct, IProductPack } from '../../../../lib/types/types';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { IProduct, IProductPack } from '@/lib//types/types';
 import { useShoppingCart } from '../../../context/ShoppingCartContext';
 
 type StoreItemProps = { product: IProduct; products: IProduct[] };

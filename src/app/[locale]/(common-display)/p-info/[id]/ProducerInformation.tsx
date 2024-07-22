@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import DisplayImageProfile from '../../../components/common/DisplayImageProfile';
-import { IProducerUser } from '../../../../../lib/types/types';
+import DisplayImageProfile from '@/app/[locale]/components/common/DisplayImageProfile';
+import { IProducerUser } from '@/lib//types/types';
 import { useTranslations } from 'next-intl';
-import { formatDateString } from '../../../../../utils/formatDate';
+import { formatDateString } from '@/utils/formatDate';
 
 interface Props {
     producer: IProducerUser;

@@ -11,13 +11,13 @@ import {
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { formatDateString } from '../../../../../../utils/formatDate';
-import { IconButton } from '../../../../components/common/IconButton';
-import { generateDownloadableLink } from '../../../../../../utils/utils';
-import { IConsumptionPoints } from '../../../../../../lib/types/types';
-import InputSearch from '../../../../components/common/InputSearch';
+import { formatDateString } from '@/utils/formatDate';
+import { IconButton } from '@/app/[locale]/components/common/IconButton';
+import { generateDownloadableLink } from '@/utils/utils';
+import { IConsumptionPoints } from '@/lib//types/types';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
 import dynamic from 'next/dynamic';
-import { ROLE_ENUM } from '../../../../../../lib/enums';
+import { ROLE_ENUM } from '@/lib//enums';
 
 enum SortBy {
     NONE = 'none',
@@ -31,7 +31,7 @@ enum SortBy {
 }
 
 const DynamicModal = dynamic(
-    () => import('../../../../components/modals/Modal'),
+    () => import('@/app/[locale]/components/modals/Modal'),
     {
         loading: () => <p>Loading...</p>,
         ssr: false,

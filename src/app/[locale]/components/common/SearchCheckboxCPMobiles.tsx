@@ -2,7 +2,7 @@ import InputSearch from './InputSearch';
 import React, { useEffect, useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useMessage } from '../message/useMessage';
-import { ICPMobile, ICPM_events } from '../../../../lib/types/types';
+import { ICPMobile, ICPM_events } from '@/lib//types/types';
 
 interface Props {
     cpsMobile: ICPMobile[];

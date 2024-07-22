@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { DistributionStatus } from '../../../../lib/enums';
-import { createBrowserClient } from '../../../../utils/supabaseBrowser';
+import { DistributionStatus } from '@/lib//enums';
+import { createBrowserClient } from '@/utils/supabaseBrowser';
 
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);

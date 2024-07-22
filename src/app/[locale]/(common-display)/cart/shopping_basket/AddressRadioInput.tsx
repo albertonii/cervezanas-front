@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormRegister } from 'react-hook-form';
-import { IAddress } from '../../../../../lib/types/types';
+import { IAddress } from '@/lib//types/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconButton } from '../../../components/common/IconButton';
+import { IconButton } from '@/app/[locale]/components/common/IconButton';
 import { faLongArrowRight, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {

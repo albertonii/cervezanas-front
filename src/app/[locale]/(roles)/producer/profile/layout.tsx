@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import DisplayImageProfile from '../../../components/common/DisplayImageProfile';
+import DisplayImageProfile from '@/app/[locale]/components/common/DisplayImageProfile';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import {
@@ -14,10 +14,10 @@ import {
     faShoppingCart,
     faBell,
 } from '@fortawesome/free-solid-svg-icons';
-import { Sidebar } from '../../../components/common/Sidebar';
-import { useAppContext } from '../../../../context/AppContext';
+import { Sidebar } from '@/app/[locale]/components/common/Sidebar';
+import { useAppContext } from '@/app/context/AppContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { COMMON, SupabaseProps } from '../../../../../constants';
+import { COMMON, SupabaseProps } from '@/constants';
 
 type LayoutProps = {
     children: React.ReactNode;

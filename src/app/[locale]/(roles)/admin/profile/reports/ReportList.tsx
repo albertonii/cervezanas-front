@@ -1,19 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { IUserReport } from '../../../../../../lib/types/types';
+import { IUserReport } from '@/lib//types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import React, { useEffect, useMemo, useState } from 'react';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
-import InputSearch from '../../../../components/common/InputSearch';
-import { IconButton } from '../../../../components/common/IconButton';
-import { formatDateString } from '../../../../../../utils/formatDate';
-import PaginationFooter from '../../../../components/common/PaginationFooter';
-import {
-    ROUTE_ADMIN,
-    ROUTE_PROFILE,
-    ROUTE_REPORTS,
-} from '../../../../../../config';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import { IconButton } from '@/app/[locale]/components/common/IconButton';
+import { formatDateString } from '@/utils/formatDate';
+import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
+import { ROUTE_ADMIN, ROUTE_PROFILE, ROUTE_REPORTS } from '@/config';
 
 enum SortBy {
     NONE = 'none',

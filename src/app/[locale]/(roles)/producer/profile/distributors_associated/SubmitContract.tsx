@@ -4,16 +4,16 @@ import React from 'react';
 import CollaborationAgreement from './CollaborationAgreement';
 import CollaborationDetails from './CollaborationDetails';
 import ValidateContract from './ValidateContract';
-import { IDistributorUser } from '../../../../../../lib/types/types';
+import { IDistributorUser } from '@/lib//types/types';
 import { UseFormReturn } from 'react-hook-form';
 
 interface Props {
-  distributor: IDistributorUser;
-  form: UseFormReturn<any>;
+    distributor: IDistributorUser;
+    form: UseFormReturn<any>;
 }
 
 {
-  /**
+    /**
   status:
     -1: not submitted
     0: pending
@@ -22,11 +22,11 @@ interface Props {
  */
 }
 export function SubmitContract({ distributor, form }: Props) {
-  return (
-    <section className="space-y-4">
-      <CollaborationDetails distributorId={distributor.user_id} />
-      <CollaborationAgreement />
-      <ValidateContract form={form} />
-    </section>
-  );
+    return (
+        <section className="space-y-4">
+            <CollaborationDetails distributorId={distributor.user_id} />
+            <CollaborationAgreement />
+            <ValidateContract form={form} />
+        </section>
+    );
 }

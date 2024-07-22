@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
 import React from 'react';
-import { IAddress, IBillingInfo } from '../../../../../lib/types/types';
+import { IAddress, IBillingInfo } from '@/lib//types/types';
 import BillingAddressItem from './BillingAddressItemInfo';
 import ShippingAddressItem from './ShippingAddressItemInfo';
 

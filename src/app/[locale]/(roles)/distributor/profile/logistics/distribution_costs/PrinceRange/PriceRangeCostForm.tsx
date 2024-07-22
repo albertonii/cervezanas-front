@@ -2,14 +2,14 @@
 
 import React from 'react';
 import PriceRangeRow from './PriceRangeRow';
-import Button from '../../../../../../components/common/Button';
+import Button from '@/app/[locale]/components/common/Button';
 import { useTranslations } from 'next-intl';
 import { useFieldArray } from 'react-hook-form';
 import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { PriceRangeCostFormData } from '../../../../../../../../lib/types/types';
-import { DisplayInputError } from '../../../../../../components/common/DisplayInputError';
+import { PriceRangeCostFormData } from '@/lib/types/types';
+import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 
 const rangeObjectSchema = z
     .object({

@@ -4,7 +4,7 @@ import Button from './common/Button';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { ROLE_ENUM } from '../../../lib/enums';
+import { ROLE_ENUM } from '@/lib//enums';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

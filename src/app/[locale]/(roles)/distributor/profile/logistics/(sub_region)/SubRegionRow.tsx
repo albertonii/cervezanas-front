@@ -1,6 +1,6 @@
 import { UseFormRegister } from 'react-hook-form';
-import { JSONSubRegion } from '../../../../../../../lib/types/distribution_areas';
-import { ICoverageArea } from '../../../../../../../lib/types/types';
+import { JSONSubRegion } from '@/lib/types/distribution_areas';
+import { ICoverageArea } from '@/lib/types/types';
 
 interface SubRegionRowProps {
     sub_region: JSONSubRegion;

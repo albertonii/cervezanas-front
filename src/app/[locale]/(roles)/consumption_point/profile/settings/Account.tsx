@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { IConsumptionPointUser } from '../../../../../../lib/types/types';
+import { IConsumptionPointUser } from '@/lib//types/types';
 import { BasicDataForm } from './BasicDataForm';
 import { ConsumptionPointBasicDataForm } from './ConsumptionPointBasicDataForm';
 import { SecretDataForm } from './SecretDataForm';

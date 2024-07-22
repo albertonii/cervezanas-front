@@ -1,47 +1,47 @@
 'use client';
 
-import HorizontalSections from '../../../../components/common/HorizontalSections';
+import HorizontalSections from '@/app/[locale]/components/common/HorizontalSections';
 import React, { useEffect, useState } from 'react';
-import Spinner from '../../../../components/common/Spinner';
-import { IDistributorUser } from '../../../../../../lib/types/types';
+import Spinner from '@/app/[locale]/components/common/Spinner';
+import { IDistributorUser } from '@/lib//types/types';
 import { Account } from './Account';
 
 interface Props {
-  profile: IDistributorUser;
+    profile: IDistributorUser;
 }
 
 export default function Profile({ profile }: Props) {
-  const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(true);
 
-  const [menuOption, setMenuOption] = useState<string>('account');
+    const [menuOption, setMenuOption] = useState<string>('account');
 
-  const handleMenuClick = (opt: string): void => {
-    setMenuOption(opt);
-  };
+    const handleMenuClick = (opt: string): void => {
+        setMenuOption(opt);
+    };
 
-  useEffect(() => {
-    setLoading(false);
-  }, []);
+    useEffect(() => {
+        setLoading(false);
+    }, []);
 
-  const renderSwitch = () => {
-    switch (menuOption) {
-      case 'account':
-        return <Account profile={profile} />;
-    }
-  };
+    const renderSwitch = () => {
+        switch (menuOption) {
+            case 'account':
+                return <Account profile={profile} />;
+        }
+    };
 
-  return (
-    <>
-      <HorizontalSections
-        handleMenuClick={handleMenuClick}
-        tabs={['account']}
-      />
+    return (
+        <>
+            <HorizontalSections
+                handleMenuClick={handleMenuClick}
+                tabs={['account']}
+            />
 
-      {loading ? (
-        <Spinner color="beer-blonde" size={'medium'} />
-      ) : (
-        <>{renderSwitch()}</>
-      )}
-    </>
-  );
+            {loading ? (
+                <Spinner color="beer-blonde" size={'medium'} />
+            ) : (
+                <>{renderSwitch()}</>
+            )}
+        </>
+    );
 }

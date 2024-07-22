@@ -1,27 +1,27 @@
 import Beerme from './Beerme';
-import { IConsumptionPoints } from '../../../../lib/types/types';
-import createServerClient from '../../../../utils/supabaseServer';
+import { IConsumptionPoints } from '@/lib//types/types';
+import createServerClient from '@/utils/supabaseServer';
 
 export default async function BeerMePage() {
-  const cpsData = getCPsData();
-  const [cps] = await Promise.all([cpsData]);
+    const cpsData = getCPsData();
+    const [cps] = await Promise.all([cpsData]);
 
-  if (!cps) return null;
+    if (!cps) return null;
 
-  return (
-    <>
-      <Beerme cps={cps} />
-    </>
-  );
+    return (
+        <>
+            <Beerme cps={cps} />
+        </>
+    );
 }
 
 async function getCPsData() {
-  const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-  const { data: cps, error: cpsError } = await supabase
-    .from('consumption_points')
-    .select(
-      `
+    const { data: cps, error: cpsError } = await supabase
+        .from('consumption_points')
+        .select(
+            `
       *,
       cp_fixed (
         *
@@ -30,8 +30,8 @@ async function getCPsData() {
         *
       )
     `,
-    );
-  if (cpsError) throw cpsError;
+        );
+    if (cpsError) throw cpsError;
 
-  return cps as IConsumptionPoints[];
+    return cps as IConsumptionPoints[];
 }

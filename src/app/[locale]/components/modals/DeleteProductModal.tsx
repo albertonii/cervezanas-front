@@ -2,7 +2,7 @@
 
 import React, { ComponentProps, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { IAward, IProduct, IProductPack } from '../../../../lib/types/types';
+import { IAward, IProduct, IProductPack } from '@/lib//types/types';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import Modal from './Modal';
 import { useMessage } from '../message/useMessage';

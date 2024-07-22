@@ -1,9 +1,9 @@
 import Profile from './Profile';
-import createServerClient from '../../../../../../utils/supabaseServer';
+import createServerClient from '@/utils/supabaseServer';
 import { redirect } from 'next/navigation';
-import { VIEWS } from '../../../../../../constants';
-import { IDistributorUser } from '../../../../../../lib/types/types';
-import readUserSession from '../../../../../../lib/actions';
+import { VIEWS } from '@/constants';
+import { IDistributorUser } from '@/lib//types/types';
+import readUserSession from '@/lib//actions';
 
 export default async function ProfilePage() {
     const profile = await getProfileData();

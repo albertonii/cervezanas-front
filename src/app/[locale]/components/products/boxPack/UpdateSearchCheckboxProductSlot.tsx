@@ -3,8 +3,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import useFetchProductsByOwnerAndPagination from '../../../../../hooks/useFetchProductsByOwnerAndPagination';
-import { Type } from '../../../../../lib/productEnum';
-import { IProduct } from '../../../../../lib/types/types';
+import { Type } from '@/lib//productEnum';
+import { IProduct } from '@/lib//types/types';
 import InputSearch from '../../common/InputSearch';
 import PaginationFooter from '../../common/PaginationFooter';
 import Spinner from '../../common/Spinner';

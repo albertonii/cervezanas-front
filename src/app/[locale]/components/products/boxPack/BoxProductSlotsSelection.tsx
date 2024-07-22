@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import React from 'react';
-import useBoxPackStore from '../../../../store/boxPackStore';
+import useBoxPackStore from '@/app/store//boxPackStore';
 import { useLocale, useTranslations } from 'next-intl';
-import { ROUTE_PRODUCTS } from '../../../../../config';
+import { ROUTE_PRODUCTS } from '@/config';
 
 export default function BoxProductSlotsSelection() {
     const t = useTranslations();

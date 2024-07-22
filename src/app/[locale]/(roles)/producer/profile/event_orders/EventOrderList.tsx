@@ -1,18 +1,18 @@
 'use client';
 
 import useFetchEventOrders from '../../../../../../hooks/useFetchEventOrders';
-import PaginationFooter from '../../../../components/common/PaginationFooter';
+import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
-import { IEventOrder } from '../../../../../../lib/types/types';
-import { IconButton } from '../../../../components/common/IconButton';
-import Spinner from '../../../../components/common/Spinner';
-import { encodeBase64 } from '../../../../../../utils/utils';
-import { formatCurrency } from '../../../../../../utils/formatCurrency';
-import InputSearch from '../../../../components/common/InputSearch';
+import { IEventOrder } from '@/lib//types/types';
+import { IconButton } from '@/app/[locale]/components/common/IconButton';
+import Spinner from '@/app/[locale]/components/common/Spinner';
+import { encodeBase64 } from '@/utils/utils';
+import { formatCurrency } from '@/utils/formatCurrency';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
 
 interface Props {
     eventOrders: IEventOrder[];

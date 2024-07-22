@@ -3,14 +3,14 @@
 import React, { ChangeEvent, ComponentProps, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { ICampaign, ICampaignItem } from '../../../../../../lib/types/types';
+import { ICampaign, ICampaignItem } from '@/lib//types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import Button from '../../../../components/common/Button';
-import { DeleteButton } from '../../../../components/common/DeleteButton';
-import { DisplayInputError } from '../../../../components/common/DisplayInputError';
-import { useMessage } from '../../../../components/message/useMessage';
-import InputTextarea from '../../../../components/common/InputTextarea';
-import InputLabel from '../../../../components/common/InputLabel';
+import Button from '@/app/[locale]/components/common/Button';
+import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
+import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
+import InputLabel from '@/app/[locale]/components/common/InputLabel';
 
 enum CampaignStatus {
     uninitialized = 'uninitialized',

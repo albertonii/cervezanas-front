@@ -1,7 +1,7 @@
-import ProductPackMiniature from '../../../components/ProductPackMiniature';
+import ProductPackMiniature from '@/app/[locale]/components/ProductPackMiniature';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { IProductPack } from '../../../../../lib/types/types';
+import { IProductPack } from '@/lib//types/types';
 
 interface Props {
     pack: IProductPack;

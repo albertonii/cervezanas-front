@@ -10,7 +10,7 @@ import { MonthlyBeersDesign } from './homepage/MonthlyBeersDesign';
 import { Community } from './homepage/Community';
 import { Reviews } from './homepage/Reviews';
 import { History } from './homepage/History';
-import { IMonthlyProduct } from '../../lib/types/types';
+import { IMonthlyProduct } from '@/lib//types/types';
 import QRCode from 'react-qr-code';
 import Spinner from './components/common/Spinner';
 

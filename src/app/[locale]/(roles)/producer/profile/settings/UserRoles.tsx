@@ -1,12 +1,12 @@
 import { useTranslations } from 'next-intl';
 import React, { useState } from 'react';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { ROLE_ENUM } from '../../../../../../lib/enums';
-import Button from '../../../../components/common/Button';
-import { DownDistributorModal } from '../../../../components/modals/DownDistributorModal';
-import { DownProducerModal } from '../../../../components/modals/DownProducerModal';
-import { UpDistributorModal } from '../../../../components/modals/UpDistributorModal';
-import { UpProducerModal } from '../../../../components/modals/UpProducerModal';
+import { ROLE_ENUM } from '@/lib//enums';
+import Button from '@/app/[locale]/components/common/Button';
+import { DownDistributorModal } from '@/app/[locale]/components/modals/DownDistributorModal';
+import { DownProducerModal } from '@/app/[locale]/components/modals/DownProducerModal';
+import { UpDistributorModal } from '@/app/[locale]/components/modals/UpDistributorModal';
+import { UpProducerModal } from '@/app/[locale]/components/modals/UpProducerModal';
 
 const UserRoles = () => {
     const t = useTranslations();

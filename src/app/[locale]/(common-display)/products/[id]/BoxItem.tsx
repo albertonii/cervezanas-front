@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
-import { IBoxPackItem } from '../../../../../lib/types/product';
-import ProductMiniature from '../../../components/ProductMiniature';
+import { IBoxPackItem } from '@/lib//types/product';
+import ProductMiniature from '@/app/[locale]/components/ProductMiniature';
 
 interface Props {
     item: IBoxPackItem;

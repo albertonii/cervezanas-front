@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import HorizontalSections from '../../../../components/common/HorizontalSections';
+import HorizontalSections from '@/app/[locale]/components/common/HorizontalSections';
 import { Lots } from './Lots';
 import { Archive } from './Archive';
 import { Products } from './Products';

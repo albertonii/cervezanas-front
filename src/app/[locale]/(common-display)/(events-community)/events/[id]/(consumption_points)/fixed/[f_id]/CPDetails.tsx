@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ICPFixed } from '../../../../../../../../../lib/types/types';
-import { formatDateString } from '../../../../../../../../../utils/formatDate';
+import { ICPFixed } from '@/lib/types/types';
+import { formatDateString } from '@/utils/formatDate';
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 
 interface Props {

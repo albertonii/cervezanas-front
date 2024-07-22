@@ -4,7 +4,7 @@ import Button from '../../common/Button';
 import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwner';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
-import { IProduct } from '../../../../../lib/types/types';
+import { IProduct } from '@/lib//types/types';
 import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { DeleteButton } from '../../common/DeleteButton';
@@ -14,9 +14,9 @@ import {
     Difficulty,
     IUpdBeerMasterQuestionFormData,
     IUpdModalExperienceBeerMasterFormData,
-} from '../../../../../lib/types/quiz';
+} from '@/lib//types/quiz';
 import SelectInput from '../../common/SelectInput';
-import { Type } from '../../../../../lib/productEnum';
+import { Type } from '@/lib//productEnum';
 
 enum ExperienceTypes {
     beer_master = 'beer_master',

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { ICoverageArea } from '../../../../../../../lib/types/types';
+import { ICoverageArea } from '@/lib/types/types';
 
 interface Props {
     subRegions: ICoverageArea[];

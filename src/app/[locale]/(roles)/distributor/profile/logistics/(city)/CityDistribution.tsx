@@ -1,23 +1,19 @@
 import useFetchCitiesOfState from '../useFetchCitiesOfState';
 import useFetchStatesByCountry from '../useFetchStatesByCountry';
-import PaginationFooter from '../../../../../components/common/PaginationFooter';
-import Button from '../../../../../components/common/Button';
-import Spinner from '../../../../../components/common/Spinner';
-import InputSearch from '../../../../../components/common/InputSearch';
+import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
+import Button from '@/app/[locale]/components/common/Button';
+import Spinner from '@/app/[locale]/components/common/Spinner';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
 import DistributionChipCard from '../DistributionChipCard';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useMutation, useQueryClient } from 'react-query';
 import { useForm, UseFormRegister } from 'react-hook-form';
-import { slicePaginationResults } from '../../../../../../../utils/utils';
-import {
-    ICity,
-    ICountry,
-    IState,
-} from '../../../../../../../lib/types/distribution_areas';
+import { slicePaginationResults } from '@/utils/utils';
+import { ICity, ICountry, IState } from '@/lib/types/distribution_areas';
 import { Country } from 'country-state-city';
-import { useMessage } from '../../../../../components/message/useMessage';
-import { IDistributionCost } from '../../../../../../../lib/types/types';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { IDistributionCost } from '@/lib/types/types';
 import { updateCityDistribution } from '../../../actions';
 
 interface FormData {

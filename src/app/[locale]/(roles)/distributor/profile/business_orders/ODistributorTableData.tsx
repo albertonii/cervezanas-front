@@ -1,17 +1,17 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
-import { IBusinessOrder } from '../../../../../../lib/types/types';
+import { IBusinessOrder } from '@/lib//types/types';
 import { faTruck } from '@fortawesome/free-solid-svg-icons';
-import { formatCurrency } from '../../../../../../utils/formatCurrency';
-import { IconButton } from '../../../../components/common/IconButton';
-import { encodeBase64 } from '../../../../../../utils/utils';
-import { formatDateString } from '../../../../../../utils/formatDate';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { IconButton } from '@/app/[locale]/components/common/IconButton';
+import { encodeBase64 } from '@/utils/utils';
+import { formatDateString } from '@/utils/formatDate';
 import {
     ROUTE_BUSINESS_ORDERS,
     ROUTE_DISTRIBUTOR,
     ROUTE_PROFILE,
-} from '../../../../../../config';
+} from '@/config';
 
 interface Props {
     bOrder: IBusinessOrder;

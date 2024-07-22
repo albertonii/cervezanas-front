@@ -1,18 +1,18 @@
 import Link from 'next/link';
 import React, { ComponentProps, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { formatDateString } from '../../../../../../utils/formatDate';
-import { IEvent } from '../../../../../../lib/types/types';
+import { formatDateString } from '@/utils/formatDate';
+import { IEvent } from '@/lib//types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { useMessage } from '../../../../components/message/useMessage';
-import { IconButton } from '../../../../components/common/IconButton';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { IconButton } from '@/app/[locale]/components/common/IconButton';
 import {
     faEdit,
     faTrash,
     faCancel,
     faThumbsUp,
 } from '@fortawesome/free-solid-svg-icons';
-import { ROUTE_EVENTS } from '../../../../../../config';
+import { ROUTE_EVENTS } from '@/config';
 
 interface Props {
     event: IEvent;

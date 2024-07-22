@@ -1,20 +1,14 @@
 import Link from 'next/link';
 import React from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import {
-    DISTRIBUTOR_ONLINE_ORDER_STATUS,
-    SupabaseProps,
-} from '../../../../../../../constants';
-import {
-    IBusinessOrder,
-    IOrderItem,
-} from '../../../../../../../lib/types/types';
-import DisplayImageProduct from '../../../../../components/common/DisplayImageProduct';
-import { formatCurrency } from '../../../../../../../utils/formatCurrency';
-import { StatusTimeline } from '../../../../../components/StatusTimeline';
+import { DISTRIBUTOR_ONLINE_ORDER_STATUS, SupabaseProps } from '@/constants';
+import { IBusinessOrder, IOrderItem } from '@/lib/types/types';
+import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { StatusTimeline } from '@/app/[locale]/components/StatusTimeline';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import { useQueryClient } from 'react-query';
-import { useMessage } from '../../../../../components/message/useMessage';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 

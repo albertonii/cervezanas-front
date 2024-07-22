@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import createServerClient from '../../../../utils/supabaseServer';
+import createServerClient from '@/utils/supabaseServer';
 
 export async function PUT(request: NextRequest) {
     try {

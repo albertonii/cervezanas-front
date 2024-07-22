@@ -1,8 +1,8 @@
 import ManageEventProduct from './ManageEventProduct';
 import { redirect } from 'next/navigation';
-import { IEventOrderItem } from '../../../../../../../lib/types/types';
-import createServerClient from '../../../../../../../utils/supabaseServer';
-import readUserSession from '../../../../../../../lib/actions';
+import { IEventOrderItem } from '@/lib/types/types';
+import createServerClient from '@/utils/supabaseServer';
+import readUserSession from '@/lib/actions';
 
 export default async function BarmanProductPage({ params }: any) {
     const { id } = params;

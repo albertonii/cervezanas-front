@@ -11,7 +11,7 @@ import Spinner from '../common/Spinner';
 import PortalModal from './PortalModal';
 import { useTranslations } from 'next-intl';
 import { IconButton } from '../common/IconButton';
-import { isEmpty } from '../../../../utils/utils';
+import { isEmpty } from '@/utils/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 

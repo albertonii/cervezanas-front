@@ -6,25 +6,25 @@ import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { MultimediaSection } from '../../../../components/products/MultimediaSection';
+import { MultimediaSection } from '@/app/[locale]/components/products/MultimediaSection';
 import {
     IModalAddProductPack,
     ModalAddProductAwardFormData,
     ModalAddProductFormData,
-} from '../../../../../../lib/types/types';
-import { ProductSummary } from '../../../../components/products/ProductSummary';
-import { isFileEmpty, isNotEmptyArray } from '../../../../../../utils/utils';
+} from '@/lib//types/types';
+import { ProductSummary } from '@/app/[locale]/components/products/ProductSummary';
+import { isFileEmpty, isNotEmptyArray } from '@/utils/utils';
 import { useMutation, useQueryClient } from 'react-query';
-import { ProductStepper } from '../../../../components/products/ProductStepper';
-import { ProductInfoSection } from '../../../../components/products/ProductInfoSection';
-import { useAppContext } from '../../../../../context/AppContext';
-import { useMessage } from '../../../../components/message/useMessage';
-import { AwardsSection } from '../../../../components/products/AwardsSection';
-import { Type } from '../../../../../../lib/productEnum';
+import { ProductStepper } from '@/app/[locale]/components/products/ProductStepper';
+import { ProductInfoSection } from '@/app/[locale]/components/products/ProductInfoSection';
+import { useAppContext } from '@/app/context/AppContext';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { AwardsSection } from '@/app/[locale]/components/products/AwardsSection';
+import { Type } from '@/lib//productEnum';
 import { faBox } from '@fortawesome/free-solid-svg-icons';
 
 const ModalWithForm = dynamic(
-    () => import('../../../../components/modals/ModalWithForm'),
+    () => import('@/app/[locale]/components/modals/ModalWithForm'),
     { ssr: false },
 );
 

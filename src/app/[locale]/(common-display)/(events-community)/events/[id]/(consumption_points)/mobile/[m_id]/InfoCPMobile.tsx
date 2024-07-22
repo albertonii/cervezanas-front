@@ -3,14 +3,11 @@
 import CPDetails from './CPDetails';
 import ProductList from './ProductList';
 import React from 'react';
-import {
-    ICPMobile,
-    IEventExperience,
-} from '../../../../../../../../../lib/types/types';
+import { ICPMobile, IEventExperience } from '@/lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import EventExperiences from './EventExperiences';
-import Button from '../../../../../../../components/common/Button';
-import { ROUTE_EVENTS } from '../../../../../../../../../config';
+import Button from '@/app/[locale]/components/common/Button';
+import { ROUTE_EVENTS } from '@/config';
 import { useRouter } from 'next/navigation';
 
 interface Props {

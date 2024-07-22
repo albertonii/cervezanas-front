@@ -2,17 +2,17 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import PaginationFooter from '../../../../components/common/PaginationFooter';
+import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IProduct } from '../../../../../../lib/types/types';
-import Spinner from '../../../../components/common/Spinner';
-import { useAppContext } from '../../../../../context/AppContext';
-import { EditButton } from '../../../../components/common/EditButton';
-import { formatCurrency } from '../../../../../../utils/formatCurrency';
-import { UnarchiveButton } from '../../../../components/common/UnarchiveButton';
-import InputSearch from '../../../../components/common/InputSearch';
+import { IProduct } from '@/lib//types/types';
+import Spinner from '@/app/[locale]/components/common/Spinner';
+import { useAppContext } from '@/app/context/AppContext';
+import { EditButton } from '@/app/[locale]/components/common/EditButton';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { UnarchiveButton } from '@/app/[locale]/components/common/UnarchiveButton';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
 import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
 
 interface Props {

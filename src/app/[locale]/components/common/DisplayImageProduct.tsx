@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { COMMON } from '../../../../constants';
+import { COMMON } from '@/constants';
 import { ComponentProps } from '@stitches/core';
 import { memo, useEffect, useMemo, useState } from 'react';
 

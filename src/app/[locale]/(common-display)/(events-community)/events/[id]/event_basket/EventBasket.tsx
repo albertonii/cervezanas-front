@@ -5,27 +5,24 @@ import EmptyCart from '../../../../cart/shopping_basket/EmptyCart';
 import Decimal from 'decimal.js';
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
-import { formatCurrency } from '../../../../../../../utils/formatCurrency';
-import Button from '../../../../../components/common/Button';
-import { CustomLoading } from '../../../../../components/common/CustomLoading';
+import { formatCurrency } from '@/utils/formatCurrency';
+import Button from '@/app/[locale]/components/common/Button';
+import { CustomLoading } from '@/app/[locale]/components/common/CustomLoading';
 import { randomTransactionId, CURRENCIES } from 'redsys-easy';
 import {
     createRedirectForm,
     eventMerchantInfo,
-} from '../../../../../components/TPV/redsysClient';
+} from '@/app/[locale]/components/TPV/redsysClient';
 import {
     API_METHODS,
     EVENT_ORDER_ITEM_STATUS,
     EVENT_ORDER_STATUS,
-} from '../../../../../../../constants';
+} from '@/constants';
 import { EventCheckoutItem } from './EventCheckoutItem';
 import { useMutation, useQueryClient } from 'react-query';
-import {
-    IProductPack,
-    IProductPackEventCartItem,
-} from '../../../../../../../lib/types/types';
+import { IProductPack, IProductPackEventCartItem } from '@/lib/types/types';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
-import useEventCartStore from '../../../../../../store/eventCartStore';
+import useEventCartStore from '@/app/store//eventCartStore';
 
 interface Props {
     eventId: string;

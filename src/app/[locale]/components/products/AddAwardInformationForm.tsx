@@ -3,7 +3,7 @@ import React from 'react';
 import { DeleteButton } from '../common/DeleteButton';
 import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
 import { UseFormReturn } from 'react-hook-form';
-import { ModalAddProductFormData } from '../../../../lib/types/types';
+import { ModalAddProductFormData } from '@/lib//types/types';
 import { useTranslations } from 'next-intl';
 
 interface Props {

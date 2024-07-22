@@ -1,8 +1,8 @@
 'use client';
 
 import Error from 'next/error';
-import Button from '../../../../../../components/common/Button';
-import Spinner from '../../../../../../components/common/Spinner';
+import Button from '@/app/[locale]/components/common/Button';
+import Spinner from '@/app/[locale]/components/common/Spinner';
 import React, { useEffect, useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
@@ -10,17 +10,17 @@ import { useTranslations } from 'next-intl';
 import { useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useMessage } from '../../../../../../components/message/useMessage';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import {
     FlatrateAndWeightCostFormData,
     IFlatrateAndWeightCost,
-} from '../../../../../../../../lib/types/types';
+} from '@/lib/types/types';
 import FlatrateAndWeightCostTable from './FlatrateAndWeightCostTable';
 import FlatrateAndWeightCostFormRow from './FlatrateAndWeightCostFormRow';
 import { updateFlatrateAndWeightShippingCost } from '../../../../actions';
-import { DisplayInputError } from '../../../../../../components/common/DisplayInputError';
+import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 import SelectDistributionCost from '../SelectDistributionCost';
-import { DistributionCostType } from '../../../../../../../../lib/enums';
+import { DistributionCostType } from '@/lib/enums';
 
 const rangeObjectSchema = z
     .object({

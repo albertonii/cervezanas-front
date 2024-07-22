@@ -1,8 +1,8 @@
 'use client';
 
-import InputLabel from '../../../../components/common/InputLabel';
-import InputTextarea from '../../../../components/common/InputTextarea';
-import ModalWithForm from '../../../../components/modals/ModalWithForm';
+import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
+import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
 import React, { useEffect, useState } from 'react';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useTranslations } from 'next-intl';
@@ -11,22 +11,18 @@ import {
     ICPF_events,
     ICPMobile,
     ICPM_events,
-} from '../../../../../../lib/types/types';
+} from '@/lib//types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodType } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { SearchCheckboxCPMobiles } from '../../../../components/common/SearchCheckboxCPMobiles';
-import { SearchCheckboxCPFixeds } from '../../../../components/common/SearchCheckboxCPFixed';
-import { useMessage } from '../../../../components/message/useMessage';
-import {
-    ROUTE_EVENTS,
-    ROUTE_PRODUCER,
-    ROUTE_PROFILE,
-} from '../../../../../../config';
-import { sendPushNotification } from '../../../../../../lib/actions';
-import Spinner from '../../../../components/common/Spinner';
+import { SearchCheckboxCPMobiles } from '@/app/[locale]/components/common/SearchCheckboxCPMobiles';
+import { SearchCheckboxCPFixeds } from '@/app/[locale]/components/common/SearchCheckboxCPFixed';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { ROUTE_EVENTS, ROUTE_PRODUCER, ROUTE_PROFILE } from '@/config';
+import { sendPushNotification } from '@/lib//actions';
+import Spinner from '@/app/[locale]/components/common/Spinner';
 
 export type ModalAddEventFormData = {
     is_activated: boolean;

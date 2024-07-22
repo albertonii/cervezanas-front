@@ -1,6 +1,6 @@
 import { UseFormReturn } from 'react-hook-form';
-import { SupabaseProps } from '../../../../../../constants';
-import { ModalUpdateProductFormData } from '../../../../../../lib/types/types';
+import { SupabaseProps } from '@/constants';
+import { ModalUpdateProductFormData } from '@/lib//types/types';
 import { UpdateFilePreviewImageMultimedia } from './UpdateFilePreviewImageMultimedia';
 
 export interface Props {

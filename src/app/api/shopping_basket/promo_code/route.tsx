@@ -1,7 +1,7 @@
-import createServerClient from '../../../../utils/supabaseServer';
+import createServerClient from '@/utils/supabaseServer';
 import { NextRequest, NextResponse } from 'next/server';
-import { IDiscountCode } from '../../../../lib/types/types';
-import { convertToDate } from '../../../../utils/formatDate';
+import { IDiscountCode } from '@/lib//types/types';
+import { convertToDate } from '@/utils/formatDate';
 
 export async function POST(request: NextRequest) {
     const formData = await request.formData();

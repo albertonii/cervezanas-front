@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
-import readUserSession from '../../../../../../lib/actions';
-import { ILike } from '../../../../../../lib/types/types';
-import createServerClient from '../../../../../../utils/supabaseServer';
+import readUserSession from '@/lib//actions';
+import { ILike } from '@/lib//types/types';
+import createServerClient from '@/utils/supabaseServer';
 import { LikesHistory } from './LikesHistory';
 
 export default async function LikesPage() {
