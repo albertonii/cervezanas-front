@@ -57,14 +57,14 @@ export async function GET(request: NextRequest) {
     }
 
     if (distributionCosts.distribution_costs_in_product) {
-        return NextResponse.json({ costs: null }, { status: 200 });
+        return NextResponse.json({ cost: null }, { status: 200 });
     }
 
     if (
         distributionCosts.selected_method ===
         DistributionCostType.FLATRATE_AND_WEIGHT
     ) {
-        return NextResponse.json({ costs: null }, { status: 200 });
+        return NextResponse.json({ cost: null }, { status: 200 });
     } else if (
         distributionCosts.selected_method ===
         DistributionCostType.AREA_AND_WEIGHT

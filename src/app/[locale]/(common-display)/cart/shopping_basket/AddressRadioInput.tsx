@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ComponentProps } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormRegister } from 'react-hook-form';
 import { IAddress } from '@/lib//types/types';
@@ -11,6 +11,7 @@ interface Props {
     setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
     register: UseFormRegister<any>;
     addressNameId: string;
+    handleOnClick: ComponentProps<any>;
 }
 
 export default function AddressRadioInput({
@@ -18,10 +19,12 @@ export default function AddressRadioInput({
     setShowDeleteModal,
     register,
     addressNameId,
+    handleOnClick,
 }: Props) {
     const t = useTranslations();
+
     return (
-        <>
+        <div onClick={() => handleOnClick(address.id)} className="w-full">
             <input
                 type="radio"
                 id={`${addressNameId}-${address.id}`}
@@ -72,6 +75,6 @@ export default function AddressRadioInput({
                     />
                 </div>
             </label>
-        </>
+        </div>
     );
 }

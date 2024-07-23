@@ -2,17 +2,15 @@
 
 import BusinessOrderDetails from './BusinessOrderDetails';
 import Spinner from '@/app/[locale]/components/common/Spinner';
+import PaymentInformationBox from '@/app/[locale]/components/PaymentInformationBox';
+import BillingInformationBox from '@/app/[locale]/components/BillingInformationBox';
+import ShippingInformationBox from '@/app/[locale]/components/ShippingInformationBox';
 import React, { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { IOrder } from '@/lib//types/types';
 import { ONLINE_ORDER_STATUS } from '@/constants';
 import { formatDateString } from '@/utils/formatDate';
-import { formatCurrency } from '@/utils/formatCurrency';
 import { useAuth } from '../../../(auth)/Context/useAuth';
-import BillingInformationBox from '@/app/[locale]/components/BillingInformationBox';
-import ShippingInformationBox from '@/app/[locale]/components/ShippingInformationBox';
-import PaymentInformationBox from '@/app/[locale]/components/PaymentInformationBox';
-
 interface Props {
     isError?: boolean;
     order: IOrder;

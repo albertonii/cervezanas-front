@@ -260,16 +260,14 @@ export async function calculateProductPacksWeight(
 
 /**
  * En base a una serie de productos que comparten el mismo distribuidor, vamos a buscar cual es el que ofrezca un precio más económico
- *
- * @param items
- * @param shippingInfoId
- * @param totalWeight
  */
-export async function calculateCheapestShippingCosts(
+export async function calculateCheapestShippingCostsByDistributor(
     itemsByProducer: IProductPackCartItem[],
     shippingInfoId: string,
     distributionContracts: IDistributionContract[],
 ) {
+    const url = `${baseUrl}/api/calculate_shipping`;
+
     // Sumar el peso total de los productos
     const totalWeight = await Promise.all(
         itemsByProducer.map(async (productPack) => {
@@ -277,10 +275,11 @@ export async function calculateCheapestShippingCosts(
         }),
     ).then((weights) => weights.reduce((prev, current) => prev + current, 0));
 
-    const url = `${baseUrl}/api/calculate_shipping`;
-
     // Obtener el costo de envío de cada distribuidor
-    const shippingCosts = await Promise.all(
+    const shippingCostInformation: {
+        distributor_id: string | null;
+        delivery_cost: number | null;
+    }[] = await Promise.all(
         distributionContracts.map(async (distributionContract) => {
             try {
                 const response = await axios.get(url, {
@@ -292,24 +291,41 @@ export async function calculateCheapestShippingCosts(
                 });
 
                 if (response.data && response.data.cost !== undefined) {
-                    return response.data;
+                    return {
+                        distributor_id: distributionContract.distributor_id,
+                        delivery_cost: response.data.cost,
+                    };
                 } else {
-                    console.error(
-                        'Error fetching shipping costs',
-                        response.data,
-                    );
-                    return null;
+                    console.error('Error fetching shipping costs', null);
+                    return {
+                        distributor_id: null,
+                        delivery_cost: null,
+                    };
                 }
             } catch (error) {
                 console.error('Error fetching shipping costs', error);
-                return null;
+                return {
+                    distributor_id: null,
+                    delivery_cost: null,
+                };
             }
         }),
     );
 
     // Filtrar solo los costos válidos
-    const validShippingCosts: { cost: number }[] = shippingCosts.filter(
-        (cost) => cost !== null,
+    const validShippingCosts: {
+        distributor_id: string | null;
+        delivery_cost: number | null;
+    }[] = shippingCostInformation.filter(
+        (
+            shippingItem,
+        ): shippingItem is {
+            distributor_id: string | null;
+            delivery_cost: number | null;
+        } =>
+            shippingItem !== null &&
+            shippingItem.delivery_cost !== null &&
+            shippingItem.distributor_id !== null,
     );
 
     if (validShippingCosts.length === 0) {
@@ -322,7 +338,7 @@ export async function calculateCheapestShippingCosts(
         validShippingCosts.length === 1
             ? validShippingCosts[0]
             : validShippingCosts.reduce((prev, current) =>
-                  prev.cost < current.cost ? prev : current,
+                  prev.delivery_cost! < current.delivery_cost! ? prev : current,
               );
 
     return cheapestShippingCost;

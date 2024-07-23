@@ -244,6 +244,7 @@
     "tracking_number_header": "Número de seguimiento",
     "no_pending_cp": "No hay peticiones pendientes de cervezanos que quieran ser organizadores de Puntos de Consumo.",
     "marketplace": "Mercado",
+    "go_to_marketplace": "Ir al mercado",
     "instock": "En Stock",
     "outstock": "Agotado",
     "quantity": "Cantidad",

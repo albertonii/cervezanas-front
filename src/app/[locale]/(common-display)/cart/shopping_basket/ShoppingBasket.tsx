@@ -14,7 +14,6 @@ import { z, ZodType } from 'zod';
 import { API_METHODS } from '@/constants';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { insertOnlineOrder } from '../actions';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from 'react-query';
 import { randomTransactionId, CURRENCIES } from 'redsys-easy';
@@ -28,6 +27,7 @@ import {
     createRedirectForm,
     merchantInfo,
 } from '@/app/[locale]/components/TPV/redsysClient';
+import { insertOnlineOrder } from '../actions';
 
 export type FormShippingData = {
     shipping_info_id: string;
@@ -58,9 +58,6 @@ interface Props {
 
 export function ShoppingBasket({ user }: Props) {
     const t = useTranslations();
-
-    const [isShippingCostLoading, setIsShippingCostLoading] = useState(false);
-
     const { handleMessage } = useMessage();
 
     const {
@@ -83,6 +80,11 @@ export function ShoppingBasket({ user }: Props) {
     const [merchantSignature, setMerchantSignature] = useState('');
     const [selectedShippingAddress, setSelectedShippingAddress] = useState('');
     const [selectedBillingAddress, setSelectedBillingAddress] = useState('');
+    const [shoppingItems, setShoppingItems] = useState<IProductPackCartItem[]>(
+        [],
+    );
+
+    const [isShippingCostLoading, setIsShippingCostLoading] = useState(false);
 
     const [canMakeThePayment, setCanMakeThePayment] = useState(false);
 
@@ -132,56 +134,50 @@ export function ShoppingBasket({ user }: Props) {
     }, [isFormReady]);
 
     useEffect(() => {
-        // // Si se eliminan elementos del carrito y además coincide que son elementos en el listado de undeliverableItems
-        // // Se debe de actualizar el listado de undeliverableItems
-        // const undeliverableItems_ = undeliverableItems.filter(
-        //     (item) => !items.find((cartItem) => cartItem.id === item.id),
-        // );
-
-        // setUndeliverableItems(undeliverableItems_);
-
         // Check if the cart is deliverable
         const isDeliverable =
             items.length > 0 &&
             selectedBillingAddress !== '' &&
             selectedShippingAddress !== '';
-        // undeliverableItems_.length === 0;
 
         setCanMakeThePayment(isDeliverable);
     }, [items, selectedShippingAddress, selectedBillingAddress]);
 
     useEffect(() => {
+        if (!selectedShippingAddress) return;
+
         const handleShippingCost = async () => {
             setIsShippingCostLoading(true);
 
-            const cheapestShippingCost = await calculateShippingCostCartContext(
-                selectedShippingAddress,
-            );
+            const cheapestShippingCostByDistributor =
+                await calculateShippingCostCartContext(selectedShippingAddress);
 
-            if (cheapestShippingCost) {
-                const shippingCostInformation: {
-                    [producerId: string]: {
-                        items: IProductPackCartItem[];
-                        shippingCost: number;
-                    };
-                } = cheapestShippingCost;
+            if (cheapestShippingCostByDistributor) {
+                const totalShippingCost = Object.values(
+                    cheapestShippingCostByDistributor,
+                ).reduce((acc, { shippingCost }) => {
+                    if (shippingCost === null) return acc;
+                    return acc + shippingCost;
+                }, 0);
 
-                const totalShippingCost: number = Object.values(
-                    shippingCostInformation,
-                ).reduce((acc, { shippingCost }) => acc + shippingCost, 0);
+                // Actualizar el listado de items debido a que se ha actualizado los distribuidores asociados para cada uno
+                setShoppingItems(
+                    Object.values(cheapestShippingCostByDistributor)
+                        .map(({ items }) => items)
+                        .flat(),
+                );
 
                 // Obtener listado de elementos que no se pueden enviar - Son aquellos donde el shippingCost es null para el productor
                 const undeliverableItems_: {
                     items: IProductPackCartItem[];
                     shippingCost: number;
-                }[] = Object.values(shippingCostInformation).filter(
+                    distributor_id: string;
+                }[] = Object.values(cheapestShippingCostByDistributor).filter(
                     ({ shippingCost }) => shippingCost === null,
                 );
 
                 const undeliverableItemsFlat: IProductPackCartItem[] =
                     undeliverableItems_.map(({ items }) => items).flat();
-
-                console.log(undeliverableItemsFlat);
 
                 handleUndeliverableItems(undeliverableItemsFlat);
 
@@ -192,11 +188,7 @@ export function ShoppingBasket({ user }: Props) {
         };
 
         handleShippingCost();
-    }, [items, selectedShippingAddress, selectedBillingAddress]);
-
-    const handleDeliveryCost = (deliveryCost: number) => {
-        setDeliveryCost((prevCost) => prevCost + deliveryCost);
-    };
+    }, [items, selectedShippingAddress]);
 
     const checkForm = async () => {
         const shippingInfoId = selectedShippingAddress;
@@ -230,12 +222,9 @@ export function ShoppingBasket({ user }: Props) {
 
         setLoadingPayment(true);
 
-        const shippingInfoId = selectedShippingAddress;
-        const billingInfoId = selectedBillingAddress;
-
         try {
             const orderNumber = await proceedPaymentRedsys();
-            handleInsertOrder(billingInfoId, shippingInfoId, orderNumber);
+            handleInsertOrder(orderNumber);
             queryClient.invalidateQueries('orders');
             clearCart();
         } catch (error) {
@@ -244,12 +233,8 @@ export function ShoppingBasket({ user }: Props) {
         }
     };
 
-    const handleInsertOrder = async (
-        billingInfoId: string,
-        shippingInfoId: string,
-        orderNumber: string,
-    ) => {
-        const object = {
+    const handleInsertOrder = async (orderNumber: string) => {
+        const order = {
             user_id: user?.id,
             name: user?.name,
             lastname: user?.lastname,
@@ -262,12 +247,12 @@ export function ShoppingBasket({ user }: Props) {
             order_number: orderNumber,
             type: 'online',
             tax: tax,
-            shipping_info_id: shippingInfoId,
-            billing_info_id: billingInfoId,
-            items: items,
+            shipping_info_id: selectedShippingAddress,
+            billing_info_id: selectedBillingAddress,
+            items: shoppingItems,
         };
 
-        await insertOnlineOrder(object)
+        await insertOnlineOrder(order)
             .then(() => {
                 setIsFormReady(true);
             })

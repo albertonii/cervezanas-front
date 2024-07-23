@@ -10,7 +10,7 @@ import {
     IDistributionContract,
 } from '@/lib//types/types';
 import {
-    calculateCheapestShippingCosts,
+    calculateCheapestShippingCostsByDistributor,
     getListAsociatedDistributors,
     getShippingInfo,
 } from '../[locale]/(common-display)/cart/actions';
@@ -18,6 +18,7 @@ import {
 type ShoppingCartContextType = {
     items: IProductPackCartItem[];
     undeliverableItems: IProductPackCartItem[];
+    handleItems: (items: IProductPackCartItem[]) => void;
     handleUndeliverableItems: (items: IProductPackCartItem[]) => void;
     cartQuantity: () => number;
     clearItems: () => void;
@@ -37,6 +38,7 @@ type ShoppingCartContextType = {
         [producerId: string]: {
             items: IProductPackCartItem[];
             shippingCost: number;
+            distributor_id: string;
         };
     }>;
 };
@@ -44,6 +46,7 @@ type ShoppingCartContextType = {
 const ShoppingCartContext = createContext<ShoppingCartContextType>({
     items: [],
     undeliverableItems: [],
+    handleItems: () => void {},
     handleUndeliverableItems: () => void {},
     cartQuantity: () => 0,
     clearItems: () => void {},
@@ -63,6 +66,7 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
                 [producerId: string]: {
                     items: IProductPackCartItem[];
                     shippingCost: number;
+                    distributor_id: string;
                 };
             },
         ),
@@ -91,6 +95,10 @@ export function ShoppingCartProvider({ children }: Props) {
         clearItems();
     };
 
+    const handleItems = (items_: IProductPackCartItem[]) => {
+        setItems(items_);
+    };
+
     const handleUndeliverableItems = (
         undeliverableItems_: IProductPackCartItem[],
     ) => {
@@ -103,6 +111,7 @@ export function ShoppingCartProvider({ children }: Props) {
         [producerId: string]: {
             items: IProductPackCartItem[];
             shippingCost: number;
+            distributor_id: string;
         };
     }> => {
         // Vamos a crear un array de productores con los items que le corresponden y sus costes asociados
@@ -110,6 +119,7 @@ export function ShoppingCartProvider({ children }: Props) {
             [producerId: string]: {
                 items: IProductPackCartItem[];
                 shippingCost: number | null;
+                distributor_id: string | null;
             };
         } = {};
 
@@ -118,11 +128,12 @@ export function ShoppingCartProvider({ children }: Props) {
                 [producerId: string]: {
                     items: IProductPackCartItem[];
                     shippingCost: number;
+                    distributor_id: string;
                 };
             };
         }
 
-        // Agrupar todos aquellos productos que tengan el mismo productor id
+        // Agrupar todos aquellos productos que tengan el mismo ID de productor
         const producerIdAndItems = items.reduce((acc: any, item) => {
             if (!acc[item.producer_id]) {
                 acc[item.producer_id] = [];
@@ -152,15 +163,35 @@ export function ShoppingCartProvider({ children }: Props) {
                     (distributor) => distributor.producer_id === producerId,
                 );
 
-            const shippingCost = await calculateCheapestShippingCosts(
+            const shippingCostInformation: {
+                delivery_cost: number | null;
+                distributor_id: string | null;
+            } | null = await calculateCheapestShippingCostsByDistributor(
                 itemsProducer,
                 selectedShippingInfo.id,
                 distributorContractsByProducerId,
             );
 
+            // Update distributor_id in itemsk
+            const newItemsWithDistributorID = itemsProducer.map(
+                (item: IProductPackCartItem) => {
+                    return {
+                        ...item,
+                        distributor_id: shippingCostInformation
+                            ? shippingCostInformation.distributor_id
+                            : null,
+                    };
+                },
+            );
+
             producerIdAndItemsWithCosts[producerId] = {
-                items: itemsProducer,
-                shippingCost: shippingCost ? shippingCost.cost : null,
+                items: newItemsWithDistributorID,
+                shippingCost: shippingCostInformation
+                    ? shippingCostInformation.delivery_cost
+                    : null,
+                distributor_id: shippingCostInformation
+                    ? shippingCostInformation.distributor_id
+                    : null,
             };
         }
 
@@ -168,6 +199,45 @@ export function ShoppingCartProvider({ children }: Props) {
             [producerId: string]: {
                 items: IProductPackCartItem[];
                 shippingCost: number;
+                distributor_id: string;
+            };
+        };
+    };
+
+    const assignDistributorIdToItems = async (itemsByProducer: {
+        [producerId: string]: {
+            items: IProductPackCartItem[];
+            shippingCost: number;
+            distributor_id: string;
+        };
+    }): Promise<{
+        [producerId: string]: {
+            items: IProductPackCartItem[];
+            shippingCost: number;
+            distributor_id: string;
+        };
+    }> => {
+        const newElements = Object.values(itemsByProducer).map(
+            (productPack) => {
+                const updatedItems = productPack.items.map((item) => {
+                    return {
+                        ...item,
+                        distributor_id: productPack.distributor_id,
+                    };
+                });
+
+                return {
+                    ...productPack,
+                    items: updatedItems,
+                };
+            },
+        );
+
+        return newElements as unknown as {
+            [producerId: string]: {
+                items: IProductPackCartItem[];
+                shippingCost: number;
+                distributor_id: string;
             };
         };
     };
@@ -363,6 +433,7 @@ export function ShoppingCartProvider({ children }: Props) {
         items,
         undeliverableItems,
         isOpen,
+        handleItems,
         handleUndeliverableItems,
         clearItems,
         clearCart,

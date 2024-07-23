@@ -69,10 +69,31 @@ export async function POST(request: NextRequest) {
     // aquellos que tengan un pack, los inserto en la tabla order_items
     // además, como son del mismo pack y del mismo producto, los agrupo
     // y asigno el mismo identificador de pedido para el negocio - business_order_id
+
     items.map((item: IProductPackCartItem) => {
+        console.log(item);
+
         item.packs.map(async (pack) => {
             const distributorId = item.distributor_id;
             const producerId = item.producer_id;
+
+            if (!distributorId) {
+                return NextResponse.json(
+                    {
+                        message: 'Distributor ID not found for the item order',
+                    },
+                    { status: 500 },
+                );
+            }
+
+            if (!producerId) {
+                return NextResponse.json(
+                    {
+                        message: 'Producer ID not found for the item order',
+                    },
+                    { status: 500 },
+                );
+            }
 
             const { data: businessOrder, error: businessOrderError } =
                 await supabase
@@ -85,7 +106,27 @@ export async function POST(request: NextRequest) {
                     .select('id')
                     .single();
 
-            if (businessOrderError) throw businessOrderError;
+            if (businessOrderError) {
+                const { error: cancelOrderStatusError } = await supabase
+                    .from('order')
+                    .update({ status: ONLINE_ORDER_STATUS.ERROR });
+
+                if (cancelOrderStatusError) {
+                    return NextResponse.json(
+                        {
+                            message: 'Error updating order status to CANCEL',
+                        },
+                        { status: 500 },
+                    );
+                }
+
+                return NextResponse.json(
+                    {
+                        message: 'Error inserting new business_order',
+                    },
+                    { status: 500 },
+                );
+            }
 
             const { error: orderItemError } = await supabase
                 .from('order_items')

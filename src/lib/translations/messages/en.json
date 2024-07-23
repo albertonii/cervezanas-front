@@ -252,6 +252,7 @@
     "tracking_number_header": "Tracking Number",
     "no_pending_cp": "There are no pending requests from Cervezanos who want to be Consumption Points organisers.",
     "marketplace": "Marketplace",
+    "go_tomarketplace": "Go To Marketplace",
     "instock": "In Stock",
     "outstock": "Out of Stock",
     "quantity": "Quantity",
