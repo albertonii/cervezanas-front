@@ -32,13 +32,16 @@ export default function PaymentInformation({ order }: Props) {
                         {formatCurrency(subtotal)}
                     </dd>
                 </div>
-                <div className="flex items-center justify-between pb-4">
-                    <dt className="text-gray-600">{t('discount')}</dt>
-                    <dd className="font-medium text-gray-900">
-                        {t('discount_code')} {discount_code} {' - '}{' '}
-                        {formatCurrency(discount)}
-                    </dd>
-                </div>
+
+                {order.discount_code && order.discount && (
+                    <div className="flex items-center justify-between pb-4">
+                        <dt className="text-gray-600">{t('discount')}</dt>
+                        <dd className="font-medium text-gray-900">
+                            {t('discount_code')} {order.discount_code} {' - '}{' '}
+                            {formatCurrency(order.discount)}
+                        </dd>
+                    </div>
+                )}
 
                 <div className="flex items-center justify-between py-4">
                     <dt className="text-gray-600">{t('tax')}</dt>
