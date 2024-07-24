@@ -1,18 +1,14 @@
-import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
+import OrderItemCard from '@/app/[locale]/components/OrderItemCard';
 import ProductBusinnesInformation from '@/app/[locale]/components/ProductBusinnesInformation';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { useQueryClient } from 'react-query';
-import { formatCurrency } from '@/utils/formatCurrency';
 import { IBusinessOrder, IOrderItem } from '@/lib/types/types';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import { StatusTimeline } from '@/app/[locale]/components/StatusTimeline';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { DISTRIBUTOR_ONLINE_ORDER_STATUS, SupabaseProps } from '@/constants';
-import DistributorCard from '@/app/[locale]/components/DistributorCard';
-import OrderItemCard from '@/app/[locale]/components/OrderItemCard';
-
-const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
+import { DISTRIBUTOR_ONLINE_ORDER_STATUS } from '@/constants';
+import ProducerCard from '@/app/[locale]/components/ProducerCard';
 
 interface Props {
     bOrder: IBusinessOrder;
@@ -121,15 +117,22 @@ export default function BusinessOrderItem({
                 )}
 
                 {orderItems?.map((orderItem: IOrderItem) => (
-                    <div className="col-span-2 md:col-span-1">
+                    <div
+                        className="col-span-2 md:col-span-1"
+                        key={
+                            orderItem.business_order_id +
+                            '-' +
+                            orderItem.product_pack_id
+                        }
+                    >
                         <OrderItemCard orderItem={orderItem} />
                     </div>
                 ))}
 
-                {/* Distributor information data  */}
-                {bOrder.distributor_user && (
+                {/* Producer information data  */}
+                {bOrder.producer_user && (
                     <div className="col-span-2 md:col-span-1">
-                        <DistributorCard bOrder={bOrder} />
+                        <ProducerCard bOrder={bOrder} />
                     </div>
                 )}
             </section>

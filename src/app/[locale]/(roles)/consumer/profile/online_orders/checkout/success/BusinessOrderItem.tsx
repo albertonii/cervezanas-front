@@ -1,157 +1,66 @@
-import Button from '@/app/[locale]/components/common/Button';
-import ProductReview from '@/app/[locale]/components/reviews/ProductReview';
-import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
-import React, { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { SupabaseProps } from '@/constants';
-import { formatCurrency } from '@/utils/formatCurrency';
+import OrderItemReview from './OrderItemReview';
+import ProducerCard from '@/app/[locale]/components/ProducerCard';
+import OrderItemCard from '@/app/[locale]/components/OrderItemCard';
+import DistributorCard from '@/app/[locale]/components/DistributorCard';
+import ProductBusinnesInformation from '@/app/[locale]/components/ProductBusinnesInformation';
+import React from 'react';
 import { IBusinessOrder, IOrderItem } from '@/lib/types/types';
-
-const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
+import { StatusTimeline } from '@/app/[locale]/components/StatusTimeline';
 
 interface Props {
     bOrder: IBusinessOrder;
-    orderItem: IOrderItem;
 }
 
-export default function BOrderItem({ bOrder, orderItem }: Props) {
-    const t = useTranslations();
-
-    const [showReview, setShowReview] = useState(false);
-    const [isReviewed, setIsReviewed] = useState(orderItem.is_reviewed);
-
-    useEffect(() => {
-        const isReviewedRes =
-            isReviewed || bOrder.status !== 'delivered' ? true : false;
-        setIsReviewed(isReviewedRes);
-    }, [isReviewed]);
-
-    const handleShowReviewOnClick = (showReview: boolean) => {
-        setShowReview(showReview);
-    };
-
-    const handleSetIsReviewed = (isReviewed: boolean) => {
-        setIsReviewed(isReviewed);
-    };
+export default function BusinessOrderItem({ bOrder }: Props) {
+    if (!bOrder.order_items || bOrder.order_items.length === 0) return <></>;
 
     return (
-        <>
-            <article
-                className="grid justify-between gap-2 rounded-lg border border-gray-200 sm:space-x-4 sm:p-4 lg:grid-cols-12 lg:space-x-2 lg:p-6"
-                key={
-                    orderItem.business_order_id +
-                    '-' +
-                    orderItem.product_pack_id
-                }
-            >
-                {orderItem.product_packs && (
-                    <>
-                        <header className="col-span-12">
-                            <h3 className="text-xl font-medium text-gray-900 hover:text-beer-draft">
-                                <p className="text-lg font-medium text-gray-900">
-                                    {orderItem.product_packs.name}
-                                </p>
-                            </h3>
-                        </header>
+        <section className="relative border-separate space-y-8 rounded-lg border bg-beer-foam p-2">
+            <StatusTimeline
+                status={bOrder.status}
+                orderType={'distributor_online'}
+            />
 
-                        <figure className="aspect-w-1 aspect-h-1 sm:aspect-none col-span-2 h-20 w-auto flex-shrink-0 justify-center overflow-hidden rounded-lg md:col-span-1 lg:h-32 ">
-                            {
-                                <DisplayImageProduct
-                                    width={120}
-                                    height={120}
-                                    alt={''}
-                                    imgSrc={`${
-                                        BASE_PRODUCTS_URL +
-                                        decodeURIComponent(
-                                            orderItem.product_packs.img_url,
-                                        )
-                                    }`}
-                                    class="h-full w-full object-cover object-center"
-                                />
-                            }
-                        </figure>
-
-                        <section className="col-span-2 flex flex-row gap-2 md:col-span-3">
-                            <div className="w-full">
-                                <p className="text-sm font-medium text-gray-900 ">
-                                    {formatCurrency(
-                                        orderItem.product_packs.price,
-                                    )}
-                                </p>
-
-                                <span className="text-sm text-gray-900">
-                                    <p>{t('quantity_in_pack')}:</p>
-
-                                    <p className="font-medium">
-                                        {orderItem.product_packs.quantity}{' '}
-                                        {t('units')}
-                                    </p>
-                                </span>
-
-                                <span className="text-sm text-gray-900">
-                                    <p>{t('quantity_bought')}:</p>
-                                    <p className="font-medium">
-                                        {orderItem.quantity} {t('packs')}
-                                    </p>
-                                </span>
-                            </div>
-
-                            <div className="w-full self-center">
-                                <span className="space-y-1 text-center">
-                                    <p className="text-base text-gray-500 md:text-xl">
-                                        {t('total')}
-                                    </p>
-                                    <p className="truncate text-base font-semibold md:text-2xl">
-                                        {formatCurrency(
-                                            orderItem.quantity *
-                                                orderItem.product_packs.price,
-                                        )}
-                                    </p>
-                                </span>
-                            </div>
-                        </section>
-                    </>
+            <section className="grid grid-cols-1 gap-x-2 space-y-4 lg:grid-cols-2 md:gap-x-4 w-full">
+                {/* Display the product information for this pack  */}
+                {bOrder.order_items && (
+                    <div className="col-span-2">
+                        <ProductBusinnesInformation bOrder={bOrder} />
+                    </div>
                 )}
-            </article>
 
-            {/* Review Product  */}
-            <section className="col-span-12 mt-6">
-                <section className="mt-3 space-y-3 text-beer-dark">
-                    {orderItem.is_reviewed && (
-                        <span>{t('product_already_reviewed_condition')}</span>
-                    )}
-
-                    {bOrder.status !== 'delivered' && (
-                        <span>{t('write_review_condition')}</span>
-                    )}
-
-                    <Button
-                        disabled={isReviewed}
-                        primary
-                        medium
-                        class="my-6 font-medium text-beer-draft hover:text-beer-dark "
-                        onClick={() => {
-                            if (
-                                !orderItem.is_reviewed &&
-                                bOrder.status === 'delivered' &&
-                                orderItem.product_packs?.product_id
-                            ) {
-                                handleShowReviewOnClick(true);
+                {bOrder.order_items?.map((orderItem: IOrderItem) => {
+                    return (
+                        <div
+                            className="col-span-2 "
+                            key={
+                                orderItem.business_order_id +
+                                orderItem.product_pack_id
                             }
-                        }}
-                    >
-                        {t('make_review_product_button')}
-                    </Button>
-                </section>
+                        >
+                            <OrderItemCard orderItem={orderItem} />
+                            <OrderItemReview
+                                orderItem={orderItem}
+                                bOrder={bOrder}
+                            />
+                        </div>
+                    );
+                })}
 
-                {showReview && orderItem.product_packs?.products && (
-                    <ProductReview
-                        orderItem={orderItem}
-                        handleShowReviewOnClick={handleShowReviewOnClick}
-                        handleSetIsReviewed={handleSetIsReviewed}
-                    />
+                {/* Producer information data  */}
+                {bOrder.producer_user && (
+                    <div className="col-span-2 md:col-span-1">
+                        <ProducerCard bOrder={bOrder} />
+                    </div>
+                )}
+
+                {/* Distributor information data  */}
+                {bOrder.distributor_user && (
+                    <div className="col-span-2 md:col-span-1">
+                        <DistributorCard bOrder={bOrder} />
+                    </div>
                 )}
             </section>
-        </>
+        </section>
     );
 }

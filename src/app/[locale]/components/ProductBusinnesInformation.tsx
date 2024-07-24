@@ -23,6 +23,7 @@ const ProductBusinnesInformation = ({ bOrder }: Props) => {
                 <Link
                     href={`/products/${bOrder.order_items[0].product_packs?.products?.id}`}
                     locale={locale}
+                    target="_blank"
                 >
                     {t('name')}: {productName}
                 </Link>

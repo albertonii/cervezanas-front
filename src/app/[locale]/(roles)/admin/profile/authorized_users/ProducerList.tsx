@@ -240,7 +240,7 @@ export default function ProducerList({ producers }: Props) {
 
                                 <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                                     <Link
-                                        href={`/d-info/${producer.user_id}`}
+                                        href={`/user-info/${producer.user_id}`}
                                         locale={locale}
                                     >
                                         {producer.users?.username}

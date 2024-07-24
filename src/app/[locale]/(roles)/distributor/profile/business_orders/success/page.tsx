@@ -3,7 +3,6 @@ import createServerClient from '@/utils/supabaseServer';
 import readUserSession from '@/lib/actions';
 import { redirect } from 'next/navigation';
 import { decodeBase64 } from '@/utils/utils';
-import { VIEWS } from '@/constants';
 import { IOrder } from '@/lib/types/types';
 
 export async function generateMetadata({ searchParams }: any) {
@@ -87,7 +86,7 @@ async function getSuccessData(searchParams: any) {
             billing_info (id, *),
             business_orders!business_orders_order_id_fkey (
                 *,
-                distributor_user!business_orders_distributor_id_fkey (*,
+                producer_user!business_orders_producer_id_fkey (*,
                     users(
                         name,
                         lastname,

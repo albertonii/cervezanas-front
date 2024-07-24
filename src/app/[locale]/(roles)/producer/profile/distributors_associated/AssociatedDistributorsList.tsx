@@ -216,7 +216,7 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
                                             >
                                                 <td className="px-6 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
                                                     <Link
-                                                        href={`/d-info/${contract.distributor_id}`}
+                                                        href={`/user-info/${contract.distributor_id}`}
                                                         locale={locale}
                                                         target="_blank"
                                                     >

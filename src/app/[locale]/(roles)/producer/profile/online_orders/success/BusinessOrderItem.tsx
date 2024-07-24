@@ -1,9 +1,9 @@
+import OrderItemCard from '@/app/[locale]/components/OrderItemCard';
+import DistributorCard from '@/app/[locale]/components/DistributorCard';
 import ProductBusinnesInformation from '@/app/[locale]/components/ProductBusinnesInformation';
 import React from 'react';
 import { IBusinessOrder, IOrderItem } from '@/lib/types/types';
 import { StatusTimeline } from '@/app/[locale]/components/StatusTimeline';
-import DistributorCard from '@/app/[locale]/components/DistributorCard';
-import OrderItemCard from '@/app/[locale]/components/OrderItemCard';
 
 interface Props {
     bOrder: IBusinessOrder;
@@ -17,7 +17,7 @@ export default function BusinessOrderItem({ bOrder }: Props) {
     if (!orderItems || orderItems.length === 0) return <></>;
 
     return (
-        <section className="relative border-separate space-y-8 rounded-lg bg-beer-foam  border p-2">
+        <section className="relative border-separate space-y-8 rounded-lg bg-beer-foam border p-2">
             <StatusTimeline
                 status={bOrder.status}
                 orderType={'distributor_online'}
@@ -32,7 +32,14 @@ export default function BusinessOrderItem({ bOrder }: Props) {
                 )}
 
                 {orderItems?.map((orderItem: IOrderItem) => (
-                    <div className="col-span-2 md:col-span-1">
+                    <div
+                        className="col-span-2 md:col-span-1"
+                        key={
+                            orderItem.business_order_id +
+                            '-' +
+                            orderItem.product_pack_id
+                        }
+                    >
                         <OrderItemCard orderItem={orderItem} />
                     </div>
                 ))}

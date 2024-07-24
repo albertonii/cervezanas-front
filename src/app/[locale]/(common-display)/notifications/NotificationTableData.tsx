@@ -69,7 +69,7 @@ export default function NotificationTableData({ notification, key }: Props) {
             case ROLE_ENUM.Admin:
                 return `/admin-info/${userId}`;
             default:
-                return `/c-info/${userId}`;
+                return `/user-info/${userId}`;
         }
     };
 

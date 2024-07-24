@@ -182,7 +182,7 @@ export default function AssociatedProducersList() {
                             >
                                 <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                                     <Link
-                                        href={`/p-info/${contract.producer_id}`}
+                                        href={`/user-info/${contract.producer_id}`}
                                         locale={locale}
                                         target="_blank"
                                     >

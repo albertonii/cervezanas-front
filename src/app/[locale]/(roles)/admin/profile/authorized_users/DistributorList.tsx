@@ -242,7 +242,7 @@ export default function DistributorList({ distributors }: Props) {
 
                                 <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
                                     <Link
-                                        href={`/d-info/${distributor.user_id}`}
+                                        href={`/user-info/${distributor.user_id}`}
                                         locale={locale}
                                     >
                                         {distributor.users?.username}

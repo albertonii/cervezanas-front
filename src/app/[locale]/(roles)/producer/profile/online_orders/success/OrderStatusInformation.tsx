@@ -66,7 +66,7 @@ const OrderStatusInformation = ({ order, orderStatus }: Props) => {
                     <span className="flex items-center gap-2 text-gray-900 ">
                         {t('name')}:
                         <Link
-                            href={`/c-info/${order.owner_id}`}
+                            href={`/user-info/${order.owner_id}`}
                             locale={locale}
                             target={'_blank'}
                         >
