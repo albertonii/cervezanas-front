@@ -9,6 +9,8 @@ import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import { StatusTimeline } from '@/app/[locale]/components/StatusTimeline';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { DISTRIBUTOR_ONLINE_ORDER_STATUS, SupabaseProps } from '@/constants';
+import DistributorCard from '@/app/[locale]/components/DistributorCard';
+import OrderItemCard from '@/app/[locale]/components/OrderItemCard';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -26,6 +28,9 @@ export default function BusinessOrderItem({
     const t = useTranslations();
     const { supabase } = useAuth();
     const queryClient = useQueryClient();
+
+    const orderItems = bOrder.order_items;
+
     const { handleMessage } = useMessage();
 
     const submitSuccessMessage = t('messages.updated_successfully');
@@ -107,96 +112,26 @@ export default function BusinessOrderItem({
                 orderType={'distributor_online'}
             />
 
-            <section className="grid grid-cols-1 gap-x-2 space-y-4 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-2 lg:gap-x-4">
+            <section className="grid grid-cols-1 gap-x-2 space-y-4 lg:grid-cols-2 md:gap-x-4 w-full">
                 {/* Display the product information for this pack  */}
                 {bOrder.order_items && (
-                    <ProductBusinnesInformation bOrder={bOrder} />
+                    <div className="col-span-2">
+                        <ProductBusinnesInformation bOrder={bOrder} />
+                    </div>
                 )}
 
-                {bOrder.order_items?.map((orderItem: IOrderItem) => {
-                    if (!orderItem.product_packs) return <></>;
+                {orderItems?.map((orderItem: IOrderItem) => (
+                    <div className="col-span-2 md:col-span-1">
+                        <OrderItemCard orderItem={orderItem} />
+                    </div>
+                ))}
 
-                    return (
-                        <fieldset
-                            className="grid grid-cols-1 justify-between gap-2 rounded-lg border border-gray-200 sm:space-x-4 sm:p-4 lg:grid-cols-4 lg:space-x-2 lg:p-6"
-                            key={
-                                orderItem.business_order_id +
-                                '-' +
-                                orderItem.product_pack_id
-                            }
-                        >
-                            <legend className="text-lg">
-                                {orderItem.product_packs.name}
-                            </legend>
-
-                            <figure className="aspect-w-1 aspect-h-1 sm:aspect-none col-span-2 h-20 w-auto flex-shrink-0 justify-center overflow-hidden rounded-lg md:col-span-1 lg:h-32 ">
-                                {
-                                    <DisplayImageProduct
-                                        width={120}
-                                        height={120}
-                                        alt={''}
-                                        imgSrc={`${
-                                            BASE_PRODUCTS_URL +
-                                            decodeURIComponent(
-                                                orderItem.product_packs.img_url,
-                                            )
-                                        }`}
-                                        class="h-full w-full object-cover object-center"
-                                    />
-                                }
-                            </figure>
-
-                            <section className="col-span-2 flex flex-row gap-2 md:col-span-3">
-                                <div className="w-full">
-                                    <span className="space-y-1">
-                                        <p className="text-sm text-gray-500">
-                                            {t('product_price')}
-                                        </p>
-                                        <p className="text-medium truncate font-medium text-gray-900 hover:text-beer-draft">
-                                            {formatCurrency(
-                                                orderItem.product_packs.price,
-                                            )}
-                                        </p>
-                                    </span>
-
-                                    <span className="space-y-1">
-                                        <p className="text-sm text-gray-500">
-                                            {t('quantity_in_pack')}
-                                        </p>
-                                        <p className="truncate">
-                                            {orderItem.product_packs.quantity}{' '}
-                                            {t('units')}
-                                        </p>
-                                    </span>
-
-                                    <span className="space-y-1">
-                                        <p className="text-sm text-gray-500">
-                                            {t('quantity_bought')}
-                                        </p>
-                                        <p className="truncate">
-                                            {orderItem.quantity} {t('packs')}
-                                        </p>
-                                    </span>
-                                </div>
-
-                                <div className="w-full self-center">
-                                    <span className="space-y-1 text-center">
-                                        <p className="text-base text-gray-500 md:text-xl">
-                                            {t('total')}
-                                        </p>
-                                        <p className="truncate text-base font-semibold md:text-2xl">
-                                            {formatCurrency(
-                                                orderItem.quantity *
-                                                    orderItem.product_packs
-                                                        .price,
-                                            )}
-                                        </p>
-                                    </span>
-                                </div>
-                            </section>
-                        </fieldset>
-                    );
-                })}
+                {/* Distributor information data  */}
+                {bOrder.distributor_user && (
+                    <div className="col-span-2 md:col-span-1">
+                        <DistributorCard bOrder={bOrder} />
+                    </div>
+                )}
             </section>
         </section>
     );

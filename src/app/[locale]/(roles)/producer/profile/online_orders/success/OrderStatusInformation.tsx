@@ -14,6 +14,16 @@ const OrderStatusInformation = ({ order, orderStatus }: Props) => {
     const t = useTranslations();
     const locale = useLocale();
 
+    const handleInvoicePdf = () => {
+        // Get current url
+        const currentUrl = window.location.href;
+
+        window.open(
+            `/${currentUrl}/checkout/invoice/${order.order_number}`,
+            '_ blank',
+        );
+    };
+
     return (
         <section className="px-4 py-6 sm:rounded-lg sm:px-6 space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0 bg-beer-foam">
             <div className="flex flex-col">
@@ -21,6 +31,14 @@ const OrderStatusInformation = ({ order, orderStatus }: Props) => {
                     <h1 className="text-xl font-extrabold tracking-tight text-beer-dark sm:text-2xl">
                         {t('order_number')} #{order.order_number}
                     </h1>
+
+                    <p
+                        onClick={() => handleInvoicePdf()}
+                        className="mt-4 hidden text-sm font-medium tracking-wide text-gray-500 hover:cursor-pointer hover:text-beer-blonde sm:ml-2 sm:mt-0 sm:block"
+                    >
+                        {t('view_invoice')}
+                        <span aria-hidden="true"> &rarr;</span>
+                    </p>
                 </span>
 
                 {/* Order Status  */}

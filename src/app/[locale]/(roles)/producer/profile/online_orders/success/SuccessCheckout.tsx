@@ -6,9 +6,7 @@ import ShippingInformationBox from '@/app/[locale]/components/ShippingInformatio
 import BillingInformationBox from '@/app/[locale]/components/BillingInformationBox';
 import PaymentInformationBox from '@/app/[locale]/components/PaymentInformationBox';
 import React, { useState, useEffect } from 'react';
-import { ONLINE_ORDER_STATUS } from '@/constants';
-import { formatDateString } from '@/utils/formatDate';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { IBusinessOrder, IOrder } from '@/lib/types/types';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import OrderStatusInformation from './OrderStatusInformation';
@@ -22,7 +20,6 @@ export default function SuccessCheckout({ order, isError }: Props) {
     const { business_orders: bOrders } = order;
 
     const t = useTranslations();
-    const locale = useLocale();
     const { supabase } = useAuth();
 
     const [packStatusArray, setPackStatusArray] = useState<string[]>(

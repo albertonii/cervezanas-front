@@ -12,6 +12,7 @@ import { formatCurrency } from '@/utils/formatCurrency';
 import ShippingInformationBox from '@/app/[locale]/components/ShippingInformationBox';
 import BillingInformationBox from '@/app/[locale]/components/BillingInformationBox';
 import PaymentInformationBox from '@/app/[locale]/components/PaymentInformationBox';
+import OrderStatusInformation from '@/app/[locale]/(roles)/producer/profile/online_orders/success/OrderStatusInformation';
 interface Props {
     isError?: boolean;
     order: IOrder;
@@ -23,6 +24,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
     const t = useTranslations();
 
     const [loading, setLoading] = useState(true);
+    const [orderStatus, setOrderStatus] = useState<string>(order.status);
     const { user } = useAuth();
 
     useEffect(() => {
@@ -61,6 +63,8 @@ export default function SuccessCheckout({ order, isError }: Props) {
 
     return (
         <section className="m-4 sm:py-4 lg:py-6">
+            <OrderStatusInformation order={order} orderStatus={orderStatus} />
+
             <div className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0 bg-beer-foam">
                 <header className="flex flex-col">
                     <span className="flex sm:items-baseline sm:space-x-4">
