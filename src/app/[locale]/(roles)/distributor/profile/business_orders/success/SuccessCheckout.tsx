@@ -1,17 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
-import { IBusinessOrder, IOrder } from '@/lib/types/types';
-import { formatDateString } from '@/utils/formatDate';
-import { formatCurrency } from '@/utils/formatCurrency';
 import BusinessOrderItem from './BusinessOrderItem';
-import { useAuth } from '../../../../../(auth)/Context/useAuth';
-import { ONLINE_ORDER_STATUS } from '@/constants';
 import ShippingInformationBox from '@/app/[locale]/components/ShippingInformationBox';
 import BillingInformationBox from '@/app/[locale]/components/BillingInformationBox';
 import PaymentInformationBox from '@/app/[locale]/components/PaymentInformationBox';
+import React, { useState, useEffect } from 'react';
+import { ONLINE_ORDER_STATUS } from '@/constants';
+import { formatDateString } from '@/utils/formatDate';
+import { useLocale, useTranslations } from 'next-intl';
+import { IBusinessOrder, IOrder } from '@/lib/types/types';
+import { useAuth } from '../../../../../(auth)/Context/useAuth';
+
 interface Props {
     isError?: boolean;
     order: IOrder;
@@ -169,18 +169,16 @@ export default function SuccessCheckout({ order, isError }: Props) {
             </section>
 
             {/* Product and packs information */}
-            <section className="space-y-8 border-gray-200 bg-white px-4 py-4 shadow-sm sm:rounded-lg sm:border">
-                {bOrders &&
-                    bOrders.map((bOrder: IBusinessOrder, index: number) => (
-                        <article key={bOrder.id} className="py-4">
-                            <BusinessOrderItem
-                                bOrder={bOrder}
-                                setPackStatusArray={setPackStatusArray}
-                                index={index}
-                            />
-                        </article>
-                    ))}
-            </section>
+            {bOrders &&
+                bOrders.map((bOrder: IBusinessOrder, index: number) => (
+                    <article key={bOrder.id} className="py-4">
+                        <BusinessOrderItem
+                            bOrder={bOrder}
+                            setPackStatusArray={setPackStatusArray}
+                            index={index}
+                        />
+                    </article>
+                ))}
 
             <section className="bg-gray-100 px-4 py-6 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
                 <div className="col-span-6 space-y-8">

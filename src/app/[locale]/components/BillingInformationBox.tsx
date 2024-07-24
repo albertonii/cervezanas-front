@@ -20,6 +20,7 @@ const BillingInformationBox = ({ billingInfo }: Props) => {
                     <span className="block font-semibold">
                         {billingInfo.name} {billingInfo.lastname}
                     </span>
+
                     <span className="block">
                         {billingInfo.address}, {billingInfo.city},
                         {billingInfo.zipcode},{billingInfo.sub_region} -{' '}

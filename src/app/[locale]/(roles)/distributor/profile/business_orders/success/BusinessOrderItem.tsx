@@ -1,14 +1,14 @@
-import Link from 'next/link';
-import React from 'react';
-import { useLocale, useTranslations } from 'next-intl';
-import { DISTRIBUTOR_ONLINE_ORDER_STATUS, SupabaseProps } from '@/constants';
-import { IBusinessOrder, IOrderItem } from '@/lib/types/types';
 import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
-import { formatCurrency } from '@/utils/formatCurrency';
-import { StatusTimeline } from '@/app/[locale]/components/StatusTimeline';
-import { useAuth } from '../../../../../(auth)/Context/useAuth';
+import ProductBusinnesInformation from '@/app/[locale]/components/ProductBusinnesInformation';
+import React from 'react';
+import { useTranslations } from 'next-intl';
 import { useQueryClient } from 'react-query';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { IBusinessOrder, IOrderItem } from '@/lib/types/types';
+import { useAuth } from '../../../../../(auth)/Context/useAuth';
+import { StatusTimeline } from '@/app/[locale]/components/StatusTimeline';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { DISTRIBUTOR_ONLINE_ORDER_STATUS, SupabaseProps } from '@/constants';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -24,7 +24,6 @@ export default function BusinessOrderItem({
     index,
 }: Props) {
     const t = useTranslations();
-    const locale = useLocale();
     const { supabase } = useAuth();
     const queryClient = useQueryClient();
     const { handleMessage } = useMessage();
@@ -70,7 +69,7 @@ export default function BusinessOrderItem({
     };
 
     return (
-        <section className="relative border-separate space-y-8 rounded-lg border p-2">
+        <section className="relative border-separate space-y-8 rounded-lg border bg-beer-foam p-2">
             {/* Input select que actualizará el estado para ese business_order  */}
             <select
                 id="status"
@@ -111,32 +110,7 @@ export default function BusinessOrderItem({
             <section className="grid grid-cols-1 gap-x-2 space-y-4 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-2 lg:gap-x-4">
                 {/* Display the product information for this pack  */}
                 {bOrder.order_items && (
-                    <div className="col-span-2">
-                        <h3 className="text-xl font-medium text-gray-900 hover:text-beer-draft">
-                            <Link
-                                href={`/products/${bOrder.order_items[0].product_packs?.products?.id}`}
-                                locale={locale}
-                            >
-                                {t('name')}:{' '}
-                                {
-                                    bOrder.order_items[0].product_packs
-                                        ?.products?.name
-                                }
-                            </Link>
-                        </h3>
-
-                        <span className="space-y-1">
-                            <p className="text-sm text-gray-500">
-                                {t('description')}
-                            </p>
-                            <p className="truncate">
-                                {
-                                    bOrder.order_items[0].product_packs
-                                        ?.products?.description
-                                }
-                            </p>
-                        </span>
-                    </div>
+                    <ProductBusinnesInformation bOrder={bOrder} />
                 )}
 
                 {bOrder.order_items?.map((orderItem: IOrderItem) => {

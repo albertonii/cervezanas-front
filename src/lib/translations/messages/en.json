@@ -793,6 +793,7 @@
     "contracts_cps": "Contracts with consumption points",
     "order_business_pack_status": "Order pack status",
     "distributor_information": "Distributor information",
+    "producer_information": "Producer information",
     "username": "Username",
     "is_legal_age": "I am legal age for user registration > 18 years old",
     "is_legal_age_description": "In order to register you must be of legal age",

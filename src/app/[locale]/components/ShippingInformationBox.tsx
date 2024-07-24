@@ -11,7 +11,7 @@ const ShippingInformationBox = ({ shippingInfo }: Props) => {
 
     return (
         <dl className="grid grid-cols-2 gap-6 text-sm sm:grid-cols-2 md:gap-x-8 lg:col-span-6">
-            <div>
+            <address>
                 <dt className="font-medium text-gray-900">
                     {t('shipping_address')}
                 </dt>
@@ -37,7 +37,7 @@ const ShippingInformationBox = ({ shippingInfo }: Props) => {
                         </>
                     )}
                 </dd>
-            </div>
+            </address>
         </dl>
     );
 };

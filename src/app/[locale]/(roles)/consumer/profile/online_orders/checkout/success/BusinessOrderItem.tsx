@@ -1,11 +1,11 @@
-import { useTranslations } from 'next-intl';
-import React, { useEffect, useState } from 'react';
-import { SupabaseProps } from '@/constants';
-import { IBusinessOrder, IOrderItem } from '@/lib/types/types';
-import { formatCurrency } from '@/utils/formatCurrency';
 import Button from '@/app/[locale]/components/common/Button';
-import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
 import ProductReview from '@/app/[locale]/components/reviews/ProductReview';
+import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
+import React, { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { SupabaseProps } from '@/constants';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { IBusinessOrder, IOrderItem } from '@/lib/types/types';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
