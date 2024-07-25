@@ -4,7 +4,7 @@ import { formatCurrency } from '@/utils/formatCurrency';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import React from 'react';
-import DisplayImageProduct from './common/DisplayImageProduct';
+import DisplayImageProduct from './DisplayImageProduct';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 

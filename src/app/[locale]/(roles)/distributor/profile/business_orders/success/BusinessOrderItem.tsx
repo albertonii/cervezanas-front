@@ -1,4 +1,4 @@
-import OrderItemCard from '@/app/[locale]/components/OrderItemCard';
+import OrderItemCard from '@/app/[locale]/components/common/OrderItemCard';
 import ProductBusinnesInformation from '@/app/[locale]/components/ProductBusinnesInformation';
 import React from 'react';
 import { useTranslations } from 'next-intl';
@@ -8,7 +8,7 @@ import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import { StatusTimeline } from '@/app/[locale]/components/StatusTimeline';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { DISTRIBUTOR_ONLINE_ORDER_STATUS } from '@/constants';
-import ProducerCard from '@/app/[locale]/components/ProducerCard';
+import ProducerCard from '@/app/[locale]/components/common/ProducerCard';
 
 interface Props {
     bOrder: IBusinessOrder;

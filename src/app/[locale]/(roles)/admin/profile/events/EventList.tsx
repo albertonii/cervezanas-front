@@ -140,7 +140,7 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
                     color="beer-blonde"
                     size="xLarge"
                     absolute
-                    center
+                    absolutePosition="center"
                 />
             )}
 

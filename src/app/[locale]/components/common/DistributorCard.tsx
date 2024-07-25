@@ -2,26 +2,28 @@ import { IBusinessOrder } from '@/lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import React from 'react';
-import DisplayImageProfile from './common/DisplayImageProfile';
+import DisplayImageProfile from './DisplayImageProfile';
 
 interface Props {
     bOrder: IBusinessOrder;
 }
 
-const ProducerCard = ({ bOrder }: Props) => {
+const DistributorCard = ({ bOrder }: Props) => {
     const t = useTranslations();
     const locale = useLocale();
 
     return (
         <fieldset className="grid grid-cols-1 justify-between gap-2 rounded-lg border border-gray-200 sm:space-x-4 sm:p-4 lg:grid-cols-2 lg:space-x-2 lg:p-6 ">
-            <legend className="text-lg">{t('producer_information')}</legend>
+            <legend className="text-lg">{t('distributor_information')}</legend>
 
             <section className="flex space-x-4">
                 <figure className="aspect-w-1  aspect-h-1 sm:aspect-none col-span-2 h-20 w-auto flex-shrink-0 justify-center overflow-hidden rounded-lg md:col-span-1 lg:h-32 ">
                     <DisplayImageProfile
                         width={100}
                         height={100}
-                        imgSrc={bOrder.producer_user?.users?.avatar_url ?? ''}
+                        imgSrc={
+                            bOrder.distributor_user?.users?.avatar_url ?? ''
+                        }
                         class={''}
                     />
                 </figure>
@@ -32,11 +34,11 @@ const ProducerCard = ({ bOrder }: Props) => {
 
                         <p className="text-medium truncate font-bold text-gray-900 hover:text-beer-draft ">
                             <Link
-                                href={`/user-info/${bOrder.producer_id}`}
+                                href={`/user-info/${bOrder.distributor_id}`}
                                 locale={locale}
                                 target={'_blank'}
                             >
-                                {bOrder.producer_user?.users?.username}
+                                {bOrder.distributor_user?.users?.username}
                             </Link>
                         </p>
                     </span>
@@ -44,17 +46,17 @@ const ProducerCard = ({ bOrder }: Props) => {
                     <span className="space-y-1">
                         <p className="text-sm text-gray-500">{t('fullname')}</p>
                         <p className="truncate">
-                            {bOrder.producer_user?.users?.name}
+                            {bOrder.distributor_user?.users?.name}
                         </p>
                         <p className="truncate ">
-                            {bOrder.producer_user?.users?.lastname}
+                            {bOrder.distributor_user?.users?.lastname}
                         </p>
                     </span>
 
                     <span className="space-y-1">
                         <p className="text-sm text-gray-500">{t('email')}</p>
                         <p className="truncate">
-                            {bOrder.producer_user?.users?.email}
+                            {bOrder.distributor_user?.users?.email}
                         </p>
                     </span>
                 </div>
@@ -63,4 +65,4 @@ const ProducerCard = ({ bOrder }: Props) => {
     );
 };
 
-export default ProducerCard;
+export default DistributorCard;

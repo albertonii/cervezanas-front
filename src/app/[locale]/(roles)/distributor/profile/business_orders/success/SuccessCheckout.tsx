@@ -1,17 +1,15 @@
 'use client';
 
-import Link from 'next/link';
 import BusinessOrderItem from './BusinessOrderItem';
 import ShippingInformationBox from '@/app/[locale]/components/ShippingInformationBox';
 import BillingInformationBox from '@/app/[locale]/components/BillingInformationBox';
 import PaymentInformationBox from '@/app/[locale]/components/PaymentInformationBox';
 import React, { useState, useEffect } from 'react';
-import { ONLINE_ORDER_STATUS } from '@/constants';
-import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { IBusinessOrder, IOrder } from '@/lib/types/types';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
-import OrderStatusInformation from '@/app/[locale]/(roles)/producer/profile/online_orders/success/OrderStatusInformation';
+import OrderStatusInformation from '@/app/[locale]/components/common/OrderStatusInformation';
+import BusinessOrderStatusInformation from '@/app/[locale]/components/common/BussinessOrderStatusInformation';
 
 interface Props {
     isError?: boolean;
@@ -22,7 +20,6 @@ export default function SuccessCheckout({ order, isError }: Props) {
     const { business_orders: bOrders } = order;
 
     const t = useTranslations();
-    const locale = useLocale();
     const { supabase } = useAuth();
 
     const [packStatusArray, setPackStatusArray] = useState<string[]>(

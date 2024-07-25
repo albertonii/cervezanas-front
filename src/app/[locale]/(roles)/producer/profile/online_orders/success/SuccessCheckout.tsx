@@ -9,7 +9,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { IBusinessOrder, IOrder } from '@/lib/types/types';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
-import OrderStatusInformation from './OrderStatusInformation';
+import OrderStatusInformation from '../../../../../components/common/OrderStatusInformation';
 
 interface Props {
     isError?: boolean;

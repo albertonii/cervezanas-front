@@ -1,5 +1,5 @@
-import OrderItemCard from '@/app/[locale]/components/OrderItemCard';
-import DistributorCard from '@/app/[locale]/components/DistributorCard';
+import OrderItemCard from '@/app/[locale]/components/common/OrderItemCard';
+import DistributorCard from '@/app/[locale]/components/common/DistributorCard';
 import ProductBusinnesInformation from '@/app/[locale]/components/ProductBusinnesInformation';
 import React from 'react';
 import { IBusinessOrder, IOrderItem } from '@/lib/types/types';
