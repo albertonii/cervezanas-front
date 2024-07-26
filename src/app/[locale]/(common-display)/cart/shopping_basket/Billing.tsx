@@ -2,16 +2,17 @@ import AddressRadioInput from './AddressRadioInput';
 import React, { ComponentProps, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { removeBillingAddressById } from '../actions';
-import { NewBillingAddress } from './NewBillingAddress';
+import { NewBillingIndividualAddress } from './NewBillingIndividualAddress';
 import { useMutation, useQueryClient } from 'react-query';
 import { IBillingAddress } from '@/lib//types/types';
 import { faMoneyBill } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { DeleteAddress } from '@/app/[locale]/components/modals/DeleteAddress';
 import { FormBillingData, ValidationSchemaShipping } from './ShoppingBasket';
+import { DeleteAddress } from '@/app/[locale]/components/modals/DeleteAddress';
 import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
+import NewBillingModal from './NewBillingModal';
 
 interface Props {
     selectedBillingAddress: string;
@@ -116,7 +117,7 @@ export default function Billing({
                 )}
             </ul>
 
-            {billingAddresses.length < 5 && <NewBillingAddress />}
+            {billingAddresses.length < 5 && <NewBillingModal />}
 
             {showDeleteModal && (
                 <DeleteAddress

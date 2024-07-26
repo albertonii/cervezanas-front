@@ -1,11 +1,5 @@
 import useOnClickOutside from '../../../../hooks/useOnOutsideClickDOM';
-import React, {
-    ComponentProps,
-    useCallback,
-    useEffect,
-    useRef,
-    useState,
-} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Button from '../common/Button';
 import Spinner from '../common/Spinner';
 import PortalModal from './PortalModal';
@@ -20,6 +14,7 @@ interface Props {
     showModal: boolean;
     title: string;
     btnTitle: string;
+    triggerBtnTitle?: string;
     description: string;
     children: JSX.Element;
     icon?: IconDefinition;
@@ -36,41 +31,33 @@ interface Props {
     hasErrors?: boolean;
 }
 
-export default function Modal(props: Props) {
-    const {
-        btnTitle,
-        title,
-        description,
-        children,
-        handler,
-        handlerClose,
-        icon,
-        classIcon,
-        classContainer,
-        color,
-        btnSize,
-        showBtn,
-        showModal,
-        setShowModal,
-        showFooter: showFooter = true,
-        btnCancelTitle,
-        handleCustomClose: hCustomCLose,
-        hasErrors,
-    } = props;
-
+export default function Modal({
+    showBtn,
+    showModal,
+    title,
+    btnTitle,
+    triggerBtnTitle,
+    description,
+    children,
+    icon,
+    classIcon,
+    classContainer,
+    color,
+    btnSize,
+    setShowModal,
+    showFooter = true,
+    btnCancelTitle,
+    handler,
+    handlerClose,
+    handleCustomClose,
+    hasErrors,
+}: Props) {
     const t = useTranslations();
-
     const [isLoading, setIsLoading] = useState(false);
-
     const modalRef = useRef<HTMLDivElement>(null);
 
     const handleShowModal = (b: boolean) => {
         setShowModal(b);
-    };
-
-    const handleClickOutsideCallback = () => {
-        if (handlerClose) handlerClose();
-        handleShowModal(false);
     };
 
     const handleAccept = async () => {
@@ -78,17 +65,16 @@ export default function Modal(props: Props) {
 
         setIsLoading(true);
 
-        setTimeout(() => {
-            handler()
-                .then(() => {
-                    handleShowModal(false);
-                })
-                .catch((e: Error) => {
-                    console.error(e);
-                });
-        }, 300);
-
-        setIsLoading(false);
+        try {
+            const result = await handler();
+            if (result.shouldClose) {
+                handleShowModal(false);
+            }
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const handleClose = () => {
@@ -96,28 +82,18 @@ export default function Modal(props: Props) {
         handleShowModal(false);
     };
 
-    const handleCustomClose = () => {
-        if (hCustomCLose) hCustomCLose();
+    const handleCustomClose_ = () => {
+        if (handleCustomClose) handleCustomClose();
     };
 
-    useOnClickOutside(modalRef, () => handleClickOutsideCallback());
+    useOnClickOutside(modalRef, () => handleClose());
 
-    // handle what happens on key press
     const handleKeyPress = useCallback(
         (event: KeyboardEvent) => {
-            const handleClose = () => {
-                handleShowModal(false);
-                if (handlerClose) handlerClose();
-            };
-
             if (event.key === 'Escape') handleClose();
         },
-        [handlerClose],
+        [handleClose],
     );
-
-    useEffect(() => {
-        handleShowModal(showModal);
-    }, [showModal]);
 
     useEffect(() => {
         if (showModal) {
@@ -145,7 +121,7 @@ export default function Modal(props: Props) {
                             title={title}
                             size={btnSize}
                         >
-                            {t(btnTitle)}
+                            {triggerBtnTitle ? t(triggerBtnTitle) : t(btnTitle)}
                         </IconButton>
                     ) : (
                         <Button
@@ -154,7 +130,7 @@ export default function Modal(props: Props) {
                             title={title}
                             primary
                         >
-                            {t(btnTitle)}
+                            {triggerBtnTitle ? t(triggerBtnTitle) : t(btnTitle)}
                         </Button>
                     )}
                 </>
@@ -163,13 +139,11 @@ export default function Modal(props: Props) {
             {showModal && (
                 <PortalModal wrapperId="modal-portal">
                     <section
-                        className={`${
+                        className={`fixed inset-0 z-50 flex items-start justify-center pt-16 outline-none focus:outline-none bg-beer-blonde bg-opacity-50 ${
                             isLoading
                                 ? 'overflow-hidden overscroll-none'
                                 : 'overflow-y-auto overflow-x-hidden'
-                        } fixed inset-0 z-50 flex items-start justify-center  pt-16 outline-none focus:outline-none
-                            bg-beer-blonde bg-opacity-50
-                        `}
+                        }`}
                     >
                         {/* The modal  */}
                         <div
@@ -232,7 +206,7 @@ export default function Modal(props: Props) {
                                                     class=""
                                                     btnType="button"
                                                     medium
-                                                    onClick={handleCustomClose}
+                                                    onClick={handleCustomClose_}
                                                 >
                                                     {t(btnCancelTitle)}
                                                 </Button>
@@ -252,7 +226,7 @@ export default function Modal(props: Props) {
                                 )}
 
                                 {isLoading && (
-                                    <figure className="fixed inset-0 z-50 flex items-center justify-center">
+                                    <div className="fixed inset-0 z-50 flex items-center justify-center">
                                         <Spinner
                                             size="large"
                                             color="blonde-beer"
@@ -260,16 +234,13 @@ export default function Modal(props: Props) {
                                             absolute={true}
                                             class="z-50"
                                         />
-                                    </figure>
+                                    </div>
                                 )}
                             </div>
 
-                            <figure
-                                className={`${
-                                    isLoading &&
-                                    'absolute inset-0 z-40 bg-beer-softBlondeBubble opacity-75'
-                                }`}
-                            ></figure>
+                            {isLoading && (
+                                <div className="absolute inset-0 z-40 bg-beer-softBlondeBubble opacity-75"></div>
+                            )}
                         </div>
                     </section>
                 </PortalModal>

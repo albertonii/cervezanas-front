@@ -133,7 +133,7 @@ export function ProductList({
                     color="beer-blonde"
                     size="xLarge"
                     absolute
-                    center
+                    absolutePosition="center"
                 />
             )}
 

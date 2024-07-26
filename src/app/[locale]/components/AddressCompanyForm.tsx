@@ -1,19 +1,29 @@
 import useSWRMutation from 'swr/mutation';
 import InputLabel from './common/InputLabel';
-import React, { ComponentProps, useEffect, useState } from 'react';
+import React, {
+    ComponentProps,
+    FormEventHandler,
+    useEffect,
+    useState,
+} from 'react';
 import { useTranslations } from 'next-intl';
 import { DisplayInputError } from './common/DisplayInputError';
-import { JSONSubRegion } from '@/lib//types/distribution_areas';
+import { JSONSubRegion } from '@/lib/types/distribution_areas';
 
 interface Props {
     form: ComponentProps<any>;
     addressNameId: string;
+    onSubmit?: FormEventHandler<HTMLFormElement>;
 }
 
 const fetcher = (arg: any, ...args: any) =>
     fetch(arg, ...args).then((res) => res.json());
 
-export default function AddressForm({ form, addressNameId }: Props) {
+export default function AddressCompanyForm({
+    form,
+    addressNameId,
+    onSubmit,
+}: Props) {
     const t = useTranslations();
 
     const [selectedCountry, setSelectCountry] = useState<string>();
@@ -42,16 +52,12 @@ export default function AddressForm({ form, addressNameId }: Props) {
 
         switch (selectedCountry) {
             case 'spain':
-                // Default subregion to avoid error in form
-                // setValue('sub_region', 'Álava');
                 setSubRegionType('provincesAndCities');
                 break;
             case 'italy':
-                // setValue('sub_region', 'Agrigento');
                 setSubRegionType('provinces');
                 break;
             case 'france':
-                // setValue('sub_region', 'Ain');
                 setSubRegionType('departments');
                 break;
             default:
@@ -87,15 +93,8 @@ export default function AddressForm({ form, addressNameId }: Props) {
         setValue('region', subRegion.region);
     };
 
-    const handleOnInput = (
-        e: React.FormEvent<HTMLInputElement | HTMLSelectElement>,
-    ) => {
-        const { name, value } = e.currentTarget;
-        setValue(name, value);
-    };
-
     return (
-        <form className="w-full">
+        <form className="w-full" onSubmit={onSubmit}>
             {/* Address Information */}
             <fieldset className="mb-3 space-y-4 rounded bg-beer-foam">
                 <address className="w-full space-y-2">
@@ -144,6 +143,7 @@ export default function AddressForm({ form, addressNameId }: Props) {
 
                 <address className="w-full space-y-2">
                     <h2 className="my-2 text-lg font-semibold tracking-wide text-gray-700">
+                        {/* {t("shipping_address")} */}
                         {t(`${addressNameId}_address`)}
                     </h2>
 
@@ -198,9 +198,6 @@ export default function AddressForm({ form, addressNameId }: Props) {
                                     onChange={(e) => {
                                         handleSelectCountry(e);
                                     }}
-                                    onInput={(e) => {
-                                        handleOnInput(e);
-                                    }}
                                 >
                                     <option key={'ES'} value={'spain'}>
                                         {t('countries.spain')}
@@ -236,9 +233,6 @@ export default function AddressForm({ form, addressNameId }: Props) {
                                     onChange={(e) => {
                                         handleSelectSubRegion(e);
                                     }}
-                                    onInput={(e) => {
-                                        handleOnInput(e);
-                                    }}
                                 >
                                     {subRegions &&
                                         subRegions.map((subRegion: any) => (
@@ -273,6 +267,18 @@ export default function AddressForm({ form, addressNameId }: Props) {
                                 }
                             />
 
+                            <InputLabel
+                                form={form}
+                                label={'city'}
+                                registerOptions={{
+                                    required: true,
+                                }}
+                                placeholder={`${t('loc_city')}`}
+                                disabled={
+                                    !subRegions || subRegions.length === 0
+                                }
+                            />
+
                             <label className="my-3 flex flex-col h-12 w-1/2 items-start space-y-2 text-sm text-gray-600 py-3">
                                 <span className="font-medium">
                                     {t('loc_city')}
@@ -285,9 +291,6 @@ export default function AddressForm({ form, addressNameId }: Props) {
                                         !citiesInSubRegions ||
                                         citiesInSubRegions.length === 0
                                     }
-                                    onInput={(e) => {
-                                        handleOnInput(e);
-                                    }}
                                 >
                                     {citiesInSubRegions &&
                                         citiesInSubRegions.map(

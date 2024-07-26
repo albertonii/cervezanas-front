@@ -66,7 +66,14 @@ export function OrderList() {
     }, [orders, query]);
 
     if (!isReady)
-        return <DynamicSpinner color="beer-blonde" size="xLarge" center />;
+        return (
+            <DynamicSpinner
+                color="beer-blonde"
+                size="xLarge"
+                absolute
+                absolutePosition="center"
+            />
+        );
 
     return (
         <section className="mt-2 mb-4 space-y-3 rounded-md border-2 border-beer-blonde  bg-white px-6 py-4 shadow-2xl">
@@ -83,7 +90,7 @@ export function OrderList() {
                     color="beer-blonde"
                     size="xLarge"
                     absolute
-                    center
+                    absolutePosition="center"
                 />
             )}
 

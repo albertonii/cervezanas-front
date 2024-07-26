@@ -36,44 +36,34 @@ interface Props {
     form: UseFormReturn<any, any>;
 }
 
-export default function ModalWithForm(props: Props) {
-    const {
-        btnTitle,
-        triggerBtnTitle,
-        title,
-        description,
-        children,
-        handler,
-        handlerClose,
-        icon,
-        classIcon,
-        classContainer,
-        color,
-        btnSize,
-        showBtn,
-        showModal,
-        setShowModal,
-        showFooter: showFooter = true,
-        btnCancelTitle,
-        handleCustomClose: hCustomCLose,
-        form,
-    } = props;
-
+export default function ModalWithForm({
+    btnTitle,
+    triggerBtnTitle,
+    title,
+    description,
+    children,
+    handler,
+    handlerClose,
+    icon,
+    classIcon,
+    classContainer,
+    color,
+    btnSize,
+    showBtn,
+    showModal,
+    setShowModal,
+    showFooter: showFooter = true,
+    btnCancelTitle,
+    handleCustomClose: hCustomCLose,
+    form,
+}: Props) {
     const t = useTranslations();
-
-    const { trigger } = form;
-
     const [isLoading, setIsLoading] = useState(false);
-
     const modalRef = useRef<HTMLDivElement>(null);
+    const { trigger } = form;
 
     const handleShowModal = (b: boolean) => {
         setShowModal(b);
-    };
-
-    const handleClickOutsideCallback = () => {
-        if (handlerClose) handlerClose();
-        handleShowModal(false);
     };
 
     const handleAccept = async () => {
@@ -88,7 +78,6 @@ export default function ModalWithForm(props: Props) {
 
         try {
             await handler();
-            setIsLoading(false);
             handleShowModal(false);
         } catch (e) {
             console.error(e);
@@ -106,24 +95,14 @@ export default function ModalWithForm(props: Props) {
         if (hCustomCLose) hCustomCLose();
     };
 
-    useOnClickOutside(modalRef, () => handleClickOutsideCallback());
+    useOnClickOutside(modalRef, () => handleClose());
 
-    // handle what happens on key press
     const handleKeyPress = useCallback(
         (event: KeyboardEvent) => {
-            const handleClose = () => {
-                handleShowModal(false);
-                if (handlerClose) handlerClose();
-            };
-
             if (event.key === 'Escape') handleClose();
         },
-        [handlerClose],
+        [handleClose],
     );
-
-    useEffect(() => {
-        handleShowModal(showModal);
-    }, [showModal]);
 
     useEffect(() => {
         if (showModal) {
@@ -154,116 +133,110 @@ export default function ModalWithForm(props: Props) {
 
             {showModal && (
                 <PortalModal wrapperId="form-modal-portal">
-                    <>
-                        <section
-                            className={`${
-                                isLoading
-                                    ? 'overflow-hidden overscroll-none'
-                                    : 'overflow-y-auto overflow-x-hidden'
-                            } fixed inset-0 z-50 flex items-start justify-center  pt-16 outline-none focus:outline-none
+                    <section
+                        className={`${
+                            isLoading
+                                ? 'overflow-hidden overscroll-none'
+                                : 'overflow-y-auto overflow-x-hidden'
+                        } fixed inset-0 z-50 flex items-start justify-center  pt-16 outline-none focus:outline-none
                             bg-beer-blonde bg-opacity-50
 
                             `}
+                    >
+                        {/* The modal  */}
+                        <div
+                            className={`relative mx-4 my-6 w-[94vw] lg:w-3/4 lg:max-w-none xl:w-3/5`}
+                            ref={modalRef}
                         >
-                            {/* The modal  */}
+                            {/*content*/}
                             <div
-                                className={`relative mx-4 my-6 w-[94vw] lg:w-3/4 lg:max-w-none xl:w-3/5`}
-                                ref={modalRef}
+                                className={`relative flex w-full flex-col rounded-lg border-0 bg-beer-foam shadow-lg outline-none focus:outline-none`}
                             >
-                                {/*content*/}
-                                <div
-                                    className={`relative flex w-full flex-col rounded-lg border-0 bg-beer-foam shadow-lg outline-none focus:outline-none`}
-                                >
-                                    {/*header*/}
-                                    <div className="border-slate-200 flex items-start justify-between rounded-t border-b border-solid p-5">
-                                        <h3 className="text-3xl font-semibold">
-                                            {t(title)}
-                                        </h3>
+                                {/*header*/}
+                                <div className="border-slate-200 flex items-start justify-between rounded-t border-b border-solid p-5">
+                                    <h3 className="text-3xl font-semibold">
+                                        {t(title)}
+                                    </h3>
 
-                                        <button
-                                            className="float-right ml-auto border-0 p-1 text-3xl font-semibold leading-none text-black outline-none focus:outline-none"
-                                            onClick={() => handleClose()}
+                                    <button
+                                        className="float-right ml-auto border-0 p-1 text-3xl font-semibold leading-none text-black outline-none focus:outline-none"
+                                        onClick={() => handleClose()}
+                                    >
+                                        <span className=" block h-6 w-6 text-2xl text-black outline-none focus:outline-none">
+                                            <FontAwesomeIcon
+                                                icon={faXmark}
+                                                style={{
+                                                    color: 'beer-dark',
+                                                }}
+                                                onClick={() => handleClose()}
+                                                title={'Close Modal'}
+                                            />
+                                        </span>
+                                    </button>
+                                </div>
+
+                                {/*body*/}
+                                <div className="relative flex-auto p-5">
+                                    {!isEmpty(description) && (
+                                        <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
+                                            {t(description)}
+                                        </p>
+                                    )}
+
+                                    {children}
+                                </div>
+
+                                {/*footer*/}
+                                {showFooter && (
+                                    <footer className="border-slate-200 grid grid-cols-1 place-items-center gap-2 rounded-b border-t border-solid p-6 sm:grid-cols-2">
+                                        <Button
+                                            primary
+                                            class="mr-4"
+                                            medium
+                                            btnType="submit"
+                                            onClick={handleAccept}
+                                            disabled={isLoading}
                                         >
-                                            <span className=" block h-6 w-6 text-2xl text-black outline-none focus:outline-none">
-                                                <FontAwesomeIcon
-                                                    icon={faXmark}
-                                                    style={{
-                                                        color: 'beer-dark',
-                                                    }}
-                                                    onClick={() =>
-                                                        handleClose()
-                                                    }
-                                                    title={'Close Modal'}
-                                                />
-                                            </span>
-                                        </button>
-                                    </div>
+                                            {t(btnTitle)}
+                                        </Button>
 
-                                    {/*body*/}
-                                    <div className="relative flex-auto p-5">
-                                        {!isEmpty(description) && (
-                                            <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
-                                                {t(description)}
-                                            </p>
-                                        )}
-
-                                        {children}
-                                    </div>
-
-                                    {/*footer*/}
-                                    {showFooter && (
-                                        <footer className="border-slate-200 grid grid-cols-1 place-items-center gap-2 rounded-b border-t border-solid p-6 sm:grid-cols-2">
-                                            <Button
-                                                primary
-                                                class="mr-4"
-                                                medium
-                                                btnType="submit"
-                                                onClick={handleAccept}
-                                                disabled={isLoading}
-                                            >
-                                                {t(btnTitle)}
-                                            </Button>
-
-                                            {btnCancelTitle ? (
-                                                <>
-                                                    <Button
-                                                        accent
-                                                        class=""
-                                                        btnType="button"
-                                                        medium
-                                                        onClick={
-                                                            handleCustomClose
-                                                        }
-                                                        disabled={isLoading}
-                                                    >
-                                                        {t(btnCancelTitle)}
-                                                    </Button>
-                                                </>
-                                            ) : (
+                                        {btnCancelTitle ? (
+                                            <>
                                                 <Button
                                                     accent
                                                     class=""
                                                     btnType="button"
                                                     medium
-                                                    onClick={handleClose}
+                                                    onClick={handleCustomClose}
                                                     disabled={isLoading}
                                                 >
-                                                    {t('close')}
+                                                    {t(btnCancelTitle)}
                                                 </Button>
-                                            )}
-                                        </footer>
-                                    )}
-                                </div>
-
-                                <figure
-                                    className={`${
-                                        isLoading &&
-                                        'absolute inset-0 z-40 bg-beer-softBlondeBubble opacity-75'
-                                    }`}
-                                ></figure>
+                                            </>
+                                        ) : (
+                                            <Button
+                                                accent
+                                                class=""
+                                                btnType="button"
+                                                medium
+                                                onClick={handleClose}
+                                                disabled={isLoading}
+                                            >
+                                                {t('close')}
+                                            </Button>
+                                        )}
+                                    </footer>
+                                )}
                             </div>
-                        </section>
-                    </>
+
+                            <figure
+                                className={`${
+                                    isLoading &&
+                                    'absolute inset-0 z-40 bg-beer-softBlondeBubble opacity-75'
+                                }`}
+                            ></figure>
+                        </div>
+                    </section>
                 </PortalModal>
             )}
         </>
