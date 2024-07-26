@@ -80,7 +80,7 @@ export function Sidebar({ sidebarLinks }: Props) {
                             ? 'translate-x-0'
                             : '-translate-x-full lg:translate-x-0'
                     } fixed top-0 left-0 z-10 h-full w-64 transform bg-white duration-300 ease-in-out shadow-lg lg:relative lg:top-0 
-                        lg:left-0 lg:shadow-none lg:transform-none lg:block bg-[url('/assets/rec-graf4b.png')] bg-repeat bg-top bg-auto
+                        lg:left-0 lg:shadow-none lg:transform-none lg:block bg-gradient-to-t from-slate-50 to-gray-100
                         overflow-y-auto dark:bg-gray-800
                     `}
                     aria-label="Sidebar"

@@ -4,6 +4,7 @@ import React from 'react';
 import MonthlyBeers from './homepage/MonthlyBeers';
 import { useAuth } from './(auth)/Context/useAuth';
 import { TopBeers } from './homepage/TopBeers';
+import { SliderMobile } from './homepage/SliderMobile';
 import { Homeheader } from './homepage/Homeheader';
 import { Highlights } from './homepage/Highlights';
 import { MonthlyBeersDesign } from './homepage/MonthlyBeersDesign';
@@ -29,7 +30,8 @@ export default function Homepage({ monthlyProducts }: Props) {
     }
 
     return (
-        <section className="h-full ">
+        <section className="h-full  bg-[url('/assets/home/bg-home.webp')] bg-auto bg-repeat bg-top">
+           <SliderMobile />
             <Homeheader />
             <Highlights />
             <TopBeers />

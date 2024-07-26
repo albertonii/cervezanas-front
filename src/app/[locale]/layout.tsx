@@ -47,7 +47,7 @@ export default async function AppLocaleLayout({
                 <HeaderMenu i18nLocaleArray={i18n.locales} />
                 <section
                     className={classNames(
-                        'relative mx-auto w-full overflow-auto lg:container',
+                        'relative mx-auto w-full overflow-auto lg:container max-w-[1536px] lg:max-w-[1536px]',
                     )}
                 >
                     <Breadcrumb
@@ -62,7 +62,7 @@ export default async function AppLocaleLayout({
 
                 <main
                     className={classNames(
-                        'relative mx-auto my-0 min-h-[60vh] w-full transform pt-0 transition lg:container mb-10',
+                        'relative mx-auto my-0 min-h-[60vh] w-full transform pt-0 transition lg:container mb-10 max-w-[1900px] lg:max-w-full',
                     )}
                 >
                     <MessageList />

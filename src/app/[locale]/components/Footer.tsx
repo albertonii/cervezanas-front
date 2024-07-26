@@ -9,8 +9,8 @@ export default function Footer() {
     const locale = useLocale();
 
     return (
-        <footer className="relative w-full ">
-            <div className="relative bg-cerv-coffee">
+        <footer className="relative w-full bg-cerv-coffee border-t-8 border-beer-blonde">
+            <div className="relative bg-[url('/assets/rec-graf4c.png')] bg-contain bg-top bg-no-repeat">
                 <div className="mx-auto px-4 pt-12 sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
                     <div className="row-gap-10 mb-8 grid gap-16 lg:grid-cols-6">
                         {/* Descripción de la empresa */}
@@ -31,13 +31,13 @@ export default function Footer() {
                                     priority={true}
                                 />
 
-                                <span className="ml-2 text-xl font-bold uppercase tracking-wide text-cerv-banana">
+                                <span className="ml-2 text-3xl font-bold uppercase tracking-wide text-cerv-banana">
                                     Cervezanas
                                 </span>
                             </Link>
 
                             <div className=" mt-4 ">
-                                <p className="w-[200px] sm:w-[1000px] max-w-sm sm:max-w-lg lg:max-w-2xl text-deep-purple-50 text-sm text-white">
+                                <p className="w-[200px] sm:w-[1000px] max-w-sm sm:max-w-lg lg:max-w-2xl text-deep-purple-50 text-xl italic text-beer-softFoam">
                                     Somos una comunidad de productores,
                                     distribuidores y apasionados de la cerveza
                                     artesanal, buscando fomentar el intercambio
@@ -50,7 +50,7 @@ export default function Footer() {
                         {/* Links */}
                         <div className="row-gap-8 grid grid-cols-1 gap-5 sm:grid-cols-12 lg:col-span-12">
                             {/* Quienes somos  */}
-                            <div className="col-span-12 sm:col-span-6 lg:col-span-4">
+                            <div className="col-span-12 sm:col-span-6 lg:col-span-3">
                                 <p className="font-semibold tracking-wide text-cerv-banana">
                                     {t('who_we_are_question')}
                                 </p>
@@ -105,7 +105,7 @@ export default function Footer() {
                             </div>
 
                             {/* Contactar  */}
-                            <div className="col-span-12 sm:col-span-6 lg:col-span-4 sm:flex gap-4">
+                            <div className="col-span-12 sm:col-span-6 lg:col-span-3 sm:flex gap-4">
                                 <div>
                                     <p className="font-semibold tracking-wide text-cerv-banana">
                                         {t('contact_us')}
@@ -122,7 +122,8 @@ export default function Footer() {
                                         </span>
                                     </p>
                                 </div>
-
+                            </div>
+                            <div className="col-span-12 sm:col-span-6 lg:col-span-3 sm:flex gap-4">
                                 <ul className="mt-2 space-y-2">
                                     <li>
                                         <Link
@@ -164,7 +165,7 @@ export default function Footer() {
                             </div>
 
                             {/* Sistemas de pago aceptado  */}
-                            <div className="col-span-12 sm:col-span-6 lg:col-span-4">
+                            <div className="col-span-12 sm:col-span-6 lg:col-span-3">
                                 <p className="font-semibold tracking-wide  text-cerv-banana">
                                     {t('payment_system')}
                                 </p>

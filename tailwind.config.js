@@ -17,6 +17,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+        serif: ['ui-serif', 'Georgia'],
       },
       keyframes: {
         wiggle: {
