@@ -21,6 +21,7 @@ interface IconButtonProps {
     accent?: boolean;
     btnType?: string;
     size?: 'small' | 'medium' | 'large' | 'xLarge' | 'xxLarge';
+    isLoading?: boolean;
 }
 
 export function IconButton({
@@ -40,6 +41,7 @@ export function IconButton({
     accent,
     btnType,
     size,
+    isLoading,
 }: IconButtonProps) {
     const [hoverColor, setHoverColor] = useState(
         isActive ? 'filled' : 'unfilled',
@@ -81,6 +83,24 @@ export function IconButton({
         }
     };
 
+    const getSizeClass = () => {
+        if (size === 'small') return 'text-md px-4';
+        if (size === 'medium') return 'px-1 sm:px-4 text-base';
+        if (size === 'large') return 'px-2 sm:px-5 text-base sm:text-lg';
+        if (size === 'xLarge') return 'px-3 sm:px-6 text-lg sm:text-xl';
+        if (size === 'xxLarge') return 'px-3 sm:px-6 text-xl sm:text-2xl';
+        return '';
+    };
+
+    const getColorClass = () => {
+        if (primary)
+            return 'border-2 border-beer-blonde bg-beer-softBlonde hover:bg-beer-blonde';
+        if (accent)
+            return 'border-2 border-beer-blonde bg-beer-foam hover:bg-beer-softFoam';
+        if (danger) return 'bg-red-500 hover:bg-red-600 dark:bg-red-600';
+        return 'shrink-0 hover:bg-beer-softBlonde';
+    };
+
     return (
         <button
             type={`${getButtonType()}`}
@@ -90,57 +110,44 @@ export function IconButton({
                 mt-0 flex items-center justify-center rounded border-2 border-beer-blonde p-1 transition duration-100 ease-in
                 ${box && 'h-auto w-10'}
                 ${disabled && 'cursor-not-allowed opacity-50'}
-                ${size === 'small' && 'w-24'} 
-                ${size === 'medium' && 'w-32'}
-                ${size === 'large' && 'w-52'}
-                ${size === 'xLarge' && 'w-64'}
-                ${size === 'xxLarge' && 'w-80'}
-                ${
-                    primary
-                        ? ' border-2 border-beer-blonde bg-beer-softBlonde hover:bg-beer-blonde dark:bg-beer-dark dark:hover:bg-beer-dark'
-                        : 'hover:bg-beer-softBlonde'
-                }
-                ${
-                    accent &&
-                    'border-2 border-beer-blonde bg-beer-foam dark:bg-beer-dark'
-                }
-                ${
-                    danger &&
-                    'bg-red-500 hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-800'
-                }
+                ${getSizeClass()}
+                ${getColorClass()}
                 ${classNameContainer} 
             `}
             data-testid={`${title}`}
         >
-            <span className={`${children != null && 'mr-1'} text-bear-dark`}>
-                {iconButton}
-            </span>
+            {isLoading ? (
+                <svg
+                    className="animate-spin h-5 w-5 mr-3 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                >
+                    <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                    ></circle>
+                    <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                </svg>
+            ) : (
+                <div className="">
+                    {iconButton ?? (
+                        <span className={`text-bear-dark`}>{iconButton}</span>
+                    )}
 
-            <span
-                className={`text-bear-dark
-                    ${
-                        danger &&
-                        'text-beer-foam dark:text-beer-dark dark:hover:text-beer-dark'
-                    } 
-                    ${
-                        primary
-                            ? 'text-beer-dark dark:text-beer-dark dark:hover:text-beer-dark dark:bg-beer-dark'
-                            : 'text-beer-dark dark:text-beer-dark'
-                    }}
-                    ${
-                        accent &&
-                        'text-beer-dark dark:text-beer-dark dark:hover:text-beer-dark dark:bg-beer-dark'
-                    }
-                    ${size === 'small' && 'text-md px-4 py-2'} 
-                    ${size === 'medium' && 'px-4 py-2 text-base'}
-                    ${size === 'large' && 'px-5 py-3 text-lg'}
-                    ${size === 'xLarge' && 'px-6 py-3 text-xl'}
-                    ${size === 'xxLarge' && 'px-6 py-3 text-2xl'}
-                    ${classNameSpan}
-                `}
-            >
-                {children}
-            </span>
+                    <span className={`font-semibold ${getSizeClass()}`}>
+                        {children}
+                    </span>
+                </div>
+            )}
         </button>
     );
 }

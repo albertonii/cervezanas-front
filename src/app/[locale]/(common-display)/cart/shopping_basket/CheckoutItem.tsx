@@ -23,7 +23,7 @@ export function CheckoutItem({ productPack, isShippingCostLoading }: Props) {
     const [isItemUnDeliverable, setIsItemUnDeliverable] = useState(false);
 
     useEffect(() => {
-        if (undeliverableItems.length === 0) {
+        if (undeliverableItems?.length === 0) {
             setIsItemUnDeliverable(false);
             return;
         }

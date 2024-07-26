@@ -120,6 +120,7 @@ export default function Modal({
                             color={color}
                             title={title}
                             size={btnSize}
+                            primary
                         >
                             {triggerBtnTitle ? t(triggerBtnTitle) : t(btnTitle)}
                         </IconButton>

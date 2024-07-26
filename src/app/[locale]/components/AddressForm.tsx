@@ -20,6 +20,7 @@ export default function AddressForm({ form, addressNameId }: Props) {
     const [subRegionType, setSubRegionType] = useState<string>();
     const [subRegions, setSubRegions] = useState<JSONSubRegion[]>([]);
     const [citiesInSubRegions, setCitiesInSubRegions] = useState<string[]>();
+    const [selectedCity, setSelectedCity] = useState<string>();
 
     const {
         data: subRegionsData,
@@ -35,7 +36,22 @@ export default function AddressForm({ form, addressNameId }: Props) {
         formState: { errors },
         register,
         setValue,
+        watch,
     } = form;
+
+    // Watch for changes in the form values
+    const formValues = watch();
+
+    useEffect(() => {
+        setSelectCountry('spain');
+    }, []);
+
+    // Update selected city when form values change
+    useEffect(() => {
+        if (formValues.city) {
+            setSelectedCity(formValues.city);
+        }
+    }, [formValues]);
 
     useEffect(() => {
         if (!selectedCountry) return;
@@ -43,15 +59,15 @@ export default function AddressForm({ form, addressNameId }: Props) {
         switch (selectedCountry) {
             case 'spain':
                 // Default subregion to avoid error in form
-                // setValue('sub_region', 'Álava');
+                setValue('sub_region', 'Álava');
                 setSubRegionType('provincesAndCities');
                 break;
             case 'italy':
-                // setValue('sub_region', 'Agrigento');
+                setValue('sub_region', 'Agrigento');
                 setSubRegionType('provinces');
                 break;
             case 'france':
-                // setValue('sub_region', 'Ain');
+                setValue('sub_region', 'Ain');
                 setSubRegionType('departments');
                 break;
             default:
@@ -85,6 +101,7 @@ export default function AddressForm({ form, addressNameId }: Props) {
 
         setCitiesInSubRegions(subRegion.cities);
         setValue('region', subRegion.region);
+        setSelectedCity(subRegion.cities![0]);
     };
 
     const handleOnInput = (
@@ -92,6 +109,10 @@ export default function AddressForm({ form, addressNameId }: Props) {
     ) => {
         const { name, value } = e.currentTarget;
         setValue(name, value);
+    };
+
+    const handleSelectedCity = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedCity(e.target.value);
     };
 
     return (
@@ -202,10 +223,10 @@ export default function AddressForm({ form, addressNameId }: Props) {
                                         handleOnInput(e);
                                     }}
                                 >
-                                    <option key={'ES'} value={'spain'}>
+                                    <option key={'ES'} value={'spain'} selected>
                                         {t('countries.spain')}
                                     </option>
-                                    <option key={'IT'} value={'italy'} selected>
+                                    <option key={'IT'} value={'italy'}>
                                         {t('countries.italy')}
                                     </option>
                                     <option key={'FR'} value={'france'}>
@@ -285,9 +306,8 @@ export default function AddressForm({ form, addressNameId }: Props) {
                                         !citiesInSubRegions ||
                                         citiesInSubRegions.length === 0
                                     }
-                                    onInput={(e) => {
-                                        handleOnInput(e);
-                                    }}
+                                    onInput={handleOnInput}
+                                    onChange={handleSelectedCity}
                                 >
                                     {citiesInSubRegions &&
                                         citiesInSubRegions.map(
