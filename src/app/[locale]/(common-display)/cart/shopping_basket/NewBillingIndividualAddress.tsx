@@ -10,7 +10,7 @@ import React, {
 } from 'react';
 import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
-import { insertBillingAddress } from '../actions';
+import { insertIndividualBillingAddress } from '../actions';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '../../../(auth)/Context/useAuth';
@@ -87,7 +87,7 @@ export const NewBillingIndividualAddress = forwardRef(
                 is_default: form.is_default,
             };
 
-            await insertBillingAddress(object)
+            await insertIndividualBillingAddress(object)
                 .then(() => {
                     queryClient.invalidateQueries('billingAddresses');
                     reset();
@@ -121,7 +121,6 @@ export const NewBillingIndividualAddress = forwardRef(
         const onSubmit: SubmitHandler<ValidationSchema> = (
             formValues: ModalBillingAddressFormData,
         ) => {
-            console.log('Form values:', formValues);
             return new Promise<void>((resolve, reject) => {
                 insertBillingMutation.mutate(formValues, {
                     onSuccess: () => {

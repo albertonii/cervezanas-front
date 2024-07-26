@@ -20,7 +20,6 @@ export default function AddressForm({ form, addressNameId }: Props) {
     const [subRegionType, setSubRegionType] = useState<string>();
     const [subRegions, setSubRegions] = useState<JSONSubRegion[]>([]);
     const [citiesInSubRegions, setCitiesInSubRegions] = useState<string[]>();
-    const [selectedCity, setSelectedCity] = useState<string>();
 
     const {
         data: subRegionsData,
@@ -36,22 +35,11 @@ export default function AddressForm({ form, addressNameId }: Props) {
         formState: { errors },
         register,
         setValue,
-        watch,
     } = form;
-
-    // Watch for changes in the form values
-    const formValues = watch();
 
     useEffect(() => {
         setSelectCountry('spain');
     }, []);
-
-    // Update selected city when form values change
-    useEffect(() => {
-        if (formValues.city) {
-            setSelectedCity(formValues.city);
-        }
-    }, [formValues]);
 
     useEffect(() => {
         if (!selectedCountry) return;
@@ -101,7 +89,6 @@ export default function AddressForm({ form, addressNameId }: Props) {
 
         setCitiesInSubRegions(subRegion.cities);
         setValue('region', subRegion.region);
-        setSelectedCity(subRegion.cities![0]);
     };
 
     const handleOnInput = (
@@ -109,10 +96,6 @@ export default function AddressForm({ form, addressNameId }: Props) {
     ) => {
         const { name, value } = e.currentTarget;
         setValue(name, value);
-    };
-
-    const handleSelectedCity = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedCity(e.target.value);
     };
 
     return (
@@ -307,7 +290,6 @@ export default function AddressForm({ form, addressNameId }: Props) {
                                         citiesInSubRegions.length === 0
                                     }
                                     onInput={handleOnInput}
-                                    onChange={handleSelectedCity}
                                 >
                                     {citiesInSubRegions &&
                                         citiesInSubRegions.map(

@@ -681,6 +681,7 @@ export interface IBillingInfo {
     city: string;
     zipcode: string;
     is_default: boolean;
+    is_company: boolean;
     users?: IUserTable;
 }
 
@@ -1168,6 +1169,22 @@ export interface ModalShippingAddressFormData {
 export interface ModalBillingAddressFormData {
     name: string;
     lastname: string;
+    document_id: string;
+    phone: string;
+    address: string;
+    address_extra?: string;
+    country: string;
+    region: string;
+    sub_region: string;
+    zipcode: string;
+    city: string;
+    region: string;
+    sub_region: string;
+    is_default: boolean;
+}
+
+export interface ModalBillingCompanyAddressFormData {
+    company_name: string;
     document_id: string;
     phone: string;
     address: string;

@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { IAddress, IBillingInfo } from '@/lib//types/types';
 import { formatCurrency } from '@/utils/formatCurrency';
 import Button from '@/app/[locale]/components/common/Button';

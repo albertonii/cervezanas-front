@@ -176,7 +176,7 @@ export function LocationForm({ profile_location }: Props) {
                     <InputLabel
                         form={form}
                         label={'addressLastname'}
-                        labelText={t('lastname')}
+                        labelText={t('loc_lastname')}
                         registerOptions={{
                             required: true,
                         }}

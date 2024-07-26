@@ -6,13 +6,14 @@ import {
     NewBillingIndividualAddress,
     NewBillingIndividualAddressRef,
 } from './NewBillingIndividualAddress';
-import NewBillingCompanyAddress from './NewBillingCompanyAddress';
+import { NewBillingCompanyAddress } from './NewBillingCompanyAddress';
 
 const NewBillingModal = () => {
     const t = useTranslations();
     const [showModal, setShowModal] = useState<boolean>(false);
     const [type, setType] = useState('individual');
     const individualFormRef = useRef<NewBillingIndividualAddressRef>(null);
+    const companyFormRef = useRef<NewBillingIndividualAddressRef>(null);
 
     const handleTypeChange = (type: string) => {
         setType(type);
@@ -24,6 +25,15 @@ const NewBillingModal = () => {
 
             if (isValid) {
                 individualFormRef.current?.submit();
+                return { shouldClose: true };
+            } else {
+                return { shouldClose: false };
+            }
+        } else if (type === 'company' && companyFormRef.current) {
+            const isValid = await companyFormRef.current.trigger();
+
+            if (isValid) {
+                companyFormRef.current?.submit();
                 return { shouldClose: true };
             } else {
                 return { shouldClose: false };

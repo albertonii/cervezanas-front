@@ -1,29 +1,19 @@
 import useSWRMutation from 'swr/mutation';
 import InputLabel from './common/InputLabel';
-import React, {
-    ComponentProps,
-    FormEventHandler,
-    useEffect,
-    useState,
-} from 'react';
+import React, { ComponentProps, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DisplayInputError } from './common/DisplayInputError';
-import { JSONSubRegion } from '@/lib/types/distribution_areas';
+import { JSONSubRegion } from '@/lib//types/distribution_areas';
 
 interface Props {
     form: ComponentProps<any>;
     addressNameId: string;
-    onSubmit?: FormEventHandler<HTMLFormElement>;
 }
 
 const fetcher = (arg: any, ...args: any) =>
     fetch(arg, ...args).then((res) => res.json());
 
-export default function AddressCompanyForm({
-    form,
-    addressNameId,
-    onSubmit,
-}: Props) {
+export default function AddressCompanyForm({ form, addressNameId }: Props) {
     const t = useTranslations();
 
     const [selectedCountry, setSelectCountry] = useState<string>();
@@ -48,16 +38,24 @@ export default function AddressCompanyForm({
     } = form;
 
     useEffect(() => {
+        setSelectCountry('spain');
+    }, []);
+
+    useEffect(() => {
         if (!selectedCountry) return;
 
         switch (selectedCountry) {
             case 'spain':
+                // Default subregion to avoid error in form
+                setValue('sub_region', 'Álava');
                 setSubRegionType('provincesAndCities');
                 break;
             case 'italy':
+                setValue('sub_region', 'Agrigento');
                 setSubRegionType('provinces');
                 break;
             case 'france':
+                setValue('sub_region', 'Ain');
                 setSubRegionType('departments');
                 break;
             default:
@@ -93,8 +91,15 @@ export default function AddressCompanyForm({
         setValue('region', subRegion.region);
     };
 
+    const handleOnInput = (
+        e: React.FormEvent<HTMLInputElement | HTMLSelectElement>,
+    ) => {
+        const { name, value } = e.currentTarget;
+        setValue(name, value);
+    };
+
     return (
-        <form className="w-full" onSubmit={onSubmit}>
+        <form className="w-full">
             {/* Address Information */}
             <fieldset className="mb-3 space-y-4 rounded bg-beer-foam">
                 <address className="w-full space-y-2">
@@ -105,16 +110,8 @@ export default function AddressCompanyForm({
                     <div className="flex gap-4">
                         <InputLabel
                             form={form}
-                            label={'name'}
-                            labelText={'loc_name'}
-                            registerOptions={{
-                                required: true,
-                            }}
-                        />
-
-                        <InputLabel
-                            form={form}
-                            label={'lastname'}
+                            label={'company_name'}
+                            labelText={'loc_company_name'}
                             registerOptions={{
                                 required: true,
                             }}
@@ -125,6 +122,7 @@ export default function AddressCompanyForm({
                         <InputLabel
                             form={form}
                             label={'document_id'}
+                            labelText={'loc_company_document_id'}
                             registerOptions={{
                                 required: true,
                             }}
@@ -143,7 +141,6 @@ export default function AddressCompanyForm({
 
                 <address className="w-full space-y-2">
                     <h2 className="my-2 text-lg font-semibold tracking-wide text-gray-700">
-                        {/* {t("shipping_address")} */}
                         {t(`${addressNameId}_address`)}
                     </h2>
 
@@ -198,11 +195,14 @@ export default function AddressCompanyForm({
                                     onChange={(e) => {
                                         handleSelectCountry(e);
                                     }}
+                                    onInput={(e) => {
+                                        handleOnInput(e);
+                                    }}
                                 >
-                                    <option key={'ES'} value={'spain'}>
+                                    <option key={'ES'} value={'spain'} selected>
                                         {t('countries.spain')}
                                     </option>
-                                    <option key={'IT'} value={'italy'} selected>
+                                    <option key={'IT'} value={'italy'}>
                                         {t('countries.italy')}
                                     </option>
                                     <option key={'FR'} value={'france'}>
@@ -232,6 +232,9 @@ export default function AddressCompanyForm({
                                     }
                                     onChange={(e) => {
                                         handleSelectSubRegion(e);
+                                    }}
+                                    onInput={(e) => {
+                                        handleOnInput(e);
                                     }}
                                 >
                                     {subRegions &&
@@ -267,18 +270,6 @@ export default function AddressCompanyForm({
                                 }
                             />
 
-                            <InputLabel
-                                form={form}
-                                label={'city'}
-                                registerOptions={{
-                                    required: true,
-                                }}
-                                placeholder={`${t('loc_city')}`}
-                                disabled={
-                                    !subRegions || subRegions.length === 0
-                                }
-                            />
-
                             <label className="my-3 flex flex-col h-12 w-1/2 items-start space-y-2 text-sm text-gray-600 py-3">
                                 <span className="font-medium">
                                     {t('loc_city')}
@@ -291,6 +282,7 @@ export default function AddressCompanyForm({
                                         !citiesInSubRegions ||
                                         citiesInSubRegions.length === 0
                                     }
+                                    onInput={handleOnInput}
                                 >
                                     {citiesInSubRegions &&
                                         citiesInSubRegions.map(

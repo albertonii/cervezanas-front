@@ -108,7 +108,7 @@ export async function insertShippingAddress(form: {
     };
 }
 
-export async function insertBillingAddress(form: {
+export async function insertIndividualBillingAddress(form: {
     user_id: string;
     name: string;
     lastname: string;
@@ -143,6 +143,59 @@ export async function insertBillingAddress(form: {
     formData.set('user_id', user_id);
     formData.set('name', name);
     formData.set('lastname', lastname);
+    formData.set('document_id', document_id);
+    formData.set('phone', phone);
+    formData.set('address', address);
+    formData.set('country', country);
+    formData.set('region', region);
+    formData.set('sub_region', sub_region);
+    formData.set('city', city);
+    formData.set('zipcode', zipcode);
+    formData.set('is_default', is_default.toString());
+
+    const res = await fetch(url, {
+        method: 'POST',
+        body: formData,
+    });
+
+    return {
+        status: res.status,
+        message: res.statusText,
+    };
+}
+
+export async function insertCompanyBillingAddress(form: {
+    user_id: string;
+    company_name: string;
+    document_id: string;
+    phone: string;
+    address: string;
+    country: string;
+    region: string;
+    sub_region: string;
+    city: string;
+    zipcode: string;
+    is_default: boolean;
+}) {
+    const {
+        user_id,
+        company_name,
+        document_id,
+        phone,
+        address,
+        country,
+        region,
+        sub_region,
+        city,
+        zipcode,
+        is_default,
+    } = form;
+
+    const url = `${baseUrl}/api/shopping_basket/company_billing_address`;
+
+    const formData = new FormData();
+    formData.set('user_id', user_id);
+    formData.set('company_name', company_name);
     formData.set('document_id', document_id);
     formData.set('phone', phone);
     formData.set('address', address);
