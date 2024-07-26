@@ -832,7 +832,8 @@
             "body2": "Desde Cervezanas estamos activamente en búsqueda del siguiente aroma, descubriendo esa joya que has creado y aún no ha salido al mundo. ¿Quieres formar parte de esta comunidad de maestros cerveceros?"
         },
         "topbeers": {
-            "header": "Cervezas más vendidas",
+            "header": "Las más",
+            "header2": "vendidas",
             "get_it": "¡Conócela!",
             "get_to_know_more": "¡Conócela!"
         },
@@ -851,7 +852,8 @@
             "get_it": "¡Conócela!"
         },
         "community": {
-            "header": "Comunidad Cervezanas",
+            "header": "Comunidad",
+            "header2": "Cervezanas",
             "manufacturer": "Productor",
             "manufacturer_body": "Damos visibilidad a tu creación, nos encargamos de todo para que puedas centrarte en tu pasión, crear para hacernos disfrutar.Ya tengas tu propia fábrica o tan solo la receta, te ayudamos en todo el proceso de producción.",
             "consumer": "Consumidor",
@@ -862,7 +864,8 @@
             "points_body": "Generamos comunidad y fomentamos los puntos de encuentro para que nuestros Cervezanos puedan conocerse y dar a conocer sus creaciones. Ya sean puntos fijos o móviles en eventos, catas de cerveza en fábricas o reuniones en hogares con fábricas caseras."
         },
         "reviews": {
-            "header": "Opiniones de nuestros Cervezanos y Cervezanas"
+            "header": "Opiniones de nuestros",
+            "header2": "Cervezanos y Cervezanas"
         },
         "beer_master": "Maestro cervecero"
     },

@@ -29,7 +29,7 @@ const Slider = () => {
         };
     }, [activeImage]);
     return (
-        <div className="grid place-items-center md:grid-cols-2 grid-cols-1 w-full mx-auto max-w-full shadow-2xl h-[300px] relative overflow-hidden">
+        <div className=" place-items-center md:grid-cols-2 grid-cols-1 w-full mx-auto shadow-2xl h-[300px] relative overflow-hidden border-b-4 border-cerv-banana max-w-[1536px] hidden sm:grid">
             <div
                 className={`w-full flex justify-center items-center gap-4 transition-transform ease-in-out duration-500 p-6 md:p-0 absolute  h-[300px]`}
             >

@@ -3,35 +3,48 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    font-feature-settings: "cv03", "cv04", "cv11";
-  }
+    html {
+        font-feature-settings: 'cv03', 'cv04', 'cv11';
+    }
 }
 
 .input-field {
-  @apply rounded-md border p-2;
+    @apply rounded-md border p-2;
 }
 
 @font-face {
-  font-family: "Charlemagne Std Bold";
-  src: url("./fonts/CharlemagneStd-Bold.otf");
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'Charlemagne';
+    src: url('./fonts/CharlemagneStd-Bold.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NexaRust';
+    src: url('./fonts/SVN-Nexa Rust Slab Black Shadow.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'NexaRust-script';
+    src: url('./fonts/Nexa Rust Script R W00 03.ttf');
+    font-weight: bold;
+    font-style: normal;
 }
 
 .header-title {
-  font-family: "CharlemagneStd-Bold";
+    font-family: 'CharlemagneStd-Bold';
 }
 
 .bottle-green-color {
-  background: rgba(92, 186, 0, 0.502);
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(92, 186, 0, 0.3);
+    background: rgba(92, 186, 0, 0.502);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(92, 186, 0, 0.3);
 }
 
 p {
-  max-width: 75ch;
+    max-width: 75ch;
 }

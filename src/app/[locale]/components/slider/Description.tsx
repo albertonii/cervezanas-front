@@ -37,7 +37,7 @@ const Description = ({ activeImage, clickNext, clickPrev }: Props) => {
                         }}
                         className="w-full"
                     >
-                        <div className="pt-6 pb-2 text-5xl text-white font-bold">
+                        <div className="pt-6 pb-2 text-6xl text-white font-bold font-['NexaRust-script']">
                             {elem.title}
                         </div>
                         <div className="leading-relaxed font-medium text-xl tracking-wide italic text-white max-w-[580px] m-auto">

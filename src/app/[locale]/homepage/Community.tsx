@@ -7,16 +7,21 @@ export function Community() {
     return (
         <>
             {/*  bloque 6 */}
-            <section className="relative m-auto w-full max-w-screen-2xl justify-center bg-cerv-cream bg-[url('/assets/rec-graf5.webp')] bg-contain pb-20 pt-10">
-                <figure className="z-index-1 relative -top-8 m-auto h-[190px] w-[190px]  bg-[url('/assets/logo.svg')] bg-contain bg-no-repeat"></figure>
-                <header className="mb-10 text-center text-4xl font-bold text-cerv-coffee md:text-6xl">
+            <section className="relative m-auto w-full max-w-screen-2xl justify-center bg-cerv-cream bg-[url('/assets/rec-graf5.webp')] bg-contain pb-20 pt-10 rounded-b-full overflow-hidden md:overflow-visible">
+                <figure className="-mt-8 absolute top-2 m-auto h-[80px] w-full  bg-[url('/assets/home/bg-brush.webp')] bg-cover bg-no-repeat bg-top"></figure>
+                <figure className="z-index-2 relative top-2 m-auto h-[190px] w-[190px]  bg-[url('/assets/logo.svg')] bg-contain bg-no-repeat"></figure>
+                <header className="mb-10 text-center text-3xl font-bold text-cerv-titlehigh md:text-5xl font-['NexaRust']">
                     {t('homepage.community.header')}
+                    <p className="font-['NexaRust-script'] text-6xl md:text-8xl -mt-2 -mb-8 text-beer-draft -rotate-2">
+                        {' '}
+                        {t('homepage.community.header2')}
+                    </p>
                 </header>
                 {/*  Productor */}
-                <article className="m-auto block sm:flex">
-                    <figure className="m-auto w-full  max-w-[300px] sm:w-2/4 sm:max-w-5xl">
+                <article className="m-auto flex w-[900px] flex-col md:flex-row max-w-full">
+                    <figure className="m-auto w-full max-w-[300px] sm:w-2/4 sm:max-w-5xl">
                         <Image
-                            className="m-auto p-0 sm:p-16"
+                            className="m-auto p-8 md:p-16 rounded-l-full border-l-2 border-beer-blonde max-w-[400px] md:max-w-[500px]"
                             src="/assets/home/com-1.webp"
                             width={600}
                             height={600}
@@ -24,10 +29,10 @@ export function Community() {
                         />
                     </figure>
                     <div className="m-auto w-full p-10 sm:w-2/4">
-                        <h3 className="mb-8 pt-3 text-center text-4xl font-bold text-cerv-banana">
+                        <h3 className="mb-8 pt-3 text-center text-4xl md:text-6xl font-bold text-cerv-banana font-['NexaRust-script']">
                             {t('homepage.community.manufacturer')}
                         </h3>
-                        <div className="mb-8 pt-3 text-xl font-normal text-black">
+                        <div className="mb-8 pt-3 text-xl font-normal text-black text-center">
                             {t('homepage.community.manufacturer_body')}
                         </div>
                         <figure className="m-auto text-center">
@@ -42,12 +47,12 @@ export function Community() {
                     </div>
                 </article>
                 {/*  Consumidor */}
-                <article className="m-auto block sm:flex">
-                    <div className="m-auto w-full p-10 sm:w-2/4">
-                        <h3 className="mb-8 pt-3 text-center text-4xl font-bold text-cerv-banana">
+                <article className="m-auto flex w-[900px] flex-col md:flex-row max-w-full">
+                    <div className="m-auto w-full p-10 sm:w-2/4  order-2 md:order-1">
+                        <h3 className="mb-8 pt-3 text-center text-4xl md:text-6xl font-bold text-cerv-banana font-['NexaRust-script']">
                             {t('homepage.community.consumer')}
                         </h3>
-                        <div className="mb-8 pt-3 text-xl font-normal text-black">
+                        <div className="mb-8 pt-3 text-xl font-normal text-black text-center">
                             {t('homepage.community.consumer_body')}
                         </div>
                         <figure className="m-auto text-center">
@@ -60,9 +65,9 @@ export function Community() {
                             />
                         </figure>
                     </div>
-                    <div className="m-auto w-full  max-w-[300px] sm:w-2/4 sm:max-w-5xl">
+                    <div className="m-auto w-full  max-w-[300px] sm:w-2/4 sm:max-w-5xl order-1 md:order-2">
                         <Image
-                            className="m-auto p-0 sm:p-16"
+                            className="m-auto p-8 sm:p-16 rounded-r-full border-r-2 border-beer-blonde max-w-[300px] md:max-w-[500px] pl-0 -ml-4"
                             src="/assets/home/com-2.webp"
                             width={600}
                             height={600}
@@ -71,21 +76,21 @@ export function Community() {
                     </div>
                 </article>
                 {/*  Distribuidores */}
-                <article className="m-auto block sm:flex">
+                <article className="m-auto flex w-[900px] flex-col md:flex-row max-w-full">
                     <figure className="m-auto w-full  max-w-[300px] sm:w-2/4 sm:max-w-5xl">
                         <Image
-                            className="m-auto p-0 sm:p-16"
-                            src="/assets/home/com-1.webp"
+                            className="m-auto p-8 sm:p-16 rounded-l-full border-l-2 border-beer-blonde max-w-[400px] md:max-w-[500px]"
+                            src="/assets/home/com-3.webp"
                             width={600}
                             height={600}
                             alt="Distribuidores"
                         />
                     </figure>
                     <div className="m-auto w-full p-10 sm:w-2/4">
-                        <h3 className="mb-8 pt-3 text-center text-4xl font-bold text-cerv-banana">
+                        <h3 className="mb-8 pt-3 text-center text-4xl md:text-6xl font-bold text-cerv-banana font-['NexaRust-script']">
                             {t('homepage.community.dealers')}
                         </h3>
-                        <div className="mb-8 pt-3 text-xl font-normal text-black">
+                        <div className="mb-8 pt-3 text-xl font-normal text-black text-center">
                             {t('homepage.community.dealers_body')}
                         </div>
                         <figure className="m-auto text-center">
@@ -100,12 +105,12 @@ export function Community() {
                     </div>
                 </article>
                 {/*  Puntos cervezanos */}
-                <article className="m-auto block sm:flex">
-                    <div className="m-auto w-full p-10 sm:w-2/4">
-                        <h3 className="mb-8 pt-3 text-center text-4xl font-bold text-cerv-banana">
+                <article className="m-auto flex w-[900px] flex-col md:flex-row max-w-full">
+                    <div className="m-auto w-full p-10 sm:w-2/4 order-2 md:order-1 ">
+                        <h3 className="mb-8 pt-3 text-center text-4xl md:text-6xl font-bold text-cerv-banana font-['NexaRust-script']">
                             {t('homepage.community.points')}
                         </h3>
-                        <div className="mb-8 pt-3 text-xl font-normal text-black">
+                        <div className="mb-8 pt-3 text-xl font-normal text-black text-center">
                             {t('homepage.community.points_body')}
                         </div>
                         <figure className="m-auto text-center">
@@ -118,9 +123,9 @@ export function Community() {
                             />
                         </figure>
                     </div>
-                    <figure className="m-auto w-full  max-w-[300px] sm:w-2/4 sm:max-w-5xl">
+                    <figure className="m-auto w-full  max-w-[300px] sm:w-2/4 sm:max-w-5xl order-1 md:order-2">
                         <Image
-                            className="m-auto p-0 sm:p-16"
+                            className="m-auto p-8 sm:p-16 rounded-r-full border-r-2 border-beer-blonde max-w-[300px] md:max-w-[500px] pl-0 -ml-4"
                             src="/assets/home/com-4.webp"
                             width={600}
                             height={600}

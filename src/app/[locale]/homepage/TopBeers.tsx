@@ -7,11 +7,15 @@ export function TopBeers() {
     return (
         <>
             {/*  bloque 6 */}
-            <section className="relative m-auto w-full max-w-screen-2xl justify-center overflow-hidden bg-cerv-cream pb-20 pt-10">
-                <figure className="absolute left-2/4 m-auto -ml-80 hidden h-[700px] w-[700px] max-w-full bg-[url('/assets/rec-graf4.webp')] bg-cover bg-no-repeat opacity-10 sm:block sm:w-full"></figure>
-                <header className="mb-10 text-center text-4xl font-bold text-cerv-coffee md:text-5xl">
+            <section className="relative m-auto w-full max-w-screen-2xl justify-center bg-cerv-softBlonde pt-10 pb-0  rounded-t-full border-l-2 border-beer-blonde overflow-visible">
+                <header className="mb-10 text-center text-4xl font-bold text-cerv-titlehigh md:text-6xl font-['NexaRust']">
                     {t('homepage.topbeers.header')}
+                    <p className="font-['NexaRust-script'] text-6xl md:text-8xl -mt-2 -mb-8 text-beer-draft -rotate-2">
+                        {' '}
+                        {t('homepage.topbeers.header2')}
+                    </p>
                 </header>
+                <figure className="absolute left-2/4 m-auto -ml-80 hidden h-[700px] w-[700px] max-w-full bg-[url('/assets/rec-graf4.webp')] bg-contain bg-no-repeat opacity-10 sm:block sm:w-full -mt-28"></figure>
                 <div className="relative z-10 m-auto grid max-w-[300px] grid-cols-1 gap-0 sm:max-w-[600px] sm:grid-cols-2 md:gap-2 lg:max-w-full lg:grid-cols-5">
                     {/*  producto 1 */}
                     <article className="mb-6 mr-4 w-full max-w-[300px] bg-no-repeat">
