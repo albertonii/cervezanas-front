@@ -145,6 +145,8 @@ export const NewBillingCompanyAddress = forwardRef(
             ref,
             () => ({
                 submit: () => {
+                    console.log('dentri');
+
                     handleSubmitWithLogging();
                 },
                 trigger: () => {

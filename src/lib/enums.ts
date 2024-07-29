@@ -71,3 +71,8 @@ export enum DeliveryType {
     FLATRATE_LOCAL = 'FLATRATE_LOCAL',
     NONE = 'NONE',
 }
+
+export enum BillingInformationType {
+    INDIVIDUAL = 'individual',
+    COMPANY = 'company',
+}

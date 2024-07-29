@@ -71,6 +71,7 @@ const InputLabel = ({
                 inputType === 'date') && (
                 <label
                     className={`flex-col flex w-full items-start space-y-2 text-sm text-gray-600`}
+                    htmlFor={label}
                 >
                     <span className="font-medium">
                         {labelText ? t(labelText) : t(label)}
@@ -102,6 +103,7 @@ const InputLabel = ({
                         max={registerOptions?.max}
                         value={value}
                         onInput={onInput}
+                        id={label}
                     />
                 </label>
             )}
@@ -113,6 +115,7 @@ const InputLabel = ({
                             ? 'flex-row-reverse items-end justify-end gap-1'
                             : 'flex-col '
                     } flex w-full items-start space-y-2 text-sm text-gray-600`}
+                    htmlFor={label}
                 >
                     <span className="font-medium">
                         {labelText ? labelText : t(label)}
@@ -143,6 +146,7 @@ const InputLabel = ({
                         min={registerOptions?.min}
                         max={registerOptions?.max}
                         onInput={onInput}
+                        id={label}
                     />
                 </label>
             )}
@@ -150,6 +154,7 @@ const InputLabel = ({
             {inputType === 'password' && (
                 <label
                     className={` relative w-full items-start space-y-2 text-sm text-gray-600`}
+                    htmlFor={label}
                 >
                     <input
                         type={visible ? 'text' : 'password'}
@@ -168,6 +173,7 @@ const InputLabel = ({
                         disabled={disabled}
                         min={registerOptions?.min}
                         max={registerOptions?.max}
+                        id={label}
                     />
 
                     <span

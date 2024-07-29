@@ -71,8 +71,6 @@ export async function POST(request: NextRequest) {
     // y asigno el mismo identificador de pedido para el negocio - business_order_id
 
     items.map((item: IProductPackCartItem) => {
-        console.log(item);
-
         item.packs.map(async (pack) => {
             const distributorId = item.distributor_id;
             const producerId = item.producer_id;

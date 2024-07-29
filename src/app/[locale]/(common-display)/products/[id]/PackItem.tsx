@@ -42,6 +42,7 @@ export default function PackItem({
                         group relative flex cursor-pointer items-center justify-center border px-4 py-3 text-sm uppercase
                         hover:bg-cerv-banana focus:outline-none sm:flex-1 bg-cerv-brown bg-opacity-40 font-semibold hover:text-bear-dark
                     `}
+                    htmlFor={`pack-${pack.id}`}
                 >
                     <input
                         type="radio"

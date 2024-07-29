@@ -99,7 +99,7 @@ export default function AddressCompanyForm({ form, addressNameId }: Props) {
     };
 
     return (
-        <form className="w-full">
+        <form className="w-full" id="company-form-id">
             {/* Address Information */}
             <fieldset className="mb-3 space-y-4 rounded bg-beer-foam">
                 <address className="w-full space-y-2">
@@ -183,7 +183,10 @@ export default function AddressCompanyForm({ form, addressNameId }: Props) {
 
                     <div className="space-y-8">
                         <div className="flex gap-4">
-                            <label className="my-3 flex flex-col h-12 w-1/2 items-start space-y-2 text-sm text-gray-600 py-3">
+                            <label
+                                className="my-3 flex flex-col h-12 w-1/2 items-start space-y-2 text-sm text-gray-600 py-3"
+                                htmlFor="country"
+                            >
                                 <span className="font-medium">
                                     {t('loc_country')}
                                 </span>
@@ -217,7 +220,10 @@ export default function AddressCompanyForm({ form, addressNameId }: Props) {
                                 )}
                             </label>
 
-                            <label className="my-3 flex flex-col h-12 w-1/2 items-start space-y-2 text-sm text-gray-600 py-3">
+                            <label
+                                className="my-3 flex flex-col h-12 w-1/2 items-start space-y-2 text-sm text-gray-600 py-3"
+                                htmlFor="sub_region"
+                            >
                                 <span className="font-medium">
                                     {t('loc_sub_region')}
                                 </span>
@@ -270,7 +276,10 @@ export default function AddressCompanyForm({ form, addressNameId }: Props) {
                                 }
                             />
 
-                            <label className="my-3 flex flex-col h-12 w-1/2 items-start space-y-2 text-sm text-gray-600 py-3">
+                            <label
+                                className="my-3 flex flex-col h-12 w-1/2 items-start space-y-2 text-sm text-gray-600 py-3"
+                                htmlFor="city"
+                            >
                                 <span className="font-medium">
                                     {t('loc_city')}
                                 </span>

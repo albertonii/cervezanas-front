@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
         .insert({
             owner_id: user_id,
             name: company_name,
-            lastname: company_name,
+            lastname: '',
             document_id,
             phone,
             address,

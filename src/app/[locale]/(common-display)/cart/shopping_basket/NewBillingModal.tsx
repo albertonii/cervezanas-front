@@ -7,6 +7,7 @@ import {
     NewBillingIndividualAddressRef,
 } from './NewBillingIndividualAddress';
 import { NewBillingCompanyAddress } from './NewBillingCompanyAddress';
+import { BillingInformationType } from '@/lib/enums';
 
 const NewBillingModal = () => {
     const t = useTranslations();
@@ -20,7 +21,10 @@ const NewBillingModal = () => {
     };
 
     const handleSubmitBillingForm = async () => {
-        if (type === 'individual' && individualFormRef.current) {
+        if (
+            type === BillingInformationType.INDIVIDUAL &&
+            individualFormRef.current
+        ) {
             const isValid = await individualFormRef.current.trigger();
 
             if (isValid) {
@@ -29,7 +33,10 @@ const NewBillingModal = () => {
             } else {
                 return { shouldClose: false };
             }
-        } else if (type === 'company' && companyFormRef.current) {
+        } else if (
+            type === BillingInformationType.COMPANY &&
+            companyFormRef.current
+        ) {
             const isValid = await companyFormRef.current.trigger();
 
             if (isValid) {
@@ -61,9 +68,13 @@ const NewBillingModal = () => {
                     <label>
                         <input
                             type="radio"
-                            value="individual"
-                            checked={type === 'individual'}
-                            onChange={() => handleTypeChange('individual')}
+                            value={BillingInformationType.INDIVIDUAL}
+                            checked={type === BillingInformationType.INDIVIDUAL}
+                            onChange={() =>
+                                handleTypeChange(
+                                    BillingInformationType.INDIVIDUAL,
+                                )
+                            }
                             className="peer hidden"
                         />
                         <span
@@ -72,7 +83,11 @@ const NewBillingModal = () => {
                                 justify-between rounded-l-lg border border-gray-200 bg-white py-2 px-4 text-gray-500 transition-all duration-200 hover:bg-gray-100 hover:text-gray-600 
                                 peer-checked:border-2 peer-checked:border-beer-blonde peer-checked:bg-beer-softFoam dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700
                                 dark:hover:text-gray-300 dark:peer-checked:bg-beer-softFoam dark:peer-checked:border-beer-blonde dark:peer-checked:text-beer-dark
-                                ${type === 'individual' && 'font-semibold'}
+                                ${
+                                    type ===
+                                        BillingInformationType.INDIVIDUAL &&
+                                    'font-semibold'
+                                }
                             `}
                         >
                             Particular
@@ -82,9 +97,11 @@ const NewBillingModal = () => {
                     <label>
                         <input
                             type="radio"
-                            value="company"
-                            checked={type === 'company'}
-                            onChange={() => handleTypeChange('company')}
+                            value={BillingInformationType.COMPANY}
+                            checked={type === BillingInformationType.COMPANY}
+                            onChange={() =>
+                                handleTypeChange(BillingInformationType.COMPANY)
+                            }
                             className="peer hidden"
                         />
                         <span
@@ -93,7 +110,10 @@ const NewBillingModal = () => {
                                 justify-between rounded-r-lg border border-gray-200 bg-white py-2 px-4 text-gray-500 transition-all duration-200 hover:bg-gray-100 hover:text-gray-600 
                                 peer-checked:border-2 peer-checked:border-beer-blonde peer-checked:bg-beer-softFoam dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700
                                 dark:hover:text-gray-300 dark:peer-checked:bg-beer-softFoam dark:peer-checked:border-beer-blonde dark:peer-checked:text-beer-dark
-                                ${type === 'company' && 'font-semibold'}
+                                ${
+                                    type === BillingInformationType.COMPANY &&
+                                    'font-semibold'
+                                }
                             `}
                         >
                             Empresa/Autónomo
@@ -101,10 +121,10 @@ const NewBillingModal = () => {
                     </label>
                 </div>
 
-                {type === 'individual' ? (
+                {type === BillingInformationType.INDIVIDUAL ? (
                     <NewBillingIndividualAddress ref={individualFormRef} />
                 ) : (
-                    <NewBillingCompanyAddress />
+                    <NewBillingCompanyAddress ref={companyFormRef} />
                 )}
             </>
         </Modal>

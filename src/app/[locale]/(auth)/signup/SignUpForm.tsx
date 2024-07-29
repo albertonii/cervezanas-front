@@ -255,6 +255,7 @@ export const SignUpForm = () => {
                             className={
                                 'flex w-full flex-row-reverse  items-end justify-end gap-1 space-y-2 text-sm text-gray-600'
                             }
+                            htmlFor="producer_disclaimer"
                         >
                             <span className="font-medium">
                                 {t('producer_disclaimer_read_and_accepantance')}
@@ -265,6 +266,7 @@ export const SignUpForm = () => {
                                 className={
                                     'float-right h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde'
                                 }
+                                id="producer_disclaimer"
                             />
                         </label>
                     </div>
@@ -293,6 +295,7 @@ export const SignUpForm = () => {
                             className={
                                 'flex w-full flex-row-reverse  items-end justify-end gap-1 space-y-2 text-sm text-gray-600'
                             }
+                            htmlFor="distributor_disclaimer"
                         >
                             <span className="font-medium">
                                 {t(
@@ -305,6 +308,7 @@ export const SignUpForm = () => {
                                 className={
                                     'float-right h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde'
                                 }
+                                id="distributor_disclaimer"
                             />
                         </label>
                     </div>
@@ -333,6 +337,7 @@ export const SignUpForm = () => {
                             className={
                                 'flex w-full flex-row-reverse  items-end justify-end gap-1 space-y-2 text-sm text-gray-600'
                             }
+                            htmlFor="consumption_point_disclaimer"
                         >
                             <span className="font-medium">
                                 {t(
@@ -345,6 +350,7 @@ export const SignUpForm = () => {
                                 className={
                                     'float-right h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde'
                                 }
+                                id="consumption_point_disclaimer"
                             />
                         </label>
                     </div>

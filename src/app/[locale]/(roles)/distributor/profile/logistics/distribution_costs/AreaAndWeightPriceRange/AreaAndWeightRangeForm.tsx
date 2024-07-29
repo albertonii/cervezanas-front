@@ -72,7 +72,6 @@ interface Props {
 const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
     const t = useTranslations();
     const { handleMessage } = useMessage();
-    console.log(selectedArea);
     const [isLoading, setIsLoading] = useState(false);
 
     const [costRanges, setCostRanges] = useState<IAreaAndWeightCostRange[]>(
