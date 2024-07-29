@@ -1,5 +1,6 @@
 import { uuid } from 'uuidv4';
 import { ROLE_ENUM } from '@/lib//enums';
+import { RouteLocaleNames, routes } from './breadcrumb_routes';
 
 export function isValidObject(object: any) {
     return object != null && object !== '' && !isEmpty(object);
@@ -219,3 +220,50 @@ export async function downloadFile(
 // To shuffle quiz questions
 export const shuffleArray = (array: any[]) =>
     [...array].sort(() => Math.random() - 0.5);
+
+// B R E A D C R U M B S
+export const getBreadcrumbs = (path: string, locale: 'en' | 'es') => {
+    const pathArray = path.split('/').filter((p) => p);
+    const breadcrumbs = [
+        {
+            path: '/',
+            name: 'Inicio',
+        },
+    ];
+
+    let currentPath = '';
+
+    for (const segment of pathArray) {
+        // Remove locale from path
+        if (segment === 'es' || segment === 'en') {
+            continue;
+        }
+
+        currentPath += `/${segment}`;
+
+        // Manejar rutas dinámicas
+        const dynamicPath = Object.keys(routes).find(
+            (route) =>
+                route.includes(':') &&
+                new RegExp(route.replace(/:\w+/g, '\\w+')).test(currentPath),
+        );
+
+        const routeInfo: RouteLocaleNames | undefined =
+            routes[currentPath] || (dynamicPath && routes[dynamicPath]);
+
+        if (routeInfo) {
+            breadcrumbs.push({
+                path: routeInfo.path || currentPath,
+                name: routeInfo[locale],
+            });
+        } else {
+            // Si no se encuentra una ruta específica, agregar un segmento sin nombre específico
+            breadcrumbs.push({
+                path: currentPath,
+                name: segment,
+            });
+        }
+    }
+
+    return breadcrumbs;
+};

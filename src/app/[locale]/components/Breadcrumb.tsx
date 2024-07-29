@@ -1,66 +1,69 @@
 'use client';
 
-import React, { ReactNode } from 'react';
-import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import React from 'react';
+import { usePathname } from 'next/navigation';
+import { getBreadcrumbs } from '@/utils/utils';
+import { useLocale } from 'next-intl';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
-type TBreadCrumbProps = {
-    homeElement: ReactNode;
-    separator: ReactNode;
-    containerClasses?: string;
-    listClasses?: string;
-    activeClasses?: string;
-    capitalizeLinks?: boolean;
-};
-
-const HREFS = {
-    es: '/es',
-    en: '/en',
-};
-
-const Breadcrumb = ({
-    homeElement,
-    separator,
-    containerClasses,
-    listClasses,
-    activeClasses,
-    capitalizeLinks,
-}: TBreadCrumbProps) => {
+const Breadcrumb = () => {
+    const locale = useLocale();
     const paths = usePathname();
-    const pathNames = paths.split('/').filter((path) => path);
+
+    const breadcrumbs =
+        locale == 'en'
+            ? getBreadcrumbs(paths, 'en')
+            : getBreadcrumbs(paths, 'es');
 
     return (
-        <div>
-            <ul className={containerClasses}>
-                <li className={listClasses}>
-                    <Link href={'/'}>{homeElement}</Link>
+        <nav
+            aria-label="breadcrumb"
+            className="bg-beer-dark p-2 rounded-lg shadow-lg my-2"
+        >
+            <ul className="flex items-center text-beer-blonde text-sm space-x-2">
+                <li className="flex items-center">
+                    <Link
+                        href={`/${locale}`}
+                        aria-label="Home"
+                        className="hover:text-beer-amber transition-colors duration-300"
+                    >
+                        <FontAwesomeIcon icon={faHome} />
+                    </Link>
                 </li>
-                {pathNames.length > 0 && separator}
-                {pathNames.map((link, index) => {
-                    let href = `/${pathNames.slice(0, index + 1).join('/')}`;
+                {breadcrumbs.length > 0 && (
+                    <li className="text-beer-light">
+                        <FontAwesomeIcon icon={faChevronRight} />
+                    </li>
+                )}
+                {breadcrumbs.map((breadcrumb, index) => {
+                    const isActive = index === breadcrumbs.length - 1;
 
-                    if (href === HREFS.en || href === HREFS.es) {
-                        return null;
-                    }
-
-                    let itemClasses =
-                        paths === href
-                            ? `${listClasses} ${activeClasses}`
-                            : listClasses;
-                    let itemLink = capitalizeLinks
-                        ? link[0].toUpperCase() + link.slice(1, link.length)
-                        : link;
                     return (
                         <React.Fragment key={index}>
-                            <li className={itemClasses}>
-                                <Link href={href}>{itemLink}</Link>
+                            <li
+                                className={`flex items-center hover:text-beer-light transition-colors duration-300 hover:font-semibold ${
+                                    isActive && 'text-beer-amber font-semibold'
+                                }`}
+                            >
+                                <Link
+                                    href={breadcrumb.path}
+                                    aria-current={isActive ? 'page' : undefined}
+                                >
+                                    {breadcrumb.name}
+                                </Link>
                             </li>
-                            {pathNames.length !== index + 1 && separator}
+                            {index < breadcrumbs.length - 1 && (
+                                <li className="text-beer-light">
+                                    <FontAwesomeIcon icon={faChevronRight} />
+                                </li>
+                            )}
                         </React.Fragment>
                     );
                 })}
             </ul>
-        </div>
+        </nav>
     );
 };
 

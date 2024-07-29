@@ -50,14 +50,7 @@ export default async function AppLocaleLayout({
                         'relative mx-auto w-full overflow-auto lg:container max-w-[1536px] lg:max-w-[1536px]',
                     )}
                 >
-                    <Breadcrumb
-                        homeElement={'Home'}
-                        separator={<span> | </span>}
-                        containerClasses="flex py-1 bg-gradient-to-r from-purple-600 to-blue-600 bg-beer-dark text-beer-blonde text-sm px-4"
-                        listClasses="hover:underline mx-1"
-                        activeClasses="text-amber-500"
-                        capitalizeLinks={true}
-                    />
+                    <Breadcrumb />
                 </section>
 
                 <main
