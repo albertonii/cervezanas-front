@@ -224,7 +224,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                                     height={40}
                                                     alt={'Go to Shopping cart'}
                                                     className={
-                                                        'lg:h[50px] rounded-full bg-beer-blonde lg:w-[50px] p-[5px] border-beer-softBlondeBubble border-2 '
+                                                        'h-[25px] [25px] lg:h-[50px] lg:w-[50px]  rounded-full bg-beer-blonde p-[5px] border-beer-softBlondeBubble border-2 '
                                                     }
                                                 />
                                                 <div

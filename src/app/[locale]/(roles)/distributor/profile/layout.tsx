@@ -37,7 +37,7 @@ export default function layout({ children }: LayoutProps) {
             option: 'business_orders',
         },
         {
-            name: 'notifications',
+            name: 'notifications.label',
             icon: faBell,
             option: 'notifications',
         },

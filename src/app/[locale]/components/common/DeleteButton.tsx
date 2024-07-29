@@ -14,8 +14,6 @@ export function DeleteButton({ onClick }: Props) {
         <IconButton
             box
             danger
-            accent
-            classContainer={'py-2'}
             icon={faTrash}
             color={{ filled: '#fefefe', unfilled: '#fefefe' }}
             onClick={onClick}

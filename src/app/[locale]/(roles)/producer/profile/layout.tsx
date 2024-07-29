@@ -47,7 +47,7 @@ export default function layout({ children }: LayoutProps) {
             option: 'online_orders',
         },
         { name: 'event_orders', icon: faShoppingCart, option: 'event_orders' },
-        { name: 'notifications', icon: faBell, option: 'notifications' },
+        { name: 'notifications.label', icon: faBell, option: 'notifications' },
     ];
 
     const { user, supabase } = useAuth();

@@ -42,7 +42,7 @@ const sidebarLinks = [
         option: 'campaigns',
     },
     {
-        name: 'notifications',
+        name: 'notifications.label',
         icon: faBell,
         option: 'notifications',
     },

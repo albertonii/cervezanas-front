@@ -11,7 +11,6 @@ interface IconButtonProps {
     color?: { filled: string; unfilled: string };
     classContainer?: string;
     classIcon?: string;
-    classSpanChildren?: string;
     children?: React.ReactNode;
     title: string;
     box?: boolean;
@@ -32,7 +31,6 @@ export function IconButton({
     children,
     classContainer: classNameContainer,
     classIcon: classNameIcon,
-    classSpanChildren: classNameSpan,
     title,
     box,
     danger,
@@ -110,9 +108,9 @@ export function IconButton({
                 mt-0 flex items-center justify-center rounded border-2 border-beer-blonde p-1 transition duration-100 ease-in
                 ${box && 'h-auto w-10'}
                 ${disabled && 'cursor-not-allowed opacity-50'}
-                ${getSizeClass()}
-                ${getColorClass()}
                 ${classNameContainer} 
+                ${getColorClass()}
+                ${getSizeClass()}
             `}
             data-testid={`${title}`}
         >

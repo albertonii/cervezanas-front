@@ -32,7 +32,6 @@ export function AddCardButton({ onClick }: Props) {
             icon={faBeerMugEmpty}
             isActive={false}
             primary
-            classSpanChildren="pl-0 pr-1 py-1"
             title={'Add to cart'}
         />
     );

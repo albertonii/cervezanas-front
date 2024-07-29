@@ -1,10 +1,10 @@
 'use client';
 
 import Image from 'next/image';
+import Button from './common/Button';
 import React, { useEffect, useState } from 'react';
 import { INotification } from '@/lib//types/types';
 import { useAppContext } from '@/app/context/AppContext';
-import Button from './common/Button';
 import { NotificationPopup } from './notificationPopup/NotificationPopup';
 
 interface Props {
@@ -47,11 +47,10 @@ export function DeviceScreenNotification({ notifications }: Props) {
                     <Image
                         alt={'Notification bell'}
                         className={
-                            'rounded-full bg-beer-blonde lg:w-[48px] p-[5px] border-beer-softBlondeBubble border-2'
+                            'rounded-full bg-beer-blonde w-[40px]  lg:w-[50px] p-[5px] border-beer-softBlondeBubble border-2'
                         }
                         width={0}
                         height={0}
-                        style={{ width: '50px', height: '50px' }}
                         src={'/icons/notification-icon.svg'}
                     />
                     <h2 className="white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-softBlonde">

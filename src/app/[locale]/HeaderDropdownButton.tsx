@@ -333,7 +333,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                     src={'/icons/user-profile.svg'}
                     alt={'Profile'}
                     className={
-                        'lg:h[50px] rounded-full bg-beer-blonde lg:w-[50px] p-[5px] border-beer-softBlondeBubble border-2'
+                        'h-[40px] w-[40px] lg:h-[50px] lg:w-[50px]  rounded-full bg-beer-blonde p-[5px] border-beer-softBlondeBubble border-2 '
                     }
                     width={0}
                     height={0}

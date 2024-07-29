@@ -51,7 +51,7 @@ export default async function layout({ children }: LayoutProps) {
             option: 'reviews',
         },
         {
-            name: 'notifications',
+            name: 'notifications.label',
             icon: faBell,
             option: 'notifications',
         },
