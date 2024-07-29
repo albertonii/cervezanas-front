@@ -51,8 +51,8 @@ const RegionTable = ({ regions }: Props) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {regionArray.map((area) => (
-                                <tr key={`${area.country}`}>
+                            {regionArray.map((area, index) => (
+                                <tr key={`${area.country + index} `}>
                                     <td
                                         className="px-5 py-3 border-b border-gray-200 bg-white text-sm"
                                         colSpan={3}

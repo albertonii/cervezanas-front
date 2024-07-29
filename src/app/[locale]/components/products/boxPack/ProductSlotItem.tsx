@@ -262,7 +262,7 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
                     form={form}
                     inputType={'number'}
                     label={`box_packs.${index}.quantity`}
-                    labelText={t('quantity')}
+                    labelText={'quantity'}
                     registerOptions={{
                         required: true,
                         valueAsNumber: true,
@@ -281,7 +281,7 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
                 <InputLabel
                     form={form}
                     label={`box_packs.${index}.slots_per_product`}
-                    labelText={t('slots_per_product')}
+                    labelText={'slots_per_product'}
                     inputType={'number'}
                     registerOptions={{
                         required: true,

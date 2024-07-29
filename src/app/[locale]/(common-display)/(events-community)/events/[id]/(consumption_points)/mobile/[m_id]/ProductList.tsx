@@ -71,15 +71,16 @@ export default function ProductList({ cpMobile, eventId }: Props) {
                                     <>
                                         {cpm_product.product_packs &&
                                             cpm_product.is_active && (
-                                                <CPMProduct
-                                                    key={cpm_product.id}
-                                                    pack={
-                                                        cpm_product.product_packs
-                                                    }
-                                                    cpmId={cpm_product.id}
-                                                    cpMobile={cpMobile}
-                                                    eventId={eventId}
-                                                />
+                                                <div key={cpm_product.id}>
+                                                    <CPMProduct
+                                                        pack={
+                                                            cpm_product.product_packs
+                                                        }
+                                                        cpmId={cpm_product.id}
+                                                        cpMobile={cpMobile}
+                                                        eventId={eventId}
+                                                    />
+                                                </div>
                                             )}
                                     </>
                                 ),

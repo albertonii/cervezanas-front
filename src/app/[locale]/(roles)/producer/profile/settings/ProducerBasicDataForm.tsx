@@ -118,7 +118,7 @@ export function ProducerBasicDataForm({ profile }: Props) {
                     <InputLabel
                         form={form}
                         label={'company_name'}
-                        labelText={t('profile_acc_company_name')}
+                        labelText={'profile_acc_company_name'}
                         registerOptions={{
                             required: true,
                             pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
@@ -129,7 +129,7 @@ export function ProducerBasicDataForm({ profile }: Props) {
                     <InputLabel
                         form={form}
                         label={'id_number'}
-                        labelText={t('profile_acc_nif_cif')}
+                        labelText={'profile_acc_nif_cif'}
                         registerOptions={{
                             required: true,
                         }}

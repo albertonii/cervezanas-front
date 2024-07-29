@@ -147,7 +147,7 @@ const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
                     <InputLabel
                         form={form}
                         label={'cities_distribution_cost'}
-                        labelText={`${t('cities_distribution_cost')} (€) `}
+                        labelText={`${'cities_distribution_cost'} (€) `}
                         registerOptions={{
                             required: true,
                             valueAsNumber: true,
@@ -165,7 +165,7 @@ const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
                     <InputLabel
                         form={form}
                         label={'sub_regions_distribution_cost'}
-                        labelText={`${t('sub_regions_distribution_cost')} (€) `}
+                        labelText={`${'sub_regions_distribution_cost'} (€) `}
                         registerOptions={{
                             required: true,
                             valueAsNumber: true,
@@ -183,7 +183,7 @@ const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
                     <InputLabel
                         form={form}
                         label={'regions_distribution_cost'}
-                        labelText={`${t('regions_distribution_cost')} (€) `}
+                        labelText={`${'regions_distribution_cost'} (€) `}
                         registerOptions={{
                             required: true,
                             valueAsNumber: true,
@@ -201,7 +201,7 @@ const FlatrateCostForm = ({ flatrateCost, distributionCostId }: Props) => {
                     <InputLabel
                         form={form}
                         label={'country_distribution_cost'}
-                        labelText={`${t('country_distribution_cost')} (€) `}
+                        labelText={`${'country_distribution_cost'} (€) `}
                         registerOptions={{
                             required: true,
                             valueAsNumber: true,

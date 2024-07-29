@@ -47,7 +47,7 @@ export default function BMAnswerItem({
                 <InputLabel
                     form={form}
                     label={`questions.${questionIndex}.question.answers.${index}.answer`}
-                    labelText={`${t('answer')} ${index + 1}`}
+                    labelText={`${'answer'} ${index + 1}`}
                     registerOptions={{ required: true }}
                     placeholder="Answer text"
                 />

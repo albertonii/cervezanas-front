@@ -48,7 +48,7 @@ export default function EventItems({
 
             handleMessage({
                 type: 'error',
-                message: t('error_authorizing_event'),
+                message: 'error_authorizing_event',
             });
 
             return;
@@ -56,7 +56,7 @@ export default function EventItems({
 
         handleMessage({
             type: 'info',
-            message: t('success_authorizing_event'),
+            message: 'success_authorizing_event',
         });
 
         setIsAuthorized(true);
@@ -73,7 +73,7 @@ export default function EventItems({
 
             handleMessage({
                 type: 'error',
-                message: t('error_unauthorizing_event'),
+                message: 'error_unauthorizing_event',
             });
 
             return;
@@ -81,7 +81,7 @@ export default function EventItems({
 
         handleMessage({
             type: 'info',
-            message: t('success_unauthorizing_event'),
+            message: 'success_unauthorizing_event',
         });
 
         setIsAuthorized(false);

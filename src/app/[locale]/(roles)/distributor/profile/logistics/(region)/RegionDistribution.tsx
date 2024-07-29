@@ -199,7 +199,7 @@ export default function RegionDistribution({
         if (!areaAndWeightId) {
             handleMessage({
                 type: 'error',
-                message: t('errors.update_region_coverage_area'),
+                message: 'errors.update_region_coverage_area',
             });
 
             setIsLoading(false);
@@ -222,7 +222,7 @@ export default function RegionDistribution({
             ) {
                 handleMessage({
                     type: 'error',
-                    message: t('errors.update_region_coverage_area'),
+                    message: 'errors.update_region_coverage_area',
                 });
 
                 setIsLoading(false);
@@ -231,7 +231,7 @@ export default function RegionDistribution({
 
             handleMessage({
                 type: 'success',
-                message: t('success.update_region_coverage_area'),
+                message: 'success.update_region_coverage_area',
             });
 
             queryClient.invalidateQueries('distribution');

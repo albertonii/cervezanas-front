@@ -139,7 +139,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
                 if (!cp.owner_id) {
                     handleMessage({
                         type: 'error',
-                        message: t('errors.inserting_cp_event_no_cp_owner_id'),
+                        message: 'errors.inserting_cp_event_no_cp_owner_id',
                     });
                     return;
                 }

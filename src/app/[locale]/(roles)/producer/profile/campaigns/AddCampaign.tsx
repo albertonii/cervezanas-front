@@ -216,7 +216,7 @@ export function AddCampaign() {
                     <InputLabel
                         form={form}
                         label={'name'}
-                        labelText={t('campaign_name')}
+                        labelText={'campaign_name'}
                         registerOptions={{
                             required: true,
                         }}
@@ -238,7 +238,7 @@ export function AddCampaign() {
                 <InputTextarea
                     form={form}
                     label={'description'}
-                    labelText={t('campaign_description')}
+                    labelText={'campaign_description'}
                     registerOptions={{
                         required: true,
                     }}

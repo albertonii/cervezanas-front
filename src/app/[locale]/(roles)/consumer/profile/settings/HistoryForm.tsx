@@ -88,7 +88,7 @@ export function HistoryForm({ id, description, foundationYear }: Props) {
                         <InputTextarea
                             form={form}
                             label={'description'}
-                            labelText={t('history_business_description')}
+                            labelText={'history_business_description'}
                             registerOptions={{
                                 required: true,
                             }}
@@ -100,7 +100,7 @@ export function HistoryForm({ id, description, foundationYear }: Props) {
                         <InputLabel
                             form={form}
                             label={'foundation_year'}
-                            labelText={t('history_business_year')}
+                            labelText={'history_business_year'}
                             registerOptions={{
                                 required: true,
                             }}

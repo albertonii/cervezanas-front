@@ -129,7 +129,7 @@ export function BasicDataForm({ profile }: Props) {
                 <InputLabel
                     form={form}
                     label={'username'}
-                    labelText={t('profile_acc_username')}
+                    labelText={'profile_acc_username'}
                     registerOptions={{
                         required: true,
                     }}
@@ -140,7 +140,7 @@ export function BasicDataForm({ profile }: Props) {
                 <InputLabel
                     form={form}
                     label={'email'}
-                    labelText={t('profile_acc_email')}
+                    labelText={'profile_acc_email'}
                     registerOptions={{
                         required: true,
                         pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
@@ -153,7 +153,7 @@ export function BasicDataForm({ profile }: Props) {
                     <InputLabel
                         form={form}
                         label={'name'}
-                        labelText={t('profile_acc_name')}
+                        labelText={'profile_acc_name'}
                         registerOptions={{
                             required: true,
                             maxLength: 50,

@@ -53,7 +53,7 @@ export default function BMQuestionItem({
                         { label: 'hard', value: 'hard' },
                     ]}
                     label={`questions.${questionIndex}.question.difficulty`}
-                    labelText={`${t('difficulty')}`}
+                    labelText={`${'difficulty'}`}
                     registerOptions={{
                         required: true,
                     }}

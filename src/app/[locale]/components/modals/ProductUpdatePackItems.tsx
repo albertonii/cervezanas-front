@@ -107,7 +107,7 @@ const ProductUpdatePackItem = memo(
                             <InputLabel
                                 form={form}
                                 label={`packs.${index}.price`}
-                                labelText={`${t('pack_price')} €`}
+                                labelText={`${'pack_price'} €`}
                                 registerOptions={{
                                     value: getValues(`packs.${index}.price`),
                                     required: true,
@@ -124,7 +124,7 @@ const ProductUpdatePackItem = memo(
                         <InputLabel
                             form={form}
                             label={`packs.${index}.name`}
-                            labelText={t('pack_name')}
+                            labelText={'pack_name'}
                             registerOptions={{
                                 value: getValues(`packs.${index}.name`),
                                 required: true,

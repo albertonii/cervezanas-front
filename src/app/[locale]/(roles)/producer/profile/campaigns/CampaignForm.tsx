@@ -279,7 +279,7 @@ export function CampaignForm({
                 <InputLabel
                     form={form}
                     label={`campaigns.${index}.name`}
-                    labelText={t('name')}
+                    labelText={'name'}
                     registerOptions={{
                         required: true,
                         maxLength: 30,
@@ -290,7 +290,7 @@ export function CampaignForm({
                 <InputTextarea
                     form={form}
                     label={`campaigns.${index}.description`}
-                    labelText={t('description')}
+                    labelText={'description'}
                     registerOptions={{
                         required: true,
                         maxLength: 200,

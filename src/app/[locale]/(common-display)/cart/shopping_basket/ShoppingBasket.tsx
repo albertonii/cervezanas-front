@@ -260,7 +260,7 @@ export function ShoppingBasket({ user }: Props) {
                 console.error(error);
                 handleMessage({
                     type: 'error',
-                    message: t('errors.inserting_order'),
+                    message: 'errors.inserting_order',
                 });
             });
     };

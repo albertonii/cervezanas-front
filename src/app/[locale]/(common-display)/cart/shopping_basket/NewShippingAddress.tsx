@@ -77,7 +77,7 @@ export function NewShippingAddress() {
 
                 handleMessage({
                     type: 'success',
-                    message: t('success.shipping_address_created'),
+                    message: 'success.shipping_address_created',
                 });
             })
             .catch((error) => {
@@ -85,7 +85,7 @@ export function NewShippingAddress() {
                 setIsLoading(false);
                 handleMessage({
                     type: 'error',
-                    message: t('errors.creating_shipping_address'),
+                    message: 'errors.creating_shipping_address',
                 });
             });
     };

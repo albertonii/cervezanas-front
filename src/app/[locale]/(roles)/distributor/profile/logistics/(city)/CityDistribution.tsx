@@ -210,7 +210,7 @@ export default function CityDistribution({
         if (!areaAndWeightId) {
             handleMessage({
                 type: 'error',
-                message: t('errors.update_city_coverage_area'),
+                message: 'errors.update_city_coverage_area',
             });
 
             setIsLoading(false);
@@ -241,7 +241,7 @@ export default function CityDistribution({
             ) {
                 handleMessage({
                     type: 'error',
-                    message: t('errors.update_city_coverage_area'),
+                    message: 'errors.update_city_coverage_area',
                 });
 
                 setIsLoading(false);
@@ -250,7 +250,7 @@ export default function CityDistribution({
 
             handleMessage({
                 type: 'success',
-                message: t('success.update_city_coverage_area'),
+                message: 'success.update_city_coverage_area',
             });
 
             queryClient.invalidateQueries('distribution');

@@ -64,14 +64,14 @@ export default function PromoCode() {
             //     applyDiscount(data.discount);
             //     handleMessage({
             //         type: 'success',
-            //         message: t('promo_code_applied', {
+            //         message: ('promo_code_applied', {
             //             discount: data.discount,
             //         }),
             //     });
             // } else {
             //     handleMessage({
             //         type: 'error',
-            //         message: t('invalid_promo_code'),
+            //         message: ('invalid_promo_code'),
             //     });
             // }
         },
@@ -79,7 +79,7 @@ export default function PromoCode() {
             console.error(error);
             handleMessage({
                 type: 'error',
-                message: t('errors.validating_promo_code'),
+                message: 'errors.validating_promo_code',
             });
         },
     });

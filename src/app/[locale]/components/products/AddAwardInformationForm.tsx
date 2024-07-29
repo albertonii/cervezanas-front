@@ -38,7 +38,7 @@ export default function AddAwardInformationForm({
             <InputLabel
                 form={form}
                 label={`awards.${index}.description`}
-                labelText={t('description')}
+                labelText={'description'}
                 registerOptions={{
                     required: true,
                 }}
@@ -48,7 +48,7 @@ export default function AddAwardInformationForm({
             <InputLabel
                 form={form}
                 label={`awards.${index}.year`}
-                labelText={t('year')}
+                labelText={'year'}
                 registerOptions={{
                     required: true,
                     valueAsNumber: true,

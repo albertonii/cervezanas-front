@@ -41,7 +41,7 @@ export default function StockInformation({ form }: Props) {
                     <InputLabel
                         form={form}
                         label={'stock_quantity'}
-                        labelText={t('stock_quantity_label')}
+                        labelText={'stock_quantity_label'}
                         registerOptions={{
                             value: getValues('stock_quantity'),
                             required: true,
@@ -56,7 +56,7 @@ export default function StockInformation({ form }: Props) {
                     <InputLabel
                         form={form}
                         label={'stock_limit_notification'}
-                        labelText={t('stock_limit_notification_label')}
+                        labelText={'stock_limit_notification_label'}
                         registerOptions={{
                             value: getValues('stock_limit_notification'),
                             required: true,

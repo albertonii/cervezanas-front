@@ -185,7 +185,7 @@ const AreaAndWeightCostForm = ({
                         <InputLabel
                             form={form}
                             label={'cost_extra_per_kg'}
-                            labelText={t('cost_extra_per_kg')}
+                            labelText={'cost_extra_per_kg'}
                             registerOptions={{
                                 required: true,
                                 min: 0,

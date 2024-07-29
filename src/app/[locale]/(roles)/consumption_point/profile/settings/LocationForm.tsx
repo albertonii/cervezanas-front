@@ -167,7 +167,7 @@ export function LocationForm({ profile_location }: Props) {
                     <InputLabel
                         form={form}
                         label={'addressName'}
-                        labelText={t('loc_name')}
+                        labelText={'loc_name'}
                         registerOptions={{
                             required: true,
                         }}
@@ -176,7 +176,7 @@ export function LocationForm({ profile_location }: Props) {
                     <InputLabel
                         form={form}
                         label={'addressLastname'}
-                        labelText={t('loc_lastname')}
+                        labelText={'loc_lastname'}
                         registerOptions={{
                             required: true,
                         }}
@@ -187,7 +187,7 @@ export function LocationForm({ profile_location }: Props) {
                     <InputLabel
                         form={form}
                         label={'addressDoc'}
-                        labelText={t('document_id')}
+                        labelText={'document_id'}
                         registerOptions={{
                             required: true,
                         }}
@@ -197,7 +197,7 @@ export function LocationForm({ profile_location }: Props) {
                     <InputLabel
                         form={form}
                         label={'addressCompany'}
-                        labelText={t('loc_company')}
+                        labelText={'loc_company'}
                         registerOptions={{
                             required: true,
                         }}
@@ -207,7 +207,7 @@ export function LocationForm({ profile_location }: Props) {
                     <InputLabel
                         form={form}
                         label={'addressPhone'}
-                        labelText={t('loc_phone')}
+                        labelText={'loc_phone'}
                         registerOptions={{
                             required: true,
                         }}
@@ -218,7 +218,7 @@ export function LocationForm({ profile_location }: Props) {
                 <InputLabel
                     form={form}
                     label={'address1'}
-                    labelText={t('loc_location')}
+                    labelText={'loc_location'}
                     registerOptions={{
                         required: true,
                     }}
@@ -228,7 +228,7 @@ export function LocationForm({ profile_location }: Props) {
                 <InputLabel
                     form={form}
                     label={'address2'}
-                    labelText={t('loc_location')}
+                    labelText={'loc_location'}
                     registerOptions={{
                         required: true,
                     }}
@@ -239,7 +239,7 @@ export function LocationForm({ profile_location }: Props) {
                     <InputLabel
                         form={form}
                         label={'addressPC'}
-                        labelText={t('loc_pc')}
+                        labelText={'loc_pc'}
                         registerOptions={{
                             required: true,
                         }}
@@ -250,7 +250,7 @@ export function LocationForm({ profile_location }: Props) {
                     <InputLabel
                         form={form}
                         label={'addressCity'}
-                        labelText={t('loc_city')}
+                        labelText={'loc_city'}
                         registerOptions={{
                             required: true,
                         }}

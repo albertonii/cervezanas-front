@@ -15,6 +15,10 @@ export function DeviceScreenNotification({ notifications }: Props) {
     const { openNotification, setOpenNotification } = useAppContext();
 
     const [animateNotifications, setAnimateNotifications] = useState(false);
+    const [numberOfUnreadNotifications, setNumberOfUnreadNotifications] =
+        useState(
+            notifications.filter((notification) => !notification.read).length,
+        );
 
     useEffect(() => {
         setTimeout(() => {
@@ -23,11 +27,13 @@ export function DeviceScreenNotification({ notifications }: Props) {
                 setAnimateNotifications(false);
             }, 600);
         }, 300);
-    }, [notifications]);
 
-    const numberOfUnreadNotifications = notifications.filter(
-        (notification) => !notification.read,
-    ).length;
+        console.log(notifications);
+
+        setNumberOfUnreadNotifications(
+            notifications.filter((notification) => !notification.read).length,
+        );
+    }, [notifications]);
 
     const handleClickBell = () => {
         setOpenNotification(true);

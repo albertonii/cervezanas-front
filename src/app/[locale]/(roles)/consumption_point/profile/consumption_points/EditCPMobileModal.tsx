@@ -336,7 +336,7 @@ export default function EditCPMobileModal({
                     <InputTextarea
                         form={form}
                         label={'cp_description'}
-                        labelText={t('description')}
+                        labelText={'description'}
                         registerOptions={{
                             required: true,
                         }}
@@ -403,7 +403,7 @@ export default function EditCPMobileModal({
                                 <InputLabel
                                     form={form}
                                     label={'organizer_name'}
-                                    labelText={t('name')}
+                                    labelText={'name'}
                                     registerOptions={{
                                         required: true,
                                     }}
@@ -412,7 +412,7 @@ export default function EditCPMobileModal({
                                 <InputLabel
                                     form={form}
                                     label={'organizer_lastname'}
-                                    labelText={t('lastname')}
+                                    labelText={'lastname'}
                                     registerOptions={{
                                         required: true,
                                     }}
@@ -424,7 +424,7 @@ export default function EditCPMobileModal({
                                 <InputLabel
                                     form={form}
                                     label={'organizer_email'}
-                                    labelText={t('email')}
+                                    labelText={'email'}
                                     registerOptions={{
                                         required: true,
                                     }}
@@ -434,7 +434,7 @@ export default function EditCPMobileModal({
                                 <InputLabel
                                     form={form}
                                     label={'organizer_phone'}
-                                    labelText={t('phone')}
+                                    labelText={'phone'}
                                     registerOptions={{
                                         required: true,
                                     }}

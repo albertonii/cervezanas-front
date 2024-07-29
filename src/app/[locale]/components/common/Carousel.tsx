@@ -101,29 +101,27 @@ export function Carousel({ gallery, handleSetGalleryIndex }: Props) {
             <div className="carousel-container relative z-0 flex touch-pan-x snap-x snap-mandatory gap-2 overflow-hidden scroll-smooth px-10">
                 {gallery.map((resource, index) => {
                     return (
-                        <>
-                            <div
-                                key={resource.title + index}
-                                className={`
+                        <div
+                            key={resource.title + index}
+                            className={`
                                         relative snap-start overflow-hidden text-center transition-all hover:cursor-pointer border-2 rounded-md w-[60px] h-[60px] lg:w-[70px] lg:h-[70px] xl:w-[120px] xl:h-[120px]
                                         ${
                                             currentIndex === index
                                                 ? 'border-beer-blonde'
                                                 : 'opacity-75 hover:opacity-100 border-beer-blonde'
                                         }`}
-                                onClick={() => {
-                                    handleClick(index);
+                            onClick={() => {
+                                handleClick(index);
+                            }}
+                        >
+                            <CarouselItem
+                                resource={{
+                                    link: resource.link,
+                                    imageUrl: resource.imageUrl,
+                                    title: resource.title,
                                 }}
-                            >
-                                <CarouselItem
-                                    resource={{
-                                        link: resource.link,
-                                        imageUrl: resource.imageUrl,
-                                        title: resource.title,
-                                    }}
-                                />
-                            </div>
-                        </>
+                            />
+                        </div>
                     );
                 })}
             </div>

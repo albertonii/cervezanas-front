@@ -324,7 +324,7 @@ export function UpdateProductModal({
         if (response.status !== 200) {
             handleMessage({
                 type: 'error',
-                message: t('errors.update_product'),
+                message: 'errors.update_product',
             });
 
             setIsLoading(false);
@@ -373,7 +373,7 @@ export function UpdateProductModal({
         if (response.status !== 200) {
             handleMessage({
                 type: 'error',
-                message: t('errors.update_beer_attributes'),
+                message: 'errors.update_beer_attributes',
             });
 
             setIsLoading(false);
@@ -407,7 +407,7 @@ export function UpdateProductModal({
         if (response.status !== 200) {
             handleMessage({
                 type: 'error',
-                message: t('errors.update_stock'),
+                message: 'errors.update_stock',
             });
 
             setIsLoading(false);
@@ -456,7 +456,7 @@ export function UpdateProductModal({
         if (response.status !== 200) {
             handleMessage({
                 type: 'error',
-                message: t('errors.update_packs'),
+                message: 'errors.update_packs',
             });
 
             return;
@@ -494,7 +494,7 @@ export function UpdateProductModal({
         if (response.status !== 200) {
             handleMessage({
                 type: 'error',
-                message: t('errors.update_awards'),
+                message: 'errors.update_awards',
             });
 
             return;

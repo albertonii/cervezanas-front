@@ -92,7 +92,7 @@ export const NewBillingCompanyAddress = forwardRef(
 
                     handleMessage({
                         type: 'success',
-                        message: t('success.billing_address_created'),
+                        message: 'success.billing_address_created',
                     });
                 })
                 .catch((error) => {
@@ -100,7 +100,7 @@ export const NewBillingCompanyAddress = forwardRef(
                     setIsLoading(false);
                     handleMessage({
                         type: 'error',
-                        message: t('errors.creating_billing_address'),
+                        message: 'errors.creating_billing_address',
                     });
                 })
                 .finally(() => {

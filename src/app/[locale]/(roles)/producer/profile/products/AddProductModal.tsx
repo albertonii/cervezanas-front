@@ -332,7 +332,7 @@ export function AddProductModal() {
         if (response.status !== 200) {
             handleMessage({
                 type: 'error',
-                message: t('errors.insert_product'),
+                message: 'errors.insert_product',
             });
 
             setIsLoading(true);
@@ -343,7 +343,7 @@ export function AddProductModal() {
         if (response.status === 200) {
             handleMessage({
                 type: 'success',
-                message: t('success.insert_product'),
+                message: 'success.insert_product',
             });
 
             setShowModal(false);

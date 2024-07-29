@@ -139,7 +139,7 @@ export default function UpdateBeerInfoSection({
                 <InputLabel
                     form={form}
                     label={'intensity'}
-                    labelText={t('intensity_input')}
+                    labelText={'intensity_input'}
                     registerOptions={{
                         required: true,
                         min: 0,
@@ -243,7 +243,7 @@ export default function UpdateBeerInfoSection({
                 <InputLabel
                     form={form}
                     label={'ibu'}
-                    labelText={t('ibu_input')}
+                    labelText={'ibu_input'}
                     registerOptions={{
                         required: true,
                         min: 0,
@@ -375,7 +375,7 @@ export default function UpdateBeerInfoSection({
                     <InputLabel
                         form={form}
                         label={'weight'}
-                        labelText={t('weight') + ' (gr)'}
+                        labelText={'weight' + ' (gr)'}
                         registerOptions={{
                             required: true,
                             min: 0,
@@ -391,7 +391,7 @@ export default function UpdateBeerInfoSection({
             <InputLabel
                 form={form}
                 label={'price'}
-                labelText={`${t('pvpr_input')}`}
+                labelText={`${'pvpr_input'}`}
                 registerOptions={{
                     value: getValues('price'),
                     required: true,

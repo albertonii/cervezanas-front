@@ -1017,5 +1017,9 @@
         "is_read": "Read",
         "is_unread": "Unread"
     },
-    "profile_title_roles": "Roles"
+    "profile_title_roles": "Roles",
+    "more_info": "More info",
+    "close_cart": "Close cart",
+    "active": "Active",
+    "inactive": "Inactive"
 }

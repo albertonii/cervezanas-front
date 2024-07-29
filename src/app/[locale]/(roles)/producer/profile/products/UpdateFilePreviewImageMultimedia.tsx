@@ -94,7 +94,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                 if (response.status !== 200) {
                     handleMessage({
                         type: 'error',
-                        message: t('error_update_product_multimedia'),
+                        message: 'error_update_product_multimedia',
                     });
                     return;
                 }
@@ -102,7 +102,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                 if (response.status === 200) {
                     handleMessage({
                         type: 'success',
-                        message: t('success_update_product_multimedia'),
+                        message: 'success_update_product_multimedia',
                     });
                 }
             } else if (registerName === MULTIMEDIA.P_BACK) {
@@ -119,7 +119,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                 if (response.status !== 200) {
                     handleMessage({
                         type: 'error',
-                        message: t('error_update_product_multimedia'),
+                        message: 'error_update_product_multimedia',
                     });
                     return;
                 }
@@ -127,7 +127,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                 if (response.status === 200) {
                     handleMessage({
                         type: 'success',
-                        message: t('success_update_product_multimedia'),
+                        message: 'success_update_product_multimedia',
                     });
                 }
             } else if (registerName === MULTIMEDIA.P_EXTRA_1) {
@@ -144,7 +144,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                 if (response.status !== 200) {
                     handleMessage({
                         type: 'error',
-                        message: t('error_update_product_multimedia'),
+                        message: 'error_update_product_multimedia',
                     });
                     return;
                 }
@@ -152,7 +152,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                 if (response.status === 200) {
                     handleMessage({
                         type: 'success',
-                        message: t('success_update_product_multimedia'),
+                        message: 'success_update_product_multimedia',
                     });
                 }
             } else if (registerName === MULTIMEDIA.P_EXTRA_2) {
@@ -169,7 +169,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                 if (response.status !== 200) {
                     handleMessage({
                         type: 'error',
-                        message: t('error_update_product_multimedia'),
+                        message: 'error_update_product_multimedia',
                     });
                     return;
                 }
@@ -177,7 +177,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                 if (response.status === 200) {
                     handleMessage({
                         type: 'success',
-                        message: t('success_update_product_multimedia'),
+                        message: 'success_update_product_multimedia',
                     });
                 }
             } else if (registerName === MULTIMEDIA.P_EXTRA_3) {
@@ -194,7 +194,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                 if (response.status !== 200) {
                     handleMessage({
                         type: 'error',
-                        message: t('error_update_product_multimedia'),
+                        message: 'error_update_product_multimedia',
                     });
                     return;
                 }
@@ -202,7 +202,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                 if (response.status === 200) {
                     handleMessage({
                         type: 'success',
-                        message: t('success_update_product_multimedia'),
+                        message: 'success_update_product_multimedia',
                     });
                 }
             }

@@ -200,7 +200,7 @@ export const UpdBeerMasterQuestions = ({ form, experienceId }: Props) => {
                                 { label: 'hard', value: 'hard' },
                             ]}
                             label={`questions.${questionIndex}.question.difficulty`}
-                            labelText={`${t('difficulty')}`}
+                            labelText={`${'difficulty'}`}
                             registerOptions={{
                                 required: true,
                             }}

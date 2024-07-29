@@ -219,7 +219,7 @@ export default function OriginInfo() {
                         <InputLabel
                             form={form}
                             label={'postal_code'}
-                            labelText={`${t('postal_code')}`}
+                            labelText={`${'postal_code'}`}
                             registerOptions={{
                                 required: true,
                                 valueAsNumber: true,

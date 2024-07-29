@@ -1043,5 +1043,9 @@
     "request_producer_deregistration": "Solicitar baja como productor",
     "request_distributor_registration": "Solicitar alta como distribuidor",
     "request_producer_registration": "Solicitar alta como productor",
-    "profile_title_roles": "Roles"
+    "profile_title_roles": "Roles",
+    "more_info": "Más información",
+    "close_cart": "Cerrar carrito",
+    "active": "Activo",
+    "inactive": "Inactivo"
 }

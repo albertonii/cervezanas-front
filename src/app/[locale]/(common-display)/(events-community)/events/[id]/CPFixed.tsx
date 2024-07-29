@@ -17,7 +17,7 @@ export default function CPFixed({ cp, eventId }: CPFixedProps) {
     const t = useTranslations();
 
     return (
-        <tr key={cp.id} className="">
+        <tr className="">
             <td className=" space-x-2 px-6 py-4">
                 <Image
                     src={cp.logo_url ?? COMMON.PROFILE_IMG}

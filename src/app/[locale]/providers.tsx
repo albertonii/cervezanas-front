@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactQueryWrapper from './ReactQueryWrapper';
 import { NextIntlClientProvider } from 'next-intl';
 import { EventCartProvider } from '@/app/context/EventCartContext';
@@ -30,19 +30,22 @@ export default function Providers({
             messages={messages}
             timeZone={timeZone}
         >
-            <MessageProvider>
-                <ReactQueryWrapper>
-                    <AuthContextProvider serverSession={session}>
-                        <AppContextProvider>
-                            <ShoppingCartProvider>
-                                <EventCartProvider>
-                                    {children}
-                                </EventCartProvider>
-                            </ShoppingCartProvider>
-                        </AppContextProvider>
-                    </AuthContextProvider>
-                </ReactQueryWrapper>
-            </MessageProvider>
+            <Suspense fallback={<div>Loading translations...</div>}>
+                {' '}
+                <MessageProvider>
+                    <ReactQueryWrapper>
+                        <AuthContextProvider serverSession={session}>
+                            <AppContextProvider>
+                                <ShoppingCartProvider>
+                                    <EventCartProvider>
+                                        {children}
+                                    </EventCartProvider>
+                                </ShoppingCartProvider>
+                            </AppContextProvider>
+                        </AuthContextProvider>
+                    </ReactQueryWrapper>
+                </MessageProvider>
+            </Suspense>
         </NextIntlClientProvider>
     );
 }

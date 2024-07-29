@@ -205,7 +205,7 @@ export default function SubRegionDistribution({
         if (!areaAndWeightId) {
             handleMessage({
                 type: 'error',
-                message: t('errors.update_sub_region_coverage_area'),
+                message: 'errors.update_sub_region_coverage_area',
             });
 
             setIsLoading(false);
@@ -232,7 +232,7 @@ export default function SubRegionDistribution({
             ) {
                 handleMessage({
                     type: 'error',
-                    message: t('errors.update_sub_region_coverage_area'),
+                    message: 'errors.update_sub_region_coverage_area',
                 });
 
                 setIsLoading(false);
@@ -241,7 +241,7 @@ export default function SubRegionDistribution({
 
             handleMessage({
                 type: 'success',
-                message: t('success.update_sub_region_coverage_area'),
+                message: 'success.update_sub_region_coverage_area',
             });
 
             queryClient.invalidateQueries('distribution');

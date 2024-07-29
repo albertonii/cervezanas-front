@@ -139,7 +139,7 @@ export default function CPMProductItem({
     };
 
     return (
-        <tr key={pack.product_id} className="">
+        <tr className="">
             <td className="space-x-2 px-6 py-4">
                 <DisplayImageProduct
                     imgSrc={

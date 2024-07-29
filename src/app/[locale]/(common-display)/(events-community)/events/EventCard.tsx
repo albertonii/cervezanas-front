@@ -203,12 +203,12 @@ export default function EventCard({ event }: EventCardProps) {
                             </div>
 
                             <div>
-                                <Button class="flex-no-shrink border-beer-gold-300 right:0 relative -bottom-12 ml-4 border-2 bg-beer-darkGold px-5 py-2 text-xl font-semibold uppercase tracking-wider text-white shadow-sm transition duration-300 ease-in hover:border-beer-blonde hover:bg-beer-softBlonde hover:text-beer-darkGold hover:shadow-lg sm:-right-3">
+                                <Button class="flex-no-shrink border-beer-gold-300 right:0 relative -bottom-12 ml-4 border-2 bg-beer-darkGold px-5 py-2 text-sm lg:text-lg font-semibold uppercase tracking-wider text-white shadow-sm transition duration-300 ease-in hover:border-beer-blonde hover:bg-beer-softBlonde hover:text-beer-darkGold hover:shadow-lg sm:-right-3">
                                     <Link
                                         href={`${ROUTE_EVENTS}/${event.id}`}
                                         locale={locale}
                                     >
-                                        {t('info')}
+                                        {t('more_info')}
                                     </Link>
                                 </Button>
                             </div>

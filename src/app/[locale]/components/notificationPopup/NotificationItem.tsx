@@ -1,9 +1,9 @@
+import useNotifications from '@/hooks/useNotifications';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { INotification } from '@/lib//types/types';
 import { getTimeElapsed } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
-import { useAuth } from '../../(auth)/Context/useAuth';
-import { INotification } from '@/lib//types/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
@@ -14,8 +14,8 @@ interface Props {
 const NotificationItem = ({ notification }: Props) => {
     const t = useTranslations();
     const locale = useLocale();
-    const { supabase } = useAuth();
     const router = useRouter();
+    const { markAsRead } = useNotifications();
 
     const [isRead, setIsRead] = useState<boolean>(false);
 
@@ -25,28 +25,28 @@ const NotificationItem = ({ notification }: Props) => {
         return () => {};
     }, []);
 
-    const handleOnClick = (notification: INotification) => {
+    const handleOnClickText = (notification: INotification) => {
         if (!notification) return;
 
-        supabase
-            .from('notifications')
-            .update({ read: true })
-            .eq('id', notification.id)
+        markAsRead(notification.id)
             .then(() => {
                 router.push(`/${locale}${notification.link}`);
+                setIsRead(true);
+            })
+            .catch((error) => {
+                console.error(error);
             });
-
-        setIsRead(true);
     };
     const handleOnClickOpenEye = (notification: INotification) => {
         if (!notification) return;
 
-        supabase
-            .from('notifications')
-            .update({ read: true })
-            .eq('id', notification.id);
-
-        setIsRead(true);
+        markAsRead(notification.id)
+            .then(() => {
+                setIsRead(true);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     return (
@@ -89,9 +89,9 @@ const NotificationItem = ({ notification }: Props) => {
                 className={`
                     ${isRead && 'text-gray-500'}
                     text-sm lg:text-base font-medium justify-start w-full hover:underline hover:text-beer-darkGold
-                    hover:cursor-pointer transform transition-all duration-300 ease-in-out hover:font-semibold dark:text-beer-soft-blonde
+                    hover:cursor-pointer transform transition-all duration-300 ease-in-out dark:text-beer-soft-blonde
                 `}
-                onClick={() => handleOnClick(notification)}
+                onClick={() => handleOnClickText(notification)}
             >
                 {notification.message}
             </span>

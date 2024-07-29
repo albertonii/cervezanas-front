@@ -319,6 +319,8 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
         }
     };
 
+    if (!role) return null;
+
     return (
         <div
             className="relative flex h-full items-center justify-center font-medium w-[50px]"

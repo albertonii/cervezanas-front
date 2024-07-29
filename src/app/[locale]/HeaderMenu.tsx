@@ -16,15 +16,15 @@ export default function HeaderMenu({ i18nLocaleArray }: Props) {
     const device = useDeviceDetection();
 
     const { supabase } = useAuth();
-    const { notifications } = useNotifications();
+    const { notifications, setNotifications } = useNotifications();
 
-    const [notificationState, setNotificationState] = useState<INotification[]>(
-        [],
-    );
+    // const [notificationState, setNotificationState] = useState<INotification[]>(
+    //     [],
+    // );
 
-    useEffect(() => {
-        setNotificationState(notifications);
-    }, [notifications]);
+    // useEffect(() => {
+    //     setNotificationState(notifications);
+    // }, [notifications]);
 
     useEffect(() => {
         supabase
@@ -37,26 +37,26 @@ export default function HeaderMenu({ i18nLocaleArray }: Props) {
                     table: 'notifications',
                 },
                 (payload) => {
-                    setNotificationState((prevState) => [
+                    setNotifications((prevState) => [
                         ...prevState,
                         payload.new as INotification,
                     ]);
                 },
             )
             .subscribe();
-    }, [supabase, notificationState, setNotificationState]);
+    }, [supabase, notifications, setNotifications]);
 
     return (
         <header className="header sm:relative w-full bg-beer-foam bg-transparent">
             <nav>
                 {device === 'Mobile' ? (
                     <MobileMenu
-                        notifications={notificationState}
+                        notifications={notifications}
                         i18nLocaleArray={i18nLocaleArray}
                     />
                 ) : (
                     <ScreenMenu
-                        notifications={notificationState}
+                        notifications={notifications}
                         i18nLocaleArray={i18nLocaleArray}
                     />
                 )}
