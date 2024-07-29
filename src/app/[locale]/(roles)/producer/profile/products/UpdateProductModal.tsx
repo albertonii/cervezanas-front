@@ -88,7 +88,7 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
     type: z.string().min(2, { message: 'errors.input_number__min_2' }).max(50, {
         message: 'errors.input_required',
     }),
-
+    ingredients: z.array(z.string()).optional(),
     is_public: z.boolean(),
     volume: z.number().min(0, { message: 'errors.input_number_min_0' }),
     weight: z.number().min(0, { message: 'errors.input_number_min_0' }),
@@ -108,7 +108,6 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
         .max(50, {
             message: 'errors.error_50_number_max_length',
         }),
-
     awards: z.array(
         z.object({
             name: z

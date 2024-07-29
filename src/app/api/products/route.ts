@@ -39,6 +39,10 @@ export async function POST(request: NextRequest) {
         const volume = parseFloat(formData.get('beer.volume') as string);
         const format = formData.get('beer.format') as string;
         const ibu = parseFloat(formData.get('beer.ibu') as string);
+        const ingredients = formData.get('beer.ingredients') as string;
+
+        // Transformar string a array separado por comas
+        const ingredientsArray = ingredients.split(',');
 
         // Stock - Inventory
         const stockQuantity = parseFloat(
@@ -125,6 +129,7 @@ export async function POST(request: NextRequest) {
                 format,
                 weight,
                 ibu,
+                ingredients: ingredientsArray,
             });
 
             if (beerError) {

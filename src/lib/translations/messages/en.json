@@ -1021,5 +1021,9 @@
     "more_info": "More info",
     "close_cart": "Close cart",
     "active": "Active",
-    "inactive": "Inactive"
+    "inactive": "Inactive",
+    "key_features": "Key features",
+    "tasting_notes": "Tasting notes",
+    "ingredients": "Ingredients",
+    "brewery_info": "Brewery info"
 }

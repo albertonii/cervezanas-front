@@ -25,6 +25,8 @@ import {
 import { formatCurrency } from '@/utils/formatCurrency';
 import { capitalizeFirstLetter } from '@/utils/formatWords';
 import { DisplayInputError } from '../../common/DisplayInputError';
+import IngredientInput from './IngredientInput';
+import { ChipCard } from '../../common/ChipCard';
 
 interface Props {
     form: UseFormReturn<ModalAddProductFormData>;
@@ -46,6 +48,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
     );
 
     const [volume, setVolume] = useState<number>(0);
+    const [ingredients, setIngredients] = useState<string[]>([]);
 
     useEffect(() => {
         const colorSettings = customizeSettings.colors.map((color) => {
@@ -70,6 +73,10 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
         // setFamStyleOptions(newSet);
     }, [customizeSettings.family_styles]);
 
+    useEffect(() => {
+        setValue('ingredients', ingredients);
+    }, [ingredients]);
+
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setFormatOptions(event.target.value);
     };
@@ -78,6 +85,18 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
         setVolume(parseInt(e.target.value));
         setValue('volume', parseInt(e.target.value));
         trigger('volume');
+    };
+
+    // const handleRemoveIngredient = (ingredient: string) => {
+    //     const newIngredients = ingredients.filter(
+    //         (item) => item !== ingredient,
+    //     );
+    //     setIngredients(newIngredients);
+    // };
+
+    const handleRemoveIngredient = (index: number) => {
+        const newIngredients = ingredients.filter((_, i) => i !== index);
+        setIngredients(newIngredients);
     };
 
     return (
@@ -319,12 +338,12 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                         </div>
                     </div>
 
-                    {/* Product Weight */}
-                    <div className="w-full">
+                    {/* Product Weight & Individual Price */}
+                    <div className="flex w-full flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
                         <InputLabel
                             form={form}
                             label={'weight'}
-                            labelText={'weight' + ' (gr)'}
+                            labelText={t('weight') + ' (gr)'}
                             registerOptions={{
                                 required: true,
                                 min: 0,
@@ -333,10 +352,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                             inputType="number"
                             defaultValue={330}
                         />
-                    </div>
 
-                    {/* Individual Price */}
-                    <div className="w-full">
                         <InputLabel
                             form={form}
                             label={'price'}
@@ -350,6 +366,26 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                             placeholder={formatCurrency(2.5)}
                             infoTooltip={'pvpr_tooltip'}
                         />
+                    </div>
+
+                    {/* Ingredients  */}
+                    <IngredientInput
+                        ingredients={ingredients}
+                        setIngredients={setIngredients}
+                    />
+
+                    {/* Display added ingredients */}
+                    <div className="mt-4 flex flex-wrap gap-2">
+                        {ingredients.map((ingredient, index) => (
+                            <span id={ingredient + index}>
+                                <ChipCard
+                                    content={ingredient}
+                                    handleRemove={() =>
+                                        handleRemoveIngredient(index)
+                                    }
+                                />
+                            </span>
+                        ))}
                     </div>
                 </section>
             </div>

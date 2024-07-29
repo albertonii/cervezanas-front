@@ -162,20 +162,17 @@ export interface IBeer {
     fermentation: string;
     color: string;
     family: string;
-    era?: string;
     aroma: string;
     is_gluten: boolean;
     format: string;
     volume: number;
     sku: string;
     intensity: number;
-    origin?: string;
-    country: string;
-    composition: string;
     srm: number;
     og: number;
     fg: number;
     ibu: number;
+    ingredients: string[];
     products?: IProduct;
 }
 
@@ -763,10 +760,9 @@ export type ModalAddProductFormData = {
     intensity: number;
     aroma: number;
     family: number;
-    origin?: number;
-    era?: number;
     is_gluten: boolean;
     type: string;
+    ingredients?: string[];
     p_principal?: any;
     p_back?: any;
     p_extra_1?: any;
@@ -796,10 +792,9 @@ export type ModalUpdateProductFormData = {
     ibu: number;
     aroma: number;
     family: number;
-    origin?: number;
-    era?: number;
     is_gluten: boolean;
     type: string;
+    ingredients?: string[];
     p_principal?: any;
     p_back?: any;
     p_extra_1?: any;
