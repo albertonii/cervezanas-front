@@ -170,7 +170,7 @@ const ScreenMenu = memo(function ScreenMenu({
                             return (
                                 <li
                                     key={locale}
-                                    className="mt-3 h-[30px] w-[40px] rounded-full border-2 bg-beer-blonde p-1 text-center text-xs uppercase text-beer-dark hover:text-white hover:bg-beer-draft font-semibold pt-[5px]"
+                                    className="mt-3 h-[30px] w-[30px] rounded-full border-2 bg-beer-blonde p-1 text-center text-xs uppercase text-beer-dark hover:text-white hover:bg-beer-draft pt-[5px]"
                                 >
                                     <Link href={redirectedPathName(locale)}>
                                         {locale}
@@ -181,12 +181,12 @@ const ScreenMenu = memo(function ScreenMenu({
 
                         {!user ? (
                             <>
-                                <li className="flex items-center">
+                                <li className="flex items-center bg-cerv-brown">
                                     <Button
                                         onClick={() => handleSignIn()}
                                         title={''}
                                     >
-                                        <section className="mx-2 my-1 flex items-center justify-center space-x-2">
+                                        <section className="mx-2 my-1 flex items-center justify-center space-x-2 text-white hover:text-bear-dark p-1 ">
                                             <Image
                                                 width={25}
                                                 height={25}

@@ -47,7 +47,7 @@ export default function HeaderMenu({ i18nLocaleArray }: Props) {
     }, [supabase, notificationState, setNotificationState]);
 
     return (
-        <header className="header sm:relative w-full bg-beer-foam bg-transparent">
+        <header className="header sm:relative w-full bg-beer-foam bg-transparent z-10">
             <nav>
                 {device === 'Mobile' ? (
                     <MobileMenu

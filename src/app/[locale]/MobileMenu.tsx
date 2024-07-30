@@ -86,7 +86,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
         'text-lg font-bold text-beer-dark uppercase py-4 border-b-2 border-beer-softBlonde mr-4';
 
     return (
-        <header className="header absolute w-full bg-beer-darkGold m:hidden md:z-30 bg-[url('/assets/header-bg.jpg')] bg-cover bg-center">
+        <header className="header w-full bg-beer-darkGold m:hidden md:z-30 bg-[url('/assets/header-bg.jpg')] bg-cover bg-center">
             <nav>
                 {/* Hamburguer menu  */}
                 <Button
@@ -115,7 +115,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                 </Button>
 
                 {!user && (
-                    <div className="m-auto absolute left-2/4 -ml-24 mt-2 z-20">
+                    <div className="m-auto absolute left-2/4 -ml-24 mt-2 z-20 p-2 bg-beer-softBlonde bg-opacity-50 rounded-md">
                         <Button
                             class={`${MENU_ITEM_STYLES} bg-beer-softBlonde text-beer-dark m-auto font-bold`}
                             onClick={handleSignIn}
@@ -590,7 +590,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                             <li className="flex items-center ">
                                 <Button
                                     accent
-                                    class={`${MENU_ITEM_STYLES} hover:bg-beer-softFoam text-white transition-all duration-200`}
+                                    class={`${MENU_ITEM_STYLES} bg-transparent text-white transition-all duration-200`}
                                     onClick={handleSignOut}
                                 >
                                     {t('signout').toUpperCase()}
