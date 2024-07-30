@@ -7,13 +7,17 @@ import { Archive } from './Archive';
 import { Products } from './Products';
 import { CustomizeSettings } from './CustomizeSettings';
 
-export function ConfigureProducts() {
+interface Props {
+    counter: number;
+}
+
+export function ConfigureProducts({ counter }: Props) {
     const [menuOption, setMenuOption] = useState<string>('products');
 
     const renderSwitch = () => {
         switch (menuOption) {
             case 'products':
-                return <Products />;
+                return <Products counter={counter} />;
             case 'lots':
                 return <Lots />;
             case 'archive':

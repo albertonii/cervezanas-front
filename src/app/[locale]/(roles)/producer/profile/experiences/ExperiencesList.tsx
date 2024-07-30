@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Spinner from '@/app/[locale]/components/common/Spinner';
-import TableWithFoorterAndSearch from '@/app/[locale]/components/TableWithFoorterAndSearch';
+import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
 import DeleteExperienceModal from '@/app/[locale]/components/modals/experiences/DeleteBeerMasterExperienceModal';
 import useFetchExperiencesByProducerId from '../../../../../../hooks/useFetchExperiencesByProducerIdWithPagination';
 import UpdateBeerMasterExperienceModalNew from '@/app/[locale]/components/modals/experiences/UpdateBeerMasterExperienceModal';
@@ -172,7 +172,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
                     </p>
                 </div>
             ) : (
-                <TableWithFoorterAndSearch
+                <TableWithFooterAndSearch
                     columns={columns}
                     data={experiences}
                     initialQuery={''}

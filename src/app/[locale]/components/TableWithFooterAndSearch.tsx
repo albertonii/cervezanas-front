@@ -28,7 +28,7 @@ interface TableProps {
     sourceDataIsFromServer: boolean;
 }
 
-const TableWithFoorterAndSearch: React.FC<TableProps> = ({
+const TableWithFooterAndSearch: React.FC<TableProps> = ({
     columns,
     data,
     initialQuery = '',
@@ -203,4 +203,4 @@ const TableWithFoorterAndSearch: React.FC<TableProps> = ({
     );
 };
 
-export default TableWithFoorterAndSearch;
+export default TableWithFooterAndSearch;

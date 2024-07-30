@@ -1,7 +1,7 @@
 'use client';
 
 import Spinner from '@/app/[locale]/components/common/Spinner';
-import TableWithFoorterAndSearch from '@/app/[locale]/components/TableWithFoorterAndSearch';
+import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
 import useFetchOrdersByProducerId from '../../../../../../hooks/useFetchOrdersByProducerId';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -144,7 +144,7 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
                     </h3>
                 </p>
             ) : (
-                <TableWithFoorterAndSearch
+                <TableWithFooterAndSearch
                     columns={columns}
                     data={orders}
                     initialQuery={''}

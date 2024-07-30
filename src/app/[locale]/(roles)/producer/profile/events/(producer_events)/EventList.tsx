@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Spinner from '@/app/[locale]/components/common/Spinner';
 import DeleteEventModal from '@/app/[locale]/components/modals/DeleteEventModal';
 import UpdateEventModal from '@/app/[locale]/components/modals/event/UpdateEvent';
-import TableWithFoorterAndSearch from '@/app/[locale]/components/TableWithFoorterAndSearch';
+import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
 import useFetchEventsByOwnerId from '../../../../../../../hooks/useFetchEventsByOwnerId';
 import React, { useEffect, useState } from 'react';
 import { ROUTE_EVENTS } from '@/config';
@@ -172,7 +172,7 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
                     </p>
                 </div>
             ) : (
-                <TableWithFoorterAndSearch
+                <TableWithFooterAndSearch
                     columns={columns}
                     data={events}
                     initialQuery={''}

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import TableWithFoorterAndSearch from '../../components/TableWithFoorterAndSearch';
+import TableWithFooterAndSearch from '../../components/TableWithFooterAndSearch';
 import React, { useState } from 'react';
 import { ROLE_ENUM } from '@/lib/enums';
 import { formatDateString } from '@/utils/formatDate';
@@ -178,7 +178,7 @@ export function NotificationList({ notifications }: Props) {
 
     return (
         <section className="mb-4 space-y-3  rounded-md border-2 border-beer-blonde  bg-white px-6 py-4 shadow-2xl">
-            <TableWithFoorterAndSearch
+            <TableWithFooterAndSearch
                 columns={columns}
                 data={notifications}
                 initialQuery={''}

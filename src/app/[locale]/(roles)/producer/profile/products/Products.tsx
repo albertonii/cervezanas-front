@@ -11,7 +11,11 @@ import { AddBoxPackModal } from './(boxPack)/AddBoxPackModal';
 import { Type as ProductType } from '@/lib//productEnum';
 import { UpdateBoxPackModal } from './(boxPack)/UpdateBoxPackModal';
 
-export function Products() {
+interface Props {
+    counter: number;
+}
+
+export function Products({ counter }: Props) {
     const t = useTranslations();
 
     const [isEditShowModal, setIsEditShowModal] = useState(false);
@@ -52,6 +56,7 @@ export function Products() {
                 handleEditShowModal={handleEditShowModal}
                 handleDeleteShowModal={handleDeleteShowModal}
                 handleProductModal={handleProductModal}
+                counter={counter}
             />
 
             {isEditShowModal && productModal && (

@@ -1,47 +1,35 @@
+import readUserSession from '@/lib/actions';
+import createServerClient from '@/utils/supabaseServer';
 import { ConfigureProducts } from './ConfigureProducts';
+import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
 
 export default async function ProductsPage() {
-  // const { products } = await getProductsData();
-  // if (!products) return null;
-  return (
-    <>
-      <ConfigureProducts />
-    </>
-  );
+    const productsCounterData = getProductsCounter();
+    const [productsCounter] = await Promise.all([productsCounterData]);
+
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <ConfigureProducts counter={productsCounter} />
+        </Suspense>
+    );
 }
 
-/*
-async function getProductsData() {
-  const supabase = createServerClient();
+async function getProductsCounter() {
+    const supabase = await createServerClient();
 
- // Be careful when protecting pages. The server gets the user session from the cookies, which can be spoofed by anyone.
-  const session = await readUserSession();
+    const session = await readUserSession();
 
-//   if (!session)
-//     return {
-//       redirect: {
-//         destination: ROUTE_SIGNIN,
-//         permanent: false,
-//       },
-//     };
+    if (!session) {
+        redirect('/signin');
+    }
 
-  const { data: productsData, error: productsError } = await supabase
-    .from("products")
-    .select(
-      `
-        *, 
-        product_multimedia (*),
-        product_inventory (*),
-        likes (*),
-        product_lots (*),
-        beers (*), 
-        product_packs (*)
-      `
-    )
-    .eq("owner_id", session.id);
+    const { count, error } = await supabase
+        .from('products')
+        .select('id', { count: 'exact' }) // Selecciona solo una columna y habilita el conteo
+        .eq('owner_id', session.id);
 
-//   if (productsError) throw productsError;
+    if (error) throw error;
 
-  return { products: productsData as IProduct[] };
+    return count as number | 0;
 }
-*/

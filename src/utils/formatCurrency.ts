@@ -4,7 +4,7 @@ const CURRENCY_FORMATTER = new Intl.NumberFormat('es-ES', {
 });
 
 export function formatCurrency(number: number | undefined) {
-    if (!number) return '';
+    if (number === null || number === undefined || isNaN(number)) return '';
 
     return CURRENCY_FORMATTER.format(number);
 }
