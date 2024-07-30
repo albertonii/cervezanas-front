@@ -181,6 +181,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
                     setCurrentPage={setCurrentPage}
                     searchPlaceHolder={'search_by_name'}
                     paginationCounter={counter}
+                    sourceDataIsFromServer={false}
                 />
             )}
         </section>

@@ -24,6 +24,8 @@ interface TableProps {
     setCurrentPage: (page: number) => void;
     searchPlaceHolder: string;
     paginationCounter: number;
+    expandedRowRender?: (row: any) => React.ReactNode; // New prop for expanded row render
+    sourceDataIsFromServer: boolean;
 }
 
 const TableWithFoorterAndSearch: React.FC<TableProps> = ({
@@ -35,10 +37,13 @@ const TableWithFoorterAndSearch: React.FC<TableProps> = ({
     setCurrentPage,
     searchPlaceHolder,
     paginationCounter = 0,
+    expandedRowRender,
+    sourceDataIsFromServer = false,
 }) => {
     const [query, setQuery] = useState(initialQuery);
     const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.NONE);
     const [sortColumn, setSortColumn] = useState<string | null>(null);
+    const [expandedRow, setExpandedRow] = useState<string | null>(null);
 
     const filteredItems = useMemo(() => {
         if (!query) return data;
@@ -68,7 +73,15 @@ const TableWithFoorterAndSearch: React.FC<TableProps> = ({
         return sortedData;
     }, [filteredItems, sortOrder, sortColumn]);
 
-    const totalPages = Math.ceil(filteredItems.length / resultsPerPage);
+    const paginatedItems = useMemo(() => {
+        if (!sourceDataIsFromServer) {
+            return sortedItems;
+        }
+
+        const startIndex = (currentPage - 1) * resultsPerPage;
+        const endIndex = startIndex + resultsPerPage;
+        return sortedItems.slice(startIndex, endIndex);
+    }, [sortedItems, currentPage, resultsPerPage]);
 
     const handleSort = (accessor: string) => {
         if (sortColumn === accessor) {
@@ -82,6 +95,10 @@ const TableWithFoorterAndSearch: React.FC<TableProps> = ({
             setSortColumn(accessor);
             setSortOrder(SortOrder.ASC);
         }
+    };
+
+    const toggleRowExpansion = (rowId: string) => {
+        setExpandedRow(expandedRow === rowId ? null : rowId);
     };
 
     return (
@@ -128,23 +145,50 @@ const TableWithFoorterAndSearch: React.FC<TableProps> = ({
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                        {sortedItems.map((row, rowIndex) => (
-                            <tr key={rowIndex} className="hover:bg-gray-100">
-                                {columns.map((column) => (
-                                    <td
-                                        key={column.accessor}
-                                        className="px-6 py-4 whitespace-nowrap text-gray-700"
+                        {paginatedItems.map((row, rowIndex) => {
+                            return (
+                                <>
+                                    <tr
+                                        key={rowIndex}
+                                        className={`hover:bg-gray-100 ${
+                                            expandedRowRender &&
+                                            'cursor-pointer'
+                                        }`}
+                                        onClick={() => {
+                                            if (expandedRowRender) {
+                                                toggleRowExpansion(row.id);
+                                            }
+                                        }}
                                     >
-                                        {column.render
-                                            ? column.render(
-                                                  row[column.accessor],
-                                                  row,
-                                              )
-                                            : row[column.accessor]}
-                                    </td>
-                                ))}
-                            </tr>
-                        ))}
+                                        {columns.map((column) => (
+                                            <td
+                                                key={column.accessor}
+                                                className="px-6 py-4 whitespace-nowrap text-gray-700"
+                                            >
+                                                {column.render
+                                                    ? column.render(
+                                                          row[column.accessor],
+                                                          row,
+                                                      )
+                                                    : row[column.accessor]}
+                                            </td>
+                                        ))}
+                                    </tr>
+
+                                    {expandedRow === row.id &&
+                                        expandedRowRender && (
+                                            <tr className="bg-gray-50">
+                                                <td
+                                                    colSpan={columns.length}
+                                                    className="px-6 py-4"
+                                                >
+                                                    {expandedRowRender(row)}
+                                                </td>
+                                            </tr>
+                                        )}
+                                </>
+                            );
+                        })}
                     </tbody>
                 </table>
             </div>

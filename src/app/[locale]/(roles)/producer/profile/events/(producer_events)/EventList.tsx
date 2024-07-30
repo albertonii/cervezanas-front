@@ -181,6 +181,7 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
                     setCurrentPage={setCurrentPage}
                     searchPlaceHolder={'search_by_name'}
                     paginationCounter={counter}
+                    sourceDataIsFromServer={false}
                 />
             )}
         </section>

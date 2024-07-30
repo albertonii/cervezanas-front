@@ -46,8 +46,6 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
         });
     }, [currentPage]);
 
-    console.log('ORDERS ', orders);
-
     const columns = [
         {
             header: t('order_number_header'),
@@ -111,7 +109,6 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
     ];
 
     const handleClickView = (order: IBusinessOrder) => {
-        console.log('HANDLE VIEW ', order);
         const Ds_MerchantParameters = encodeBase64(
             JSON.stringify({ Ds_Order: order.orders?.order_number }),
         );
@@ -156,6 +153,7 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
                     setCurrentPage={setCurrentPage}
                     searchPlaceHolder={'search_by_name'}
                     paginationCounter={counter}
+                    sourceDataIsFromServer={false}
                 />
             )}
         </section>
