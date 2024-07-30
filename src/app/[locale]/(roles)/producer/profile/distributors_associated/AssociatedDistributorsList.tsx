@@ -2,31 +2,25 @@ import Link from 'next/link';
 import DeleteContractModal from './DeleteContractModal';
 import CancelContractModal from './CancelContractModal';
 import Spinner from '@/app/[locale]/components/common/Spinner';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import useFetchDistributionContractsByProducerId from '../../../../../../hooks/useFetchDistributionContractsByProducerId';
-import React, { useEffect, useMemo, useState } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
+import React, { useEffect, useState } from 'react';
 import { DistributionStatus } from '@/lib//enums';
+import { formatDateString } from '@/utils/formatDate';
+import { useLocale, useTranslations } from 'next-intl';
+import { IDistributionContract } from '@/lib//types/types';
 import { faTrash, faBan } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/common/IconButton';
-import { formatDateString } from '@/utils/formatDate';
-import { IDistributionContract } from '@/lib//types/types';
-
-enum SortBy {
-    NONE = 'none',
-    USERNAME = 'username',
-    NAME = 'name',
-    LAST = 'last',
-    COUNTRY = 'country',
-    CREATED_DATE = 'created_date',
-}
+import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
 
 interface Props {
     producerId: string;
+    counter: number;
 }
 
-export default function AssociatedDistributorsList({ producerId }: Props) {
+export default function AssociatedDistributorsList({
+    producerId,
+    counter,
+}: Props) {
     const locale = useLocale();
     const t = useTranslations();
 
@@ -35,16 +29,13 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
 
     const [currentPage, setCurrentPage] = useState(1);
 
-    const [query, setQuery] = useState('');
-    const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
     const [selectedContract, setSelectedContract] =
         useState<IDistributionContract>();
 
     const [isDeleteModal, setIsDeleteModal] = useState(false);
     const [isCancelModal, setIsCancelModal] = useState(false);
 
-    const counter = 1;
-    const resultsPerPage = 100;
+    const resultsPerPage = 10;
 
     /* Fetch the distributors that the user can be associated  */
     const {
@@ -65,39 +56,6 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
         });
     }, [currentPage, distributionContracts]);
 
-    const filteredItems = useMemo<IDistributionContract[]>(() => {
-        if (!listDistributionContracts) return [];
-        return listDistributionContracts.filter((d: IDistributionContract) => {
-            if (!d.distributor_user || !d.distributor_user.users) return false;
-            return d.distributor_user.users.username
-                .toLowerCase()
-                .includes(query?.toLowerCase());
-        });
-    }, [listDistributionContracts, query]);
-
-    const sortedItems = useMemo(() => {
-        if (sorting === SortBy.NONE) return filteredItems;
-
-        const compareProperties: Record<
-            string,
-            (d: IDistributionContract) => any
-        > = {
-            [SortBy.USERNAME]: (d) => d.distributor_user?.user_id,
-            [SortBy.CREATED_DATE]: (d) => d.created_at,
-        };
-
-        return filteredItems.toSorted(
-            (a: IDistributionContract, b: IDistributionContract) => {
-                const extractProperty = compareProperties[sorting];
-                return extractProperty(a).localeCompare(extractProperty(b));
-            },
-        );
-    }, [filteredItems, sorting]);
-
-    const handleChangeSort = (sort: SortBy) => {
-        setSorting(sort);
-    };
-
     const handleDeleteClick = async (contract: IDistributionContract) => {
         setIsDeleteModal(true);
         setSelectedContract(contract);
@@ -108,17 +66,61 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
         setSelectedContract(contract);
     };
 
-    const handlePrevPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    };
-
-    const handleNextPage = () => {
-        if (currentPage < Math.ceil(counter / resultsPerPage)) {
-            setCurrentPage(currentPage + 1);
-        }
-    };
+    const columns = [
+        {
+            header: t('name_header'),
+            accessor: 'distributor_user.users.username',
+            sortable: true,
+            render: (_: any, row: IDistributionContract) => (
+                <Link
+                    href={`/user-info/${row.distributor_id}`}
+                    locale={locale}
+                    target="_blank"
+                >
+                    <span className="font-semibold text-beer-blonde hover:text-beer-draft">
+                        {row.distributor_user?.users?.username ?? '-'}
+                    </span>
+                </Link>
+            ),
+        },
+        {
+            header: t('created_date_header'),
+            accessor: 'created_at',
+            sortable: true,
+            render: (created_at: string) => formatDateString(created_at),
+        },
+        {
+            header: t('status_header'),
+            accessor: 'status',
+            render: (status: DistributionStatus) => t(status),
+        },
+        {
+            header: t('action_header'),
+            accessor: 'actions',
+            render: (_: any, row: IDistributionContract) => (
+                <div className="flex items-center justify-center gap-2">
+                    <IconButton
+                        icon={faTrash}
+                        onClick={() => handleDeleteClick(row)}
+                        color={deleteColor}
+                        classContainer="hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full"
+                        classIcon=""
+                        title={t('delete')}
+                    />
+                    {row.status !== DistributionStatus.ACCEPTED && (
+                        <IconButton
+                            icon={faBan}
+                            onClick={() => handleCancelClick(row)}
+                            color={cancelColor}
+                            classContainer="hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full"
+                            classIcon=""
+                            title={t('cancel_contract')}
+                        />
+                    )}
+                </div>
+            ),
+        },
+    ];
 
     return (
         <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
@@ -159,8 +161,25 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
                 />
             )}
 
-            {!isError && !isLoading && sortedItems.length > 0 && (
-                <div className="space-y-2">
+            {!isError && !isLoading && (
+                <TableWithFooterAndSearch
+                    columns={columns}
+                    data={listDistributionContracts ?? []}
+                    initialQuery={''}
+                    resultsPerPage={resultsPerPage}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    searchPlaceHolder={t('search_by_name')}
+                    paginationCounter={counter}
+                    sourceDataIsFromServer={true}
+                />
+            )}
+        </section>
+    );
+}
+
+{
+    /* <div className="space-y-2">
                     <InputSearch
                         query={query}
                         setQuery={setQuery}
@@ -253,7 +272,6 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
                                                         title={t('delete')}
                                                     />
 
-                                                    {/* If the contract is not beign signed yet, we can cancel it  */}
                                                     {contract.status !==
                                                         DistributionStatus.ACCEPTED && (
                                                         <IconButton
@@ -288,8 +306,5 @@ export default function AssociatedDistributorsList({ producerId }: Props) {
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
                     />
-                </div>
-            )}
-        </section>
-    );
+                </div> */
 }

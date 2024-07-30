@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 import { IDistributionContract } from '@/lib//types/types';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { Database } from '@/lib//schema';
+import { Database } from '@/lib//schema-prod';
 
 const fetchDistributionContracts = async (
     producerId: string,
@@ -14,20 +14,20 @@ const fetchDistributionContracts = async (
         .from('distribution_contracts')
         .select(
             `
-        distributor_id ,
-        producer_id,
-        created_at,
-        status,
-        producer_accepted,
-        distributor_accepted,
-        message,
-        distributor_user!distribution_contracts_distributor_id_fkey (
-          users (
-            id,
-            username
-          )
-        )
-      `,
+            distributor_id ,
+            producer_id,
+            created_at,
+            status,
+            producer_accepted,
+            distributor_accepted,
+            message,
+            distributor_user!distribution_contracts_distributor_id_fkey (
+              users (
+                id,
+                username
+              )
+            )
+          `,
         )
         .eq('producer_id', producerId);
 

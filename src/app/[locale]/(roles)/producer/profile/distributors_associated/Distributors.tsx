@@ -6,7 +6,11 @@ import React from 'react';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useTranslations } from 'next-intl';
 
-export default function Distributors() {
+interface Props {
+    counter: number;
+}
+
+export default function Distributors({ counter }: Props) {
     const t = useTranslations();
     const { user } = useAuth();
     if (!user) return null;
@@ -29,7 +33,10 @@ export default function Distributors() {
             </header>
 
             {/* Section displaying all asociated distributors */}
-            <AssociatedDistributorsList producerId={user.id} />
+            <AssociatedDistributorsList
+                producerId={user.id}
+                counter={counter}
+            />
         </section>
     );
 }
