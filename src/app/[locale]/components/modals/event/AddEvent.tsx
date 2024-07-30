@@ -231,6 +231,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
             setShowModal={setShowModal}
             title={'add_new_event'}
             btnTitle={'save'}
+            triggerBtnTitle={'add_new_event'}
             description={''}
             classIcon={''}
             classContainer={`${isLoading && ' opacity-75'}`}

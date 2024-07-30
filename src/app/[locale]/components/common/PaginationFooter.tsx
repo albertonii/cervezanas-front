@@ -10,7 +10,7 @@ interface Props {
     counter: number;
     resultsPerPage: number;
     currentPage: number;
-    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+    setCurrentPage: (page: number) => void;
 }
 
 const PaginationFooter = memo(function PaginationFooter({

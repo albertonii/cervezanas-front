@@ -4,7 +4,7 @@ import { IEvent } from '@/lib//types/types';
 import { useQuery } from 'react-query';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { Database } from '@/lib//schema';
+import { Database } from '@/lib/schema-prod';
 
 const fetchEventsByOwnerId = async (
     ownerId: string,
@@ -12,7 +12,7 @@ const fetchEventsByOwnerId = async (
     resultsPerPage: number,
     supabase: SupabaseClient<Database>,
 ) => {
-    if (!ownerId) return [];
+    if (!ownerId) return { data: [], total: 0 };
 
     const { data, error } = await supabase
         .from('events')
@@ -51,7 +51,7 @@ const useFetchEventsByOwnerId = (
                 resultsPerPage,
                 supabase,
             ),
-        enabled: true,
+        enabled: !!user?.id,
         refetchOnWindowFocus: false,
     });
 };

@@ -1,10 +1,10 @@
 'use client';
 
+import ExperienceList from './ExperiencesList';
+import AddBeerMasterExperienceModal from '@/app/[locale]/components/modals/experiences/AddBeerMasterExperienceModal';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { IExperience } from '@/lib//types/quiz';
-import AddBeerMasterExperienceModal from '@/app/[locale]/components/modals/experiences/AddBeerMasterExperienceModal';
-import ExperienceList from './ExperiencesList';
 
 interface Props {
     experiences: IExperience[];

@@ -3,28 +3,17 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Spinner from '@/app/[locale]/components/common/Spinner';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
-import useFetchExperiencesByProducerId from '../../../../../../hooks/useFetchExperiencesByProducerIdWithPagination';
-import DeleteExperienceModal from '@/app/[locale]/components/modals/experiences/DeleteBeerMasterExperienceModal';
-import React, { useEffect, useMemo, useState } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { formatDateString } from '@/utils/formatDate';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
-import UpdateBeerMasterExperienceModalNew from '@/app/[locale]/components/modals/experiences/UpdateBeerMasterExperienceModal';
-import { IExperience } from '@/lib//types/quiz';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
 import TableWithFoorterAndSearch from '@/app/[locale]/components/TableWithFoorterAndSearch';
-
-enum SortBy {
-    NONE = 'none',
-    NAME = 'name',
-    CREATED_DATE = 'created_date',
-}
-interface ColumnsProps {
-    header: string;
-}
+import DeleteExperienceModal from '@/app/[locale]/components/modals/experiences/DeleteBeerMasterExperienceModal';
+import useFetchExperiencesByProducerId from '../../../../../../hooks/useFetchExperiencesByProducerIdWithPagination';
+import UpdateBeerMasterExperienceModalNew from '@/app/[locale]/components/modals/experiences/UpdateBeerMasterExperienceModal';
+import React, { useEffect, useState } from 'react';
+import { IExperience } from '@/lib//types/quiz';
+import { formatDateString } from '@/utils/formatDate';
+import { useLocale, useTranslations } from 'next-intl';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { IconButton } from '@/app/[locale]/components/common/IconButton';
 
 interface Props {
     experiences: IExperience[];
@@ -37,7 +26,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
     const { isLoggedIn } = useAuth();
     const [currentPage, setCurrentPage] = useState(1);
 
-    const resultsPerPage = 1;
+    const resultsPerPage = 10;
 
     const { data, isError, isLoading, refetch } =
         useFetchExperiencesByProducerId(currentPage, resultsPerPage);
@@ -69,6 +58,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
         {
             header: t('name_header'),
             accessor: 'name',
+            sortable: true,
             render: (value: string, row: IExperience) => (
                 <Link href={`/experiences/${row.id}`} locale={locale}>
                     <span className="font-semibold text-beer-blonde hover:text-beer-draft">
@@ -80,6 +70,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
         {
             header: t('created_date_header'),
             accessor: 'created_at',
+            sortable: true,
             render: (value: string) => formatDateString(value),
         },
         {
@@ -120,30 +111,6 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
             });
         }
     }, [currentPage, data, isLoggedIn]);
-
-    // const filteredItems = useMemo<IExperience[]>(() => {
-    //     if (!data) return [];
-    //     return data.filter((experience) => {
-    //         return experience.name?.toLowerCase().includes(query.toLowerCase());
-    //     });
-    // }, [data, experiences, query]);
-
-    // const sortedItems = useMemo(() => {
-    //     if (sorting === SortBy.NONE) return filteredItems;
-
-    //     const compareProperties: Record<
-    //         string,
-    //         (experience: IExperience) => any
-    //     > = {
-    //         [SortBy.NAME]: (e) => e.name,
-    //         [SortBy.CREATED_DATE]: (e) => e.created_at,
-    //     };
-
-    //     return filteredItems.toSorted((a, b) => {
-    //         const extractProperty = compareProperties[sorting];
-    //         return extractProperty(a).localeCompare(extractProperty(b));
-    //     });
-    // }, [filteredItems, sorting]);
 
     const handleEditClick = async (e: IExperience) => {
         setIsEditModal(true);
@@ -205,16 +172,16 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
                     </p>
                 </div>
             ) : (
-                <>
-                    <TableWithFoorterAndSearch
-                        columns={columns}
-                        data={experiences}
-                        initialQuery={''}
-                        resultsPerPage={resultsPerPage}
-                        searchPlaceHolder={'search_by_name'}
-                        paginationCounter={counter}
-                    />
-                </>
+                <TableWithFoorterAndSearch
+                    columns={columns}
+                    data={experiences}
+                    initialQuery={''}
+                    resultsPerPage={resultsPerPage}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    searchPlaceHolder={'search_by_name'}
+                    paginationCounter={counter}
+                />
             )}
         </section>
     );
