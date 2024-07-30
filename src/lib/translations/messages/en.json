@@ -1025,5 +1025,6 @@
     "key_features": "Key features",
     "tasting_notes": "Tasting notes",
     "ingredients": "Ingredients",
-    "brewery_info": "Brewery info"
+    "brewery_info": "Brewery info",
+    "add_ingredients_placeholder": "Add an ingredient and press Enter or comma ( , )"
 }

@@ -195,6 +195,7 @@ export function UpdateProductModal({
         format,
         intensity,
         ibu,
+        ingredients,
     } = beers;
 
     const colorDefault: {
@@ -252,6 +253,7 @@ export function UpdateProductModal({
             aroma: aromaDefault.value,
             intensity: intensity,
             ibu: ibu,
+            ingredients: ingredients,
             family: familyDefault.value,
             fermentation: fermentationDefault.value,
             is_gluten: product.beers?.is_gluten ?? false,
@@ -345,6 +347,7 @@ export function UpdateProductModal({
             volume,
             format,
             ibu,
+            ingredients,
         } = formValues;
 
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -361,6 +364,7 @@ export function UpdateProductModal({
         formData.append('volume', volume.toString());
         formData.append('format', format);
         formData.append('ibu', ibu.toString());
+        formData.append('beer.ingredients', ingredients?.join(',') ?? '');
 
         formData.append('product_id', product.id);
 
@@ -535,7 +539,8 @@ export function UpdateProductModal({
                 dirtyFields.volume ||
                 dirtyFields.format ||
                 dirtyFields.weight ||
-                dirtyFields.ibu
+                dirtyFields.ibu ||
+                dirtyFields.ingredients
             ) {
                 await updateBeerSection(formValues);
             }

@@ -22,6 +22,8 @@ import InputLabel from '../../common/InputLabel';
 import InputTextarea from '../../common/InputTextarea';
 import SelectInput from '../../common/SelectInput';
 import StockInformationDetailsAndPacksUpdate from '../../modals/StockInformationDetailsAndPacksUpdate';
+import IngredientInput from './IngredientInput';
+import { ChipCard } from '../../common/ChipCard';
 
 interface Props {
     form: UseFormReturn<ModalUpdateProductFormData>;
@@ -36,8 +38,7 @@ export default function UpdateBeerInfoSection({
 
     const {
         register,
-        formState: { errors },
-        trigger,
+        formState: { errors, dirtyFields, isDirty },
         setValue,
         getValues,
     } = form;
@@ -47,6 +48,9 @@ export default function UpdateBeerInfoSection({
     );
 
     const [volume, setVolume] = useState<number>(0);
+    const [ingredients, setIngredients] = useState<string[]>(
+        form.getValues('ingredients') ?? [],
+    );
 
     useEffect(() => {
         const colorSettings = customizeSettings.colors.map((color) => {
@@ -70,6 +74,15 @@ export default function UpdateBeerInfoSection({
 
         // setFamStyleOptions(newSet);
     }, [customizeSettings.family_styles]);
+
+    useEffect(() => {
+        setValue('ingredients', ingredients, { shouldDirty: true });
+    }, [ingredients]);
+
+    useEffect(() => {
+        console.log('dirtyFields', dirtyFields);
+        console.log('isDirty', isDirty);
+    }, [dirtyFields, isDirty]);
 
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setFormatOptions(event.target.value);
@@ -401,6 +414,12 @@ export default function UpdateBeerInfoSection({
                 placeholder={formatCurrency(2.5)}
                 inputType="number"
                 infoTooltip={'pvpr_tooltip'}
+            />
+
+            {/* Ingredients  */}
+            <IngredientInput
+                ingredients={ingredients}
+                setIngredients={setIngredients}
             />
 
             {/* Stock information and Packs */}

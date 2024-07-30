@@ -1051,5 +1051,6 @@
     "key_features": "Características clave",
     "tasting_notes": "Notas de cata",
     "ingredients": "Ingredientes",
-    "brewery_info": "Información de la cervecería"
+    "brewery_info": "Información de la cervecería",
+    "add_ingredients_placeholder": "Añade un ingrediente y pulsa Intro o añade una Coma ( , )"
 }

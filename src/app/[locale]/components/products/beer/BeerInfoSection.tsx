@@ -87,13 +87,6 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
         trigger('volume');
     };
 
-    // const handleRemoveIngredient = (ingredient: string) => {
-    //     const newIngredients = ingredients.filter(
-    //         (item) => item !== ingredient,
-    //     );
-    //     setIngredients(newIngredients);
-    // };
-
     const handleRemoveIngredient = (index: number) => {
         const newIngredients = ingredients.filter((_, i) => i !== index);
         setIngredients(newIngredients);
@@ -373,20 +366,6 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                         ingredients={ingredients}
                         setIngredients={setIngredients}
                     />
-
-                    {/* Display added ingredients */}
-                    <div className="mt-4 flex flex-wrap gap-2">
-                        {ingredients.map((ingredient, index) => (
-                            <span id={ingredient + index}>
-                                <ChipCard
-                                    content={ingredient}
-                                    handleRemove={() =>
-                                        handleRemoveIngredient(index)
-                                    }
-                                />
-                            </span>
-                        ))}
-                    </div>
                 </section>
             </div>
 
