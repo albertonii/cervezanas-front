@@ -14,9 +14,14 @@ const fetchOrdersByProducerId = async (
         .from('business_orders')
         .select(
             `
-                *, 
+                *,
+                order_id,
                 orders (
-                    *
+                    *,
+                    business_orders (
+                        *,
+                        producer_id
+                    )
                 )
             `,
         )

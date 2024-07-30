@@ -28,8 +28,6 @@ export function DeviceScreenNotification({ notifications }: Props) {
             }, 600);
         }, 300);
 
-        console.log(notifications);
-
         setNumberOfUnreadNotifications(
             notifications.filter((notification) => !notification.read).length,
         );

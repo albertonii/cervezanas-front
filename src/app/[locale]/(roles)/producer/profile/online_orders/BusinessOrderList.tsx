@@ -1,21 +1,22 @@
 'use client';
 
-import OProducerTableData from './OProducerTableData';
 import Spinner from '@/app/[locale]/components/common/Spinner';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
+import TableWithFoorterAndSearch from '@/app/[locale]/components/TableWithFoorterAndSearch';
 import useFetchOrdersByProducerId from '../../../../../../hooks/useFetchOrdersByProducerId';
-import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { encodeBase64 } from '@/utils/utils';
 import { IBusinessOrder } from '@/lib//types/types';
+import { useLocale, useTranslations } from 'next-intl';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { IconButton } from '@/app/[locale]/components/common/IconButton';
+import { ROUTE_ONLINE_ORDERS, ROUTE_PRODUCER, ROUTE_PROFILE } from '@/config';
+import { formatDateString } from '@/utils/formatDate';
+import { formatCurrency } from '@/utils/formatCurrency';
 
 interface Props {
     bOrders: IBusinessOrder[];
-}
-
-interface ColumnsProps {
-    header: string;
 }
 
 export function BusinessOrderList({ bOrders: bOs }: Props) {
@@ -23,13 +24,14 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
     if (!user) return null;
 
     const t = useTranslations();
+    const locale = useLocale();
+    const router = useRouter();
 
     const [orders, setOrders] = useState<IBusinessOrder[]>(bOs);
-    const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 
     const counter = bOs.length;
-    const resultsPerPage = 100;
+    const resultsPerPage = 10;
 
     const { isError, isLoading, refetch } = useFetchOrdersByProducerId(
         user.id,
@@ -44,23 +46,80 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
         });
     }, [currentPage]);
 
-    const COLUMNS = [
-        { header: t('order_number_header') },
-        { header: t('client_name_header') },
-        { header: t('products_quantity_header') },
-        { header: t('price_header') },
-        { header: t('status_header') },
-        { header: t('tracking_number_header') },
-        { header: t('date_header') },
-        { header: t('action_header') },
+    console.log('ORDERS ', orders);
+
+    const columns = [
+        {
+            header: t('order_number_header'),
+            accessor: 'order_number',
+            sortable: true,
+            render: (_: string, row: IBusinessOrder) =>
+                row.orders?.order_number ?? '',
+        },
+        {
+            header: t('client_name_header'),
+            accessor: 'client_name',
+            sortable: true,
+            render: (_: string, row: IBusinessOrder) =>
+                row?.orders?.customer_name ?? '',
+        },
+        {
+            header: t('products_quantity_header'),
+            accessor: 'products_quantity',
+            sortable: true,
+            render: (_: string, row: IBusinessOrder) =>
+                row?.orders?.business_orders?.length ?? '',
+        },
+        {
+            header: t('price_header'),
+            accessor: 'price',
+            sortable: true,
+            render: (_: string, row: IBusinessOrder) =>
+                formatCurrency(row?.orders?.total) ?? '',
+        },
+        {
+            header: t('status_header'),
+            accessor: 'status',
+            sortable: true,
+            render: (_: string, row: IBusinessOrder) => t(row?.orders?.status),
+        },
+        {
+            header: t('tracking_number_header'),
+            accessor: 'tracking_number',
+            sortable: true,
+            render: (_: string, row: IBusinessOrder) =>
+                row?.orders?.tracking_id ?? '',
+        },
+        {
+            header: t('date_header'),
+            accessor: 'date',
+            sortable: true,
+            render: (_: string, row: IBusinessOrder) =>
+                formatDateString(row.orders?.created_at) ?? '',
+        },
+        {
+            header: t('action_header'),
+            accessor: 'action',
+            render: (_: string, row: IBusinessOrder) => (
+                <IconButton
+                    onClick={() => handleClickView(row)}
+                    icon={faEye}
+                    title={''}
+                />
+            ),
+        },
     ];
 
-    const filteredItemsByStatus = useMemo(() => {
-        if (!orders) return [];
-        return orders.filter((order) => {
-            return order.status.toLowerCase().includes(query.toLowerCase());
-        });
-    }, [orders, query]);
+    const handleClickView = (order: IBusinessOrder) => {
+        console.log('HANDLE VIEW ', order);
+        const Ds_MerchantParameters = encodeBase64(
+            JSON.stringify({ Ds_Order: order.orders?.order_number }),
+        );
+
+        router.push(
+            `/${locale}${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_ONLINE_ORDERS}/success?Ds_MerchantParameters=${Ds_MerchantParameters}`,
+        );
+    };
 
     return (
         <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
@@ -88,69 +147,16 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
                     </h3>
                 </p>
             ) : (
-                <div className="space-y-2">
-                    <InputSearch
-                        query={query}
-                        setQuery={setQuery}
-                        searchPlaceholder={'search_by_name'}
-                    />
-
-                    <div className="overflow-x-scroll border-2 ">
-                        <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400 border-2 ">
-                            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    {COLUMNS.map(
-                                        (
-                                            column: ColumnsProps,
-                                            index: number,
-                                        ) => {
-                                            return (
-                                                <th
-                                                    key={index}
-                                                    scope="col"
-                                                    className="px-6 py-3"
-                                                >
-                                                    {column.header}
-                                                </th>
-                                            );
-                                        },
-                                    )}
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {filteredItemsByStatus.map((bOrder) => {
-                                    return (
-                                        <OProducerTableData
-                                            bOrder={bOrder}
-                                            key={bOrder.id}
-                                        />
-                                    );
-                                })}
-                                {!orders && (
-                                    <tr>
-                                        <td
-                                            colSpan={6}
-                                            className="py-4 text-center"
-                                        >
-                                            {t('no_orders')}
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    {/* Prev and Next button for pagination  */}
-                    <footer className="my-4 flex items-center justify-around">
-                        <PaginationFooter
-                            counter={counter}
-                            resultsPerPage={resultsPerPage}
-                            currentPage={currentPage}
-                            setCurrentPage={setCurrentPage}
-                        />
-                    </footer>
-                </div>
+                <TableWithFoorterAndSearch
+                    columns={columns}
+                    data={orders}
+                    initialQuery={''}
+                    resultsPerPage={resultsPerPage}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    searchPlaceHolder={'search_by_name'}
+                    paginationCounter={counter}
+                />
             )}
         </section>
     );

@@ -43,11 +43,11 @@ const TableWithFoorterAndSearch: React.FC<TableProps> = ({
     const filteredItems = useMemo(() => {
         if (!query) return data;
         return data.filter((row) =>
-            columns.some((column) =>
-                String(row[column.accessor])
+            columns.some((column) => {
+                return String(row[column.accessor])
                     .toLowerCase()
-                    .includes(query.toLowerCase()),
-            ),
+                    .includes(query.toLowerCase());
+            }),
         );
     }, [query, data, columns]);
 
@@ -85,52 +85,55 @@ const TableWithFoorterAndSearch: React.FC<TableProps> = ({
     };
 
     return (
-        <div className="space-y-4">
+        <div className="space-y-6">
             <InputSearch
                 query={query}
                 setQuery={setQuery}
                 searchPlaceholder={searchPlaceHolder}
             />
 
-            <div className="overflow-x-auto">
-                <table className="min-w-full bg-white border">
+            <div className="overflow-x-auto shadow-md sm:rounded-lg">
+                <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                         <tr>
                             {columns.map((column) => (
                                 <th
                                     key={column.accessor}
                                     className={`
-                                            px-6 py-3 border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-medium
-                                            ${
-                                                column.sortable &&
-                                                'hover:bg-gray-100 cursor-pointer'
-                                            }
-                                        `}
+                                        px-6 py-3 border-b border-gray-200 text-gray-800 text-left text-sm font-medium tracking-wider
+                                        ${
+                                            column.sortable
+                                                ? 'cursor-pointer select-none'
+                                                : ''
+                                        }
+                                    `}
                                     onClick={() =>
                                         column.sortable &&
                                         handleSort(column.accessor)
                                     }
                                 >
-                                    {column.header}
-                                    {column.sortable &&
-                                        sortColumn === column.accessor && (
-                                            <span>
-                                                {sortOrder === SortOrder.ASC
-                                                    ? ' ▲'
-                                                    : ' ▼'}
-                                            </span>
-                                        )}
+                                    <div className="flex items-center">
+                                        {column.header}
+                                        {column.sortable &&
+                                            sortColumn === column.accessor && (
+                                                <span className="ml-1 text-xs">
+                                                    {sortOrder === SortOrder.ASC
+                                                        ? '▲'
+                                                        : '▼'}
+                                                </span>
+                                            )}
+                                    </div>
                                 </th>
                             ))}
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="bg-white divide-y divide-gray-200">
                         {sortedItems.map((row, rowIndex) => (
-                            <tr key={rowIndex} className="border-b">
+                            <tr key={rowIndex} className="hover:bg-gray-100">
                                 {columns.map((column) => (
                                     <td
                                         key={column.accessor}
-                                        className="px-6 py-4 text-gray-800 text-sm"
+                                        className="px-6 py-4 whitespace-nowrap text-gray-700"
                                     >
                                         {column.render
                                             ? column.render(

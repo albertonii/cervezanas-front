@@ -7,7 +7,6 @@ export default getRequestConfig(async ({ locale }) => {
     return {
         messages: (await import(`./messages/${locale}.json`)).default,
         onError(error) {
-            console.log('DENTRO DE ERROR');
             if (error.code === IntlErrorCode.MISSING_MESSAGE) {
                 // Missing translations are expected and should only log an error
                 console.error(error);

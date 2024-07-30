@@ -26,6 +26,10 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
     const locale = useLocale();
 
     const [currentPage, setCurrentPage] = useState(1);
+    const [events, setEvents] = useState<IEvent[]>([]);
+    const [isEditModal, setIsEditModal] = useState(false);
+    const [isDeleteModal, setIsDeleteModal] = useState(false);
+    const [selectedEvent, setSelectedEvent] = useState<IEvent>();
 
     const resultsPerPage = 10;
 
@@ -33,11 +37,6 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
         currentPage,
         resultsPerPage,
     );
-
-    const [events, setEvents] = useState<IEvent[]>([]);
-    const [isEditModal, setIsEditModal] = useState(false);
-    const [isDeleteModal, setIsDeleteModal] = useState(false);
-    const [selectedEvent, setSelectedEvent] = useState<IEvent>();
 
     const editColor = { filled: '#90470b', unfilled: 'grey' };
     const deleteColor = { filled: '#90470b', unfilled: 'grey' };

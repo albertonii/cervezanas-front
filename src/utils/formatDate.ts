@@ -1,4 +1,6 @@
-export function formatDateString(dateString: string) {
+export function formatDateString(dateString: string | undefined) {
+    if (!dateString) return '';
+
     return new Date(dateString).toLocaleDateString('es-ES', {
         year: 'numeric',
         month: 'long',
