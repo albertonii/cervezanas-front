@@ -8,18 +8,27 @@ import { IConsumptionPoints } from '@/lib//types/types';
 
 interface Props {
     cps: IConsumptionPoints;
+    counterCPMobile: number;
+    counterCPFixed: number;
 }
 
 // Consumption Point status is in pending for validation by the admin of the platform
-export function CPAccepted({ cps }: Props) {
+export function CPAccepted({ cps, counterCPMobile, counterCPFixed }: Props) {
     const [menuOption, setMenuOption] = useState<string>('cp_mobile');
 
     const renderSwitch = () => {
         switch (menuOption) {
             case 'cp_fixed':
-                return <CPFixed cpsId={cps.id} />;
+                return (
+                    <CPFixed cpsId={cps.id} counterCPFixed={counterCPFixed} />
+                );
             case 'cp_mobile':
-                return <CPMobile cpsId={cps.id} />;
+                return (
+                    <CPMobile
+                        cpsId={cps.id}
+                        counterCPMobile={counterCPMobile}
+                    />
+                );
         }
     };
 

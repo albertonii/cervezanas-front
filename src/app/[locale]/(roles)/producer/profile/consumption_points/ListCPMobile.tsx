@@ -1,43 +1,30 @@
 'use client';
 
 import Link from 'next/link';
-import useFetchCPMobile from '../../../../../../hooks/useFetchCPMobile';
 import DeleteCPMobileModal from './DeleteCPMobileModal';
 import EditCPMobileModal from './EditCPMobileModal';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
-import React, { useEffect, useMemo, useState } from 'react';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { useLocale, useTranslations } from 'next-intl';
-import { ICPMobile } from '@/lib//types/types';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
 import Spinner from '@/app/[locale]/components/common/Spinner';
+import useFetchCPMobile from '../../../../../../hooks/useFetchCPMobile';
+import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
+import React, { useEffect, useState } from 'react';
+import { ICPMobile } from '@/lib//types/types';
 import { formatDateString } from '@/utils/formatDate';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
-
-enum SortBy {
-    NONE = 'none',
-    USERNAME = 'username',
-    NAME = 'name',
-    LAST = 'last',
-    COUNTRY = 'country',
-    CREATED_DATE = 'created_date',
-    START_DATE = 'start_date',
-    END_DATE = 'end_date',
-}
+import { useLocale, useTranslations } from 'next-intl';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { IconButton } from '@/app/[locale]/components/common/IconButton';
 
 interface Props {
     cpsId: string;
+    counterCPMobile: number;
 }
 
-export function ListCPMobile({ cpsId }: Props) {
+export function ListCPMobile({ cpsId, counterCPMobile }: Props) {
     const t = useTranslations();
     const locale = useLocale();
 
-    const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 
-    const counter = 1;
-    const resultsPerPage = 100;
+    const resultsPerPage = 10;
 
     const { data, isError, isLoading, refetch } = useFetchCPMobile(
         cpsId,
@@ -53,7 +40,6 @@ export function ListCPMobile({ cpsId }: Props) {
     const [isEditModal, setIsEditModal] = useState(false);
     const [isDeleteModal, setIsDeleteModal] = useState(false);
 
-    const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
     const [selectedCP, setSelectedCP] = useState<ICPMobile>();
 
     useEffect(() => {
@@ -62,31 +48,6 @@ export function ListCPMobile({ cpsId }: Props) {
             setCPMobile(cpMobile);
         });
     }, [currentPage]);
-
-    const filteredItems = useMemo<ICPMobile[]>(() => {
-        if (!data) return [];
-        return data.filter((mobile) => {
-            return mobile.cp_name.toLowerCase().includes(query.toLowerCase());
-        });
-    }, [data, cpMobile, query]);
-
-    const sortedItems = useMemo(() => {
-        if (sorting === SortBy.NONE) return filteredItems;
-
-        const compareProperties: Record<string, (cp: ICPMobile) => any> = {
-            [SortBy.NAME]: (cp) => cp.cp_name,
-            [SortBy.CREATED_DATE]: (cp) => cp.created_at,
-        };
-
-        return filteredItems.toSorted((a, b) => {
-            const extractProperty = compareProperties[sorting];
-            return extractProperty(a).localeCompare(extractProperty(b));
-        });
-    }, [filteredItems, sorting]);
-
-    const handleChangeSort = (sort: SortBy) => {
-        setSorting(sort);
-    };
 
     const handleEditClick = async (cp: ICPMobile) => {
         handleEditModal(true);
@@ -105,6 +66,58 @@ export function ListCPMobile({ cpsId }: Props) {
     const handleDeleteModal = (isDelete: boolean) => {
         setIsDeleteModal(isDelete);
     };
+
+    const columns = [
+        {
+            header: t('name_header'),
+            accessor: 'cp_name',
+            sortable: true,
+            render: (value: string, row: ICPMobile) => (
+                <Link
+                    target={'_blank'}
+                    href={`/consumption_points/mobile/${row.id}`}
+                    locale={locale}
+                    className="font-semibold text-beer-blonde hover:text-beer-draft"
+                >
+                    {value}
+                </Link>
+            ),
+        },
+        {
+            header: t('created_date_header'),
+            accessor: 'created_at',
+            sortable: true,
+            render: (value: string) => formatDateString(value),
+        },
+        {
+            header: t('action_header'),
+            accessor: 'action',
+            render: (value: any, row: ICPMobile) => (
+                <div className="flex items-center justify-center space-x-2">
+                    <IconButton
+                        icon={faEdit}
+                        onClick={() => handleEditClick(row)}
+                        color={editColor}
+                        classContainer={
+                            'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full'
+                        }
+                        classIcon={''}
+                        title={t('edit')}
+                    />
+                    <IconButton
+                        icon={faTrash}
+                        onClick={() => handleDeleteClick(row)}
+                        color={deleteColor}
+                        classContainer={
+                            'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
+                        }
+                        classIcon={''}
+                        title={t('delete')}
+                    />
+                </div>
+            ),
+        },
+    ];
 
     return (
         <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
@@ -151,109 +164,17 @@ export function ListCPMobile({ cpsId }: Props) {
                     </p>
                 </div>
             ) : (
-                <div className="space-y-2">
-                    <InputSearch
-                        query={query}
-                        setQuery={setQuery}
-                        searchPlaceholder={'search_by_name'}
-                    />
-
-                    <div className="overflow-x-scroll border-2 ">
-                        <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400 border-2 ">
-                            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th
-                                        scope="col"
-                                        className="px-6 py-3 hover:cursor-pointer"
-                                        onClick={() => {
-                                            handleChangeSort(SortBy.NAME);
-                                        }}
-                                    >
-                                        {t('name_header')}
-                                    </th>
-
-                                    <th
-                                        scope="col"
-                                        className="px-6 py-3 hover:cursor-pointer"
-                                        onClick={() => {
-                                            handleChangeSort(
-                                                SortBy.CREATED_DATE,
-                                            );
-                                        }}
-                                    >
-                                        {t('created_date_header')}
-                                    </th>
-
-                                    <th scope="col" className="px-6 py-3 ">
-                                        {t('action_header')}
-                                    </th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {sortedItems.map((cp: ICPMobile) => {
-                                    return (
-                                        <tr key={cp.id} className="">
-                                            <td className="px-6 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
-                                                <Link
-                                                    target={'_blank'}
-                                                    href={`/consumption_points/mobile/${cp.id}`}
-                                                    locale={locale}
-                                                >
-                                                    {cp.cp_name}
-                                                </Link>
-                                            </td>
-
-                                            <td className="px-6 py-4">
-                                                {formatDateString(
-                                                    cp.created_at,
-                                                )}
-                                            </td>
-
-                                            <td className="flex items-center justify-center px-6 py-4">
-                                                <IconButton
-                                                    icon={faEdit}
-                                                    onClick={() => {
-                                                        handleEditClick(cp);
-                                                    }}
-                                                    color={editColor}
-                                                    classContainer={
-                                                        'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full'
-                                                    }
-                                                    classIcon={''}
-                                                    title={t('edit')}
-                                                />
-
-                                                <IconButton
-                                                    icon={faTrash}
-                                                    onClick={() => {
-                                                        handleDeleteClick(cp);
-                                                    }}
-                                                    color={deleteColor}
-                                                    classContainer={
-                                                        'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
-                                                    }
-                                                    classIcon={''}
-                                                    title={t('delete')}
-                                                />
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    {/* Prev and Next button for pagination  */}
-                    <div className="my-4 flex items-center justify-around">
-                        <PaginationFooter
-                            counter={counter}
-                            resultsPerPage={resultsPerPage}
-                            currentPage={currentPage}
-                            setCurrentPage={setCurrentPage}
-                        />
-                    </div>
-                </div>
+                <TableWithFooterAndSearch
+                    columns={columns}
+                    data={cpMobile}
+                    initialQuery={''}
+                    resultsPerPage={resultsPerPage}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    searchPlaceHolder={'search_by_name'}
+                    paginationCounter={counterCPMobile}
+                    sourceDataIsFromServer={false}
+                />
             )}
         </section>
     );

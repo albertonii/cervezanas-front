@@ -301,6 +301,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
             setShowModal={setShowModal}
             title={t('add_new_cp_fixed')}
             btnTitle={t('save')}
+            triggerBtnTitle={t('add_new_cp_fixed')}
             description={''}
             handler={handleSubmit(onSubmit)}
             classIcon={'w-6 h-6'}

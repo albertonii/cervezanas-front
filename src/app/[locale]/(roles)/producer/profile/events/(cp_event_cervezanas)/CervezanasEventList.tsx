@@ -1,34 +1,18 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
-import DeleteCPM_event_Modal from '@/app/[locale]/components/modals/DeleteCPM_event_Modal';
+import Image from 'next/image';
 import UpdateCPMEventModal from './UpdateCPMEvent';
-import useFetchCervezanasEventsByOwnerId from '../../../../../../../hooks/useFetchCervezanasEventsByOwnerId';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
-import React, { useEffect, useMemo, useState } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
-import { ICPM_events } from '@/lib/types/types';
 import Spinner from '@/app/[locale]/components/common/Spinner';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
+import DeleteCPM_event_Modal from '@/app/[locale]/components/modals/DeleteCPM_event_Modal';
+import useFetchCervezanasEventsByOwnerId from '../../../../../../../hooks/useFetchCervezanasEventsByOwnerId';
+import React, { useEffect, useState } from 'react';
+import { ICPM_events } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
+import { useLocale, useTranslations } from 'next-intl';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/common/IconButton';
-import { ROUTE_CP_MOBILE, ROUTE_EVENTS } from '@/config';
-
-enum SortBy {
-    NONE = 'none',
-    USERNAME = 'username',
-    NAME = 'name',
-    LAST = 'last',
-    COUNTRY = 'country',
-    CREATED_DATE = 'created_date',
-    START_DATE = 'start_date',
-    END_DATE = 'end_date',
-}
-interface ColumnsProps {
-    header: string;
-}
 
 interface Props {
     counter: number;
@@ -37,7 +21,6 @@ interface Props {
 export default function CervezanasEventList({ counter }: Props) {
     const t = useTranslations();
     const locale = useLocale();
-    const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 
     const resultsPerPage = 100;
@@ -52,17 +35,7 @@ export default function CervezanasEventList({ counter }: Props) {
 
     const [isEditModal, setIsEditModal] = useState(false);
     const [isDeleteModal, setIsDeleteModal] = useState(false);
-
-    const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
     const [selectedCPMEvent, setSelectedCPMEvent] = useState<ICPM_events>();
-
-    const COLUMNS = [
-        { header: t('event_type_header') },
-        { header: t('cp_name_header') },
-        { header: t('event_name_header') },
-        { header: t('created_date_header') },
-        { header: t('action_header') },
-    ];
 
     useEffect(() => {
         refetch().then((res: any) => {
@@ -70,34 +43,6 @@ export default function CervezanasEventList({ counter }: Props) {
             setEvents(events);
         });
     }, [data, currentPage]);
-
-    const filteredItems = useMemo<ICPM_events[]>(() => {
-        if (!data) return [];
-        return data.filter((cpm_event) => {
-            return cpm_event.events?.name
-                .toLowerCase()
-                .includes(query.toLowerCase());
-        });
-    }, [events, query]);
-
-    // const sortedItems = useMemo(() => {
-    //     if (sorting === SortBy.NONE) return filteredItems;
-
-    //     const compareProperties: Record<string, (event: ICPM_events) => any> = {
-    //         [SortBy.NAME]: (e) => e.events?.name,
-    //         [SortBy.CREATED_DATE]: (e) => e.events?.created_at,
-    //         [SortBy.START_DATE]: (e) => e.events?.start_date,
-    //     };
-
-    //     return filteredItems.toSorted((a, b) => {
-    //         if (!a.events || !b.events) return 0;
-    //         const extractProperty = compareProperties[sorting];
-
-    //         return extractProperty(a.events.name).localeCompare(
-    //             extractProperty(b.events.name),
-    //         );
-    //     });
-    // }, [filteredItems, sorting]);
 
     const handleEditClick = async (e: ICPM_events) => {
         setIsEditModal(true);
@@ -116,6 +61,74 @@ export default function CervezanasEventList({ counter }: Props) {
     const handlDeleteModal = (isDelete: boolean) => {
         setIsDeleteModal(isDelete);
     };
+
+    const columns = [
+        {
+            header: t('event_type_header'),
+            accessor: 'event_type',
+            render: (_: string, row: ICPM_events) => (
+                <Image
+                    width={32}
+                    height={32}
+                    className="rounded-full"
+                    src="/icons/beer-240.png"
+                    alt="Beer Type"
+                />
+            ),
+        },
+        {
+            header: t('cp_name_header'),
+            accessor: 'cp_name',
+            render: (_: string, row: ICPM_events) => (
+                <Link
+                    href={`/cpm/${row.cp_id}`}
+                    locale={locale}
+                    className="font-semibold text-beer-blonde hover:text-beer-draft"
+                >
+                    {row.cp_mobile?.cp_name}
+                </Link>
+            ),
+        },
+        {
+            header: t('event_name_header'),
+            accessor: 'events.name',
+            render: (_: string, row: ICPM_events) => row.events?.name,
+        },
+        {
+            header: t('created_date_header'),
+            accessor: 'created_at',
+            render: (_: string, row: ICPM_events) =>
+                formatDateString(row.events?.created_at),
+        },
+        {
+            header: t('action_header'),
+            accessor: 'action',
+            render: (value: any, row: ICPM_events) => (
+                <div className="flex justify-center space-x-2">
+                    <IconButton
+                        icon={faEdit}
+                        onClick={() => handleEditClick(row)}
+                        color={editColor}
+                        classContainer={
+                            'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full'
+                        }
+                        classIcon={''}
+                        title={t('edit')}
+                    />
+                    <IconButton
+                        icon={faTrash}
+                        onClick={() => handleDeleteClick(row)}
+                        color={deleteColor}
+                        classContainer={
+                            'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full'
+                        }
+                        classIcon={''}
+                        title={t('delete')}
+                    />
+                </div>
+            ),
+        },
+    ];
 
     return (
         <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
@@ -160,124 +173,17 @@ export default function CervezanasEventList({ counter }: Props) {
                     </p>
                 </div>
             ) : (
-                <div className="space-y-2">
-                    <InputSearch
-                        query={query}
-                        setQuery={setQuery}
-                        searchPlaceholder={'search_by_name'}
-                    />
-
-                    <div className="overflow-x-scroll border-2 ">
-                        <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400 border-2 ">
-                            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    {COLUMNS.map(
-                                        (
-                                            column: ColumnsProps,
-                                            index: number,
-                                        ) => {
-                                            return (
-                                                <th
-                                                    key={index}
-                                                    scope="col"
-                                                    className="px-6 py-3"
-                                                >
-                                                    {column.header}
-                                                </th>
-                                            );
-                                        },
-                                    )}
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {filteredItems.map((e: ICPM_events) => {
-                                    {
-                                        /* {sortedItems.map((e: IEvent) => { */
-                                    }
-                                    return (
-                                        <tr key={e.event_id} className="">
-                                            <th
-                                                scope="row"
-                                                className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                                            >
-                                                <Image
-                                                    width={128}
-                                                    height={128}
-                                                    className="h-8 w-8 rounded-full"
-                                                    src="/icons/people-line-solid.svg"
-                                                    alt=""
-                                                />
-                                            </th>
-
-                                            <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                                                <Link
-                                                    href={`${ROUTE_EVENTS}/${e.event_id}${ROUTE_CP_MOBILE}/${e.cp_id}`}
-                                                    locale={locale}
-                                                >
-                                                    {e.cp_mobile?.cp_name}
-                                                </Link>
-                                            </td>
-
-                                            <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                                                <Link
-                                                    href={`${ROUTE_EVENTS}/${e.event_id}`}
-                                                    locale={locale}
-                                                >
-                                                    {e.events?.name}
-                                                </Link>
-                                            </td>
-
-                                            <td className="px-6 py-4">
-                                                {formatDateString(
-                                                    e.events?.created_at ?? '',
-                                                )}
-                                            </td>
-
-                                            <td className="flex items-center justify-center px-6 py-4">
-                                                <IconButton
-                                                    icon={faEdit}
-                                                    onClick={() => {
-                                                        handleEditClick(e);
-                                                    }}
-                                                    color={editColor}
-                                                    classContainer={
-                                                        'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full'
-                                                    }
-                                                    classIcon={''}
-                                                    title={t('edit')}
-                                                />
-
-                                                <IconButton
-                                                    icon={faTrash}
-                                                    onClick={() => {
-                                                        handleDeleteClick(e);
-                                                    }}
-                                                    color={deleteColor}
-                                                    classContainer={
-                                                        'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
-                                                    }
-                                                    classIcon={''}
-                                                    title={t('delete')}
-                                                />
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    {/* Prev and Next button for pagination  */}
-                    <div className="my-4 flex items-center justify-around">
-                        <PaginationFooter
-                            counter={counter}
-                            resultsPerPage={resultsPerPage}
-                            currentPage={currentPage}
-                            setCurrentPage={setCurrentPage}
-                        />
-                    </div>
-                </div>
+                <TableWithFooterAndSearch
+                    columns={columns}
+                    data={events}
+                    initialQuery={''}
+                    resultsPerPage={resultsPerPage}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    searchPlaceHolder={'search_by_name'}
+                    paginationCounter={counter}
+                    sourceDataIsFromServer={false}
+                />
             )}
         </section>
     );

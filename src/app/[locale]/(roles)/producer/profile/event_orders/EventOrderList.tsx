@@ -1,25 +1,20 @@
 'use client';
 
+import Spinner from '@/app/[locale]/components/common/Spinner';
 import useFetchEventOrders from '../../../../../../hooks/useFetchEventOrders';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
-import React, { useEffect, useMemo, useState } from 'react';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
+import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
-import { IEventOrder } from '@/lib//types/types';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
-import Spinner from '@/app/[locale]/components/common/Spinner';
 import { encodeBase64 } from '@/utils/utils';
+import { IEventOrder } from '@/lib//types/types';
 import { formatCurrency } from '@/utils/formatCurrency';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { IconButton } from '@/app/[locale]/components/common/IconButton';
 
 interface Props {
     eventOrders: IEventOrder[];
-}
-
-interface ColumnsProps {
-    header: string;
 }
 
 export function EventOrderList({ eventOrders: os }: Props) {
@@ -29,7 +24,6 @@ export function EventOrderList({ eventOrders: os }: Props) {
     const t = useTranslations();
 
     const [orders, setOrders] = useState<IEventOrder[]>(os);
-    const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 
     const counter = os.length;
@@ -50,14 +44,6 @@ export function EventOrderList({ eventOrders: os }: Props) {
         });
     }, [currentPage]);
 
-    const COLUMNS = [
-        { header: t('order_number_header') },
-        { header: t('name_header') },
-        { header: t('price_header') },
-        { header: t('status_header') },
-        { header: t('action_header') },
-    ];
-
     const handleClickView = (order: IEventOrder) => {
         const Ds_MerchantParameters = encodeBase64(
             JSON.stringify({ Ds_Order: order.order_number }),
@@ -71,12 +57,39 @@ export function EventOrderList({ eventOrders: os }: Props) {
         );
     };
 
-    const filteredItemsByStatus = useMemo(() => {
-        if (!orders) return [];
-        return orders.filter((orders) => {
-            return orders.status.toLowerCase().includes(query.toLowerCase());
-        });
-    }, [orders, query]);
+    const columns = [
+        {
+            header: t('order_number_header'),
+            accessor: 'order_number',
+        },
+        {
+            header: t('name_header'),
+            accessor: 'users.username',
+            render: (_: string, row: IEventOrder) =>
+                row.users?.username ?? ' - ',
+        },
+        {
+            header: t('price_header'),
+            accessor: 'total',
+            render: (_: number, row: IEventOrder) => formatCurrency(row.total),
+        },
+        {
+            header: t('status_header'),
+            accessor: 'status',
+            render: (_: string, row: IEventOrder) => t(row.status),
+        },
+        {
+            header: t('action_header'),
+            accessor: 'action',
+            render: (value: any, row: IEventOrder) => (
+                <IconButton
+                    onClick={() => handleClickView(row)}
+                    icon={faEye}
+                    title={t('view')}
+                />
+            ),
+        },
+    ];
 
     return (
         <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
@@ -104,98 +117,17 @@ export function EventOrderList({ eventOrders: os }: Props) {
                     </p>
                 </div>
             ) : (
-                <div className="space-y-2">
-                    <InputSearch
-                        query={query}
-                        setQuery={setQuery}
-                        searchPlaceholder={'search_order'}
-                    />
-                    <div className="overflow-x-scroll border-2 ">
-                        <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400 border-2 ">
-                            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    {COLUMNS.map(
-                                        (
-                                            column: ColumnsProps,
-                                            index: number,
-                                        ) => {
-                                            return (
-                                                <th
-                                                    key={index}
-                                                    scope="col"
-                                                    className="px-6 py-3"
-                                                >
-                                                    {column.header}
-                                                </th>
-                                            );
-                                        },
-                                    )}
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {orders &&
-                                    filteredItemsByStatus.map((order) => {
-                                        return (
-                                            <tr key={order.id} className="">
-                                                <td className="px-6 py-4">
-                                                    {order.order_number}
-                                                </td>
-
-                                                <td className="px-6 py-4">
-                                                    {order.users?.username ??
-                                                        ' - '}
-                                                </td>
-
-                                                <td className="px-6 py-4">
-                                                    {formatCurrency(
-                                                        order.total,
-                                                    )}
-                                                </td>
-
-                                                <td className="px-6 py-4">
-                                                    {t(order.status)}
-                                                </td>
-
-                                                <td className="item-center flex justify-center px-6 py-4">
-                                                    <IconButton
-                                                        onClick={() =>
-                                                            handleClickView(
-                                                                order,
-                                                            )
-                                                        }
-                                                        icon={faEye}
-                                                        title={''}
-                                                    />
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-
-                                {!orders && (
-                                    <tr>
-                                        <td
-                                            colSpan={6}
-                                            className="py-4 text-center"
-                                        >
-                                            {t('no_orders')}
-                                        </td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    {/* Prev and Next button for pagination  */}
-                    <div className="my-4 flex items-center justify-around">
-                        <PaginationFooter
-                            counter={counter}
-                            resultsPerPage={resultsPerPage}
-                            currentPage={currentPage}
-                            setCurrentPage={setCurrentPage}
-                        />
-                    </div>
-                </div>
+                <TableWithFooterAndSearch
+                    columns={columns}
+                    data={orders}
+                    initialQuery={''}
+                    resultsPerPage={resultsPerPage}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    searchPlaceHolder={'search_by_name'}
+                    paginationCounter={counter}
+                    sourceDataIsFromServer={false}
+                />
             )}
         </section>
     );
