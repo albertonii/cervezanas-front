@@ -16,6 +16,7 @@ import {
     Fermentation,
     fermentation_options,
     product_type_options,
+    recommended_glass_options,
 } from '@/lib//beerEnum';
 import {
     IProduct,
@@ -90,6 +91,11 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
     }),
     ingredients: z.array(z.string()).optional(),
     pairing: z.string().optional(),
+    recommended_glass: z
+        .number()
+        .min(0, { message: 'errors.input_number_min_0' })
+        .optional(),
+    brewers_note: z.string().optional(),
     is_public: z.boolean(),
     volume: z.number().min(0, { message: 'errors.input_number_min_0' }),
     weight: z.number().min(0, { message: 'errors.input_number_min_0' }),
@@ -198,6 +204,8 @@ export function UpdateProductModal({
         ibu,
         ingredients,
         pairing,
+        recommended_glass,
+        brewers_note,
     } = beers;
 
     const colorDefault: {
@@ -234,6 +242,16 @@ export function UpdateProductModal({
         value: 7,
     };
 
+    const recommendedGlassDefault: {
+        label: string;
+        value: number;
+    } = recommended_glass_options.find(
+        (c) => c.value.toString() === recommended_glass,
+    ) ?? {
+        label: 'pint',
+        value: 0,
+    };
+
     const form = useForm<ValidationSchema>({
         mode: 'onSubmit',
         resolver: zodResolver(schema),
@@ -257,6 +275,8 @@ export function UpdateProductModal({
             ibu: ibu,
             ingredients: ingredients,
             pairing: pairing,
+            recommended_glass: recommendedGlassDefault.value,
+            brewers_note: brewers_note ?? '',
             family: familyDefault.value,
             fermentation: fermentationDefault.value,
             is_gluten: product.beers?.is_gluten ?? false,
@@ -352,6 +372,8 @@ export function UpdateProductModal({
             ibu,
             ingredients,
             pairing,
+            recommended_glass,
+            brewers_note,
         } = formValues;
 
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -370,6 +392,11 @@ export function UpdateProductModal({
         formData.append('ibu', ibu.toString());
         formData.append('ingredients', ingredients?.join(',') ?? '');
         formData.append('pairing', pairing ?? '');
+        formData.append(
+            'recommended_glass',
+            recommended_glass?.toString() ?? '',
+        );
+        formData.append('brewers_note', brewers_note ?? '');
 
         formData.append('product_id', product.id);
 
@@ -546,7 +573,9 @@ export function UpdateProductModal({
                 dirtyFields.weight ||
                 dirtyFields.ibu ||
                 dirtyFields.ingredients ||
-                dirtyFields.pairing
+                dirtyFields.pairing ||
+                dirtyFields.recommended_glass ||
+                dirtyFields.brewers_note
             ) {
                 await updateBeerSection(formValues);
             }

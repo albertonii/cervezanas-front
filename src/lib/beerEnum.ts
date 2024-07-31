@@ -230,6 +230,29 @@ export enum ReviewQualification {
 //   { label: "i_very_high", value: Intensity.i_very_high },
 // ];
 
+export enum RecommendedGlass {
+    flute,
+    pint,
+    snifter,
+    stein,
+    tulip,
+    weizen,
+    other,
+}
+
+export const recommended_glass_options: {
+    label: string;
+    value: RecommendedGlass;
+}[] = [
+    { label: 'flute', value: RecommendedGlass.flute },
+    { label: 'pint', value: RecommendedGlass.pint },
+    { label: 'snifter', value: RecommendedGlass.snifter },
+    { label: 'stein', value: RecommendedGlass.stein },
+    { label: 'tulip', value: RecommendedGlass.tulip },
+    { label: 'weizen', value: RecommendedGlass.weizen },
+    { label: 'other', value: RecommendedGlass.other },
+];
+
 export const color_options: {
     label: string;
     value: Color;

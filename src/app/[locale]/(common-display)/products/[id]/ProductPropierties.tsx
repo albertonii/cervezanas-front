@@ -7,6 +7,7 @@ import {
     family_options,
     fermentation_options,
     format_options,
+    recommended_glass_options,
 } from '@/lib/beerEnum';
 
 interface Props {
@@ -32,8 +33,15 @@ const ProductPropierties = ({ product }: Props) => {
         og,
         fg,
         ibu,
+        pairing,
         ingredients,
+        recommended_glass,
+        brewers_note,
     } = product.beers;
+
+    const recommendedGlass =
+        recommended_glass &&
+        t(recommended_glass_options[parseInt(recommended_glass)].label);
 
     const properties = [
         // { label: 'Categoría', value: category },
@@ -53,10 +61,14 @@ const ProductPropierties = ({ product }: Props) => {
         { label: 'SRM', value: srm },
         { label: 'OG', value: og },
         { label: 'FG', value: fg },
+        {
+            label: 'Vaso Recomendado',
+            value: recommendedGlass,
+        },
     ];
 
     return (
-        <div className="bg-gray-50 p-8 rounded-lg shadow-lg space-y-12">
+        <div className="bg-gray-50 p-8 rounded-lg shadow-lg space-y-6">
             {/* Características Clave */}
             <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
                 <h2 className="text-2xl font-semibold text-gray-900">
@@ -84,17 +96,22 @@ const ProductPropierties = ({ product }: Props) => {
                 </div>
             </div>
 
-            {/* Notas de Cata */}
-            <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-                <h2 className="text-2xl font-semibold text-gray-900">
-                    {t('tasting_notes')}
-                </h2>
-                <p className="text-gray-700">
-                    Disfruta de esta cerveza artesanal con sus delicados matices
-                    de sabor, que incluyen notas a malta, lúpulo fresco y un
-                    toque de frutas cítricas. Perfecta para maridar con comidas
-                    ligeras y quesos suaves.
-                </p>
+            {/* Pairing */}
+            <div className="flex flex-col lg:flex-row space-y-6 space-x-0 lg:space-y-0 lg:space-x-4 ">
+                <div className="w-full bg-white p-6 rounded-lg shadow-md space-y-4">
+                    <h2 className="text-2xl font-semibold text-gray-900">
+                        {t('beer_pairing')}
+                    </h2>
+                    <p className="text-gray-700">{pairing}</p>
+                </div>
+
+                {/* Brewers Note */}
+                <div className="w-full bg-white p-6 rounded-lg shadow-md space-y-4">
+                    <h2 className="text-2xl font-semibold text-gray-900">
+                        {t('brewers_note')}
+                    </h2>
+                    <p className="text-gray-700">{brewers_note}</p>
+                </div>
             </div>
 
             {/* Ingredientes Principales */}
@@ -102,7 +119,7 @@ const ProductPropierties = ({ product }: Props) => {
                 <h2 className="text-2xl font-semibold text-gray-900">
                     {t('ingredients')}
                 </h2>
-                <p className="text-gray-700">{ingredients.join(', ')}</p>
+                <p className="text-gray-700">{ingredients?.join(', ')}</p>
             </div>
 
             {/* Información sobre la Cervecería */}

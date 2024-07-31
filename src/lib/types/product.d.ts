@@ -94,18 +94,18 @@ export interface IBeerFormData {
     fermentation: string;
     color: string;
     family: string;
-    era: string;
     aroma: string;
     is_gluten: boolean;
     format: string;
     volume: number;
     sku: string;
     intensity: number;
-    origin: string;
-    country: string;
-    composition: string;
     srm: number;
     og: number;
     fg: number;
     ibu: number;
+    ingredients?: string[];
+    pairing?: string[];
+    recommended_glass?: string;
+    brewers_note?: string;
 }

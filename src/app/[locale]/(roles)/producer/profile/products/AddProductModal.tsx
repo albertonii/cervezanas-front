@@ -86,6 +86,11 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
     }),
     ingredients: z.array(z.string()).optional(),
     pairing: z.string().optional(),
+    recommended_glass: z
+        .number()
+        .min(0, { message: 'errors.input_number_min_0' })
+        .optional(),
+    brewers_note: z.string().optional(),
     awards: z.array(
         z.object({
             name: z
@@ -231,6 +236,8 @@ export function AddProductModal() {
             ibu,
             ingredients,
             pairing,
+            recommended_glass,
+            brewers_note,
         } = form;
 
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -259,6 +266,11 @@ export function AddProductModal() {
         formData.append('beer.ibu', ibu.toString());
         formData.append('beer.ingredients', ingredients?.join(',') ?? '');
         formData.append('beer.pairing', pairing ?? '');
+        formData.append(
+            'beer.recommended_glass',
+            recommended_glass?.toString() ?? '',
+        );
+        formData.append('beer.brewers_note', brewers_note ?? '');
 
         // Stock
         formData.append('stock.quantity', stock_quantity.toString());

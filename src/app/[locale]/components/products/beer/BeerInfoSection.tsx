@@ -15,6 +15,7 @@ import {
     family_options,
     fermentation_options,
     format_options,
+    recommended_glass_options,
     volume_bottle_type_options,
     volume_can_type_options,
     volume_draft_type_options,
@@ -355,15 +356,39 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                         />
                     </div>
 
-                    {/* Beer Pairing information  */}
-                    <InputTextarea
-                        form={form}
-                        label={'pairing'}
-                        labelText={'beer_pairing'}
-                        registerOptions={{
-                            required: false,
-                        }}
-                    />
+                    <div className="flex w-full flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+                        <SelectInput
+                            form={form}
+                            labelTooltip={'recommended_glass'}
+                            options={recommended_glass_options}
+                            label={'recommended_glass'}
+                            registerOptions={{
+                                required: true,
+                                valueAsNumber: true,
+                            }}
+                        />
+                    </div>
+
+                    <div className="flex w-full flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+                        {/* Beer Pairing information  */}
+                        <InputTextarea
+                            form={form}
+                            label={'pairing'}
+                            labelText={t('beer_pairing')}
+                            registerOptions={{
+                                required: false,
+                            }}
+                        />
+
+                        {/* Brewers Note  */}
+                        <InputTextarea
+                            form={form}
+                            label={'brewers_note'}
+                            registerOptions={{
+                                required: false,
+                            }}
+                        />
+                    </div>
 
                     {/* Ingredients  */}
                     <IngredientInput

@@ -9,7 +9,7 @@ import { Provider, SupabaseClient } from '@supabase/supabase-js';
 import { ThemeVariables } from '../../../common/theming';
 import { Session } from '@supabase/gotrue-js/src/lib/types.d';
 import { Type as ProductType } from '../productEnum';
-import { Fermentation } from '../beerEnum';
+import { Fermentation, RecommendedGlass } from '../beerEnum';
 import { IBoxPack } from './product';
 
 export type ButtonTypes = 'button' | 'submit' | 'reset';
@@ -174,6 +174,8 @@ export interface IBeer {
     ibu: number;
     ingredients?: string[];
     pairing?: string;
+    recommended_glass?: string;
+    brewers_note?: string;
     products?: IProduct;
 }
 
@@ -765,6 +767,8 @@ export type ModalAddProductFormData = {
     type: string;
     ingredients?: string[];
     pairing?: string;
+    recommended_glass?: number;
+    brewers_note?: string;
     p_principal?: any;
     p_back?: any;
     p_extra_1?: any;
@@ -798,6 +802,8 @@ export type ModalUpdateProductFormData = {
     type: string;
     ingredients?: string[];
     pairing?: string;
+    recommended_glass?: RecommendedGlass;
+    brewers_note?: string;
     p_principal?: any;
     p_back?: any;
     p_extra_1?: any;

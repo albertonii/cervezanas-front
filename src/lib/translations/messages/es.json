@@ -1052,5 +1052,8 @@
     "tasting_notes": "Notas de cata",
     "ingredients": "Ingredientes",
     "brewery_info": "Información de la cervecería",
-    "add_ingredients_placeholder": "Añade un ingrediente y pulsa Intro o añade una Coma ( , )"
+    "add_ingredients_placeholder": "Añade un ingrediente y pulsa Intro o añade una Coma ( , )",
+    "beer_pairing": "Maridaje",
+    "brewers_note": "Nota del cervecero",
+    "recommended_glass": "Vaso recomendado"
 }
