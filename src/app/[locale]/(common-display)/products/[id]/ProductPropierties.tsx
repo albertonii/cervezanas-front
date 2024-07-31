@@ -121,7 +121,7 @@ const ProductPropierties = ({ product }: Props) => {
         <div className="bg-gray-50 p-8 rounded-lg shadow-lg space-y-12">
             {/* Características Clave */}
             <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-                <h2 className="text-2xl font-semibold text-gray-900">
+                <h2 className="text-4xl font-semibold text-gray-900 font-['NexaRust-script']">
                     Características Clave
                 </h2>
                 <ul className="list-disc list-inside text-gray-700">
@@ -139,7 +139,7 @@ const ProductPropierties = ({ product }: Props) => {
 
             {/* Notas de Cata */}
             <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-                <h2 className="text-2xl font-semibold text-gray-900">
+                <h2 className="text-4xl font-semibold text-gray-900 font-['NexaRust-script']">
                     Notas de Cata
                 </h2>
                 <p className="text-gray-700">
@@ -152,7 +152,7 @@ const ProductPropierties = ({ product }: Props) => {
 
             {/* Ingredientes Principales */}
             <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-                <h2 className="text-2xl font-semibold text-gray-900">
+                <h2 className="text-4xl font-semibold text-gray-900 font-['NexaRust-script']">
                     Ingredientes Principales
                 </h2>
                 <p className="text-gray-700">{"ingredients.join(', ')"}</p>
@@ -160,7 +160,7 @@ const ProductPropierties = ({ product }: Props) => {
 
             {/* Información sobre la Cervecería */}
             <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-                <h2 className="text-2xl font-semibold text-gray-900">
+                <h2 className="text-4xl font-semibold text-gray-900 font-['NexaRust-script']">
                     Información sobre la Cervecería
                 </h2>
                 <p className="text-gray-700">{'brewery_info'}</p>

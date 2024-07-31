@@ -51,7 +51,7 @@ export function Carousel({ gallery, handleSetGalleryIndex }: Props) {
     };
 
     return (
-        <section className="carousel mx-auto my-4 lg:my-6 relative overflow-hidden">
+        <section className="carousel mx-auto my-4 lg:my-6 relative overflow-hidden ">
             <div className="top left absolute flex h-full w-full justify-between">
                 <button
                     onClick={movePrev}
@@ -105,7 +105,7 @@ export function Carousel({ gallery, handleSetGalleryIndex }: Props) {
                             <div
                                 key={resource.title + index}
                                 className={`
-                                        relative snap-start overflow-hidden text-center transition-all hover:cursor-pointer border-2 rounded-md w-[60px] h-[60px] lg:w-[70px] lg:h-[70px] xl:w-[120px] xl:h-[120px]
+                                        relative snap-start overflow-hidden text-center transition-all hover:cursor-pointer bg-white border-2 rounded-md w-[60px] h-[60px] lg:w-[70px] lg:h-[70px] xl:w-[120px] xl:h-[120px]
                                         ${
                                             currentIndex === index
                                                 ? 'border-beer-blonde'

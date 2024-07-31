@@ -46,7 +46,7 @@ export default function PDProduct({ product }: Props) {
     if (loading) return <DynamicSpinner color={'beer-blonde'} size="medium" />;
 
     return (
-        <section className="relative grid items-stretch	 w-full grid-cols-12 gap-y-8 overflow-hidden bg-white pb-8 pt-14 sm:pt-8 lg:grid-cols-12 lg:px-6">
+        <section className="relative grid items-stretch	 w-full grid-cols-12 gap-y-8 overflow-hidden pb-8 pt-14 sm:pt-8 lg:grid-cols-12 lg:px-6 bg-[url('/assets/home/bg-home.webp')] bg-auto bg-repeat bg-top">
             <ProductDetails product={product} reviewRef={reviewRef} />
 
             {/* Reviews */}
