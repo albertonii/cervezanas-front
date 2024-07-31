@@ -1,10 +1,9 @@
-import { redirect } from 'next/navigation';
-import React from 'react';
-import { VIEWS } from '@/constants';
 import readUserSession from '@/lib//actions';
-import { INotification } from '@/lib//types/types';
 import createServerClient from '@/utils/supabaseServer';
 import Notifications from '../../../../(common-display)/notifications/Notifications';
+import React from 'react';
+import { redirect } from 'next/navigation';
+import { INotification } from '@/lib//types/types';
 
 export default async function NotificationsPage() {
     const notificationsData = await getNotificationsData();

@@ -5,7 +5,11 @@ import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useTranslations } from 'next-intl';
 import AssociatedProducersList from './AssociatedProducersList';
 
-export default function Contracts() {
+interface Props {
+    counter: number;
+}
+
+export default function Contracts({ counter }: Props) {
     const t = useTranslations();
     const { user } = useAuth();
     if (!user) return null;
@@ -27,7 +31,7 @@ export default function Contracts() {
                 </div>
             </header>
             {/* Section displaying all asociated contracts */}
-            <AssociatedProducersList />
+            <AssociatedProducersList counter={counter} />
         </section>
     );
 }

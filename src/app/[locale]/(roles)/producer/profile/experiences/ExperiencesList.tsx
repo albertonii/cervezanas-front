@@ -41,6 +41,33 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
 
     const [selectedExperience, setSelectedExperience] = useState<IExperience>();
 
+    useEffect(() => {
+        if (isLoggedIn) {
+            refetch().then((res: any) => {
+                const experiences = res.data as IExperience[];
+                setExperiences(experiences);
+            });
+        }
+    }, [currentPage, data, isLoggedIn]);
+
+    const handleEditClick = async (e: IExperience) => {
+        setIsEditModal(true);
+        setSelectedExperience(e);
+    };
+
+    const handleDeleteClick = async (e: IExperience) => {
+        setIsDeleteModal(true);
+        setSelectedExperience(e);
+    };
+
+    const handleEditModal = (isEdit: boolean) => {
+        setIsEditModal(isEdit);
+    };
+
+    const handlDeleteModal = (isDelete: boolean) => {
+        setIsDeleteModal(isDelete);
+    };
+
     const columns = [
         {
             header: t('experience_type_header'),
@@ -102,33 +129,6 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
             ),
         },
     ];
-
-    useEffect(() => {
-        if (isLoggedIn) {
-            refetch().then((res: any) => {
-                const experiences = res.data as IExperience[];
-                setExperiences(experiences);
-            });
-        }
-    }, [currentPage, data, isLoggedIn]);
-
-    const handleEditClick = async (e: IExperience) => {
-        setIsEditModal(true);
-        setSelectedExperience(e);
-    };
-
-    const handleDeleteClick = async (e: IExperience) => {
-        setIsDeleteModal(true);
-        setSelectedExperience(e);
-    };
-
-    const handleEditModal = (isEdit: boolean) => {
-        setIsEditModal(isEdit);
-    };
-
-    const handlDeleteModal = (isDelete: boolean) => {
-        setIsDeleteModal(isDelete);
-    };
 
     return (
         <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
