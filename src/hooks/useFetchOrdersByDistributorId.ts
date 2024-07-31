@@ -17,7 +17,12 @@ const fetchOrdersByDistributorId = async (
             *, 
             orders (
               *
-            )
+            ),
+            order_items (
+                *
+            ),
+            producer_user (*),
+            distributor_user (*)
         `,
         )
         .eq('distributor_id', [distributorId])
