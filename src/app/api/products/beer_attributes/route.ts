@@ -15,7 +15,8 @@ export async function PUT(request: NextRequest) {
         const volume = parseFloat(formData.get('volume') as string);
         const format = formData.get('format') as string;
         const ibu = parseFloat(formData.get('ibu') as string);
-        const ingredients = formData.get('beer.ingredients') as string;
+        const ingredients = formData.get('ingredients') as string;
+        const pairing = formData.get('pairing') as string;
 
         // Transformar string a array separado por comas
         const ingredientsArray = ingredients.split(',');
@@ -44,6 +45,7 @@ export async function PUT(request: NextRequest) {
                 format,
                 ibu,
                 ingredients: ingredientsArray,
+                pairing,
             })
             .eq('product_id', productId);
 

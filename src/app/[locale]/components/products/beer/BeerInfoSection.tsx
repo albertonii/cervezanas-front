@@ -1,6 +1,7 @@
+import IngredientInput from './IngredientInput';
 import InputLabel from '../../common/InputLabel';
-import InputTextarea from '../../common/InputTextarea';
 import SelectInput from '../../common/SelectInput';
+import InputTextarea from '../../common/InputTextarea';
 import StockInformation from '../../StockInformation';
 import ProductPackInformation from '../../ProductPackInformation';
 import React, { useEffect, useState } from 'react';
@@ -25,8 +26,6 @@ import {
 import { formatCurrency } from '@/utils/formatCurrency';
 import { capitalizeFirstLetter } from '@/utils/formatWords';
 import { DisplayInputError } from '../../common/DisplayInputError';
-import IngredientInput from './IngredientInput';
-import { ChipCard } from '../../common/ChipCard';
 
 interface Props {
     form: UseFormReturn<ModalAddProductFormData>;
@@ -85,11 +84,6 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
         setVolume(parseInt(e.target.value));
         setValue('volume', parseInt(e.target.value));
         trigger('volume');
-    };
-
-    const handleRemoveIngredient = (index: number) => {
-        const newIngredients = ingredients.filter((_, i) => i !== index);
-        setIngredients(newIngredients);
     };
 
     return (
@@ -360,6 +354,16 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                             infoTooltip={'pvpr_tooltip'}
                         />
                     </div>
+
+                    {/* Beer Pairing information  */}
+                    <InputTextarea
+                        form={form}
+                        label={'pairing'}
+                        labelText={'beer_pairing'}
+                        registerOptions={{
+                            required: false,
+                        }}
+                    />
 
                     {/* Ingredients  */}
                     <IngredientInput

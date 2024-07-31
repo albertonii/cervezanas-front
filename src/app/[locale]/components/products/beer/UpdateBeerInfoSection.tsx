@@ -23,7 +23,6 @@ import InputTextarea from '../../common/InputTextarea';
 import SelectInput from '../../common/SelectInput';
 import StockInformationDetailsAndPacksUpdate from '../../modals/StockInformationDetailsAndPacksUpdate';
 import IngredientInput from './IngredientInput';
-import { ChipCard } from '../../common/ChipCard';
 
 interface Props {
     form: UseFormReturn<ModalUpdateProductFormData>;
@@ -414,6 +413,16 @@ export default function UpdateBeerInfoSection({
                 placeholder={formatCurrency(2.5)}
                 inputType="number"
                 infoTooltip={'pvpr_tooltip'}
+            />
+
+            {/* Beer Pairing information  */}
+            <InputTextarea
+                form={form}
+                label={'pairing'}
+                labelText={'beer_pairing'}
+                registerOptions={{
+                    required: false,
+                }}
             />
 
             {/* Ingredients  */}

@@ -89,6 +89,7 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
         message: 'errors.input_required',
     }),
     ingredients: z.array(z.string()).optional(),
+    pairing: z.string().optional(),
     is_public: z.boolean(),
     volume: z.number().min(0, { message: 'errors.input_number_min_0' }),
     weight: z.number().min(0, { message: 'errors.input_number_min_0' }),
@@ -196,6 +197,7 @@ export function UpdateProductModal({
         intensity,
         ibu,
         ingredients,
+        pairing,
     } = beers;
 
     const colorDefault: {
@@ -254,6 +256,7 @@ export function UpdateProductModal({
             intensity: intensity,
             ibu: ibu,
             ingredients: ingredients,
+            pairing: pairing,
             family: familyDefault.value,
             fermentation: fermentationDefault.value,
             is_gluten: product.beers?.is_gluten ?? false,
@@ -348,6 +351,7 @@ export function UpdateProductModal({
             format,
             ibu,
             ingredients,
+            pairing,
         } = formValues;
 
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -364,7 +368,8 @@ export function UpdateProductModal({
         formData.append('volume', volume.toString());
         formData.append('format', format);
         formData.append('ibu', ibu.toString());
-        formData.append('beer.ingredients', ingredients?.join(',') ?? '');
+        formData.append('ingredients', ingredients?.join(',') ?? '');
+        formData.append('pairing', pairing ?? '');
 
         formData.append('product_id', product.id);
 
@@ -540,7 +545,8 @@ export function UpdateProductModal({
                 dirtyFields.format ||
                 dirtyFields.weight ||
                 dirtyFields.ibu ||
-                dirtyFields.ingredients
+                dirtyFields.ingredients ||
+                dirtyFields.pairing
             ) {
                 await updateBeerSection(formValues);
             }

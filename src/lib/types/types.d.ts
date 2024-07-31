@@ -172,7 +172,8 @@ export interface IBeer {
     og: number;
     fg: number;
     ibu: number;
-    ingredients: string[];
+    ingredients?: string[];
+    pairing?: string;
     products?: IProduct;
 }
 
@@ -763,6 +764,7 @@ export type ModalAddProductFormData = {
     is_gluten: boolean;
     type: string;
     ingredients?: string[];
+    pairing?: string;
     p_principal?: any;
     p_back?: any;
     p_extra_1?: any;
@@ -795,6 +797,7 @@ export type ModalUpdateProductFormData = {
     is_gluten: boolean;
     type: string;
     ingredients?: string[];
+    pairing?: string;
     p_principal?: any;
     p_back?: any;
     p_extra_1?: any;

@@ -40,6 +40,7 @@ export async function POST(request: NextRequest) {
         const format = formData.get('beer.format') as string;
         const ibu = parseFloat(formData.get('beer.ibu') as string);
         const ingredients = formData.get('beer.ingredients') as string;
+        const pairing = formData.get('beer.pairing') as string;
 
         // Transformar string a array separado por comas
         const ingredientsArray = ingredients.split(',');
@@ -130,6 +131,7 @@ export async function POST(request: NextRequest) {
                 weight,
                 ibu,
                 ingredients: ingredientsArray,
+                pairing,
             });
 
             if (beerError) {
