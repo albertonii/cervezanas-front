@@ -362,6 +362,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                             labelTooltip={'recommended_glass'}
                             options={recommended_glass_options}
                             label={'recommended_glass'}
+                            optionLabelTranslationPrefix={'glass_type.'}
                             registerOptions={{
                                 required: true,
                                 valueAsNumber: true,

@@ -6,7 +6,6 @@ import {
     color_options,
     family_options,
     fermentation_options,
-    format_options,
     recommended_glass_options,
 } from '@/lib/beerEnum';
 
@@ -41,7 +40,11 @@ const ProductPropierties = ({ product }: Props) => {
 
     const recommendedGlass =
         recommended_glass &&
-        t(recommended_glass_options[parseInt(recommended_glass)].label);
+        t(
+            `glass_type.${
+                recommended_glass_options[parseInt(recommended_glass)].label
+            }`,
+        );
 
     const properties = [
         // { label: 'Categoría', value: category },

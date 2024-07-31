@@ -422,6 +422,7 @@ export default function UpdateBeerInfoSection({
                     form={form}
                     labelTooltip={'recommended_glass'}
                     options={recommended_glass_options}
+                    optionLabelTranslationPrefix={'glass_type.'}
                     label={'recommended_glass'}
                     registerOptions={{
                         required: false,

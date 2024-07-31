@@ -231,13 +231,63 @@ export enum ReviewQualification {
 // ];
 
 export enum RecommendedGlass {
-    flute,
-    pint,
-    snifter,
-    stein,
-    tulip,
-    weizen,
-    other,
+    flute, // Flute (vaso estrecho y alto, usado principalmente para cervezas afrutadas o gaseosas como la bière brut y bière de champagne)
+    pint, // Pint (vaso común y versátil, ideal para ales, porters y stouts)
+    snifter, // Snifter (copa bulbosa, ideal para cervezas fuertes y aromáticas como Belgian dark ale, double/imperial stout, double/imperial IPA)
+    stein, // Stein (jarra robusta con asa, usada para lagers y cervezas de gran volumen)
+    tulip, // Tulip (copa con base ancha y boca estrecha, ideal para cervezas belgas como Dubbel, Tripel y Quadrupel)
+    weizen, // Weizen (vaso alto y delgado, usado para cervezas de trigo como Weissbier)
+    teku, // Teku (copa diseñada para cervezas artesanales de alta calidad)
+    stange, // Stange (vaso alto y delgado, ideal para Kölsch y Altbier)
+    pilsner, // Pilsner (vaso alto y cónico, usado para cervezas ligeras y Pilsner)
+    lager, // Lager (vaso alto y estrecho, ideal para cervezas lager)
+    chalice, // Chalice (cáliz, copa grande y ancha, usada para cervezas belgas fuertes)
+    goblet, // Goblet (similar al cáliz, pero más decorado y pesado, usado para cervezas complejas)
+    tumbler, // Tumbler (vaso corto y ancho, usado para cervezas stouts y porters)
+    nonic_pint, // Nonic Pint (variante de vaso de pinta con una curva cerca del borde, usado para ales y lagers)
+    dimpled_mug, // Dimpled Mug (jarra con asas y superficie con hoyuelos, usada para cervezas británicas)
+    boot, // Boot (vaso en forma de bota, tradicionalmente usado en Alemania para cervezas lager)
+    tankard, // Tankard (jarra grande y tradicional, usada para varios tipos de cervezas)
+    glass, // Glass (vaso genérico sin una forma específica, usado para varios tipos de cervezas)
+    thistle, // Thistle (vaso con una base ancha y una boca más estrecha, usado principalmente para cervezas Scottish Ale)
+    yard, // Yard (vaso muy alto y estrecho con una base redonda, tradicionalmente usado en competiciones de bebida)
+    tankard_mug, // Tankard Mug (similar al tankard, pero más estilizado y decorado, usado para varios tipos de cervezas)
+    ceramic_stein, // Ceramic Stein (jarra de cerámica con tapa, tradicionalmente usada en Alemania para varias cervezas)
+    shaker, // Shaker (vaso corto y ancho, usado para cócteles pero también adecuado para algunas cervezas)
+    pokal, // Pokal (vaso con una base ancha y una boca más estrecha, usado para cervezas lager y pilsner)
+    seidel, // Seidel (similar al Stein, pero generalmente más pequeño y sin tapa)
+    grand_cru, // Grand Cru (vaso tipo cáliz, usado para cervezas belgas de alto contenido alcohólico)
+    mini_pilsner, // Mini Pilsner (vaso más pequeño, usado para cervezas Pilsner en porciones menores)
+    mini_stange, // Mini Stange (versión más pequeña del vaso Stange)
+    british_dimple, // British Dimple (similar al Dimpled Mug, pero con un diseño más específico para cervezas británicas)
+    ipa, // IPA (diseñado específicamente para cervezas IPA, con una forma que resalta los aromas de los lúpulos)
+    becher, // Becher (vaso alto y delgado, usado para lagers y pilsners)
+    pub_glass, // Pub Glass (vaso típico de pub, usado para varios tipos de ales y lagers)
+    abbey_goblet, // Abbey Goblet (copa grande y decorada, usada para cervezas complejas de abadía)
+    weissbier_vase, // Weissbier Vase (vaso alto y delgado, usado para cervezas de trigo)
+    pocal, // Pocal (vaso corto y ancho, usado para lagers y pilsners)
+    dimple_mug, // Dimple Mug (jarra robusta con asas, usada para cervezas británicas)
+    willibecher, // Willibecher (vaso versátil, usado para varias cervezas alemanas)
+    jever_pilsner, // Jever Pilsner (vaso alto y delgado, usado para cervezas pilsner)
+    lambic_flute, // Lambic Flute (vaso estrecho y alto, usado para cervezas lambic)
+    stein_mug, // Stein Mug (jarra robusta con asas y tapa, usada para cervezas alemanas)
+    nonic, // Nonic (vaso versátil con un ensanchamiento cerca del borde)
+    vase, // Vase (vaso alto y delgado, usado para cervezas de trigo)
+    taster, // Taster (vaso pequeño, usado para degustaciones de cervezas)
+    boot_mug, // Boot Mug (vaso en forma de bota, usado en festivales cerveceros)
+    pilsner_pokal, // Pilsner Pokal (vaso cónico y alto, usado para cervezas pilsner)
+    irish_mug, // Irish Mug (jarra robusta usada para stouts irlandesas)
+    wheat_glass, // Wheat Glass (vaso alto y ancho, usado para cervezas de trigo)
+    ipa_glass, // IPA Glass (diseñado específicamente para resaltar los aromas de las IPAs)
+    american_pint, // American Pint (vaso versátil y común en Estados Unidos)
+    belgian_tulip, // Belgian Tulip (copa con base ancha y boca estrecha, usada para cervezas belgas)
+    english_pint, // English Pint (vaso tradicional usado en pubs británicos)
+    italian_teku, // Italian Teku (copa elegante usada para cervezas artesanales)
+    scottish_thistle, // Scottish Thistle (vaso con forma de cardo, usado para ales escocesas)
+    saaz_pokal, // Saaz Pokal (vaso corto y ancho, usado para cervezas checas)
+    bock_glass, // Bock Glass (vaso robusto usado para cervezas bock)
+    porter_glass, // Porter Glass (vaso ancho y bajo, usado para porters)
+    other, // Otros tipos de vasos menos comunes o específicos
 }
 
 export const recommended_glass_options: {
@@ -250,6 +300,56 @@ export const recommended_glass_options: {
     { label: 'stein', value: RecommendedGlass.stein },
     { label: 'tulip', value: RecommendedGlass.tulip },
     { label: 'weizen', value: RecommendedGlass.weizen },
+    { label: 'teku', value: RecommendedGlass.teku },
+    { label: 'stange', value: RecommendedGlass.stange },
+    { label: 'pilsner', value: RecommendedGlass.pilsner },
+    { label: 'lager', value: RecommendedGlass.lager },
+    { label: 'chalice', value: RecommendedGlass.chalice },
+    { label: 'goblet', value: RecommendedGlass.goblet },
+    { label: 'tumbler', value: RecommendedGlass.tumbler },
+    { label: 'nonic_pint', value: RecommendedGlass.nonic_pint },
+    { label: 'dimpled_mug', value: RecommendedGlass.dimpled_mug },
+    { label: 'boot', value: RecommendedGlass.boot },
+    { label: 'tankard', value: RecommendedGlass.tankard },
+    { label: 'glass', value: RecommendedGlass.glass },
+    { label: 'thistle', value: RecommendedGlass.thistle },
+    { label: 'yard', value: RecommendedGlass.yard },
+    { label: 'tankard_mug', value: RecommendedGlass.tankard_mug },
+    { label: 'ceramic_stein', value: RecommendedGlass.ceramic_stein },
+    { label: 'shaker', value: RecommendedGlass.shaker },
+    { label: 'pokal', value: RecommendedGlass.pokal },
+    { label: 'seidel', value: RecommendedGlass.seidel },
+    { label: 'grand_cru', value: RecommendedGlass.grand_cru },
+    { label: 'mini_pilsner', value: RecommendedGlass.mini_pilsner },
+    { label: 'mini_stange', value: RecommendedGlass.mini_stange },
+    { label: 'british_dimple', value: RecommendedGlass.british_dimple },
+    { label: 'ipa', value: RecommendedGlass.ipa },
+    { label: 'becher', value: RecommendedGlass.becher },
+    { label: 'pub_glass', value: RecommendedGlass.pub_glass },
+    { label: 'abbey_goblet', value: RecommendedGlass.abbey_goblet },
+    { label: 'weissbier_vase', value: RecommendedGlass.weissbier_vase },
+    { label: 'pocal', value: RecommendedGlass.pocal },
+    { label: 'dimple_mug', value: RecommendedGlass.dimple_mug },
+    { label: 'willibecher', value: RecommendedGlass.willibecher },
+    { label: 'jever_pilsner', value: RecommendedGlass.jever_pilsner },
+    { label: 'lambic_flute', value: RecommendedGlass.lambic_flute },
+    { label: 'stein_mug', value: RecommendedGlass.stein_mug },
+    { label: 'nonic', value: RecommendedGlass.nonic },
+    { label: 'vase', value: RecommendedGlass.vase },
+    { label: 'taster', value: RecommendedGlass.taster },
+    { label: 'boot_mug', value: RecommendedGlass.boot_mug },
+    { label: 'pilsner_pokal', value: RecommendedGlass.pilsner_pokal },
+    { label: 'irish_mug', value: RecommendedGlass.irish_mug },
+    { label: 'wheat_glass', value: RecommendedGlass.wheat_glass },
+    { label: 'ipa_glass', value: RecommendedGlass.ipa_glass },
+    { label: 'american_pint', value: RecommendedGlass.american_pint },
+    { label: 'belgian_tulip', value: RecommendedGlass.belgian_tulip },
+    { label: 'english_pint', value: RecommendedGlass.english_pint },
+    { label: 'italian_teku', value: RecommendedGlass.italian_teku },
+    { label: 'scottish_thistle', value: RecommendedGlass.scottish_thistle },
+    { label: 'saaz_pokal', value: RecommendedGlass.saaz_pokal },
+    { label: 'bock_glass', value: RecommendedGlass.bock_glass },
+    { label: 'porter_glass', value: RecommendedGlass.porter_glass },
     { label: 'other', value: RecommendedGlass.other },
 ];
 

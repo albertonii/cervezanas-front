@@ -23,6 +23,7 @@ interface Props {
         shouldBeDirty?: boolean;
     };
     onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    optionLabelTranslationPrefix?: string;
 }
 
 const SelectInput = memo(
@@ -35,6 +36,7 @@ const SelectInput = memo(
         defaultValue,
         registerOptions,
         onChange,
+        optionLabelTranslationPrefix,
     }: Props) => {
         const t = useTranslations();
 
@@ -72,7 +74,9 @@ const SelectInput = memo(
                 >
                     {options.map((option) => (
                         <option key={option.value} value={option.value}>
-                            {t(option.label)}
+                            {t(
+                                `${optionLabelTranslationPrefix}${option.label}`,
+                            )}
                         </option>
                     ))}
                 </select>
