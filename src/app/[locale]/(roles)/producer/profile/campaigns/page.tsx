@@ -7,14 +7,20 @@ import { Campaigns } from './Campaigns';
 export default async function CampaignPage() {
     const productsData = await getProductsData();
     const campaignsData = await getCampaignData();
-    const [products, campaigns] = await Promise.all([
+    const counterData = await getCampaignsCounter();
+    const [products, campaigns, counter] = await Promise.all([
         productsData,
         campaignsData,
+        counterData,
     ]);
 
     return (
         <>
-            <Campaigns campaigns={campaigns ?? []} products={products ?? []} />
+            <Campaigns
+                campaigns={campaigns ?? []}
+                products={products ?? []}
+                counter={counter}
+            />
         </>
     );
 }
@@ -67,4 +73,22 @@ async function getProductsData() {
     if (productsError) throw productsError;
 
     return productsData as IProduct[];
+}
+
+async function getCampaignsCounter() {
+    const supabase = await createServerClient();
+    const session = await readUserSession();
+
+    if (!session) {
+        redirect('/signin');
+    }
+
+    const { count, error: campaignsError } = await supabase
+        .from('campaigns')
+        .select('id', { count: 'exact' })
+        .eq('owner_id', session.id);
+
+    if (campaignsError) throw campaignsError;
+
+    return count as number | 0;
 }

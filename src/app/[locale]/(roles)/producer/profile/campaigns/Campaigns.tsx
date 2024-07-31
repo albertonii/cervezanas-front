@@ -10,9 +10,10 @@ import { CampaignList } from './CampaignList';
 interface Props {
     campaigns: ICampaign[];
     products: IProduct[];
+    counter: number;
 }
 
-export function Campaigns({ products }: Props) {
+export function Campaigns({ products, counter }: Props) {
     const t = useTranslations();
 
     const [campaignModal, setCampaignModal] = useState<ICampaign>();
@@ -62,6 +63,7 @@ export function Campaigns({ products }: Props) {
                 handleEditShowModal={handleEditShowModal}
                 handleDeleteShowModal={handleDeleteShowModal}
                 handleCampaignModal={handleCampaignModal}
+                counter={counter}
             />
 
             {isEditShowModal && <></>}

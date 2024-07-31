@@ -2,63 +2,52 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
-import React, { ComponentProps, useMemo, useState } from 'react';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { useLocale, useTranslations } from 'next-intl';
-import { ICampaign } from '@/lib//types/types';
 import Spinner from '@/app/[locale]/components/common/Spinner';
+import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
+import useFetchCampaignsByOwnerAndPagination from '../../../../../../hooks/useFetchCampaignsByOwnerAndPagination';
+import React, { ComponentProps, useEffect, useState } from 'react';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { ICampaign } from '@/lib//types/types';
+import { formatDateString } from '@/utils/formatDate';
+import { useLocale, useTranslations } from 'next-intl';
 import { EditButton } from '@/app/[locale]/components/common/EditButton';
 import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
-import useFetchCampaignsByOwnerAndPagination from '../../../../../../hooks/useFetchCampaignsByOwnerAndPagination';
-import { formatDateString } from '@/utils/formatDate';
 
 interface Props {
     handleEditShowModal: ComponentProps<any>;
     handleDeleteShowModal: ComponentProps<any>;
     handleCampaignModal: ComponentProps<any>;
-}
-
-interface ColumnsProps {
-    header: string;
+    counter: number;
 }
 
 export function CampaignList({
     handleEditShowModal,
     handleDeleteShowModal,
     handleCampaignModal,
+    counter,
 }: Props) {
     const { user } = useAuth();
 
     const t = useTranslations();
     const locale = useLocale();
 
-    const [query, setQuery] = useState('');
+    const [campaigns, setCampaigns] = useState<ICampaign[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const resultsPerPage = 100;
 
-    const {
-        data: campaigns,
-        isError,
-        isLoading,
-    } = useFetchCampaignsByOwnerAndPagination(
-        user?.id,
-        currentPage,
-        resultsPerPage,
-    );
+    const { data, isError, isLoading, refetch } =
+        useFetchCampaignsByOwnerAndPagination(
+            user?.id,
+            currentPage,
+            resultsPerPage,
+        );
 
-    const counter = campaigns?.filter((campaign) => !campaign).length ?? 0;
-
-    const COLUMNS = [
-        { header: t('campaign_type_header') },
-        { header: t('name_header') },
-        { header: t('start_date_header') },
-        { header: t('end_date_header') },
-        { header: t('status') },
-        { header: t('is_public') },
-        { header: t('action_header') },
-    ];
+    useEffect(() => {
+        refetch().then((res: any) => {
+            const campaigns = res.data as ICampaign[];
+            setCampaigns(campaigns);
+        });
+    }, [data, currentPage]);
 
     const handleEditClick = (campaign: ICampaign) => {
         handleEditShowModal(true);
@@ -72,12 +61,70 @@ export function CampaignList({
         handleCampaignModal(campaign);
     };
 
-    const filteredItems = useMemo<any[]>(() => {
-        if (!campaigns) return [];
-        return campaigns.filter((campaign) => {
-            return campaign.name?.toLowerCase().includes(query.toLowerCase());
-        });
-    }, [campaigns, query]);
+    const columns = [
+        {
+            header: t('campaign_type_header'),
+            accessor: 'type',
+            sortable: true,
+            render: () => (
+                <Image
+                    width={32}
+                    height={32}
+                    className="rounded-full"
+                    src="/icons/stopwatch-solid.svg"
+                    alt="Campaign"
+                />
+            ),
+        },
+        {
+            header: t('name_header'),
+            accessor: 'name',
+            sortable: true,
+            render: (value: string, row: ICampaign) => (
+                <Link
+                    href={`/campaigns/${row.id}`}
+                    locale={locale}
+                    className="font-semibold text-beer-blonde hover:text-beer-draft"
+                >
+                    {value}
+                </Link>
+            ),
+        },
+        {
+            header: t('start_date_header'),
+            accessor: 'start_date',
+            sortable: true,
+            render: (value: string) => formatDateString(value),
+        },
+        {
+            header: t('end_date_header'),
+            accessor: 'end_date',
+            sortable: true,
+            render: (value: string) => formatDateString(value),
+        },
+        {
+            header: t('status'),
+            accessor: 'status',
+            sortable: true,
+            render: (value: string) => t(value),
+        },
+        {
+            header: t('is_public'),
+            accessor: 'is_public',
+            sortable: true,
+            render: (value: boolean) => (value ? t('yes') : t('no')),
+        },
+        {
+            header: t('action_header'),
+            accessor: 'action',
+            render: (value: any, row: ICampaign) => (
+                <div className="flex space-x-1">
+                    <EditButton onClick={() => handleEditClick(row)} />
+                    <DeleteButton onClick={() => handleDeleteClick(row)} />
+                </div>
+            ),
+        },
+    ];
 
     return (
         <section className="bg-beer-foam relative mt-6 space-y-4 overflow-x-auto shadow-md sm:rounded-lg">
@@ -98,125 +145,24 @@ export function CampaignList({
                 />
             )}
 
-            {!isError && !isLoading && campaigns?.length === 0 ? (
+            {!isError && !isLoading && data?.length === 0 ? (
                 <div className="my-[10vh] flex items-center justify-center">
                     <p className="text-2xl text-gray-500 dark:text-gray-400">
                         {t('no_campaigns')}
                     </p>
                 </div>
             ) : (
-                <>
-                    <InputSearch
-                        query={query}
-                        setQuery={setQuery}
-                        searchPlaceholder={'search_campaigns'}
-                    />
-
-                    <table className="bg-beer-foam w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
-                        <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                {COLUMNS.map(
-                                    (column: ColumnsProps, index: number) => {
-                                        return (
-                                            <th
-                                                key={index}
-                                                scope="col"
-                                                className="px-6 py-3"
-                                            >
-                                                {column.header}
-                                            </th>
-                                        );
-                                    },
-                                )}
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {campaigns &&
-                                filteredItems.map((campaign) => {
-                                    return (
-                                        <tr key={campaign.id} className="">
-                                            <>
-                                                <th
-                                                    scope="row"
-                                                    className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                                                >
-                                                    <Image
-                                                        width={128}
-                                                        height={128}
-                                                        className="h-8 w-8 rounded-full"
-                                                        src="/icons/stopwatch-solid.svg"
-                                                        alt="Campaign"
-                                                    />
-                                                </th>
-
-                                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                                                    <Link
-                                                        href={`/campaigns/${campaign.id}`}
-                                                        locale={locale}
-                                                    >
-                                                        {campaign.name}
-                                                    </Link>
-                                                </td>
-
-                                                <td className="px-6 py-4">
-                                                    {formatDateString(
-                                                        campaign.start_date,
-                                                    )}
-                                                </td>
-
-                                                <td className="px-6 py-4">
-                                                    {formatDateString(
-                                                        campaign.end_date,
-                                                    )}
-                                                </td>
-
-                                                <td className="px-6 py-4">
-                                                    {t(campaign.status)}
-                                                </td>
-
-                                                <td className="px-6 py-4">
-                                                    {campaign.is_public
-                                                        ? t('yes')
-                                                        : t('no')}
-                                                </td>
-
-                                                <td className="px-6 py-4">
-                                                    <div className="flex space-x-1">
-                                                        <EditButton
-                                                            onClick={() =>
-                                                                handleEditClick(
-                                                                    campaign,
-                                                                )
-                                                            }
-                                                        />
-
-                                                        <DeleteButton
-                                                            onClick={() =>
-                                                                handleDeleteClick(
-                                                                    campaign,
-                                                                )
-                                                            }
-                                                        />
-                                                    </div>
-                                                </td>
-                                            </>
-                                        </tr>
-                                    );
-                                })}
-                        </tbody>
-                    </table>
-
-                    {/* Prev and Next button for pagination  */}
-                    <div className="my-4 flex items-center justify-around">
-                        <PaginationFooter
-                            counter={counter}
-                            resultsPerPage={resultsPerPage}
-                            currentPage={currentPage}
-                            setCurrentPage={setCurrentPage}
-                        />
-                    </div>
-                </>
+                <TableWithFooterAndSearch
+                    columns={columns}
+                    data={campaigns}
+                    initialQuery={''}
+                    resultsPerPage={resultsPerPage}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    searchPlaceHolder={'search_by_name'}
+                    paginationCounter={counter}
+                    sourceDataIsFromServer={false}
+                />
             )}
         </section>
     );
