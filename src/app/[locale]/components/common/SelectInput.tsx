@@ -75,7 +75,9 @@ const SelectInput = memo(
                     {options.map((option) => (
                         <option key={option.value} value={option.value}>
                             {t(
-                                `${optionLabelTranslationPrefix}${option.label}`,
+                                `${optionLabelTranslationPrefix ?? ''}${
+                                    option.label
+                                }`,
                             )}
                         </option>
                     ))}
