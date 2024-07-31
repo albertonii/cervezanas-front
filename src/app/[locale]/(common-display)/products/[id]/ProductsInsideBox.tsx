@@ -98,21 +98,21 @@ export default function ProductsInsideBox({ product, boxPack }: Props) {
                 </div>
             )}
 
-            <h2>La caja contiene los siguientes productos:</h2>
+            <h2 className="mt-8 text-xl py-1 font-semibold text-center bg-cerv-banana text-white rounded">La caja contiene los siguientes productos</h2>
 
             <table className="w-full text-center  dark:text-gray-400 border rounded-full shadown-xl">
-                <thead className="bg-beer-draft text-md uppercase text-white dark:bg-gray-700 dark:text-gray-400">
+                <thead className="text-md uppercase text-white dark:bg-gray-700 dark:text-gray-400 bg-cerv-coal">
                     <tr>
-                        <th scope="col" className="px-6 py-3 ">
+                        <th scope="col" className="px-6 py-3 font-['NexaRust-script'] lowercase text-3xl">
                             {t('product')}
                         </th>
-                        <th scope="col" className="px-6 py-3 ">
+                        <th scope="col" className="px-6 py-3 font-['NexaRust-script'] lowercase text-3xl">
                             {t('quantity')}
                         </th>
                     </tr>
                 </thead>
 
-                <tbody className="bg-beer-softBlonde text-gray-700">
+                <tbody className="bg-white text-gray-700 text-xl border-beer-blonde border-b-2 border-t-2 shadow-lg">
                     {boxPack &&
                         boxPack.box_pack_items?.map((item) => {
                             return <BoxItem item={item} />;

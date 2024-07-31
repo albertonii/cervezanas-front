@@ -182,13 +182,13 @@ export default function SignIn() {
     }
 
     return (
-        <section className="w-full lg:grid lg:grid-cols-2">
+        <section className="w-full lg:grid lg:grid-cols-2 bg-[url('/assets/home/bg-home.webp')] bg-auto bg-repeat bg-top h-full">
             {!resetPassword && (
-                <article className="mx-auto flex w-[80vw] sm:w-[60vw] flex-1 gap-4 flex-col justify-start px-4 py-12 sm:px-6 lg:w-full lg:flex-none lg:px-20 xl:px-24">
+                <article className="mx-auto flex w-[80vw] sm:w-[60vw] flex-1 gap-4 flex-col justify-start pl-4 py-12 sm:pl-6 lg:w-full lg:flex-none lg:pl-20 xl:pl-24">
                     {/* Login form */}
-                    <div className="mx-auto flex w-full flex-1 flex-col justify-start lg:flex-none ">
+                    <div className="mx-auto flex w-full flex-1 flex-col justify-start lg:flex-none bg-white p-8">
                         <header>
-                            <h2 className="mt-6 text-start text-3xl font-bold tracking-tight text-gray-900">
+                            <h2 className="text-start font-bold tracking-tight font-['NexaRust-script'] text-6xl md:text-8xl -mt-2 -mb-8 text-beer-draft -rotate-2">
                                 {t('sign_in')}
                             </h2>
                         </header>
@@ -383,7 +383,7 @@ export default function SignIn() {
             )}
 
             {/* Hero Image */}
-            <figure className="hidden w-full justify-center lg:flex">
+            <figure className="hidden w-full justify-center lg:flex text-left">
                 <Image
                     style={{ aspectRatio: '4/5' }}
                     className="inset-0 rounded-3xl w-auto lg:w-[40vw] xl:w-[30vw]"
@@ -391,7 +391,7 @@ export default function SignIn() {
                     sizes="(max-width: 1024px) 100vw, 1024px"
                     width={1024}
                     height={768}
-                    src={'/assets/profile_signin.jpg'}
+                    src={'/assets/min_logo.svg'}
                 />
             </figure>
         </section>

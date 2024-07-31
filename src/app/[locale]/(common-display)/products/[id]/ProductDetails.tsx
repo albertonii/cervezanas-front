@@ -113,7 +113,7 @@ export default function ProductDetails({ product, reviewRef }: Props) {
         <>
             <section
                 className="
-                    aspect-w-2 aspect-h-3 col-span-12 mx-6 flex h-[100%] items-start justify-center rounded-lg bg-beer-softBlonde bg-[url('/assets/madera.webp')]
+                    aspect-w-2 aspect-h-3 col-span-12 mx-6 flex h-[100%] items-start justify-center rounded-lg max-h-[800px] bg-beer-softBlonde bg-[url('/assets/madera.webp')]
                     bg-cover bg-top bg-repeat-y md:overflow-hidden lg:col-span-4
                 "
             >
@@ -124,9 +124,9 @@ export default function ProductDetails({ product, reviewRef }: Props) {
                 />
             </section>
 
-            <section className="col-span-12 mx-6 space-y-4 bg-[url('/assets/rec-graf2b.webp')] bg-auto bg-center bg-no-repeat lg:col-span-8">
+            <section className="col-span-12 mx-6 space-y-4 bg-[url('/assets/rec-graf2b.webp')] bg-auto bg-top bg-no-repeat lg:col-span-8">
                 <section className="flex flex-col sm:flex-row sm:justify-between">
-                    <h2 className="text-4xl font-bold uppercase text-cerv-banana sm:pr-12">
+                    <h2 className=" font-bold lowercase sm:pr-12 font-['NexaRust-script'] text-5xl md:text-7xl -mb-8 text-beer-draft">
                         {product.name}
                     </h2>
 
@@ -165,7 +165,7 @@ export default function ProductDetails({ product, reviewRef }: Props) {
                         {t('product_information')}
                     </h3>
 
-                    <p className="text-2xl font-semibold text-gray-900">
+                    <p className="text-2xl font-semibold text-gray-900 ">
                         {formatCurrency(product.price)}
                     </p>
                     <div className="m-auto text-center">
@@ -209,14 +209,14 @@ export default function ProductDetails({ product, reviewRef }: Props) {
             <section
                 aria-labelledby="product-description-heading"
                 className={
-                    'aspect-w-2 aspect-h-3 col-span-12 mx-6 flex h-[100%] items-center justify-center rounded-lg bg-beer-softBlonde bg-cover bg-top bg-repeat-y md:overflow-hidden p-4'
+                    'aspect-w-3 aspect-h-3 col-span-12 mx-6 flex h-[100%] items-center justify-center rounded-lg bg-beer-softBlondeBubble bg-opacity-50 bg-cover bg-top bg-repeat-y md:overflow-hidden p-10'
                 }
             >
                 <h3 id="product-description-heading" className="sr-only">
                     {t('product_description')}
                 </h3>
 
-                <p className="text-gray-900">{product.description}</p>
+                <p className="text-gray-900 max-w-[90%]">{product.description}</p>
             </section>
         </>
     );

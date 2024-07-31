@@ -74,7 +74,7 @@ const ProductPropierties = ({ product }: Props) => {
         <div className="bg-gray-50 p-8 rounded-lg shadow-lg space-y-6">
             {/* Características Clave */}
             <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-                <h2 className="text-2xl font-semibold text-gray-900">
+                <h2 className="text-2xl font-semibold text-gray-900 font-['NexaRust-script']">
                     {t('key_features')}
                 </h2>
 
@@ -102,7 +102,7 @@ const ProductPropierties = ({ product }: Props) => {
             {/* Pairing */}
             <div className="flex flex-col lg:flex-row space-y-6 space-x-0 lg:space-y-0 lg:space-x-4 ">
                 <div className="w-full bg-white p-6 rounded-lg shadow-md space-y-4">
-                    <h2 className="text-2xl font-semibold text-gray-900">
+                    <h2 className="text-2xl font-semibold text-gray-900 font-['NexaRust-script']">
                         {t('beer_pairing')}
                     </h2>
                     <p className="text-gray-700">{pairing}</p>
@@ -110,7 +110,7 @@ const ProductPropierties = ({ product }: Props) => {
 
                 {/* Brewers Note */}
                 <div className="w-full bg-white p-6 rounded-lg shadow-md space-y-4">
-                    <h2 className="text-2xl font-semibold text-gray-900">
+                    <h2 className="text-2xl font-semibold text-gray-900 font-['NexaRust-script']">
                         {t('brewers_note')}
                     </h2>
                     <p className="text-gray-700">{brewers_note}</p>
@@ -119,7 +119,7 @@ const ProductPropierties = ({ product }: Props) => {
 
             {/* Ingredientes Principales */}
             <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-                <h2 className="text-2xl font-semibold text-gray-900">
+                <h2 className="text-2xl font-semibold text-gray-900 font-['NexaRust-script']">
                     {t('ingredients')}
                 </h2>
                 <p className="text-gray-700">{ingredients?.join(', ')}</p>
@@ -127,7 +127,7 @@ const ProductPropierties = ({ product }: Props) => {
 
             {/* Información sobre la Cervecería */}
             <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-                <h2 className="text-2xl font-semibold text-gray-900">
+                <h2 className="text-2xl font-semibold text-gray-900 font-['NexaRust-script']">
                     {t('brewery_info')}
                 </h2>
                 <p className="text-gray-700">{'brewery_info'}</p>
