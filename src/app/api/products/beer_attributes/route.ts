@@ -19,6 +19,15 @@ export async function PUT(request: NextRequest) {
         const pairing = formData.get('pairing') as string;
         const recommended_glass = formData.get('recommended_glass') as string;
         const brewers_note = formData.get('brewers_note') as string;
+        const og = parseFloat(formData.get('og') as string);
+        const fg = parseFloat(formData.get('fg') as string);
+        const srm = parseFloat(formData.get('srm') as string);
+        const ebc = parseFloat(formData.get('ebc') as string);
+        const hops_type = formData.get('hops_type') as string;
+        const malt_type = formData.get('malt_type') as string;
+        const consumption_temperature = parseFloat(
+            formData.get('consumption_temperature') as string,
+        );
 
         // Transformar string a array separado por comas
         const ingredientsArray = ingredients.split(',');
@@ -50,6 +59,13 @@ export async function PUT(request: NextRequest) {
                 pairing,
                 recommended_glass,
                 brewers_note,
+                og,
+                fg,
+                srm,
+                ebc,
+                hops_type,
+                malt_type,
+                consumption_temperature,
             })
             .eq('product_id', productId);
 

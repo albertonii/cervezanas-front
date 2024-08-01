@@ -7,7 +7,6 @@ import {
     family_options,
     fermentation_options,
     format_options,
-    recommended_glass_options,
     volume_bottle_type_options,
     volume_can_type_options,
     volume_draft_type_options,
@@ -16,14 +15,14 @@ import {
     ICustomizeSettings,
     ModalUpdateProductFormData,
 } from '@/lib//types/types';
+import InputLabel from '../../common/InputLabel';
+import SelectInput from '../../common/SelectInput';
+import InputTextarea from '../../common/InputTextarea';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { capitalizeFirstLetter } from '@/utils/formatWords';
 import { DisplayInputError } from '../../common/DisplayInputError';
-import InputLabel from '../../common/InputLabel';
-import InputTextarea from '../../common/InputTextarea';
-import SelectInput from '../../common/SelectInput';
+import UpdateTechnicalInfoSection from './UpdateTechnicalInfoSection';
 import StockInformationDetailsAndPacksUpdate from '../../modals/StockInformationDetailsAndPacksUpdate';
-import IngredientInput from './IngredientInput';
 
 interface Props {
     form: UseFormReturn<ModalUpdateProductFormData>;
@@ -416,48 +415,7 @@ export default function UpdateBeerInfoSection({
                 infoTooltip={'pvpr_tooltip'}
             />
 
-            {/* Recommended Glass  */}
-            <div className="flex w-full flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-                <SelectInput
-                    form={form}
-                    labelTooltip={'recommended_glass'}
-                    options={recommended_glass_options}
-                    optionLabelTranslationPrefix={'glass_type.'}
-                    label={'recommended_glass'}
-                    registerOptions={{
-                        required: false,
-                        valueAsNumber: true,
-                        shouldBeDirty: true,
-                    }}
-                />
-            </div>
-
-            <div className="flex w-full flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-                {/* Beer Pairing information  */}
-                <InputTextarea
-                    form={form}
-                    label={'pairing'}
-                    labelText={t('beer_pairing')}
-                    registerOptions={{
-                        required: false,
-                    }}
-                />
-
-                {/* Brewers Note  */}
-                <InputTextarea
-                    form={form}
-                    label={'brewers_note'}
-                    registerOptions={{
-                        required: false,
-                    }}
-                />
-            </div>
-
-            {/* Ingredients  */}
-            <IngredientInput
-                ingredients={ingredients}
-                setIngredients={setIngredients}
-            />
+            <UpdateTechnicalInfoSection form={form} />
 
             {/* Stock information and Packs */}
             <StockInformationDetailsAndPacksUpdate form={form} />

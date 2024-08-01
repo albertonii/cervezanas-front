@@ -96,6 +96,13 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
         .min(0, { message: 'errors.input_number_min_0' })
         .optional(),
     brewers_note: z.string().optional(),
+    og: z.number().optional(),
+    fg: z.number().optional(),
+    srm: z.number().optional(),
+    ebc: z.number().optional(),
+    hops_type: z.string().optional(),
+    malt_type: z.string().optional(),
+    consumption_temperature: z.number().optional(),
     is_public: z.boolean(),
     volume: z.number().min(0, { message: 'errors.input_number_min_0' }),
     weight: z.number().min(0, { message: 'errors.input_number_min_0' }),
@@ -206,6 +213,13 @@ export function UpdateProductModal({
         pairing,
         recommended_glass,
         brewers_note,
+        og,
+        fg,
+        srm,
+        ebc,
+        hops_type,
+        malt_type,
+        consumption_temperature,
     } = beers;
 
     const colorDefault: {
@@ -277,6 +291,13 @@ export function UpdateProductModal({
             pairing: pairing,
             recommended_glass: recommendedGlassDefault.value,
             brewers_note: brewers_note ?? '',
+            og: og,
+            fg: fg,
+            srm: srm,
+            ebc: ebc,
+            hops_type: hops_type ?? '',
+            malt_type: malt_type ?? '',
+            consumption_temperature: consumption_temperature,
             family: familyDefault.value,
             fermentation: fermentationDefault.value,
             is_gluten: product.beers?.is_gluten ?? false,
@@ -374,6 +395,13 @@ export function UpdateProductModal({
             pairing,
             recommended_glass,
             brewers_note,
+            og,
+            fg,
+            srm,
+            ebc,
+            hops_type,
+            malt_type,
+            consumption_temperature,
         } = formValues;
 
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -397,6 +425,16 @@ export function UpdateProductModal({
             recommended_glass?.toString() ?? '',
         );
         formData.append('brewers_note', brewers_note ?? '');
+        formData.append('og', og?.toString() ?? '');
+        formData.append('fg', fg?.toString() ?? '');
+        formData.append('srm', srm?.toString() ?? '');
+        formData.append('ebc', ebc?.toString() ?? '');
+        formData.append('hops_type', hops_type ?? '');
+        formData.append('malt_type', malt_type ?? '');
+        formData.append(
+            'consumption_temperature',
+            consumption_temperature?.toString() ?? '',
+        );
 
         formData.append('product_id', product.id);
 
@@ -575,7 +613,14 @@ export function UpdateProductModal({
                 dirtyFields.ingredients ||
                 dirtyFields.pairing ||
                 dirtyFields.recommended_glass ||
-                dirtyFields.brewers_note
+                dirtyFields.brewers_note ||
+                dirtyFields.og ||
+                dirtyFields.fg ||
+                dirtyFields.srm ||
+                dirtyFields.ebc ||
+                dirtyFields.hops_type ||
+                dirtyFields.malt_type ||
+                dirtyFields.consumption_temperature
             ) {
                 await updateBeerSection(formValues);
             }
