@@ -93,7 +93,9 @@ export default function RejectContractModal({
             classContainer={''}
         >
             <fieldset className="grid grid-cols-1 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                <legend className="m-2 text-2xl">{t('contract_info')}</legend>
+                <legend className="m-2 text-4xl font-['NexaRust-script']">
+                    {t('contract_info')}
+                </legend>
 
                 <div className="flex flex-col space-y-2">
                     <label htmlFor="status">{t('status')}</label>

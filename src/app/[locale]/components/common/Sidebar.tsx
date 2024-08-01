@@ -5,6 +5,8 @@ import Button from '@/app/[locale]/components/common/Button';
 import useDeviceDetection from '../../../../hooks/useDeviceDetection';
 import useOnClickOutside from '../../../../hooks/useOnOutsideClickDOM';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { ROLE_ENUM } from '@/lib/enums';
+import Image from 'next/image';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAppContext } from '../../../context/AppContext';
@@ -22,7 +24,8 @@ type Props = {
 
 export function Sidebar({ sidebarLinks }: Props) {
     const { sidebar, changeSidebarActive } = useAppContext();
-    const { role } = useAuth();
+    //  const { role } = useAuth();
+    const { role, user } = useAuth();
     const device = useDeviceDetection();
 
     const t = useTranslations();
@@ -31,6 +34,14 @@ export function Sidebar({ sidebarLinks }: Props) {
 
     const sidebarRef = useRef<HTMLDivElement>(null);
 
+    const imageSrc =
+        role === ROLE_ENUM.Admin
+            ? '/icons/icon-admin.png'
+            : role === ROLE_ENUM.Distributor
+            ? '/icons/icon-distrib.png'
+            : role === ROLE_ENUM.Productor
+            ? '/icons/icon-prod.png'
+            : '/icons/icon-cerv.png';
     useOnClickOutside(sidebarRef, () => handleClickOutsideCallback());
 
     const handleClickOutsideCallback = () => {
@@ -81,12 +92,29 @@ export function Sidebar({ sidebarLinks }: Props) {
                             : '-translate-x-full lg:translate-x-0'
                     } fixed top-0 left-0 z-10 h-full w-64 transform bg-white duration-300 ease-in-out shadow-lg lg:relative lg:top-0 
                         lg:left-0 lg:shadow-none lg:transform-none lg:block bg-gradient-to-t from-slate-50 to-gray-100
-                        overflow-y-auto dark:bg-gray-800
+                        overflow-y-auto dark:bg-gray-800 
                     `}
                     aria-label="Sidebar"
                     id="default-sidebar"
                     ref={sidebarRef}
                 >
+                    <div>
+                        <figure className="flex flex-col rounded-t-lg items-center justify-center p-1">
+                            <Image
+                                src={imageSrc}
+                                alt={'Profile icon'}
+                                className={'rounded-full w-full'}
+                                width={140}
+                                height={140}
+                                style={{ width: '100px', height: '100px' }}
+                            />
+                            {role && (
+                                <span className="p-2 ml-2 w-full text-sm font-semibold dark:text-white text-center">
+                                           {user?.username}
+                                </span>
+                            )}
+                        </figure>
+                    </div>
                     <div className="lg:hidden absolute top-4 right-4">
                         <Button
                             aria-controls="default-sidebar"

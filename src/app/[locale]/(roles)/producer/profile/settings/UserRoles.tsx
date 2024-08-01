@@ -75,7 +75,7 @@ const UserRoles = () => {
                 />
             )}
 
-            <div id="account-data" className="text-2xl">
+            <div id="account-data" className="text-4xl font-['NexaRust-script']">
                 {t('profile_title_roles')}
             </div>
 

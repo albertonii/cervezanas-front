@@ -21,7 +21,7 @@ export function Reviews({ reviews: r }: Props) {
     return (
         <section className="px-4 py-6 " aria-label="Reviews">
             <span className="flex flex-col space-y-4">
-                <h1 className="text-5xl">{t('reviews')}</h1>
+                <h1 className="lowercase font-semibold text-white font-['NexaRust-script'] text-5xl md:text-7xl -rotate-2 ml-10">{t('reviews')}</h1>
             </span>
 
             {reviews &&

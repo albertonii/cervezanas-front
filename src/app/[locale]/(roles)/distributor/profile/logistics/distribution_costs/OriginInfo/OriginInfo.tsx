@@ -88,7 +88,7 @@ export default function OriginInfo() {
         <fieldset className="space-y-6 p-6 rounded-lg border border-gray-300 bg-white shadow-sm max-w-3xl mx-auto">
             <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                    <h2 className="text-3xl font-semibold text-gray-800">
+                    <h2 className="text-4xl font-['NexaRust-script']">
                         {t('origin_location')}
                     </h2>
 
@@ -110,7 +110,7 @@ export default function OriginInfo() {
             {/* // <form onSubmit={handleSubmit(onSubmit)}> */}
             <form>
                 <fieldset className="w-full space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                    <legend className="text-2xl font-medium text-beer-dark">
+                    <legend className="text-4xl font-['NexaRust-script'] font-medium text-beer-dark">
                         {t('origin_location')}
                     </legend>
 

@@ -64,7 +64,7 @@ export default async function layout({ children }: LayoutProps) {
     return (
         <>
             {hasAuthorization ? (
-                <section className="relative flex w-full min-h-[80vh]">
+                <section className="relative flex w-full min-h-[80vh] ">
                     <Sidebar sidebarLinks={sidebarLinks} />
 
                     <div

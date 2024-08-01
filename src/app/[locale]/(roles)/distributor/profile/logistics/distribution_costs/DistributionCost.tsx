@@ -109,7 +109,7 @@ export default function DistributionCost({ distributionCosts }: Props) {
 
             <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                    <h2 className="text-3xl font-semibold text-gray-800">
+                    <h2 className="text-4xl font-['NexaRust-script']">
                         {t('distribution_cost')}
                     </h2>
 
