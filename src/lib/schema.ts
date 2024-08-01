@@ -151,20 +151,25 @@ export interface Database {
       beers: {
         Row: {
           aroma: string | null
+          brewers_note: string | null
           category: string | null
           color: string | null
+          consumption_temperature: number | null
           created_at: string | null
           family: string | null
           fermentation: string | null
           fg: number | null
           format: string | null
+          hops_type: string | null
           ibu: number | null
           ingredients: string[] | null
           intensity: number | null
           is_gluten: boolean | null
+          malt_type: string | null
           og: number | null
           pairing: string | null
           product_id: string
+          recommended_glass: string | null
           sku: string | null
           srm: number | null
           volume: number | null
@@ -172,20 +177,25 @@ export interface Database {
         }
         Insert: {
           aroma?: string | null
+          brewers_note?: string | null
           category?: string | null
           color?: string | null
+          consumption_temperature?: number | null
           created_at?: string | null
           family?: string | null
           fermentation?: string | null
           fg?: number | null
           format?: string | null
+          hops_type?: string | null
           ibu?: number | null
           ingredients?: string[] | null
           intensity?: number | null
           is_gluten?: boolean | null
+          malt_type?: string | null
           og?: number | null
           pairing?: string | null
           product_id: string
+          recommended_glass?: string | null
           sku?: string | null
           srm?: number | null
           volume?: number | null
@@ -193,20 +203,25 @@ export interface Database {
         }
         Update: {
           aroma?: string | null
+          brewers_note?: string | null
           category?: string | null
           color?: string | null
+          consumption_temperature?: number | null
           created_at?: string | null
           family?: string | null
           fermentation?: string | null
           fg?: number | null
           format?: string | null
+          hops_type?: string | null
           ibu?: number | null
           ingredients?: string[] | null
           intensity?: number | null
           is_gluten?: boolean | null
+          malt_type?: string | null
           og?: number | null
           pairing?: string | null
           product_id?: string
+          recommended_glass?: string | null
           sku?: string | null
           srm?: number | null
           volume?: number | null

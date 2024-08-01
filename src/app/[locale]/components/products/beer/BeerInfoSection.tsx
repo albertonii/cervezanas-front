@@ -5,8 +5,6 @@ import InputTextarea from '../../common/InputTextarea';
 import StockInformation from '../../StockInformation';
 import ProductPackInformation from '../../ProductPackInformation';
 import React, { useEffect, useState } from 'react';
-import { faPalette } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import {
@@ -15,7 +13,6 @@ import {
     family_options,
     fermentation_options,
     format_options,
-    recommended_glass_options,
     volume_bottle_type_options,
     volume_can_type_options,
     volume_draft_type_options,
@@ -26,7 +23,10 @@ import {
 } from '@/lib//types/types';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { capitalizeFirstLetter } from '@/utils/formatWords';
+import { faPalette } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DisplayInputError } from '../../common/DisplayInputError';
+import TechnicalInfoSection from './TechnicalInfoSection';
 
 interface Props {
     form: UseFormReturn<ModalAddProductFormData>;
@@ -48,7 +48,6 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
     );
 
     const [volume, setVolume] = useState<number>(0);
-    const [ingredients, setIngredients] = useState<string[]>([]);
 
     useEffect(() => {
         const colorSettings = customizeSettings.colors.map((color) => {
@@ -72,10 +71,6 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
 
         // setFamStyleOptions(newSet);
     }, [customizeSettings.family_styles]);
-
-    useEffect(() => {
-        setValue('ingredients', ingredients);
-    }, [ingredients]);
 
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setFormatOptions(event.target.value);
@@ -355,49 +350,11 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                             infoTooltip={'pvpr_tooltip'}
                         />
                     </div>
-
-                    <div className="flex w-full flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-                        <SelectInput
-                            form={form}
-                            labelTooltip={'recommended_glass'}
-                            options={recommended_glass_options}
-                            label={'recommended_glass'}
-                            optionLabelTranslationPrefix={'glass_type.'}
-                            registerOptions={{
-                                required: true,
-                                valueAsNumber: true,
-                            }}
-                        />
-                    </div>
-
-                    <div className="flex w-full flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-                        {/* Beer Pairing information  */}
-                        <InputTextarea
-                            form={form}
-                            label={'pairing'}
-                            labelText={t('beer_pairing')}
-                            registerOptions={{
-                                required: false,
-                            }}
-                        />
-
-                        {/* Brewers Note  */}
-                        <InputTextarea
-                            form={form}
-                            label={'brewers_note'}
-                            registerOptions={{
-                                required: false,
-                            }}
-                        />
-                    </div>
-
-                    {/* Ingredients  */}
-                    <IngredientInput
-                        ingredients={ingredients}
-                        setIngredients={setIngredients}
-                    />
                 </section>
             </div>
+
+            {/* Technical Information */}
+            <TechnicalInfoSection form={form} />
 
             {/* Stock information and Packs */}
             <StockInformation form={form} />

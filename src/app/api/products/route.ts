@@ -39,12 +39,27 @@ export async function POST(request: NextRequest) {
         const volume = parseFloat(formData.get('beer.volume') as string);
         const format = formData.get('beer.format') as string;
         const ibu = parseFloat(formData.get('beer.ibu') as string);
-        const ingredients = formData.get('beer.ingredients') as string;
-        const pairing = formData.get('beer.pairing') as string;
-        const recommended_glass = formData.get(
-            'beer.recommended_glass',
+
+        // Technical Attributes
+        const ingredients = formData.get(
+            'technical_data.ingredients',
         ) as string;
-        const brewers_note = formData.get('beer.brewers_note') as string;
+        const pairing = formData.get('technical_data.pairing') as string;
+        const recommended_glass = formData.get(
+            'technical_data.recommended_glass',
+        ) as string;
+        const brewers_note = formData.get(
+            'technical_data.brewers_note',
+        ) as string;
+        const og = parseFloat(formData.get('technical_data.og') as string);
+        const fg = parseFloat(formData.get('technical_data.fg') as string);
+        const srm = parseFloat(formData.get('technical_data.srm') as string);
+        const ebc = parseFloat(formData.get('technical_data.ebc') as string);
+        const hops_type = formData.get('technical_data.hops_type') as string;
+        const malt_type = formData.get('technical_data.malt_type') as string;
+        const consumption_temperature = parseFloat(
+            formData.get('technical_data.consumption_temperature') as string,
+        );
 
         // Transformar string a array separado por comas
         const ingredientsArray = ingredients.split(',');
@@ -138,6 +153,13 @@ export async function POST(request: NextRequest) {
                 pairing,
                 recommended_glass,
                 brewers_note,
+                og,
+                fg,
+                srm,
+                ebc,
+                hops_type,
+                malt_type,
+                consumption_temperature,
             });
 
             if (beerError) {

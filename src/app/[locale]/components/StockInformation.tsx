@@ -23,7 +23,7 @@ export default function StockInformation({ form }: Props) {
                 className="h-12 w-12 text-beer-blonde absolute -top-4 -left-4 bg-white p-2 rounded-full shadow-lg"
             />
 
-            <div className="mx-10">
+            <section className="mx-10">
                 <p className="text-slate-700 my-4 text-xl font-semibold">
                     {t('modal_product_add_stock_title')}
                 </p>
@@ -68,7 +68,7 @@ export default function StockInformation({ form }: Props) {
                         defaultValue={20}
                     />
                 </div>
-            </div>
+            </section>
         </div>
     );
 }

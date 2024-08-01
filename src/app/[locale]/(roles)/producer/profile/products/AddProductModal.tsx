@@ -91,6 +91,13 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
         .min(0, { message: 'errors.input_number_min_0' })
         .optional(),
     brewers_note: z.string().optional(),
+    og: z.number().optional(),
+    fg: z.number().optional(),
+    srm: z.number().optional(),
+    ebc: z.number().optional(),
+    hops_type: z.string().optional(),
+    malt_type: z.string().optional(),
+    consumption_temperature: z.number().optional(),
     awards: z.array(
         z.object({
             name: z
@@ -238,6 +245,13 @@ export function AddProductModal() {
             pairing,
             recommended_glass,
             brewers_note,
+            og,
+            fg,
+            srm,
+            ebc,
+            hops_type,
+            malt_type,
+            consumption_temperature,
         } = form;
 
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -264,13 +278,28 @@ export function AddProductModal() {
         formData.append('beer.volume', volume.toString());
         formData.append('beer.format', format);
         formData.append('beer.ibu', ibu.toString());
-        formData.append('beer.ingredients', ingredients?.join(',') ?? '');
-        formData.append('beer.pairing', pairing ?? '');
+
+        // Technical Data
         formData.append(
-            'beer.recommended_glass',
+            'technical_data.ingredients',
+            ingredients?.join(',') ?? '',
+        );
+        formData.append('technical_data.pairing', pairing ?? '');
+        formData.append(
+            'technical_data.recommended_glass',
             recommended_glass?.toString() ?? '',
         );
-        formData.append('beer.brewers_note', brewers_note ?? '');
+        formData.append('technical_data.brewers_note', brewers_note ?? '');
+        formData.append('technical_data.og', og?.toString() ?? '');
+        formData.append('technical_data.fg', fg?.toString() ?? '');
+        formData.append('technical_data.srm', srm?.toString() ?? '');
+        formData.append('technical_data.ebc', ebc?.toString() ?? '');
+        formData.append('technical_data.hops_type', hops_type ?? '');
+        formData.append('technical_data.malt_type', malt_type ?? '');
+        formData.append(
+            'technical_data.consumption_temperature',
+            consumption_temperature?.toString() ?? '',
+        );
 
         // Stock
         formData.append('stock.quantity', stock_quantity.toString());

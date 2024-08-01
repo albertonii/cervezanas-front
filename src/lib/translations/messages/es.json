@@ -195,6 +195,7 @@
     "modal_delete_lot_title": "Eliminar Lote",
     "modal_delete_lot_description": "¡Cuidado! Vas a eliminar un lote. Esta acción borrará de la base de datos la información relativa al mismo. ¿Estás seguro que quieres eliminar el lote?",
     "modal_product_add_details_title": "Detalles",
+    "modal_product_add_technical_details_title": "Información Técnica",
     "modal_product_add_stock_title": "Información de stock",
     "modal_product_add_lot_title": "Lote",
     "modal_delete_campaign_title": "Eliminar Campaña",
@@ -1114,5 +1115,12 @@
         "bock_glass": "Vaso Bock",
         "porter_glass": "Vaso Porter",
         "other": "Otro"
-    }
+    },
+    "hops_type": "Tipo de lúpulo",
+    "malt_type": "Tipo de malta",
+    "consumption_temperature": "Temperatura de consumo",
+    "srm": "SRM",
+    "ebc": "EBC",
+    "original_gravity": "Gravedad Original (OG)",
+    "final_gravity": "Gravedad Final (FG)"
 }
