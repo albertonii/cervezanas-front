@@ -28,7 +28,7 @@ export function SearchCheckboxCPProducts({ form }: Props) {
 
     const [currentPage, setCurrentPage] = useState(1);
     const fixedCount = products.length;
-    const resultsPerPage = 100;
+    const resultsPerPage = 10;
 
     const { register } = form;
 

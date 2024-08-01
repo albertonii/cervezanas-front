@@ -41,7 +41,7 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
     const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 
-    const resultsPerPage = 100;
+    const resultsPerPage = 10;
 
     const { data, isError, isLoading, refetch } = useFetchEvents(
         currentPage,

@@ -32,7 +32,7 @@ export function LotList({
 
     const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const resultsPerPage = 100;
+    const resultsPerPage = 10;
 
     const {
         data: lots,

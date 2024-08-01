@@ -35,7 +35,7 @@ export function ListCPFixed({ cpsFixed }: Props) {
     const [currentPage, setCurrentPage] = useState(1);
 
     const counter = 10;
-    const resultsPerPage = 100;
+    const resultsPerPage = 10;
 
     const [cpFixed, setCPFixed] = useState<ICPFixed[]>(cpsFixed);
 

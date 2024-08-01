@@ -20,7 +20,7 @@ export function SearchCheckboxProductSlot({ form }: Props) {
     const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const fixedCount = products.length;
-    const resultsPerPage = 100;
+    const resultsPerPage = 10;
 
     const { isLoading, refetch } = useFetchProductsByOwnerAndPagination(
         currentPage,

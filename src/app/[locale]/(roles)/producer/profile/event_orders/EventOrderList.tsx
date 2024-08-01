@@ -27,7 +27,7 @@ export function EventOrderList({ eventOrders: os }: Props) {
     const [currentPage, setCurrentPage] = useState(1);
 
     const counter = os.length;
-    const resultsPerPage = 100;
+    const resultsPerPage = 10;
 
     const router = useRouter();
 

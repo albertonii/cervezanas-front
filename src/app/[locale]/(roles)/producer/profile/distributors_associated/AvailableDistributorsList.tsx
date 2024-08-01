@@ -41,7 +41,7 @@ export default function AvailableDistributorsList({
     const [isDeleteModal, setIsDeleteModal] = useState(false);
 
     const counter = 1;
-    const resultsPerPage = 100;
+    const resultsPerPage = 10;
 
     /* Fetch the distributors that the user can be associated  */
     const {

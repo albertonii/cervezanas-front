@@ -1,14 +1,18 @@
 'use client';
 
-import EOTableData from './EOTableData';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
-import useFetchEventOrders from '../../../../../../hooks/useFetchEventOrders';
-import React, { useEffect, useMemo, useState } from 'react';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { useTranslations } from 'next-intl';
-import { IEventOrder } from '@/lib//types/types';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
 import dynamic from 'next/dynamic';
+import useFetchEventOrders from '../../../../../../hooks/useFetchEventOrders';
+import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
+import React, { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import { encodeBase64 } from '@/utils/utils';
+import { IEventOrder } from '@/lib//types/types';
+import { formatDateString } from '@/utils/formatDate';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { IconButton } from '@/app/[locale]/components/common/IconButton';
 
 const DynamicSpinner = dynamic(
     () => import('@/app/[locale]/components/common/Spinner'),
@@ -17,23 +21,24 @@ const DynamicSpinner = dynamic(
     },
 );
 
-interface ColumnsProps {
-    header: string;
+interface Props {
+    counter: number;
 }
 
-export function EventOrderList() {
+export function EventOrderList({ counter }: Props) {
     const { user } = useAuth();
     if (!user) return null;
+
+    const router = useRouter();
 
     const [isReady, setIsReady] = useState(false);
 
     const t = useTranslations();
 
     const [orders, setOrders] = useState<IEventOrder[]>([]);
-    const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 
-    const resultsPerPage = 100;
+    const resultsPerPage = 10;
 
     const { isError, isLoading, refetch } = useFetchEventOrders(
         user.id,
@@ -49,21 +54,63 @@ export function EventOrderList() {
         });
     }, [currentPage]);
 
-    const COLUMNS = [
-        { header: t('order_number_header') },
-        { header: t('name_header') },
-        { header: t('price_header') },
-        { header: t('status_header') },
-        { header: t('date_header') },
-        { header: t('action_header') },
-    ];
+    const handleClickView = (order: IEventOrder) => {
+        const Ds_MerchantParameters = encodeBase64(
+            JSON.stringify({ Ds_Order: order.order_number }),
+        );
 
-    const filteredItemsByStatus = useMemo(() => {
-        if (!orders) return [];
-        return orders.filter((orders) => {
-            return orders.status.toLowerCase().includes(query.toLowerCase());
-        });
-    }, [orders, query]);
+        // Get current url
+        const currentUrl = window.location.href;
+
+        router.push(
+            `${currentUrl}/checkout/success?Ds_MerchantParameters=${Ds_MerchantParameters}`,
+        );
+    };
+
+    const columns = [
+        {
+            header: t('order_number_header'),
+            accessor: 'order_number',
+            sortable: true,
+            render: (value: string) => value,
+        },
+        {
+            header: t('name_header'),
+            accessor: 'users.username',
+            sortable: true,
+            render: (value: string, row: IEventOrder) =>
+                row.users?.username ?? ' - ',
+        },
+        {
+            header: t('price_header'),
+            accessor: 'total',
+            sortable: true,
+            render: (value: number) => formatCurrency(value),
+        },
+        {
+            header: t('status_header'),
+            accessor: 'status',
+            sortable: true,
+            render: (value: string) => t(value),
+        },
+        {
+            header: t('date_header'),
+            accessor: 'created_at',
+            sortable: true,
+            render: (value: string) => formatDateString(value),
+        },
+        {
+            header: t('action_header'),
+            accessor: 'action',
+            render: (value: any, row: IEventOrder) => (
+                <IconButton
+                    onClick={() => handleClickView(row)}
+                    icon={faEye}
+                    title={''}
+                />
+            ),
+        },
+    ];
 
     if (!isReady)
         return (
@@ -101,68 +148,17 @@ export function EventOrderList() {
                     </span>
                 </p>
             ) : (
-                <>
-                    <InputSearch
-                        query={query}
-                        setQuery={setQuery}
-                        searchPlaceholder={'search_order'}
-                    />
-
-                    <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
-                        <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                {COLUMNS.map(
-                                    (column: ColumnsProps, index: number) => {
-                                        return (
-                                            <th
-                                                key={index}
-                                                scope="col"
-                                                className="px-6 py-3"
-                                            >
-                                                {column.header}
-                                            </th>
-                                        );
-                                    },
-                                )}
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {orders &&
-                                filteredItemsByStatus.map(
-                                    (order: IEventOrder) => {
-                                        return (
-                                            <EOTableData
-                                                key={order.id}
-                                                order={order}
-                                            />
-                                        );
-                                    },
-                                )}
-
-                            {!orders && (
-                                <tr>
-                                    <td
-                                        colSpan={6}
-                                        className="py-4 text-center"
-                                    >
-                                        {t('no_orders')}
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-
-                    {/* Prev and Next button for pagination  */}
-                    <footer className="my-4 flex items-center justify-around">
-                        <PaginationFooter
-                            counter={orders.length}
-                            resultsPerPage={resultsPerPage}
-                            currentPage={currentPage}
-                            setCurrentPage={setCurrentPage}
-                        />
-                    </footer>
-                </>
+                <TableWithFooterAndSearch
+                    columns={columns}
+                    data={orders}
+                    initialQuery={''}
+                    resultsPerPage={resultsPerPage}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    searchPlaceHolder={'search_order'}
+                    paginationCounter={counter}
+                    sourceDataIsFromServer={false}
+                />
             )}
         </section>
     );

@@ -14,9 +14,9 @@ const fetchCPOrders = async (
         .from('event_orders')
         .select(
             `
-        *,
-        users!event_orders_customer_id_fkey (id, email, username)
-      `,
+                *,
+                users!event_orders_customer_id_fkey (id, email, username)
+            `,
         )
         .eq('customer_id', ownerId)
         .range(

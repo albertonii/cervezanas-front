@@ -14,19 +14,19 @@ const fetchOrders = async (
         .from('orders')
         .select(
             `
-      *,
-      shipping_info(id, *),
-      billing_info(id, *),
-      business_orders!business_orders_order_id_fkey (
-        *,
-        order_items (
-          *,
-          product_pack_id (
-            *
-          )
-        )
-      )
-    `,
+                *,
+                shipping_info(id, *),
+                billing_info(id, *),
+                business_orders!business_orders_order_id_fkey (
+                    *,
+                    order_items (
+                    *,
+                    product_pack_id (
+                        *
+                    )
+                    )
+                )
+            `,
         )
         .eq('owner_id', ownerId)
         .range(
