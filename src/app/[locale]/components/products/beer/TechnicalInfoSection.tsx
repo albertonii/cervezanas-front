@@ -86,7 +86,7 @@ const TechnicalInfoSection = ({ form }: Props) => {
                         }}
                     />
 
-                    {/* Consumption Recommended Temperatura */}
+                    {/* Recommended Consumption Temperature */}
                     <InputLabel
                         form={form}
                         label={'consumption_temperature'}
@@ -95,6 +95,17 @@ const TechnicalInfoSection = ({ form }: Props) => {
                             required: false,
                             min: 0,
                             max: 100,
+                            setValueAs: (value) => {
+                                if (
+                                    value === '' ||
+                                    value === null ||
+                                    value === undefined
+                                )
+                                    return null;
+                                return isNaN(parseFloat(value))
+                                    ? null
+                                    : parseFloat(value);
+                            },
                         }}
                         inputType="number"
                     />
@@ -128,9 +139,20 @@ const TechnicalInfoSection = ({ form }: Props) => {
                         label={'srm'}
                         labelText={'srm'}
                         registerOptions={{
+                            required: false,
                             min: 0,
                             max: 100,
-                            valueAsNumber: true,
+                            setValueAs: (value) => {
+                                if (
+                                    value === '' ||
+                                    value === null ||
+                                    value === undefined
+                                )
+                                    return null;
+                                return isNaN(parseFloat(value))
+                                    ? null
+                                    : parseFloat(value);
+                            },
                         }}
                         inputType="number"
                         infoTooltip={t('srm_tooltip')}
@@ -141,9 +163,20 @@ const TechnicalInfoSection = ({ form }: Props) => {
                         label={'ebc'}
                         labelText={'ebc'}
                         registerOptions={{
+                            required: false,
                             min: 0,
                             max: 100,
-                            valueAsNumber: true,
+                            setValueAs: (value) => {
+                                if (
+                                    value === '' ||
+                                    value === null ||
+                                    value === undefined
+                                )
+                                    return null;
+                                return isNaN(parseFloat(value))
+                                    ? null
+                                    : parseFloat(value);
+                            },
                         }}
                         inputType="number"
                         infoTooltip={t('ebc_tooltip')}
@@ -157,9 +190,20 @@ const TechnicalInfoSection = ({ form }: Props) => {
                         label={'og'}
                         labelText={'original_gravity'}
                         registerOptions={{
+                            required: false,
                             min: 0,
                             max: 100,
-                            valueAsNumber: true,
+                            setValueAs: (value) => {
+                                if (
+                                    value === '' ||
+                                    value === null ||
+                                    value === undefined
+                                )
+                                    return null;
+                                return isNaN(parseFloat(value))
+                                    ? null
+                                    : parseFloat(value);
+                            },
                         }}
                         inputType="number"
                         infoTooltip={t('og_tooltip')}
@@ -170,9 +214,20 @@ const TechnicalInfoSection = ({ form }: Props) => {
                         label={'fg'}
                         labelText={'final_gravity'}
                         registerOptions={{
+                            required: false,
                             min: 0,
                             max: 100,
-                            valueAsNumber: true,
+                            setValueAs: (value) => {
+                                if (
+                                    value === '' ||
+                                    value === null ||
+                                    value === undefined
+                                )
+                                    return null;
+                                return isNaN(parseFloat(value))
+                                    ? null
+                                    : parseFloat(value);
+                            },
                         }}
                         inputType="number"
                         infoTooltip={t('fg_tooltip')}

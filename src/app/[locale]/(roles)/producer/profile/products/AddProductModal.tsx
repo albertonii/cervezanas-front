@@ -91,13 +91,13 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
         .min(0, { message: 'errors.input_number_min_0' })
         .optional(),
     brewers_note: z.string().optional(),
-    og: z.number().optional(),
-    fg: z.number().optional(),
-    srm: z.number().optional(),
-    ebc: z.number().optional(),
+    og: z.number().nullable().optional(),
+    fg: z.number().nullable().optional(),
+    srm: z.number().nullable().optional(),
+    ebc: z.number().nullable().optional(),
     hops_type: z.string().optional(),
     malt_type: z.string().optional(),
-    consumption_temperature: z.number().optional(),
+    consumption_temperature: z.number().nullable().optional(),
     awards: z.array(
         z.object({
             name: z
