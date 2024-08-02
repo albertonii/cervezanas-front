@@ -31,7 +31,6 @@ export default function StockInformationDetailsAndPacksUpdate({ form }: Props) {
         getValues,
         control,
         formState: { dirtyFields, isDirty },
-        watch,
     } = form;
 
     const { fields, append, remove } = useFieldArray({

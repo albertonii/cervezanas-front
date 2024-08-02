@@ -92,9 +92,9 @@ const TechnicalInfoSection = ({ form }: Props) => {
                         label={'consumption_temperature'}
                         labelText={'consumption_temperature'}
                         registerOptions={{
+                            required: false,
                             min: 0,
                             max: 100,
-                            valueAsNumber: true,
                         }}
                         inputType="number"
                     />

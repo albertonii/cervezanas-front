@@ -1,15 +1,13 @@
-'use client';
-
-import React from 'react';
-import { UseFormReturn } from 'react-hook-form';
-import { useTranslations } from 'next-intl';
-import { product_type_options } from '@/lib//beerEnum';
+import UpdateBeerInfoSection from './beer/UpdateBeerInfoSection';
+import React, { useState } from 'react';
 import {
     ICustomizeSettings,
     ModalUpdateProductFormData,
 } from '@/lib//types/types';
-import UpdateBeerInfoSection from '@/app/[locale]/components/products/beer/UpdateBeerInfoSection';
 import { Type } from '@/lib//productEnum';
+import { useTranslations } from 'next-intl';
+import { UseFormReturn } from 'react-hook-form';
+import { product_type_options } from '@/lib//beerEnum';
 
 interface Props {
     form: UseFormReturn<ModalUpdateProductFormData, any>;
@@ -19,7 +17,21 @@ interface Props {
 export function UpdateProductInfoSection({ form, customizeSettings }: Props) {
     const t = useTranslations();
 
-    const { register, getValues } = form;
+    const { register, setValue } = form;
+
+    const [isBeer, setIsBeer] = useState(true);
+
+    // Function that switch between merchandising and beer when select option is clicked
+    const handleProductType = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const category = event.target.value.toLowerCase();
+        if (category === Type.BEER) {
+            setIsBeer(true);
+        } else if (category === 'merchandising') {
+            setIsBeer(false);
+        }
+
+        setValue('category', category);
+    };
 
     return (
         <>
@@ -37,15 +49,10 @@ export function UpdateProductInfoSection({ form, customizeSettings }: Props) {
                             {...register('is_public', {
                                 required: true,
                             })}
-                            defaultChecked={getValues('is_public')}
+                            defaultChecked={true}
                         />
 
-                        <div
-                            className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 
-                            after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] 
-                            peer-checked:bg-beer-blonde peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none 
-                            peer-focus:ring-4 peer-focus:ring-beer-softFoam dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-beer-blonde"
-                        ></div>
+                        <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-beer-blonde peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-beer-softFoam dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-beer-blonde"></div>
 
                         <span className="ml-3 text-lg font-medium text-gray-900 dark:text-gray-300">
                             {t('is_public')}
@@ -53,7 +60,7 @@ export function UpdateProductInfoSection({ form, customizeSettings }: Props) {
                     </label>
 
                     <span className="mt-2 text-sm font-medium text-gray-400 dark:text-gray-300">
-                        {t('is_public_description')}
+                        {t('is_public_product_description')}
                     </span>
                 </div>
 
@@ -67,12 +74,16 @@ export function UpdateProductInfoSection({ form, customizeSettings }: Props) {
 
                     <select
                         id="product_type"
-                        defaultValue={getValues('type') ?? Type.BEER}
-                        className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 hover:cursor-not-allowed hover:bg-gray-200 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                        disabled
+                        {...register('type')}
+                        onChange={handleProductType}
+                        className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
                     >
                         {product_type_options.map((option) => (
-                            <option key={option.value} value={option.value}>
+                            <option
+                                key={option.value}
+                                value={option.value}
+                                selected={option.label === 'beer'}
+                            >
                                 {t(option.label.toLowerCase())}
                             </option>
                         ))}
@@ -81,7 +92,7 @@ export function UpdateProductInfoSection({ form, customizeSettings }: Props) {
             </section>
 
             {/* Beer type */}
-            {getValues('type') === Type.BEER && (
+            {isBeer && (
                 <UpdateBeerInfoSection
                     form={form}
                     customizeSettings={customizeSettings}

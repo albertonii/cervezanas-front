@@ -26,7 +26,6 @@ import {
 } from '@/lib//types/types';
 import { useMutation, useQueryClient } from 'react-query';
 import { UpdateMultimediaSection } from './UpdateMultimediaSection';
-import { UpdateProductInfoSection } from './UpdateProductInfoSection';
 import { isNotEmptyArray } from '@/utils/utils';
 import { UpdateProductSummary } from './UpdateProductSummary';
 import { useAppContext } from '@/app/context/AppContext';
@@ -35,6 +34,7 @@ import { ProductStepper } from '@/app/[locale]/components/products/ProductSteppe
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { Type } from '@/lib//productEnum';
 import { generateUUID } from '@/lib//actions';
+import { UpdateProductInfoSection } from '@/app/[locale]/components/products/UpdateProductInfoSection';
 
 // This is the list of mime types you will accept with the schema
 const ACCEPTED_MIME_TYPES = [
@@ -90,19 +90,19 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
         message: 'errors.input_required',
     }),
     ingredients: z.array(z.string()).optional(),
-    pairing: z.string().optional(),
+    pairing: z.string().nullable().optional(),
     recommended_glass: z
         .number()
         .min(0, { message: 'errors.input_number_min_0' })
         .optional(),
-    brewers_note: z.string().optional(),
-    og: z.number().optional(),
-    fg: z.number().optional(),
-    srm: z.number().optional(),
-    ebc: z.number().optional(),
-    hops_type: z.string().optional(),
-    malt_type: z.string().optional(),
-    consumption_temperature: z.number().optional(),
+    brewers_note: z.string().nullable().optional(),
+    og: z.number().nullable().optional(),
+    fg: z.number().nullable().optional(),
+    srm: z.number().nullable().optional(),
+    ebc: z.number().nullable().optional(),
+    hops_type: z.string().nullable().optional(),
+    malt_type: z.string().nullable().optional(),
+    consumption_temperature: z.number().nullable().optional(),
     is_public: z.boolean(),
     volume: z.number().min(0, { message: 'errors.input_number_min_0' }),
     weight: z.number().min(0, { message: 'errors.input_number_min_0' }),
