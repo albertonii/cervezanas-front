@@ -57,6 +57,7 @@ export function generateFileNameExtension(fName: string) {
     const fileExt = fName.split('.').pop();
     const fileNameExtension = `.${fileExt}`;
     const encodedFileName = encodeURIComponent(fileNameExtension);
+
     return encodedFileName;
 }
 
