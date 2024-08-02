@@ -2,7 +2,7 @@
 
 import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
 import React, { ComponentProps, useEffect, useState } from 'react';
-import { z, ZodType } from 'zod';
+import { array, z, ZodType } from 'zod';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -124,6 +124,7 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
         }),
     awards: z.array(
         z.object({
+            id: z.string().optional(),
             name: z
                 .string()
                 .min(2, { message: 'errors.input_number__min_2' })
@@ -143,6 +144,8 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
                     message: 'errors.input_number_max_2030',
                 }),
             img_url: z.custom<File>().superRefine(validateFile).or(z.string()),
+            img_url_changed: z.boolean().optional(),
+            img_url_from_db: z.string().optional(),
         }),
     ),
     packs: z.array(
@@ -195,6 +198,9 @@ export function UpdateProductModal({
     };
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [awardsToDeleteArray, setAwardsToDeleteArray] = useState<
+        { id: string; img_url: string }[]
+    >([]);
 
     const { beers } = product;
 
@@ -319,10 +325,14 @@ export function UpdateProductModal({
                 };
             }),
             awards: product.awards?.map((award) => ({
+                id: award.id,
+                award_id: award.id,
                 name: award.name,
                 description: award.description,
                 year: award.year,
                 img_url: award.img_url,
+                img_url_changed: false,
+                img_url_from_db: award.img_url,
             })),
 
             // campaign: "-",
@@ -377,7 +387,6 @@ export function UpdateProductModal({
         }
 
         setIsLoading(false);
-        queryClient.invalidateQueries('productList');
     };
 
     const updateBeerSection = async (formValues: ValidationSchema) => {
@@ -454,7 +463,6 @@ export function UpdateProductModal({
         }
 
         setIsLoading(false);
-        queryClient.invalidateQueries('productList');
     };
 
     const updateInventory = async (formValues: ValidationSchema) => {
@@ -488,7 +496,6 @@ export function UpdateProductModal({
         }
 
         setIsLoading(false);
-        queryClient.invalidateQueries('productList');
     };
 
     const updatePacks = async (packs: ModalUpdateProductPackFormData[]) => {
@@ -534,8 +541,6 @@ export function UpdateProductModal({
 
             return;
         }
-
-        queryClient.invalidateQueries('productList');
     };
 
     const updateAwards = async (
@@ -548,10 +553,19 @@ export function UpdateProductModal({
         formData.append('random_uuid', randomUUID);
 
         awards.map((award, index) => {
+            formData.append(`awards[${index}].id`, award.id ?? '');
             formData.append(`awards[${index}].name`, award.name);
             formData.append(`awards[${index}].description`, award.description);
             formData.append(`awards[${index}].year`, award.year.toString());
             formData.append(`awards[${index}].img_url`, award.img_url);
+            formData.append(
+                `awards[${index}].img_url_changed`,
+                award.img_url_changed?.toString() ?? 'false',
+            );
+            formData.append(
+                `awards[${index}].img_url_from_db`,
+                award.img_url_from_db ?? '',
+            );
         });
 
         formData.append('awards_size', awards.length.toString());
@@ -568,6 +582,34 @@ export function UpdateProductModal({
             handleMessage({
                 type: 'error',
                 message: 'errors.update_awards',
+            });
+
+            return;
+        }
+    };
+
+    const deleteAwards = async () => {
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+        const url = `${baseUrl}/api/products/awards`;
+
+        const formData = new FormData();
+
+        awardsToDeleteArray.map((award, index) => {
+            formData.append(`awards[${index}].id`, award.id ?? '');
+            formData.append(`awards[${index}].img_url`, award.img_url);
+        });
+
+        formData.append('awards_size', awardsToDeleteArray.length.toString());
+
+        const response = await fetch(url, {
+            method: 'DELETE',
+            body: formData,
+        });
+
+        if (response.status !== 200) {
+            handleMessage({
+                type: 'error',
+                message: 'errors.delete_awards',
             });
 
             return;
@@ -610,7 +652,6 @@ export function UpdateProductModal({
                 dirtyFields.format ||
                 dirtyFields.weight ||
                 dirtyFields.ibu ||
-                dirtyFields.ingredients ||
                 dirtyFields.pairing ||
                 dirtyFields.recommended_glass ||
                 dirtyFields.brewers_note ||
@@ -620,7 +661,8 @@ export function UpdateProductModal({
                 dirtyFields.ebc ||
                 dirtyFields.hops_type ||
                 dirtyFields.malt_type ||
-                dirtyFields.consumption_temperature
+                dirtyFields.consumption_temperature ||
+                dirtyFields.ingredients?.includes(true)
             ) {
                 await updateBeerSection(formValues);
             }
@@ -632,19 +674,33 @@ export function UpdateProductModal({
                 await updateInventory(formValues);
             }
 
+            // DirtyFields.packs is array of objects
+            // so it's going to be always true if there are packs
+            // so we need to check if inside the array there are changes
+            // if there are no changes we don't need to update the packs
+            const isPacksDirty = dirtyFields.packs?.some(
+                (pack: { [key: string]: any }) => {
+                    // Comprobar si hay algún elemento dentro del objeto que sea true. Si es así es que debemos de entrar porque hubieron cambios en los packs
+                    return Object.values(pack).some((value) => value === true);
+                },
+            );
+
             // Packs
-            if (dirtyFields.packs && isNotEmptyArray(packs)) {
+            if (dirtyFields.packs && isNotEmptyArray(packs) && isPacksDirty) {
                 await updatePacks(packs);
             }
 
             // Awards
+            if (awardsToDeleteArray.length > 0) {
+                await deleteAwards();
+            }
+
             if (dirtyFields.awards && awards && isNotEmptyArray(awards)) {
                 await updateAwards(awards, randomUUID);
             }
         }
 
         handleEditShowModal(false);
-        queryClient.invalidateQueries('productList');
     };
 
     const updateProductMutation = useMutation({
@@ -655,10 +711,14 @@ export function UpdateProductModal({
         },
         onSuccess: () => {
             setIsSubmitting(false);
+            queryClient.invalidateQueries('productList');
+            console.log('upd');
+            setIsLoading(false);
         },
         onError: (error: any) => {
             console.error(error);
             setIsSubmitting(false);
+            setIsLoading(false);
         },
     });
 
@@ -675,6 +735,13 @@ export function UpdateProductModal({
                 });
             });
         }
+    };
+
+    const handleArrayOfAwardsToDelete = (award: {
+        id: string;
+        img_url: string;
+    }) => {
+        setAwardsToDeleteArray((current) => [...current, award]);
     };
 
     return (
@@ -713,7 +780,12 @@ export function UpdateProductModal({
                                 productId={product.id}
                             />
                         ) : activeStep === 2 ? (
-                            <UpdateAwardsSection form={form} />
+                            <UpdateAwardsSection
+                                form={form}
+                                handleArrayOfAwardsToDelete={
+                                    handleArrayOfAwardsToDelete
+                                }
+                            />
                         ) : (
                             <UpdateProductSummary form={form} />
                         )}

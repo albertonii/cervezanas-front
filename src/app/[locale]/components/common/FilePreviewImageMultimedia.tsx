@@ -10,12 +10,14 @@ interface Props {
     form: UseFormReturn<any, any>;
     registerName: string;
     preUrl?: string;
+    handleOnChangeImg?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const FilePreviewImageMultimedia = ({
     form,
     registerName,
     preUrl,
+    handleOnChangeImg,
 }: Props) => {
     const t = useTranslations();
     const [image, setImage] = useState<string | null>(); // Nuevo estado para almacenar la URL de la imagen
@@ -53,6 +55,7 @@ export const FilePreviewImageMultimedia = ({
 
         setImage(url); // Almacenar la URL de la imagen en el estado
         setValue(registerName, e.target.files[0], { shouldDirty: true });
+        handleOnChangeImg && handleOnChangeImg(e);
     };
 
     return (

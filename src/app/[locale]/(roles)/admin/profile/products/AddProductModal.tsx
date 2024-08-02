@@ -243,7 +243,7 @@ export function AddProductModal() {
         const productId = productData[0].id;
 
         // Multimedia
-        // const randomUUID = generateUUID();
+        // const randomUUID = await generateUUID();
 
         let p_principal_url = '';
         let p_back_url = '';

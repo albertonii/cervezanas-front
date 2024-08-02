@@ -80,8 +80,6 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
             accessor: 'products_quantity',
             sortable: true,
             render: (value: number, row: IBusinessOrder) => {
-                console.log(value);
-                console.log(row);
                 return row.order_items?.length;
             },
         },

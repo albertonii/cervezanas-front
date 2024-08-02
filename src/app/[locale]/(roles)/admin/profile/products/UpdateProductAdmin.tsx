@@ -331,7 +331,7 @@ export function UpdateProductAdmin({
         const productId = product.id;
 
         // Multimedia
-        // const randomUUID = generateUUID();
+        // const randomUUID = await generateUUID();
 
         let p_principal_url = '';
         let p_back_url = '';

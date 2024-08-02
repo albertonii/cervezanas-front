@@ -243,6 +243,17 @@ export interface IAward {
     products?: IProduct;
 }
 
+export interface IAwardUpdateForm {
+    id?: string; // Este ID se convierte en el ID que asigna el key al hacer loop en UpdateProductModal
+    award_id?: string;
+    name: string;
+    description: string;
+    img_url: any;
+    year: number;
+    product_id: string;
+    products?: IProduct;
+}
+
 export interface IProductMultimedia {
     product_id: string; // PK
     p_principal: string;
@@ -854,6 +865,8 @@ type ModalUpdateProductAwardFormData = {
     name: string;
     description: string;
     img_url?: any;
+    img_url_changed?: boolean;
+    img_url_from_db?: string;
     year: number;
     product_id?: string;
 };
