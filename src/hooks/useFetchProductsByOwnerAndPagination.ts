@@ -23,7 +23,7 @@ const fetchProductsByOwner = async (
                 product_lots (*),
                 beers (*),
                 product_packs (*),
-                awards(*),
+                awards (*),
                 box_packs (
                     *,
                     box_pack_items (

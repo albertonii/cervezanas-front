@@ -40,12 +40,17 @@ export function ProductList({
 
     const resultsPerPage = 10;
 
-    const { isError, isLoading, refetch } =
+    const { data, isError, isLoading, refetch } =
         useFetchProductsByOwnerAndPagination(
             currentPage,
             resultsPerPage,
             false,
         );
+
+    useEffect(() => {
+        console.log('LISTADO', data);
+        setProducts(data as IProduct[]);
+    }, [data]);
 
     useEffect(() => {
         refetch().then((res: any) => {

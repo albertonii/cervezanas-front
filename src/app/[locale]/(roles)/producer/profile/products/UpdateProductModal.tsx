@@ -387,7 +387,6 @@ export function UpdateProductModal({
         }
 
         setIsLoading(false);
-        queryClient.invalidateQueries('productList');
     };
 
     const updateBeerSection = async (formValues: ValidationSchema) => {
@@ -464,7 +463,6 @@ export function UpdateProductModal({
         }
 
         setIsLoading(false);
-        queryClient.invalidateQueries('productList');
     };
 
     const updateInventory = async (formValues: ValidationSchema) => {
@@ -498,7 +496,6 @@ export function UpdateProductModal({
         }
 
         setIsLoading(false);
-        queryClient.invalidateQueries('productList');
     };
 
     const updatePacks = async (packs: ModalUpdateProductPackFormData[]) => {
@@ -544,7 +541,6 @@ export function UpdateProductModal({
 
             return;
         }
-        queryClient.invalidateQueries('productList');
     };
 
     const updateAwards = async (
@@ -590,8 +586,6 @@ export function UpdateProductModal({
 
             return;
         }
-
-        queryClient.invalidateQueries('productList');
     };
 
     const deleteAwards = async () => {
@@ -704,10 +698,7 @@ export function UpdateProductModal({
             if (dirtyFields.awards && awards && isNotEmptyArray(awards)) {
                 await updateAwards(awards, randomUUID);
             }
-
-            queryClient.invalidateQueries('productList');
         }
-        queryClient.invalidateQueries('productList');
 
         handleEditShowModal(false);
     };
@@ -720,14 +711,13 @@ export function UpdateProductModal({
         },
         onSuccess: () => {
             setIsSubmitting(false);
-            queryClient.invalidateQueries('productList');
             console.log('upd');
             setIsLoading(false);
+            queryClient.invalidateQueries('productList');
         },
         onSettled: () => {
             setIsSubmitting(false);
             setIsLoading(false);
-            queryClient.invalidateQueries('productList');
         },
         onError: (error: any) => {
             console.error(error);
