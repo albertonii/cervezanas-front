@@ -86,9 +86,6 @@ export default function BusinessOrderItem({
                 <option value={DISTRIBUTOR_ONLINE_ORDER_STATUS.PROCESSING}>
                     {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.PROCESSING)}
                 </option>
-                <option value={DISTRIBUTOR_ONLINE_ORDER_STATUS.IN_TRANSIT}>
-                    {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.IN_TRANSIT)}
-                </option>
                 <option value={DISTRIBUTOR_ONLINE_ORDER_STATUS.SHIPPED}>
                     {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.SHIPPED)}
                 </option>
