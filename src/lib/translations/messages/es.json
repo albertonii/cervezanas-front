@@ -435,7 +435,6 @@
     "status_accepted": "Aceptado",
     "status_error": "Error",
     "status_cancelled": "Cancelado",
-    "status_in_transit": "En tránsito",
     "payment_information": "Información de pago",
     "ending_with": "Terminada en ",
     "expires_at": "Caduca el ",
@@ -773,7 +772,6 @@
         "user_already_registered": "El usuario ya está registrado"
     },
     "cancelled": "Cancelado",
-    "in_transit": "En tránsito",
     "select_all_countries_by_region": "Seleccionar todos los países de la región",
     "select_all_countries": "Seleccionar todos los países",
     "select_all_cities_by_region": "Seleccionar todas las ciudades de la región",

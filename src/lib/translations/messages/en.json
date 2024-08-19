@@ -436,7 +436,6 @@
     "status_accepted": "Accepted",
     "status_error": "Error",
     "status_cancelled": "Cancelled",
-    "status_in_transit": "In transit",
     "payment_information": "Payment Information",
     "ending_with": "Ending with ",
     "expires_at": "Expires ",
@@ -772,7 +771,6 @@
         "register_legal_age": "You must be of legal age to register"
     },
     "cancelled": "Cancelled",
-    "in_transit": "In transit",
     "select_all_countries_by_region": "Select all countries by region",
     "select_all_cities_by_region": "Select all cities by region",
     "select_all_regions": "Select all regions",
