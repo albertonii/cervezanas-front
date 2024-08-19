@@ -38,7 +38,7 @@ import { ProductStepper } from '@/app/[locale]/components/products/ProductSteppe
 import { UpdateProductInfoSection } from '../../../producer/profile/products/UpdateProductInfoSection';
 import { UpdateMultimediaSection } from '../../../producer/profile/products/UpdateMultimediaSection';
 import { UpdateAwardsSection } from '../../../producer/profile/products/UpdateAwardsSection';
-import { UpdateProductSummary } from '../../../producer/profile/products/UpdateProductSummary';
+import { UpdateProductSummary } from '../../../../components/products/UpdateProductSummary';
 import { Type } from '@/lib//productEnum';
 
 const schema: ZodType<ModalUpdateProductFormData> = z.object({

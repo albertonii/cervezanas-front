@@ -654,6 +654,7 @@
         "input_number_max_2030": "The number must be less than or equal to 2030",
         "input_char_min_2": "The field must have at least 2 characters",
         "input_char_max_50": "The field must have at least 50 characters",
+        "input_char_max_100": "The field must have less than 100 characters",
         "input_char_max_150": "The field must have less than 150 characters",
         "input_char_max_500": "The field must have less than 500 characters",
         "input_char_max_2500": "The field must have less than 2500 characters",

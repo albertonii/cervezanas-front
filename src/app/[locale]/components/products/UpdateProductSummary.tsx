@@ -1,32 +1,27 @@
 import React from 'react';
 import { FieldError, UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
+import { SupabaseProps } from '@/constants';
+import { ModalUpdateProductFormData } from '@/lib//types/types';
 import { formatCurrency } from '@/utils/formatCurrency';
+import { FilePreviewImageMultimedia } from '@/app/[locale]/components/common/FilePreviewImageMultimedia';
+import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 import { FilePreview } from '../common/FilePreview';
-import { ModalAddProductFormData } from '@/lib//types/types';
-import {
-    color_options,
-    family_options,
-    fermentation_options,
-} from '@/lib//beerEnum';
-import { DisplayInputError } from '../common/DisplayInputError';
 
 interface Props {
-    form: UseFormReturn<ModalAddProductFormData, any>;
+    form: UseFormReturn<ModalUpdateProductFormData, any>;
 }
 
-export function ProductSummary({ form: { getValues, formState } }: Props) {
+export function UpdateProductSummary({ form }: Props) {
     const t = useTranslations();
 
-    const { errors } = formState;
+    const {
+        getValues,
+        formState: { errors },
+    } = form;
 
-    const fermentationLabel = t(
-        fermentation_options[getValues('fermentation')].label,
-    );
-
-    const colorLabel = t(color_options[getValues('color')].label);
-
-    const familyLabel = t(family_options[getValues('family')].label);
+    const preUrl =
+        SupabaseProps.BASE_URL + SupabaseProps.STORAGE_PRODUCTS_IMG_URL;
 
     const renderError = (field: string, error: FieldError | any) => {
         if (Array.isArray(error)) {
@@ -93,18 +88,19 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                         <ul className="list-disc list-inside text-md text-red-600">
                             {Object.keys(errors).map((key, index) => {
                                 const field =
-                                    key as keyof ModalAddProductFormData;
+                                    key as keyof ModalUpdateProductFormData;
                                 return renderError(field, errors[field]);
                             })}
                         </ul>
                     </div>
                 )}
 
-                {/* Public */}
-                <div className="flex flex-row gap-4">
+                {/* Public  */}
+                <div className="flex flex-row gap-2">
                     <label className="text-md font-semibold text-gray-600">
                         {t('is_public')}
                     </label>
+
                     <span className="text-md">
                         {getValues('is_public') ? t('yes') : t('no')}
                     </span>
@@ -112,27 +108,29 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
 
                 {/* Añadir border y demás  */}
                 <div className="flex flex-col gap-4 p-6 bg-white rounded-lg shadow-md border border-gray-200">
-                    {/* Name */}
-                    <div className="flex flex-row gap-4">
+                    {/* Name  */}
+                    <div className="flex flex-row gap-2">
                         <label className="text-md font-semibold text-gray-600">
                             {t('name_label')}
                         </label>
+
                         <span className="text-md">{getValues('name')}</span>
                     </div>
 
-                    {/* Description */}
-                    <div className="flex flex-row gap-4">
+                    {/* Description  */}
+                    <div className="flex flex-row gap-2">
                         <label className="text-md font-semibold text-gray-600">
                             {t('description')}
                         </label>
+
                         <span className="text-md">
                             {getValues('description')}
                         </span>
                     </div>
 
-                    {/* ABV Fermentation */}
-                    <div className="flex flex-row justify-between gap-4">
-                        <div className="flex flex-col">
+                    {/* ABV Fermentation Color  */}
+                    <div className="flex flex-row justify-between gap-2 space-x-4">
+                        <h4 className="space-x-2">
                             <label className="text-md font-semibold text-gray-600">
                                 {t('intensity_label')}
                             </label>
@@ -140,92 +138,114 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                             <span className="text-md">
                                 {getValues('intensity')} %
                             </span>
-                        </div>
-                        <div className="flex flex-col">
+                        </h4>
+
+                        <h4 className="space-x-2">
                             <label className="text-md font-semibold text-gray-600">
                                 {t('fermentation_label')}
                             </label>
-                            <span className="text-md">{fermentationLabel}</span>
-                        </div>
-                    </div>
 
-                    {/* Color Family  */}
-                    <div className="flex flex-row justify-between gap-4">
-                        <div className="flex flex-col">
+                            <span className="text-md">
+                                {getValues('fermentation')}
+                            </span>
+                        </h4>
+
+                        <h4 className="space-x-2">
                             <label className="text-md font-semibold text-gray-600">
                                 {t('color_label')}
                             </label>
-                            <span className="text-md">{colorLabel}</span>
-                        </div>
 
-                        <div className="flex flex-col">
+                            <span className="text-md">
+                                {getValues('color')}
+                            </span>
+                        </h4>
+                    </div>
+
+                    {/* Family  */}
+                    <div className="flex flex-row justify-between gap-2 space-x-4">
+                        <h4 className="space-x-2">
                             <label className="text-md font-semibold text-gray-600">
                                 {t('family_label')}
                             </label>
-                            <span className="text-md">{familyLabel}</span>
-                        </div>
+
+                            <span className="text-md">
+                                {getValues('family')}
+                            </span>
+                        </h4>
                     </div>
 
-                    {/* Format Volume Price */}
-                    <div className="flex flex-row justify-between gap-4">
-                        <div className="flex flex-col">
+                    {/* Format Volume Price  */}
+                    <div className="flex flex-row justify-between gap-2 space-x-4">
+                        <h4 className="space-x-2">
                             <label className="text-md font-semibold text-gray-600">
                                 {t('format_label')}
                             </label>
+
                             <span className="text-md">
                                 {t(getValues('format'))}
                             </span>
-                        </div>
-                        <div className="flex flex-col">
+                        </h4>
+
+                        <h4 className="space-x-2">
                             <label className="text-md font-semibold text-gray-600">
-                                {t('volume_label')} (ml)
+                                {t('volume_label')}
                             </label>
+
                             <span className="text-md">
                                 {getValues('volume')}
                             </span>
-                        </div>
-                        <div className="flex flex-col">
+                        </h4>
+
+                        <h4 className="space-x-2">
                             <label className="text-md font-semibold text-gray-600">
                                 {t('price')}
                             </label>
+
                             <span className="text-md">
                                 {formatCurrency(getValues('price'))}
                             </span>
-                        </div>
+                        </h4>
                     </div>
 
-                    {/* Stock Quantity and Notification */}
-                    <div className="flex flex-row justify-between gap-4">
-                        <div className="flex flex-col">
+                    {/* Stock Quantity and Notification  */}
+                    <div className="flex flex-row justify-between gap-2 space-x-4">
+                        <h4 className="space-x-2">
                             <label className="text-md font-semibold text-gray-600">
                                 {t('stock_quantity_label')}
                             </label>
+
                             <span className="text-md">
                                 {getValues('stock_quantity')}
                             </span>
-                        </div>
-                        <div className="flex flex-col">
+                        </h4>
+
+                        <h4 className="space-x-2">
                             <label className="text-md font-semibold text-gray-600">
                                 {t('stock_limit_notification_label')}
                             </label>
+
                             <span className="text-md">
                                 {getValues('stock_limit_notification')}
                             </span>
-                        </div>
+                        </h4>
                     </div>
                 </div>
 
                 {/* Packs */}
                 {getValues('packs').length > 0 && (
                     <div className="flex flex-col gap-4 p-6 bg-white rounded-lg shadow-md border ">
-                        <h4 className="text-xl text-gray-600">{t('packs')}</h4>
+                        <h4 className="text-xl text-beer-draft">
+                            <label className="text-md font-semibold text-gray-600">
+                                {t('packs')}
+                            </label>
+                        </h4>
 
                         {getValues('packs').map((pack, index) => (
                             <div
                                 key={index}
                                 className="flex flex-row gap-2 space-y-4 rounded border p-2 justify-between"
                             >
-                                <div className="flex flex-row justify-between">
+                                <div className="flex flex-col justify-between">
                                     <div className="flex flex-col">
                                         <label className="text-md font-semibold text-gray-600">
                                             {t('pack_name')}
@@ -244,8 +264,6 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                                             {pack.quantity}
                                         </span>
                                     </div>
-                                </div>
-                                <div className="flex flex-row justify-between">
                                     <div className="flex flex-col">
                                         <label className="text-md font-semibold text-gray-600">
                                             {t('pack_price')} €
@@ -254,6 +272,9 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                                             {formatCurrency(pack.price)}
                                         </span>
                                     </div>
+                                </div>
+
+                                <div className="flex flex-row justify-between">
                                     <div className="flex flex-col">
                                         <label className="text-md font-semibold text-gray-600">
                                             {t('pack_img_url')}
@@ -262,8 +283,10 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                                             {pack.img_url.length === 0 ? (
                                                 t('unassigned')
                                             ) : (
-                                                <FilePreview
-                                                    file={pack.img_url[0]}
+                                                <FilePreviewImageMultimedia
+                                                    form={form}
+                                                    registerName={`packs.${index}.img_url`}
+                                                    preUrl={preUrl}
                                                 />
                                             )}
                                         </span>
@@ -277,7 +300,11 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                 {/* Awards */}
                 {getValues('awards').length > 0 && (
                     <div className="flex flex-col gap-4 p-6 bg-white rounded-lg shadow-md border ">
-                        <h4 className="text-xl text-gray-600">{t('awards')}</h4>
+                        <h4 className="text-xl text-beer-draft">
+                            <label className="text-md font-semibold text-gray-600">
+                                {t('awards')}
+                            </label>
+                        </h4>
 
                         {getValues('awards').map((award, index) => (
                             <div
@@ -285,44 +312,53 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                                 className="flex flex-col gap-2 space-y-4 rounded border p-2"
                             >
                                 <div className="flex flex-row justify-between">
-                                    <div className="flex flex-col">
+                                    <div className="space-x-2">
                                         <label className="text-md font-semibold text-gray-600">
                                             {t('award_name')}
                                         </label>
+
                                         <span className="text-md">
                                             {award.name.length === 0
                                                 ? t('unassigned')
                                                 : award.name}
                                         </span>
                                     </div>
-                                    <div className="flex flex-col">
+
+                                    <div className="space-x-2">
                                         <label className="text-md font-semibold text-gray-600">
                                             {t('description')}
                                         </label>
+
                                         <span className="text-md">
                                             {award.description}
                                         </span>
                                     </div>
                                 </div>
+
                                 <div className="flex flex-row justify-between">
-                                    <div className="flex flex-col">
+                                    <div className="space-x-2">
                                         <label className="text-md font-semibold text-gray-600">
                                             {t('award_year')}
                                         </label>
+
                                         <span className="text-md">
                                             {award.year}
                                         </span>
                                     </div>
-                                    <div className="flex flex-col">
+
+                                    <div className="space-x-2">
                                         <label className="text-md font-semibold text-gray-600">
                                             {t('award_img_url')}
                                         </label>
+
                                         <span className="text-md">
                                             {award.img_url.length === 0 ? (
                                                 t('unassigned')
                                             ) : (
-                                                <FilePreview
-                                                    file={award.img_url[0]}
+                                                <FilePreviewImageMultimedia
+                                                    form={form}
+                                                    registerName={`awards.${index}.img_url`}
+                                                    preUrl={preUrl}
                                                 />
                                             )}
                                         </span>

@@ -121,12 +121,27 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
             img_url: z.custom<File>().superRefine(validateFile).optional(),
         }),
     ),
+    packs: z.array(
+        z.object({
+            id: z.string(),
+            quantity: z
+                .number()
+                .min(0, { message: 'errors.input_number_min_0' }),
+            price: z.number().min(0, { message: 'errors.input_number_min_0' }),
+            name: z
+                .string()
+                .min(2, { message: 'errors.input_char_min_2' })
+                .max(100, {
+                    message: 'errors.input_char_max_100',
+                }),
+            img_url: z.custom<File>().superRefine(validateFile).optional(),
+        }),
+    ),
     p_principal: z.custom<File>().superRefine(validateFile).optional(),
     p_back: z.custom<File>().superRefine(validateFile).optional(),
     p_extra_1: z.custom<File>().superRefine(validateFile).optional(),
     p_extra_2: z.custom<File>().superRefine(validateFile).optional(),
     p_extra_3: z.custom<File>().superRefine(validateFile).optional(),
-
     is_public: z.boolean(),
     volume: z.number().min(0, { message: 'errors.input_number_min_0' }),
     weight: z.number().min(0, { message: 'errors.input_number_min_0' }),
@@ -146,22 +161,6 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
         .max(50, {
             message: 'errors.error_50_number_max_length',
         }),
-    packs: z.array(
-        z.object({
-            id: z.string(),
-            quantity: z
-                .number()
-                .min(0, { message: 'errors.input_number_min_0' }),
-            price: z.number().min(0, { message: 'errors.input_number_min_0' }),
-            name: z
-                .string()
-                .min(2, { message: 'errors.input_number__min_2' })
-                .max(100, {
-                    message: 'errors.error_100_number_max_length',
-                }),
-            img_url: z.custom<File>().superRefine(validateFile).optional(),
-        }),
-    ),
 });
 
 type ValidationSchema = z.infer<typeof schema>;

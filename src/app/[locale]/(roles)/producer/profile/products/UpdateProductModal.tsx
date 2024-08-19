@@ -27,7 +27,7 @@ import {
 import { useMutation, useQueryClient } from 'react-query';
 import { UpdateMultimediaSection } from './UpdateMultimediaSection';
 import { isNotEmptyArray } from '@/utils/utils';
-import { UpdateProductSummary } from './UpdateProductSummary';
+import { UpdateProductSummary } from '../../../../components/products/UpdateProductSummary';
 import { useAppContext } from '@/app/context/AppContext';
 import { UpdateAwardsSection } from './UpdateAwardsSection';
 import { ProductStepper } from '@/app/[locale]/components/products/ProductStepper';
@@ -127,15 +127,15 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
             id: z.string().optional(),
             name: z
                 .string()
-                .min(2, { message: 'errors.input_number__min_2' })
+                .min(2, { message: 'errors.input_char_min_2' })
                 .max(150, {
-                    message: 'errors.input_number_max_150',
+                    message: 'errors.input_char_max_150',
                 }),
             description: z
                 .string()
-                .min(2, { message: 'errors.input_number__min_2' })
+                .min(2, { message: 'errors.input_char_min_2' })
                 .max(500, {
-                    message: 'errors.input_number_max_500',
+                    message: 'errors.input_char_max_500',
                 }),
             year: z
                 .number()
@@ -157,9 +157,9 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
             price: z.number().min(0, { message: 'errors.input_number_min_0' }),
             name: z
                 .string()
-                .min(2, { message: 'errors.input_number__min_2' })
+                .min(2, { message: 'errors.input_char_min_2' })
                 .max(100, {
-                    message: 'errors.error_100_number_max_length',
+                    message: 'errors.input_char_max_100',
                 }),
             img_url: z.custom<File>().superRefine(validateFile).or(z.string()),
             prev_img_url: z.string().optional(),
