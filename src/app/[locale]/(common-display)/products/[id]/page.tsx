@@ -32,6 +32,7 @@ async function getProductData(productId: string) {
               p_extra_3
             ),
             product_packs (*),
+            awards (*),
             reviews (
               *,
               users (

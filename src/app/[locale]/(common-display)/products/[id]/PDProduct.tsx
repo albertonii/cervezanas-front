@@ -6,6 +6,7 @@ import { IProduct, IReview } from '@/lib//types/types';
 import { ProductReviews } from '@/app/[locale]/components/reviews/ProductReviews';
 import { ProductOverallReview } from '@/app/[locale]/components/reviews/ProductOverallReview';
 import dynamic from 'next/dynamic';
+import ProductAwardsInformation from './ProductAwardsInformation';
 
 const DynamicSpinner = dynamic(
     () => import('@/app/[locale]/components/common/Spinner'),
@@ -56,7 +57,6 @@ export default function PDProduct({ product }: Props) {
                     emptyReviews={emptyReviews}
                 />
             </div>
-
             {/* User reviews */}
             {!emptyReviews && (
                 <div
@@ -69,7 +69,6 @@ export default function PDProduct({ product }: Props) {
                     />
                 </div>
             )}
-
             {/* <DisplaySimilarProducts /> */}
         </section>
     );
