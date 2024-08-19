@@ -7,6 +7,11 @@ import { formatCurrency } from '@/utils/formatCurrency';
 import { FilePreviewImageMultimedia } from '@/app/[locale]/components/common/FilePreviewImageMultimedia';
 import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 import { FilePreview } from '../common/FilePreview';
+import {
+    color_options,
+    family_options,
+    fermentation_options,
+} from '@/lib/beerEnum';
 
 interface Props {
     form: UseFormReturn<ModalUpdateProductFormData, any>;
@@ -22,6 +27,14 @@ export function UpdateProductSummary({ form }: Props) {
 
     const preUrl =
         SupabaseProps.BASE_URL + SupabaseProps.STORAGE_PRODUCTS_IMG_URL;
+
+    const fermentationLabel = t(
+        fermentation_options[getValues('fermentation')].label,
+    );
+
+    const colorLabel = t(color_options[getValues('color')].label);
+
+    const familyLabel = t(family_options[getValues('family')].label);
 
     const renderError = (field: string, error: FieldError | any) => {
         if (Array.isArray(error)) {
@@ -128,9 +141,9 @@ export function UpdateProductSummary({ form }: Props) {
                         </span>
                     </div>
 
-                    {/* ABV Fermentation Color  */}
-                    <div className="flex flex-row justify-between gap-2 space-x-4">
-                        <h4 className="space-x-2">
+                    {/* ABV Fermentation */}
+                    <div className="flex flex-row justify-between gap-4">
+                        <div className="flex flex-col">
                             <label className="text-md font-semibold text-gray-600">
                                 {t('intensity_label')}
                             </label>
@@ -138,107 +151,86 @@ export function UpdateProductSummary({ form }: Props) {
                             <span className="text-md">
                                 {getValues('intensity')} %
                             </span>
-                        </h4>
+                        </div>
 
-                        <h4 className="space-x-2">
+                        <div className="flex flex-col">
                             <label className="text-md font-semibold text-gray-600">
                                 {t('fermentation_label')}
                             </label>
+                            <span className="text-md">{fermentationLabel}</span>
+                        </div>
+                    </div>
 
-                            <span className="text-md">
-                                {getValues('fermentation')}
-                            </span>
-                        </h4>
-
-                        <h4 className="space-x-2">
+                    {/* Color Family  */}
+                    <div className="flex flex-row justify-between gap-4">
+                        <div className="flex flex-col">
                             <label className="text-md font-semibold text-gray-600">
                                 {t('color_label')}
                             </label>
+                            <span className="text-md">{colorLabel}</span>
+                        </div>
 
-                            <span className="text-md">
-                                {getValues('color')}
-                            </span>
-                        </h4>
-                    </div>
-
-                    {/* Family  */}
-                    <div className="flex flex-row justify-between gap-2 space-x-4">
-                        <h4 className="space-x-2">
+                        <div className="flex flex-col">
                             <label className="text-md font-semibold text-gray-600">
                                 {t('family_label')}
                             </label>
-
-                            <span className="text-md">
-                                {getValues('family')}
-                            </span>
-                        </h4>
+                            <span className="text-md">{familyLabel}</span>
+                        </div>
                     </div>
 
-                    {/* Format Volume Price  */}
-                    <div className="flex flex-row justify-between gap-2 space-x-4">
-                        <h4 className="space-x-2">
+                    {/* Format Volume Price */}
+                    <div className="flex flex-row justify-between gap-4">
+                        <div className="flex flex-col">
                             <label className="text-md font-semibold text-gray-600">
                                 {t('format_label')}
                             </label>
-
                             <span className="text-md">
                                 {t(getValues('format'))}
                             </span>
-                        </h4>
-
-                        <h4 className="space-x-2">
+                        </div>
+                        <div className="flex flex-col">
                             <label className="text-md font-semibold text-gray-600">
-                                {t('volume_label')}
+                                {t('volume_label')} (ml)
                             </label>
-
                             <span className="text-md">
                                 {getValues('volume')}
                             </span>
-                        </h4>
-
-                        <h4 className="space-x-2">
+                        </div>
+                        <div className="flex flex-col">
                             <label className="text-md font-semibold text-gray-600">
                                 {t('price')}
                             </label>
-
                             <span className="text-md">
                                 {formatCurrency(getValues('price'))}
                             </span>
-                        </h4>
+                        </div>
                     </div>
 
-                    {/* Stock Quantity and Notification  */}
-                    <div className="flex flex-row justify-between gap-2 space-x-4">
-                        <h4 className="space-x-2">
+                    {/* Stock Quantity and Notification */}
+                    <div className="flex flex-row justify-between gap-4">
+                        <div className="flex flex-col">
                             <label className="text-md font-semibold text-gray-600">
                                 {t('stock_quantity_label')}
                             </label>
-
                             <span className="text-md">
                                 {getValues('stock_quantity')}
                             </span>
-                        </h4>
-
-                        <h4 className="space-x-2">
+                        </div>
+                        <div className="flex flex-col">
                             <label className="text-md font-semibold text-gray-600">
                                 {t('stock_limit_notification_label')}
                             </label>
-
                             <span className="text-md">
                                 {getValues('stock_limit_notification')}
                             </span>
-                        </h4>
+                        </div>
                     </div>
                 </div>
 
                 {/* Packs */}
                 {getValues('packs').length > 0 && (
                     <div className="flex flex-col gap-4 p-6 bg-white rounded-lg shadow-md border ">
-                        <h4 className="text-xl text-beer-draft">
-                            <label className="text-md font-semibold text-gray-600">
-                                {t('packs')}
-                            </label>
-                        </h4>
+                        <h4 className="text-xl text-gray-600">{t('packs')}</h4>
 
                         {getValues('packs').map((pack, index) => (
                             <div
@@ -300,11 +292,7 @@ export function UpdateProductSummary({ form }: Props) {
                 {/* Awards */}
                 {getValues('awards').length > 0 && (
                     <div className="flex flex-col gap-4 p-6 bg-white rounded-lg shadow-md border ">
-                        <h4 className="text-xl text-beer-draft">
-                            <label className="text-md font-semibold text-gray-600">
-                                {t('awards')}
-                            </label>
-                        </h4>
+                        <h4 className="text-xl text-gray-600">{t('awards')}</h4>
 
                         {getValues('awards').map((award, index) => (
                             <div

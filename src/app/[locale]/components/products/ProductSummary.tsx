@@ -141,6 +141,7 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                                 {getValues('intensity')} %
                             </span>
                         </div>
+
                         <div className="flex flex-col">
                             <label className="text-md font-semibold text-gray-600">
                                 {t('fermentation_label')}
