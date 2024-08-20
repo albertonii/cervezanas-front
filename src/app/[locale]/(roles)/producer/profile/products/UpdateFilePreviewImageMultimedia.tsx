@@ -1,12 +1,12 @@
 'use client';
 
-import Image from 'next/image';
+import FilePreviewBlurImage from '@/app/[locale]/components/common/FilePreviewBlurImage';
 import React, { ChangeEvent, useEffect, useState } from 'react';
+import { MULTIMEDIA } from '@/constants';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
-import { MULTIMEDIA } from '@/constants';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 
 interface Props {
     productId: string;
@@ -24,16 +24,22 @@ export const UpdateFilePreviewImageMultimedia = ({
     isBoxPack,
 }: Props) => {
     const t = useTranslations();
-    const [image, setImage] = useState<string | null>(); // Nuevo estado para almacenar la URL de la imagen
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-
-    const { handleMessage } = useMessage();
 
     const {
         getValues,
         setValue,
         formState: { errors },
     } = form;
+
+    const [image, setImage] = useState<string | null>(); // Nuevo estado para almacenar la URL de la imagen
+    const [prevImg, setPrevImg] = useState<string | null>(
+        preUrl
+            ? preUrl + decodeURIComponent(getValues(registerName))
+            : URL.createObjectURL(getValues(registerName)),
+    );
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const { handleMessage } = useMessage();
 
     useEffect(() => {
         if (getValues(registerName)) {
@@ -55,16 +61,10 @@ export const UpdateFilePreviewImageMultimedia = ({
         }
     }, [registerName]);
 
-    const removeImageClick = () => {
-        setValue(registerName, null);
-        setImage(null); // Restablecer la URL de la imagen cuando se elimina
-    };
-
-    const handleFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return console.info('No hay archivos');
         setImage(URL.createObjectURL(e.target.files[0])); // Almacenar la URL de la imagen en el estado
         setValue(registerName, e.target.files);
-        // setValue(registerName, e.target.files, { shouldDirty: true });
 
         setIsLoading(true);
 
@@ -86,125 +86,153 @@ export const UpdateFilePreviewImageMultimedia = ({
                 formData.append('multimedia_type', multimedia_type);
                 formData.append('multimedia', file[0]);
 
-                const response = await fetch(url, {
+                await fetch(url, {
                     method: 'PUT',
                     body: formData,
-                });
+                })
+                    .then((response) => {
+                        if (response.status !== 200) {
+                            handleMessage({
+                                type: 'error',
+                                message: 'error_update_product_multimedia',
+                            });
+                            setImage(prevImg);
 
-                if (response.status !== 200) {
-                    handleMessage({
-                        type: 'error',
-                        message: 'error_update_product_multimedia',
-                    });
-                    return;
-                }
+                            return;
+                        }
 
-                if (response.status === 200) {
-                    handleMessage({
-                        type: 'success',
-                        message: 'success_update_product_multimedia',
+                        if (response.status === 200) {
+                            handleMessage({
+                                type: 'success',
+                                message: 'success_update_product_multimedia',
+                            });
+                        }
+                    })
+                    .finally(() => setIsLoading(false))
+                    .catch((error) => {
+                        setImage(prevImg);
+                        console.error('Error al subir la imagen', error);
                     });
-                }
             } else if (registerName === MULTIMEDIA.P_BACK) {
                 const multimedia_type = MULTIMEDIA.P_BACK;
 
                 formData.append('multimedia_type', multimedia_type);
                 formData.append('multimedia', file[0]);
 
-                const response = await fetch(url, {
+                await fetch(url, {
                     method: 'PUT',
                     body: formData,
-                });
+                })
+                    .then((response) => {
+                        if (response.status !== 200) {
+                            handleMessage({
+                                type: 'error',
+                                message: 'error_update_product_multimedia',
+                            });
+                            return;
+                        }
 
-                if (response.status !== 200) {
-                    handleMessage({
-                        type: 'error',
-                        message: 'error_update_product_multimedia',
+                        if (response.status === 200) {
+                            handleMessage({
+                                type: 'success',
+                                message: 'success_update_product_multimedia',
+                            });
+                        }
+                    })
+                    .finally(() => setIsLoading(false))
+                    .catch((error) => {
+                        console.error('Error al subir la imagen', error);
                     });
-                    return;
-                }
-
-                if (response.status === 200) {
-                    handleMessage({
-                        type: 'success',
-                        message: 'success_update_product_multimedia',
-                    });
-                }
             } else if (registerName === MULTIMEDIA.P_EXTRA_1) {
                 const multimedia_type = MULTIMEDIA.P_EXTRA_1;
 
                 formData.append('multimedia_type', multimedia_type);
                 formData.append('multimedia', file[0]);
 
-                const response = await fetch(url, {
+                await fetch(url, {
                     method: 'PUT',
                     body: formData,
-                });
+                })
+                    .then((response) => {
+                        if (response.status !== 200) {
+                            handleMessage({
+                                type: 'error',
+                                message: 'error_update_product_multimedia',
+                            });
+                            return;
+                        }
 
-                if (response.status !== 200) {
-                    handleMessage({
-                        type: 'error',
-                        message: 'error_update_product_multimedia',
+                        if (response.status === 200) {
+                            handleMessage({
+                                type: 'success',
+                                message: 'success_update_product_multimedia',
+                            });
+                        }
+                    })
+                    .finally(() => setIsLoading(false))
+                    .catch((error) => {
+                        console.error('Error al subir la imagen', error);
                     });
-                    return;
-                }
-
-                if (response.status === 200) {
-                    handleMessage({
-                        type: 'success',
-                        message: 'success_update_product_multimedia',
-                    });
-                }
             } else if (registerName === MULTIMEDIA.P_EXTRA_2) {
                 const multimedia_type = MULTIMEDIA.P_EXTRA_2;
 
                 formData.append('multimedia_type', multimedia_type);
                 formData.append('multimedia', file[0]);
 
-                const response = await fetch(url, {
+                await fetch(url, {
                     method: 'PUT',
                     body: formData,
-                });
+                })
+                    .then((response) => {
+                        if (response.status !== 200) {
+                            handleMessage({
+                                type: 'error',
+                                message: 'error_update_product_multimedia',
+                            });
+                            return;
+                        }
 
-                if (response.status !== 200) {
-                    handleMessage({
-                        type: 'error',
-                        message: 'error_update_product_multimedia',
+                        if (response.status === 200) {
+                            handleMessage({
+                                type: 'success',
+                                message: 'success_update_product_multimedia',
+                            });
+                        }
+                    })
+                    .finally(() => setIsLoading(false))
+                    .catch((error) => {
+                        console.error('Error al subir la imagen', error);
                     });
-                    return;
-                }
-
-                if (response.status === 200) {
-                    handleMessage({
-                        type: 'success',
-                        message: 'success_update_product_multimedia',
-                    });
-                }
             } else if (registerName === MULTIMEDIA.P_EXTRA_3) {
                 const multimedia_type = MULTIMEDIA.P_EXTRA_3;
 
                 formData.append('multimedia_type', multimedia_type);
                 formData.append('multimedia', file[0]);
 
-                const response = await fetch(url, {
+                await fetch(url, {
                     method: 'PUT',
                     body: formData,
-                });
+                })
+                    .then((response) => {
+                        if (response.status !== 200) {
+                            handleMessage({
+                                type: 'error',
+                                message: 'error_update_product_multimedia',
+                            });
+                            return;
+                        }
 
-                if (response.status !== 200) {
-                    handleMessage({
-                        type: 'error',
-                        message: 'error_update_product_multimedia',
+                        if (response.status === 200) {
+                            handleMessage({
+                                type: 'success',
+                                message: 'success_update_product_multimedia',
+                            });
+                        }
+                    })
+                    .finally(() => setIsLoading(false))
+                    .catch((error) => {
+                        console.error('Error al subir la imagen', error);
                     });
-                    return;
-                }
-
-                if (response.status === 200) {
-                    handleMessage({
-                        type: 'success',
-                        message: 'success_update_product_multimedia',
-                    });
-                }
             }
 
             setTimeout(() => {
@@ -212,63 +240,49 @@ export const UpdateFilePreviewImageMultimedia = ({
             }, 800);
         };
 
-        updateValue();
+        try {
+            updateValue();
+        } catch (error) {
+            console.error('Error al subir la imagen', error);
+            setIsLoading(false);
+        }
+    };
+
+    const handleRemoveImage = () => {
+        setValue(registerName, null);
+        setImage(null); // Restablecer la URL de la imagen cuando se elimina
     };
 
     return (
-        <section
-            className={`
-            flex w-full items-center justify-center rounded-md lg:w-full
-            ${isLoading && 'animate-pulse bg-grey-500 opacity-40'}
-        `}
-        >
+        <section className="flex relative w-full flex-col items-center justify-center rounded-md bg-white p-4 shadow-md border border-gray-200">
             {isLoading && (
-                <div className="absolute z-10 flex h-full w-full items-center justify-center bg-gray-200 bg-opacity-50">
+                <div className="absolute z-10 flex h-full w-full items-center justify-center bg-gray-200 bg-opacity-50 text-sm font-semibold">
                     Subiendo archivo ...
                 </div>
             )}
 
-            {!image && (
-                <div className="relative h-32 w-full cursor-pointer items-center overflow-hidden rounded-md border-2 border-dotted   border-gray-400 shadow-md">
+            {!image ? (
+                <div className="relative flex flex-col items-center justify-center h-32 w-full rounded-md border-2 border-dotted border-gray-400 hover:cursor-pointer bg-gray-50">
                     <input
                         type="file"
                         accept="image/gif, image/jpeg, image/png, image/webp"
-                        className="absolute z-10 h-full w-full opacity-0"
-                        onChange={handleFile}
+                        className="absolute z-10 h-full w-full opacity-0 cursor-pointer"
+                        onChange={handleFileChange}
+                        id={registerName}
                     />
-
-                    <div className="z-1 absolute top-0 flex h-full w-full flex-col items-center justify-center bg-gray-200 px-2">
-                        <i className="mdi mdi-folder-open text-center text-[30px] text-gray-400"></i>
+                    <div className="flex flex-col items-center text-center justify-center text-gray-400">
+                        <i className="mdi mdi-folder-open text-[30px]"></i>
                         <span className="text-[12px]">
                             {t('drag_and_drop_file')}
                         </span>
                     </div>
                 </div>
-            )}
-
-            {image && (
-                <div className="z-1 relative flex h-32 w-full cursor-pointer items-center justify-center overflow-hidden rounded-md border-2  border-dotted border-gray-400 bg-gray-200 shadow-md">
-                    <figure className="flex h-32 flex-row items-center gap-2">
-                        <Image
-                            width={128}
-                            height={128}
-                            className="h-full w-full rounded"
-                            src={image}
-                            loader={() => image}
-                            alt={''}
-                        />
-                    </figure>
-
-                    <div
-                        onClick={() => {
-                            removeImageClick();
-                        }}
-                        className="absolute right-0 top-0 mr-1 mt-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-sm bg-red-400 object-right-top"
-                    >
-                        <i className="mdi mdi-trash-can text-[16px] text-white">
-                            x
-                        </i>
-                    </div>
+            ) : (
+                <div className="relative flex flex-col items-center w-full">
+                    <FilePreviewBlurImage
+                        image={image}
+                        removeImageClick={handleRemoveImage}
+                    />
                 </div>
             )}
 

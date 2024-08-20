@@ -144,7 +144,7 @@ export function DeleteProductModal({
                 formData.append(`awards[${index}].img_url`, award.img_url);
             });
 
-            const deleteAwardsUrl = `${baseUrl}/api/products/awards`;
+            const deleteAwardsUrl = `${baseUrl}/api/products/awards/file`;
 
             // Delete Awards Fetch
             const responseAwards = await fetch(deleteAwardsUrl, {

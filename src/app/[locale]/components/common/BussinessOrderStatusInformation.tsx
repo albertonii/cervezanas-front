@@ -22,10 +22,10 @@ const BusinessOrderStatusInformation = ({ bOrders, order }: Props) => {
 
     useEffect(() => {
         // Dependiendo del estado de los business orders, el estado del pedido será:
-        // El orden de prioridades que debe seguir los estados es 1. pending, 2. processing, 3. in_transit, 4. shipped 5. delivered
+        // El orden de prioridades que debe seguir los estados es 1. pending, 2. processing, 3. shipped 4. delivered
         // Por lo que, si todos los business_orders alcanzan el mismo estado, lo mostrarán. Pero si hay alguno que tenga un estado "inferior" la orden de compra tendrá el estado inferior de todos ellos.
         // Por ejemplo, si hay 3 business_orders con estado "processing" y 1 con estado "pending", el estado de la orden de compra será "pending"
-        // Si hay 3 business_orders con estado "in_transit" y 1 con estado "shipped", el estado de la orden de compra será "in_transit"
+        // Si hay 3 business_orders con estado "proccessing" y 1 con estado "shipped", el estado de la orden de compra será "processing"
         // Si hay 3 business_orders con estado "shipped" y 1 con estado "delivered", el estado de la orden de compra será "shipped"
         // Si hay 3 business_orders con estado "delivered" y 1 con estado "processing", el estado de la orden de compra será "processing"
 
@@ -33,11 +33,10 @@ const BusinessOrderStatusInformation = ({ bOrders, order }: Props) => {
         const statusWeight = new Map([
             ['pending', 1],
             ['processing', 2],
-            ['in_transit', 3],
-            ['shipped', 4],
-            ['delivered', 5],
-            ['cancelled', 6],
-            ['error', 7],
+            ['shipped', 3],
+            ['delivered', 4],
+            ['cancelled', 5],
+            ['error', 6],
         ]);
 
         // Obtenemos el estado de la orden de compra

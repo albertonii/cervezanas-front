@@ -436,7 +436,6 @@
     "status_accepted": "Accepted",
     "status_error": "Error",
     "status_cancelled": "Cancelled",
-    "status_in_transit": "In transit",
     "payment_information": "Payment Information",
     "ending_with": "Ending with ",
     "expires_at": "Expires ",
@@ -654,6 +653,7 @@
         "input_number_max_2030": "The number must be less than or equal to 2030",
         "input_char_min_2": "The field must have at least 2 characters",
         "input_char_max_50": "The field must have at least 50 characters",
+        "input_char_max_100": "The field must have less than 100 characters",
         "input_char_max_150": "The field must have less than 150 characters",
         "input_char_max_500": "The field must have less than 500 characters",
         "input_char_max_2500": "The field must have less than 2500 characters",
@@ -771,7 +771,6 @@
         "register_legal_age": "You must be of legal age to register"
     },
     "cancelled": "Cancelled",
-    "in_transit": "In transit",
     "select_all_countries_by_region": "Select all countries by region",
     "select_all_cities_by_region": "Select all cities by region",
     "select_all_regions": "Select all regions",

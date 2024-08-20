@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { SupabaseProps } from '@/constants';
-import { generateFileNameExtension } from '@/utils/utils';
 import createServerClient from '@/utils/supabaseServer';
+import { SupabaseProps } from '@/constants';
+import { NextRequest, NextResponse } from 'next/server';
+import { generateFileNameExtension } from '@/utils/utils';
+import { ModalUpdateProductAwardFormData } from '@/lib/types/types';
 
 export async function PUT(request: NextRequest) {
     try {
@@ -19,50 +20,40 @@ export async function PUT(request: NextRequest) {
 
         for (let i = 0; i < awardsSize; i++) {
             const award = {
+                id: formData.get(`awards[${i}].id`) as string,
                 name: formData.get(`awards[${i}].name`) as string,
                 description: formData.get(`awards[${i}].description`) as string,
                 year: parseInt(formData.get(`awards[${i}].year`) as string),
                 img_url: formData.get(`awards[${i}].img_url`) as File,
+                img_url_changed:
+                    formData.get(`awards[${i}].img_url_changed`) === 'true',
+                img_url_from_db: formData.get(
+                    `awards[${i}].img_url_from_db`,
+                ) as string,
             };
 
             awards.push(award);
         }
 
-        // Awards Insert
+        // Update or insert Awards
         if (awards && awards.length > 0) {
-            // Remove previous images storaged in Supabase Bucket for that productID
-            // 1. Get list of files in the folder
-            const { data: awardList, error: errorAwardList } =
-                await supabase.storage
-                    .from('products')
-                    .list(`${SupabaseProps.AWARDS_URL}${productId}`);
-
-            if (errorAwardList) {
-                return NextResponse.json(
-                    { message: 'Error getting awards list to remove' },
-                    { status: 500 },
-                );
-            }
-
-            const filesToRemove = awardList.map(
-                (x) => `${SupabaseProps.AWARDS_URL}${productId}/${x.name}`,
-            );
-
-            if (filesToRemove.length > 0) {
-                const { error: errorRemoveAwardList } = await supabase.storage
-                    .from('products')
-                    .remove(filesToRemove);
-
-                if (errorRemoveAwardList) {
-                    return NextResponse.json(
-                        { message: 'Error removing awards list' },
-                        { status: 500 },
-                    );
-                }
-            }
-
-            // 2. Insert new images
             awards.map(async (award, index) => {
+                // 1. Remove previous image if award url has changed
+                if (award.img_url_changed) {
+                    const { error: awardError } = await supabase.storage
+                        .from('products')
+                        .remove([
+                            `${decodeURIComponent(award.img_url_from_db)}`,
+                        ]);
+
+                    if (awardError) {
+                        return NextResponse.json(
+                            { message: 'Error deleting award image' },
+                            { status: 500 },
+                        );
+                    }
+                }
+
                 const fileName = `${SupabaseProps.AWARDS_URL}${productId}/${randomUUID}_${index}`;
                 const award_url = encodeURIComponent(
                     `${fileName}${generateFileNameExtension(
@@ -70,56 +61,119 @@ export async function PUT(request: NextRequest) {
                     )}`,
                 );
 
-                const { error: awardError } = await supabase
-                    .from('awards')
-                    .update({
+                // 2. Insert or Update new images
+                // Update because it has an id so it exists in the DB
+                if (award.id) {
+                    const updateData: ModalUpdateProductAwardFormData = {
                         product_id: productId,
                         name: award.name,
                         description: award.description,
                         year: award.year,
-                        img_url: award_url,
-                    })
-                    .eq('product_id', productId);
+                    };
 
-                if (awardError) {
-                    return NextResponse.json(
-                        { message: 'Error creating award' },
-                        { status: 500 },
-                    );
-                }
+                    // Solo agregar img_url si img_url_changed es true
+                    if (award.img_url_changed) {
+                        updateData.img_url = award_url;
+                    }
 
-                const { error: awardMultError } = await supabase.storage
-                    .from('products')
-                    .upload(
-                        `${fileName}${generateFileNameExtension(
-                            award.img_url.name,
-                        )}`,
-                        award.img_url,
-                        {
-                            contentType: award.img_url.type,
-                            cacheControl: '3600',
-                            upsert: false,
-                        },
-                    );
-
-                if (awardMultError) {
-                    // Delete previously created product award
-                    const { error: deleteError } = await supabase
+                    const { error: awardError } = await supabase
                         .from('awards')
-                        .delete()
-                        .eq('product_id', productId);
+                        .update(updateData)
+                        .eq('id', award.id);
 
-                    if (deleteError) {
+                    if (awardError) {
                         return NextResponse.json(
-                            { message: 'Error deleting product award' },
+                            { message: 'Error creating award' },
                             { status: 500 },
                         );
                     }
 
-                    return NextResponse.json(
-                        { message: 'Error uploading award image' },
-                        { status: 500 },
-                    );
+                    if (award.img_url_changed) {
+                        const { error: awardMultError } = await supabase.storage
+                            .from('products')
+                            .upload(
+                                `${fileName}${generateFileNameExtension(
+                                    award.img_url.name,
+                                )}`,
+                                award.img_url,
+                                {
+                                    contentType: award.img_url.type,
+                                    cacheControl: '3600',
+                                    upsert: false,
+                                },
+                            );
+
+                        if (awardMultError) {
+                            // Delete previously created product award
+                            const { error: deleteError } = await supabase
+                                .from('awards')
+                                .delete()
+                                .eq('product_id', productId);
+
+                            if (deleteError) {
+                                return NextResponse.json(
+                                    { message: 'Error deleting product award' },
+                                    { status: 500 },
+                                );
+                            }
+
+                            return NextResponse.json(
+                                { message: 'Error uploading award image' },
+                                { status: 500 },
+                            );
+                        }
+                    }
+                } else {
+                    const { error: awardError } = await supabase
+                        .from('awards')
+                        .insert({
+                            product_id: productId,
+                            name: award.name,
+                            description: award.description,
+                            year: award.year,
+                            img_url: award_url,
+                        });
+
+                    if (awardError) {
+                        return NextResponse.json(
+                            { message: 'Error creating award' },
+                            { status: 500 },
+                        );
+                    }
+
+                    const { error: awardMultError } = await supabase.storage
+                        .from('products')
+                        .upload(
+                            `${fileName}${generateFileNameExtension(
+                                award.img_url.name,
+                            )}`,
+                            award.img_url,
+                            {
+                                contentType: award.img_url.type,
+                                cacheControl: '3600',
+                                upsert: false,
+                            },
+                        );
+
+                    if (awardMultError) {
+                        // Delete previously created product award
+                        const { error: deleteError } = await supabase
+                            .from('awards')
+                            .delete()
+                            .eq('product_id', productId);
+
+                        if (deleteError) {
+                            return NextResponse.json(
+                                { message: 'Error deleting product award' },
+                                { status: 500 },
+                            );
+                        }
+
+                        return NextResponse.json(
+                            { message: 'Error uploading award image' },
+                            { status: 500 },
+                        );
+                    }
                 }
             });
         }
@@ -143,6 +197,7 @@ export async function DELETE(request: NextRequest) {
     const awardsSize = parseInt(formData.get('awards_size') as string);
 
     for (let i = 0; i < awardsSize; i++) {
+        const awardId = formData.get(`awards[${i}].id`) as string;
         const awardUrl = formData.get(`awards[${i}].img_url`) as string;
 
         const { error: awardError } = await supabase.storage
@@ -152,6 +207,18 @@ export async function DELETE(request: NextRequest) {
         if (awardError) {
             return NextResponse.json(
                 { message: 'Error deleting award image' },
+                { status: 500 },
+            );
+        }
+
+        const { error: awardMultError } = await supabase
+            .from('awards')
+            .delete()
+            .eq('id', awardId);
+
+        if (awardMultError) {
+            return NextResponse.json(
+                { message: 'Error deleting award' },
                 { status: 500 },
             );
         }

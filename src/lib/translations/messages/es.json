@@ -435,7 +435,6 @@
     "status_accepted": "Aceptado",
     "status_error": "Error",
     "status_cancelled": "Cancelado",
-    "status_in_transit": "En tránsito",
     "payment_information": "Información de pago",
     "ending_with": "Terminada en ",
     "expires_at": "Caduca el ",
@@ -648,6 +647,7 @@
         "input_number_max_2030": "El número debe ser menor o igual a 2030",
         "input_char_min_2": "El campo debe tener al menos 2 caracteres",
         "input_char_max_50": "El campo debe tener menos de 50 caracteres",
+        "input_char_max_100": "El campo debe tener menos de 100 caracteres",
         "input_char_max_150": "El campo debe tener menos de 150 caracteres",
         "input_char_max_500": "El campo debe tener menos de 500 caracteres",
         "input_char_max_2500": "El campo debe tener menos de 2500 caracteres",
@@ -772,7 +772,6 @@
         "user_already_registered": "El usuario ya está registrado"
     },
     "cancelled": "Cancelado",
-    "in_transit": "En tránsito",
     "select_all_countries_by_region": "Seleccionar todos los países de la región",
     "select_all_countries": "Seleccionar todos los países",
     "select_all_cities_by_region": "Seleccionar todas las ciudades de la región",
@@ -1122,5 +1121,7 @@
     "srm": "SRM",
     "ebc": "EBC",
     "original_gravity": "Gravedad Original (OG)",
-    "final_gravity": "Gravedad Final (FG)"
+    "final_gravity": "Gravedad Final (FG)",
+    "og_tooltip": "La Gravedad Original (OG, por sus siglas en inglés) se refiere a la densidad específica del mosto (la mezcla de agua y maltas antes de la fermentación) antes de que comience el proceso de fermentación. Esta medida indica la cantidad de azúcares fermentables y otros sólidos disueltos presentes en el mosto. La diferencia entre la Gravedad Original y la Gravedad Final se utiliza para calcular el contenido de alcohol por volumen (ABV) de la cerveza. ",
+    "fg_tooltip": "La Gravedad Final (FG, por sus siglas en inglés) es la densidad específica de la cerveza después de que la fermentación ha concluido. Indica la cantidad de azúcares residuales y otros componentes no fermentables que permanecen en la cerveza terminada. La diferencia entre la Gravedad Original y la Gravedad Final se utiliza para calcular el contenido de alcohol por volumen (ABV) de la cerveza. "
 }

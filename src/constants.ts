@@ -56,7 +56,6 @@ export const ONLINE_ORDER_STATUS = {
 export const DISTRIBUTOR_ONLINE_ORDER_STATUS = {
     PENDING: 'pending',
     PROCESSING: 'processing',
-    IN_TRANSIT: 'in_transit',
     SHIPPED: 'shipped',
     DELIVERED: 'delivered',
     CANCELLED: 'cancelled',
@@ -115,6 +114,7 @@ export const SupabaseProps = {
     P_EXTRA_3_URL: 'p_extra_3/',
     P_EXTRA_4_URL: 'p_extra_4/',
     ARTICLES: 'articles/',
+    BASE_STORAGE_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/`,
     BASE_AVATARS_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/`,
     BASE_PRODUCTS_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/products/`,
     BASE_DOCUMENTS_URL: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/documents/`,

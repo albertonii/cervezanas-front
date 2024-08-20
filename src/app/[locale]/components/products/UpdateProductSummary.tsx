@@ -1,24 +1,32 @@
 import React from 'react';
 import { FieldError, UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
+import { SupabaseProps } from '@/constants';
+import { ModalUpdateProductFormData } from '@/lib//types/types';
 import { formatCurrency } from '@/utils/formatCurrency';
+import { FilePreviewImageMultimedia } from '@/app/[locale]/components/common/FilePreviewImageMultimedia';
+import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 import { FilePreview } from '../common/FilePreview';
-import { ModalAddProductFormData } from '@/lib//types/types';
 import {
     color_options,
     family_options,
     fermentation_options,
-} from '@/lib//beerEnum';
-import { DisplayInputError } from '../common/DisplayInputError';
+} from '@/lib/beerEnum';
 
 interface Props {
-    form: UseFormReturn<ModalAddProductFormData, any>;
+    form: UseFormReturn<ModalUpdateProductFormData, any>;
 }
 
-export function ProductSummary({ form: { getValues, formState } }: Props) {
+export function UpdateProductSummary({ form }: Props) {
     const t = useTranslations();
 
-    const { errors } = formState;
+    const {
+        getValues,
+        formState: { errors },
+    } = form;
+
+    const preUrl =
+        SupabaseProps.BASE_URL + SupabaseProps.STORAGE_PRODUCTS_IMG_URL;
 
     const fermentationLabel = t(
         fermentation_options[getValues('fermentation')].label,
@@ -93,18 +101,19 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                         <ul className="list-disc list-inside text-md text-red-600">
                             {Object.keys(errors).map((key, index) => {
                                 const field =
-                                    key as keyof ModalAddProductFormData;
+                                    key as keyof ModalUpdateProductFormData;
                                 return renderError(field, errors[field]);
                             })}
                         </ul>
                     </div>
                 )}
 
-                {/* Public */}
-                <div className="flex flex-row gap-4">
+                {/* Public  */}
+                <div className="flex flex-row gap-2">
                     <label className="text-md font-semibold text-gray-600">
                         {t('is_public')}
                     </label>
+
                     <span className="text-md">
                         {getValues('is_public') ? t('yes') : t('no')}
                     </span>
@@ -112,19 +121,21 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
 
                 {/* Añadir border y demás  */}
                 <div className="flex flex-col gap-4 p-6 bg-white rounded-lg shadow-md border border-gray-200">
-                    {/* Name */}
-                    <div className="flex flex-row gap-4">
+                    {/* Name  */}
+                    <div className="flex flex-row gap-2">
                         <label className="text-md font-semibold text-gray-600">
                             {t('name_label')}
                         </label>
+
                         <span className="text-md">{getValues('name')}</span>
                     </div>
 
-                    {/* Description */}
-                    <div className="flex flex-row gap-4">
+                    {/* Description  */}
+                    <div className="flex flex-row gap-2">
                         <label className="text-md font-semibold text-gray-600">
                             {t('description')}
                         </label>
+
                         <span className="text-md">
                             {getValues('description')}
                         </span>
@@ -226,7 +237,7 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                                 key={index}
                                 className="flex flex-row gap-2 space-y-4 rounded border p-2 justify-between"
                             >
-                                <div className="flex flex-row justify-between">
+                                <div className="flex flex-col justify-between">
                                     <div className="flex flex-col">
                                         <label className="text-md font-semibold text-gray-600">
                                             {t('pack_name')}
@@ -245,8 +256,6 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                                             {pack.quantity}
                                         </span>
                                     </div>
-                                </div>
-                                <div className="flex flex-row justify-between">
                                     <div className="flex flex-col">
                                         <label className="text-md font-semibold text-gray-600">
                                             {t('pack_price')} €
@@ -255,6 +264,9 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                                             {formatCurrency(pack.price)}
                                         </span>
                                     </div>
+                                </div>
+
+                                <div className="flex flex-row justify-between">
                                     <div className="flex flex-col">
                                         <label className="text-md font-semibold text-gray-600">
                                             {t('pack_img_url')}
@@ -263,8 +275,10 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                                             {pack.img_url.length === 0 ? (
                                                 t('unassigned')
                                             ) : (
-                                                <FilePreview
-                                                    file={pack.img_url[0]}
+                                                <FilePreviewImageMultimedia
+                                                    form={form}
+                                                    registerName={`packs.${index}.img_url`}
+                                                    preUrl={preUrl}
                                                 />
                                             )}
                                         </span>
@@ -286,44 +300,53 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                                 className="flex flex-col gap-2 space-y-4 rounded border p-2"
                             >
                                 <div className="flex flex-row justify-between">
-                                    <div className="flex flex-col">
+                                    <div className="space-x-2">
                                         <label className="text-md font-semibold text-gray-600">
                                             {t('award_name')}
                                         </label>
+
                                         <span className="text-md">
                                             {award.name.length === 0
                                                 ? t('unassigned')
                                                 : award.name}
                                         </span>
                                     </div>
-                                    <div className="flex flex-col">
+
+                                    <div className="space-x-2">
                                         <label className="text-md font-semibold text-gray-600">
                                             {t('description')}
                                         </label>
+
                                         <span className="text-md">
                                             {award.description}
                                         </span>
                                     </div>
                                 </div>
+
                                 <div className="flex flex-row justify-between">
-                                    <div className="flex flex-col">
+                                    <div className="space-x-2">
                                         <label className="text-md font-semibold text-gray-600">
                                             {t('award_year')}
                                         </label>
+
                                         <span className="text-md">
                                             {award.year}
                                         </span>
                                     </div>
-                                    <div className="flex flex-col">
+
+                                    <div className="space-x-2">
                                         <label className="text-md font-semibold text-gray-600">
                                             {t('award_img_url')}
                                         </label>
+
                                         <span className="text-md">
                                             {award.img_url.length === 0 ? (
                                                 t('unassigned')
                                             ) : (
-                                                <FilePreview
-                                                    file={award.img_url[0]}
+                                                <FilePreviewImageMultimedia
+                                                    form={form}
+                                                    registerName={`awards.${index}.img_url`}
+                                                    preUrl={preUrl}
                                                 />
                                             )}
                                         </span>

@@ -21,7 +21,7 @@ export async function PUT(request: NextRequest) {
 
         const supabase = await createServerClient();
 
-        const randomUUID = generateUUID();
+        const randomUUID = await generateUUID();
 
         if (multimediaType === MULTIMEDIA.P_PRINCIPAL) {
             // First remove previous image storaged in Supabase Bucket

@@ -23,7 +23,7 @@ const fetchProductsByOwner = async (
                 product_lots (*),
                 beers (*),
                 product_packs (*),
-                awards(*),
+                awards (*),
                 box_packs (
                     *,
                     box_pack_items (
@@ -60,13 +60,7 @@ const useFetchProductsByOwnerAndPagination = (
     const { supabase, user } = useAuth();
 
     return useQuery({
-        queryKey: [
-            'productList',
-            currentPage,
-            resultsPerPage,
-            isArchived,
-            user.id,
-        ],
+        queryKey: ['productList'],
         queryFn: () =>
             fetchProductsByOwner(
                 currentPage,

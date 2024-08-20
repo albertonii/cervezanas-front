@@ -29,21 +29,14 @@ export default function DistributorOnlineTimelineStatusBar({
             <div
                 className={`h-2  ${
                     status === DISTRIBUTOR_ONLINE_ORDER_STATUS.PROCESSING &&
-                    'w-[30%] bg-beer-blonde '
-                }`}
-            ></div>
-
-            <div
-                className={`h-2   ${
-                    status === DISTRIBUTOR_ONLINE_ORDER_STATUS.IN_TRANSIT &&
-                    'w-[50%] bg-beer-blonde'
+                    'w-[40%] bg-beer-blonde '
                 }`}
             ></div>
 
             <div
                 className={`h-2 rounded-r-full ${
                     status === DISTRIBUTOR_ONLINE_ORDER_STATUS.SHIPPED &&
-                    'w-[70%] bg-beer-blonde'
+                    'w-[65%] bg-beer-blonde'
                 }`}
             ></div>
 

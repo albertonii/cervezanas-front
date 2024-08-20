@@ -111,7 +111,7 @@ export function AddCampaign() {
         const startDateToString = start_date?.toISOString();
         const endDateToString = end_date?.toISOString();
 
-        // const randomUUID = generateUUID();
+        // const randomUUID = await generateUUID();
 
         // const filename = `campaign/${user.id}/${randomUUID}`;
         let campaign_img_url = '';

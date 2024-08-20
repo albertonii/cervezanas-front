@@ -23,6 +23,7 @@ interface Props {
         valueAsDate?: boolean;
         value?: any;
         shouldBeDirty?: boolean;
+        setValueAs?: (value: any) => void;
     };
     inputType?: string;
     infoTooltip?: string;

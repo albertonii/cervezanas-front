@@ -16,7 +16,7 @@ interface Props {
 
 const UpdateTechnicalInfoSection = ({ form }: Props) => {
     const t = useTranslations();
-    const { setValue, getValues } = form;
+    const { setValue, getValues, register } = form;
 
     const [ingredients, setIngredients] = useState<string[]>(
         getValues('ingredients') ?? [],
@@ -59,7 +59,9 @@ const UpdateTechnicalInfoSection = ({ form }: Props) => {
                         form={form}
                         label={'hops_type'}
                         labelText={'hops_type'}
-                        registerOptions={{}}
+                        registerOptions={{
+                            required: false,
+                        }}
                         inputType="text"
                         infoTooltip={t('hops_type_tooltip')}
                     />
@@ -68,7 +70,9 @@ const UpdateTechnicalInfoSection = ({ form }: Props) => {
                         form={form}
                         label={'malt_type'}
                         labelText={'malt_type'}
-                        registerOptions={{}}
+                        registerOptions={{
+                            required: false,
+                        }}
                         inputType="text"
                         infoTooltip={t('malt_type_tooltip')}
                     />
@@ -82,20 +86,31 @@ const UpdateTechnicalInfoSection = ({ form }: Props) => {
                         label={'recommended_glass'}
                         optionLabelTranslationPrefix={'glass_type.'}
                         registerOptions={{
-                            required: true,
+                            required: false,
                             valueAsNumber: true,
                         }}
                     />
 
-                    {/* Consumption Recommended Temperatura */}
+                    {/* Recommended Consumption Temperature */}
                     <InputLabel
                         form={form}
                         label={'consumption_temperature'}
                         labelText={'consumption_temperature'}
                         registerOptions={{
+                            required: false,
                             min: 0,
                             max: 100,
-                            valueAsNumber: true,
+                            setValueAs: (value) => {
+                                if (
+                                    value === '' ||
+                                    value === null ||
+                                    value === undefined
+                                )
+                                    return null;
+                                return isNaN(parseFloat(value))
+                                    ? null
+                                    : parseFloat(value);
+                            },
                         }}
                         inputType="number"
                     />
@@ -129,9 +144,20 @@ const UpdateTechnicalInfoSection = ({ form }: Props) => {
                         label={'srm'}
                         labelText={'srm'}
                         registerOptions={{
+                            required: false,
                             min: 0,
                             max: 100,
-                            valueAsNumber: true,
+                            setValueAs: (value) => {
+                                if (
+                                    value === '' ||
+                                    value === null ||
+                                    value === undefined
+                                )
+                                    return null;
+                                return isNaN(parseFloat(value))
+                                    ? null
+                                    : parseFloat(value);
+                            },
                         }}
                         inputType="number"
                         infoTooltip={t('srm_tooltip')}
@@ -142,9 +168,20 @@ const UpdateTechnicalInfoSection = ({ form }: Props) => {
                         label={'ebc'}
                         labelText={'ebc'}
                         registerOptions={{
+                            required: false,
                             min: 0,
                             max: 100,
-                            valueAsNumber: true,
+                            setValueAs: (value) => {
+                                if (
+                                    value === '' ||
+                                    value === null ||
+                                    value === undefined
+                                )
+                                    return null;
+                                return isNaN(parseFloat(value))
+                                    ? null
+                                    : parseFloat(value);
+                            },
                         }}
                         inputType="number"
                         infoTooltip={t('ebc_tooltip')}
@@ -158,9 +195,20 @@ const UpdateTechnicalInfoSection = ({ form }: Props) => {
                         label={'og'}
                         labelText={'original_gravity'}
                         registerOptions={{
+                            required: false,
                             min: 0,
                             max: 100,
-                            valueAsNumber: true,
+                            setValueAs: (value) => {
+                                if (
+                                    value === '' ||
+                                    value === null ||
+                                    value === undefined
+                                )
+                                    return null;
+                                return isNaN(parseFloat(value))
+                                    ? null
+                                    : parseFloat(value);
+                            },
                         }}
                         inputType="number"
                         infoTooltip={t('og_tooltip')}
@@ -171,9 +219,20 @@ const UpdateTechnicalInfoSection = ({ form }: Props) => {
                         label={'fg'}
                         labelText={'final_gravity'}
                         registerOptions={{
+                            required: false,
                             min: 0,
                             max: 100,
-                            valueAsNumber: true,
+                            setValueAs: (value) => {
+                                if (
+                                    value === '' ||
+                                    value === null ||
+                                    value === undefined
+                                )
+                                    return null;
+                                return isNaN(parseFloat(value))
+                                    ? null
+                                    : parseFloat(value);
+                            },
                         }}
                         inputType="number"
                         infoTooltip={t('fg_tooltip')}

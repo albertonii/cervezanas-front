@@ -243,6 +243,17 @@ export interface IAward {
     products?: IProduct;
 }
 
+export interface IAwardUpdateForm {
+    id?: string; // Este ID se convierte en el ID que asigna el key al hacer loop en UpdateProductModal
+    award_id?: string;
+    name: string;
+    description: string;
+    img_url: any;
+    year: number;
+    product_id: string;
+    products?: IProduct;
+}
+
 export interface IProductMultimedia {
     product_id: string; // PK
     p_principal: string;
@@ -765,22 +776,22 @@ export type ModalAddProductFormData = {
     fermentation: number;
     color: number;
     intensity: number;
+    ibu: number;
     aroma: number;
     family: number;
     is_gluten: boolean;
     type: string;
     ingredients?: string[];
-    pairing?: string;
+    pairing?: string | null;
     recommended_glass?: number;
-    brewers_note?: string;
-    ibu: number;
-    srm?: number;
-    ebc?: number;
-    og?: number;
-    fg?: number;
-    hops_type?: string;
-    malt_type?: string;
-    consumption_temperature?: number;
+    brewers_note?: string | null;
+    og?: number | null;
+    fg?: number | null;
+    srm?: number | null;
+    ebc?: number | null;
+    hops_type?: string | null;
+    malt_type?: string | null;
+    consumption_temperature?: number | null;
     volume: number;
     weight: number;
     format: string;
@@ -813,16 +824,16 @@ export type ModalUpdateProductFormData = {
     is_gluten: boolean;
     type: string;
     ingredients?: string[];
-    pairing?: string;
+    pairing?: string | null;
     recommended_glass?: RecommendedGlass;
-    brewers_note?: string;
-    og?: number;
-    fg?: number;
-    srm?: number;
-    ebc?: number;
-    hops_type?: string;
-    malt_type?: string;
-    consumption_temperature?: number;
+    brewers_note?: string | null;
+    og?: number | null;
+    fg?: number | null;
+    srm?: number | null;
+    ebc?: number | null;
+    hops_type?: string | null;
+    malt_type?: string | null;
+    consumption_temperature?: number | null;
     p_principal?: any;
     p_back?: any;
     p_extra_1?: any;
@@ -854,6 +865,8 @@ type ModalUpdateProductAwardFormData = {
     name: string;
     description: string;
     img_url?: any;
+    img_url_changed?: boolean;
+    img_url_from_db?: string;
     year: number;
     product_id?: string;
 };

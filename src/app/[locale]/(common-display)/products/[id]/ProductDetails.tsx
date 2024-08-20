@@ -10,6 +10,7 @@ import { formatCurrency } from '@/utils/formatCurrency';
 import { ICarouselItem, IProduct } from '@/lib//types/types';
 import { handleProductLike } from '../actions';
 import ProductPropierties from './ProductPropierties';
+import ProductAwardsInformation from './ProductAwardsInformation';
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 
@@ -111,18 +112,25 @@ export default function ProductDetails({ product, reviewRef }: Props) {
 
     return (
         <>
-            <section
-                className="
-                    aspect-w-2 aspect-h-3 col-span-12 mx-6 flex h-[100%] items-start justify-center rounded-lg max-h-[800px] bg-beer-softBlonde bg-[url('/assets/madera.webp')]
-                    bg-cover bg-top bg-repeat-y md:overflow-hidden lg:col-span-4
-                "
+            <div
+                className="col-span-12 mx-6  h-[100%] items-start justify-center  md:overflow-hidden lg:col-span-4 space-y-4 rounded-lg max-h-[1000px] 
+                    bg-beer-softBlonde bg-[url('/assets/madera.webp')] bg-cover bg-top bg-repeat-y"
             >
-                <ProductGallery
-                    gallery={gallery}
-                    isLike={isLike}
-                    handleSetIsLike={handleSetIsLike}
-                />
-            </section>
+                <section className="aspect-w-2 aspect-h-3 flex">
+                    <ProductGallery
+                        gallery={gallery}
+                        isLike={isLike}
+                        handleSetIsLike={handleSetIsLike}
+                    />
+                </section>
+
+                {/* Product Awards  */}
+                {product.awards && product.awards.length > 0 && (
+                    <div className="px-4">
+                        <ProductAwardsInformation awards={product.awards} />
+                    </div>
+                )}
+            </div>
 
             <section className="col-span-12 mx-6 space-y-4 bg-[url('/assets/rec-graf2b.webp')] bg-auto bg-top bg-no-repeat lg:col-span-8">
                 <section className="flex flex-col sm:flex-row sm:justify-between">
@@ -216,7 +224,9 @@ export default function ProductDetails({ product, reviewRef }: Props) {
                     {t('product_description')}
                 </h3>
 
-                <p className="text-gray-900 max-w-[90%]">{product.description}</p>
+                <p className="text-gray-900 max-w-[90%]">
+                    {product.description}
+                </p>
             </section>
         </>
     );

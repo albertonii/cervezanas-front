@@ -3,17 +3,17 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Spinner from '@/app/[locale]/components/common/Spinner';
+import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
 import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
-import React, { ComponentProps, useMemo, useState } from 'react';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { useLocale, useTranslations } from 'next-intl';
+import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
 import { IProduct } from '@/lib//types/types';
-import { EditButton } from '@/app/[locale]/components/common/EditButton';
+import { useLocale, useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { EditButton } from '@/app/[locale]/components/common/EditButton';
+import { InfoTooltip } from '@/app/[locale]/components/common/InfoTooltip';
 import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
 import { ArchiveButton } from '@/app/[locale]/components/common/ArchiveButton';
-import { InfoTooltip } from '@/app/[locale]/components/common/InfoTooltip';
-import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
 
 interface Props {
     handleEditShowModal: ComponentProps<any>;
@@ -35,25 +35,39 @@ export function ProductList({
     const t = useTranslations();
     const locale = useLocale();
 
+    const [products, setProducts] = useState<IProduct[] | null>([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const resultsPerPage = 5;
 
-    const {
-        data: ps,
-        isError,
-        isLoading,
-    } = useFetchProductsByOwnerAndPagination(
-        currentPage,
-        resultsPerPage,
-        false,
-    );
+    const resultsPerPage = 10;
 
-    const products = ps?.filter((product) => !product.is_archived);
+    const { data, isError, isLoading, refetch } =
+        useFetchProductsByOwnerAndPagination(
+            currentPage,
+            resultsPerPage,
+            false,
+        );
+
+    useEffect(() => {
+        console.log('LISTADO', data);
+        setProducts(data as IProduct[]);
+    }, [data]);
+
+    useEffect(() => {
+        refetch().then((res: any) => {
+            const data = res.data as IProduct[];
+            const products =
+                data?.filter((product) => !product.is_archived) ?? [];
+            setProducts(products);
+        });
+
+        return () => {};
+    }, [currentPage]);
 
     const columns = [
         {
             header: t('product_type_header'),
             accessor: 'type',
+            sortable: true,
             render: (_: any, row: IProduct) => (
                 <Image
                     width={32}
@@ -67,6 +81,7 @@ export function ProductList({
         {
             header: t('name_header'),
             accessor: 'name',
+            sortable: true,
             render: (name: string, row: IProduct) => (
                 <Link href={`/products/${row.id}`} locale={locale}>
                     <span className="font-semibold text-beer-blonde hover:text-beer-draft">
@@ -86,27 +101,32 @@ export function ProductList({
         {
             header: t('price_header'),
             accessor: 'price',
+            sortable: true,
             render: (price: number) => formatCurrency(price),
         },
         {
             header: t('num_of_packs'),
             accessor: 'product_packs',
+            sortable: true,
             render: (product_packs: any[]) => product_packs.length,
         },
         {
             header: t('stock_header'),
             accessor: 'product_inventory',
+            sortable: true,
             render: (product_inventory: any) =>
                 product_inventory?.quantity ?? '-',
         },
         {
             header: t('lot_header'),
             accessor: 'product_lots',
+            sortable: true,
             render: (product_lots: any[]) => product_lots[0]?.lot_id ?? '-',
         },
         {
             header: t('public_header'),
             accessor: 'is_public',
+            sortable: true,
             render: (is_public: boolean) => (is_public ? t('yes') : t('no')),
         },
         {

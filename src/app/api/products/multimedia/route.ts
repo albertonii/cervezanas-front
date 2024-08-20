@@ -21,7 +21,7 @@ export async function PUT(request: NextRequest) {
 
         const supabase = await createServerClient();
 
-        const randomUUID = generateUUID();
+        const randomUUID = await generateUUID();
 
         if (multimediaType === MULTIMEDIA.P_PRINCIPAL) {
             // First remove previous image storaged in Supabase Bucket
@@ -57,25 +57,23 @@ export async function PUT(request: NextRequest) {
 
             // 4. Update product_multimedia with new image
             const fileName = `${SupabaseProps.ARTICLES}${productId}${ROUTE_P_PRINCIPAL}/${randomUUID}`;
-
-            const p_principal_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(multimedia.name)}`,
-            );
+            const fileExt = generateFileNameExtension(multimedia.name);
+            const p_principal_url = encodeURIComponent(`${fileName}${fileExt}`);
 
             const { error } = await supabase.storage
                 .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(multimedia.name)}`,
-                    multimedia,
-                    {
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
+                .upload(`${fileName}${fileExt}`, multimedia, {
+                    cacheControl: '3600',
+                    upsert: false,
+                });
 
             if (error) {
                 return NextResponse.json(
-                    { message: 'Error uploading product multimedia image' },
+                    {
+                        message:
+                            'Error uploading product multimedia image. Error message:',
+                        error,
+                    },
                     { status: 500 },
                 );
             }
@@ -134,20 +132,16 @@ export async function PUT(request: NextRequest) {
 
             // 4. Update product_multimedia with new image
             const fileName = `${SupabaseProps.ARTICLES}${productId}${ROUTE_P_BACK}/${randomUUID}`;
-            const p_back_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(multimedia.name)}`,
-            );
+            const fileExt = generateFileNameExtension(multimedia.name);
+
+            const p_back_url = encodeURIComponent(`${fileName}${fileExt}`);
 
             const { error } = await supabase.storage
                 .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(multimedia.name)}`,
-                    multimedia,
-                    {
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
+                .upload(`${fileName}${fileExt}`, multimedia, {
+                    cacheControl: '3600',
+                    upsert: false,
+                });
             if (error) {
                 return NextResponse.json(
                     { message: 'Error uploading product multimedia image' },
@@ -209,20 +203,16 @@ export async function PUT(request: NextRequest) {
 
             // 4. Update product_multimedia with new image
             const fileName = `${SupabaseProps.ARTICLES}${productId}${ROUTE_P_BACK}/${randomUUID}`;
-            const p_extra_1_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(multimedia.name)}`,
-            );
+            const fileExt = generateFileNameExtension(multimedia.name);
+
+            const p_extra_1_url = encodeURIComponent(`${fileName}${fileExt}`);
 
             const { error } = await supabase.storage
                 .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(multimedia.name)}`,
-                    multimedia,
-                    {
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
+                .upload(`${fileName}${fileExt}`, multimedia, {
+                    cacheControl: '3600',
+                    upsert: false,
+                });
             if (error) {
                 return NextResponse.json(
                     { message: 'Error uploading product multimedia image' },
@@ -283,20 +273,16 @@ export async function PUT(request: NextRequest) {
 
             // 4. Update product_multimedia with new image
             const fileName = `${SupabaseProps.ARTICLES}${productId}${ROUTE_P_EXTRA_1}/${randomUUID}`;
-            const p_extra_1_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(multimedia.name)}`,
-            );
+            const fileExt = generateFileNameExtension(multimedia.name);
+
+            const p_extra_1_url = encodeURIComponent(`${fileName}${fileExt}`);
 
             const { error } = await supabase.storage
                 .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(multimedia.name)}`,
-                    multimedia,
-                    {
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
+                .upload(`${fileName}${fileExt}`, multimedia, {
+                    cacheControl: '3600',
+                    upsert: false,
+                });
             if (error) {
                 return NextResponse.json(
                     { message: 'Error uploading product multimedia image' },
@@ -358,20 +344,16 @@ export async function PUT(request: NextRequest) {
 
             // 4. Update product_multimedia with new image
             const fileName = `${SupabaseProps.ARTICLES}${productId}${ROUTE_P_EXTRA_2}/${randomUUID}`;
-            const p_extra_2_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(multimedia.name)}`,
-            );
+            const fileExt = generateFileNameExtension(multimedia.name);
+
+            const p_extra_2_url = encodeURIComponent(`${fileName}${fileExt}`);
 
             const { error } = await supabase.storage
                 .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(multimedia.name)}`,
-                    multimedia,
-                    {
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
+                .upload(`${fileName}${fileExt}`, multimedia, {
+                    cacheControl: '3600',
+                    upsert: false,
+                });
             if (error) {
                 return NextResponse.json(
                     { message: 'Error uploading product multimedia image' },
@@ -435,20 +417,16 @@ export async function PUT(request: NextRequest) {
 
             // 4. Update product_multimedia with new image
             const fileName = `${SupabaseProps.ARTICLES}${productId}${ROUTE_P_EXTRA_3}/${randomUUID}`;
-            const p_extra_3_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(multimedia.name)}`,
-            );
+            const fileExt = generateFileNameExtension(multimedia.name);
+
+            const p_extra_3_url = encodeURIComponent(`${fileName}${fileExt}`);
 
             const { error } = await supabase.storage
                 .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(multimedia.name)}`,
-                    multimedia,
-                    {
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
+                .upload(`${fileName}${fileExt}`, multimedia, {
+                    cacheControl: '3600',
+                    upsert: false,
+                });
             if (error) {
                 return NextResponse.json(
                     { message: 'Error uploading product multimedia image' },

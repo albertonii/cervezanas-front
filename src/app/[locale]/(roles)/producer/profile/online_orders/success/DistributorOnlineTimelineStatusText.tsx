@@ -1,5 +1,5 @@
-import { useTranslations } from 'next-intl';
 import React from 'react';
+import { useTranslations } from 'next-intl';
 import { DISTRIBUTOR_ONLINE_ORDER_STATUS } from '@/constants';
 
 interface OrderTimelineProps {
@@ -11,7 +11,7 @@ export default function ProducerOnlineTimelineStatusText({
     const t = useTranslations();
 
     return (
-        <section className="text-md mt-6 hidden grid-cols-5 sm:grid">
+        <section className="text-md mt-6 hidden grid-cols-4 sm:grid">
             <span
                 className={`${
                     status === DISTRIBUTOR_ONLINE_ORDER_STATUS.PENDING &&
@@ -38,19 +38,6 @@ export default function ProducerOnlineTimelineStatusText({
          } text-center`}
             >
                 {t('status_processing')}
-            </span>
-
-            <span
-                className={`${
-                    status === DISTRIBUTOR_ONLINE_ORDER_STATUS.IN_TRANSIT &&
-                    'font-bold text-beer-darkGold'
-                }
-         ${
-             status === DISTRIBUTOR_ONLINE_ORDER_STATUS.DELIVERED &&
-             'font-bold text-beer-darkGold'
-         } text-center`}
-            >
-                {t('status_in_transit')}
             </span>
 
             <span
