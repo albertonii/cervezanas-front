@@ -959,7 +959,8 @@
         "update_sub_region_coverage_area": "Subregion coverage area correctly updated",
         "update_region_coverage_area": "Region coverage area correctly updated",
         "update_country_coverage_area": "Country coverage area correctly updated",
-        "removing_product_multimedia": "Product multimedia removed successfully"
+        "removing_product_multimedia": "Product multimedia removed successfully",
+        "profile_rrss_data_updated": "Social networks data updated successfully"
     },
     "num_of_packs": "Number of packs",
     "promo_code": "Promo code",
@@ -1099,5 +1100,9 @@
     "ebc": "EBC",
     "original_gravity": "Original Gravity (OG)",
     "final_gravity": "Final Gravity (FG)",
-    "consumer_review_username": "Username"
+    "consumer_review_username": "Username",
+    "rrss_title_acc_data": "Social networks",
+    "rrss_ig_url_name": "Instagram",
+    "rrss_fb_url_name": "Facebook",
+    "rrss_linkedin_url_name": "LinkedIn"
 }

@@ -156,6 +156,7 @@ export interface Database {
           color: string | null
           consumption_temperature: number | null
           created_at: string | null
+          ebc: number | null
           family: string | null
           fermentation: string | null
           fg: number | null
@@ -182,6 +183,7 @@ export interface Database {
           color?: string | null
           consumption_temperature?: number | null
           created_at?: string | null
+          ebc?: number | null
           family?: string | null
           fermentation?: string | null
           fg?: number | null
@@ -208,6 +210,7 @@ export interface Database {
           color?: string | null
           consumption_temperature?: number | null
           created_at?: string | null
+          ebc?: number | null
           family?: string | null
           fermentation?: string | null
           fg?: number | null
@@ -1321,34 +1324,64 @@ export interface Database {
         Row: {
           bank_account: string | null
           company_description: string | null
+          company_email: string | null
+          company_fb: string | null
+          company_history_description: string | null
+          company_history_year: number | null
+          company_ig: string | null
+          company_linkedin: string | null
+          company_logo: string | null
           company_name: string | null
+          company_phone: number | null
+          company_website: string | null
           created_at: string | null
           id_number: string | null
           is_active: boolean | null
           is_authorized: boolean | null
           location_id: string | null
+          opening_hours: Json | null
           user_id: string
         }
         Insert: {
           bank_account?: string | null
           company_description?: string | null
+          company_email?: string | null
+          company_fb?: string | null
+          company_history_description?: string | null
+          company_history_year?: number | null
+          company_ig?: string | null
+          company_linkedin?: string | null
+          company_logo?: string | null
           company_name?: string | null
+          company_phone?: number | null
+          company_website?: string | null
           created_at?: string | null
           id_number?: string | null
           is_active?: boolean | null
           is_authorized?: boolean | null
           location_id?: string | null
+          opening_hours?: Json | null
           user_id: string
         }
         Update: {
           bank_account?: string | null
           company_description?: string | null
+          company_email?: string | null
+          company_fb?: string | null
+          company_history_description?: string | null
+          company_history_year?: number | null
+          company_ig?: string | null
+          company_linkedin?: string | null
+          company_logo?: string | null
           company_name?: string | null
+          company_phone?: number | null
+          company_website?: string | null
           created_at?: string | null
           id_number?: string | null
           is_active?: boolean | null
           is_authorized?: boolean | null
           location_id?: string | null
+          opening_hours?: Json | null
           user_id?: string
         }
         Relationships: [

@@ -982,7 +982,8 @@
         "update_region_coverage_area": "Área de cobertura de la región actualizada correctamente",
         "update_country_coverage_area": "Área de cobertura del país actualizado correctamente",
         "removing_product_multimedia": "Multimedia del producto eliminado correctamente",
-        "update_product_multimedia": "Multimedia del producto actualizado correctamente"
+        "update_product_multimedia": "Multimedia del producto actualizado correctamente",
+        "profile_rrss_data_updated": "Datos de RRSS actualizados correctamente"
     },
     "num_of_packs": "Número de packs",
     "promo_code": "Código promocional",
@@ -1130,5 +1131,9 @@
     "fg_tooltip": "La Gravedad Final (FG, por sus siglas en inglés) es la densidad específica de la cerveza después de que la fermentación ha concluido. Indica la cantidad de azúcares residuales y otros componentes no fermentables que permanecen en la cerveza terminada. La diferencia entre la Gravedad Original y la Gravedad Final se utiliza para calcular el contenido de alcohol por volumen (ABV) de la cerveza. ",
     "consumer_review_username": "Nombre de usuario",
     "loading_uploading_file": "Cargando archivo ...",
-    "loading_removing_file": "Eliminando archivo ..."
+    "loading_removing_file": "Eliminando archivo ...",
+    "rrss_title_acc_data": "Redes sociales",
+    "rrss_ig_url_name": "Instagram",
+    "rrss_fb_url_name": "Facebook",
+    "rrss_linkedin_url_name": "LinkedIn"
 }
