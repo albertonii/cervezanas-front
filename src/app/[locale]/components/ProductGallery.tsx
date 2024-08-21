@@ -65,10 +65,10 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
                         {/* Main Image  */}
                         <DisplayImageProduct
                             imgSrc={main.imageUrl}
-                            width={350}
-                            height={150}
+                            width={0}
+                            height={0}
                             alt="Product Gallery Principal Image"
-                            class="h-full w-[400px] h-[400px] md:max-w-[380px] md:h-[380px] lg:max-w-[500px] lg:h-[500px]"
+                            class="h-full w-[300px] h-[400px] md:max-w-[380px] md:h-[320px] lg:max-w-[500px] lg:h-[340px]"
                             objectFit="contain"
                         />
                     </div>

@@ -5,12 +5,13 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 import { COMMON } from '@/constants';
 import { IUser } from '@/lib//types/types';
+import { formatDateDefaultInput } from '@/utils/formatDate';
 
 interface Props {
     user?: IUser;
 }
 
-export function OwnerInfo({ user }: Props) {
+export function ConsumerInfo({ user }: Props) {
     const t = useTranslations();
     return (
         <>
@@ -25,15 +26,14 @@ export function OwnerInfo({ user }: Props) {
                         height={40}
                     />
                     <div className="space-y-1 font-medium dark:text-white">
-                        <p>
-                            {user.username}
-                            <time
-                                dateTime="2014-08-16 19:00"
-                                className="block text-sm text-gray-500 dark:text-gray-400"
-                            >
-                                {t('joined_on')} {user.created_at}
-                            </time>
-                        </p>
+                        {user.username}
+                        <time
+                            dateTime="2014-08-16 19:00"
+                            className="block text-sm text-gray-500 dark:text-gray-400"
+                        >
+                            {t('joined_on')}{' '}
+                            {formatDateDefaultInput(user.created_at)}
+                        </time>
                     </div>
                 </div>
             )}
