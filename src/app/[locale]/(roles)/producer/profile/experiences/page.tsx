@@ -36,18 +36,18 @@ async function getExperiencesData() {
         .from('experiences')
         .select(
             `
-          *,
-          bm_questions (
-            id,
-            question,
-            experience_id,
-            product_id,
-            correct_answer,
-            incorrect_answers,
-            difficulty,
-            type,
-            products (id, name)
-          )
+            *,
+            bm_questions (
+                id,
+                question,
+                experience_id,
+                product_id,
+                correct_answer,
+                incorrect_answers,
+                difficulty,
+                type,
+                products (id, name)
+            )
           `,
         )
         .eq('producer_id', session.id);

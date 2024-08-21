@@ -62,8 +62,8 @@ async function getCPFixedData() {
         .from('cp_fixed')
         .select(
             `
-            *
-          `,
+                *
+            `,
         )
         .eq('owner_id', session.id);
 

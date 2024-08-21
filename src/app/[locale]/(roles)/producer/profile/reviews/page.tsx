@@ -1,18 +1,14 @@
+import readUserSession from '@/lib//actions';
 import createServerClient from '@/utils/supabaseServer';
 import { Reviews } from './Reviews';
 import { redirect } from 'next/navigation';
 import { IReview } from '@/lib//types/types';
-import readUserSession from '@/lib//actions';
 
 export default async function ReviewsPage() {
     const { reviews } = await getReviewsData();
-    if (!reviews) return null;
+    console.log(reviews);
 
-    return (
-        <>
-            <Reviews reviews={reviews} />
-        </>
-    );
+    return <Reviews reviews={reviews} />;
 }
 
 async function getReviewsData() {
@@ -28,10 +24,23 @@ async function getReviewsData() {
         .from('reviews')
         .select(
             `
-        *
-      `,
+                *,
+                products (
+                    id,
+                    name,
+                    product_multimedia (
+                        p_principal
+                    )
+                ),
+                users (
+                    id,
+                    username,
+                    avatar_url
+                )
+            `,
         )
-        .eq('id', session.id);
+        .eq('products.owner_id', session.id)
+        .not('products', 'is', null);
 
     if (reviewsError) throw reviewsError;
 

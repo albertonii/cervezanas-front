@@ -41,6 +41,7 @@ export default function layout({ children }: LayoutProps) {
             option: 'consumption_points',
         },
         { name: 'experiences', icon: faStar, option: 'experiences' },
+        { name: 'reviews', icon: faStar, option: 'reviews' },
         {
             name: 'online_orders',
             icon: faShoppingCart,

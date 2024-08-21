@@ -1095,5 +1095,6 @@
     "srm": "SRM",
     "ebc": "EBC",
     "original_gravity": "Original Gravity (OG)",
-    "final_gravity": "Final Gravity (FG)"
+    "final_gravity": "Final Gravity (FG)",
+    "consumer_review_username": "Username"
 }

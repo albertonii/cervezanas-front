@@ -1123,5 +1123,6 @@
     "original_gravity": "Gravedad Original (OG)",
     "final_gravity": "Gravedad Final (FG)",
     "og_tooltip": "La Gravedad Original (OG, por sus siglas en inglés) se refiere a la densidad específica del mosto (la mezcla de agua y maltas antes de la fermentación) antes de que comience el proceso de fermentación. Esta medida indica la cantidad de azúcares fermentables y otros sólidos disueltos presentes en el mosto. La diferencia entre la Gravedad Original y la Gravedad Final se utiliza para calcular el contenido de alcohol por volumen (ABV) de la cerveza. ",
-    "fg_tooltip": "La Gravedad Final (FG, por sus siglas en inglés) es la densidad específica de la cerveza después de que la fermentación ha concluido. Indica la cantidad de azúcares residuales y otros componentes no fermentables que permanecen en la cerveza terminada. La diferencia entre la Gravedad Original y la Gravedad Final se utiliza para calcular el contenido de alcohol por volumen (ABV) de la cerveza. "
+    "fg_tooltip": "La Gravedad Final (FG, por sus siglas en inglés) es la densidad específica de la cerveza después de que la fermentación ha concluido. Indica la cantidad de azúcares residuales y otros componentes no fermentables que permanecen en la cerveza terminada. La diferencia entre la Gravedad Original y la Gravedad Final se utiliza para calcular el contenido de alcohol por volumen (ABV) de la cerveza. ",
+    "consumer_review_username": "Nombre de usuario"
 }

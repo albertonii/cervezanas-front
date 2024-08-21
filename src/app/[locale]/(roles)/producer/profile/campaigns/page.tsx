@@ -37,8 +37,8 @@ async function getCampaignData() {
         .from('campaigns')
         .select(
             `
-        *
-      `,
+                *
+            `,
         )
         .eq('owner_id', session.id);
 

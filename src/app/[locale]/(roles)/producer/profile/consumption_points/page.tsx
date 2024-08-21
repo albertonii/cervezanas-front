@@ -43,10 +43,10 @@ async function getCPSData() {
         .from('consumption_points')
         .select(
             `
-        *,
-        cp_fixed (*),
-        cp_mobile (*)
-      `,
+                *,
+                cp_fixed (*),
+                cp_mobile (*)
+            `,
         )
         .eq('owner_id', session.id);
     if (cpsError) console.error(cpsError);
@@ -66,8 +66,8 @@ async function getProfileData() {
         .from('users')
         .select(
             `
-        cp_organizer_status
-      `,
+                cp_organizer_status
+            `,
         )
         .eq('id', session.id);
 
