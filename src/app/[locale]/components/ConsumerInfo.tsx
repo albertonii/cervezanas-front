@@ -1,11 +1,11 @@
 'use client';
 
-import Image from 'next/image';
 import React from 'react';
-import { useTranslations } from 'next-intl';
-import { COMMON } from '@/constants';
+import { useLocale, useTranslations } from 'next-intl';
 import { IUser } from '@/lib//types/types';
 import { formatDateDefaultInput } from '@/utils/formatDate';
+import DisplayImageProfile from './common/DisplayImageProfile';
+import Link from 'next/link';
 
 interface Props {
     user?: IUser;
@@ -13,20 +13,27 @@ interface Props {
 
 export function ConsumerInfo({ user }: Props) {
     const t = useTranslations();
+    const locale = useLocale();
+
     return (
         <>
             {user && (
                 <div className="mb-4 flex items-center space-x-4">
-                    <Image
-                        className="h-10 w-10 rounded-full"
-                        src={`${COMMON.PROFILE_IMG}`}
-                        loader={() => `${COMMON.PROFILE_IMG}`}
-                        alt=""
-                        width={40}
-                        height={40}
+                    <DisplayImageProfile
+                        imgSrc={user.avatar_url}
+                        class={'mx-auto h-16 w-16 rounded-full'}
                     />
+
                     <div className="space-y-1 font-medium dark:text-white">
-                        {user.username}
+                        <Link
+                            href={`/user-info/${user.id}`}
+                            locale={locale}
+                            target="_blank"
+                            className="font-semibold text-beer-draft hover:cursor-pointer hover:text-beer-blonde"
+                        >
+                            {user.username}
+                        </Link>
+
                         <time
                             dateTime="2014-08-16 19:00"
                             className="block text-sm text-gray-500 dark:text-gray-400"

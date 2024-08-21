@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Rate } from './Rate';
-import { ConsumerInfo } from '../OwnerInfo';
+import { ConsumerInfo } from '../ConsumerInfo';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { IReview } from '@/lib//types/types';
