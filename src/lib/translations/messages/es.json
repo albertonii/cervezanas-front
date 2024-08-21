@@ -686,7 +686,9 @@
         "max_slots_per_box_exceeded": "Actualiza el número máximo de unidades que caben en la caja para poder añadir más productos al pack variado.",
         "must_start_from_zero": "Debe de existir un rango que empiece en 0.",
         "ranges_not_continuous": "Los rangos no son continuos.",
-        "product_pack_not_exists": "Este producto no tiene packs de venta configurados y no es visible en el mercado"
+        "product_pack_not_exists": "Este producto no tiene packs de venta configurados y no es visible en el mercado",
+        "removing_product_multimedia": "Error al eliminar el multimedia del producto.",
+        "update_product_multimedia": "Error al actualizar el multimedia del producto."
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",
@@ -978,7 +980,9 @@
         "update_city_coverage_area": "Área de cobertura de la ciudad actualizada correctamente",
         "update_sub_region_coverage_area": "Área de cobertura de la subregión actualizada correctamente",
         "update_region_coverage_area": "Área de cobertura de la región actualizada correctamente",
-        "update_country_coverage_area": "Área de cobertura del país actualizado correctamente"
+        "update_country_coverage_area": "Área de cobertura del país actualizado correctamente",
+        "removing_product_multimedia": "Multimedia del producto eliminado correctamente",
+        "update_product_multimedia": "Multimedia del producto actualizado correctamente"
     },
     "num_of_packs": "Número de packs",
     "promo_code": "Código promocional",
@@ -1124,5 +1128,7 @@
     "final_gravity": "Gravedad Final (FG)",
     "og_tooltip": "La Gravedad Original (OG, por sus siglas en inglés) se refiere a la densidad específica del mosto (la mezcla de agua y maltas antes de la fermentación) antes de que comience el proceso de fermentación. Esta medida indica la cantidad de azúcares fermentables y otros sólidos disueltos presentes en el mosto. La diferencia entre la Gravedad Original y la Gravedad Final se utiliza para calcular el contenido de alcohol por volumen (ABV) de la cerveza. ",
     "fg_tooltip": "La Gravedad Final (FG, por sus siglas en inglés) es la densidad específica de la cerveza después de que la fermentación ha concluido. Indica la cantidad de azúcares residuales y otros componentes no fermentables que permanecen en la cerveza terminada. La diferencia entre la Gravedad Original y la Gravedad Final se utiliza para calcular el contenido de alcohol por volumen (ABV) de la cerveza. ",
-    "consumer_review_username": "Nombre de usuario"
+    "consumer_review_username": "Nombre de usuario",
+    "loading_uploading_file": "Cargando archivo ...",
+    "loading_removing_file": "Eliminando archivo ..."
 }

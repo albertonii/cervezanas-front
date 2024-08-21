@@ -689,7 +689,9 @@
         "max_slots_per_box_exceeded": "Update maximum slots per box to add more products in the box",
         "must_start_from_zero": "Must be a range starting from 0",
         "ranges_not_continuous": "Ranges must be continuous",
-        "product_pack_not_exists": "This product does not have selling packs configured and is not visible on marketplace"
+        "product_pack_not_exists": "This product does not have selling packs configured and is not visible on marketplace",
+        "removing_product_multimedia": "Error removing product multimedia.",
+        "update_product_multimedia": "Error updating product multimedia."
     },
     "product_packs": "Product packs",
     "units": "Units",
@@ -956,7 +958,8 @@
         "update_city_coverage_area": "City coverage area correctly updated",
         "update_sub_region_coverage_area": "Subregion coverage area correctly updated",
         "update_region_coverage_area": "Region coverage area correctly updated",
-        "update_country_coverage_area": "Country coverage area correctly updated"
+        "update_country_coverage_area": "Country coverage area correctly updated",
+        "removing_product_multimedia": "Product multimedia removed successfully"
     },
     "num_of_packs": "Number of packs",
     "promo_code": "Promo code",

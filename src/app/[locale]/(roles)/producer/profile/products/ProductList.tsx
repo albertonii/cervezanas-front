@@ -48,7 +48,6 @@ export function ProductList({
         );
 
     useEffect(() => {
-        console.log('LISTADO', data);
         setProducts(data as IProduct[]);
     }, [data]);
 

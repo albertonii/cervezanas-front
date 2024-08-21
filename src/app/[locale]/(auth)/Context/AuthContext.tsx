@@ -69,6 +69,7 @@ export interface AuthSession {
     provider: PROVIDER_TYPE | null;
     isLoggedIn: boolean;
     changeRole: (role: ROLE_ENUM) => void;
+    getActiveRole: () => string | null;
 }
 
 const supabaseClient = createBrowserClient();
@@ -91,6 +92,7 @@ export const AuthContext = createContext<AuthSession>({
     provider: null,
     isLoggedIn: false,
     changeRole: (role: ROLE_ENUM) => {},
+    getActiveRole: () => null,
 });
 
 export const AuthContextProvider = ({
@@ -488,6 +490,16 @@ export const AuthContextProvider = ({
         }, 2000);
     };
 
+    const getActiveRole = () => {
+        const localStorageRole = window.localStorage.getItem('active_role');
+
+        if (localStorageRole) {
+            return localStorageRole;
+        }
+
+        return null;
+    };
+
     const value = useMemo(() => {
         return {
             initial,
@@ -508,6 +520,7 @@ export const AuthContextProvider = ({
             sendResetPasswordEmail,
             updatePassword,
             changeRole,
+            getActiveRole,
         };
     }, [
         initial,
@@ -527,6 +540,7 @@ export const AuthContextProvider = ({
         sendResetPasswordEmail,
         updatePassword,
         changeRole,
+        getActiveRole,
     ]);
 
     return (

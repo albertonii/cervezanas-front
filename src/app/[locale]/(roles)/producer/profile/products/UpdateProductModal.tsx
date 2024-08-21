@@ -49,14 +49,14 @@ const validateFile = (f: File, ctx: any) => {
     if (!f) return;
     if (typeof f === 'string') return;
 
-    if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
-        ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
-                ', ',
-            )}] but was ${f.type}`,
-        });
-    }
+    // if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+    //     ctx.addIssue({
+    //         code: z.ZodIssueCode.custom,
+    //         message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+    //             ', ',
+    //         )}] but was ${f.type}`,
+    //     });
+    // }
     if (f.size > 3 * MB_BYTES) {
         ctx.addIssue({
             code: z.ZodIssueCode.too_big,

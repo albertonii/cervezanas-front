@@ -18,6 +18,7 @@ import { Sidebar } from '@/app/[locale]/components/common/Sidebar';
 import { useAppContext } from '@/app/context/AppContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { COMMON, SupabaseProps } from '@/constants';
+import { ROLE_ENUM } from '@/lib/enums';
 
 type LayoutProps = {
     children: React.ReactNode;
@@ -51,7 +52,7 @@ export default function layout({ children }: LayoutProps) {
         { name: 'notifications.label', icon: faBell, option: 'notifications' },
     ];
 
-    const { user, supabase } = useAuth();
+    const { user, supabase, getActiveRole, role } = useAuth();
 
     const { profileImg, setProfileImg } = useAppContext();
     const [profileImg_, setProfileImg_] = useState('');

@@ -1,10 +1,11 @@
 'use client';
 
+import FilePreviewBlurImage from './FilePreviewBlurImage';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { DisplayInputError } from './DisplayInputError';
-import FilePreviewBlurImage from './FilePreviewBlurImage';
+import { faX } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
     form: UseFormReturn<any, any>;
@@ -81,6 +82,7 @@ export const FilePreviewImageMultimedia = ({
                     <FilePreviewBlurImage
                         image={image}
                         removeImageClick={handleRemoveImage}
+                        icon={faX}
                     />
                 </div>
             )}

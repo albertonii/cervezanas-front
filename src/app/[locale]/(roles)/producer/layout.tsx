@@ -42,6 +42,7 @@ async function checkAuthorizatedUser() {
 
     const isRoleProducer = await checkAuthorizatedUserByRole(session);
     const isAuthorized = await checkAuthorizedProducerByAdmin(session.id);
+
     return { isRoleProducer, isAuthorized };
 }
 
