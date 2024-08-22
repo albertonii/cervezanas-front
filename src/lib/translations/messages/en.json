@@ -66,6 +66,10 @@
     "history_business_title": "Company history",
     "history_business_description": "Tell your origin",
     "history_business_year": "Foundation year",
+    "company_history_description": "Company history",
+    "company_history_year": "Foundation year",
+    "our_company_history": "Our company history",
+    "company_history_description_descriptive": "Tell us about your company's history",
     "product_name": "Product name",
     "price_label": "Price",
     "pack_label": "Pack",
@@ -920,6 +924,7 @@
     "profile_acc_authorized": "Profile Authorized",
     "profile_acc_company_name": "Company Name",
     "profile_acc_nif_cif": "NIF/CIF/Document ID",
+    "profile_acc_phone": "Phone",
     "company_description": "Company",
     "modal_product_update_details_title": "Update product details",
     "introduce_beer_name": "Introduce the name of the beer",
@@ -960,7 +965,8 @@
         "update_region_coverage_area": "Region coverage area correctly updated",
         "update_country_coverage_area": "Country coverage area correctly updated",
         "removing_product_multimedia": "Product multimedia removed successfully",
-        "profile_rrss_data_updated": "Social networks data updated successfully"
+        "profile_rrss_data_updated": "Social networks data updated successfully",
+        "profile_history_data_updated": "History data updated successfully"
     },
     "num_of_packs": "Number of packs",
     "promo_code": "Promo code",
@@ -1116,7 +1122,8 @@
         "distributor_company": "Company",
         "distributor_phone": "Phone",
         "distributor_address": "Address",
-        "distrbutor_email": "Email"
+        "distrbutor_email": "Email",
+        "distributor_description": "Description"
     },
     "show_full_info": "Show full information",
     "hide_full_info": "Hide full information"

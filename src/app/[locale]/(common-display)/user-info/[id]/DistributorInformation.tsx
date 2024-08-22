@@ -1,7 +1,8 @@
+import DistributorRRSS from './DistributorRRSS';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IDistributorUser } from '@/lib/types/types';
-import DistributorRRSS from './DistributorRRSS';
+import DistributorHistory from './DistributorHistory';
 
 interface Props {
     distributor: IDistributorUser;
@@ -18,8 +19,8 @@ const DistributorInformation = ({ distributor }: Props) => {
     };
 
     return (
-        <div className="rounded-sm bg-white p-3 shadow-sm">
-            <div className="relative flex items-center space-x-2 font-semibold leading-8 text-gray-900">
+        <div className="bg-white shadow-lg rounded-lg p-6 mx-auto">
+            <div className="relative flex items-center space-x-3 text-lg font-semibold text-gray-900 mb-4">
                 <span className=" text-beer-gold">
                     <svg
                         className="h-5"
@@ -43,51 +44,107 @@ const DistributorInformation = ({ distributor }: Props) => {
                 <DistributorRRSS distributor={distributor} />
             </div>
 
-            <div className="text-gray-700">
-                <div className="grid text-sm md:grid-cols-2">
-                    {distributor.company_name && (
-                        <div className="grid grid-cols-2">
-                            <div className="px-4 py-2 font-semibold">
-                                {t(
-                                    'public_user_information.distributor_company',
-                                )}
-                            </div>
-                            <div className="px-4 py-2">
-                                {distributor.company_name}
-                            </div>
-                        </div>
-                    )}
+            <div className="grid gap-y-4 text-sm md:grid-cols-2 text-gray-700">
+                {distributor.company_name && (
+                    <div className="grid grid-cols-2">
+                        <h2 className="font-semibold">
+                            {t('public_user_information.distributor_company')}
+                        </h2>
 
-                    {distributor.company_phone && (
-                        <div className="grid grid-cols-2">
-                            <div className="px-4 py-2 font-semibold">
-                                {t('public_user_information.distributor_phone')}
-                            </div>
-                            <div className="px-4 py-2">
-                                {distributor.company_phone}
-                            </div>
-                        </div>
-                    )}
+                        <span className="px-4 py-2">
+                            {distributor.company_name}
+                        </span>
+                    </div>
+                )}
 
-                    {distributor.company_email && (
-                        <div className="grid grid-cols-2">
-                            <div className="px-4 py-2 font-semibold">
-                                {t('public_user_information.distributor_email')}
-                            </div>
-                            <div className="px-4 py-2">
-                                <a
-                                    className="text-beer-gold hover:text-beer-darkGold"
-                                    href={`mailto:${distributor.company_email}`}
-                                >
-                                    {distributor.company_email}
-                                </a>
-                            </div>
-                        </div>
-                    )}
-                </div>
+                {distributor.company_phone && (
+                    <div className="grid grid-cols-2">
+                        <h2 className="font-semibold">
+                            {t('public_user_information.distributor_phone')}
+                        </h2>
+
+                        <span className="px-4 py-2">
+                            {distributor.company_phone}
+                        </span>
+                    </div>
+                )}
+
+                {distributor.company_email && (
+                    <div className="grid grid-cols-2">
+                        <h2 className="font-semibold">
+                            {t('public_user_information.distributor_email')}
+                        </h2>
+
+                        <span className="px-4 py-2">
+                            <a
+                                className="text-beer-gold hover:text-beer-darkGold"
+                                href={`mailto:${distributor.company_email}`}
+                            >
+                                {distributor.company_email}
+                            </a>
+                        </span>
+                    </div>
+                )}
             </div>
 
-            {showDistributorFullInfo && <section></section>}
+            {showDistributorFullInfo && (
+                <>
+                    <section className="text-sm">
+                        {/* Description  */}
+                        {distributor.company_description && (
+                            <div className="grid grid-cols-2">
+                                <h2 className="font-semibold">
+                                    {t(
+                                        'public_user_information.distributor_description',
+                                    )}
+                                </h2>
+
+                                <span className="px-4 py-2">
+                                    {distributor.company_description}
+                                </span>
+                            </div>
+                        )}
+
+                        {/* Contact Information  */}
+                        {distributor.company_phone && (
+                            <div className="grid grid-cols-2">
+                                <h2 className="font-semibold">
+                                    {t(
+                                        'public_user_information.distributor_contact',
+                                    )}
+                                </h2>
+
+                                <span className="px-4 py-2">
+                                    {distributor.company_phone}
+                                </span>
+                            </div>
+                        )}
+
+                        {distributor.company_email && (
+                            <div className="grid grid-cols-2">
+                                <h2 className="font-semibold">
+                                    {t(
+                                        'public_user_information.distributor_email',
+                                    )}
+                                </h2>
+
+                                <span className="px-4 py-2">
+                                    <a
+                                        className="text-beer-gold hover:text-beer-darkGold"
+                                        href={`mailto:${distributor.company_email}`}
+                                    >
+                                        {distributor.company_email}
+                                    </a>
+                                </span>
+                            </div>
+                        )}
+                    </section>
+
+                    <section className="">
+                        <DistributorHistory distributor={distributor} />
+                    </section>
+                </>
+            )}
 
             <button
                 className="focus:shadow-outline hover:shadow-xs my-4 block w-full rounded-lg p-3 text-sm font-semibold text-beer-gold hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"

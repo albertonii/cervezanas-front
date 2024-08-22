@@ -1365,8 +1365,8 @@ export interface IDistributorUser {
     opening_hours?: {};
     company_history_year?: number;
     company_history_description?: string;
-    company_phone?: number;
-    company_email?: string;
+    company_phone: string;
+    company_email: string;
     profile_location?: IProfileLocation[];
     users?: IUserTable; // To access embeded information we need to get into the table and the look for data
     coverage_areas?: ICoverageArea[];

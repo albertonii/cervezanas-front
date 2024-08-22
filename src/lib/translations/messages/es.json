@@ -938,6 +938,7 @@
     "profile_acc_authorized": "Perfil Autorizado",
     "profile_acc_company_name": "Nombre de la empresa",
     "profile_acc_nif_cif": "NIF/CIF",
+    "profile_acc_phone": "Teléfono",
     "company_description": "Descripción de la empresa",
     "req_producer_accepted": "Solicitud de productor aceptada",
     "req_distributor_accepted": "Solicitud de distribuidor aceptada",
@@ -983,7 +984,8 @@
         "update_country_coverage_area": "Área de cobertura del país actualizado correctamente",
         "removing_product_multimedia": "Multimedia del producto eliminado correctamente",
         "update_product_multimedia": "Multimedia del producto actualizado correctamente",
-        "profile_rrss_data_updated": "Datos de RRSS actualizados correctamente"
+        "profile_rrss_data_updated": "Datos de RRSS actualizados correctamente",
+        "profile_history_data_updated": "Datos de historia actualizados correctamente"
     },
     "num_of_packs": "Número de packs",
     "promo_code": "Código promocional",
@@ -1136,6 +1138,11 @@
     "rrss_ig_url_name": "Instagram",
     "rrss_fb_url_name": "Facebook",
     "rrss_linkedin_url_name": "LinkedIn",
+    "history_title_acc_data": "Historia",
+    "our_company_history": "Historia de nuestra empresa",
+    "company_history_description": "Descripción de la historia de la empresa",
+    "company_history_year": "Año",
+    "company_history_description_descriptive": "Habla sobre la historia de tu empresa, cómo empezó, los hitos más importantes, los cambios que ha sufrido, etc.",
     "company_website": "Página web",
     "info_tooltip": {
         "rrss_ig_info": "Introduce el nombre de usuario de la cuenta de Instagram. Por ejemplo, si la URL de tu cuenta es https://www.instagram.com/cervezanas, introduce 'cervezanas'.",
@@ -1147,7 +1154,9 @@
         "distributor_company": "Empresa",
         "distributor_phone": "Teléfono",
         "distributor_address": "Dirección",
-        "distributor_email": "Correo electrónico"
+        "distributor_email": "Correo electrónico",
+        "distributor_description": "Descripción",
+        "distributor_contact": "Contacto"
     },
     "show_full_info": "Mostrar información completa",
     "hide_full_info": "Ocultar información completa"

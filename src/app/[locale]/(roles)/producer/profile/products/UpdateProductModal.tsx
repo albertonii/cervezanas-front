@@ -2,7 +2,7 @@
 
 import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
 import React, { ComponentProps, useEffect, useState } from 'react';
-import { array, z, ZodType } from 'zod';
+import { z, ZodType } from 'zod';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';

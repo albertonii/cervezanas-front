@@ -12,44 +12,16 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { IDistributorUser } from '@/lib//types/types';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
 
 type FormData = {
-    company_ig?: string;
-    company_fb?: string;
-    company_linkedin?: string;
+    company_history_year?: number;
+    company_history_description?: string;
 };
 
 const schema: ZodType<FormData> = z.object({
-    company_ig: z
-        .string()
-        .refine(
-            (value) => value === '' || /^[a-zA-Z0-9._]{1,30}$/.test(value),
-            {
-                message:
-                    'Solo se permiten caracteres alfanuméricos, puntos y guiones bajos, con un máximo de 30 caracteres.',
-            },
-        )
-        .optional(),
-    company_fb: z
-        .string()
-        .refine(
-            (value) => value === '' || /^[a-zA-Z0-9._]{1,30}$/.test(value),
-            {
-                message:
-                    'Solo se permiten caracteres alfanuméricos, puntos y guiones bajos, con un máximo de 30 caracteres.',
-            },
-        )
-        .optional(),
-    company_linkedin: z
-        .string()
-        .refine(
-            (value) => value === '' || /^[a-zA-Z0-9._]{1,30}$/.test(value),
-            {
-                message:
-                    'Solo se permiten caracteres alfanuméricos, puntos y guiones bajos, con un máximo de 30 caracteres.',
-            },
-        )
-        .optional(),
+    company_history_year: z.number().optional(),
+    company_history_description: z.string().optional(),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -60,7 +32,7 @@ interface Props {
 
 export function CompanyHistoryForm({ profile }: Props) {
     const t = useTranslations();
-    const successMessage = t('success.profile_rrss_data_updated');
+    const successMessage = t('success.profile_history_data_updated');
 
     const { supabase } = useAuth();
 
@@ -73,23 +45,21 @@ export function CompanyHistoryForm({ profile }: Props) {
     const form = useForm({
         resolver: zodResolver(schema),
         defaultValues: {
-            company_ig: profile.company_ig,
-            company_fb: profile.company_fb,
-            company_linkedin: profile.company_linkedin,
+            company_history_year: profile.company_history_year,
+            company_history_description: profile.company_history_description,
         },
     });
 
     const { handleSubmit } = form;
 
-    const handleUpdataBasicData = async (form: ValidationSchema) => {
-        const { company_ig, company_fb, company_linkedin } = form;
+    const handleUpdataHistoryData = async (form: ValidationSchema) => {
+        const { company_history_year, company_history_description } = form;
 
         const { error } = await supabase
             .from('distributor_user')
             .update({
-                company_ig,
-                company_fb,
-                company_linkedin,
+                company_history_year,
+                company_history_description,
             })
             .eq('user_id', profile.user_id);
 
@@ -108,8 +78,8 @@ export function CompanyHistoryForm({ profile }: Props) {
     };
 
     const handleUpdateBasicDataMutation = useMutation({
-        mutationKey: ['updateRRSSDataDistributor'],
-        mutationFn: handleUpdataBasicData,
+        mutationKey: ['updateHistoryDataDistributor'],
+        mutationFn: handleUpdataHistoryData,
         onMutate: () => {
             setLoading(true);
         },
@@ -140,10 +110,15 @@ export function CompanyHistoryForm({ profile }: Props) {
             id="account_distributor_data"
             className="mb-4 space-y-3 bg-white px-6 py-4 rounded-xl border"
         >
-            <span id="account-distributor-data" className="text-2xl">
-                {t('rrss_title_acc_data')}
-            </span>
+            <div>
+                <h2 id="account-distributor-data" className="text-2xl">
+                    {t('history_title_acc_data')}
+                </h2>
 
+                <span className="text-base ">
+                    <i>{t('company_history_description_descriptive')}</i>
+                </span>
+            </div>
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="relative space-y-2"
@@ -151,26 +126,24 @@ export function CompanyHistoryForm({ profile }: Props) {
                 <div className="flex w-full flex-row space-x-3 ">
                     <InputLabel
                         form={form}
-                        label={'company_ig'}
-                        labelText={'rrss_ig_url_name'}
-                        registerOptions={{}}
-                        placeholder={'@DistribuidoresSpain'}
+                        inputType={'number'}
+                        label={'company_history_year'}
+                        registerOptions={{
+                            valueAsNumber: true,
+                            min: 1900,
+                        }}
+                        placeholder={'1994'}
                     />
+                </div>
 
-                    <InputLabel
+                <div className="flex w-full flex-row space-x-3 ">
+                    <InputTextarea
                         form={form}
-                        label={'company_fb'}
-                        labelText={'rrss_fb_url_name'}
+                        label={'company_history_description'}
                         registerOptions={{}}
-                        placeholder={'@DistribuidoresSpain'}
-                    />
-
-                    <InputLabel
-                        form={form}
-                        label={'company_linkedin'}
-                        labelText={'rrss_linkedin_url_name'}
-                        registerOptions={{}}
-                        placeholder={'@DistribuidoresSpain'}
+                        placeholder={
+                            'Redacta acerca de la historia de la empresa'
+                        }
                     />
                 </div>
 
