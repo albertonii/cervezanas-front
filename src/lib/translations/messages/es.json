@@ -1156,7 +1156,8 @@
         "distributor_address": "Dirección",
         "distributor_email": "Correo electrónico",
         "distributor_description": "Descripción",
-        "distributor_contact": "Contacto"
+        "distributor_contact": "Contacto",
+        "distributor_coverage_areas": "Áreas de cobertura"
     },
     "show_full_info": "Mostrar información completa",
     "hide_full_info": "Ocultar información completa"

@@ -5,6 +5,8 @@ import { IDistributorUser } from '@/lib/types/types';
 import DistributorHistory from './DistributorHistory';
 import DistributorContactInformation from './DistributorContactInformation';
 import DistributorMoreDetails from './DistributorMoreDetails.';
+import SubRegionTable from '@/app/[locale]/(roles)/distributor/profile/logistics/(sub_region)/SubRegionTable';
+import DistributorCoverageAreas from './DistributorCoverageAreas';
 
 interface Props {
     distributor: IDistributorUser;
@@ -20,10 +22,12 @@ const DistributorInformation = ({ distributor }: Props) => {
         setShowDistributorFullInfo(!showDistributorFullInfo);
     };
 
+    console.log(distributor);
+
     return (
-        <div className="bg-white shadow-lg rounded-lg p-6 mx-auto">
+        <div className="bg-white shadow-lg rounded-lg p-6 mx-auto space-y-4">
             <div className="relative flex items-center space-x-3 text-lg font-semibold text-gray-900 mb-4">
-                <span className=" text-beer-gold">
+                <span className="text-beer-gold">
                     <svg
                         className="h-5"
                         xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +50,7 @@ const DistributorInformation = ({ distributor }: Props) => {
                 <DistributorRRSS distributor={distributor} />
             </div>
 
-            <div className="grid gap-y-4 text-sm md:grid-cols-2 text-gray-700">
+            <div className="bg-white shadow-lg rounded-lg p-6 mx-auto">
                 {distributor.company_name && (
                     <div className="grid grid-cols-2">
                         <h2 className="font-semibold">
@@ -101,8 +105,12 @@ const DistributorInformation = ({ distributor }: Props) => {
                         />
                     </section>
 
-                    <section className="col-span-1">
+                    <section className="col-span-2">
                         <DistributorHistory distributor={distributor} />
+                    </section>
+
+                    <section className="col-span-2">
+                        <DistributorCoverageAreas distributor={distributor} />
                     </section>
                 </section>
             )}

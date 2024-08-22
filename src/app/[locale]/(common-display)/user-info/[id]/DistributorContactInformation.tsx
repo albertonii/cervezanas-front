@@ -12,7 +12,7 @@ const DistributorContactInformation = ({ distributor }: Props) => {
     const { company_phone, company_email } = distributor;
 
     return (
-        <div className="bg-white shadow-lg rounded-lg p-6 max-w-lg mx-auto">
+        <div className="bg-white shadow-lg rounded-lg p-6  mx-auto">
             <h2 className="text-2xl font-bold text-center mb-4 text-gray-800">
                 {t('contact')}
             </h2>

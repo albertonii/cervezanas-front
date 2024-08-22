@@ -1123,7 +1123,8 @@
         "distributor_phone": "Phone",
         "distributor_address": "Address",
         "distrbutor_email": "Email",
-        "distributor_description": "Description"
+        "distributor_description": "Description",
+        "distributor_coverage_areas": "Coverage area"
     },
     "show_full_info": "Show full information",
     "hide_full_info": "Hide full information"
