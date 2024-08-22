@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IDistributorUser } from '@/lib/types/types';
 import DistributorHistory from './DistributorHistory';
+import DistributorContactInformation from './DistributorContactInformation';
+import DistributorMoreDetails from './DistributorMoreDetails.';
 
 interface Props {
     distributor: IDistributorUser;
@@ -88,62 +90,21 @@ const DistributorInformation = ({ distributor }: Props) => {
             </div>
 
             {showDistributorFullInfo && (
-                <>
-                    <section className="text-sm">
-                        {/* Description  */}
-                        {distributor.company_description && (
-                            <div className="grid grid-cols-2">
-                                <h2 className="font-semibold">
-                                    {t(
-                                        'public_user_information.distributor_description',
-                                    )}
-                                </h2>
-
-                                <span className="px-4 py-2">
-                                    {distributor.company_description}
-                                </span>
-                            </div>
-                        )}
-
-                        {/* Contact Information  */}
-                        {distributor.company_phone && (
-                            <div className="grid grid-cols-2">
-                                <h2 className="font-semibold">
-                                    {t(
-                                        'public_user_information.distributor_contact',
-                                    )}
-                                </h2>
-
-                                <span className="px-4 py-2">
-                                    {distributor.company_phone}
-                                </span>
-                            </div>
-                        )}
-
-                        {distributor.company_email && (
-                            <div className="grid grid-cols-2">
-                                <h2 className="font-semibold">
-                                    {t(
-                                        'public_user_information.distributor_email',
-                                    )}
-                                </h2>
-
-                                <span className="px-4 py-2">
-                                    <a
-                                        className="text-beer-gold hover:text-beer-darkGold"
-                                        href={`mailto:${distributor.company_email}`}
-                                    >
-                                        {distributor.company_email}
-                                    </a>
-                                </span>
-                            </div>
-                        )}
+                <section className="grid grid-cols-2 gap-2">
+                    <section className="text-sm col-span-1">
+                        <DistributorMoreDetails distributor={distributor} />
                     </section>
 
-                    <section className="">
+                    <section className="col-span-1">
+                        <DistributorContactInformation
+                            distributor={distributor}
+                        />
+                    </section>
+
+                    <section className="col-span-1">
                         <DistributorHistory distributor={distributor} />
                     </section>
-                </>
+                </section>
             )}
 
             <button
