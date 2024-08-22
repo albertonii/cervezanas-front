@@ -1104,5 +1104,20 @@
     "rrss_title_acc_data": "Social networks",
     "rrss_ig_url_name": "Instagram",
     "rrss_fb_url_name": "Facebook",
-    "rrss_linkedin_url_name": "LinkedIn"
+    "rrss_linkedin_url_name": "LinkedIn",
+    "company_website": "Website",
+    "info_tooltip": {
+        "rrss_ig_info": "Enter the username of the Instagram account. For example, if your account URL is https://www.instagram.com/cervezanas, enter 'cervezanas'.",
+        "rrss_fb_info": "Enter the username of the Facebook account. For example, if your account URL is https://www.facebook.com/cervezanas, enter 'cervezanas'.",
+        "rrss_linkedin_info": "Enter the username of the LinkedIn account. For example, if your account URL is https://www.linkedin.com/in/cervezanas, enter 'cervezanas'."
+    },
+    "public_user_information": {
+        "distributor_information_title": "Distributor Information",
+        "distributor_company": "Company",
+        "distributor_phone": "Phone",
+        "distributor_address": "Address",
+        "distrbutor_email": "Email"
+    },
+    "show_full_info": "Show full information",
+    "hide_full_info": "Hide full information"
 }

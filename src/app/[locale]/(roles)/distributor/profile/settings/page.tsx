@@ -24,15 +24,9 @@ async function getProfileData() {
         .from('distributor_user')
         .select(
             `
-        user_id,
-        created_at,
-        id_number,
-        bank_account,
-        company_name,
-        company_description,
-        location_id,
-        users (name, lastname, email)
-      `,
+                *,
+                users (*)
+        `,
         )
         .eq('user_id', session.id)
         .single();

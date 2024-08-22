@@ -17,7 +17,6 @@ type FormData = {
     company_ig?: string;
     company_fb?: string;
     company_linkedin?: string;
-    company_website?: string;
 };
 
 const schema: ZodType<FormData> = z.object({
@@ -51,7 +50,6 @@ const schema: ZodType<FormData> = z.object({
             },
         )
         .optional(),
-    company_website: z.string().optional(),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -60,7 +58,7 @@ interface Props {
     profile: IDistributorUser;
 }
 
-export function RRSSForm({ profile }: Props) {
+export function CompanyHistoryForm({ profile }: Props) {
     const t = useTranslations();
     const successMessage = t('success.profile_rrss_data_updated');
 
@@ -78,15 +76,13 @@ export function RRSSForm({ profile }: Props) {
             company_ig: profile.company_ig,
             company_fb: profile.company_fb,
             company_linkedin: profile.company_linkedin,
-            company_website: profile.company_website,
         },
     });
 
     const { handleSubmit } = form;
 
     const handleUpdataBasicData = async (form: ValidationSchema) => {
-        const { company_ig, company_fb, company_linkedin, company_website } =
-            form;
+        const { company_ig, company_fb, company_linkedin } = form;
 
         const { error } = await supabase
             .from('distributor_user')
@@ -94,7 +90,6 @@ export function RRSSForm({ profile }: Props) {
                 company_ig,
                 company_fb,
                 company_linkedin,
-                company_website,
             })
             .eq('user_id', profile.user_id);
 
@@ -160,7 +155,6 @@ export function RRSSForm({ profile }: Props) {
                         labelText={'rrss_ig_url_name'}
                         registerOptions={{}}
                         placeholder={'@DistribuidoresSpain'}
-                        infoTooltip={t('info_tooltip.rrss_ig_info')}
                     />
 
                     <InputLabel
@@ -169,26 +163,14 @@ export function RRSSForm({ profile }: Props) {
                         labelText={'rrss_fb_url_name'}
                         registerOptions={{}}
                         placeholder={'@DistribuidoresSpain'}
-                        infoTooltip={t('info_tooltip.rrss_fb_info')}
                     />
-                </div>
 
-                <div className="flex w-full flex-row space-x-3">
                     <InputLabel
                         form={form}
                         label={'company_linkedin'}
                         labelText={'rrss_linkedin_url_name'}
                         registerOptions={{}}
                         placeholder={'@DistribuidoresSpain'}
-                        infoTooltip={t('info_tooltip.rrss_linkedin_info')}
-                    />
-
-                    <InputLabel
-                        form={form}
-                        label={'company_website'}
-                        inputType={'url'}
-                        registerOptions={{}}
-                        placeholder={'https://www.distribuidores.com'}
                     />
                 </div>
 

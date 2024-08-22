@@ -69,6 +69,7 @@ const InputLabel = ({
                 inputType === 'number' ||
                 inputType === 'email' ||
                 inputType === 'tel' ||
+                inputType === 'url' ||
                 inputType === 'date') && (
                 <label
                     className={`flex-col flex w-full items-start space-y-2 text-sm text-gray-600`}
@@ -157,6 +158,10 @@ const InputLabel = ({
                     className={` relative w-full items-start space-y-2 text-sm text-gray-600`}
                     htmlFor={label}
                 >
+                    <span className="font-medium">
+                        {labelText ? labelText : t(label)}
+                    </span>
+
                     <input
                         type={visible ? 'text' : 'password'}
                         className={` 
