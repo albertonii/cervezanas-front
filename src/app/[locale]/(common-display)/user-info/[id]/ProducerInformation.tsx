@@ -5,6 +5,7 @@ import ProducerMoreDetails from './ProducerMoreDetails';
 import ProducerContactInformation from './ProducerContactInformation';
 import ProducerHistory from './ProducerHistory';
 import ProducerRRSS from './ProducerRRSS';
+import ProducerProductsCatalog from './ProducerProductsCatalog';
 
 interface Props {
     producer: IProducerUser;
@@ -103,6 +104,10 @@ const ProducerInformation = ({ producer }: Props) => {
 
                     <section className="col-span-2">
                         <ProducerHistory producer={producer} />
+                    </section>
+
+                    <section className="col-span-2">
+                        <ProducerProductsCatalog producer={producer} />
                     </section>
                 </section>
             )}

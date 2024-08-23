@@ -1169,7 +1169,8 @@
         "producer_address": "Dirección",
         "producer_email": "Correo electrónico",
         "producer_description": "Descripción",
-        "producer_contact": "Contacto"
+        "producer_contact": "Contacto",
+        "producer_catalog": "Catálogo"
     },
     "show_full_info": "Mostrar información completa",
     "hide_full_info": "Ocultar información completa",

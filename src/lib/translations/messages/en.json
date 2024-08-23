@@ -1136,7 +1136,8 @@
         "producer_address": "Address",
         "producer_email": "Email",
         "producer_description": "Description",
-        "producer_contact": "Contact"
+        "producer_contact": "Contact",
+        "producer_catalog": "Catalog"
     },
     "show_full_info": "Show full information",
     "hide_full_info": "Hide full information",

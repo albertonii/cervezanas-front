@@ -8,25 +8,28 @@ import { Database } from '@/lib//schema';
 
 const fetchProductsByOwner = async (
     ownerId: string,
+    isPublic: boolean,
     supabase: SupabaseClient<Database>,
 ) => {
     const { data, error } = await supabase
         .from('products')
         .select(
             `
-        id,
-        name, 
-        description, 
-        created_at,
-        category,
-        owner_id,
-        type, 
-        weight
-      `,
+                id,
+                name, 
+                description, 
+                created_at,
+                category,
+                owner_id,
+                type, 
+                weight,
+                product_multimedia (p_principal)
+            `,
             {
                 count: 'exact',
             },
         )
+        .eq('is_public', isPublic)
         .eq('owner_id', ownerId);
 
     if (error) throw error;
@@ -34,12 +37,13 @@ const fetchProductsByOwner = async (
     return data as IProduct[];
 };
 
-const useFetchProductsByOwner = (ownerId: string) => {
+const useFetchProductsByOwner = (ownerId: string, isPublic?: boolean) => {
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['productListByOwner', ownerId],
-        queryFn: () => fetchProductsByOwner(ownerId, supabase),
+        queryKey: ['productListByOwner', ownerId, isPublic],
+        queryFn: () =>
+            fetchProductsByOwner(ownerId, isPublic ?? true, supabase),
         enabled: true,
         refetchOnWindowFocus: false,
     });
