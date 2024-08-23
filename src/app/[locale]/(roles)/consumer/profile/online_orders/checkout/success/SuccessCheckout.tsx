@@ -1,16 +1,15 @@
 'use client';
 
-import BusinessOrderItem from '../../../../../../components/common/BusinessOrderItem';
 import Spinner from '@/app/[locale]/components/common/Spinner';
-import ShippingInformationBox from '@/app/[locale]/components/ShippingInformationBox';
 import BillingInformationBox from '@/app/[locale]/components/BillingInformationBox';
 import PaymentInformationBox from '@/app/[locale]/components/PaymentInformationBox';
+import ShippingInformationBox from '@/app/[locale]/components/ShippingInformationBox';
+import BusinessOrderItem from '../../../../../../components/common/BusinessOrderItem';
+import BusinessOrderStatusInformation from '@/app/[locale]/components/common/BussinessOrderStatusInformation';
 import React, { useState, useEffect } from 'react';
 import { IOrder } from '@/lib/types/types';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../../../../(auth)/Context/useAuth';
-import OrderStatusInformation from '@/app/[locale]/components/common/OrderStatusInformation';
-import BusinessOrderStatusInformation from '@/app/[locale]/components/common/BussinessOrderStatusInformation';
 
 interface Props {
     isError?: boolean;
@@ -34,16 +33,6 @@ export default function SuccessCheckout({ order, isError }: Props) {
             setLoading(true);
         };
     }, [user]);
-
-    const handleInvoicePdf = () => {
-        // Get current url
-        const currentUrl = window.location.href;
-
-        window.open(
-            `/${currentUrl}/checkout/invoice/${order.order_number}`,
-            '_ blank',
-        );
-    };
 
     if (isError) {
         return (

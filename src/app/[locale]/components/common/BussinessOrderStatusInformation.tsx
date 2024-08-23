@@ -14,6 +14,8 @@ const BusinessOrderStatusInformation = ({ bOrders, order }: Props) => {
     const t = useTranslations();
     const locale = useLocale();
 
+    console.log(order);
+
     const [packStatusArray, setPackStatusArray] = useState<string[]>(
         bOrders?.map((bOrder: IBusinessOrder) => bOrder.status) ?? [],
     );
@@ -63,13 +65,8 @@ const BusinessOrderStatusInformation = ({ bOrders, order }: Props) => {
     }, [packStatusArray]);
 
     const handleInvoicePdf = () => {
-        // Get current url
-        const currentUrl = window.location.href;
-
-        // window.open(
-        //     `/${currentUrl}/checkout/invoice/${order.order_number}`,
-        //     '_ blank',
-        // );
+        const invoiceUrl = `/checkout/invoice/${order.order_number}`;
+        window.open(invoiceUrl, '_blank');
     };
 
     return (
@@ -105,7 +102,6 @@ const BusinessOrderStatusInformation = ({ bOrders, order }: Props) => {
                     </span>
                 </div>
 
-                {/* Información del usuario que ha realizado la compra de manera minimalista y UX/UI friendly */}
                 <div className="mt-4 grid grid-cols-2 gap-2 space-y-2 sm:items-baseline sm:space-y-0">
                     <h1 className="col-span-3 text-lg tracking-tight text-gray-900 sm:text-xl">
                         {t('customer_info')}
