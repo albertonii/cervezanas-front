@@ -1367,6 +1367,9 @@ export interface IDistributorUser {
     company_history_description?: string;
     company_phone: string;
     company_email: string;
+    company_vision?: string;
+    company_mission?: string;
+    company_values?: string;
     profile_location?: IProfileLocation[];
     users?: IUserTable; // To access embeded information we need to get into the table and the look for data
     coverage_areas?: ICoverageArea[];

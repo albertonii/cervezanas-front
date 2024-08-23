@@ -3,25 +3,31 @@
 import Button from '@/app/[locale]/components/common/Button';
 import Spinner from '@/app/[locale]/components/common/Spinner';
 import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
 import { z, ZodType } from 'zod';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
+import { IDistributorUser } from '@/lib//types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IDistributorUser } from '@/lib//types/types';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
 
 type FormData = {
     company_history_year?: number;
     company_history_description?: string;
+    company_vision?: string;
+    company_mission?: string;
+    company_values?: string;
 };
 
 const schema: ZodType<FormData> = z.object({
     company_history_year: z.number().optional(),
     company_history_description: z.string().optional(),
+    company_vision: z.string().optional(),
+    company_mission: z.string().optional(),
+    company_values: z.string().optional(),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -47,19 +53,31 @@ export function CompanyHistoryForm({ profile }: Props) {
         defaultValues: {
             company_history_year: profile.company_history_year,
             company_history_description: profile.company_history_description,
+            company_vision: profile.company_vision,
+            company_mission: profile.company_mission,
+            company_values: profile.company_values,
         },
     });
 
     const { handleSubmit } = form;
 
     const handleUpdataHistoryData = async (form: ValidationSchema) => {
-        const { company_history_year, company_history_description } = form;
+        const {
+            company_history_year,
+            company_history_description,
+            company_vision,
+            company_mission,
+            company_values,
+        } = form;
 
         const { error } = await supabase
             .from('distributor_user')
             .update({
                 company_history_year,
                 company_history_description,
+                company_vision,
+                company_mission,
+                company_values,
             })
             .eq('user_id', profile.user_id);
 
@@ -134,6 +152,32 @@ export function CompanyHistoryForm({ profile }: Props) {
                         }}
                         placeholder={'1994'}
                     />
+                </div>
+
+                <div className="grid grid-cols-3 gap-2">
+                    <div className="col-span-3 sm:col-span-1">
+                        <InputTextarea
+                            form={form}
+                            label={'company_vision'}
+                            placeholder={t('profile_acc_vision_placeholder')}
+                        />
+                    </div>
+
+                    <div className="col-span-3 sm:col-span-1">
+                        <InputTextarea
+                            form={form}
+                            label={'company_mission'}
+                            placeholder={t('profile_acc_mission_placeholder')}
+                        />
+                    </div>
+
+                    <div className="col-span-3 sm:col-span-1">
+                        <InputTextarea
+                            form={form}
+                            label={'company_values'}
+                            placeholder={t('profile_acc_values_placeholder')}
+                        />
+                    </div>
                 </div>
 
                 <div className="flex w-full flex-row space-x-3 ">

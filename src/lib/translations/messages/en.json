@@ -27,6 +27,8 @@
     "profile_acc_username": "Username",
     "profile_acc_birthdate": "Date of birth",
     "profile_acc_email": "Email",
+    "profile_acc_description_placeholder": "Write a description of your profile",
+    "profile_acc_description_tooltip": "Brief summary of company, mission, and values",
     "profile_custom_bg_img": "Background profile photo",
     "profile_custom_profile_photo_img": "Profile Photo",
     "accept": "Accept",
@@ -1124,8 +1126,17 @@
         "distributor_address": "Address",
         "distrbutor_email": "Email",
         "distributor_description": "Description",
-        "distributor_coverage_areas": "Coverage area"
+        "distributor_coverage_areas": "Coverage area",
+        "our_company_vision": "Vision",
+        "our_company_mission": "Mission",
+        "our_company_values": "Values"
     },
     "show_full_info": "Show full information",
-    "hide_full_info": "Hide full information"
+    "hide_full_info": "Hide full information",
+    "company_vision": "Vision",
+    "company_mission": "Mission",
+    "company_values": "Values",
+    "profile_acc_vision_placeholder": "Enter the company vision",
+    "profile_acc_mission_placeholder": "Enter the company mission",
+    "profile_acc_values_placeholder": "Enter the company values"
 }

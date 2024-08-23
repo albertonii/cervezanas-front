@@ -28,6 +28,8 @@
     "profile_acc_email": "Correo Electrónico",
     "profile_custom_bg_img": "Fondo de Pantalla de Perfil",
     "profile_custom_profile_photo_img": "Foto de Perfil",
+    "profile_acc_description_placeholder": "Escribe una descripción de tu perfil",
+    "profile_acc_description_tooltip": "Breve resumen de la empresa, misión, y valores",
     "accept": "Aceptar",
     "save": "Guardar",
     "close": "Cerrar",
@@ -1157,8 +1159,17 @@
         "distributor_email": "Correo electrónico",
         "distributor_description": "Descripción",
         "distributor_contact": "Contacto",
-        "distributor_coverage_areas": "Áreas de cobertura"
+        "distributor_coverage_areas": "Áreas de cobertura",
+        "our_company_vision": "Visión",
+        "our_company_mission": "Misión",
+        "our_company_values": "Valores"
     },
     "show_full_info": "Mostrar información completa",
-    "hide_full_info": "Ocultar información completa"
+    "hide_full_info": "Ocultar información completa",
+    "company_vision": "Visión",
+    "company_mission": "Misión",
+    "company_values": "Valores",
+    "profile_acc_vision_placeholder": "Introduce la visión de la empresa",
+    "profile_acc_mission_placeholder": "Introduce la misión de la empresa",
+    "profile_acc_values_placeholder": "Introduce los valores de la empresa"
 }

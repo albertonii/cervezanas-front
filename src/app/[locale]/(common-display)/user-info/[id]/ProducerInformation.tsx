@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import { IProducerUser } from '@/lib/types/types';
 import { useTranslations } from 'next-intl';
-import React, { useState } from 'react';
 
 interface Props {
     producer: IProducerUser;
@@ -16,8 +16,8 @@ const ProducerInformation = ({ producer }: Props) => {
     };
 
     return (
-        <div className="rounded-sm bg-white p-3 shadow-sm">
-            <div className="flex items-center space-x-2 font-semibold leading-8 text-gray-900">
+        <section className="bg-white shadow-lg rounded-lg p-6 mx-auto space-y-4">
+            <div className="relative flex items-center space-x-3 text-lg font-semibold text-gray-900 mb-4">
                 <span className=" text-beer-gold">
                     <svg
                         className="h-5"
@@ -83,7 +83,7 @@ const ProducerInformation = ({ producer }: Props) => {
                     ? `${t('hide_full_info')}`
                     : `${t('show_full_info')}`}
             </button>
-        </div>
+        </section>
     );
 };
 

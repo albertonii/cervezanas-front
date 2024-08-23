@@ -3,16 +3,16 @@
 import Button from '@/app/[locale]/components/common/Button';
 import Spinner from '@/app/[locale]/components/common/Spinner';
 import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
 import { z, ZodType } from 'zod';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
+import { IDistributorUser } from '@/lib//types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IDistributorUser } from '@/lib//types/types';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
 
 type FormData = {
     id_number: string;
@@ -197,6 +197,7 @@ export function DistributorBasicDataForm({ profile }: Props) {
                         form={form}
                         label={'company_description'}
                         placeholder={t('profile_acc_description_placeholder')}
+                        infoTooltip={t('profile_acc_description_tooltip')}
                     />
                 </div>
 

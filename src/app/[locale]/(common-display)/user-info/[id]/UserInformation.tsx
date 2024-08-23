@@ -123,7 +123,6 @@ export default function UserInformation({ user }: Props) {
                             : `${t('show_full_info')}`}
                     </button>
                 </div>
-                {/*  End of about section  */}
 
                 {/* Información del distribuidor  */}
                 {user.distributor_user && (
@@ -136,8 +135,6 @@ export default function UserInformation({ user }: Props) {
                 {user.producer_user && (
                     <ProducerInformation producer={user.producer_user} />
                 )}
-
-                {/*  End of profile tab  */}
             </div>
         </section>
     );

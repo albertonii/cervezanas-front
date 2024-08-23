@@ -1331,8 +1331,11 @@ export interface Database {
           company_ig: string | null
           company_linkedin: string | null
           company_logo: string | null
+          company_mission: string | null
           company_name: string | null
           company_phone: string | null
+          company_values: string | null
+          company_vision: string | null
           company_website: string | null
           created_at: string | null
           id_number: string | null
@@ -1352,8 +1355,11 @@ export interface Database {
           company_ig?: string | null
           company_linkedin?: string | null
           company_logo?: string | null
+          company_mission?: string | null
           company_name?: string | null
           company_phone?: string | null
+          company_values?: string | null
+          company_vision?: string | null
           company_website?: string | null
           created_at?: string | null
           id_number?: string | null
@@ -1373,8 +1379,11 @@ export interface Database {
           company_ig?: string | null
           company_linkedin?: string | null
           company_logo?: string | null
+          company_mission?: string | null
           company_name?: string | null
           company_phone?: string | null
+          company_values?: string | null
+          company_vision?: string | null
           company_website?: string | null
           created_at?: string | null
           id_number?: string | null

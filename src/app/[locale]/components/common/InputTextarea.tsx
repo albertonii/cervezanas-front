@@ -1,7 +1,8 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import React from 'react';
+import { InfoTooltip } from './InfoTooltip';
+import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { DisplayInputError } from './DisplayInputError';
 
@@ -19,7 +20,7 @@ interface Props {
         validate?: any;
         valueAsNumber?: boolean;
     };
-    inputType?: string;
+    infoTooltip?: string;
     placeholder?: string;
     disabled?: boolean;
 }
@@ -30,6 +31,7 @@ export default function InputTextarea({
     registerOptions,
     placeholder,
     disabled = false,
+    infoTooltip,
 }: Props) {
     const t = useTranslations();
 
@@ -41,7 +43,16 @@ export default function InputTextarea({
     return (
         <div className="w-full">
             <label className="flex w-full flex-col items-start space-y-2 text-sm text-gray-600">
-                {labelText ? labelText : t(label)}
+                <span className="">
+                    {labelText ? labelText : t(label)}
+                    {infoTooltip && (
+                        <InfoTooltip
+                            content={`${t(infoTooltip)}`}
+                            delay={0}
+                            width={'max-content'}
+                        />
+                    )}
+                </span>
 
                 <textarea
                     className={`

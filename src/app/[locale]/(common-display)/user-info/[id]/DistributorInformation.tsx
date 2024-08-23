@@ -22,10 +22,8 @@ const DistributorInformation = ({ distributor }: Props) => {
         setShowDistributorFullInfo(!showDistributorFullInfo);
     };
 
-    console.log(distributor);
-
     return (
-        <div className="bg-white shadow-lg rounded-lg p-6 mx-auto space-y-4">
+        <section className="bg-white shadow-lg rounded-lg p-6 mx-auto space-y-4">
             <div className="relative flex items-center space-x-3 text-lg font-semibold text-gray-900 mb-4">
                 <span className="text-beer-gold">
                     <svg
@@ -125,7 +123,7 @@ const DistributorInformation = ({ distributor }: Props) => {
             </button>
 
             {/*  End of distributor information  */}
-        </div>
+        </section>
     );
 };
 
