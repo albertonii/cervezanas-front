@@ -94,26 +94,20 @@ const DistributorInformation = ({ distributor }: Props) => {
             {showDistributorFullInfo && (
                 <section className="grid grid-cols-2 gap-2">
                     {distributor.company_description && (
-                        <section className="text-sm col-span-1">
+                        <section className="col-span-2 md:col-span-1">
                             <DistributorMoreDetails distributor={distributor} />
                         </section>
                     )}
 
-                    <section className="col-span-1">
+                    <section className="col-span-2 md:col-span-1">
                         <DistributorContactInformation
                             distributor={distributor}
                         />
                     </section>
 
-                    {distributor.company_vision ||
-                        distributor.company_mission ||
-                        distributor.company_values ||
-                        distributor.company_history_year ||
-                        (distributor.company_history_description && (
-                            <section className="col-span-2">
-                                <DistributorHistory distributor={distributor} />
-                            </section>
-                        ))}
+                    <section className="col-span-2">
+                        <DistributorHistory distributor={distributor} />
+                    </section>
 
                     <section className="col-span-2">
                         <DistributorCoverageAreas distributor={distributor} />

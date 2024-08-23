@@ -17,12 +17,13 @@ const ProducerHistory = ({ producer }: Props) => {
         company_values,
     } = producer;
 
+    console.log(producer);
+
     return (
         <div className="bg-white shadow-lg rounded-lg p-6 mx-auto">
             <h2 className="text-2xl font-bold text-center mb-4 text-gray-800">
                 {t('our_company_history')}
             </h2>
-
             <div className="flex justify-between gap-2">
                 {company_vision && (
                     <div className="mb-6 w-full">
@@ -59,7 +60,6 @@ const ProducerHistory = ({ producer }: Props) => {
                     </div>
                 )}
             </div>
-
             <div className="border-l-4 border-beer-blonde pl-4">
                 {company_history_year && (
                     <div className="mb-2">

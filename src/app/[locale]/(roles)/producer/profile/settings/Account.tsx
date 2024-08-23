@@ -7,6 +7,7 @@ import { BasicDataForm } from './BasicDataForm';
 import { SecretDataForm } from './SecretDataForm';
 import { IProducerUser } from '@/lib//types/types';
 import { ProducerBasicDataForm } from './ProducerBasicDataForm';
+import { CompanyHistoryForm } from './CompanyHistoryForm';
 
 interface Props {
     profile: IProducerUser;
@@ -29,9 +30,10 @@ export function Account({ profile }: Props) {
             </p>
 
             <BasicDataForm profile={profile} />
-            <SecretDataForm />
-            <RRSSForm profile={profile} />
             <ProducerBasicDataForm profile={profile} />
+            <RRSSForm profile={profile} />
+            <CompanyHistoryForm profile={profile} />
+            <SecretDataForm />
             <UserRoles />
             {/* <LocationForm profile_location={profile.profile_location} /> */}
         </section>

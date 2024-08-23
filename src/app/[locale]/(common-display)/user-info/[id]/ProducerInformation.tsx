@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import ProducerMoreDetails from './ProducerMoreDetails';
 import ProducerContactInformation from './ProducerContactInformation';
 import ProducerHistory from './ProducerHistory';
+import ProducerRRSS from './ProducerRRSS';
 
 interface Props {
     producer: IProducerUser;
@@ -41,6 +42,8 @@ const ProducerInformation = ({ producer }: Props) => {
                 <span className="tracking-wide">
                     {t('public_user_information.producer_information_title')}
                 </span>
+
+                <ProducerRRSS producer={producer} />
             </div>
 
             <div className="bg-white shadow-lg rounded-lg p-6 mx-auto">
@@ -89,24 +92,18 @@ const ProducerInformation = ({ producer }: Props) => {
             {showProducerFullInfo && (
                 <section className="grid grid-cols-2 gap-2">
                     {producer.company_description && (
-                        <section className="text-sm col-span-1">
+                        <section className="col-span-2 md:col-span-1">
                             <ProducerMoreDetails producer={producer} />
                         </section>
                     )}
 
-                    <section className="col-span-1">
+                    <section className="col-span-2 md:col-span-1">
                         <ProducerContactInformation producer={producer} />
                     </section>
 
-                    {producer.company_vision ||
-                        producer.company_mission ||
-                        producer.company_values ||
-                        producer.company_history_year ||
-                        (producer.company_history_description && (
-                            <section className="col-span-2">
-                                <ProducerHistory producer={producer} />
-                            </section>
-                        ))}
+                    <section className="col-span-2">
+                        <ProducerHistory producer={producer} />
+                    </section>
                 </section>
             )}
 
