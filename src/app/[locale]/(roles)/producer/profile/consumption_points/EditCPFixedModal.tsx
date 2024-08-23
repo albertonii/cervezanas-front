@@ -414,7 +414,7 @@ export default function EditCPFixedModal({
                                 <InputLabel
                                     form={form}
                                     label={'organizer_lastname'}
-                                    labelText={'lastname'}
+                                    labelText={t('lastname')}
                                     registerOptions={{
                                         required: true,
                                     }}

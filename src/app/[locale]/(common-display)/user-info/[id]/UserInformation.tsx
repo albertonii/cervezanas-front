@@ -60,45 +60,6 @@ export default function UserInformation({ user }: Props) {
                     <div className="mt-4 text-gray-700">
                         <div className="grid text-sm md:grid-cols-2">
                             <div className="grid grid-cols-2 py-2">
-                                <div className="font-semibold">{t('name')}</div>
-                                <div>{user.name}</div>
-                            </div>
-                            <div className="grid grid-cols-2 py-2">
-                                <div className="font-semibold">
-                                    {t('lastname')}
-                                </div>
-                                <div>{user.lastname}</div>
-                            </div>
-
-                            <div className="grid grid-cols-2 py-2">
-                                <div className="font-semibold">
-                                    {t('phone')}
-                                </div>
-                                <div>+11 998001001</div>
-                            </div>
-
-                            <address className="grid grid-cols-2 py-2">
-                                <div className="font-semibold">
-                                    {t('address')}
-                                </div>
-                                <div>
-                                    {/* {user.profile_location[0].address_1 ??
-                      "" + " " + user.profile_location[0].address_2 ??
-                      ""}
-
-                    <br />
-
-                    {user.profile_location[0].postalcode ?? ""} */}
-                                </div>
-                            </address>
-                            <div className="grid grid-cols-2 py-2">
-                                <div className="font-semibold">
-                                    Permanent Address
-                                </div>
-                                <div>Arlington Heights, IL, Illinois</div>
-                            </div>
-
-                            <div className="grid grid-cols-2 py-2">
                                 <div className="font-semibold">
                                     {t('email')}
                                 </div>

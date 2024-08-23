@@ -394,7 +394,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
                                 <InputLabel
                                     form={form}
                                     label={'organizer_lastname'}
-                                    labelText={'lastname'}
+                                    labelText={t('lastname')}
                                     registerOptions={{
                                         required: true,
                                     }}
