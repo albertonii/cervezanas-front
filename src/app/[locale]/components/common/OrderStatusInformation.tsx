@@ -1,9 +1,9 @@
+import React from 'react';
+import Link from 'next/link';
 import { ONLINE_ORDER_STATUS } from '@/constants';
 import { IOrder } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
-import Link from 'next/link';
-import React from 'react';
 
 interface Props {
     order: IOrder;
@@ -15,13 +15,8 @@ const OrderStatusInformation = ({ order, orderStatus }: Props) => {
     const locale = useLocale();
 
     const handleInvoicePdf = () => {
-        // Get current url
-        const currentUrl = window.location.href;
-
-        window.open(
-            `/${currentUrl}/checkout/invoice/${order.order_number}`,
-            '_ blank',
-        );
+        const invoiceUrl = `/checkout/invoice/${order.order_number}`;
+        window.open(invoiceUrl, '_blank');
     };
 
     return (

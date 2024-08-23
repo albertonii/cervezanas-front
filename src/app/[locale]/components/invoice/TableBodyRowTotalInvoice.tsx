@@ -56,6 +56,18 @@ const styles = StyleSheet.create({
         paddingRight: 5,
         textAlign: 'right',
     },
+    data_shipping_cost: {
+        width: '25%',
+        height: '100%',
+        border: '1px solid black',
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+        paddingTop: 5,
+        paddingBottom: 5,
+        paddingLeft: 5,
+        paddingRight: 5,
+        textAlign: 'right',
+    },
 });
 
 interface Props {
@@ -67,9 +79,10 @@ interface Props {
         quantity: number;
         total: number;
     }[];
+    shippingCost: number;
 }
 
-export function TableBodyRowTotalInvoice({ items }: Props) {
+export function TableBodyRowTotalInvoice({ items, shippingCost }: Props) {
     const taxRate = 21; // Tax rate in percentage
     const [taxableIncome, setTaxableIncome] = useState(0);
     const [totalTax, setTotalTax] = useState(0);
@@ -78,7 +91,7 @@ export function TableBodyRowTotalInvoice({ items }: Props) {
     useEffect(() => {
         const income = items.reduce((acc, item) => acc + item.total, 0);
         const tax = (income * taxRate) / 100;
-        const total = income + tax;
+        const total = income + tax + shippingCost;
 
         setTaxableIncome(income);
         setTotalTax(tax);
@@ -89,6 +102,9 @@ export function TableBodyRowTotalInvoice({ items }: Props) {
         <View style={styles.row}>
             <Text style={styles.data_taxable_income}>
                 {taxableIncome.toFixed(2)} EUR
+            </Text>
+            <Text style={styles.data_shipping_cost}>
+                {shippingCost.toFixed(2)} EUR
             </Text>
             <Text style={styles.data_tax}>{totalTax.toFixed(2)} EUR</Text>
             <Text style={styles.data_discount}>0.00 EUR</Text>

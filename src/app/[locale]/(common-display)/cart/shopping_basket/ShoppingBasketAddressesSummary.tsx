@@ -48,6 +48,7 @@ const ShoppingBasketAddressesSummary = ({
                         <p className="text-center text-base font-semibold leading-4 text-gray-800 dark:text-white md:text-left">
                             {t('billing_address')}
                         </p>
+
                         <div className="w-48 text-center text-sm leading-5 text-gray-600 dark:text-gray-300 md:text-left lg:w-full xl:w-48">
                             {billingAddresses?.map((address) => {
                                 if (address.id === selectedBillingAddress)

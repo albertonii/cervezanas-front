@@ -19,6 +19,9 @@ const itemsHeaderTotal = [
         title: 'Base Imponible',
     },
     {
+        title: 'Coste de Envío',
+    },
+    {
         title: 'IVA/IGIC',
     },
     {
@@ -34,6 +37,8 @@ interface Props {
 }
 
 export function ItemsTableTotalInvoice({ bOrders }: Props) {
+    const shippingCost = bOrders[0].orders?.shipping || 0;
+
     const [items, setItems] = useState<
         {
             id: string;
@@ -97,14 +102,13 @@ export function ItemsTableTotalInvoice({ bOrders }: Props) {
         return () => {};
     }, [bOrders]);
 
-    useEffect(() => {
-        console.log(items);
-    }, [items]);
-
     return (
         <View style={styles.tableContainer}>
             <TableHeaderRowTotalInvoice itemsHeaderTotal={itemsHeaderTotal} />
-            <TableBodyRowTotalInvoice items={items} />
+            <TableBodyRowTotalInvoice
+                items={items}
+                shippingCost={shippingCost}
+            />
         </View>
     );
 }
