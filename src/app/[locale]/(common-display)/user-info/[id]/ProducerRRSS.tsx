@@ -6,20 +6,20 @@ import {
     faFacebook,
     faLinkedin,
 } from '@fortawesome/free-brands-svg-icons';
+import { IProducerUser } from '@/lib/types/types';
 import { faGlobe } from '@fortawesome/free-solid-svg-icons';
-import { IDistributorUser } from '@/lib/types/types';
 
 const urlIG = 'https://www.instagram.com/';
 const urlFB = 'https://www.facebook.com/';
 const urlLinkedIn = 'https://www.linkedin.com/in/';
 
 interface Props {
-    distributor: IDistributorUser;
+    producer: IProducerUser;
 }
 
-const DistributorRRSS = ({ distributor }: Props) => {
+const ProducerRRSS = ({ producer }: Props) => {
     const { company_ig, company_fb, company_linkedin, company_website } =
-        distributor;
+        producer;
 
     return (
         <div className="flex items-center justify-center absolute right-0 ">
@@ -76,4 +76,4 @@ const DistributorRRSS = ({ distributor }: Props) => {
     );
 };
 
-export default DistributorRRSS;
+export default ProducerRRSS;

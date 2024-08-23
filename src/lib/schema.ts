@@ -2205,8 +2205,18 @@ export interface Database {
       producer_user: {
         Row: {
           company_description: string | null
+          company_fb: string | null
+          company_ig: string | null
+          company_linkedin: string | null
+          company_logo: string | null
+          company_mission: string | null
           company_name: string | null
+          company_values: string | null
+          company_vision: string | null
+          company_website: string | null
           created_at: string
+          history_description: string | null
+          history_year: number | null
           id_number: string | null
           is_active: boolean | null
           is_authorized: boolean | null
@@ -2215,8 +2225,18 @@ export interface Database {
         }
         Insert: {
           company_description?: string | null
+          company_fb?: string | null
+          company_ig?: string | null
+          company_linkedin?: string | null
+          company_logo?: string | null
+          company_mission?: string | null
           company_name?: string | null
+          company_values?: string | null
+          company_vision?: string | null
+          company_website?: string | null
           created_at?: string
+          history_description?: string | null
+          history_year?: number | null
           id_number?: string | null
           is_active?: boolean | null
           is_authorized?: boolean | null
@@ -2225,8 +2245,18 @@ export interface Database {
         }
         Update: {
           company_description?: string | null
+          company_fb?: string | null
+          company_ig?: string | null
+          company_linkedin?: string | null
+          company_logo?: string | null
+          company_mission?: string | null
           company_name?: string | null
+          company_values?: string | null
+          company_vision?: string | null
+          company_website?: string | null
           created_at?: string
+          history_description?: string | null
+          history_year?: number | null
           id_number?: string | null
           is_active?: boolean | null
           is_authorized?: boolean | null
