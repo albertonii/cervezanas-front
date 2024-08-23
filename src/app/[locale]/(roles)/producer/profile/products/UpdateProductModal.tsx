@@ -711,7 +711,6 @@ export function UpdateProductModal({
         },
         onSuccess: () => {
             setIsSubmitting(false);
-            console.log('upd');
             setIsLoading(false);
             queryClient.invalidateQueries('productList');
         },

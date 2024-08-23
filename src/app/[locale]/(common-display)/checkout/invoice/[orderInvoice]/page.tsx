@@ -47,7 +47,7 @@ async function getInvoiceData(orderId: string) {
         .not('orders', 'is', null);
 
     if (bOrderError) {
-        console.log('Error getting order data', bOrderError);
+        console.info('Error getting order data', bOrderError);
         throw new Error(bOrderError.message);
     }
 

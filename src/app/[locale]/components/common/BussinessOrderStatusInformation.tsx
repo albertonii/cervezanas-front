@@ -14,8 +14,6 @@ const BusinessOrderStatusInformation = ({ bOrders, order }: Props) => {
     const t = useTranslations();
     const locale = useLocale();
 
-    console.log(order);
-
     const [packStatusArray, setPackStatusArray] = useState<string[]>(
         bOrders?.map((bOrder: IBusinessOrder) => bOrder.status) ?? [],
     );

@@ -317,6 +317,7 @@ export function ShoppingBasket({ user }: Props) {
     const handleOnClickShipping = (addressId: string) => {
         setDeliveryCost(0);
         setSelectedShippingAddress(addressId);
+        console.log(addressId);
     };
 
     const handleOnClickBilling = (addressId: string) => {

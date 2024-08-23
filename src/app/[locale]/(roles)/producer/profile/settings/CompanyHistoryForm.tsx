@@ -116,7 +116,6 @@ export function CompanyHistoryForm({ profile }: Props) {
         formValues: FormData,
     ) => {
         try {
-            console.log(formValues);
             handleUpdateBasicDataMutation.mutate(formValues);
         } catch (error) {
             console.error(error);

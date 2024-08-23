@@ -17,8 +17,6 @@ const ProducerHistory = ({ producer }: Props) => {
         company_values,
     } = producer;
 
-    console.log(producer);
-
     return (
         <div className="bg-white shadow-lg rounded-lg p-6 mx-auto">
             <h2 className="text-2xl font-bold text-center mb-4 text-gray-800">

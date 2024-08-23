@@ -6,7 +6,6 @@ import { IReview } from '@/lib//types/types';
 
 export default async function ReviewsPage() {
     const { reviews } = await getReviewsData();
-    console.log(reviews);
 
     return <Reviews reviews={reviews} />;
 }
