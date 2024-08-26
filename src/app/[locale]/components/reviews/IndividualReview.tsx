@@ -2,11 +2,10 @@
 
 import React, { useState } from 'react';
 import { Rate } from './Rate';
-import { OwnerInfo } from '../OwnerInfo';
+import { ConsumerInfo } from '../ConsumerInfo';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { IReview } from '@/lib//types/types';
-import { DeleteButton } from '../common/DeleteButton';
 import { formatDateString } from '@/utils/formatDate';
 
 interface Props {
@@ -59,7 +58,7 @@ export function IndividualReview({ review, handleSetReviews }: Props) {
 
     return (
         <article>
-            <OwnerInfo user={review.users} />
+            <ConsumerInfo user={review.users} />
 
             <div className="mb-1 flex items-center">
                 <div>

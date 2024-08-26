@@ -12,10 +12,10 @@ export default function ShippingAddressItem({ address }: Props) {
         <>
             <label
                 className=" text-product-dark w-full 
-                                           dark:bg-gray-800 dark:text-gray-400"
+                            dark:bg-gray-800 dark:text-gray-400"
             >
                 <address className="block">
-                    <span className="w-full text-lg font-semibold">
+                    <span className="w-full text-md font-semibold">
                         {address.name} {address.lastname}
                     </span>
                     <span className="text-md w-full">

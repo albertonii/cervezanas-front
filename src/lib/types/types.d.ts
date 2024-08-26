@@ -1357,6 +1357,19 @@ export interface IDistributorUser {
     location_id: string;
     is_authorized: boolean;
     is_active: boolean;
+    company_ig?: string;
+    company_fb?: string;
+    company_linkedin?: string;
+    company_website?: string;
+    company_logo?: string;
+    opening_hours?: {};
+    company_history_year?: number;
+    company_history_description?: string;
+    company_phone: string;
+    company_email: string;
+    company_vision?: string;
+    company_mission?: string;
+    company_values?: string;
     profile_location?: IProfileLocation[];
     users?: IUserTable; // To access embeded information we need to get into the table and the look for data
     coverage_areas?: ICoverageArea[];
@@ -1372,6 +1385,18 @@ export interface IProducerUser {
     location_id: string;
     is_authorized: boolean;
     is_active: boolean;
+    company_ig?: string;
+    company_fb?: string;
+    company_linkedin?: string;
+    company_website?: string;
+    company_logo?: string;
+    company_history_year?: number;
+    company_history_description?: string;
+    company_phone: string;
+    company_email: string;
+    company_vision?: string;
+    company_mission?: string;
+    company_values?: string;
     profile_location?: IProfileLocation[];
     users?: IUserTable; // To access embeded information we need to get into the table and the look for data
 }

@@ -8,22 +8,32 @@ import { z, ZodType } from 'zod';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
+import { IProducerUser } from '@/lib//types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IProducerUser } from '@/lib//types/types';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 
 type FormData = {
-    company_name: string;
     id_number: string;
+    company_name: string;
     company_description: string;
+    company_phone: string;
+    company_email: string;
 };
 
 const schema: ZodType<FormData> = z.object({
-    company_name: z.string().nonempty(),
-    id_number: z.string().nonempty(),
-    company_description: z.string().nonempty(),
+    id_number: z.string().nonempty({ message: 'ID number is required' }),
+    company_name: z.string().nonempty({ message: 'Company name is required' }),
+    company_description: z
+        .string()
+        .nonempty({ message: 'Company description is required' }),
+    company_phone: z
+        .string()
+        .regex(/^\d{9}$/, { message: 'Invalid phone number' }),
+    company_email: z
+        .string()
+        .nonempty({ message: 'Company email is required' }),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -45,23 +55,33 @@ export function ProducerBasicDataForm({ profile }: Props) {
     const form = useForm({
         resolver: zodResolver(schema),
         defaultValues: {
-            company_name: profile.company_name,
             id_number: profile.id_number,
+            company_name: profile.company_name,
             company_description: profile.company_description,
+            company_phone: profile.company_phone,
+            company_email: profile.company_email,
         },
     });
 
     const { handleSubmit } = form;
 
     const handleUpdateProducerBasicData = async (form: ValidationSchema) => {
-        const { company_name, company_description, id_number } = form;
+        const {
+            company_name,
+            company_description,
+            id_number,
+            company_phone,
+            company_email,
+        } = form;
 
         const { error } = await supabase
             .from('producer_user')
             .update({
+                id_number,
                 company_name,
                 company_description,
-                id_number,
+                company_email,
+                company_phone,
             })
             .eq('user_id', profile.user_id);
 
@@ -99,7 +119,7 @@ export function ProducerBasicDataForm({ profile }: Props) {
     return (
         <section
             id="account_producer_data"
-            className="mb-4 space-y-3 bg-white px-6 py-4"
+            className="mb-4 space-y-3 bg-white px-6 py-4 rounded-xl border"
         >
             <span id="account-producer-data" className="text-4xl font-['NexaRust-script']">
                 {t('producer_title_acc_data')}
@@ -138,10 +158,34 @@ export function ProducerBasicDataForm({ profile }: Props) {
                 </div>
 
                 <div className="flex w-full flex-row space-x-3 ">
+                    <InputLabel
+                        form={form}
+                        label={'company_phone'}
+                        labelText={'profile_acc_phone'}
+                        inputType={'tel'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder={'666555444'}
+                    />
+
+                    <InputLabel
+                        form={form}
+                        label={'company_email'}
+                        labelText={'profile_acc_email'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder={'cervezanas@mail.com'}
+                    />
+                </div>
+
+                <div className="flex w-full flex-row space-x-3 ">
                     <InputTextarea
                         form={form}
                         label={'company_description'}
                         placeholder={t('profile_acc_description_placeholder')}
+                        infoTooltip={t('profile_acc_description_tooltip')}
                     />
                 </div>
 

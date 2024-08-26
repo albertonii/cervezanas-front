@@ -5,6 +5,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { MULTIMEDIA } from '@/constants';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 
@@ -37,7 +38,9 @@ export const UpdateFilePreviewImageMultimedia = ({
             ? preUrl + decodeURIComponent(getValues(registerName))
             : URL.createObjectURL(getValues(registerName)),
     );
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isUploadingLoading, setIsUploadingLoading] =
+        useState<boolean>(false);
+    const [isRemovingLoading, setIsRemovingLoading] = useState<boolean>(false);
 
     const { handleMessage } = useMessage();
 
@@ -66,7 +69,7 @@ export const UpdateFilePreviewImageMultimedia = ({
         setImage(URL.createObjectURL(e.target.files[0])); // Almacenar la URL de la imagen en el estado
         setValue(registerName, e.target.files);
 
-        setIsLoading(true);
+        setIsUploadingLoading(true);
 
         const updateValue = async () => {
             const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -94,7 +97,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                         if (response.status !== 200) {
                             handleMessage({
                                 type: 'error',
-                                message: 'error_update_product_multimedia',
+                                message: 'errors.update_product_multimedia',
                             });
                             setImage(prevImg);
 
@@ -104,11 +107,11 @@ export const UpdateFilePreviewImageMultimedia = ({
                         if (response.status === 200) {
                             handleMessage({
                                 type: 'success',
-                                message: 'success_update_product_multimedia',
+                                message: 'success.update_product_multimedia',
                             });
                         }
                     })
-                    .finally(() => setIsLoading(false))
+                    .finally(() => setIsUploadingLoading(false))
                     .catch((error) => {
                         setImage(prevImg);
                         console.error('Error al subir la imagen', error);
@@ -127,7 +130,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                         if (response.status !== 200) {
                             handleMessage({
                                 type: 'error',
-                                message: 'error_update_product_multimedia',
+                                message: 'errors.update_product_multimedia',
                             });
                             return;
                         }
@@ -135,11 +138,11 @@ export const UpdateFilePreviewImageMultimedia = ({
                         if (response.status === 200) {
                             handleMessage({
                                 type: 'success',
-                                message: 'success_update_product_multimedia',
+                                message: 'success.update_product_multimedia',
                             });
                         }
                     })
-                    .finally(() => setIsLoading(false))
+                    .finally(() => setIsUploadingLoading(false))
                     .catch((error) => {
                         console.error('Error al subir la imagen', error);
                     });
@@ -157,7 +160,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                         if (response.status !== 200) {
                             handleMessage({
                                 type: 'error',
-                                message: 'error_update_product_multimedia',
+                                message: 'errors.update_product_multimedia',
                             });
                             return;
                         }
@@ -165,11 +168,11 @@ export const UpdateFilePreviewImageMultimedia = ({
                         if (response.status === 200) {
                             handleMessage({
                                 type: 'success',
-                                message: 'success_update_product_multimedia',
+                                message: 'success.update_product_multimedia',
                             });
                         }
                     })
-                    .finally(() => setIsLoading(false))
+                    .finally(() => setIsUploadingLoading(false))
                     .catch((error) => {
                         console.error('Error al subir la imagen', error);
                     });
@@ -187,7 +190,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                         if (response.status !== 200) {
                             handleMessage({
                                 type: 'error',
-                                message: 'error_update_product_multimedia',
+                                message: 'errors.update_product_multimedia',
                             });
                             return;
                         }
@@ -195,11 +198,11 @@ export const UpdateFilePreviewImageMultimedia = ({
                         if (response.status === 200) {
                             handleMessage({
                                 type: 'success',
-                                message: 'success_update_product_multimedia',
+                                message: 'success.update_product_multimedia',
                             });
                         }
                     })
-                    .finally(() => setIsLoading(false))
+                    .finally(() => setIsUploadingLoading(false))
                     .catch((error) => {
                         console.error('Error al subir la imagen', error);
                     });
@@ -217,7 +220,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                         if (response.status !== 200) {
                             handleMessage({
                                 type: 'error',
-                                message: 'error_update_product_multimedia',
+                                message: 'errors.update_product_multimedia',
                             });
                             return;
                         }
@@ -225,18 +228,18 @@ export const UpdateFilePreviewImageMultimedia = ({
                         if (response.status === 200) {
                             handleMessage({
                                 type: 'success',
-                                message: 'success_update_product_multimedia',
+                                message: 'success.update_product_multimedia',
                             });
                         }
                     })
-                    .finally(() => setIsLoading(false))
+                    .finally(() => setIsUploadingLoading(false))
                     .catch((error) => {
                         console.error('Error al subir la imagen', error);
                     });
             }
 
             setTimeout(() => {
-                setIsLoading(false);
+                setIsUploadingLoading(false);
             }, 800);
         };
 
@@ -244,20 +247,84 @@ export const UpdateFilePreviewImageMultimedia = ({
             updateValue();
         } catch (error) {
             console.error('Error al subir la imagen', error);
-            setIsLoading(false);
+            setIsUploadingLoading(false);
         }
     };
 
     const handleRemoveImage = () => {
+        const deleteValue = async () => {
+            const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+            const url = `${baseUrl}/api/products/${
+                isBoxPack ? 'box_packs/multimedia' : 'multimedia'
+            }`;
+
+            const formData = new FormData();
+
+            formData.append('product_id', productId);
+
+            registerName === MULTIMEDIA.P_PRINCIPAL &&
+                formData.append('p_principal', getValues(registerName));
+            registerName === MULTIMEDIA.P_BACK &&
+                formData.append('p_back', getValues(registerName));
+            registerName === MULTIMEDIA.P_EXTRA_1 &&
+                formData.append('p_extra_1', getValues(registerName));
+            registerName === MULTIMEDIA.P_EXTRA_2 &&
+                formData.append('p_extra_2', getValues(registerName));
+            registerName === MULTIMEDIA.P_EXTRA_3 &&
+                formData.append('p_extra_3', getValues(registerName));
+
+            await fetch(url, {
+                method: 'DELETE',
+                body: formData,
+            })
+                .then((response) => {
+                    if (response.status !== 200) {
+                        handleMessage({
+                            type: 'error',
+                            message: 'errors.removing_product_multimedia',
+                        });
+                        setImage(prevImg);
+
+                        return;
+                    }
+
+                    if (response.status === 200) {
+                        handleMessage({
+                            type: 'success',
+                            message: 'success.removing_product_multimedia',
+                        });
+                    }
+                })
+                .finally(() => setIsRemovingLoading(false))
+                .catch((error) => {
+                    setImage(prevImg);
+                    console.error(
+                        'Error al eliminar imagen del producto',
+                        error,
+                    );
+                });
+        };
+
+        setIsRemovingLoading(true);
+
+        deleteValue();
+
         setValue(registerName, null);
         setImage(null); // Restablecer la URL de la imagen cuando se elimina
     };
 
     return (
         <section className="flex relative w-full flex-col items-center justify-center rounded-md bg-white p-4 shadow-md border border-gray-200">
-            {isLoading && (
+            {isUploadingLoading && (
                 <div className="absolute z-10 flex h-full w-full items-center justify-center bg-gray-200 bg-opacity-50 text-sm font-semibold">
-                    Subiendo archivo ...
+                    {t('loading_uploading_file')}
+                </div>
+            )}
+
+            {isRemovingLoading && (
+                <div className="absolute z-10 flex h-full w-full items-center justify-center bg-gray-200 bg-opacity-50 text-sm font-semibold">
+                    {t('loading_removing_file')}
                 </div>
             )}
 
@@ -278,10 +345,11 @@ export const UpdateFilePreviewImageMultimedia = ({
                     </div>
                 </div>
             ) : (
-                <div className="relative flex flex-col items-center w-full">
+                <div className="relative flex flex-col items-center w-full ">
                     <FilePreviewBlurImage
                         image={image}
                         removeImageClick={handleRemoveImage}
+                        icon={faTrashAlt}
                     />
                 </div>
             )}

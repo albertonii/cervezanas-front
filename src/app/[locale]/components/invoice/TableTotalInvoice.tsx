@@ -1,39 +1,22 @@
-import React from "react";
-import { StyleSheet, View } from "@react-pdf/renderer";
-import { ItemsTableTotalInvoice } from "./ItemsTableTotalInvoice";
+import React from 'react';
+import { IBusinessOrder } from '@/lib/types/types';
+import { StyleSheet, View } from '@react-pdf/renderer';
+import { ItemsTableTotalInvoice } from './ItemsTableTotalInvoice';
 
 const styles = StyleSheet.create({
-  page: {
-    fontSize: 10,
-  },
+    page: {
+        fontSize: 10,
+    },
 });
 
 interface Props {
-  data: {
-    items: {
-      id: string;
-      code: string;
-      article: string;
-      price: number;
-      quantity: number;
-      total: number;
-    }[];
-    itemsHeader: {
-      title: string;
-    }[];
-    itemsHeaderTotal: {
-      title: string;
-    }[];
-  };
+    bOrders: IBusinessOrder[];
 }
 
-export function TableTotalInvoice({ data }: Props) {
-  return (
-    <View style={styles.page}>
-      <ItemsTableTotalInvoice
-        items={data.items}
-        itemsHeaderTotal={data.itemsHeaderTotal}
-      />
-    </View>
-  );
+export function TableTotalInvoice({ bOrders }: Props) {
+    return (
+        <View style={styles.page}>
+            <ItemsTableTotalInvoice bOrders={bOrders} />
+        </View>
+    );
 }

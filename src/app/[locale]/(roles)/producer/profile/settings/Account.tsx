@@ -1,11 +1,13 @@
 'use client';
 
 import UserRoles from './UserRoles';
+import { RRSSForm } from './RRSSForm';
 import { useTranslations } from 'next-intl';
 import { BasicDataForm } from './BasicDataForm';
 import { SecretDataForm } from './SecretDataForm';
-import { ProducerBasicDataForm } from './ProducerBasicDataForm';
 import { IProducerUser } from '@/lib//types/types';
+import { ProducerBasicDataForm } from './ProducerBasicDataForm';
+import { CompanyHistoryForm } from './CompanyHistoryForm';
 
 interface Props {
     profile: IProducerUser;
@@ -28,8 +30,10 @@ export function Account({ profile }: Props) {
             </p>
 
             <BasicDataForm profile={profile} />
-            <SecretDataForm />
             <ProducerBasicDataForm profile={profile} />
+            <RRSSForm profile={profile} />
+            <CompanyHistoryForm profile={profile} />
+            <SecretDataForm />
             <UserRoles />
             {/* <LocationForm profile_location={profile.profile_location} /> */}
         </section>

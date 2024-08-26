@@ -69,6 +69,7 @@ const InputLabel = ({
                 inputType === 'number' ||
                 inputType === 'email' ||
                 inputType === 'tel' ||
+                inputType === 'url' ||
                 inputType === 'date') && (
                 <label
                     className={`flex-col flex w-full items-start space-y-2 text-sm text-gray-600`}
@@ -90,8 +91,6 @@ const InputLabel = ({
                         className={` 
                             ${disabled && 'bg-gray-100'}
                             ${'relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm'}
-                            
-                        
                         `}
                         {...register(label, {
                             ...registerOptions,
@@ -157,6 +156,10 @@ const InputLabel = ({
                     className={` relative w-full items-start space-y-2 text-sm text-gray-600`}
                     htmlFor={label}
                 >
+                    <span className="font-medium">
+                        {labelText ? labelText : t(label)}
+                    </span>
+
                     <input
                         type={visible ? 'text' : 'password'}
                         className={` 

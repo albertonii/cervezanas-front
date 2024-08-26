@@ -405,7 +405,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
                                     <InputLabel
                                         form={form}
                                         label={'organizer_name'}
-                                        labelText={'name'}
+                                        labelText={t('name')}
                                         registerOptions={{
                                             required: true,
                                         }}
@@ -414,7 +414,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
                                     <InputLabel
                                         form={form}
                                         label={'organizer_lastname'}
-                                        labelText={'lastname'}
+                                        labelText={t('lastname')}
                                         registerOptions={{
                                             required: true,
                                         }}

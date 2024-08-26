@@ -3,13 +3,13 @@
 import Spinner from '@/app/[locale]/components/common/Spinner';
 import PaymentInformationBox from '@/app/[locale]/components/PaymentInformationBox';
 import BillingInformationBox from '@/app/[locale]/components/BillingInformationBox';
+import BusinessOrderItem from '@/app/[locale]/components/common/BusinessOrderItem';
 import ShippingInformationBox from '@/app/[locale]/components/ShippingInformationBox';
+import BusinessOrderStatusInformation from '@/app/[locale]/components/common/BussinessOrderStatusInformation';
 import React, { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { IOrder } from '@/lib//types/types';
 import { useAuth } from '../../../(auth)/Context/useAuth';
-import BusinessOrderItem from '@/app/[locale]/components/common/BusinessOrderItem';
-import BusinessOrderStatusInformation from '@/app/[locale]/components/common/BussinessOrderStatusInformation';
 
 interface Props {
     isError?: boolean;
@@ -33,16 +33,6 @@ export default function SuccessCheckout({ order, isError }: Props) {
             setLoading(true);
         };
     }, [user]);
-
-    const handleInvoicePdf = () => {
-        // Get current url
-        const currentUrl = window.location.href;
-
-        window.open(
-            `/${currentUrl}/checkout/invoice/${order.order_number}`,
-            '_ blank',
-        );
-    };
 
     if (isError) {
         return (

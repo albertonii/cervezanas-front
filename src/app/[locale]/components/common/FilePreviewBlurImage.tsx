@@ -1,14 +1,18 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 interface Props {
     image: string;
     removeImageClick: () => void;
+    icon: IconProp;
 }
 
 export default function FilePreviewBlurImage({
     image,
     removeImageClick,
+    icon,
 }: Props) {
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -42,9 +46,9 @@ export default function FilePreviewBlurImage({
                 onClick={() => {
                     removeImageClick();
                 }}
-                className="absolute right-0 top-0 mr-1 mt-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-sm bg-red-400 object-right-top"
+                className="absolute right-0 top-0 mr-1 mt-1 h-6 w-6 cursor-pointer rounded-sm bg-red-400 object-right-top text-white"
             >
-                <i className="mdi mdi-trash-can text-[16px] text-white">x</i>
+                <FontAwesomeIcon icon={icon} className="w-full" />
             </div>
         </div>
     );

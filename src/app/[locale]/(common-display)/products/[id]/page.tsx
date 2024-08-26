@@ -36,8 +36,10 @@ async function getProductData(productId: string) {
             reviews (
               *,
               users (
+                id,
                 created_at,
-                username
+                username,
+                avatar_url
               )
             ),
             box_packs (

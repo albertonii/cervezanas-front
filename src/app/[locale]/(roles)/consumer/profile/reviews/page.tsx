@@ -31,19 +31,19 @@ async function getReviewsData() {
         .from('reviews')
         .select(
             `
-        *,
-        products (
-          *,
-          product_multimedia (
-            *
-          )
-        ),
-        users (
-          id,
-          username,
-          avatar_url
-        )
-      `,
+              *,
+              products (
+                *,
+                product_multimedia (
+                  *
+                )
+              ),
+              users (
+                id,
+                username,
+                avatar_url
+              )
+            `,
         )
         .eq('owner_id', session.id);
 

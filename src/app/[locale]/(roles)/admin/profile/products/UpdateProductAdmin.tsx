@@ -35,11 +35,11 @@ import {
 } from '@/utils/utils';
 import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
 import { ProductStepper } from '@/app/[locale]/components/products/ProductStepper';
-import { UpdateProductInfoSection } from '../../../producer/profile/products/UpdateProductInfoSection';
 import { UpdateMultimediaSection } from '../../../producer/profile/products/UpdateMultimediaSection';
 import { UpdateAwardsSection } from '../../../producer/profile/products/UpdateAwardsSection';
 import { UpdateProductSummary } from '../../../../components/products/UpdateProductSummary';
 import { Type } from '@/lib//productEnum';
+import { UpdateProductInfoSection } from '@/app/[locale]/components/products/UpdateProductInfoSection';
 
 const schema: ZodType<ModalUpdateProductFormData> = z.object({
     product_id: z.string(),
@@ -721,7 +721,17 @@ export function UpdateProductAdmin({
                                 productId={product.id}
                             />
                         ) : activeStep === 2 ? (
-                            <UpdateAwardsSection form={form} />
+                            <UpdateAwardsSection
+                                form={form}
+                                handleArrayOfAwardsToDelete={function (award: {
+                                    id: string;
+                                    img_url: string;
+                                }): void {
+                                    throw new Error(
+                                        'Function not implemented.',
+                                    );
+                                }}
+                            />
                         ) : (
                             <UpdateProductSummary form={form} />
                         )}

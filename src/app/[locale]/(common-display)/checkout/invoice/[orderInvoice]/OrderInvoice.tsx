@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Page,
     Text,
@@ -12,11 +12,12 @@ import {
     Svg,
     Line,
 } from '@react-pdf/renderer';
-import { IOrder } from '@/lib//types/types';
+import { IBusinessOrder, IOrder } from '@/lib//types/types';
 import { formatDateString } from '@/utils/formatDate';
-import { Table } from '@/app/[locale]/components/invoice/Table';
 import { TableTotalInvoice } from '@/app/[locale]/components/invoice/TableTotalInvoice';
 import { FooterInvoice } from '@/app/[locale]/components/invoice/FooterInvoice';
+import { TableHeaderRow } from '@/app/[locale]/components/invoice/TableHeaderRow';
+import { ItemsTable } from '@/app/[locale]/components/invoice/ItemsTable';
 
 const styles = StyleSheet.create({
     page: {
@@ -94,78 +95,21 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         paddingRight: 20,
     },
+    tableContainer: {
+        flexDirection: 'column',
+        border: '1px solid black',
+        width: '100%',
+        marginTop: 20,
+        marginBottom: 20,
+    },
 });
 
 interface Props {
-    order: IOrder;
+    bOrders: IBusinessOrder[];
 }
 
-export default function OrderInvoice({ order }: Props) {
-    const [items, setItems] = useState(() => {
-        if (!order.business_orders) return [];
-
-        const { order_items } = order.business_orders[0];
-
-        if (!order_items) return [];
-
-        return order_items.map((item) => {
-            if (!item.product_packs)
-                return {
-                    id: '',
-                    code: '',
-                    article: '',
-                    price: 0,
-                    quantity: 0,
-                    total: 0,
-                };
-
-            const { order_number: code } = order;
-            const { quantity } = item;
-            const { product_id, name: article, price } = item.product_packs;
-
-            const total = quantity * price;
-
-            return {
-                id: product_id,
-                code,
-                article,
-                price,
-                quantity,
-                total,
-            };
-        });
-    });
-
-    const itemsHeader = [
-        {
-            title: 'Código',
-        },
-        { title: 'Artículo' },
-        { title: 'Precio' },
-        { title: 'Unidad' },
-        { title: 'Total' },
-    ];
-
-    const itemsHeaderTotal = [
-        {
-            title: 'Base Imponible',
-        },
-        {
-            title: 'IVA/IGIC',
-        },
-        {
-            title: 'Descuento',
-        },
-        {
-            title: 'Total Factura',
-        },
-    ];
-
-    const data = {
-        items,
-        itemsHeader,
-        itemsHeaderTotal,
-    };
+export default function OrderInvoice({ bOrders }: Props) {
+    const order = bOrders[0].orders as IOrder;
 
     return (
         <>
@@ -283,10 +227,16 @@ export default function OrderInvoice({ order }: Props) {
                                 </View>
 
                                 {/* Products table of the order */}
-                                <Table data={data} />
+                                <View style={styles.tableContainer}>
+                                    <TableHeaderRow />
+
+                                    {bOrders.map((bOrder) => (
+                                        <ItemsTable bOrder={bOrder} />
+                                    ))}
+                                </View>
 
                                 {/* Total Invoice  */}
-                                <TableTotalInvoice data={data} />
+                                <TableTotalInvoice bOrders={bOrders} />
 
                                 {/* Footer */}
                                 <FooterInvoice />

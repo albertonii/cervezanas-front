@@ -1,24 +1,27 @@
 import OrderInvoice from './OrderInvoice';
-import { redirect } from 'next/navigation';
-import createServerClient from '@/utils/supabaseServer';
 import readUserSession from '@/lib//actions';
-import { VIEWS } from '@/constants';
+import createServerClient from '@/utils/supabaseServer';
+import { redirect } from 'next/navigation';
+import { IBusinessOrder } from '@/lib/types/types';
 
 export default async function OrderInvoicePage({
     params,
 }: {
-    params: { slug: any };
+    params: { orderInvoice: any };
 }) {
-    const { slug } = params;
-    const orderData = await getInvoiceData(slug);
-    const [order] = await Promise.all([orderData]);
+    const { orderInvoice } = params;
 
-    return <>{order ?? <OrderInvoice order={order} />}</>;
+    const bOrderData = await getInvoiceData(orderInvoice);
+    const [bOrders] = await Promise.all([bOrderData]);
+
+    if (!bOrders) {
+        return <div>Order not found</div>;
+    }
+
+    return <OrderInvoice bOrders={bOrders} />;
 }
 
-async function getInvoiceData(slug: any) {
-    const { orderInvoice: orderId } = slug;
-
+async function getInvoiceData(orderId: string) {
     const supabase = await createServerClient();
 
     const session = await readUserSession();
@@ -27,34 +30,30 @@ async function getInvoiceData(slug: any) {
         redirect('/signin');
     }
 
-    const { data: orderData, error: orderError } = await supabase
-        .from('orders')
+    const { data: bOrderData, error: bOrderError } = await supabase
+        .from('business_orders')
         .select(
             `
-      *,
-      shipping_info(id, *),
-      billing_info(id, *),
-      products(
-        id, 
-        name, 
-        price,
-        product_multimedia (*),
-        order_items (*)
-      )
-    `,
+                *,
+                orders (*),
+                order_items (
+                    *,
+                    product_packs (*)
+                )
+                
+            `,
         )
-        .eq('order_number', orderId)
-        .single();
+        .eq('orders.order_number', orderId)
+        .not('orders', 'is', null);
 
-    if (orderError) {
-        throw new Error(orderError.message);
+    if (bOrderError) {
+        console.info('Error getting order data', bOrderError);
+        throw new Error(bOrderError.message);
     }
 
-    if (!orderData) {
-        return {
-            order: null,
-        };
+    if (!bOrderData) {
+        return [];
     }
 
-    return orderData;
+    return bOrderData as IBusinessOrder[];
 }

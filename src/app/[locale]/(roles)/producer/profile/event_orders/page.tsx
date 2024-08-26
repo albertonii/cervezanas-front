@@ -28,11 +28,11 @@ async function getEventOrdersData() {
         .from('event_orders')
         .select(
             `
-        *,
-        users!event_orders_customer_id_fkey (
-          *
-        )
-      `,
+                *,
+                users!event_orders_customer_id_fkey (
+                *
+                )
+            `,
         )
         .eq('customer_id', session.id);
     if (eventOrdersError) throw eventOrdersError;

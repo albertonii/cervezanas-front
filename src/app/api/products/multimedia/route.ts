@@ -1,3 +1,4 @@
+import createServerClient from '@/utils/supabaseServer';
 import { NextRequest, NextResponse } from 'next/server';
 import {
     ROUTE_P_BACK,
@@ -6,10 +7,9 @@ import {
     ROUTE_P_EXTRA_3,
     ROUTE_P_PRINCIPAL,
 } from '@/config';
+import { generateUUID } from '@/lib//actions';
 import { MULTIMEDIA, SupabaseProps } from '@/constants';
 import { generateFileNameExtension } from '@/utils/utils';
-import createServerClient from '@/utils/supabaseServer';
-import { generateUUID } from '@/lib//actions';
 
 export async function PUT(request: NextRequest) {
     try {
@@ -470,6 +470,7 @@ export async function DELETE(request: NextRequest) {
     try {
         const formData = await request.formData();
 
+        const productId = formData.get('product_id') as string;
         const p_principal = formData.get('p_principal') as string;
         const p_back = formData.get('p_back') as string;
         const p_extra_1 = formData.get('p_extra_1') as string;
@@ -484,6 +485,23 @@ export async function DELETE(request: NextRequest) {
                 .remove([decodeURIComponent(p_principal)]);
 
             if (deleteError) {
+                return NextResponse.json(
+                    {
+                        message:
+                            'Error deleting p_principal product multimedia image',
+                    },
+                    { status: 500 },
+                );
+            }
+
+            const { error: multError } = await supabase
+                .from('product_multimedia')
+                .update({
+                    p_principal: '',
+                })
+                .eq('product_id', productId);
+
+            if (multError) {
                 return NextResponse.json(
                     {
                         message:
@@ -508,6 +526,23 @@ export async function DELETE(request: NextRequest) {
                     { status: 500 },
                 );
             }
+
+            const { error: multError } = await supabase
+                .from('product_multimedia')
+                .update({
+                    p_back: '',
+                })
+                .eq('product_id', productId);
+
+            if (multError) {
+                return NextResponse.json(
+                    {
+                        message:
+                            'Error deleting p_back product multimedia image',
+                    },
+                    { status: 500 },
+                );
+            }
         }
 
         if (p_extra_1) {
@@ -516,6 +551,23 @@ export async function DELETE(request: NextRequest) {
                 .remove([decodeURIComponent(p_extra_1)]);
 
             if (deleteError) {
+                return NextResponse.json(
+                    {
+                        message:
+                            'Error deleting p_extra_1 product multimedia image',
+                    },
+                    { status: 500 },
+                );
+            }
+
+            const { error: multError } = await supabase
+                .from('product_multimedia')
+                .update({
+                    p_extra_1: '',
+                })
+                .eq('product_id', productId);
+
+            if (multError) {
                 return NextResponse.json(
                     {
                         message:
@@ -540,6 +592,23 @@ export async function DELETE(request: NextRequest) {
                     { status: 500 },
                 );
             }
+
+            const { error: multError } = await supabase
+                .from('product_multimedia')
+                .update({
+                    p_extra_2: '',
+                })
+                .eq('product_id', productId);
+
+            if (multError) {
+                return NextResponse.json(
+                    {
+                        message:
+                            'Error deleting p_extra_2 product multimedia image',
+                    },
+                    { status: 500 },
+                );
+            }
         }
 
         if (p_extra_3) {
@@ -548,6 +617,23 @@ export async function DELETE(request: NextRequest) {
                 .remove([decodeURIComponent(p_extra_3)]);
 
             if (deleteError) {
+                return NextResponse.json(
+                    {
+                        message:
+                            'Error deleting p_extra_3 product multimedia image',
+                    },
+                    { status: 500 },
+                );
+            }
+
+            const { error: multError } = await supabase
+                .from('product_multimedia')
+                .update({
+                    p_extra_3: '',
+                })
+                .eq('product_id', productId);
+
+            if (multError) {
                 return NextResponse.json(
                     {
                         message:

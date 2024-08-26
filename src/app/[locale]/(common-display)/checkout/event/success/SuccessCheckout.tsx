@@ -1,14 +1,14 @@
 'use client';
 
 import EventProduct from './EventProduct';
-import { useTranslations } from 'next-intl';
-import React, { useState, useEffect } from 'react';
 import PaymentInformation from './PaymentInformation';
+import Spinner from '@/app/[locale]/components/common/Spinner';
+import React, { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { IEventOrder } from '@/lib//types/types';
+import { formatDateString } from '@/utils/formatDate';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { EVENT_ORDER_ITEM_STATUS, EVENT_ORDER_STATUS } from '@/constants';
-import Spinner from '@/app/[locale]/components/common/Spinner';
-import { formatDateString } from '@/utils/formatDate';
 
 interface Props {
     isError?: boolean;
@@ -79,13 +79,8 @@ export default function SuccessCheckout({ order, isError, domain }: Props) {
     }, [eventOrderItems]);
 
     const handleInvoicePdf = () => {
-        // Get current url
-        const currentUrl = window.location.href;
-
-        window.open(
-            `${currentUrl}/checkout/invoice/${order.order_number}`,
-            '_ blank',
-        );
+        const invoiceUrl = `/checkout/invoice/${order.order_number}`;
+        window.open(invoiceUrl, '_blank');
     };
 
     if (isError) {

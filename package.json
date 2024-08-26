@@ -1,6 +1,7 @@
 {
   "private": true,
   "scripts": {
+    "clean": "rm -rf node_modules dist",
     "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
     "dev-turbo": "cross-env NODE_OPTIONS='--inspect' next dev --turbo",
     "install": "pnpm install",
@@ -72,6 +73,7 @@
   "devDependencies": {
     "@commitlint/cli": "17.0.3",
     "@commitlint/config-angular": "17.0.3",
+    "@fortawesome/free-brands-svg-icons": "^6.6.0",
     "@hookform/resolvers": "3.3.0",
     "@react-google-maps/api": "2.7.0",
     "@sentry/nextjs": "^7.100.1",

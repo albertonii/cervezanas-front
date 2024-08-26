@@ -2,7 +2,7 @@
 
 import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
 import React, { ComponentProps, useEffect, useState } from 'react';
-import { array, z, ZodType } from 'zod';
+import { z, ZodType } from 'zod';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -49,14 +49,14 @@ const validateFile = (f: File, ctx: any) => {
     if (!f) return;
     if (typeof f === 'string') return;
 
-    if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
-        ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
-                ', ',
-            )}] but was ${f.type}`,
-        });
-    }
+    // if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
+    //     ctx.addIssue({
+    //         code: z.ZodIssueCode.custom,
+    //         message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
+    //             ', ',
+    //         )}] but was ${f.type}`,
+    //     });
+    // }
     if (f.size > 3 * MB_BYTES) {
         ctx.addIssue({
             code: z.ZodIssueCode.too_big,
@@ -711,7 +711,6 @@ export function UpdateProductModal({
         },
         onSuccess: () => {
             setIsSubmitting(false);
-            console.log('upd');
             setIsLoading(false);
             queryClient.invalidateQueries('productList');
         },

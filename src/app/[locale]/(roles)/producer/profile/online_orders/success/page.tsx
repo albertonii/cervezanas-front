@@ -22,7 +22,7 @@ export async function generateMetadata({ searchParams }: any) {
 
         return {
             title: {
-                default: 'Success page for checkout',
+                default: 'Pedido completado | Cervezanas',
                 template: `%s | Cervezanas`,
             },
             description: 'Checkout order information displaying in this page',
@@ -65,49 +65,49 @@ async function getSuccessData(searchParams: any) {
         .from('orders')
         .select(
             `
-      id,
-      owner_id,
-      status,
-      shipping_info_id,
-      billing_info_id,
-      customer_name,
-      tracking_id,
-      issue_date,
-      estimated_date,
-      total,
-      subtotal,
-      shipping,
-      tax,
-      currency,
-      discount,
-      discount_code,
-      order_number,
-      shipping_info (id, *),
-      billing_info (id, *),
-      business_orders!business_orders_order_id_fkey (
-        *,
-        distributor_user!business_orders_distributor_id_fkey (*,
-          users(
-            name,
-            lastname,
-            email,
-            username,
-            avatar_url
-          )
-        ),
-        order_items!order_items_business_order_id_fkey (
-          *,
-          product_packs (
-            *,
-            products (
-              id,
-              name,
-              description
+            id,
+            owner_id,
+            status,
+            shipping_info_id,
+            billing_info_id,
+            customer_name,
+            tracking_id,
+            issue_date,
+            estimated_date,
+            total,
+            subtotal,
+            shipping,
+            tax,
+            currency,
+            discount,
+            discount_code,
+            order_number,
+            shipping_info (id, *),
+            billing_info (id, *),
+            business_orders!business_orders_order_id_fkey (
+                *,
+                distributor_user!business_orders_distributor_id_fkey (*,
+                users(
+                    name,
+                    lastname,
+                    email,
+                    username,
+                    avatar_url
+                )
+                ),
+                order_items!order_items_business_order_id_fkey (
+                *,
+                product_packs (
+                    *,
+                    products (
+                    id,
+                    name,
+                    description
+                    )
+                )
+                )
             )
-          )
-        )
-      )
-    `,
+            `,
         )
         .eq('order_number', orderNumber)
         .eq('business_orders.producer_id', session.id)

@@ -22,7 +22,7 @@ export async function generateMetadata({ searchParams }: any) {
 
         return {
             title: {
-                default: 'Success page for checkout',
+                default: 'Pedido completado | Cervezanas',
                 template: `%s | Cervezanas`,
             },
             description: 'Checkout order information displaying in this page',

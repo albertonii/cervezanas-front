@@ -15,7 +15,7 @@ export default function BillingAddressItem({ address }: Props) {
                                            dark:bg-gray-800 dark:text-gray-400"
             >
                 <address className="block">
-                    <h2 className="w-full text-lg font-semibold">
+                    <h2 className="w-full text-md font-semibold">
                         {address.name} {address.lastname}
                     </h2>
 

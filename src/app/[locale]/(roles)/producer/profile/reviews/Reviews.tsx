@@ -9,6 +9,9 @@ import { IReview } from '@/lib//types/types';
 import { Rate } from '@/app/[locale]/components/reviews/Rate';
 import { formatDateString } from '@/utils/formatDate';
 import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
+import DisplayImageProfile from '@/app/[locale]/components/common/DisplayImageProfile';
+import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
+import { SupabaseProps } from '@/constants';
 
 interface Props {
     reviews: IReview[];
@@ -58,43 +61,47 @@ export function Reviews({ reviews: r }: Props) {
                         return (
                             <div
                                 key={index}
-                                className="m-6 ml-8 mt-12 rounded-sm bg-beer-foam p-6"
+                                className="rounded-sm bg-beer-foam p-4"
                             >
                                 <article className="relative grid grid-cols-4 md:gap-8">
                                     {/* Delete review button in top right corner  */}
                                     {/* <div className="absolute right-0">
-                      <DeleteButton
-                        onClick={() => handleDeleteReview(review.id)}
-                      />
-                    </div> */}
+                                <DeleteButton
+                                    onClick={() => handleDeleteReview(review.id)}
+                                />
+                                </div> */}
 
                                     <div className="col-span-4 space-y-6 lg:col-span-1 ">
-                                        {/* Seller  */}
+                                        {/* Consumer Review  */}
                                         <div className="flex flex-col items-center space-y-4">
                                             <div className="">
-                                                <Image
-                                                    className="w-18 h-18 rounded-full"
-                                                    width={80}
-                                                    height={80}
-                                                    src={`${
+                                                <DisplayImageProfile
+                                                    imgSrc={
                                                         review.users
                                                             ?.avatar_url ??
                                                         '/icons/profile-240.png'
-                                                    } `}
-                                                    alt=""
+                                                    }
+                                                    class={
+                                                        'w-full w-20 h-20 rounded-full'
+                                                    }
                                                 />
                                             </div>
 
-                                            <h2 className="truncate text-xl transition-all ">
-                                                {t('seller_username')}:{' '}
+                                            <span className="flex flex-col">
+                                                <h2 className="truncate">
+                                                    {t(
+                                                        'consumer_review_username',
+                                                    )}
+                                                    :{' '}
+                                                </h2>
                                                 <Link
                                                     className="hover:text-purple-500 cursor-pointer font-bold text-beer-draft hover:text-beer-blonde"
-                                                    href={`/users/${review.users?.id}`}
+                                                    href={`/user-info/${review.users?.id}`}
                                                     locale={locale}
                                                 >
                                                     {review.users?.username}
                                                 </Link>
-                                            </h2>
+                                            </span>
                                         </div>
                                     </div>
 
@@ -104,7 +111,7 @@ export function Reviews({ reviews: r }: Props) {
                                             <div className="space-y-2">
                                                 {/* Img Product  */}
                                                 <div className="flex flex-row items-center space-x-4 space-y-4">
-                                                    <Image
+                                                    {/* <Image
                                                         className="sm:w-100 sm:h-100 h-20 w-20 rounded"
                                                         width={80}
                                                         height={80}
@@ -115,6 +122,25 @@ export function Reviews({ reviews: r }: Props) {
                                                             '/icons/beer-240.png'
                                                         } `}
                                                         alt=""
+                                                    /> */}
+
+                                                    <DisplayImageProduct
+                                                        imgSrc={
+                                                            SupabaseProps.BASE_PRODUCTS_URL +
+                                                            decodeURIComponent(
+                                                                review.products
+                                                                    ?.product_multimedia
+                                                                    ?.p_principal ??
+                                                                    '/icons/beer-240.png',
+                                                            )
+                                                        }
+                                                        alt={
+                                                            review.products
+                                                                ?.name
+                                                        }
+                                                        width={80}
+                                                        height={80}
+                                                        class="sm:w-100 sm:h-100 h-20 w-20 rounded"
                                                     />
 
                                                     <span className="hover:text-purple-500 mr-auto cursor-pointer truncate text-xl font-bold text-beer-draft transition-all hover:text-beer-blonde dark:text-beer-foam">

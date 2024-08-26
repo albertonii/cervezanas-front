@@ -24,7 +24,8 @@ async function getProducerProfile(producerId: string) {
               *
             ),
             distributor_user (
-              *
+              *,
+              coverage_areas (*)
             )
       `,
         )

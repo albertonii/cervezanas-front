@@ -3,8 +3,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from './components/common/Button';
+import DropdownRoleList from './components/DropdownRoleList';
 import { memo, useEffect, useRef, useState } from 'react';
 import { COMMON } from '@/constants';
+import { ROLE_ENUM } from '@/lib/enums';
 import { ROUTE_SIGNIN } from '@/config';
 import { INotification } from '@/lib/types/types';
 import { useAuth } from './(auth)/Context/useAuth';
@@ -13,8 +15,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import { HeaderDropdownButton } from './HeaderDropdownButton';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { DeviceScreenNotification } from './components/DeviceScreenNotification';
-import { ROLE_ENUM } from '@/lib/enums';
-import DropdownRoleList from './components/DropdownRoleList';
 
 interface Props {
     notifications: INotification[];

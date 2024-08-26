@@ -14,7 +14,7 @@ const ProductAwardCard = ({
         SupabaseProps.BASE_PRODUCTS_URL + decodeURIComponent(imageUrl);
 
     return (
-        <div className="flex flex-col md:flex-row bg-white shadow-lg rounded-lg p-2 md:p-4 mb-2">
+        <div className="flex flex-col md:flex-row bg-white shadow-lg rounded-lg p-2 p-1 mb-2 col-span-1 sm:col-span-1 lg-grid-cols-1">
             <div className="flex-shrink-0">
                 <DisplayImageProduct
                     imgSrc={decodedUrl}

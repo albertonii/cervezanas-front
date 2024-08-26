@@ -1,7 +1,6 @@
 import Profile from './Profile';
 import createServerClient from '@/utils/supabaseServer';
 import { redirect } from 'next/navigation';
-import { VIEWS } from '@/constants';
 import { IDistributorUser } from '@/lib//types/types';
 import readUserSession from '@/lib//actions';
 
@@ -9,11 +8,7 @@ export default async function ProfilePage() {
     const profile = await getProfileData();
     if (!profile) return <></>;
 
-    return (
-        <>
-            <Profile profile={profile} />
-        </>
-    );
+    return <Profile profile={profile} />;
 }
 
 async function getProfileData() {
@@ -29,15 +24,9 @@ async function getProfileData() {
         .from('distributor_user')
         .select(
             `
-        user_id,
-        created_at,
-        id_number,
-        bank_account,
-        company_name,
-        company_description,
-        location_id,
-        users (name, lastname, email)
-      `,
+                *,
+                users (*)
+        `,
         )
         .eq('user_id', session.id)
         .single();

@@ -61,7 +61,6 @@ export const routes: Record<string, RouteLocaleNames> = {
         en: 'Notifications',
         es: 'Notificaciones',
     },
-
     '/distributor': { en: 'Distributor', es: 'Distribuidor' },
     '/distributor/profile': {
         en: 'Profile',

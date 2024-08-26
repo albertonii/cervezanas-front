@@ -1,12 +1,13 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
-import { IDistributorUser } from '@/lib//types/types';
-import { SecretDataForm } from './SecretDataForm';
-import { CustomizeProfileForm } from './CustomizeProfileForm';
-import { BasicDataForm } from './BasicDataForm';
-import { DistributorBasicDataForm } from './DistributorBasicDataForm';
 import UserRoles from '../../../producer/profile/settings/UserRoles';
+import { RRSSForm } from './RRSSForm';
+import { useTranslations } from 'next-intl';
+import { BasicDataForm } from './BasicDataForm';
+import { SecretDataForm } from './SecretDataForm';
+import { IDistributorUser } from '@/lib//types/types';
+import { CompanyHistoryForm } from './CompanyHistoryForm';
+import { DistributorBasicDataForm } from './DistributorBasicDataForm';
 
 interface Props {
     profile: IDistributorUser;
@@ -30,6 +31,8 @@ export function Account({ profile }: Props) {
 
             <BasicDataForm profile={profile} />
             <DistributorBasicDataForm profile={profile} />
+            <RRSSForm profile={profile} />
+            <CompanyHistoryForm profile={profile} />
             <SecretDataForm />
             <UserRoles />
 
