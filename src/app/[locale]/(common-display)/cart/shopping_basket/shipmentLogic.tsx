@@ -12,45 +12,53 @@ export const initShipmentLogic = async (
     // 1. Get Shipping Info
     const shippingInfo = await getShippingInfo(shippingInfoId);
 
-    // 2. Get the list of distributors associated to the seller/producer of the product
-    const listOfDistributorsContracts =
-        await getListOfDistributorsBasedOnProducerId(producerId);
-
-    if (listOfDistributorsContracts.length === 0)
-        return {
-            can_deliver: false,
-            distributor_id: '',
-            distribution_costs_id: '',
-            delivery_type: DeliveryType.NONE,
-            cost_extra_per_kg: 0,
-        };
-
-    // 3. Iterate through the list of distributors and check if they can deliver to the address. If one of them can, return true. If none of them can, return false.
-    for (const distributor of listOfDistributorsContracts) {
-        const { canDeliver, delivery_type } =
-            await canDistributorDeliverToAddress(distributor, shippingInfo);
-
-        if (canDeliver) {
-            return {
-                can_deliver: canDeliver,
-                distributor_id: distributor.distributor_id,
-                distribution_costs_id:
-                    distributor.distributor_user.distribution_costs.id,
-                delivery_type,
-                cost_extra_per_kg:
-                    distributor.distributor_user.distribution_costs
-                        .cost_extra_per_kg,
-            };
-        }
-    }
-
     return {
-        can_deliver: false,
+        can_deliver: true,
         distributor_id: '',
         distribution_costs_id: '',
         delivery_type: DeliveryType.NONE,
         cost_extra_per_kg: 0,
     };
+
+    // 2. Get the list of distributors associated to the seller/producer of the product
+    // const listOfDistributorsContracts =
+    //     await getListOfDistributorsBasedOnProducerId(producerId);
+
+    // if (listOfDistributorsContracts.length === 0)
+    //     return {
+    //         can_deliver: false,
+    //         distributor_id: '',
+    //         distribution_costs_id: '',
+    //         delivery_type: DeliveryType.NONE,
+    //         cost_extra_per_kg: 0,
+    //     };
+
+    // // 3. Iterate through the list of distributors and check if they can deliver to the address. If one of them can, return true. If none of them can, return false.
+    // for (const distributor of listOfDistributorsContracts) {
+    //     const { canDeliver, delivery_type } =
+    //         await canDistributorDeliverToAddress(distributor, shippingInfo);
+
+    //     if (canDeliver) {
+    //         return {
+    //             can_deliver: canDeliver,
+    //             distributor_id: distributor.distributor_id,
+    //             distribution_costs_id:
+    //                 distributor.distributor_user.distribution_costs.id,
+    //             delivery_type,
+    //             cost_extra_per_kg:
+    //                 distributor.distributor_user.distribution_costs
+    //                     .cost_extra_per_kg,
+    //         };
+    //     }
+    // }
+
+    // return {
+    //     can_deliver: false,
+    //     distributor_id: '',
+    //     distribution_costs_id: '',
+    //     delivery_type: DeliveryType.NONE,
+    //     cost_extra_per_kg: 0,
+    // };
 };
 
 const getShippingInfo = async (shippingInfoId: string) => {

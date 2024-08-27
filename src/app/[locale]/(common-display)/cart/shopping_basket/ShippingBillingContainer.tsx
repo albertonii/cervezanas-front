@@ -1,16 +1,12 @@
 'use client';
 
-import Image from 'next/image';
 import Billing from './Billing';
 import Shipping from './Shipping';
-import { useTranslations } from 'next-intl';
-import React, { ComponentProps } from 'react';
-import { UseFormReturn } from 'react-hook-form';
-import Button from '@/app/[locale]/components/common/Button';
-import { IBillingAddress, IAddress } from '@/lib//types/types';
-import { formatCurrency } from '@/utils/formatCurrency';
-import CarrierDetails from './CarrierDetails';
 import PromotionCode from './PromotionCode';
+import React, { ComponentProps } from 'react';
+import { useTranslations } from 'next-intl';
+import { UseFormReturn } from 'react-hook-form';
+import { IBillingAddress, IAddress } from '@/lib//types/types';
 
 interface Props {
     shippingAddresses: IAddress[];
