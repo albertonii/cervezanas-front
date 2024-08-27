@@ -9,14 +9,6 @@ export const initShipmentLogic = async (
     shippingInfoId: string,
     producerId: string,
 ) => {
-    return {
-        can_deliver: true,
-        distributor_id: '',
-        distribution_costs_id: '',
-        delivery_type: DeliveryType.NONE,
-        cost_extra_per_kg: 0,
-    };
-
     // 1. Get Shipping Info
     const shippingInfo = await getShippingInfo(shippingInfoId);
 

@@ -406,6 +406,9 @@ export async function getListAsociatedDistributors(
     // Array de distribuidores que tienen configurado en su área de cobertura la dirección de envío
     const availableDistributorContracts: IDistributionContract[] = [];
 
+    return null;
+
+    /*
     for (const producerId in itemsByProducer) {
         // Get the list of distributors associated to the seller/producer of the product
         const listOfDistributorsContracts: IDistributionContract[] =
@@ -432,6 +435,7 @@ export async function getListAsociatedDistributors(
             }
         }
     }
+    */
 
     return availableDistributorContracts;
 }
