@@ -149,8 +149,8 @@ export function ShoppingBasket({ user }: Props) {
         const handleShippingCost = async () => {
             setIsShippingCostLoading(true);
 
-            // const cheapestShippingCostByDistributor =
-            //     await calculateShippingCostCartContext(selectedShippingAddress);
+            const cheapestShippingCostByDistributor =
+                await calculateShippingCostCartContext(selectedShippingAddress);
 
             // if (cheapestShippingCostByDistributor) {
             //     const totalShippingCost = Object.values(
