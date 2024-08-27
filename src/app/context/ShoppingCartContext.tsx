@@ -112,7 +112,7 @@ export function ShoppingCartProvider({ children }: Props) {
             items: IProductPackCartItem[];
             shippingCost: number;
             distributor_id: string;
-        };
+        } | null;
     }> => {
         // Vamos a crear un array de productores con los items que le corresponden y sus costes asociados
         let producerIdAndItemsWithCosts: {
@@ -148,6 +148,8 @@ export function ShoppingCartProvider({ children }: Props) {
         const selectedShippingInfo = await getShippingInfo(
             selectedShippingInfoId,
         );
+
+        return { '222': null };
 
         // Debido a que un productor puede tener varios distribuidores, obtenemos el listado de aquellos que pueden enviar los productos
         const distributorsContracts: IDistributionContract[] =
