@@ -70,7 +70,8 @@ async function getInvoiceData(slug: any) {
           sub_region,
           city,
           zipcode,
-          is_default
+          is_default,
+          is_company
         ),
         business_orders!business_orders_order_id_fkey (*),
         products(

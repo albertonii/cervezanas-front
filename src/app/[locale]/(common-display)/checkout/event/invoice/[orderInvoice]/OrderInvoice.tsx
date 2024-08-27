@@ -14,9 +14,9 @@ import {
 } from '@react-pdf/renderer';
 import { IOrder } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
-import { Table } from '@/app/[locale]/components/invoice/Table';
-import { TableTotalInvoice } from '@/app/[locale]/components/invoice/TableTotalInvoice';
 import { FooterInvoice } from '@/app/[locale]/components/invoice/FooterInvoice';
+import { TableTotalInvoiceOld } from '@/app/[locale]/components/invoice/TableTotalInvoiceOld';
+import { Table } from '@/app/[locale]/components/invoice/Table';
 
 // Create styles
 const styles = StyleSheet.create({
@@ -284,7 +284,7 @@ export default function OrderInvoice({ order }: Props) {
                                 <Table data={data} />
 
                                 {/* Total Invoice  */}
-                                <TableTotalInvoice data={data} />
+                                <TableTotalInvoiceOld data={data} />
 
                                 {/* Footer */}
                                 <FooterInvoice />

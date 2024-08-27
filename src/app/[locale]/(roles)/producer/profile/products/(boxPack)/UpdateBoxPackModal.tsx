@@ -6,16 +6,16 @@ import UpdateBoxProductSlotsSection from '@/app/[locale]/components/products/box
 import React, { useState, useEffect, ComponentProps } from 'react';
 import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQueryClient } from 'react-query';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { IProduct } from '@/lib/types/types';
-import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useMutation, useQueryClient } from 'react-query';
 import { ModalUpdateBoxPackFormData } from '@/lib/types/product';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { BoxPackStepper } from '@/app/[locale]/components/products/boxPack/BoxPackStepper';
+import { UpdateBoxSummary } from '@/app/[locale]/components/products/boxPack/UpdateBoxSummary';
 import { UpdateBoxPackInfoSection } from '@/app/[locale]/components/products/boxPack/UpdateBoxPackInfoSection';
 import { UpdateBoxMultimediaSection } from '@/app/[locale]/components/products/boxPack/UpdateBoxMultimediaSection';
-import { UpdateBoxSummary } from '@/app/[locale]/components/products/boxPack/UpdateBoxSummary';
 
 const ModalWithForm = dynamic(
     () => import('@/app/[locale]/components/modals/ModalWithForm'),
@@ -105,6 +105,51 @@ export function UpdateBoxPackModal({
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
+    const transformedBoxPackItems = product.box_packs?.[0].box_pack_items?.map(
+        (item) => ({
+            id: item.id,
+            box_pack_id: item.box_pack_id,
+            product_id: item.product_id,
+            quantity: item.quantity,
+            slots_per_product: item.slots_per_product,
+            products: item.products
+                ? {
+                      id: item.products.id,
+                      created_at: item.products.created_at,
+                      name: item.products.name,
+                      description: item.products.description,
+                      type: item.products.type,
+                      is_public: item.products.is_public,
+                      discount_percent: item.products.discount_percent,
+                      weight: item.products.weight,
+                      discount_code: item.products.discount_code,
+                      price: item.products.price,
+                      campaign_id: item.products.campaign_id,
+                      is_archived: item.products.is_archived,
+                      category: item.products.category,
+                      is_monthly: item.products.is_monthly,
+                      owner_id: item.products.owner_id,
+                      beers: item.products.beers
+                          ? {
+                                product_id: item.products.beers.product_id,
+                                created_at: item.products.beers.created_at,
+                                category: item.products.beers.category,
+                                fermentation: item.products.beers.fermentation,
+                                color: item.products.beers.color,
+                                family: item.products.beers.family,
+                                pairing: Array.isArray(
+                                    item.products.beers.pairing,
+                                )
+                                    ? item.products.beers.pairing
+                                    : [item.products.beers.pairing], // Asegúrate de que pairing sea un array
+                                brewers_note: item.products.beers.brewers_note,
+                            }
+                          : undefined,
+                  }
+                : undefined,
+        }),
+    );
+
     const form = useForm<ValidationSchema>({
         mode: 'onSubmit',
         resolver: zodResolver(schema),
@@ -120,7 +165,7 @@ export function UpdateBoxPackModal({
             p_extra_1: product.product_multimedia?.p_extra_1,
             p_extra_2: product.product_multimedia?.p_extra_2,
             p_extra_3: product.product_multimedia?.p_extra_3,
-            box_pack_items: product.box_packs?.[0].box_pack_items,
+            box_pack_items: transformedBoxPackItems,
         },
     });
 

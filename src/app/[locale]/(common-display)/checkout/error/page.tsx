@@ -170,6 +170,7 @@ async function getCheckoutErrorData(searchParams: any) {
             sub_region,
             city,
             zipcode,
+            is_company,
             is_default
           ),
           business_orders!business_orders_order_id_fkey (

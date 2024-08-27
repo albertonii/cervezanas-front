@@ -17,9 +17,9 @@ async function getPendingAuthProducers() {
         .from('producer_user')
         .select(
             `
-        *,
-        users (*)
-      `,
+                *,
+                users (*)
+            `,
         );
 
     if (profileError) throw profileError;
@@ -34,9 +34,9 @@ async function getPendingAuthDistributors() {
         .from('distributor_user')
         .select(
             `
-        *,
-        users (*)
-      `,
+                *,
+                users (*)
+            `,
         );
 
     if (profileError) throw profileError;
