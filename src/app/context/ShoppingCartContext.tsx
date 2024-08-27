@@ -149,52 +149,6 @@ export function ShoppingCartProvider({ children }: Props) {
             selectedShippingInfoId,
         );
 
-        // Debido a que un productor puede tener varios distribuidores, obtenemos el listado de aquellos que pueden enviar los productos
-        const distributorsContracts: IDistributionContract[] =
-            await getListAsociatedDistributors(
-                producerIdAndItems,
-                selectedShippingInfo,
-            );
-
-        for (const producerId in producerIdAndItems) {
-            const itemsProducer = producerIdAndItems[producerId];
-            const distributorContractsByProducerId =
-                distributorsContracts.filter(
-                    (distributor) => distributor.producer_id === producerId,
-                );
-
-            const shippingCostInformation: {
-                delivery_cost: number | null;
-                distributor_id: string | null;
-            } | null = await calculateCheapestShippingCostsByDistributor(
-                itemsProducer,
-                selectedShippingInfo.id,
-                distributorContractsByProducerId,
-            );
-
-            // Update distributor_id in itemsk
-            const newItemsWithDistributorID = itemsProducer.map(
-                (item: IProductPackCartItem) => {
-                    return {
-                        ...item,
-                        distributor_id: shippingCostInformation
-                            ? shippingCostInformation.distributor_id
-                            : null,
-                    };
-                },
-            );
-
-            producerIdAndItemsWithCosts[producerId] = {
-                items: newItemsWithDistributorID,
-                shippingCost: shippingCostInformation
-                    ? shippingCostInformation.delivery_cost
-                    : null,
-                distributor_id: shippingCostInformation
-                    ? shippingCostInformation.distributor_id
-                    : null,
-            };
-        }
-
         return producerIdAndItemsWithCosts as {
             [producerId: string]: {
                 items: IProductPackCartItem[];
