@@ -112,7 +112,7 @@ export function ShoppingCartProvider({ children }: Props) {
             items: IProductPackCartItem[];
             shippingCost: number;
             distributor_id: string;
-        } | null;
+        };
     }> => {
         // Vamos a crear un array de productores con los items que le corresponden y sus costes asociados
         let producerIdAndItemsWithCosts: {
@@ -149,53 +149,51 @@ export function ShoppingCartProvider({ children }: Props) {
             selectedShippingInfoId,
         );
 
-        return { '222': null };
-
         // Debido a que un productor puede tener varios distribuidores, obtenemos el listado de aquellos que pueden enviar los productos
-        const distributorsContracts: IDistributionContract[] =
-            await getListAsociatedDistributors(
-                producerIdAndItems,
-                selectedShippingInfo,
-            );
+        // const distributorsContracts: IDistributionContract[] =
+        //     await getListAsociatedDistributors(
+        //         producerIdAndItems,
+        //         selectedShippingInfo,
+        //     );
 
-        for (const producerId in producerIdAndItems) {
-            const itemsProducer = producerIdAndItems[producerId];
-            const distributorContractsByProducerId =
-                distributorsContracts.filter(
-                    (distributor) => distributor.producer_id === producerId,
-                );
+        // for (const producerId in producerIdAndItems) {
+        //     const itemsProducer = producerIdAndItems[producerId];
+        //     const distributorContractsByProducerId =
+        //         distributorsContracts.filter(
+        //             (distributor) => distributor.producer_id === producerId,
+        //         );
 
-            const shippingCostInformation: {
-                delivery_cost: number | null;
-                distributor_id: string | null;
-            } | null = await calculateCheapestShippingCostsByDistributor(
-                itemsProducer,
-                selectedShippingInfo.id,
-                distributorContractsByProducerId,
-            );
+        //     const shippingCostInformation: {
+        //         delivery_cost: number | null;
+        //         distributor_id: string | null;
+        //     } | null = await calculateCheapestShippingCostsByDistributor(
+        //         itemsProducer,
+        //         selectedShippingInfo.id,
+        //         distributorContractsByProducerId,
+        //     );
 
-            // Update distributor_id in itemsk
-            const newItemsWithDistributorID = itemsProducer.map(
-                (item: IProductPackCartItem) => {
-                    return {
-                        ...item,
-                        distributor_id: shippingCostInformation
-                            ? shippingCostInformation.distributor_id
-                            : null,
-                    };
-                },
-            );
+        //     // Update distributor_id in itemsk
+        //     const newItemsWithDistributorID = itemsProducer.map(
+        //         (item: IProductPackCartItem) => {
+        //             return {
+        //                 ...item,
+        //                 distributor_id: shippingCostInformation
+        //                     ? shippingCostInformation.distributor_id
+        //                     : null,
+        //             };
+        //         },
+        //     );
 
-            producerIdAndItemsWithCosts[producerId] = {
-                items: newItemsWithDistributorID,
-                shippingCost: shippingCostInformation
-                    ? shippingCostInformation.delivery_cost
-                    : null,
-                distributor_id: shippingCostInformation
-                    ? shippingCostInformation.distributor_id
-                    : null,
-            };
-        }
+        //     producerIdAndItemsWithCosts[producerId] = {
+        //         items: newItemsWithDistributorID,
+        //         shippingCost: shippingCostInformation
+        //             ? shippingCostInformation.delivery_cost
+        //             : null,
+        //         distributor_id: shippingCostInformation
+        //             ? shippingCostInformation.distributor_id
+        //             : null,
+        //     };
+        // }
 
         return producerIdAndItemsWithCosts as {
             [producerId: string]: {
