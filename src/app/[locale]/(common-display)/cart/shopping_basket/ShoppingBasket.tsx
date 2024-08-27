@@ -149,40 +149,40 @@ export function ShoppingBasket({ user }: Props) {
         const handleShippingCost = async () => {
             setIsShippingCostLoading(true);
 
-            const cheapestShippingCostByDistributor =
-                await calculateShippingCostCartContext(selectedShippingAddress);
+            // const cheapestShippingCostByDistributor =
+            //     await calculateShippingCostCartContext(selectedShippingAddress);
 
-            if (cheapestShippingCostByDistributor) {
-                const totalShippingCost = Object.values(
-                    cheapestShippingCostByDistributor,
-                ).reduce((acc, { shippingCost }) => {
-                    if (shippingCost === null) return acc;
-                    return acc + shippingCost;
-                }, 0);
+            // if (cheapestShippingCostByDistributor) {
+            //     const totalShippingCost = Object.values(
+            //         cheapestShippingCostByDistributor,
+            //     ).reduce((acc, { shippingCost }) => {
+            //         if (shippingCost === null) return acc;
+            //         return acc + shippingCost;
+            //     }, 0);
 
-                // Actualizar el listado de items debido a que se ha actualizado los distribuidores asociados para cada uno
-                setShoppingItems(
-                    Object.values(cheapestShippingCostByDistributor)
-                        .map(({ items }) => items)
-                        .flat(),
-                );
+            //     // Actualizar el listado de items debido a que se ha actualizado los distribuidores asociados para cada uno
+            //     setShoppingItems(
+            //         Object.values(cheapestShippingCostByDistributor)
+            //             .map(({ items }) => items)
+            //             .flat(),
+            //     );
 
-                // Obtener listado de elementos que no se pueden enviar - Son aquellos donde el shippingCost es null para el productor
-                const undeliverableItems_: {
-                    items: IProductPackCartItem[];
-                    shippingCost: number;
-                    distributor_id: string;
-                }[] = Object.values(cheapestShippingCostByDistributor).filter(
-                    ({ shippingCost }) => shippingCost === null,
-                );
+            //     // Obtener listado de elementos que no se pueden enviar - Son aquellos donde el shippingCost es null para el productor
+            //     const undeliverableItems_: {
+            //         items: IProductPackCartItem[];
+            //         shippingCost: number;
+            //         distributor_id: string;
+            //     }[] = Object.values(cheapestShippingCostByDistributor).filter(
+            //         ({ shippingCost }) => shippingCost === null,
+            //     );
 
-                const undeliverableItemsFlat: IProductPackCartItem[] =
-                    undeliverableItems_.map(({ items }) => items).flat();
+            //     const undeliverableItemsFlat: IProductPackCartItem[] =
+            //         undeliverableItems_.map(({ items }) => items).flat();
 
-                handleUndeliverableItems(undeliverableItemsFlat);
+            //     handleUndeliverableItems(undeliverableItemsFlat);
 
-                setDeliveryCost(totalShippingCost);
-            }
+            //     setDeliveryCost(totalShippingCost);
+            // }
 
             setIsShippingCostLoading(false);
         };
