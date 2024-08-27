@@ -76,7 +76,7 @@ export function HistoryForm({ id, description, foundationYear }: Props) {
             id="history"
             className="container mb-4 space-y-3 bg-white px-6 py-4"
         >
-            <h2 id="history-data" className="text-2xl">
+            <h2 id="history-data" className="text-4xl font-['NexaRust-script']">
                 {t('history_business_title')}
             </h2>
 

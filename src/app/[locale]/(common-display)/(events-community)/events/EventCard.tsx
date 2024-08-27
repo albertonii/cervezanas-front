@@ -55,7 +55,7 @@ export default function EventCard({ event }: EventCardProps) {
                             {/* Name & Description */}
                             <div className="flex flex-col items-start">
                                 <div className="flex flex-col">
-                                    <div className="w-full flex-none text-4xl font-bold leading-none text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
+                                    <div className="w-full flex-none text-5xl font-bold leading-none text-beer-blonde hover:cursor-pointer hover:text-beer-draft font-['NexaRust-script'] -rotate-2">
                                         <Link
                                             href={`${ROUTE_EVENTS}/${event.id}`}
                                             locale={locale}

@@ -133,7 +133,7 @@ export function CustomizeProfileForm({ profile }: Props) {
 
     return (
         <section className="mb-4 space-y-3 bg-white px-6 py-4 border-2 rounded-md border-beer-blonde shadow-2xl">
-            <div id="account-data" className="text-2xl">
+            <div id="account-data" className="text-4xl font-['NexaRust-script']">
                 {t('profile_custom')}
             </div>
 

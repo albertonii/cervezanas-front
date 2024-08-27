@@ -20,7 +20,7 @@ export function Account({ profile }: Props) {
             <p className="flex justify-between py-4" id="header">
                 <h2
                     id="title"
-                    className="text-5xl uppercase font-semibold text-white"
+                    className="lowercase font-semibold text-white font-['NexaRust-script'] text-5xl md:text-8xl -rotate-2 ml-10"
                 >
                     {t('profile_title_my_data')}
                 </h2>

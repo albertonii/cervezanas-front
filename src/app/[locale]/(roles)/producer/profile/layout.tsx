@@ -120,7 +120,7 @@ export default function layout({ children }: LayoutProps) {
     }, [profileImg]);
 
     return (
-        <section className="relative flex w-full">
+        <section className="relative flex w-full bg-[url('/assets/home/bg-home.webp')] bg-auto bg-repeat bg-top">
             {sidebarLinks && <Sidebar sidebarLinks={sidebarLinks} />}
 
             <section className="h-full w-full">
@@ -128,11 +128,11 @@ export default function layout({ children }: LayoutProps) {
                     <>
                         {/* Background Image */}
                         <section
-                            className="relative h-full w-full bg-bear-alvine "
+                            className="relative h-full w-full bg-bear-alvine border-b-8 border-cerv-coal shadow-lg"
                             aria-label="Custom Header"
                         >
                             <Image
-                                className="max-h-[20vh] w-full object-cover md:max-h-[40vh]"
+                                className="max-h-[20vh] w-full object-cover md:max-h-[25vh]"
                                 width={1260}
                                 height={240}
                                 src={'/assets/producer_layout_bg.jpg'}

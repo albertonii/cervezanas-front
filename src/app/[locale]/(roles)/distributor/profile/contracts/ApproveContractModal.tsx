@@ -93,7 +93,9 @@ export default function ApproveContractModal({
             classContainer={''}
         >
             <fieldset className="grid grid-cols-1 space-y-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                <legend className="m-2 text-2xl">{t('contract_info')}</legend>
+                <legend className="m-2 text-4xl font-['NexaRust-script']">
+                    {t('contract_info')}
+                </legend>
 
                 <span className="flex flex-row space-x-2">
                     <label htmlFor="created_at">{t('created_at')}</label>

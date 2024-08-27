@@ -20,7 +20,7 @@ export default function Experiences({ experiences, counter }: Props) {
                 <p className="flex justify-between py-4" id="header">
                     <span
                         id="title"
-                        className="text-5xl uppercase font-semibold text-white"
+                        className="font-['NexaRust-script'] text-5xl md:text-7xl text-white -rotate-2"
                     >
                         {t('experiences')}
                     </span>

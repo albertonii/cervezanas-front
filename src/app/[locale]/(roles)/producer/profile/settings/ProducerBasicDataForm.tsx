@@ -121,7 +121,7 @@ export function ProducerBasicDataForm({ profile }: Props) {
             id="account_producer_data"
             className="mb-4 space-y-3 bg-white px-6 py-4 rounded-xl border"
         >
-            <span id="account-producer-data" className="text-2xl">
+            <span id="account-producer-data" className="text-4xl font-['NexaRust-script']">
                 {t('producer_title_acc_data')}
             </span>
 

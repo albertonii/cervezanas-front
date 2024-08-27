@@ -89,7 +89,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
             <section className="mx-auto sm:py-4 lg:py-6">
                 <div className="flex flex-col space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
                     <span className="flex sm:items-baseline sm:space-x-4">
-                        <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+                        <h1 className="text-4xl font-['NexaRust-script'] font-extrabold tracking-tight text-gray-900 sm:text-3xl">
                             {t('order_erorr')}
                         </h1>
                     </span>

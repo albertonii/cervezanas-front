@@ -44,7 +44,7 @@ export default function layout({ children }: LayoutProps) {
     ];
 
     return (
-        <section className="relative flex w-full">
+        <section className="relative flex w-full bg-[url('/assets/home/bg-home.webp')] bg-auto bg-repeat bg-top">
             <Sidebar sidebarLinks={sidebarLinks} />
 
             <div

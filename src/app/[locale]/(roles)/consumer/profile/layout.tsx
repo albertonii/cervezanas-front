@@ -118,7 +118,7 @@ export default async function layout({ children }: LayoutProps) {
     }, [profileImg]);
 
     return (
-        <section className="relative flex w-full">
+        <section className="relative flex w-full bg-[url('/assets/home/bg-home.webp')] bg-auto bg-repeat bg-top">
             <Sidebar sidebarLinks={sidebarLinks} />
 
             <section className="h-full w-full">
@@ -126,11 +126,11 @@ export default async function layout({ children }: LayoutProps) {
                     <>
                         {/* Background Image */}
                         <section
-                            className="relative h-full w-full bg-bear-alvine "
+                            className="relative h-full w-full bg-bear-alvine border-b-8 border-cerv-coal shadow-lg"
                             aria-label="Custom Header"
                         >
                             <Image
-                                className="max-h-[20vh] w-full object-cover md:max-h-[40vh]"
+                                className="max-h-[20vh] w-full object-cover md:max-h-[25vh]"
                                 width={1260}
                                 height={240}
                                 src={'/assets/consumer_layout_bg.jpg'}
@@ -154,7 +154,7 @@ export default async function layout({ children }: LayoutProps) {
                                     />
 
                                     {/* Gamification experiencie  */}
-                                    <div className="absolute -left-2 flex h-10 w-10 items-center justify-center rounded-full bg-beer-dark sm:-left-4 sm:-top-4 sm:h-14 sm:w-14">
+                                    <div className="absolute -left-2 flex h-10 w-10 items-center justify-center rounded-full bg-beer-dark sm:-left-4 sm:-top-4 sm:h-14 sm:w-14 border-2">
                                         <div className="absolute flex h-6 w-6 items-center justify-center rounded-full bg-beer-blonde sm:h-10 sm:w-10">
                                             <p className="text-md font-semibold text-white">
                                                 1
@@ -165,7 +165,7 @@ export default async function layout({ children }: LayoutProps) {
                                     <div className="group absolute flex h-24 w-24 cursor-pointer items-center justify-center rounded-full opacity-60 transition duration-500 hover:bg-gray-200 sm:h-36 sm:w-36">
                                         <FontAwesomeIcon
                                             icon={faUpload}
-                                            style={{ color: 'bear-dark' }}
+                                            style={{ color: 'beer-dark' }}
                                             // onMouseEnter={() => setHoverColor("filled")}
                                             // onMouseLeave={() => setHoverColor("unfilled")}
                                             title={'profile'}
@@ -184,11 +184,11 @@ export default async function layout({ children }: LayoutProps) {
                             </section>
 
                             {/* Username and experience level */}
-                            <section className="absolute bottom-4 right-10 flex flex-col items-center justify-center gap-4 rounded-xl bg-beer-draft bg-opacity-90 shadow-lg sm:-bottom-4 sm:left-[50%] sm:right-[50%] sm:w-[10rem] sm:-translate-x-[5rem] sm:p-4">
-                                <p className="text-md font-semibold text-white">
+                            <section className="absolute bottom-4 right-10 flex flex-col items-center justify-center gap-4 rounded-xl bg-beer-draft bg-opacity-90 sm:-bottom-4 sm:left-[50%] sm:right-[50%] sm:w-[10rem] sm:-translate-x-[5rem] sm:p-4 border-2 p-4 border-beer-softFoam shadow-lg">
+                                <p className="text-md font-semibold text-white p2">
                                     {user?.username}
                                 </p>
-                                <p className="text-lg font-semibold text-white">
+                                <p className="font-semibold text-white text-2xl">
                                     {user?.gamification?.score} XP
                                 </p>
                             </section>
