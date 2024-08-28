@@ -39,6 +39,7 @@ export default function BusinessOrderItem({ bOrder }: Props) {
                             }
                         >
                             <OrderItemCard orderItem={orderItem} />
+
                             <OrderItemReview
                                 orderItem={orderItem}
                                 bOrder={bOrder}

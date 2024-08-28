@@ -4,6 +4,7 @@ import { useMutation } from 'react-query';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useMessage } from '../message/useMessage';
 import { ROLE_ENUM } from '@/lib//enums';
+import { formatDateTypeDefaultInput } from '@/utils/formatDate';
 
 interface Props {
     handleShowUpProducerModal: (show: boolean) => void;
@@ -25,6 +26,7 @@ export function UpProducerModal({
                 .from('users')
                 .update({
                     role: [...user.role, ROLE_ENUM.Productor],
+                    updated_at: formatDateTypeDefaultInput(new Date()),
                 })
                 .eq('id', user.id);
 

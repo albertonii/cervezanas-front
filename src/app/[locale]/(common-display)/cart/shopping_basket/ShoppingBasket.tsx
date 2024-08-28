@@ -28,6 +28,7 @@ import {
     merchantInfo,
 } from '@/app/[locale]/components/TPV/redsysClient';
 import { insertOnlineOrder } from '../actions';
+import { formatDateForTPV } from '@/utils/formatDate';
 
 export type FormShippingData = {
     shipping_info_id: string;
@@ -285,6 +286,19 @@ export function ShoppingBasket({ user }: Props) {
 
         // Convert EUR -> 978
         const redsysCurrency = currencyInfo.num;
+
+        // MERCHANT EMV3DS optional information
+        const merchant_EMV3DS = {
+            email: user.email,
+            // homePhone: user.phone,
+            // shipAddLines1: 'Calle de la Cerveza, 1',
+            accInfo: {
+                chAccChange: formatDateForTPV(user.updated_at),
+                chAccDate: formatDateForTPV(user.created_at),
+                // txnActivityYear: 2020,
+            },
+        };
+
         const form = createRedirectForm({
             ...merchantInfo,
             DS_MERCHANT_AMOUNT: redsysAmount,
@@ -317,7 +331,6 @@ export function ShoppingBasket({ user }: Props) {
     const handleOnClickShipping = (addressId: string) => {
         setDeliveryCost(0);
         setSelectedShippingAddress(addressId);
-        console.log(addressId);
     };
 
     const handleOnClickBilling = (addressId: string) => {

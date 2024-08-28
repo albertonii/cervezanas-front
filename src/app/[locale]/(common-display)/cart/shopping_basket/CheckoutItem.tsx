@@ -68,13 +68,17 @@ export function CheckoutItem({ productPack, isShippingCostLoading }: Props) {
             className={`mt-4 space-y-4 
                      ${isShippingCostLoading ? 'pointer-events-none' : ''}`}
         >
-            <Link href={`/products/${productWithInfo.id}`} locale={locale}>
+            <Link
+                href={`/products/${productWithInfo.id}`}
+                locale={locale}
+                target={'_blank'}
+            >
                 <p className="space-x-2 text-xl">
-                    <span className="font-semibold dark:text-white">
+                    <span className=" dark:text-white">
                         {t('product_name')}:
                     </span>
 
-                    <span className="hover:font-semibold hover:text-beer-gold dark:text-white">
+                    <span className="font-semibold hover:text-beer-gold dark:text-white hover:underline">
                         {productPack.name}
                     </span>
                 </p>

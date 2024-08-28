@@ -4,6 +4,7 @@ import { useMutation } from 'react-query';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useMessage } from '../message/useMessage';
 import { ROLE_ENUM } from '@/lib//enums';
+import { formatDateTypeDefaultInput } from '@/utils/formatDate';
 
 interface Props {
     handleShowDownDistributorModal: (show: boolean) => void;
@@ -29,6 +30,7 @@ export function DownDistributorModal({
                 .from('users')
                 .update({
                     role: delRoles,
+                    updated_at: formatDateTypeDefaultInput(new Date()),
                 })
                 .eq('id', user.id);
 

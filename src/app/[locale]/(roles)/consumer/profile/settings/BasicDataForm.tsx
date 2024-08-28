@@ -12,6 +12,7 @@ import Button from '@/app/[locale]/components/common/Button';
 import Spinner from '@/app/[locale]/components/common/Spinner';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import { formatDateTypeDefaultInput } from '@/utils/formatDate';
 
 type FormData = {
     name: string;
@@ -66,6 +67,7 @@ export function BasicDataForm({ profile }: Props) {
             .update({
                 name,
                 lastname,
+                updated_at: formatDateTypeDefaultInput(new Date()),
             })
             .eq('id', id);
 
@@ -118,7 +120,10 @@ export function BasicDataForm({ profile }: Props) {
             id="account_basic_data"
             className="mb-4 space-y-3 rounded-md border-2 border-beer-blonde bg-white px-6 py-4 shadow-2xl"
         >
-            <span id="account-data" className="text-4xl font-['NexaRust-script']">
+            <span
+                id="account-data"
+                className="text-4xl font-['NexaRust-script']"
+            >
                 {t('profile_title_acc_data')}
             </span>
 

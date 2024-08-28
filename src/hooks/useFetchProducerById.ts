@@ -13,23 +13,23 @@ const fetchProducerById = async (
         .from('users')
         .select(
             `
-        *,
-        producer_user (*),
-        profile_location (
-          name, 
-          lastname, 
-          document_id, 
-          company, 
-          phone, 
-          postalcode, 
-          country,
-          region,
-          sub_region,
-          city,
-          address_1, 
-          address_2
-          )
-      `,
+                *,
+                producer_user (*),
+                profile_location (
+                name, 
+                lastname, 
+                document_id, 
+                company, 
+                phone, 
+                postalcode, 
+                country,
+                region,
+                sub_region,
+                city,
+                address_1, 
+                address_2
+                )
+            `,
         )
         .eq('id', producerId);
 

@@ -9,6 +9,7 @@ import { z, ZodType } from 'zod';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
 import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import { formatDateTypeDefaultInput } from '@/utils/formatDate';
 
 type HistoryFormData = {
     description: string;
@@ -53,6 +54,7 @@ export function HistoryForm({ id, description, foundationYear }: Props) {
                 id,
                 description,
                 foundationYear,
+                updated_at: formatDateTypeDefaultInput(new Date()),
             };
 
             const { error } = await supabase

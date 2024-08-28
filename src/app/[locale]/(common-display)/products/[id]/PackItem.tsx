@@ -55,7 +55,7 @@ export default function PackItem({
                     </span>
                 </label>
 
-                <div className={`${!isHovering && 'hidden'}`}>
+                <div className={`${!isHovering && 'hidden'} relative z-50`}>
                     <ProductPackMiniature pack={pack} />
                 </div>
             </div>

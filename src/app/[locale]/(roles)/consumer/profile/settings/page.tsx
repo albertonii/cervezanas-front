@@ -31,12 +31,12 @@ async function getProfileData() {
         .from('users')
         .select(
             `
-        *,
-        orders (*),
-        campaigns (*),
-        customize_settings (*),
-        profile_location (*)
-      `,
+                *,
+                orders (*),
+                campaigns (*),
+                customize_settings (*),
+                profile_location (*)
+            `,
         )
         .eq('id', session.id)
         .single();

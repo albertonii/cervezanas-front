@@ -13,23 +13,23 @@ const fetchDistributorById = async (
         .from('users')
         .select(
             `
-        *,
-        distributor_user (*),
-        profile_location (
-          name, 
-          lastname, 
-          document_id, 
-          company, 
-          phone, 
-          postalcode, 
-          country,
-          sub_region, 
-          region,
-          city,
-          address_1, 
-          address_2
-        )
-      `,
+                *,
+                distributor_user (*),
+                profile_location (
+                name, 
+                lastname, 
+                document_id, 
+                company, 
+                phone, 
+                postalcode, 
+                country,
+                sub_region, 
+                region,
+                city,
+                address_1, 
+                address_2
+                )
+            `,
         )
         .eq('id', distributorId);
 

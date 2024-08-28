@@ -45,3 +45,16 @@ export function getTimeElapsed(startDate: any): string {
 export function convertToDate(dateString: string): Date {
     return new Date(dateString);
 }
+
+export function formatDateForTPV(dateString: string) {
+    // DataString format is 2024-08-28 00:00:00+00
+    // NEW Format YYYYMMDD
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+
+    return `${year}${month < 10 ? '0' + month : month}${
+        day < 10 ? '0' + day : day
+    }`;
+}

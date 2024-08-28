@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
+import Spinner from '@/app/[locale]/components/common/Spinner';
 import MarketCartButtons from '@/app/[locale]/components/common/MarketCartButtons';
+import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
+import React, { useEffect, useState } from 'react';
+import { Type } from '@/lib//productEnum';
 import { SupabaseProps } from '@/constants';
+import { useTranslations } from 'next-intl';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import {
     IProduct,
     IProductPack,
     IProductPackCartItem,
 } from '@/lib//types/types';
-import { formatCurrency } from '@/utils/formatCurrency';
-import { Type } from '@/lib//productEnum';
-import { useTranslations } from 'next-intl';
-import { useShoppingCart } from '@/app/context/ShoppingCartContext';
-import { calculateProductPacksWeight } from '../actions';
-import Spinner from '@/app/[locale]/components/common/Spinner';
+import { calculateProductPacksWeight } from '@/utils/distribution';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -36,9 +36,10 @@ export default function CheckoutPackItem({
 
     useEffect(() => {
         setIsLoadingWeightCalculations(true);
-        const getPackWeight = async () => {
-            setPackWeight(await calculateProductPacksWeight(productPack));
 
+        const getPackWeight = async () => {
+            const weight = calculateProductPacksWeight(productPack);
+            setPackWeight(weight);
             setIsLoadingWeightCalculations(false);
         };
 

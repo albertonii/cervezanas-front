@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { isValidObject, normalizeFileName } from '@/utils/utils';
 import { DisplayInputError } from '../common/DisplayInputError';
+import { formatDateTypeDefaultInput } from '@/utils/formatDate';
 
 type FormData = {
     cover_letter_file: File[];
@@ -73,7 +74,12 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
                         // Update user status
                         const { error: userError } = await supabase
                             .from('users')
-                            .update({ cp_organizer_status: 0 }) // 0: pending
+                            .update({
+                                cp_organizer_status: 0,
+                                updated_at: formatDateTypeDefaultInput(
+                                    new Date(),
+                                ),
+                            }) // 0: pending
                             .eq('id', user.id)
                             .then((res: any) => {
                                 handleCPOrganizerStatus(0);

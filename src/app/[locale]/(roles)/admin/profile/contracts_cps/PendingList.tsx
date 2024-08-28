@@ -1,23 +1,26 @@
 'use client';
 
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
 import React, { useMemo, useState } from 'react';
+import { ROLE_ENUM } from '@/lib//enums';
+import { useLocale, useTranslations } from 'next-intl';
+import { IConsumptionPoints } from '@/lib//types/types';
+import { generateDownloadableLink } from '@/utils/utils';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconButton } from '@/app/[locale]/components/common/IconButton';
 import {
     faCancel,
     faCheck,
     faFileArrowDown,
     faUser,
 } from '@fortawesome/free-solid-svg-icons';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { useLocale, useTranslations } from 'next-intl';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { formatDateString } from '@/utils/formatDate';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
-import { generateDownloadableLink } from '@/utils/utils';
-import { IConsumptionPoints } from '@/lib//types/types';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
-import dynamic from 'next/dynamic';
-import { ROLE_ENUM } from '@/lib//enums';
+import {
+    formatDateString,
+    formatDateTypeDefaultInput,
+} from '@/utils/formatDate';
 
 enum SortBy {
     NONE = 'none',
@@ -130,7 +133,10 @@ export default function ListPendingCP({ submittedCPs }: Props) {
             .then(async () => {
                 await supabase
                     .from('users')
-                    .update({ cp_organizer_status: 1 })
+                    .update({
+                        cp_organizer_status: 1,
+                        updated_at: formatDateTypeDefaultInput(new Date()),
+                    })
                     .eq('id', cp.users.id);
             });
     };
@@ -168,7 +174,10 @@ export default function ListPendingCP({ submittedCPs }: Props) {
             .then(async () => {
                 await supabase
                     .from('users')
-                    .update({ cp_organizer_status: status })
+                    .update({
+                        cp_organizer_status: status,
+                        updated_at: formatDateTypeDefaultInput(new Date()),
+                    })
                     .eq('id', selectedCP.users.id);
             });
     };

@@ -1,4 +1,4 @@
-import { ICoverageArea } from '@/lib//types/types';
+import { ICoverageArea, IProductPackCartItem } from '@/lib//types/types';
 
 export function isSameRegion(region1: ICoverageArea, region2: ICoverageArea) {
     return (
@@ -25,4 +25,13 @@ export function normalizeAddress(str: string) {
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
         .replace(/\s+/g, '');
+}
+
+export function calculateProductPacksWeight(productPack: IProductPackCartItem) {
+    const packQuantity = productPack.packs[0].quantity;
+    const packWeight = productPack.products?.weight ?? 0;
+    const totalWeight = packWeight * packQuantity;
+
+    // Convert gr to KG
+    return totalWeight / 1000;
 }

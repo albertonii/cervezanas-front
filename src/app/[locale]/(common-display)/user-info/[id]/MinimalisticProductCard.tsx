@@ -29,7 +29,7 @@ const MinimalisticProductCard = ({ product }: Props) => {
                     alt={product.name}
                 />
                 <div className="p-4">
-                    <h3 className="text-sm font-semibold text-gray-800">
+                    <h3 className="text-sm font-semibold hover:underline text-gray-800">
                         {product.name}
                     </h3>
                 </div>

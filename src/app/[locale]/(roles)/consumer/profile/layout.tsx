@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { COMMON, SupabaseProps } from '@/constants';
 import { useAppContext } from '@/app/context/AppContext';
 import { Sidebar } from '@/app/[locale]/components/common/Sidebar';
+import { formatDateTypeDefaultInput } from '@/utils/formatDate';
 
 type LayoutProps = {
     children: React.ReactNode;
@@ -93,7 +94,10 @@ export default async function layout({ children }: LayoutProps) {
 
             const { error: errorProfileImg } = await supabase
                 .from('users')
-                .update({ avatar_url: decodeUriProfileImg })
+                .update({
+                    avatar_url: decodeUriProfileImg,
+                    updated_at: formatDateTypeDefaultInput(new Date()),
+                })
                 .eq('id', user?.id);
 
             if (errorProfileImg) {

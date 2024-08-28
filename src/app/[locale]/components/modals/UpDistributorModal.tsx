@@ -5,6 +5,7 @@ import { useAuth } from '../../(auth)/Context/useAuth';
 import { useMessage } from '../message/useMessage';
 import { ROLE_ENUM } from '@/lib//enums';
 import { IDistributionCost } from '@/lib//types/types';
+import { formatDateTypeDefaultInput } from '@/utils/formatDate';
 
 interface Props {
     handleShowUpDistributorModal: (show: boolean) => void;
@@ -26,6 +27,7 @@ export function UpDistributorModal({
                 .from('users')
                 .update({
                     role: [...user.role, ROLE_ENUM.Distributor],
+                    updated_at: formatDateTypeDefaultInput(new Date()),
                 })
                 .eq('id', user.id);
 

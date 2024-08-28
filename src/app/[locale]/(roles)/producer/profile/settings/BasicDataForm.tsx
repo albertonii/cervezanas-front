@@ -12,6 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { IProducerUser } from '@/lib//types/types';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { formatDateTypeDefaultInput } from '@/utils/formatDate';
 
 type FormData = {
     name: string;
@@ -65,6 +66,7 @@ export function BasicDataForm({ profile }: Props) {
             .update({
                 name,
                 lastname,
+                updated_at: formatDateTypeDefaultInput(new Date()),
             })
             .eq('id', id);
 
@@ -98,7 +100,10 @@ export function BasicDataForm({ profile }: Props) {
             id="account_basic_data"
             className="mb-4 space-y-3 bg-white px-6 py-4 rounded-xl border"
         >
-            <div id="account-data" className="text-4xl font-['NexaRust-script']">
+            <div
+                id="account-data"
+                className="text-4xl font-['NexaRust-script']"
+            >
                 {t('profile_title_acc_data')}
             </div>
 
