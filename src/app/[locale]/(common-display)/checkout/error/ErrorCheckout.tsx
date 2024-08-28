@@ -1,17 +1,17 @@
 'use client';
 
-import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-import { SupabaseProps } from '@/constants';
-import { IOrder, IOrderItem } from '@/lib//types/types';
-import { formatCurrency } from '@/utils/formatCurrency';
-import { formatDateString } from '@/utils/formatDate';
-import { useAuth } from '../../../(auth)/Context/useAuth';
-import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
-import ShippingInformationBox from '@/app/[locale]/components/ShippingInformationBox';
 import PaymentInformationBox from '@/app/[locale]/components/PaymentInformationBox';
 import BillingInformationBox from '@/app/[locale]/components/BillingInformationBox';
+import ShippingInformationBox from '@/app/[locale]/components/ShippingInformationBox';
+import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
+import React, { useEffect, useState } from 'react';
+import { SupabaseProps } from '@/constants';
+import { formatDateString } from '@/utils/formatDate';
+import { useLocale, useTranslations } from 'next-intl';
+import { IOrder, IOrderItem } from '@/lib//types/types';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { useAuth } from '../../../(auth)/Context/useAuth';
 
 interface Props {
     isError?: boolean;
@@ -156,7 +156,7 @@ export default function ErrorCheckout({ order, isError }: Props) {
                                                     <p className="mt-2 text-sm font-medium text-gray-900">
                                                         {t('quantity')} -
                                                     </p>
-                                                    <p className="mt-3 text-sm text-gray-500">
+                                                    <p className="mt-3 text-sm text-gray-500 truncate hover:text-clip">
                                                         {t('description')} -{' '}
                                                         {
                                                             item.product_packs

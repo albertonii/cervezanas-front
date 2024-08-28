@@ -690,7 +690,8 @@
         "ranges_not_continuous": "Los rangos no son continuos.",
         "product_pack_not_exists": "Este producto no tiene packs de venta configurados y no es visible en el mercado",
         "removing_product_multimedia": "Error al eliminar el multimedia del producto.",
-        "update_product_multimedia": "Error al actualizar el multimedia del producto."
+        "update_product_multimedia": "Error al actualizar el multimedia del producto.",
+        "update_sub_region_coverage_area": "Área de cobertura de la subregión actualizada correctamente"
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",

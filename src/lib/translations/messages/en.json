@@ -697,7 +697,8 @@
         "ranges_not_continuous": "Ranges must be continuous",
         "product_pack_not_exists": "This product does not have selling packs configured and is not visible on marketplace",
         "removing_product_multimedia": "Error removing product multimedia.",
-        "update_product_multimedia": "Error updating product multimedia."
+        "update_product_multimedia": "Error updating product multimedia.",
+        "update_sub_region_coverage_area": "Error updating sub region coverage area."
     },
     "product_packs": "Product packs",
     "units": "Units",

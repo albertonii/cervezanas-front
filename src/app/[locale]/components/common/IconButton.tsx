@@ -91,10 +91,8 @@ export function IconButton({
     };
 
     const getColorClass = () => {
-        if (primary)
-            return 'border-2 border-beer-blonde bg-beer-softBlonde hover:bg-beer-blonde';
-        if (accent)
-            return 'border-2 border-beer-blonde bg-beer-foam hover:bg-beer-softFoam';
+        if (primary) return 'bg-beer-softBlonde hover:bg-beer-blonde';
+        if (accent) return 'bg-beer-foam hover:bg-beer-softFoam';
         if (danger) return 'bg-red-500 hover:bg-red-600 dark:bg-red-600';
         return 'shrink-0 hover:bg-beer-softBlonde';
     };

@@ -42,6 +42,7 @@ export const errorEventRedirectPath = '/es/checkout/event/error';
 export const notificationEventPath = '/api/notification';
 
 export const merchantInfo = {
+    DS_MERCHANT_VERSION: '2.1.0',
     DS_MERCHANT_MERCHANTNAME: 'Cervezanas M&M SL',
     DS_MERCHANT_MERCHANTCODE: '097839427',
     DS_MERCHANT_MERCHANTURL: `https://cervezanas-front-git-staging-albertonii.vercel.app/api/notification`,
