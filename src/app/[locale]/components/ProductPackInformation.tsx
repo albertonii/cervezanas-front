@@ -95,7 +95,9 @@ export default function ProductPackInformation({ form }: Props) {
                     disabled={isSubmitting}
                     class="mt-4"
                 >
-                    {t('add_pack')}
+                    {fields.length === 0
+                        ? t('add_pack')
+                        : t('add_another_pack')}
                 </Button>
             </div>
         </section>

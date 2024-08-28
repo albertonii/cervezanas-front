@@ -102,7 +102,9 @@ export default function UpdateProductPackInformation({ form }: Props) {
                 ))}
 
                 <Button primary medium onClick={handleUpdatePack} class="mt-4">
-                    {t('add_pack')}
+                    {fields.length === 0
+                        ? t('add_pack')
+                        : t('add_another_pack')}
                 </Button>
             </div>
         </section>
