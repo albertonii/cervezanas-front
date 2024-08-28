@@ -97,7 +97,7 @@ export default function Packs({ product }: Props) {
                             </div>
                         )}
 
-                        <div className="mt-6 flex space-x-2">
+                        <div className="mt-6 flex space-x-2 bg-white max-w-[200px] p-3 shadow-sm">
                             <MarketCartButtons2
                                 item={product.product_packs[0]}
                                 quantity={packQuantity}

@@ -82,7 +82,7 @@ export function Reviews({ reviews: r }: Props) {
                                                         '/icons/profile-240.png'
                                                     }
                                                     class={
-                                                        'w-full w-20 h-20 rounded-full'
+                                                        'w-20 h-20 rounded-full'
                                                     }
                                                 />
                                             </div>

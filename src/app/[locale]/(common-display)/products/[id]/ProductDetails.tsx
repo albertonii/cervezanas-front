@@ -113,8 +113,8 @@ export default function ProductDetails({ product, reviewRef }: Props) {
     return (
         <>
             <div
-                className="col-span-12 mx-6  h-[100%] items-start justify-center  md:overflow-hidden lg:col-span-4 space-y-4 rounded-lg max-h-[1000px] 
-                    bg-beer-softBlonde bg-[url('/assets/madera.webp')] bg-cover bg-top bg-repeat-y"
+                className="col-span-12 mx-6  h-[100%] items-start justify-center  md:overflow-hidden lg:col-span-4 space-y-4 rounded-lg 
+                    bg-beer-softBlonde bg-[url('/assets/madera.webp')] bg-auto bg-top bg-repeat-y pb-2"
             >
                 <section className="aspect-w-2 aspect-h-3 flex">
                     <ProductGallery
@@ -123,7 +123,21 @@ export default function ProductDetails({ product, reviewRef }: Props) {
                         handleSetIsLike={handleSetIsLike}
                     />
                 </section>
+                {/* Sobre el producto  */}
+                <section
+                    aria-labelledby="product-description-heading"
+                    className={
+                        'aspect-w-3 aspect-h-3 col-span-12 mx-2 flex items-center justify-center rounded-lg bg-beer-softBlondeBubble bg-opacity-90 md:overflow-hidden py-10 px-4 text-base'
+                    }
+                >
+                    <h3 id="product-description-heading" className="sr-only">
+                        {t('product_description')}
+                    </h3>
 
+                    <p className="text-gray-900 max-w-[90%]">
+                        {product.description}
+                    </p>
+                </section>
                 {/* Product Awards  */}
                 {product.awards && product.awards.length > 0 && (
                     <div className="px-4">
@@ -173,7 +187,7 @@ export default function ProductDetails({ product, reviewRef }: Props) {
                         {t('product_information')}
                     </h3>
 
-                    <p className="text-2xl font-semibold text-gray-900 ">
+                    <p className="text-2xl font-semibold mt-14 bg-cerv-banana max-w-[140px] text-center p-5 rounded-full text-white shadow-xl  border-white border-4">
                         {formatCurrency(product.price)}
                     </p>
                     <div className="m-auto text-center">
@@ -211,22 +225,6 @@ export default function ProductDetails({ product, reviewRef }: Props) {
 
                     <DistributionInformation product={product} />
                 </section> */}
-            </section>
-
-            {/* Sobre el producto  */}
-            <section
-                aria-labelledby="product-description-heading"
-                className={
-                    'aspect-w-3 aspect-h-3 col-span-12 mx-6 flex h-[100%] items-center justify-center rounded-lg bg-beer-softBlondeBubble bg-opacity-50 bg-cover bg-top bg-repeat-y md:overflow-hidden p-10'
-                }
-            >
-                <h3 id="product-description-heading" className="sr-only">
-                    {t('product_description')}
-                </h3>
-
-                <p className="text-gray-900 max-w-[90%]">
-                    {product.description}
-                </p>
             </section>
         </>
     );
