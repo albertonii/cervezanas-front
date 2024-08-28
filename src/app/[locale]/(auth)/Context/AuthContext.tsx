@@ -376,7 +376,15 @@ export const AuthContextProvider = ({
         });
 
         if (error) {
-            handleMessage({ message: error.message, type: 'error' });
+            if (error.message === 'Invalid login credentials') {
+                handleMessage({
+                    message: 'errors.invalid_credentials',
+                    type: 'error',
+                });
+            } else {
+                handleMessage({ message: error.message, type: 'error' });
+            }
+
             return error;
         }
 

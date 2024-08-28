@@ -712,7 +712,11 @@
         "in_select_producer_user": "Error in select producer user.",
         "insert_producer_user": "Error inserting producer user.",
         "insert_consumption_point": "Error inserting consumption point.",
-        "insert_customize_settings": "Error inserting customize settings."
+        "insert_customize_settings": "Error inserting customize settings.",
+        "username_invalid_characters": "Username can only contain letters, numbers, underscores and dots.",
+        "password_security": "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.",
+        "input_unsername_max_length_20": "Username must be less than 20 characters.",
+        "invalid_credentials": "Invalid credentials."
     },
     "product_packs": "Product packs",
     "units": "Units",

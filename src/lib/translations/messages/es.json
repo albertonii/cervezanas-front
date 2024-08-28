@@ -705,7 +705,11 @@
         "in_select_producer_user": "Error al seleccionar el usuario del productor.",
         "insert_producer_user": "Error al insertar el usuario del productor.",
         "insert_consumption_point": "Error al insertar el punto de consumo.",
-        "insert_customize_settings": "Error al insertar la configuración personalizada."
+        "insert_customize_settings": "Error al insertar la configuración personalizada.",
+        "username_invalid_characters": "El nombre de usuario solo puede caracteres alfanuméricos, guiones bajos o puntos",
+        "password_security": "La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.",
+        "input_unsername_max_length_20": "El nombre de usuario debe tener menos de 20 caracteres",
+        "invalid_credentials": "Credenciales inválidas"
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",

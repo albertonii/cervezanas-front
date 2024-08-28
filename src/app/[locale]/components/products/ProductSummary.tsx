@@ -187,7 +187,7 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                         </div>
                         <div className="flex flex-col">
                             <label className="text-md font-semibold text-gray-600">
-                                {t('price')}
+                                {t('pvpr')}
                             </label>
                             <span className="text-md">
                                 {formatCurrency(getValues('price'))}

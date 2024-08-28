@@ -40,14 +40,30 @@ interface FormData {
 const schema: ZodType<FormData> = z
     .object({
         access_level: z.string(),
-        username: z.string().min(5, { message: 'errors.input_required' }),
+        username: z
+            .string()
+            .min(5, { message: 'errors.input_required' })
+            .regex(/^[a-zA-Z0-9._]+$/, {
+                message: 'errors.username_invalid_characters',
+            })
+            .max(20, { message: 'errors.input_unsername_max_length_20' })
+            .transform((val) => val.toLowerCase()), // Normalización a minúsculas
         email: z
             .string()
             .email({
                 message: 'errors.input_email_invalid',
             })
-            .min(5, { message: 'errors.input_required' }),
-        password: z.string().min(8, { message: 'errors.password_8_length' }),
+            .min(5, { message: 'errors.input_required' })
+            .transform((val) => val.toLowerCase()), // Normalización a minúsculas
+        password: z
+            .string()
+            .min(8, { message: 'errors.password_8_length' })
+            .regex(
+                /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+                {
+                    message: 'errors.password_security',
+                },
+            ),
         confirm_password: z
             .string()
             .min(8, { message: 'errors.password_8_length' }),
