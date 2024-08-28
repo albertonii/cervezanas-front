@@ -313,7 +313,8 @@
     "read_all_reviews": "Read all reviews",
     "write_review": "Write a review",
     "loading": "Loading...",
-    "add_product": "Add Product",
+    "add_product": "Add New Product",
+    "add_new_product": "Add Product",
     "update_product": "Update Product",
     "config_lot": "Config Lot",
     "add_lot": "Add Lot",
@@ -1169,5 +1170,7 @@
     "company_values": "Values",
     "profile_acc_vision_placeholder": "Enter the company vision",
     "profile_acc_mission_placeholder": "Enter the company mission",
-    "profile_acc_values_placeholder": "Enter the company values"
+    "profile_acc_values_placeholder": "Enter the company values",
+    "step": "Step",
+    "of": "of"
 }

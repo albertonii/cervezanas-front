@@ -301,6 +301,7 @@
     "write_review": "Escribir una opinión",
     "loading": "Cargando...",
     "add_product": "Añadir Producto",
+    "add_new_product": "Añadir Nuevo Producto",
     "update_product": "Actualizar Producto",
     "config_lot": "Configurar Lote",
     "add_lot": "Añadir Lote",
@@ -1202,5 +1203,7 @@
     "company_values": "Valores",
     "profile_acc_vision_placeholder": "Introduce la visión de la empresa",
     "profile_acc_mission_placeholder": "Introduce la misión de la empresa",
-    "profile_acc_values_placeholder": "Introduce los valores de la empresa"
+    "profile_acc_values_placeholder": "Introduce los valores de la empresa",
+    "step": "Paso",
+    "of": "de"
 }

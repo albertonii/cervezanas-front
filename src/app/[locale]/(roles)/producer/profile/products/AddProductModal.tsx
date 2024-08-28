@@ -438,7 +438,7 @@ export function AddProductModal() {
             showModal={showModal}
             setShowModal={setShowModal}
             title={'add_product'}
-            btnTitle={'save'}
+            btnTitle={'add_new_product'}
             triggerBtnTitle={'add_product'}
             description={''}
             classIcon={''}
