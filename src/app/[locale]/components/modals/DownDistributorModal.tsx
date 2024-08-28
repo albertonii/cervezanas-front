@@ -1,13 +1,13 @@
 import Modal from './Modal';
-import React from 'react';
-import { useMutation } from 'react-query';
-import { useAuth } from '../../(auth)/Context/useAuth';
-import { useMessage } from '../message/useMessage';
+import React, { ComponentProps } from 'react';
 import { ROLE_ENUM } from '@/lib//enums';
+import { useMutation } from 'react-query';
+import { useMessage } from '../message/useMessage';
+import { useAuth } from '../../(auth)/Context/useAuth';
 import { formatDateTypeDefaultInput } from '@/utils/formatDate';
 
 interface Props {
-    handleShowDownDistributorModal: (show: boolean) => void;
+    handleShowDownDistributorModal: ComponentProps<any>;
     showModal: boolean;
 }
 
@@ -39,7 +39,7 @@ export function DownDistributorModal({
 
                 handleMessage({
                     type: 'error',
-                    message: 'Error updating user role',
+                    message: 'errors.update_user_role',
                 });
 
                 return;
@@ -61,17 +61,22 @@ export function DownDistributorModal({
 
             if (distributorUserError) {
                 console.error(
-                    'Error deleting distributor user:',
+                    'Error updating distributor user:',
                     distributorUserError,
                 );
 
                 handleMessage({
                     type: 'error',
-                    message: 'Error deleting distributor user',
+                    message: 'errors.update_distributor_user',
                 });
 
                 return;
             }
+
+            handleMessage({
+                type: 'success',
+                message: 'success.sign_down_distributor',
+            });
         }
     };
 

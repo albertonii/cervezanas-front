@@ -35,7 +35,7 @@ export function UpProducerModal({
 
                 handleMessage({
                     type: 'error',
-                    message: 'Error updating user role',
+                    message: 'errors.update_user_role',
                 });
 
                 return;
@@ -65,14 +65,13 @@ export function UpProducerModal({
 
                 handleMessage({
                     type: 'error',
-                    message: 'Error selecting producer user',
+                    message: 'errors.in_select_producer_user',
                 });
 
                 return;
             }
 
-            if (!producerUser) {
-                // insert into public.producer_user (user_id) values (new.id);
+            if (producerUser.length === 0) {
                 const { error: producerUserError } = await supabase
                     .from('producer_user')
                     .insert({
@@ -89,7 +88,7 @@ export function UpProducerModal({
 
                     handleMessage({
                         type: 'error',
-                        message: 'Error creating producer user',
+                        message: 'errors.insert_producer_user',
                     });
 
                     return;
@@ -109,7 +108,7 @@ export function UpProducerModal({
 
                     handleMessage({
                         type: 'error',
-                        message: 'Error creating consumption points',
+                        message: 'insert_consumption_point',
                     });
 
                     return;
@@ -129,7 +128,7 @@ export function UpProducerModal({
 
                     handleMessage({
                         type: 'error',
-                        message: 'Error creating customize settings',
+                        message: 'errors.insert_customize_settings',
                     });
 
                     return;
@@ -151,12 +150,17 @@ export function UpProducerModal({
 
                     handleMessage({
                         type: 'error',
-                        message: 'Error updating producer user',
+                        message: 'errors.update_producer_user',
                     });
 
                     return;
                 }
             }
+
+            handleMessage({
+                type: 'success',
+                message: 'success.sign_up_producer',
+            });
         }
     };
 

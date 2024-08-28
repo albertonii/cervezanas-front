@@ -691,7 +691,12 @@
         "product_pack_not_exists": "Este producto no tiene packs de venta configurados y no es visible en el mercado",
         "removing_product_multimedia": "Error al eliminar el multimedia del producto.",
         "update_product_multimedia": "Error al actualizar el multimedia del producto.",
-        "update_sub_region_coverage_area": "Área de cobertura de la subregión actualizada correctamente"
+        "update_sub_region_coverage_area": "Error al actualizar la subregión de cobertura del área.",
+        "sign_down_distributor": "Error al darse de baja como distribuidor.",
+        "sign_up_distributor": "Error al darse de alta como distribuidor.",
+        "update_distributor": "Error al actualizar el distribuidor.",
+        "update_distributor_contract": "Error al actualizar el contrato del distribuidor.",
+        "update_distributor_user": "Error al actualizar el usuario del distribuidor."
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",
@@ -988,7 +993,11 @@
         "removing_product_multimedia": "Multimedia del producto eliminado correctamente",
         "update_product_multimedia": "Multimedia del producto actualizado correctamente",
         "profile_rrss_data_updated": "Datos de RRSS actualizados correctamente",
-        "profile_history_data_updated": "Datos de historia actualizados correctamente"
+        "profile_history_data_updated": "Datos de historia actualizados correctamente",
+        "sign_down_distributor": "Solicitud de baja como distribuidor enviada correctamente",
+        "sign_down_producer": "Solicitud de baja como productor enviada correctamente",
+        "sign_up_distributor": "Solicitud de alta como distribuidor enviada correctamente",
+        "sign_up_producer": "Solicitud de alta como productor enviada correctamente"
     },
     "num_of_packs": "Número de packs",
     "promo_code": "Código promocional",

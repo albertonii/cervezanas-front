@@ -37,7 +37,7 @@ export function DownProducerModal({
 
                 handleMessage({
                     type: 'error',
-                    message: 'Error updating user role',
+                    message: 'errors.update_user_role',
                 });
 
                 return;
@@ -66,11 +66,16 @@ export function DownProducerModal({
 
                 handleMessage({
                     type: 'error',
-                    message: 'Error deleting producer user',
+                    message: 'errors.update_producer_user',
                 });
 
                 return;
             }
+
+            handleMessage({
+                type: 'success',
+                message: 'success.sign_down_producer',
+            });
         }
     };
 

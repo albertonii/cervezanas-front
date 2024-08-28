@@ -1,5 +1,5 @@
 import Modal from './Modal';
-import React, { ComponentProps } from 'react';
+import React from 'react';
 import { useMutation } from 'react-query';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useMessage } from '../message/useMessage';
@@ -36,7 +36,7 @@ export function UpDistributorModal({
 
                 handleMessage({
                     type: 'error',
-                    message: 'Error updating user role',
+                    message: 'errors.update_user_role',
                 });
 
                 return;
@@ -66,13 +66,13 @@ export function UpDistributorModal({
 
                 handleMessage({
                     type: 'error',
-                    message: 'Error selecting distributor user',
+                    message: 'errors.in_select_distributor_user',
                 });
 
                 return;
             }
 
-            if (!distributorUser) {
+            if (distributorUser.length === 0) {
                 const { error: distributorUserError } = await supabase
                     .from('distributor_user')
                     .insert({
@@ -87,7 +87,7 @@ export function UpDistributorModal({
 
                     handleMessage({
                         type: 'error',
-                        message: 'Error creating distributor user',
+                        message: 'errors.insert_distributor_user',
                     });
 
                     return;
@@ -111,7 +111,7 @@ export function UpDistributorModal({
 
                     handleMessage({
                         type: 'error',
-                        message: 'Error creating distribution costs',
+                        message: 'errors.insert_distribution_costs',
                     });
 
                     return;
@@ -134,7 +134,7 @@ export function UpDistributorModal({
 
                         handleMessage({
                             type: 'error',
-                            message: 'Error creating area and weight costs',
+                            message: 'errors.insert_area_and_weight_costs',
                         });
 
                         return;
@@ -157,12 +157,17 @@ export function UpDistributorModal({
 
                     handleMessage({
                         type: 'error',
-                        message: 'Error updating distributor user',
+                        message: 'errors.update_distributor_user',
                     });
 
                     return;
                 }
             }
+
+            handleMessage({
+                type: 'success',
+                message: 'success.sign_up_distributor',
+            });
         }
     };
 
@@ -172,6 +177,7 @@ export function UpDistributorModal({
     });
 
     const handleSubmitUpNewDistributor = () => {
+        console.log('handleSubmitUpNewDistributor');
         return newDistributorMutation.mutateAsync();
     };
 

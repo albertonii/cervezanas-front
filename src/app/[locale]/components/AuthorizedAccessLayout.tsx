@@ -29,7 +29,7 @@ export default function AuthorizedAccessLayout({ role }: Props) {
                     />
 
                     <h2 className="text-2xl font-semibold mb-2 text-gray-800">
-                        Tu petición para obtener el rol de {t(`role.${role}`)}
+                        Tu petición para obtener el rol de {t(`role.${role}`)}{' '}
                         está siendo procesada.
                     </h2>
                 </div>

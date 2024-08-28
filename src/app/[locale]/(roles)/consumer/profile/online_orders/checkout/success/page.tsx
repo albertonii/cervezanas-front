@@ -101,7 +101,7 @@ async function getSuccessData(searchParams: any) {
                     )
                 )
             )
-    `,
+            `,
         )
         .eq('order_number', orderNumber)
         .single();

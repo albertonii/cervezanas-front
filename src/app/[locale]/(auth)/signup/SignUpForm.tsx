@@ -100,6 +100,14 @@ export const SignUpForm = () => {
             email_verified: false,
         };
 
+        if (
+            role === ROLE_ENUM.Distributor ||
+            role === ROLE_ENUM.Productor ||
+            role === ROLE_ENUM.Consumption_point
+        ) {
+            data.access_level.push(ROLE_ENUM.Cervezano);
+        }
+
         const signUpInfo: SignUpWithPasswordCredentials = {
             email: email,
             password: password,

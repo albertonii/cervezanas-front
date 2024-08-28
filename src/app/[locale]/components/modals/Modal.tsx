@@ -3,9 +3,9 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Button from '../common/Button';
 import Spinner from '../common/Spinner';
 import PortalModal from './PortalModal';
+import { isEmpty } from '@/utils/utils';
 import { useTranslations } from 'next-intl';
 import { IconButton } from '../common/IconButton';
-import { isEmpty } from '@/utils/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
@@ -66,10 +66,8 @@ export default function Modal({
         setIsLoading(true);
 
         try {
-            const result = await handler();
-            if (result.shouldClose) {
-                handleShowModal(false);
-            }
+            await handler();
+            handleShowModal(false);
         } catch (e) {
             console.error(e);
         } finally {

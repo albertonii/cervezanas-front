@@ -1,12 +1,12 @@
-import { useTranslations } from 'next-intl';
-import React, { useState } from 'react';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { ROLE_ENUM } from '@/lib//enums';
 import Button from '@/app/[locale]/components/common/Button';
-import { DownDistributorModal } from '@/app/[locale]/components/modals/DownDistributorModal';
+import React, { useState } from 'react';
+import { ROLE_ENUM } from '@/lib//enums';
+import { useTranslations } from 'next-intl';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { UpProducerModal } from '@/app/[locale]/components/modals/UpProducerModal';
 import { DownProducerModal } from '@/app/[locale]/components/modals/DownProducerModal';
 import { UpDistributorModal } from '@/app/[locale]/components/modals/UpDistributorModal';
-import { UpProducerModal } from '@/app/[locale]/components/modals/UpProducerModal';
+import { DownDistributorModal } from '@/app/[locale]/components/modals/DownDistributorModal';
 
 const UserRoles = () => {
     const t = useTranslations();
@@ -24,19 +24,20 @@ const UserRoles = () => {
     const [showDownProducerRoleModal, setShowDownProducerRoleModal] =
         useState<boolean>(false);
 
-    const handleShowUpDistributorModal = async (show: boolean = false) => {
+    const handleShowUpDistributorModal = (show: boolean = false) => {
         setShowUpDistributorRoleModal(show);
     };
 
-    const handleShowDownDistributorModal = async (show: boolean = false) => {
+    const handleShowDownDistributorModal = (show: boolean) => {
+        console.log('dentro showDownDistributorModal');
         setShowDownDistributorRoleModal(show);
     };
 
-    const handleShowUpProducerModal = async (show: boolean = false) => {
+    const handleShowUpProducerModal = (show: boolean = false) => {
         setShowUpProducerRoleModal(show);
     };
 
-    const handleShowDownProducerModal = async (show: boolean = false) => {
+    const handleShowDownProducerModal = (show: boolean = false) => {
         setShowDownProducerRoleModal(show);
     };
 
@@ -75,7 +76,10 @@ const UserRoles = () => {
                 />
             )}
 
-            <div id="account-data" className="text-4xl font-['NexaRust-script']">
+            <div
+                id="account-data"
+                className="text-4xl font-['NexaRust-script']"
+            >
                 {t('profile_title_roles')}
             </div>
 

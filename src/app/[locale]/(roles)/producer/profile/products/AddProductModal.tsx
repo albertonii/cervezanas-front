@@ -3,25 +3,25 @@
 import dynamic from 'next/dynamic';
 import React, { useState, useEffect } from 'react';
 import { z, ZodType } from 'zod';
+import { Type } from '@/lib//productEnum';
+import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useTranslations } from 'next-intl';
+import { useAppContext } from '@/app/context/AppContext';
+import { faBox } from '@fortawesome/free-solid-svg-icons';
+import { useMutation, useQueryClient } from 'react-query';
+import { isFileEmpty, isNotEmptyArray } from '@/utils/utils';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { AwardsSection } from '@/app/[locale]/components/products/AwardsSection';
+import { ProductSummary } from '@/app/[locale]/components/products/ProductSummary';
+import { ProductStepper } from '@/app/[locale]/components/products/ProductStepper';
 import { MultimediaSection } from '@/app/[locale]/components/products/MultimediaSection';
+import { ProductInfoSection } from '@/app/[locale]/components/products/ProductInfoSection';
 import {
     IModalAddProductPack,
     ModalAddProductAwardFormData,
     ModalAddProductFormData,
 } from '@/lib//types/types';
-import { ProductSummary } from '@/app/[locale]/components/products/ProductSummary';
-import { isFileEmpty, isNotEmptyArray } from '@/utils/utils';
-import { useMutation, useQueryClient } from 'react-query';
-import { ProductStepper } from '@/app/[locale]/components/products/ProductStepper';
-import { ProductInfoSection } from '@/app/[locale]/components/products/ProductInfoSection';
-import { useAppContext } from '@/app/context/AppContext';
-import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { AwardsSection } from '@/app/[locale]/components/products/AwardsSection';
-import { Type } from '@/lib//productEnum';
-import { faBox } from '@fortawesome/free-solid-svg-icons';
 
 const ModalWithForm = dynamic(
     () => import('@/app/[locale]/components/modals/ModalWithForm'),
@@ -202,6 +202,7 @@ export function AddProductModal() {
         reset,
         formState: { errors },
     } = form;
+
     const queryClient = useQueryClient();
 
     useEffect(() => {
