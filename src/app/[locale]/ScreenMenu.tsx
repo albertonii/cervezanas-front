@@ -110,7 +110,7 @@ const ScreenMenu = memo(function ScreenMenu({
                     </div>
                 </section>
                 <section className="flex w-full items-right justify-end sm:w-[350px] lg:w-[400px] ml-auto">
-                    <ul className="align-center sm:flex md:mt-0 md:flex-row md:space-x-4 md:text-sm md:font-medium mx-6">
+                    <ul className="align-center sm:flex md:mt-0 md:flex-row md:space-x-4 md:text-sm md:font-medium mx-6 space-x-4">
                         <li className="flex items-center">
                             <Link href="/marketplace" locale={locale}>
                                 <span className={`${MENU_ITEM_STYLES}`}>
@@ -144,7 +144,7 @@ const ScreenMenu = memo(function ScreenMenu({
 
                 {/* Right elements  */}
                 <section className="w-[320px] ">
-                    <ul className="py-2 pt-1  :flex sm:flex-row sm:justify-end sm:gap-0 sm:align-middle md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium flex">
+                    <ul className="py-2 pt-1  :flex sm:flex-row sm:justify-end sm:gap-0 sm:align-middle md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium flex space-x-4">
                         {/* Language  */}
                         {/* <li className="flex max-w-[50px] items-center">
                             <Select
@@ -193,7 +193,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                                 alt={'Login'}
                                                 src={COMMON.PROFILE_IMG}
                                             />
-                                            <span>{t('my_account')}</span>
+                                            <span>{t('access')}</span>
                                         </section>
                                     </Button>
                                 </li>

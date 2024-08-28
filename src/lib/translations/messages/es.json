@@ -696,7 +696,16 @@
         "sign_up_distributor": "Error al darse de alta como distribuidor.",
         "update_distributor": "Error al actualizar el distribuidor.",
         "update_distributor_contract": "Error al actualizar el contrato del distribuidor.",
-        "update_distributor_user": "Error al actualizar el usuario del distribuidor."
+        "update_distributor_user": "Error al actualizar el usuario del distribuidor.",
+        "update_user_role": "Error al actualizar el rol del usuario.",
+        "insert_area_and_weight_costs": "Error al insertar los costes de área y peso.",
+        "insert_distribution_costs": "Error al insertar los costes de distribución.",
+        "insert_distributor_user": "Error al insertar el usuario del distribuidor.",
+        "in_select_distributor_user": "Error al seleccionar el usuario del distribuidor.",
+        "in_select_producer_user": "Error al seleccionar el usuario del productor.",
+        "insert_producer_user": "Error al insertar el usuario del productor.",
+        "insert_consumption_point": "Error al insertar el punto de consumo.",
+        "insert_customize_settings": "Error al insertar la configuración personalizada."
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",
