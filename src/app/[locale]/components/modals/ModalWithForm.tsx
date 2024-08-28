@@ -178,7 +178,7 @@ export default function ModalWithForm({
                                 {/*body*/}
                                 <div className="relative flex-auto p-5">
                                     {!isEmpty(description) && (
-                                        <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
+                                        <p className="text-slate-500 my-4 sm:text-md leading-relaxed">
                                             {t(description)}
                                         </p>
                                     )}

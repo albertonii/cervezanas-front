@@ -257,7 +257,7 @@ export function AddBoxPackModal() {
                         isSubmitting={isSubmitting}
                     >
                         <>
-                            <p className="text-slate-500 my-4 sm:text-lg leading-relaxed">
+                            <p className="text-slate-500 my-4 sm:text-md leading-relaxed">
                                 {t('modal_product_description')}
                             </p>
 
