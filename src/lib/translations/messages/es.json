@@ -86,6 +86,7 @@
     "stock_limit_notification_label": "Notificarme cuando el stock llegue a ",
     "title": "Título",
     "product_description": "Asegúrese de rellenar todos los campos obligatorios para introducir correctamente el producto",
+    "product_description_two": "Todos los campos con un * son obligatorios",
     "maltose": "Maltosa",
     "bitter": "Amarga",
     "balanced": "Balanceada",

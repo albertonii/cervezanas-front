@@ -92,10 +92,12 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
             <InputLabel
                 form={form}
                 label={'name'}
+                labelText={'name'}
                 registerOptions={{
                     required: true,
                 }}
                 placeholder={t('introduce_beer_name')}
+                isRequired={true}
             />
 
             {/* Description */}
@@ -107,6 +109,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                         required: true,
                     }}
                     placeholder={t('introduce_beer_description')}
+                    isRequired={true}
                 />
             </div>
 
@@ -132,6 +135,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                             }}
                             inputType="number"
                             infoTooltip={t('intensity_tooltip')}
+                            isRequired={true}
                         />
 
                         <SelectInput
@@ -143,6 +147,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                                 required: true,
                                 valueAsNumber: true,
                             }}
+                            isRequired={true}
                         />
                     </div>
 
@@ -157,6 +162,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                                 required: true,
                                 valueAsNumber: true,
                             }}
+                            isRequired={true}
                         />
 
                         <SelectInput
@@ -167,6 +173,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                                 required: true,
                                 valueAsNumber: true,
                             }}
+                            isRequired={true}
                         />
                     </div>
 
@@ -181,6 +188,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                                 required: true,
                                 valueAsNumber: true,
                             }}
+                            isRequired={true}
                         />
 
                         <InputLabel
@@ -194,6 +202,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                             }}
                             inputType="number"
                             infoTooltip={t('ibu_tooltip')}
+                            isRequired={true}
                         />
                     </div>
 
@@ -205,6 +214,8 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                         >
                             {t('is_gluten')}
                         </label>
+
+                        <span className="text-red-500"> *</span>
 
                         <select
                             id="is_gluten"
@@ -238,6 +249,8 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                                 {t('format')}
                             </label>
 
+                            <span className="text-red-500"> *</span>
+
                             <select
                                 id="format"
                                 {...register('format', {
@@ -270,6 +283,8 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                             >
                                 {t('volume_label')}
                             </label>
+
+                            <span className="text-red-500"> *</span>
 
                             <select
                                 className="relative block w-full mt-1 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-blonde focus:outline-none focus:ring-beer-blonde"
@@ -334,6 +349,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                             }}
                             inputType="number"
                             defaultValue={330}
+                            isRequired={true}
                         />
 
                         <InputLabel
@@ -348,6 +364,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                             inputType="number"
                             placeholder={formatCurrency(2.5)}
                             infoTooltip={'pvpr_tooltip'}
+                            isRequired={true}
                         />
                     </div>
                 </section>

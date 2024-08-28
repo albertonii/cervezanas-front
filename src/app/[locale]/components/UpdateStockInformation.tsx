@@ -51,6 +51,7 @@ export default function UpdateStockInformation({ form }: Props) {
                         placeholder="500"
                         inputType="number"
                         defaultValue={500}
+                        isRequired={true}
                     />
 
                     <InputLabel
@@ -66,6 +67,7 @@ export default function UpdateStockInformation({ form }: Props) {
                         placeholder="20"
                         inputType="number"
                         defaultValue={20}
+                        isRequired={true}
                     />
                 </div>
             </section>

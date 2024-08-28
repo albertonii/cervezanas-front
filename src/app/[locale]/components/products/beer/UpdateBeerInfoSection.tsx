@@ -128,6 +128,7 @@ export default function UpdateBeerInfoSection({
                     required: true,
                 }}
                 placeholder={t('introduce_beer_name')}
+                isRequired={true}
             />
 
             {/* Description  */}
@@ -139,6 +140,7 @@ export default function UpdateBeerInfoSection({
                         required: true,
                     }}
                     placeholder={t('introduce_beer_description')}
+                    isRequired={true}
                 />
             </div>
 
@@ -164,6 +166,7 @@ export default function UpdateBeerInfoSection({
                             }}
                             inputType="number"
                             infoTooltip={t('intensity_tooltip')}
+                            isRequired={true}
                         />
 
                         <SelectInput
@@ -176,6 +179,7 @@ export default function UpdateBeerInfoSection({
                                 valueAsNumber: true,
                             }}
                             onChange={handleOnChangeFermentation}
+                            isRequired={true}
                         />
                     </div>
                     {/* Family  */}
@@ -190,6 +194,7 @@ export default function UpdateBeerInfoSection({
                                 valueAsNumber: true,
                             }}
                             onChange={handleOnChangeFamily}
+                            isRequired={true}
                         />
 
                         {/*
@@ -235,8 +240,10 @@ export default function UpdateBeerInfoSection({
                                 valueAsNumber: true,
                             }}
                             onChange={handleOnChangeColor}
+                            isRequired={true}
                         />
                     </div>
+
                     {/* Aroma & IBU */}
                     <div className="flex w-full flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
                         <SelectInput
@@ -249,6 +256,7 @@ export default function UpdateBeerInfoSection({
                                 valueAsNumber: true,
                             }}
                             onChange={handleOnChangeAroma}
+                            isRequired={true}
                         />
 
                         <InputLabel
@@ -262,8 +270,10 @@ export default function UpdateBeerInfoSection({
                             }}
                             inputType="number"
                             infoTooltip={t('ibu_tooltip')}
+                            isRequired={true}
                         />
                     </div>
+
                     {/* Is Gluten  */}
                     <div className="w-full ">
                         <label
@@ -272,6 +282,8 @@ export default function UpdateBeerInfoSection({
                         >
                             {t('is_gluten')}
                         </label>
+
+                        <span className="text-red-500"> *</span>
 
                         <select
                             id="is_gluten"
@@ -303,6 +315,8 @@ export default function UpdateBeerInfoSection({
                             >
                                 {t('format')}
                             </label>
+
+                            <span className="text-red-500"> *</span>
 
                             <select
                                 id="format"
@@ -336,6 +350,8 @@ export default function UpdateBeerInfoSection({
                             >
                                 {t('volume_label')}
                             </label>
+
+                            <span className="text-red-500"> *</span>
 
                             <select
                                 className="relative block w-full mt-1 rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-blonde focus:outline-none focus:ring-beer-blonde"
@@ -401,6 +417,7 @@ export default function UpdateBeerInfoSection({
                             }}
                             inputType="number"
                             defaultValue={330}
+                            isRequired={true}
                         />
 
                         <InputLabel
@@ -415,6 +432,7 @@ export default function UpdateBeerInfoSection({
                             inputType="number"
                             placeholder={formatCurrency(2.5)}
                             infoTooltip={'pvpr_tooltip'}
+                            isRequired={true}
                         />
                     </div>
                 </section>

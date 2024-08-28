@@ -34,6 +34,7 @@ interface Props {
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onInput?: (e: React.FormEvent<HTMLInputElement>) => void;
     value?: any;
+    isRequired?: boolean;
 }
 const InputLabel = ({
     form,
@@ -48,6 +49,7 @@ const InputLabel = ({
     onChange,
     onInput,
     value,
+    isRequired = false,
 }: Props) => {
     const t = useTranslations();
     const [visible, setVisible] = useState(false);
@@ -77,6 +79,7 @@ const InputLabel = ({
                 >
                     <span className="font-medium">
                         {labelText ? t(labelText) : t(label)}
+                        {isRequired && <span className="text-red-500"> *</span>}
                         {infoTooltip && (
                             <InfoTooltip
                                 content={`${t(infoTooltip)}`}

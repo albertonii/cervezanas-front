@@ -101,6 +101,8 @@ const UpdateProductPackItemForm = memo(
                                 {t('pack_quantity')} nº {index + 1}
                             </label>
 
+                            <span className="text-red-500"> *</span>
+
                             <select
                                 required
                                 id={`packs.${index}.pack`}
@@ -147,6 +149,7 @@ const UpdateProductPackItemForm = memo(
                             placeholder="2.5"
                             inputType="number"
                             defaultValue={3}
+                            isRequired={true}
                         />
                     </div>
 
@@ -160,6 +163,7 @@ const UpdateProductPackItemForm = memo(
                             required: true,
                         }}
                         placeholder={`Pack ${index + 1}`}
+                        isRequired={true}
                     />
 
                     {/* File */}
@@ -171,6 +175,9 @@ const UpdateProductPackItemForm = memo(
                             >
                                 {t('pack_img_url')}
                             </label>
+
+                            <span className="text-red-500"> *</span>
+
                             <FilePreviewImageMultimedia
                                 form={form}
                                 registerName={`packs.${index}.img_url`}

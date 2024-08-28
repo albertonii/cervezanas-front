@@ -23,6 +23,7 @@ interface Props {
     infoTooltip?: string;
     placeholder?: string;
     disabled?: boolean;
+    isRequired?: boolean;
 }
 export default function InputTextarea({
     form,
@@ -32,6 +33,7 @@ export default function InputTextarea({
     placeholder,
     disabled = false,
     infoTooltip,
+    isRequired = false,
 }: Props) {
     const t = useTranslations();
 
@@ -45,6 +47,7 @@ export default function InputTextarea({
             <label className="flex w-full flex-col items-start space-y-2 text-sm text-gray-600">
                 <span className="">
                     {labelText ? labelText : t(label)}
+                    {isRequired && <span className="text-red-500"> *</span>}
                     {infoTooltip && (
                         <InfoTooltip
                             content={`${t(infoTooltip)}`}

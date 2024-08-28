@@ -24,6 +24,7 @@ interface Props {
     };
     onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
     optionLabelTranslationPrefix?: string;
+    isRequired?: boolean;
 }
 
 const SelectInput = memo(
@@ -37,6 +38,7 @@ const SelectInput = memo(
         registerOptions,
         onChange,
         optionLabelTranslationPrefix,
+        isRequired = false,
     }: Props) => {
         const t = useTranslations();
 
@@ -55,7 +57,7 @@ const SelectInput = memo(
             <div className="w-full">
                 <label htmlFor={label} className="flex text-sm text-gray-600">
                     {labelText ? labelText : t(label)}
-
+                    {isRequired && <span className="text-red-500"> *</span>}
                     {labelTooltip && (
                         <InfoTooltip
                             content={`${t(labelTooltip)}`}

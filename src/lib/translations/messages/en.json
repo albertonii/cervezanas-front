@@ -91,6 +91,7 @@
     "stock_limit_notification_label": "Notify me when stock reaches",
     "title": "Title",
     "product_description": "Be sure to fill in all required fields to successfully enter the product.",
+    "product_description_two": "All the inputs with * are required.",
     "maltose": "Maltose",
     "bitter": "Bitter",
     "balanced": "Balanced",
