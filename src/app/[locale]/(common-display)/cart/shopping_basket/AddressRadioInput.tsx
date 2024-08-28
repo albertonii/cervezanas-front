@@ -46,7 +46,7 @@ export default function AddressRadioInput({
                 "
             >
                 <address className="flex flex-col lg:block lg:space-x-4">
-                    <span className="w-full text-lg font-semibold">
+                    <span className="w-full text-sm sm:text-base md:text-lg font-semibold">
                         {address.name} {address.lastname}
                     </span>
                     <span className="w-full">
