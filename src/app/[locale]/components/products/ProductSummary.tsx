@@ -125,7 +125,7 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                         <label className="text-md font-semibold text-gray-600">
                             {t('description')}
                         </label>
-                        <span className="text-md">
+                        <span className="text-md truncate">
                             {getValues('description')}
                         </span>
                     </div>
@@ -224,51 +224,35 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                         {getValues('packs').map((pack, index) => (
                             <div
                                 key={index}
-                                className="flex flex-row gap-2 space-y-4 rounded border p-2 justify-between"
+                                className="flex flex-row gap-2 space-y-4 rounded border p-2  justify-between items-center"
                             >
-                                <div className="flex flex-row justify-between">
-                                    <div className="flex flex-col">
-                                        <label className="text-md font-semibold text-gray-600">
-                                            {t('pack_name')}
-                                        </label>
-                                        <span className="text-md">
-                                            {pack.name.length === 0
-                                                ? t('unassigned')
-                                                : pack.name}
-                                        </span>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <label className="text-md font-semibold text-gray-600">
-                                            {t('pack_quantity')}
-                                        </label>
-                                        <span className="text-md">
-                                            {pack.quantity}
-                                        </span>
-                                    </div>
+                                <div className="flex flex-col">
+                                    <label className="text-md font-semibold text-gray-600">
+                                        {t('pack_name')}
+                                    </label>
+                                    <span className="text-md">
+                                        {pack.name.length === 0
+                                            ? t('unassigned')
+                                            : pack.name}
+                                    </span>
                                 </div>
-                                <div className="flex flex-row justify-between">
-                                    <div className="flex flex-col">
-                                        <label className="text-md font-semibold text-gray-600">
-                                            {t('pack_price')} €
-                                        </label>
-                                        <span className="text-md">
-                                            {formatCurrency(pack.price)}
-                                        </span>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <label className="text-md font-semibold text-gray-600">
-                                            {t('pack_img_url')}
-                                        </label>
-                                        <span className="text-md">
-                                            {pack.img_url.length === 0 ? (
-                                                t('unassigned')
-                                            ) : (
-                                                <FilePreview
-                                                    file={pack.img_url[0]}
-                                                />
-                                            )}
-                                        </span>
-                                    </div>
+
+                                <div className="flex flex-col">
+                                    <label className="text-md font-semibold text-gray-600">
+                                        {t('pack_quantity')}
+                                    </label>
+                                    <span className="text-md">
+                                        {pack.quantity}
+                                    </span>
+                                </div>
+
+                                <div className="flex flex-col">
+                                    <label className="text-md font-semibold text-gray-600">
+                                        {t('pack_price')} €
+                                    </label>
+                                    <span className="text-md">
+                                        {formatCurrency(pack.price)}
+                                    </span>
                                 </div>
                             </div>
                         ))}
@@ -283,51 +267,35 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                         {getValues('awards').map((award, index) => (
                             <div
                                 key={index}
-                                className="flex flex-col gap-2 space-y-4 rounded border p-2"
+                                className="flex flex-row gap-2 space-y-4 rounded border p-2 justify-between items-center"
                             >
-                                <div className="flex flex-row justify-between">
-                                    <div className="flex flex-col">
-                                        <label className="text-md font-semibold text-gray-600">
-                                            {t('award_name')}
-                                        </label>
-                                        <span className="text-md">
-                                            {award.name.length === 0
-                                                ? t('unassigned')
-                                                : award.name}
-                                        </span>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <label className="text-md font-semibold text-gray-600">
-                                            {t('description')}
-                                        </label>
-                                        <span className="text-md">
-                                            {award.description}
-                                        </span>
-                                    </div>
+                                <div className="flex flex-col">
+                                    <label className="text-md font-semibold text-gray-600">
+                                        {t('award_name')}
+                                    </label>
+                                    <span className="text-md">
+                                        {award.name.length === 0
+                                            ? t('unassigned')
+                                            : award.name}
+                                    </span>
                                 </div>
-                                <div className="flex flex-row justify-between">
-                                    <div className="flex flex-col">
-                                        <label className="text-md font-semibold text-gray-600">
-                                            {t('award_year')}
-                                        </label>
-                                        <span className="text-md">
-                                            {award.year}
-                                        </span>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <label className="text-md font-semibold text-gray-600">
-                                            {t('award_img_url')}
-                                        </label>
-                                        <span className="text-md">
-                                            {award.img_url.length === 0 ? (
-                                                t('unassigned')
-                                            ) : (
-                                                <FilePreview
-                                                    file={award.img_url[0]}
-                                                />
-                                            )}
-                                        </span>
-                                    </div>
+
+                                <div className="flex flex-col">
+                                    <label className="text-md font-semibold text-gray-600">
+                                        {t('description')}
+                                    </label>
+                                    <span className="text-md">
+                                        {award.description}
+                                    </span>
+                                </div>
+
+                                <div className="flex flex-col">
+                                    <label className="text-md font-semibold text-gray-600">
+                                        {t('award_year')}
+                                    </label>
+                                    <span className="text-md">
+                                        {award.year}
+                                    </span>
                                 </div>
                             </div>
                         ))}

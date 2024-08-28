@@ -108,12 +108,11 @@ export function UpdateProductSummary({ form }: Props) {
                     </div>
                 )}
 
-                {/* Public  */}
-                <div className="flex flex-row gap-2">
+                {/* Public */}
+                <div className="flex flex-row gap-4">
                     <label className="text-md font-semibold text-gray-600">
                         {t('is_public')}
                     </label>
-
                     <span className="text-md">
                         {getValues('is_public') ? t('yes') : t('no')}
                     </span>
@@ -121,22 +120,20 @@ export function UpdateProductSummary({ form }: Props) {
 
                 {/* Añadir border y demás  */}
                 <div className="flex flex-col gap-4 p-6 bg-white rounded-lg shadow-md border border-gray-200">
-                    {/* Name  */}
-                    <div className="flex flex-row gap-2">
+                    {/* Name */}
+                    <div className="flex flex-row gap-4">
                         <label className="text-md font-semibold text-gray-600">
                             {t('name_label')}
                         </label>
-
                         <span className="text-md">{getValues('name')}</span>
                     </div>
 
-                    {/* Description  */}
-                    <div className="flex flex-row gap-2">
+                    {/* Description */}
+                    <div className="flex flex-row gap-4">
                         <label className="text-md font-semibold text-gray-600">
                             {t('description')}
                         </label>
-
-                        <span className="text-md">
+                        <span className="text-md truncate">
                             {getValues('description')}
                         </span>
                     </div>
@@ -198,7 +195,7 @@ export function UpdateProductSummary({ form }: Props) {
                         </div>
                         <div className="flex flex-col">
                             <label className="text-md font-semibold text-gray-600">
-                                {t('price')}
+                                {t('pvpr')}
                             </label>
                             <span className="text-md">
                                 {formatCurrency(getValues('price'))}
@@ -235,54 +232,35 @@ export function UpdateProductSummary({ form }: Props) {
                         {getValues('packs').map((pack, index) => (
                             <div
                                 key={index}
-                                className="flex flex-row gap-2 space-y-4 rounded border p-2 justify-between"
+                                className="flex flex-row gap-2 space-y-4 rounded border p-2  justify-between items-center"
                             >
-                                <div className="flex flex-col justify-between">
-                                    <div className="flex flex-col">
-                                        <label className="text-md font-semibold text-gray-600">
-                                            {t('pack_name')}
-                                        </label>
-                                        <span className="text-md">
-                                            {pack.name.length === 0
-                                                ? t('unassigned')
-                                                : pack.name}
-                                        </span>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <label className="text-md font-semibold text-gray-600">
-                                            {t('pack_quantity')}
-                                        </label>
-                                        <span className="text-md">
-                                            {pack.quantity}
-                                        </span>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <label className="text-md font-semibold text-gray-600">
-                                            {t('pack_price')} €
-                                        </label>
-                                        <span className="text-md">
-                                            {formatCurrency(pack.price)}
-                                        </span>
-                                    </div>
+                                <div className="flex flex-col">
+                                    <label className="text-md font-semibold text-gray-600">
+                                        {t('pack_name')}
+                                    </label>
+                                    <span className="text-md">
+                                        {pack.name.length === 0
+                                            ? t('unassigned')
+                                            : pack.name}
+                                    </span>
                                 </div>
 
-                                <div className="flex flex-row justify-between">
-                                    <div className="flex flex-col">
-                                        <label className="text-md font-semibold text-gray-600">
-                                            {t('pack_img_url')}
-                                        </label>
-                                        <span className="text-md">
-                                            {pack.img_url.length === 0 ? (
-                                                t('unassigned')
-                                            ) : (
-                                                <FilePreviewImageMultimedia
-                                                    form={form}
-                                                    registerName={`packs.${index}.img_url`}
-                                                    preUrl={preUrl}
-                                                />
-                                            )}
-                                        </span>
-                                    </div>
+                                <div className="flex flex-col">
+                                    <label className="text-md font-semibold text-gray-600">
+                                        {t('pack_quantity')}
+                                    </label>
+                                    <span className="text-md">
+                                        {pack.quantity}
+                                    </span>
+                                </div>
+
+                                <div className="flex flex-col">
+                                    <label className="text-md font-semibold text-gray-600">
+                                        {t('pack_price')} €
+                                    </label>
+                                    <span className="text-md">
+                                        {formatCurrency(pack.price)}
+                                    </span>
                                 </div>
                             </div>
                         ))}
@@ -297,60 +275,35 @@ export function UpdateProductSummary({ form }: Props) {
                         {getValues('awards').map((award, index) => (
                             <div
                                 key={index}
-                                className="flex flex-col gap-2 space-y-4 rounded border p-2"
+                                className="flex flex-row gap-2 space-y-4 rounded border p-2 justify-between items-center"
                             >
-                                <div className="flex flex-row justify-between">
-                                    <div className="space-x-2">
-                                        <label className="text-md font-semibold text-gray-600">
-                                            {t('award_name')}
-                                        </label>
-
-                                        <span className="text-md">
-                                            {award.name.length === 0
-                                                ? t('unassigned')
-                                                : award.name}
-                                        </span>
-                                    </div>
-
-                                    <div className="space-x-2">
-                                        <label className="text-md font-semibold text-gray-600">
-                                            {t('description')}
-                                        </label>
-
-                                        <span className="text-md">
-                                            {award.description}
-                                        </span>
-                                    </div>
+                                <div className="flex flex-col">
+                                    <label className="text-md font-semibold text-gray-600">
+                                        {t('award_name')}
+                                    </label>
+                                    <span className="text-md">
+                                        {award.name.length === 0
+                                            ? t('unassigned')
+                                            : award.name}
+                                    </span>
                                 </div>
 
-                                <div className="flex flex-row justify-between">
-                                    <div className="space-x-2">
-                                        <label className="text-md font-semibold text-gray-600">
-                                            {t('award_year')}
-                                        </label>
+                                <div className="flex flex-col">
+                                    <label className="text-md font-semibold text-gray-600">
+                                        {t('description')}
+                                    </label>
+                                    <span className="text-md">
+                                        {award.description}
+                                    </span>
+                                </div>
 
-                                        <span className="text-md">
-                                            {award.year}
-                                        </span>
-                                    </div>
-
-                                    <div className="space-x-2">
-                                        <label className="text-md font-semibold text-gray-600">
-                                            {t('award_img_url')}
-                                        </label>
-
-                                        <span className="text-md">
-                                            {award.img_url.length === 0 ? (
-                                                t('unassigned')
-                                            ) : (
-                                                <FilePreviewImageMultimedia
-                                                    form={form}
-                                                    registerName={`awards.${index}.img_url`}
-                                                    preUrl={preUrl}
-                                                />
-                                            )}
-                                        </span>
-                                    </div>
+                                <div className="flex flex-col">
+                                    <label className="text-md font-semibold text-gray-600">
+                                        {t('award_year')}
+                                    </label>
+                                    <span className="text-md">
+                                        {award.year}
+                                    </span>
                                 </div>
                             </div>
                         ))}
