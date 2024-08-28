@@ -425,7 +425,7 @@ export function ShoppingBasket({ user }: Props) {
                                         {t('customer_s_cart')}
                                     </p>
 
-                                    {items.length > 0 ? (
+                                    {items?.length > 0 ? (
                                         <OrderItems
                                             subtotal={subtotal}
                                             isShippingCostLoading={
