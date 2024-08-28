@@ -6,6 +6,7 @@ import {
     faShoppingCart,
 } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
+import LinkURL from '@/app/[locale]/components/common/LinkURL';
 
 export default function EmptyCart() {
     const t = useTranslations();

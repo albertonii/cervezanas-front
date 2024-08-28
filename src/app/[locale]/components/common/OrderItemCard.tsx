@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import React from 'react';
 import DisplayImageProduct from './DisplayImageProduct';
+import LinkURL from './LinkURL';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -48,22 +49,20 @@ const OrderItemCard = ({ orderItem }: Props) => {
                                 {t('product_name')}
                             </p>
 
-                            <p className="text-medium truncate font-bold text-gray-900 hover:text-beer-draft ">
-                                <Link
-                                    href={`/products/${orderItem.product_packs?.product_id}`}
-                                    locale={locale}
-                                    target={'_blank'}
-                                >
-                                    {orderItem.product_packs?.name}
-                                </Link>
-                            </p>
+                            <LinkURL
+                                href={`/products/${orderItem.product_packs?.product_id}`}
+                                locale={locale}
+                                target={'_blank'}
+                            >
+                                {orderItem.product_packs?.name}
+                            </LinkURL>
                         </span>
 
                         <span className="space-y-1">
                             <p className="text-sm text-gray-500">
                                 {t('product_price')}
                             </p>
-                            <p className="text-medium truncate font-medium text-gray-900 hover:text-beer-draft">
+                            <p className="text-medium truncate font-medium text-gray-900">
                                 {formatCurrency(productPackPrice)}
                             </p>
                         </span>
