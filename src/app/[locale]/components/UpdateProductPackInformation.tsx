@@ -80,13 +80,17 @@ export default function UpdateProductPackInformation({ form }: Props) {
                     {t('add_product_pack')}
                 </h2>
 
-                <div className="space-y-2">
+                <div className="space-y-2 mb-4">
                     <span className="text-sm text-gray-600 mb-4 block">
                         {t('add_product_pack_description')}
                     </span>
 
                     <span className="text-sm text-gray-600 mb-4 block">
                         {t('add_product_pack_description_2')}
+                    </span>
+
+                    <span className="text-sm text-gray-600 mb-4 block">
+                        {t('add_product_pack_description_3')}
                     </span>
                 </div>
 

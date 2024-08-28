@@ -490,6 +490,7 @@
     "add_product_pack": "Generar Pack",
     "add_product_pack_description": "Los productos de Cervezanas se venden en paquetes (packs) como cerveza individual, pack de 6, 12, 24, etc. Este es el momento donde debes indicar cuántas cervezas se venderán por pack, su precio y toda la información relativa para su venta.",
     "add_product_pack_description_2": "Para añadir un pack al producto, presiona el botón de abajo. Luego, indica cuantos productos venderás por pack, su precio y toda la información obligatoria.",
+    "add_product_pack_description_3": "Si tan solo quieres añadir una única cerveza debes de indicar en el campo de cantidad en pack el valor 1.",
     "packs": "Packs",
     "pack_quantity": "Cantidad en pack",
     "pack_price": "Precio del pack",

@@ -495,6 +495,7 @@
     "add_product_pack": "Generate Pack",
     "add_product_pack_description": "Cervezanas products are sold in packs of individual beers, 6, 12, 24, etc. This is the moment where you must indicate how many beers will be sold per pack, their price and all the information related to their sale.",
     "add_product_pack_description_2": "To add a pack to the product, click on the button below. Then, indicate how many products you will sell per pack, their price and all the required information.",
+    "add_product_pack_description_3": "If you only want to add a single beer you must indicate in the quantity field in pack the value 1.",
     "packs": "Packs",
     "pack_quantity": "Pack quantity",
     "pack_price": "Price",
