@@ -12,7 +12,7 @@ export function DeleteButton({ onClick }: Props) {
 
     return (
         <IconButton
-            box
+            circular
             danger
             icon={faTrash}
             color={{ filled: '#fefefe', unfilled: '#fefefe' }}

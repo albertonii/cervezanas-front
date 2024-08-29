@@ -111,7 +111,7 @@ const Button = memo(function PaginationFooter({
             color={hoverColor}
             form={form}
             className={`
-                inline-flex items-center justify-center rounded-md border transition duration-200 ease-in-out
+                inline-flex items-center justify-center rounded-md transition duration-200 ease-in-out
                 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:border-gray-600 dark:bg-gray-700
                 ${getSizeClass()}
                 ${getColorClass()}

@@ -2,7 +2,6 @@ import Spinner from '@/app/[locale]/components/common/Spinner';
 import MarketCartButtons from '@/app/[locale]/components/common/MarketCartButtons';
 import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
 import React, { useEffect, useState } from 'react';
-import { Type } from '@/lib//productEnum';
 import { SupabaseProps } from '@/constants';
 import { useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
@@ -13,6 +12,7 @@ import {
     IProductPackCartItem,
 } from '@/lib//types/types';
 import { calculateProductPacksWeight } from '@/utils/distribution';
+import { Beer } from 'lucide-react';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -77,9 +77,9 @@ export default function CheckoutPackItem({
         <section
             className={`${
                 animateRemove ? 'animate-ping' : ''
-            } mt-4 flex w-full flex-col items-start justify-start border-b border-gray-200 dark:border-gray-700 md:mt-6 md:flex-row md:items-center md:space-x-6 xl:space-x-8`}
+            } grid grid-cols-3  bg-amber-50 rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg mb-4`}
         >
-            <figure className="pb-2 md:pb-4">
+            <figure className="col-span-1 sm:col-span-1 p-4 items-center">
                 <DisplayImageProduct
                     imgSrc={
                         BASE_PRODUCTS_URL + decodeURIComponent(pack.img_url)
@@ -91,113 +91,61 @@ export default function CheckoutPackItem({
                 />
             </figure>
 
-            <article className="flex w-full flex-col justify-between space-y-4 md:flex-row md:space-y-0 items-center">
-                <div className="flex w-full flex-col items-start justify-start space-y-2">
+            <article className="col-span-2 sm:col-span-1 flex w-full flex-col space-y-4 lg:flex-row md:space-y-0 justify-center items-center">
+                <div className="flex w-full flex-col items-center sm:items-start justify-start space-y-2">
                     <span className="text-xl font-semibold leading-6 text-gray-800 dark:text-white xl:text-2xl">
                         {pack.name}
                     </span>
 
-                    {productWithInfo.type === Type.BEER &&
-                        productWithInfo.beers && (
-                            <div className="flex flex-col items-start justify-start space-y-2">
-                                <p className="text-sm leading-none text-gray-800 dark:text-white">
-                                    <span className="text-gray-600 dark:text-gray-400">
-                                        {t('aroma')}:{' '}
+                    {/* Peso del pack  */}
+                    <div className="flex w-full flex-col items-center sm:items-start justify-start space-x-2">
+                        <p className="text-base leading-6 text-gray-800 dark:text-white xl:text-lg ">
+                            {isLoadingWeightCalculations ? (
+                                <Spinner color="beer-blonde" size="small" />
+                            ) : (
+                                <div className="flex items-center mb-4">
+                                    <Beer className="text-amber-600 mr-2" />
+                                    <span className="text-amber-700 font-semibold">
+                                        {`${packWeight}${t('g')}`}
                                     </span>
-                                    {t(`${productWithInfo.beers?.aroma}`)}
-                                </p>
-                                <p className="text-sm leading-none text-gray-800 dark:text-white">
-                                    <span className="text-gray-600 dark:text-gray-400">
-                                        {t('family')}:{' '}
-                                    </span>
-                                    {t(`${productWithInfo.beers?.family}`)}
-                                </p>
-                                <p className="text-sm leading-none text-gray-800 dark:text-white">
-                                    <span className="text-gray-600 dark:text-gray-400">
-                                        {t('fermentation')}:{' '}
-                                    </span>
-                                    {t(
-                                        `${productWithInfo.beers?.fermentation}`,
-                                    )}
-                                </p>
-                            </div>
-                        )}
-
-                    {productWithInfo.type === Type.MERCHANDISING && (
-                        <div className="flex flex-col items-start justify-start space-y-2">
-                            <p className="text-sm leading-none text-gray-800 dark:text-white">
-                                <span className="text-gray-300 dark:text-gray-400"></span>
-                            </p>
-                            <p className="text-sm leading-none text-gray-800 dark:text-white">
-                                <span className="text-gray-300 dark:text-gray-400"></span>
-                            </p>
-                            <p className="text-sm leading-none text-gray-800 dark:text-white">
-                                <span className="text-gray-300 dark:text-gray-400"></span>
-                            </p>
-                        </div>
-                    )}
-                </div>
-
-                {/* Peso del pack  */}
-                <div className="flex w-full flex-col items-center justify-between space-x-2">
-                    <p className="text-base leading-6 text-gray-800 dark:text-white xl:text-lg ">
-                        {isLoadingWeightCalculations ? (
-                            <Spinner color="beer-blonde" size="small" />
-                        ) : (
-                            <span>
-                                <span className="text-gray-600 dark:text-gray-400">
-                                    {t('weight')}:{' '}
-                                </span>
-
-                                <span className="text-gray-800 dark:text-white">
-                                    {packWeight}
-                                    {t('g')}
-                                </span>
-                            </span>
-                        )}
-                    </p>
-                </div>
-
-                <div className="flex w-full flex-col items-center justify-between space-y-2 sm:flex-row sm:space-x-8">
-                    <div className="flex w-full items-center justify-between space-x-2">
-                        <div className="text-base leading-6 text-gray-800 dark:text-white xl:text-lg">
-                            <MarketCartButtons
-                                quantity={pack.quantity}
-                                item={productPack}
-                                handleIncreaseCartQuantity={() =>
-                                    handleIncreaseCartQuantity(
-                                        productPack,
-                                        pack,
-                                    )
-                                }
-                                handleDecreaseCartQuantity={() =>
-                                    handleDecreaseCartQuantity(
-                                        productPack,
-                                        pack,
-                                    )
-                                }
-                                handleRemoveFromCart={() =>
-                                    handleRemoveFromCart(
-                                        productPack.product_id,
-                                        pack.id,
-                                    )
-                                }
-                                displayDeleteButton={true}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col w-full items-center justify-between space-x-2">
-                        <p className="text-base leading-6 text-gray-800 dark:text-white xl:text-lg">
-                            {formatCurrency(pack.price)}/{t('unit')}
-                        </p>
-
-                        <p className="text-md text-base font-semibold leading-6 text-gray-800 dark:text-white xl:text-2xl">
-                            {formatCurrency(pack.price * pack.quantity)}
+                                </div>
+                            )}
                         </p>
                     </div>
                 </div>
             </article>
+
+            {/* Botones de cantidad y precio */}
+            <div className="col-span-3 sm:col-span-1 flex flex-col items-center justify-center sm:space-x-8">
+                <div className="flex flex-col w-full items-center justify-between space-x-2 text-base leading-6 text-gray-800 dark:text-white xl:text-lg">
+                    <MarketCartButtons
+                        quantity={pack.quantity}
+                        item={productPack}
+                        handleIncreaseCartQuantity={() =>
+                            handleIncreaseCartQuantity(productPack, pack)
+                        }
+                        handleDecreaseCartQuantity={() =>
+                            handleDecreaseCartQuantity(productPack, pack)
+                        }
+                        handleRemoveFromCart={() =>
+                            handleRemoveFromCart(
+                                productPack.product_id,
+                                pack.id,
+                            )
+                        }
+                        displayDeleteButton={true}
+                    />
+                </div>
+
+                <div className="w-full items-center justify-center flex sm:flex-col space-x-4 py-2">
+                    <p className="text-lg text-amber-700">
+                        {formatCurrency(pack.price)}/{t('unit')}
+                    </p>
+                    <p className="text-xl font-bold text-amber-800">
+                        {formatCurrency(pack.price * pack.quantity)}
+                    </p>
+                </div>
+            </div>
         </section>
     );
 }

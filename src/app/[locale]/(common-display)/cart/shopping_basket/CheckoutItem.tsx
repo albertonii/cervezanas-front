@@ -66,7 +66,8 @@ export function CheckoutItem({ productPack, isShippingCostLoading }: Props) {
     return (
         <article
             className={`mt-4 space-y-4 
-                     ${isShippingCostLoading ? 'pointer-events-none' : ''}`}
+                        ${isShippingCostLoading ? 'pointer-events-none' : ''}
+                     `}
         >
             <Link
                 href={`/products/${productWithInfo.id}`}

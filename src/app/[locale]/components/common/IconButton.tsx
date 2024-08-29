@@ -14,6 +14,7 @@ interface IconButtonProps {
     children?: React.ReactNode;
     title: string;
     box?: boolean;
+    circular?: boolean;
     danger?: boolean;
     disabled?: boolean;
     primary?: boolean;
@@ -33,6 +34,7 @@ export function IconButton({
     classIcon: classNameIcon,
     title,
     box,
+    circular,
     danger,
     disabled,
     primary,
@@ -105,6 +107,10 @@ export function IconButton({
             className={`
                 mt-0 flex items-center justify-center rounded border-2 border-beer-blonde p-1 transition duration-100 ease-in
                 ${box && 'h-auto w-10'}
+                ${
+                    circular &&
+                    'bg-red-500 hover:bg-red-600 text-white rounded-full px-2 '
+                }
                 ${disabled && 'cursor-not-allowed opacity-50'}
                 ${classNameContainer} 
                 ${getColorClass()}
