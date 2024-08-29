@@ -8,26 +8,21 @@ import { NewShippingAddress } from './NewShippingAddress';
 import { UseFormReturn, SubmitHandler } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShippingFast } from '@fortawesome/free-solid-svg-icons';
+import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { DeleteAddress } from '@/app/[locale]/components/modals/DeleteAddress';
 import { FormShippingData, ValidationSchemaShipping } from './ShoppingBasket';
+import { DeleteAddress } from '@/app/[locale]/components/modals/DeleteAddress';
 import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 
 interface Props {
     shippingAddresses: IAddress[];
-    selectedShippingAddress: string;
-    handleOnClickShipping: ComponentProps<any>;
     formShipping: UseFormReturn<FormShippingData, any>;
 }
 
-export default function Shipping({
-    formShipping,
-    shippingAddresses,
-    selectedShippingAddress,
-    handleOnClickShipping,
-}: Props) {
+export default function Shipping({ formShipping, shippingAddresses }: Props) {
     const t = useTranslations();
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const { selectedShippingAddress } = useShoppingCart();
 
     const {
         register,
@@ -39,9 +34,16 @@ export default function Shipping({
 
     // Triggers when the user clicks on the button "Delete" in the modal for Campaign deletion
     const handleRemoveShippingAddress = async () => {
-        const shippingAddressId = selectedShippingAddress;
+        if (!selectedShippingAddress) {
+            handleMessage({
+                type: 'error',
+                message: 'errors.removing_shipping_address',
+            });
 
-        await removeShippingAddressById(shippingAddressId)
+            return;
+        }
+
+        await removeShippingAddressById(selectedShippingAddress.id)
             .then(() => {
                 handleMessage({
                     type: 'success',
@@ -107,7 +109,6 @@ export default function Shipping({
                             address={address}
                             addressNameId={'shipping'}
                             setShowDeleteModal={setShowDeleteModal}
-                            handleOnClick={handleOnClickShipping}
                         />
                     </li>
                 ))}

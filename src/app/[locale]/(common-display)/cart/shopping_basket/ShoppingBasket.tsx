@@ -2,7 +2,6 @@
 
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import Decimal from 'decimal.js';
-import EmptyCart from './EmptyCart';
 import Spinner from '@/app/[locale]/components/common/Spinner';
 import React, { useState, useEffect, useRef } from 'react';
 import ShippingBillingContainer from './ShippingBillingContainer';
@@ -67,6 +66,9 @@ export function ShoppingBasket({ user }: Props) {
         handleUndeliverableItems,
         clearCart,
         calculateShippingCostCartContext,
+        selectedShippingAddress,
+        updateSelectedShippingAddress,
+        updateDefaultShippingAddress,
     } = useShoppingCart();
 
     const formRef = useRef<HTMLFormElement>(null);
@@ -80,7 +82,6 @@ export function ShoppingBasket({ user }: Props) {
     const [isFormReady, setIsFormReady] = useState(false);
     const [merchantParameters, setMerchantParameters] = useState('');
     const [merchantSignature, setMerchantSignature] = useState('');
-    const [selectedShippingAddress, setSelectedShippingAddress] = useState('');
     const [selectedBillingAddress, setSelectedBillingAddress] = useState('');
     const [shoppingItems, setShoppingItems] = useState<IProductPackCartItem[]>(
         [],
@@ -117,6 +118,16 @@ export function ShoppingBasket({ user }: Props) {
     const queryClient = useQueryClient();
 
     useEffect(() => {
+        shippingAddresses?.find((address) => {
+            if (address.is_default) {
+                updateSelectedShippingAddress(address);
+                updateDefaultShippingAddress(address);
+                return true;
+            }
+        });
+    }, [shippingAddresses]);
+
+    useEffect(() => {
         let subtotal = 0;
         items.map((item) => {
             item.packs.map((pack) => {
@@ -140,7 +151,7 @@ export function ShoppingBasket({ user }: Props) {
         const isDeliverable =
             items.length > 0 &&
             selectedBillingAddress !== '' &&
-            selectedShippingAddress !== '';
+            selectedShippingAddress?.id !== '';
 
         setCanMakeThePayment(isDeliverable);
     }, [items, selectedShippingAddress, selectedBillingAddress]);
@@ -152,7 +163,9 @@ export function ShoppingBasket({ user }: Props) {
             setIsShippingCostLoading(true);
 
             const cheapestShippingCostByDistributor =
-                await calculateShippingCostCartContext(selectedShippingAddress);
+                await calculateShippingCostCartContext(
+                    selectedShippingAddress.id,
+                );
 
             if (cheapestShippingCostByDistributor) {
                 const totalShippingCost = Object.values(
@@ -192,8 +205,11 @@ export function ShoppingBasket({ user }: Props) {
         handleShippingCost();
     }, [items, selectedShippingAddress]);
 
+    useEffect(() => {
+        setDeliveryCost(0);
+    }, [selectedShippingAddress]);
+
     const checkForm = async () => {
-        const shippingInfoId = selectedShippingAddress;
         const billingInfoId = selectedBillingAddress;
 
         const resultBillingInfoId = await triggerBilling('billing_info_id', {
@@ -208,7 +224,7 @@ export function ShoppingBasket({ user }: Props) {
             return;
 
         const shippingInfo = shippingAddresses?.find(
-            (address) => address.id === shippingInfoId,
+            (address) => address.id === selectedShippingAddress?.id,
         );
 
         const billingInfo = billingAddresses?.find(
@@ -236,6 +252,14 @@ export function ShoppingBasket({ user }: Props) {
     };
 
     const handleInsertOrder = async (orderNumber: string) => {
+        if (selectedShippingAddress === undefined) {
+            handleMessage({
+                type: 'error',
+                message: 'errors.select_shipping_address',
+            });
+            return;
+        }
+
         const order = {
             user_id: user?.id,
             name: user?.name,
@@ -249,7 +273,7 @@ export function ShoppingBasket({ user }: Props) {
             order_number: orderNumber,
             type: 'online',
             tax: tax,
-            shipping_info_id: selectedShippingAddress,
+            shipping_info_id: selectedShippingAddress.id,
             billing_info_id: selectedBillingAddress,
             items: shoppingItems,
         };
@@ -327,11 +351,6 @@ export function ShoppingBasket({ user }: Props) {
         } catch (e) {
             console.error(e);
         }
-    };
-
-    const handleOnClickShipping = (addressId: string) => {
-        setDeliveryCost(0);
-        setSelectedShippingAddress(addressId);
     };
 
     const handleOnClickBilling = (addressId: string) => {
@@ -434,17 +453,11 @@ export function ShoppingBasket({ user }: Props) {
                                     <ShippingBillingContainer
                                         shippingAddresses={shippingAddresses}
                                         billingAddresses={billingAddresses}
-                                        handleOnClickShipping={
-                                            handleOnClickShipping
-                                        }
                                         handleOnClickBilling={
                                             handleOnClickBilling
                                         }
                                         formShipping={formShipping}
                                         formBilling={formBilling}
-                                        selectedShippingAddress={
-                                            selectedShippingAddress
-                                        }
                                         selectedBillingAddress={
                                             selectedBillingAddress
                                         }
@@ -471,9 +484,6 @@ export function ShoppingBasket({ user }: Props) {
                                     shippingAddresses={shippingAddresses}
                                     selectedBillingAddress={
                                         selectedBillingAddress
-                                    }
-                                    selectedShippingAddress={
-                                        selectedShippingAddress
                                     }
                                     onSubmit={onSubmit}
                                 />

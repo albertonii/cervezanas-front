@@ -2,7 +2,6 @@
 
 import Billing from './Billing';
 import Shipping from './Shipping';
-import PromotionCode from './PromotionCode';
 import React, { ComponentProps } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
@@ -12,9 +11,7 @@ import { InfoTooltip } from '@/app/[locale]/components/common/InfoTooltip';
 interface Props {
     shippingAddresses: IAddress[];
     billingAddresses: IBillingAddress[];
-    handleOnClickShipping: ComponentProps<any>;
     handleOnClickBilling: ComponentProps<any>;
-    selectedShippingAddress: string;
     selectedBillingAddress: string;
     formShipping: UseFormReturn<any, any>;
     formBilling: UseFormReturn<any, any>;
@@ -23,9 +20,7 @@ interface Props {
 export default function ShippingBillingContainer({
     shippingAddresses,
     billingAddresses,
-    selectedShippingAddress,
     selectedBillingAddress,
-    handleOnClickShipping,
     handleOnClickBilling,
     formShipping,
     formBilling,
@@ -52,8 +47,6 @@ export default function ShippingBillingContainer({
                 <Shipping
                     formShipping={formShipping}
                     shippingAddresses={shippingAddresses}
-                    handleOnClickShipping={handleOnClickShipping}
-                    selectedShippingAddress={selectedShippingAddress}
                 />
 
                 {/* Billing */}

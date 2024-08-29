@@ -8,6 +8,7 @@ import {
     IProduct,
     IProductPack,
     IDistributionContract,
+    IAddress,
 } from '@/lib//types/types';
 import {
     calculateCheapestShippingCostsByDistributor,
@@ -41,6 +42,11 @@ type ShoppingCartContextType = {
             distributor_id: string;
         };
     }>;
+    selectedShippingAddress: IAddress | undefined;
+    defaultShippingAddress: IAddress | undefined;
+    isAddressSelected: (addressId: string) => boolean;
+    updateSelectedShippingAddress: (addressId: IAddress) => void;
+    updateDefaultShippingAddress: (address: IAddress) => void;
 };
 
 const ShoppingCartContext = createContext<ShoppingCartContextType>({
@@ -70,6 +76,11 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
                 };
             },
         ),
+    selectedShippingAddress: {} as IAddress,
+    defaultShippingAddress: {} as IAddress,
+    isAddressSelected: () => false,
+    updateSelectedShippingAddress: () => void {},
+    updateDefaultShippingAddress: () => void {},
 });
 
 interface Props {
@@ -82,6 +93,12 @@ export function ShoppingCartProvider({ children }: Props) {
         'shopping-cart',
         [],
     );
+
+    const [defaultShippingAddress, setDefaultShippingAddress] =
+        useState<IAddress>();
+
+    const [selectedShippingAddress, setSelectedShippingAddress] =
+        useState<IAddress>();
 
     const [undeliverableItems, setUndeliverableItems] = useState<
         IProductPackCartItem[]
@@ -429,6 +446,19 @@ export function ShoppingCartProvider({ children }: Props) {
         return quantity;
     };
 
+    const updateSelectedShippingAddress = (address: IAddress) => {
+        console.log('dentro 2');
+        setSelectedShippingAddress(address);
+    };
+
+    const isAddressSelected = (addressId: string): boolean => {
+        return selectedShippingAddress?.id === addressId;
+    };
+
+    const updateDefaultShippingAddress = (address: IAddress) => {
+        setDefaultShippingAddress(address);
+    };
+
     const value = {
         items,
         undeliverableItems,
@@ -447,6 +477,11 @@ export function ShoppingCartProvider({ children }: Props) {
         decreaseOnePackCartQuantity,
         updateCartItem,
         calculateShippingCostCartContext,
+        selectedShippingAddress,
+        defaultShippingAddress,
+        updateSelectedShippingAddress,
+        isAddressSelected,
+        updateDefaultShippingAddress,
     };
 
     return (

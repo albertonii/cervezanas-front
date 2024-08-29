@@ -1,9 +1,9 @@
-import { useTranslations } from 'next-intl';
-import React from 'react';
-import { IAddress, IBillingInfo } from '@/lib//types/types';
-import { formatCurrency } from '@/utils/formatCurrency';
 import Button from '@/app/[locale]/components/common/Button';
 import ShoppingBasketAddressesSummary from './ShoppingBasketAddressesSummary';
+import React from 'react';
+import { useTranslations } from 'next-intl';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { IAddress, IBillingInfo } from '@/lib//types/types';
 
 interface Props {
     canMakeThePayment: boolean;
@@ -14,7 +14,6 @@ interface Props {
     billingAddresses: IBillingInfo[];
     shippingAddresses: IAddress[];
     selectedBillingAddress: string;
-    selectedShippingAddress: string;
     onSubmit: () => void;
 }
 
@@ -27,7 +26,6 @@ const ShoppingBasketOrderSummary = ({
     billingAddresses,
     shippingAddresses,
     selectedBillingAddress,
-    selectedShippingAddress,
     onSubmit,
 }: Props) => {
     const t = useTranslations();
@@ -71,6 +69,7 @@ const ShoppingBasketOrderSummary = ({
                                 </p>
                             </div>
                         </div>
+
                         <div className="flex w-full items-start justify-between">
                             <div className="flex flex-col items-start">
                                 <p className="text-base font-semibold leading-4 text-gray-800 dark:text-white">
@@ -106,7 +105,6 @@ const ShoppingBasketOrderSummary = ({
                         billingAddresses={billingAddresses}
                         selectedBillingAddress={selectedBillingAddress}
                         shippingAddresses={shippingAddresses}
-                        selectedShippingAddress={selectedShippingAddress}
                     />
                 )}
             </div>

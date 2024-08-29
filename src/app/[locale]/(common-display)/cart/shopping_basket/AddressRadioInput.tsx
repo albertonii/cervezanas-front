@@ -1,17 +1,17 @@
-import React, { ComponentProps } from 'react';
+import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormRegister } from 'react-hook-form';
 import { IAddress } from '@/lib//types/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconButton } from '@/app/[locale]/components/common/IconButton';
-import { faLongArrowRight, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 
 interface Props {
     address: IAddress;
     setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
     register: UseFormRegister<any>;
     addressNameId: string;
-    handleOnClick: ComponentProps<any>;
 }
 
 export default function AddressRadioInput({
@@ -19,13 +19,33 @@ export default function AddressRadioInput({
     setShowDeleteModal,
     register,
     addressNameId,
-    handleOnClick,
 }: Props) {
     const t = useTranslations();
 
+    const {
+        defaultShippingAddress,
+        updateSelectedShippingAddress,
+        isAddressSelected,
+        updateDefaultShippingAddress,
+    } = useShoppingCart();
+
+    const [onHover, setOnHover] = useState<boolean>();
+    const [effect, setEffect] = useState(false);
+
+    const starColor = { filled: '#fdc300', unfilled: '#a87a12' };
+
+    const handleOnSelectAddress = () => {
+        updateSelectedShippingAddress(address);
+    };
+
+    const handleOnClickDefaultShipping = () => {
+        updateDefaultShippingAddress(address);
+    };
+
     return (
-        <div onClick={() => handleOnClick(address.id)} className="w-full">
+        <div className="w-full flex gap-2">
             <input
+                onClick={() => handleOnSelectAddress()}
                 type="radio"
                 id={`${addressNameId}-${address.id}`}
                 {...register(`${addressNameId}_info_id`, {
@@ -38,12 +58,15 @@ export default function AddressRadioInput({
 
             <label
                 htmlFor={`${addressNameId}-${address.id}`}
-                className="
-                   peer-checked:border-product-softBlonde peer-checked:text-product-dark dark:peer-checked:text-product-blonde inline-flex w-full cursor-pointer items-center
-                   justify-between rounded-lg border border-gray-200 bg-white py-2 px-4 text-gray-500 transition-all duration-200 hover:bg-gray-100 hover:text-gray-600 
-                   peer-checked:border-2 peer-checked:border-beer-blonde peer-checked:bg-beer-softFoam dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700
-                   dark:hover:text-gray-300 dark:peer-checked:bg-beer-softFoam dark:peer-checked:border-beer-blonde dark:peer-checked:text-beer-dark
-                "
+                className={`
+                     inline-flex w-full cursor-pointer items-center justify-between rounded-lg py-2 px-4 text-gray-500 transition-all duration-200 hover:bg-gray-100 hover:text-gray-600 
+                     dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 
+                     ${
+                         isAddressSelected(address.id)
+                             ? 'border-2 border-beer-blonde bg-beer-softFoam'
+                             : 'border border-gray-200 bg-white'
+                     }
+                 `}
             >
                 <address className="flex flex-col lg:block lg:space-x-4">
                     <span className="w-full text-sm sm:text-base md:text-lg font-semibold">
@@ -55,26 +78,43 @@ export default function AddressRadioInput({
                         {t(address.country)}
                     </span>
                 </address>
+            </label>
 
-                <div className="space-y-2">
-                    <IconButton
-                        onClick={() => setShowDeleteModal(true)}
-                        icon={faTrash}
-                        title={'delete_address'}
-                    />
+            <div className="space-y-2 ">
+                <IconButton
+                    onClick={() => setShowDeleteModal(true)}
+                    icon={faTrash}
+                    title={t('delete_address')}
+                    box
+                    color={{
+                        filled: '#d75062',
+                        unfilled: '#d75062',
+                    }}
+                />
 
+                <div
+                    className="mt-0 flex items-center justify-center rounded border-2 border-beer-blonde p-1 transition duration-100 ease-in cursor-pointer transition delay-100 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
+                    onClick={() => handleOnClickDefaultShipping()}
+                >
                     <FontAwesomeIcon
-                        icon={faLongArrowRight}
+                        size="lg"
+                        className={`'
+                            ${effect && 'animate-wiggle' && 'animate-wiggle'} `}
+                        icon={faStar}
                         style={{
-                            color: '#fdc300',
-                            width: '25px',
+                            color:
+                                onHover ||
+                                defaultShippingAddress?.id === address.id
+                                    ? starColor.filled
+                                    : starColor.unfilled,
                         }}
-                        title={'arrow_right'}
-                        width={25}
-                        height={25}
+                        onMouseEnter={() => setOnHover(true)}
+                        onMouseLeave={() => setOnHover(false)}
+                        onAnimationEnd={() => setEffect(false)}
+                        title={t('set_shipping_info_as_default')}
                     />
                 </div>
-            </label>
+            </div>
         </div>
     );
 }

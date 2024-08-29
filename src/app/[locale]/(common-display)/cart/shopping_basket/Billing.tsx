@@ -106,6 +106,7 @@ export default function Billing({
                             addressNameId={'billing'}
                             setShowDeleteModal={setShowDeleteModal}
                             handleOnClick={handleOnClickBilling}
+                            isDefaultSelectedAddress={address.is_default}
                         />
                     </li>
                 ))}
