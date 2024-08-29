@@ -7,15 +7,15 @@ import { Beer } from 'lucide-react';
 interface Props {
     onClick?: () => void;
     withText?: boolean;
-    isVisible: boolean;
-    onClose: () => void;
+    isVisible?: boolean;
+    onClose?: () => void;
 }
 
 export function AddCardButton({ onClick, isVisible, onClose }: Props) {
     const [animateCartBtn, setAnimateCartBtn] = useState(false);
 
     useEffect(() => {
-        if (isVisible) {
+        if (isVisible && onClose) {
             const timer = setTimeout(() => {
                 onClose();
             }, 2000); // La notificación desaparecerá después de 3 segundos
