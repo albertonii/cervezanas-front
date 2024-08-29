@@ -13,6 +13,7 @@ import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { FormShippingData, ValidationSchemaShipping } from './ShoppingBasket';
 import { DeleteAddress } from '@/app/[locale]/components/modals/DeleteAddress';
 import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
+import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 
 interface Props {
     shippingAddresses: IAddress[];
@@ -22,7 +23,15 @@ interface Props {
 export default function Shipping({ formShipping, shippingAddresses }: Props) {
     const t = useTranslations();
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const { selectedShippingAddress } = useShoppingCart();
+
+    const { supabase } = useAuth();
+
+    const {
+        selectedShippingAddress,
+        defaultShippingAddress,
+        updateSelectedShippingAddress,
+        updateDefaultShippingAddress,
+    } = useShoppingCart();
 
     const {
         register,
@@ -81,6 +90,24 @@ export default function Shipping({ formShipping, shippingAddresses }: Props) {
         }
     };
 
+    const handleUpdateDefaultShippingAddress = async (address: IAddress) => {
+        const { error } = await supabase
+            .from('shipping_info')
+            .update({ is_default: true })
+            .eq('id', address.id);
+
+        if (error) {
+            handleMessage({
+                type: 'error',
+                message: 'errors.updating_default_shipping_address',
+            });
+
+            return;
+        }
+
+        updateDefaultShippingAddress(address);
+    };
+
     return (
         <section className="relative w-full space-y-6 p-6 rounded-lg shadow-md bg-gray-50 dark:bg-gray-800">
             <FontAwesomeIcon
@@ -108,7 +135,14 @@ export default function Shipping({ formShipping, shippingAddresses }: Props) {
                             register={register}
                             address={address}
                             addressNameId={'shipping'}
+                            defaultSelectedAddress={defaultShippingAddress}
                             setShowDeleteModal={setShowDeleteModal}
+                            handleDefaultAddress={
+                                handleUpdateDefaultShippingAddress
+                            }
+                            handleSelectedAddress={
+                                updateSelectedShippingAddress
+                            }
                         />
                     </li>
                 ))}

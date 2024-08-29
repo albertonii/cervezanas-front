@@ -12,6 +12,9 @@ interface Props {
     setShowDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
     register: UseFormRegister<any>;
     addressNameId: string;
+    defaultSelectedAddress: IAddress | undefined;
+    handleDefaultAddress: (address: IAddress) => void;
+    handleSelectedAddress: (address: IAddress) => void;
 }
 
 export default function AddressRadioInput({
@@ -19,15 +22,13 @@ export default function AddressRadioInput({
     setShowDeleteModal,
     register,
     addressNameId,
+    defaultSelectedAddress,
+    handleDefaultAddress,
+    handleSelectedAddress,
 }: Props) {
     const t = useTranslations();
 
-    const {
-        defaultShippingAddress,
-        updateSelectedShippingAddress,
-        isAddressSelected,
-        updateDefaultShippingAddress,
-    } = useShoppingCart();
+    const { isAddressSelected } = useShoppingCart();
 
     const [onHover, setOnHover] = useState<boolean>();
     const [effect, setEffect] = useState(false);
@@ -35,11 +36,11 @@ export default function AddressRadioInput({
     const starColor = { filled: '#fdc300', unfilled: '#a87a12' };
 
     const handleOnSelectAddress = () => {
-        updateSelectedShippingAddress(address);
+        handleSelectedAddress(address);
     };
 
     const handleOnClickDefaultShipping = () => {
-        updateDefaultShippingAddress(address);
+        handleDefaultAddress(address);
     };
 
     return (
@@ -104,7 +105,7 @@ export default function AddressRadioInput({
                         style={{
                             color:
                                 onHover ||
-                                defaultShippingAddress?.id === address.id
+                                defaultSelectedAddress?.id === address.id
                                     ? starColor.filled
                                     : starColor.unfilled,
                         }}

@@ -447,7 +447,6 @@ export function ShoppingCartProvider({ children }: Props) {
     };
 
     const updateSelectedShippingAddress = (address: IAddress) => {
-        console.log('dentro 2');
         setSelectedShippingAddress(address);
     };
 
