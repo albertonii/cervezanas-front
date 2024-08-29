@@ -1,17 +1,17 @@
 import AddressRadioInput from './AddressRadioInput';
 import React, { ComponentProps, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { removeShippingAddressById } from '../actions';
 import { IAddress } from '@/lib//types/types';
+import { removeShippingAddressById } from '../actions';
 import { useMutation, useQueryClient } from 'react-query';
 import { NewShippingAddress } from './NewShippingAddress';
 import { UseFormReturn, SubmitHandler } from 'react-hook-form';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShippingFast } from '@fortawesome/free-solid-svg-icons';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { DeleteAddress } from '@/app/[locale]/components/modals/DeleteAddress';
 import { FormShippingData, ValidationSchemaShipping } from './ShoppingBasket';
 import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
-import { faShippingFast } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface Props {
     shippingAddresses: IAddress[];
@@ -92,9 +92,9 @@ export default function Shipping({
                 {t('shipping_info')}
             </h3>
 
-            <label className="block text-sm font-medium text-gray-500 dark:text-gray-400">
-                {t('shipping')}
-            </label>
+            <span className="text-md text-gray-600 dark:text-gray-400">
+                {t('shipping_logic_select_info')}
+            </span>
 
             <ul className="space-y-4">
                 {shippingAddresses.map((address) => (

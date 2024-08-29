@@ -90,9 +90,9 @@ export default function Billing({
                 {t('billing_info')}
             </h3>
 
-            <label className="block text-sm font-medium text-gray-500 dark:text-gray-400">
-                {t('billing')}
-            </label>
+            <span className="text-md text-gray-600 dark:text-gray-400">
+                {t('billing_select_info')}
+            </span>
 
             <ul className="space-y-4">
                 {billingAddresses.map((address) => (

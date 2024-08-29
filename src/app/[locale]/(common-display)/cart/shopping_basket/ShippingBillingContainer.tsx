@@ -7,6 +7,7 @@ import React, { ComponentProps } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { IBillingAddress, IAddress } from '@/lib//types/types';
+import { InfoTooltip } from '@/app/[locale]/components/common/InfoTooltip';
 
 interface Props {
     shippingAddresses: IAddress[];
@@ -32,31 +33,37 @@ export default function ShippingBillingContainer({
     const t = useTranslations();
 
     return (
-        <section className="w-full flex flex-col items-center space-y-6 bg-gray-50 p-6 rounded-lg shadow-md dark:bg-gray-800">
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
-                {t('shipping_and_billing_info')}
-            </h2>
+        <section className="w-full flex flex-col items-center space-y-2 bg-gray-50 p-6 rounded-lg shadow-md dark:bg-gray-800">
+            <div className="flex">
+                <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
+                    {t('shipping_and_billing_info')}
+                </h2>
 
-            {/* Shipping */}
-            <Shipping
-                formShipping={formShipping}
-                shippingAddresses={shippingAddresses}
-                handleOnClickShipping={handleOnClickShipping}
-                selectedShippingAddress={selectedShippingAddress}
-            />
+                <InfoTooltip
+                    content={`${t('shipping_logic_selected_info_tooltip')}`}
+                    delay={0}
+                    width={'500px'}
+                    direction={'top'}
+                />
+            </div>
 
-            {/* Billing */}
-            <Billing
-                formBilling={formBilling}
-                selectedBillingAddress={selectedBillingAddress}
-                billingAddresses={billingAddresses}
-                handleOnClickBilling={handleOnClickBilling}
-            />
+            <div className="space-y-4 lg:space-y-8">
+                {/* Shipping */}
+                <Shipping
+                    formShipping={formShipping}
+                    shippingAddresses={shippingAddresses}
+                    handleOnClickShipping={handleOnClickShipping}
+                    selectedShippingAddress={selectedShippingAddress}
+                />
 
-            {/* Promotion Code  */}
-            <PromotionCode />
-
-            {/* <CarrierDetails /> */}
+                {/* Billing */}
+                <Billing
+                    formBilling={formBilling}
+                    selectedBillingAddress={selectedBillingAddress}
+                    billingAddresses={billingAddresses}
+                    handleOnClickBilling={handleOnClickBilling}
+                />
+            </div>
         </section>
     );
 }

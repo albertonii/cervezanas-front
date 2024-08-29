@@ -1211,5 +1211,8 @@
     "profile_acc_mission_placeholder": "Introduce la misión de la empresa",
     "profile_acc_values_placeholder": "Introduce los valores de la empresa",
     "step": "Paso",
-    "of": "de"
+    "of": "de",
+    "shipping_logic_selected_info_tooltip": "Al momento de seleccionar una dirección de envío se activará la lógica de envío. Comprobando si el producto puede ser enviado a la dirección seleccionada y, además, su coste de envío. Si la dirección de envío no es válida para el producto seleccionado, un mensaje de error será mostrado y el botón de añadir al carrito estará desahablitado hasta seleccionar una dirección válida o que el producto se elimine del carrito de la compra.",
+    "shipping_logic_select_info": "Selecciona una dirección de envío para activar la lógica de envío",
+    "billing_select_info": "Selecciona una dirección de facturación"
 }

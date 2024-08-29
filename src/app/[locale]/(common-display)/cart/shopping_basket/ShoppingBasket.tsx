@@ -9,7 +9,6 @@ import ShippingBillingContainer from './ShippingBillingContainer';
 import ShoppingBasketOrderSummary from './ShoppingBasketOrderSummary';
 import useFetchBillingByOwnerId from '../../../../../hooks/useFetchBillingByOwnerId';
 import useFetchShippingByOwnerId from '../../../../../hooks/useFetchShippingByOwnerId';
-import OrderItems from './OrderItems';
 import { z, ZodType } from 'zod';
 import { API_METHODS } from '@/constants';
 import { useForm } from 'react-hook-form';
@@ -29,6 +28,8 @@ import {
 } from '@/app/[locale]/components/TPV/redsysClient';
 import { insertOnlineOrder } from '../actions';
 import { formatDateForTPV } from '@/utils/formatDate';
+import ShoppingBasketItems from './ShoppingBasketItems';
+import PromotionCode from './PromotionCode';
 
 export type FormShippingData = {
     shipping_info_id: string;
@@ -420,22 +421,13 @@ export function ShoppingBasket({ user }: Props) {
                             {/* Products  */}
                             <div className="flex w-full flex-col items-start justify-start space-y-4 md:space-y-6 xl:space-y-8">
                                 {/* Customer's Cart */}
-                                <div className="border-product-softBlonde flex w-full flex-col items-start justify-start border bg-gray-50 px-4 py-4 dark:bg-gray-800 md:p-6 md:py-6 xl:p-8">
-                                    <p className="text-lg font-semibold leading-6 text-gray-800 dark:text-white md:text-xl xl:leading-5">
-                                        {t('customer_s_cart')}
-                                    </p>
-
-                                    {items?.length > 0 ? (
-                                        <OrderItems
-                                            subtotal={subtotal}
-                                            isShippingCostLoading={
-                                                isShippingCostLoading
-                                            }
-                                        />
-                                    ) : (
-                                        <EmptyCart />
-                                    )}
-                                </div>
+                                <ShoppingBasketItems
+                                    items={items}
+                                    subtotal={subtotal}
+                                    isShippingCostLoading={
+                                        isShippingCostLoading
+                                    }
+                                />
 
                                 {/* Shipping & Billing Container */}
                                 {shippingAddresses && billingAddresses && (
@@ -458,6 +450,13 @@ export function ShoppingBasket({ user }: Props) {
                                         }
                                     />
                                 )}
+
+                                <section className="w-full flex flex-col items-center space-y-2 bg-gray-50 p-6 rounded-lg shadow-md dark:bg-gray-800">
+                                    {/* Promotion Code  */}
+                                    <PromotionCode />
+
+                                    {/* <CarrierDetails /> */}
+                                </section>
                             </div>
 
                             {/* Order summary */}

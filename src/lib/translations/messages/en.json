@@ -1180,5 +1180,8 @@
     "profile_acc_mission_placeholder": "Enter the company mission",
     "profile_acc_values_placeholder": "Enter the company values",
     "step": "Step",
-    "of": "of"
+    "of": "of",
+    "shipping_logic_selected_info_tooltip": "When you select a shipping address, the shipping logic will be activated. Checking if the product can be shipped to the selected address and, moreover, its shipping cost. If the shipping address is not valid for the selected product, an error message will be displayed and the add to cart button will be disabled until a valid address is selected or the product is removed from the shopping cart.",
+    "shipping_logic_select_info": "Select a shipping address to activate shipping logic",
+    "billing_select_info": "Select a billing address"
 }
