@@ -1,34 +1,38 @@
+import NewBillingModal from './NewBillingModal';
 import AddressRadioInput from './AddressRadioInput';
-import React, { ComponentProps, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { removeBillingAddressById } from '../actions';
-import { NewBillingIndividualAddress } from './NewBillingIndividualAddress';
 import { useMutation, useQueryClient } from 'react-query';
-import { IBillingAddress } from '@/lib//types/types';
-import { faMoneyBill } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IAddress, IBillingAddress } from '@/lib//types/types';
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
+import { faMoneyBill } from '@fortawesome/free-solid-svg-icons';
+import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { FormBillingData, ValidationSchemaShipping } from './ShoppingBasket';
+import { FormBillingData, ValidationSchemaBilling } from './ShoppingBasket';
 import { DeleteAddress } from '@/app/[locale]/components/modals/DeleteAddress';
 import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
-import NewBillingModal from './NewBillingModal';
 
 interface Props {
-    selectedBillingAddress: string;
     billingAddresses: IBillingAddress[];
-    handleOnClickBilling: ComponentProps<any>;
     formBilling: UseFormReturn<FormBillingData, any>;
 }
 
-export default function Billing({
-    formBilling,
-    billingAddresses,
-    selectedBillingAddress,
-    handleOnClickBilling,
-}: Props) {
+export default function Billing({ billingAddresses, formBilling }: Props) {
     const t = useTranslations();
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+    const { supabase } = useAuth();
+
+    const {
+        selectedBillingAddress,
+        defaultBillingAddress,
+        updateSelectedBillingAddress,
+        updateDefaultBillingAddress,
+        isBillingAddressSelected,
+    } = useShoppingCart();
 
     const {
         register,
@@ -40,9 +44,16 @@ export default function Billing({
 
     // Triggers when the user clicks on the button "Delete" in the modal for Campaign deletion
     const handleRemoveBillingAddress = async () => {
-        const billingAddressId = selectedBillingAddress;
+        if (!selectedBillingAddress) {
+            handleMessage({
+                type: 'error',
+                message: 'errors.removing_billing_address',
+            });
 
-        removeBillingAddressById(billingAddressId)
+            return;
+        }
+
+        removeBillingAddressById(selectedBillingAddress.id)
             .then(() => {
                 handleMessage({
                     type: 'success',
@@ -67,13 +78,51 @@ export default function Billing({
         },
     });
 
-    const onSubmit: SubmitHandler<ValidationSchemaShipping> = async (
+    const onSubmit: SubmitHandler<ValidationSchemaBilling> = async (
         data: any,
     ) => {
         try {
             deleteBillingAddress.mutate(data);
         } catch (error) {
             console.error(error);
+        }
+    };
+
+    const handleUpdateDefaultBillingAddress = async (address: IAddress) => {
+        if (address.id !== defaultBillingAddress?.id) {
+            if (defaultBillingAddress?.prevDefaultAddressId) {
+                // Delete previous default billing address
+                const { error: prevError } = await supabase
+                    .from('billing_info')
+                    .update({ is_default: false })
+                    .eq('id', defaultBillingAddress.prevDefaultAddressId);
+
+                if (prevError) {
+                    handleMessage({
+                        type: 'error',
+                        message:
+                            'errors.updating_to_false_prev_default_billing_address',
+                    });
+
+                    return;
+                }
+            }
+
+            const { error } = await supabase
+                .from('billing_info')
+                .update({ is_default: true })
+                .eq('id', address.id);
+
+            if (error) {
+                handleMessage({
+                    type: 'error',
+                    message: 'errors.updating_default_billing_address',
+                });
+
+                return;
+            }
+
+            updateDefaultBillingAddress(address);
         }
     };
 
@@ -104,9 +153,13 @@ export default function Billing({
                             register={register}
                             address={address}
                             addressNameId={'billing'}
+                            defaultSelectedAddress={defaultBillingAddress}
                             setShowDeleteModal={setShowDeleteModal}
-                            handleOnClick={handleOnClickBilling}
-                            isDefaultSelectedAddress={address.is_default}
+                            handleDefaultAddress={
+                                handleUpdateDefaultBillingAddress
+                            }
+                            handleSelectedAddress={updateSelectedBillingAddress}
+                            isAddressSelected={isBillingAddressSelected}
                         />
                     </li>
                 ))}

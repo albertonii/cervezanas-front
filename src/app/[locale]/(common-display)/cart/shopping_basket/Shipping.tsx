@@ -31,6 +31,7 @@ export default function Shipping({ formShipping, shippingAddresses }: Props) {
         defaultShippingAddress,
         updateSelectedShippingAddress,
         updateDefaultShippingAddress,
+        isShippingAddressSelected,
     } = useShoppingCart();
 
     const {
@@ -72,9 +73,6 @@ export default function Shipping({ formShipping, shippingAddresses }: Props) {
     const deleteShippingAddress = useMutation({
         mutationKey: ['deleteShippingAddress'],
         mutationFn: handleRemoveShippingAddress,
-        onSuccess: () => {
-            queryClient.invalidateQueries('shippingAddresses');
-        },
         onError: (error: any) => {
             console.error(error);
         },
@@ -91,21 +89,41 @@ export default function Shipping({ formShipping, shippingAddresses }: Props) {
     };
 
     const handleUpdateDefaultShippingAddress = async (address: IAddress) => {
-        const { error } = await supabase
-            .from('shipping_info')
-            .update({ is_default: true })
-            .eq('id', address.id);
+        if (address.id !== defaultShippingAddress?.id) {
+            if (defaultShippingAddress?.prevDefaultAddressId) {
+                // Delete previous default shipping address
+                const { error: prevError } = await supabase
+                    .from('shipping_info')
+                    .update({ is_default: false })
+                    .eq('id', defaultShippingAddress.prevDefaultAddressId);
 
-        if (error) {
-            handleMessage({
-                type: 'error',
-                message: 'errors.updating_default_shipping_address',
-            });
+                if (prevError) {
+                    handleMessage({
+                        type: 'error',
+                        message:
+                            'errors.updating_to_false_prev_default_shipping_address',
+                    });
 
-            return;
+                    return;
+                }
+            }
+
+            const { error } = await supabase
+                .from('shipping_info')
+                .update({ is_default: true })
+                .eq('id', address.id);
+
+            if (error) {
+                handleMessage({
+                    type: 'error',
+                    message: 'errors.updating_default_shipping_address',
+                });
+
+                return;
+            }
+
+            updateDefaultShippingAddress(address);
         }
-
-        updateDefaultShippingAddress(address);
     };
 
     return (
@@ -143,6 +161,7 @@ export default function Shipping({ formShipping, shippingAddresses }: Props) {
                             handleSelectedAddress={
                                 updateSelectedShippingAddress
                             }
+                            isAddressSelected={isShippingAddressSelected}
                         />
                     </li>
                 ))}

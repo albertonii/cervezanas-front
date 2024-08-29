@@ -13,7 +13,6 @@ interface Props {
     total: number;
     billingAddresses: IBillingInfo[];
     shippingAddresses: IAddress[];
-    selectedBillingAddress: string;
     onSubmit: () => void;
 }
 
@@ -25,7 +24,6 @@ const ShoppingBasketOrderSummary = ({
     total,
     billingAddresses,
     shippingAddresses,
-    selectedBillingAddress,
     onSubmit,
 }: Props) => {
     const t = useTranslations();
@@ -103,7 +101,6 @@ const ShoppingBasketOrderSummary = ({
                 {billingAddresses && shippingAddresses && (
                     <ShoppingBasketAddressesSummary
                         billingAddresses={billingAddresses}
-                        selectedBillingAddress={selectedBillingAddress}
                         shippingAddresses={shippingAddresses}
                     />
                 )}

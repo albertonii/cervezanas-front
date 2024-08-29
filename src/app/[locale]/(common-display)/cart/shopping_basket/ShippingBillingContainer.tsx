@@ -11,8 +11,6 @@ import { InfoTooltip } from '@/app/[locale]/components/common/InfoTooltip';
 interface Props {
     shippingAddresses: IAddress[];
     billingAddresses: IBillingAddress[];
-    handleOnClickBilling: ComponentProps<any>;
-    selectedBillingAddress: string;
     formShipping: UseFormReturn<any, any>;
     formBilling: UseFormReturn<any, any>;
 }
@@ -20,8 +18,6 @@ interface Props {
 export default function ShippingBillingContainer({
     shippingAddresses,
     billingAddresses,
-    selectedBillingAddress,
-    handleOnClickBilling,
     formShipping,
     formBilling,
 }: Props) {
@@ -52,9 +48,7 @@ export default function ShippingBillingContainer({
                 {/* Billing */}
                 <Billing
                     formBilling={formBilling}
-                    selectedBillingAddress={selectedBillingAddress}
                     billingAddresses={billingAddresses}
-                    handleOnClickBilling={handleOnClickBilling}
                 />
             </div>
         </section>

@@ -16,6 +16,10 @@ import {
     getShippingInfo,
 } from '../[locale]/(common-display)/cart/actions';
 
+interface IAddressWithPrev extends IAddress {
+    prevDefaultAddressId?: string;
+}
+
 type ShoppingCartContextType = {
     items: IProductPackCartItem[];
     undeliverableItems: IProductPackCartItem[];
@@ -43,10 +47,15 @@ type ShoppingCartContextType = {
         };
     }>;
     selectedShippingAddress: IAddress | undefined;
-    defaultShippingAddress: IAddress | undefined;
-    isAddressSelected: (addressId: string) => boolean;
+    defaultShippingAddress: IAddressWithPrev | undefined;
+    selectedBillingAddress: IAddress | undefined;
+    defaultBillingAddress: IAddressWithPrev | undefined;
+    isShippingAddressSelected: (addressId: string) => boolean;
+    isBillingAddressSelected: (addressId: string) => boolean;
     updateSelectedShippingAddress: (addressId: IAddress) => void;
     updateDefaultShippingAddress: (address: IAddress) => void;
+    updateSelectedBillingAddress: (addressId: IAddress) => void;
+    updateDefaultBillingAddress: (address: IAddress) => void;
 };
 
 const ShoppingCartContext = createContext<ShoppingCartContextType>({
@@ -77,10 +86,15 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
             },
         ),
     selectedShippingAddress: {} as IAddress,
-    defaultShippingAddress: {} as IAddress,
-    isAddressSelected: () => false,
+    defaultShippingAddress: {} as IAddressWithPrev,
+    selectedBillingAddress: {} as IAddress,
+    defaultBillingAddress: {} as IAddressWithPrev,
     updateSelectedShippingAddress: () => void {},
     updateDefaultShippingAddress: () => void {},
+    updateSelectedBillingAddress: () => void {},
+    updateDefaultBillingAddress: () => void {},
+    isShippingAddressSelected: () => false,
+    isBillingAddressSelected: () => false,
 });
 
 interface Props {
@@ -98,6 +112,12 @@ export function ShoppingCartProvider({ children }: Props) {
         useState<IAddress>();
 
     const [selectedShippingAddress, setSelectedShippingAddress] =
+        useState<IAddress>();
+
+    const [defaultBillingAddress, setDefaultBillingAddress] =
+        useState<IAddress>();
+
+    const [selectedBillingAddress, setSelectedBillingAddress] =
         useState<IAddress>();
 
     const [undeliverableItems, setUndeliverableItems] = useState<
@@ -450,12 +470,38 @@ export function ShoppingCartProvider({ children }: Props) {
         setSelectedShippingAddress(address);
     };
 
-    const isAddressSelected = (addressId: string): boolean => {
+    const updateDefaultShippingAddress = (address: IAddress) => {
+        const addressWithPrev: IAddressWithPrev = {
+            ...address,
+            prevDefaultAddressId: defaultShippingAddress?.id
+                ? defaultShippingAddress?.id
+                : address.id,
+        };
+
+        setDefaultShippingAddress(addressWithPrev);
+    };
+
+    const isShippingAddressSelected = (addressId: string): boolean => {
         return selectedShippingAddress?.id === addressId;
     };
 
-    const updateDefaultShippingAddress = (address: IAddress) => {
-        setDefaultShippingAddress(address);
+    const updateSelectedBillingAddress = (address: IAddress) => {
+        setSelectedBillingAddress(address);
+    };
+
+    const updateDefaultBillingAddress = (address: IAddress) => {
+        const addressWithPrev: IAddressWithPrev = {
+            ...address,
+            prevDefaultAddressId: defaultBillingAddress?.id
+                ? defaultBillingAddress?.id
+                : address.id,
+        };
+
+        setDefaultBillingAddress(addressWithPrev);
+    };
+
+    const isBillingAddressSelected = (addressId: string): boolean => {
+        return selectedBillingAddress?.id === addressId;
     };
 
     const value = {
@@ -479,8 +525,13 @@ export function ShoppingCartProvider({ children }: Props) {
         selectedShippingAddress,
         defaultShippingAddress,
         updateSelectedShippingAddress,
-        isAddressSelected,
         updateDefaultShippingAddress,
+        selectedBillingAddress,
+        defaultBillingAddress,
+        isShippingAddressSelected,
+        updateSelectedBillingAddress,
+        updateDefaultBillingAddress,
+        isBillingAddressSelected,
     };
 
     return (

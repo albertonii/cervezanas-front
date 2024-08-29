@@ -10,10 +10,7 @@ interface Props {
 export default function ShippingAddressItem({ address }: Props) {
     return (
         <>
-            <label
-                className=" text-product-dark w-full 
-                            dark:bg-gray-800 dark:text-gray-400"
-            >
+            <label className=" text-product-dark w-full dark:bg-gray-800 dark:text-gray-400">
                 <address className="block">
                     <span className="w-full text-md font-semibold">
                         {address.name} {address.lastname}

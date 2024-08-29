@@ -15,6 +15,7 @@ interface Props {
     defaultSelectedAddress: IAddress | undefined;
     handleDefaultAddress: (address: IAddress) => void;
     handleSelectedAddress: (address: IAddress) => void;
+    isAddressSelected: (addressId: string) => boolean;
 }
 
 export default function AddressRadioInput({
@@ -25,10 +26,9 @@ export default function AddressRadioInput({
     defaultSelectedAddress,
     handleDefaultAddress,
     handleSelectedAddress,
+    isAddressSelected,
 }: Props) {
     const t = useTranslations();
-
-    const { isAddressSelected } = useShoppingCart();
 
     const [onHover, setOnHover] = useState<boolean>();
     const [effect, setEffect] = useState(false);

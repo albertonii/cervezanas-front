@@ -453,14 +453,8 @@ export function ShoppingBasket({ user }: Props) {
                                     <ShippingBillingContainer
                                         shippingAddresses={shippingAddresses}
                                         billingAddresses={billingAddresses}
-                                        handleOnClickBilling={
-                                            handleOnClickBilling
-                                        }
                                         formShipping={formShipping}
                                         formBilling={formBilling}
-                                        selectedBillingAddress={
-                                            selectedBillingAddress
-                                        }
                                     />
                                 )}
 
@@ -482,9 +476,6 @@ export function ShoppingBasket({ user }: Props) {
                                     total={total}
                                     billingAddresses={billingAddresses}
                                     shippingAddresses={shippingAddresses}
-                                    selectedBillingAddress={
-                                        selectedBillingAddress
-                                    }
                                     onSubmit={onSubmit}
                                 />
                             )}
