@@ -25,6 +25,7 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
     const t = useTranslations();
     const locale = useLocale();
     const { handleMessage } = useMessage();
+    const [isNotificationVisible, setIsNotificationVisible] = useState(false);
 
     const { isLoading, supabase, isLoggedIn } = useAuth();
     const productId = product.id;
@@ -119,6 +120,8 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
     };
 
     const handleAddToCart = () => {
+        setIsNotificationVisible(true);
+
         if (!isLoggedIn) {
             handleMessage({
                 type: 'info',
@@ -248,6 +251,10 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
                                 <AddCardButton
                                     withText={true}
                                     onClick={handleAddToCart}
+                                    isVisible={isNotificationVisible}
+                                    onClose={() =>
+                                        setIsNotificationVisible(false)
+                                    }
                                 />
                             </div>
                         </div>
