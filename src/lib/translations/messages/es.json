@@ -1217,5 +1217,6 @@
     "billing_select_info": "Selecciona una dirección de facturación",
     "delete_address": "Eliminar dirección",
     "set_shipping_info_as_default": "Establecer como dirección de envío por defecto",
-    "set_billing_info_as_default": "Establecer como dirección de facturación por defecto"
+    "set_billing_info_as_default": "Establecer como dirección de facturación por defecto",
+    "view_order": "Ver Pedido"
 }

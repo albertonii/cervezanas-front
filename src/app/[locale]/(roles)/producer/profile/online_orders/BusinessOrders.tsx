@@ -8,7 +8,7 @@ interface Props {
     bOrders: IBusinessOrder[];
 }
 
-export function Orders({ bOrders }: Props) {
+export function BusinessOrders({ bOrders }: Props) {
     const t = useTranslations();
 
     return (
@@ -22,7 +22,9 @@ export function Orders({ bOrders }: Props) {
                 </span>
             </p>
 
-            <BusinessOrderList bOrders={bOrders} />
+            {bOrders && bOrders.length > 0 && (
+                <BusinessOrderList bOrders={bOrders} />
+            )}
         </section>
     );
 }

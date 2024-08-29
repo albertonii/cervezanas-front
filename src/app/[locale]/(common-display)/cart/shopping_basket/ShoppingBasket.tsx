@@ -74,7 +74,6 @@ export function ShoppingBasket({ user }: Props) {
     const formRef = useRef<HTMLFormElement>(null);
     const btnRef = useRef<HTMLButtonElement>(null);
 
-    const [tax, setTax] = useState(0);
     const [subtotal, setSubtotal] = useState(0);
     const [deliveryCost, setDeliveryCost] = useState(0);
     const [total, setTotal] = useState(0);
@@ -136,8 +135,8 @@ export function ShoppingBasket({ user }: Props) {
         });
 
         setSubtotal(subtotal);
-        setTotal(() => subtotal + deliveryCost + tax);
-    }, [items, deliveryCost, subtotal, tax]);
+        setTotal(() => subtotal + deliveryCost);
+    }, [items, deliveryCost, subtotal]);
 
     useEffect(() => {
         if (isFormReady) {
@@ -272,7 +271,7 @@ export function ShoppingBasket({ user }: Props) {
             currency: 'EUR',
             order_number: orderNumber,
             type: 'online',
-            tax: tax,
+            tax: 0,
             shipping_info_id: selectedShippingAddress.id,
             billing_info_id: selectedBillingAddress,
             items: shoppingItems,
@@ -472,7 +471,6 @@ export function ShoppingBasket({ user }: Props) {
                                     canMakeThePayment={canMakeThePayment}
                                     subtotal={subtotal}
                                     deliveryCost={deliveryCost}
-                                    tax={tax}
                                     total={total}
                                     billingAddresses={billingAddresses}
                                     shippingAddresses={shippingAddresses}

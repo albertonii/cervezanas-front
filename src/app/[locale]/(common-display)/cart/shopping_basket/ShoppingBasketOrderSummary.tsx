@@ -9,7 +9,6 @@ interface Props {
     canMakeThePayment: boolean;
     subtotal: number;
     deliveryCost: number;
-    tax: number;
     total: number;
     billingAddresses: IBillingInfo[];
     shippingAddresses: IAddress[];
@@ -20,7 +19,6 @@ const ShoppingBasketOrderSummary = ({
     canMakeThePayment,
     subtotal,
     deliveryCost,
-    tax,
     total,
     billingAddresses,
     shippingAddresses,
@@ -55,15 +53,6 @@ const ShoppingBasketOrderSummary = ({
                                 </p>
                                 <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
                                     {formatCurrency(deliveryCost)}
-                                </p>
-                            </div>
-                            {/* taxes */}
-                            <div className="flex w-full items-center justify-between">
-                                <p className="text-base leading-4 text-gray-800 dark:text-white">
-                                    {t('tax')}
-                                </p>
-                                <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
-                                    {formatCurrency(tax)}
                                 </p>
                             </div>
                         </div>

@@ -7,13 +7,13 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { encodeBase64 } from '@/utils/utils';
 import { IBusinessOrder } from '@/lib//types/types';
+import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
+import { formatCurrency } from '@/utils/formatCurrency';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { IconButton } from '@/app/[locale]/components/common/IconButton';
 import { ROUTE_ONLINE_ORDERS, ROUTE_PRODUCER, ROUTE_PROFILE } from '@/config';
-import { formatDateString } from '@/utils/formatDate';
-import { formatCurrency } from '@/utils/formatCurrency';
 
 interface Props {
     bOrders: IBusinessOrder[];
@@ -27,7 +27,7 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
     const locale = useLocale();
     const router = useRouter();
 
-    const [orders, setOrders] = useState<IBusinessOrder[]>(bOs);
+    const [bOrders, setBOrders] = useState<IBusinessOrder[]>(bOs);
     const [currentPage, setCurrentPage] = useState(1);
 
     const counter = bOs.length;
@@ -41,10 +41,20 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
 
     useEffect(() => {
         refetch().then((res) => {
-            const orders = res.data as IBusinessOrder[];
-            setOrders(orders);
+            const bOrders_ = res.data as IBusinessOrder[];
+            setBOrders(bOrders_);
         });
     }, [currentPage]);
+
+    const handleClickView = (bOrder_: IBusinessOrder) => {
+        const Ds_MerchantParameters = encodeBase64(
+            JSON.stringify({ Ds_Order: bOrder_.orders?.order_number }),
+        );
+
+        router.push(
+            `/${locale}${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_ONLINE_ORDERS}/success?Ds_MerchantParameters=${Ds_MerchantParameters}`,
+        );
+    };
 
     const columns = [
         {
@@ -65,8 +75,10 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
             header: t('products_quantity_header'),
             accessor: 'products_quantity',
             sortable: true,
-            render: (_: string, row: IBusinessOrder) =>
-                row?.orders?.business_orders?.length ?? '',
+            render: (_: number, row: IBusinessOrder) => {
+                console.log(row.order_items);
+                return row.order_items?.length;
+            },
         },
         {
             header: t('price_header'),
@@ -92,8 +104,8 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
             header: t('date_header'),
             accessor: 'date',
             sortable: true,
-            render: (_: string, row: IBusinessOrder) =>
-                formatDateString(row.orders?.created_at) ?? '',
+            render: (value: string, row: IBusinessOrder) =>
+                formatDateString(value),
         },
         {
             header: t('action_header'),
@@ -108,22 +120,12 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
         },
     ];
 
-    const handleClickView = (order: IBusinessOrder) => {
-        const Ds_MerchantParameters = encodeBase64(
-            JSON.stringify({ Ds_Order: order.orders?.order_number }),
-        );
-
-        router.push(
-            `/${locale}${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_ONLINE_ORDERS}/success?Ds_MerchantParameters=${Ds_MerchantParameters}`,
-        );
-    };
-
     return (
         <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
             {isError && (
                 <p className="flex items-center justify-center">
                     <h2 className="text-gray-500 dark:text-gray-400">
-                        {t('errors.fetching_online_orders')}
+                        {t('errors.fetching_online_bOrders')}
                     </h2>
                 </p>
             )}
@@ -137,16 +139,16 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
                 />
             )}
 
-            {!isError && !isLoading && orders && orders.length === 0 ? (
+            {!isError && !isLoading && bOrders && bOrders.length === 0 ? (
                 <p className="flex items-center justify-center">
                     <h3 className="text-gray-500 dark:text-gray-400">
-                        {t('no_orders')}
+                        {t('no_bOrders')}
                     </h3>
                 </p>
             ) : (
                 <TableWithFooterAndSearch
                     columns={columns}
-                    data={orders}
+                    data={bOrders}
                     initialQuery={''}
                     resultsPerPage={resultsPerPage}
                     currentPage={currentPage}

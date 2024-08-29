@@ -17,12 +17,9 @@ const fetchOrdersByProducerId = async (
                 *,
                 order_id,
                 orders (
-                    *,
-                    business_orders (
-                        *,
-                        producer_id
-                    )
-                )
+                    *
+                ),
+                order_items (*)
             `,
         )
         .eq('producer_id', [producerId])
@@ -31,23 +28,6 @@ const fetchOrdersByProducerId = async (
             currentPage * resultsPerPage - 1,
         )
         .order('created_at', { ascending: false });
-
-    // const { data, error } = await supabase
-    //     .from('orders')
-    //     .select(
-    //         `
-    //     *,
-    //     business_orders (
-    //       *
-    //     )
-    //   `,
-    //     )
-    //     .eq('business_orders.producer_id', [producerId])
-    //     .range(
-    //         (currentPage - 1) * resultsPerPage,
-    //         currentPage * resultsPerPage - 1,
-    //     )
-    //     .order('created_at', { ascending: false });
 
     if (error) throw error;
     return data as IBusinessOrder[];

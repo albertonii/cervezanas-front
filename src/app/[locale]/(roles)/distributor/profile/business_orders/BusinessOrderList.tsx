@@ -4,15 +4,15 @@ import Spinner from '@/app/[locale]/components/common/Spinner';
 import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
 import useFetchOrdersByDistributorId from '../../../../../../hooks/useFetchOrdersByDistributorId';
 import React, { useEffect, useState } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
-import { IBusinessOrder } from '@/lib//types/types';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { formatDateString } from '@/utils/formatDate';
-import { formatCurrency } from '@/utils/formatCurrency';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
-import { encodeBase64 } from '@/utils/utils';
 import { useRouter } from 'next/navigation';
+import { encodeBase64 } from '@/utils/utils';
+import { IBusinessOrder } from '@/lib//types/types';
+import { formatDateString } from '@/utils/formatDate';
+import { useLocale, useTranslations } from 'next-intl';
+import { formatCurrency } from '@/utils/formatCurrency';
 import { faTruck } from '@fortawesome/free-solid-svg-icons';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { IconButton } from '@/app/[locale]/components/common/IconButton';
 import {
     ROUTE_BUSINESS_ORDERS,
     ROUTE_DISTRIBUTOR,
@@ -26,6 +26,8 @@ interface Props {
 export function BusinessOrderList({ bOrders: bOs }: Props) {
     const { user } = useAuth();
     if (!user) return null;
+
+    console.log(bOs);
 
     const t = useTranslations();
     const locale = useLocale();
@@ -45,8 +47,8 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
 
     useEffect(() => {
         refetch().then((res) => {
-            const orders = res.data as IBusinessOrder[];
-            setBOrders(orders);
+            const bOrders_ = res.data as IBusinessOrder[];
+            setBOrders(bOrders_);
         });
     }, [currentPage]);
 
@@ -65,48 +67,44 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
             header: t('order_number_header'),
             accessor: 'order_number',
             sortable: true,
-            render: (value: string, row: IBusinessOrder) =>
+            render: (_: string, row: IBusinessOrder) =>
                 row.orders?.order_number,
         },
         {
             header: t('client_name_header'),
             accessor: 'client_name',
             sortable: true,
-            render: (value: string, row: IBusinessOrder) =>
-                row.orders?.customer_name,
+            render: (_: string, row: IBusinessOrder) =>
+                row?.orders?.customer_name ?? '',
         },
         {
             header: t('products_quantity_header'),
             accessor: 'products_quantity',
             sortable: true,
-            render: (value: number, row: IBusinessOrder) => {
-                return row.order_items?.length;
-            },
+            render: (_: number, row: IBusinessOrder) => row.order_items?.length,
         },
         {
             header: t('price_header'),
             accessor: 'price',
             sortable: true,
-            render: (value: number, row: IBusinessOrder) =>
+            render: (_: number, row: IBusinessOrder) =>
                 formatCurrency(row.orders?.total),
         },
         {
             header: t('status_header'),
             accessor: 'status',
             sortable: true,
-            render: (value: string, row: IBusinessOrder) =>
-                t(row.orders?.status),
+            render: (_: string, row: IBusinessOrder) => t(row.orders?.status),
         },
         {
             header: t('tracking_number_header'),
             accessor: 'tracking_number',
             sortable: true,
-            render: (value: string, row: IBusinessOrder) =>
-                row.orders?.tracking_id,
+            render: (_: string, row: IBusinessOrder) => row.orders?.tracking_id,
         },
         {
             header: t('date_header'),
-            accessor: 'created_at',
+            accessor: 'date',
             sortable: true,
             render: (value: string, row: IBusinessOrder) =>
                 formatDateString(value),
@@ -114,7 +112,7 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
         {
             header: t('action_header'),
             accessor: 'action',
-            render: (value: any, row: IBusinessOrder) => (
+            render: (_: any, row: IBusinessOrder) => (
                 <IconButton
                     onClick={() => handleClickView(row)}
                     icon={faTruck}
@@ -125,7 +123,7 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
     ];
 
     return (
-        <section className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg bg-beer-foam">
+        <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
             {isError && (
                 <div className="flex items-center justify-center">
                     <p className="text-gray-500 dark:text-gray-400">

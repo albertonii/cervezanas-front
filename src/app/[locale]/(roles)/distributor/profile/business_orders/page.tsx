@@ -8,11 +8,7 @@ export default async function BusinessOrdersPage() {
     const bOrdersData = await getBusinessOrdersData();
     const [bOrders] = await Promise.all([bOrdersData]);
 
-    return (
-        <>
-            <BusinessOrders bOrders={bOrders} />
-        </>
-    );
+    return <BusinessOrders bOrders={bOrders} />;
 }
 
 async function getBusinessOrdersData() {

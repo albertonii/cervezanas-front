@@ -113,7 +113,7 @@ export function OrderList({ counter }: Props) {
                 <IconButton
                     onClick={() => handleClickView(row)}
                     icon={faEye}
-                    title={''}
+                    title={t('view_order')}
                 />
             ),
         },

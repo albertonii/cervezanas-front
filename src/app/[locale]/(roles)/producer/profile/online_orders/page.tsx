@@ -1,17 +1,13 @@
-import createServerClient from '@/utils/supabaseServer';
 import readUserSession from '@/lib//actions';
-import { IBusinessOrder } from '@/lib//types/types';
+import createServerClient from '@/utils/supabaseServer';
 import { redirect } from 'next/navigation';
-import { Orders } from './Orders';
+import { BusinessOrders } from './BusinessOrders';
+import { IBusinessOrder } from '@/lib//types/types';
 
 export default async function OrdersPage() {
     const bOrdersData = await getBusinessOrdersData();
     const [bOrders] = await Promise.all([bOrdersData]);
-    return (
-        <>
-            <Orders bOrders={bOrders} />
-        </>
-    );
+    return <BusinessOrders bOrders={bOrders} />;
 }
 
 async function getBusinessOrdersData() {
@@ -28,9 +24,8 @@ async function getBusinessOrdersData() {
         .select(
             `
                 *, 
-                orders (
-                    *
-                )
+                orders (*),
+                order_items (*)
             `,
         )
         .eq('producer_id', [session.id])
