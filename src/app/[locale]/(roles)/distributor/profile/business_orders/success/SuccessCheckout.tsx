@@ -122,13 +122,6 @@ export default function SuccessCheckout({ order, isError }: Props) {
                             shippingInfo={order.shipping_info}
                         />
                     )}
-
-                    {/* <!-- Billing --> */}
-                    {order.billing_info && (
-                        <BillingInformationBox
-                            billingInfo={order.billing_info}
-                        />
-                    )}
                 </div>
 
                 <div className="col-span-6">

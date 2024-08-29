@@ -35,12 +35,14 @@ const PaymentInformationBox = ({ order }: Props) => {
                     {formatCurrency(order.shipping)}
                 </dd>
             </div>
+
             <div className="flex items-center justify-between py-4">
                 <dt className="text-gray-600">{t('tax')}</dt>
                 <dd className="font-medium text-gray-900">
                     {formatCurrency(order.tax)}
                 </dd>
             </div>
+
             <div className="flex items-center justify-between pt-4">
                 <dt className="font-medium text-gray-900">{t('total')}</dt>
                 <dd className="font-medium text-beer-draft">

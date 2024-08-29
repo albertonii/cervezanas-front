@@ -98,7 +98,7 @@ export function ProductList({
             ),
         },
         {
-            header: t('price_header'),
+            header: t('pvpr'),
             accessor: 'price',
             sortable: true,
             render: (price: number) => formatCurrency(price),
