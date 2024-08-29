@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     const sub_region = formData.get('sub_region') as string;
     const city = formData.get('city') as string;
     const zipcode = formData.get('zipcode') as string;
-    const is_default = formData.get('is_default') === 'true';
+    // const is_default = formData.get('is_default') === 'true';
 
     const { data: shippingAddress, error: shippingAddressError } =
         await supabase.from('shipping_info').insert({
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
             sub_region,
             city,
             zipcode,
-            is_default,
+            // is_default,
         });
 
     if (shippingAddressError) {

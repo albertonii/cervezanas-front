@@ -11,6 +11,7 @@ import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
 import { z, ZodType } from 'zod';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 
 const schema: ZodType<ModalShippingAddressFormData> = z.object({
     name: z.string().nonempty({ message: 'errors.input_required' }),

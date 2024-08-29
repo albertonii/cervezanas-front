@@ -316,7 +316,7 @@ export default function AddressCompanyForm({ form, addressNameId }: Props) {
                     </div>
                 </address>
 
-                <div className="flex items-end">
+                {/* <div className="flex items-end">
                     <div className="w-auto">
                         <InputLabel
                             form={form}
@@ -331,7 +331,7 @@ export default function AddressCompanyForm({ form, addressNameId }: Props) {
                     <p className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                         {t(`${addressNameId}_checkbox`)}
                     </p>
-                </div>
+                </div> */}
             </fieldset>
         </form>
     );

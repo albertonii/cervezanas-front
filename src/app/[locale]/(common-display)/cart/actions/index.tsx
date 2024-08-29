@@ -95,7 +95,7 @@ export async function insertShippingAddress(form: {
     formData.set('sub_region', sub_region);
     formData.set('city', city);
     formData.set('zipcode', zipcode);
-    formData.set('is_default', is_default.toString());
+    // formData.set('is_default', is_default.toString());
 
     const res = await fetch(url, {
         method: 'POST',
@@ -151,7 +151,7 @@ export async function insertIndividualBillingAddress(form: {
     formData.set('sub_region', sub_region);
     formData.set('city', city);
     formData.set('zipcode', zipcode);
-    formData.set('is_default', is_default.toString());
+    // formData.set('is_default', is_default.toString());
 
     const res = await fetch(url, {
         method: 'POST',
@@ -204,7 +204,7 @@ export async function insertCompanyBillingAddress(form: {
     formData.set('sub_region', sub_region);
     formData.set('city', city);
     formData.set('zipcode', zipcode);
-    formData.set('is_default', is_default.toString());
+    // formData.set('is_default', is_default.toString());
 
     const res = await fetch(url, {
         method: 'POST',
