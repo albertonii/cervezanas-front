@@ -712,7 +712,9 @@
         "username_invalid_characters": "El nombre de usuario solo puede caracteres alfanuméricos, guiones bajos o puntos",
         "password_security": "La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.",
         "input_unsername_max_length_20": "El nombre de usuario debe tener menos de 20 caracteres",
-        "invalid_credentials": "Credenciales inválidas"
+        "invalid_credentials": "Credenciales inválidas",
+        "select_billing_address": "Error en la selección de la dirección de facturación",
+        "select_shipping_address": "Error en la selección de la dirección de envío"
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",

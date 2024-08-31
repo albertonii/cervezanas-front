@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { faBeerMugEmpty } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from './IconButton';
 import { motion } from 'framer-motion';
-import { Beer } from 'lucide-react';
 
 interface Props {
     onClick?: () => void;

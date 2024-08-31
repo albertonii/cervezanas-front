@@ -719,7 +719,9 @@
         "username_invalid_characters": "Username can only contain letters, numbers, underscores and dots.",
         "password_security": "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.",
         "input_unsername_max_length_20": "Username must be less than 20 characters.",
-        "invalid_credentials": "Invalid credentials."
+        "invalid_credentials": "Invalid credentials.",
+        "select_billing_address": "Error on selecting a billing address.",
+        "select_shipping_address": "Error on selecting a shipping address."
     },
     "product_packs": "Product packs",
     "units": "Units",

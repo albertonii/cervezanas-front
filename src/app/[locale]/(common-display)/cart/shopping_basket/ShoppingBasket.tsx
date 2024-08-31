@@ -66,6 +66,7 @@ export function ShoppingBasket({ user }: Props) {
         handleUndeliverableItems,
         clearCart,
         calculateShippingCostCartContext,
+        selectedBillingAddress,
         selectedShippingAddress,
         updateSelectedShippingAddress,
         updateDefaultShippingAddress,
@@ -81,7 +82,6 @@ export function ShoppingBasket({ user }: Props) {
     const [isFormReady, setIsFormReady] = useState(false);
     const [merchantParameters, setMerchantParameters] = useState('');
     const [merchantSignature, setMerchantSignature] = useState('');
-    const [selectedBillingAddress, setSelectedBillingAddress] = useState('');
     const [shoppingItems, setShoppingItems] = useState<IProductPackCartItem[]>(
         [],
     );
@@ -149,68 +149,17 @@ export function ShoppingBasket({ user }: Props) {
         // Check if the cart is deliverable
         const isDeliverable =
             items.length > 0 &&
-            selectedBillingAddress !== '' &&
-            selectedShippingAddress?.id !== '';
+            selectedBillingAddress?.id !== undefined &&
+            selectedShippingAddress?.id !== undefined;
 
         setCanMakeThePayment(isDeliverable);
     }, [items, selectedShippingAddress, selectedBillingAddress]);
-
-    useEffect(() => {
-        if (!selectedShippingAddress) return;
-
-        const handleShippingCost = async () => {
-            setIsShippingCostLoading(true);
-
-            const cheapestShippingCostByDistributor =
-                await calculateShippingCostCartContext(
-                    selectedShippingAddress.id,
-                );
-
-            if (cheapestShippingCostByDistributor) {
-                const totalShippingCost = Object.values(
-                    cheapestShippingCostByDistributor,
-                ).reduce((acc, { shippingCost }) => {
-                    if (shippingCost === null) return acc;
-                    return acc + shippingCost;
-                }, 0);
-
-                // Actualizar el listado de items debido a que se ha actualizado los distribuidores asociados para cada uno
-                setShoppingItems(
-                    Object.values(cheapestShippingCostByDistributor)
-                        .map(({ items }) => items)
-                        .flat(),
-                );
-
-                // Obtener listado de elementos que no se pueden enviar - Son aquellos donde el shippingCost es null para el productor
-                const undeliverableItems_: {
-                    items: IProductPackCartItem[];
-                    shippingCost: number;
-                    distributor_id: string;
-                }[] = Object.values(cheapestShippingCostByDistributor).filter(
-                    ({ shippingCost }) => shippingCost === null,
-                );
-
-                const undeliverableItemsFlat: IProductPackCartItem[] =
-                    undeliverableItems_.map(({ items }) => items).flat();
-
-                handleUndeliverableItems(undeliverableItemsFlat);
-
-                setDeliveryCost(totalShippingCost);
-            }
-
-            setIsShippingCostLoading(false);
-        };
-
-        handleShippingCost();
-    }, [items, selectedShippingAddress]);
 
     useEffect(() => {
         setDeliveryCost(0);
     }, [selectedShippingAddress]);
 
     const checkForm = async () => {
-        const billingInfoId = selectedBillingAddress;
-
         const resultBillingInfoId = await triggerBilling('billing_info_id', {
             shouldFocus: true,
         });
@@ -227,7 +176,7 @@ export function ShoppingBasket({ user }: Props) {
         );
 
         const billingInfo = billingAddresses?.find(
-            (address) => address.id === billingInfoId,
+            (address) => address.id === selectedBillingAddress?.id,
         );
 
         if (!shippingInfo || !billingInfo) false;
@@ -259,6 +208,14 @@ export function ShoppingBasket({ user }: Props) {
             return;
         }
 
+        if (selectedBillingAddress === undefined) {
+            handleMessage({
+                type: 'error',
+                message: 'errors.select_billing_address',
+            });
+            return;
+        }
+
         const order = {
             user_id: user?.id,
             name: user?.name,
@@ -273,7 +230,7 @@ export function ShoppingBasket({ user }: Props) {
             type: 'online',
             tax: 0,
             shipping_info_id: selectedShippingAddress.id,
-            billing_info_id: selectedBillingAddress,
+            billing_info_id: selectedBillingAddress?.id,
             items: shoppingItems,
         };
 
@@ -288,6 +245,51 @@ export function ShoppingBasket({ user }: Props) {
                     message: 'errors.inserting_order',
                 });
             });
+    };
+
+    const checkIfCanMakeShipment = async () => {
+        if (!selectedShippingAddress) return;
+
+        console.log('dentro del checking');
+
+        setIsShippingCostLoading(true);
+
+        const cheapestShippingCostByDistributor =
+            await calculateShippingCostCartContext(selectedShippingAddress.id);
+
+        if (cheapestShippingCostByDistributor) {
+            const totalShippingCost = Object.values(
+                cheapestShippingCostByDistributor,
+            ).reduce((acc, { shippingCost }) => {
+                if (shippingCost === null) return acc;
+                return acc + shippingCost;
+            }, 0);
+
+            // Actualizar el listado de items debido a que se ha actualizado los distribuidores asociados para cada uno
+            setShoppingItems(
+                Object.values(cheapestShippingCostByDistributor)
+                    .map(({ items }) => items)
+                    .flat(),
+            );
+
+            // Obtener listado de elementos que no se pueden enviar - Son aquellos donde el shippingCost es null para el productor
+            const undeliverableItems_: {
+                items: IProductPackCartItem[];
+                shippingCost: number;
+                distributor_id: string;
+            }[] = Object.values(cheapestShippingCostByDistributor).filter(
+                ({ shippingCost }) => shippingCost === null,
+            );
+
+            const undeliverableItemsFlat: IProductPackCartItem[] =
+                undeliverableItems_.map(({ items }) => items).flat();
+
+            handleUndeliverableItems(undeliverableItemsFlat);
+
+            setDeliveryCost(totalShippingCost);
+        }
+
+        setIsShippingCostLoading(false);
     };
 
     // REDSYS PAYMENT
@@ -344,16 +346,13 @@ export function ShoppingBasket({ user }: Props) {
         },
     });
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
         try {
+            await checkIfCanMakeShipment();
             insertOrderMutation.mutate();
         } catch (e) {
             console.error(e);
         }
-    };
-
-    const handleOnClickBilling = (addressId: string) => {
-        setSelectedBillingAddress(addressId);
     };
 
     if (!user) return <Spinner color="beer-blonde" size="medium" />;
