@@ -2,7 +2,7 @@
 
 import Billing from './Billing';
 import Shipping from './Shipping';
-import React, { ComponentProps } from 'react';
+import React from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { IBillingAddress, IAddress } from '@/lib//types/types';

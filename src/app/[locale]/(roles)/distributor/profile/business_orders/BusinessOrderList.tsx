@@ -27,8 +27,6 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
     const { user } = useAuth();
     if (!user) return null;
 
-    console.log(bOs);
-
     const t = useTranslations();
     const locale = useLocale();
     const router = useRouter();

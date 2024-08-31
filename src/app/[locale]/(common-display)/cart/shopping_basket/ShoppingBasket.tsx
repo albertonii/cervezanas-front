@@ -70,6 +70,8 @@ export function ShoppingBasket({ user }: Props) {
         selectedShippingAddress,
         updateSelectedShippingAddress,
         updateDefaultShippingAddress,
+        updateSelectedBillingAddress,
+        updateDefaultBillingAddress,
     } = useShoppingCart();
 
     const formRef = useRef<HTMLFormElement>(null);
@@ -125,6 +127,16 @@ export function ShoppingBasket({ user }: Props) {
             }
         });
     }, [shippingAddresses]);
+
+    useEffect(() => {
+        billingAddresses?.find((address) => {
+            if (address.is_default) {
+                updateSelectedBillingAddress(address);
+                updateDefaultBillingAddress(address);
+                return true;
+            }
+        });
+    }, [billingAddresses]);
 
     useEffect(() => {
         let subtotal = 0;
@@ -249,8 +261,6 @@ export function ShoppingBasket({ user }: Props) {
 
     const checkIfCanMakeShipment = async () => {
         if (!selectedShippingAddress) return;
-
-        console.log('dentro del checking');
 
         setIsShippingCostLoading(true);
 

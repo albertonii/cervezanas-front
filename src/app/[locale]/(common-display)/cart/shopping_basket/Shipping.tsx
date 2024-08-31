@@ -1,11 +1,12 @@
 import AddressRadioInput from './AddressRadioInput';
-import React, { ComponentProps, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IAddress } from '@/lib//types/types';
 import { removeShippingAddressById } from '../actions';
 import { useMutation, useQueryClient } from 'react-query';
 import { NewShippingAddress } from './NewShippingAddress';
 import { UseFormReturn, SubmitHandler } from 'react-hook-form';
+import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShippingFast } from '@fortawesome/free-solid-svg-icons';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
@@ -13,14 +14,13 @@ import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { FormShippingData, ValidationSchemaShipping } from './ShoppingBasket';
 import { DeleteAddress } from '@/app/[locale]/components/modals/DeleteAddress';
 import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
-import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 
 interface Props {
     shippingAddresses: IAddress[];
     formShipping: UseFormReturn<FormShippingData, any>;
 }
 
-export default function Shipping({ formShipping, shippingAddresses }: Props) {
+export default function Shipping({ shippingAddresses, formShipping }: Props) {
     const t = useTranslations();
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
