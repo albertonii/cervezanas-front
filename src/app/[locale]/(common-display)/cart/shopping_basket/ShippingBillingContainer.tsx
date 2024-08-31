@@ -5,19 +5,14 @@ import Shipping from './Shipping';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import { IBillingAddress, IAddress } from '@/lib//types/types';
 import { InfoTooltip } from '@/app/[locale]/components/common/InfoTooltip';
 
 interface Props {
-    shippingAddresses: IAddress[];
-    billingAddresses: IBillingAddress[];
     formShipping: UseFormReturn<any, any>;
     formBilling: UseFormReturn<any, any>;
 }
 
 export default function ShippingBillingContainer({
-    shippingAddresses,
-    billingAddresses,
     formShipping,
     formBilling,
 }: Props) {
@@ -40,16 +35,10 @@ export default function ShippingBillingContainer({
 
             <div className="space-y-4 lg:space-y-8">
                 {/* Shipping */}
-                <Shipping
-                    formShipping={formShipping}
-                    shippingAddresses={shippingAddresses}
-                />
+                <Shipping formShipping={formShipping} />
 
                 {/* Billing */}
-                <Billing
-                    formBilling={formBilling}
-                    billingAddresses={billingAddresses}
-                />
+                <Billing formBilling={formBilling} />
             </div>
         </section>
     );

@@ -60,8 +60,8 @@ export default function AddressRadioInput({
             <label
                 htmlFor={`${addressNameId}-${address.id}`}
                 className={`
-                     inline-flex w-full cursor-pointer items-center justify-between rounded-lg py-2 px-4 text-gray-500 transition-all duration-200 hover:bg-gray-100 hover:text-gray-600 
-                     dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 
+                     inline-flex w-full cursor-pointer items-center justify-between rounded-lg py-2 px-4 text-gray-500 transition-all duration-200 hover:bg-beer-blonde hover:text-gray-600 
+                     dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300  
                      ${
                          isAddressSelected(address.id)
                              ? 'border-2 border-beer-blonde bg-beer-softFoam'

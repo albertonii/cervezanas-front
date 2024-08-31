@@ -10,7 +10,7 @@ const fetchShippingByOwnerId = async (
     ownerId: string,
     supabase: SupabaseClient<Database>,
 ) => {
-    if (!ownerId) throw new Error('ownerId is required');
+    if (!ownerId) return [];
     const { data, error } = await supabase
         .from('shipping_info')
         .select(`*`)

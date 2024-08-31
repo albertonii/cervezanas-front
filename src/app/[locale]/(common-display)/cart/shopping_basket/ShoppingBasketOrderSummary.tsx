@@ -3,15 +3,12 @@ import ShoppingBasketAddressesSummary from './ShoppingBasketAddressesSummary';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
-import { IAddress, IBillingInfo } from '@/lib//types/types';
 
 interface Props {
     canMakeThePayment: boolean;
     subtotal: number;
     deliveryCost: number;
     total: number;
-    billingAddresses: IBillingInfo[];
-    shippingAddresses: IAddress[];
     onSubmit: () => void;
 }
 
@@ -20,8 +17,6 @@ const ShoppingBasketOrderSummary = ({
     subtotal,
     deliveryCost,
     total,
-    billingAddresses,
-    shippingAddresses,
     onSubmit,
 }: Props) => {
     const t = useTranslations();
@@ -87,12 +82,7 @@ const ShoppingBasketOrderSummary = ({
                 </div>
 
                 {/* Addresses */}
-                {billingAddresses && shippingAddresses && (
-                    <ShoppingBasketAddressesSummary
-                        billingAddresses={billingAddresses}
-                        shippingAddresses={shippingAddresses}
-                    />
-                )}
+                <ShoppingBasketAddressesSummary />
             </div>
         </div>
     );

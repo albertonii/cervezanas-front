@@ -3,11 +3,9 @@
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import Decimal from 'decimal.js';
 import Spinner from '@/app/[locale]/components/common/Spinner';
-import React, { useState, useEffect, useRef } from 'react';
 import ShippingBillingContainer from './ShippingBillingContainer';
 import ShoppingBasketOrderSummary from './ShoppingBasketOrderSummary';
-import useFetchBillingByOwnerId from '../../../../../hooks/useFetchBillingByOwnerId';
-import useFetchShippingByOwnerId from '../../../../../hooks/useFetchShippingByOwnerId';
+import React, { useState, useEffect, useRef } from 'react';
 import { z, ZodType } from 'zod';
 import { API_METHODS } from '@/constants';
 import { useForm } from 'react-hook-form';
@@ -68,10 +66,8 @@ export function ShoppingBasket({ user }: Props) {
         calculateShippingCostCartContext,
         selectedBillingAddress,
         selectedShippingAddress,
-        updateSelectedShippingAddress,
-        updateDefaultShippingAddress,
-        updateSelectedBillingAddress,
-        updateDefaultBillingAddress,
+        defaultBillingAddress,
+        defaultShippingAddress,
     } = useShoppingCart();
 
     const formRef = useRef<HTMLFormElement>(null);
@@ -92,51 +88,35 @@ export function ShoppingBasket({ user }: Props) {
 
     const [canMakeThePayment, setCanMakeThePayment] = useState(false);
 
-    const { data: shippingAddresses, error: shippingAddressesError } =
-        useFetchShippingByOwnerId(user.id);
-
-    const { data: billingAddresses, error: billingAddressesError } =
-        useFetchBillingByOwnerId(user.id);
-
-    if (billingAddressesError) {
-        throw billingAddressesError;
-    }
-
-    if (shippingAddressesError) {
-        throw shippingAddressesError;
-    }
-
     const formShipping = useForm<FormShippingData>({
         resolver: zodResolver(schemaShipping),
+        defaultValues: {
+            shipping_info_id: defaultShippingAddress?.id,
+        },
     });
+
     const { trigger: triggerShipping } = formShipping;
 
     const formBilling = useForm<FormBillingData>({
         resolver: zodResolver(schemaBilling),
+        defaultValues: {
+            billing_info_id: defaultBillingAddress?.id,
+        },
     });
+
     const { trigger: triggerBilling } = formBilling;
 
     const queryClient = useQueryClient();
 
-    useEffect(() => {
-        shippingAddresses?.find((address) => {
-            if (address.is_default) {
-                updateSelectedShippingAddress(address);
-                updateDefaultShippingAddress(address);
-                return true;
-            }
-        });
-    }, [shippingAddresses]);
-
-    useEffect(() => {
-        billingAddresses?.find((address) => {
-            if (address.is_default) {
-                updateSelectedBillingAddress(address);
-                updateDefaultBillingAddress(address);
-                return true;
-            }
-        });
-    }, [billingAddresses]);
+    // useEffect(() => {
+    //     billingAddresses?.find((address) => {
+    //         if (address.is_default) {
+    //             updateSelectedBillingAddress(address);
+    //             updateDefaultBillingAddress(address);
+    //             return true;
+    //         }
+    //     });
+    // }, [billingAddresses]);
 
     useEffect(() => {
         let subtotal = 0;
@@ -183,15 +163,6 @@ export function ShoppingBasket({ user }: Props) {
         if (resultBillingInfoId === false || resultShippingInfoId === false)
             return;
 
-        const shippingInfo = shippingAddresses?.find(
-            (address) => address.id === selectedShippingAddress?.id,
-        );
-
-        const billingInfo = billingAddresses?.find(
-            (address) => address.id === selectedBillingAddress?.id,
-        );
-
-        if (!shippingInfo || !billingInfo) false;
         return true;
     };
 
@@ -457,14 +428,10 @@ export function ShoppingBasket({ user }: Props) {
                                 />
 
                                 {/* Shipping & Billing Container */}
-                                {shippingAddresses && billingAddresses && (
-                                    <ShippingBillingContainer
-                                        shippingAddresses={shippingAddresses}
-                                        billingAddresses={billingAddresses}
-                                        formShipping={formShipping}
-                                        formBilling={formBilling}
-                                    />
-                                )}
+                                <ShippingBillingContainer
+                                    formShipping={formShipping}
+                                    formBilling={formBilling}
+                                />
 
                                 <section className="w-full flex flex-col items-center space-y-2 bg-gray-50 p-6 rounded-lg shadow-md dark:bg-gray-800">
                                     {/* Promotion Code  */}
@@ -475,17 +442,13 @@ export function ShoppingBasket({ user }: Props) {
                             </div>
 
                             {/* Order summary */}
-                            {billingAddresses && shippingAddresses && (
-                                <ShoppingBasketOrderSummary
-                                    canMakeThePayment={canMakeThePayment}
-                                    subtotal={subtotal}
-                                    deliveryCost={deliveryCost}
-                                    total={total}
-                                    billingAddresses={billingAddresses}
-                                    shippingAddresses={shippingAddresses}
-                                    onSubmit={onSubmit}
-                                />
-                            )}
+                            <ShoppingBasketOrderSummary
+                                canMakeThePayment={canMakeThePayment}
+                                subtotal={subtotal}
+                                deliveryCost={deliveryCost}
+                                total={total}
+                                onSubmit={onSubmit}
+                            />
                         </div>
                     </div>
                 )}

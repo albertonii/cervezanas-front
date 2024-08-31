@@ -1,5 +1,6 @@
 import AddressRadioInput from './AddressRadioInput';
-import React, { useState } from 'react';
+import useFetchShippingByOwnerId from '@/hooks/useFetchShippingByOwnerId';
+import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IAddress } from '@/lib//types/types';
 import { removeShippingAddressById } from '../actions';
@@ -16,15 +17,19 @@ import { DeleteAddress } from '@/app/[locale]/components/modals/DeleteAddress';
 import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 
 interface Props {
-    shippingAddresses: IAddress[];
     formShipping: UseFormReturn<FormShippingData, any>;
 }
 
-export default function Shipping({ shippingAddresses, formShipping }: Props) {
+export default function Shipping({ formShipping }: Props) {
     const t = useTranslations();
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const { handleMessage } = useMessage();
+    const queryClient = useQueryClient();
 
-    const { supabase } = useAuth();
+    const { supabase, user } = useAuth();
+
+    const { data: shippingAddresses, error: shippingAddressesError } =
+        useFetchShippingByOwnerId(user?.id);
 
     const {
         selectedShippingAddress,
@@ -39,8 +44,20 @@ export default function Shipping({ shippingAddresses, formShipping }: Props) {
         formState: { errors },
     } = formShipping;
 
-    const { handleMessage } = useMessage();
-    const queryClient = useQueryClient();
+    if (shippingAddressesError) {
+        throw shippingAddressesError;
+    }
+
+    useEffect(() => {
+        shippingAddresses?.map((address) => {
+            if (address.is_default) {
+                updateDefaultShippingAddress(address);
+                updateSelectedShippingAddress(address);
+            }
+        });
+
+        return () => {};
+    }, [shippingAddresses]);
 
     // Triggers when the user clicks on the button "Delete" in the modal for Campaign deletion
     const handleRemoveShippingAddress = async () => {
@@ -144,27 +161,28 @@ export default function Shipping({ shippingAddresses, formShipping }: Props) {
             </span>
 
             <ul className="space-y-4">
-                {shippingAddresses.map((address) => (
-                    <li
-                        key={address.id}
-                        className="flex items-center justify-between p-4 bg-white rounded-lg shadow-md dark:bg-gray-700"
-                    >
-                        <AddressRadioInput
-                            register={register}
-                            address={address}
-                            addressNameId={'shipping'}
-                            defaultSelectedAddress={defaultShippingAddress}
-                            setShowDeleteModal={setShowDeleteModal}
-                            handleDefaultAddress={
-                                handleUpdateDefaultShippingAddress
-                            }
-                            handleSelectedAddress={
-                                updateSelectedShippingAddress
-                            }
-                            isAddressSelected={isShippingAddressSelected}
-                        />
-                    </li>
-                ))}
+                {shippingAddresses &&
+                    shippingAddresses.map((address) => (
+                        <li
+                            key={address.id}
+                            className="flex items-center justify-between p-4 bg-white rounded-lg shadow-md dark:bg-gray-700"
+                        >
+                            <AddressRadioInput
+                                register={register}
+                                address={address}
+                                addressNameId={'shipping'}
+                                defaultSelectedAddress={defaultShippingAddress}
+                                setShowDeleteModal={setShowDeleteModal}
+                                handleDefaultAddress={
+                                    handleUpdateDefaultShippingAddress
+                                }
+                                handleSelectedAddress={
+                                    updateSelectedShippingAddress
+                                }
+                                isAddressSelected={isShippingAddressSelected}
+                            />
+                        </li>
+                    ))}
 
                 {errors.shipping_info_id && (
                     <DisplayInputError
@@ -173,7 +191,9 @@ export default function Shipping({ shippingAddresses, formShipping }: Props) {
                 )}
             </ul>
 
-            {shippingAddresses.length < 5 && <NewShippingAddress />}
+            {shippingAddresses && shippingAddresses.length < 5 && (
+                <NewShippingAddress />
+            )}
 
             {showDeleteModal && (
                 <DeleteAddress

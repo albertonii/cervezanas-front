@@ -1,10 +1,11 @@
 import NewBillingModal from './NewBillingModal';
 import AddressRadioInput from './AddressRadioInput';
-import React, { useState } from 'react';
+import useFetchBillingByOwnerId from '@/hooks/useFetchBillingByOwnerId';
+import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { IAddress } from '@/lib//types/types';
 import { removeBillingAddressById } from '../actions';
 import { useMutation, useQueryClient } from 'react-query';
-import { IAddress, IBillingAddress } from '@/lib//types/types';
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { faMoneyBill } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
@@ -16,15 +17,19 @@ import { DeleteAddress } from '@/app/[locale]/components/modals/DeleteAddress';
 import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 
 interface Props {
-    billingAddresses: IBillingAddress[];
     formBilling: UseFormReturn<FormBillingData, any>;
 }
 
-export default function Billing({ billingAddresses, formBilling }: Props) {
+export default function Billing({ formBilling }: Props) {
     const t = useTranslations();
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const { handleMessage } = useMessage();
+    const queryClient = useQueryClient();
 
-    const { supabase } = useAuth();
+    const { supabase, user } = useAuth();
+
+    const { data: billingAddresses, error: billingAddressesError } =
+        useFetchBillingByOwnerId(user?.id);
 
     const {
         selectedBillingAddress,
@@ -39,8 +44,20 @@ export default function Billing({ billingAddresses, formBilling }: Props) {
         formState: { errors },
     } = formBilling;
 
-    const { handleMessage } = useMessage();
-    const queryClient = useQueryClient();
+    if (billingAddressesError) {
+        throw billingAddressesError;
+    }
+
+    useEffect(() => {
+        billingAddresses?.map((address) => {
+            if (address.is_default) {
+                updateDefaultBillingAddress(address);
+                updateSelectedBillingAddress(address);
+            }
+        });
+
+        return () => {};
+    }, [billingAddresses]);
 
     // Triggers when the user clicks on the button "Delete" in the modal for Campaign deletion
     const handleRemoveBillingAddress = async () => {
@@ -144,25 +161,28 @@ export default function Billing({ billingAddresses, formBilling }: Props) {
             </span>
 
             <ul className="space-y-4">
-                {billingAddresses.map((address) => (
-                    <li
-                        key={address.id}
-                        className="flex items-center justify-between p-4 bg-white rounded-lg shadow-md dark:bg-gray-700"
-                    >
-                        <AddressRadioInput
-                            register={register}
-                            address={address}
-                            addressNameId={'billing'}
-                            defaultSelectedAddress={defaultBillingAddress}
-                            setShowDeleteModal={setShowDeleteModal}
-                            handleDefaultAddress={
-                                handleUpdateDefaultBillingAddress
-                            }
-                            handleSelectedAddress={updateSelectedBillingAddress}
-                            isAddressSelected={isBillingAddressSelected}
-                        />
-                    </li>
-                ))}
+                {billingAddresses &&
+                    billingAddresses.map((address) => (
+                        <li
+                            key={address.id}
+                            className="flex items-center justify-between p-4 bg-white rounded-lg shadow-md dark:bg-gray-700"
+                        >
+                            <AddressRadioInput
+                                register={register}
+                                address={address}
+                                addressNameId={'billing'}
+                                defaultSelectedAddress={defaultBillingAddress}
+                                setShowDeleteModal={setShowDeleteModal}
+                                handleDefaultAddress={
+                                    handleUpdateDefaultBillingAddress
+                                }
+                                handleSelectedAddress={
+                                    updateSelectedBillingAddress
+                                }
+                                isAddressSelected={isBillingAddressSelected}
+                            />
+                        </li>
+                    ))}
 
                 {errors.billing_info_id && (
                     <DisplayInputError
@@ -171,7 +191,9 @@ export default function Billing({ billingAddresses, formBilling }: Props) {
                 )}
             </ul>
 
-            {billingAddresses.length < 5 && <NewBillingModal />}
+            {billingAddresses && billingAddresses.length < 5 && (
+                <NewBillingModal />
+            )}
 
             {showDeleteModal && (
                 <DeleteAddress

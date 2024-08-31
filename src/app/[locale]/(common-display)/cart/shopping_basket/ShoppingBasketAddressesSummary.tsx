@@ -2,18 +2,9 @@ import BillingAddressItem from './BillingAddressItemInfo';
 import ShippingAddressItem from './ShippingAddressItemInfo';
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { IAddress, IBillingInfo } from '@/lib//types/types';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 
-interface Props {
-    billingAddresses: IBillingInfo[];
-    shippingAddresses: IAddress[];
-}
-
-const ShoppingBasketAddressesSummary = ({
-    billingAddresses,
-    shippingAddresses,
-}: Props) => {
+const ShoppingBasketAddressesSummary = () => {
     const t = useTranslations();
 
     const { selectedShippingAddress, selectedBillingAddress } =
@@ -32,21 +23,15 @@ const ShoppingBasketAddressesSummary = ({
                             {t('shipping_address')}
                         </p>
 
-                        <div className="w-48 text-start text-sm leading-5 text-gray-600 dark:text-gray-300 md:text-left lg:w-full xl:w-48">
-                            {shippingAddresses?.map((address) => {
-                                if (
-                                    address.id === selectedShippingAddress?.id
-                                ) {
-                                    return (
-                                        <div key={address.id}>
-                                            <ShippingAddressItem
-                                                address={address}
-                                            />
-                                        </div>
-                                    );
-                                }
-                            })}
-                        </div>
+                        {selectedShippingAddress && (
+                            <div className="w-48 text-start text-sm leading-5 text-gray-600 dark:text-gray-300 md:text-left lg:w-full xl:w-48">
+                                <div key={selectedShippingAddress.id}>
+                                    <ShippingAddressItem
+                                        address={selectedShippingAddress}
+                                    />
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     <div className="flex flex-col items-start justify-center space-y-4 md:justify-start">
@@ -54,18 +39,15 @@ const ShoppingBasketAddressesSummary = ({
                             {t('billing_address')}
                         </p>
 
-                        <div className="w-48 text-start text-sm leading-5 text-gray-600 dark:text-gray-300 md:text-left lg:w-full xl:w-48">
-                            {billingAddresses?.map((address) => {
-                                if (address.id === selectedBillingAddress?.id)
-                                    return (
-                                        <div key={address.id}>
-                                            <BillingAddressItem
-                                                address={address}
-                                            />
-                                        </div>
-                                    );
-                            })}
-                        </div>
+                        {selectedBillingAddress && (
+                            <div className="w-48 text-start text-sm leading-5 text-gray-600 dark:text-gray-300 md:text-left lg:w-full xl:w-48">
+                                <div key={selectedBillingAddress.id}>
+                                    <BillingAddressItem
+                                        address={selectedBillingAddress}
+                                    />
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </address>
