@@ -69,9 +69,31 @@ async function getCheckoutErrorData(searchParams: any) {
         };
     }
 
-    const { Ds_Order: orderId, Ds_Response } = JSON.parse(
-        decodeBase64(Ds_MerchantParameters),
-    );
+    //     Ds_Date,
+    //     Ds_Hour,
+    //     Ds_Amount,
+    //     Ds_Terminal,
+    //     Ds_Response,
+    //     Ds_MerchantData,
+    //     Ds_SecurePayment,
+    //     Ds_TransactionType,
+    //     Ds_Card_Country,
+    //     Ds_AuthorisationCode,
+    //     Ds_ConsumerLanguage,
+    //     Ds_Card_Type,
+    //     Ds_Card_Brand,
+    //     Ds_Card_Number,
+    //     Ds_Expirydate,
+    //     Ds_Merchant_Identifier,
+    //     Ds_ErrorCode,
+    //     ErrorCode,
+    //     Codigo,
+    //     Ds_UrlPago2Fases,
+    const {
+        Ds_Order: orderId,
+        Ds_Response,
+        Ds_ErrorCode,
+    } = JSON.parse(decodeBase64(Ds_MerchantParameters));
 
     const supabase = await createServerClient();
 

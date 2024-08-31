@@ -2,6 +2,8 @@
 
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import Decimal from 'decimal.js';
+import PromotionCode from './PromotionCode';
+import ShoppingBasketItems from './ShoppingBasketItems';
 import Spinner from '@/app/[locale]/components/common/Spinner';
 import ShippingBillingContainer from './ShippingBillingContainer';
 import ShoppingBasketOrderSummary from './ShoppingBasketOrderSummary';
@@ -25,8 +27,6 @@ import {
 } from '@/app/[locale]/components/TPV/redsysClient';
 import { insertOnlineOrder } from '../actions';
 import { formatDateForTPV } from '@/utils/formatDate';
-import ShoppingBasketItems from './ShoppingBasketItems';
-import PromotionCode from './PromotionCode';
 
 export type FormShippingData = {
     shipping_info_id: string;
@@ -62,7 +62,6 @@ export function ShoppingBasket({ user }: Props) {
     const {
         items,
         handleUndeliverableItems,
-        clearCart,
         calculateShippingCostCartContext,
         selectedBillingAddress,
         selectedShippingAddress,
@@ -83,6 +82,8 @@ export function ShoppingBasket({ user }: Props) {
     const [shoppingItems, setShoppingItems] = useState<IProductPackCartItem[]>(
         [],
     );
+    const [canMakeThePaymentResponse, setCanMakeThePaymentResponse] =
+        useState(false);
 
     const [isShippingCostLoading, setIsShippingCostLoading] = useState(false);
 
@@ -108,16 +109,6 @@ export function ShoppingBasket({ user }: Props) {
 
     const queryClient = useQueryClient();
 
-    // useEffect(() => {
-    //     billingAddresses?.find((address) => {
-    //         if (address.is_default) {
-    //             updateSelectedBillingAddress(address);
-    //             updateDefaultBillingAddress(address);
-    //             return true;
-    //         }
-    //     });
-    // }, [billingAddresses]);
-
     useEffect(() => {
         let subtotal = 0;
         items.map((item) => {
@@ -142,10 +133,16 @@ export function ShoppingBasket({ user }: Props) {
         const isDeliverable =
             items.length > 0 &&
             selectedBillingAddress?.id !== undefined &&
-            selectedShippingAddress?.id !== undefined;
+            selectedShippingAddress?.id !== undefined &&
+            canMakeThePaymentResponse === true;
 
         setCanMakeThePayment(isDeliverable);
-    }, [items, selectedShippingAddress, selectedBillingAddress]);
+    }, [
+        items,
+        selectedShippingAddress,
+        selectedBillingAddress,
+        canMakeThePaymentResponse,
+    ]);
 
     useEffect(() => {
         setDeliveryCost(0);
@@ -175,7 +172,6 @@ export function ShoppingBasket({ user }: Props) {
             const orderNumber = await proceedPaymentRedsys();
             handleInsertOrder(orderNumber);
             queryClient.invalidateQueries('orders');
-            clearCart();
         } catch (error) {
             console.error(error);
             setLoadingPayment(false);
@@ -246,12 +242,13 @@ export function ShoppingBasket({ user }: Props) {
                 return acc + shippingCost;
             }, 0);
 
-            // Actualizar el listado de items debido a que se ha actualizado los distribuidores asociados para cada uno
-            setShoppingItems(
-                Object.values(cheapestShippingCostByDistributor)
-                    .map(({ items }) => items)
-                    .flat(),
-            );
+            const newShoppingItems = Object.values(
+                cheapestShippingCostByDistributor,
+            )
+                .map(({ items }) => items)
+                .flat();
+
+            setShoppingItems(newShoppingItems);
 
             // Obtener listado de elementos que no se pueden enviar - Son aquellos donde el shippingCost es null para el productor
             const undeliverableItems_: {
@@ -268,6 +265,7 @@ export function ShoppingBasket({ user }: Props) {
             handleUndeliverableItems(undeliverableItemsFlat);
 
             setDeliveryCost(totalShippingCost);
+            setCanMakeThePaymentResponse(true);
         }
 
         setIsShippingCostLoading(false);
@@ -308,6 +306,7 @@ export function ShoppingBasket({ user }: Props) {
 
         const form = createRedirectForm({
             ...merchantInfo,
+            // ...merchant_EMV3DS,
             DS_MERCHANT_AMOUNT: redsysAmount,
             DS_MERCHANT_CURRENCY: redsysCurrency,
             DS_MERCHANT_ORDER: orderNumber,
@@ -319,7 +318,7 @@ export function ShoppingBasket({ user }: Props) {
         return orderNumber;
     };
 
-    const insertOrderMutation = useMutation({
+    const handlePaymentMutation = useMutation({
         mutationKey: ['insertOrder'],
         mutationFn: handleProceedToPay,
         onError: (error: any) => {
@@ -329,8 +328,7 @@ export function ShoppingBasket({ user }: Props) {
 
     const onSubmit = async () => {
         try {
-            await checkIfCanMakeShipment();
-            insertOrderMutation.mutate();
+            handlePaymentMutation.mutate();
         } catch (e) {
             console.error(e);
         }
@@ -447,6 +445,9 @@ export function ShoppingBasket({ user }: Props) {
                                 subtotal={subtotal}
                                 deliveryCost={deliveryCost}
                                 total={total}
+                                checkCanDeliveryToAddress={
+                                    checkIfCanMakeShipment
+                                }
                                 onSubmit={onSubmit}
                             />
                         </div>

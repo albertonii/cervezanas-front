@@ -69,7 +69,6 @@ export async function POST(request: NextRequest) {
     // aquellos que tengan un pack, los inserto en la tabla order_items
     // además, como son del mismo pack y del mismo producto, los agrupo
     // y asigno el mismo identificador de pedido para el negocio - business_order_id
-
     items.map((item: IProductPackCartItem) => {
         item.packs.map(async (pack) => {
             const distributorId = item.distributor_id;

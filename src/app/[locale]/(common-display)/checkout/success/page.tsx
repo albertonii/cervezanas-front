@@ -1,9 +1,9 @@
-import SuccessCheckout from './SuccessCheckout';
-import { redirect } from 'next/navigation';
-import { decodeBase64 } from '@/utils/utils';
-import createServerClient from '@/utils/supabaseServer';
 import readUserSession from '@/lib//actions';
+import SuccessCheckout from './SuccessCheckout';
+import createServerClient from '@/utils/supabaseServer';
+import { redirect } from 'next/navigation';
 import { IOrder } from '@/lib//types/types';
+import { decodeBase64 } from '@/utils/utils';
 
 export async function generateMetadata({ searchParams }: any) {
     try {
@@ -36,11 +36,26 @@ export async function generateMetadata({ searchParams }: any) {
 }
 
 export default async function SuccessPage({ searchParams }: any) {
-    const { orderData, isError } = await getSuccessData(searchParams);
-    const [order] = await Promise.all([orderData]);
+    const { orderData, isError, santanderResponseData } = await getSuccessData(
+        searchParams,
+    );
+    const [order, santanderResponse] = await Promise.all([
+        orderData,
+        santanderResponseData,
+    ]);
     if (!order) return <></>;
 
-    return <>{order && <SuccessCheckout order={order} isError={isError} />}</>;
+    return (
+        <>
+            {order && (
+                <SuccessCheckout
+                    order={order}
+                    isError={isError}
+                    santanderResponse={santanderResponse}
+                />
+            )}
+        </>
+    );
 }
 
 async function getSuccessData(searchParams: any) {
@@ -50,9 +65,54 @@ async function getSuccessData(searchParams: any) {
         Ds_Signature: string;
     };
 
-    const { Ds_Order: orderNumber } = JSON.parse(
-        decodeBase64(Ds_MerchantParameters),
-    );
+    //     Ds_Date,
+    //     Ds_Hour,
+    //     Ds_Amount,
+    //     Ds_Terminal,
+    //     Ds_Response,
+    //     Ds_MerchantData,
+    //     Ds_SecurePayment,
+    //     Ds_TransactionType,
+    //     Ds_Card_Country,
+    //     Ds_AuthorisationCode,
+    //     Ds_ConsumerLanguage,
+    //     Ds_Card_Type,
+    //     Ds_Card_Brand,
+    //     Ds_Card_Number,
+    //     Ds_Expirydate,
+    //     Ds_Merchant_Identifier,
+    //     Ds_ErrorCode,
+    //     ErrorCode,
+    //     Codigo,
+    //     Ds_UrlPago2Fases,
+    const {
+        Ds_Order: orderNumber,
+        Ds_Date,
+        Ds_Hour,
+        Ds_Amount,
+        Ds_Terminal,
+        Ds_Response,
+        Ds_MerchantData,
+        Ds_SecurePayment,
+        Ds_TransactionType,
+        Ds_Card_Country,
+        Ds_AuthorisationCode,
+        Ds_ConsumerLanguage,
+        Ds_Card_Brand,
+    } = JSON.parse(decodeBase64(Ds_MerchantParameters));
+
+    console.log('Hora', Ds_Hour);
+    console.log('Fecha', Ds_Date);
+    console.log('Cantidad', Ds_Amount);
+    console.log('Terminal', Ds_Terminal);
+    console.log('Respuesta', Ds_Response);
+    console.log('Tipo Dato', Ds_MerchantData);
+    console.log('Pago Seguro', Ds_SecurePayment);
+    console.log('Tipo transacción', Ds_TransactionType);
+    console.log('Código País Tarjeta', Ds_Card_Country);
+    console.log('Código Auth', Ds_AuthorisationCode);
+    console.log('Idioma', Ds_ConsumerLanguage);
+    console.log('Marca Tarjeta', Ds_Card_Brand);
 
     const supabase = await createServerClient();
 
@@ -92,6 +152,7 @@ async function getSuccessData(searchParams: any) {
         return {
             orderData: null,
             isError: true,
+            santanderResponseData: null,
         };
     }
 
@@ -99,8 +160,13 @@ async function getSuccessData(searchParams: any) {
         return {
             orderData: null,
             isError: true,
+            santanderResponseData: null,
         };
     }
 
-    return { orderData: orderData as IOrder, isError: false };
+    return {
+        orderData: orderData as IOrder,
+        isError: false,
+        santanderResponseData: Ds_Response,
+    };
 }

@@ -22,7 +22,7 @@ const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export default function ErrorCheckout({ order, isError }: Props) {
     const { business_orders } = order;
-    if (!business_orders) return <></>;
+    if (!business_orders || !business_orders?.[0]) return <></>;
 
     const { order_items: orderItems } = business_orders[0];
 

@@ -10,19 +10,32 @@ import React, { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { IOrder } from '@/lib//types/types';
 import { useAuth } from '../../../(auth)/Context/useAuth';
+import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 
 interface Props {
     isError?: boolean;
     order: IOrder;
+    santanderResponse: string;
 }
 
-export default function SuccessCheckout({ order, isError }: Props) {
+export default function SuccessCheckout({
+    order,
+    isError,
+    santanderResponse,
+}: Props) {
     const { business_orders: bOrders } = order;
 
     const t = useTranslations();
 
     const [loading, setLoading] = useState(true);
     const { user } = useAuth();
+    const { clearCart } = useShoppingCart();
+
+    useEffect(() => {
+        if (santanderResponse === '0000' || santanderResponse === '9999') {
+            clearCart();
+        }
+    }, [santanderResponse]);
 
     useEffect(() => {
         if (user) {

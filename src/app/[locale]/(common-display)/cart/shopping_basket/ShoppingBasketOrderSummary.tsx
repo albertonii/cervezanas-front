@@ -9,6 +9,7 @@ interface Props {
     subtotal: number;
     deliveryCost: number;
     total: number;
+    checkCanDeliveryToAddress: () => void;
     onSubmit: () => void;
 }
 
@@ -17,6 +18,7 @@ const ShoppingBasketOrderSummary = ({
     subtotal,
     deliveryCost,
     total,
+    checkCanDeliveryToAddress,
     onSubmit,
 }: Props) => {
     const t = useTranslations();
@@ -65,8 +67,19 @@ const ShoppingBasketOrderSummary = ({
                                 {formatCurrency(total)}
                             </p>
                         </div>
+
                         {/* Proceed to pay */}
-                        <div className="flex w-full items-center justify-center md:items-start md:justify-start">
+                        <div className="flex flex-col w-full items-center justify-center md:items-start md:justify-start gap-2">
+                            <Button
+                                large
+                                primary
+                                class="font-semibold"
+                                title={t('check_can_delivery_to_address')}
+                                onClick={checkCanDeliveryToAddress}
+                            >
+                                {t('check_can_delivery_to_address')}
+                            </Button>
+
                             <Button
                                 large
                                 primary

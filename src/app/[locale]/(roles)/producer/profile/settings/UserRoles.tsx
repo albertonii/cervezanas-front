@@ -29,7 +29,6 @@ const UserRoles = () => {
     };
 
     const handleShowDownDistributorModal = (show: boolean) => {
-        console.log('dentro showDownDistributorModal');
         setShowDownDistributorRoleModal(show);
     };
 

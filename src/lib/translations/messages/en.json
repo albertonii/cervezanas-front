@@ -1187,5 +1187,6 @@
     "shipping_logic_select_info": "Select a shipping address to activate shipping logic",
     "billing_select_info": "Select a billing address",
     "delete_address": "Delete address",
-    "view_order": "View Order"
+    "view_order": "View Order",
+    "check_can_delivery_to_address": "Check delivery"
 }

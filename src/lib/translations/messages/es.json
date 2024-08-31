@@ -1220,5 +1220,6 @@
     "delete_address": "Eliminar dirección",
     "set_shipping_info_as_default": "Establecer como dirección de envío por defecto",
     "set_billing_info_as_default": "Establecer como dirección de facturación por defecto",
-    "view_order": "Ver Pedido"
+    "view_order": "Ver Pedido",
+    "check_can_delivery_to_address": "Comprobar entrega"
 }

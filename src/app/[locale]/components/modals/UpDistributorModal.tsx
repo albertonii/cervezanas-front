@@ -177,7 +177,6 @@ export function UpDistributorModal({
     });
 
     const handleSubmitUpNewDistributor = () => {
-        console.log('handleSubmitUpNewDistributor');
         return newDistributorMutation.mutateAsync();
     };
 
