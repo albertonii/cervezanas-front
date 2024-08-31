@@ -42,6 +42,7 @@ export default function Billing({ formBilling }: Props) {
     const {
         register,
         formState: { errors },
+        setValue,
     } = formBilling;
 
     if (billingAddressesError) {
@@ -53,6 +54,7 @@ export default function Billing({ formBilling }: Props) {
             if (address.is_default) {
                 updateDefaultBillingAddress(address);
                 updateSelectedBillingAddress(address);
+                setValue('billing_info_id', address.id);
             }
         });
 

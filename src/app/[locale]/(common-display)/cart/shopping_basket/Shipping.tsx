@@ -42,6 +42,7 @@ export default function Shipping({ formShipping }: Props) {
     const {
         register,
         formState: { errors },
+        setValue,
     } = formShipping;
 
     if (shippingAddressesError) {
@@ -53,6 +54,7 @@ export default function Shipping({ formShipping }: Props) {
             if (address.is_default) {
                 updateDefaultShippingAddress(address);
                 updateSelectedShippingAddress(address);
+                setValue('shipping_info_id', address.id);
             }
         });
 
