@@ -42,7 +42,7 @@ export function AddCardButton({ onClick, isVisible, onClose }: Props) {
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 50 }}
-                    className="absolute -top-16 right-4 w-[160px] z-50 bg-beer-foam"
+                    className="absolute -top-24 right-4 w-[160px] z-50 bg-beer-foam"
                 >
                     <div className="bg-gradient-to-r from-amber-100 to-amber-200 border-2 border-amber-500 rounded-lg shadow-lg overflow-hidden">
                         <div className="flex flex-col items-center justify-between p-4">
