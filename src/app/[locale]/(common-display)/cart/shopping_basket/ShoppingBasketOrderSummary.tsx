@@ -1,11 +1,11 @@
 import Button from '@/app/[locale]/components/common/Button';
 import ShoppingBasketAddressesSummary from './ShoppingBasketAddressesSummary';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
+import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 
 interface Props {
-    canMakeThePayment: boolean;
     subtotal: number;
     deliveryCost: number;
     total: number;
@@ -14,7 +14,6 @@ interface Props {
 }
 
 const ShoppingBasketOrderSummary = ({
-    canMakeThePayment,
     subtotal,
     deliveryCost,
     total,
@@ -23,11 +22,14 @@ const ShoppingBasketOrderSummary = ({
 }: Props) => {
     const t = useTranslations();
 
+    const { canMakeThePayment } = useShoppingCart();
+
     return (
         <div className="border-product-softBlonde flex w-full flex-col items-center justify-between gap-4 border bg-gray-50 px-4 py-6 dark:bg-gray-800 md:items-start md:p-6 xl:w-96 xl:p-8">
             <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
                 {t('customer')}
             </h3>
+
             <div className="flex h-full w-full flex-col items-stretch justify-start md:flex-col lg:space-x-8 xl:flex-col xl:space-x-0">
                 {/* Summary */}
                 <div className="flex flex-shrink-0 flex-col items-start justify-start">
@@ -73,7 +75,6 @@ const ShoppingBasketOrderSummary = ({
                             <Button
                                 large
                                 primary
-                                class="font-semibold"
                                 title={t('check_can_delivery_to_address')}
                                 onClick={checkCanDeliveryToAddress}
                             >
@@ -83,7 +84,6 @@ const ShoppingBasketOrderSummary = ({
                             <Button
                                 large
                                 primary
-                                class="font-semibold"
                                 title={t('proceed_to_pay')}
                                 disabled={!canMakeThePayment}
                                 onClick={onSubmit}

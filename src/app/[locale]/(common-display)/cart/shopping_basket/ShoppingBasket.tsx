@@ -67,6 +67,7 @@ export function ShoppingBasket({ user }: Props) {
         selectedShippingAddress,
         defaultBillingAddress,
         defaultShippingAddress,
+        updateCanMakeThePayment,
     } = useShoppingCart();
 
     const formRef = useRef<HTMLFormElement>(null);
@@ -87,7 +88,7 @@ export function ShoppingBasket({ user }: Props) {
 
     const [isShippingCostLoading, setIsShippingCostLoading] = useState(false);
 
-    const [canMakeThePayment, setCanMakeThePayment] = useState(false);
+    // const [canMakeThePayment, setCanMakeThePayment] = useState(false);
 
     const formShipping = useForm<FormShippingData>({
         resolver: zodResolver(schemaShipping),
@@ -129,6 +130,10 @@ export function ShoppingBasket({ user }: Props) {
     }, [isFormReady]);
 
     useEffect(() => {
+        setCanMakeThePaymentResponse(false);
+    }, [selectedShippingAddress]);
+
+    useEffect(() => {
         // Check if the cart is deliverable
         const isDeliverable =
             items.length > 0 &&
@@ -136,7 +141,7 @@ export function ShoppingBasket({ user }: Props) {
             selectedShippingAddress?.id !== undefined &&
             canMakeThePaymentResponse === true;
 
-        setCanMakeThePayment(isDeliverable);
+        updateCanMakeThePayment(isDeliverable);
     }, [
         items,
         selectedShippingAddress,
@@ -265,7 +270,13 @@ export function ShoppingBasket({ user }: Props) {
             handleUndeliverableItems(undeliverableItemsFlat);
 
             setDeliveryCost(totalShippingCost);
-            setCanMakeThePaymentResponse(true);
+
+            // Si existe algún producto que no se puede enviar, no se puede hacer el pago
+            if (undeliverableItemsFlat.length > 0) {
+                setCanMakeThePaymentResponse(false);
+            } else {
+                setCanMakeThePaymentResponse(true);
+            }
         }
 
         setIsShippingCostLoading(false);
@@ -441,7 +452,6 @@ export function ShoppingBasket({ user }: Props) {
 
                             {/* Order summary */}
                             <ShoppingBasketOrderSummary
-                                canMakeThePayment={canMakeThePayment}
                                 subtotal={subtotal}
                                 deliveryCost={deliveryCost}
                                 total={total}

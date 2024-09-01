@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { ShoppingCart } from '../[locale]/components/Cart/ShoppingCart';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import {
@@ -56,6 +56,8 @@ type ShoppingCartContextType = {
     updateDefaultShippingAddress: (address: IAddress) => void;
     updateSelectedBillingAddress: (addressId: IAddress) => void;
     updateDefaultBillingAddress: (address: IAddress) => void;
+    canMakeThePayment: boolean;
+    updateCanMakeThePayment: (canMakeThePayment: boolean) => void;
 };
 
 const ShoppingCartContext = createContext<ShoppingCartContextType>({
@@ -95,6 +97,8 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
     updateDefaultBillingAddress: () => void {},
     isShippingAddressSelected: () => false,
     isBillingAddressSelected: () => false,
+    canMakeThePayment: false,
+    updateCanMakeThePayment: () => void {},
 });
 
 interface Props {
@@ -123,6 +127,8 @@ export function ShoppingCartProvider({ children }: Props) {
     const [undeliverableItems, setUndeliverableItems] = useState<
         IProductPackCartItem[]
     >([]);
+
+    const [canMakeThePayment, setCanMakeThePayment] = useState<boolean>(false);
 
     const clearItems = () => {
         setItems([]);
@@ -467,6 +473,7 @@ export function ShoppingCartProvider({ children }: Props) {
     };
 
     const updateSelectedShippingAddress = (address: IAddress) => {
+        updateCanMakeThePayment(false);
         setSelectedShippingAddress(address);
     };
 
@@ -504,6 +511,10 @@ export function ShoppingCartProvider({ children }: Props) {
         return selectedBillingAddress?.id === addressId;
     };
 
+    const updateCanMakeThePayment = (canMakeThePayment: boolean) => {
+        setCanMakeThePayment(canMakeThePayment);
+    };
+
     const value = {
         items,
         undeliverableItems,
@@ -532,6 +543,8 @@ export function ShoppingCartProvider({ children }: Props) {
         updateSelectedBillingAddress,
         updateDefaultBillingAddress,
         isBillingAddressSelected,
+        canMakeThePayment,
+        updateCanMakeThePayment,
     };
 
     return (
