@@ -2,12 +2,15 @@
 
 import React from 'react';
 import { IBillingAddress } from '@/lib//types/types';
+import { useTranslations } from 'next-intl';
 
 interface Props {
     address: IBillingAddress;
 }
 
 export default function BillingAddressItem({ address }: Props) {
+    const t = useTranslations();
+
     return (
         <>
             <label
@@ -22,7 +25,7 @@ export default function BillingAddressItem({ address }: Props) {
                     <span className="text-md w-full">
                         {address.address}, {address.city}, {address.region} -{' '}
                         {address.sub_region}, {address.zipcode},{' '}
-                        {address.country}
+                        {`${t('countries.' + address.country)}`}
                     </span>
                 </address>
             </label>

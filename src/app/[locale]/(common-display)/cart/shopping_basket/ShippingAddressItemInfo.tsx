@@ -2,12 +2,14 @@
 
 import React from 'react';
 import { IAddress } from '@/lib//types/types';
+import { useTranslations } from 'next-intl';
 
 interface Props {
     address: IAddress;
 }
 
 export default function ShippingAddressItem({ address }: Props) {
+    const t = useTranslations();
     return (
         <>
             <label className=" text-product-dark w-full dark:bg-gray-800 dark:text-gray-400">
@@ -18,7 +20,7 @@ export default function ShippingAddressItem({ address }: Props) {
                     <span className="text-md w-full">
                         {address.address}, {address.city}, {address.region} -{' '}
                         {address.sub_region}, {address.zipcode},{' '}
-                        {address.country}
+                        {`${t('countries.' + address.country)}`}
                     </span>
                 </address>
             </label>

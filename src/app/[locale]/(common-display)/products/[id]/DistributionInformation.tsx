@@ -66,7 +66,7 @@ export default function DistributionInformation({ product }: Props) {
                                 <span>{address.city} </span>
                                 <span>{address.sub_region} </span>
                                 <span>{address.region} </span>
-                                <span>{address.country} </span>
+                                {`${t('countries.' + address.country)}`}
                             </div>
                         </option>
                     ))}

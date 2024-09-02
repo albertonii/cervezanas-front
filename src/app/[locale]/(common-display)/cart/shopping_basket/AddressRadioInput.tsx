@@ -76,7 +76,7 @@ export default function AddressRadioInput({
                     <span className="w-full">
                         {address.address}, {address.city}, {address.sub_region}{' '}
                         - {address.region}, {address.zipcode},{' '}
-                        {t(address.country)}
+                        {`${t('countries.' + address.country)}`}
                     </span>
                 </address>
             </label>

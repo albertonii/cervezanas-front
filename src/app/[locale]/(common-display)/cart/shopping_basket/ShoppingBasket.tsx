@@ -141,6 +141,8 @@ export function ShoppingBasket({ user }: Props) {
             selectedShippingAddress?.id !== undefined &&
             canMakeThePaymentResponse === true;
 
+        console.log('isDeliverable', isDeliverable);
+
         updateCanMakeThePayment(isDeliverable);
     }, [
         items,
@@ -175,8 +177,12 @@ export function ShoppingBasket({ user }: Props) {
 
         try {
             const orderNumber = await proceedPaymentRedsys();
+            console.log('DESPUES DE PROCEED PAYMENT REDSYS');
             handleInsertOrder(orderNumber);
+            console.log('DESPUES DE HANDLE INSERT ORDER');
             queryClient.invalidateQueries('orders');
+            console.log('DESPUES DE INVALIDATE QUERIES');
+            setLoadingPayment(false);
         } catch (error) {
             console.error(error);
             setLoadingPayment(false);
@@ -348,122 +354,116 @@ export function ShoppingBasket({ user }: Props) {
     if (!user) return <Spinner color="beer-blonde" size="medium" />;
 
     return (
-        <>
-            <section className="relative flex w-full flex-col items-center justify-center sm:my-2">
-                {isShippingCostLoading && (
-                    <div className="z-50 w-full">
-                        <div className="absolute w-full h-full bg-beer-blonde  opacity-10 animate-pulse "></div>
-                        <Spinner
-                            color="beer-blonde"
-                            size="xxLarge"
-                            absolutePosition="top"
-                            absolute
-                        />
+        <section className="relative flex w-full flex-col items-center justify-center sm:my-2">
+            {isShippingCostLoading && (
+                <div className="z-50 w-full">
+                    <div className="absolute w-full h-full bg-beer-blonde  opacity-10 animate-pulse "></div>
+                    <Spinner
+                        color="beer-blonde"
+                        size="xxLarge"
+                        absolutePosition="top"
+                        absolute
+                    />
+                </div>
+            )}
+
+            <form
+                action={`${process.env.NEXT_PUBLIC_DS_TPV_URL}`}
+                method={API_METHODS.POST}
+                name="form"
+                ref={formRef}
+            >
+                <input
+                    type="hidden"
+                    id="Ds_SignatureVersion"
+                    name="Ds_SignatureVersion"
+                    value="HMAC_SHA256_V1"
+                />
+                <input
+                    type="hidden"
+                    id="Ds_MerchantParameters"
+                    name="Ds_MerchantParameters"
+                    value={merchantParameters}
+                />
+                <input
+                    type="hidden"
+                    id="Ds_Signature"
+                    name="Ds_Signature"
+                    value={merchantSignature}
+                />
+                <button ref={btnRef} type="submit" hidden>
+                    Submit
+                </button>
+            </form>
+
+            {loadingPayment ? (
+                <CustomLoading message={`${t('loading')}`} />
+            ) : (
+                <div className="container sm:py-4 lg:py-6">
+                    <div className="flex items-center justify-start space-x-2 space-y-2">
+                        <header className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl dark:text-beer-blonde">
+                            {t('checkout')}
+                        </header>
+
+                        <figure className="flex w-full flex-row items-center border-b pb-4 sm:w-auto sm:border-b-0 sm:pb-0">
+                            <span className="h-10 w-10 text-yellow-500">
+                                <FontAwesomeIcon
+                                    icon={faInfoCircle}
+                                    style={{
+                                        color: '#fdc300',
+                                        width: '100%',
+                                        height: '100%',
+                                    }}
+                                    title={'circle_warning'}
+                                    width={25}
+                                    height={25}
+                                />
+                            </span>
+                            <h3 className="mt-4 text-sm tracking-wide text-gray-500 sm:ml-2 sm:mt-0">
+                                {t('complete_shipping_billing')}
+                            </h3>
+                        </figure>
                     </div>
-                )}
 
-                <form
-                    action={`${process.env.NEXT_PUBLIC_DS_TPV_URL}`}
-                    method={API_METHODS.POST}
-                    name="form"
-                    ref={formRef}
-                >
-                    <input
-                        type="hidden"
-                        id="Ds_SignatureVersion"
-                        name="Ds_SignatureVersion"
-                        value="HMAC_SHA256_V1"
-                    />
-                    <input
-                        type="hidden"
-                        id="Ds_MerchantParameters"
-                        name="Ds_MerchantParameters"
-                        value={merchantParameters}
-                    />
-                    <input
-                        type="hidden"
-                        id="Ds_Signature"
-                        name="Ds_Signature"
-                        value={merchantSignature}
-                    />
-                    <button ref={btnRef} type="submit" hidden>
-                        Submit
-                    </button>
-                </form>
-
-                {loadingPayment ? (
-                    <CustomLoading message={`${t('loading')}`} />
-                ) : (
-                    <div className="container sm:py-4 lg:py-6">
-                        <div className="flex items-center justify-start space-x-2 space-y-2">
-                            <header className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl dark:text-beer-blonde">
-                                {t('checkout')}
-                            </header>
-
-                            <figure className="flex w-full flex-row items-center border-b pb-4 sm:w-auto sm:border-b-0 sm:pb-0">
-                                <span className="h-10 w-10 text-yellow-500">
-                                    <FontAwesomeIcon
-                                        icon={faInfoCircle}
-                                        style={{
-                                            color: '#fdc300',
-                                            width: '100%',
-                                            height: '100%',
-                                        }}
-                                        title={'circle_warning'}
-                                        width={25}
-                                        height={25}
-                                    />
-                                </span>
-                                <h3 className="mt-4 text-sm tracking-wide text-gray-500 sm:ml-2 sm:mt-0">
-                                    {t('complete_shipping_billing')}
-                                </h3>
-                            </figure>
-                        </div>
-
-                        <div
-                            className={`
+                    <div
+                        className={`
                                 jusitfy-center mt-10 flex w-full flex-col items-stretch space-y-4 md:space-y-6 xl:flex-row xl:space-x-8 xl:space-y-0
                             `}
-                        >
-                            {/* Products  */}
-                            <div className="flex w-full flex-col items-start justify-start space-y-4 md:space-y-6 xl:space-y-8">
-                                {/* Customer's Cart */}
-                                <ShoppingBasketItems
-                                    items={items}
-                                    subtotal={subtotal}
-                                    isShippingCostLoading={
-                                        isShippingCostLoading
-                                    }
-                                />
-
-                                {/* Shipping & Billing Container */}
-                                <ShippingBillingContainer
-                                    formShipping={formShipping}
-                                    formBilling={formBilling}
-                                />
-
-                                <section className="w-full flex flex-col items-center space-y-2 bg-gray-50 p-6 rounded-lg shadow-md dark:bg-gray-800">
-                                    {/* Promotion Code  */}
-                                    <PromotionCode />
-
-                                    {/* <CarrierDetails /> */}
-                                </section>
-                            </div>
-
-                            {/* Order summary */}
-                            <ShoppingBasketOrderSummary
+                    >
+                        {/* Products  */}
+                        <div className="flex w-full flex-col items-start justify-start space-y-4 md:space-y-6 xl:space-y-8">
+                            {/* Customer's Cart */}
+                            <ShoppingBasketItems
+                                items={items}
                                 subtotal={subtotal}
-                                deliveryCost={deliveryCost}
-                                total={total}
-                                checkCanDeliveryToAddress={
-                                    checkIfCanMakeShipment
-                                }
-                                onSubmit={onSubmit}
+                                isShippingCostLoading={isShippingCostLoading}
                             />
+
+                            {/* Shipping & Billing Container */}
+                            <ShippingBillingContainer
+                                formShipping={formShipping}
+                                formBilling={formBilling}
+                            />
+
+                            <section className="w-full flex flex-col items-center space-y-2 bg-gray-50 p-6 rounded-lg shadow-md dark:bg-gray-800">
+                                {/* Promotion Code  */}
+                                <PromotionCode />
+
+                                {/* <CarrierDetails /> */}
+                            </section>
                         </div>
+
+                        {/* Order summary */}
+                        <ShoppingBasketOrderSummary
+                            subtotal={subtotal}
+                            deliveryCost={deliveryCost}
+                            total={total}
+                            checkCanDeliveryToAddress={checkIfCanMakeShipment}
+                            onSubmit={onSubmit}
+                        />
                     </div>
-                )}
-            </section>
-        </>
+                </div>
+            )}
+        </section>
     );
 }
