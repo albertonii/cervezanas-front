@@ -70,14 +70,13 @@ export function ShoppingBasket({ user }: Props) {
         updateCanMakeThePayment,
     } = useShoppingCart();
 
-    const formRef = useRef<HTMLFormElement>(null);
+    // const formRef = useRef<HTMLFormElement>(null);
     const btnRef = useRef<HTMLButtonElement>(null);
 
     const [subtotal, setSubtotal] = useState(0);
     const [deliveryCost, setDeliveryCost] = useState(0);
     const [total, setTotal] = useState(0);
     const [loadingPayment, setLoadingPayment] = useState(false);
-    const [isFormReady, setIsFormReady] = useState(false);
     const [merchantParameters, setMerchantParameters] = useState('');
     const [merchantSignature, setMerchantSignature] = useState('');
     const [shoppingItems, setShoppingItems] = useState<IProductPackCartItem[]>(
@@ -87,8 +86,6 @@ export function ShoppingBasket({ user }: Props) {
         useState(false);
 
     const [isShippingCostLoading, setIsShippingCostLoading] = useState(false);
-
-    // const [canMakeThePayment, setCanMakeThePayment] = useState(false);
 
     const formShipping = useForm<FormShippingData>({
         resolver: zodResolver(schemaShipping),
@@ -123,13 +120,6 @@ export function ShoppingBasket({ user }: Props) {
     }, [items, deliveryCost, subtotal]);
 
     useEffect(() => {
-        if (isFormReady) {
-            // Call submit form
-            btnRef.current && btnRef.current.click();
-        }
-    }, [isFormReady]);
-
-    useEffect(() => {
         setCanMakeThePaymentResponse(false);
     }, [selectedShippingAddress]);
 
@@ -140,8 +130,6 @@ export function ShoppingBasket({ user }: Props) {
             selectedBillingAddress?.id !== undefined &&
             selectedShippingAddress?.id !== undefined &&
             canMakeThePaymentResponse === true;
-
-        console.log('isDeliverable', isDeliverable);
 
         updateCanMakeThePayment(isDeliverable);
     }, [
@@ -177,11 +165,10 @@ export function ShoppingBasket({ user }: Props) {
 
         try {
             const orderNumber = await proceedPaymentRedsys();
-            console.log('DESPUES DE PROCEED PAYMENT REDSYS');
             handleInsertOrder(orderNumber);
-            console.log('DESPUES DE HANDLE INSERT ORDER');
             queryClient.invalidateQueries('orders');
-            console.log('DESPUES DE INVALIDATE QUERIES');
+            btnRef.current && btnRef.current.click();
+
             setLoadingPayment(false);
         } catch (error) {
             console.error(error);
@@ -224,17 +211,13 @@ export function ShoppingBasket({ user }: Props) {
             items: shoppingItems,
         };
 
-        await insertOnlineOrder(order)
-            .then(() => {
-                setIsFormReady(true);
-            })
-            .catch((error) => {
-                console.error(error);
-                handleMessage({
-                    type: 'error',
-                    message: 'errors.inserting_order',
-                });
+        await insertOnlineOrder(order).catch((error) => {
+            console.error(error);
+            handleMessage({
+                type: 'error',
+                message: 'errors.inserting_order',
             });
+        });
     };
 
     const checkIfCanMakeShipment = async () => {
@@ -371,7 +354,6 @@ export function ShoppingBasket({ user }: Props) {
                 action={`${process.env.NEXT_PUBLIC_DS_TPV_URL}`}
                 method={API_METHODS.POST}
                 name="form"
-                ref={formRef}
             >
                 <input
                     type="hidden"

@@ -1,6 +1,6 @@
+import createServerClient from '@/utils/supabaseServer';
 import { NextRequest, NextResponse } from 'next/server';
 import { APP_URLS, ONLINE_ORDER_STATUS } from '@/constants';
-import createServerClient from '@/utils/supabaseServer';
 import { isResponseCodeOk, ResponseJSONSuccess } from 'redsys-easy';
 import { processRestNotification } from '../../[locale]/components/TPV/redsysClient';
 
