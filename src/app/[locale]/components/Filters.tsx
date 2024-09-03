@@ -32,9 +32,11 @@ export function Filters() {
     };
 
     return (
-        <section className="flex w-full items-center justify-between font-medium text-white container mx-auto bg-cerv-coal bg-[url('/assets/rec-graf6.png')] bg-contain sm:p-2 lg:p-3">
+        <section className="flex items-center justify-between font-medium text-white container mx-auto bg-cerv-coal bg-[url('/assets/rec-graf6.png')] bg-contain sm:p-3 p-1">
             <div className="flex items-center gap-4">
-                <label htmlFor={minPriceFilterId}>{t('price_starts_at')}</label>
+                <label htmlFor={minPriceFilterId} className="hidden sm:block">
+                    {t('price_starts_at')}
+                </label>
                 <input
                     type="range"
                     id={minPriceFilterId}
@@ -43,18 +45,20 @@ export function Filters() {
                     max="1000"
                     value={filters.minPrice}
                     onChange={handleChangeMinPrice}
-                    className="accent-beer-gold"
+                    className="accent-beer-gold w-[100px] sm:w-[200px]"
                 />
                 <span>{formatCurrency(filters.minPrice)}</span>
             </div>
 
             <div className="flex items-center gap-4">
-                <label htmlFor={categoryFilterId}>{t('category')}</label>
+                <label htmlFor={categoryFilterId} className="hidden sm:block">
+                    {t('category')}
+                </label>
                 <select
                     id={categoryFilterId}
                     value={filters.category}
                     onChange={handleChangeCategory}
-                    className="bg-white text-black p-2 rounded-md"
+                    className="bg-white text-black p-1 rounded-md text-sm"
                 >
                     <option value="all">{t('all')}</option>
                     <option value="lager">{t('lager')}</option>

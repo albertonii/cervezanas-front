@@ -20,13 +20,24 @@ export default function Marketplace({ products }: Props) {
 
     return (
         <section>
-            <div className="">
+            <div className="hidden sm:block">
                 <figure className="m-auto text-center">
                     <Image
                         className="m-auto"
                         src="/assets/banners/banner-mercado.webp"
                         width={1600}
                         height={263}
+                        alt="Marketplace"
+                    />
+                </figure>
+            </div>
+            <div className="block sm:hidden">
+                <figure className="m-auto text-center">
+                    <Image
+                        className="m-auto"
+                        src="/assets/banners/banner-mercado-mobile.webp"
+                        width={630}
+                        height={400}
                         alt="Marketplace"
                     />
                 </figure>
