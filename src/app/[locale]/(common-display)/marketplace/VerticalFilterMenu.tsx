@@ -1,8 +1,11 @@
 import { FilterProps, useAppContext } from '@/app/context/AppContext';
-import React from 'react';
+import React, { useState } from 'react';
+import Image from 'next/image';
 
 const VerticalFilterMenu = () => {
     const { filters, handleFilters, clearFilters } = useAppContext();
+
+    const [isSidebarVisible, setSidebarVisible] = useState(false);
 
     const handleSliderChange = (
         filterType: keyof FilterProps,
@@ -19,6 +22,10 @@ const VerticalFilterMenu = () => {
             ...filters,
             [filterType]: !filters[filterType],
         });
+    };
+
+    const toggleSidebar = () => {
+        setSidebarVisible(!isSidebarVisible);
     };
 
     // useEffect(() => {
@@ -62,22 +69,45 @@ const VerticalFilterMenu = () => {
     // }, [filters]);
 
     return (
-        <div className="bg-beer-foam shadow-xl mx-auto px-4 py-8">
+        <div className="bg-beer-foam mx-auto absolute md:relative bg-transparent">
             <div className="flex flex-col md:flex-row gap-8">
+                <button
+                    onClick={toggleSidebar}
+                    className="text-sm text-gray-600 hover:underline block md:hidden text-left font-semibold pl-2"
+                >
+                    {isSidebarVisible
+                        ? '< Ocultar Filtros'
+                        : '> Mostrar Filtros'}
+                </button>
                 {/* Barra lateral de filtros */}
-                <aside className="w-full md:w-64 space-y-6">
+
+                <aside
+                    className={`z-20 bg-gray-50 shadow-xl p-4 w-full md:w-64 space-y-6 transition-transform duration-300 ease-in-out  ${
+                        isSidebarVisible
+                            ? 'transform translate-x-0'
+                            : 'transform -translate-x-full'
+                    } md:transform-none`} // md:transform-none para ignorar transform en pantallas más grandes
+                >
                     <div className="flex justify-between items-center">
-                        <h2 className="text-2xl font-bold">Filtros</h2>
+                        <h2 className="text-5xl font-bold font-['NexaRust-script'] text-beer-blonde">Filtros</h2>
                         <button
                             onClick={clearFilters}
-                            className="text-sm text-gray-600 hover:underline"
+                            className="text-xs text-gray-400 hover:text-black w-[70px]"
                         >
                             Limpiar filtros
                         </button>
                     </div>
-
+                    <figure className="m-auto text-center">
+                            <Image
+                                className="m-auto"
+                                src="/assets/home/detalle.svg"
+                                width={60}
+                                height={10}
+                                alt="Dingbat"
+                            />
+                        </figure>
                     {/* Categoría */}
-                    <div className="space-y-4">
+                    <div className="space-y-4 ">
                         <h3 className="text-lg font-semibold">Categoría</h3>
                         <div className="space-y-2">
                             {['Cerveza', 'Sidra', 'Hidromiel'].map(
@@ -163,7 +193,7 @@ const VerticalFilterMenu = () => {
                                         Number(e.target.value),
                                     ])
                                 }
-                                className="w-full"
+                                className="w-full bg-cerv-banana"
                             />
                             <div className="flex justify-between">
                                 <span>{filters.ibu[0]} IBU</span>

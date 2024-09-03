@@ -32,16 +32,23 @@ export default function Marketplace({ products }: Props) {
                     />
                 </figure>
             </div>
-
-            <MarketplaceHeader>
-                <Filters />
-            </MarketplaceHeader>
+            <div className="block sm:hidden">
+                <figure className="m-auto text-center">
+                    <Image
+                        className="m-auto"
+                        src="/assets/banners/banner-mercado-mobile.webp"
+                        width={1600}
+                        height={263}
+                        alt="Marketplace"
+                    />
+                </figure>
+            </div>
 
             <div className="flex">
                 {/* Barra lateral de filtros  */}
                 <VerticalFilterMenu />
 
-                <section className="w-full grid grid-cols-1 bg-white pt-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+                <section className="w-full grid grid-cols-1 bg-white pt-10 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4">
                     {filteredProducts &&
                         filteredProducts.map((product) => (
                             <article key={product.id} className=" mb-2 px-2">
