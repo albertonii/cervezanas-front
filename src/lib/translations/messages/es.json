@@ -1225,5 +1225,6 @@
     "consumer_online_orders_description": "Aquí puedes ver todos los pedidos que has realizado en la plataforma. Puedes ver el estado de cada pedido, los productos que has comprado y el importe total de cada pedido.",
     "company_name": "Nombre de la empresa",
     "identification_fiscal_number": "Número de identificación fiscal",
-    "representative_name": "Nombre del representante"
+    "representative_name": "Nombre del representante",
+    "select_your_product_packs": "Elige tu pack"
 }

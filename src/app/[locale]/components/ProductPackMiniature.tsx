@@ -1,8 +1,8 @@
-import { useTranslations } from 'next-intl';
+import DisplayImageProduct from './common/DisplayImageProduct';
 import React from 'react';
+import { useTranslations } from 'next-intl';
 import { SupabaseProps } from '@/constants';
 import { IProductPack } from '@/lib//types/types';
-import DisplayImageProduct from './common/DisplayImageProduct';
 
 interface Props {
     pack: IProductPack;
@@ -13,7 +13,7 @@ export default function ProductPackMiniature({ pack }: Props) {
     return (
         <div
             className={`
-                absolute bottom-full left-1/2 m-auto w-[70vw] -translate-x-1/2 -translate-y-[2rem] 
+                absolute bottom-full left-1/2 m-auto w-[70vw] -translate-x-1/2 -translate-y-[8rem] 
                 transform rounded-md bg-beer-foam shadow-xl transition-all duration-300 ease-in-out sm:w-[35vw] lg:w-[10vw] z-10
             `}
         >

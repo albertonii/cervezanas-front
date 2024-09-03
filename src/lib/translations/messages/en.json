@@ -1191,5 +1191,6 @@
     "check_can_delivery_to_address": "Check delivery",
     "company_name": "Company name",
     "identification_fiscal_number": "Identification fiscal number",
-    "representative_name": "Representative name"
+    "representative_name": "Representative name",
+    "select_your_product_packs": "Select your packs"
 }
