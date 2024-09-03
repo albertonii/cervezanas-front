@@ -1,12 +1,11 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import ProductDetails from './ProductDetails';
 import React, { useEffect, useRef, useState } from 'react';
 import { IProduct, IReview } from '@/lib//types/types';
 import { ProductReviews } from '@/app/[locale]/components/reviews/ProductReviews';
 import { ProductOverallReview } from '@/app/[locale]/components/reviews/ProductOverallReview';
-import dynamic from 'next/dynamic';
-import ProductAwardsInformation from './ProductAwardsInformation';
 
 const DynamicSpinner = dynamic(
     () => import('@/app/[locale]/components/common/Spinner'),

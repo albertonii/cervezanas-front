@@ -99,31 +99,37 @@ const ProductPropierties = ({ product }: Props) => {
                 </div>
             </div>
 
-            {/* Pairing */}
             <div className="flex flex-col lg:flex-row space-y-6 space-x-0 lg:space-y-0 lg:space-x-4 ">
-                <div className="w-full bg-white p-6 rounded-lg shadow-md space-y-4">
-                    <h2 className="text-3xl font-semibold text-gray-900 font-['NexaRust-script']">
-                        {t('beer_pairing')}
-                    </h2>
-                    <p className="text-gray-700">{pairing}</p>
-                </div>
+                {/* Pairing */}
+                {pairing && (
+                    <div className="w-full bg-white p-6 rounded-lg shadow-md space-y-4">
+                        <h2 className="text-3xl font-semibold text-gray-900 font-['NexaRust-script']">
+                            {t('beer_pairing')}
+                        </h2>
+                        <p className="text-gray-700">{pairing}</p>
+                    </div>
+                )}
 
                 {/* Brewers Note */}
-                <div className="w-full bg-white p-6 rounded-lg shadow-md space-y-4">
-                    <h2 className="text-3xl font-semibold text-gray-900 font-['NexaRust-script']">
-                        {t('brewers_note')}
-                    </h2>
-                    <p className="text-gray-700">{brewers_note}</p>
-                </div>
+                {brewers_note && (
+                    <div className="w-full bg-white p-6 rounded-lg shadow-md space-y-4">
+                        <h2 className="text-3xl font-semibold text-gray-900 font-['NexaRust-script']">
+                            {t('brewers_note')}
+                        </h2>
+                        <p className="text-gray-700">{brewers_note}</p>
+                    </div>
+                )}
             </div>
 
             {/* Ingredientes Principales */}
-            <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
-                <h2 className="text-3xl font-semibold text-gray-900 font-['NexaRust-script']">
-                    {t('ingredients')}
-                </h2>
-                <p className="text-gray-700">{ingredients?.join(', ')}</p>
-            </div>
+            {ingredients && (
+                <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
+                    <h2 className="text-3xl font-semibold text-gray-900 font-['NexaRust-script']">
+                        {t('ingredients')}
+                    </h2>
+                    <p className="text-gray-700">{ingredients?.join(', ')}</p>
+                </div>
+            )}
 
             {/* Información sobre la Cervecería */}
             <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
@@ -134,85 +140,6 @@ const ProductPropierties = ({ product }: Props) => {
             </div>
         </div>
     );
-
-    // return (
-    //     <div className="bg-gray-100 shadow-lg rounded-lg p-6 mt-8">
-    //         <h3 className="text-3xl font-bold text-gray-900 mb-6">
-    //             Propiedades de la Cerveza
-    //         </h3>
-    //         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-    //             {properties.map((prop, index) => (
-    //                 <div key={index} className="flex flex-col">
-    //                     <span className="text-lg font-semibold text-gray-800 mb-2">
-    //                         {prop.label}
-    //                     </span>
-    //                     <span className="text-xl text-gray-700">
-    //                         {prop.value}
-    //                     </span>
-    //                 </div>
-    //             ))}
-    //         </div>
-    //         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-    //             <div className="bg-white p-4 rounded-lg shadow-md">
-    //                 <h4 className="text-xl font-bold text-gray-800">
-    //                     Composición
-    //                 </h4>
-    //                 <p className="text-gray-700 mt-2">{composition}</p>
-    //             </div>
-    //             <div className="bg-white p-4 rounded-lg shadow-md">
-    //                 <h4 className="text-xl font-bold text-gray-800">
-    //                     Intensidad
-    //                 </h4>
-    //                 <p className="text-gray-700 mt-2">{intensity}</p>
-    //             </div>
-    //             <div className="bg-white p-4 rounded-lg shadow-md">
-    //                 <h4 className="text-xl font-bold text-gray-800">Origen</h4>
-    //                 <p className="text-gray-700 mt-2">
-    //                     {origin}, {country}
-    //                 </p>
-    //             </div>
-    //         </div>
-    //         <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-6">
-    //             <div className="bg-white p-4 rounded-lg shadow-md">
-    //                 <h4 className="text-xl font-bold text-gray-800">SRM</h4>
-    //                 <p className="text-gray-700 mt-2">{srm}</p>
-    //             </div>
-    //             <div className="bg-white p-4 rounded-lg shadow-md">
-    //                 <h4 className="text-xl font-bold text-gray-800">OG</h4>
-    //                 <p className="text-gray-700 mt-2">{og}</p>
-    //             </div>
-    //             <div className="bg-white p-4 rounded-lg shadow-md">
-    //                 <h4 className="text-xl font-bold text-gray-800">FG</h4>
-    //                 <p className="text-gray-700 mt-2">{fg}</p>
-    //             </div>
-    //             <div className="bg-white p-4 rounded-lg shadow-md">
-    //                 <h4 className="text-xl font-bold text-gray-800">IBU</h4>
-    //                 <p className="text-gray-700 mt-2">{ibu}</p>
-    //             </div>
-    //         </div>
-    //     </div>
-    // );
-
-    // return (
-    //     <div className="bg-white shadow-md rounded-lg p-6 mt-8">
-    //         <h3 className="text-2xl font-bold text-gray-800 mb-4">
-    //             Propiedades de la Cerveza
-    //         </h3>
-    //         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-    //             {properties.map((prop, index) => (
-    //                 <div
-    //                     key={index}
-    //                     className="flex justify-between border-b pb-2"
-    //                 >
-    //                     <span className="font-semibold text-gray-700">
-    //                         {prop.label}
-    //                     </span>
-    //                     <span className="text-gray-900">{prop.value}</span>
-    //                 </div>
-    //             ))}
-    //         </div>
-    //     </div>
-    // );
 };
 
 export default ProductPropierties;

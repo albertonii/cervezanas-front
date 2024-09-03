@@ -6,6 +6,7 @@ import { ICampaign, IProduct } from '@/lib//types/types';
 import { DeleteCampaign } from '@/app/[locale]/components/modals/DeleteCampaign';
 import { AddCampaign } from './AddCampaign';
 import { CampaignList } from './CampaignList';
+import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
 
 interface Props {
     campaigns: ICampaign[];
@@ -44,20 +45,10 @@ export function Campaigns({ products, counter }: Props) {
 
     return (
         <section className="px-4 py-6 " aria-label="Campaigns">
-            <header className="flex flex-col space-y-4">
-                <p className="flex justify-between py-4" id="header">
-                    <span
-                        id="title"
-                        className="font-['NexaRust-script'] text-5xl md:text-7xl text-white -rotate-2"
-                    >
-                        {t('campaigns')}
-                    </span>
-                </p>
-
-                <div className="w-40">
-                    <AddCampaign />
-                </div>
-            </header>
+            <ProfileSectionHeader
+                headerTitle="campaigns"
+                btnActions={<AddCampaign />}
+            />
 
             <CampaignList
                 handleEditShowModal={handleEditShowModal}

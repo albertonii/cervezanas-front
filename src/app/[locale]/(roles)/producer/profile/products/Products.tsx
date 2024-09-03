@@ -10,6 +10,7 @@ import { UpdateProductModal } from './UpdateProductModal';
 import { AddBoxPackModal } from './(boxPack)/AddBoxPackModal';
 import { Type as ProductType } from '@/lib//productEnum';
 import { UpdateBoxPackModal } from './(boxPack)/UpdateBoxPackModal';
+import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
 
 interface Props {
     counter: number;
@@ -35,22 +36,19 @@ export function Products({ counter }: Props) {
     };
 
     return (
-        <section className="px-4 py-6" aria-label="Products">
-            <header className="flex flex-col space-y-4">
-                <p className="flex justify-between py-4" id="header">
-                    <span
-                        id="title"
-                        className="font-['NexaRust-script'] text-5xl md:text-7xl text-white -rotate-2"
-                    >
-                        {t('products')}
-                    </span>
-                </p>
-
-                <div className="flex gap-4">
-                    <AddProductModal />
-                    <AddBoxPackModal />
-                </div>
-            </header>
+        <section
+            className="px-4 py-6 flex flex-col space-y-4"
+            aria-label="Products"
+        >
+            <ProfileSectionHeader
+                headerTitle="products"
+                btnActions={
+                    <>
+                        <AddProductModal />
+                        <AddBoxPackModal />
+                    </>
+                }
+            />
 
             <ProductList
                 handleEditShowModal={handleEditShowModal}

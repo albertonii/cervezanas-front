@@ -5,6 +5,7 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 import { ListCPMobile } from './ListCPMobile';
 import { ICPMobile } from '@/lib//types/types';
+import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
 
 interface Props {
     cpsMobile: ICPMobile[];
@@ -15,16 +16,7 @@ export function CPMobile({ cpsMobile }: Props) {
 
     return (
         <section className="px-4 py-6" aria-label="Products">
-            {/* <header className="flex flex-col space-y-4">
-        <p className="flex justify-between py-4" id="header">
-          <span
-            id="title"
-            className="text-5xl uppercase font-semibold text-white"
-          >
-            {t('cp_mobile_list')}
-          </span>
-        </p>
-      </header> */}
+            <ProfileSectionHeader headerTitle="cp_mobile_list" />
 
             <ListCPMobile cpsMobile={cpsMobile} />
         </section>

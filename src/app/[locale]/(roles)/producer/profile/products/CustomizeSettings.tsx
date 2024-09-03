@@ -6,6 +6,7 @@ import { ChipCard } from '@/app/[locale]/components/common/ChipCard';
 import { toLowerCase } from '@/utils/formatWords';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useAppContext } from '@/app/context/AppContext';
+import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
 
 export function CustomizeSettings() {
     const t = useTranslations();
@@ -152,14 +153,7 @@ export function CustomizeSettings() {
 
     return (
         <section className="px-4 py-6 " aria-label="CustomizeSettings">
-            <p className="flex justify-between py-4" id="header">
-                <span
-                    id="title"
-                    className="font-['NexaRust-script'] text-5xl md:text-7xl text-white -rotate-2"
-                >
-                    {t('products_customize_settings')}
-                </span>
-            </p>
+            <ProfileSectionHeader headerTitle="products_customize_settings" />
 
             <div
                 className="flex flex-col space-y-4 bg-beer-foam"

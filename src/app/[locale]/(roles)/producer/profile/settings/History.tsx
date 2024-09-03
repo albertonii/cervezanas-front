@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { User } from '@supabase/supabase-js';
 import { HistoryForm } from './HistoryForm';
+import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
 
 interface Props {
     user: User | null;
@@ -30,24 +31,14 @@ export function History(props: Props) {
             {loading ? (
                 <span>{t('loading')} </span>
             ) : (
-                <section className="px-4 py-6" id="account-container">
-                    <div
-                        className="flex flex-col justify-between py-4"
-                        id="header"
-                    >
-                        <p className="flex justify-between py-4" id="header">
-                            <span
-                                id="title"
-                                className="font-['NexaRust-script'] text-5xl md:text-7xl text-white -rotate-2"
-                            >
-                                {t('history_title')}
-                            </span>
-                        </p>
-
-                        <h3 id="rrss" className="text-lg">
-                            {t('history_description_producer')}
-                        </h3>
-                    </div>
+                <section
+                    className="px-4 py-6 flex flex-col justify-between py-4"
+                    id="account-container"
+                >
+                    <ProfileSectionHeader
+                        headerTitle="history_title"
+                        headerDescription={'history_description_producer'}
+                    />
 
                     {/* <HistoryForm /> */}
                 </section>

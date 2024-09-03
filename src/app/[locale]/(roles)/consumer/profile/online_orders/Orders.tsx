@@ -1,5 +1,6 @@
 'use client';
 
+import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
 import { useTranslations } from 'next-intl';
 import { OrderList } from './OrderList';
 
@@ -12,14 +13,10 @@ export function Orders({ counter }: Props) {
 
     return (
         <section className="px-4 py-6" aria-label="Orders">
-            <p className="flex justify-between py-4" id="header">
-                <span
-                    id="title"
-                    className="lowercase font-semibold text-white font-['NexaRust-script'] text-5xl md:text-7xl -rotate-2 ml-10"
-                >
-                    {t('marketplace_orders')}
-                </span>
-            </p>
+            <ProfileSectionHeader
+                headerTitle="marketplace_orders"
+                headerDescription={'consumer_online_orders_description'}
+            />
 
             <OrderList counter={counter} />
         </section>

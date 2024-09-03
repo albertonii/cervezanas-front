@@ -7,6 +7,7 @@ import { IRefProductLot } from '@/lib//types/types';
 import { DeleteLot } from '@/app/[locale]/components/modals/DeleteLot';
 import { AddLot } from '@/app/[locale]/components/modals/AddLot';
 import { UpdateLot } from '@/app/[locale]/components/modals/UpdateLot';
+import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
 
 export function Lots() {
     const t = useTranslations();
@@ -29,21 +30,11 @@ export function Lots() {
     };
 
     return (
-        <section className="px-4 py-6 " aria-label="Lots">
-            <header className="flex flex-col space-y-4">
-                <p className="flex justify-between py-4" id="header">
-                    <span
-                        id="title"
-                        className="font-['NexaRust-script'] text-5xl md:text-7xl text-white -rotate-2"
-                    >
-                        {t('lots')}
-                    </span>
-                </p>
-
-                <div className="w-40">
-                    <AddLot />
-                </div>
-            </header>
+        <section
+            className="px-4 py-6 flex flex-col space-y-4"
+            aria-label="Lots"
+        >
+            <ProfileSectionHeader headerTitle="lots" btnActions={<AddLot />} />
 
             <LotList
                 handleEditShowModal={handleEditShowModal}

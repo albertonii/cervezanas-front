@@ -6,6 +6,7 @@ import { IProduct } from '@/lib//types/types';
 import { ProductsArchiveList } from './ProductsArchiveList';
 import { DeleteProductModal } from '@/app/[locale]/components/modals/DeleteProductModal';
 import { UpdateProductModal } from './UpdateProductModal';
+import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
 
 /**
  *
@@ -34,14 +35,7 @@ export function Archive() {
     return (
         <>
             <div className="px-4 py-6 " aria-label="Products">
-                <p className="flex justify-between py-4" id="header">
-                    <span
-                        id="title"
-                        className="font-['NexaRust-script'] text-5xl md:text-7xl text-white -rotate-2"
-                    >
-                        {t('products_archive')}
-                    </span>
-                </p>
+                <ProfileSectionHeader headerTitle="products_archive" />
 
                 <ProductsArchiveList
                     handleEditShowModal={handleEditShowModal}
