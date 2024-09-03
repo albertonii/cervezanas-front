@@ -53,7 +53,7 @@ export default function layout({ children }: LayoutProps) {
         { name: 'notifications.label', icon: faBell, option: 'notifications' },
     ];
 
-    const { user, supabase, getActiveRole, role } = useAuth();
+    const { user, supabase } = useAuth();
 
     const { profileImg, setProfileImg } = useAppContext();
     const [profileImg_, setProfileImg_] = useState('');
@@ -122,6 +122,8 @@ export default function layout({ children }: LayoutProps) {
     useEffect(() => {
         setProfileImg_(profileImg ?? COMMON.PROFILE_IMG);
     }, [profileImg]);
+
+    if (!user) return null;
 
     return (
         <section className="relative flex w-full bg-[url('/assets/home/bg-home.webp')] bg-auto bg-repeat bg-top">

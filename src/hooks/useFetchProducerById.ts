@@ -10,28 +10,29 @@ const fetchProducerById = async (
     producerId: string,
 ) => {
     const { data, error } = await supabase
-        .from('users')
+        .from('producer_user')
         .select(
             `
                 *,
-                producer_user (*),
-                profile_location (
-                name, 
-                lastname, 
-                document_id, 
-                company, 
-                phone, 
-                postalcode, 
-                country,
-                region,
-                sub_region,
-                city,
-                address_1, 
-                address_2
+                users (
+                    profile_location (
+                    name, 
+                    lastname, 
+                    document_id, 
+                    company, 
+                    phone, 
+                    postalcode, 
+                    country,
+                    region,
+                    sub_region,
+                    city,
+                    address_1, 
+                    address_2
+                    )
                 )
             `,
         )
-        .eq('id', producerId);
+        .eq('user_id', producerId);
 
     if (error) throw error;
 
@@ -39,6 +40,7 @@ const fetchProducerById = async (
 };
 
 const useFetchProducerById = (producerId: string) => {
+    console.log(producerId);
     const { supabase } = useAuth();
 
     return useQuery({

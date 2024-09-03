@@ -1188,5 +1188,8 @@
     "billing_select_info": "Select a billing address",
     "delete_address": "Delete address",
     "view_order": "View Order",
-    "check_can_delivery_to_address": "Check delivery"
+    "check_can_delivery_to_address": "Check delivery",
+    "company_name": "Company name",
+    "identification_fiscal_number": "Identification fiscal number",
+    "representative_name": "Representative name"
 }

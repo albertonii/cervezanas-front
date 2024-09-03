@@ -1,17 +1,17 @@
 import React from 'react';
-import useFetchDistributorById from '../../../../../../hooks/useFetchDistributorById';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { IDistributorUser, IProducerUser } from '@/lib/types/types';
+import { useTranslations } from 'next-intl';
 
 interface Props {
-    distributorId: string;
+    distributor: IDistributorUser;
+    producer: IProducerUser;
 }
 
-export default function CollaborationDetails({ distributorId }: Props) {
-    const { user: producer } = useAuth();
-
-    const { data: distributor, isError } =
-        useFetchDistributorById(distributorId);
-    if (isError) return <p>There was an error</p>;
+export default function CollaborationDetails({ distributor, producer }: Props) {
+    const t = useTranslations();
+    // const { data: distributor, isError } =
+    //     useFetchDistributorById(distributorId);
+    // if (isError) return <p>There was an error</p>;
 
     if (!distributor) return <p>Loading...</p>;
 
@@ -22,115 +22,64 @@ export default function CollaborationDetails({ distributorId }: Props) {
                 celebra entre:
             </title>
 
+            <h2 className="font-semibold">PARTES:</h2>
+
             <section className="space-y-2">
-                <h2 className="font-semibold">PARTES:</h2>
                 <div>
-                    <h3 className="font-semibold">Productor:</h3>
+                    <h3 className="font-semibold">{t('producer')}:</h3>
 
                     <div className="mx-6 space-y-2">
                         <summary>
-                            Nombre de la Compañía: [Nombre de la Compañía del
-                            Productor]
+                            {t('company_name')}: {t(producer.company_name)}
                         </summary>
 
                         <summary>
-                            Domicilio Legal: [Dirección del Domicilio Legal del
-                            Productor]
+                            {t('identification_fiscal_number')}:{' '}
+                            {t(producer.id_number)}
                         </summary>
 
                         <summary>
-                            Número de Identificación Fiscal: [Número de
-                            Identificación Fiscal del Productor]
-                        </summary>
-
-                        <summary>
-                            Representante Legal: [Nombre del Representante
-                            Legal]
-                        </summary>
-
-                        <summary>
-                            Correo Electrónico: [Correo Electrónico del
+                            {t('representative_name')}: [Nombre del
                             Representante Legal]
                         </summary>
 
                         <summary>
-                            Teléfono de Contacto: [Número de Teléfono del
-                            Representante Legal]
+                            {t('email')}: {t(producer.company_email)}
+                        </summary>
+
+                        <summary>
+                            {t('phone')}: {t(producer.company_phone)}
                         </summary>
                     </div>
                 </div>
+            </section>
 
+            <section className="space-y-2">
                 <div>
-                    <h3 className="font-semibold">Distribuidor</h3>
+                    <h3 className="font-semibold">{t('distributor')}:</h3>
 
                     <div className="mx-6 space-y-2">
                         <summary>
-                            Nombre de la Compañía: {distributor?.company_name}
+                            {t('company_name')}: {t(distributor.company_name)}
                         </summary>
 
-                        {distributor.profile_location && (
-                            <>
-                                <address className="flex flex-col">
-                                    <summary>Domicilio Legal:</summary>
-                                    <i>
-                                        {
-                                            distributor.profile_location[0]
-                                                ?.address_1
-                                        }{' '}
-                                        {distributor.profile_location[0]?.city}{' '}
-                                        -{' '}
-                                        {
-                                            distributor.profile_location[0]
-                                                ?.sub_region
-                                        }{' '}
-                                        -{' '}
-                                        {
-                                            distributor.profile_location[0]
-                                                ?.region
-                                        }{' '}
-                                        -{' '}
-                                        {
-                                            distributor.profile_location[0]
-                                                ?.country
-                                        }{' '}
-                                        -{' '}
-                                        {
-                                            distributor.profile_location[0]
-                                                ?.postalcode
-                                        }
-                                    </i>
-                                </address>
+                        <summary>
+                            {t('identification_fiscal_number')}:{' '}
+                            {t(distributor.id_number)}
+                        </summary>
 
-                                <summary>
-                                    Número de Identificación Fiscal: [Número de
-                                    Identificación Fiscal del Distribuidor]
-                                </summary>
+                        <summary>
+                            {t('representative_name')}: [Nombre del
+                            Representante Legal]
+                        </summary>
 
-                                <summary>
-                                    Representante Legal:{' '}
-                                    <i>
-                                        {distributor.users?.name +
-                                            ' ' +
-                                            distributor.users?.lastname}
-                                    </i>
-                                </summary>
+                        <summary>
+                            {t('email')}: {t(distributor.company_email)}
+                        </summary>
 
-                                <summary>
-                                    Correo Electrónico:{' '}
-                                    <i>{distributor.users?.email}</i>
-                                </summary>
-
-                                <summary>
-                                    Teléfono de Contacto:{' '}
-                                    <i>
-                                        {
-                                            distributor?.profile_location[0]
-                                                ?.phone
-                                        }
-                                    </i>
-                                </summary>
-                            </>
-                        )}
+                        <summary>
+                            {t('phone')}: {t(distributor.company_phone)}
+                        </summary>
                     </div>
                 </div>
 

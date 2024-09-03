@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { useTranslations } from 'next-intl';
 import AssociatedProducersList from './AssociatedProducersList';
 import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
 
@@ -11,7 +10,6 @@ interface Props {
 }
 
 export default function Contracts({ counter }: Props) {
-    const t = useTranslations();
     const { user } = useAuth();
     if (!user) return null;
 

@@ -1,14 +1,14 @@
 import Link from 'next/link';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
-import useFetchDistributors from '../../../../../../hooks/useFetchDistributors';
-import { faFileSignature } from '@fortawesome/free-solid-svg-icons';
-import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
 import Spinner from '@/app/[locale]/components/common/Spinner';
+import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import useFetchDistributorsByProducerId from '../../../../../../hooks/useFetchDistributors';
+import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
+import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
 import { IDistributorUser } from '@/lib//types/types';
 import { formatDateString } from '@/utils/formatDate';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import { useLocale, useTranslations } from 'next-intl';
+import { faFileSignature } from '@fortawesome/free-solid-svg-icons';
+import { IconButton } from '@/app/[locale]/components/common/IconButton';
 
 enum SortBy {
     NONE = 'none',
@@ -34,8 +34,6 @@ export default function AvailableDistributorsList({
 
     const [query, setQuery] = useState('');
     const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
-    // const [selectedDistributor, setSelectedDistributor] =
-    //   useState<IDistributorUser>();
 
     const deleteColor = { filled: '#90470b', unfilled: 'grey' };
     const [isDeleteModal, setIsDeleteModal] = useState(false);
@@ -49,7 +47,7 @@ export default function AvailableDistributorsList({
         isError,
         isLoading,
         refetch,
-    } = useFetchDistributors(producerId);
+    } = useFetchDistributorsByProducerId(producerId);
 
     const [listDistributors, setListDistributors] = useState(
         distributors ?? [],

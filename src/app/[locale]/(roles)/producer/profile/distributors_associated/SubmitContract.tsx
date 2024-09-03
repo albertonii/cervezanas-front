@@ -1,14 +1,15 @@
 'use client';
 
 import React from 'react';
-import CollaborationAgreement from './CollaborationAgreement';
-import CollaborationDetails from './CollaborationDetails';
 import ValidateContract from './ValidateContract';
-import { IDistributorUser } from '@/lib//types/types';
+import CollaborationDetails from './CollaborationDetails';
+import CollaborationAgreement from './CollaborationAgreement';
 import { UseFormReturn } from 'react-hook-form';
+import { IDistributorUser, IProducerUser } from '@/lib//types/types';
 
 interface Props {
     distributor: IDistributorUser;
+    producer: IProducerUser;
     form: UseFormReturn<any>;
 }
 
@@ -21,10 +22,13 @@ interface Props {
     2: rejected
  */
 }
-export function SubmitContract({ distributor, form }: Props) {
+export function SubmitContract({ distributor, producer, form }: Props) {
     return (
         <section className="space-y-4">
-            <CollaborationDetails distributorId={distributor.user_id} />
+            <CollaborationDetails
+                distributor={distributor}
+                producer={producer}
+            />
             <CollaborationAgreement />
             <ValidateContract form={form} />
         </section>

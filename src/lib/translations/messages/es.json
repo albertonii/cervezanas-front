@@ -1222,5 +1222,8 @@
     "set_billing_info_as_default": "Establecer como dirección de facturación por defecto",
     "view_order": "Ver Pedido",
     "check_can_delivery_to_address": "Comprobar entrega",
-    "consumer_online_orders_description": "Aquí puedes ver todos los pedidos que has realizado en la plataforma. Puedes ver el estado de cada pedido, los productos que has comprado y el importe total de cada pedido."
+    "consumer_online_orders_description": "Aquí puedes ver todos los pedidos que has realizado en la plataforma. Puedes ver el estado de cada pedido, los productos que has comprado y el importe total de cada pedido.",
+    "company_name": "Nombre de la empresa",
+    "identification_fiscal_number": "Número de identificación fiscal",
+    "representative_name": "Nombre del representante"
 }
