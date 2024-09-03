@@ -9,8 +9,6 @@ import { ProductGallery } from '@/app/[locale]/components/ProductGallery';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { ICarouselItem, IProduct } from '@/lib//types/types';
 import { handleProductLike } from '../actions';
-import ProductProperties from './ProductProperties';
-import ProductAwardsInformation from './ProductAwardsInformation';
 import ProductPropertiesTabs from './ProductPropertiesTabs';
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
