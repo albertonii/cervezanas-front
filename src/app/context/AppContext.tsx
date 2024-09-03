@@ -17,13 +17,25 @@ type ImageDataRecord = {
 };
 
 export interface FilterProps {
-    category: string;
-    minPrice: number;
+    category: string[];
+    style: string[];
+    ibu: number[];
+    abv: number[];
+    color: string[];
+    price: number[];
+    volume: string[];
+    region: string[];
+    isPack: boolean;
+    isAwardWinning: boolean;
+    isOrganic: boolean;
+    isNonAlcoholic: boolean;
+    isGlutenFree: boolean;
 }
 
 type AppContextType = {
     filters: FilterProps;
-    setFilters: (newFilters: FilterProps) => void;
+    handleFilters: (newFilters: FilterProps) => void;
+    clearFilters: () => void;
     bgImg?: string;
     setBgImg: (newBgImg: string) => void;
     profileImg?: string;
@@ -44,8 +56,23 @@ type AppContextType = {
 };
 
 const AppContext = createContext<AppContextType>({
-    filters: { category: 'all', minPrice: 0 },
-    setFilters: () => void {},
+    filters: {
+        category: [],
+        style: [],
+        ibu: [0, 100],
+        abv: [0, 20],
+        color: [],
+        price: [0, 500],
+        volume: [],
+        region: [],
+        isPack: false,
+        isAwardWinning: false,
+        isOrganic: false,
+        isNonAlcoholic: false,
+        isGlutenFree: false,
+    },
+    clearFilters: () => {},
+    handleFilters: () => void {},
     bgImg: '',
     setBgImg: () => void {},
     profileImg: '',
@@ -79,9 +106,20 @@ interface Props {
 export function AppContextProvider(props: Props) {
     const { user, provider } = useAuth();
 
-    const [filters, setFilters] = useState({
-        category: 'all',
-        minPrice: 0,
+    const [filters, setFilters] = useState<FilterProps>({
+        category: [],
+        style: [],
+        ibu: [0, 100],
+        abv: [0, 20],
+        color: [],
+        price: [0, 100],
+        volume: [],
+        region: [],
+        isPack: false,
+        isAwardWinning: false,
+        isOrganic: false,
+        isNonAlcoholic: false,
+        isGlutenFree: false,
     });
 
     const [customizeSettings, setCustomizeSettings] =
@@ -146,9 +184,34 @@ export function AppContextProvider(props: Props) {
         setSidebar(select);
     };
 
+    const handleFilters = (newFilters: FilterProps) => {
+        setFilters((prevFilters: FilterProps) => {
+            return { ...prevFilters, ...newFilters };
+        });
+    };
+
+    const clearFilters = () => {
+        setFilters({
+            category: [],
+            style: [],
+            ibu: [0, 100],
+            abv: [0, 20],
+            color: [],
+            price: [0, 100],
+            volume: [],
+            region: [],
+            isPack: false,
+            isAwardWinning: false,
+            isOrganic: false,
+            isNonAlcoholic: false,
+            isGlutenFree: false,
+        });
+    };
+
     const value = {
         filters,
-        setFilters,
+        handleFilters,
+        clearFilters,
         bgImg,
         setBgImg,
         profileImg,
