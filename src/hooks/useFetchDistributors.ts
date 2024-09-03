@@ -5,7 +5,7 @@ import { IDistributorUser } from '@/lib//types/types';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { SupabaseClient } from '@supabase/supabase-js';
 
-const fetchDistributors = async (
+const fetchDistributorsByProducerId = async (
     supabase: SupabaseClient<any>,
     producerId: string,
 ) => {
@@ -42,15 +42,15 @@ const fetchDistributors = async (
     return filteredDistributors as IDistributorUser[];
 };
 
-const useFetchDistributors = (producerId: string) => {
+const useFetchDistributorsByProducerId = (producerId: string) => {
     const { supabase } = useAuth();
 
     return useQuery({
         queryKey: ['distributors'],
-        queryFn: () => fetchDistributors(supabase, producerId),
+        queryFn: () => fetchDistributorsByProducerId(supabase, producerId),
         enabled: true,
         refetchOnWindowFocus: false,
     });
 };
 
-export default useFetchDistributors;
+export default useFetchDistributorsByProducerId;

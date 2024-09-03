@@ -18,47 +18,38 @@ export default function PackItem({
     const [isHovering, setIsHovering] = useState(false);
 
     return (
-        <li
-            className="flex flex-row space-x-4 transition-all ease-in-out duration-200 active:bg-beer-dark active:text-beer-gold active:border-beer-gold active:ring-2 active:ring-beer-gold"
+        <div
+            className={`relative w-full  ${
+                selectedPackId === pack.id && 'bg-beer-softBlondeBubble'
+            }`}
+            key={pack.id}
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
             onClick={() => handleItemSelected(pack)}
         >
-            <div
-                className={`relative w-full  ${
-                    selectedPackId === pack.id && 'bg-beer-softBlondeBubble'
-                }`}
-                key={pack.id}
-                onMouseEnter={() => setIsHovering(true)}
-                onMouseLeave={() => setIsHovering(false)}
-            >
-                {/* <!-- Active: "ring-2 ring-indigo-500" --> */}
+            {/* <!-- Active: "ring-2 ring-indigo-500" --> */}
+            <label htmlFor={`pack-${pack.id}`}>
+                <input
+                    type="radio"
+                    id={`pack-${pack.id}`}
+                    value={pack.id}
+                    checked={selectedPackId === pack.id}
+                    className="peer sr-only"
+                />
                 <label
-                    className={`
-                        ${
-                            selectedPackId === pack.id
-                                ? 'bg-beer-dark text-bear-dark border-beer-gold ring-2 ring-beer-gold'
-                                : 'text-white'
-                        }
-                        transition-all ease-in-out duration-300 
-                        group relative flex cursor-pointer items-center justify-center border px-4 py-3 text-sm uppercase
-                        hover:bg-cerv-banana focus:outline-none sm:flex-1 bg-cerv-brown bg-opacity-40 font-semibold hover:text-bear-dark
-                    `}
-                    htmlFor={`pack-${pack.id}`}
+                    htmlFor={pack.id}
+                    className="hover:cursor-pointer flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-checked:border-primary"
                 >
-                    <input
-                        type="radio"
-                        id={`pack-${pack.id}`}
-                        value={pack.id}
-                        className={'hidden'}
-                    />
-                    <span id="size-choice-0-label">
-                        {pack.quantity} {t('units')}
+                    {pack.name}
+                    <span className="mt-2 text-lg font-bold">
+                        ${pack.price}
                     </span>
                 </label>
+            </label>
 
-                <div className={`${!isHovering && 'hidden'} relative z-50`}>
-                    <ProductPackMiniature pack={pack} />
-                </div>
+            <div className={`${!isHovering && 'hidden'} relative z-50`}>
+                <ProductPackMiniature pack={pack} />
             </div>
-        </li>
+        </div>
     );
 }

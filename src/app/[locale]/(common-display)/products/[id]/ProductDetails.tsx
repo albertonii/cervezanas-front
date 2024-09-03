@@ -9,8 +9,7 @@ import { ProductGallery } from '@/app/[locale]/components/ProductGallery';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { ICarouselItem, IProduct } from '@/lib//types/types';
 import { handleProductLike } from '../actions';
-import ProductPropierties from './ProductPropierties';
-import ProductAwardsInformation from './ProductAwardsInformation';
+import ProductPropertiesTabs from './ProductPropertiesTabs';
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 
@@ -138,12 +137,6 @@ export default function ProductDetails({ product, reviewRef }: Props) {
                         {product.description}
                     </p>
                 </section>
-                {/* Product Awards  */}
-                {product.awards && product.awards.length > 0 && (
-                    <div className="px-4">
-                        <ProductAwardsInformation awards={product.awards} />
-                    </div>
-                )}
             </div>
 
             <section className="col-span-12 mx-6 space-y-4 bg-[url('/assets/rec-graf2b.webp')] bg-auto bg-top bg-no-repeat lg:col-span-8">
@@ -203,7 +196,7 @@ export default function ProductDetails({ product, reviewRef }: Props) {
                 {product.type === Type.BEER && (
                     <section aria-labelledby="packs" className="space-y-8">
                         <Packs product={product} />
-                        <ProductPropierties product={product} />
+                        <ProductPropertiesTabs product={product} />
                     </section>
                 )}
 

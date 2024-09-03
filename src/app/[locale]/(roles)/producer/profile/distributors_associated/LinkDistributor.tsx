@@ -1,16 +1,17 @@
+import Modal from '@/app/[locale]/components/modals/Modal';
+import useFetchProducerById from '@/hooks/useFetchProducerById';
 import AvailableDistributorsList from './AvailableDistributorsList';
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import Modal from '@/app/[locale]/components/modals/Modal';
-import { IDistributorUser } from '@/lib//types/types';
-import { SubmitContract } from './SubmitContract';
 import { z, ZodType } from 'zod';
+import { useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
+import { DistributionStatus } from '@/lib//enums';
+import { SubmitContract } from './SubmitContract';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from 'react-query';
-import { DistributionStatus } from '@/lib//enums';
-import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { useTranslations } from 'next-intl';
+import { IDistributorUser, IProducerUser } from '@/lib//types/types';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 
 type FormData = {
     message: string;
@@ -29,16 +30,12 @@ const schema: ZodType<FormData> = z
         path: ['is_signed'],
     });
 
-interface Props {
-    producerId: string;
-}
-
-export default function LinkDistributor({ producerId }: Props) {
+export default function LinkDistributor() {
     const t = useTranslations();
     const submitSuccessMessage = t('messages.submit_success');
     const submitErrorMessage = t('messages.submit_error');
 
-    const { supabase } = useAuth();
+    const { supabase, user } = useAuth();
 
     const [showModal, setShowModal] = useState<boolean>(false);
     const [showFooter, setShowFooter] = useState<boolean>(false);
@@ -46,9 +43,24 @@ export default function LinkDistributor({ producerId }: Props) {
     const [selectedDistributor, setSelectedDistributor] =
         useState<IDistributorUser | null>(null);
 
+    const [selectedProducer, setSelectedProducer] =
+        useState<IProducerUser | null>(null);
+
     const handleDistributor = (distributor: IDistributorUser) => {
         setSelectedDistributor(distributor);
     };
+
+    const { data: producerFetch, error } = useFetchProducerById(user?.id);
+
+    if (error) {
+        console.error(error);
+    }
+
+    useEffect(() => {
+        if (producerFetch) {
+            setSelectedProducer(producerFetch);
+        }
+    }, [producerFetch]);
 
     useEffect(() => {
         if (selectedDistributor) {
@@ -71,13 +83,13 @@ export default function LinkDistributor({ producerId }: Props) {
     const { handleMessage } = useMessage();
 
     const handleAddContract = async (formValues: FormData) => {
-        if (!selectedDistributor || !producerId) return null;
+        if (!selectedDistributor || !user.id) return null;
 
         const { message, is_signed } = formValues;
 
         const { error } = await supabase.from('distribution_contracts').insert({
             distributor_id: selectedDistributor.user_id,
-            producer_id: producerId,
+            producer_id: user.id,
             message: message,
             producer_accepted: is_signed,
             status: DistributionStatus.PENDING,
@@ -135,14 +147,15 @@ export default function LinkDistributor({ producerId }: Props) {
                 handleCustomClose={() => handleCustomClose()}
                 handler={handleSubmit(onSubmit)}
             >
-                {selectedDistributor ? (
+                {selectedDistributor && selectedProducer ? (
                     <SubmitContract
+                        producer={selectedProducer}
                         distributor={selectedDistributor}
                         form={form}
                     />
                 ) : (
                     <AvailableDistributorsList
-                        producerId={producerId}
+                        producerId={selectedProducer?.user_id ?? ''}
                         handleDistributor={handleDistributor}
                     />
                 )}

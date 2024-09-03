@@ -64,19 +64,23 @@ export default function Packs({ product }: Props) {
             {product && product.product_packs && (
                 <div className="mt-10">
                     <div className="flex items-center justify-between">
-                        <h4 className="text-sm font-medium text-gray-900">
-                            {t('product_packs')}
+                        <h4 className="text-sm sm:text-base md:text-lg font-semibold">
+                            {t('select_your_product_packs')}:
                         </h4>
                     </div>
 
                     <fieldset className="mt-4">
                         <legend className="sr-only">{t('choose_pack')}</legend>
-                        <ul className="grid grid-cols-1 gap-2 rounded border bg-cerv-coffee p-2 sm:grid-cols-4 md:grid-cols-5 2xl:grid-cols-6">
+
+                        <div className="flex flex-wrap gap-4">
                             {product.product_packs
                                 .slice() // Copy the array to avoid mutating the original
                                 .sort((a, b) => a.quantity - b.quantity) // Sort by quantity
                                 .map((productPack) => (
-                                    <div key={productPack.id}>
+                                    <div
+                                        key={productPack.id}
+                                        className="flex-1 "
+                                    >
                                         <PackItem
                                             pack={productPack}
                                             handleItemSelected={
@@ -88,7 +92,7 @@ export default function Packs({ product }: Props) {
                                         />
                                     </div>
                                 ))}
-                        </ul>
+                        </div>
 
                         {/* Warning message if pack is not selected  */}
                         {!isPackSelected && (

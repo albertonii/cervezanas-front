@@ -2,6 +2,7 @@ import Link from 'next/link';
 import DeleteContractModal from './DeleteContractModal';
 import CancelContractModal from './CancelContractModal';
 import Spinner from '@/app/[locale]/components/common/Spinner';
+import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
 import useFetchDistributionContractsByProducerId from '../../../../../../hooks/useFetchDistributionContractsByProducerId';
 import React, { useEffect, useState } from 'react';
 import { DistributionStatus } from '@/lib//enums';
@@ -10,17 +11,13 @@ import { useLocale, useTranslations } from 'next-intl';
 import { IDistributionContract } from '@/lib//types/types';
 import { faTrash, faBan } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/common/IconButton';
-import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
+import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 
 interface Props {
-    producerId: string;
     counter: number;
 }
 
-export default function AssociatedDistributorsList({
-    producerId,
-    counter,
-}: Props) {
+export default function AssociatedDistributorsList({ counter }: Props) {
     const locale = useLocale();
     const t = useTranslations();
 
@@ -37,13 +34,15 @@ export default function AssociatedDistributorsList({
 
     const resultsPerPage = 10;
 
+    const { user } = useAuth();
+
     /* Fetch the distributors that the user can be associated  */
     const {
         data: distributionContracts,
         isError,
         isLoading,
         refetch,
-    } = useFetchDistributionContractsByProducerId(producerId);
+    } = useFetchDistributionContractsByProducerId(user.id);
 
     const [listDistributionContracts, setListDistributionContracts] = useState<
         IDistributionContract[]
@@ -129,7 +128,7 @@ export default function AssociatedDistributorsList({
                 selectedContract.distributor_user && (
                     <DeleteContractModal
                         distributor_id={selectedContract.distributor_id}
-                        producer_id={producerId}
+                        producer_id={user.id}
                         handleDeleteModal={() => setIsDeleteModal(false)}
                     />
                 )}
@@ -139,7 +138,7 @@ export default function AssociatedDistributorsList({
                 selectedContract.distributor_user && (
                     <CancelContractModal
                         distributor_id={selectedContract.distributor_id}
-                        producer_id={producerId}
+                        producer_id={user.id}
                         handleCancelModal={() => setIsCancelModal(false)}
                     />
                 )}
