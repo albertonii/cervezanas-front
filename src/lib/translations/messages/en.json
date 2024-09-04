@@ -645,6 +645,7 @@
         "min_2_characters": "Minimum length of the field is 2 characters",
         "error_50_max_length": "Maximum length of the field is 50 characters",
         "error_200_max_length": "Maximum length of the field is 200 characters",
+        "error_320_max_length": "Maximum length of the field is 320 characters",
         "error_2500_max_length": "Maximum length of the field is 2500 characters",
         "error_3500_max_length": "Maximum length of the field is 3500 characters",
         "password_match": "Passwords do not match",

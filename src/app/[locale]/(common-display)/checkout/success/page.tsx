@@ -337,17 +337,17 @@ async function sendProducerEmailNotification(order: IOrder) {
 
 async function sendDistributorEmailNotification(order: IOrder) {
     // Marcar como enviado
-    // const supabase = await createServerClient();
+    const supabase = await createServerClient();
 
-    // const { error } = await supabase
-    //     .from('orders')
-    //     .update({ is_distributor_email_sent: true })
-    //     .eq('id', order.id);
+    const { error } = await supabase
+        .from('orders')
+        .update({ is_distributor_email_sent: true })
+        .eq('id', order.id);
 
-    // if (error) {
-    //     console.error(error);
-    //     return;
-    // }
+    if (error) {
+        console.error(error);
+        return;
+    }
 
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const distributorUrl = `${baseUrl}/api/emails/new_distributor_online_order`;
