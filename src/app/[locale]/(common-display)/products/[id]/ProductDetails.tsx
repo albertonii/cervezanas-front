@@ -111,11 +111,12 @@ export default function ProductDetails({ product, reviewRef }: Props) {
 
     return (
         <>
+
             <div
-                className="col-span-12 mx-6  h-[100%] items-start justify-center  md:overflow-hidden lg:col-span-4 space-y-4 rounded-lg 
-                    bg-beer-softBlonde bg-[url('/assets/madera.webp')] bg-auto bg-top bg-repeat-y pb-2"
+                className="justify-center  md:overflow-hidden lg:col-span-4  col-span-12 rounded-lg 
+                    bg-beer-softBlonde bg-[url('/assets/madera.webp')] bg-auto bg-top bg-repeat pb-2 h-[600px] max-w-[500px] m-auto lg:mx-6 lg:my-0 "
             >
-                <section className="aspect-w-2 aspect-h-3 flex">
+                <section className="block">
                     <ProductGallery
                         gallery={gallery}
                         isLike={isLike}
@@ -123,25 +124,12 @@ export default function ProductDetails({ product, reviewRef }: Props) {
                     />
                 </section>
                 {/* Sobre el producto  */}
-                <section
-                    aria-labelledby="product-description-heading"
-                    className={
-                        'aspect-w-3 aspect-h-3 col-span-12 mx-2 flex items-center justify-center rounded-lg bg-beer-softBlondeBubble bg-opacity-90 md:overflow-hidden py-10 px-4 text-base'
-                    }
-                >
-                    <h3 id="product-description-heading" className="sr-only">
-                        {t('product_description')}
-                    </h3>
-
-                    <p className="text-gray-900 max-w-[90%]">
-                        {product.description}
-                    </p>
-                </section>
+               
             </div>
 
             <section className="col-span-12 mx-6 space-y-4 bg-[url('/assets/rec-graf2b.webp')] bg-auto bg-top bg-no-repeat lg:col-span-8">
                 <section className="flex flex-col sm:flex-row sm:justify-between">
-                    <h2 className=" font-bold lowercase sm:pr-12 font-['NexaRust-script'] text-5xl md:text-7xl -mb-8 text-beer-draft">
+                    <h2 className=" font-bold lowercase sm:pr-12 font-['NexaRust-script'] text-6xl md:text-7xl text-beer-draft bg-white md:bg-transparent pl-4 sm:pl-12 mb-4 md:-mb-8">
                         {product.name}
                     </h2>
 
@@ -174,8 +162,21 @@ export default function ProductDetails({ product, reviewRef }: Props) {
                         </div>
                     </>
                 </section>
+                <section
+                    aria-labelledby="product-description-heading"
+                    className={
+                        'flex items-center justify-center rounded-lg bg-white bg-opacity-90 md:overflow-hidden px-0 py-4 sm:px-4 text-base'
+                    }
+                >
+                    <h3 id="product-description-heading" className="sr-only">
+                        {t('product_description')}
+                    </h3>
 
-                <section aria-labelledby="information-heading" className="">
+                    <p className="text-gray-900 max-w-[90%]">
+                        {product.description}
+                    </p>
+                </section>
+                <section aria-labelledby="information-heading" className="hidden">
                     <h3 id="information-heading" className="sr-only">
                         {t('product_information')}
                     </h3>

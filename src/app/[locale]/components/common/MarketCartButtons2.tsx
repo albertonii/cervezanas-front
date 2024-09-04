@@ -25,7 +25,7 @@ export default function MarketCartButtons2({
     const onClickDecreaseDebounce = debounce(handleDecreaseCartQuantity, 100);
 
     return (
-        <section className="mr-2 flex items-center justify-center space-x-2 rounded-md border">
+        <section className="mr-2 flex items-center justify-center rounded-md border bg-white">
             <span className="mx-2 w-[30px] text-center text-xl text-beer-draft">
                 {quantity}
             </span>

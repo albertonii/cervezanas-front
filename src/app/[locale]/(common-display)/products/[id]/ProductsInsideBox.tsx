@@ -75,7 +75,7 @@ export default function ProductsInsideBox({ product, boxPack }: Props) {
                     </div>
 
                     <fieldset className="mt-4">
-                        <div className="mt-6 flex space-x-2 bg-white max-w-[200px] p-3 shadow-sm">
+                        <div className="mt-2 flex space-x-2 bg-white max-w-[200px] p-3 shadow-sm">
                             <MarketCartButtons2
                                 item={boxPack.box_pack_items[0]}
                                 quantity={packQuantity}

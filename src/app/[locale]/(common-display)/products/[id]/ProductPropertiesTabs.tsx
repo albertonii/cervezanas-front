@@ -50,15 +50,15 @@ const ProductPropertiesTabs = ({ product }: Props) => {
 
     return (
         <div className="w-full ">
-            <div className="w-full flex justify-start overflow-auto py-2 space-x-4 bg-gray-100 rounded-lg px-2 font-semibold">
+            <div className="flex justify-start overflow-auto bg-gradient-to-r from-gray-100 to-gray-300 rounded-t-lg font-semibold border-beer-blonde border-t-2 border-r-2 border-l-2">
                 {Array.from(new Set(tabs)).map((tab) => (
                     <button
                         key={tab}
                         onClick={() => setSelectedTab(tab)}
-                        className={`px-4 py-2 rounded-md focus:outline-none shadow-sm hover:bg-beer-foam hover:text-beer-draft transition-colors
+                        className={`px-4 py-2 focus:outline-none  hover:bg-gray-50 hover:text-beer-draft transition-colors
                             ${
                                 selectedTab === tab
-                                    ? 'bg-beer-foam text-beer-draft'
+                                    ? 'bg-beer-softBlondeBubble text-beer-draft italic'
                                     : 'bg-muted text-gray-700'
                             }
                         `}
@@ -68,7 +68,7 @@ const ProductPropertiesTabs = ({ product }: Props) => {
                 ))}
             </div>
 
-            <div className="mt-2 bg-gradient-to-br from-beer-softBlonde to-beer-softFoam p-6 backdrop-blur-sm bg-opacity-80 bg-white p-6 rounded-lg shadow-md space-y-4 border-beer-blonde border-2">
+            <div className="bg-gradient-to-br from-white to-gray-100 backdrop-blur-sm bg-opacity-80 bg-white p-6 rounded-b-lg shadow-md space-y-4 border-beer-blonde border-b-2 border-r-2 border-l-2">
                 {selectedTab === 'details' && (
                     <ProductTechnicalInformation product={product} />
                 )}

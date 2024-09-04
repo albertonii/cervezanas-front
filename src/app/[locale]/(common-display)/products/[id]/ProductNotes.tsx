@@ -18,7 +18,7 @@ const ProductNotes = ({ product }: Props) => {
             {/* Pairing */}
             {pairing && (
                 <div className="w-full bg-white p-6 rounded-lg shadow-md space-y-4">
-                    <h2 className="text-3xl font-semibold text-gray-900 font-['NexaRust-script']">
+                    <h2 className="text-3xl font-semibold font-['NexaRust-script'] text-beer-draft">
                         {t('beer_pairing')}
                     </h2>
                     <p className="text-gray-700">{pairing}</p>
@@ -28,7 +28,7 @@ const ProductNotes = ({ product }: Props) => {
             {/* Brewers Note */}
             {brewers_note && (
                 <div className="w-full bg-white p-6 rounded-lg shadow-md space-y-4">
-                    <h2 className="text-3xl font-semibold text-gray-900 font-['NexaRust-script']">
+                    <h2 className="text-3xl font-semibold text-beer-draft font-['NexaRust-script']">
                         {t('brewers_note')}
                     </h2>
                     <p className="text-gray-700">{brewers_note}</p>

@@ -72,7 +72,7 @@ const ProductTechnicalInformation = ({ product }: Props) => {
 
     return (
         <div className="">
-            <h2 className="text-3xl font-semibold text-gray-900 font-['NexaRust-script']">
+            <h2 className="text-3xl font-semibold text-beer-draft font-['NexaRust-script']">
                 {t('key_features')}
             </h2>
 
@@ -99,7 +99,7 @@ const ProductTechnicalInformation = ({ product }: Props) => {
             {/* Ingredientes Principales */}
             {ingredients && ingredients?.length > 0 && (
                 <div className="bg-white p-6 rounded-lg shadow-md space-y-4 mt-6">
-                    <h2 className="text-3xl font-semibold text-gray-900 font-['NexaRust-script']">
+                    <h2 className="text-3xl font-semibold text-beer-draft font-['NexaRust-script']">
                         {t('ingredients')}
                     </h2>
                     <p className="text-gray-700">{ingredients?.join(', ')}</p>

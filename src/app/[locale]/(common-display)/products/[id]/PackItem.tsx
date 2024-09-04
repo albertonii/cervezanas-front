@@ -38,10 +38,10 @@ export default function PackItem({
                 />
                 <label
                     htmlFor={pack.id}
-                    className="hover:cursor-pointer flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-checked:border-primary"
+                    className="hover:cursor-pointer text-xl flex items-center justify-between rounded-xl peer-checked:rounded-none border-2 px-8 pb-2 hover:bg-gray-50 hover:text-beer-draft peer-checked:text-black peer-checked:border-none peer-checked:bg-beer-softBlondeBubble font-semibold "
                 >
                     {pack.name}
-                    <span className="mt-2 text-lg font-bold">
+                    <span className="mt-2 text-xl font-bold">
                         ${pack.price}
                     </span>
                 </label>
