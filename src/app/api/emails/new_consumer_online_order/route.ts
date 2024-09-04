@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
@@ -9,46 +10,45 @@ export async function POST(request: NextRequest) {
         });
     }
 
-    const formData = await request.formData();
-    const emailTo = formData.get('email_to') as string;
-    const shippingPrice = formData.get('shipping_price') as string;
-    const totalPrice = formData.get('total_price') as string;
-    const subtotalPrice = formData.get('subtotal_price') as string;
-    const orderNumber = formData.get('order_number') as string;
-    const orderItemsCount = parseInt(
-        formData.get('order_items_count') as string,
-    );
+    try {
+        const formData = await request.formData();
+        const emailTo = formData.get('email_to') as string;
+        const shippingPrice = formData.get('shipping_price') as string;
+        const totalPrice = formData.get('total_price') as string;
+        const subtotalPrice = formData.get('subtotal_price') as string;
+        const orderNumber = formData.get('order_number') as string;
+        const orderItemsCount = parseInt(
+            formData.get('order_items_count') as string,
+        );
 
-    let orderItems = [];
+        let orderItems = [];
 
-    for (let i = 0; i < orderItemsCount; i++) {
-        const item = {
-            product_id: formData.get(`order_items[${i}][product_id]`) as string,
-            name: formData.get(`order_items[${i}][name]`) as string,
-            price: parseFloat(
-                formData.get(`order_items[${i}][price]`) as string,
-            ),
-            quantity: parseInt(
-                formData.get(`order_items[${i}][quantity]`) as string,
-            ),
-        };
+        for (let i = 0; i < orderItemsCount; i++) {
+            const item = {
+                product_id: formData.get(
+                    `order_items[${i}][product_id]`,
+                ) as string,
+                name: formData.get(`order_items[${i}][name]`) as string,
+                price: parseFloat(
+                    formData.get(`order_items[${i}][price]`) as string,
+                ),
+                quantity: parseInt(
+                    formData.get(`order_items[${i}][quantity]`) as string,
+                ),
+            };
 
-        orderItems.push(item);
-    }
+            orderItems.push(item);
+        }
 
-    const urlOrder = `${process.env.NEXT_PUBLIC_BASE_URL}/es/checkout/view_order?order_number=${orderNumber}`;
+        const urlOrder = `${process.env.NEXT_PUBLIC_BASE_URL}/es/checkout/view_order?order_number=${orderNumber}`;
 
-    const res = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_RESEND_API_KEY}`,
-        },
-        body: JSON.stringify({
-            from: 'cervezanas@socialinnolabs.org',
-            to: emailTo,
-            subject: `Confirmación de tu pedido #${orderNumber}`,
-            html: `
+        const res = await axios.post(
+            'https://api.resend.com/emails',
+            {
+                from: 'cervezanas@socialinnolabs.org',
+                to: emailTo,
+                subject: `Nuevo pedido recibido #${orderNumber}`,
+                html: `
                 <!DOCTYPE html>
                 <html lang="es">
                 <head>
@@ -171,14 +171,22 @@ export async function POST(request: NextRequest) {
                 </body>
                 </html>
             `,
-        }),
-    });
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${process.env.NEXT_PUBLIC_RESEND_API_KEY}`,
+                },
+            },
+        );
 
-    if (!res.ok) {
-        throw new Error(`Error sending email: ${res.statusText}`);
+        // Devuelve la respuesta del servidor
+        return NextResponse.json(res.data);
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({
+            message: 'Error processing the request',
+            status: 500,
+        });
     }
-
-    const data = await res.json();
-
-    return NextResponse.json(data);
 }
