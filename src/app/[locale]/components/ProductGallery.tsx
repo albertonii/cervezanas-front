@@ -41,7 +41,7 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
 
     return (
         <>
-            <section className="rounded-b-10xl w-full overflow-hidden container mx-auto px-4 relative -mx-4 justify-center">
+            <section className="rounded-b-10xl w-full overflow-hidden container mx-auto px-4 relative justify-center">
                 {/* Add to fav button  */}
                 <figure className="index-50 absolute right-8 top-6">
                     <IconButton

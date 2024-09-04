@@ -122,7 +122,7 @@ export default async function layout({ children }: LayoutProps) {
     }, [profileImg]);
 
     return (
-        <section className="relative flex w-full bg-[url('/assets/home/bg-home.webp')] bg-auto bg-repeat bg-top">
+        <section className="relative flex w-full bg-[url('/assets/home/bg-home.webp')] bg-auto bg-repeat bg-top max-w-[1530px] m-auto">
             <Sidebar sidebarLinks={sidebarLinks} />
 
             <section className="h-full w-full">

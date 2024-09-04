@@ -62,24 +62,24 @@ export default function Packs({ product }: Props) {
     return (
         <>
             {product && product.product_packs && (
-                <div className="mt-10">
-                    <div className="flex items-center justify-between">
+                <div className="mt-5">
+                    <div className="flex items-center justify-between w-[140px]  rounded-t-md bg-beer-blonde text-white pl-2">
                         <h4 className="text-sm sm:text-base md:text-lg font-semibold">
                             {t('select_your_product_packs')}:
                         </h4>
                     </div>
 
-                    <fieldset className="mt-4">
-                        <legend className="sr-only">{t('choose_pack')}</legend>
+                    <fieldset className="">
+                        <legend className="sr-only bg-white">{t('choose_pack')}</legend>
 
-                        <div className="flex flex-wrap gap-4">
+                        <div className="flex flex-wrap gap-4 border-2 pl-2 rounded-md border-beer-blonde p-2 bg-white shadow-lg">
                             {product.product_packs
                                 .slice() // Copy the array to avoid mutating the original
                                 .sort((a, b) => a.quantity - b.quantity) // Sort by quantity
                                 .map((productPack) => (
                                     <div
                                         key={productPack.id}
-                                        className="flex-1 "
+                                        className="flex-1"
                                     >
                                         <PackItem
                                             pack={productPack}
@@ -96,12 +96,12 @@ export default function Packs({ product }: Props) {
 
                         {/* Warning message if pack is not selected  */}
                         {!isPackSelected && (
-                            <div className="text-md mt-4 flex flex-1 items-center justify-start text-red-500">
+                            <div className="text-md mt-4 flex justify-start text-red-500">
                                 {t('select_pack')}
                             </div>
                         )}
 
-                        <div className="mt-6 flex space-x-2 bg-white max-w-[200px] p-3 shadow-sm">
+                        <div className="flex space-x-2 bg-gray-100 w-[220px] p-3 shadow-lg relative float-right justify-center">
                             <MarketCartButtons2
                                 item={product.product_packs[0]}
                                 quantity={packQuantity}
