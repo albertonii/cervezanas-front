@@ -18,7 +18,7 @@ type ImageDataRecord = {
 
 export interface FilterProps {
     category: string[];
-    style: string[];
+    family: string[];
     ibu: number[];
     abv: number[];
     color: string[];
@@ -58,7 +58,7 @@ type AppContextType = {
 const AppContext = createContext<AppContextType>({
     filters: {
         category: [],
-        style: [],
+        family: [],
         ibu: [0, 100],
         abv: [0, 20],
         color: [],
@@ -108,11 +108,11 @@ export function AppContextProvider(props: Props) {
 
     const [filters, setFilters] = useState<FilterProps>({
         category: [],
-        style: [],
+        family: [],
         ibu: [0, 100],
         abv: [0, 20],
         color: [],
-        price: [0, 100],
+        price: [0, 500],
         volume: [],
         region: [],
         isPack: false,
@@ -193,11 +193,11 @@ export function AppContextProvider(props: Props) {
     const clearFilters = () => {
         setFilters({
             category: [],
-            style: [],
+            family: [],
             ibu: [0, 100],
             abv: [0, 20],
             color: [],
-            price: [0, 100],
+            price: [0, 500],
             volume: [],
             region: [],
             isPack: false,

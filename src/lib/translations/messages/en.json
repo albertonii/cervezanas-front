@@ -1192,5 +1192,8 @@
     "company_name": "Company name",
     "identification_fiscal_number": "Identification fiscal number",
     "representative_name": "Representative name",
-    "select_your_product_packs": "Select your packs"
+    "select_your_product_packs": "Select your packs",
+    "abv_alcoholic": "ABV (Alcoholic By Volume)",
+    "show_less": "Show less",
+    "show_more": "Show more"
 }

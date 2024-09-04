@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import useFilters from '../../../../hooks/useFilters';
 import VerticalFilterMenu from './VerticalFilterMenu';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Type } from '@/lib//productEnum';
 import { IProduct } from '@/lib//types/types';
 import { Filters } from '@/app/[locale]/components/Filters';
@@ -18,6 +18,11 @@ interface Props {
 export default function Marketplace({ products }: Props) {
     const { filterProducts } = useFilters();
     const filteredProducts = filterProducts(products);
+
+    useEffect(() => {
+        console.log(filteredProducts);
+        return () => {};
+    }, [filteredProducts]);
 
     return (
         <section>
@@ -41,7 +46,7 @@ export default function Marketplace({ products }: Props) {
                 {/* Barra lateral de filtros  */}
                 <VerticalFilterMenu />
 
-                <section className="w-full grid grid-cols-1 bg-white pt-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+                <section className="w-full grid grid-cols-1 bg-white pt-10 sm:grid-cols-2 grid-cols-3 xl:grid-cols-4">
                     {filteredProducts &&
                         filteredProducts.map((product) => (
                             <article key={product.id} className=" mb-2 px-2">
