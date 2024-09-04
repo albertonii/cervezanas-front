@@ -49,8 +49,6 @@ export async function POST(request: NextRequest) {
         orderItems.push(item);
     }
 
-    console.log(orderItems);
-
     const urlOrder = `${process.env.NEXT_PUBLIC_BASE_URL}/es/checkout/view_order?order_number=${orderNumber}`;
 
     const res = await fetch('https://api.resend.com/emails', {
@@ -146,7 +144,8 @@ export async function POST(request: NextRequest) {
                             <p>Hola,</p>
                             <p>Se ha generado un nuevo pedido para tu producto. A continuación tienes los detalles del pedido:</p>
 
-                             <div class="order-summary">
+                            <div class="order-summary">
+                             
                                 <h3>Resumen del pedido:</h3>
                                 ${orderItems
                                     .map(
@@ -158,29 +157,50 @@ export async function POST(request: NextRequest) {
                                             distributor_email: string;
                                             distributor_name: string;
                                             distributor_phone: string;
+                                            distributor_id: string;
                                         }) => `
-                                    <div class="order-item">
-                                        <strong>${item.name}</strong> x${
+                                        <div class="order-item">
+                                            <strong>${item.name}</strong> x${
                                             item.quantity
                                         } - ${item.price.toFixed(2)}€
-                                        <br>
-                                        <a href="${
-                                            process.env.NEXT_PUBLIC_BASE_URL
-                                        }/products/${
+                                            <br>
+                                            <a href="${
+                                                process.env.NEXT_PUBLIC_BASE_URL
+                                            }/products/${
                                             item.product_id
-                                        }" target="_blank">Ver producto</a>
-                                        <br>
-                                        <strong>Distribuidor asociado:</strong>
-                                        <br>
-                                        Nombre: ${item.distributor_name}
-                                        <br>
-                                        Email: <a href="mailto:${
-                                            item.distributor_email
-                                        }">${item.distributor_email}</a>
-                                        <br>
-                                        Teléfono: ${item.distributor_phone}
-                                    </div>
-                                `,
+                                        }" target="_blank" style="color: #fbb123; text-decoration: none;">
+                                                Ver producto
+                                            </a>
+                                            <br>
+                                            <strong>Distribuidor asociado:</strong>
+                                            <br>
+
+                                            Nombre: 
+                                            <a href="${
+                                                process.env.NEXT_PUBLIC_BASE_URL
+                                            }/es/user-info/${
+                                            item.distributor_id
+                                        }" 
+                                                target="_blank" 
+                                                style="color: #fbb123; text-decoration: none;"
+                                                onmouseover="this.style.textDecoration='underline';"
+                                                onmouseout="this.style.textDecoration='none';"
+                                            >
+                                                ${item.distributor_name}
+                                            </a>
+                                            <br>
+                                            Email: 
+                                            <a href="mailto:${
+                                                item.distributor_email
+                                            }" style="color: #fbb123; text-decoration: none;" 
+                                                onmouseover="this.style.textDecoration='underline';" 
+                                                onmouseout="this.style.textDecoration='none';">
+                                                ${item.distributor_email}
+                                            </a>
+                                            <br>
+                                            Teléfono: ${item.distributor_phone}
+                                        </div>
+                                    `,
                                     )
                                     .join('')}
                             </div>
@@ -190,9 +210,6 @@ export async function POST(request: NextRequest) {
                                 <div>Envío: ${shippingPrice}€</div>
                                 <div class="total">Total: ${totalPrice}€</div>
                             </div>
-
-                            <h3>Contacto del distribuidor:</h3>
-                            
 
                             <a href="${urlOrder}" class="button">Ver pedido completo</a>
 
