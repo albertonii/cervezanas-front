@@ -90,11 +90,12 @@ export function TableBodyRowTotalInvoice({ items, shippingCost }: Props) {
 
     useEffect(() => {
         const income = items.reduce((acc, item) => acc + item.total, 0);
-        const tax = (income * taxRate) / 100;
-        const total = income + tax + shippingCost;
+        // const tax = (income * taxRate) / 100;
+        // const total = income + tax + shippingCost;
+        const total = income + shippingCost;
 
         setTaxableIncome(income);
-        setTotalTax(tax);
+        // setTotalTax(tax);
         setTotalInvoice(total);
     }, [items]);
 
@@ -106,7 +107,7 @@ export function TableBodyRowTotalInvoice({ items, shippingCost }: Props) {
             <Text style={styles.data_shipping_cost}>
                 {shippingCost.toFixed(2)} EUR
             </Text>
-            <Text style={styles.data_tax}>{totalTax.toFixed(2)} EUR</Text>
+            {/* <Text style={styles.data_tax}>{totalTax.toFixed(2)} EUR</Text> */}
             <Text style={styles.data_discount}>0.00 EUR</Text>
             <Text style={styles.data_total_invoice}>
                 {totalInvoice.toFixed(2)} EUR
