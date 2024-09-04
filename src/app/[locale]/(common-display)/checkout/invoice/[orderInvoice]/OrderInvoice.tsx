@@ -166,10 +166,8 @@ export default function OrderInvoice({ bOrders }: Props) {
                             <View style={styles.row_2}>
                                 {order.billing_info && (
                                     <View style={styles.billing_info_container}>
-                                        {/* Datos de facturación  */}
-
                                         <Text style={styles.billing_info_title}>
-                                            Datos de facturación
+                                            Albarán de entrega
                                         </Text>
 
                                         <View
@@ -207,9 +205,7 @@ export default function OrderInvoice({ bOrders }: Props) {
 
                                 {/* Nº factura; fecha; forma de pago */}
                                 <View style={styles.recipe_container}>
-                                    <Text>
-                                        Nº factura: {order.order_number}
-                                    </Text>
+                                    <Text>Nº pedido: {order.order_number}</Text>
                                     <Text>
                                         Fecha:{' '}
                                         {formatDateString(
@@ -217,13 +213,6 @@ export default function OrderInvoice({ bOrders }: Props) {
                                         )}
                                     </Text>
                                     {/* <Text>Forma de pago: {order.payment_method_card?.type}</Text> */}
-                                </View>
-
-                                {/* Albarán del pedido  */}
-                                <View style={styles.delivery_note_container}>
-                                    <Text>
-                                        Albarán del pedido: Nº del Albarán
-                                    </Text>
                                 </View>
 
                                 {/* Products table of the order */}
