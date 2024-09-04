@@ -1,11 +1,44 @@
 import { FilterProps, useAppContext } from '@/app/context/AppContext';
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
+
+const regions = [
+    'Cataluña',
+    'Madrid',
+    'Andalucía',
+    'País Vasco',
+    'Valencia',
+    'Galicia',
+];
+
+const colors = ['Dorada', 'Ámbar', 'Marrón', 'Negra'];
+
+const families = [
+    { label: 'IPA', value: 'ipa' },
+    { label: 'Lager', value: 'lager' },
+    { label: 'Stout', value: 'stout' },
+    { label: 'Pilsner', value: 'pilsner' },
+];
+
+const volumes = ['330ml', '500ml', '750ml', '1L'];
 
 const VerticalFilterMenu = () => {
+    const t = useTranslations();
+
     const { filters, handleFilters, clearFilters } = useAppContext();
 
     const [isSidebarVisible, setSidebarVisible] = useState(false);
+
+    const [showMoreFamilies, setShowMoreFamilies] = useState(false);
+    const [showMoreRegions, setShowMoreRegions] = useState(false);
+    const [showMoreColors, setShowMoreColors] = useState(false);
+    const [showMoreVolumes, setShowMoreVolumes] = useState(false);
+
+    const visibleFamilies = showMoreFamilies ? families : families.slice(0, 3);
+    const visibleRegions = showMoreRegions ? regions : regions.slice(0, 3);
+    const visibleColors = showMoreColors ? colors : colors.slice(0, 3);
+    const visibleVolumes = showMoreVolumes ? volumes : volumes.slice(0, 3);
 
     const handleSliderChange = (
         filterType: keyof FilterProps,
@@ -96,8 +129,80 @@ const VerticalFilterMenu = () => {
                             alt="Dingbat"
                         />
                     </figure>
+
+                    {/* Precio */}
+                    <div className="space-y-4">
+                        <h3 className="text-lg font-semibold">Precio</h3>
+                        <div className="space-y-2">
+                            <input
+                                type="range"
+                                min={0}
+                                max={500}
+                                value={filters.price[1]}
+                                onChange={(e) =>
+                                    handleSliderChange('price', [
+                                        filters.price[0],
+                                        Number(e.target.value),
+                                    ])
+                                }
+                                className="w-full"
+                            />
+                            <div className="flex justify-between">
+                                <span>{filters.price[0]}€</span>
+                                <span>{filters.price[1]}€</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Estilo */}
+                    <div className="space-y-4">
+                        <h3 className="text-lg font-semibold">{t('family')}</h3>
+                        <div className="space-y-2">
+                            {visibleFamilies.map((family) => (
+                                <div
+                                    key={family.value}
+                                    className="flex items-center space-x-2"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        id={`style-${family}`}
+                                        checked={filters.family.includes(
+                                            family.value,
+                                        )}
+                                        onChange={() =>
+                                            handleCheckboxChange(
+                                                'family',
+                                                family.value,
+                                            )
+                                        }
+                                        className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
+                                    />
+                                    <label
+                                        htmlFor={`style-${family}`}
+                                        className="text-gray-700"
+                                    >
+                                        {family.label}
+                                    </label>
+                                </div>
+                            ))}
+
+                            {families.length > 3 && (
+                                <button
+                                    onClick={() =>
+                                        setShowMoreFamilies(!showMoreFamilies)
+                                    }
+                                    className="text-beer-draft text-sm mt-2 focus:outline-none"
+                                >
+                                    {showMoreFamilies
+                                        ? t('show_less')
+                                        : t('show_more')}
+                                </button>
+                            )}
+                        </div>
+                    </div>
+
                     {/* Categoría */}
-                    <div className="space-y-4 ">
+                    {/* <div className="space-y-4">
                         <h3 className="text-lg font-semibold">Categoría</h3>
                         <div className="space-y-2">
                             {['Cerveza', 'Sidra', 'Hidromiel'].map(
@@ -130,47 +235,12 @@ const VerticalFilterMenu = () => {
                                 ),
                             )}
                         </div>
-                    </div>
-
-                    {/* Estilo */}
-                    <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">Estilo</h3>
-                        <div className="space-y-2">
-                            {['IPA', 'Lager', 'Stout', 'Pilsner'].map(
-                                (style) => (
-                                    <div
-                                        key={style}
-                                        className="flex items-center space-x-2"
-                                    >
-                                        <input
-                                            type="checkbox"
-                                            id={`style-${style}`}
-                                            //  checked={filters.style.includes(
-                                            //      style,
-                                            //  )}
-                                            // onChange={() =>
-                                            //     handleCheckboxChange(
-                                            //         'style',
-                                            //         style,
-                                            //     )
-                                            // }
-                                            className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
-                                        />
-                                        <label
-                                            htmlFor={`style-${style}`}
-                                            className="text-gray-700"
-                                        >
-                                            {style}
-                                        </label>
-                                    </div>
-                                ),
-                            )}
-                        </div>
-                    </div>
-
+                    </div> */}
                     {/* IBUs */}
                     <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">IBUs</h3>
+                        <h3 className="text-lg font-semibold">
+                            {t('bitterness')}
+                        </h3>
                         <div className="space-y-2">
                             <input
                                 type="range"
@@ -183,8 +253,13 @@ const VerticalFilterMenu = () => {
                                         Number(e.target.value),
                                     ])
                                 }
-                                className="w-full bg-cerv-banana"
+                                className="w-full "
+                                style={{
+                                    WebkitAppearance: 'none',
+                                    MozAppearance: 'none',
+                                }}
                             />
+
                             <div className="flex justify-between">
                                 <span>{filters.ibu[0]} IBU</span>
                                 <span>{filters.ibu[1]} IBU</span>
@@ -194,7 +269,9 @@ const VerticalFilterMenu = () => {
 
                     {/* ABV */}
                     <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">ABV</h3>
+                        <h3 className="text-lg font-semibold">
+                            {t('abv_alcoholic')}
+                        </h3>
                         <div className="space-y-2">
                             <input
                                 type="range"
@@ -216,64 +293,45 @@ const VerticalFilterMenu = () => {
                             </div>
                         </div>
                     </div>
-
                     {/* Color */}
                     <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">Color</h3>
+                        <h3 className="text-lg font-semibold">{t('color')}</h3>
                         <div className="space-y-2">
-                            {['Dorada', 'Ámbar', 'Marrón', 'Negra'].map(
-                                (color) => (
-                                    <div
-                                        key={color}
-                                        className="flex items-center space-x-2"
+                            {visibleColors.map((color) => (
+                                <div
+                                    key={color}
+                                    className="flex items-center space-x-2"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        id={`color-${color}`}
+                                        checked={filters.color.includes(color)}
+                                        onChange={() =>
+                                            handleCheckboxChange('color', color)
+                                        }
+                                        className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
+                                    />
+                                    <label
+                                        htmlFor={`color-${color}`}
+                                        className="text-gray-700"
                                     >
-                                        <input
-                                            type="checkbox"
-                                            id={`color-${color}`}
-                                            checked={filters.color.includes(
-                                                color,
-                                            )}
-                                            // onChange={() =>
-                                            //     handleCheckboxChange(
-                                            //         'color',
-                                            //         color,
-                                            //     )
-                                            // }
-                                            className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
-                                        />
-                                        <label
-                                            htmlFor={`color-${color}`}
-                                            className="text-gray-700"
-                                        >
-                                            {color}
-                                        </label>
-                                    </div>
-                                ),
-                            )}
-                        </div>
-                    </div>
+                                        {color}
+                                    </label>
+                                </div>
+                            ))}
 
-                    {/* Precio */}
-                    <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">Precio</h3>
-                        <div className="space-y-2">
-                            <input
-                                type="range"
-                                min={0}
-                                max={100}
-                                value={filters.price[1]}
-                                onChange={(e) =>
-                                    handleSliderChange('price', [
-                                        filters.price[0],
-                                        Number(e.target.value),
-                                    ])
-                                }
-                                className="w-full"
-                            />
-                            <div className="flex justify-between">
-                                <span>{filters.price[0]}€</span>
-                                <span>{filters.price[1]}€</span>
-                            </div>
+                            {colors.length > 3 && (
+                                <button
+                                    onClick={() =>
+                                        setShowMoreColors(!showMoreColors)
+                                    }
+                                    className="text-beer-draft text-sm mt-2 focus:outline-none"
+                                >
+                                    {showMoreColors
+                                        ? t('show_less')
+                                        : t('show_more')}
+                                </button>
+                            )}
                         </div>
                     </div>
 
@@ -281,7 +339,7 @@ const VerticalFilterMenu = () => {
                     <div className="space-y-4">
                         <h3 className="text-lg font-semibold">Volumen</h3>
                         <div className="space-y-2">
-                            {['330ml', '500ml', '750ml', '1L'].map((volume) => (
+                            {visibleVolumes.map((volume) => (
                                 <div
                                     key={volume}
                                     className="flex items-center space-x-2"
@@ -292,12 +350,12 @@ const VerticalFilterMenu = () => {
                                         checked={filters.volume.includes(
                                             volume,
                                         )}
-                                        // onChange={() =>
-                                        //     handleCheckboxChange(
-                                        //         'volume',
-                                        //         volume,
-                                        //     )
-                                        // }
+                                        onChange={() =>
+                                            handleCheckboxChange(
+                                                'volume',
+                                                volume,
+                                            )
+                                        }
                                         className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
                                     />
                                     <label
@@ -308,6 +366,19 @@ const VerticalFilterMenu = () => {
                                     </label>
                                 </div>
                             ))}
+
+                            {volumes.length > 3 && (
+                                <button
+                                    onClick={() =>
+                                        setShowMoreVolumes(!showMoreVolumes)
+                                    }
+                                    className="text-beer-draft text-sm mt-2 focus:outline-none"
+                                >
+                                    {showMoreVolumes
+                                        ? t('show_less')
+                                        : t('show_more')}
+                                </button>
+                            )}
                         </div>
                     </div>
 
@@ -315,12 +386,7 @@ const VerticalFilterMenu = () => {
                     <div className="space-y-4">
                         <h3 className="text-lg font-semibold">Región</h3>
                         <div className="space-y-2">
-                            {[
-                                'Cataluña',
-                                'Madrid',
-                                'Andalucía',
-                                'País Vasco',
-                            ].map((region) => (
+                            {visibleRegions.map((region) => (
                                 <div
                                     key={region}
                                     className="flex items-center space-x-2"
@@ -331,12 +397,12 @@ const VerticalFilterMenu = () => {
                                         checked={filters.region.includes(
                                             region,
                                         )}
-                                        // onChange={() =>
-                                        //     handleCheckboxChange(
-                                        //         'region',
-                                        //         region,
-                                        //     )
-                                        // }
+                                        onChange={() =>
+                                            handleCheckboxChange(
+                                                'region',
+                                                region,
+                                            )
+                                        }
                                         className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
                                     />
                                     <label
@@ -347,6 +413,19 @@ const VerticalFilterMenu = () => {
                                     </label>
                                 </div>
                             ))}
+
+                            {regions.length > 3 && (
+                                <button
+                                    onClick={() =>
+                                        setShowMoreRegions(!showMoreRegions)
+                                    }
+                                    className="text-beer-draft text-sm mt-2 focus:outline-none"
+                                >
+                                    {showMoreRegions
+                                        ? t('show_less')
+                                        : t('show_more')}
+                                </button>
+                            )}
                         </div>
                     </div>
 
