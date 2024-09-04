@@ -48,6 +48,7 @@ export function OrderList({ counter }: Props) {
     useEffect(() => {
         refetch().then((res) => {
             const orders = res.data as IOrder[];
+
             setOrders(orders);
             setIsReady(true);
         });
