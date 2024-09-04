@@ -126,7 +126,7 @@ export default function layout({ children }: LayoutProps) {
     if (!user) return null;
 
     return (
-        <section className="relative flex w-full bg-[url('/assets/home/bg-home.webp')] bg-auto bg-repeat bg-top">
+        <section className="relative flex w-full bg-[url('/assets/home/bg-home.webp')] bg-auto bg-repeat bg-top  max-w-[1530px] m-auto">
             {sidebarLinks && <Sidebar sidebarLinks={sidebarLinks} />}
 
             <section className="h-full w-full">
