@@ -144,7 +144,10 @@ export function RRSSForm({ profile }: Props) {
             id="account_distributor_data"
             className="mb-4 space-y-3 bg-white px-6 py-4 rounded-xl border"
         >
-            <span id="account-distributor-data" className="text-2xl">
+            <span
+                id="account-distributor-data"
+                className="text-4xl font-['NexaRust-script']"
+            >
                 {t('rrss_title_acc_data')}
             </span>
 

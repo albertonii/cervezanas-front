@@ -40,7 +40,7 @@ export function History(props: Props) {
                         >
                             <h1
                                 id="title"
-                                className="text-5xl uppercase font-semibold text-white"
+                                className="text-4xl font-['NexaRust-script']"
                             >
                                 {t('history_title')}
                             </h1>

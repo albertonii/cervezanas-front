@@ -155,9 +155,9 @@ const VerticalFilterMenu = () => {
                                         <input
                                             type="checkbox"
                                             id={`style-${style}`}
-                                            checked={filters.style.includes(
-                                                style,
-                                            )}
+                                          //  checked={filters.style.includes(
+                                          //      style,
+                                          //  )}
                                             // onChange={() =>
                                             //     handleCheckboxChange(
                                             //         'style',

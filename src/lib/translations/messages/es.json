@@ -636,6 +636,7 @@
         "error_100_number_max_length": "El campo debe tener un valor menor o igual de 100",
         "min_2_characters": "El campo debe tener al menos 2 caracteres",
         "error_200_max_length": "El campo debe tener menos de 200 caracteres",
+        "error_320_max_length": "El campo debe tener menos de 320 caracteres",
         "error_2500_max_length": "El campo debe tener menos de 2500 caracteres",
         "password_match": "Las contraseñas no coinciden",
         "password_8_length": "La contraseña debe tener al menos 8 caracteres",
@@ -1226,5 +1227,8 @@
     "company_name": "Nombre de la empresa",
     "identification_fiscal_number": "Número de identificación fiscal",
     "representative_name": "Nombre del representante",
-    "select_your_product_packs": "Elige tu pack"
+    "select_your_product_packs": "Elige tu pack",
+    "abv_alcoholic": "ABV (Graduación Alcohólica)",
+    "show_less": "Mostrar menos",
+    "show_more": "Mostrar más"
 }

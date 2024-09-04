@@ -46,8 +46,8 @@ const schema: ZodType<ModalAddCampaignFormData> = z.object({
     description: z
         .string()
         .min(2, { message: 'errors.input_number__min_2' })
-        .max(2500, {
-            message: 'errors.error_2500_max_length',
+        .max(320, {
+            message: 'errors.error_320_max_length',
         }),
     img_url: z.instanceof(FileList).optional(),
     is_public: z.boolean(),

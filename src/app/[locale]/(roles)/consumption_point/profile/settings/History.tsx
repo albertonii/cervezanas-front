@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { User } from '@supabase/supabase-js';
 import { HistoryForm } from './HistoryForm';
+import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
 
 interface Props {
     user: User | null;
@@ -41,7 +42,7 @@ export function History(props: Props) {
                         >
                             <h1
                                 id="title"
-                                className="text-5xl uppercase font-semibold text-white"
+                                className="text-4xl font-['NexaRust-script']"
                             >
                                 {t('history_title')}
                             </h1>

@@ -2118,6 +2118,9 @@ export interface Database {
           discount_code: string | null
           estimated_date: string | null
           id: string
+          is_consumer_email_sent: boolean | null
+          is_distributor_email_sent: boolean | null
+          is_producer_email_sent: boolean | null
           issue_date: string | null
           order_number: string | null
           owner_id: string | null
@@ -2141,6 +2144,9 @@ export interface Database {
           discount_code?: string | null
           estimated_date?: string | null
           id?: string
+          is_consumer_email_sent?: boolean | null
+          is_distributor_email_sent?: boolean | null
+          is_producer_email_sent?: boolean | null
           issue_date?: string | null
           order_number?: string | null
           owner_id?: string | null
@@ -2164,6 +2170,9 @@ export interface Database {
           discount_code?: string | null
           estimated_date?: string | null
           id?: string
+          is_consumer_email_sent?: boolean | null
+          is_distributor_email_sent?: boolean | null
+          is_producer_email_sent?: boolean | null
           issue_date?: string | null
           order_number?: string | null
           owner_id?: string | null
@@ -2227,7 +2236,7 @@ export interface Database {
         }
         Insert: {
           company_description?: string | null
-          company_email: string
+          company_email?: string
           company_fb?: string | null
           company_history_description?: string | null
           company_history_year?: number | null
@@ -2236,7 +2245,7 @@ export interface Database {
           company_logo?: string | null
           company_mission?: string | null
           company_name?: string | null
-          company_phone: string
+          company_phone?: string
           company_values?: string | null
           company_vision?: string | null
           company_website?: string | null

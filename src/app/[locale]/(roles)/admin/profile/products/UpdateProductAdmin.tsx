@@ -46,8 +46,8 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
     name: z.string().min(2, { message: 'errors.input_number__min_2' }).max(50, {
         message: 'errors.error_50_number_max_length',
     }),
-    description: z.string().max(2500, {
-        message: 'errors.error_2500_max_length',
+    description: z.string().max(320, {
+        message: 'errors.error_320_max_length',
     }),
     price: z.number().min(0, { message: 'errors.input_number_min_0' }),
     fermentation: z.number().min(0, { message: 'errors.input_number_min_0' }),

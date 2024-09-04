@@ -40,7 +40,6 @@ const fetchProducerById = async (
 };
 
 const useFetchProducerById = (producerId: string) => {
-    console.log(producerId);
     const { supabase } = useAuth();
 
     return useQuery({

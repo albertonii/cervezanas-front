@@ -50,6 +50,9 @@ async function getInvoiceData(slug: any) {
         discount,
         discount_code,
         order_number,
+        is_consumer_email_sent,
+        is_producer_email_sent,
+        is_distributor_email_sent,
         shipping_info_id,
         billing_info_id,
         shipping_info!orders_shipping_info_id_fkey (

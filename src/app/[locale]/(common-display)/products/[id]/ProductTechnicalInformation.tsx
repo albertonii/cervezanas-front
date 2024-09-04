@@ -68,8 +68,6 @@ const ProductTechnicalInformation = ({ product }: Props) => {
         },
     ];
 
-    console.log(ingredients);
-
     return (
         <div className="">
             <h2 className="text-3xl font-semibold text-beer-draft font-['NexaRust-script']">

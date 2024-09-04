@@ -645,6 +645,7 @@
         "min_2_characters": "Minimum length of the field is 2 characters",
         "error_50_max_length": "Maximum length of the field is 50 characters",
         "error_200_max_length": "Maximum length of the field is 200 characters",
+        "error_320_max_length": "Maximum length of the field is 320 characters",
         "error_2500_max_length": "Maximum length of the field is 2500 characters",
         "error_3500_max_length": "Maximum length of the field is 3500 characters",
         "password_match": "Passwords do not match",
@@ -1192,5 +1193,8 @@
     "company_name": "Company name",
     "identification_fiscal_number": "Identification fiscal number",
     "representative_name": "Representative name",
-    "select_your_product_packs": "Select your packs"
+    "select_your_product_packs": "Select your packs",
+    "abv_alcoholic": "ABV (Alcoholic By Volume)",
+    "show_less": "Show less",
+    "show_more": "Show more"
 }
