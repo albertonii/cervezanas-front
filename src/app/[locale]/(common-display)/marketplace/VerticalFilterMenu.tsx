@@ -50,11 +50,11 @@ const VerticalFilterMenu = () => {
         } else {
             console.error(`El filtro ${filterType} no es un array.`);
         }
+    };
 
     const toggleSidebar = () => {
         setSidebarVisible(!isSidebarVisible);
     };
-
 
     return (
         <div className="bg-beer-foam mx-auto absolute md:relative bg-transparent">
@@ -77,7 +77,9 @@ const VerticalFilterMenu = () => {
                     } md:transform-none`} // md:transform-none para ignorar transform en pantallas más grandes
                 >
                     <div className="flex justify-between items-center">
-                        <h2 className="text-5xl font-bold font-['NexaRust-script'] text-beer-blonde">Filtros</h2>
+                        <h2 className="text-5xl font-bold font-['NexaRust-script'] text-beer-blonde">
+                            Filtros
+                        </h2>
                         <button
                             onClick={clearFilters}
                             className="text-xs text-gray-400 hover:text-black w-[70px]"
@@ -86,14 +88,14 @@ const VerticalFilterMenu = () => {
                         </button>
                     </div>
                     <figure className="m-auto text-center">
-                            <Image
-                                className="m-auto"
-                                src="/assets/home/detalle.svg"
-                                width={60}
-                                height={10}
-                                alt="Dingbat"
-                            />
-                        </figure>
+                        <Image
+                            className="m-auto"
+                            src="/assets/home/detalle.svg"
+                            width={60}
+                            height={10}
+                            alt="Dingbat"
+                        />
+                    </figure>
                     {/* Categoría */}
                     <div className="space-y-4 ">
                         <h3 className="text-lg font-semibold">Categoría</h3>
@@ -143,9 +145,9 @@ const VerticalFilterMenu = () => {
                                         <input
                                             type="checkbox"
                                             id={`style-${style}`}
-                                          //  checked={filters.style.includes(
-                                          //      style,
-                                          //  )}
+                                            //  checked={filters.style.includes(
+                                            //      style,
+                                            //  )}
                                             // onChange={() =>
                                             //     handleCheckboxChange(
                                             //         'style',
