@@ -609,6 +609,9 @@ export interface IOrder {
     discount: number;
     discount_code: string;
     order_number: string;
+    is_consumer_email_sent: boolean;
+    is_producer_email_sent: boolean;
+    is_distributor_email_sent: boolean;
     shipping_info?: IShippingInfo;
     billing_info?: IBillingInfo;
     business_orders?: IBusinessOrder[];

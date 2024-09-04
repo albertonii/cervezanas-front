@@ -10,7 +10,48 @@ export async function POST(request: NextRequest) {
     }
 
     const formData = await request.formData();
-    const emailTo = formData.get('email-to') as string;
+    const emailTo = formData.get('email_to') as string;
+    const shippingPrice = formData.get('shipping_price') as string;
+    const totalPrice = formData.get('total_price') as string;
+    const subtotalPrice = formData.get('subtotal_price') as string;
+    const orderNumber = formData.get('order_number') as string;
+
+    const orderItemsCount = parseInt(
+        formData.get('order_items_count') as string,
+    );
+
+    let orderItems = [];
+
+    for (let i = 0; i < orderItemsCount; i++) {
+        const item = {
+            product_id: formData.get(`order_items[${i}][product_id]`) as string,
+            name: formData.get(`order_items[${i}][name]`) as string,
+            price: parseFloat(
+                formData.get(`order_items[${i}][price]`) as string,
+            ),
+            quantity: parseInt(
+                formData.get(`order_items[${i}][quantity]`) as string,
+            ),
+            distributor_email: formData.get(
+                `order_items[${i}][distributor_email]`,
+            ) as string,
+            distributor_name: formData.get(
+                `order_items[${i}][distributor_name]`,
+            ) as string,
+            distributor_phone: formData.get(
+                `order_items[${i}][distributor_phone]`,
+            ) as string,
+            distributor_id: formData.get(
+                `order_items[${i}][distributor_id]`,
+            ) as string,
+        };
+
+        orderItems.push(item);
+    }
+
+    console.log(orderItems);
+
+    const urlOrder = `${process.env.NEXT_PUBLIC_BASE_URL}/es/checkout/view_order?order_number=${orderNumber}`;
 
     const res = await fetch('https://api.resend.com/emails', {
         method: 'POST',
@@ -21,73 +62,145 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({
             from: 'cervezanas@socialinnolabs.org',
             to: emailTo,
-            subject: '',
+            subject: `Nuevo pedido recibido #${orderNumber}`,
             html: `
                 <!DOCTYPE html>
-                    <html>
-                    <head>
-                        <style>
-                            body {
-                                font-family: Arial, sans-serif;
-                                background-color: #f5f5dc; /* Un tono crema suave */
-                                color: #333;
-                                text-align: center;
-                                padding: 20px;
-                            }
-                            .container {
-                                background-color: #fff;
-                                width: 80%;
-                                margin: auto;
-                                padding: 20px;
-                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                            }
-                            .header {
-                                background-color: #fbb123; /* Un tono dorado */
-                                color: white;
-                                padding: 10px;
-                                font-size: 24px;
-                            }
-                            .content {
-                                padding: 20px;
-                                line-height: 1.6;
-                            }
-                            .button {
-                                display: inline-block;
-                                padding: 10px 20px;
-                                margin-top: 20px;
-                                background-color: #fbb123; /* Un tono dorado */
-                                color: white;
-                                text-decoration: none;
-                                border-radius: 5px;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <div class="container">
-                            <div class="header">
-                                Solicitud como USUARIO PRODUCTOR
-                            </div>
-                            <div class="content">
-                                <p>¡Bienvenido!,</p>
-                                <p>Gracias por registrarte, hemos recibido tu solicitud como <strong>productor</strong>. Nuestro equipo de moderación revisará tu solicitud y te enviaremos un correo de confirmación en cuanto esté aprobada.</p>
-
-                                <p>
-                                    <strong>¡Gracias por ser parte de Cervezanas!</strong>
-                                </p>
-
-                                <a href="https://cervezanas.beer" class="button">Ir a Cervezanas</a>
-
-                                <p>
-                                    Si tienes alguna duda, por favor contáctanos a <a href="mailto:
-                                    cervezanas@socialinnolabs.org">
-                                </p>
-
-                                <p>
-                                    <strong>El equipo de Cervezanas</strong>
-                                </p>
-                            </div>
+                <html lang="es">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Nuevo pedido recibido</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f5f5dc;
+                            color: #333;
+                            padding: 20px;
+                        }
+                        .container {
+                            max-width: 600px;
+                            margin: 0 auto;
+                            background-color: #fff;
+                            padding: 20px;
+                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                        }
+                        .header {
+                            background-color: #fbb123;
+                            color: white;
+                            text-align: center;
+                            padding: 15px;
+                            font-size: 24px;
+                            font-weight: bold;
+                        }
+                        .content {
+                            text-align: left;
+                            padding: 20px;
+                        }
+                        .order-summary {
+                            margin: 20px 0;
+                        }
+                        .order-item {
+                            border-bottom: 1px solid #eee;
+                            padding: 10px 0;
+                        }
+                        .order-item:last-child {
+                            border-bottom: none;
+                        }
+                        .total-summary {
+                            margin-top: 20px;
+                            text-align: right;
+                        }
+                        .total-summary div {
+                            margin-bottom: 5px;
+                        }
+                        .total {
+                            font-size: 18px;
+                            font-weight: bold;
+                        }
+                        .button {
+                            display: inline-block;
+                            padding: 10px 20px;
+                            background-color: #fbb123;
+                            color: white;
+                            text-decoration: none;
+                            border-radius: 5px;
+                            text-align: center;
+                            margin-top: 20px;
+                            display: block;
+                        }
+                        a {
+                            color: #fbb123;
+                            text-decoration: none;
+                        }
+                        a:hover {
+                            text-decoration: underline;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="header">
+                            ¡Nuevo pedido recibido #${orderNumber}!
                         </div>
-                    </body>
+                        <div class="content">
+                            <p>Hola,</p>
+                            <p>Se ha generado un nuevo pedido para tu producto. A continuación tienes los detalles del pedido:</p>
+
+                             <div class="order-summary">
+                                <h3>Resumen del pedido:</h3>
+                                ${orderItems
+                                    .map(
+                                        (item: {
+                                            product_id: string;
+                                            name: string;
+                                            price: number;
+                                            quantity: number;
+                                            distributor_email: string;
+                                            distributor_name: string;
+                                            distributor_phone: string;
+                                        }) => `
+                                    <div class="order-item">
+                                        <strong>${item.name}</strong> x${
+                                            item.quantity
+                                        } - ${item.price.toFixed(2)}€
+                                        <br>
+                                        <a href="${
+                                            process.env.NEXT_PUBLIC_BASE_URL
+                                        }/products/${
+                                            item.product_id
+                                        }" target="_blank">Ver producto</a>
+                                        <br>
+                                        <strong>Distribuidor asociado:</strong>
+                                        <br>
+                                        Nombre: ${item.distributor_name}
+                                        <br>
+                                        Email: <a href="mailto:${
+                                            item.distributor_email
+                                        }">${item.distributor_email}</a>
+                                        <br>
+                                        Teléfono: ${item.distributor_phone}
+                                    </div>
+                                `,
+                                    )
+                                    .join('')}
+                            </div>
+
+                            <div class="total-summary">
+                                <div>Subtotal: ${subtotalPrice}€</div>
+                                <div>Envío: ${shippingPrice}€</div>
+                                <div class="total">Total: ${totalPrice}€</div>
+                            </div>
+
+                            <h3>Contacto del distribuidor:</h3>
+                            
+
+                            <a href="${urlOrder}" class="button">Ver pedido completo</a>
+
+                            <p>Si tienes alguna duda, no dudes en contactarnos en <a href="mailto:cervezanas@socialinnolabs.org">cervezanas@socialinnolabs.org</a>.</p>
+                            <p><strong>¡Gracias por ser parte de Cervezanas!</strong></p>
+                        </div>
+                    </div>
+                </body>
                 </html>
             `,
         }),
