@@ -55,9 +55,9 @@ const VerticalFilterMenu = () => {
 
     const handleCheckboxChange = (
         filterType: keyof FilterProps,
-        value: string,
+        value: any,
     ) => {
-        const currentFilter = filters[filterType];
+        const currentFilter: any = filters[filterType];
 
         // Verifica que el filtro actual sea un array (como en style, region, color, etc.)
         if (Array.isArray(currentFilter)) {
@@ -66,7 +66,7 @@ const VerticalFilterMenu = () => {
                 handleFilters({
                     ...filters,
                     [filterType]: currentFilter.filter(
-                        (filter) => filter !== value,
+                        (filter: any) => filter !== value,
                     ),
                 });
             } else {
