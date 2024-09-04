@@ -70,7 +70,9 @@ export default function Packs({ product }: Props) {
                     </div>
 
                     <fieldset className="">
-                        <legend className="sr-only bg-white">{t('choose_pack')}</legend>
+                        <legend className="sr-only bg-white">
+                            {t('choose_pack')}
+                        </legend>
 
                         <div className="flex flex-wrap gap-4 border-2 pl-2 rounded-md border-beer-blonde p-2 bg-white shadow-lg">
                             {product.product_packs
@@ -101,7 +103,7 @@ export default function Packs({ product }: Props) {
                             </div>
                         )}
 
-                        <div className="flex space-x-2 bg-gray-100 w-[220px] p-3 shadow-lg relative float-right justify-center">
+                        <div className="flex space-x-2 bg-gray-100 p-3 shadow-lg relative float-right justify-center items-center">
                             <MarketCartButtons2
                                 item={product.product_packs[0]}
                                 quantity={packQuantity}
