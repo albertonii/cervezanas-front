@@ -45,7 +45,8 @@ const fetchProductsByOwner = async (
         .range(
             (currentPage - 1) * resultsPerPage,
             currentPage * resultsPerPage - 1,
-        );
+        )
+        .order('created_at', { ascending: false });
 
     if (error) throw error;
 

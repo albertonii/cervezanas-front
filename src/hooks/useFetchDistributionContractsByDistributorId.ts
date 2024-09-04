@@ -33,7 +33,8 @@ const fetchDistributionContracts = async (
         )
       `,
         )
-        .eq('distributor_id', distributorId);
+        .eq('distributor_id', distributorId)
+        .order('created_at', { ascending: false });
 
     /*
     ,
