@@ -128,7 +128,10 @@ export function CompanyHistoryForm({ profile }: Props) {
             className="mb-4 space-y-3 bg-white px-6 py-4 rounded-xl border"
         >
             <div>
-                <h2 id="account-distributor-data" className="text-2xl">
+                <h2
+                    id="account-distributor-data"
+                    className="text-4xl font-['NexaRust-script']"
+                >
                     {t('history_title_acc_data')}
                 </h2>
 

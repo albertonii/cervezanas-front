@@ -43,6 +43,9 @@ export default async function SuccessPage({ searchParams }: any) {
         orderData,
         santanderResponseData,
     ]);
+
+    if (order) sendEmailNotification(order);
+
     if (!order) return <></>;
 
     return (
@@ -141,7 +144,8 @@ async function getSuccessData(searchParams: any) {
                             )
                         )
                     )
-                )
+                ),
+                users (*)
     `,
         )
         .eq('order_number', orderNumber)
@@ -169,4 +173,46 @@ async function getSuccessData(searchParams: any) {
         isError: false,
         santanderResponseData: Ds_Response,
     };
+}
+
+async function sendEmailNotification(order: IOrder) {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const consumerUrl = `${baseUrl}/api/emails/new_consumer_online_order`;
+
+    const formData = new FormData();
+    formData.set('email_to', order.users?.email as string);
+    formData.set('subtotal_price', order.subtotal.toString() as string);
+    formData.set('shipping_price', order.shipping.toString() as string);
+    formData.set('total_price', order.total.toString() as string);
+    formData.set('order_number', order.order_number as string);
+
+    const numItems =
+        order.business_orders![0].order_items?.length.toString() ?? '0';
+
+    formData.set('order_items_count', numItems);
+
+    order.business_orders?.[0].order_items?.forEach((item, index) => {
+        formData.set(
+            `order_items[${index}][product_id]`,
+            item.product_packs?.products?.id as string,
+        );
+        formData.set(
+            `order_items[${index}][name]`,
+            item.product_packs?.products?.name as string,
+        );
+        formData.set(
+            `order_items[${index}][price]`,
+            item.product_packs?.price.toString() as string,
+        );
+        formData.set(
+            `order_items[${index}][quantity]`,
+            item.quantity.toString() as string,
+        );
+    });
+
+    // Email al usuario
+    fetch(consumerUrl, {
+        method: 'POST',
+        body: formData,
+    });
 }
