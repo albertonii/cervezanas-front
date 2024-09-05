@@ -458,6 +458,7 @@ export const family_options: {
         label: 'ipa',
         value: Family.ipa,
     },
+    { label: 'haze_ipa', value: Family.hazy_ipa },
     {
         label: 'ale',
         value: Family.ale,
@@ -515,6 +516,22 @@ export const family_options: {
         value: Family.pilsner,
     },
     {
+        label: 'helles',
+        value: Family.helles,
+    },
+    {
+        label: 'mexican_lager',
+        value: Family.mexican_lager,
+    },
+    {
+        label: 'vienna_lager',
+        value: Family.vienna_lager,
+    },
+    {
+        label: 'kölsch',
+        value: Family.kölsch,
+    },
+    {
         label: 'amber_ale',
         value: Family.amber_ale,
     },
@@ -535,6 +552,10 @@ export const family_options: {
         value: Family.stout,
     },
     {
+        label: 'milk_stout',
+        value: Family.milk_stout,
+    },
+    {
         label: 'bock',
         value: Family.bock,
     },
@@ -545,6 +566,22 @@ export const family_options: {
     {
         label: 'wheat_beer',
         value: Family.wheat_beer,
+    },
+    {
+        label: 'hefeweizen',
+        value: Family.hefeweizen,
+    },
+    {
+        label: 'witbier',
+        value: Family.witbier,
+    },
+    {
+        label: 'dunkelweizen',
+        value: Family.dunkelweizen,
+    },
+    {
+        label: 'american_wheat',
+        value: Family.american_wheat,
     },
     {
         label: 'specialty_beer',
@@ -561,6 +598,14 @@ export const family_options: {
     {
         label: 'abadia',
         value: Family.abadia,
+    },
+    {
+        label: 'berliner_weisse',
+        value: Family.berliner_weisse,
+    },
+    {
+        label: 'gose',
+        value: Family.gose,
     },
     {
         label: 'other',
