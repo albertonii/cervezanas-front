@@ -695,6 +695,7 @@
         "product_pack_not_exists": "Este producto no tiene packs de venta configurados y no es visible en el mercado",
         "removing_product_multimedia": "Error al eliminar el multimedia del producto.",
         "update_product_multimedia": "Error al actualizar el multimedia del producto.",
+        "update_region_coverage_area": "Error al actualizar la región de cobertura del área.",
         "update_sub_region_coverage_area": "Error al actualizar la subregión de cobertura del área.",
         "sign_down_distributor": "Error al darse de baja como distribuidor.",
         "sign_up_distributor": "Error al darse de alta como distribuidor.",

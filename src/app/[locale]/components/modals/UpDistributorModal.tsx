@@ -101,7 +101,7 @@ export function UpDistributorModal({
                     .insert({
                         distributor_id: user.id,
                     })
-                    .single();
+                    .select('*');
 
                 if (distributionCostsError) {
                     console.error(
@@ -118,10 +118,10 @@ export function UpDistributorModal({
                 }
 
                 if (distributionCosts) {
-                    const dCosts = distributionCosts as IDistributionCost;
+                    const dCosts = distributionCosts[0] as IDistributionCost;
 
                     const { error: areaAndWeigtCostsError } = await supabase
-                        .from('area_and_weight_costs')
+                        .from('area_and_weight_cost')
                         .insert({
                             distribution_costs_id: dCosts.id,
                         });

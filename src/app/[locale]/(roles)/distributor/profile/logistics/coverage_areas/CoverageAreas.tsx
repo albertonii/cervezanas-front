@@ -1,11 +1,8 @@
 'use client';
 
 import useFetchDistributionByOwnerId from '../../../../../../../hooks/useFetchDistribution';
-import CityDistribution from '../(city)/CityDistribution';
 import HorizontalMenu from '../HorizontalMenuCoverageDestination';
 import SubRegionDistribution from '../(sub_region)/SubRegionDistribution';
-import InternationalDistribution from '../(international)/InternationalDistribution';
-import EuropeDistribution from '../(europe)/EuropeDistribution';
 import RegionDistribution from '../(region)/RegionDistribution';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';

@@ -45,9 +45,6 @@ export function DownDistributorModal({
                 return;
             }
 
-            console.log('user.role', user.role);
-            console.log('delRoles', delRoles);
-
             await supabase.rpc('set_claim', {
                 uid: user.id,
                 claim: 'access_level',
