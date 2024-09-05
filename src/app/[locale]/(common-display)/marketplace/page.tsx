@@ -42,8 +42,8 @@ async function getMarketplaceProducts() {
               beers (*)
             `,
         )
-        .eq('is_public', true);
-    // .not('product_packs', 'is', null);
+        .eq('is_public', true)
+        .not('product_packs.product_id', 'is', null);
 
     if (productsError) throw productsError;
 

@@ -6,8 +6,6 @@ import VerticalFilterMenu from './VerticalFilterMenu';
 import React from 'react';
 import { Type } from '@/lib//productEnum';
 import { IProduct } from '@/lib//types/types';
-import { Filters } from '@/app/[locale]/components/Filters';
-import { MarketplaceHeader } from '@/app/[locale]/components/MarketplaceHeader';
 import { BoxPackStoreItem } from '@/app/[locale]/components/Cart/BoxPackStoreItem';
 import { ProductPackStoreItem } from '@/app/[locale]/components/Cart/ProductPackStoreItem';
 
