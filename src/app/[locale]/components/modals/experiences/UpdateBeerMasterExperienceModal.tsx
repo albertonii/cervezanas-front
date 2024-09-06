@@ -295,7 +295,6 @@ export default function UpdateBeerMasterExperienceModal({
             title={'update_experience'}
             btnTitle={'save'}
             description={''}
-            classIcon={''}
             classContainer={`${isLoading && ' opacity-75'}`}
             handler={handleSubmit(onSubmit)}
             form={form}

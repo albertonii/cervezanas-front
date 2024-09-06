@@ -160,7 +160,6 @@ export function UpdateLot({
             description={'modal_product_description'}
             handler={handleSubmit(onSubmit)}
             handlerClose={() => handleEditShowModal(false)}
-            classIcon={''}
             classContainer={`${isLoading && ' opacity-75'}`}
             form={form}
         >

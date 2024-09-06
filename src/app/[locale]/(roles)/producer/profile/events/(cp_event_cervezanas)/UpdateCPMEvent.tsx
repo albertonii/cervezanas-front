@@ -232,8 +232,6 @@ export default function UpdateCPMEventModal({
             description={''}
             icon={faAdd}
             handler={handleSubmit(onSubmit)}
-            btnSize={'large'}
-            classIcon={'w-6 h-6'}
             classContainer={`${isLoading && ' opacity-75'}`}
             form={form}
         >

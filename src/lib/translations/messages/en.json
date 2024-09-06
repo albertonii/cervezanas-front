@@ -873,7 +873,8 @@
         "rrss_linkedin_info": "Enter the username of the LinkedIn account. For example, if your account URL is https://www.linkedin.com/in/cervezanas, enter 'cervezanas'.",
         "shipping_logic_selected_info": "When you select a shipping address, the shipping logic will be activated. Checking if the product can be shipped to the selected address and, moreover, its shipping cost. If the shipping address is not valid for the selected product, an error message will be displayed and the add to cart button will be disabled until a valid address is selected or the product is removed from the shopping cart.",
         "profile_acc_description": "Brief summary of company",
-        "pvpr": "It is the Recommended Retail Price, the price advised by producers and brands to retailers and stores. It is a price that takes into account the process and production costs. It will be useful if other Cervezanas merchants want to market our product through their events."
+        "pvpr": "It is the Recommended Retail Price, the price advised by producers and brands to retailers and stores. It is a price that takes into account the process and production costs. It will be useful if other Cervezanas merchants want to market our product through their events.",
+        "pack_price_info": "The pack price includes VAT/IGIC. It is the total price of all the products contained in the pack."
     },
     "question": "Question",
     "out_of": "out of",

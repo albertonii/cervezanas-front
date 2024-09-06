@@ -231,7 +231,6 @@ export function AddBoxPackModal() {
             title={'add_box_pack'}
             btnTitle={'add_box_pack'}
             description={''}
-            classIcon={''}
             classContainer={`${isLoading && ' opacity-75'}`}
             icon={faBoxes}
             handler={handleSubmit(onSubmit)}

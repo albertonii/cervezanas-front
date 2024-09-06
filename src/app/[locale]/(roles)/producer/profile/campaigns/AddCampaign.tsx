@@ -175,7 +175,6 @@ export function AddCampaign() {
             title={'add_campaign'}
             btnTitle={'save'}
             description={''}
-            classIcon={''}
             classContainer={''}
             handler={handleSubmit(onSubmit)}
             handlerClose={() => {

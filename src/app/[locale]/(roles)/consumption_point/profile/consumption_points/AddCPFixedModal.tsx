@@ -303,7 +303,6 @@ export default function AddCPFixedModal({ cpsId }: Props) {
             btnTitle={t('save')}
             description={''}
             handler={handleSubmit(onSubmit)}
-            classIcon={'w-6 h-6'}
             classContainer={`${isLoading && ' opacity-75'}`}
             form={form}
         >

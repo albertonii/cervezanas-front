@@ -304,7 +304,6 @@ export default function AddCPFixedModal({ cpsId }: Props) {
             triggerBtnTitle={t('add_new_cp_fixed')}
             description={''}
             handler={handleSubmit(onSubmit)}
-            classIcon={'w-6 h-6'}
             classContainer={`${isLoading && ' opacity-75'}`}
             form={form}
         >

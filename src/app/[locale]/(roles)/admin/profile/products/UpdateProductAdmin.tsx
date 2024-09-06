@@ -693,7 +693,6 @@ export function UpdateProductAdmin({
             title={'update_product'}
             btnTitle={'save'}
             description={''}
-            classIcon={''}
             classContainer={''}
             handler={handleSubmit(onSubmit)}
             handlerClose={() => handleEditShowModal(false)}

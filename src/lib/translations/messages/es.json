@@ -871,7 +871,8 @@
         "aroma": "El aroma de la cerveza se refiere a la percepción de los olores que se desprenden de la cerveza. ",
         "fermentation": "La fermentación es el proceso por el que la levadura transforma el azúcar en alcohol. Ale: fermentación con levadura de fermentación alta; Lager: fermentación con levaduras de fermentación baja; Mixta: fermentación con levaduras de fermentación alta y de fermentación baja. Salvaje: fermentación con levaduras salvajes. Lagered: fermentación con levaduras de fermentación baja y posterior almacenamiento en frío. Envejecido en barrica: fermentación con levaduras de fermentación baja y posterior almacenamiento en barricas.",
         "profile_acc_description": "Breve resumen de la empresa",
-        "pvpr": "Es el Precio de Venta Público Recomendado, el precio que aconsejan los productores y marcas a los comerciantes y tiendas. Es un precio que tiene en cuenta el proceso y los costos de producción. Será útil si otros comerciantes de Cervezanas quieren comerciar nuestro producto a través de sus eventos."
+        "pvpr": "Es el Precio de Venta Público Recomendado, el precio que aconsejan los productores y marcas a los comerciantes y tiendas. Es un precio que tiene en cuenta el proceso y los costos de producción. Será útil si otros comerciantes de Cervezanas quieren comerciar nuestro producto a través de sus eventos.",
+        "pack_price_info": "El precio de pack incluye IVA/IGIC. Es el precio total de todos los productos que contiene el pack."
     },
     "homepage": {
         "homeheader": {

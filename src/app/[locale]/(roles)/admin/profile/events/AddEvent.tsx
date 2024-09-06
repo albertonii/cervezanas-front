@@ -243,8 +243,6 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
             btnTitle={'save'}
             description={''}
             icon={faAdd}
-            btnSize={'large'}
-            classIcon={'w-6 h-6'}
             classContainer={`${isLoading && ' opacity-75'}`}
             handler={handleSubmit(onSubmit)}
             form={form}

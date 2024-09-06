@@ -231,8 +231,6 @@ export default function UpdateEventModal({
             description={''}
             icon={faAdd}
             handler={handleSubmit(onSubmit)}
-            btnSize={'large'}
-            classIcon={'w-6 h-6'}
             classContainer={''}
             form={form}
         >

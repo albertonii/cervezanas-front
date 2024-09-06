@@ -125,8 +125,6 @@ export function NewShippingAddress() {
             description={''}
             icon={faAdd}
             handler={handleSubmit(onSubmit)}
-            btnSize={'medium'}
-            classIcon={'w-6 h-6'}
             classContainer={`!w-1/2 ${isSubmitting && 'opacity-75'}`}
             form={form}
         >

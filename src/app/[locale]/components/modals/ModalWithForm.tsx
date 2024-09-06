@@ -23,10 +23,7 @@ interface Props {
     description: string;
     children: JSX.Element;
     icon?: IconDefinition;
-    classIcon: string;
     classContainer: string;
-    color?: { filled: string; unfilled: string };
-    btnSize?: 'small' | 'medium' | 'large' | 'xLarge' | 'xxLarge';
     setShowModal: (b: boolean) => void;
     showFooter?: boolean;
     btnCancelTitle?: string;
@@ -45,10 +42,7 @@ export default function ModalWithForm({
     handler,
     handlerClose,
     icon,
-    classIcon,
     classContainer,
-    color,
-    btnSize,
     showBtn,
     showModal,
     setShowModal,

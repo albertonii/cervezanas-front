@@ -755,7 +755,6 @@ export function UpdateProductModal({
             title={'update_product'}
             btnTitle={'save'}
             description={''}
-            classIcon={''}
             classContainer={`${isLoading && ' opacity-75'}`}
             handler={handleSubmit(onSubmit)}
             handlerClose={() => handleEditShowModal(false)}

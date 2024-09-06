@@ -319,7 +319,6 @@ export function UpdateBoxPackModal({
             title={'update_box_pack'}
             btnTitle={'save'}
             description={''}
-            classIcon={''}
             classContainer={`${isLoading && ' opacity-75'}`}
             handler={handleSubmit(onSubmit)}
             handlerClose={() => {

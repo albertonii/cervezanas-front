@@ -150,6 +150,7 @@ const UpdateProductPackItemForm = memo(
                             inputType="number"
                             defaultValue={3}
                             isRequired={true}
+                            infoTooltip={t('pack_price_info')}
                         />
                     </div>
 

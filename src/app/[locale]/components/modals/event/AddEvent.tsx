@@ -233,7 +233,6 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
             btnTitle={'save'}
             triggerBtnTitle={'add_new_event'}
             description={''}
-            classIcon={''}
             classContainer={`${isLoading && ' opacity-75'}`}
             handler={handleSubmit(onSubmit)}
             form={form}

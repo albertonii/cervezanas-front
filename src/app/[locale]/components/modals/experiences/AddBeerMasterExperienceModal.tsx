@@ -217,7 +217,6 @@ export default function AddBeerMasterExperienceModal() {
             btnTitle={'save'}
             triggerBtnTitle={'new_experience'}
             description={''}
-            classIcon={''}
             classContainer={`${isLoading && ' opacity-75'}`}
             handler={handleSubmit(onSubmit)}
             form={form}

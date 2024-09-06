@@ -149,7 +149,6 @@ export function AddLot() {
             btnTitle={'save'}
             description={'modal_product_description'}
             handler={handleSubmit(onSubmit)}
-            classIcon={''}
             classContainer={`${isLoading && ' opacity-75'}`}
             form={form}
         >

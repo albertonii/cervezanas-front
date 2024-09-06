@@ -441,7 +441,6 @@ export function AddProductModal() {
             btnTitle={'add_new_product'}
             triggerBtnTitle={'add_product'}
             description={''}
-            classIcon={''}
             icon={faBox}
             classContainer={`${isLoading && ' opacity-75'}`}
             handler={handleSubmit(onSubmit)}
