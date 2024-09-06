@@ -110,6 +110,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                     }}
                     placeholder={t('introduce_beer_description')}
                     isRequired={true}
+                    infoTooltip={t('tooltips.product_description')}
                 />
             </div>
 
