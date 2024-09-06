@@ -18,6 +18,11 @@ const IngredientInput: React.FC<IngredientInputProps> = ({
         if (event.key === 'Enter' || event.key === ',') {
             event.preventDefault();
             addIngredient();
+        } else if (event.key === 'Backspace') {
+            if (inputValue === '') {
+                event.preventDefault();
+                removeLastIngredient();
+            }
         }
     };
 
@@ -25,6 +30,13 @@ const IngredientInput: React.FC<IngredientInputProps> = ({
         if (inputValue.trim() !== '') {
             setIngredients([...ingredients, inputValue.trim()]);
             setInputValue('');
+        }
+    };
+
+    const removeLastIngredient = () => {
+        if (ingredients.length > 0) {
+            const newIngredients = ingredients.slice(0, -1);
+            setIngredients(newIngredients);
         }
     };
 
@@ -39,9 +51,15 @@ const IngredientInput: React.FC<IngredientInputProps> = ({
 
     return (
         <div>
-            <label htmlFor="ingredients" className="text-sm text-gray-600">
-                {t('ingredients')}
-            </label>
+            <div className="flex flex-col">
+                <label htmlFor="ingredients" className="text-sm text-gray-600">
+                    {t('ingredients')}
+                </label>
+
+                <span className="text-sm text-gray-400 dark:text-gray-300">
+                    {t('add_ingredients_info')}
+                </span>
+            </div>
 
             <input
                 id="ingredients"
@@ -56,12 +74,12 @@ const IngredientInput: React.FC<IngredientInputProps> = ({
             {/* Display added ingredients */}
             <div className="mt-4 flex flex-wrap gap-2">
                 {ingredients.map((ingredient, index) => (
-                    <span id={ingredient + index}>
+                    <div id={ingredient + index}>
                         <ChipCard
                             content={ingredient}
                             handleRemove={() => handleRemoveIngredient(index)}
                         />
-                    </span>
+                    </div>
                 ))}
             </div>
         </div>

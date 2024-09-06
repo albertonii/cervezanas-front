@@ -16,7 +16,7 @@ interface Props {
 
 const UpdateTechnicalInfoSection = ({ form }: Props) => {
     const t = useTranslations();
-    const { setValue, getValues, register } = form;
+    const { setValue, getValues } = form;
 
     const [ingredients, setIngredients] = useState<string[]>(
         getValues('ingredients') ?? [],

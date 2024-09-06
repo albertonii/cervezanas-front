@@ -1196,5 +1196,6 @@
     "select_your_product_packs": "Select your packs",
     "abv_alcoholic": "ABV (Alcoholic By Volume)",
     "show_less": "Show less",
-    "show_more": "Show more"
+    "show_more": "Show more",
+    "add_ingredients_info": "Add the beer ingredients. To add a new ingredient, press the Enter key or add a comma (,)."
 }
