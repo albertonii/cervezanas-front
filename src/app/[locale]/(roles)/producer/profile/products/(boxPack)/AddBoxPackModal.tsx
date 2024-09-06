@@ -1,22 +1,22 @@
 'use client';
 
-import BoxProductSlotsSection from '@/app/[locale]/components/products/boxPack/BoxProductSlotsSection';
-import useBoxPackStore from '@/app/store//boxPackStore';
 import dynamic from 'next/dynamic';
+import useBoxPackStore from '@/app/store//boxPackStore';
+import Spinner from '@/app/[locale]/components/common/Spinner';
+import BoxProductSlotsSection from '@/app/[locale]/components/products/boxPack/BoxProductSlotsSection';
 import React, { useState, useEffect } from 'react';
 import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQueryClient } from 'react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { ModalAddBoxPackFormData } from '@/lib/types/product';
-import { BoxPackInfoSection } from '@/app/[locale]/components/products/boxPack/BoxPackInfoSection';
-import { BoxPackStepper } from '@/app/[locale]/components/products/boxPack/BoxPackStepper';
-import { BoxSummary } from '@/app/[locale]/components/products/boxPack/BoxSummary';
-import { BoxMultimediaSection } from '@/app/[locale]/components/products/boxPack/BoxMultimediaSection';
-import Spinner from '@/app/[locale]/components/common/Spinner';
+import { useMutation, useQueryClient } from 'react-query';
 import { faBoxes } from '@fortawesome/free-solid-svg-icons';
+import { ModalAddBoxPackFormData } from '@/lib/types/product';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { BoxSummary } from '@/app/[locale]/components/products/boxPack/BoxSummary';
+import { BoxPackStepper } from '@/app/[locale]/components/products/boxPack/BoxPackStepper';
+import { BoxPackInfoSection } from '@/app/[locale]/components/products/boxPack/BoxPackInfoSection';
+import { BoxMultimediaSection } from '@/app/[locale]/components/products/boxPack/BoxMultimediaSection';
 
 const ModalWithForm = dynamic(
     () => import('@/app/[locale]/components/modals/ModalWithForm'),
@@ -59,11 +59,11 @@ const validateFile = (f: File, ctx: any) => {
 
 const schema: ZodType<ModalAddBoxPackFormData> = z.object({
     is_public: z.boolean(),
-    name: z.string().nonempty('Name is required'),
-    description: z.string().nonempty('Description is required'),
-    price: z.number().min(0, 'Price must be greater than 0'),
-    weight: z.number().min(0, 'Weight must be greater than 0'),
-    slots_per_box: z.number().min(1, 'Slots must be greater than 0'),
+    name: z.string().nonempty('errors.input_required'),
+    description: z.string().nonempty('errors.input_required'),
+    price: z.number().min(0, 'errors.input_number_min_0'),
+    weight: z.number().min(0, 'errors.input_number_min_0'),
+    slots_per_box: z.number().min(1, 'errors.input_number_min_1'),
     p_principal: z.custom<File>().superRefine(validateFile),
     p_back: z.custom<File>().superRefine(validateFile).optional(),
     p_extra_1: z.custom<File>().superRefine(validateFile).optional(),
@@ -173,10 +173,11 @@ export function AddBoxPackModal() {
             body: formData,
         });
 
+        console.log(response);
         if (response.status !== 200) {
             handleMessage({
                 type: 'error',
-                message: 'Error creating box pack',
+                message: 'errors.creating_box_pack',
             });
 
             setIsLoading(false);

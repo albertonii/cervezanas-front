@@ -70,6 +70,10 @@ export async function POST(request: NextRequest) {
                 .single();
 
             if (errorBoxPack) {
+                return NextResponse.json(
+                    { message: 'Error creating box pack' },
+                    { status: 500 },
+                );
             }
 
             if (boxPack) {
@@ -100,11 +104,14 @@ export async function POST(request: NextRequest) {
         }
 
         // Create product_pack so it behaves like a product
+
         const fileName = `${SupabaseProps.PACKS_URL}${product.id}/${randomUUID}_0`;
 
-        const pack_url = encodeURIComponent(
-            `${fileName}${generateFileNameExtension(p_principal.name)}`,
-        );
+        const pack_url = p_principal
+            ? encodeURIComponent(
+                  `${fileName}${generateFileNameExtension(p_principal.name)}`,
+              )
+            : '';
 
         const { error: packError } = await supabase
             .from('product_packs')
@@ -124,36 +131,38 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const { error: packMultError } = await supabase.storage
-            .from('products')
-            .upload(
-                `${fileName}${generateFileNameExtension(p_principal.name)}`,
-                pack_url,
-                {
-                    contentType: p_principal.type,
-                    cacheControl: '3600',
-                    upsert: false,
-                },
-            );
+        if (p_principal) {
+            const { error: packMultError } = await supabase.storage
+                .from('products')
+                .upload(
+                    `${fileName}${generateFileNameExtension(p_principal.name)}`,
+                    pack_url,
+                    {
+                        contentType: p_principal.type,
+                        cacheControl: '3600',
+                        upsert: false,
+                    },
+                );
 
-        if (packMultError) {
-            // Delete previously created product pack
-            const { error: deleteError } = await supabase
-                .from('product_packs')
-                .delete()
-                .eq('product_id', product.id);
+            if (packMultError) {
+                // Delete previously created product pack
+                const { error: deleteError } = await supabase
+                    .from('product_packs')
+                    .delete()
+                    .eq('product_id', product.id);
 
-            if (deleteError) {
+                if (deleteError) {
+                    return NextResponse.json(
+                        { message: 'Error deleting product pack' },
+                        { status: 500 },
+                    );
+                }
+
                 return NextResponse.json(
-                    { message: 'Error deleting product pack' },
+                    { message: 'Error uploading pack image' },
                     { status: 500 },
                 );
             }
-
-            return NextResponse.json(
-                { message: 'Error uploading pack image' },
-                { status: 500 },
-            );
         }
 
         // Multimedia
@@ -306,7 +315,11 @@ export async function POST(request: NextRequest) {
                 p_extra_3: p_extra_3_url ?? '',
             });
 
-        if (multError) throw multError;
+        if (multError)
+            return NextResponse.json(
+                { message: 'Error creating pack' },
+                { status: 500 },
+            );
 
         return NextResponse.json(
             { message: 'Box Pack successfully created' },

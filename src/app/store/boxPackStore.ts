@@ -233,7 +233,7 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
                 return {
                     boxPack: {
                         id: '',
-                        slots_per_box: 0,
+                        slots_per_box: 6,
                         boxPackItems: [],
                         p_principal: null,
                         p_back: null,

@@ -80,7 +80,7 @@ export function DeleteProductModal({
                 if (responseMultimedia.status === 200) {
                     handleMessage({
                         type: 'success',
-                        message: 'Success deleting product multimedia',
+                        message: 'success.deleting_product',
                     });
                 }
             }
@@ -115,7 +115,7 @@ export function DeleteProductModal({
                     if (responsePacks.status !== 200) {
                         handleMessage({
                             type: 'error',
-                            message: 'Error deleting product packs',
+                            message: 'error.deleting_product_packs',
                         });
                         return;
                     }
@@ -123,7 +123,7 @@ export function DeleteProductModal({
                     if (responsePacks.status === 200) {
                         handleMessage({
                             type: 'success',
-                            message: 'Success deleting product packs',
+                            message: 'success.deleting_product_pack',
                         });
                     }
                 },
@@ -155,7 +155,7 @@ export function DeleteProductModal({
             if (responseAwards.status !== 200) {
                 handleMessage({
                     type: 'error',
-                    message: 'Error deleting product awards',
+                    message: 'errors.deleting_product_awards',
                 });
                 return;
             }
@@ -163,7 +163,7 @@ export function DeleteProductModal({
             if (responseAwards.status === 200) {
                 handleMessage({
                     type: 'success',
-                    message: 'Success deleting product awards',
+                    message: 'success.deleting_product_award',
                 });
             }
         }
@@ -198,7 +198,7 @@ export function DeleteProductModal({
         if (responseProduct.status === 200) {
             handleMessage({
                 type: 'success',
-                message: 'Success deleting product',
+                message: 'success.deleting_product',
             });
         }
 

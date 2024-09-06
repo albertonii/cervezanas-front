@@ -714,7 +714,12 @@
         "input_unsername_max_length_20": "Username must be less than 20 characters.",
         "invalid_credentials": "Invalid credentials.",
         "select_billing_address": "Error on selecting a billing address.",
-        "select_shipping_address": "Error on selecting a shipping address."
+        "select_shipping_address": "Error on selecting a shipping address.",
+        "invalid_phone_number": "Invalid phone number.",
+        "deleting_product_packs": "Error deleting product packs.",
+        "deleting_product_awards": "Error deleting product awards.",
+        "deleting_product": "Error deleting product.",
+        "creating_box_pack": "Error creating box pack."
     },
     "product_packs": "Product packs",
     "units": "Units",
@@ -1010,7 +1015,10 @@
         "sign_down_distributor": "Distributor sign down successfully",
         "sign_down_producer": "Producer sign down successfully",
         "sign_up_distributor": "Distributor sign up successfully",
-        "sign_up_producer": "Producer sign up successfully"
+        "sign_up_producer": "Producer sign up successfully",
+        "deleting_product": "Product deleted successfully",
+        "deleting_product_pack": "Product pack deleted successfully",
+        "deleting_product_award": "Product award deleted successfully"
     },
     "num_of_packs": "Number of packs",
     "promo_code": "Promo code",
@@ -1198,5 +1206,10 @@
     "abv_alcoholic": "ABV (Alcoholic By Volume)",
     "show_less": "Show less",
     "show_more": "Show more",
-    "add_ingredients_info": "Add the beer ingredients. To add a new ingredient, press the Enter key or add a comma (,)."
+    "add_ingredients_info": "Add the beer ingredients. To add a new ingredient, press the Enter key or add a comma (,).",
+    "profile_configure_products_description": "Here you can configure your products. You can add, edit, archive and delete products.. ",
+    "profile_configure_lots_description": "Here you can configure your batches. You can add, edit and delete batches.",
+    "profile_configure_archive_description": "Here you can see the products you have archived. You can restore them if you wish.",
+    "profile_configure_customize_description": "In this section you can customize key parameters of your beer. Can't find the right style? Is the color of your beer not listed here? Don't worry, you can add it yourself and customize it. Associate those key parameters that define your beer.",
+    "max_slots_per_box": "Max slots per box"
 }

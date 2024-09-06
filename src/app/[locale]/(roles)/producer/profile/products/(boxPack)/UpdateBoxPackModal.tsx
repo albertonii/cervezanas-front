@@ -57,12 +57,12 @@ const validateFile = (f: File, ctx: any) => {
 };
 
 const schema: ZodType<ModalUpdateBoxPackFormData> = z.object({
-    slots_per_box: z.number().min(1, 'Slots must be greater than 0'),
+    slots_per_box: z.number().min(1, 'errors.input_number_min_0'),
     is_public: z.boolean(),
-    name: z.string().nonempty('Name is required'),
-    description: z.string().nonempty('Description is required'),
-    price: z.number().min(0, 'Price must be greater than 0'),
-    weight: z.number().min(0, 'Weight must be greater than 0'),
+    name: z.string().nonempty('errors.input_required'),
+    description: z.string().nonempty('errors.input_required'),
+    price: z.number().min(0, 'errors.input_number_min_0'),
+    weight: z.number().min(0, 'errors.input_number_min_0'),
     p_principal: z.custom<File>().superRefine(validateFile).optional(),
     p_back: z.custom<File>().superRefine(validateFile).optional(),
     p_extra_1: z.custom<File>().superRefine(validateFile).optional(),
@@ -73,10 +73,8 @@ const schema: ZodType<ModalUpdateBoxPackFormData> = z.object({
             id: z.string(),
             box_pack_id: z.string(),
             product_id: z.string(),
-            quantity: z.number().min(1, 'Quantity must be greater than 0'),
-            slots_per_product: z
-                .number()
-                .min(1, 'Slots must be greater than 0'),
+            quantity: z.number().min(1, 'errors.input_number_min_1'),
+            slots_per_product: z.number().min(1, 'errors.input_number_min_1'),
         }),
     ),
 });

@@ -23,17 +23,15 @@ type FormData = {
 };
 
 const schema: ZodType<FormData> = z.object({
-    id_number: z.string().nonempty({ message: 'ID number is required' }),
-    company_name: z.string().nonempty({ message: 'Company name is required' }),
+    id_number: z.string().nonempty({ message: 'errors.input_required' }),
+    company_name: z.string().nonempty({ message: 'errors.input_required' }),
     company_description: z
         .string()
-        .nonempty({ message: 'Company description is required' }),
+        .nonempty({ message: 'errors.input_required' }),
     company_phone: z
         .string()
-        .regex(/^\d{9}$/, { message: 'Invalid phone number' }),
-    company_email: z
-        .string()
-        .nonempty({ message: 'Company email is required' }),
+        .regex(/^\d{9}$/, { message: 'errors.invalid_phone_number' }),
+    company_email: z.string().nonempty({ message: 'errors.input_required' }),
 });
 
 type ValidationSchema = z.infer<typeof schema>;

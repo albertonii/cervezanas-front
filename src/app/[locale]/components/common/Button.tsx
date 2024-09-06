@@ -94,7 +94,7 @@ const Button = memo(function PaginationFooter({
             <FontAwesomeIcon
                 className={`${classIcon} `}
                 icon={icon}
-                style={{ color: getColor() }}
+                style={{ color: getColor(), marginRight: '0.5rem' }}
                 onMouseEnter={() => setHoverIconColor('filled')}
                 onMouseLeave={() => setHoverIconColor('unfilled')}
                 title={'icon_title'}
