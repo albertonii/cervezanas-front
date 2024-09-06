@@ -209,9 +209,9 @@ export default function ModalWithForm({
                                             </>
                                         ) : (
                                             <Button
-                                                accent
                                                 class=""
                                                 btnType="button"
+                                                danger
                                                 medium
                                                 onClick={handleClose}
                                                 disabled={isLoading}
