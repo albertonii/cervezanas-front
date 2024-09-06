@@ -212,7 +212,7 @@ export default function Modal({
                                             </>
                                         ) : (
                                             <Button
-                                                accent
+                                                danger
                                                 class=""
                                                 btnType="button"
                                                 medium
