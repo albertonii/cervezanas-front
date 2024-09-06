@@ -1232,5 +1232,9 @@
     "abv_alcoholic": "ABV (Graduación Alcohólica)",
     "show_less": "Mostrar menos",
     "show_more": "Mostrar más",
-    "add_ingredients_info": "Añade los ingredientes de la cerveza. Para poder añadir un nuevo ingrediente, pulsa la tecla Enter o añade una coma (,)."
+    "add_ingredients_info": "Añade los ingredientes de la cerveza. Para poder añadir un nuevo ingrediente, pulsa la tecla Enter o añade una coma (,).",
+    "profile_configure_products_description": "Aquí puedes configurar tus productos. Puedes añadir, editar, archivar y eliminar productos. ",
+    "profile_configure_lots_description": "Aquí puedes configurar tus lotes. Puedes añadir, editar y eliminar lotes.",
+    "profile_configure_archive_description": "Aquí puedes ver los productos que has archivado. Puedes restaurarlos si lo deseas.",
+    "profile_configure_customize_description": "En esta sección puedes personalizar parámetros clave de tu cerveza. ¿No encuentras el estilo adecuado? ¿El color de tu cerveza no aparece en el listado que te ofrecemos? No te preocupes, puedes añadirlo tú mismo y personalizarlo. Asocia aquellos parámetros clave que definen tu cerveza."
 }

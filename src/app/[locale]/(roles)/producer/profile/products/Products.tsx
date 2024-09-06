@@ -42,6 +42,7 @@ export function Products({ counter }: Props) {
         >
             <ProfileSectionHeader
                 headerTitle="products"
+                headerDescription={t('profile_configure_products_description')}
                 btnActions={
                     <>
                         <AddProductModal />

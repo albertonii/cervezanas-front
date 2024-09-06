@@ -35,7 +35,12 @@ export function Archive() {
     return (
         <>
             <div className="px-4 py-6 " aria-label="Products">
-                <ProfileSectionHeader headerTitle="products_archive" />
+                <ProfileSectionHeader
+                    headerTitle="products_archive"
+                    headerDescription={t(
+                        'profile_configure_archive_description',
+                    )}
+                />
 
                 <ProductsArchiveList
                     handleEditShowModal={handleEditShowModal}

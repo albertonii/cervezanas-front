@@ -25,10 +25,67 @@
     font-weight: normal;
     font-style: normal;
 }
+
 @font-face {
     font-family: 'NexaRust-script';
     src: url('./fonts/Nexa Rust Script R W00 03.ttf');
     font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ubuntu-italic';
+    src: url('./fonts/Ubuntu/Ubuntu-Italic.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ubuntu-bold';
+    src: url('./fonts/Ubuntu/Ubuntu-Bold.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ubuntu-regular';
+    src: url('./fonts/Ubuntu/Ubuntu-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ubuntu-medium';
+    src: url('./fonts/Ubuntu/Ubuntu-Medium.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ubuntu-light';
+    src: url('./fonts/Ubuntu/Ubuntu-Light.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ubuntu-bold-italic';
+    src: url('./fonts/Ubuntu/Ubuntu-BoldItalic.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ubuntu-medium-italic';
+    src: url('./fonts/Ubuntu/Ubuntu-MediumItalic.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ubuntu-light-italic';
+    src: url('./fonts/Ubuntu/Ubuntu-LightItalic.ttf');
+    font-weight: normal;
     font-style: normal;
 }
 

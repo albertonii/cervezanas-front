@@ -29,7 +29,7 @@ const ProfileSectionHeader = ({
             {headerDescription && (
                 <p
                     id="description"
-                    className="text-base md:text-lg lg:text-2xl text-gray-200 mt-1 ml-2 tracking-wide leading-relaxed"
+                    className="text-base mt-2 mb-4 font-['Ubuntu-regular'] md:text-lg lg:text-xl text-gray-200 mt-1 ml-2 tracking-wide leading-relaxed"
                 >
                     {t(headerDescription)}
                 </p>

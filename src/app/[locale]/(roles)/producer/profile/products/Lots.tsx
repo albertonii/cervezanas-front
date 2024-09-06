@@ -34,7 +34,11 @@ export function Lots() {
             className="px-4 py-6 flex flex-col space-y-4"
             aria-label="Lots"
         >
-            <ProfileSectionHeader headerTitle="lots" btnActions={<AddLot />} />
+            <ProfileSectionHeader
+                headerTitle="lots"
+                btnActions={<AddLot />}
+                headerDescription={t('profile_configure_lots_description')}
+            />
 
             <LotList
                 handleEditShowModal={handleEditShowModal}

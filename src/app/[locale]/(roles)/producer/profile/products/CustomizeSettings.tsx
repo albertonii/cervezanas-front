@@ -153,7 +153,10 @@ export function CustomizeSettings() {
 
     return (
         <section className="px-4 py-6 " aria-label="CustomizeSettings">
-            <ProfileSectionHeader headerTitle="products_customize_settings" />
+            <ProfileSectionHeader
+                headerTitle="products_customize_settings"
+                headerDescription={t('profile_configure_customize_description')}
+            />
 
             <div
                 className="flex flex-col space-y-4 bg-beer-foam"
