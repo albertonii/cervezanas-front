@@ -39,7 +39,8 @@ async function getMarketplaceProducts() {
               ),
               product_packs (*),
               awards (*),
-              beers (*)
+              beers (*),
+              box_packs (*)
             `,
         )
         .eq('is_public', true)

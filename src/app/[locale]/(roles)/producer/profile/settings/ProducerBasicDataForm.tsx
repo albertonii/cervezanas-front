@@ -121,7 +121,10 @@ export function ProducerBasicDataForm({ profile }: Props) {
             id="account_producer_data"
             className="mb-4 space-y-3 bg-white px-6 py-4 rounded-xl border"
         >
-            <span id="account-producer-data" className="text-4xl font-['NexaRust-script']">
+            <span
+                id="account-producer-data"
+                className="text-4xl font-['NexaRust-script']"
+            >
                 {t('producer_title_acc_data')}
             </span>
 
@@ -185,7 +188,7 @@ export function ProducerBasicDataForm({ profile }: Props) {
                         form={form}
                         label={'company_description'}
                         placeholder={t('profile_acc_description_placeholder')}
-                        infoTooltip={t('profile_acc_description_tooltip')}
+                        infoTooltip={t('tooltips.profile_acc_description')}
                     />
                 </div>
 

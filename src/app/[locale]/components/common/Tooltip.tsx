@@ -49,7 +49,11 @@ export function Tooltip({
             {/* Wrapping */}
             {children}
             <div
-                style={{ width: `${typeof width === "string" ? `${width}`:  `${width}px` } ` }}
+                style={{
+                    width: `${
+                        typeof width === 'string' ? `${width}` : `${width}px`
+                    } `,
+                }}
                 className={`Tooltip-Tip 
                 ${!active ? 'hidden' : ' transition-2'}
                 ${direction === 'top' ? 'bottom-[150%]' : ''} 
@@ -58,10 +62,10 @@ export function Tooltip({
                 ${
                     direction === 'right' ? 'left-[25%] -top-[100%]' : ''
                 } absolute
-                    left-1/2 z-50 flex -translate-x-1/2 transform items-center justify-center rounded-lg bg-beer-blonde px-4 py-3 text-sm leading-tight shadow-lg `}
+                    left-1/2 z-50 flex -translate-x-1/2 transform items-center justify-center rounded-lg bg-beer-draft px-4 py-3 text-sm leading-tight shadow-lg `}
             >
                 {/* Content */}
-                <dfn className="break-words ">{content}</dfn>
+                <dfn className="break-words text-beer-foam">{content}</dfn>
             </div>
         </section>
     );

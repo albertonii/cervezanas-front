@@ -200,7 +200,7 @@ export function DistributorBasicDataForm({ profile }: Props) {
                         form={form}
                         label={'company_description'}
                         placeholder={t('profile_acc_description_placeholder')}
-                        infoTooltip={t('profile_acc_description_tooltip')}
+                        infoTooltip={t('tooltips.profile_acc_description')}
                     />
                 </div>
 

@@ -162,7 +162,7 @@ export function RRSSForm({ profile }: Props) {
                         labelText={'rrss_ig_url_name'}
                         registerOptions={{}}
                         placeholder={'@ProductorSpain'}
-                        infoTooltip={t('info_tooltip.rrss_ig_info')}
+                        infoTooltip={t('tooltips.rrss_ig_info')}
                     />
 
                     <InputLabel
@@ -171,7 +171,7 @@ export function RRSSForm({ profile }: Props) {
                         labelText={'rrss_fb_url_name'}
                         registerOptions={{}}
                         placeholder={'@ProductorSpain'}
-                        infoTooltip={t('info_tooltip.rrss_fb_info')}
+                        infoTooltip={t('tooltips.rrss_fb_info')}
                     />
                 </div>
 
@@ -182,7 +182,7 @@ export function RRSSForm({ profile }: Props) {
                         labelText={'rrss_linkedin_url_name'}
                         registerOptions={{}}
                         placeholder={'@ProductorSpain'}
-                        infoTooltip={t('info_tooltip.rrss_linkedin_info')}
+                        infoTooltip={t('tooltips.rrss_linkedin_info')}
                     />
 
                     <InputLabel

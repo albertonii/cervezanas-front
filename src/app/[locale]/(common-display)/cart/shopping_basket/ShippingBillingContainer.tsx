@@ -26,7 +26,7 @@ export default function ShippingBillingContainer({
                 </h2>
 
                 <InfoTooltip
-                    content={`${t('shipping_logic_selected_info_tooltip')}`}
+                    content={`${t('tooltips.shipping_logic_selected_info')}`}
                     delay={0}
                     width={'500px'}
                     direction={'top'}

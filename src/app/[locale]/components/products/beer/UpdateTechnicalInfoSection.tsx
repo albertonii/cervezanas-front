@@ -63,7 +63,7 @@ const UpdateTechnicalInfoSection = ({ form }: Props) => {
                             required: false,
                         }}
                         inputType="text"
-                        infoTooltip={t('hops_type_tooltip')}
+                        infoTooltip={t('tooltips.hops_type')}
                     />
 
                     <InputLabel
@@ -74,7 +74,7 @@ const UpdateTechnicalInfoSection = ({ form }: Props) => {
                             required: false,
                         }}
                         inputType="text"
-                        infoTooltip={t('malt_type_tooltip')}
+                        infoTooltip={t('tooltips.malt_type')}
                     />
                 </div>
 
@@ -160,7 +160,7 @@ const UpdateTechnicalInfoSection = ({ form }: Props) => {
                             },
                         }}
                         inputType="number"
-                        infoTooltip={t('srm_tooltip')}
+                        infoTooltip={t('tooltips.srm')}
                     />
 
                     <InputLabel
@@ -184,7 +184,7 @@ const UpdateTechnicalInfoSection = ({ form }: Props) => {
                             },
                         }}
                         inputType="number"
-                        infoTooltip={t('ebc_tooltip')}
+                        infoTooltip={t('tooltips.ebc')}
                     />
                 </div>
 
@@ -211,7 +211,7 @@ const UpdateTechnicalInfoSection = ({ form }: Props) => {
                             },
                         }}
                         inputType="number"
-                        infoTooltip={t('og_tooltip')}
+                        infoTooltip={t('tooltips.og')}
                     />
 
                     <InputLabel
@@ -235,7 +235,7 @@ const UpdateTechnicalInfoSection = ({ form }: Props) => {
                             },
                         }}
                         inputType="number"
-                        infoTooltip={t('fg_tooltip')}
+                        infoTooltip={t('tooltips.fg')}
                     />
                 </div>
             </section>

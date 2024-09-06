@@ -47,19 +47,19 @@ export default function Marketplace({ products }: Props) {
                 <VerticalFilterMenu />
 
                 <section className="w-full grid grid-cols-1 bg-white pt-10 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4">
-                    {filteredProducts &&
-                        filteredProducts.map((product) => (
+                    {products &&
+                        products.map((product) => (
                             <article key={product.id} className=" mb-2 px-2">
                                 {product.type === Type.BEER && (
                                     <ProductPackStoreItem
-                                        products={filteredProducts}
+                                        products={products}
                                         product={product}
                                     />
                                 )}
 
                                 {product.type === Type.BOX_PACK && (
                                     <BoxPackStoreItem
-                                        products={filteredProducts}
+                                        products={products}
                                         product={product}
                                     />
                                 )}

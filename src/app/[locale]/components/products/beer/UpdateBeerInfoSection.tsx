@@ -141,6 +141,7 @@ export default function UpdateBeerInfoSection({
                     }}
                     placeholder={t('introduce_beer_description')}
                     isRequired={true}
+                    infoTooltip={t('tooltips.product_description')}
                 />
             </div>
 
@@ -165,13 +166,13 @@ export default function UpdateBeerInfoSection({
                                 valueAsNumber: true,
                             }}
                             inputType="number"
-                            infoTooltip={t('intensity_tooltip')}
+                            infoTooltip={t('tooltips.family')}
                             isRequired={true}
                         />
 
                         <SelectInput
                             form={form}
-                            labelTooltip={'fermentation_tooltip'}
+                            labelTooltip={'tooltips.fermentation'}
                             options={fermentation_options}
                             label={'fermentation'}
                             registerOptions={{
@@ -186,7 +187,7 @@ export default function UpdateBeerInfoSection({
                     <div className="flex w-full flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
                         <SelectInput
                             form={form}
-                            labelTooltip={'family_tooltip'}
+                            labelTooltip={'tooltips.family'}
                             options={family_options}
                             label={'family'}
                             registerOptions={{
@@ -203,7 +204,7 @@ export default function UpdateBeerInfoSection({
                 {t("family")}
 
                 <InfoTooltip
-                  content={`${t("family_tooltip")}`}
+                  content={`${t("tooltips.family")}`}
                   direction="top"
                   delay={200}
                   width={300}
@@ -248,7 +249,7 @@ export default function UpdateBeerInfoSection({
                     <div className="flex w-full flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
                         <SelectInput
                             form={form}
-                            labelTooltip={'aroma_tooltip'}
+                            labelTooltip={'tooltips.aroma'}
                             options={aroma_options}
                             label={'aroma'}
                             registerOptions={{
@@ -269,7 +270,7 @@ export default function UpdateBeerInfoSection({
                                 valueAsNumber: true,
                             }}
                             inputType="number"
-                            infoTooltip={t('ibu_tooltip')}
+                            infoTooltip={t('tooltips.ibu')}
                             isRequired={true}
                         />
                     </div>
@@ -431,7 +432,7 @@ export default function UpdateBeerInfoSection({
                             }}
                             inputType="number"
                             placeholder={formatCurrency(2.5)}
-                            infoTooltip={'pvpr_tooltip'}
+                            infoTooltip={'tooltips.pvpr'}
                             isRequired={true}
                         />
                     </div>

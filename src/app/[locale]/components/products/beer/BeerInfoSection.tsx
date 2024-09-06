@@ -134,13 +134,13 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                                 valueAsNumber: true,
                             }}
                             inputType="number"
-                            infoTooltip={t('intensity_tooltip')}
+                            infoTooltip={t('tooltips.family')}
                             isRequired={true}
                         />
 
                         <SelectInput
                             form={form}
-                            labelTooltip={'fermentation_tooltip'}
+                            labelTooltip={'tooltips.fermentation'}
                             options={fermentation_options}
                             label={'fermentation'}
                             registerOptions={{
@@ -155,7 +155,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                     <div className="flex w-full flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
                         <SelectInput
                             form={form}
-                            labelTooltip={'family_tooltip'}
+                            labelTooltip={'tooltips.family'}
                             options={family_options}
                             label={'family'}
                             registerOptions={{
@@ -181,7 +181,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                     <div className="flex w-full flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
                         <SelectInput
                             form={form}
-                            labelTooltip={'aroma_tooltip'}
+                            labelTooltip={'tooltips.aroma'}
                             options={aroma_options}
                             label={'aroma'}
                             registerOptions={{
@@ -201,7 +201,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                                 valueAsNumber: true,
                             }}
                             inputType="number"
-                            infoTooltip={t('ibu_tooltip')}
+                            infoTooltip={t('tooltips.ibu')}
                             isRequired={true}
                         />
                     </div>
@@ -363,7 +363,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                             }}
                             inputType="number"
                             placeholder={formatCurrency(2.5)}
-                            infoTooltip={'pvpr_tooltip'}
+                            infoTooltip={'tooltips.pvpr'}
                             isRequired={true}
                         />
                     </div>
