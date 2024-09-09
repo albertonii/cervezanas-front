@@ -1,12 +1,12 @@
 import InputLabel from '../../common/InputLabel';
 import useBoxPackStore from '@/app/store//boxPackStore';
+import DrawingSlotsFromBox from './DrawingSlotsFromBox';
 import BoxProductSlotsSelection from './BoxProductSlotsSelection';
 import React, { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { IBoxPackItem, ModalUpdateBoxPackFormData } from '@/lib//types/product';
-import { useTranslations } from 'next-intl';
 import { UpdateSearchCheckboxProductSlot } from './UpdateSearchCheckboxProductSlot';
-import DrawingSlotsFromBox from './DrawingSlotsFromBox';
 
 interface Props {
     form: UseFormReturn<ModalUpdateBoxPackFormData, any>;
@@ -19,7 +19,7 @@ export default function UpdateBoxProductSlotsSection({ form }: Props) {
     const { boxPack, onChangeSlotsPerBox } = useBoxPackStore();
     const { setValue } = form;
 
-    const [boxWeight, setBoxWeight] = useState(0);
+    const [boxWeight, setBoxWeight] = useState(form.getValues('weight'));
     const [maxSlotsPerBox, setMaxSlotsPerBox] = useState(6);
 
     const [actualSlotsPerBox, setActualSlotsPerBox] = useState(
@@ -30,25 +30,27 @@ export default function UpdateBoxProductSlotsSection({ form }: Props) {
     );
 
     useEffect(() => {
-        setMaxSlotsPerBox(boxPack.slots_per_box);
+        if (boxPack.is_box_pack_dirty) {
+            setMaxSlotsPerBox(boxPack.slots_per_box);
 
-        setActualSlotsPerBox(
-            boxPack.boxPackItems.reduce(
-                (acc, item) => acc + item.quantity * item.slots_per_product,
-                0,
-            ),
-        );
+            setActualSlotsPerBox(
+                boxPack.boxPackItems.reduce(
+                    (acc, item) => acc + item.quantity * item.slots_per_product,
+                    0,
+                ),
+            );
 
-        setBoxWeight(
-            boxPack.boxPackItems.reduce(
-                (acc, item) => acc + item.quantity * item.products!.weight,
-                0,
-            ),
-        );
+            setBoxWeight(
+                boxPack.boxPackItems.reduce(
+                    (acc, item) => acc + item.quantity * item.products!.weight,
+                    0,
+                ),
+            );
+        }
     }, [boxPack.boxPackItems]);
 
     useEffect(() => {
-        setValue('weight', boxWeight);
+        setValue('weight', boxWeight, { shouldDirty: true });
     }, [boxWeight]);
 
     const handleOnChangeSlotsPerBox = (
@@ -75,6 +77,12 @@ export default function UpdateBoxProductSlotsSection({ form }: Props) {
         onChangeSlotsPerBox(e.target.valueAsNumber);
     };
 
+    const handleOnChangeWeightBox = (
+        e: React.ChangeEvent<HTMLInputElement>,
+    ) => {
+        setBoxWeight(e.target.valueAsNumber);
+    };
+
     return (
         <section className="grid grid-cols-2 gap-4 pt-6 min-h-[45vh]">
             <div className="col-span-2">
@@ -92,7 +100,21 @@ export default function UpdateBoxProductSlotsSection({ form }: Props) {
                 actualSlotsPerBox={actualSlotsPerBox}
             />
 
-            <div className="col-span-2">
+            <div className="col-span-2 flex gap-4">
+                <InputLabel
+                    label="weight"
+                    form={form}
+                    registerOptions={{
+                        required: true,
+                        valueAsNumber: true,
+                        min: 0,
+                    }}
+                    inputType="number"
+                    labelText={t('box_weight') + ' (gr)'}
+                    onChange={(e) => handleOnChangeWeightBox(e)}
+                    value={boxWeight}
+                />
+
                 <InputLabel
                     label="slots_per_box"
                     form={form}

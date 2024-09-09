@@ -48,6 +48,7 @@ export function ProductList({
         );
 
     useEffect(() => {
+        console.log(data);
         setProducts(data as IProduct[]);
     }, [data]);
 

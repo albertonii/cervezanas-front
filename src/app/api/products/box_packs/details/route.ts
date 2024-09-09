@@ -19,6 +19,8 @@ export async function PUT(request: NextRequest) {
         const supabase = await createServerClient();
         const userId = (await supabase.auth.getSession()).data.session?.user.id;
 
+        console.log(formData);
+
         const { error: errorProduct } = await supabase
             .from('products')
             .update({

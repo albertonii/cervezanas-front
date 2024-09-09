@@ -1,16 +1,16 @@
 'use client';
 
+import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
 import { useState } from 'react';
 import { ProductList } from './ProductList';
 import { useTranslations } from 'next-intl';
-import { AddProductModal } from './AddProductModal';
 import { IProduct } from '@/lib//types/types';
-import { DeleteProductModal } from '@/app/[locale]/components/modals/DeleteProductModal';
+import { AddProductModal } from './AddProductModal';
+import { Type as ProductType } from '@/lib//productEnum';
 import { UpdateProductModal } from './UpdateProductModal';
 import { AddBoxPackModal } from './(boxPack)/AddBoxPackModal';
-import { Type as ProductType } from '@/lib//productEnum';
 import { UpdateBoxPackModal } from './(boxPack)/UpdateBoxPackModal';
-import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
+import { DeleteProductModal } from '@/app/[locale]/components/modals/DeleteProductModal';
 
 interface Props {
     counter: number;

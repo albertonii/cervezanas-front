@@ -314,10 +314,6 @@ const isQuantityLowerThanMaxSlotsPerBox = (
         0,
     );
 
-    console.log('totalQuantity', totalQuantity);
-    console.log('totalNewSlots', totalNewSlots);
-    console.log('maxSlotsPerBox', maxSlotsPerBox);
-
     if (totalQuantity + totalNewSlots > maxSlotsPerBox) {
         return false;
     }

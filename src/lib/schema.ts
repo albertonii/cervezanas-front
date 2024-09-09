@@ -529,16 +529,19 @@ export interface Database {
           id: string
           product_id: string | null
           slots_per_box: number | null
+          weight: number
         }
         Insert: {
           id?: string
           product_id?: string | null
           slots_per_box?: number | null
+          weight?: number
         }
         Update: {
           id?: string
           product_id?: string | null
           slots_per_box?: number | null
+          weight?: number
         }
         Relationships: [
           {

@@ -1,12 +1,12 @@
+import InputLabel from '../../common/InputLabel';
+import DrawingSlotsFromBox from './DrawingSlotsFromBox';
+import useBoxPackStore from '@/app/store//boxPackStore';
 import BoxProductSlotsSelection from './BoxProductSlotsSelection';
 import React, { useEffect, useState } from 'react';
-import InputLabel from '../../common/InputLabel';
-import { UseFormReturn } from 'react-hook-form';
-import { IBoxPackItem, ModalAddBoxPackFormData } from '@/lib//types/product';
-import { SearchCheckboxProductSlot } from './SearchCheckboxProductSlot';
-import useBoxPackStore from '@/app/store//boxPackStore';
 import { useTranslations } from 'next-intl';
-import DrawingSlotsFromBox from './DrawingSlotsFromBox';
+import { UseFormReturn } from 'react-hook-form';
+import { SearchCheckboxProductSlot } from './SearchCheckboxProductSlot';
+import { IBoxPackItem, ModalAddBoxPackFormData } from '@/lib//types/product';
 
 interface Props {
     form: UseFormReturn<ModalAddBoxPackFormData, any>;
@@ -21,13 +21,7 @@ export default function BoxProductSlotsSection({ form }: Props) {
 
     const [boxWeight, setBoxWeight] = useState(0);
     const [maxSlotsPerBox, setMaxSlotsPerBox] = useState(6);
-
-    const [actualSlotsPerBox, setActualSlotsPerBox] = useState(
-        boxPack.boxPackItems.reduce(
-            (acc, item) => acc + item.quantity * item.slots_per_product,
-            0,
-        ),
-    );
+    const [actualSlotsPerBox, setActualSlotsPerBox] = useState(0);
 
     useEffect(() => {
         clear();
@@ -76,6 +70,12 @@ export default function BoxProductSlotsSection({ form }: Props) {
         onChangeSlotsPerBox(e.target.valueAsNumber);
     };
 
+    const handleOnChangeWeightBox = (
+        e: React.ChangeEvent<HTMLInputElement>,
+    ) => {
+        setBoxWeight(e.target.valueAsNumber);
+    };
+
     return (
         <section className="grid grid-cols-2 gap-4 pt-6 min-h-[45vh]">
             <div className="col-span-2">
@@ -84,7 +84,10 @@ export default function BoxProductSlotsSection({ form }: Props) {
                 </h1>
 
                 <h2 className="text-xl">
-                    {t('box_weight')}: {boxWeight} gr
+                    {t('box_weight')}:{' '}
+                    {boxWeight > 1000
+                        ? boxWeight / 1000 + ' kg'
+                        : boxWeight + ' gr'}
                 </h2>
             </div>
 
@@ -93,7 +96,21 @@ export default function BoxProductSlotsSection({ form }: Props) {
                 actualSlotsPerBox={actualSlotsPerBox}
             />
 
-            <div className="col-span-2">
+            <div className="col-span-2 flex gap-4">
+                <InputLabel
+                    label="weight"
+                    form={form}
+                    registerOptions={{
+                        required: true,
+                        valueAsNumber: true,
+                        min: 0,
+                    }}
+                    inputType="number"
+                    labelText={t('box_weight') + ' (gr)'}
+                    onChange={(e) => handleOnChangeWeightBox(e)}
+                    value={boxWeight}
+                />
+
                 <InputLabel
                     label="slots_per_box"
                     form={form}

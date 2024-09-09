@@ -65,6 +65,7 @@ export async function POST(request: NextRequest) {
                 .insert({
                     product_id: product.id,
                     slots_per_box: slots_per_box,
+                    weight: weight,
                 })
                 .select('id')
                 .single();
