@@ -25,8 +25,6 @@ export default function useFilters() {
 
             if (!product || !product.beers || !product.awards) return false;
 
-            // console.log('beers', product.beers);
-
             const beerFamilyNumber: number = parseInt(product.beers.family);
 
             const beerFamily = family_options[beerFamilyNumber].label;

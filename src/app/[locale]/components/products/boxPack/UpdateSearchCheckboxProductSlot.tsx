@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
-import { UseFormReturn } from 'react-hook-form';
+import Spinner from '../../common/Spinner';
+import InputSearch from '../../common/InputSearch';
+import UpdateProductSlotList from './UpdateProductSlotList';
+import PaginationFooter from '../../common/PaginationFooter';
 import useFetchProductsByOwnerAndPagination from '../../../../../hooks/useFetchProductsByOwnerAndPagination';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Type } from '@/lib//productEnum';
 import { IProduct } from '@/lib//types/types';
-import InputSearch from '../../common/InputSearch';
-import PaginationFooter from '../../common/PaginationFooter';
-import Spinner from '../../common/Spinner';
-import UpdateProductSlotList from './UpdateProductSlotList';
+import { UseFormReturn } from 'react-hook-form';
 
 interface Props {
     form: UseFormReturn<any, any>;

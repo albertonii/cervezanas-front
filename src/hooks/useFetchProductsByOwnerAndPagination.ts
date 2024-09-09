@@ -2,8 +2,8 @@
 
 import { useQuery } from 'react-query';
 import { IProduct } from '@/lib//types/types';
-import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { SupabaseClient } from '@supabase/supabase-js';
+import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 
 const fetchProductsByOwner = async (
     currentPage: number,
@@ -36,9 +36,6 @@ const fetchProductsByOwner = async (
                     )
                 )
             `,
-            {
-                count: 'exact',
-            },
         )
         .eq('owner_id', ownerId)
         .eq('is_archived', isArchived)
@@ -61,7 +58,7 @@ const useFetchProductsByOwnerAndPagination = (
     const { supabase, user } = useAuth();
 
     return useQuery({
-        queryKey: ['productList'],
+        queryKey: 'productList',
         queryFn: () =>
             fetchProductsByOwner(
                 currentPage,
@@ -72,6 +69,8 @@ const useFetchProductsByOwnerAndPagination = (
             ),
         enabled: true,
         refetchOnWindowFocus: false,
+        // cacheTime: 0, // No caching
+        // staleTime: 0,  // Datos siempre frescos
     });
 };
 

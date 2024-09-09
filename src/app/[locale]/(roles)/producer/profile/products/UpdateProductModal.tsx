@@ -35,6 +35,7 @@ import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { Type } from '@/lib//productEnum';
 import { generateUUID } from '@/lib//actions';
 import { UpdateProductInfoSection } from '@/app/[locale]/components/products/UpdateProductInfoSection';
+import axios from 'axios';
 
 // This is the list of mime types you will accept with the schema
 const ACCEPTED_MIME_TYPES = [
@@ -371,9 +372,10 @@ export function UpdateProductModal({
         formData.append('weight', weight.toString());
         formData.append('product_id', product.id);
 
-        const response = await fetch(url, {
-            method: 'PUT',
-            body: formData,
+        const response = await axios.put(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data', // Asegura que axios envíe correctamente formData
+            },
         });
 
         if (response.status !== 200) {
@@ -387,6 +389,7 @@ export function UpdateProductModal({
         }
 
         setIsLoading(false);
+        queryClient.invalidateQueries('productList');
     };
 
     const updateBeerSection = async (formValues: ValidationSchema) => {
@@ -447,9 +450,10 @@ export function UpdateProductModal({
 
         formData.append('product_id', product.id);
 
-        const response = await fetch(url, {
-            method: 'PUT',
-            body: formData,
+        const response = await axios.put(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data', // Asegura que axios envíe correctamente formData
+            },
         });
 
         if (response.status !== 200) {
@@ -480,9 +484,10 @@ export function UpdateProductModal({
         );
         formData.append('product_id', formValues.product_id);
 
-        const response = await fetch(url, {
-            method: 'PUT',
-            body: formData,
+        const response = await axios.put(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data', // Asegura que axios envíe correctamente formData
+            },
         });
 
         if (response.status !== 200) {
@@ -496,6 +501,7 @@ export function UpdateProductModal({
         }
 
         setIsLoading(false);
+        queryClient.invalidateQueries('productList');
     };
 
     const updatePacks = async (packs: ModalUpdateProductPackFormData[]) => {
@@ -528,9 +534,10 @@ export function UpdateProductModal({
         formData.append('packs_size', packs.length.toString());
         formData.append('product_id', productId);
 
-        const response = await fetch(url, {
-            method: 'PUT',
-            body: formData,
+        const response = await axios.put(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data', // Asegura que axios envíe correctamente formData
+            },
         });
 
         if (response.status !== 200) {
@@ -541,6 +548,9 @@ export function UpdateProductModal({
 
             return;
         }
+
+        setIsLoading(false);
+        queryClient.invalidateQueries('productList');
     };
 
     const updateAwards = async (
@@ -573,9 +583,10 @@ export function UpdateProductModal({
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
         const url = `${baseUrl}/api/products/awards`;
 
-        const response = await fetch(url, {
-            method: 'PUT',
-            body: formData,
+        const response = await axios.put(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data', // Asegura que axios envíe correctamente formData
+            },
         });
 
         if (response.status !== 200) {
@@ -586,6 +597,9 @@ export function UpdateProductModal({
 
             return;
         }
+
+        setIsLoading(false);
+        queryClient.invalidateQueries('productList');
     };
 
     const deleteAwards = async () => {
@@ -614,6 +628,9 @@ export function UpdateProductModal({
 
             return;
         }
+
+        setIsLoading(false);
+        queryClient.invalidateQueries('productList');
     };
 
     const handleUpdateProduct = async (formValues: any) => {
@@ -711,17 +728,10 @@ export function UpdateProductModal({
         },
         onSuccess: () => {
             setIsSubmitting(false);
-            setIsLoading(false);
-            queryClient.invalidateQueries('productList');
-        },
-        onSettled: () => {
-            setIsSubmitting(false);
-            setIsLoading(false);
         },
         onError: (error: any) => {
             console.error(error);
             setIsSubmitting(false);
-            setIsLoading(false);
         },
     });
 

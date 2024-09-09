@@ -1,5 +1,6 @@
 'use client';
 
+import axios from 'axios';
 import dynamic from 'next/dynamic';
 import useBoxPackStore from '@/app/store//boxPackStore';
 import UpdateBoxProductSlotsSection from '@/app/[locale]/components/products/boxPack/UpdateBoxProductSlotsSection';
@@ -96,10 +97,8 @@ export function UpdateBoxPackModal({
 
     const [isLoading, setIsLoading] = useState(false);
     const [activeStep, setActiveStep] = useState<number>(0);
-    const { clear, boxPack } = useBoxPackStore();
+    const { clear, assignBoxPack, boxPack } = useBoxPackStore();
     const { handleMessage } = useMessage();
-
-    const { assignBoxPack } = useBoxPackStore();
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -206,9 +205,10 @@ export function UpdateBoxPackModal({
         formData.set('is_public', is_public.toString());
         formData.set('slots_per_box', slots_per_box.toString());
 
-        const response = await fetch(url, {
-            method: 'PUT',
-            body: formData,
+        const response = await axios.put(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data', // Asegura que axios envíe correctamente formData
+            },
         });
 
         if (response.status !== 200) {
@@ -222,7 +222,8 @@ export function UpdateBoxPackModal({
         }
 
         queryClient.invalidateQueries('productList');
-        // handleEditShowModal(false);
+        clear();
+
         setIsLoading(false);
     };
 
@@ -237,9 +238,10 @@ export function UpdateBoxPackModal({
         formData.set('box_pack_id', product.box_packs![0].id);
         formData.set('box_packs', JSON.stringify(boxPackItems));
 
-        const response = await fetch(url, {
-            method: 'PUT',
-            body: formData,
+        const response = await axios.put(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data', // Asegura que axios envíe correctamente formData
+            },
         });
 
         if (response.status !== 200) {
@@ -253,7 +255,7 @@ export function UpdateBoxPackModal({
         }
 
         queryClient.invalidateQueries('productList');
-        // handleEditShowModal(false);
+        clear();
         setIsLoading(false);
     };
 
@@ -273,12 +275,13 @@ export function UpdateBoxPackModal({
             await updateSlotsSection();
         }
 
+        queryClient.removeQueries('productList');
+
         handleMessage({
             type: 'success',
             message: 'success.boxpack_updated',
         });
 
-        clear();
         reset();
     };
 

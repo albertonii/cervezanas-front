@@ -22,8 +22,6 @@ type StoreItemProps = { product: IProduct; products: IProduct[] };
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export function BoxPackStoreItem({ product }: StoreItemProps) {
-    console.log(product);
-
     const t = useTranslations();
     const locale = useLocale();
     const { handleMessage } = useMessage();

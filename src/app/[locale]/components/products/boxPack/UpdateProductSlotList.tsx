@@ -1,8 +1,8 @@
-import React from 'react';
 import Spinner from '../../common/Spinner';
-import ProductSlotItem from './ProductSlotItem';
-import { UseFormReturn } from 'react-hook-form';
+import UpdateProductSlotItem from './UpdateProductSlotItem';
+import React from 'react';
 import { IProduct } from '@/lib//types/types';
+import { UseFormReturn } from 'react-hook-form';
 
 interface Props {
     products: IProduct[];
@@ -30,8 +30,8 @@ const UpdateProductSlotList: React.FC<Props> = ({ products, form }) => {
         >
             {products.map((product, index) => {
                 return (
-                    <div key={product.id} className="">
-                        <ProductSlotItem
+                    <div key={product.id}>
+                        <UpdateProductSlotItem
                             product={product}
                             form={form}
                             index={index}

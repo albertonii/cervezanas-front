@@ -1,6 +1,6 @@
 import InputLabel from '../../common/InputLabel';
 import useBoxPackStore from '@/app/store//boxPackStore';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { useMessage } from '../../message/useMessage';
@@ -8,7 +8,6 @@ import { IProduct } from '@/lib//types/types';
 import { IBoxPackItem } from '@/lib//types/product';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
-import { Type } from '@/lib//productEnum';
 
 interface Props {
     product: IProduct;
@@ -26,18 +25,13 @@ const UpdateProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
     const { boxPack } = useBoxPackStore();
 
     const [selectedPacks, setSelectedPacks] = useState<string[]>(
-        form
-            .getValues('box_pack_items')
-            .map((item: IBoxPackItem) => item.product_id),
+        boxPack?.boxPackItems.map((item) => item.product_id),
     );
     const [showAccordion, setShowAccordion] = useState(false);
 
-    const [quantity, setQuantity] = useState(
-        boxPack.boxPackItems[index]?.quantity,
-    );
-    const [slotsPerProduct, setSlotsPerProduct] = useState(
-        boxPack.boxPackItems[index]?.slots_per_product,
-    );
+    const [quantity, setQuantity] = useState(1);
+
+    const [slotsPerProduct, setSlotsPerProduct] = useState(1);
 
     const [checkboxError, setCheckboxError] = useState(false);
 
@@ -48,8 +42,18 @@ const UpdateProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
         removeProductSlot,
     } = useBoxPackStore();
 
-    if (product.type !== Type.BEER) return <></>;
-    // if (!selectedPacks) return <></>;
+    useEffect(() => {
+        if (product) {
+            const selectedProduct = boxPack.boxPackItems.find(
+                (item) => item.product_id === product.id,
+            );
+
+            if (selectedProduct) {
+                setQuantity(selectedProduct.quantity);
+                setSlotsPerProduct(selectedProduct.slots_per_product);
+            }
+        }
+    }, [product]);
 
     const handleCheckboxChange = (productId: string, isChecked: boolean) => {
         setSelectedPacks((prevSelectedPacks) => {

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Spinner from '@/app/[locale]/components/common/Spinner';
 import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
 import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
-import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
+import React, { ComponentProps, useEffect, useState } from 'react';
 import { IProduct } from '@/lib//types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
@@ -48,7 +48,7 @@ export function ProductList({
         );
 
     useEffect(() => {
-        console.log(data);
+        // console.log('LOS DATOS HAN CAMBIADO', data);
         setProducts(data as IProduct[]);
     }, [data]);
 

@@ -173,7 +173,6 @@ export function AddBoxPackModal() {
             body: formData,
         });
 
-        console.log(response);
         if (response.status !== 200) {
             handleMessage({
                 type: 'error',
