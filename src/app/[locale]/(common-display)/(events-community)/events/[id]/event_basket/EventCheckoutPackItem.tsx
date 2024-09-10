@@ -152,7 +152,7 @@ export default function EventCheckoutPackItem({
                             {formatCurrency(pack.price)}
                             <span className="text-red-300 line-through">
                                 {' '}
-                                $45.00
+                                45.00€
                             </span>
                         </p>
 

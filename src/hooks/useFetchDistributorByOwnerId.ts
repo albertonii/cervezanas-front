@@ -5,7 +5,7 @@ import { useQuery, UseQueryResult } from 'react-query';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { IDistributorUser } from '@/lib//types/types';
 
-const fetchDistributionByOwnerId = async (
+const fetchDistributorByOwnerId = async (
     userId: string,
     supabase: SupabaseClient<any>,
 ) => {
@@ -40,18 +40,18 @@ const fetchDistributionByOwnerId = async (
     return data as IDistributorUser;
 };
 
-const useFetchDistributionByOwnerId = (): UseQueryResult<
+const useFetchDistributorByOwnerId = (): UseQueryResult<
     IDistributorUser,
     unknown
 > => {
     const { user, supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['distribution', user?.id],
-        queryFn: () => fetchDistributionByOwnerId(user?.id, supabase),
+        queryKey: 'distributor_user',
+        queryFn: () => fetchDistributorByOwnerId(user?.id, supabase),
         enabled: true,
         refetchOnWindowFocus: false,
     });
 };
 
-export default useFetchDistributionByOwnerId;
+export default useFetchDistributorByOwnerId;

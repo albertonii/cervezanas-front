@@ -42,7 +42,7 @@ export default function PackItem({
                 >
                     {pack.name}
                     <span className="mt-2 text-xl font-bold">
-                        ${pack.price}
+                        {pack.price} €
                     </span>
                 </label>
             </label>

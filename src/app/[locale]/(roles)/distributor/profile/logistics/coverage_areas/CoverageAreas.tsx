@@ -1,11 +1,12 @@
 'use client';
 
-import useFetchDistributionByOwnerId from '../../../../../../../hooks/useFetchDistribution';
+import useFetchDistributionByOwnerId from '../../../../../../../hooks/useFetchDistributorByOwnerId';
 import HorizontalMenu from '../HorizontalMenuCoverageDestination';
 import SubRegionDistribution from '../(sub_region)/SubRegionDistribution';
 import RegionDistribution from '../(region)/RegionDistribution';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { IDistributorUser } from '@/lib/types/types';
 import { DistributionDestinationType } from '@/lib/enums';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
@@ -17,11 +18,18 @@ export default function CoverageAreas() {
         DistributionDestinationType.SUB_REGION,
     );
 
-    const { data: distributor, error } = useFetchDistributionByOwnerId();
+    const [distributor, setDistributor] = useState<IDistributorUser>();
 
-    if (error) {
-        console.error(error);
-    }
+    const { data, error, isFetchedAfterMount } =
+        useFetchDistributionByOwnerId();
+
+    useEffect(() => {
+        if (isFetchedAfterMount) {
+            setDistributor(data);
+        }
+
+        return () => {};
+    }, [data, isFetchedAfterMount]);
 
     // TODO: Hay que buscar una forma de normalizar los nombres de los paises
     // para puedan estar autoseleccionados al momento de recibir el listado de países que
@@ -109,27 +117,29 @@ export default function CoverageAreas() {
         }
     };
 
+    if (error) {
+        return <div>Error: {String(error)}</div>;
+    }
+
     return (
         <fieldset className="space-y-6 p-6 rounded-lg border border-gray-300 bg-white shadow-sm max-w-3xl mx-auto">
-            <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                    <h2 className="text-4xl font-['NexaRust-script']">
-                        {t('distribution_destination')}
-                    </h2>
+            <div className="flex justify-between items-center space-y-4">
+                <h2 className="text-4xl font-['NexaRust-script']">
+                    {t('distribution_destination')}
+                </h2>
 
-                    <Tooltip
-                        content="Configure los destinos de distribución para la venta online"
-                        delay={0}
-                        width={200}
-                    >
-                        <FontAwesomeIcon
-                            icon={faInfoCircle}
-                            style={{ color: '#90470b' }}
-                            title={'Information'}
-                            className="h-14 w-14 fill-beer-blonde text-base"
-                        />
-                    </Tooltip>
-                </div>
+                <Tooltip
+                    content="Configure los destinos de distribución para la venta online"
+                    delay={0}
+                    width={200}
+                >
+                    <FontAwesomeIcon
+                        icon={faInfoCircle}
+                        style={{ color: '#90470b' }}
+                        title={'Information'}
+                        className="h-14 w-14 fill-beer-blonde text-base"
+                    />
+                </Tooltip>
             </div>
 
             <p className="text-gray-600 text-base leading-relaxed">

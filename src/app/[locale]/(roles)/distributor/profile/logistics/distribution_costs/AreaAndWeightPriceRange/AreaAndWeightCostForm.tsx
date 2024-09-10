@@ -5,12 +5,13 @@ import AreaAndWeightRangeForm from './AreaAndWeightRangeForm';
 import SelectDistributionCost from '../SelectDistributionCost';
 import Button from '@/app/[locale]/components/common/Button';
 import InputLabel from '@/app/[locale]/components/common/InputLabel';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { z, ZodType } from 'zod';
 import {
     AreaAndWeightCostFormData,
     IAreaAndWeightCost,
     IAreaAndWeightInformation,
+    IDistributionCost,
 } from '@/lib/types/types';
 import { DistributionCostType, DistributionDestinationType } from '@/lib/enums';
 import { useForm } from 'react-hook-form';
@@ -81,7 +82,7 @@ export type AreaAndWeightCostFormValidationSchema = z.infer<typeof schema>;
 
 interface Props {
     extraCostPerKG: number;
-    areaAndWeightCost?: IAreaAndWeightCost;
+    distributionCosts: IDistributionCost;
     distributionCostId: string;
     fromDBDistributionType: string;
 }
@@ -89,7 +90,7 @@ interface Props {
 /* Tarifa de envío por rango de coste del pedido */
 const AreaAndWeightCostForm = ({
     extraCostPerKG,
-    areaAndWeightCost,
+    distributionCosts,
     distributionCostId,
     fromDBDistributionType,
 }: Props) => {
@@ -98,8 +99,22 @@ const AreaAndWeightCostForm = ({
     const [selectedArea, setSelectedArea] =
         useState<IAreaAndWeightInformation>();
 
-    const areaWeightInformationSubRegion: IAreaAndWeightInformation[] =
-        areaAndWeightCost?.area_and_weight_information || [];
+    const [areaWeightInformationSubRegion, setAreaWeightInformationSubRegion] =
+        useState<IAreaAndWeightInformation[]>(
+            distributionCosts.area_and_weight_cost
+                ?.area_and_weight_information || [],
+        );
+
+    useEffect(() => {
+        if (distributionCosts) {
+            setAreaWeightInformationSubRegion(
+                distributionCosts.area_and_weight_cost
+                    ?.area_and_weight_information || [],
+            );
+        }
+
+        return () => {};
+    }, [distributionCosts]);
 
     const form = useForm<AreaAndWeightCostFormValidationSchema>({
         mode: 'onSubmit',

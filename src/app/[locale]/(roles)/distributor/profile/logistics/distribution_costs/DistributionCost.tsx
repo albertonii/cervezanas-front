@@ -6,9 +6,10 @@ import HorizontalMenuCoverageCost from '../HorizontalMenuCoverageCost';
 import useFetchDistributionCostByOwnerId from '@/hooks/useFetchDistributionCosts';
 import AreaAndWeightCostForm from './AreaAndWeightPriceRange/AreaAndWeightCostForm';
 import FlatrateAndWeightCostForm from './FlatrateAndWeight/FlatrateAndWeightCostForm';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DistributionCostType } from '@/lib/enums';
+import { IDistributionCost } from '@/lib/types/types';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Tooltip } from '@/app/[locale]/components/common/Tooltip';
@@ -28,11 +29,17 @@ export default function DistributionCost({ userId }: Props) {
         setIsLoadingDistributioncostsIncluded,
     ] = useState(false);
 
-    const {
-        data: distributionCosts,
-        isLoading,
-        error,
-    } = useFetchDistributionCostByOwnerId(userId);
+    const [distributionCosts, setDistributionCosts] =
+        useState<IDistributionCost>();
+
+    const { data, isLoading, error, isFetchedAfterMount } =
+        useFetchDistributionCostByOwnerId(userId);
+
+    useEffect(() => {
+        if (isFetchedAfterMount) {
+            setDistributionCosts(data);
+        }
+    }, [isFetchedAfterMount, data]);
 
     const [menuOption, setMenuOption] = useState<string>(
         DistributionCostType.AREA_AND_WEIGHT,
@@ -94,9 +101,7 @@ export default function DistributionCost({ userId }: Props) {
                             distributionCosts.area_and_weight_cost!
                                 .cost_extra_per_kg
                         }
-                        areaAndWeightCost={
-                            distributionCosts.area_and_weight_cost
-                        }
+                        distributionCosts={distributionCosts}
                         distributionCostId={distributionCosts.id}
                         fromDBDistributionType={
                             distributionCosts.selected_method
@@ -116,8 +121,6 @@ export default function DistributionCost({ userId }: Props) {
     if (error) {
         return <div>Error al cargar los costos de distribución.</div>; // Maneja el caso de error
     }
-
-    console.log(distributionCosts);
 
     if (!distributionCosts) {
         return <div>No se encontraron datos de costos de distribución.</div>; // Maneja el caso donde no hay datos

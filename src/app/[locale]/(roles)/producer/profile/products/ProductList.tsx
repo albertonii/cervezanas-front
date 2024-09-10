@@ -40,7 +40,7 @@ export function ProductList({
 
     const resultsPerPage = 10;
 
-    const { data, isError, isLoading, refetch } =
+    const { data, isError, isLoading, refetch, isFetchedAfterMount } =
         useFetchProductsByOwnerAndPagination(
             currentPage,
             resultsPerPage,
@@ -48,9 +48,10 @@ export function ProductList({
         );
 
     useEffect(() => {
-        // console.log('LOS DATOS HAN CAMBIADO', data);
-        setProducts(data as IProduct[]);
-    }, [data]);
+        if (isFetchedAfterMount) {
+            setProducts(data as IProduct[]);
+        }
+    }, [isFetchedAfterMount, data]);
 
     useEffect(() => {
         refetch().then((res: any) => {

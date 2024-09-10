@@ -120,8 +120,8 @@ const AreaAndWeightRangeForm = ({ selectedArea }: Props) => {
     }, [selectedArea.area_weight_cost_range]);
 
     useEffect(() => {
-        console.log('errors', errors);
-        console.log('dirtyFields', dirtyFields);
+        console.info('errors', errors);
+        console.info('dirtyFields', dirtyFields);
     }, [errors, dirtyFields]);
 
     const { append, remove } = useFieldArray({
