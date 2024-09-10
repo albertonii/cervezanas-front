@@ -1213,5 +1213,6 @@
     "profile_configure_archive_description": "Here you can see the products you have archived. You can restore them if you wish.",
     "profile_configure_customize_description": "In this section you can customize key parameters of your beer. Can't find the right style? Is the color of your beer not listed here? Don't worry, you can add it yourself and customize it. Associate those key parameters that define your beer.",
     "max_slots_per_box": "Max slots per box",
-    "distributors_description": "Here you can see all the distributors that are registered on the platform. If you click on the user's name you will see in a new tab their contact information, company description and coverage areas, among other information."
+    "distributors_description": "Here you can see all the distributors that are registered on the platform. If you click on the user's name you will see in a new tab their contact information, company description and coverage areas, among other information.",
+    "profile_description_roles": "Here you can see the roles you have in the platform. If you want to change your role, you can do it from this section."
 }

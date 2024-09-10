@@ -75,11 +75,16 @@ const UserRoles = () => {
                 />
             )}
 
-            <div
-                id="account-data"
-                className="text-4xl font-['NexaRust-script']"
-            >
-                {t('profile_title_roles')}
+            <div>
+                <h2
+                    id="account-data"
+                    className="text-4xl font-['NexaRust-script']"
+                >
+                    {t('profile_title_roles')}
+                </h2>
+                <span className="text-base ">
+                    <i>{t('profile_description_roles')}</i>
+                </span>
             </div>
 
             <div id="roles" className="flex flex-wrap">
