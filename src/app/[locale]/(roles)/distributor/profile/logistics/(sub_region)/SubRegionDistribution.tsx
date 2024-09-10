@@ -244,7 +244,8 @@ export default function SubRegionDistribution({
                 message: 'success.update_sub_region_coverage_area',
             });
 
-            queryClient.invalidateQueries('distribution');
+            queryClient.invalidateQueries('distributionCosts');
+            // queryClient.removeQueries('distribution_costs');
 
             setUnCheckedSubRegions([]);
             setNewSelectedSubRegions([]);

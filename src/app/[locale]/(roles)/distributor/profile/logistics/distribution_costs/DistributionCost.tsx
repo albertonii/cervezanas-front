@@ -1,38 +1,46 @@
 'use client';
 
-import HorizontalMenuCoverageCost from '../HorizontalMenuCoverageCost';
-import AreaAndWeightCostForm from './AreaAndWeightPriceRange/AreaAndWeightCostForm';
-import FlatrateAndWeightCostForm from './FlatrateAndWeight/FlatrateAndWeightCostForm';
 import FlatrateCostForm from './FlatrateCost/FlatrateCostForm';
 import PriceRangeCostForm from './PrinceRange/PriceRangeCostForm';
+import HorizontalMenuCoverageCost from '../HorizontalMenuCoverageCost';
+import useFetchDistributionCostByOwnerId from '@/hooks/useFetchDistributionCosts';
+import AreaAndWeightCostForm from './AreaAndWeightPriceRange/AreaAndWeightCostForm';
+import FlatrateAndWeightCostForm from './FlatrateAndWeight/FlatrateAndWeightCostForm';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DistributionCostType } from '@/lib/enums';
-import { IDistributionCost } from '@/lib/types/types';
-import { Tooltip } from '@/app/[locale]/components/common/Tooltip';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Tooltip } from '@/app/[locale]/components/common/Tooltip';
 import { updateIsDistributionCostsIncludedInProduct } from '../../../actions';
 
 interface Props {
-    distributionCosts: IDistributionCost;
+    userId: string;
 }
 
-export default function DistributionCost({ distributionCosts }: Props) {
+export default function DistributionCost({ userId }: Props) {
     const t = useTranslations();
+
     const [includeDistributionCost, setIncludeDistributionCost] =
         useState<boolean>(false);
-
     const [
         isLoadingDistributionCostsIncluded,
         setIsLoadingDistributioncostsIncluded,
     ] = useState(false);
+
+    const {
+        data: distributionCosts,
+        isLoading,
+        error,
+    } = useFetchDistributionCostByOwnerId(userId);
 
     const [menuOption, setMenuOption] = useState<string>(
         DistributionCostType.AREA_AND_WEIGHT,
     );
 
     const handleCheckboxChange = async () => {
+        if (!distributionCosts) return;
+
         setIsLoadingDistributioncostsIncluded(true);
         setIncludeDistributionCost(!includeDistributionCost);
 
@@ -48,6 +56,8 @@ export default function DistributionCost({ distributionCosts }: Props) {
     // Tarifa de envío por franja de volumen del pedido (m3)
     // Tarifa de envío por franja de unidades del pedido (unidades)
     const renderSwitch = () => {
+        if (!distributionCosts) return null;
+
         switch (menuOption) {
             case DistributionCostType.PRICE_RANGE:
                 return <PriceRangeCostForm />;
@@ -99,6 +109,20 @@ export default function DistributionCost({ distributionCosts }: Props) {
         }
     };
 
+    if (isLoading) {
+        return <div>Cargando...</div>; // Maneja el estado de carga
+    }
+
+    if (error) {
+        return <div>Error al cargar los costos de distribución.</div>; // Maneja el caso de error
+    }
+
+    console.log(distributionCosts);
+
+    if (!distributionCosts) {
+        return <div>No se encontraron datos de costos de distribución.</div>; // Maneja el caso donde no hay datos
+    }
+
     return (
         <fieldset className="space-y-6 p-6 rounded-lg border border-gray-300 bg-white shadow-sm max-w-3xl mx-auto">
             {isLoadingDistributionCostsIncluded && (
@@ -128,10 +152,9 @@ export default function DistributionCost({ distributionCosts }: Props) {
                 </div>
 
                 <p className="text-gray-600 text-base leading-relaxed">
-                    Selecciona una de las siguientes opciones para comenzar a
-                    vender online. Puedes seleccionar el modelo de costes de
-                    distribución que mejor se adapte a tus necesidades como
-                    distribuidor e indicar los costes asociados.
+                    {t(
+                        'select_one_of_the_following_options_to_start_selling_online',
+                    )}
                 </p>
 
                 <div className="flex items-center space-x-3">

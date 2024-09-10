@@ -11,17 +11,17 @@ export interface Database {
     Tables: {
       area_and_weight_cost: {
         Row: {
-          cost_extra_per_kg: number | null
+          cost_extra_per_kg: number
           distribution_costs_id: string
           id: string
         }
         Insert: {
-          cost_extra_per_kg?: number | null
+          cost_extra_per_kg?: number
           distribution_costs_id?: string
           id?: string
         }
         Update: {
-          cost_extra_per_kg?: number | null
+          cost_extra_per_kg?: number
           distribution_costs_id?: string
           id?: string
         }
@@ -529,19 +529,16 @@ export interface Database {
           id: string
           product_id: string | null
           slots_per_box: number | null
-          weight: number
         }
         Insert: {
           id?: string
           product_id?: string | null
           slots_per_box?: number | null
-          weight?: number
         }
         Update: {
           id?: string
           product_id?: string | null
           slots_per_box?: number | null
-          weight?: number
         }
         Relationships: [
           {

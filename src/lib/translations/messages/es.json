@@ -1248,5 +1248,7 @@
     "profile_configure_customize_description": "En esta sección puedes personalizar parámetros clave de tu cerveza. ¿No encuentras el estilo adecuado? ¿El color de tu cerveza no aparece en el listado que te ofrecemos? No te preocupes, puedes añadirlo tú mismo y personalizarlo. Asocia aquellos parámetros clave que definen tu cerveza.",
     "max_slots_per_box": "Máximo de huecos por pack",
     "distributors_description": "Aquí puedes ver todos los distribuidores que están registrados en la plataforma. Si presionas en el nombre de usuario podrás ver en una nueva pestaña su información de contacto, la descripción de la empresa y las áreas de cobertura, entre otros datos.",
-    "profile_description_roles": "Aquí puedes ver los roles que tienes en la plataforma. Si deseas cambiar de rol, puedes hacerlo desde esta sección."
+    "profile_description_roles": "Aquí puedes ver los roles que tienes en la plataforma. Si deseas cambiar de rol, puedes hacerlo desde esta sección.",
+    "select_one_of_the_following_options_to_start_selling_online": "Selecciona una de las siguientes opciones para comenzar a vender online. Puedes seleccionar el modelo de costes de distribución que mejor se adapte a tus necesidades como distribuidor e indicar los costes asociados.",
+    "select_coverage_areas_to_start_selling": "Selecciona del listado aquellos destinos de distribución que deseas habilitar para la venta online. Estas áreas de cobertura se utilizarán para comprobar la disponibilidad de envío de tus productos a los clientes. Además, podrás configurar los costos de distribución para cada destino seleccionado en la pestaña `Coste de Distribución`."
 }

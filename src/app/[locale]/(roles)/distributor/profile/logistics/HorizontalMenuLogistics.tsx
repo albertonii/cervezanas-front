@@ -16,8 +16,8 @@ export default function HorizontalMenuLogistics({ setMenuOption }: Props) {
             <HorizontalSections
                 handleMenuClick={handleMenuClick}
                 tabs={[
-                    DistributionOption.COST,
                     DistributionOption.DESTINATION,
+                    DistributionOption.COST,
                     DistributionOption.ORIGIN_INFORMATION,
                 ]}
             />

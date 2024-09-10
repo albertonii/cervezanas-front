@@ -7,9 +7,9 @@ import RegionDistribution from '../(region)/RegionDistribution';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DistributionDestinationType } from '@/lib/enums';
-import { Tooltip } from '@/app/[locale]/components/common/Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { Tooltip } from '@/app/[locale]/components/common/Tooltip';
 
 export default function CoverageAreas() {
     const t = useTranslations();
@@ -26,7 +26,7 @@ export default function CoverageAreas() {
     // TODO: Hay que buscar una forma de normalizar los nombres de los paises
     // para puedan estar autoseleccionados al momento de recibir el listado de países que
     // tiene el distribuidor. Si lo hacemos de la manera de abajo
-    // hay causíticas que no ten<zemos en cuenta: Bosnia and Herzegovina no se marcaría
+    // hay causíticas que no tenemos en cuenta: Bosnia and Herzegovina no se marcaría
     // const internationalCountries =
     //     distributor?.coverage_areas?.international?.map((country) => {
     //         return country.replace(/\w\S*/g, (txt) => {
@@ -131,6 +131,10 @@ export default function CoverageAreas() {
                     </Tooltip>
                 </div>
             </div>
+
+            <p className="text-gray-600 text-base leading-relaxed">
+                {t('select_coverage_areas_to_start_selling')}
+            </p>
 
             {/* Horizontal menu  */}
             <HorizontalMenu setMenuOption={setMenuOption} />

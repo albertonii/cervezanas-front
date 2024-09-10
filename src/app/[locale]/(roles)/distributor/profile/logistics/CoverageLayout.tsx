@@ -1,22 +1,21 @@
 'use client';
 
-import OriginInfo from './distribution_costs/OriginInfo/OriginInfo';
 import CoverageAreas from './coverage_areas/CoverageAreas';
 import HorizontalMenuLogistics from './HorizontalMenuLogistics';
+import OriginInfo from './distribution_costs/OriginInfo/OriginInfo';
 import DistributionCost from './distribution_costs/DistributionCost';
 import React, { useState } from 'react';
 import { DistributionOption } from '@/lib//enums';
-import { ICoverageArea, IDistributionCost } from '@/lib//types/types';
+import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 
-interface Props {
-    // coverageArea: Database["public"]["Tables"]["coverage_areas"]["Row"];
-    distributionCosts: IDistributionCost;
-}
-
-export default function CoverageLayout({ distributionCosts }: Props) {
+export default function CoverageLayout() {
     const [menuOption, setMenuOption] = useState<string>(
-        DistributionOption.COST,
+        DistributionOption.DESTINATION,
     );
+
+    const { user } = useAuth();
+
+    if (!user) return null;
 
     const renderSwitch = () => {
         switch (menuOption) {
@@ -24,9 +23,7 @@ export default function CoverageLayout({ distributionCosts }: Props) {
                 return <OriginInfo />;
 
             case DistributionOption.COST:
-                return (
-                    <DistributionCost distributionCosts={distributionCosts} />
-                );
+                return <DistributionCost userId={user.id} />;
 
             case DistributionOption.DESTINATION:
                 return <CoverageAreas />;

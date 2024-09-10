@@ -6,17 +6,17 @@ import Spinner from '@/app/[locale]/components/common/Spinner';
 import InputSearch from '@/app/[locale]/components/common/InputSearch';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ICoverageArea, IDistributionCost } from '@/lib/types/types';
 import { useTranslations } from 'next-intl';
-import { useMutation, useQueryClient } from 'react-query';
-import { updateRegionDistribution } from '../../../actions';
-import { Country, ICountry, IState } from 'country-state-city';
-import { filterSearchInputQuery, slicePaginationResults } from '@/utils/utils';
-import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { JSONRegion } from '@/lib/types/distribution_areas';
-import { DistributionDestinationType } from '@/lib/enums';
-import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import { isSameRegion } from '@/utils/distribution';
+import { useMutation, useQueryClient } from 'react-query';
+import { DistributionDestinationType } from '@/lib/enums';
+import { updateRegionDistribution } from '../../../actions';
+import { JSONRegion } from '@/lib/types/distribution_areas';
+import { Country, ICountry, IState } from 'country-state-city';
+import { useAuth } from '../../../../../(auth)/Context/useAuth';
+import { ICoverageArea, IDistributionCost } from '@/lib/types/types';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { filterSearchInputQuery, slicePaginationResults } from '@/utils/utils';
 
 const fetcher = (arg: any, ...args: any) =>
     fetch(arg, ...args).then((res) => res.json());
@@ -234,7 +234,7 @@ export default function RegionDistribution({
                 message: 'success.update_region_coverage_area',
             });
 
-            queryClient.invalidateQueries('distribution');
+            queryClient.invalidateQueries('distributionCosts');
 
             setUnCheckedRegions([]);
             setNewSelectedRegions([]);

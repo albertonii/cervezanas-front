@@ -1533,6 +1533,7 @@ export interface DistributionRangeCost {
 
 export interface IDistributionCost {
     id: string;
+    created_at: string;
     distributor_id: string;
     distribution_costs_in_product: boolean;
     selected_method: string;
@@ -1568,8 +1569,8 @@ export interface IFlatrateAndWeightCost {
 export interface IAreaAndWeightCost {
     id?: string;
     distribution_costs_id?: string;
-    area_and_weight_information?: IAreaAndWeightInformation[];
     cost_extra_per_kg: number;
+    area_and_weight_information?: IAreaAndWeightInformation[];
 }
 
 export interface IAreaAndWeightInformation {
