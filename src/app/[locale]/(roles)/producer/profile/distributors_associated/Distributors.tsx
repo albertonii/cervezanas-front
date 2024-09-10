@@ -15,6 +15,7 @@ export default function Distributors({ counter }: Props) {
             <ProfileSectionHeader
                 headerTitle="distributors"
                 btnActions={<LinkDistributor />}
+                headerDescription="distributors_description"
             />
 
             {/* Section displaying all asociated distributors */}

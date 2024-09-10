@@ -1245,5 +1245,6 @@
     "profile_configure_lots_description": "Aquí puedes configurar tus lotes. Puedes añadir, editar y eliminar lotes.",
     "profile_configure_archive_description": "Aquí puedes ver los productos que has archivado. Puedes restaurarlos si lo deseas.",
     "profile_configure_customize_description": "En esta sección puedes personalizar parámetros clave de tu cerveza. ¿No encuentras el estilo adecuado? ¿El color de tu cerveza no aparece en el listado que te ofrecemos? No te preocupes, puedes añadirlo tú mismo y personalizarlo. Asocia aquellos parámetros clave que definen tu cerveza.",
-    "max_slots_per_box": "Máximo de huecos por pack"
+    "max_slots_per_box": "Máximo de huecos por pack",
+    "distributors_description": "Aquí puedes ver todos los distribuidores que están registrados en la plataforma. Si presionas en el nombre de usuario podrás ver en una nueva pestaña su información de contacto, la descripción de la empresa y las áreas de cobertura, entre otros datos."
 }

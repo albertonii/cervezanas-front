@@ -17,9 +17,9 @@ export default function Contracts({ counter }: Props) {
         <section className="px-4 py-6" aria-label="Distributors">
             <ProfileSectionHeader headerTitle="producers" />
 
-            <div className="w-40">
-                {/* <LinkDistributor producerId={user.id} /> */}
-            </div>
+            {/* <div className="w-40">
+                 <LinkDistributor producerId={user.id} /> 
+            </div> */}
 
             {/* Section displaying all asociated contracts */}
             <AssociatedProducersList counter={counter} />
