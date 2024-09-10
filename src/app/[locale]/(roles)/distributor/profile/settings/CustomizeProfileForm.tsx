@@ -1,15 +1,15 @@
 'use client';
 
+import Button from '@/app/[locale]/components/common/Button';
+import Spinner from '@/app/[locale]/components/common/Spinner';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { SupabaseProps } from '@/constants';
 import { isValidObject } from '@/utils/utils';
-import Button from '@/app/[locale]/components/common/Button';
-import Spinner from '@/app/[locale]/components/common/Spinner';
 import { IDistributorUser } from '@/lib//types/types';
 import { useAppContext } from '@/app/context/AppContext';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { FilePreviewAndHide } from '@/app/[locale]/components/common/FilePreviewAndHide';
 
 type FormValues = {

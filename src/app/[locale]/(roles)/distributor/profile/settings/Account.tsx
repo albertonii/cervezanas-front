@@ -1,6 +1,7 @@
 'use client';
 
-import UserRoles from '../../../producer/profile/settings/UserRoles';
+import UserRoles from '../../../../components/common/UserRoles';
+import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
 import { RRSSForm } from './RRSSForm';
 import { useTranslations } from 'next-intl';
 import { BasicDataForm } from './BasicDataForm';
@@ -8,7 +9,6 @@ import { SecretDataForm } from './SecretDataForm';
 import { IDistributorUser } from '@/lib//types/types';
 import { CompanyHistoryForm } from './CompanyHistoryForm';
 import { DistributorBasicDataForm } from './DistributorBasicDataForm';
-import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
 
 interface Props {
     profile: IDistributorUser;

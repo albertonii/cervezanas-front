@@ -7,10 +7,10 @@ import { z, ZodType } from 'zod';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
+import { IDistributorUser } from '@/lib//types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IDistributorUser } from '@/lib//types/types';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 
 type FormData = {

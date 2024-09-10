@@ -1,5 +1,5 @@
 import Modal from './Modal';
-import React, { ComponentProps } from 'react';
+import React from 'react';
 import { useMutation } from 'react-query';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useMessage } from '../message/useMessage';

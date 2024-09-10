@@ -2,7 +2,7 @@ import Button from '@/app/[locale]/components/common/Button';
 import React, { useState } from 'react';
 import { ROLE_ENUM } from '@/lib//enums';
 import { useTranslations } from 'next-intl';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { useAuth } from '../../(auth)/Context/useAuth';
 import { UpProducerModal } from '@/app/[locale]/components/modals/UpProducerModal';
 import { DownProducerModal } from '@/app/[locale]/components/modals/DownProducerModal';
 import { UpDistributorModal } from '@/app/[locale]/components/modals/UpDistributorModal';
