@@ -712,7 +712,8 @@
         "deleting_product_packs": "Error al eliminar los packs de productos.",
         "deleting_product_awards": "Error al eliminar los premios del producto.",
         "deleting_product": "Error al eliminar el producto.",
-        "creating_box_pack": "Error al crear el pack de caja."
+        "creating_box_pack": "Error al crear el pack de caja.",
+        "is_accept_terms": "Debes aceptar los términos y condiciones"
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",

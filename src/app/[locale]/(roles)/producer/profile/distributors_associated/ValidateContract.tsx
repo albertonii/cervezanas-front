@@ -3,6 +3,7 @@ import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
+
 interface Props {
     form: UseFormReturn<any>;
 }
@@ -23,7 +24,7 @@ export default function CollaborationDetails({ form }: Props) {
                         type="checkbox"
                         id="terms"
                         value=""
-                        {...register('is_signed')}
+                        {...register('is_accept_terms')}
                         className="h-4 w-4 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde"
                     />
                     <p>
@@ -33,8 +34,8 @@ export default function CollaborationDetails({ form }: Props) {
                 </label>
 
                 {/* Error input isSigned */}
-                {errors.is_signed && (
-                    <DisplayInputError message="errors.is_signed" />
+                {errors.is_accept_terms && (
+                    <DisplayInputError message="errors.is_accept_terms" />
                 )}
             </div>
 
@@ -42,7 +43,7 @@ export default function CollaborationDetails({ form }: Props) {
             <InputTextarea
                 form={form}
                 label={'message'}
-                labelText={'message_to_distributor_contract_distribution'}
+                labelText={t('message_to_distributor_contract_distribution')}
                 registerOptions={{
                     required: true,
                 }}
