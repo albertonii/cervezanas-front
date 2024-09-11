@@ -60,6 +60,7 @@ const validateFile = (f: File, ctx: any) => {
 const schema: ZodType<ModalUpdateBoxPackFormData> = z.object({
     slots_per_box: z.number().min(1, 'errors.input_number_min_0'),
     is_public: z.boolean(),
+    is_available: z.boolean(),
     name: z.string().nonempty('errors.input_required'),
     description: z.string().nonempty('errors.input_required'),
     price: z.number().min(0, 'errors.input_number_min_0'),
@@ -117,6 +118,7 @@ export function UpdateBoxPackModal({
                       description: item.products.description,
                       type: item.products.type,
                       is_public: item.products.is_public,
+                      is_available: item.products.is_available,
                       discount_percent: item.products.discount_percent,
                       weight: item.products.weight,
                       discount_code: item.products.discount_code,
@@ -152,6 +154,7 @@ export function UpdateBoxPackModal({
         resolver: zodResolver(schema),
         defaultValues: {
             is_public: product.is_public,
+            is_available: product.is_available,
             name: product.name,
             description: product.description,
             price: product.price,
@@ -189,8 +192,15 @@ export function UpdateBoxPackModal({
     };
 
     const updateBasicSection = async (formValues: ValidationSchema) => {
-        const { name, description, price, weight, is_public, slots_per_box } =
-            formValues;
+        const {
+            name,
+            description,
+            price,
+            weight,
+            is_public,
+            is_available,
+            slots_per_box,
+        } = formValues;
 
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
         const url = `${baseUrl}/api/products/box_packs/details`;
@@ -203,6 +213,7 @@ export function UpdateBoxPackModal({
         formData.set('price', price.toString());
         formData.set('weight', weight.toString());
         formData.set('is_public', is_public.toString());
+        formData.set('is_available', is_available.toString());
         formData.set('slots_per_box', slots_per_box.toString());
 
         const response = await axios.put(url, formData, {
@@ -266,6 +277,7 @@ export function UpdateBoxPackModal({
             dirtyFields.price ||
             dirtyFields.weight ||
             dirtyFields.is_public ||
+            dirtyFields.is_available ||
             dirtyFields.slots_per_box
         ) {
             await updateBasicSection(form);

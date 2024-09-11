@@ -59,6 +59,7 @@ const validateFile = (f: File, ctx: any) => {
 
 const schema: ZodType<ModalAddBoxPackFormData> = z.object({
     is_public: z.boolean(),
+    is_available: z.boolean(),
     name: z.string().nonempty('errors.input_required'),
     description: z.string().nonempty('errors.input_required'),
     price: z.number().min(0, 'errors.input_number_min_0'),
@@ -89,6 +90,7 @@ export function AddBoxPackModal() {
         resolver: zodResolver(schema),
         defaultValues: {
             is_public: true,
+            is_available: true,
             name: '',
             description: '',
             price: 0,
@@ -125,6 +127,7 @@ export function AddBoxPackModal() {
             price,
             weight,
             is_public,
+            is_available,
             slots_per_box,
             p_principal,
             p_back,
@@ -143,6 +146,7 @@ export function AddBoxPackModal() {
         formData.set('price', price.toString());
         formData.set('weight', weight.toString());
         formData.set('is_public', is_public.toString());
+        formData.set('is_available', is_available.toString());
         formData.set('slots_per_box', slots_per_box.toString());
 
         const boxPackItems = boxPack.boxPackItems;

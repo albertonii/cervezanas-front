@@ -20,6 +20,7 @@ export interface IBoxPackItem {
 
 export interface ModalAddBoxPackFormData {
     is_public: boolean;
+    is_available: boolean;
     name: string;
     description: string;
     price: number;
@@ -42,6 +43,7 @@ export interface ModalAddBoxPackItemFormData {
 export interface ModalUpdateBoxPackFormData {
     slots_per_box: number;
     is_public: boolean;
+    is_available: boolean;
     name: string;
     description: string;
     price: number;

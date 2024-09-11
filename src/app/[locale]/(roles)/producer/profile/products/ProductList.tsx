@@ -118,17 +118,19 @@ export function ProductList({
             render: (product_inventory: any) =>
                 product_inventory?.quantity ?? '-',
         },
-        {
-            header: t('lot_header'),
-            accessor: 'product_lots',
-            sortable: true,
-            render: (product_lots: any[]) => product_lots[0]?.lot_id ?? '-',
-        },
+
         {
             header: t('public_header'),
             accessor: 'is_public',
             sortable: true,
             render: (is_public: boolean) => (is_public ? t('yes') : t('no')),
+        },
+        {
+            header: t('is_available_header'),
+            accessor: 'is_available',
+            sortable: true,
+            render: (is_available: boolean) =>
+                is_available ? t('yes') : t('no'),
         },
         {
             header: t('action_header'),

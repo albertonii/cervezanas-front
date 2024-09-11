@@ -2530,6 +2530,7 @@ export interface Database {
           discount_percent: number | null
           id: string
           is_archived: boolean | null
+          is_available: boolean
           is_monthly: boolean | null
           is_public: boolean | null
           name: string | null
@@ -2547,6 +2548,7 @@ export interface Database {
           discount_percent?: number | null
           id?: string
           is_archived?: boolean | null
+          is_available?: boolean
           is_monthly?: boolean | null
           is_public?: boolean | null
           name?: string | null
@@ -2564,6 +2566,7 @@ export interface Database {
           discount_percent?: number | null
           id?: string
           is_archived?: boolean | null
+          is_available?: boolean
           is_monthly?: boolean | null
           is_public?: boolean | null
           name?: string | null

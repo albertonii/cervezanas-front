@@ -807,6 +807,7 @@ export type ModalAddProductFormData = {
     p_extra_2?: any;
     p_extra_3?: any;
     is_public: boolean;
+    is_available: boolean;
 
     // campaign: string;
     awards: ModalAddProductAwardFormData[];
@@ -843,6 +844,7 @@ export type ModalUpdateProductFormData = {
     p_extra_2?: any;
     p_extra_3?: any;
     is_public: boolean;
+    is_available: boolean;
     volume: number;
     weight: number;
     format: string;
@@ -986,6 +988,7 @@ export interface IProduct {
     is_archived: boolean;
     category: string;
     is_monthly: boolean;
+    is_available: boolean;
     owner_id: string;
     order_items?: IOrderItem[];
     product_lots?: IProductLot[];

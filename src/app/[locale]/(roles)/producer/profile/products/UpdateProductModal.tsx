@@ -105,6 +105,7 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
     malt_type: z.string().nullable().optional(),
     consumption_temperature: z.number().nullable().optional(),
     is_public: z.boolean(),
+    is_available: z.boolean(),
     volume: z.number().min(0, { message: 'errors.input_number_min_0' }),
     weight: z.number().min(0, { message: 'errors.input_number_min_0' }),
     format: z
@@ -283,6 +284,7 @@ export function UpdateProductModal({
             description: product.description ?? '',
             type: product.type ?? Type.BEER,
             is_public: product.is_public ?? false,
+            is_available: product.is_available ?? false,
             price: product.price ?? 0,
             stock_quantity: product.product_inventory?.quantity ?? 0,
             stock_limit_notification:
@@ -356,8 +358,15 @@ export function UpdateProductModal({
     const updateBasicSection = async (formValues: ValidationSchema) => {
         setIsLoading(true);
 
-        const { name, description, type, price, is_public, weight } =
-            formValues;
+        const {
+            name,
+            description,
+            type,
+            price,
+            is_public,
+            is_available,
+            weight,
+        } = formValues;
 
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
         const url = `${baseUrl}/api/products/details`;
@@ -369,6 +378,7 @@ export function UpdateProductModal({
         formData.append('type', type);
         formData.append('price', price.toString());
         formData.append('is_public', is_public.toString());
+        formData.append('is_available', is_available.toString());
         formData.append('weight', weight.toString());
         formData.append('product_id', product.id);
 
@@ -651,6 +661,7 @@ export function UpdateProductModal({
             dirtyFields.type ||
             dirtyFields.price ||
             dirtyFields.is_public ||
+            dirtyFields.is_available ||
             dirtyFields.weight
         ) {
             await updateBasicSection(formValues);

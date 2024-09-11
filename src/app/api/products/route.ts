@@ -26,6 +26,8 @@ export async function POST(request: NextRequest) {
         const type = formData.get('type') as string;
         const price = parseFloat(formData.get('price') as string);
         const is_public = (formData.get('is_public') as string) === 'true';
+        const is_available =
+            (formData.get('is_available') as string) === 'true';
         const category = formData.get('category') as string;
         const weight = parseFloat(formData.get('weight') as string);
 
@@ -122,6 +124,7 @@ export async function POST(request: NextRequest) {
                 owner_id: userId,
                 price: price,
                 is_public,
+                is_available,
                 category,
                 weight,
             })
