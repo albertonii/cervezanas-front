@@ -375,7 +375,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
             <TechnicalInfoSection form={form} />
 
             {/* Stock information  */}
-            <StockInformation form={form} />
+            {/* <StockInformation form={form} /> */}
 
             {/*  Packs */}
             <ProductPackInformation form={form} />

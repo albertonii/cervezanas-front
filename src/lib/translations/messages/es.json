@@ -415,7 +415,7 @@
     "is_public_campaign_description": "Esta campaña será visible para todos los usuarios de la web",
     "is_public_review_description": "Esta opinión será visible para todos los usuarios de la web",
     "is_public_product_description": "Este producto será visible para todos los usuarios de la web",
-    "is_available_product_description": "Al marcar esta casilla, confirma que el producto está disponible para la venta",
+    "is_available_product_description": "Asegúrate de que el producto tiene stock suficiente para su venta",
     "is_public_product": "¿Publicar producto?",
     "is_public_description": "Esta información será visible para todos los usuarios de la web",
     "add_form_campaign": "Añadir campaña",

@@ -38,7 +38,7 @@ export default function UpdateStockInformation({ form }: Props) {
 
                 {/* Stock quantity and Limitation */}
                 <div className="flex w-full flex-row space-x-4">
-                    <InputLabel
+                    {/* <InputLabel
                         form={form}
                         label={'stock_quantity'}
                         labelText={'stock_quantity_label'}
@@ -68,7 +68,7 @@ export default function UpdateStockInformation({ form }: Props) {
                         inputType="number"
                         defaultValue={20}
                         isRequired={true}
-                    />
+                    /> */}
                 </div>
             </section>
         </div>

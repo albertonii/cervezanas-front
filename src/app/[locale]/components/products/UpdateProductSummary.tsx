@@ -204,7 +204,7 @@ export function UpdateProductSummary({ form }: Props) {
                     </div>
 
                     {/* Stock Quantity and Notification */}
-                    <div className="flex flex-row justify-between gap-4">
+                    {/* <div className="flex flex-row justify-between gap-4">
                         <div className="flex flex-col">
                             <label className="text-md font-semibold text-gray-600">
                                 {t('stock_quantity_label')}
@@ -221,7 +221,7 @@ export function UpdateProductSummary({ form }: Props) {
                                 {getValues('stock_limit_notification')}
                             </span>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Packs */}

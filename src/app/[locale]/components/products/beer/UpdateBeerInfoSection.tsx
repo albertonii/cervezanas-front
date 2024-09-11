@@ -443,7 +443,7 @@ export default function UpdateBeerInfoSection({
             <UpdateTechnicalInfoSection form={form} />
 
             {/* Stock information  */}
-            <UpdateStockInformation form={form} />
+            {/* <UpdateStockInformation form={form} /> */}
 
             {/*  Packs */}
             <UpdateProductPackInformation form={form} />

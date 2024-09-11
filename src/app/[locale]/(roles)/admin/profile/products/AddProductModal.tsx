@@ -13,33 +13,14 @@ import {
     product_type_options,
 } from '@/lib//beerEnum';
 import { MultimediaSection } from '@/app/[locale]/components/products/MultimediaSection';
-import {
-    IProductInventory,
-    IModalAddProductPack,
-    ModalAddProductAwardFormData,
-    ModalAddProductFormData,
-} from '@/lib//types/types';
+import { ModalAddProductFormData } from '@/lib//types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { ProductSummary } from '@/app/[locale]/components/products/ProductSummary';
-import {
-    generateFileNameExtension,
-    isFileEmpty,
-    isNotEmptyArray,
-    isValidObject,
-} from '@/utils/utils';
 import { useMutation, useQueryClient } from 'react-query';
 import { ProductStepper } from '@/app/[locale]/components/products/ProductStepper';
 import { ProductInfoSection } from '@/app/[locale]/components/products/ProductInfoSection';
 import { useAppContext } from '@/app/context/AppContext';
 import dynamic from 'next/dynamic';
-import {
-    ROUTE_ARTICLES,
-    ROUTE_P_BACK,
-    ROUTE_P_EXTRA_1,
-    ROUTE_P_EXTRA_2,
-    ROUTE_P_EXTRA_3,
-    ROUTE_P_PRINCIPAL,
-} from '@/config';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { AwardsSection } from '@/app/[locale]/components/products/AwardsSection';
 import Spinner from '@/app/[locale]/components/common/Spinner';
@@ -99,6 +80,7 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
     p_extra_1: z.instanceof(FileList).optional(),
     p_extra_2: z.instanceof(FileList).optional(),
     is_public: z.boolean(),
+    is_available: z.boolean(),
     volume: z.number().min(0, { message: 'errors.input_number_min_0' }),
     weight: z.number().min(0, { message: 'errors.input_number_min_0' }),
     format: z
@@ -107,10 +89,10 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
         .max(50, {
             message: 'errors.error_50_number_max_length',
         }),
-    stock_quantity: z.number().min(0, { message: 'errors.input_number_min_0' }),
-    stock_limit_notification: z
-        .number()
-        .min(0, { message: 'errors.input_required' }),
+    // stock_quantity: z.number().min(0, { message: 'errors.input_number_min_0' }),
+    // stock_limit_notification: z
+    //     .number()
+    //     .min(0, { message: 'errors.input_required' }),
     category: z
         .string()
         .min(2, { message: 'errors.input_number__min_2' })
@@ -213,8 +195,8 @@ export function AddProductModal() {
             volume,
             weight,
             format,
-            stock_quantity,
-            stock_limit_notification,
+            // stock_quantity,
+            // stock_limit_notification,
             packs,
             category,
             ibu,
@@ -427,19 +409,19 @@ export function AddProductModal() {
             // productData[0].beers = beer;
 
             // Inventory - Stock
-            const stock: IProductInventory = {
-                product_id: productId,
-                quantity: stock_quantity,
-                limit_notification: stock_limit_notification,
-            };
+            // const stock: IProductInventory = {
+            //     product_id: productId,
+            //     quantity: stock_quantity,
+            //     limit_notification: stock_limit_notification,
+            // };
 
             // UPD Stock in new product displayed in list
             // productData[0].product_inventory = stock;
 
-            const { error: stockError } = await supabase
-                .from('product_inventory')
-                .insert(stock);
-            if (stockError) throw stockError;
+            // const { error: stockError } = await supabase
+            //     .from('product_inventory')
+            //     .insert(stock);
+            // if (stockError) throw stockError;
 
             // Packs Stock
             // is

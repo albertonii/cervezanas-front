@@ -798,8 +798,8 @@ export type ModalAddProductFormData = {
     volume: number;
     weight: number;
     format: string;
-    stock_quantity: number;
-    stock_limit_notification: number;
+    // stock_quantity: number;
+    // stock_limit_notification: number;
     category: string;
     p_principal?: any;
     p_back?: any;
@@ -850,8 +850,8 @@ export type ModalUpdateProductFormData = {
     format: string;
     category: string;
     // campaign: string;
-    stock_quantity: number;
-    stock_limit_notification: number;
+    // stock_quantity: number;
+    // stock_limit_notification: number;
     awards: ModalUpdateProductAwardFormData[];
     packs: ModalUpdateProductPackFormData[];
 };
@@ -1153,8 +1153,8 @@ export interface IModalAddProduct {
     price: number;
     packs: IModalAddProductPack[];
     format: any;
-    stock_quantity: number;
-    stock_limit_notification: number;
+    // stock_quantity: number;
+    // stock_limit_notification: number;
     lot_id: number;
     lot_quantity: number;
 }

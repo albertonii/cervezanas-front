@@ -67,12 +67,12 @@ export async function POST(request: NextRequest) {
         const ingredientsArray = ingredients.split(',');
 
         // Stock - Inventory
-        const stockQuantity = parseFloat(
-            formData.get('stock.quantity') as string,
-        );
-        const stockLimitNotification = parseFloat(
-            formData.get('stock.limit_notification') as string,
-        );
+        // const stockQuantity = parseFloat(
+        //     formData.get('stock.quantity') as string,
+        // );
+        // const stockLimitNotification = parseFloat(
+        //     formData.get('stock.limit_notification') as string,
+        // );
 
         // Packs
         const packsSize = parseInt(formData.get('packs_size') as string);
@@ -187,6 +187,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Stock - Inventory Insert
+        /*
         if (stockLimitNotification && stockQuantity) {
             const { error: stockError } = await supabase
                 .from('product_inventory')
@@ -216,6 +217,7 @@ export async function POST(request: NextRequest) {
                 );
             }
         }
+        */
 
         // Packs Insert
         if (packs && packs.length > 0) {

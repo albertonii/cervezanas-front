@@ -78,7 +78,7 @@ export default function StockInformationDetailsAndPacksUpdate({ form }: Props) {
             <div className="flex w-full flex-col space-y-16">
                 {/* Stock quantity and Limitation */}
                 <div className="flex w-full flex-row space-x-3 ">
-                    <InputLabel
+                    {/* <InputLabel
                         form={form}
                         label={'stock_quantity'}
                         labelText={'stock_quantity_label'}
@@ -104,7 +104,7 @@ export default function StockInformationDetailsAndPacksUpdate({ form }: Props) {
                         }}
                         placeholder="20"
                         inputType="number"
-                    />
+                    /> */}
                 </div>
 
                 {/* Packs */}

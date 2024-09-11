@@ -114,10 +114,10 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
         .max(50, {
             message: 'errors.error_50_number_max_length',
         }),
-    stock_quantity: z.number().min(0, { message: 'errors.input_number_min_0' }),
-    stock_limit_notification: z
-        .number()
-        .min(0, { message: 'errors.input_required' }),
+    // stock_quantity: z.number().min(0, { message: 'errors.input_number_min_0' }),
+    // stock_limit_notification: z
+    //     .number()
+    //     .min(0, { message: 'errors.input_required' }),
     category: z
         .string()
         .min(2, { message: 'errors.input_number__min_2' })
@@ -286,9 +286,9 @@ export function UpdateProductModal({
             is_public: product.is_public ?? false,
             is_available: product.is_available ?? false,
             price: product.price ?? 0,
-            stock_quantity: product.product_inventory?.quantity ?? 0,
-            stock_limit_notification:
-                product.product_inventory?.limit_notification ?? 0,
+            // stock_quantity: product.product_inventory?.quantity ?? 0,
+            // stock_limit_notification:
+            //     product.product_inventory?.limit_notification ?? 0,
             format: format,
             volume: volume,
             weight: product.weight ?? 0,
@@ -480,6 +480,10 @@ export function UpdateProductModal({
     };
 
     const updateInventory = async (formValues: ValidationSchema) => {
+        // Ahora mismo no queremos mostrar el stock y el límite para avisar -> Por eso usamos is_available
+        return;
+
+        /*
         setIsLoading(true);
 
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -512,6 +516,7 @@ export function UpdateProductModal({
 
         setIsLoading(false);
         queryClient.invalidateQueries('productList');
+        */
     };
 
     const updatePacks = async (packs: ModalUpdateProductPackFormData[]) => {
@@ -695,17 +700,15 @@ export function UpdateProductModal({
                 await updateBeerSection(formValues);
             }
 
+            /*
             if (
                 dirtyFields.stock_quantity ||
                 dirtyFields.stock_limit_notification
             ) {
                 await updateInventory(formValues);
             }
+            */
 
-            // DirtyFields.packs is array of objects
-            // so it's going to be always true if there are packs
-            // so we need to check if inside the array there are changes
-            // if there are no changes we don't need to update the packs
             const isPacksDirty = dirtyFields.packs?.some(
                 (pack: { [key: string]: any }) => {
                     // Comprobar si hay algún elemento dentro del objeto que sea true. Si es así es que debemos de entrar porque hubieron cambios en los packs

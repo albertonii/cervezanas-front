@@ -50,6 +50,7 @@ async function getMonthlyProductsData() {
           is_archived, 
           category, 
           is_monthly, 
+          is_available,
           owner_id,
           product_multimedia (*)
         )

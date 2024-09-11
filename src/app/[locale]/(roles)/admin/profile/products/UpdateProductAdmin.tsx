@@ -66,6 +66,7 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
     p_extra_2: z.instanceof(FileList).optional().or(z.string()),
     p_extra_3: z.instanceof(FileList).optional().or(z.string()),
     is_public: z.boolean(),
+    is_available: z.boolean(),
     // TODO: Bug in volume validation when adding product
     // volume: z.number().min(0, { message: "errors.input_required" }).max(50, {
     //   message: "Required",
@@ -229,9 +230,9 @@ export function UpdateProductAdmin({
             type: product.type ?? Type.BEER,
             is_public: product.is_public ?? false,
             price: product.price ?? 0,
-            stock_quantity: product.product_inventory?.quantity ?? 0,
-            stock_limit_notification:
-                product.product_inventory?.limit_notification ?? 0,
+            // stock_quantity: product.product_inventory?.quantity ?? 0,
+            // stock_limit_notification:
+            //     product.product_inventory?.limit_notification ?? 0,
             format: format,
             volume: volume,
             weight: product.weight ?? 0,

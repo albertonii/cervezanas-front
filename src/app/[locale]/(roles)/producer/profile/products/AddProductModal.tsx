@@ -152,10 +152,10 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
         .max(50, {
             message: 'errors.error_50_number_max_length',
         }),
-    stock_quantity: z.number().min(0, { message: 'errors.input_number_min_0' }),
-    stock_limit_notification: z
-        .number()
-        .min(0, { message: 'errors.input_required' }),
+    // stock_quantity: z.number().min(0, { message: 'errors.input_number_min_0' }),
+    // stock_limit_notification: z
+    //     .number()
+    //     .min(0, { message: 'errors.input_required' }),
     category: z
         .string()
         .min(2, { message: 'errors.input_number__min_2' })
@@ -238,8 +238,8 @@ export function AddProductModal() {
             volume,
             weight,
             format,
-            stock_quantity,
-            stock_limit_notification,
+            // stock_quantity,
+            // stock_limit_notification,
             packs,
             category,
             ibu,
@@ -305,11 +305,11 @@ export function AddProductModal() {
         );
 
         // Stock
-        formData.append('stock.quantity', stock_quantity.toString());
-        formData.append(
-            'stock.limit_notification',
-            stock_limit_notification.toString(),
-        );
+        // formData.append('stock.quantity', stock_quantity.toString());
+        // formData.append(
+        //     'stock.limit_notification',
+        //     stock_limit_notification.toString(),
+        // );
 
         // Packs
         if (isNotEmptyArray(packs)) {
