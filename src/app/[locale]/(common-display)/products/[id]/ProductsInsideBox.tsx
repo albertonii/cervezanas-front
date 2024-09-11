@@ -66,6 +66,36 @@ export default function ProductsInsideBox({ product, boxPack }: Props) {
 
     return (
         <div>
+            <h2 className="mt-8 text-xl py-1 font-semibold text-center bg-cerv-banana text-white rounded">
+                La caja contiene los siguientes productos
+            </h2>
+
+            <table className="w-full text-center dark:text-gray-400 border rounded-full shadown-xl ">
+                <thead className="text-md uppercase text-white dark:bg-gray-700 dark:text-gray-400 bg-cerv-coal">
+                    <tr>
+                        <th
+                            scope="col"
+                            className="px-6 py-3 font-['NexaRust-script'] lowercase text-3xl"
+                        >
+                            {t('product')}
+                        </th>
+                        <th
+                            scope="col"
+                            className="px-6 py-3 font-['NexaRust-script'] lowercase text-3xl"
+                        >
+                            {t('quantity')}
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody className="bg-white text-gray-700 text-xl border-beer-blonde border-b-2 border-t-2 shadow-lg h-[10vh]">
+                    {boxPack &&
+                        boxPack.box_pack_items?.map((item) => {
+                            return <BoxItem item={item} />;
+                        })}
+                </tbody>
+            </table>
+
             {boxPack && boxPack.box_pack_items && (
                 <div className="mt-10">
                     <div className="flex items-center justify-between">
@@ -74,51 +104,27 @@ export default function ProductsInsideBox({ product, boxPack }: Props) {
                         </h4>
                     </div>
 
-                    <fieldset className="mt-4">
-                        <div className="mt-2 flex space-x-2 bg-white max-w-[200px] p-3 shadow-sm">
-                            <MarketCartButtons2
-                                item={boxPack.box_pack_items[0]}
-                                quantity={packQuantity}
-                                handleIncreaseCartQuantity={() =>
-                                    handleIncreasePackQuantity()
-                                }
-                                handleDecreaseCartQuantity={() =>
-                                    handleDecreasePackQuantity()
-                                }
-                                handleRemoveFromCart={() => void 0}
-                                displayDeleteButton={false}
-                            />
+                    <div className="flex space-x-2 bg-gray-100 p-3 shadow-lg relative float-left justify-center items-center">
+                        <MarketCartButtons2
+                            item={boxPack.box_pack_items[0]}
+                            quantity={packQuantity}
+                            handleIncreaseCartQuantity={() =>
+                                handleIncreasePackQuantity()
+                            }
+                            handleDecreaseCartQuantity={() =>
+                                handleDecreasePackQuantity()
+                            }
+                            handleRemoveFromCart={() => void 0}
+                            displayDeleteButton={false}
+                        />
 
-                            <AddCardButton
-                                withText={true}
-                                onClick={() => handleAddToCart()}
-                            />
-                        </div>
-                    </fieldset>
+                        <AddCardButton
+                            withText={true}
+                            onClick={() => handleAddToCart()}
+                        />
+                    </div>
                 </div>
             )}
-
-            <h2 className="mt-8 text-xl py-1 font-semibold text-center bg-cerv-banana text-white rounded">La caja contiene los siguientes productos</h2>
-
-            <table className="w-full text-center  dark:text-gray-400 border rounded-full shadown-xl">
-                <thead className="text-md uppercase text-white dark:bg-gray-700 dark:text-gray-400 bg-cerv-coal">
-                    <tr>
-                        <th scope="col" className="px-6 py-3 font-['NexaRust-script'] lowercase text-3xl">
-                            {t('product')}
-                        </th>
-                        <th scope="col" className="px-6 py-3 font-['NexaRust-script'] lowercase text-3xl">
-                            {t('quantity')}
-                        </th>
-                    </tr>
-                </thead>
-
-                <tbody className="bg-white text-gray-700 text-xl border-beer-blonde border-b-2 border-t-2 shadow-lg">
-                    {boxPack &&
-                        boxPack.box_pack_items?.map((item) => {
-                            return <BoxItem item={item} />;
-                        })}
-                </tbody>
-            </table>
         </div>
     );
 }

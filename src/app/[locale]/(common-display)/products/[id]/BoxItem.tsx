@@ -26,7 +26,7 @@ export default function BoxItem({ item }: Props) {
                 onMouseLeave={() => setIsHovering(false)}
                 className="hover:bg-beer-softFoam dark:hover:bg-gray-700 transition-all duration-300 ease-in-out"
             >
-                <td className="space-x-2 px-6 py-4 font-semibold ">
+                <td className="space-x-1 lg:space-x-2 px-3 lg:px-6 py-2 lg:py-4 font-semibold ">
                     <Link
                         href={`/products/${item.product_id}`}
                         target={'_blank'}

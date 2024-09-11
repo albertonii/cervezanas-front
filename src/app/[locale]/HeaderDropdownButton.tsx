@@ -31,6 +31,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
     const handleOpenCallback = () => {
         setOpen(false);
     };
+
     const imageSrc =
         role === ROLE_ENUM.Admin
             ? '/icons/icon-admin.png'
@@ -360,13 +361,13 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                 className="hover:cursor-pointer"
             >
                 <Image
-                    src={'/icons/user-profile.svg'}
+                    src={imageSrc}
                     alt={'Profile'}
                     className={
-                        'h-[40px] w-[40px] lg:h-[50px] lg:w-[50px]  rounded-full bg-beer-blonde p-[5px] border-beer-softBlondeBubble border-2 '
+                        'h-[40px] w-[40px] lg:h-[50px] lg:w-[50px]  rounded-full bg-beer-blonde border-beer-softBlondeBubble border-2 '
                     }
-                    width={0}
-                    height={0}
+                    width={40}
+                    height={40}
                 />
 
                 <FontAwesomeIcon

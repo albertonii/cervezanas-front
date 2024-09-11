@@ -1,15 +1,15 @@
 import Packs from './Packs';
 import ProductsInsideBox from './ProductsInsideBox';
+import ProductPropertiesTabs from './ProductPropertiesTabs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslations } from 'next-intl';
 import { Type } from '@/lib//productEnum';
-import { Rate } from '@/app/[locale]/components/reviews/Rate';
 import { SupabaseProps } from '@/constants';
-import { ProductGallery } from '@/app/[locale]/components/ProductGallery';
+import { useTranslations } from 'next-intl';
+import { handleProductLike } from '../actions';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { ICarouselItem, IProduct } from '@/lib//types/types';
-import { handleProductLike } from '../actions';
-import ProductPropertiesTabs from './ProductPropertiesTabs';
+import { Rate } from '@/app/[locale]/components/reviews/Rate';
+import { ProductGallery } from '@/app/[locale]/components/ProductGallery';
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 
@@ -111,7 +111,6 @@ export default function ProductDetails({ product, reviewRef }: Props) {
 
     return (
         <>
-
             <div
                 className="justify-center  md:overflow-hidden lg:col-span-4  col-span-12 rounded-lg 
                     bg-beer-softBlonde bg-[url('/assets/madera.webp')] bg-auto bg-top bg-repeat pb-2 h-[600px] max-w-[500px] m-auto lg:mx-6 lg:my-0 "
@@ -124,7 +123,6 @@ export default function ProductDetails({ product, reviewRef }: Props) {
                     />
                 </section>
                 {/* Sobre el producto  */}
-               
             </div>
 
             <section className="col-span-12 mx-6 space-y-4 bg-[url('/assets/rec-graf2b.webp')] bg-auto bg-top bg-no-repeat lg:col-span-8">
@@ -162,6 +160,7 @@ export default function ProductDetails({ product, reviewRef }: Props) {
                         </div>
                     </>
                 </section>
+
                 <section
                     aria-labelledby="product-description-heading"
                     className={
@@ -176,7 +175,11 @@ export default function ProductDetails({ product, reviewRef }: Props) {
                         {product.description}
                     </p>
                 </section>
-                <section aria-labelledby="information-heading" className="hidden">
+
+                <section
+                    aria-labelledby="information-heading"
+                    className="hidden"
+                >
                     <h3 id="information-heading" className="sr-only">
                         {t('product_information')}
                     </h3>
