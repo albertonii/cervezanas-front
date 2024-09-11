@@ -4,8 +4,8 @@ import Image from 'next/image';
 import useFilters from '../../../../hooks/useFilters';
 import VerticalFilterMenu from './VerticalFilterMenu';
 import React from 'react';
-import { Type } from '@/lib//productEnum';
-import { IProduct } from '@/lib//types/types';
+import { Type } from '@/lib/productEnum';
+import { IProduct } from '@/lib/types/types';
 import { BoxPackStoreItem } from '@/app/[locale]/components/Cart/BoxPackStoreItem';
 import { ProductPackStoreItem } from '@/app/[locale]/components/Cart/ProductPackStoreItem';
 
@@ -47,8 +47,8 @@ export default function Marketplace({ products }: Props) {
                 <VerticalFilterMenu />
 
                 <section className="w-full grid grid-cols-1 bg-white pt-10 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-4">
-                    {products &&
-                        products.map((product) => (
+                    {filteredProducts &&
+                        filteredProducts.map((product) => (
                             <article key={product.id} className=" mb-2 px-2">
                                 {product.type === Type.BEER && (
                                     <ProductPackStoreItem

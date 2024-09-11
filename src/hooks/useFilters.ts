@@ -1,12 +1,28 @@
-import { useAppContext } from '../app/context/AppContext';
+import { Type } from '@/lib//productEnum';
 import { IProduct } from '@/lib//types/types';
 import { family_options } from '@/lib/beerEnum';
+import { useAppContext } from '../app/context/AppContext';
+
+interface FilterStack {
+    filterByIbu: boolean;
+    filterByAbv: boolean;
+    filterByColor: boolean;
+    filterByVolume: boolean;
+    filterByFamily: boolean;
+    filterByGlutenFree: boolean;
+    filterByPrice: boolean;
+    filterByCategory: boolean;
+    filterByPack?: boolean;
+    filterByAwards?: boolean;
+}
 
 export default function useFilters() {
     const { filters, handleFilters } = useAppContext();
 
-    const filterProducts = (products: IProduct[]) => {
+    const filterProducts = (products: IProduct[]): IProduct[] => {
         return products.filter((product) => {
+            if (!product) return false;
+
             const {
                 category,
                 family,
@@ -15,61 +31,62 @@ export default function useFilters() {
                 color,
                 price,
                 volume,
-                region,
                 isPack,
                 isAwardWinning,
-                isOrganic,
-                isNonAlcoholic,
                 isGlutenFree,
             } = filters;
 
-            if (!product || !product.beers || !product.awards) return false;
+            let filterStack: Partial<FilterStack> = {};
 
-            const beerFamilyNumber: number = parseInt(product.beers.family);
+            // Filtrado para productos de tipo BEER
+            if (product.beers) {
+                const beerFamilyNumber: number = parseInt(product.beers.family);
+                const beerFamily = family_options[beerFamilyNumber]?.label;
 
-            const beerFamily = family_options[beerFamilyNumber].label;
+                console.log(color);
 
-            // Comprobaciones para cada filtro, solo se aplica si tiene algún valor seleccionado
-            const filterByIbu =
-                ibu[0] <= product.beers.ibu && ibu[1] >= product.beers.ibu;
-            const filterByAbv =
-                abv[0] <= product.beers.intensity &&
-                abv[1] >= product.beers.intensity;
-            const filterByPrice =
+                filterStack.filterByIbu =
+                    ibu[0] <= product.beers.ibu && ibu[1] >= product.beers.ibu;
+                filterStack.filterByAbv =
+                    abv[0] <= product.beers.intensity &&
+                    abv[1] >= product.beers.intensity;
+                filterStack.filterByColor =
+                    color.length === 0 || color.includes(product.beers.color);
+                filterStack.filterByVolume =
+                    volume.length === 0 ||
+                    volume.includes(product.beers.volume.toFixed());
+                filterStack.filterByFamily =
+                    family.length === 0 || family.includes(beerFamily);
+                filterStack.filterByGlutenFree =
+                    !isGlutenFree || product.beers.is_gluten;
+            }
+
+            // Filtrado para productos de tipo PACK
+            if (isPack && product.type === Type.BOX_PACK) {
+                filterStack.filterByPack = isPack;
+            }
+
+            // Filtrado para premios (awards)
+            if (
+                isAwardWinning &&
+                product.awards &&
+                product.awards?.length > 0
+            ) {
+                filterStack.filterByAwards =
+                    !isAwardWinning || product.awards.length > 0;
+            }
+
+            // Filtrado por precio y categoría
+            filterStack.filterByPrice =
                 price[0] <= product.price && price[1] >= product.price;
-            // const filterByRegion =
-            //     region.length === 0 || region.includes(product.beers.region);
-            const filterByColor =
-                color.length === 0 || color.includes(product.beers.color);
-            const filterByVolume =
-                volume.length === 0 ||
-                volume.includes(product.beers.volume.toFixed());
-            const filterByCategory =
-                category.length === 0 || category.includes(product.category);
-            const filterByPack = !isPack || product.category === 'BOX_PACK';
-            const filterByAwards = !isAwardWinning || product.awards.length > 0;
-            // const filterByOrganic = !isOrganic || product.beers.isOrganic;
-            // const filterByNonAlcoholic =
-            //     !isNonAlcoholic || product.beers.isNonAlcoholic;
-            const filterByGlutenFree = !isGlutenFree || product.beers.is_gluten;
-            const filterByFamily =
-                family.length === 0 || family.includes(beerFamily);
+            // filterStack.filterByCategory =
+            //     category.length === 0 || category.includes(product.category);
 
-            // Solo si todos los filtros seleccionados son válidos, devolver el producto
-            return (
-                filterByIbu &&
-                filterByAbv &&
-                filterByPrice &&
-                // filterByRegion &&
-                filterByColor &&
-                filterByVolume &&
-                filterByCategory &&
-                filterByPack &&
-                filterByAwards &&
-                // filterByOrganic &&
-                // filterByNonAlcoholic &&
-                filterByGlutenFree &&
-                filterByFamily
+            console.log(filterStack);
+
+            // Si todos los filtros son verdaderos, se incluye el producto
+            return Object.values(filterStack).every(
+                (filter) => filter === true,
             );
         });
     };
