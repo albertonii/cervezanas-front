@@ -23,7 +23,9 @@ export interface FilterProps {
     abv: number[];
     color: string[];
     price: number[];
-    volume: string[];
+    volume_can: string[];
+    volume_bottle: string[];
+    volume_keg: string[];
     region: string[];
     isPack: boolean;
     isAwardWinning: boolean;
@@ -63,7 +65,9 @@ const AppContext = createContext<AppContextType>({
         abv: [0, 20],
         color: [],
         price: [0, 500],
-        volume: [],
+        volume_can: [],
+        volume_bottle: [],
+        volume_keg: [],
         region: [],
         isPack: false,
         isAwardWinning: false,
@@ -113,7 +117,9 @@ export function AppContextProvider(props: Props) {
         abv: [0, 20],
         color: [],
         price: [0, 500],
-        volume: [],
+        volume_bottle: [],
+        volume_can: [],
+        volume_keg: [],
         region: [],
         isPack: false,
         isAwardWinning: false,
@@ -198,7 +204,9 @@ export function AppContextProvider(props: Props) {
             abv: [0, 20],
             color: [],
             price: [0, 500],
-            volume: [],
+            volume_can: [],
+            volume_bottle: [],
+            volume_keg: [],
             region: [],
             isPack: false,
             isAwardWinning: false,

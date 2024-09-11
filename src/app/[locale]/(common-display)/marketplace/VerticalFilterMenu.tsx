@@ -1,6 +1,12 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { Color, Family } from '@/lib/beerEnum';
+import {
+    Color,
+    Family,
+    Volume_bottle,
+    Volume_can,
+    Volume_draft,
+} from '@/lib/beerEnum';
 import { useTranslations } from 'next-intl';
 import { FilterProps, useAppContext } from '@/app/context/AppContext';
 
@@ -27,7 +33,26 @@ const families = Object.entries(Family)
         value: value as string, // El valor de la familia en string
     }));
 
-const volumes = ['330ml', '500ml', '750ml', '1L'];
+const volumesCan = Object.entries(Volume_can)
+    .filter(([key, value]) => !isNaN(Number(key))) // Filtra los valores que no sean numéricos
+    .map(([key, value]) => ({
+        label: key,
+        value: value as string, // El valor del volumen en string
+    }));
+
+const volumesBottle = Object.entries(Volume_bottle)
+    .filter(([key, value]) => !isNaN(Number(key))) // Filtra los valores que no sean numéricos
+    .map(([key, value]) => ({
+        label: key,
+        value: value as string, // El valor del volumen en string
+    }));
+
+const volumesDraft = Object.entries(Volume_draft)
+    .filter(([key, value]) => !isNaN(Number(key))) // Filtra los valores que no sean numéricos
+    .map(([key, value]) => ({
+        label: key,
+        value: value as string, // El valor del volumen en string
+    }));
 
 const VerticalFilterMenu = () => {
     const t = useTranslations();
@@ -39,12 +64,24 @@ const VerticalFilterMenu = () => {
     const [showMoreFamilies, setShowMoreFamilies] = useState(false);
     const [showMoreRegions, setShowMoreRegions] = useState(false);
     const [showMoreColors, setShowMoreColors] = useState(false);
-    const [showMoreVolumes, setShowMoreVolumes] = useState(false);
+    const [showMoreVolumesCan, setShowMoreVolumesCan] = useState(false);
+    const [showMoreVolumesBottle, setShowMoreVolumesBottle] = useState(false);
+    const [showMoreVolumesDraft, setShowMoreVolumesDraft] = useState(false);
 
     const visibleFamilies = showMoreFamilies ? families : families.slice(0, 3);
     const visibleRegions = showMoreRegions ? regions : regions.slice(0, 3);
     const visibleColors = showMoreColors ? colors : colors.slice(0, 3);
-    const visibleVolumes = showMoreVolumes ? volumes : volumes.slice(0, 3);
+    const visibleVolumesCan = showMoreVolumesCan
+        ? volumesCan
+        : volumesCan.slice(0, 3);
+
+    const visibleVolumesBottle = showMoreVolumesBottle
+        ? volumesBottle
+        : volumesBottle.slice(0, 3);
+
+    const visibleVolumesDraft = showMoreVolumesDraft
+        ? volumesDraft
+        : volumesDraft.slice(0, 3);
 
     const handleSliderChange = (
         filterType: keyof FilterProps,
@@ -117,13 +154,13 @@ const VerticalFilterMenu = () => {
                 >
                     <div className="flex justify-between items-center">
                         <h2 className="text-5xl font-bold font-['NexaRust-script'] text-beer-blonde">
-                            Filtros
+                            {t('filters')}
                         </h2>
                         <button
                             onClick={clearFilters}
                             className="text-xs text-gray-400 hover:text-black w-[70px]"
                         >
-                            Limpiar filtros
+                            {t('clear_filters')}
                         </button>
                     </div>
                     <figure className="m-auto text-center">
@@ -138,7 +175,7 @@ const VerticalFilterMenu = () => {
 
                     {/* Precio */}
                     <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">Precio</h3>
+                        <h3 className="text-lg font-semibold">{t('price')}</h3>
                         <div className="space-y-2">
                             <input
                                 type="range"
@@ -348,46 +385,152 @@ const VerticalFilterMenu = () => {
                         </div>
                     </div>
 
-                    {/* Volumen */}
+                    {/* Volumen Lata */}
                     <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">Volumen</h3>
+                        <h3 className="text-lg font-semibold">
+                            {t('volume_can') + ' (ml)'}
+                        </h3>
                         <div className="space-y-2">
-                            {visibleVolumes.map((volume) => (
+                            {visibleVolumesCan.map((volume) => (
                                 <div
-                                    key={volume}
+                                    key={volume.label}
                                     className="flex items-center space-x-2"
                                 >
                                     <input
                                         type="checkbox"
-                                        id={`volume-${volume}`}
-                                        checked={filters.volume.includes(
-                                            volume,
+                                        id={`volume-can-${volume}`}
+                                        checked={filters.volume_can.includes(
+                                            volume.label,
                                         )}
                                         onChange={() =>
                                             handleCheckboxChange(
-                                                'volume',
-                                                volume,
+                                                'volume_can',
+                                                volume.label,
                                             )
                                         }
                                         className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
                                     />
                                     <label
-                                        htmlFor={`volume-${volume}`}
+                                        htmlFor={`volume-can-${volume}`}
                                         className="text-gray-700"
                                     >
-                                        {volume}
+                                        {t(volume.label)}
                                     </label>
                                 </div>
                             ))}
 
-                            {volumes.length > 3 && (
+                            {volumesCan.length > 3 && (
                                 <button
                                     onClick={() =>
-                                        setShowMoreVolumes(!showMoreVolumes)
+                                        setShowMoreVolumesCan(
+                                            !showMoreVolumesCan,
+                                        )
                                     }
                                     className="text-beer-draft text-sm mt-2 focus:outline-none"
                                 >
-                                    {showMoreVolumes
+                                    {showMoreVolumesCan
+                                        ? t('show_less')
+                                        : t('show_more')}
+                                </button>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Volumen Botella */}
+                    <div className="space-y-4">
+                        <h3 className="text-lg font-semibold">
+                            {t('volume_bottle') + ' (ml)'}
+                        </h3>
+                        <div className="space-y-2">
+                            {visibleVolumesBottle.map((volume) => (
+                                <div
+                                    key={volume.label}
+                                    className="flex items-center space-x-2"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        id={`volume-bottle-${volume}`}
+                                        checked={filters.volume_bottle.includes(
+                                            volume.label,
+                                        )}
+                                        onChange={() =>
+                                            handleCheckboxChange(
+                                                'volume_bottle',
+                                                volume.label,
+                                            )
+                                        }
+                                        className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
+                                    />
+                                    <label
+                                        htmlFor={`volume-bottle-${volume}`}
+                                        className="text-gray-700"
+                                    >
+                                        {t(volume.label)}
+                                    </label>
+                                </div>
+                            ))}
+
+                            {volumesBottle.length > 3 && (
+                                <button
+                                    onClick={() =>
+                                        setShowMoreVolumesBottle(
+                                            !showMoreVolumesBottle,
+                                        )
+                                    }
+                                    className="text-beer-draft text-sm mt-2 focus:outline-none"
+                                >
+                                    {showMoreVolumesBottle
+                                        ? t('show_less')
+                                        : t('show_more')}
+                                </button>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Volumen Barril */}
+                    <div className="space-y-4">
+                        <h3 className="text-lg font-semibold">
+                            {t('volume_keg') + ' (lt)'}
+                        </h3>
+                        <div className="space-y-2">
+                            {visibleVolumesDraft.map((volume) => (
+                                <div
+                                    key={volume.label}
+                                    className="flex items-center space-x-2"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        id={`volume-keg-${volume}`}
+                                        checked={filters.volume_keg.includes(
+                                            volume.label,
+                                        )}
+                                        onChange={() =>
+                                            handleCheckboxChange(
+                                                'volume_keg',
+                                                volume.label,
+                                            )
+                                        }
+                                        className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
+                                    />
+                                    <label
+                                        htmlFor={`volume-keg-${volume}`}
+                                        className="text-gray-700"
+                                    >
+                                        {t(volume.label)}
+                                    </label>
+                                </div>
+                            ))}
+
+                            {volumesDraft.length > 3 && (
+                                <button
+                                    onClick={() =>
+                                        setShowMoreVolumesDraft(
+                                            !showMoreVolumesDraft,
+                                        )
+                                    }
+                                    className="text-beer-draft text-sm mt-2 focus:outline-none"
+                                >
+                                    {showMoreVolumesDraft
                                         ? t('show_less')
                                         : t('show_more')}
                                 </button>
@@ -397,7 +540,7 @@ const VerticalFilterMenu = () => {
 
                     {/* Región */}
                     <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">Región</h3>
+                        <h3 className="text-lg font-semibold">{t('region')}</h3>
                         <div className="space-y-2">
                             {visibleRegions.map((region) => (
                                 <div
@@ -453,9 +596,10 @@ const VerticalFilterMenu = () => {
                                 className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
                             />
                             <label htmlFor="isPack" className="text-gray-700">
-                                Pack de diferentes cervezas
+                                {t('pack_different_beers')}
                             </label>
                         </div>
+
                         <div className="flex items-center space-x-2">
                             <input
                                 type="checkbox"
@@ -470,9 +614,10 @@ const VerticalFilterMenu = () => {
                                 htmlFor="isAwardWinning"
                                 className="text-gray-700"
                             >
-                                Cervezas premiadas
+                                {t('award_winning')}
                             </label>
                         </div>
+
                         <div className="flex items-center space-x-2">
                             <input
                                 type="checkbox"
@@ -485,9 +630,10 @@ const VerticalFilterMenu = () => {
                                 htmlFor="isOrganic"
                                 className="text-gray-700"
                             >
-                                Cervezas ecológicas
+                                {t('eco_beers')}
                             </label>
                         </div>
+
                         <div className="flex items-center space-x-2">
                             <input
                                 type="checkbox"
@@ -502,9 +648,10 @@ const VerticalFilterMenu = () => {
                                 htmlFor="isNonAlcoholic"
                                 className="text-gray-700"
                             >
-                                Sin alcohol
+                                {t('non_alcoholic')}
                             </label>
                         </div>
+
                         <div className="flex items-center space-x-2">
                             <input
                                 type="checkbox"
@@ -519,7 +666,7 @@ const VerticalFilterMenu = () => {
                                 htmlFor="isGlutenFree"
                                 className="text-gray-700"
                             >
-                                Sin gluten
+                                {t('gluten_free')}
                             </label>
                         </div>
                     </div>

@@ -7,7 +7,9 @@ interface FilterStack {
     filterByIbu: boolean;
     filterByAbv: boolean;
     filterByColor: boolean;
-    filterByVolume: boolean;
+    filterByVolumeCan: boolean;
+    filterByVolumeBottle: boolean;
+    filterByVolumeKeg: boolean;
     filterByFamily: boolean;
     filterByGlutenFree: boolean;
     filterByPrice: boolean;
@@ -33,7 +35,9 @@ export default function useFilters() {
                 abv,
                 color,
                 price,
-                volume,
+                volume_can,
+                volume_bottle,
+                volume_keg,
                 region,
                 isPack,
                 isAwardWinning,
@@ -49,6 +53,14 @@ export default function useFilters() {
                 const beerFamilyNumber: number = parseInt(product.beers.family);
                 const beerFamily = family_options[beerFamilyNumber]?.label;
 
+                const colorNumber: number = parseInt(product.beers.color);
+                const beerColor = color_options[colorNumber]?.label;
+
+                const volumeNumber: number = parseInt(
+                    product.beers.volume.toFixed(),
+                );
+                const beerVolume = volumeNumber.toString();
+
                 // Aplicando filtros
                 filterStack.filterByIbu =
                     ibu[0] <= product.beers.ibu && ibu[1] >= product.beers.ibu;
@@ -56,20 +68,18 @@ export default function useFilters() {
                     abv[0] <= product.beers.intensity &&
                     abv[1] >= product.beers.intensity;
 
-                console.log(color);
-
-                const colorNumber: number = parseInt(product.beers.color);
-                const beerColor = color_options[colorNumber]?.label;
-                console.log(beerColor);
-                color.includes(beerColor);
-
                 filterStack.filterByColor =
                     color.length === 0 || color.includes(beerColor);
-                // filterStack.filterByVolume =
-                //     volume.length === 0 ||
-                //     volume.includes(product.beers.volume.toFixed());
-                // filterStack.filterByFamily =
-                //     family.length === 0 || family.includes(beerFamily);
+                filterStack.filterByVolumeCan =
+                    volume_can.length === 0 || volume_can.includes(beerVolume);
+                filterStack.filterByVolumeBottle =
+                    volume_bottle.length === 0 ||
+                    volume_bottle.includes(beerVolume);
+                filterStack.filterByVolumeKeg =
+                    volume_keg.length === 0 || volume_keg.includes(beerVolume);
+
+                filterStack.filterByFamily =
+                    family.length === 0 || family.includes(beerFamily);
                 // filterStack.filterByGlutenFree =
                 //     !isGlutenFree || product.beers.is_gluten;
                 // filterStack.filterByRegion =
@@ -94,12 +104,23 @@ export default function useFilters() {
             // filterStack.filterByCategory =
             //     category.length === 0 || category.includes(product.category);
 
-            // Filtrado por productos orgánicos y sin alcohol
-            // filterStack.filterByOrganic = !isOrganic || product.is_organic;
-            // filterStack.filterByNonAlcoholic =
-            //     !isNonAlcoholic || product.is_non_alcoholic;
-
-            console.log(filterStack);
+            if (
+                !isPack &&
+                product.type === Type.BOX_PACK &&
+                (category.length > 0 ||
+                    color.length > 0 ||
+                    family.length > 0 ||
+                    isAwardWinning ||
+                    isGlutenFree ||
+                    isNonAlcoholic ||
+                    isOrganic ||
+                    region.length > 0 ||
+                    volume_can.length > 0 ||
+                    volume_bottle.length > 0 ||
+                    volume_keg.length)
+            ) {
+                filterStack.filterByPack = false;
+            }
 
             // Si todos los filtros son verdaderos, se incluye el producto
             return Object.values(filterStack).every(
