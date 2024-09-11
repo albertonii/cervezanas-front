@@ -10,18 +10,27 @@ export default function BoxProductSlotsSelection() {
     const { boxPack } = useBoxPackStore();
 
     return (
-        <table className="block border-2 rounded-lg shadow-lg w-full h-full overflow-y-scroll text-center text-sm">
+        <table className="block border-2 rounded-lg shadow-lg w-full  overflow-y-scroll text-center text-sm ">
             <thead className="bg-beer-gold text-beer-foam text-xs uppercase dark:bg-gray-700 dark:text-gray-400">
-                <tr className="grid grid-cols-3">
-                    <th scope="col cols-span-1" className="px-6 py-3 ">
+                <tr className="grid grid-cols-3 items-center">
+                    <th
+                        scope="col cols-span-1"
+                        className="px-1 py-1 lg:px-6 lg:py-3 "
+                    >
                         {t('name_header')}
                     </th>
 
-                    <th scope="col cols-span-1" className="px-6 py-3 ">
+                    <th
+                        scope="col cols-span-1"
+                        className="px-1 py-1 lg:px-6 lg:py-3 "
+                    >
                         {t('quantity_in_pack_header')}
                     </th>
 
-                    <th scope="col cols-span-1" className="px-6 py-3 ">
+                    <th
+                        scope="col cols-span-1"
+                        className="px-1 py-1 lg:px-6 lg:py-3 "
+                    >
                         {t('slots_per_product')}
                     </th>
                 </tr>

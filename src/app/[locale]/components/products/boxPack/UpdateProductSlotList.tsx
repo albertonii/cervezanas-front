@@ -24,13 +24,16 @@ const UpdateProductSlotList: React.FC<Props> = ({ products, form }) => {
 
     return (
         <div
-            className="w-full"
+            className="max-h-[40vh] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 overflow-y-auto"
             id={`accordion-collapse`}
             data-accordion="collapse"
         >
             {products.map((product, index) => {
                 return (
-                    <div key={product.id}>
+                    <div
+                        key={product.id}
+                        className="mx-4 my-1 rounded-lg border border-gray-200"
+                    >
                         <UpdateProductSlotItem
                             product={product}
                             form={form}

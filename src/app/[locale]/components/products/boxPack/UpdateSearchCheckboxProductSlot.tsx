@@ -60,7 +60,7 @@ export function UpdateSearchCheckboxProductSlot({ form }: Props) {
     }
 
     return (
-        <section className="z-10 h-full w-full space-y-2 rounded-lg shadow-lg bg-white border-2 dark:bg-gray-700 relative ">
+        <section className="z-10 w-full space-y-2 rounded-lg shadow-lg bg-white border-2 dark:bg-gray-700 relative ">
             <div className="m-2 relative">
                 <InputSearch
                     query={query}
@@ -69,21 +69,14 @@ export function UpdateSearchCheckboxProductSlot({ form }: Props) {
                 />
             </div>
 
-            <div className="relative pb-24">
-                <UpdateProductSlotList
-                    products={filteredItemsByName}
-                    form={form}
-                />
-            </div>
+            <UpdateProductSlotList products={filteredItemsByName} form={form} />
 
-            <div className="w-full absolute bottom-0 justify-center">
-                <PaginationFooter
-                    counter={fixedCount}
-                    resultsPerPage={resultsPerPage}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                />
-            </div>
+            <PaginationFooter
+                counter={fixedCount}
+                resultsPerPage={resultsPerPage}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+            />
         </section>
     );
 }

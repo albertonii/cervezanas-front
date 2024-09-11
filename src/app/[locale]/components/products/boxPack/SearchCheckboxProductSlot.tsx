@@ -4,11 +4,11 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import useFetchProductsByOwnerAndPagination from '../../../../../hooks/useFetchProductsByOwnerAndPagination';
 import { Type } from '@/lib//productEnum';
+import Spinner from '../../common/Spinner';
 import { IProduct } from '@/lib//types/types';
+import ProductSlotList from './ProductSlotList';
 import InputSearch from '../../common/InputSearch';
 import PaginationFooter from '../../common/PaginationFooter';
-import Spinner from '../../common/Spinner';
-import ProductSlotList from './ProductSlotList';
 
 interface Props {
     form: UseFormReturn<any, any>;
@@ -60,7 +60,7 @@ export function SearchCheckboxProductSlot({ form }: Props) {
     }
 
     return (
-        <section className="z-10 h-full w-full space-y-2 rounded-lg shadow-lg bg-white border-2 dark:bg-gray-700 relative ">
+        <section className="z-10 w-full space-y-2 rounded-lg shadow-lg bg-white border-2 dark:bg-gray-700 relative ">
             <div className="m-2 relative">
                 <InputSearch
                     query={query}
@@ -71,14 +71,12 @@ export function SearchCheckboxProductSlot({ form }: Props) {
 
             <ProductSlotList products={filteredItemsByName} form={form} />
 
-            <div className="w-full absolute bottom-0 justify-center">
-                <PaginationFooter
-                    counter={fixedCount}
-                    resultsPerPage={resultsPerPage}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                />
-            </div>
+            <PaginationFooter
+                counter={fixedCount}
+                resultsPerPage={resultsPerPage}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+            />
         </section>
     );
 }

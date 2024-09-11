@@ -130,11 +130,8 @@ export default function UpdateBoxProductSlotsSection({ form }: Props) {
                 />
             </div>
 
-            <div className="col-span-1">
+            <div className=" col-span-2 flex gap-4 min-h-[40vh]">
                 <BoxProductSlotsSelection />
-            </div>
-
-            <div className="col-span-1">
                 <UpdateSearchCheckboxProductSlot form={form} />
             </div>
         </section>

@@ -126,13 +126,9 @@ export default function BoxProductSlotsSection({ form }: Props) {
                 />
             </div>
 
-            {/* Left side  */}
-            <div className="col-span-1">
+            <div className="col-span-2 flex gap-4 min-h-[40vh]">
                 <BoxProductSlotsSelection />
-            </div>
 
-            {/* Right side  */}
-            <div className="col-span-1">
                 <SearchCheckboxProductSlot form={form} />
             </div>
         </section>

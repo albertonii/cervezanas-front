@@ -2,10 +2,10 @@ import InputLabel from '../../common/InputLabel';
 import useBoxPackStore from '@/app/store//boxPackStore';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { UseFormReturn } from 'react-hook-form';
-import { useMessage } from '../../message/useMessage';
 import { IProduct } from '@/lib//types/types';
+import { UseFormReturn } from 'react-hook-form';
 import { IBoxPackItem } from '@/lib//types/product';
+import { useMessage } from '../../message/useMessage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
 
@@ -245,7 +245,7 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
                     />
 
                     <span
-                        className="mr-2 font-semibold text-beer-gold hover:cursor-pointer"
+                        className="mr-2 font-semibold text-beer-gold hover:cursor-pointer text-sm lg:text-lg"
                         onClick={handleShowAccordion}
                     >
                         {product.name}

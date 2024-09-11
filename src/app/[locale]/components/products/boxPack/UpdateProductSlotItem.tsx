@@ -205,7 +205,7 @@ const UpdateProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
     };
 
     return (
-        <section className="mx-4 my-1 rounded-lg border border-gray-200">
+        <>
             <div
                 className={`
                 ${
@@ -244,7 +244,7 @@ const UpdateProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
                     />
 
                     <span
-                        className="mr-2 font-semibold text-beer-gold hover:cursor-pointer"
+                        className="mr-2 font-semibold text-beer-gold hover:cursor-pointer text-sm lg:text-lg"
                         onClick={handleShowAccordion}
                     >
                         {product.name}
@@ -297,7 +297,7 @@ const UpdateProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
                     value={slotsPerProduct}
                 />
             </div>
-        </section>
+        </>
     );
 };
 

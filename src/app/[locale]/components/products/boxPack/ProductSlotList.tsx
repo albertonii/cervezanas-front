@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { UseFormReturn } from 'react-hook-form';
-import { IProduct } from '@/lib//types/types';
 import Spinner from '../../common/Spinner';
 import ProductSlotItem from './ProductSlotItem';
+import React from 'react';
+import { IProduct } from '@/lib//types/types';
+import { UseFormReturn } from 'react-hook-form';
 
 interface Props {
     products: IProduct[];
@@ -24,13 +24,13 @@ const ProductSlotList: React.FC<Props> = ({ products, form }) => {
 
     return (
         <div
-            className="w-full "
+            className="max-h-[40vh] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 overflow-y-auto"
             id={`accordion-collapse`}
             data-accordion="collapse"
         >
             {products.map((product, index) => {
                 return (
-                    <section
+                    <div
                         key={product.id}
                         className="mx-4 my-1 rounded-lg border border-gray-200"
                     >
@@ -39,7 +39,7 @@ const ProductSlotList: React.FC<Props> = ({ products, form }) => {
                             form={form}
                             index={index}
                         />
-                    </section>
+                    </div>
                 );
             })}
         </div>
