@@ -69,9 +69,7 @@ export function SearchCheckboxProductSlot({ form }: Props) {
                 />
             </div>
 
-            <div className="relative pb-24">
-                <ProductSlotList products={filteredItemsByName} form={form} />
-            </div>
+            <ProductSlotList products={filteredItemsByName} form={form} />
 
             <div className="w-full absolute bottom-0 justify-center">
                 <PaginationFooter

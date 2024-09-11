@@ -68,7 +68,7 @@ const PaginationFooter = memo(function PaginationFooter({
                 />
             </Button>
 
-            <p className="text-lg text-gray-600">
+            <p className="text-sm lg:text-lg text-gray-600 text-center">
                 {t('pagination_footer_nums', {
                     from: (currentPage - 1) * resultsPerPage + 1,
                     to: lastElementPage,

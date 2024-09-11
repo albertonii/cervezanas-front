@@ -206,7 +206,7 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
     };
 
     return (
-        <section className="mx-4 my-1 rounded-lg border border-gray-200">
+        <>
             <div
                 className={`
                 ${
@@ -298,7 +298,7 @@ const ProductSlotItem: React.FC<Props> = ({ product, form, index }) => {
                     value={slotsPerProduct}
                 />
             </div>
-        </section>
+        </>
     );
 };
 

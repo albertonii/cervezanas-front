@@ -57,11 +57,11 @@ const Button = memo(function PaginationFooter({
     );
 
     const getSizeClass = () => {
-        if (small) return 'text-md px-4';
-        if (medium) return 'px-1 sm:px-4 text-base';
-        if (large) return 'px-2 sm:px-4 text-base sm:text-lg';
-        if (xLarge) return 'px-3 sm:px-6 text-lg sm:text-xl';
-        if (xxLarge) return 'px-3 sm:px-6 text-xl sm:text-2xl';
+        if (small) return 'text-sm lg:text-md lg:px-4';
+        if (medium) return 'px-1 lg:px-4 text-base';
+        if (large) return 'px-2 lg:px-4 text-base lg:text-lg';
+        if (xLarge) return 'px-3 lg:px-6 text-lg lg:text-xl';
+        if (xxLarge) return 'px-3 lg:px-6 text-xl lg:text-2xl';
         return '';
     };
 
@@ -149,7 +149,7 @@ const Button = memo(function PaginationFooter({
                         <span className={`text-bear-dark`}>{iconButton}</span>
                     )}
 
-                    <span className={`font-semibold ${getSizeClass()}`}>
+                    <span className={`font-semibold  ${getSizeClass()}`}>
                         {children}
                     </span>
                 </div>

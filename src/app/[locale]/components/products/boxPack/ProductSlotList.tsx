@@ -24,19 +24,22 @@ const ProductSlotList: React.FC<Props> = ({ products, form }) => {
 
     return (
         <div
-            className="w-full"
+            className="w-full "
             id={`accordion-collapse`}
             data-accordion="collapse"
         >
             {products.map((product, index) => {
                 return (
-                    <div key={product.id} className="">
+                    <section
+                        key={product.id}
+                        className="mx-4 my-1 rounded-lg border border-gray-200"
+                    >
                         <ProductSlotItem
                             product={product}
                             form={form}
                             index={index}
                         />
-                    </div>
+                    </section>
                 );
             })}
         </div>
