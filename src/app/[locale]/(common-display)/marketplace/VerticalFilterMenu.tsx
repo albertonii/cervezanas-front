@@ -1,7 +1,8 @@
-import { FilterProps, useAppContext } from '@/app/context/AppContext';
-import React, { useState } from 'react';
 import Image from 'next/image';
+import React, { useState } from 'react';
+import { Color, Family } from '@/lib/beerEnum';
 import { useTranslations } from 'next-intl';
+import { FilterProps, useAppContext } from '@/app/context/AppContext';
 
 const regions = [
     'Cataluña',
@@ -12,14 +13,19 @@ const regions = [
     'Galicia',
 ];
 
-const colors = ['Dorada', 'Ámbar', 'Marrón', 'Negra'];
+const colors = Object.entries(Color)
+    .filter(([key, value]) => !isNaN(Number(key))) // Filtra los valores que no sean numéricos
+    .map(([key, value]) => ({
+        label: key,
+        value: value as string, // El valor del color en string
+    }));
 
-const families = [
-    { label: 'IPA', value: 'ipa' },
-    { label: 'Lager', value: 'lager' },
-    { label: 'Stout', value: 'stout' },
-    { label: 'Pilsner', value: 'pilsner' },
-];
+const families = Object.entries(Family)
+    .filter(([key, value]) => !isNaN(Number(key))) // Filtra los valores que no sean numéricos
+    .map(([key, value]) => ({
+        label: key,
+        value: value as string, // El valor de la familia en string
+    }));
 
 const volumes = ['330ml', '500ml', '750ml', '1L'];
 
@@ -181,7 +187,7 @@ const VerticalFilterMenu = () => {
                                         htmlFor={`style-${family}`}
                                         className="text-gray-700"
                                     >
-                                        {family.label}
+                                        {t(family.value)}
                                     </label>
                                 </div>
                             ))}
@@ -236,6 +242,7 @@ const VerticalFilterMenu = () => {
                             )}
                         </div>
                     </div> */}
+
                     {/* IBUs */}
                     <div className="space-y-4">
                         <h3 className="text-lg font-semibold">
@@ -293,21 +300,27 @@ const VerticalFilterMenu = () => {
                             </div>
                         </div>
                     </div>
+
                     {/* Color */}
                     <div className="space-y-4">
                         <h3 className="text-lg font-semibold">{t('color')}</h3>
                         <div className="space-y-2">
                             {visibleColors.map((color) => (
                                 <div
-                                    key={color}
+                                    key={color.label}
                                     className="flex items-center space-x-2"
                                 >
                                     <input
                                         type="checkbox"
                                         id={`color-${color}`}
-                                        checked={filters.color.includes(color)}
+                                        checked={filters.color.includes(
+                                            color.value,
+                                        )}
                                         onChange={() =>
-                                            handleCheckboxChange('color', color)
+                                            handleCheckboxChange(
+                                                'color',
+                                                color.value,
+                                            )
                                         }
                                         className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
                                     />
@@ -315,7 +328,7 @@ const VerticalFilterMenu = () => {
                                         htmlFor={`color-${color}`}
                                         className="text-gray-700"
                                     >
-                                        {color}
+                                        {t(color.value)}
                                     </label>
                                 </div>
                             ))}
