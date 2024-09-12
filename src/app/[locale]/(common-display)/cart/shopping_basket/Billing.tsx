@@ -194,7 +194,9 @@ export default function Billing({ formBilling }: Props) {
             </ul>
 
             {billingAddresses && billingAddresses.length < 5 && (
-                <NewBillingModal />
+                <NewBillingModal
+                    billingAddressesLength={billingAddresses.length}
+                />
             )}
 
             {showDeleteModal && (

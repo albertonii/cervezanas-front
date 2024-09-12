@@ -65,48 +65,66 @@ async function getSuccessData(searchParams: any) {
         .from('orders')
         .select(
             `
-            id,
-            owner_id,
-            status,
-            shipping_info_id,
-            billing_info_id,
-            customer_name,
-            tracking_id,
-            issue_date,
-            estimated_date,
-            total,
-            subtotal,
-            shipping,
-            tax,
-            currency,
-            discount,
-            discount_code,
-            order_number,
-            shipping_info (id, *),
-            billing_info (id, *),
-            business_orders!business_orders_order_id_fkey (
-                *,
-                distributor_user!business_orders_distributor_id_fkey (*,
-                users(
-                    name,
-                    lastname,
-                    email,
-                    username,
-                    avatar_url
-                )
-                ),
-                order_items!order_items_business_order_id_fkey (
-                *,
-                product_packs (
+                id,
+                owner_id,
+                status,
+                customer_name,
+                tracking_id,
+                issue_date,
+                estimated_date,
+                total,
+                subtotal,
+                shipping,
+                tax,
+                currency,
+                discount,
+                discount_code,
+                order_number,
+                business_orders!business_orders_order_id_fkey (
                     *,
-                    products (
-                    id,
-                    name,
-                    description
+                    distributor_user!business_orders_distributor_id_fkey (*,
+                    users(
+                        name,
+                        lastname,
+                        email,
+                        username,
+                        avatar_url
                     )
-                )
-                )
-            )
+                    ),
+                    order_items!order_items_business_order_id_fkey (
+                        *,
+                        product_packs (
+                            *,
+                            products (
+                            id,
+                            name,
+                            description
+                            )
+                        )
+                    )
+                ),
+                shipping_name,
+                shipping_lastname,
+                shipping_document_id,
+                shipping_phone,
+                shipping_address,
+                shipping_address_extra,
+                shipping_country,
+                shipping_region,
+                shipping_sub_region,
+                shipping_city,
+                shipping_zipcode,
+                billing_name,
+                billing_lastname,
+                billing_document_id,
+                billing_phone,
+                billing_address,
+                billing_country,
+                billing_region,
+                billing_sub_region,
+                billing_city,
+                billing_zipcode,
+                billing_is_company
             `,
         )
         .eq('order_number', orderNumber)

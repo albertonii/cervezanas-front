@@ -11,7 +11,11 @@ export async function GET(request: NextRequest) {
     const totalWeight = parseFloat(
         searchParams.get('total_weight') ?? '0',
     ) as number;
-    const shippingInfoId = searchParams.get('shipping_info_id');
+    const address = searchParams.get('address');
+    const city = searchParams.get('city');
+    const sub_region = searchParams.get('sub_region');
+    const region = searchParams.get('region');
+    const country = searchParams.get('country');
 
     if (!distributorId) {
         return NextResponse.json(
@@ -27,9 +31,9 @@ export async function GET(request: NextRequest) {
         );
     }
 
-    if (!shippingInfoId) {
+    if (!address || !city || !sub_region || !region || !country) {
         return NextResponse.json(
-            { message: 'Missing shipping info id' },
+            { message: 'Missing shipping info ' },
             { status: 400 },
         );
     }
@@ -69,34 +73,13 @@ export async function GET(request: NextRequest) {
         distributionCosts.selected_method ===
         DistributionCostType.AREA_AND_WEIGHT
     ) {
-        // Obtener dirección de envío para calcular el costo de envío
-        const { data: shippingInfoData, error: shippingInfoError } =
-            await supabase
-                .from('shipping_info')
-                .select(
-                    `
-                    *
-                `,
-                )
-                .eq('id', shippingInfoId)
-                .single();
+        const countryNormalized = normalizeAddress(country);
 
-        const shippingInfo: IShippingInfo = shippingInfoData as IShippingInfo;
+        const regionNormalized = normalizeAddress(region);
 
-        if (shippingInfoError) {
-            return NextResponse.json(
-                { message: 'Error fetching shipping info' },
-                { status: 500 },
-            );
-        }
+        const subRegionNormalized = normalizeAddress(sub_region);
 
-        const countryNormalized = normalizeAddress(shippingInfo.country);
-
-        const regionNormalized = normalizeAddress(shippingInfo.region);
-
-        const subRegionNormalized = normalizeAddress(shippingInfo.sub_region);
-
-        const cityNormalized = normalizeAddress(shippingInfo.city);
+        const cityNormalized = normalizeAddress(city);
 
         const { data: areaWeightInfoData, error: areaWeightInfoError } =
             await supabase

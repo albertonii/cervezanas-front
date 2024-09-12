@@ -211,7 +211,7 @@ export function ShoppingCartProvider({ children }: Props) {
                 distributor_id: string | null;
             } | null = await calculateCheapestShippingCostsByDistributor(
                 itemsProducer,
-                selectedShippingInfo.id,
+                selectedShippingInfo,
                 distributorContractsByProducerId,
             );
 

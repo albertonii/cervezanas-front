@@ -28,9 +28,35 @@ export async function POST(request: NextRequest) {
     const orderNumber = formData.get('order_number') as string;
     const type = formData.get('type') as string;
     const tax = Number(formData.get('tax'));
-    const shippingInfoId = formData.get('shipping_info_id') as string;
-    const billingInfoId = formData.get('billing_info_id') as string;
     const items = JSON.parse(formData.get('items') as string);
+
+    // Información envío
+    const shippingName = formData.get('shipping_name') as string;
+    const shippingLastname = formData.get('shipping_lastname') as string;
+    const shippingDocumentId = formData.get('shipping_document_id') as string;
+    const shippingPhone = formData.get('shipping_phone') as string;
+    const shippingAddress = formData.get('shipping_address') as string;
+    const shippingAddressExtra = formData.get(
+        'shipping_address_extra',
+    ) as string;
+    const shippingCountry = formData.get('shipping_country') as string;
+    const shippingRegion = formData.get('shipping_region') as string;
+    const shippingSubRegion = formData.get('shipping_sub_region') as string;
+    const shippingCity = formData.get('shipping_city') as string;
+    const shippingZipcode = formData.get('shipping_zipcode') as string;
+
+    // Información facturación
+    const billingName = formData.get('billing_name') as string;
+    const billingLastname = formData.get('billing_lastname') as string;
+    const billingDocumentId = formData.get('billing_document_id') as string;
+    const billingPhone = formData.get('billing_phone') as string;
+    const billingAddress = formData.get('billing_address') as string;
+    const billingCountry = formData.get('billing_country') as string;
+    const billingRegion = formData.get('billing_region') as string;
+    const billingSubRegion = formData.get('billing_sub_region') as string;
+    const billingCity = formData.get('billing_city') as string;
+    const billingZipcode = formData.get('billing_zipcode') as string;
+    const billingIsCompany = formData.get('billing_is_company') === 'true';
 
     const { data: order, error: orderError } = await supabase
         .from('orders')
@@ -52,8 +78,28 @@ export async function POST(request: NextRequest) {
             order_number: orderNumber,
             type: type,
             tax: tax,
-            shipping_info_id: shippingInfoId,
-            billing_info_id: billingInfoId,
+            shipping_name: shippingName,
+            shipping_lastname: shippingLastname,
+            shipping_document_id: shippingDocumentId,
+            shipping_phone: shippingPhone,
+            shipping_address: shippingAddress,
+            shipping_address_extra: shippingAddressExtra,
+            shipping_country: shippingCountry,
+            shipping_region: shippingRegion,
+            shipping_sub_region: shippingSubRegion,
+            shipping_city: shippingCity,
+            shipping_zipcode: shippingZipcode,
+            billing_name: billingName,
+            billing_lastname: billingLastname,
+            billing_document_id: billingDocumentId,
+            billing_phone: billingPhone,
+            billing_address: billingAddress,
+            billing_country: billingCountry,
+            billing_region: billingRegion,
+            billing_sub_region: billingSubRegion,
+            billing_city: billingCity,
+            billing_zipcode: billingZipcode,
+            billing_is_company: billingIsCompany,
         })
         .select('id')
         .single();

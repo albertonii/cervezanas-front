@@ -1,6 +1,6 @@
 import AddressForm from '@/app/[locale]/components/AddressForm';
 import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { insertShippingAddress } from '../actions';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -11,7 +11,6 @@ import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
 import { z, ZodType } from 'zod';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 
 const schema: ZodType<ModalShippingAddressFormData> = z.object({
     name: z.string().nonempty({ message: 'errors.input_required' }),
@@ -24,14 +23,17 @@ const schema: ZodType<ModalShippingAddressFormData> = z.object({
     sub_region: z.string().nonempty({ message: 'errors.input_required' }),
     city: z.string().nonempty({ message: 'errors.input_required' }),
     zipcode: z.string().nonempty({ message: 'errors.input_required' }),
-    is_default: z.boolean(),
     address_extra: z.string().optional(),
     address_observations: z.string().optional(),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
 
-export function NewShippingAddress() {
+interface Props {
+    shippingAddressesLength: number;
+}
+
+export function NewShippingAddress({ shippingAddressesLength }: Props) {
     const t = useTranslations();
     const { user } = useAuth();
     const { handleMessage } = useMessage();
@@ -46,7 +48,11 @@ export function NewShippingAddress() {
         resolver: zodResolver(schema),
     });
 
-    const { reset, handleSubmit } = form;
+    const {
+        reset,
+        handleSubmit,
+        formState: { errors },
+    } = form;
 
     const handleAddShippingAddress = async (form: ValidationSchema) => {
         setIsLoading(true);
@@ -65,7 +71,7 @@ export function NewShippingAddress() {
             sub_region: form.sub_region,
             city: form.city,
             zipcode: form.zipcode,
-            is_default: form.is_default,
+            is_default: shippingAddressesLength === 0,
         };
 
         await insertShippingAddress(object)
@@ -120,17 +126,15 @@ export function NewShippingAddress() {
             showModal={showModal}
             setShowModal={setShowModal}
             title={t('add_shipping_address')}
-            btnTitle={t('save')}
+            btnTitle={t('add_shipping_address')}
             triggerBtnTitle={t('add_shipping_address')}
             description={''}
             icon={faAdd}
-            handler={handleSubmit(onSubmit)}
             classContainer={`!w-1/2 ${isSubmitting && 'opacity-75'}`}
+            handler={handleSubmit(onSubmit)}
             form={form}
         >
-            <>
-                <AddressForm form={form} addressNameId={'shipping'} />
-            </>
+            <AddressForm form={form} addressNameId={'shipping'} />
         </ModalWithForm>
     );
 }

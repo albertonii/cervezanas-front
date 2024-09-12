@@ -1,12 +1,12 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { IShippingInfo } from '@/lib/types/types';
+import { IOrder } from '@/lib/types/types';
 
 interface Props {
-    shippingInfo: IShippingInfo;
+    order: IOrder;
 }
 
-const ShippingInformationBox = ({ shippingInfo }: Props) => {
+const ShippingInformationBox = ({ order }: Props) => {
     const t = useTranslations();
 
     return (
@@ -18,23 +18,22 @@ const ShippingInformationBox = ({ shippingInfo }: Props) => {
 
                 <dd className="mt-3 text-gray-500">
                     <span className="block font-semibold">
-                        {shippingInfo.name} {shippingInfo.lastname}
-                    </span>
-                    <span className="block">
-                        {shippingInfo.address}, {shippingInfo.city},
-                        {shippingInfo.sub_region} - {shippingInfo.region},{' '}
-                        {shippingInfo.zipcode},{shippingInfo.country}
+                        {order.shipping_name} {order.shipping_lastname}
                     </span>
 
-                    {shippingInfo.address_extra && (
-                        <>
-                            <span className="block">
-                                {shippingInfo.address_extra}
-                            </span>
-                            <span className="block">
-                                {shippingInfo.address_observations}
-                            </span>
-                        </>
+                    <span className="block">{order.shipping_document_id}</span>
+                    <span className="block">{order.shipping_phone}</span>
+
+                    <span className="block">
+                        {order.shipping_address}, {order.shipping_city},
+                        {order.shipping_sub_region} - {order.shipping_region},{' '}
+                        {order.shipping_zipcode},{order.shipping_country}
+                    </span>
+
+                    {order.shipping_address_extra && (
+                        <span className="block">
+                            {order.shipping_address_extra}
+                        </span>
                     )}
                 </dd>
             </address>

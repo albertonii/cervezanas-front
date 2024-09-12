@@ -72,6 +72,7 @@ export default function Shipping({ formShipping }: Props) {
             return;
         }
 
+        console.log('deleteShippingAddress', selectedShippingAddress);
         await removeShippingAddressById(selectedShippingAddress.id)
             .then(() => {
                 handleMessage({
@@ -194,7 +195,9 @@ export default function Shipping({ formShipping }: Props) {
             </ul>
 
             {shippingAddresses && shippingAddresses.length < 5 && (
-                <NewShippingAddress />
+                <NewShippingAddress
+                    shippingAddressesLength={shippingAddresses.length}
+                />
             )}
 
             {showDeleteModal && (

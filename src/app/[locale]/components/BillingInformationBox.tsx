@@ -1,12 +1,12 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { IBillingInfo } from '@/lib/types/types';
+import { IOrder } from '@/lib/types/types';
 
 interface Props {
-    billingInfo: IBillingInfo;
+    order: IOrder;
 }
 
-const BillingInformationBox = ({ billingInfo }: Props) => {
+const BillingInformationBox = ({ order }: Props) => {
     const t = useTranslations();
 
     return (
@@ -18,13 +18,17 @@ const BillingInformationBox = ({ billingInfo }: Props) => {
 
                 <dd className="mt-3 text-gray-500">
                     <span className="block font-semibold">
-                        {billingInfo.name} {billingInfo.lastname}
+                        {order.billing_name} {order.billing_lastname}
                     </span>
 
+                    <span className="block">{order.billing_document_id}</span>
+
+                    <span className="block"> {order.billing_phone}</span>
+
                     <span className="block">
-                        {billingInfo.address}, {billingInfo.city},
-                        {billingInfo.zipcode},{billingInfo.sub_region} -{' '}
-                        {billingInfo.region}, {billingInfo.country}
+                        {order.billing_address}, {order.billing_city},
+                        {order.billing_zipcode},{order.billing_sub_region} -{' '}
+                        {order.billing_region}, {order.billing_country}
                     </span>
                 </dd>
             </address>

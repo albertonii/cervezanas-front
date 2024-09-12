@@ -21,6 +21,36 @@ export async function POST(request: NextRequest) {
             formData.get('order_items_count') as string,
         );
 
+        // Información de envío
+        const shippingName = formData.get('shipping_name') as string;
+        const shippingLastname = formData.get('shipping_lastname') as string;
+        const shippingDocumentId = formData.get(
+            'shipping_document_id',
+        ) as string;
+        const shippingPhone = formData.get('shipping_phone') as string;
+        const shippingAddress = formData.get('shipping_address') as string;
+        const shippingAddressExtra = formData.get(
+            'shipping_address_extra',
+        ) as string;
+        const shippingCountry = formData.get('shipping_country') as string;
+        const shippingRegion = formData.get('shipping_region') as string;
+        const shippingSubRegion = formData.get('shipping_sub_region') as string;
+        const shippingCity = formData.get('shipping_city') as string;
+        const shippingZipcode = formData.get('shipping_zipcode') as string;
+
+        // Información de facturación
+        const billingName = formData.get('billing_name') as string;
+        const billingLastname = formData.get('billing_lastname') as string;
+        const billingDocumentId = formData.get('billing_document_id') as string;
+        const billingPhone = formData.get('billing_phone') as string;
+        const billingAddress = formData.get('billing_address') as string;
+        const billingCountry = formData.get('billing_country') as string;
+        const billingRegion = formData.get('billing_region') as string;
+        const billingSubRegion = formData.get('billing_sub_region') as string;
+        const billingCity = formData.get('billing_city') as string;
+        const billingZipcode = formData.get('billing_zipcode') as string;
+        const billingIsCompany = formData.get('billing_is_company') === 'true';
+
         let orderItems = [];
 
         for (let i = 0; i < orderItemsCount; i++) {
@@ -154,6 +184,31 @@ export async function POST(request: NextRequest) {
                                 `,
                                     )
                                     .join('')}
+                            </div>
+
+                            <div class="total-summary">
+                                <div>Subtotal: ${subtotalPrice}€</div>
+                                <div>Envío: ${shippingPrice}€</div>
+                                <div class="total">Total: ${totalPrice}€</div>
+                            </div>
+
+                            <div class="shipping-info">
+                                <h3>Información de Envío</h3>
+                                <p><strong>Nombre:</strong> ${shippingName} ${shippingLastname}</p>
+                                <p><strong>Documento:</strong> ${shippingDocumentId}</p>
+                                <p><strong>Teléfono:</strong> ${shippingPhone}</p>
+                                <p><strong>Dirección:</strong> ${shippingAddress}, ${shippingAddressExtra}, ${shippingCity}, ${shippingRegion}, ${shippingCountry}, ${shippingZipcode}</p>
+                            </div>
+
+                            <div class="billing-info">
+                                <h3>Información de Facturación</h3>
+                                <p><strong>Nombre:</strong> ${billingName} ${billingLastname}</p>
+                                <p><strong>Documento:</strong> ${billingDocumentId}</p>
+                                <p><strong>Teléfono:</strong> ${billingPhone}</p>
+                                <p><strong>Dirección:</strong> ${billingAddress}, ${billingCity}, ${billingRegion}, ${billingCountry}, ${billingZipcode}</p>
+                                <p><strong>Es empresa:</strong> ${
+                                    billingIsCompany ? 'Sí' : 'No'
+                                }</p>
                             </div>
 
                             <div class="total-summary">

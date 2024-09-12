@@ -34,14 +34,20 @@ const schema: ZodType<ModalBillingAddressFormData> = z.object({
     sub_region: z.string().nonempty({ message: 'errors.input_required' }),
     city: z.string().nonempty({ message: 'errors.input_required' }),
     zipcode: z.string().nonempty({ message: 'errors.input_required' }),
-    is_default: z.boolean(),
     address_extra: z.string().optional(),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
 
+interface Props {
+    billingAddressesLength: number;
+}
+
 export const NewBillingIndividualAddress = forwardRef(
-    (props, ref: Ref<NewBillingIndividualAddressRef>) => {
+    (
+        { billingAddressesLength }: Props,
+        ref: Ref<NewBillingIndividualAddressRef>,
+    ) => {
         const t = useTranslations();
 
         const { user } = useAuth();
@@ -84,7 +90,8 @@ export const NewBillingIndividualAddress = forwardRef(
                 region: form.region,
                 sub_region: form.sub_region,
                 city: form.city,
-                is_default: form.is_default,
+                is_default: billingAddressesLength === 0,
+                is_company: false,
             };
 
             await insertIndividualBillingAddress(object)

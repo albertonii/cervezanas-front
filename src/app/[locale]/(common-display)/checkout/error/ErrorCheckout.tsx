@@ -169,20 +169,18 @@ export default function ErrorCheckout({ order, isError }: Props) {
                                         )}
 
                                         {/* Shipping Information  */}
-                                        {order.shipping_info && (
+                                        {order && (
                                             <div className="col-span-12 mt-6 md:col-span-4 lg:col-span-5">
                                                 <ShippingInformationBox
-                                                    shippingInfo={
-                                                        order.shipping_info
-                                                    }
+                                                    order={order}
                                                 />
                                             </div>
                                         )}
 
                                         {/* <!-- Billing --> */}
-                                        {order.billing_info && (
+                                        {order && (
                                             <BillingInformationBox
-                                                billingInfo={order.billing_info}
+                                                order={order}
                                             />
                                         )}
 

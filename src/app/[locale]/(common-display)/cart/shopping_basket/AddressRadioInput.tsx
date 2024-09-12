@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { UseFormRegister } from 'react-hook-form';
 import { IAddress } from '@/lib//types/types';
+import { UseFormRegister } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
 import { faStar, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { useShoppingCart } from '@/app/context/ShoppingCartContext';
+import { IconButton } from '@/app/[locale]/components/common/IconButton';
 
 interface Props {
     address: IAddress;
@@ -41,6 +40,11 @@ export default function AddressRadioInput({
 
     const handleOnClickDefaultShipping = () => {
         handleDefaultAddress(address);
+    };
+
+    const handleOnDeleteAddress = () => {
+        handleSelectedAddress(address);
+        setShowDeleteModal(true);
     };
 
     return (
@@ -83,7 +87,7 @@ export default function AddressRadioInput({
 
             <div className="space-y-2 ">
                 <IconButton
-                    onClick={() => setShowDeleteModal(true)}
+                    onClick={handleOnDeleteAddress}
                     icon={faTrash}
                     title={t('delete_address')}
                     box

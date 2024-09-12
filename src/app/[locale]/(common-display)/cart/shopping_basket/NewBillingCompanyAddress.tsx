@@ -39,8 +39,15 @@ const schema: ZodType<ModalBillingCompanyAddressFormData> = z.object({
 
 type ValidationSchema = z.infer<typeof schema>;
 
+interface Props {
+    billingAddressesLength: number;
+}
+
 export const NewBillingCompanyAddress = forwardRef(
-    (props, ref: Ref<NewBillingCompanyAddressRef>) => {
+    (
+        { billingAddressesLength }: Props,
+        ref: Ref<NewBillingCompanyAddressRef>,
+    ) => {
         const t = useTranslations();
 
         const { user } = useAuth();
@@ -82,7 +89,7 @@ export const NewBillingCompanyAddress = forwardRef(
                 region: form.region,
                 sub_region: form.sub_region,
                 city: form.city,
-                is_default: form.is_default,
+                is_default: billingAddressesLength === 0,
             };
 
             await insertCompanyBillingAddress(object)

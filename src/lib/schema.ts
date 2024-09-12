@@ -2110,7 +2110,17 @@ export interface Database {
       }
       orders: {
         Row: {
-          billing_info_id: string | null
+          billing_address: string | null
+          billing_city: string | null
+          billing_country: string | null
+          billing_document_id: string | null
+          billing_is_company: boolean | null
+          billing_lastname: string | null
+          billing_name: string | null
+          billing_phone: string | null
+          billing_region: string | null
+          billing_sub_region: string | null
+          billing_zipcode: string | null
           created_at: string | null
           currency: string | null
           customer_name: string | null
@@ -2126,7 +2136,17 @@ export interface Database {
           owner_id: string | null
           payment_method: string | null
           shipping: number | null
-          shipping_info_id: string | null
+          shipping_address: string | null
+          shipping_address_extra: string | null
+          shipping_city: string | null
+          shipping_country: string | null
+          shipping_document_id: string | null
+          shipping_lastname: string | null
+          shipping_name: string | null
+          shipping_phone: string | null
+          shipping_region: string | null
+          shipping_sub_region: string | null
+          shipping_zipcode: string | null
           status: string | null
           subtotal: number | null
           tax: number | null
@@ -2136,7 +2156,17 @@ export interface Database {
           updated_at: string | null
         }
         Insert: {
-          billing_info_id?: string | null
+          billing_address?: string | null
+          billing_city?: string | null
+          billing_country?: string | null
+          billing_document_id?: string | null
+          billing_is_company?: boolean | null
+          billing_lastname?: string | null
+          billing_name?: string | null
+          billing_phone?: string | null
+          billing_region?: string | null
+          billing_sub_region?: string | null
+          billing_zipcode?: string | null
           created_at?: string | null
           currency?: string | null
           customer_name?: string | null
@@ -2152,7 +2182,17 @@ export interface Database {
           owner_id?: string | null
           payment_method?: string | null
           shipping?: number | null
-          shipping_info_id?: string | null
+          shipping_address?: string | null
+          shipping_address_extra?: string | null
+          shipping_city?: string | null
+          shipping_country?: string | null
+          shipping_document_id?: string | null
+          shipping_lastname?: string | null
+          shipping_name?: string | null
+          shipping_phone?: string | null
+          shipping_region?: string | null
+          shipping_sub_region?: string | null
+          shipping_zipcode?: string | null
           status?: string | null
           subtotal?: number | null
           tax?: number | null
@@ -2162,7 +2202,17 @@ export interface Database {
           updated_at?: string | null
         }
         Update: {
-          billing_info_id?: string | null
+          billing_address?: string | null
+          billing_city?: string | null
+          billing_country?: string | null
+          billing_document_id?: string | null
+          billing_is_company?: boolean | null
+          billing_lastname?: string | null
+          billing_name?: string | null
+          billing_phone?: string | null
+          billing_region?: string | null
+          billing_sub_region?: string | null
+          billing_zipcode?: string | null
           created_at?: string | null
           currency?: string | null
           customer_name?: string | null
@@ -2178,7 +2228,17 @@ export interface Database {
           owner_id?: string | null
           payment_method?: string | null
           shipping?: number | null
-          shipping_info_id?: string | null
+          shipping_address?: string | null
+          shipping_address_extra?: string | null
+          shipping_city?: string | null
+          shipping_country?: string | null
+          shipping_document_id?: string | null
+          shipping_lastname?: string | null
+          shipping_name?: string | null
+          shipping_phone?: string | null
+          shipping_region?: string | null
+          shipping_sub_region?: string | null
+          shipping_zipcode?: string | null
           status?: string | null
           subtotal?: number | null
           tax?: number | null
@@ -2189,24 +2249,10 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "orders_billing_info_id_fkey"
-            columns: ["billing_info_id"]
-            isOneToOne: false
-            referencedRelation: "billing_info"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "orders_owner_id_fkey"
             columns: ["owner_id"]
             isOneToOne: false
             referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "orders_shipping_info_id_fkey"
-            columns: ["shipping_info_id"]
-            isOneToOne: false
-            referencedRelation: "shipping_info"
             referencedColumns: ["id"]
           }
         ]

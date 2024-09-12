@@ -595,8 +595,6 @@ export interface IOrder {
     updated_at: string;
     owner_id: string;
     status: string;
-    shipping_info_id: string;
-    billing_info_id: string;
     customer_name: string;
     tracking_id: string;
     issue_date: string;
@@ -612,10 +610,33 @@ export interface IOrder {
     is_consumer_email_sent: boolean;
     is_producer_email_sent: boolean;
     is_distributor_email_sent: boolean;
-    shipping_info?: IShippingInfo;
-    billing_info?: IBillingInfo;
     business_orders?: IBusinessOrder[];
     users?: IUserTable;
+    // Información de envío copiada - De esta manera, si el usuario elimina su dirección de envío, la información de envío se mantiene en la orden
+    shipping_name: string;
+    shipping_lastname: string;
+    shipping_document_id: string;
+    shipping_phone: string;
+    shipping_address: string;
+    shipping_address_extra: string;
+    shipping_country: string;
+    shipping_region: string;
+    shipping_sub_region: string;
+    shipping_city: string;
+    shipping_zipcode: string;
+
+    // Información de facturación
+    billing_name: string;
+    billing_lastname: string;
+    billing_document_id: string;
+    billing_phone: string;
+    billing_address: string;
+    billing_country: string;
+    billing_region: string;
+    billing_sub_region: string;
+    billing_city: string;
+    billing_zipcode: string;
+    billing_is_company: boolean;
 }
 
 export interface IOrderItem {
@@ -1205,7 +1226,6 @@ export interface ModalShippingAddressFormData {
     city: string;
     region: string;
     sub_region: string;
-    is_default: boolean;
 }
 
 export interface ModalBillingAddressFormData {
@@ -1222,7 +1242,6 @@ export interface ModalBillingAddressFormData {
     city: string;
     region: string;
     sub_region: string;
-    is_default: boolean;
 }
 
 export interface ModalBillingCompanyAddressFormData {
@@ -1256,6 +1275,7 @@ export interface IAddress {
     city: string;
     zipcode: string;
     is_default: boolean;
+    is_company?: boolean;
 }
 
 export interface IBillingAddress {

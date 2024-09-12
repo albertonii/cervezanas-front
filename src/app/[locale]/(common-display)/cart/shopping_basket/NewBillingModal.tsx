@@ -8,8 +8,14 @@ import {
 } from './NewBillingIndividualAddress';
 import { NewBillingCompanyAddress } from './NewBillingCompanyAddress';
 import { BillingInformationType } from '@/lib/enums';
+import { useShoppingCart } from '@/app/context/ShoppingCartContext';
+import { IAddress } from '@/lib/types/types';
 
-const NewBillingModal = () => {
+interface Props {
+    billingAddressesLength: number;
+}
+
+const NewBillingModal = ({ billingAddressesLength }: Props) => {
     const t = useTranslations();
     const [showModal, setShowModal] = useState<boolean>(false);
     const [type, setType] = useState('individual');
@@ -122,9 +128,15 @@ const NewBillingModal = () => {
                 </div>
 
                 {type === BillingInformationType.INDIVIDUAL ? (
-                    <NewBillingIndividualAddress ref={individualFormRef} />
+                    <NewBillingIndividualAddress
+                        ref={individualFormRef}
+                        billingAddressesLength={billingAddressesLength}
+                    />
                 ) : (
-                    <NewBillingCompanyAddress ref={companyFormRef} />
+                    <NewBillingCompanyAddress
+                        ref={companyFormRef}
+                        billingAddressesLength={billingAddressesLength}
+                    />
                 )}
             </>
         </Modal>

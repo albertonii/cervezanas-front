@@ -154,63 +154,46 @@ async function getCheckoutErrorData(searchParams: any) {
         .from('orders')
         .select(
             `
-          *,
-          shipping_info_id,
-          billing_info_id,
-          shipping_info!orders_shipping_info_id_fkey (
-            id,
-            created_at,
-            updated_at,
-            owner_id,
-            name,
-            lastname,
-            document_id,
-            phone,
-            address,
-            address_extra,
-            address_observations,
-            country,
-            region,
-            sub_region,
-            city,
-            zipcode,
-            is_default
-          ),
-          billing_info!orders_billing_info_id_fkey (
-            id,
-            created_at,
-            updated_at,
-            owner_id,
-            name,
-            lastname,
-            document_id,
-            phone,
-            address,
-            country,
-            region,
-            sub_region,
-            city,
-            zipcode,
-            is_company,
-            is_default
-          ),
-          business_orders!business_orders_order_id_fkey (
             *,
-            order_items (
-              *,
-              product_packs (
-                id,
-                product_id,
-                created_at,
-                quantity,
-                price,
-                img_url,
-                name,
-                randomUUID,
-                products (*)
-              )
+            shipping_name,
+            shipping_lastname,
+            shipping_document_id,
+            shipping_phone,
+            shipping_address,
+            shipping_address_extra,
+            shipping_country,
+            shipping_region,
+            shipping_sub_region,
+            shipping_city,
+            shipping_zipcode,
+            billing_name,
+            billing_lastname,
+            billing_document_id,
+            billing_phone,
+            billing_address,
+            billing_country,
+            billing_region,
+            billing_sub_region,
+            billing_city,
+            billing_zipcode,
+            billing_is_company,
+            business_orders!business_orders_order_id_fkey (
+                *,
+                order_items (
+                    *,
+                    product_packs (
+                        id,
+                        product_id,
+                        created_at,
+                        quantity,
+                        price,
+                        img_url,
+                        name,
+                        randomUUID,
+                        products (*)
+                    )
+                )
             )
-          )
         `,
         )
         .eq('order_number', orderId)

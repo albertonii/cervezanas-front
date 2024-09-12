@@ -55,8 +55,6 @@ async function getSuccessData(orderNumber: string) {
         .select(
             `
                 *,
-                shipping_info (id, *),
-                billing_info (id, *),
                 business_orders!business_orders_order_id_fkey (
                     *,
                     order_items (
@@ -70,7 +68,29 @@ async function getSuccessData(orderNumber: string) {
                         )
                     )
                 ),
-                users (*)
+                users (*),
+                shipping_name,
+                shipping_lastname,
+                shipping_document_id,
+                shipping_phone,
+                shipping_address,
+                shipping_address_extra,
+                shipping_country,
+                shipping_region,
+                shipping_sub_region,
+                shipping_city,
+                shipping_zipcode,
+                billing_name,
+                billing_lastname,
+                billing_document_id,
+                billing_phone,
+                billing_address,
+                billing_country,
+                billing_region,
+                billing_sub_region,
+                billing_city,
+                billing_zipcode,
+                billing_is_company
             `,
         )
         .eq('order_number', orderNumber)

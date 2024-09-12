@@ -60,7 +60,6 @@ export async function insertShippingAddress(form: {
     sub_region: string;
     city: string;
     zipcode: string;
-    is_default: boolean;
 }) {
     const {
         user_id,
@@ -76,7 +75,6 @@ export async function insertShippingAddress(form: {
         sub_region,
         city,
         zipcode,
-        is_default,
     } = form;
 
     const url = `${baseUrl}/api/shopping_basket/shipping_address`;
@@ -95,7 +93,6 @@ export async function insertShippingAddress(form: {
     formData.set('sub_region', sub_region);
     formData.set('city', city);
     formData.set('zipcode', zipcode);
-    // formData.set('is_default', is_default.toString());
 
     const res = await fetch(url, {
         method: 'POST',
@@ -120,7 +117,6 @@ export async function insertIndividualBillingAddress(form: {
     sub_region: string;
     city: string;
     zipcode: string;
-    is_default: boolean;
 }) {
     const {
         user_id,
@@ -134,7 +130,6 @@ export async function insertIndividualBillingAddress(form: {
         sub_region,
         city,
         zipcode,
-        is_default,
     } = form;
 
     const url = `${baseUrl}/api/shopping_basket/billing_address`;
@@ -151,7 +146,6 @@ export async function insertIndividualBillingAddress(form: {
     formData.set('sub_region', sub_region);
     formData.set('city', city);
     formData.set('zipcode', zipcode);
-    // formData.set('is_default', is_default.toString());
 
     const res = await fetch(url, {
         method: 'POST',
@@ -175,7 +169,6 @@ export async function insertCompanyBillingAddress(form: {
     sub_region: string;
     city: string;
     zipcode: string;
-    is_default: boolean;
 }) {
     const {
         user_id,
@@ -188,7 +181,6 @@ export async function insertCompanyBillingAddress(form: {
         sub_region,
         city,
         zipcode,
-        is_default,
     } = form;
 
     const url = `${baseUrl}/api/shopping_basket/company_billing_address`;
@@ -230,9 +222,29 @@ interface InsertOnlineOrderProps {
     order_number: string;
     type: string;
     tax: number;
-    shipping_info_id: string;
-    billing_info_id: string;
     items: IProductPackCartItem[];
+    shipping_name: string;
+    shipping_lastname: string;
+    shipping_document_id: string;
+    shipping_phone: string;
+    shipping_address: string;
+    shipping_address_extra?: string;
+    shipping_country: string;
+    shipping_region: string;
+    shipping_sub_region: string;
+    shipping_city: string;
+    shipping_zipcode: string;
+    billing_name: string;
+    billing_lastname: string;
+    billing_document_id: string;
+    billing_phone: string;
+    billing_address: string;
+    billing_country: string;
+    billing_region: string;
+    billing_sub_region: string;
+    billing_city: string;
+    billing_zipcode: string;
+    billing_is_company?: boolean;
 }
 
 export async function insertOnlineOrder(form: InsertOnlineOrderProps) {
@@ -252,26 +264,40 @@ export async function insertOnlineOrder(form: InsertOnlineOrderProps) {
     formData.set('order_number', form.order_number);
     formData.set('type', form.type);
     formData.set('tax', form.tax.toString());
-    formData.set('shipping_info_id', form.shipping_info_id);
-    formData.set('billing_info_id', form.billing_info_id);
     formData.set('items', JSON.stringify(form.items));
+
+    // Shipping Info
+    formData.set('shipping_name', form.shipping_name);
+    formData.set('shipping_lastname', form.shipping_lastname);
+    formData.set('shipping_document_id', form.shipping_document_id);
+    formData.set('shipping_phone', form.shipping_phone);
+    formData.set('shipping_address', form.shipping_address);
+    formData.set('shipping_address_extra', form.shipping_address_extra ?? '');
+    formData.set('shipping_country', form.shipping_country);
+    formData.set('shipping_region', form.shipping_region);
+    formData.set('shipping_sub_region', form.shipping_sub_region);
+    formData.set('shipping_city', form.shipping_city);
+    formData.set('shipping_zipcode', form.shipping_zipcode);
+
+    // Billing Info
+    formData.set('billing_name', form.billing_name);
+    formData.set('billing_lastname', form.billing_lastname);
+    formData.set('billing_document_id', form.billing_document_id);
+    formData.set('billing_phone', form.billing_phone);
+    formData.set('billing_address', form.billing_address);
+    formData.set('billing_country', form.billing_country);
+    formData.set('billing_region', form.billing_region);
+    formData.set('billing_sub_region', form.billing_sub_region);
+    formData.set('billing_city', form.billing_city);
+    formData.set('billing_zipcode', form.billing_zipcode);
+    formData.set(
+        'billing_is_company',
+        form.billing_is_company ? 'true' : 'false',
+    );
 
     const res = await fetch(url, {
         method: 'POST',
         body: formData,
-    });
-
-    return {
-        status: res.status,
-        message: res.statusText,
-    };
-}
-
-export async function getShippingInfoById(shippingInfoId: string) {
-    const url = `${baseUrl}/api/shopping_basket/shipping_address?shipping_info_id=${shippingInfoId}`;
-
-    const res = await fetch(url, {
-        method: 'GET',
     });
 
     return {
@@ -316,7 +342,7 @@ export async function calculateProductPacksWeight(
  */
 export async function calculateCheapestShippingCostsByDistributor(
     itemsByProducer: IProductPackCartItem[],
-    shippingInfoId: string,
+    shippingInfo: IShippingInfo,
     distributionContracts: IDistributionContract[],
 ) {
     const url = `${baseUrl}/api/calculate_shipping`;
@@ -339,7 +365,11 @@ export async function calculateCheapestShippingCostsByDistributor(
                     params: {
                         distributor_id: distributionContract.distributor_id,
                         total_weight: totalWeight,
-                        shipping_info_id: shippingInfoId,
+                        address: shippingInfo.address,
+                        city: shippingInfo.city,
+                        sub_region: shippingInfo.sub_region,
+                        region: shippingInfo.region,
+                        country: shippingInfo.country,
                     },
                 });
 

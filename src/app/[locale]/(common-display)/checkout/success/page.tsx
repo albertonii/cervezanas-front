@@ -143,8 +143,6 @@ async function getSuccessData(searchParams: any) {
         .select(
             `
                 *,
-                shipping_info (id, *),
-                billing_info (id, *),
                 business_orders!business_orders_order_id_fkey (
                     *,
                     order_items (
@@ -160,7 +158,29 @@ async function getSuccessData(searchParams: any) {
                     producer_user (*),
                     distributor_user (*)
                 ),
-                users (*)
+                users (*),
+                shipping_name,
+                shipping_lastname,
+                shipping_document_id,
+                shipping_phone,
+                shipping_address,
+                shipping_address_extra,
+                shipping_country,
+                shipping_region,
+                shipping_sub_region,
+                shipping_city,
+                shipping_zipcode,
+                billing_name,
+                billing_lastname,
+                billing_document_id,
+                billing_phone,
+                billing_address,
+                billing_country,
+                billing_region,
+                billing_sub_region,
+                billing_city,
+                billing_zipcode,
+                billing_is_company
             `,
         )
         .eq('order_number', orderNumber)
@@ -237,6 +257,38 @@ async function sendConsumerEmailNotification(order: IOrder) {
             item.quantity.toString() as string,
         );
     });
+
+    // Información de envío
+    formData.set('shipping_name', order.shipping_name as string);
+    formData.set('shipping_lastname', order.shipping_lastname as string);
+    formData.set('shipping_document_id', order.shipping_document_id as string);
+    formData.set('shipping_phone', order.shipping_phone as string);
+    formData.set('shipping_address', order.shipping_address as string);
+    formData.set(
+        'shipping_address_extra',
+        order.shipping_address_extra as string,
+    );
+    formData.set('shipping_city', order.shipping_city as string);
+    formData.set('shipping_sub_region', order.shipping_sub_region as string);
+    formData.set('shipping_region', order.shipping_region as string);
+    formData.set('shipping_country', order.shipping_country as string);
+    formData.set('shipping_postal_code', order.shipping_zipcode as string);
+
+    // Información de facturación
+    formData.set('billing_name', order.billing_name as string);
+    formData.set('billing_lastname', order.billing_lastname as string);
+    formData.set('billing_document_id', order.billing_document_id as string);
+    formData.set('billing_phone', order.billing_phone as string);
+    formData.set('billing_address', order.billing_address as string);
+    formData.set('billing_city', order.billing_city as string);
+    formData.set('billing_sub_region', order.billing_sub_region as string);
+    formData.set('billing_region', order.billing_region as string);
+    formData.set('billing_country', order.billing_country as string);
+    formData.set('billing_postal_code', order.billing_zipcode as string);
+    formData.set(
+        'billing_is_company',
+        order.billing_is_company ? 'true' : 'false',
+    );
 
     // Email al usuario
     fetch(consumerUrl, {
@@ -327,7 +379,7 @@ async function sendProducerEmailNotification(order: IOrder) {
             );
         });
 
-        // Email al usuario
+        // Email al productor
         fetch(producerUrl, {
             method: 'POST',
             body: formData,
@@ -419,40 +471,28 @@ async function sendDistributorEmailNotification(order: IOrder) {
         });
 
         // Información de envío
-        formData.set('shipping_name', order.shipping_info?.name as string);
-        formData.set(
-            'shipping_lastname',
-            order.shipping_info?.lastname as string,
-        );
+        formData.set('shipping_name', order.shipping_name as string);
+        formData.set('shipping_lastname', order.shipping_lastname as string);
         formData.set(
             'shipping_document_id',
-            order.shipping_info?.document_id as string,
+            order.shipping_document_id as string,
         );
-        formData.set(
-            'shipping_address',
-            order.shipping_info?.address as string,
-        );
+        formData.set('shipping_phone', order.shipping_phone as string);
+        formData.set('shipping_address', order.shipping_address as string);
         formData.set(
             'shipping_address_extra',
-            order.shipping_info?.address_extra as string,
+            order.shipping_address_extra as string,
         );
-        formData.set('shipping_city', order.shipping_info?.city as string);
+        formData.set('shipping_city', order.shipping_city as string);
         formData.set(
             'shipping_sub_region',
-            order.shipping_info?.sub_region as string,
+            order.shipping_sub_region as string,
         );
-        formData.set('shipping_region', order.shipping_info?.region as string);
-        formData.set(
-            'shipping_country',
-            order.shipping_info?.country as string,
-        );
-        formData.set(
-            'shipping_postal_code',
-            order.shipping_info?.zipcode as string,
-        );
-        formData.set('shipping_phone', order.shipping_info?.phone as string);
+        formData.set('shipping_region', order.shipping_region as string);
+        formData.set('shipping_country', order.shipping_country as string);
+        formData.set('shipping_postal_code', order.shipping_zipcode as string);
 
-        // Email al usuario
+        // Email al distribuidor
         fetch(distributorUrl, {
             method: 'POST',
             body: formData,
