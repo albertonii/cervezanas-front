@@ -9,7 +9,7 @@ export default function CollaborationAgreement() {
   });
 
   return (
-    <section className="border-1 rounded-medium space-y-8 border p-2">
+    <section className="border-1 rounded-medium space-y-8 border p-4">
       <section className="space-y-4">
         <title>Acuerdo de Colaboración entre Productor y Distribuidor</title>
         <p>
@@ -24,7 +24,7 @@ export default function CollaborationAgreement() {
       </section>
 
       <section className="space-y-2">
-        <h2 className="font-semibold">1. Responsabilidades del Productor:</h2>
+        <h2 className="font-semibold text-2xl mb-4">1. Responsabilidades del Productor:</h2>
         <h3>El Productor acuerda:</h3>
 
         <div className="mx-6">
@@ -57,7 +57,7 @@ export default function CollaborationAgreement() {
       </section>
 
       <section className="space-y-2">
-        <h2 className="font-semibold">
+        <h2 className="font-semibold text-2xl mb-4">
           2. Responsabilidades del Distribuidor:
         </h2>
         <h3>El Distribuidor acuerda:</h3>
@@ -96,7 +96,7 @@ export default function CollaborationAgreement() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="font-semibold">3. Términos Generales: </h2>
+        <h2 className="font-semibold text-2xl mb-4">3. Términos Generales: </h2>
 
         <div className="mx-6">
           <summary>

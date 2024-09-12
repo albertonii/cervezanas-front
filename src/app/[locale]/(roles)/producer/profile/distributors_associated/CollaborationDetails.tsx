@@ -16,17 +16,17 @@ export default function CollaborationDetails({ distributor, producer }: Props) {
     if (!distributor) return <p>Loading...</p>;
 
     return (
-        <section className="border-1 rounded-medium space-y-8 border p-2">
+        <section className="border-1 rounded-medium space-y-8 border p-4">
             <title>
                 Este Acuerdo de Colaboración (`&quot;`Acuerdo`&quot;`) se
                 celebra entre:
             </title>
 
-            <h2 className="font-semibold">PARTES:</h2>
+            <h2 className="font-semibold text-3xl text-beer-draft">PARTES:</h2>
 
             <section className="space-y-2">
                 <div>
-                    <h3 className="font-semibold">{t('producer')}:</h3>
+                    <h3 className="font-semibold text-2xl mb-4 capitalize">{t('producer')}:</h3>
 
                     <div className="mx-6 space-y-2">
                         <summary>
@@ -56,7 +56,7 @@ export default function CollaborationDetails({ distributor, producer }: Props) {
 
             <section className="space-y-2">
                 <div>
-                    <h3 className="font-semibold">{t('distributor')}:</h3>
+                    <h3 className="font-semibold text-2xl mb-4 capitalize">{t('distributor')}:</h3>
 
                     <div className="mx-6 space-y-2">
                         <summary>
