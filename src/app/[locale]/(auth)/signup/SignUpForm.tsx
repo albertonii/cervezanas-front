@@ -18,6 +18,7 @@ import { useAuth } from '../Context/useAuth';
 import { ROLE_ENUM, ROLE_OPTIONS } from '@/lib//enums';
 import { SupabaseProps } from '@/constants';
 import ConsumptionPointDisclaimerModal from '../../(roles)/admin/profile/consumption_points/ConsumptionPointDisclaimerModal';
+import PasswordStrengthIndicator from './PasswordStrengthIndicator';
 
 interface FormData {
     access_level: string;
@@ -55,15 +56,13 @@ const schema: ZodType<FormData> = z
             })
             .min(5, { message: 'errors.input_required' })
             .transform((val) => val.toLowerCase()), // Normalización a minúsculas
-        password: z
-            .string()
-            .min(8, { message: 'errors.password_8_length' })
-            .regex(
-                /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
-                {
-                    message: 'errors.password_security',
-                },
-            ),
+        password: z.string().min(8, { message: 'errors.password_8_length' }),
+        // .regex(
+        //     /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+        //     {
+        //         message: 'errors.password_security',
+        //     },
+        // ),
         confirm_password: z
             .string()
             .min(8, { message: 'errors.password_8_length' }),
@@ -246,6 +245,8 @@ export const SignUpForm = () => {
                 placeholder="*****"
                 inputType="password"
             />
+
+            <PasswordStrengthIndicator password={form.watch('password')} />
 
             <InputLabel
                 form={form}
