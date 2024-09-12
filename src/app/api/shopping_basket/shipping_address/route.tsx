@@ -42,7 +42,6 @@ export async function POST(request: NextRequest) {
     const phone = formData.get('phone') as string;
     const address = formData.get('address') as string;
     const address_extra = formData.get('address_extra') as string;
-    const address_observations = formData.get('address_observations') as string;
     const country = formData.get('country') as string;
     const region = formData.get('region') as string;
     const sub_region = formData.get('sub_region') as string;
@@ -59,7 +58,6 @@ export async function POST(request: NextRequest) {
             phone,
             address,
             address_extra,
-            address_observations,
             country,
             region,
             sub_region,

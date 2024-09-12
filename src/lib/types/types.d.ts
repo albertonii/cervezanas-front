@@ -695,7 +695,6 @@ export interface IShippingInfo {
     phone: string;
     address: string;
     address_extra: string;
-    address_observations: string;
     country: string;
     region: string;
     sub_region: string;
@@ -732,7 +731,6 @@ export interface IAddressForm {
     phone: string;
     address: string;
     address_extra: string;
-    address_observations: string;
     country: string;
     region: string;
     sub_region: string;
@@ -1188,7 +1186,6 @@ export interface IModalShippingAddress {
     phone: string;
     address: string;
     address_extra?: string;
-    address_observations?: string;
     country: string;
     region: string;
     sub_region: string;
@@ -1220,7 +1217,6 @@ export interface ModalShippingAddressFormData {
     phone: string;
     address: string;
     address_extra?: string;
-    address_observations?: string;
     country: string;
     zipcode: string;
     city: string;
@@ -1268,7 +1264,6 @@ export interface IAddress {
     phone: string;
     address: string;
     address_extra?: string;
-    address_observations?: string;
     country: string;
     region: string;
     sub_region: string;

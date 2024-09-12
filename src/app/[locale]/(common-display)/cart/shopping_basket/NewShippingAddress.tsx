@@ -24,7 +24,6 @@ const schema: ZodType<ModalShippingAddressFormData> = z.object({
     city: z.string().nonempty({ message: 'errors.input_required' }),
     zipcode: z.string().nonempty({ message: 'errors.input_required' }),
     address_extra: z.string().optional(),
-    address_observations: z.string().optional(),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -65,7 +64,6 @@ export function NewShippingAddress({ shippingAddressesLength }: Props) {
             phone: form.phone,
             address: form.address,
             address_extra: form.address_extra,
-            address_observations: form.address_observations,
             country: form.country,
             region: form.region,
             sub_region: form.sub_region,

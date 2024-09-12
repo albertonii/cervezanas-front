@@ -170,22 +170,7 @@ export default function AddressForm({ form, addressNameId }: Props) {
                                     required: false,
                                 }}
                             />
-
-                            <InputLabel
-                                form={form}
-                                label={'address_observations'}
-                                registerOptions={{
-                                    required: false,
-                                }}
-                                placeholder={`${t('address_observations')}*`}
-                            />
                         </>
-                    )}
-
-                    {apiCallError && (
-                        <DisplayInputError
-                            message={errors.address_observations.message}
-                        />
                     )}
 
                     <div className="space-y-8">

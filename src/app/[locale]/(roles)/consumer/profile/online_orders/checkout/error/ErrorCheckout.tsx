@@ -164,7 +164,7 @@ export default function ErrorCheckout({ order, isError }: Props) {
                                                 </div>
 
                                                 {/* Shipping Information  */}
-                                                {order.shipping_info && (
+                                                {order && (
                                                     <div className="col-span-12 mt-6 md:col-span-4 lg:col-span-5">
                                                         <dt className="font-medium text-gray-900">
                                                             {t(
@@ -175,69 +175,43 @@ export default function ErrorCheckout({ order, isError }: Props) {
                                                         <dd className="mt-3 text-gray-500">
                                                             <span className="block">
                                                                 {
-                                                                    order
-                                                                        .shipping_info
-                                                                        .name
+                                                                    order.shipping_name
                                                                 }{' '}
                                                                 {
-                                                                    order
-                                                                        .shipping_info
-                                                                        .lastname
+                                                                    order.shipping_lastname
                                                                 }
                                                             </span>
                                                             <span className="block">
                                                                 {
-                                                                    order
-                                                                        .shipping_info
-                                                                        .address
+                                                                    order.shipping_address
                                                                 }
                                                                 ,{' '}
                                                                 {
-                                                                    order
-                                                                        .shipping_info
-                                                                        .city
+                                                                    order.shipping_city
                                                                 }
                                                                 ,
                                                                 {
-                                                                    order
-                                                                        .shipping_info
-                                                                        .zipcode
+                                                                    order.shipping_zipcode
                                                                 }
                                                                 ,
                                                                 {
-                                                                    order
-                                                                        .shipping_info
-                                                                        .region
+                                                                    order.shipping_region
                                                                 }{' '}
                                                                 -{' '}
                                                                 {
-                                                                    order
-                                                                        .shipping_info
-                                                                        .sub_region
+                                                                    order.shipping_sub_region
                                                                 }
                                                                 ,{' '}
                                                                 {
-                                                                    order
-                                                                        .shipping_info
-                                                                        .country
+                                                                    order.shipping_country
                                                                 }
                                                             </span>
 
-                                                            {order.shipping_info
-                                                                .address_extra && (
+                                                            {order.shipping_address_extra && (
                                                                 <>
                                                                     <span className="block">
                                                                         {
-                                                                            order
-                                                                                .shipping_info
-                                                                                .address_extra
-                                                                        }
-                                                                    </span>
-                                                                    <span className="block">
-                                                                        {
-                                                                            order
-                                                                                .shipping_info
-                                                                                .address_observations
+                                                                            order.shipping_address_extra
                                                                         }
                                                                     </span>
                                                                 </>
@@ -286,7 +260,7 @@ export default function ErrorCheckout({ order, isError }: Props) {
                         <h2 className="sr-only">{t('billing_summary')}</h2>
 
                         <div className="bg-gray-100 px-4 py-6 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
-                            {order.billing_info && (
+                            {order && (
                                 <dl className="grid grid-cols-2 gap-6 text-sm sm:grid-cols-2 md:gap-x-8 lg:col-span-7">
                                     <address>
                                         <dt className="font-medium text-gray-900">
@@ -294,16 +268,16 @@ export default function ErrorCheckout({ order, isError }: Props) {
                                         </dt>
                                         <dd className="mt-3 text-gray-500">
                                             <span className="block">
-                                                {order.billing_info.name}{' '}
-                                                {order.billing_info.lastname}
+                                                {order.billing_name}{' '}
+                                                {order.billing_lastname}
                                             </span>
                                             <span className="block">
-                                                {order.billing_info.address},{' '}
-                                                {order.billing_info.city},
-                                                {order.billing_info.zipcode},
-                                                {order.billing_info.sub_region}{' '}
-                                                - {order.billing_info.region},{' '}
-                                                {order.billing_info.country}
+                                                {order.billing_address},{' '}
+                                                {order.billing_city},
+                                                {order.billing_zipcode},
+                                                {order.billing_sub_region} -{' '}
+                                                {order.billing_region},{' '}
+                                                {order.billing_country}
                                             </span>
                                         </dd>
                                     </address>

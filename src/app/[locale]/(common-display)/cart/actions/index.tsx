@@ -54,7 +54,6 @@ export async function insertShippingAddress(form: {
     phone: string;
     address: string;
     address_extra?: string;
-    address_observations?: string;
     country: string;
     region: string;
     sub_region: string;
@@ -69,7 +68,6 @@ export async function insertShippingAddress(form: {
         phone,
         address,
         address_extra,
-        address_observations,
         country,
         region,
         sub_region,
@@ -87,7 +85,6 @@ export async function insertShippingAddress(form: {
     formData.set('phone', phone);
     formData.set('address', address);
     formData.set('address_extra', address_extra ?? '');
-    formData.set('address_observations', address_observations ?? '');
     formData.set('country', country);
     formData.set('region', region);
     formData.set('sub_region', sub_region);
