@@ -492,6 +492,7 @@ export interface ICPMProductsEditCPFixedModal {
 
 export interface ICPM_events {
     cp_id: string;
+    created_at: string;
     event_id: string;
     is_active: boolean;
     is_cervezanas_event: boolean;

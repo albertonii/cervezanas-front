@@ -103,51 +103,58 @@ export function UpdateBoxPackModal({
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-    const transformedBoxPackItems = product.box_packs?.[0].box_pack_items?.map(
-        (item) => ({
-            id: item.id,
-            box_pack_id: item.box_pack_id,
-            product_id: item.product_id,
-            quantity: item.quantity,
-            slots_per_product: item.slots_per_product,
-            products: item.products
-                ? {
-                      id: item.products.id,
-                      created_at: item.products.created_at,
-                      name: item.products.name,
-                      description: item.products.description,
-                      type: item.products.type,
-                      is_public: item.products.is_public,
-                      is_available: item.products.is_available,
-                      discount_percent: item.products.discount_percent,
-                      weight: item.products.weight,
-                      discount_code: item.products.discount_code,
-                      price: item.products.price,
-                      campaign_id: item.products.campaign_id,
-                      is_archived: item.products.is_archived,
-                      category: item.products.category,
-                      is_monthly: item.products.is_monthly,
-                      owner_id: item.products.owner_id,
-                      beers: item.products.beers
-                          ? {
-                                product_id: item.products.beers.product_id,
-                                created_at: item.products.beers.created_at,
-                                category: item.products.beers.category,
-                                fermentation: item.products.beers.fermentation,
-                                color: item.products.beers.color,
-                                family: item.products.beers.family,
-                                pairing: Array.isArray(
-                                    item.products.beers.pairing,
-                                )
-                                    ? item.products.beers.pairing
-                                    : [item.products.beers.pairing], // Asegúrate de que pairing sea un array
-                                brewers_note: item.products.beers.brewers_note,
-                            }
-                          : undefined,
-                  }
-                : undefined,
-        }),
-    );
+    console.log('product', product);
+
+    const transformedBoxPackItems =
+        product.box_packs && product.box_packs.length > 0
+            ? product.box_packs?.[0].box_pack_items?.map((item) => ({
+                  id: item.id,
+                  box_pack_id: item.box_pack_id,
+                  product_id: item.product_id,
+                  quantity: item.quantity,
+                  slots_per_product: item.slots_per_product,
+                  products: item.products
+                      ? {
+                            id: item.products.id,
+                            created_at: item.products.created_at,
+                            name: item.products.name,
+                            description: item.products.description,
+                            type: item.products.type,
+                            is_public: item.products.is_public,
+                            is_available: item.products.is_available,
+                            discount_percent: item.products.discount_percent,
+                            weight: item.products.weight,
+                            discount_code: item.products.discount_code,
+                            price: item.products.price,
+                            campaign_id: item.products.campaign_id,
+                            is_archived: item.products.is_archived,
+                            category: item.products.category,
+                            is_monthly: item.products.is_monthly,
+                            owner_id: item.products.owner_id,
+                            beers: item.products.beers
+                                ? {
+                                      product_id:
+                                          item.products.beers.product_id,
+                                      created_at:
+                                          item.products.beers.created_at,
+                                      category: item.products.beers.category,
+                                      fermentation:
+                                          item.products.beers.fermentation,
+                                      color: item.products.beers.color,
+                                      family: item.products.beers.family,
+                                      pairing: Array.isArray(
+                                          item.products.beers.pairing,
+                                      )
+                                          ? item.products.beers.pairing
+                                          : [item.products.beers.pairing], // Asegúrate de que pairing sea un array
+                                      brewers_note:
+                                          item.products.beers.brewers_note,
+                                  }
+                                : undefined,
+                        }
+                      : undefined,
+              }))
+            : [];
 
     const form = useForm<ValidationSchema>({
         mode: 'onSubmit',
@@ -159,7 +166,7 @@ export function UpdateBoxPackModal({
             description: product.description,
             price: product.price,
             weight: product.weight,
-            slots_per_box: product.box_packs?.[0].slots_per_box ?? 0,
+            slots_per_box: product.box_packs?.[0]?.slots_per_box ?? 0,
             p_principal: product.product_multimedia?.p_principal,
             p_back: product.product_multimedia?.p_back,
             p_extra_1: product.product_multimedia?.p_extra_1,

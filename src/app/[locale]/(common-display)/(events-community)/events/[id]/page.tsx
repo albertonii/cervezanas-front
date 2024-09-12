@@ -66,7 +66,12 @@ async function getCPFixedsFromEvent(eventId: string) {
             `
             *,
             cp_fixed (*),
-            events (*)
+            events (
+                *,
+                cp_mobile (*),
+                cp_fixed (*),
+                users (*)
+            )
           `,
         )
         .eq('event_id', eventId);

@@ -953,6 +953,7 @@ export interface Database {
       cpf_events: {
         Row: {
           cp_id: string
+          created_at: string | null
           event_id: string
           is_active: boolean | null
           is_cervezanas_event: boolean | null
@@ -960,6 +961,7 @@ export interface Database {
         }
         Insert: {
           cp_id: string
+          created_at?: string | null
           event_id: string
           is_active?: boolean | null
           is_cervezanas_event?: boolean | null
@@ -967,6 +969,7 @@ export interface Database {
         }
         Update: {
           cp_id?: string
+          created_at?: string | null
           event_id?: string
           is_active?: boolean | null
           is_cervezanas_event?: boolean | null
@@ -1037,6 +1040,7 @@ export interface Database {
       cpm_events: {
         Row: {
           cp_id: string
+          created_at: string
           event_id: string
           is_active: boolean | null
           is_cervezanas_event: boolean | null
@@ -1044,6 +1048,7 @@ export interface Database {
         }
         Insert: {
           cp_id: string
+          created_at?: string
           event_id: string
           is_active?: boolean | null
           is_cervezanas_event?: boolean | null
@@ -1051,6 +1056,7 @@ export interface Database {
         }
         Update: {
           cp_id?: string
+          created_at?: string
           event_id?: string
           is_active?: boolean | null
           is_cervezanas_event?: boolean | null

@@ -22,7 +22,7 @@ export async function PUT(request: NextRequest) {
                 quantity: parseInt(
                     formData.get(`packs[${i}].quantity`) as string,
                 ),
-                price: parseInt(formData.get(`packs[${i}].price`) as string),
+                price: parseFloat(formData.get(`packs[${i}].price`) as string),
                 name: formData.get(`packs[${i}].name`) as string,
                 img_url: formData.get(`packs[${i}].img_url`) as File,
                 product_id: formData.get(`packs[${i}].product_id`) as string,

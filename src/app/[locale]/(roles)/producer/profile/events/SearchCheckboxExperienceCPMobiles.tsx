@@ -45,6 +45,7 @@ export function SearchCheckboxExperiencesCPMobiles({
             // Verify if the CP is already in the array
             if (checkedCPsState.some((item) => item.cp_id === cp.id)) return;
             const cp_check: ICPM_events = {
+                created_at: new Date().toISOString(),
                 cp_id: cp.id,
                 event_id: selectedEventId ?? '',
                 is_active: false,
