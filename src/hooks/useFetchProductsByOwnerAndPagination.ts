@@ -45,8 +45,6 @@ const fetchProductsByOwner = async (
         )
         .order('created_at', { ascending: false });
 
-    console.log(data);
-
     if (error) throw error;
 
     return data as IProduct[];

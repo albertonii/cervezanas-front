@@ -1262,5 +1262,6 @@
     "non_alcoholic": "Sin alcohol",
     "award_winning": "Premiadas",
     "pack_different_beers": "Pack de cervezas variadas",
-    "gluten_free": "Sin gluten"
+    "gluten_free": "Sin gluten",
+    "need_to_select_shipping_and_billing_address": "Necesitas seleccionar una dirección de envío y una dirección de facturación para continuar con el proceso de compra."
 }

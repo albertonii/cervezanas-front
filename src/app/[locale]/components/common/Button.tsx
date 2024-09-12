@@ -1,6 +1,8 @@
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { memo, useMemo, useState } from 'react';
+import { InfoTooltip } from './InfoTooltip';
+import { Tooltip } from './Tooltip';
 
 interface ButtonProps {
     onClick?: () => void;
@@ -26,6 +28,7 @@ interface ButtonProps {
     icon?: IconDefinition;
     classIcon?: string;
     colorIcon?: { filled: string; unfilled: string };
+    warningIfDisabled?: string;
 }
 
 const Button = memo(function PaginationFooter({
@@ -50,6 +53,7 @@ const Button = memo(function PaginationFooter({
     icon,
     classIcon,
     colorIcon,
+    warningIfDisabled,
 }: ButtonProps) {
     const hoverColor = isActive ? 'filled' : 'unfilled';
     const [hoverIconColor, setHoverIconColor] = useState(
@@ -104,13 +108,14 @@ const Button = memo(function PaginationFooter({
     }, [classIcon, colorIcon?.filled, colorIcon?.unfilled, icon, isActive]);
 
     return (
-        <button
-            disabled={disabled || isLoading}
-            type={getButtonType()}
-            onClick={onClick}
-            color={hoverColor}
-            form={form}
-            className={`
+        <div className="relative">
+            <button
+                disabled={disabled || isLoading}
+                type={getButtonType()}
+                onClick={onClick}
+                color={hoverColor}
+                form={form}
+                className={`
                 inline-flex items-center justify-center rounded-md transition duration-200 ease-in-out
                 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:border-gray-600 dark:bg-gray-700
                 ${getSizeClass()}
@@ -121,40 +126,52 @@ const Button = memo(function PaginationFooter({
                 ${isLoading ? 'opacity-75' : ''}
                 ${className}
             `}
-        >
-            {isLoading ? (
-                <svg
-                    className="animate-spin h-5 w-5 mr-3 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                >
-                    <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                    ></circle>
-                    <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
-                </svg>
-            ) : (
-                <div className="">
-                    {iconButton ?? (
-                        <span className={`text-bear-dark`}>{iconButton}</span>
-                    )}
+            >
+                {isLoading ? (
+                    <svg
+                        className="animate-spin h-5 w-5 mr-3 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                    >
+                        <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                        ></circle>
+                        <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                    </svg>
+                ) : (
+                    <div className="">
+                        {iconButton ?? (
+                            <span className={`text-bear-dark`}>
+                                {iconButton}
+                            </span>
+                        )}
 
-                    <span className={`font-semibold  ${getSizeClass()}`}>
-                        {children}
-                    </span>
-                </div>
+                        <span className={`font-semibold  ${getSizeClass()}`}>
+                            {children}
+                        </span>
+                    </div>
+                )}
+            </button>
+
+            {warningIfDisabled && (
+                <InfoTooltip
+                    content={warningIfDisabled}
+                    delay={0}
+                    width={'500px'}
+                    direction={'right'}
+                />
             )}
-        </button>
+        </div>
     );
 });
 

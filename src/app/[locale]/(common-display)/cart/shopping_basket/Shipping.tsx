@@ -72,7 +72,6 @@ export default function Shipping({ formShipping }: Props) {
             return;
         }
 
-        console.log('deleteShippingAddress', selectedShippingAddress);
         await removeShippingAddressById(selectedShippingAddress.id)
             .then(() => {
                 handleMessage({

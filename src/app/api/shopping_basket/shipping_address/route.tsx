@@ -85,14 +85,10 @@ export async function DELETE(request: NextRequest) {
     const formData = await request.formData();
     const shippingAddressId = formData.get('shipping_address_id') as string;
 
-    console.log('ship', shippingAddressId);
-
     const { error: shippingAddressError } = await supabase
         .from('shipping_info')
         .delete()
         .eq('id', shippingAddressId);
-
-    console.log(shippingAddressError);
 
     if (shippingAddressError) {
         return NextResponse.json(

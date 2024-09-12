@@ -1228,5 +1228,6 @@
     "non_alcoholic": "Non-alcoholic",
     "award_winning": "Award-winning",
     "pack_different_beers": "Pack different beers",
-    "gluten_free": "Gluten-free"
+    "gluten_free": "Gluten-free",
+    "need_to_select_shipping_and_billing_address": "You need to select a shipping and billing address"
 }
