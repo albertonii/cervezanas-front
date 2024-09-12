@@ -8,6 +8,7 @@ import { AddCardButton } from '@/app/[locale]/components/common/AddCartButton';
 import MarketCartButtons2 from '@/app/[locale]/components/common/MarketCartButtons2';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import BoxItem from './BoxItem';
+import { formatCurrency } from '@/utils/formatCurrency';
 
 interface Props {
     product: IProduct;
@@ -97,14 +98,25 @@ export default function ProductsInsideBox({ product, boxPack }: Props) {
             </table>
 
             {boxPack && boxPack.box_pack_items && (
-                <div className="mt-10">
-                    <div className="flex items-center justify-between">
-                        <h4 className="text-sm font-medium text-gray-900">
-                            {t('product_packs')}
-                        </h4>
-                    </div>
+                <div className="mt-6">
+                    <div className="flex space-x-2 bg-gray-100 p-1 shadow-lg relative float-left justify-center items-center">
+                        <section aria-labelledby="information-heading">
+                            <h3 id="information-heading" className="sr-only">
+                                {t('product_information')}
+                            </h3>
 
-                    <div className="flex space-x-2 bg-gray-100 p-3 shadow-lg relative float-left justify-center items-center">
+                            <p className="text-2xl font-semibold mt-6 bg-cerv-banana max-w-[140px] text-center p-5 rounded-full text-white shadow-xl  border-white border-4">
+                                {formatCurrency(product?.price)}
+                            </p>
+                            <div className="m-auto text-center">
+                                <img
+                                    className="m-auto"
+                                    src="/assets/home/detalle.svg"
+                                    width="80"
+                                ></img>
+                            </div>
+                        </section>
+
                         <MarketCartButtons2
                             item={boxPack.box_pack_items[0]}
                             quantity={packQuantity}
