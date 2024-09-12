@@ -193,14 +193,14 @@ export function UpdateProductSummary({ form }: Props) {
                                 {getValues('volume')}
                             </span>
                         </div>
-                        <div className="flex flex-col">
+                        {/* <div className="flex flex-col">
                             <label className="text-md font-semibold text-gray-600">
                                 {t('pvpr')}
                             </label>
                             <span className="text-md">
                                 {formatCurrency(getValues('price'))}
                             </span>
-                        </div>
+                        </div> */}
                     </div>
 
                     {/* Stock Quantity and Notification */}

@@ -421,7 +421,7 @@ export default function UpdateBeerInfoSection({
                             isRequired={true}
                         />
 
-                        <InputLabel
+                        {/* <InputLabel
                             form={form}
                             label={'price'}
                             labelText={`${'pvpr_input'}`}
@@ -434,7 +434,7 @@ export default function UpdateBeerInfoSection({
                             placeholder={formatCurrency(2.5)}
                             infoTooltip={'tooltips.pvpr'}
                             isRequired={true}
-                        />
+                        /> */}
                     </div>
                 </section>
             </div>

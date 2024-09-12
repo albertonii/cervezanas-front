@@ -118,19 +118,6 @@ export function BoxPackInfoSection({ form }: Props) {
                             infoTooltip={'tooltips.pvpr'}
                             defaultValue={0}
                         />
-                        {/* 
-                        <InputLabel
-                            form={form}
-                            label={'weight'}
-                            labelText={('weight') + ' (gr)'}
-                            registerOptions={{
-                                required: true,
-                                min: 0,
-                                valueAsNumber: true,
-                            }}
-                            inputType="number"
-                            defaultValue={330}
-                        /> */}
                     </div>
                 </div>
             </div>

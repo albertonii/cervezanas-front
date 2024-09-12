@@ -99,12 +99,12 @@ export function ProductList({
                 </Link>
             ),
         },
-        {
-            header: t('pvpr'),
-            accessor: 'price',
-            sortable: true,
-            render: (price: number) => formatCurrency(price),
-        },
+        // {
+        //     header: t('pvpr'),
+        //     accessor: 'price',
+        //     sortable: true,
+        //     render: (price: number) => formatCurrency(price),
+        // },
         {
             header: t('num_of_packs'),
             accessor: 'product_packs',

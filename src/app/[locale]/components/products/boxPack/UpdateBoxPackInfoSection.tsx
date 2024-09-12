@@ -121,7 +121,7 @@ export function UpdateBoxPackInfoSection({ form }: Props) {
                             }}
                             inputType="number"
                             placeholder={formatCurrency(24)}
-                            infoTooltip={'tooltips.pvpr'}
+                            infoTooltip={'tooltips.price'}
                         />
                     </div>
                 </div>

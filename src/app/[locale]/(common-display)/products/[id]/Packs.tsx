@@ -7,12 +7,17 @@ import { useTranslations } from 'next-intl';
 import { IProduct, IProductPack } from '@/lib//types/types';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { AddCardButton } from '@/app/[locale]/components/common/AddCartButton';
+import { formatCurrency } from '@/utils/formatCurrency';
 
 interface Props {
     product: IProduct;
 }
 
 export default function Packs({ product }: Props) {
+    const { product_packs } = product;
+
+    if (!product_packs) return null;
+
     const t = useTranslations();
 
     const { addPackToCart } = useShoppingCart();
@@ -20,7 +25,9 @@ export default function Packs({ product }: Props) {
     const [packQuantity, setPackQuantity] = useState(1);
     const [isPackSelected, setIsPackSelected] = useState(true);
 
-    const [selectedPack, setSelectedPack] = useState<IProductPack>();
+    const [selectedPack, setSelectedPack] = useState<IProductPack>(
+        product_packs.slice().sort((a, b) => a.price - b.price)[0],
+    );
 
     const handleItemSelected = (item: IProductPack) => {
         setSelectedPack(item);
@@ -61,7 +68,24 @@ export default function Packs({ product }: Props) {
 
     return (
         <>
-            {product && product.product_packs && (
+            <section aria-labelledby="information-heading">
+                <h3 id="information-heading" className="sr-only">
+                    {t('product_information')}
+                </h3>
+
+                <p className="text-2xl font-semibold mt-6 bg-cerv-banana max-w-[140px] text-center p-5 rounded-full text-white shadow-xl  border-white border-4">
+                    {formatCurrency(selectedPack?.price)}
+                </p>
+                <div className="m-auto text-center">
+                    <img
+                        className="m-auto"
+                        src="/assets/home/detalle.svg"
+                        width="80"
+                    ></img>
+                </div>
+            </section>
+
+            {product_packs && (
                 <div className="mt-5">
                     <div className="flex items-center justify-between w-[140px]  rounded-t-md bg-beer-blonde text-white pl-2">
                         <h4 className="text-sm sm:text-base md:text-lg font-semibold">
@@ -75,7 +99,7 @@ export default function Packs({ product }: Props) {
                         </legend>
 
                         <div className="flex flex-wrap gap-4 border-2 pl-2 rounded-md border-beer-blonde p-2 bg-white shadow-lg">
-                            {product.product_packs
+                            {product_packs
                                 .slice() // Copy the array to avoid mutating the original
                                 .sort((a, b) => a.quantity - b.quantity) // Sort by quantity
                                 .map((productPack) => (
@@ -105,7 +129,7 @@ export default function Packs({ product }: Props) {
 
                         <div className="flex space-x-2 bg-gray-100 p-3 shadow-lg relative float-left justify-center items-center">
                             <MarketCartButtons2
-                                item={product.product_packs[0]}
+                                item={product_packs[0]}
                                 quantity={packQuantity}
                                 handleIncreaseCartQuantity={() =>
                                     handleIncreasePackQuantity()

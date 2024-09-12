@@ -170,34 +170,13 @@ export default function ProductDetails({ product, reviewRef }: Props) {
                     <h3 id="product-description-heading" className="sr-only">
                         {t('product_description')}
                     </h3>
-
                     <p className="text-gray-900 max-w-[90%]">
                         {product.description}
                     </p>
                 </section>
 
-                <section
-                    aria-labelledby="information-heading"
-                    className="hidden"
-                >
-                    <h3 id="information-heading" className="sr-only">
-                        {t('product_information')}
-                    </h3>
-
-                    <p className="text-2xl font-semibold mt-14 bg-cerv-banana max-w-[140px] text-center p-5 rounded-full text-white shadow-xl  border-white border-4">
-                        {formatCurrency(product.price)}
-                    </p>
-                    <div className="m-auto text-center">
-                        <img
-                            className="m-auto"
-                            src="/assets/home/detalle.svg"
-                            width="80"
-                        ></img>
-                    </div>
-                </section>
-
                 {/* Display Product Details if Type === BEER */}
-                {product.type === Type.BEER && (
+                {product && product.type === Type.BEER && (
                     <section aria-labelledby="packs" className="space-y-8">
                         <Packs product={product} />
                         <ProductPropertiesTabs product={product} />
