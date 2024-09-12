@@ -1,9 +1,9 @@
-import { ONLINE_ORDER_STATUS } from '@/constants';
-import { IBusinessOrder, IOrder } from '@/lib/types/types';
-import { formatDateString } from '@/utils/formatDate';
-import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import { ONLINE_ORDER_STATUS } from '@/constants';
+import { formatDateString } from '@/utils/formatDate';
+import { useLocale, useTranslations } from 'next-intl';
+import { IBusinessOrder, IOrder } from '@/lib/types/types';
 
 interface Props {
     bOrders: IBusinessOrder[];
@@ -113,8 +113,7 @@ const BusinessOrderStatusInformation = ({ bOrders, order }: Props) => {
                             target={'_blank'}
                         >
                             <h2 className="font-extrabold tracking-tight hover:cursor-pointer hover:text-beer-draft ">
-                                {order.shipping_info?.name}{' '}
-                                {order.shipping_info?.lastname}
+                                {order.shipping_name} {order.shipping_lastname}
                             </h2>
                         </Link>
                     </span>
@@ -122,7 +121,7 @@ const BusinessOrderStatusInformation = ({ bOrders, order }: Props) => {
                     <span className="flex items-center gap-2 text-gray-900 ">
                         {t('phone')}:
                         <h2 className="font-extrabold tracking-tight">
-                            {order.shipping_info?.phone}
+                            {order.shipping_phone}
                         </h2>
                     </span>
                 </div>

@@ -66,8 +66,7 @@ const OrderStatusInformation = ({ order, orderStatus }: Props) => {
                             target={'_blank'}
                         >
                             <h2 className="font-extrabold tracking-tight hover:cursor-pointer hover:text-beer-draft ">
-                                {order.shipping_info?.name}{' '}
-                                {order.shipping_info?.lastname}
+                                {order.shipping_name} {order.shipping_lastname}
                             </h2>
                         </Link>
                     </span>
@@ -75,7 +74,7 @@ const OrderStatusInformation = ({ order, orderStatus }: Props) => {
                     <span className="flex items-center gap-2 text-gray-900 ">
                         {t('phone')}:
                         <h2 className="font-extrabold tracking-tight">
-                            {order.shipping_info?.phone}
+                            {order.shipping_phone}
                         </h2>
                     </span>
                 </div>

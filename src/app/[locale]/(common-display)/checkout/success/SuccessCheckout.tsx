@@ -78,18 +78,10 @@ export default function SuccessCheckout({
             <section className="bg-gray-100 px-4 py-6 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
                 <div className="col-span-6 space-y-8">
                     {/* <!-- Shipping --> */}
-                    {order.shipping_info && (
-                        <ShippingInformationBox
-                            shippingInfo={order.shipping_info}
-                        />
-                    )}
+                    {order && <ShippingInformationBox order={order} />}
 
                     {/* <!-- Billing --> */}
-                    {order.billing_info && (
-                        <BillingInformationBox
-                            billingInfo={order.billing_info}
-                        />
-                    )}
+                    {order && <BillingInformationBox order={order} />}
                 </div>
 
                 <div className="col-span-6">

@@ -164,7 +164,7 @@ export default function OrderInvoice({ bOrders }: Props) {
                             </View>
 
                             <View style={styles.row_2}>
-                                {order.billing_info && (
+                                {order && (
                                     <View style={styles.billing_info_container}>
                                         <Text style={styles.billing_info_title}>
                                             Albarán de entrega
@@ -176,28 +176,26 @@ export default function OrderInvoice({ bOrders }: Props) {
                                             }
                                         >
                                             <Text>
-                                                Nombre:{' '}
-                                                {order.billing_info.name}
+                                                Nombre: {order.billing_name}
                                             </Text>
                                             <Text>
                                                 Dirección:{' '}
-                                                {order.billing_info.address},{' '}
-                                                {order.billing_info.city}.
+                                                {order.billing_address},{' '}
+                                                {order.billing_city}.
                                             </Text>
                                             <Text>
                                                 Población:{' '}
-                                                {order.billing_info.sub_region}{' '}
-                                                - {order.billing_info.region}.{' '}
-                                                {order.billing_info.country}.{' '}
-                                                {order.billing_info.zipcode}
+                                                {order.billing_sub_region} -{' '}
+                                                {order.billing_region}.{' '}
+                                                {order.billing_country}.{' '}
+                                                {order.billing_zipcode}
                                             </Text>
                                             <Text>
                                                 NIF/CIF:{' '}
-                                                {order.billing_info.document_id}
+                                                {order.billing_document_id}
                                             </Text>
                                             <Text>
-                                                Teléfono:{' '}
-                                                {order.billing_info.phone}
+                                                Teléfono: {order.billing_phone}
                                             </Text>
                                         </View>
                                     </View>
