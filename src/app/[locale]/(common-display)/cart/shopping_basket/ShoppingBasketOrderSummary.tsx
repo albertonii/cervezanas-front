@@ -77,7 +77,10 @@ const ShoppingBasketOrderSummary = ({
                                 primary
                                 title={t('check_can_delivery_to_address')}
                                 onClick={checkCanDeliveryToAddress}
-                                disabled={!selectedShippingAddress}
+                                disabled={
+                                    !selectedShippingAddress ||
+                                    !selectedShippingAddress
+                                }
                                 warningIfDisabled={t(
                                     'need_to_select_shipping_and_billing_address',
                                 )}
