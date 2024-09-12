@@ -40,16 +40,17 @@ const fetchCervezanasEventsByOwnerId = async (
 };
 
 const useFetchCervezanasEventsByOwnerId = (
+    userId: string,
     currentPage: number,
     resultsPerPage: number,
 ) => {
-    const { user, supabase } = useAuth();
+    const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['cpm_events', user?.id, currentPage, resultsPerPage],
+        queryKey: 'cpm_events',
         queryFn: () =>
             fetchCervezanasEventsByOwnerId(
-                user?.id,
+                userId,
                 currentPage,
                 resultsPerPage,
                 supabase,

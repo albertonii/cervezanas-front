@@ -13,6 +13,7 @@ import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/common/IconButton';
+import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 
 interface Props {
     counter: number;
@@ -23,12 +24,14 @@ export default function CervezanasEventList({ counter }: Props) {
     const locale = useLocale();
     const [currentPage, setCurrentPage] = useState(1);
 
+    const { user } = useAuth();
+
     const resultsPerPage = 10;
 
-    const { data, isError, isLoading, refetch } =
-        useFetchCervezanasEventsByOwnerId(currentPage, resultsPerPage);
+    const { data, error, isError, isLoading, refetch } =
+        useFetchCervezanasEventsByOwnerId(user.id, currentPage, resultsPerPage);
 
-    const [events, setEvents] = useState<ICPM_events[]>(data ?? []);
+    const [events, setEvents] = useState<ICPM_events[]>([]);
 
     const editColor = { filled: '#90470b', unfilled: 'grey' };
     const deleteColor = { filled: '#90470b', unfilled: 'grey' };
@@ -40,7 +43,7 @@ export default function CervezanasEventList({ counter }: Props) {
     useEffect(() => {
         refetch().then((res: any) => {
             const events = res.data as any;
-            setEvents(events);
+            if (events) setEvents(events);
         });
     }, [data, currentPage]);
 
@@ -61,6 +64,8 @@ export default function CervezanasEventList({ counter }: Props) {
     const handlDeleteModal = (isDelete: boolean) => {
         setIsDeleteModal(isDelete);
     };
+
+    console.log(error);
 
     const columns = [
         {

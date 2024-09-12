@@ -21,13 +21,7 @@ export default function EventLayout({ cpsMobile, cpsFixed, counter }: Props) {
     const renderSwitch = () => {
         switch (menuOption) {
             case EventOption.CERVEZANAS_EVENT:
-                return (
-                    <CervezanasEvents
-                        cpsMobile={cpsMobile}
-                        cpsFixed={cpsFixed}
-                        counter={counter}
-                    />
-                );
+                return <CervezanasEvents counter={counter} />;
 
             case EventOption.EVENT:
                 return (

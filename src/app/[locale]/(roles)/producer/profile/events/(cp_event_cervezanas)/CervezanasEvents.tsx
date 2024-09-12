@@ -2,21 +2,14 @@
 
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { ICPFixed, ICPMobile } from '@/lib/types/types';
 import CervezanasEventList from './CervezanasEventList';
 import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
 
 interface Props {
-    cpsMobile: ICPMobile[];
-    cpsFixed: ICPFixed[];
     counter: number;
 }
 
-export default function CervezanasEvents({
-    cpsMobile,
-    cpsFixed,
-    counter,
-}: Props) {
+export default function CervezanasEvents({ counter }: Props) {
     const t = useTranslations();
 
     return (
