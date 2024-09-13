@@ -61,7 +61,7 @@ export interface AuthSession {
     signIn: (email: string, password: string) => void;
     signInWithProvider: (provider: Provider) => void;
     signOut: () => Promise<void>;
-    sendResetPasswordEmail: (email: string) => void;
+    sendResetPasswordEmail: (email: string) => Promise<boolean>;
     updatePassword: (password: string) => void;
     supabase: SupabaseClient<Database>;
     role: ROLE_ENUM | null;
@@ -86,7 +86,7 @@ export const AuthContext = createContext<AuthSession>({
     signIn: async (email: string, password: string) => null,
     signInWithProvider: async () => void {},
     signOut: async () => void {},
-    sendResetPasswordEmail: async () => void {},
+    sendResetPasswordEmail: async () => false,
     updatePassword: async () => void {},
     supabase: supabaseClient,
     provider: null,
@@ -239,6 +239,7 @@ export const AuthContextProvider = ({
                         setInitial(false);
                         break;
                     case EVENTS.PASSWORD_RECOVERY:
+                        console.log('PASSWORD_RECOVERY');
                         setView(VIEWS.UPDATE_PASSWORD);
                         break;
                     case EVENTS.SIGNED_IN:
@@ -357,7 +358,9 @@ export const AuthContextProvider = ({
 
         if (error) {
             handleMessage({ message: error.message, type: 'error' });
+            return error;
         }
+
         clearMessages();
         handleMessage({
             message: signUpMessage,
@@ -447,18 +450,25 @@ export const AuthContextProvider = ({
     const sendResetPasswordEmail = async (email: string) => {
         const resetEmailMessage = t('messages.reset_password_email_sent');
 
+        console.log(window.location.origin + '/reset-password');
+
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
             redirectTo: `${window.location.origin}/reset-password`,
         });
 
         if (error) {
+            console.error('Error resetting password:', error.message);
+
             handleMessage({ message: error.message, type: 'error' });
-        } else {
-            handleMessage({
-                message: resetEmailMessage,
-                type: 'success',
-            });
+            return false;
         }
+
+        handleMessage({
+            message: resetEmailMessage,
+            type: 'success',
+        });
+
+        return true;
     };
 
     const updatePassword = async (password: string) => {

@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
 import Button from '@/app/[locale]/components/common/Button';
+import Spinner from '@/app/[locale]/components/common/Spinner';
+import InputLabel from '@/app/[locale]/components/common/InputLabel';
 import React, { useEffect, useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useLocale } from 'next-intl';
@@ -58,6 +59,8 @@ type ResetValidationSchema = z.infer<typeof resetSchema>;
 export default function SignIn() {
     const { signInWithProvider, signIn, sendResetPasswordEmail } = useAuth();
     const [resetPassword, setResetPassword] = useState<boolean>(false);
+    const [isResetPasswordLoading, setIsResetPasswordLoading] =
+        useState<boolean>(false);
 
     const t = useTranslations();
 
@@ -130,16 +133,17 @@ export default function SignIn() {
     // }, [handleKeyPress]);
 
     const handleResetPassword = async (email: string) => {
-        sendResetPasswordEmail(email);
-        resetReset();
+        setIsResetPasswordLoading(true);
+        const isMessageSent = await sendResetPasswordEmail(email);
+        if (isMessageSent) {
+            resetReset();
+        }
+        setIsResetPasswordLoading(false);
     };
 
     const handleResetPasswordMutation = useMutation({
         mutationKey: 'resetPassword',
         mutationFn: handleResetPassword,
-        onSuccess: () => {
-            console.info('Reset password email sent');
-        },
         onError: (error: Error) => {
             console.error(error);
         },
@@ -321,6 +325,15 @@ export default function SignIn() {
 
             {resetPassword && (
                 <article className="mx-auto flex w-[80vw] sm:w-[60vw] flex-1 gap-4 flex-col justify-start px-4 py-12 sm:px-6 lg:w-full lg:flex-none lg:px-20 xl:px-24">
+                    {isResetPasswordLoading && (
+                        <Spinner
+                            color={'beer-blonde'}
+                            size={'large'}
+                            absolute
+                            absolutePosition={'top'}
+                        />
+                    )}
+
                     {/* Reset form */}
                     <div className="justify-startlg:w-full mx-auto flex flex-1 flex-col lg:flex-none ">
                         <header>
@@ -354,6 +367,7 @@ export default function SignIn() {
                                     }
                                     btnType="submit"
                                     form="reset-form"
+                                    disabled={isResetPasswordLoading}
                                 >
                                     <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                         <FontAwesomeIcon

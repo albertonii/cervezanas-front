@@ -62,6 +62,7 @@ export async function middleware(req: NextRequest) {
         // Since Server Components can't write cookies, you need middleware to refresh expired Auth tokens and store them.
         const supabase = createSupabaseReqResClient(req, res);
 
+        // No lo cambiamos por getUser() porque no se está actualizando en tiempo real cuando por ejemplo se eliminan las cookies de sesion
         const { data: session } = await supabase.auth.getSession();
 
         if (!session) {

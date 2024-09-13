@@ -25,7 +25,7 @@ export default function Spinner({
                 size === 'fullScreen' &&
                 'fixed inset-0 z-10 flex h-full items-center justify-center'
             }
-            ${absolute ? 'absolute' : 'relative'} 
+            ${absolute ? 'absolute z-10' : 'relative'} 
             ${absolutePosition === 'top' && 'top-10 left-1/2 -translate-x-1/2'}
             ${
                 absolutePosition === 'bottom' &&

@@ -1,15 +1,19 @@
 import { useTranslations } from 'next-intl';
-import React from 'react';
+import React, { ComponentProps } from 'react';
 import Button from '../common/Button';
 
 interface Props {
     activeStep: number;
     handleStepper: (step: number) => void;
+    btnTitle?: string;
+    handler?: () => ComponentProps<any>;
 }
 
 export default function ProductStepperButtons({
     activeStep,
     handleStepper,
+    btnTitle,
+    handler,
 }: Props) {
     const t = useTranslations();
 
@@ -58,20 +62,20 @@ export default function ProductStepperButtons({
                         </button>
                     )}
 
-                    {/* {activeStep !== 3 && (
-                            <button
-                                type="button"
-                                onClick={() => handleStepper(3)}
-                                className="flex cursor-pointer justify-center rounded border border-beer-draft bg-bear-alvine px-4 py-2 text-base 
+                    {activeStep === 3 && (
+                        <button
+                            type="button"
+                            onClick={handler}
+                            className="ml-2  flex  cursor-pointer justify-center rounded border border-beer-draft bg-beer-blonde px-4 py-2 text-base 
                                     font-bold  
                                     text-beer-draft 
                                     transition 
                                     duration-200 ease-in-out hover:scale-110 
-                                    hover:bg-bear-blonde focus:outline-none"
-                            >
-                                {t('skip')}
-                            </button>
-                        )} */}
+                                    hover:bg-beer-softBlondeBubble focus:outline-none"
+                        >
+                            {t(btnTitle)}
+                        </button>
+                    )}
                 </div>
             </div>
         </div>

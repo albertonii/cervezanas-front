@@ -9,14 +9,16 @@ import {
 import createServerClient from '@/utils/supabaseServer';
 import { generateFileNameExtension } from '@/utils/utils';
 import { SupabaseProps } from '@/constants';
-import { generateUUID } from '@/lib//actions';
+import readUserSession, { generateUUID } from '@/lib//actions';
 
 export async function POST(request: NextRequest) {
     try {
         const randomUUID = await generateUUID();
 
         const supabase = await createServerClient();
-        const userId = (await supabase.auth.getSession()).data.session?.user.id;
+
+        const session = await readUserSession();
+        const userId = session?.id;
 
         const formData = await request.formData();
 

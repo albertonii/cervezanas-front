@@ -10,7 +10,7 @@ import createServerClient from '@/utils/supabaseServer';
 import { generateFileNameExtension } from '@/utils/utils';
 import { SupabaseProps } from '@/constants';
 import { Type } from '@/lib//productEnum';
-import { generateUUID } from '@/lib//actions';
+import readUserSession, { generateUUID } from '@/lib//actions';
 
 export async function POST(request: NextRequest) {
     try {
@@ -36,7 +36,8 @@ export async function POST(request: NextRequest) {
         const p_extra_3 = formData.get('p_extra_3') as File;
 
         const supabase = await createServerClient();
-        const userId = (await supabase.auth.getSession()).data.session?.user.id;
+        const session = await readUserSession();
+        const userId = session?.id;
 
         const { data: product, error: errorProduct } = await supabase
             .from('products')

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import createServerClient from '@/utils/supabaseServer';
 import { Type } from '@/lib//productEnum';
+import readUserSession from '@/lib/actions';
 
 export async function PUT(request: NextRequest) {
     try {
@@ -16,7 +17,8 @@ export async function PUT(request: NextRequest) {
         const weight = parseFloat(formData.get('weight') as string);
 
         const supabase = await createServerClient();
-        const userId = (await supabase.auth.getSession()).data.session?.user.id;
+        const session = await readUserSession();
+        const userId = session?.id;
 
         if (!productId) {
             return NextResponse.json(

@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
 import ProductStepperButtons from './ProductStepperButtons';
+import React, { ComponentProps, useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface Props {
     activeStep: number;
     handleSetActiveStep: React.Dispatch<React.SetStateAction<any>>;
     children: JSX.Element;
     isSubmitting: boolean;
+    btnTitle?: string;
+    handler?: () => ComponentProps<any>;
 }
 
 export function ProductStepper({
@@ -14,6 +16,8 @@ export function ProductStepper({
     handleSetActiveStep,
     activeStep,
     isSubmitting,
+    btnTitle,
+    handler,
 }: Props) {
     const t = useTranslations();
 
@@ -225,6 +229,8 @@ export function ProductStepper({
                 <ProductStepperButtons
                     activeStep={activeStep}
                     handleStepper={handleStepper}
+                    btnTitle={btnTitle}
+                    handler={handler}
                 />
 
                 <div>{children}</div>
@@ -232,6 +238,8 @@ export function ProductStepper({
                 <ProductStepperButtons
                     activeStep={activeStep}
                     handleStepper={handleStepper}
+                    btnTitle={btnTitle}
+                    handler={handler}
                 />
             </footer>
         </section>
