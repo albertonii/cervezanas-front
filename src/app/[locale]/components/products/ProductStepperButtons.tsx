@@ -62,7 +62,7 @@ export default function ProductStepperButtons({
                         </button>
                     )}
 
-                    {activeStep === 3 && (
+                    {activeStep === 3 && btnTitle && handler && (
                         <button
                             type="button"
                             onClick={handler}
