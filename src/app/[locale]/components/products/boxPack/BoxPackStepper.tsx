@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ComponentProps, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import ProductStepperButtons from '../ProductStepperButtons';
 import ProductDetails from '../../../(common-display)/products/[id]/ProductDetails';
@@ -8,6 +8,8 @@ interface Props {
     handleSetActiveStep: React.Dispatch<React.SetStateAction<any>>;
     children: JSX.Element;
     isSubmitting: boolean;
+    btnTitle?: string;
+    handler?: () => ComponentProps<any>;
 }
 
 export function BoxPackStepper({
@@ -15,6 +17,8 @@ export function BoxPackStepper({
     handleSetActiveStep,
     activeStep,
     isSubmitting,
+    btnTitle,
+    handler,
 }: Props) {
     const t = useTranslations();
 
@@ -211,6 +215,8 @@ export function BoxPackStepper({
                 <ProductStepperButtons
                     activeStep={activeStep}
                     handleStepper={handleStepper}
+                    btnTitle={btnTitle}
+                    handler={handler}
                 />
 
                 <div>{children}</div>
@@ -218,6 +224,8 @@ export function BoxPackStepper({
                 <ProductStepperButtons
                     activeStep={activeStep}
                     handleStepper={handleStepper}
+                    btnTitle={btnTitle}
+                    handler={handler}
                 />
             </footer>
         </section>

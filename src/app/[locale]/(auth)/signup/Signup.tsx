@@ -2,13 +2,13 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '../Context/useAuth';
 import { VIEWS } from '@/constants';
 import { SignUpForm } from './SignUpForm';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '../Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
-import dynamic from 'next/dynamic';
 
 const DynamicSpinner = dynamic(
     () => import('@/app/[locale]/components/common/Spinner'),

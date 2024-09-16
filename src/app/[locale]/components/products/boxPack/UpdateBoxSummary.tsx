@@ -18,56 +18,70 @@ export function UpdateBoxSummary({ form }: Props) {
     } = form;
 
     return (
-        <>
+        <section className="flex flex-col gap-2 space-y-4 border p-4">
+            {/* Errores detectados:  */}
+            {Object.keys(errors).length > 0 && (
+                <fieldset className="flex flex-col gap-2 space-y-4 rounded border p-2">
+                    <h4 className="text-xl text-red-600">
+                        <label className="text-md font-semibold text-gray-600">
+                            {t('errors.form_errors_detected')}
+                        </label>
+                    </h4>
+
+                    <span className="text-md text-red-600">
+                        {t('errors.correct_and_submit')}
+                    </span>
+
+                    {Object.keys(errors).map((error, index) => (
+                        <div key={index} className="text-md">
+                            Campo: <DisplayInputError message={error} />
+                        </div>
+                    ))}
+                </fieldset>
+            )}
+
             {/* Resumen de las características del producto que se va a crear  */}
-            <section className="flex flex-col gap-2 space-y-4 border p-4">
-                {/* Public  */}
-                <fieldset className="flex justify-between flex-row gap-2">
-                    <label className="text-md text-gray-600 flex flex-col gap-2 max-w-[33vw]">
-                        <span className="font-semibold">{t('is_public')}:</span>
+            {/* Public  */}
+            <fieldset className="flex justify-between flex-row gap-2">
+                <label className="text-md text-gray-600 flex flex-col gap-2 max-w-[33vw]">
+                    <span className="font-semibold">{t('is_public')}:</span>
 
-                        <span className="">
-                            {getValues('is_public') ? t('yes') : t('no')}
-                        </span>
-                    </label>
+                    <span className="">
+                        {getValues('is_public') ? t('yes') : t('no')}
+                    </span>
+                </label>
 
-                    {/* Name  */}
-                    <label className="flex flex-col text-md text-gray-600 max-w-[33vw]">
-                        <span className="font-semibold">
-                            {t('name_label')}:
-                        </span>
+                {/* Name  */}
+                <label className="flex flex-col text-md text-gray-600 max-w-[33vw]">
+                    <span className="font-semibold">{t('name_label')}:</span>
 
-                        <span className="truncate">{getValues('name')}</span>
-                    </label>
+                    <span className="truncate">{getValues('name')}</span>
+                </label>
 
-                    <label className="flex flex-col text-md gap-2 text-gray-600 max-w-[33vw] ">
-                        <span className="font-semibold">
-                            {t('description')}:
-                        </span>
+                <label className="flex flex-col text-md gap-2 text-gray-600 max-w-[33vw] ">
+                    <span className="font-semibold">{t('description')}:</span>
 
-                        <span className="truncate">
-                            {getValues('description')}
-                        </span>
-                    </label>
-                </fieldset>
+                    <span className="truncate">{getValues('description')}</span>
+                </label>
+            </fieldset>
 
-                <fieldset className="flex flex-row justify-between gap-2 space-x-4">
-                    <label className="text-md text-gray-600 space-x-2">
-                        <span className="font-semibold">{t('price')}</span>
+            <fieldset className="flex flex-row justify-between gap-2 space-x-4">
+                <label className="text-md text-gray-600 space-x-2">
+                    <span className="font-semibold">{t('price')}</span>
 
-                        <span className="text-md">
-                            {formatCurrency(getValues('price'))}
-                        </span>
-                    </label>
+                    <span className="text-md">
+                        {formatCurrency(getValues('price'))}
+                    </span>
+                </label>
 
-                    <label className="text-md text-gray-600 space-x-2">
-                        <span className="font-semibold">{t('weight')}</span>
+                <label className="text-md text-gray-600 space-x-2">
+                    <span className="font-semibold">{t('weight')}</span>
 
-                        <span className="text-md">{getValues('weight')}</span>
-                    </label>
-                </fieldset>
+                    <span className="text-md">{getValues('weight')}</span>
+                </label>
+            </fieldset>
 
-                {/* <fieldset className="flex flex-row justify-between gap-2 space-x-4">
+            {/* <fieldset className="flex flex-row justify-between gap-2 space-x-4">
                     <h4 className="space-x-2">
                         <label className="text-md font-semibold text-gray-600">
                             {t('stock_quantity_label')}
@@ -89,7 +103,7 @@ export function UpdateBoxSummary({ form }: Props) {
                     </h4>
                 </fieldset> */}
 
-                {/* {getValues('packs').length > 0 && (
+            {/* {getValues('packs').length > 0 && (
                     <h4 className="text-xl text-beer-draft">
                         <label className="text-md font-semibold text-gray-600">
                             {t('packs')}
@@ -97,7 +111,7 @@ export function UpdateBoxSummary({ form }: Props) {
                     </h4>
                 )} */}
 
-                {/* {getValues('packs').map((pack, index) => (
+            {/* {getValues('packs').map((pack, index) => (
                     <fieldset
                         key={index}
                         className="flex flex-col gap-2 space-y-4 rounded border p-2"
@@ -151,28 +165,6 @@ export function UpdateBoxSummary({ form }: Props) {
                         </div>
                     </fieldset>
                 ))} */}
-
-                {/* Errores detectados:  */}
-                {Object.keys(errors).length > 0 && (
-                    <fieldset className="flex flex-col gap-2 space-y-4 rounded border p-2">
-                        <h4 className="text-xl text-red-600">
-                            <label className="text-md font-semibold text-gray-600">
-                                {t('errors.form_errors_detected')}
-                            </label>
-                        </h4>
-
-                        <span className="text-md text-red-600">
-                            {t('errors.correct_and_submit')}
-                        </span>
-
-                        {Object.keys(errors).map((error, index) => (
-                            <div key={index} className="text-md">
-                                Campo: <DisplayInputError message={error} />
-                            </div>
-                        ))}
-                    </fieldset>
-                )}
-            </section>
-        </>
+        </section>
     );
 }

@@ -1,24 +1,24 @@
-import ProducerDisclaimerModal from '../../(roles)/admin/profile/consumption_points/ProducerDisclaimerModal';
-import DistributorDisclaimerModal from '../../(roles)/admin/profile/consumption_points/DistributorDisclaimerModal';
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
-import SelectInput from '@/app/[locale]/components/common/SelectInput';
 import Link from 'next/link';
 import Button from '@/app/[locale]/components/common/Button';
 import Spinner from '@/app/[locale]/components/common/Spinner';
-import { useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLock } from '@fortawesome/free-solid-svg-icons';
-import { SignUpWithPasswordCredentials } from '../Context/AuthContext';
-import { zodResolver } from '@hookform/resolvers/zod';
+import PasswordStrengthIndicator from './PasswordStrengthIndicator';
+import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import SelectInput from '@/app/[locale]/components/common/SelectInput';
+import ProducerDisclaimerModal from '../../(roles)/admin/profile/consumption_points/ProducerDisclaimerModal';
+import DistributorDisclaimerModal from '../../(roles)/admin/profile/consumption_points/DistributorDisclaimerModal';
+import ConsumptionPointDisclaimerModal from '../../(roles)/admin/profile/consumption_points/ConsumptionPointDisclaimerModal';
+import { useEffect, useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
-import { useAuth } from '../Context/useAuth';
-import { ROLE_ENUM, ROLE_OPTIONS } from '@/lib//enums';
+import { useTranslations } from 'next-intl';
 import { SupabaseProps } from '@/constants';
-import ConsumptionPointDisclaimerModal from '../../(roles)/admin/profile/consumption_points/ConsumptionPointDisclaimerModal';
-import PasswordStrengthIndicator from './PasswordStrengthIndicator';
+import { useAuth } from '../Context/useAuth';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ROLE_ENUM, ROLE_OPTIONS } from '@/lib//enums';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { SignUpWithPasswordCredentials } from '../Context/AuthContext';
 
 interface FormData {
     access_level: string;
@@ -80,10 +80,12 @@ type ValidationSchema = z.infer<typeof schema>;
 export const SignUpForm = () => {
     const t = useTranslations();
 
-    const { signUp, isLoading: loading } = useAuth();
+    const { signUp } = useAuth();
+    const [isSignupSubmitLoading, setSignupSubmitLoading] = useState(false);
     const [isProducer, setIsProducer] = useState(false);
     const [isDistributor, setIsDistributor] = useState(false);
     const [isConsumptionPoint, setIsConsumptionPoint] = useState(false);
+    const [role, setRole] = useState(ROLE_ENUM.Cervezano);
 
     const form = useForm<FormData>({
         resolver: zodResolver(schema),
@@ -97,7 +99,10 @@ export const SignUpForm = () => {
 
     const { handleSubmit, reset } = form;
 
-    const [role, setRole] = useState(ROLE_ENUM.Cervezano);
+    useEffect(() => {
+        console.log(isSignupSubmitLoading);
+        return () => {};
+    }, [isSignupSubmitLoading]);
 
     const handleChangeRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value: any = event?.target.value;
@@ -106,6 +111,8 @@ export const SignUpForm = () => {
     };
 
     const handleCredentialsSignUp = async (form: ValidationSchema) => {
+        setSignupSubmitLoading(true);
+
         const { username, email, password } = form;
 
         const data = {
@@ -146,6 +153,8 @@ export const SignUpForm = () => {
                 reset();
             }
         });
+
+        setSignupSubmitLoading(false);
     };
 
     const handleCredentialsMutation = useMutation({
@@ -188,8 +197,19 @@ export const SignUpForm = () => {
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className="mt-4 flex flex-col space-y-4"
+            className="mt-4 flex flex-col space-y-4 relative"
         >
+            {isSignupSubmitLoading && (
+                <span>
+                    <Spinner
+                        color={'beer-blonde'}
+                        size={'large'}
+                        absolute
+                        absolutePosition={'center'}
+                    />
+                </span>
+            )}
+
             <SelectInput
                 form={form}
                 labelTooltip={'tooltips.role_description'}
@@ -397,10 +417,8 @@ export const SignUpForm = () => {
                 </div>
             )}
 
-            {loading ? (
-                <span>
-                    <Spinner color={''} size={''} />
-                </span>
+            {isSignupSubmitLoading ? (
+                <Spinner color={'beer-blonde'} size={'small'} />
             ) : (
                 <>
                     <ProducerDisclaimerModal

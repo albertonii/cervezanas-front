@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Button from '@/app/[locale]/components/common/Button';
 import InputLabel from '@/app/[locale]/components/common/InputLabel';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { z, ZodType } from 'zod';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { useForm } from 'react-hook-form';
@@ -11,6 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../Context/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Spinner from '../../components/common/Spinner';
 
 type FormData = {
     password: string;
@@ -38,6 +39,7 @@ type ValidationSchema = z.infer<typeof schema>;
 export default function ResetPassword() {
     const t = useTranslations();
 
+    const [isResetSubmitLoading, setResetSubmitLoading] = useState(false);
     const { updatePassword } = useAuth();
 
     const form = useForm<FormData>({
@@ -46,12 +48,31 @@ export default function ResetPassword() {
 
     const { handleSubmit } = form;
 
+    useEffect(() => {
+        console.log(isResetSubmitLoading);
+
+        return () => {};
+    }, [isResetSubmitLoading]);
+
     async function updPassword(formData: ValidationSchema) {
+        setResetSubmitLoading(true);
         updatePassword(formData.password);
+        setResetSubmitLoading(false);
     }
 
     return (
-        <section className="w-full lg:grid lg:grid-cols-2">
+        <section className="w-full lg:grid lg:grid-cols-2 relative">
+            {isResetSubmitLoading && (
+                <span>
+                    <Spinner
+                        color={'beer-blonde'}
+                        size={'large'}
+                        absolute
+                        absolutePosition={'center'}
+                    />
+                </span>
+            )}
+
             <article className="mx-auto flex w-[60vw] flex-1 flex-col justify-start px-4 py-12 sm:px-6 lg:w-full lg:flex-none lg:px-20 xl:px-24">
                 <h1 className="text-3xl font-extrabold text-gray-900">
                     {t('update_password')}

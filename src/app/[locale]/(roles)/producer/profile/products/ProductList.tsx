@@ -8,7 +8,6 @@ import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFet
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { IProduct } from '@/lib//types/types';
 import { useLocale, useTranslations } from 'next-intl';
-import { formatCurrency } from '@/utils/formatCurrency';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { EditButton } from '@/app/[locale]/components/common/EditButton';
 import { InfoTooltip } from '@/app/[locale]/components/common/InfoTooltip';
@@ -28,8 +27,7 @@ export function ProductList({
     handleProductModal,
     counter,
 }: Props) {
-    const { supabase } = useAuth();
-    const { user } = useAuth();
+    const { supabase, user } = useAuth();
     if (!user) return null;
 
     const t = useTranslations();

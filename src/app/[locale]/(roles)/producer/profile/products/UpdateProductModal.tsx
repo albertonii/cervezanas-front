@@ -780,48 +780,50 @@ export function UpdateProductModal({
             btnTitle={'save'}
             description={''}
             classContainer={`${isLoading && ' opacity-75'}`}
-            handler={handleSubmit(onSubmit)}
+            handler={() => {}}
             handlerClose={() => handleEditShowModal(false)}
             form={form}
+            showTriggerBtn={false}
+            showCancelBtn={false}
         >
-            <form>
-                <ProductStepper
-                    activeStep={activeStep}
-                    handleSetActiveStep={handleSetActiveStep}
-                    isSubmitting={isSubmitting}
-                >
-                    <>
-                        <p className="text-slate-500 my-4 sm:text-md leading-relaxed">
-                            {t('modal_product_description')}
-                        </p>
+            <ProductStepper
+                activeStep={activeStep}
+                handleSetActiveStep={handleSetActiveStep}
+                isSubmitting={isSubmitting}
+                handler={handleSubmit(onSubmit)}
+                btnTitle={'update_product'}
+            >
+                <>
+                    <p className="text-slate-500 my-4 sm:text-md leading-relaxed">
+                        {t('modal_product_description')}
+                    </p>
 
-                        <p className="text-slate-500 my-4 sm:text-md leading-relaxed">
-                            {t('modal_product_description_two')}
-                        </p>
+                    <p className="text-slate-500 my-4 sm:text-md leading-relaxed">
+                        {t('modal_product_description_two')}
+                    </p>
 
-                        {activeStep === 0 ? (
-                            <UpdateProductInfoSection
-                                form={form}
-                                customizeSettings={customizeSettings}
-                            />
-                        ) : activeStep === 1 ? (
-                            <UpdateMultimediaSection
-                                form={form}
-                                productId={product.id}
-                            />
-                        ) : activeStep === 2 ? (
-                            <UpdateAwardsSection
-                                form={form}
-                                handleArrayOfAwardsToDelete={
-                                    handleArrayOfAwardsToDelete
-                                }
-                            />
-                        ) : (
-                            <UpdateProductSummary form={form} />
-                        )}
-                    </>
-                </ProductStepper>
-            </form>
+                    {activeStep === 0 ? (
+                        <UpdateProductInfoSection
+                            form={form}
+                            customizeSettings={customizeSettings}
+                        />
+                    ) : activeStep === 1 ? (
+                        <UpdateMultimediaSection
+                            form={form}
+                            productId={product.id}
+                        />
+                    ) : activeStep === 2 ? (
+                        <UpdateAwardsSection
+                            form={form}
+                            handleArrayOfAwardsToDelete={
+                                handleArrayOfAwardsToDelete
+                            }
+                        />
+                    ) : (
+                        <UpdateProductSummary form={form} />
+                    )}
+                </>
+            </ProductStepper>
         </ModalWithForm>
     );
 }

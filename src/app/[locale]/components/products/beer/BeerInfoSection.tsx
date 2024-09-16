@@ -1,8 +1,7 @@
-import IngredientInput from './IngredientInput';
 import InputLabel from '../../common/InputLabel';
 import SelectInput from '../../common/SelectInput';
 import InputTextarea from '../../common/InputTextarea';
-import StockInformation from '../../StockInformation';
+import TechnicalInfoSection from './TechnicalInfoSection';
 import ProductPackInformation from '../../ProductPackInformation';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
@@ -21,12 +20,10 @@ import {
     ICustomizeSettings,
     ModalAddProductFormData,
 } from '@/lib//types/types';
-import { formatCurrency } from '@/utils/formatCurrency';
 import { capitalizeFirstLetter } from '@/utils/formatWords';
 import { faPalette } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DisplayInputError } from '../../common/DisplayInputError';
-import TechnicalInfoSection from './TechnicalInfoSection';
 
 interface Props {
     form: UseFormReturn<ModalAddProductFormData>;

@@ -446,21 +446,24 @@ export function AddProductModal() {
             description={''}
             icon={faBox}
             classContainer={`${isLoading && ' opacity-75'}`}
-            handler={handleSubmit(onSubmit)}
+            handler={() => {}}
             handlerClose={() => {
                 setActiveStep(0);
                 setShowModal(false);
             }}
             form={form}
+            showTriggerBtn={false}
+            showCancelBtn={false}
         >
-            <form>
-                <ProductStepper
-                    activeStep={activeStep}
-                    handleSetActiveStep={handleSetActiveStep}
-                    isSubmitting={isSubmitting}
-                >
-                    <>
-                        <p className="text-slate-500 my-4 text-sm leading-normal max-w-full text-justify bg-cerv-brown bg-opacity-10 p-4 rounded-2xl">
+            <ProductStepper
+                activeStep={activeStep}
+                handleSetActiveStep={handleSetActiveStep}
+                isSubmitting={isSubmitting}
+                btnTitle={'add_new_product'}
+                handler={handleSubmit(onSubmit)}
+            >
+                <>
+                <p className="text-slate-500 my-4 text-sm leading-normal max-w-full text-justify bg-cerv-brown bg-opacity-10 p-4 rounded-2xl">
                             {t('modal_product_description')}
                         </p>
 
@@ -468,21 +471,20 @@ export function AddProductModal() {
                             {t('modal_product_description_two')}
                         </p>
 
-                        {activeStep === 0 ? (
-                            <ProductInfoSection
-                                form={form}
-                                customizeSettings={customizeSettings}
-                            />
-                        ) : activeStep === 1 ? (
-                            <MultimediaSection form={form} />
-                        ) : activeStep === 2 ? (
-                            <AwardsSection form={form} />
-                        ) : (
-                            <ProductSummary form={form} />
-                        )}
-                    </>
-                </ProductStepper>
-            </form>
+                    {activeStep === 0 ? (
+                        <ProductInfoSection
+                            form={form}
+                            customizeSettings={customizeSettings}
+                        />
+                    ) : activeStep === 1 ? (
+                        <MultimediaSection form={form} />
+                    ) : activeStep === 2 ? (
+                        <AwardsSection form={form} />
+                    ) : (
+                        <ProductSummary form={form} />
+                    )}
+                </>
+            </ProductStepper>
         </ModalWithForm>
     );
 }

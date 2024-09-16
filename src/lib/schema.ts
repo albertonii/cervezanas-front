@@ -6,7 +6,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       area_and_weight_cost: {
@@ -32,7 +32,7 @@ export interface Database {
             isOneToOne: true
             referencedRelation: "distribution_costs"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       area_and_weight_information: {
@@ -75,7 +75,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "coverage_areas"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       area_weight_cost_range: {
@@ -107,7 +107,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "area_and_weight_information"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       awards: {
@@ -145,7 +145,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       beers: {
@@ -237,7 +237,7 @@ export interface Database {
             isOneToOne: true
             referencedRelation: "products"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       billing_info: {
@@ -302,7 +302,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       bm_experience_participants: {
@@ -386,7 +386,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "gamification"
             referencedColumns: ["user_id"]
-          }
+          },
         ]
       }
       bm_experience_user_responses: {
@@ -431,7 +431,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "bm_questions"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       bm_questions: {
@@ -482,7 +482,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       box_pack_items: {
@@ -521,7 +521,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       box_packs: {
@@ -547,7 +547,84 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
-          }
+          },
+        ]
+      }
+      breweries: {
+        Row: {
+          address: string | null
+          city: string | null
+          country: string | null
+          created_at: string
+          description: string | null
+          foundation_year: number | null
+          guided_tours: string | null
+          history: string | null
+          id: string
+          logo: string | null
+          name: string | null
+          producer_id: string | null
+          region: string | null
+          rrss_fb: string | null
+          rrss_ig: string | null
+          rrss_linkedin: string | null
+          special_processing_methods: string[] | null
+          sub_region: string | null
+          types_of_beers_produced: string[] | null
+          website: string | null
+        }
+        Insert: {
+          address?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          description?: string | null
+          foundation_year?: number | null
+          guided_tours?: string | null
+          history?: string | null
+          id?: string
+          logo?: string | null
+          name?: string | null
+          producer_id?: string | null
+          region?: string | null
+          rrss_fb?: string | null
+          rrss_ig?: string | null
+          rrss_linkedin?: string | null
+          special_processing_methods?: string[] | null
+          sub_region?: string | null
+          types_of_beers_produced?: string[] | null
+          website?: string | null
+        }
+        Update: {
+          address?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          description?: string | null
+          foundation_year?: number | null
+          guided_tours?: string | null
+          history?: string | null
+          id?: string
+          logo?: string | null
+          name?: string | null
+          producer_id?: string | null
+          region?: string | null
+          rrss_fb?: string | null
+          rrss_ig?: string | null
+          rrss_linkedin?: string | null
+          special_processing_methods?: string[] | null
+          sub_region?: string | null
+          types_of_beers_produced?: string[] | null
+          website?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "brewery_producer_id_fkey"
+            columns: ["producer_id"]
+            isOneToOne: false
+            referencedRelation: "producer_user"
+            referencedColumns: ["user_id"]
+          },
         ]
       }
       business_orders: {
@@ -596,7 +673,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "producer_user"
             referencedColumns: ["user_id"]
-          }
+          },
         ]
       }
       campaign_item: {
@@ -632,7 +709,7 @@ export interface Database {
             isOneToOne: true
             referencedRelation: "products"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       campaigns: {
@@ -691,7 +768,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       consumption_point_user: {
@@ -723,7 +800,7 @@ export interface Database {
             isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       consumption_points: {
@@ -758,7 +835,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       coverage_areas: {
@@ -799,7 +876,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "distributor_user"
             referencedColumns: ["user_id"]
-          }
+          },
         ]
       }
       cp_fixed: {
@@ -873,7 +950,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "consumption_points"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       cp_mobile: {
@@ -947,7 +1024,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "consumption_points"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       cpf_events: {
@@ -989,7 +1066,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "events"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       cpf_products: {
@@ -1034,7 +1111,7 @@ export interface Database {
             isOneToOne: true
             referencedRelation: "product_packs"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       cpm_events: {
@@ -1076,7 +1153,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "events"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       cpm_products: {
@@ -1121,7 +1198,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "product_packs"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       customize_settings: {
@@ -1153,7 +1230,7 @@ export interface Database {
             isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       discount_codes: {
@@ -1246,7 +1323,7 @@ export interface Database {
             isOneToOne: true
             referencedRelation: "distributor_user"
             referencedColumns: ["user_id"]
-          }
+          },
         ]
       }
       distribution_contracts: {
@@ -1291,7 +1368,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "producer_user"
             referencedColumns: ["user_id"]
-          }
+          },
         ]
       }
       distribution_costs: {
@@ -1323,7 +1400,7 @@ export interface Database {
             isOneToOne: true
             referencedRelation: "distributor_user"
             referencedColumns: ["user_id"]
-          }
+          },
         ]
       }
       distributor_user: {
@@ -1413,7 +1490,7 @@ export interface Database {
             isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       event_experiences: {
@@ -1469,7 +1546,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "experiences"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       event_order_items: {
@@ -1517,7 +1594,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "product_packs"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       event_orders: {
@@ -1580,7 +1657,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "events"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       event_participation: {
@@ -1622,7 +1699,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "events"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       events: {
@@ -1681,7 +1758,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       experiences: {
@@ -1719,7 +1796,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "producer_user"
             referencedColumns: ["user_id"]
-          }
+          },
         ]
       }
       fixed_event_order_items: {
@@ -1761,7 +1838,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       fixed_event_orders: {
@@ -1824,7 +1901,7 @@ export interface Database {
             isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       flatrate_and_weight_cost: {
@@ -1862,7 +1939,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "distribution_costs"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       flatrate_cost: {
@@ -1909,7 +1986,7 @@ export interface Database {
             isOneToOne: true
             referencedRelation: "distribution_costs"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       gamification: {
@@ -1932,7 +2009,7 @@ export interface Database {
             isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       likes: {
@@ -1968,7 +2045,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       local_distribution: {
@@ -2027,7 +2104,7 @@ export interface Database {
             isOneToOne: true
             referencedRelation: "products"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       notifications: {
@@ -2072,7 +2149,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       order_items: {
@@ -2111,7 +2188,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "product_packs"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       orders: {
@@ -2260,7 +2337,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       producer_user: {
@@ -2344,7 +2421,7 @@ export interface Database {
             isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       product_consumption: {
@@ -2383,7 +2460,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       product_inventory: {
@@ -2415,7 +2492,7 @@ export interface Database {
             isOneToOne: true
             referencedRelation: "products"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       product_lots: {
@@ -2478,7 +2555,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       product_multimedia: {
@@ -2528,7 +2605,7 @@ export interface Database {
             isOneToOne: true
             referencedRelation: "products"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       product_packs: {
@@ -2569,7 +2646,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       products: {
@@ -2634,7 +2711,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       profile_location: {
@@ -2696,7 +2773,7 @@ export interface Database {
             isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       reviews: {
@@ -2756,7 +2833,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       shipping_info: {
@@ -2824,7 +2901,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       trigger_auditoria: {
@@ -2887,7 +2964,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       user_reports: {
@@ -2925,7 +3002,7 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       users: {
@@ -2981,7 +3058,7 @@ export interface Database {
             isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
     }
@@ -3019,14 +3096,16 @@ export interface Database {
   }
 }
 
+type PublicSchema = Database[Extract<keyof Database, "public">]
+
 export type Tables<
   PublicTableNameOrOptions extends
-    | keyof (Database["public"]["Tables"] & Database["public"]["Views"])
+    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
         Database[PublicTableNameOrOptions["schema"]]["Views"])
-    : never = never
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
@@ -3034,68 +3113,68 @@ export type Tables<
     }
     ? R
     : never
-  : PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] &
-      Database["public"]["Views"])
-  ? (Database["public"]["Tables"] &
-      Database["public"]["Views"])[PublicTableNameOrOptions] extends {
-      Row: infer R
-    }
-    ? R
+  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
+        PublicSchema["Views"])
+    ? (PublicSchema["Tables"] &
+        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
     : never
-  : never
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
-    | keyof Database["public"]["Tables"]
+    | keyof PublicSchema["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
-  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
-      Insert: infer I
-    }
-    ? I
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
     : never
-  : never
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
-    | keyof Database["public"]["Tables"]
+    | keyof PublicSchema["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
-  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
-      Update: infer U
-    }
-    ? U
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
     : never
-  : never
 
 export type Enums<
   PublicEnumNameOrOptions extends
-    | keyof Database["public"]["Enums"]
+    | keyof PublicSchema["Enums"]
     | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
-    : never = never
+    : never = never,
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
-  ? Database["public"]["Enums"][PublicEnumNameOrOptions]
-  : never
+  : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
+    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never
 

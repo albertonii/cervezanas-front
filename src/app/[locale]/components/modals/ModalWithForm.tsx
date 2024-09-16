@@ -31,6 +31,8 @@ interface Props {
     handlerClose?: () => void;
     handleCustomClose?: () => void;
     form: UseFormReturn<any, any>;
+    showTriggerBtn?: boolean;
+    showCancelBtn?: boolean;
 }
 
 export default function ModalWithForm({
@@ -50,6 +52,8 @@ export default function ModalWithForm({
     btnCancelTitle,
     handleCustomClose: hCustomCLose,
     form,
+    showTriggerBtn = true,
+    showCancelBtn = true,
 }: Props) {
     const t = useTranslations();
     const [isLoading, setIsLoading] = useState(false);
@@ -182,42 +186,50 @@ export default function ModalWithForm({
 
                                 {/*footer*/}
                                 {showFooter && (
-                                    <footer className="border-slate-200 grid grid-cols-1 place-items-center gap-2 rounded-b border-t border-solid p-6 sm:grid-cols-2 bg-beer-gold bg-opacity-20">
-                                        <Button
-                                            primary
-                                            class="mr-4 px-5 py-3 text-4xl"
-                                            medium
-                                            btnType="submit"
-                                            onClick={handleAccept}
-                                            disabled={isLoading}
-                                        >
-                                            {t(btnTitle)}
-                                        </Button>
-
-                                        {btnCancelTitle ? (
-                                            <>
-                                                <Button
-                                                    accent
-                                                    class="px-5 py-3"
-                                                    btnType="button"
-                                                    medium
-                                                    onClick={handleCustomClose}
-                                                    disabled={isLoading}
-                                                >
-                                                    {t(btnCancelTitle)}
-                                                </Button>
-                                            </>
-                                        ) : (
+                                    <footer className="border-slate-200 grid grid-cols-1 place-items-center gap-2 rounded-b border-t border-solid p-6 sm:grid-cols-2">
+                                        {showTriggerBtn && (
                                             <Button
-                                                class="px-5 py-3"
-                                                btnType="button"
-                                                danger
+                                                primary
+                                                class="mr-4"
                                                 medium
-                                                onClick={handleClose}
+                                                btnType="submit"
+                                                onClick={handleAccept}
                                                 disabled={isLoading}
                                             >
-                                                {t('close')}
+                                                {t(btnTitle)}
                                             </Button>
+                                        )}
+
+                                        {showCancelBtn && (
+                                            <>
+                                                {btnCancelTitle ? (
+                                                    <>
+                                                        <Button
+                                                            accent
+                                                            class=""
+                                                            btnType="button"
+                                                            medium
+                                                            onClick={
+                                                                handleCustomClose
+                                                            }
+                                                            disabled={isLoading}
+                                                        >
+                                                            {t(btnCancelTitle)}
+                                                        </Button>
+                                                    </>
+                                                ) : (
+                                                    <Button
+                                                        class=""
+                                                        btnType="button"
+                                                        danger
+                                                        medium
+                                                        onClick={handleClose}
+                                                        disabled={isLoading}
+                                                    >
+                                                        {t('close')}
+                                                    </Button>
+                                                )}
+                                            </>
                                         )}
                                     </footer>
                                 )}

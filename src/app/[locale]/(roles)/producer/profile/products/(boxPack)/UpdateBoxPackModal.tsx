@@ -294,14 +294,16 @@ export function UpdateBoxPackModal({
             await updateSlotsSection();
         }
 
-        queryClient.removeQueries('productList');
-
         handleMessage({
             type: 'success',
             message: 'success.boxpack_updated',
         });
 
+        handleEditShowModal(false);
+        queryClient.removeQueries('productList');
+
         reset();
+        setIsLoading(false);
     };
 
     const updateProductMutation = useMutation({
@@ -309,7 +311,6 @@ export function UpdateBoxPackModal({
         mutationFn: handleUpdateBoxPack,
         onMutate: () => {
             setIsSubmitting(true);
-            setIsLoading(true);
         },
         onSuccess: () => {
             setIsSubmitting(false);
@@ -340,39 +341,41 @@ export function UpdateBoxPackModal({
             btnTitle={'save'}
             description={''}
             classContainer={`${isLoading && ' opacity-75'}`}
-            handler={handleSubmit(onSubmit)}
+            handler={() => {}}
             handlerClose={() => {
                 setActiveStep(0);
                 handleEditShowModal(false);
             }}
             form={form}
+            showTriggerBtn={false}
+            showCancelBtn={false}
         >
-            <form>
-                <BoxPackStepper
-                    activeStep={activeStep}
-                    handleSetActiveStep={handleSetActiveStep}
-                    isSubmitting={isSubmitting}
-                >
-                    <>
-                        <p className="text-slate-500 my-4 sm:text-md leading-relaxed">
-                            {t('modal_product_description')}
-                        </p>
+            <BoxPackStepper
+                activeStep={activeStep}
+                handleSetActiveStep={handleSetActiveStep}
+                isSubmitting={isSubmitting}
+                handler={handleSubmit(onSubmit)}
+                btnTitle={'update_box_pack'}
+            >
+                <>
+                    <p className="text-slate-500 my-4 sm:text-md leading-relaxed">
+                        {t('modal_product_description')}
+                    </p>
 
-                        {activeStep === 0 ? (
-                            <UpdateBoxPackInfoSection form={form} />
-                        ) : activeStep === 1 ? (
-                            <UpdateBoxProductSlotsSection form={form} />
-                        ) : activeStep === 2 ? (
-                            <UpdateBoxMultimediaSection
-                                form={form}
-                                productId={product.id}
-                            />
-                        ) : (
-                            <UpdateBoxSummary form={form} />
-                        )}
-                    </>
-                </BoxPackStepper>
-            </form>
+                    {activeStep === 0 ? (
+                        <UpdateBoxPackInfoSection form={form} />
+                    ) : activeStep === 1 ? (
+                        <UpdateBoxProductSlotsSection form={form} />
+                    ) : activeStep === 2 ? (
+                        <UpdateBoxMultimediaSection
+                            form={form}
+                            productId={product.id}
+                        />
+                    ) : (
+                        <UpdateBoxSummary form={form} />
+                    )}
+                </>
+            </BoxPackStepper>
         </ModalWithForm>
     );
 }

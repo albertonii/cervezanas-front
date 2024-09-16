@@ -57,17 +57,17 @@ export default function UpdBeerMasterAnswers({
      * @returns
      */
     const handleRemoveAnswer = async (answerId: string) => {
-        if (answerId) {
-            const { error } = await supabase
-                .from('beer_master_answers')
-                .delete()
-                .eq('id', answerId);
+        // if (answerId) {
+        //     const { error } = await supabase
+        //         .from('beer_master_answers')
+        //         .delete()
+        //         .eq('id', answerId);
 
-            if (error) {
-                console.error('error', error);
-                return;
-            }
-        }
+        //     if (error) {
+        //         console.error('error', error);
+        //         return;
+        //     }
+        // }
 
         // Encuentra el índice basado en el id para eliminar
         const currentValues = getValues(

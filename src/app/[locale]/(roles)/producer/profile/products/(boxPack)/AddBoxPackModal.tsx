@@ -237,12 +237,14 @@ export function AddBoxPackModal() {
             description={''}
             classContainer={`${isLoading && ' opacity-75'}`}
             icon={faBoxes}
-            handler={handleSubmit(onSubmit)}
+            handler={() => {}}
             handlerClose={() => {
                 setActiveStep(0);
                 setShowModal(false);
             }}
             form={form}
+            showTriggerBtn={false}
+            showCancelBtn={false}
         >
             {isLoading ? (
                 <div className="h-[50vh]">
@@ -253,29 +255,29 @@ export function AddBoxPackModal() {
                     />
                 </div>
             ) : (
-                <form>
-                    <BoxPackStepper
-                        activeStep={activeStep}
-                        handleSetActiveStep={handleSetActiveStep}
-                        isSubmitting={isSubmitting}
-                    >
-                        <>
-                            <p className="text-slate-500 my-4 text-sm leading-normal max-w-full text-justify bg-cerv-brown bg-opacity-10 p-4 rounded-2xl">
+                <BoxPackStepper
+                    activeStep={activeStep}
+                    handleSetActiveStep={handleSetActiveStep}
+                    isSubmitting={isSubmitting}
+                    handler={handleSubmit(onSubmit)}
+                    btnTitle={'add_box_pack'}
+                >
+                    <>
+                    <p className="text-slate-500 my-4 text-sm leading-normal max-w-full text-justify bg-cerv-brown bg-opacity-10 p-4 rounded-2xl">
                                 {t('modal_product_description')}
                             </p>
 
-                            {activeStep === 0 ? (
-                                <BoxPackInfoSection form={form} />
-                            ) : activeStep === 1 ? (
-                                <BoxProductSlotsSection form={form} />
-                            ) : activeStep === 2 ? (
-                                <BoxMultimediaSection form={form} />
-                            ) : (
-                                <BoxSummary form={form} />
-                            )}
-                        </>
-                    </BoxPackStepper>
-                </form>
+                        {activeStep === 0 ? (
+                            <BoxPackInfoSection form={form} />
+                        ) : activeStep === 1 ? (
+                            <BoxProductSlotsSection form={form} />
+                        ) : activeStep === 2 ? (
+                            <BoxMultimediaSection form={form} />
+                        ) : (
+                            <BoxSummary form={form} />
+                        )}
+                    </>
+                </BoxPackStepper>
             )}
         </ModalWithForm>
     );

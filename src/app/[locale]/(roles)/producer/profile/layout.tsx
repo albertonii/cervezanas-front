@@ -13,12 +13,12 @@ import {
     faStar,
     faShoppingCart,
     faBell,
+    faIndustry,
 } from '@fortawesome/free-solid-svg-icons';
 import { Sidebar } from '@/app/[locale]/components/common/Sidebar';
 import { useAppContext } from '@/app/context/AppContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { COMMON, SupabaseProps } from '@/constants';
-import { ROLE_ENUM } from '@/lib/enums';
 import { formatDateTypeDefaultInput } from '@/utils/formatDate';
 
 type LayoutProps = {
@@ -41,6 +41,11 @@ export default function layout({ children }: LayoutProps) {
             name: 'consumption_points',
             icon: faMapMarkerAlt,
             option: 'consumption_points',
+        },
+        {
+            name: 'breweries',
+            icon: faIndustry,
+            option: 'breweries',
         },
         { name: 'experiences', icon: faStar, option: 'experiences' },
         { name: 'reviews', icon: faStar, option: 'reviews' },

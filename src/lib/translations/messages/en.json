@@ -723,7 +723,9 @@
         "deleting_product_awards": "Error deleting product awards.",
         "deleting_product": "Error deleting product.",
         "creating_box_pack": "Error creating box pack.",
-        "is_accept_terms": "You must accept the terms and conditions."
+        "is_accept_terms": "You must accept the terms and conditions.",
+        "fetching_breweries": "Error fetching breweries.",
+        "invalid_characters": "Invalid characters."
     },
     "product_packs": "Product packs",
     "units": "Units",
@@ -1210,6 +1212,8 @@
     "show_less": "Show less",
     "show_more": "Show more",
     "add_ingredients_info": "Add the beer ingredients. To add a new ingredient, press the Enter key or add a comma (,).",
+    "add_types_of_beers_produced_info": "Add the types of beers you produce. To add a new type of beer, press the Enter key or add a comma (,).",
+    "add_special_processing_methods_info": "Add the special processing methods you use. To add a new method, press the Enter key or add a comma (,).",
     "profile_configure_products_description": "Here you can configure your products. You can add, edit, archive and delete products.. ",
     "profile_configure_lots_description": "Here you can configure your batches. You can add, edit and delete batches.",
     "profile_configure_archive_description": "Here you can see the products you have archived. You can restore them if you wish.",
@@ -1229,5 +1233,32 @@
     "award_winning": "Award-winning",
     "pack_different_beers": "Pack different beers",
     "gluten_free": "Gluten-free",
-    "need_to_select_shipping_and_billing_address": "You need to select a shipping and billing address"
+    "need_to_select_shipping_and_billing_address": "You need to select a shipping and billing address",
+    "brewery": {
+        "introduce_name": "Introduce the name of the brewery",
+        "foundation_year": "Foundation year",
+        "history": "History",
+        "history_placeholder": "Introduce the history of the brewery",
+        "description": "Description",
+        "types_of_beers_produced": "Types of beers produced",
+        "types_of_beers_produced_placeholder": "Introduce the types of beers you produce",
+        "special_processing_methods": "Special processing methods",
+        "special_processing_methods_placeholder": "Introduce the special processing methods you use",
+        "guided_tours": "Guided tours",
+        "guided_tours_placeholder": "Introduce the guided tours description",
+        "extra_details_title": "Brewery details",
+        "details_title": "Details",
+        "rrss_title": "Social networks",
+        "location_title": "Location",
+        "introduce_year": "Introduce the foundation year",
+        "add": "Add brewery",
+        "agregate": "Aggregate brewery",
+        "modal_description": "Introduce the description of the brewery. Fields with an asterisk (*) are mandatory.",
+        "name": "Name",
+        "profile_configure_description": "Here you can configure your brewery. You can add, edit, and delete breweries.",
+        "title": "Breweries",
+        "edit": "Edit brewery",
+        "update": "Update brewery"
+    },
+    "website": "Website"
 }

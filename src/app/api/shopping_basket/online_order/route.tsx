@@ -151,7 +151,7 @@ export async function POST(request: NextRequest) {
 
             if (businessOrderError) {
                 const { error: cancelOrderStatusError } = await supabase
-                    .from('order')
+                    .from('orders')
                     .update({ status: ONLINE_ORDER_STATUS.ERROR });
 
                 if (cancelOrderStatusError) {

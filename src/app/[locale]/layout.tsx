@@ -24,6 +24,7 @@ export default async function AppLocaleLayout({
     params: { locale },
 }: LayoutProps) {
     const supabase = await createServerClient();
+
     const {
         data: { session },
     } = await supabase.auth.getSession();
