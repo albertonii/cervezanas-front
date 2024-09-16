@@ -162,6 +162,9 @@ export const generateLink = (role: ROLE_ENUM, option: string) => {
         case 'distributors_associated':
             return `/${role}/profile/${option}`;
 
+        case 'breweries':
+            return `/${role}/profile/${option}`;
+
         case 'experiences':
             return `/${role}/profile/${option}`;
 

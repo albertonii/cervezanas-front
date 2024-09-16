@@ -792,6 +792,27 @@ export type IPackItem = {
     name: string;
 };
 
+export type ModalAddBreweryFormData = {
+    name: string;
+    foundation_year: number;
+    history: string;
+    description: string;
+    logo: any;
+    country: string;
+    region: string;
+    sub_region: string;
+    city: string;
+    address: string;
+    website: string;
+    rrss_ig: string;
+    rrss_fb: string;
+    rrss_linkedin: string;
+    types_of_beers_produced: string[];
+    special_processing_methods: string[];
+    guided_tours: string;
+    is_brewery_dirty: boolean;
+};
+
 export type ModalAddProductFormData = {
     name: string;
     description?: string;
@@ -1795,4 +1816,28 @@ export interface IUserDiscountCode {
     user_id: string;
     discount_code_id: string;
     used_at: string;
+}
+
+export interface IBrewery {
+    id: string;
+    producer_id: string;
+    created_at: string;
+    name: string;
+    foundation_year: number;
+    history: string;
+    description: string;
+    logo: string;
+    country: string;
+    region: string;
+    sub_region: string;
+    city: string;
+    address: string;
+    website: string;
+    rrss_ig: string;
+    rrss_fb: string;
+    rrss_linkedin: string;
+    types_of_beers_produced: string[];
+    special_processing_methods: string[];
+    guided_tours: string;
+    producer_user?: IProducerUser;
 }

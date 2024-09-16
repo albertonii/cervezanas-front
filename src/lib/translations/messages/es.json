@@ -716,7 +716,8 @@
         "deleting_product_awards": "Error al eliminar los premios del producto.",
         "deleting_product": "Error al eliminar el producto.",
         "creating_box_pack": "Error al crear el pack de caja.",
-        "is_accept_terms": "Debes aceptar los términos y condiciones"
+        "is_accept_terms": "Debes aceptar los términos y condiciones",
+        "fetching_breweries": "Error al obtener las cervecerías"
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",
@@ -1244,6 +1245,8 @@
     "show_less": "Mostrar menos",
     "show_more": "Mostrar más",
     "add_ingredients_info": "Añade los ingredientes de la cerveza. Para poder añadir un nuevo ingrediente, pulsa la tecla Enter o añade una coma (,).",
+    "add_types_of_beers_produced_info": "Añade los tipos de cervezas que produces. Para poder añadir un nuevo tipo de cerveza, pulsa la tecla Enter o añade una coma (,).",
+    "add_special_processing_methods_info": "Añade los métodos de procesamiento especiales que utilizas. Para poder añadir un nuevo método de procesamiento especial, pulsa la tecla Enter o añade una coma (,).",
     "profile_configure_products_description": "Aquí puedes configurar tus productos. Puedes añadir, editar, archivar y eliminar productos. ",
     "profile_configure_lots_description": "Aquí puedes configurar tus lotes. Puedes añadir, editar y eliminar lotes.",
     "profile_configure_archive_description": "Aquí puedes ver los productos que has archivado. Puedes restaurarlos si lo deseas.",
@@ -1263,5 +1266,29 @@
     "award_winning": "Premiadas",
     "pack_different_beers": "Pack de cervezas variadas",
     "gluten_free": "Sin gluten",
-    "need_to_select_shipping_and_billing_address": "Necesitas seleccionar una dirección de envío y una dirección de facturación para continuar con el proceso de compra."
+    "need_to_select_shipping_and_billing_address": "Necesitas seleccionar una dirección de envío y una dirección de facturación para continuar con el proceso de compra.",
+    "brewery": {
+        "introduce_name": "Introduce el nombre de la cervecería",
+        "foundation_year": "Año de fundación",
+        "history": "Historia",
+        "history_placeholder": "Historia de la cervecería",
+        "description": "Descripción",
+        "types_of_beers_produced": "Tipos de cervezas producidas",
+        "types_of_beers_produced_placeholder": "Añade los tipos de cervezas que produces",
+        "special_processing_methods": "Métodos de procesamiento especiales",
+        "special_processing_methods_placeholder": "Añade los métodos de procesamiento especiales que utilizas",
+        "guided_tours": "Visitas guiadas",
+        "guided_tours_placeholder": "Introduce la descripción de las visitas guiadas",
+        "extra_details_title": "Detalles adicionales",
+        "details_title": "Detalles de la cervecería",
+        "rrss_title": "Redes sociales",
+        "location_title": "Ubicación",
+        "introduce_year": "Introduce el año de fundación",
+        "add": "Añadir cervecería",
+        "agregate": "Agregar cervecería",
+        "modal_description": "Introduce la descripción de la cervecería. Los campos con asterisco (*) son obligatorios.",
+        "name": "Nombre",
+        "profile_configure_description": "Aquí puedes configurar tu cervecería. Puedes añadir, editar y eliminar cervecerías."
+    },
+    "website": "Página web"
 }

@@ -17,7 +17,7 @@ interface Props {
 export function ProductInfoSection({ form, customizeSettings }: Props) {
     const t = useTranslations();
 
-    const { register, setValue, getValues } = form;
+    const { register, setValue } = form;
 
     const [isBeer, setIsBeer] = useState(true);
 
