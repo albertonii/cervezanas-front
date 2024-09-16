@@ -724,7 +724,8 @@
         "deleting_product": "Error deleting product.",
         "creating_box_pack": "Error creating box pack.",
         "is_accept_terms": "You must accept the terms and conditions.",
-        "fetching_breweries": "Error fetching breweries."
+        "fetching_breweries": "Error fetching breweries.",
+        "invalid_characters": "Invalid characters."
     },
     "product_packs": "Product packs",
     "units": "Units",
@@ -1255,7 +1256,9 @@
         "modal_description": "Introduce the description of the brewery. Fields with an asterisk (*) are mandatory.",
         "name": "Name",
         "profile_configure_description": "Here you can configure your brewery. You can add, edit, and delete breweries.",
-        "title": "Breweries"
+        "title": "Breweries",
+        "edit": "Edit brewery",
+        "update": "Update brewery"
     },
     "website": "Website"
 }

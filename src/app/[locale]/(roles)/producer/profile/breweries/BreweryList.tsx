@@ -20,7 +20,8 @@ const BreweryList = ({ counter }: Props) => {
     if (!user) return null;
 
     const t = useTranslations();
-    const { handleEditShowModal, handleDeleteShowModal } = useBreweryStore();
+    const { assignBrewery, handleEditShowModal, handleDeleteShowModal } =
+        useBreweryStore();
 
     const [breweries, setBreweries] = useState<IBrewery[] | null>([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -36,7 +37,6 @@ const BreweryList = ({ counter }: Props) => {
 
     useEffect(() => {
         if (isFetchedAfterMount) {
-            console.log('isFetchedAfterMount', isFetchedAfterMount);
             setBreweries(data as IBrewery[]);
         }
     }, [isFetchedAfterMount, data]);
@@ -83,12 +83,15 @@ const BreweryList = ({ counter }: Props) => {
                 <div className="flex justify-center space-x-2">
                     <EditButton
                         onClick={() => {
+                            assignBrewery(row);
                             handleEditShowModal(true);
                             handleDeleteShowModal(false);
                         }}
                     />
+
                     <DeleteButton
                         onClick={() => {
+                            assignBrewery(row);
                             handleDeleteShowModal(true);
                             handleEditShowModal(false);
                         }}

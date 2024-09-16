@@ -19,16 +19,12 @@ const ArrayInputLabel: React.FC<ItemsInputProp> = ({
 }) => {
     const { getValues, setValue } = form;
 
-    const [items, setItems] = useState<string[]>([]);
+    const [items, setItems] = useState<string[]>(
+        getValues(label) ? getValues(label) : [],
+    );
 
     const t = useTranslations();
     const [inputValue, setInputValue] = useState('');
-
-    useEffect(() => {
-        console.log(getValues(label));
-
-        return () => {};
-    }, [getValues(label)]);
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter' || event.key === ',') {

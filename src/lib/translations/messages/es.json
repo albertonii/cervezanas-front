@@ -717,7 +717,8 @@
         "deleting_product": "Error al eliminar el producto.",
         "creating_box_pack": "Error al crear el pack de caja.",
         "is_accept_terms": "Debes aceptar los términos y condiciones",
-        "fetching_breweries": "Error al obtener las cervecerías"
+        "fetching_breweries": "Error al obtener las cervecerías",
+        "invalid_characters": "Caracteres inválidos"
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",
@@ -1289,7 +1290,9 @@
         "modal_description": "Introduce la descripción de la cervecería. Los campos con asterisco (*) son obligatorios.",
         "name": "Nombre",
         "profile_configure_description": "Aquí puedes configurar tu cervecería. Puedes añadir, editar y eliminar cervecerías.",
-        "title": "Fábricas de Cervezas"
+        "title": "Fábricas de Cervezas",
+        "edit": "Editar cervecería",
+        "update": "Actualizar cervecería"
     },
     "website": "Página web"
 }

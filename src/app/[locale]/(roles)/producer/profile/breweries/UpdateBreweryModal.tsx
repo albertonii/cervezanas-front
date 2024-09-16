@@ -10,11 +10,12 @@ import { faBox } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
 import { isFileEmpty } from '@/utils/utils';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { ModalAddBreweryFormData } from '@/lib/types/types';
-import BreweryInfo from './BreweryInfo';
-import BreweryExtraDetails from './BreweryExtraDetails';
-import BreweryLocation from './BreweryLocation';
-import BreweryRRSS from './BreweryRRSS';
+import { ModalUpdateBreweryFormData } from '@/lib/types/types';
+import UpdateBreweryInfo from './UpdateBreweryInfo';
+import useBreweryStore from '@/app/store/breweryStore';
+import UpdateBreweryExtraDetails from './UpdateBreweryExtraDetails';
+import UpdateBreweryLocation from './UpdateBreweryLocation';
+import UpdateBreweryRRSS from './UpdateBreweryRRSS';
 
 const ModalWithForm = dynamic(
     () => import('@/app/[locale]/components/modals/ModalWithForm'),
@@ -56,7 +57,8 @@ const validateFile = (f: File, ctx: any) => {
     }
 };
 
-const schema: ZodType<ModalAddBreweryFormData> = z.object({
+const schema: ZodType<ModalUpdateBreweryFormData> = z.object({
+    id: z.string().nonempty({ message: 'errors.input_required' }),
     name: z
         .string()
         .min(2, { message: 'errors.min_2_characters' })
@@ -120,41 +122,40 @@ const schema: ZodType<ModalAddBreweryFormData> = z.object({
     types_of_beers_produced: z.array(z.string()).optional(),
     special_processing_methods: z.array(z.string()).optional(),
     guided_tours: z.string().optional(),
-    is_brewery_dirty: z.boolean(),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
 
-export function AddBreweryModal() {
+export function UpdateBreweryModal() {
     const t = useTranslations();
 
     const [isLoading, setIsLoading] = useState(false);
-    const [showModal, setShowModal] = useState<boolean>(false);
 
+    const { brewery, isEditShowModal, handleEditShowModal } = useBreweryStore();
     const { handleMessage } = useMessage();
 
     const form = useForm<ValidationSchema>({
         mode: 'onSubmit',
         resolver: zodResolver(schema),
         defaultValues: {
-            name: '',
-            foundation_year: new Date().getFullYear(),
-            history: '',
-            description: '',
-            logo: '',
-            country: '',
-            region: '',
-            sub_region: '',
-            city: '',
-            address: '',
-            website: '',
-            rrss_ig: '',
-            rrss_fb: '',
-            rrss_linkedin: '',
-            types_of_beers_produced: [],
-            special_processing_methods: [],
-            guided_tours: '',
-            is_brewery_dirty: false,
+            id: brewery.id,
+            name: brewery.name,
+            foundation_year: brewery.foundation_year,
+            history: brewery.history,
+            description: brewery.description,
+            logo: brewery.logo,
+            country: brewery.country,
+            region: brewery.region,
+            sub_region: brewery.sub_region,
+            city: brewery.city,
+            address: brewery.address,
+            website: brewery.website,
+            rrss_ig: brewery.rrss_ig,
+            rrss_fb: brewery.rrss_fb,
+            rrss_linkedin: brewery.rrss_linkedin,
+            types_of_beers_produced: brewery.types_of_beers_produced,
+            special_processing_methods: brewery.special_processing_methods,
+            guided_tours: brewery.guided_tours,
         },
     });
 
@@ -172,10 +173,11 @@ export function AddBreweryModal() {
         }
     }, [errors]);
 
-    const handleInsertBrewery = async (form: ValidationSchema) => {
+    const handleUpdateBrewery = async (form: ValidationSchema) => {
         setIsLoading(true);
 
         const {
+            id: breweryId,
             name,
             foundation_year,
             history,
@@ -193,7 +195,6 @@ export function AddBreweryModal() {
             types_of_beers_produced,
             special_processing_methods,
             guided_tours,
-            is_brewery_dirty,
         } = form;
 
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -202,6 +203,7 @@ export function AddBreweryModal() {
         const formData = new FormData();
 
         // Basic
+        formData.append('brewery_id', breweryId);
         formData.append('name', name);
         formData.append('foundation_year', foundation_year.toString());
         formData.append('history', history);
@@ -242,7 +244,7 @@ export function AddBreweryModal() {
         );
 
         const response = await fetch(url, {
-            method: 'POST',
+            method: 'PUT',
             body: formData,
             headers: headers,
         });
@@ -250,7 +252,7 @@ export function AddBreweryModal() {
         if (response.status !== 200) {
             handleMessage({
                 type: 'error',
-                message: 'errors.insert_brewery',
+                message: 'errors.update_brewery',
             });
 
             setIsLoading(true);
@@ -261,27 +263,30 @@ export function AddBreweryModal() {
         if (response.status === 200) {
             handleMessage({
                 type: 'success',
-                message: 'success.insert_brewery',
+                message: 'success.update_brewery',
             });
 
-            setShowModal(false);
+            handleEditShowModal(false);
             setIsLoading(false);
-            queryClient.invalidateQueries('breweriesList');
+
+            queryClient.invalidateQueries('breweriesList', {
+                refetchActive: true,
+            });
 
             reset();
         }
     };
 
-    const insertBreweryMutation = useMutation({
-        mutationKey: ['insertBrewery'],
-        mutationFn: handleInsertBrewery,
+    const updateBreweryMutation = useMutation({
+        mutationKey: ['updateBrewery'],
+        mutationFn: handleUpdateBrewery,
     });
 
     const onSubmit: SubmitHandler<ValidationSchema> = (
-        formValues: ModalAddBreweryFormData,
+        formValues: ModalUpdateBreweryFormData,
     ) => {
         return new Promise<void>((resolve, reject) => {
-            insertBreweryMutation.mutate(formValues, {
+            updateBreweryMutation.mutate(formValues, {
                 onSuccess: () => {
                     resolve();
                 },
@@ -294,18 +299,17 @@ export function AddBreweryModal() {
 
     return (
         <ModalWithForm
-            showBtn={true}
-            showModal={showModal}
-            setShowModal={setShowModal}
-            title={'brewery.add'}
-            btnTitle={'brewery.agregate'}
-            triggerBtnTitle={'brewery.add'}
+            showModal={isEditShowModal}
+            setShowModal={handleEditShowModal}
+            title={'brewery.edit'}
+            btnTitle={'brewery.update'}
+            triggerBtnTitle={'brewery.update'}
             description={''}
             icon={faBox}
             classContainer={`${isLoading && ' opacity-75'}`}
             handler={handleSubmit(onSubmit)}
             handlerClose={() => {
-                setShowModal(false);
+                handleEditShowModal(false);
             }}
             form={form}
             showCancelBtn={false}
@@ -316,13 +320,13 @@ export function AddBreweryModal() {
                 </p>
 
                 <section className="relative border-2 rounded-lg border-gray-200 p-6 bg-white shadow-md space-y-8 mt-8">
-                    <BreweryInfo form={form} />
+                    <UpdateBreweryInfo form={form} />
 
-                    <BreweryExtraDetails form={form} />
+                    <UpdateBreweryExtraDetails form={form} />
 
-                    <BreweryLocation form={form} />
+                    <UpdateBreweryLocation form={form} />
 
-                    <BreweryRRSS form={form} />
+                    <UpdateBreweryRRSS form={form} />
                 </section>
             </>
         </ModalWithForm>

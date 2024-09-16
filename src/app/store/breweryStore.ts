@@ -1,32 +1,9 @@
+import { IBrewery } from '@/lib/types/types';
 import { create } from 'zustand';
 
-interface BreweryType {
-    id: string;
-    producer_id: string;
-    created_at: string;
-    name: string;
-    foundation_year: number;
-    history: string;
-    description: string;
-    logo: string;
-    country: string;
-    region: string;
-    sub_region: string;
-    city: string;
-    website: string;
-    rrss_ig: string;
-    rrss_fb: string;
-    rrss_linkedin: string;
-    types_of_beers_produced: string[];
-    special_processing_methods: string[];
-    guided_tours: string;
-    is_brewery_dirty: boolean;
-}
-
 interface BreweryState {
-    brewery: BreweryType;
-    assignBrewery: (brewery: BreweryType) => void;
-    onChangeBrewery: (key: string, value: string | number) => void;
+    brewery: IBrewery;
+    assignBrewery: (brewery: IBrewery) => void;
     clear: () => void;
     isEditShowModal: boolean;
     isDeleteShowModal: boolean;
@@ -38,17 +15,17 @@ const useBreweryStore = create<BreweryState>((set, get) => {
     let initialState = {
         brewery: {
             id: '',
-            producer_id: '',
             created_at: '',
             name: '',
-            foundation_year: 0,
+            foundation_year: 1900,
             history: '',
             description: '',
             logo: '',
-            country: '',
-            region: '',
-            sub_region: '',
+            address: '',
             city: '',
+            sub_region: '',
+            region: '',
+            country: '',
             website: '',
             rrss_ig: '',
             rrss_fb: '',
@@ -56,7 +33,7 @@ const useBreweryStore = create<BreweryState>((set, get) => {
             types_of_beers_produced: [],
             special_processing_methods: [],
             guided_tours: '',
-            is_brewery_dirty: false,
+            producer_id: '',
         },
         isEditShowModal: false,
         isDeleteShowModal: false,
@@ -64,17 +41,10 @@ const useBreweryStore = create<BreweryState>((set, get) => {
 
     return {
         ...initialState,
-        assignBrewery: (brewery: BreweryType) => {
+        assignBrewery: (brewery: IBrewery) => {
             set(() => ({ brewery }));
         },
-        onChangeBrewery: (key: string, value: string | number) => {
-            set((state) => {
-                const { brewery } = state;
-                return {
-                    brewery: { ...brewery, [key]: value },
-                };
-            });
-        },
+
         clear: () => {
             set(() => initialState);
         },

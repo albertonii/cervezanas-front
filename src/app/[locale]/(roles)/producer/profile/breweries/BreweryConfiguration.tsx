@@ -6,6 +6,7 @@ import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSection
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { AddBreweryModal } from './AddBreweryModal';
+import { UpdateBreweryModal } from './UpdateBreweryModal';
 
 interface Props {
     counter: number;
@@ -28,7 +29,7 @@ const BreweryConfiguration = ({ counter }: Props) => {
 
             <BreweryList counter={counter} />
 
-            {isEditShowModal && <div>dentro</div>}
+            {isEditShowModal && <UpdateBreweryModal />}
 
             {isDeleteShowModal && <div>dentro edelete</div>}
         </section>

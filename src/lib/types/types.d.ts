@@ -813,6 +813,28 @@ export type ModalAddBreweryFormData = {
     is_brewery_dirty: boolean;
 };
 
+export type ModalUpdateBreweryFormData = {
+    id: string;
+    name: string;
+    foundation_year: number;
+    history: string;
+    description: string;
+    logo?: any;
+    country: string;
+    region: string;
+    sub_region: string;
+    city: string;
+    address: string;
+    website?: string;
+    rrss_ig?: string;
+    rrss_fb?: string;
+    rrss_linkedin?: string;
+    types_of_beers_produced?: string[];
+    special_processing_methods?: string[];
+    guided_tours?: string;
+    is_brewery_dirty?: boolean;
+};
+
 export type ModalAddProductFormData = {
     name: string;
     description?: string;
