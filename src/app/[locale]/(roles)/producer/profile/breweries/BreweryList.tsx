@@ -1,5 +1,6 @@
 'use client';
 
+import useBreweryStore from '@/app/store/breweryStore';
 import Spinner from '@/app/[locale]/components/common/Spinner';
 import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
 import useFetchBreweriesByOwnerAndPagination from '@/hooks/useFetchBreweriesByOwnerAndPagination';
@@ -7,16 +8,19 @@ import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IBrewery } from '@/lib/types/types';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
+import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
+import { EditButton } from '@/app/[locale]/components/common/EditButton';
 
 interface Props {
     counter: number;
 }
 
 const BreweryList = ({ counter }: Props) => {
-    const { supabase, user } = useAuth();
+    const { user } = useAuth();
     if (!user) return null;
 
     const t = useTranslations();
+    const { handleEditShowModal, handleDeleteShowModal } = useBreweryStore();
 
     const [breweries, setBreweries] = useState<IBrewery[] | null>([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -32,6 +36,7 @@ const BreweryList = ({ counter }: Props) => {
 
     useEffect(() => {
         if (isFetchedAfterMount) {
+            console.log('isFetchedAfterMount', isFetchedAfterMount);
             setBreweries(data as IBrewery[]);
         }
     }, [isFetchedAfterMount, data]);
@@ -51,7 +56,7 @@ const BreweryList = ({ counter }: Props) => {
             header: t('brewery.name'),
             accessor: 'name',
             sortable: true,
-            render: (row: IBrewery) => {
+            render: (value: string, row: IBrewery) => {
                 return <div>{row.name}</div>;
             },
         },
@@ -59,7 +64,7 @@ const BreweryList = ({ counter }: Props) => {
             header: t('region'),
             accessor: 'region',
             sortable: true,
-            render: (row: IBrewery) => {
+            render: (value: string, row: IBrewery) => {
                 return <div>{row.region}</div>;
             },
         },
@@ -67,9 +72,29 @@ const BreweryList = ({ counter }: Props) => {
             header: t('sub_region'),
             accessor: 'sub_region',
             sortable: true,
-            render: (row: IBrewery) => {
+            render: (value: string, row: IBrewery) => {
                 return <div>{row.sub_region}</div>;
             },
+        },
+        {
+            header: t('action_header'),
+            accessor: 'action',
+            render: (_: any, row: IBrewery) => (
+                <div className="flex justify-center space-x-2">
+                    <EditButton
+                        onClick={() => {
+                            handleEditShowModal(true);
+                            handleDeleteShowModal(false);
+                        }}
+                    />
+                    <DeleteButton
+                        onClick={() => {
+                            handleDeleteShowModal(true);
+                            handleEditShowModal(false);
+                        }}
+                    />
+                </div>
+            ),
         },
     ];
 

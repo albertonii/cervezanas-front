@@ -552,6 +552,7 @@ export type Database = {
       }
       breweries: {
         Row: {
+          address: string | null
           city: string | null
           country: string | null
           created_at: string
@@ -573,6 +574,7 @@ export type Database = {
           website: string | null
         }
         Insert: {
+          address?: string | null
           city?: string | null
           country?: string | null
           created_at?: string
@@ -594,6 +596,7 @@ export type Database = {
           website?: string | null
         }
         Update: {
+          address?: string | null
           city?: string | null
           country?: string | null
           created_at?: string

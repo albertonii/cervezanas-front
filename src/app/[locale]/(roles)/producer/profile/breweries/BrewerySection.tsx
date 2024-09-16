@@ -1,11 +1,11 @@
 import BreweryRRSS from './BreweryRRSS';
 import BreweryInfo from './BreweryInfo';
 import BreweryLocation from './BreweryLocation';
+import BreweryExtraDetails from './BreweryExtraDetails';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { ModalAddBreweryFormData } from '@/lib/types/types';
-import BreweryExtraDetails from './BreweryExtraDetails';
 
 interface Props {
     form: UseFormReturn<ModalAddBreweryFormData, any>;
@@ -20,9 +20,9 @@ const BrewerySection = ({ form }: Props) => {
 
             <BreweryExtraDetails form={form} />
 
-            <BreweryRRSS form={form} />
-
             <BreweryLocation form={form} />
+
+            <BreweryRRSS form={form} />
         </section>
     );
 };

@@ -127,12 +127,13 @@ const BreweryLocation = ({ form }: Props) => {
                     id="account-brewery-location-data"
                     className="text-4xl font-['NexaRust-script']"
                 >
-                    {t('brewery_location_title')}
+                    {t('brewery.location_title')}
                 </span>
 
                 <div className="grid grid-cols-2 gap-4 ">
                     <label htmlFor="country">
                         <span className="font-medium">{t('loc_country')}</span>
+                        <span className="text-red-500"> *</span>
 
                         {/* Display all countries */}
                         <select
@@ -167,6 +168,7 @@ const BreweryLocation = ({ form }: Props) => {
                         <span className="font-medium">
                             {t('loc_sub_region')}
                         </span>
+                        <span className="text-red-500"> *</span>
 
                         <select
                             className=" w-full rounded-lg border-transparent bg-gray-100 px-4 py-2 text-base text-gray-700 focus:border-gray-500 focus:bg-white focus:ring-0"
@@ -203,6 +205,7 @@ const BreweryLocation = ({ form }: Props) => {
                 <div className="grid grid-cols-2 gap-4">
                     <label htmlFor="city">
                         <span className="font-medium">{t('loc_city')}</span>
+                        <span className="text-red-500"> *</span>
 
                         <select
                             className=" w-full rounded-lg border-transparent bg-gray-100 px-4 py-2 text-base text-gray-700 focus:border-gray-500 focus:bg-white focus:ring-0"
@@ -234,6 +237,7 @@ const BreweryLocation = ({ form }: Props) => {
                         registerOptions={{
                             required: true,
                         }}
+                        isRequired={true}
                     />
                 </div>
             </section>

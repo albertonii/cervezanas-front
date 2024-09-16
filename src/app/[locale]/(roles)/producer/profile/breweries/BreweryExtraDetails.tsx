@@ -59,7 +59,8 @@ const BreweryInfo = ({ form }: Props) => {
                 <div className="grid grid-cols-1 gap-4">
                     <InputTextarea
                         form={form}
-                        label={'brewery.guided_tours'}
+                        label={'guided_tours'}
+                        labelText={t('brewery.guided_tours')}
                         placeholder={t('brewery.guided_tours_placeholder')}
                     />
                 </div>

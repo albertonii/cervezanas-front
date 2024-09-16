@@ -13,6 +13,7 @@ interface Props {
 
 const BreweryConfiguration = ({ counter }: Props) => {
     const t = useTranslations();
+    const { isEditShowModal, isDeleteShowModal } = useBreweryStore();
 
     return (
         <section
@@ -20,21 +21,16 @@ const BreweryConfiguration = ({ counter }: Props) => {
             aria-label="Breweries"
         >
             <ProfileSectionHeader
-                headerTitle="brewery"
+                headerTitle="brewery.title"
                 headerDescription={t('brewery.profile_configure_description')}
                 btnActions={<AddBreweryModal />}
             />
 
             <BreweryList counter={counter} />
 
-            {/* {isEditShowModal && (
-                <UpdateBreweryModal />
-            )} */}
-            {/* 
-            {isDeleteShowModal && (
-                <DeleteBreweryModal />
-            )}
-             */}
+            {isEditShowModal && <div>dentro</div>}
+
+            {isDeleteShowModal && <div>dentro edelete</div>}
         </section>
     );
 };

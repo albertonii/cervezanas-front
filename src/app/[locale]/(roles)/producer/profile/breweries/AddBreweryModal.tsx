@@ -1,18 +1,17 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import BrewerySection from './BrewerySection';
 import React, { useState, useEffect } from 'react';
 import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useAppContext } from '@/app/context/AppContext';
 import { faBox } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
 import { isFileEmpty } from '@/utils/utils';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { ModalAddBreweryFormData } from '@/lib/types/types';
-import BrewerySection from './BrewerySection';
 
 const ModalWithForm = dynamic(
     () => import('@/app/[locale]/components/modals/ModalWithForm'),
@@ -55,23 +54,69 @@ const validateFile = (f: File, ctx: any) => {
 };
 
 const schema: ZodType<ModalAddBreweryFormData> = z.object({
-    name: z.string().nonempty(),
-    foundation_year: z.number().int().positive(),
-    history: z.string().nonempty(),
-    description: z.string().nonempty(),
-    logo: z.string().nonempty(),
-    country: z.string().nonempty(),
-    region: z.string().nonempty(),
-    sub_region: z.string().nonempty(),
-    city: z.string().nonempty(),
-    address: z.string().nonempty(),
-    website: z.string().nonempty(),
-    rrss_ig: z.string().nonempty(),
-    rrss_fb: z.string().nonempty(),
-    rrss_linkedin: z.string().nonempty(),
-    types_of_beers_produced: z.array(z.string().nonempty()),
-    special_processing_methods: z.array(z.string().nonempty()),
-    guided_tours: z.string().nonempty(),
+    name: z
+        .string()
+        .min(2, { message: 'errors.min_2_characters' })
+        .max(50, { message: 'errors.error_50_number_max_length' })
+        .regex(/^[a-zA-Z\s]+$/, { message: 'errors.invalid_characters' }),
+    foundation_year: z
+        .number()
+        .int()
+        .min(1900, { message: 'errors.input_number_min_1900' }),
+    history: z.string().nonempty({ message: 'errors.input_required' }),
+    description: z.string().nonempty({ message: 'errors.input_required' }),
+    // logo: z
+    //     .any()
+    //     .refine((file) => file instanceof File, {
+    //         message: 'errors.invalid_file_type',
+    //     })
+    //     .refine((file) => ACCEPTED_MIME_TYPES.includes(file.type), {
+    //         message: `errors.invalid_mime_type`,
+    //     })
+    //     .refine((file) => file.size <= 3 * MB_BYTES, {
+    //         message: `errors.file_too_large`,
+    //     })
+    //     .optional(),
+    logo: z.any().optional(),
+    country: z.string().nonempty({ message: 'errors.input_required' }),
+    region: z.string().nonempty({ message: 'errors.input_required' }),
+    sub_region: z.string().nonempty({ message: 'errors.input_required' }),
+    city: z.string().nonempty({ message: 'errors.input_required' }),
+    address: z.string().nonempty({ message: 'errors.input_required' }),
+    website: z.string().optional(),
+    rrss_ig: z
+        .string()
+        .refine(
+            (value) => value === '' || /^[a-zA-Z0-9._]{1,30}$/.test(value),
+            {
+                message:
+                    'Solo se permiten caracteres alfanuméricos, puntos y guiones bajos, con un máximo de 30 caracteres.',
+            },
+        )
+        .optional(),
+    rrss_fb: z
+        .string()
+        .refine(
+            (value) => value === '' || /^[a-zA-Z0-9._]{1,30}$/.test(value),
+            {
+                message:
+                    'Solo se permiten caracteres alfanuméricos, puntos y guiones bajos, con un máximo de 30 caracteres.',
+            },
+        )
+        .optional(),
+    rrss_linkedin: z
+        .string()
+        .refine(
+            (value) => value === '' || /^[a-zA-Z0-9._]{1,30}$/.test(value),
+            {
+                message:
+                    'Solo se permiten caracteres alfanuméricos, puntos y guiones bajos, con un máximo de 30 caracteres.',
+            },
+        )
+        .optional(),
+    types_of_beers_produced: z.array(z.string()).optional(),
+    special_processing_methods: z.array(z.string()).optional(),
+    guided_tours: z.string().optional(),
     is_brewery_dirty: z.boolean(),
 });
 
@@ -82,22 +127,15 @@ export function AddBreweryModal() {
 
     const [isLoading, setIsLoading] = useState(false);
     const [showModal, setShowModal] = useState<boolean>(false);
-    const [activeStep, setActiveStep] = useState<number>(0);
 
     const { handleMessage } = useMessage();
-
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
-    const handleSetActiveStep = (value: number) => {
-        setActiveStep(value);
-    };
 
     const form = useForm<ValidationSchema>({
         mode: 'onSubmit',
         resolver: zodResolver(schema),
         defaultValues: {
             name: '',
-            foundation_year: 0,
+            foundation_year: new Date().getFullYear(),
             history: '',
             description: '',
             logo: '',
@@ -161,14 +199,28 @@ export function AddBreweryModal() {
         const formData = new FormData();
 
         // Basic
-        // formData.append('name', name);
-        // formData.append('description', description ?? '');
-        // formData.append('type', type);
-        // formData.append('price', price.toString());
-        // formData.append('is_public', is_public.toString());
-        // formData.append('is_available', is_available.toString());
-        // formData.append('category', category);
-        // formData.append('weight', weight.toString());
+        formData.append('name', name);
+        formData.append('foundation_year', foundation_year.toString());
+        formData.append('history', history);
+        formData.append('description', description);
+        formData.append('country', country);
+        formData.append('region', region);
+        formData.append('sub_region', sub_region);
+        formData.append('city', city);
+        formData.append('address', address);
+        formData.append('website', website || '');
+        formData.append('rrss_ig', rrss_ig || '');
+        formData.append('rrss_fb', rrss_fb || '');
+        formData.append('rrss_linkedin', rrss_linkedin || '');
+        formData.append(
+            'types_of_beers_produced',
+            types_of_beers_produced?.join(',') || '',
+        );
+        formData.append(
+            'special_processing_methods',
+            special_processing_methods?.join(',') || '',
+        );
+        formData.append('guided_tours', guided_tours || '');
 
         // Logo
         if (logo && !isFileEmpty(logo)) {
@@ -214,23 +266,12 @@ export function AddBreweryModal() {
             queryClient.invalidateQueries('breweryList');
 
             reset();
-            setActiveStep(0);
         }
     };
 
     const insertBreweryMutation = useMutation({
         mutationKey: ['insertBrewery'],
         mutationFn: handleInsertBrewery,
-        onMutate: () => {
-            setIsSubmitting(true);
-        },
-        onSuccess: () => {
-            setIsSubmitting(false);
-        },
-        onError: (error: any) => {
-            console.error(error);
-            setIsSubmitting(false);
-        },
     });
 
     const onSubmit: SubmitHandler<ValidationSchema> = (
@@ -254,18 +295,16 @@ export function AddBreweryModal() {
             showModal={showModal}
             setShowModal={setShowModal}
             title={'brewery.add'}
-            btnTitle={'brewery.add'}
-            triggerBtnTitle={'brewery.agregate'}
+            btnTitle={'brewery.agregate'}
+            triggerBtnTitle={'brewery.add'}
             description={''}
             icon={faBox}
             classContainer={`${isLoading && ' opacity-75'}`}
-            handler={() => {}}
+            handler={handleSubmit(onSubmit)}
             handlerClose={() => {
-                setActiveStep(0);
                 setShowModal(false);
             }}
             form={form}
-            showTriggerBtn={false}
             showCancelBtn={false}
         >
             <>

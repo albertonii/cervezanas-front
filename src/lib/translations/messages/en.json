@@ -1254,7 +1254,8 @@
         "agregate": "Aggregate brewery",
         "modal_description": "Introduce the description of the brewery. Fields with an asterisk (*) are mandatory.",
         "name": "Name",
-        "profile_configure_description": "Here you can configure your brewery. You can add, edit, and delete breweries."
+        "profile_configure_description": "Here you can configure your brewery. You can add, edit, and delete breweries.",
+        "title": "Breweries"
     },
     "website": "Website"
 }

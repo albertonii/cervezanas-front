@@ -25,10 +25,10 @@ const ArrayInputLabel: React.FC<ItemsInputProp> = ({
     const [inputValue, setInputValue] = useState('');
 
     useEffect(() => {
-        console.log(getValues('items'));
+        console.log(getValues(label));
 
         return () => {};
-    }, [getValues('items')]);
+    }, [getValues(label)]);
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter' || event.key === ',') {

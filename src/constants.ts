@@ -124,6 +124,7 @@ export const SupabaseProps = {
     PROFILE_PHOTO_URL: 'profile_photo/',
     AWARDS_URL: 'awards/',
     PACKS_URL: 'packs/',
+    BREWERIES_LOGOS: 'breweries_logos/',
 };
 
 export const DS_API = {

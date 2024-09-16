@@ -1288,7 +1288,8 @@
         "agregate": "Agregar cervecería",
         "modal_description": "Introduce la descripción de la cervecería. Los campos con asterisco (*) son obligatorios.",
         "name": "Nombre",
-        "profile_configure_description": "Aquí puedes configurar tu cervecería. Puedes añadir, editar y eliminar cervecerías."
+        "profile_configure_description": "Aquí puedes configurar tu cervecería. Puedes añadir, editar y eliminar cervecerías.",
+        "title": "Fábricas de Cervezas"
     },
     "website": "Página web"
 }

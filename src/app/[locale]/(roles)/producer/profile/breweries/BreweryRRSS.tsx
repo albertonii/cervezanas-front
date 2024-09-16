@@ -29,7 +29,7 @@ const BreweryRRSS = ({ form }: Props) => {
                     id="account-brewery-rrss-data"
                     className="text-4xl font-['NexaRust-script']"
                 >
-                    {t('brewery_rrss_title')}
+                    {t('brewery.rrss_title')}
                 </span>
 
                 <div className="flex w-full flex-row space-x-3 ">

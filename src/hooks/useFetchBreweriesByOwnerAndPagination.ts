@@ -20,7 +20,7 @@ const fetchBreweriesByOwner = async (
                 producer_user (*)
             `,
         )
-        .eq('owner_id', ownerId)
+        .eq('producer_id', ownerId)
         .range(
             (currentPage - 1) * resultsPerPage,
             currentPage * resultsPerPage - 1,
