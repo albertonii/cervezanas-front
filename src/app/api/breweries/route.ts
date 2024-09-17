@@ -211,3 +211,35 @@ export async function PUT(request: NextRequest) {
         );
     }
 }
+
+export async function DELETE(request: NextRequest) {
+    try {
+        const formData = await request.formData();
+
+        const supabase = await createServerClient();
+
+        const breweryId = formData.get('brewery_id') as string;
+
+        const { error: productError } = await supabase
+            .from('breweries')
+            .delete()
+            .eq('id', breweryId);
+
+        if (productError) {
+            return NextResponse.json(
+                { message: 'Error deleting brewery' },
+                { status: 500 },
+            );
+        }
+
+        return NextResponse.json(
+            { message: 'Brewery successfully deleted' },
+            { status: 200 },
+        );
+    } catch (err) {
+        return NextResponse.json(
+            { message: 'Error deleting brewery' },
+            { status: 500 },
+        );
+    }
+}

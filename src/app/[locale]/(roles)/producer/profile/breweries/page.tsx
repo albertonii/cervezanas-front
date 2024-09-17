@@ -1,8 +1,8 @@
 import readUserSession from '@/lib/actions';
 import createServerClient from '@/utils/supabaseServer';
+import BreweryConfiguration from './BreweryConfiguration';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import BreweryConfiguration from './BreweryConfiguration';
 
 export default async function BreweryPage() {
     const breweriesCounterData = getBreweriesCounter();

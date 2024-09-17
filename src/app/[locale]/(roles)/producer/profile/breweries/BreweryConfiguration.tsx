@@ -7,6 +7,7 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 import { AddBreweryModal } from './AddBreweryModal';
 import { UpdateBreweryModal } from './UpdateBreweryModal';
+import { DeleteBreweryModal } from '@/app/[locale]/components/modals/DeleteBreweryModal';
 
 interface Props {
     counter: number;
@@ -31,7 +32,7 @@ const BreweryConfiguration = ({ counter }: Props) => {
 
             {isEditShowModal && <UpdateBreweryModal />}
 
-            {isDeleteShowModal && <div>dentro edelete</div>}
+            {isDeleteShowModal && <DeleteBreweryModal />}
         </section>
     );
 };
