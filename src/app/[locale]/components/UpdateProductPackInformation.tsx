@@ -76,7 +76,7 @@ export default function UpdateProductPackInformation({ form }: Props) {
             />
 
             <div className="mx-10">
-                <h2 className="text-2xl text-gray-800 font-semibold">
+                <h2 className="text-4xl font-['NexaRust-script']">
                     {t('add_product_pack')}
                 </h2>
 

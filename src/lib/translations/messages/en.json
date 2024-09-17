@@ -1260,5 +1260,8 @@
         "edit": "Edit brewery",
         "update": "Update brewery"
     },
-    "website": "Website"
+    "website": "Website",
+    "modal_delete_brewery_description": "Are you sure you want to delete the brewery? This action cannot be undone.",
+    "modal_delete_brewery_title": "Delete Brewery",
+    "breweries": "Breweries"
 }

@@ -1,12 +1,11 @@
 'use client';
 
+import Modal from './Modal';
+import Spinner from '../common/Spinner';
 import React, { ComponentProps, useState } from 'react';
+import { useMessage } from '../message/useMessage';
 import { useMutation, useQueryClient } from 'react-query';
 import { IAward, IProduct, IProductPack } from '@/lib//types/types';
-import { useAuth } from '../../(auth)/Context/useAuth';
-import Modal from './Modal';
-import { useMessage } from '../message/useMessage';
-import Spinner from '../common/Spinner';
 
 interface Props {
     product: IProduct;
