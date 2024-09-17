@@ -26,6 +26,10 @@ export function BoxPackStepper({
     const statusPresentClass = 'bg-beer-blonde';
     const statusFutureClass = 'border-gray-200';
 
+    const statusPastTextClass = 'text-gray-500';
+    const statusPresentTextClass = 'text-beer-draft';
+    const statusFutureTextClass = 'text-gray-800';
+
     const statusPastIconClass = '#fdc300'; // Beer Blonde
     const statusPresentIconClass = 'white';
     const statusFutureIconClass = 'gray';
@@ -34,6 +38,18 @@ export function BoxPackStepper({
     const [productSlotsClass, setProductSlotsClass] = useState(statusPastClass);
     const [multimediaClass, setMultimediaClass] = useState(statusPastClass);
     const [confirmClass, setConfirmClass] = useState(statusPastClass);
+
+    const [detailsTextClass, setDetailsTextClass] =
+        useState(statusPastTextClass);
+    const [productSlotsTextClass, setProductSlotsTextClass] = useState(
+        statusFutureTextClass,
+    );
+    const [multimediaTextClass, setMultimediaTextClass] = useState(
+        statusFutureTextClass,
+    );
+    const [confirmTextClass, setConfirmTextClass] = useState(
+        statusFutureTextClass,
+    );
 
     const [detailsIconClass, setDetailsIconClass] = useState('');
     const [productSlotsIconClass, setProductSlotsIconClass] = useState('');
@@ -53,6 +69,11 @@ export function BoxPackStepper({
             setMultimediaClass(statusFutureClass);
             setConfirmClass(statusFutureClass);
 
+            setDetailsTextClass(statusPresentTextClass);
+            setProductSlotsTextClass(statusFutureTextClass);
+            setMultimediaTextClass(statusFutureTextClass);
+            setConfirmTextClass(statusFutureTextClass);
+
             setDetailsIconClass(statusPresentIconClass);
             setProductSlotsIconClass(statusFutureIconClass);
             setMultimediaIconClass(statusFutureIconClass);
@@ -62,6 +83,11 @@ export function BoxPackStepper({
             setProductSlotsClass(statusPresentClass);
             setMultimediaClass(statusFutureClass);
             setConfirmClass(statusFutureClass);
+
+            setDetailsTextClass(statusPastTextClass);
+            setProductSlotsTextClass(statusPresentTextClass);
+            setMultimediaTextClass(statusFutureTextClass);
+            setConfirmTextClass(statusFutureTextClass);
 
             setDetailsIconClass(statusPastIconClass);
             setProductSlotsIconClass(statusPresentIconClass);
@@ -73,6 +99,11 @@ export function BoxPackStepper({
             setMultimediaClass(statusPresentClass);
             setConfirmClass(statusFutureClass);
 
+            setDetailsTextClass(statusPastTextClass);
+            setProductSlotsTextClass(statusPastTextClass);
+            setMultimediaTextClass(statusPresentTextClass);
+            setConfirmTextClass(statusFutureTextClass);
+
             setDetailsIconClass(statusPastIconClass);
             setProductSlotsIconClass(statusPastIconClass);
             setMultimediaIconClass(statusPresentIconClass);
@@ -82,6 +113,11 @@ export function BoxPackStepper({
             setProductSlotsClass(statusPastClass);
             setMultimediaClass(statusPastClass);
             setConfirmClass(statusPresentClass);
+
+            setDetailsTextClass(statusPastTextClass);
+            setProductSlotsTextClass(statusPastTextClass);
+            setMultimediaTextClass(statusPastTextClass);
+            setConfirmTextClass(statusPresentTextClass);
 
             setDetailsIconClass(statusPastIconClass);
             setMultimediaIconClass(statusPastIconClass);
@@ -112,7 +148,9 @@ export function BoxPackStepper({
                             <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
                         </svg>
                     </div>
-                    <h3 className="absolute top-0 -ml-10 mt-16 w-32 text-4xl font-['NexaRust-script']">
+                    <h3
+                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-2xl font-['NexaRust-script'] ${detailsTextClass}`}
+                    >
                         {t('details')}
                     </h3>
                 </figure>
@@ -121,7 +159,7 @@ export function BoxPackStepper({
                     className={`flex-auto border-t-2 transition duration-500 ease-in-out ${detailsClass}`}
                 ></span>
 
-                <figure className="relative flex items-center text-gray-500">
+                <figure className="relative flex items-center">
                     <div
                         className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${productSlotsClass}`}
                     >
@@ -141,16 +179,18 @@ export function BoxPackStepper({
                         </svg>
                     </div>
 
-                    <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
+                    <h3
+                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-2xl font-['NexaRust-script'] ${productSlotsTextClass}`}
+                    >
                         {t('slots')}
-                    </div>
+                    </h3>
                 </figure>
 
                 <span
                     className={`flex-auto border-t-2 transition duration-500 ease-in-out ${productSlotsClass}`}
                 ></span>
 
-                <figure className="relative flex items-center text-gray-500">
+                <figure className="relative flex items-center">
                     <div
                         className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${multimediaClass}`}
                     >
@@ -175,16 +215,18 @@ export function BoxPackStepper({
                         </svg>
                     </div>
 
-                    <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
+                    <h3
+                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-2xl font-['NexaRust-script'] ${multimediaTextClass}`}
+                    >
                         {t('multimedia')}
-                    </div>
+                    </h3>
                 </figure>
 
                 <span
                     className={`flex-auto border-t-2 transition duration-500 ease-in-out ${multimediaClass}`}
                 ></span>
 
-                <figure className="relative flex items-center text-gray-500">
+                <figure className="relative flex items-center">
                     <div
                         className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${confirmClass}`}
                     >
@@ -205,9 +247,12 @@ export function BoxPackStepper({
                             <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
                         </svg>
                     </div>
-                    <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
+
+                    <h3
+                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-2xl font-['NexaRust-script'] ${confirmTextClass}`}
+                    >
                         {t('confirm')}
-                    </div>
+                    </h3>
                 </figure>
             </div>
 

@@ -21,13 +21,26 @@ export function ProductStepper({
 }: Props) {
     const t = useTranslations();
 
-    const statusPastClass = 'border-beer-softBlonde';
-    const statusPresentClass = 'bg-beer-blonde';
-    const statusFutureClass = 'border-gray-200';
+    const statusPastClass = 'border-beer-softBlonde ';
+    const statusPresentClass = 'bg-beer-blonde ';
+    const statusFutureClass = 'border-gray-200 ';
+
+    const statusPastTextClass = 'text-gray-500';
+    const statusPresentTextClass = 'text-beer-draft';
+    const statusFutureTextClass = 'text-gray-800';
 
     const statusPastIconClass = '#fdc300'; // Beer Blonde
     const statusPresentIconClass = 'white';
     const statusFutureIconClass = 'gray';
+
+    const [detailsTextClass, setDetailsTextClass] = useState(
+        statusPresentTextClass,
+    );
+    const [awardsTextClass, setAwardsTextClass] = useState(statusPastTextClass);
+    const [multimediaTextClass, setMultimediaTextClass] =
+        useState(statusPastTextClass);
+    const [confirmTextClass, setConfirmTextClass] =
+        useState(statusPastTextClass);
 
     const [detailsClass, setDetailsClass] = useState(statusPastClass);
     const [awardsClass, setAwardsClass] = useState(statusPastClass);
@@ -52,6 +65,11 @@ export function ProductStepper({
             setAwardsClass(statusFutureClass);
             setConfirmClass(statusFutureClass);
 
+            setDetailsTextClass(statusPresentTextClass);
+            setMultimediaTextClass(statusFutureTextClass);
+            setAwardsTextClass(statusFutureTextClass);
+            setConfirmTextClass(statusFutureTextClass);
+
             setDetailsIconClass(statusPresentIconClass);
             setMultimediaIconClass(statusFutureIconClass);
             setAwardsIconClass(statusFutureIconClass);
@@ -61,6 +79,11 @@ export function ProductStepper({
             setMultimediaClass(statusPresentClass);
             setAwardsClass(statusFutureClass);
             setConfirmClass(statusFutureClass);
+
+            setDetailsTextClass(statusPastTextClass);
+            setMultimediaTextClass(statusPresentTextClass);
+            setAwardsTextClass(statusFutureTextClass);
+            setConfirmTextClass(statusFutureTextClass);
 
             setDetailsIconClass(statusPastIconClass);
             setMultimediaIconClass(statusPresentIconClass);
@@ -72,6 +95,11 @@ export function ProductStepper({
             setAwardsClass(statusPresentClass);
             setConfirmClass(statusFutureClass);
 
+            setDetailsTextClass(statusPastTextClass);
+            setMultimediaTextClass(statusPastTextClass);
+            setAwardsTextClass(statusPresentTextClass);
+            setConfirmTextClass(statusFutureTextClass);
+
             setDetailsIconClass(statusPastIconClass);
             setMultimediaIconClass(statusPastIconClass);
             setAwardsIconClass(statusPresentIconClass);
@@ -81,6 +109,11 @@ export function ProductStepper({
             setMultimediaClass(statusPastClass);
             setAwardsClass(statusPastClass);
             setConfirmClass(statusPresentClass);
+
+            setDetailsTextClass(statusPastTextClass);
+            setMultimediaTextClass(statusPastTextClass);
+            setAwardsTextClass(statusPastTextClass);
+            setConfirmTextClass(statusPresentTextClass);
 
             setDetailsIconClass(statusPastIconClass);
             setMultimediaIconClass(statusPastIconClass);
@@ -93,7 +126,7 @@ export function ProductStepper({
         <section className={`p-5 ${isSubmitting && 'opacity-50'}`}>
             <div className="flex items-center">
                 {/* Details  */}
-                <figure className="relative flex items-center text-beer-draft">
+                <figure className={`relative flex items-center`}>
                     <div
                         className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${detailsClass} `}
                     >
@@ -113,7 +146,9 @@ export function ProductStepper({
                         </svg>
                     </div>
 
-                    <h3 className="absolute top-0 -ml-10 mt-16 w-32 text-4xl font-['NexaRust-script']">
+                    <h3
+                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-2xl font-['NexaRust-script'] ${detailsTextClass}`}
+                    >
                         {t('details')}
                     </h3>
                 </figure>
@@ -123,7 +158,7 @@ export function ProductStepper({
                 />
 
                 {/* Multimedia  */}
-                <figure className="relative flex items-center text-gray-500">
+                <figure className="relative flex items-center">
                     <div
                         className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${multimediaClass}`}
                     >
@@ -148,9 +183,11 @@ export function ProductStepper({
                         </svg>
                     </div>
 
-                    <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
+                    <h3
+                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-2xl font-['NexaRust-script'] ${multimediaTextClass}`}
+                    >
                         {t('multimedia')}
-                    </div>
+                    </h3>
                 </figure>
 
                 {/* Awards  */}
@@ -188,9 +225,11 @@ export function ProductStepper({
                         </svg>
                     </div>
 
-                    <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
+                    <h3
+                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-2xl font-['NexaRust-script'] ${awardsTextClass}`}
+                    >
                         {t('awards')}
-                    </div>
+                    </h3>
                 </figure>
 
                 {/* Confirm  */}
@@ -198,7 +237,7 @@ export function ProductStepper({
                     className={`flex-auto border-t-2 transition duration-500 ease-in-out ${awardsClass}`}
                 ></span>
 
-                <figure className="relative flex items-center text-gray-500">
+                <figure className="relative flex items-center">
                     <div
                         className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${confirmClass}`}
                     >
@@ -219,9 +258,11 @@ export function ProductStepper({
                             <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
                         </svg>
                     </div>
-                    <div className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
+                    <h3
+                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-2xl font-['NexaRust-script'] ${confirmTextClass}`}
+                    >
                         {t('confirm')}
-                    </div>
+                    </h3>
                 </figure>
             </div>
 
