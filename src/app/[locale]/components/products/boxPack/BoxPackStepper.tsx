@@ -1,7 +1,6 @@
+import ProductStepperButtons from '../ProductStepperButtons';
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import ProductStepperButtons from '../ProductStepperButtons';
-import ProductDetails from '../../../(common-display)/products/[id]/ProductDetails';
 
 interface Props {
     activeStep: number;
@@ -129,9 +128,12 @@ export function BoxPackStepper({
     return (
         <section className={`p-5 ${isSubmitting && 'opacity-50'}`}>
             <div className="flex items-center">
-                <figure className="relative flex items-center text-beer-draft">
+                <figure
+                    className="relative flex items-center hover:cursor-pointer"
+                    onClick={() => handleStepper(0)}
+                >
                     <div
-                        className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${detailsClass} `}
+                        className={`h-12 w-12 rounded-full border-2 py-3 transition duration-300 ease-in-out ${detailsClass} hover:bg-beer-blonde`}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -156,12 +158,15 @@ export function BoxPackStepper({
                 </figure>
 
                 <span
-                    className={`flex-auto border-t-2 transition duration-500 ease-in-out ${detailsClass}`}
+                    className={`flex-auto border-t-2 transition duration-300 ease-in-out ${detailsClass}`}
                 ></span>
 
-                <figure className="relative flex items-center">
+                <figure
+                    className="relative flex items-center hover:cursor-pointer"
+                    onClick={() => handleStepper(1)}
+                >
                     <div
-                        className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${productSlotsClass}`}
+                        className={`h-12 w-12 rounded-full border-2 py-3 transition duration-300 ease-in-out ${productSlotsClass} hover:bg-beer-blonde`}
                     >
                         <svg
                             width="100%"
@@ -187,12 +192,15 @@ export function BoxPackStepper({
                 </figure>
 
                 <span
-                    className={`flex-auto border-t-2 transition duration-500 ease-in-out ${productSlotsClass}`}
+                    className={`flex-auto border-t-2 transition duration-300 ease-in-out ${productSlotsClass}`}
                 ></span>
 
-                <figure className="relative flex items-center">
+                <figure
+                    className="relative flex items-center hover:cursor-pointer"
+                    onClick={() => handleStepper(2)}
+                >
                     <div
-                        className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${multimediaClass}`}
+                        className={`h-12 w-12 rounded-full border-2 py-3 transition duration-300 ease-in-out ${multimediaClass} hover:bg-beer-blonde`}
                     >
                         <svg
                             width="100%"
@@ -223,12 +231,15 @@ export function BoxPackStepper({
                 </figure>
 
                 <span
-                    className={`flex-auto border-t-2 transition duration-500 ease-in-out ${multimediaClass}`}
+                    className={`flex-auto border-t-2 transition duration-300 ease-in-out ${multimediaClass}`}
                 ></span>
 
-                <figure className="relative flex items-center">
+                <figure
+                    className="relative flex items-center hover:cursor-pointer"
+                    onClick={() => handleStepper(3)}
+                >
                     <div
-                        className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${confirmClass}`}
+                        className={`h-12 w-12 rounded-full border-2 py-3 transition duration-300 ease-in-out ${confirmClass} hover:bg-beer-blonde`}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"

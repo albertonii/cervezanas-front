@@ -126,9 +126,12 @@ export function ProductStepper({
         <section className={`p-5 ${isSubmitting && 'opacity-50'}`}>
             <div className="flex items-center">
                 {/* Details  */}
-                <figure className={`relative flex items-center`}>
+                <figure
+                    className={`relative flex items-center hover:cursor-pointer`}
+                    onClick={() => handleStepper(0)}
+                >
                     <div
-                        className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${detailsClass} `}
+                        className={`h-12 w-12 rounded-full border-2 py-3 transition duration-300 ease-in-out ${detailsClass} hover:bg-beer-blonde`}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -154,13 +157,16 @@ export function ProductStepper({
                 </figure>
 
                 <span
-                    className={`flex-auto border-t-2 transition duration-500 ease-in-out ${detailsClass}`}
+                    className={`flex-auto border-t-2 transition duration-300 ease-in-out ${detailsClass}`}
                 />
 
                 {/* Multimedia  */}
-                <figure className="relative flex items-center">
+                <figure
+                    className="relative flex items-center hover:cursor-pointer"
+                    onClick={() => handleStepper(1)}
+                >
                     <div
-                        className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${multimediaClass}`}
+                        className={`h-12 w-12 rounded-full border-2 py-3 transition duration-300 ease-in-out ${multimediaClass} hover:bg-beer-blonde`}
                     >
                         <svg
                             width="100%"
@@ -192,12 +198,15 @@ export function ProductStepper({
 
                 {/* Awards  */}
                 <span
-                    className={`flex-auto border-t-2 transition duration-500 ease-in-out ${multimediaClass}`}
+                    className={`flex-auto border-t-2 transition duration-300 ease-in-out ${multimediaClass}`}
                 ></span>
 
-                <figure className="relative flex items-center text-white">
+                <figure
+                    className="relative flex items-center hover:cursor-pointer"
+                    onClick={() => handleStepper(2)}
+                >
                     <div
-                        className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${awardsClass}`}
+                        className={`h-12 w-12 rounded-full border-2 py-3 transition duration-300 ease-in-out ${awardsClass} hover:bg-beer-blonde`}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -234,12 +243,15 @@ export function ProductStepper({
 
                 {/* Confirm  */}
                 <span
-                    className={`flex-auto border-t-2 transition duration-500 ease-in-out ${awardsClass}`}
+                    className={`flex-auto border-t-2 transition duration-300 ease-in-out ${awardsClass}`}
                 ></span>
 
-                <figure className="relative flex items-center">
+                <figure
+                    className="relative flex items-center hover:cursor-pointer"
+                    onClick={() => handleStepper(3)}
+                >
                     <div
-                        className={`h-12 w-12 rounded-full border-2 py-3 transition duration-500 ease-in-out ${confirmClass}`}
+                        className={`h-12 w-12 rounded-full border-2 py-3 transition duration-300 ease-in-out ${confirmClass} hover:bg-beer-blonde`}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
