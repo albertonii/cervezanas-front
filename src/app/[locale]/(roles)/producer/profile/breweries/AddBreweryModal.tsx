@@ -1,20 +1,20 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import BreweryRRSS from './BreweryRRSS';
+import BreweryInfo from './BreweryInfo';
+import BreweryLocation from './BreweryLocation';
+import BreweryExtraDetails from './BreweryExtraDetails';
 import React, { useState, useEffect } from 'react';
 import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
+import { isFileEmpty } from '@/utils/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { faBox } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
-import { isFileEmpty } from '@/utils/utils';
-import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { ModalAddBreweryFormData } from '@/lib/types/types';
-import BreweryInfo from './BreweryInfo';
-import BreweryExtraDetails from './BreweryExtraDetails';
-import BreweryLocation from './BreweryLocation';
-import BreweryRRSS from './BreweryRRSS';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 
 const ModalWithForm = dynamic(
     () => import('@/app/[locale]/components/modals/ModalWithForm'),
@@ -60,8 +60,7 @@ const schema: ZodType<ModalAddBreweryFormData> = z.object({
     name: z
         .string()
         .min(2, { message: 'errors.min_2_characters' })
-        .max(50, { message: 'errors.error_50_number_max_length' })
-        .regex(/^[a-zA-Z0-9\s]+$/, { message: 'errors.invalid_characters' }),
+        .max(50, { message: 'errors.error_50_number_max_length' }),
     foundation_year: z
         .number()
         .int()

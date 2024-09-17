@@ -112,7 +112,7 @@ export function BoxPackStepper({
                             <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
                         </svg>
                     </div>
-                    <h3 className="absolute top-0 -ml-10 mt-16 w-32 text-center text-xs font-medium uppercase text-gray-500">
+                    <h3 className="absolute top-0 -ml-10 mt-16 w-32 text-4xl font-['NexaRust-script']">
                         {t('details')}
                     </h3>
                 </figure>

@@ -117,7 +117,9 @@ export default function AvailableDistributorsList({
                 {t('form_submit_contract_description')}
             </span>
 
-            <h2 className="text-2xl">{t('distributors_list')}</h2>
+            <h2 className="text-4xl font-['NexaRust-script']">
+                {t('distributors_list')}
+            </h2>
 
             {isError && (
                 <div className="flex items-center justify-center">

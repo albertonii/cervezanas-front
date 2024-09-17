@@ -1296,5 +1296,6 @@
     },
     "website": "Página web",
     "modal_delete_brewery_description": "¿Estás seguro de que deseas eliminar la cervecería? Esta acción no se puede deshacer.",
-    "modal_delete_brewery_title": "Eliminar cervecería"
+    "modal_delete_brewery_title": "Eliminar cervecería",
+    "breweries": "Fábricas"
 }

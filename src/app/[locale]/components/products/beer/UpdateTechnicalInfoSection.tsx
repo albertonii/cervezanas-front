@@ -35,7 +35,7 @@ const UpdateTechnicalInfoSection = ({ form }: Props) => {
             />
 
             <section className="mx-10">
-                <p className="text-slate-700 my-4 text-xl font-semibold">
+                <p className="text-4xl font-['NexaRust-script']">
                     {t('modal_product_add_technical_details_title')}
                 </p>
 

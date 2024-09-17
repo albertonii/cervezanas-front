@@ -62,8 +62,7 @@ const schema: ZodType<ModalUpdateBreweryFormData> = z.object({
     name: z
         .string()
         .min(2, { message: 'errors.min_2_characters' })
-        .max(50, { message: 'errors.error_50_number_max_length' })
-        .regex(/^[a-zA-Z0-9\s]+$/, { message: 'errors.invalid_characters' }),
+        .max(50, { message: 'errors.error_50_number_max_length' }),
     foundation_year: z
         .number()
         .int()
