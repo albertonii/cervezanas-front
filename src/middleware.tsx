@@ -3,8 +3,12 @@ import { ROUTE_SIGNIN } from './config';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { match as matchLocale } from '@formatjs/intl-localematcher';
-import { isPrivateSectionIncluded } from './utils/middleware/functions';
+import {
+    isInTheRightRolePath,
+    isPrivateSectionIncluded,
+} from './utils/middleware/functions';
 import { createSupabaseReqResClient } from './utils/supabaseReqResClient';
+import createServerClient from './utils/supabaseServer';
 
 const locales = ['en', 'es'];
 
@@ -45,8 +49,6 @@ export async function middleware(req: NextRequest) {
             new URL(`/${locale}/${pathname}`, req.url),
         );
     }
-
-    // Check if the request is for accesing /profile
 
     const isIncluded = await isPrivateSectionIncluded(req);
 

@@ -25,15 +25,14 @@ const UpdateBreweryLocation = ({ form }: Props) => {
         formState: { errors },
     } = form;
 
-    const [selectedCountry, setSelectCountry] = useState<string>(
-        form.getValues('country'),
-    );
-    const [selectedSubRegion, setSelectedSubRegion] = useState<string>(
-        form.getValues('sub_region'),
-    );
-    const [selectedCity, setSelectedCity] = useState<string>(
-        form.getValues('city'),
-    );
+    const [isInitialRender, setIsInitialRender] = useState(true);
+
+    const [selectedCountry, setSelectCountry] = useState<string>();
+    // form.getValues('country'),
+    const [selectedSubRegion, setSelectedSubRegion] = useState<string>();
+    // form.getValues('sub_region'),
+    const [selectedCity, setSelectedCity] = useState<string>();
+    // form.getValues('city'),
     const [subRegionType, setSubRegionType] = useState<string>();
     const [subRegions, setSubRegions] = useState<JSONSubRegion[]>([]);
     const [citiesInSubRegions, setCitiesInSubRegions] = useState<string[]>();
@@ -48,19 +47,18 @@ const UpdateBreweryLocation = ({ form }: Props) => {
     );
 
     useEffect(() => {
+        setSelectCountry(form.getValues('country'));
+        setSelectedSubRegion(form.getValues('sub_region'));
+        setSelectedCity(form.getValues('city'));
+    }, []);
+
+    useEffect(() => {
         if (!selectedCountry) return;
 
         switch (selectedCountry) {
             case 'spain':
                 // Default subregion to avoid error in form
                 setValue('sub_region', form.getValues('sub_region'));
-                setSelectedSubRegion(form.getValues('sub_region'));
-
-                // setCitiesInSubRegions(
-                //     form.getValues('city') ? [form.getValues('city')] : [],
-                // );
-                // CARGRA AQUI LAS CITIES
-
                 setSubRegionType('provincesAndCities');
                 break;
             case 'italy':
@@ -77,18 +75,28 @@ const UpdateBreweryLocation = ({ form }: Props) => {
     }, [selectedCountry]);
 
     useEffect(() => {
-        console.log(selectedSubRegion);
-    }, [selectedSubRegion]);
-
-    useEffect(() => {
         if (!subRegionType) return;
         trigger();
     }, [subRegionType]);
 
     useEffect(() => {
         if (!subRegionsData) return;
+
         setSubRegions(subRegionsData);
+        setIsInitialRender(false);
     }, [subRegionsData]);
+
+    useEffect(() => {
+        if (subRegions.length === 0) return;
+        const subRegion: JSONSubRegion | undefined = subRegions.find(
+            (subRegion_: JSONSubRegion) =>
+                subRegion_.name === selectedSubRegion,
+        );
+
+        if (!subRegion) return;
+
+        setCitiesInSubRegions(subRegion.cities);
+    }, [subRegions]);
 
     const handleSelectCountry = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectCountry(e.target.value);
@@ -129,6 +137,8 @@ const UpdateBreweryLocation = ({ form }: Props) => {
             setValue(name, value);
         }
     };
+
+    if (isInitialRender) return <h1> Loading ...</h1>;
 
     return (
         <section
