@@ -5,6 +5,7 @@ import {
     IAreaAndWeightCostRange,
     ICoverageArea,
     IFlatrateAndWeightCostForm,
+    ShipmentTrackingFormData,
 } from '@/lib//types/types';
 import createServerClient from '@/utils/supabaseServer';
 
@@ -485,3 +486,73 @@ export async function handleSelectedDistributionCostType(
         };
     }
 }
+
+export const handleUpdateShipmentTracking = async (
+    shipmentTrackingFormData: ShipmentTrackingFormData,
+) => {
+    const url = `${baseUrl}/api/shipment_tracking/distributor`;
+
+    const formData = new FormData();
+    console.log(shipmentTrackingFormData.id);
+    formData.append('tracking_id', shipmentTrackingFormData.id as string);
+    formData.append('status', shipmentTrackingFormData.status);
+    formData.append(
+        'shipment_company',
+        shipmentTrackingFormData.shipment_company,
+    );
+    formData.append(
+        'shipment_tracking_id',
+        shipmentTrackingFormData.shipment_tracking_id,
+    );
+    formData.append('shipment_url', shipmentTrackingFormData.shipment_url);
+    formData.append(
+        'updated_estimated_date',
+        shipmentTrackingFormData.upd_estimated_date,
+    );
+    formData.append(
+        'is_updated_by_distributor',
+        shipmentTrackingFormData.is_updated_by_distributor.toString(),
+    );
+    formData.append(
+        'messages',
+        JSON.stringify(shipmentTrackingFormData.messages),
+    );
+
+    console.log(formData);
+
+    try {
+        const response = await axios.put(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'PUT',
+                'Access-Control-Allow-Credentials': 'true',
+                'Access-Control-Allow-Headers':
+                    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+            },
+        });
+
+        if (
+            response.status !== 200 &&
+            response.status !== 201 &&
+            response.status !== 202
+        ) {
+            return {
+                status: response.status,
+                message:
+                    response.data.message || 'Error updating shipment tracking',
+            };
+        }
+
+        return {
+            status: response.status,
+            message: 'Shipment tracking updated successfully',
+        };
+    } catch (error: any) {
+        console.error('Error updating shipment tracking:', error);
+        return {
+            status: error.response?.status || 500,
+            message: error.response?.data.message || 'Internal Server Error',
+        };
+    }
+};

@@ -31,10 +31,16 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
     const locale = useLocale();
     const router = useRouter();
 
-    const [bOrders, setBOrders] = useState<IBusinessOrder[]>(bOs);
+    const [bOrders, setBOrders] = useState<IBusinessOrder[]>(
+        Array.from(new Set(bOs.map((order) => order.orders?.order_number)))
+            .map((orderNumber) =>
+                bOs.find((order) => order.orders?.order_number === orderNumber),
+            )
+            .filter((order) => order !== undefined) as IBusinessOrder[],
+    );
     const [currentPage, setCurrentPage] = useState(1);
 
-    const counter = bOs.length;
+    const [counter, setCounter] = useState(0);
     const resultsPerPage = 10;
 
     const { isError, isLoading, refetch } = useFetchOrdersByDistributorId(
@@ -45,8 +51,25 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
 
     useEffect(() => {
         refetch().then((res) => {
-            const bOrders_ = res.data as IBusinessOrder[];
+            const bOrdersData = res.data as IBusinessOrder[];
+            const bOrders_ = Array.from(
+                new Set(
+                    bOrdersData
+                        .map((order) => order.orders?.order_number)
+                        .map((orderNumber) =>
+                            bOs.find(
+                                (order) =>
+                                    order.orders?.order_number === orderNumber,
+                            ),
+                        )
+                        .filter(
+                            (order) => order !== undefined,
+                        ) as IBusinessOrder[],
+                ),
+            );
+
             setBOrders(bOrders_);
+            setCounter(bOrders_.length);
         });
     }, [currentPage]);
 

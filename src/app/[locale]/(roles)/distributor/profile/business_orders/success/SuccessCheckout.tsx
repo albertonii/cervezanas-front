@@ -10,6 +10,7 @@ import { IBusinessOrder, IOrder } from '@/lib/types/types';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import OrderStatusInformation from '@/app/[locale]/components/common/OrderStatusInformation';
 import BusinessOrderStatusInformation from '@/app/[locale]/components/common/BussinessOrderStatusInformation';
+import DistributorOrderStatusInformation from './DistributorOrderStatusInformation';
 
 interface Props {
     isError?: boolean;
@@ -100,7 +101,10 @@ export default function SuccessCheckout({ order, isError }: Props) {
 
     return (
         <section className="m-4 space-y-8 sm:py-4 lg:py-6">
-            <OrderStatusInformation order={order} orderStatus={orderStatus} />
+            <DistributorOrderStatusInformation
+                order={order}
+                orderStatus={orderStatus}
+            />
 
             {/* Product and packs information */}
             {bOrders &&

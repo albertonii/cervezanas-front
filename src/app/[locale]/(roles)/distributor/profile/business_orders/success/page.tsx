@@ -101,6 +101,18 @@ async function getSuccessData(searchParams: any) {
                             description
                             )
                         )
+                    ),
+                    shipment_tracking (
+                        id,
+                        created_at,
+                        status,
+                        order_id,
+                        shipment_company,
+                        shipment_url,
+                        estimated_date,
+                        upd_estimated_date,
+                        shipment_tracking_id,
+                        is_updated_by_distributor
                     )
                 ),
                 shipping_name,

@@ -102,20 +102,6 @@ export default function SuccessCheckout({ order, isError }: Props) {
                         );
                     },
                 )}
-            {/* 
-            {orderByDistributorBOrders &&
-                orderByDistributorBOrders.map((orderByDistributorBOrders) => {
-                    return (
-                        <article
-                            key={orderByDistributorBOrders.id}
-                            className="py-4"
-                        >
-                            <BusinessOrderItem
-                                bOrder={orderByDistributorBOrders}
-                            />
-                        </article>
-                    );
-                })} */}
 
             <section className="bg-gray-100 px-4 py-6 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
                 <div className="col-span-6 space-y-8">

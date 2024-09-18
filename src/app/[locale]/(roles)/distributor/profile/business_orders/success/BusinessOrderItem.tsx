@@ -1,14 +1,15 @@
+import ProducerCard from '@/app/[locale]/components/common/ProducerCard';
 import OrderItemCard from '@/app/[locale]/components/common/OrderItemCard';
 import ProductBusinnesInformation from '@/app/[locale]/components/ProductBusinnesInformation';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { useQueryClient } from 'react-query';
+import { DISTRIBUTOR_ONLINE_ORDER_STATUS } from '@/constants';
 import { IBusinessOrder, IOrderItem } from '@/lib/types/types';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import { StatusTimeline } from '@/app/[locale]/components/StatusTimeline';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { DISTRIBUTOR_ONLINE_ORDER_STATUS } from '@/constants';
-import ProducerCard from '@/app/[locale]/components/common/ProducerCard';
+import DistributorProductBusinnesInformation from './DistributorProductBusinnesInformation';
 
 interface Props {
     bOrder: IBusinessOrder;
@@ -109,7 +110,9 @@ export default function BusinessOrderItem({
                 {/* Display the product information for this pack  */}
                 {bOrder.order_items && (
                     <div className="col-span-2">
-                        <ProductBusinnesInformation bOrder={bOrder} />
+                        <DistributorProductBusinnesInformation
+                            bOrder={bOrder}
+                        />
                     </div>
                 )}
 

@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
-import { ONLINE_ORDER_STATUS } from '@/constants';
+import DistributorShipmentTrackingForm from './DistributorShipmentTrackingForm';
 import { IOrder } from '@/lib/types/types';
+import { ONLINE_ORDER_STATUS } from '@/constants';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 
@@ -10,7 +11,7 @@ interface Props {
     orderStatus: string; // Puede ser un valor diferente al que venga desde order porque tiene en cuenta los Business Orders
 }
 
-const OrderStatusInformation = ({ order, orderStatus }: Props) => {
+const DistributorOrderStatusInformation = ({ order, orderStatus }: Props) => {
     const t = useTranslations();
     const locale = useLocale();
 
@@ -18,6 +19,8 @@ const OrderStatusInformation = ({ order, orderStatus }: Props) => {
         const invoiceUrl = `/checkout/invoice/${order.order_number}`;
         window.open(invoiceUrl, '_blank');
     };
+
+    const shipmentTracking = order.business_orders?.[0].shipment_tracking;
 
     return (
         <section className="px-4 py-6 sm:rounded-lg sm:px-6 space-y-2 px-4 sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0 bg-beer-foam">
@@ -89,8 +92,14 @@ const OrderStatusInformation = ({ order, orderStatus }: Props) => {
                     {formatDateString(order.issue_date.toString())}
                 </time>
             </p>
+
+            {shipmentTracking && (
+                <DistributorShipmentTrackingForm
+                    shipmentTracking={shipmentTracking}
+                />
+            )}
         </section>
     );
 };
 
-export default OrderStatusInformation;
+export default DistributorOrderStatusInformation;

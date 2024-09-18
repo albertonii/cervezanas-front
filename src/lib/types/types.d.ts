@@ -1885,6 +1885,23 @@ export interface IShipmentTrackingMessage {
     id: string;
     created_at: string;
     tracking_id: string;
-    message: string;
+    content: string;
     shipment_tracking?: IShipmentTracking;
+}
+
+export interface ShipmentTrackingFormData {
+    id?: string;
+    shipment_company: string;
+    shipment_url: string;
+    shipment_tracking_id: string;
+    status: string;
+    upd_estimated_date: string;
+    is_updated_by_distributor: boolean;
+    messages: ShipmentTrackingMessageFormData[];
+}
+
+export interface ShipmentTrackingMessageFormData {
+    created_at: string;
+    content: string;
+    tracking_id: string;
 }

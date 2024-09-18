@@ -6,6 +6,7 @@ import OrderItemReview from '../../(roles)/consumer/profile/online_orders/checko
 import React from 'react';
 import { IBusinessOrder, IOrderItem } from '@/lib/types/types';
 import { StatusTimeline } from '@/app/[locale]/components/StatusTimeline';
+import ConsumerShipmentTrackingInformation from './ConsumerShipmentTrackingInformation';
 
 interface Props {
     bOrder: IBusinessOrder;
@@ -23,9 +24,12 @@ export default function BusinessOrderItem({ bOrder }: Props) {
 
             <section className="grid grid-cols-1 gap-x-2 space-y-4 lg:grid-cols-2 md:gap-x-4 w-full">
                 {/* Display the product information for this pack  */}
-                {bOrder.order_items && (
-                    <div className="col-span-2">
+                {bOrder && (
+                    <div className="col-span-2 grid grid-cols-2">
                         <ProductBusinnesInformation bOrder={bOrder} />
+                        <ConsumerShipmentTrackingInformation
+                            shipmentTracking={bOrder.shipment_tracking!}
+                        />
                     </div>
                 )}
 
