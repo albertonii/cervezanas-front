@@ -263,9 +263,9 @@ export function AddBoxPackModal() {
                     btnTitle={'add_box_pack'}
                 >
                     <>
-                        <p className="text-slate-500 my-4 sm:text-md leading-relaxed">
-                            {t('modal_product_description')}
-                        </p>
+                    <p className="text-slate-500 my-4 text-sm leading-normal max-w-full text-justify bg-cerv-brown bg-opacity-10 p-4 rounded-2xl">
+                                {t('modal_product_description')}
+                            </p>
 
                         {activeStep === 0 ? (
                             <BoxPackInfoSection form={form} />

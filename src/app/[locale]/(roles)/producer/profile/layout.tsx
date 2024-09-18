@@ -196,13 +196,15 @@ export default function layout({ children }: LayoutProps) {
                             </section>
 
                             {/* Username and experience level */}
-                            <section className="absolute bottom-4 right-10 flex flex-col items-center justify-center gap-4 rounded-xl bg-beer-draft bg-opacity-90 shadow-lg sm:-bottom-4 sm:left-[50%] sm:right-[50%] sm:w-[10rem] sm:-translate-x-[5rem] sm:p-4">
-                                <p className="text-md font-semibold text-white">
-                                    {user?.username}
-                                </p>
-                                <p className="text-lg font-semibold text-white">
-                                    {user?.gamification?.score} XP
-                                </p>
+                            <section className="absolute -bottom-6 right-10 rounded-t-full bg-beer-draft bg-opacity-90 sm:left-[50%] sm:right-[50%] sm:w-[10rem] sm:-translate-x-[5rem] p-2 max-h-[100px]">
+                                <div className="border-beer-blonde border-t-2 border-dashed rounded-t-full justify-center flex flex-col items-center gap-1 p-3 bg-cerv-titlehigh bg-opacity-30">
+                                    <p className="text-lg font-semibold text-white">
+                                        {user?.gamification?.score} XP
+                                    </p>
+                                    <p className="text-md font-semibold text-white px-5 py-2 bg-beer-dark rounded-lg border-beer-blonde border-b-2">
+                                        {user?.username}
+                                    </p>
+                                </div>
                             </section>
                         </section>
 

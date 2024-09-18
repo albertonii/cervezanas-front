@@ -16,7 +16,7 @@ export default function CollaborationDetails({ form }: Props) {
     } = form;
 
     return (
-        <section className="border-1 rounded-medium space-y-8 border p-2">
+        <section className="border-1 rounded-medium space-y-8 border p-4 bg-cerv-brown bg-opacity-10">
             <div className="flex flex-col space-y-2">
                 {/* Checkbox input to agree with the distribution contract terms and services */}
                 <label htmlFor="terms" className="flex items-center gap-2">

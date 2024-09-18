@@ -137,7 +137,7 @@ export default function ModalWithForm({
                                 ? 'overflow-hidden overscroll-none'
                                 : 'overflow-y-auto overflow-x-hidden'
                         } fixed inset-0 z-50 flex items-start justify-center  pt-16 outline-none focus:outline-none
-                            bg-beer-blonde bg-opacity-50
+                            bg-beer-dark bg-opacity-70
 
                             `}
                     >
@@ -151,8 +151,8 @@ export default function ModalWithForm({
                                 className={`relative flex w-full flex-col rounded-lg border-0 bg-beer-foam shadow-lg outline-none focus:outline-none`}
                             >
                                 {/*header*/}
-                                <div className="border-slate-200 flex items-start justify-between rounded-t border-b border-solid p-5">
-                                    <h3 className="text-3xl font-semibold">
+                                <div className="border-slate-200 flex items-start justify-between rounded-t p-5 pb-2 bg-beer-blonde border-b-beer-dark border-b-4">
+                                    <h3 className="text-6xl font-semibold font-['NexaRust-script'] text-white">
                                         {t(title)}
                                     </h3>
 

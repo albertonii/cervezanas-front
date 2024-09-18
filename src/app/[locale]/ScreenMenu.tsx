@@ -92,18 +92,18 @@ const ScreenMenu = memo(function ScreenMenu({
                 {/* Left elements  */}
 
                 {/* Logo Cervezanas  */}
-                <section className="w-[300px] sm:w-[100px]" id="navbar-default">
+                <section className="w-[300px] sm:w-[350px]" id="navbar-default">
                     <div className="relative flex w-full flex-shrink-0 justify-center">
-                        <div className="relative flex h-[55px] w-[55px] justify-center pt-1">
+                        <div className="relative flex justify-center pt-1">
                             <Link href={'/'} locale={locale}>
                                 <Image
-                                    src="/logo_cervezanas.svg"
+                                    src="/logo-cervezanas-horizontal.webp"
                                     alt="Cervezanas Logo"
-                                    width={100}
-                                    height={100}
+                                    width={810}
+                                    height={137}
                                     style={{ objectFit: 'contain' }}
                                     priority={true}
-                                    sizes="100px"
+                                    sizes="380px"
                                 />
                             </Link>
                         </div>

@@ -38,7 +38,7 @@ export default function HorizontalSections({ handleMenuClick, tabs }: Props) {
                         ${
                             activeTab === tab
                                 ? 'bg-beer-draft text-white'
-                                : 'bg-white text-gray-500 hover:bg-gray-100'
+                                : 'bg-gradient-to-br from-white to-gray-200 text-gray-500 hover:bg-gray-100'
                         }
                         ${index === 0 ? 'rounded-l-lg' : ''}
                         ${index === tabs.length - 1 ? 'rounded-r-lg' : ''}
