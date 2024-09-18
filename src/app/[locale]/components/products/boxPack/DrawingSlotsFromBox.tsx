@@ -17,8 +17,10 @@ const DrawingSlotsFromBox: React.FC<BoxProductSlotsSelectionProps> = ({
         slots.push(
             <div
                 key={i}
-                className={`h-16 w-16 border ${
-                    i < actualSlotsPerBox ? 'bg-beer-blonde' : 'bg-gray-300'
+                className={`h-[80px] w-[80px] bg-contain bg-top bg-no-repeat ${
+                    i < actualSlotsPerBox
+                        ? "bg-[url('/assets/hueco-caja-chapa.webp')]"
+                        : "bg-[url('/assets/hueco-caja.webp')]"
                 }`}
             >
                 {i < actualSlotsPerBox && (
@@ -38,8 +40,8 @@ const DrawingSlotsFromBox: React.FC<BoxProductSlotsSelectionProps> = ({
     }
 
     return (
-        <div className="col-span-2 border-4 border-gray-500 p-4 bg-white shadow-md">
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-10">
+        <div className="col-span-2 px-16 py-8  bg-white bg-[url('/assets/caja.webp')] bg-center bg-no-repeat"  style={{ backgroundSize: '100% 100%' }}>
+            <div className="grid grid-cols-2 gap-0 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-8">
                 {slots}
             </div>
         </div>
