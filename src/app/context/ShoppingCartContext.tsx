@@ -215,7 +215,7 @@ export function ShoppingCartProvider({ children }: Props) {
                 distributorContractsByProducerId,
             );
 
-            // Update distributor_id in itemsk
+            // Update distributor_id in items
             const newItemsWithDistributorID = itemsProducer.map(
                 (item: IProductPackCartItem) => {
                     return {

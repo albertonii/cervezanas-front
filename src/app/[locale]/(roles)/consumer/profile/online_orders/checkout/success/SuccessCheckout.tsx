@@ -1,13 +1,13 @@
 'use client';
 
 import Spinner from '@/app/[locale]/components/common/Spinner';
+import DistributorCard from '@/app/[locale]/components/common/DistributorCard';
 import BillingInformationBox from '@/app/[locale]/components/BillingInformationBox';
 import PaymentInformationBox from '@/app/[locale]/components/PaymentInformationBox';
 import ShippingInformationBox from '@/app/[locale]/components/ShippingInformationBox';
 import BusinessOrderItem from '../../../../../../components/common/BusinessOrderItem';
-import BusinessOrderStatusInformation from '@/app/[locale]/components/common/BussinessOrderStatusInformation';
 import React, { useState, useEffect } from 'react';
-import { IOrder } from '@/lib/types/types';
+import { IBusinessOrder, IOrder } from '@/lib/types/types';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../../../../(auth)/Context/useAuth';
 
@@ -17,9 +17,10 @@ interface Props {
 }
 
 export default function SuccessCheckout({ order, isError }: Props) {
-    const { business_orders: bOrders } = order;
-
     const t = useTranslations();
+    const [orderByDistributorBOrders, setOrderByDistributorBOrders] = useState(
+        [],
+    );
 
     const [loading, setLoading] = useState(true);
     const { user } = useAuth();
@@ -33,6 +34,29 @@ export default function SuccessCheckout({ order, isError }: Props) {
             setLoading(true);
         };
     }, [user]);
+
+    useEffect(() => {
+        if (order) {
+            const { business_orders: bOrders } = order;
+
+            if (!bOrders) return;
+
+            const orderByDistributorBOrders = bOrders.reduce(
+                (acc: any, bOrder: any) => {
+                    if (!acc[bOrder.distributor_id]) {
+                        acc[bOrder.distributor_id] = [];
+                    }
+
+                    acc[bOrder.distributor_id].push(bOrder);
+
+                    return acc;
+                },
+                {},
+            );
+
+            setOrderByDistributorBOrders(orderByDistributorBOrders);
+        }
+    }, [order]);
 
     if (isError) {
         return (
@@ -50,17 +74,48 @@ export default function SuccessCheckout({ order, isError }: Props) {
 
     return (
         <section className="m-4 sm:py-4 lg:py-6">
-            <BusinessOrderStatusInformation bOrders={bOrders!} order={order} />
+            {/* <BusinessOrderStatusInformation
+                bOrders={orderByDistributorBOrders}
+                order={order}
+            /> */}
 
-            {/* Product and packs information */}
-            {bOrders &&
-                bOrders.map((bOrder) => {
+            {orderByDistributorBOrders &&
+                Object.values(orderByDistributorBOrders).map(
+                    (bOrders: IBusinessOrder[], index) => {
+                        return (
+                            <article
+                                key={index}
+                                className="relative border-separate space-y-8 rounded-lg border bg-beer-foam p-2 py-4 my-4"
+                            >
+                                {bOrders.map((bOrder) => (
+                                    <BusinessOrderItem
+                                        key={bOrder.id}
+                                        bOrder={bOrder}
+                                    />
+                                ))}
+
+                                {/* Distributor information data  */}
+                                {bOrders[0].distributor_user && (
+                                    <DistributorCard bOrder={bOrders[0]} />
+                                )}
+                            </article>
+                        );
+                    },
+                )}
+            {/* 
+            {orderByDistributorBOrders &&
+                orderByDistributorBOrders.map((orderByDistributorBOrders) => {
                     return (
-                        <article key={bOrder.id} className="py-4">
-                            <BusinessOrderItem bOrder={bOrder} />
+                        <article
+                            key={orderByDistributorBOrders.id}
+                            className="py-4"
+                        >
+                            <BusinessOrderItem
+                                bOrder={orderByDistributorBOrders}
+                            />
                         </article>
                     );
-                })}
+                })} */}
 
             <section className="bg-gray-100 px-4 py-6 sm:rounded-lg sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8 lg:py-8">
                 <div className="col-span-6 space-y-8">

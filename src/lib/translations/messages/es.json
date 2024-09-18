@@ -1297,5 +1297,15 @@
     "website": "Página web",
     "modal_delete_brewery_description": "¿Estás seguro de que deseas eliminar la cervecería? Esta acción no se puede deshacer.",
     "modal_delete_brewery_title": "Eliminar cervecería",
-    "breweries": "Fábricas"
+    "breweries": "Fábricas",
+    "tracking": {
+        "estimated_delivery_date": "Fecha estimada de entrega",
+        "distributor_not_updated_tracking_information": "El distribuidor no ha actualizado la información de seguimiento",
+        "distributor_will_send_notification": "El distribuidor te enviará una notificación cuando actualice la información de seguimiento",
+        "hide_tracking_information": "Ocultar información de seguimiento",
+        "show_tracking_information": "Mostrar información de seguimiento",
+        "company": "Empresa",
+        "url": "URL",
+        "identification_number": "Número de identificación"
+    }
 }

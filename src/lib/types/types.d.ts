@@ -1494,10 +1494,12 @@ export interface IBusinessOrder {
     orders?: IOrder;
     order_items?: IOrderItem[];
     producer_id: string;
+    tracking_id: string;
     distributor_id: string;
     status: string;
     producer_user?: IProducerUser;
     distributor_user?: IDistributorUser;
+    shipment_tracking?: IShipmentTracking;
 }
 
 export interface IBusinessOrderRef {
@@ -1862,4 +1864,27 @@ export interface IBrewery {
     special_processing_methods: string[];
     guided_tours: string;
     producer_user?: IProducerUser;
+}
+
+export interface IShipmentTracking {
+    id: string;
+    created_at: string;
+    status: string;
+    order_id: string;
+    shipment_company: string;
+    shipment_url: string;
+    shipment_tracking_id: string;
+    estimated_date: string;
+    upd_estimated_date: string;
+    is_updated_by_distributor: boolean;
+    orders?: IOrder;
+    shipment_tracking_messages?: IShipmentTrackingMessage[];
+}
+
+export interface IShipmentTrackingMessage {
+    id: string;
+    created_at: string;
+    tracking_id: string;
+    message: string;
+    shipment_tracking?: IShipmentTracking;
 }

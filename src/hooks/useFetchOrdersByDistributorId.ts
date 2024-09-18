@@ -14,16 +14,16 @@ const fetchOrdersByDistributorId = async (
         .from('business_orders')
         .select(
             `
-            *, 
-            orders (
-              *
-            ),
-            order_items (
+                *, 
+                orders (
                 *
-            ),
-            producer_user (*),
-            distributor_user (*)
-        `,
+                ),
+                order_items (
+                    *
+                ),
+                producer_user (*),
+                distributor_user (*)
+            `,
         )
         .eq('distributor_id', [distributorId])
         .range(

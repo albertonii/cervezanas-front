@@ -3,12 +3,8 @@ import { ROUTE_SIGNIN } from './config';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { match as matchLocale } from '@formatjs/intl-localematcher';
-import {
-    isInTheRightRolePath,
-    isPrivateSectionIncluded,
-} from './utils/middleware/functions';
+import { isPrivateSectionIncluded } from './utils/middleware/functions';
 import { createSupabaseReqResClient } from './utils/supabaseReqResClient';
-import createServerClient from './utils/supabaseServer';
 
 const locales = ['en', 'es'];
 

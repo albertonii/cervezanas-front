@@ -1263,5 +1263,15 @@
     "website": "Website",
     "modal_delete_brewery_description": "Are you sure you want to delete the brewery? This action cannot be undone.",
     "modal_delete_brewery_title": "Delete Brewery",
-    "breweries": "Breweries"
+    "breweries": "Breweries",
+    "tracking": {
+        "estimated_delivery_date": "Estimated delivery date",
+        "distributor_not_updated_tracking_information": "The distributor has not updated the tracking information",
+        "distributor_will_send_notification": "The distributor will send you a notification when the tracking information is updated",
+        "hide_tracking_information": "Hide tracking information",
+        "show_tracking_information": "Show tracking information",
+        "company": "Company",
+        "url": "URL",
+        "identification_number": "Identification number"
+    }
 }

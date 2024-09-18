@@ -14,10 +14,10 @@ const fetchBusinessOrders = async (
         .from('business_orders')
         .select(
             `
-        *,
-        orders (*),
-        order_items (*)
-      `,
+                *,
+                orders (*),
+                order_items (*)
+            `,
         )
         .eq('producer_id', ownerId)
         .range(

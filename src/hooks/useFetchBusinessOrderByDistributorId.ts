@@ -14,9 +14,9 @@ const fetchBusinessOrdersByDistributorId = async (
         .from('business_orders')
         .select(
             `
-        *,
-        orders (*)
-      `,
+                *,
+                orders (*)
+            `,
         )
         .eq('distributor_id', distributorId)
         .range(

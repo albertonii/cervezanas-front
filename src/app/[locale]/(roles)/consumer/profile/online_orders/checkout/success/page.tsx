@@ -1,9 +1,9 @@
-import SuccessCheckout from './SuccessCheckout';
-import { redirect } from 'next/navigation';
-import { decodeBase64 } from '@/utils/utils';
-import createServerClient from '@/utils/supabaseServer';
-import { IOrder } from '@/lib/types/types';
 import readUserSession from '@/lib/actions';
+import SuccessCheckout from './SuccessCheckout';
+import createServerClient from '@/utils/supabaseServer';
+import { redirect } from 'next/navigation';
+import { IOrder } from '@/lib/types/types';
+import { decodeBase64 } from '@/utils/utils';
 
 export async function generateMetadata({ searchParams }: any) {
     try {
@@ -97,6 +97,18 @@ async function getSuccessData(searchParams: any) {
                             product_multimedia (*)
                             )
                         )
+                    ),
+                    shipment_tracking (
+                        id,
+                        created_at,
+                        status,
+                        order_id,
+                        shipment_company,
+                        shipment_url,
+                        estimated_date,
+                        upd_estimated_date,
+                        shipment_tracking_id,
+                        is_updated_by_distributor
                     )
                 ),
                 shipping_name,

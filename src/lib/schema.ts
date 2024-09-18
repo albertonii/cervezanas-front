@@ -635,6 +635,7 @@ export type Database = {
           order_id: string | null
           producer_id: string | null
           status: string | null
+          tracking_id: string | null
         }
         Insert: {
           created_at?: string | null
@@ -643,6 +644,7 @@ export type Database = {
           order_id?: string | null
           producer_id?: string | null
           status?: string | null
+          tracking_id?: string | null
         }
         Update: {
           created_at?: string | null
@@ -651,6 +653,7 @@ export type Database = {
           order_id?: string | null
           producer_id?: string | null
           status?: string | null
+          tracking_id?: string | null
         }
         Relationships: [
           {
@@ -673,6 +676,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "producer_user"
             referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "business_orders_tracking_id_fkey"
+            columns: ["tracking_id"]
+            isOneToOne: false
+            referencedRelation: "shipment_tracking"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -2832,6 +2842,82 @@ export type Database = {
             columns: ["product_id"]
             isOneToOne: false
             referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      shipment_tracking: {
+        Row: {
+          created_at: string
+          estimated_date: string | null
+          id: string
+          is_updated_by_distributor: boolean | null
+          order_id: string | null
+          shipment_company: string | null
+          shipment_tracking_id: string | null
+          shipment_url: string | null
+          status: string | null
+          upd_estimated_date: string | null
+        }
+        Insert: {
+          created_at?: string
+          estimated_date?: string | null
+          id?: string
+          is_updated_by_distributor?: boolean | null
+          order_id?: string | null
+          shipment_company?: string | null
+          shipment_tracking_id?: string | null
+          shipment_url?: string | null
+          status?: string | null
+          upd_estimated_date?: string | null
+        }
+        Update: {
+          created_at?: string
+          estimated_date?: string | null
+          id?: string
+          is_updated_by_distributor?: boolean | null
+          order_id?: string | null
+          shipment_company?: string | null
+          shipment_tracking_id?: string | null
+          shipment_url?: string | null
+          status?: string | null
+          upd_estimated_date?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shipment_tracking_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      shipmnent_tracking_messages: {
+        Row: {
+          created_at: string
+          id: string
+          message: string | null
+          tracking_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message?: string | null
+          tracking_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string | null
+          tracking_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shipmnent_tracking_messages_tracking_id_fkey"
+            columns: ["tracking_id"]
+            isOneToOne: false
+            referencedRelation: "shipment_tracking"
             referencedColumns: ["id"]
           },
         ]
