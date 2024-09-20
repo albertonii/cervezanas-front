@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { IBusinessOrder } from '@/lib//types/types';
 import { BusinessOrderList } from './BusinessOrderList';
-import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 
 interface Props {
     bOrders: IBusinessOrder[];

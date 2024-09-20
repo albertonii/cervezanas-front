@@ -1,6 +1,6 @@
 'use client';
 
-import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 import { useState } from 'react';
 import { ProductList } from './ProductList';
 import { useTranslations } from 'next-intl';

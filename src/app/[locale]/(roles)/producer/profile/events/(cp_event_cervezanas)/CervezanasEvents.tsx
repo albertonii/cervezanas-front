@@ -3,7 +3,7 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import CervezanasEventList from './CervezanasEventList';
-import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 
 interface Props {
     counter: number;

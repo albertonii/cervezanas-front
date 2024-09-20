@@ -7,7 +7,7 @@ import { IRefProductLot } from '@/lib//types/types';
 import { DeleteLot } from '@/app/[locale]/components/modals/DeleteLot';
 import { AddLot } from '@/app/[locale]/components/modals/AddLot';
 import { UpdateLot } from '@/app/[locale]/components/modals/UpdateLot';
-import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 
 export function Lots() {
     const t = useTranslations();

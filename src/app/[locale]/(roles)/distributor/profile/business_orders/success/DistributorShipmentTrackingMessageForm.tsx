@@ -1,5 +1,4 @@
 import Button from '@/app/[locale]/components/common/Button';
-import TitleH3 from '@/app/[locale]/components/basic/TitleH3';
 import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
 import React, { useState } from 'react';
 import {
@@ -17,6 +16,8 @@ import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { handleUpdateShipmentTrackingMessages } from '../../../actions';
+import Title from '@/app/[locale]/components/ui/Title';
+import Description from '@/app/[locale]/components/ui/Description';
 
 const schemaMessages: ZodType<ShipmentTrackingMessagesFormData> = z.object({
     messages: z.array(
@@ -171,10 +172,15 @@ const DistributorShipmentTrackingMessageForm = ({
                     </ul>
                 </div>
             )}
-            <TitleH3
-                name="tracking.messages"
-                description="tracking.tracking_description_messages"
-            />
+
+            <Title size="medium" color="beer-draft">
+                {t('tracking.messages')}
+            </Title>
+
+            <Description size="medium" color="gray">
+                {t('tracking.tracking_description_messages')}
+            </Description>
+
             <form onSubmit={handleSubmit(onSubmit)}>
                 {fields.map((field, index) => (
                     <div key={field.id} className="mb-4">

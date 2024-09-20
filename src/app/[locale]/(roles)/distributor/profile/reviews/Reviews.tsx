@@ -9,7 +9,7 @@ import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
 import { Rate } from '@/app/[locale]/components/reviews/Rate';
 import { formatDateString } from '@/utils/formatDate';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 
 // TODO: Hacer vista de las reviews recibidas por los consumidores o productores
 

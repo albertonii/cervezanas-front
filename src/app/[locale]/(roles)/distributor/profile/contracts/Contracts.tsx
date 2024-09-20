@@ -3,7 +3,7 @@
 import React from 'react';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import AssociatedProducersList from './AssociatedProducersList';
-import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 
 interface Props {
     counter: number;

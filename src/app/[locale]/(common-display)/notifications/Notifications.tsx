@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import ProfileSectionHeader from '../../components/basic/ProfileSectionHeader';
+import ProfileSectionHeader from '../../components/ui/ProfileSectionHeader';
 import { useTranslations } from 'next-intl';
 import { INotification } from '@/lib//types/types';
 import { NotificationList } from './NotificationList';

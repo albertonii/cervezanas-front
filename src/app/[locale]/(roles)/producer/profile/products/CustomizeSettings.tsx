@@ -6,7 +6,7 @@ import { ChipCard } from '@/app/[locale]/components/common/ChipCard';
 import { toLowerCase } from '@/utils/formatWords';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useAppContext } from '@/app/context/AppContext';
-import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 
 export function CustomizeSettings() {
     const t = useTranslations();

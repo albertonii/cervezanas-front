@@ -12,7 +12,7 @@ import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
 import DisplayImageProfile from '@/app/[locale]/components/common/DisplayImageProfile';
 import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
 import { SupabaseProps } from '@/constants';
-import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 
 interface Props {
     reviews: IReview[];

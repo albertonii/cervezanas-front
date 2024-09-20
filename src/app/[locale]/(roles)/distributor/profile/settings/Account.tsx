@@ -1,7 +1,7 @@
 'use client';
 
 import UserRoles from '../../../../components/common/UserRoles';
-import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 import { RRSSForm } from './RRSSForm';
 import { useTranslations } from 'next-intl';
 import { BasicDataForm } from './BasicDataForm';

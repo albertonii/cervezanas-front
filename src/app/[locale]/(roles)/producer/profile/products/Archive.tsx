@@ -6,7 +6,7 @@ import { IProduct } from '@/lib//types/types';
 import { ProductsArchiveList } from './ProductsArchiveList';
 import { DeleteProductModal } from '@/app/[locale]/components/modals/DeleteProductModal';
 import { UpdateProductModal } from './UpdateProductModal';
-import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 
 /**
  *

@@ -6,7 +6,7 @@ import { ICampaign, IProduct } from '@/lib//types/types';
 import { DeleteCampaign } from '@/app/[locale]/components/modals/DeleteCampaign';
 import { AddCampaign } from './AddCampaign';
 import { CampaignList } from './CampaignList';
-import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 
 interface Props {
     campaigns: ICampaign[];

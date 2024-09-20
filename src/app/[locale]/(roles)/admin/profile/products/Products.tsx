@@ -7,7 +7,7 @@ import { IProduct } from '@/lib//types/types';
 import { DeleteProductModal } from '@/app/[locale]/components/modals/DeleteProductModal';
 import { UpdateProductAdmin } from './UpdateProductAdmin';
 import { AddProductModal } from './AddProductModal';
-import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 
 export function Products() {
     const t = useTranslations();

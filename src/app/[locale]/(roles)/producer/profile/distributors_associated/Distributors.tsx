@@ -2,7 +2,7 @@
 
 import LinkDistributor from './LinkDistributor';
 import AssociatedDistributorsList from './AssociatedDistributorsList';
-import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 import React from 'react';
 
 interface Props {

@@ -7,7 +7,7 @@ import { CPAccepted } from './CPAccepted';
 import { CPRejected } from './CPRejected';
 import { IConsumptionPoints, IProfile } from '@/lib//types/types';
 import { SubmitCPOrganizer } from '@/app/[locale]/components/modals/SubmitCPOrganizer';
-import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 
 interface Props {
     cps: IConsumptionPoints[];

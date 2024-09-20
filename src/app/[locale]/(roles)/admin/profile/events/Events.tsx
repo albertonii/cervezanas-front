@@ -5,7 +5,7 @@ import AddEvent from './AddEvent';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { ICPFixed, ICPMobile } from '@/lib//types/types';
-import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 
 interface Props {
     cpsMobile: ICPMobile[];

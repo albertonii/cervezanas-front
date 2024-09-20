@@ -2,7 +2,7 @@
 
 import BreweryList from './BreweryList';
 import useBreweryStore from '@/app/store/breweryStore';
-import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { AddBreweryModal } from './AddBreweryModal';

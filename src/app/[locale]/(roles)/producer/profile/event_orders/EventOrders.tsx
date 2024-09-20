@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { IEventOrder } from '@/lib//types/types';
 import { EventOrderList } from './EventOrderList';
-import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 
 interface Props {
     eventOrders: IEventOrder[];

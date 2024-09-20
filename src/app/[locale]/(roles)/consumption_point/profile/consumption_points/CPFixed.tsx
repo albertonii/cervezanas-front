@@ -4,7 +4,7 @@ import React from 'react';
 import AddCPFixedModal from './AddCPFixedModal';
 import { useTranslations } from 'next-intl';
 import { ListCPFixed } from './ListCPFixed';
-import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 
 interface Props {
     cpsId: string;

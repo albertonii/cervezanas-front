@@ -5,7 +5,7 @@ import { IConsumptionPointUser } from '@/lib//types/types';
 import { BasicDataForm } from './BasicDataForm';
 import { ConsumptionPointBasicDataForm } from './ConsumptionPointBasicDataForm';
 import { SecretDataForm } from './SecretDataForm';
-import ProfileSectionHeader from '@/app/[locale]/components/basic/ProfileSectionHeader';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 
 interface Props {
     profile: IConsumptionPointUser;
