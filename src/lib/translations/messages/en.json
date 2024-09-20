@@ -725,7 +725,8 @@
         "creating_box_pack": "Error creating box pack.",
         "is_accept_terms": "You must accept the terms and conditions.",
         "fetching_breweries": "Error fetching breweries.",
-        "invalid_characters": "Invalid characters."
+        "invalid_characters": "Invalid characters.",
+        "update_shipment_tracking": "Error updating shipment tracking."
     },
     "product_packs": "Product packs",
     "units": "Units",
@@ -1023,7 +1024,8 @@
         "sign_up_producer": "Producer sign up successfully",
         "deleting_product": "Product deleted successfully",
         "deleting_product_pack": "Product pack deleted successfully",
-        "deleting_product_award": "Product award deleted successfully"
+        "deleting_product_award": "Product award deleted successfully",
+        "update_shipment_tracking": "Shipment tracking updated successfully"
     },
     "num_of_packs": "Number of packs",
     "promo_code": "Promo code",
@@ -1272,6 +1274,18 @@
         "show_tracking_information": "Show tracking information",
         "company": "Company",
         "url": "URL",
-        "identification_number": "Identification number"
+        "identification_number": "Identification number",
+        "shipment_tracking_id": "Shipment tracking ID",
+        "status": "Status",
+        "update_information": "Update information",
+        "messages": "Messages",
+        "message": "Message",
+        "remove": "Remove",
+        "add": "Add",
+        "add_message": "Add message",
+        "remove_message": "Remove message",
+        "update_messages": "Update messages",
+        "message_date": "Message date",
+        "tracking_description_messages": "Here you can see the tracking messages you have written, so the consumer will have updated information about their order. You can add, edit, and delete messages."
     }
 }

@@ -1,6 +1,6 @@
 import ProducerCard from '@/app/[locale]/components/common/ProducerCard';
 import OrderItemCard from '@/app/[locale]/components/common/OrderItemCard';
-import ProductBusinnesInformation from '@/app/[locale]/components/ProductBusinnesInformation';
+import DistributorProductBusinnesInformation from './DistributorProductBusinnesInformation';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { useQueryClient } from 'react-query';
@@ -9,7 +9,6 @@ import { IBusinessOrder, IOrderItem } from '@/lib/types/types';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import { StatusTimeline } from '@/app/[locale]/components/StatusTimeline';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import DistributorProductBusinnesInformation from './DistributorProductBusinnesInformation';
 
 interface Props {
     bOrder: IBusinessOrder;
@@ -100,11 +99,11 @@ export default function BusinessOrderItem({
                     {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.ERROR)}
                 </option>
             </select>
-
+            {/* 
             <StatusTimeline
                 status={bOrderStatus}
                 orderType={'distributor_online'}
-            />
+            /> */}
 
             <section className="grid grid-cols-1 gap-x-2 space-y-4 lg:grid-cols-2 md:gap-x-4 w-full">
                 {/* Display the product information for this pack  */}

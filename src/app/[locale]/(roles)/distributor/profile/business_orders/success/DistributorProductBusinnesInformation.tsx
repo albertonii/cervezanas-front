@@ -9,8 +9,6 @@ interface Props {
 }
 
 const DistributorProductBusinnesInformation = ({ bOrder }: Props) => {
-    const [showTrackingInfo, setShowTrackingInfo] = useState(false);
-
     if (
         !bOrder.order_items ||
         bOrder.order_items.length === 0 ||
@@ -22,11 +20,9 @@ const DistributorProductBusinnesInformation = ({ bOrder }: Props) => {
         status,
         created_at,
         estimated_date,
-        is_updated_by_distributor,
         shipment_company,
         shipment_tracking_id,
         shipment_url,
-        upd_estimated_date,
     } = bOrder.shipment_tracking;
 
     const t = useTranslations();
@@ -69,10 +65,8 @@ const DistributorProductBusinnesInformation = ({ bOrder }: Props) => {
                 <p>
                     <span className="font-semibold">
                         {t('tracking.estimated_delivery_date')}:{' '}
+                        formatDateDefaultInput(estimated_date)
                     </span>
-                    {upd_estimated_date
-                        ? formatDateDefaultInput(upd_estimated_date)
-                        : formatDateDefaultInput(estimated_date)}
                 </p>
             </div>
         </section>

@@ -6,6 +6,7 @@ import {
     ICoverageArea,
     IFlatrateAndWeightCostForm,
     ShipmentTrackingFormData,
+    ShipmentTrackingMessagesFormData,
 } from '@/lib//types/types';
 import createServerClient from '@/utils/supabaseServer';
 
@@ -505,20 +506,11 @@ export const handleUpdateShipmentTracking = async (
         shipmentTrackingFormData.shipment_tracking_id,
     );
     formData.append('shipment_url', shipmentTrackingFormData.shipment_url);
-    formData.append(
-        'updated_estimated_date',
-        shipmentTrackingFormData.upd_estimated_date,
-    );
+    formData.append('estimated_date', shipmentTrackingFormData.estimated_date);
     formData.append(
         'is_updated_by_distributor',
         shipmentTrackingFormData.is_updated_by_distributor.toString(),
     );
-    formData.append(
-        'messages',
-        JSON.stringify(shipmentTrackingFormData.messages),
-    );
-
-    console.log(formData);
 
     try {
         const response = await axios.put(url, formData, {
@@ -550,6 +542,59 @@ export const handleUpdateShipmentTracking = async (
         };
     } catch (error: any) {
         console.error('Error updating shipment tracking:', error);
+        return {
+            status: error.response?.status || 500,
+            message: error.response?.data.message || 'Internal Server Error',
+        };
+    }
+};
+
+export const handleUpdateShipmentTrackingMessages = async (
+    shipmentTrackingMessagesFormData: ShipmentTrackingMessagesFormData,
+    trackingId: string,
+) => {
+    const url = `${baseUrl}/api/shipment_tracking/distributor/messages`;
+
+    const formData = new FormData();
+
+    formData.append(
+        'messages',
+        JSON.stringify(shipmentTrackingMessagesFormData.messages),
+    );
+
+    formData.append('tracking_id', trackingId);
+
+    try {
+        const response = await axios.put(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'PUT',
+                'Access-Control-Allow-Credentials': 'true',
+                'Access-Control-Allow-Headers':
+                    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+            },
+        });
+
+        if (
+            response.status !== 200 &&
+            response.status !== 201 &&
+            response.status !== 202
+        ) {
+            return {
+                status: response.status,
+                message:
+                    response.data.message ||
+                    'Error updating shipment tracking messages',
+            };
+        }
+
+        return {
+            status: response.status,
+            message: 'Shipment tracking messages updated successfully',
+        };
+    } catch (error: any) {
+        console.error('Error updating shipment messages tracking:', error);
         return {
             status: error.response?.status || 500,
             message: error.response?.data.message || 'Internal Server Error',

@@ -5,6 +5,7 @@ import { IOrder } from '@/lib/types/types';
 import { ONLINE_ORDER_STATUS } from '@/constants';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
+import DistributorShipmentTrackingMessageForm from './DistributorShipmentTrackingMessageForm';
 
 interface Props {
     order: IOrder;
@@ -94,9 +95,15 @@ const DistributorOrderStatusInformation = ({ order, orderStatus }: Props) => {
             </p>
 
             {shipmentTracking && (
-                <DistributorShipmentTrackingForm
-                    shipmentTracking={shipmentTracking}
-                />
+                <div className="space-y-8">
+                    <DistributorShipmentTrackingForm
+                        shipmentTracking={shipmentTracking}
+                    />
+
+                    <DistributorShipmentTrackingMessageForm
+                        shipmentTracking={shipmentTracking}
+                    />
+                </div>
             )}
         </section>
     );

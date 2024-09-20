@@ -21,8 +21,10 @@ const ConsumerShipmentTrackingInformation = ({ shipmentTracking }: Props) => {
         shipment_company,
         shipment_tracking_id,
         shipment_url,
-        upd_estimated_date,
+        shipment_tracking_messages,
     } = shipmentTracking;
+
+    console.log(shipment_tracking_messages);
 
     useEffect(() => {
         if (shipmentTracking) {
@@ -50,10 +52,8 @@ const ConsumerShipmentTrackingInformation = ({ shipmentTracking }: Props) => {
             <p>
                 <span className="font-semibold">
                     {t('tracking.estimated_delivery_date')}:{' '}
+                    {formatDateDefaultInput(estimated_date)}
                 </span>
-                {upd_estimated_date
-                    ? formatDateDefaultInput(upd_estimated_date)
-                    : formatDateDefaultInput(estimated_date)}
             </p>
 
             {/* Mostrar botón para expandir información de tracking si el distribuidor la ha actualizado */}
@@ -70,7 +70,7 @@ const ConsumerShipmentTrackingInformation = ({ shipmentTracking }: Props) => {
 
                     {/* Información de tracking */}
                     {showTrackingInfo && (
-                        <div className="mt-2 p-4 bg-gray-100 rounded-md space-y-2">
+                        <div className="mt-2 p-4 bg-gray-100 rounded-md space-y-4">
                             {shipment_company && (
                                 <p>
                                     <span className="font-semibold">
@@ -79,6 +79,7 @@ const ConsumerShipmentTrackingInformation = ({ shipmentTracking }: Props) => {
                                     {shipment_company}
                                 </p>
                             )}
+
                             {shipment_url && (
                                 <p>
                                     <span className="font-semibold">
@@ -94,6 +95,7 @@ const ConsumerShipmentTrackingInformation = ({ shipmentTracking }: Props) => {
                                     </a>
                                 </p>
                             )}
+
                             {shipment_tracking_id && (
                                 <p>
                                     <span className="font-semibold">
@@ -102,6 +104,37 @@ const ConsumerShipmentTrackingInformation = ({ shipmentTracking }: Props) => {
                                     {shipment_tracking_id}
                                 </p>
                             )}
+
+                            {shipment_tracking_messages &&
+                                shipment_tracking_messages.map(
+                                    (message, index) => (
+                                        <div
+                                            key={index}
+                                            className=" bg-white rounded-md shadow-sm space-y-2 relative p-4"
+                                        >
+                                            <legend className="text-sm font-semibold absolute -top-3 -left-2 text-xl">
+                                                #{index + 1}
+                                            </legend>
+
+                                            <p>
+                                                <span className="font-semibold">
+                                                    {t('tracking.message_date')}
+                                                    :{' '}
+                                                </span>
+                                                {formatDateDefaultInput(
+                                                    message.created_at,
+                                                )}
+                                            </p>
+
+                                            <p className="flex flex-col">
+                                                <span className="font-semibold">
+                                                    {t('tracking.message')}:{' '}
+                                                </span>
+                                                <span>{message.content}</span>
+                                            </p>
+                                        </div>
+                                    ),
+                                )}
                         </div>
                     )}
                 </div>

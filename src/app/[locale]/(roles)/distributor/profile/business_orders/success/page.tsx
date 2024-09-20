@@ -110,9 +110,9 @@ async function getSuccessData(searchParams: any) {
                         shipment_company,
                         shipment_url,
                         estimated_date,
-                        upd_estimated_date,
                         shipment_tracking_id,
-                        is_updated_by_distributor
+                        is_updated_by_distributor,
+                        shipment_tracking_messages (*)
                     )
                 ),
                 shipping_name,

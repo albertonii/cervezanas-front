@@ -1,14 +1,14 @@
+import InputLabel from '../../common/InputLabel';
+import IngredientInput from './IngredientInput';
+import SelectInput from '../../common/SelectInput';
+import InputTextarea from '../../common/InputTextarea';
+import React, { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { UseFormReturn } from 'react-hook-form';
 import { recommended_glass_options } from '@/lib/beerEnum';
 import { ModalUpdateProductFormData } from '@/lib/types/types';
-import { faRulerCombined } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useTranslations } from 'next-intl';
-import React, { useEffect, useState } from 'react';
-import { UseFormReturn } from 'react-hook-form';
-import InputLabel from '../../common/InputLabel';
-import InputTextarea from '../../common/InputTextarea';
-import SelectInput from '../../common/SelectInput';
-import IngredientInput from './IngredientInput';
+import { faRulerCombined } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
     form: UseFormReturn<ModalUpdateProductFormData, any>;

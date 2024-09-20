@@ -1875,10 +1875,9 @@ export interface IShipmentTracking {
     shipment_url: string;
     shipment_tracking_id: string;
     estimated_date: string;
-    upd_estimated_date: string;
     is_updated_by_distributor: boolean;
     orders?: IOrder;
-    shipment_tracking_messages?: IShipmentTrackingMessage[];
+    shipment_tracking_messages: IShipmentTrackingMessage[];
 }
 
 export interface IShipmentTrackingMessage {
@@ -1886,7 +1885,7 @@ export interface IShipmentTrackingMessage {
     created_at: string;
     tracking_id: string;
     content: string;
-    shipment_tracking?: IShipmentTracking;
+    // shipment_tracking?: IShipmentTracking;
 }
 
 export interface ShipmentTrackingFormData {
@@ -1894,9 +1893,12 @@ export interface ShipmentTrackingFormData {
     shipment_company: string;
     shipment_url: string;
     shipment_tracking_id: string;
+    estimated_date: string;
     status: string;
-    upd_estimated_date: string;
     is_updated_by_distributor: boolean;
+}
+
+export interface ShipmentTrackingMessagesFormData {
     messages: ShipmentTrackingMessageFormData[];
 }
 

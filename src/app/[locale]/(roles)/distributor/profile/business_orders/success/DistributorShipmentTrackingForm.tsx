@@ -1,33 +1,27 @@
-import React from 'react';
+import Button from '@/app/[locale]/components/common/Button';
+import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import React, { useState } from 'react';
 import { FieldError, SubmitHandler, useForm } from 'react-hook-form';
 import { IShipmentTracking, ShipmentTrackingFormData } from '@/lib/types/types';
 import { z, ZodType } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from 'react-query';
-import DistributorShipmentTrackingMessageForm from './DistributorShipmentTrackingMessageForm';
+import { useTranslations } from 'next-intl';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { handleUpdateShipmentTracking } from '../../../actions';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { useTranslations } from 'next-intl';
+import { DISTRIBUTOR_ONLINE_ORDER_STATUS } from '@/constants';
 
-const schema: ZodType<ShipmentTrackingFormData> = z.object({
+const schemaTrackingInfo: ZodType<ShipmentTrackingFormData> = z.object({
     id: z.string(),
     status: z.string(),
-    // estimated_date: z.string(),
     is_updated_by_distributor: z.boolean(),
     shipment_company: z.string(),
     shipment_tracking_id: z.string(),
     shipment_url: z.string(),
-    upd_estimated_date: z.string(),
-    messages: z.array(
-        z.object({
-            content: z.string(),
-            created_at: z.string(),
-            tracking_id: z.string(),
-        }),
-    ),
+    estimated_date: z.string(),
 });
 
-type ValidationSchema = z.infer<typeof schema>;
+type TrackingInfoValidationSchema = z.infer<typeof schemaTrackingInfo>;
 
 interface Props {
     shipmentTracking: IShipmentTracking;
@@ -35,11 +29,15 @@ interface Props {
 
 const DistributorShipmentTrackingForm = ({ shipmentTracking }: Props) => {
     const t = useTranslations();
-    const { handleMessage } = useMessage();
 
-    const form = useForm<ValidationSchema>({
+    const [isLoading, setIsLoading] = useState(false);
+
+    const { handleMessage } = useMessage();
+    const [bOrderStatus, setBOrderStatus] = useState(shipmentTracking.status);
+
+    const formTrackingInfo = useForm<TrackingInfoValidationSchema>({
         mode: 'onSubmit',
-        resolver: zodResolver(schema),
+        resolver: zodResolver(schemaTrackingInfo),
         defaultValues: {
             id: shipmentTracking.id,
             status: shipmentTracking.status,
@@ -48,34 +46,41 @@ const DistributorShipmentTrackingForm = ({ shipmentTracking }: Props) => {
             shipment_company: shipmentTracking.shipment_company,
             shipment_tracking_id: shipmentTracking.shipment_tracking_id,
             shipment_url: shipmentTracking.shipment_url,
-            upd_estimated_date: shipmentTracking.upd_estimated_date,
+            estimated_date: shipmentTracking.estimated_date,
         },
     });
 
     const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        setValue,
-    } = form;
+        handleSubmit: handleTrackingInfo,
+        formState: { errors: errorsTrackingInfo },
+        setValue: setValueTrackingInfo,
+    } = formTrackingInfo;
 
-    const updateShipmentTracking = async (form: ValidationSchema) => {
-        setValue('id', shipmentTracking.id);
+    const updateShipmentTracking = async (
+        form: TrackingInfoValidationSchema,
+    ) => {
+        setIsLoading(true);
+
+        setValueTrackingInfo('id', shipmentTracking.id);
         await handleUpdateShipmentTracking(form)
             .then(() => {
                 handleMessage({
                     type: 'success',
-                    message: 'Shipment Tracking updated successfully',
+                    message: 'success.update_shipment_tracking',
                 });
             })
             .catch((error) => {
-                console.info('Error updating shipment tracking:', error);
+                console.info('errors.update_shipment_tracking', error);
                 handleMessage({
                     type: 'error',
-                    message: 'Error updating shipment tracking',
+                    message: 'errors.update_shipment_tracking',
                 });
                 throw error;
             });
+
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 1500);
     };
 
     const updateShipmentTrackingMutation = useMutation({
@@ -86,9 +91,9 @@ const DistributorShipmentTrackingForm = ({ shipmentTracking }: Props) => {
         },
     });
 
-    const onSubmit: SubmitHandler<ValidationSchema> = (
-        formValues: ShipmentTrackingFormData,
-    ) => {
+    const onSubmitTrackingInformation: SubmitHandler<
+        TrackingInfoValidationSchema
+    > = (formValues: ShipmentTrackingFormData) => {
         return new Promise<void>((resolve, reject) => {
             updateShipmentTrackingMutation.mutate(formValues, {
                 onSuccess: () => {
@@ -99,6 +104,11 @@ const DistributorShipmentTrackingForm = ({ shipmentTracking }: Props) => {
                 },
             });
         });
+    };
+
+    const handleBOrderStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const status = e.target.value;
+        setBOrderStatus(status);
     };
 
     const renderError = (field: string, error: FieldError | any) => {
@@ -151,9 +161,13 @@ const DistributorShipmentTrackingForm = ({ shipmentTracking }: Props) => {
     };
 
     return (
-        <div className="bg-white p-4 rounded-md shadow-md">
+        <div
+            className={`bg-white p-4 rounded-md shadow-lg ${
+                isLoading && 'opacity-40'
+            }`}
+        >
             {/* Errores detectados */}
-            {Object.keys(errors).length > 0 && (
+            {Object.keys(errorsTrackingInfo).length > 0 && (
                 <div className="flex flex-col gap-4 p-4 bg-red-50 rounded-lg border border-red-200">
                     <h4 className="text-xl font-semibold text-red-600">
                         {t('errors.form_errors_detected')}
@@ -162,107 +176,115 @@ const DistributorShipmentTrackingForm = ({ shipmentTracking }: Props) => {
                         {t('errors.correct_and_submit')}
                     </span>
                     <ul className="list-disc list-inside text-md text-red-600">
-                        {Object.keys(errors).map((key, index) => {
+                        {Object.keys(errorsTrackingInfo).map((key, index) => {
                             const field = key as keyof ShipmentTrackingFormData;
-                            return renderError(field, errors[field]);
+                            return renderError(
+                                field,
+                                errorsTrackingInfo[field],
+                            );
                         })}
                     </ul>
                 </div>
             )}
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">
-                        Status
-                    </label>
-                    <input
-                        type="text"
-                        {...register('status')}
-                        className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm"
+            <form onSubmit={handleTrackingInfo(onSubmitTrackingInformation)}>
+                <div className="mb-4 flex">
+                    {/* Input select que actualizará el estado para ese business_order  */}
+
+                    <InputLabel
+                        labelText="tracking.company"
+                        label="shipment_company"
+                        form={formTrackingInfo}
                     />
-                    {errors.status && (
-                        <p className="text-red-500 text-sm">
-                            {errors.status.message}
-                        </p>
-                    )}
+
+                    <div>
+                        <label
+                            htmlFor="status"
+                            className="block text-sm font-medium text-gray-700"
+                        >
+                            {t('tracking.status')}
+                        </label>
+
+                        <select
+                            id="status"
+                            name="status"
+                            autoComplete="status"
+                            className="m-2 block rounded-md border-gray-300 pl-3 pr-10 focus:border-beer-blonde focus:outline-none focus:ring-beer-blonde sm:text-sm md:text-base"
+                            onChange={(e) => handleBOrderStatus(e)}
+                            value={bOrderStatus}
+                        >
+                            <option
+                                value={DISTRIBUTOR_ONLINE_ORDER_STATUS.PENDING}
+                            >
+                                {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.PENDING)}
+                            </option>
+                            <option
+                                value={
+                                    DISTRIBUTOR_ONLINE_ORDER_STATUS.PROCESSING
+                                }
+                            >
+                                {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.PROCESSING)}
+                            </option>
+                            {/* <option value={DISTRIBUTOR_ONLINE_ORDER_STATUS.SHIPPED}>
+                            {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.SHIPPED)}
+                        </option>
+                        <option
+                            value={DISTRIBUTOR_ONLINE_ORDER_STATUS.DELIVERED}
+                        >
+                            {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.DELIVERED)}
+                        </option> */}
+                            <option
+                                value={
+                                    DISTRIBUTOR_ONLINE_ORDER_STATUS.CANCELLED
+                                }
+                            >
+                                {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.CANCELLED)}
+                            </option>
+                            <option
+                                value={DISTRIBUTOR_ONLINE_ORDER_STATUS.ERROR}
+                            >
+                                {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.ERROR)}
+                            </option>
+                        </select>
+                    </div>
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">
-                        Shipment Company
-                    </label>
-                    <input
-                        type="text"
-                        {...register('shipment_company')}
-                        className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm"
+                    <InputLabel
+                        labelText="tracking.shipment_tracking_id"
+                        label="shipment_tracking_id"
+                        form={formTrackingInfo}
                     />
-                    {errors.shipment_company && (
-                        <p className="text-red-500 text-sm">
-                            {errors.shipment_company.message}
-                        </p>
-                    )}
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">
-                        Shipment Tracking ID
-                    </label>
-                    <input
-                        type="text"
-                        {...register('shipment_tracking_id')}
-                        className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm"
+                    <InputLabel
+                        labelText="tracking.url"
+                        inputType="url"
+                        label="shipment_url"
+                        form={formTrackingInfo}
                     />
-                    {errors.shipment_tracking_id && (
-                        <p className="text-red-500 text-sm">
-                            {errors.shipment_tracking_id.message}
-                        </p>
-                    )}
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">
-                        Shipment URL
-                    </label>
-                    <input
-                        type="url"
-                        {...register('shipment_url')}
-                        className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm"
+                    <InputLabel
+                        inputType="date"
+                        form={formTrackingInfo}
+                        label={'estimated_date'}
+                        labelText={t('tracking.estimated_delivery_date')}
                     />
-                    {errors.shipment_url && (
-                        <p className="text-red-500 text-sm">
-                            {errors.shipment_url.message}
-                        </p>
-                    )}
                 </div>
 
-                <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700">
-                        Updated Estimated Date
-                    </label>
-                    <input
-                        type="date"
-                        {...register('upd_estimated_date')}
-                        className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm"
-                    />
-                    {errors.upd_estimated_date && (
-                        <p className="text-red-500 text-sm">
-                            {errors.upd_estimated_date.message}
-                        </p>
-                    )}
-                </div>
-
-                <DistributorShipmentTrackingMessageForm
-                    form={form}
-                    trackingId={shipmentTracking.id}
-                />
-
-                <div className="flex justify-end">
-                    <button
-                        type="submit"
-                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                <div className={`flex justify-end`}>
+                    <Button
+                        isLoading={isLoading}
+                        btnType="submit"
+                        title="tracking.update_information"
+                        medium
+                        primary
                     >
-                        Update Tracking Information
-                    </button>
+                        {t('tracking.update_information')}
+                    </Button>
                 </div>
             </form>
         </div>

@@ -2857,7 +2857,6 @@ export type Database = {
           shipment_tracking_id: string | null
           shipment_url: string | null
           status: string | null
-          upd_estimated_date: string | null
         }
         Insert: {
           created_at?: string
@@ -2869,7 +2868,6 @@ export type Database = {
           shipment_tracking_id?: string | null
           shipment_url?: string | null
           status?: string | null
-          upd_estimated_date?: string | null
         }
         Update: {
           created_at?: string
@@ -2881,7 +2879,6 @@ export type Database = {
           shipment_tracking_id?: string | null
           shipment_url?: string | null
           status?: string | null
-          upd_estimated_date?: string | null
         }
         Relationships: [
           {
@@ -2893,23 +2890,23 @@ export type Database = {
           },
         ]
       }
-      shipmnent_tracking_messages: {
+      shipment_tracking_messages: {
         Row: {
+          content: string | null
           created_at: string
           id: string
-          message: string | null
           tracking_id: string | null
         }
         Insert: {
+          content?: string | null
           created_at?: string
           id?: string
-          message?: string | null
           tracking_id?: string | null
         }
         Update: {
+          content?: string | null
           created_at?: string
           id?: string
-          message?: string | null
           tracking_id?: string | null
         }
         Relationships: [

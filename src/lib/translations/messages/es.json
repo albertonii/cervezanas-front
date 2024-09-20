@@ -718,7 +718,8 @@
         "creating_box_pack": "Error al crear el pack de caja.",
         "is_accept_terms": "Debes aceptar los términos y condiciones",
         "fetching_breweries": "Error al obtener las cervecerías",
-        "invalid_characters": "Caracteres inválidos"
+        "invalid_characters": "Caracteres inválidos",
+        "update_shipment_tracking": "Error al actualizar el seguimiento del envío."
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",
@@ -1042,7 +1043,8 @@
         "sign_up_producer": "Solicitud de alta como productor enviada correctamente",
         "deleting_product": "Producto eliminado correctamente",
         "deleting_product_pack": "Pack de producto eliminado correctamente",
-        "deleting_product_award": "Premio eliminado correctamente"
+        "deleting_product_award": "Premio eliminado correctamente",
+        "update_shipment_tracking": "Seguimiento de envío actualizado correctamente"
     },
     "num_of_packs": "Número de packs",
     "promo_code": "Código promocional",
@@ -1306,6 +1308,18 @@
         "show_tracking_information": "Mostrar información de seguimiento",
         "company": "Empresa",
         "url": "URL",
-        "identification_number": "Número de identificación"
+        "identification_number": "Número de identificación",
+        "shipment_tracking_id": "ID de seguimiento del envío",
+        "status": "Estado",
+        "update_information": "Actualizar información",
+        "messages": "Mensajes",
+        "message": "Mensaje",
+        "remove": "Eliminar",
+        "add": "Añadir",
+        "add_message": "Añadir mensaje",
+        "remove_message": "Eliminar mensaje",
+        "update_messages": "Actualizar mensajes",
+        "message_date": "Fecha del mensaje",
+        "tracking_description_messages": "Aquí puedes ver los mensajes de seguimiento que has redactado, así el consumidor tendrá información actualiza acerca de su pedido. Puedes añadir, editar y eliminar mensajes."
     }
 }
