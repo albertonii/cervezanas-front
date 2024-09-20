@@ -1,9 +1,9 @@
 'use client';
 
+import Button from '@/app/[locale]/components/ui/buttons/Button';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import Button from '@/app/[locale]/components/common/Button';
 
 export default function ErrorComponent() {
     const router = useRouter();

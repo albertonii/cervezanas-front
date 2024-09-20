@@ -9,6 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { IProductPackCartItem } from '@/lib//types/types';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 interface Props {
     productPack: IProductPackCartItem;
@@ -49,14 +50,7 @@ export function CheckoutItem({ productPack, isShippingCostLoading }: Props) {
     }, []);
 
     if (isLoadingProduct) {
-        const DynamicSpinner = dynamic(
-            () => import('@/app/[locale]/components/common/Spinner'),
-            {
-                ssr: false,
-            },
-        );
-
-        return <DynamicSpinner color={'beer-blonde'} size={'medium'} />;
+        return <Spinner color={'beer-blonde'} size={'medium'} />;
     }
 
     if (isError) return <div className="text-center text-red-500">Error</div>;

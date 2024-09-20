@@ -1,6 +1,6 @@
 'use client';
 
-import UserRoles from '../../../../components/common/UserRoles';
+import UserRoles from '../../../../components/user/UserRoles';
 import { RRSSForm } from './RRSSForm';
 import { useTranslations } from 'next-intl';
 import { BasicDataForm } from './BasicDataForm';

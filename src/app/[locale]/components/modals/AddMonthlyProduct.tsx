@@ -3,19 +3,19 @@
 import React, { ComponentProps, useMemo, useState, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { IconButton } from '../common/IconButton';
 import { IProduct } from '@/lib//types/types';
 import { category_options } from '@/lib//productEnum';
-import { DisplayInputError } from '../common/DisplayInputError';
 import { faHandPointer } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../(auth)/Context/useAuth';
-import InputSearch from '../common/InputSearch';
+import InputSearch from '../form/InputSearch';
 import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from 'react-query';
 import ModalWithForm from './ModalWithForm';
 import { useMessage } from '../message/useMessage';
-import Spinner from '../common/Spinner';
+import { IconButton } from '../ui/buttons/IconButton';
+import { DisplayInputError } from '../ui/DisplayInputError';
+import Spinner from '../ui/Spinner';
 
 enum SortBy {
     NONE = 'none',

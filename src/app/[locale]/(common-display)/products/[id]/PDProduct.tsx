@@ -1,18 +1,11 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import ProductDetails from './ProductDetails';
 import React, { useEffect, useRef, useState } from 'react';
 import { IProduct, IReview } from '@/lib//types/types';
 import { ProductReviews } from '@/app/[locale]/components/reviews/ProductReviews';
 import { ProductOverallReview } from '@/app/[locale]/components/reviews/ProductOverallReview';
-
-const DynamicSpinner = dynamic(
-    () => import('@/app/[locale]/components/common/Spinner'),
-    {
-        ssr: false,
-    },
-);
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 interface Props {
     product: IProduct;
@@ -43,7 +36,7 @@ export default function PDProduct({ product }: Props) {
         setEmptyReviews(!value.length);
     };
 
-    if (loading) return <DynamicSpinner color={'beer-blonde'} size="medium" />;
+    if (loading) return <Spinner color={'beer-blonde'} size="medium" />;
 
     return (
         <section className="relative grid items-stretch	 w-full grid-cols-12 gap-y-8 overflow-hidden pb-8 pt-14 sm:pt-8 lg:grid-cols-12 lg:px-6 bg-[url('/assets/home/bg-home.webp')] bg-auto bg-repeat bg-top">

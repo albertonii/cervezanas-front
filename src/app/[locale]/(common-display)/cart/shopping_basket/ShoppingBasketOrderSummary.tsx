@@ -1,9 +1,9 @@
-import Button from '@/app/[locale]/components/common/Button';
 import ShoppingBasketAddressesSummary from './ShoppingBasketAddressesSummary';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
 
 interface Props {
     subtotal: number;

@@ -1,6 +1,3 @@
-import Button from '@/app/[locale]/components/common/Button';
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
-import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z, ZodType } from 'zod';
@@ -8,7 +5,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { useTranslations } from 'next-intl';
-import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
+import InputLabel from '../../components/form/InputLabel';
+import InputTextarea from '../../components/form/InputTextarea';
+import Button from '../../components/ui/buttons/Button';
+import { DisplayInputError } from '../../components/ui/DisplayInputError';
 
 interface ReportFormData {
     title: string;

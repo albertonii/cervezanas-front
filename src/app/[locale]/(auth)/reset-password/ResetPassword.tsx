@@ -1,8 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import Button from '@/app/[locale]/components/common/Button';
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
 import React, { useEffect, useState } from 'react';
 import { z, ZodType } from 'zod';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
@@ -11,7 +9,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../Context/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Spinner from '../../components/common/Spinner';
+import InputLabel from '../../components/form/InputLabel';
+import Button from '../../components/ui/buttons/Button';
+import Spinner from '../../components/ui/Spinner';
 
 type FormData = {
     password: string;

@@ -1,7 +1,5 @@
-import Button from '@/app/[locale]/components/common/Button';
 import useFetchAllCountries from '../useFetchAllCountries';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import { useForm, UseFormRegister } from 'react-hook-form';
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
@@ -11,7 +9,9 @@ import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { useTranslations } from 'next-intl';
 import DistributionChipCard from '../DistributionChipCard';
-import Spinner from '@/app/[locale]/components/common/Spinner';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 type Props = {
     countries: string[];

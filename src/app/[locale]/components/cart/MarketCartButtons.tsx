@@ -1,8 +1,8 @@
 import React from 'react';
-import { DeleteButton } from './DeleteButton';
-import { DecreaseButton } from './DecreaseButton';
-import { IncreaseButton } from './IncreaseButton';
+import { IncreaseButton } from '../ui/buttons/IncreaseButton';
 import debounce from 'debounce';
+import { DecreaseButton } from '../ui/buttons/DecreaseButton';
+import { DeleteButton } from '../ui/buttons/DeleteButton';
 interface Props {
     quantity: number;
     item: any;

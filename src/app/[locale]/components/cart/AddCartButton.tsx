@@ -1,8 +1,8 @@
 import AddToCartPopup from './AddToCartPopup';
 import React, { useState, useEffect } from 'react';
-import { IconButton } from './IconButton';
 import { faBeerMugEmpty } from '@fortawesome/free-solid-svg-icons';
 import { useTranslations } from 'next-intl';
+import { IconButton } from '../ui/buttons/IconButton';
 
 interface Props {
     onClick?: () => void;

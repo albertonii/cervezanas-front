@@ -1,9 +1,9 @@
-import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
 import React from 'react';
 import { SupabaseProps } from '@/constants';
 import { IProduct } from '@/lib/types/types';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
+import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
 
 interface Props {
     product: IProduct;

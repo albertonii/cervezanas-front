@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { Sidebar } from '@/app/[locale]/components/common/Sidebar';
 import {
     faUser,
     faBox,
@@ -9,6 +8,7 @@ import {
     faTruck,
     faShoppingCart,
 } from '@fortawesome/free-solid-svg-icons';
+import { Sidebar } from '@/app/[locale]/components/layout/Sidebar';
 
 type LayoutProps = {
     children: React.ReactNode;

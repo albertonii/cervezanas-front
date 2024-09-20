@@ -2,18 +2,18 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { IProduct } from '@/lib//types/types';
-import Spinner from '@/app/[locale]/components/common/Spinner';
 import { useAppContext } from '@/app/context/AppContext';
-import { EditButton } from '@/app/[locale]/components/common/EditButton';
-import { formatCurrency } from '@/utils/formatCurrency';
-import { UnarchiveButton } from '@/app/[locale]/components/common/UnarchiveButton';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
+import { EditButton } from '@/app/[locale]/components/ui/buttons/EditButton';
+import { UnarchiveButton } from '@/app/[locale]/components/ui/buttons/UnarchiveButton';
+import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import { formatCurrency } from '@/utils/formatCurrency';
 
 interface Props {
     handleEditShowModal: ComponentProps<any>;

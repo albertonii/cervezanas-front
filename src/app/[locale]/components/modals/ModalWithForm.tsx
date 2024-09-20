@@ -1,4 +1,3 @@
-import Button from '../common/Button';
 import PortalModal from './PortalModal';
 import useOnClickOutside from '../../../../hooks/useOnOutsideClickDOM';
 import React, {
@@ -13,6 +12,7 @@ import { UseFormReturn } from 'react-hook-form';
 import { isEmpty } from '@/utils/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import Button from '../ui/buttons/Button';
 
 interface Props {
     showBtn?: boolean;

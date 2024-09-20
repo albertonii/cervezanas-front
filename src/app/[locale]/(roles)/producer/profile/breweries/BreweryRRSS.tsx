@@ -1,10 +1,10 @@
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { ModalAddBreweryFormData } from '@/lib/types/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNodes } from '@fortawesome/free-solid-svg-icons';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
 
 interface Props {
     form: UseFormReturn<ModalAddBreweryFormData, any>;

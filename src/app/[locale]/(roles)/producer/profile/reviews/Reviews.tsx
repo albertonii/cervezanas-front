@@ -1,18 +1,16 @@
 'use client';
 
-import Image from 'next/image';
-import Link from 'next/link';
-import React, { useState } from 'react';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { useLocale, useTranslations } from 'next-intl';
-import { IReview } from '@/lib//types/types';
-import { Rate } from '@/app/[locale]/components/reviews/Rate';
-import { formatDateString } from '@/utils/formatDate';
-import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
-import DisplayImageProfile from '@/app/[locale]/components/common/DisplayImageProfile';
-import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
-import { SupabaseProps } from '@/constants';
 import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
+import React, { useState } from 'react';
+import { IReview } from '@/lib//types/types';
+import { SupabaseProps } from '@/constants';
+import { formatDateString } from '@/utils/formatDate';
+import { useLocale, useTranslations } from 'next-intl';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { Rate } from '@/app/[locale]/components/reviews/Rate';
+import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
+import DisplayImageProfile from '@/app/[locale]/components/ui/DisplayImageProfile';
+import Link from 'next/link';
 
 interface Props {
     reviews: IReview[];

@@ -3,7 +3,6 @@
 import CPMobile from './CPMobile';
 import CPFixed from './CPFixed';
 import useEventCartStore from '@/app/store/eventCartStore';
-import Button from '@/app/[locale]/components/common/Button';
 import React, { useEffect } from 'react';
 import { ROUTE_EVENTS } from '@/config';
 import { useRouter } from 'next/navigation';
@@ -12,6 +11,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { ICPF_events, ICPM_events, IEvent } from '@/lib//types/types';
 import { IBMExperienceParticipants, IEventExperience } from '@/lib//types/quiz';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
 
 interface Props {
     event: IEvent;

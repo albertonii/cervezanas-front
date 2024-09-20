@@ -1,4 +1,4 @@
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';

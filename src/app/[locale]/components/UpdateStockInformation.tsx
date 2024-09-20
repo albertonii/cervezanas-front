@@ -1,10 +1,9 @@
 import React from 'react';
-import InputLabel from './common/InputLabel';
-import { faCubes } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { ModalUpdateProductFormData } from '@/lib/types/types';
+import { faCubes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface Props {
     form: UseFormReturn<ModalUpdateProductFormData, any>;
@@ -12,8 +11,6 @@ interface Props {
 
 export default function UpdateStockInformation({ form }: Props) {
     const t = useTranslations();
-
-    const { getValues } = form;
 
     return (
         <div className="relative border-2 rounded-lg border-gray-200 p-6 bg-white shadow-md">

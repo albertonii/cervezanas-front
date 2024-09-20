@@ -12,8 +12,8 @@ import { DistributionCostType } from '@/lib/enums';
 import { IDistributionCost } from '@/lib/types/types';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Tooltip } from '@/app/[locale]/components/common/Tooltip';
 import { updateIsDistributionCostsIncludedInProduct } from '../../../actions';
+import { Tooltip } from '@/app/[locale]/components/ui/Tooltip';
 
 interface Props {
     userId: string;

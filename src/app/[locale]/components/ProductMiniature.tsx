@@ -1,9 +1,9 @@
-import DisplayImageProduct from './common/DisplayImageProduct';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { SupabaseProps } from '@/constants';
 import { IProduct } from '@/lib//types/types';
 import { family_options } from '@/lib//beerEnum';
+import DisplayImageProduct from './ui/DisplayImageProduct';
 
 interface Props {
     product: IProduct;

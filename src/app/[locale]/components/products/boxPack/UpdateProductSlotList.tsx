@@ -1,8 +1,8 @@
-import Spinner from '../../common/Spinner';
 import UpdateProductSlotItem from './UpdateProductSlotItem';
 import React from 'react';
 import { IProduct } from '@/lib//types/types';
 import { UseFormReturn } from 'react-hook-form';
+import Spinner from '../../ui/Spinner';
 
 interface Props {
     products: IProduct[];

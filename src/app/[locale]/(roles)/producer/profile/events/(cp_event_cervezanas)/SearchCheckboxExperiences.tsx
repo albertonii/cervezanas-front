@@ -4,7 +4,7 @@ import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import useFetchEventExperiencesByEventIdAndCPMobileId from '../../../../../../../hooks/useFetchEventExperiencesByEventIdAndCPId';
 import useFetchExperiencesByProducerId from '../../../../../../../hooks/useFetchExperiencesByProducerId';
 import { IEventExperience, IExperience } from '@/lib/types/quiz';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
 
 interface Props {
     eventId: string;

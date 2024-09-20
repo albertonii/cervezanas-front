@@ -1,13 +1,13 @@
 'use client';
 
 import PackItem from './PackItem';
-import MarketCartButtons2 from '@/app/[locale]/components/common/MarketCartButtons2';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IProduct, IProductPack } from '@/lib//types/types';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
-import { AddCardButton } from '@/app/[locale]/components/common/AddCartButton';
 import { formatCurrency } from '@/utils/formatCurrency';
+import { AddCardButton } from '@/app/[locale]/components/cart/AddCartButton';
+import MarketCartButtons2 from '@/app/[locale]/components/cart/MarketCartButtons2';
 
 interface Props {
     product: IProduct;

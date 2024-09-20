@@ -1,17 +1,17 @@
-import Button from '../../common/Button';
-import InputLabel from '../../common/InputLabel';
+import InputLabel from '../../form/InputLabel';
 import React from 'react';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
-import { DeleteButton } from '../../common/DeleteButton';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useQueryClient } from 'react-query';
-import { DisplayInputError } from '../../common/DisplayInputError';
 import {
     AnswerFormData,
     IUpdModalExperienceBeerMasterFormData,
 } from '@/lib//types/quiz';
 import { defaultOverrides } from 'next/dist/server/require-hook';
+import Button from '../../ui/buttons/Button';
+import { DeleteButton } from '../../ui/buttons/DeleteButton';
+import { DisplayInputError } from '../../ui/DisplayInputError';
 
 const emptyAnswer: AnswerFormData = {
     answer: '',

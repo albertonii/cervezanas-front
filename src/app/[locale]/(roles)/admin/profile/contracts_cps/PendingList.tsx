@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import React, { useMemo, useState } from 'react';
 import { ROLE_ENUM } from '@/lib//enums';
 import { useLocale, useTranslations } from 'next-intl';
@@ -10,7 +10,7 @@ import { IConsumptionPoints } from '@/lib//types/types';
 import { generateDownloadableLink } from '@/utils/utils';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
+import { IconButton } from '@/app/[locale]/components/ui/IconButton';
 import {
     faCancel,
     faCheck,

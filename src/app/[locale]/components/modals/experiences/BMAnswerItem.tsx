@@ -1,10 +1,10 @@
-import InputLabel from '../../common/InputLabel';
+import InputLabel from '../../form/InputLabel';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { IAddModalExperienceBeerMasterFormData } from '@/lib//types/quiz';
-import { DeleteButton } from '../../common/DeleteButton';
-import { DisplayInputError } from '../../common/DisplayInputError';
+import { DeleteButton } from '../../ui/buttons/DeleteButton';
+import { DisplayInputError } from '../../ui/DisplayInputError';
 
 interface Props {
     questionIndex: number;

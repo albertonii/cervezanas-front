@@ -1,21 +1,21 @@
 'use client';
 
 import Link from 'next/link';
-import Spinner from '../common/Spinner';
-import DisplayImageProduct from '../common/DisplayImageProduct';
-import MarketCartButtons2 from '../common/MarketCartButtons2';
+import Spinner from '../ui/Spinner';
+import MarketCartButtons2 from '../cart/MarketCartButtons2';
+import DisplayImageProduct from '../ui/DisplayImageProduct';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { IconButton } from '../common/IconButton';
 import { SupabaseProps } from '@/constants';
+import { useMessage } from '../message/useMessage';
+import { AddCardButton } from '../cart/AddCartButton';
+import { IconButton } from '../ui/buttons/IconButton';
+import { useAuth } from '../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
-import { AddCardButton } from '../common/AddCartButton';
+import { formatCurrency } from '@/utils/formatCurrency';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { IProduct, IProductPack } from '@/lib//types/types';
-import { formatCurrency } from '@/utils/formatCurrency';
 import { useShoppingCart } from '../../../context/ShoppingCartContext';
-import { useAuth } from '../../(auth)/Context/useAuth';
-import { useMessage } from '../message/useMessage';
 
 type StoreItemProps = { product: IProduct; products: IProduct[] };
 

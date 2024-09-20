@@ -1,4 +1,4 @@
-import InputSearch from './InputSearch';
+import InputSearch from '../form/InputSearch';
 import React, { useEffect, useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useMessage } from '../message/useMessage';

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ChipCard } from '../../common/ChipCard';
+import { ChipCard } from '../../ui/ChipCard';
 
 interface IngredientInputProps {
     ingredients: string[];

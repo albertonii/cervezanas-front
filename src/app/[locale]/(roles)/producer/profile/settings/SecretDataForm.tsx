@@ -1,16 +1,16 @@
 'use client';
 
-import { z, ZodType } from 'zod';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 import React, { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useTranslations } from 'next-intl';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Button from '@/app/[locale]/components/common/Button';
-import Spinner from '@/app/[locale]/components/common/Spinner';
-import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import { useTranslations } from 'next-intl';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 
 type FormData = {
     old_password: string;

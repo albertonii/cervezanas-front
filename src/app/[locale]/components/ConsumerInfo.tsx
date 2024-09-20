@@ -1,11 +1,11 @@
 'use client';
 
-import React from 'react';
-import { useLocale, useTranslations } from 'next-intl';
-import { IUser } from '@/lib//types/types';
-import { formatDateDefaultInput } from '@/utils/formatDate';
-import DisplayImageProfile from './common/DisplayImageProfile';
 import Link from 'next/link';
+import DisplayImageProfile from './ui/DisplayImageProfile';
+import React from 'react';
+import { IUser } from '@/lib//types/types';
+import { useLocale, useTranslations } from 'next-intl';
+import { formatDateDefaultInput } from '@/utils/formatDate';
 
 interface Props {
     user?: IUser;

@@ -1,10 +1,10 @@
-import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
-import MarketCartButtons from '@/app/[locale]/components/common/MarketCartButtons';
+import useEventCartStore from '@/app/store//eventCartStore';
 import React, { useState } from 'react';
 import { SupabaseProps } from '@/constants';
 import { IProductPack, IProductPackEventCartItem } from '@/lib/types/types';
 import { formatCurrency } from '@/utils/formatCurrency';
-import useEventCartStore from '@/app/store//eventCartStore';
+import MarketCartButtons from '@/app/[locale]/components/cart/MarketCartButtons';
+import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
 
 interface Props {
     pack: IProductPack;

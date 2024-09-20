@@ -1,19 +1,19 @@
 'use client';
 
 import Link from 'next/link';
-import MarketCartButtons from '@/app/[locale]/components/common/MarketCartButtons';
-import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { SupabaseProps } from '@/constants';
 import { IMonthlyProduct } from '@/lib//types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
 import { formatCurrency } from '@/utils/formatCurrency';
-import { AddCardButton } from '@/app/[locale]/components/common/AddCartButton';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { useAuth } from '../(auth)/Context/useAuth';
+import { AddCardButton } from '../components/cart/AddCartButton';
+import MarketCartButtons from '../components/cart/MarketCartButtons';
+import { IconButton } from '../components/ui/buttons/IconButton';
+import DisplayImageProduct from '../components/ui/DisplayImageProduct';
 
 interface Props {
     mProduct: IMonthlyProduct;

@@ -6,8 +6,8 @@ import React, { useEffect, useState } from 'react';
 import { IUserReport } from '@/lib/types/types';
 import { downloadFile } from '@/utils/utils';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
-import Button from '@/app/[locale]/components/common/Button';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
 
 interface Props {
     report: IUserReport;

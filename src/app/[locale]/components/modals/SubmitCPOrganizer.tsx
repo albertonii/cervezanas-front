@@ -6,8 +6,8 @@ import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { isValidObject, normalizeFileName } from '@/utils/utils';
-import { DisplayInputError } from '../common/DisplayInputError';
 import { formatDateTypeDefaultInput } from '@/utils/formatDate';
+import { DisplayInputError } from '../ui/DisplayInputError';
 
 type FormData = {
     cover_letter_file: File[];

@@ -1,9 +1,7 @@
 import useSWRMutation from 'swr/mutation';
 import SubRegionTable from './SubRegionTable';
-import Button from '@/app/[locale]/components/common/Button';
 import CheckboxListSubRegions from './CheckboxListSubRegions';
-import Spinner from '@/app/[locale]/components/common/Spinner';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import React, { useEffect, useState } from 'react';
 import { filterSearchInputQuery, slicePaginationResults } from '@/utils/utils';
 import { ICoverageArea, IDistributionCost } from '@/lib/types/types';
@@ -17,6 +15,8 @@ import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { isSameSubRegion } from '@/utils/distribution';
 import { DistributionDestinationType } from '@/lib/enums';
 import { JSONSubRegion } from '@/lib/types/distribution_areas';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 const fetcher = (arg: any, ...args: any) =>
     fetch(arg, ...args).then((res) => res.json());

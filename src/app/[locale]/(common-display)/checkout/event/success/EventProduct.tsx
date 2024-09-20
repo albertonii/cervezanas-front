@@ -6,9 +6,9 @@ import { useRouter } from 'next/navigation';
 import { IEventOrderItem } from '@/lib//types/types';
 import { EVENT_ORDER_ITEM_STATUS, SupabaseProps } from '@/constants';
 import { StatusTimeline } from '@/app/[locale]/components/StatusTimeline';
-import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
 import { formatCurrency } from '@/utils/formatCurrency';
-import Button from '@/app/[locale]/components/common/Button';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
 
 interface Props {
     eventOrderItem: IEventOrderItem;

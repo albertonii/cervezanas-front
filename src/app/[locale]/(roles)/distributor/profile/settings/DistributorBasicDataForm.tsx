@@ -1,9 +1,5 @@
 'use client';
 
-import Button from '@/app/[locale]/components/common/Button';
-import Spinner from '@/app/[locale]/components/common/Spinner';
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
-import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
 import { z, ZodType } from 'zod';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
@@ -13,6 +9,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 type FormData = {
     id_number: string;

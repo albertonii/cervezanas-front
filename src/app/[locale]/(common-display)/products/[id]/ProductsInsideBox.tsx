@@ -1,14 +1,14 @@
-import { useTranslations } from 'next-intl';
+import BoxItem from './BoxItem';
+import MarketCartButtons2 from '@/app/[locale]/components/cart/MarketCartButtons2';
 import React, { useState } from 'react';
-import { useAuth } from '../../../(auth)/Context/useAuth';
+import { useTranslations } from 'next-intl';
 import { IBoxPack } from '@/lib//types/product';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { useAuth } from '../../../(auth)/Context/useAuth';
 import { IProduct, IProductPack } from '@/lib//types/types';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
-import { AddCardButton } from '@/app/[locale]/components/common/AddCartButton';
-import MarketCartButtons2 from '@/app/[locale]/components/common/MarketCartButtons2';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import BoxItem from './BoxItem';
-import { formatCurrency } from '@/utils/formatCurrency';
+import { AddCardButton } from '@/app/[locale]/components/cart/AddCartButton';
 
 interface Props {
     product: IProduct;

@@ -1,22 +1,16 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import useFetchEvents from '../../../../../../hooks/useFetchEvents';
 import EventItems from './EventItems';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import DeleteCEventModal from '@/app/[locale]/components/modals/DeleteEventModal';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { ICPFixed, ICPMobile, IEvent } from '@/lib//types/types';
 import UpdateEventModal from './UpdateEvent';
-
-const DynamicSpinner = dynamic(
-    () => import('@/app/[locale]/components/common/Spinner'),
-    {
-        ssr: false,
-    },
-);
+import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 enum SortBy {
     NONE = 'none',
@@ -136,7 +130,7 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
             )}
 
             {isLoading && (
-                <DynamicSpinner
+                <Spinner
                     color="beer-blonde"
                     size="xLarge"
                     absolute

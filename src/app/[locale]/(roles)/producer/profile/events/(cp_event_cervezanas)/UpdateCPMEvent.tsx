@@ -1,7 +1,5 @@
 'use client';
 
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
-import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
 import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
@@ -14,7 +12,8 @@ import { formatDateDefaultInput } from '@/utils/formatDate';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodType } from 'zod';
 import { SearchCheckboxExperiences } from './SearchCheckboxExperiences';
-import Spinner from '@/app/[locale]/components/common/Spinner';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
 
 type ModalUpdCPMEventFormData = {
     cp_id: string;

@@ -1,11 +1,10 @@
 'use client';
 
-import Button from '@/app/[locale]/components/common/Button';
-import Spinner from '@/app/[locale]/components/common/Spinner';
-import HorizontalSections from '@/app/[locale]/components/common/HorizontalSections';
 import React, { useEffect, useState } from 'react';
 import { IConsumptionPointUser } from '@/lib//types/types';
 import { Account } from './Account';
+import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 interface Props {
     profile: IConsumptionPointUser;

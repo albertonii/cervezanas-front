@@ -3,17 +3,17 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import UpdateCPMEventModal from './UpdateCPMEvent';
-import Spinner from '@/app/[locale]/components/common/Spinner';
-import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 import DeleteCPM_event_Modal from '@/app/[locale]/components/modals/DeleteCPM_event_Modal';
+import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import useFetchCervezanasEventsByOwnerId from '../../../../../../../hooks/useFetchCervezanasEventsByOwnerId';
 import React, { useEffect, useState } from 'react';
 import { ICPM_events } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 
 interface Props {
     counter: number;

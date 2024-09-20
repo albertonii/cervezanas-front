@@ -3,15 +3,15 @@
 import Link from 'next/link';
 import DeleteCPMobileModal from './DeleteCPMobileModal';
 import EditCPMobileModal from './EditCPMobileModal';
-import Spinner from '@/app/[locale]/components/common/Spinner';
 import useFetchCPMobile from '../../../../../../hooks/useFetchCPMobile';
-import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
 import React, { useEffect, useState } from 'react';
 import { ICPMobile } from '@/lib//types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
+import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 
 interface Props {
     cpsId: string;

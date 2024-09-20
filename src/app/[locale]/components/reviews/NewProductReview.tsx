@@ -3,7 +3,6 @@
 import React, { ComponentProps, useState } from 'react';
 import { Rate } from './Rate';
 import { z, ZodType } from 'zod';
-import Button from '../common/Button';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { IOrderItem, IReview } from '@/lib//types/types';
@@ -12,7 +11,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import { SuccessfulReviewModal } from '../modals/SuccessfulReview';
-import InputTextarea from '../common/InputTextarea';
+import InputTextarea from '../form/InputTextarea';
+import Button from '../ui/buttons/Button';
 
 type FormValues = {
     aroma: number;

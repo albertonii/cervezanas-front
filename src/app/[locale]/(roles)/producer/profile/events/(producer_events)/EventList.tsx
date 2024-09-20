@@ -2,10 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import Spinner from '@/app/[locale]/components/common/Spinner';
 import DeleteEventModal from '@/app/[locale]/components/modals/DeleteEventModal';
 import UpdateEventModal from '@/app/[locale]/components/modals/event/UpdateEvent';
-import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
 import useFetchEventsByOwnerId from '../../../../../../../hooks/useFetchEventsByOwnerId';
 import React, { useEffect, useState } from 'react';
 import { ROUTE_EVENTS } from '@/config';
@@ -13,7 +11,9 @@ import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { ICPFixed, ICPMobile, IEvent } from '@/lib/types/types';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
+import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 
 interface Props {
     counter: number;

@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import DisplayImageProfile from '@/app/[locale]/components/common/DisplayImageProfile';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import {
@@ -15,11 +14,12 @@ import {
     faBell,
     faIndustry,
 } from '@fortawesome/free-solid-svg-icons';
-import { Sidebar } from '@/app/[locale]/components/common/Sidebar';
 import { useAppContext } from '@/app/context/AppContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { COMMON, SupabaseProps } from '@/constants';
 import { formatDateTypeDefaultInput } from '@/utils/formatDate';
+import { Sidebar } from '@/app/[locale]/components/layout/Sidebar';
+import DisplayImageProfile from '@/app/[locale]/components/ui/DisplayImageProfile';
 
 type LayoutProps = {
     children: React.ReactNode;

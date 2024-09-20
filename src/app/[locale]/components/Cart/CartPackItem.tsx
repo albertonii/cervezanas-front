@@ -1,14 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import MarketCartButtons from '../common/MarketCartButtons';
-import DisplayImageProduct from '../common/DisplayImageProduct';
+import MarketCartButtons from '../cart/MarketCartButtons';
 import { useState } from 'react';
 import { SupabaseProps } from '@/constants';
 import { useLocale, useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { useShoppingCart } from '../../../context/ShoppingCartContext';
 import { IProductPack, IProductPackCartItem } from '@/lib//types/types';
+import DisplayImageProduct from '../ui/DisplayImageProduct';
 
 type Props = {
     pack: IProductPack;

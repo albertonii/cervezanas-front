@@ -1,9 +1,6 @@
 'use client';
 
-import Button from '@/app/[locale]/components/common/Button';
-import Spinner from '@/app/[locale]/components/common/Spinner';
 import { z, ZodType } from 'zod';
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
@@ -13,6 +10,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { IConsumptionPointUser } from '@/lib//types/types';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { formatDateTypeDefaultInput } from '@/utils/formatDate';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 type FormData = {
     name: string;

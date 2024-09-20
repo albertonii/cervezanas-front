@@ -2,7 +2,7 @@ import { IBusinessOrder } from '@/lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
 import React from 'react';
-import DisplayImageProfile from './DisplayImageProfile';
+import DisplayImageProfile from '../ui/DisplayImageProfile';
 
 interface Props {
     bOrder: IBusinessOrder;

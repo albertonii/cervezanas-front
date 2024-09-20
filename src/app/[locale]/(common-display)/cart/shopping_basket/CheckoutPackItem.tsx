@@ -1,6 +1,3 @@
-import Spinner from '@/app/[locale]/components/common/Spinner';
-import MarketCartButtons from '@/app/[locale]/components/common/MarketCartButtons';
-import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
 import React, { useEffect, useState } from 'react';
 import { SupabaseProps } from '@/constants';
 import { useTranslations } from 'next-intl';
@@ -13,6 +10,9 @@ import {
 } from '@/lib//types/types';
 import { calculateProductPacksWeight } from '@/utils/distribution';
 import { Beer } from 'lucide-react';
+import MarketCartButtons from '@/app/[locale]/components/cart/MarketCartButtons';
+import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 

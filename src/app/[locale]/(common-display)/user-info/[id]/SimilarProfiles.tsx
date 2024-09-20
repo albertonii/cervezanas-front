@@ -1,4 +1,4 @@
-import DisplayImageProfile from '@/app/[locale]/components/common/DisplayImageProfile';
+import DisplayImageProfile from '@/app/[locale]/components/ui/DisplayImageProfile';
 import React from 'react';
 
 const SimilarProfiles = () => {

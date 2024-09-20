@@ -1,4 +1,3 @@
-import Button from '@/app/[locale]/components/common/Button';
 import React, { useState } from 'react';
 import { ROLE_ENUM } from '@/lib//enums';
 import { useTranslations } from 'next-intl';
@@ -7,6 +6,7 @@ import { UpProducerModal } from '@/app/[locale]/components/modals/UpProducerModa
 import { DownProducerModal } from '@/app/[locale]/components/modals/DownProducerModal';
 import { UpDistributorModal } from '@/app/[locale]/components/modals/UpDistributorModal';
 import { DownDistributorModal } from '@/app/[locale]/components/modals/DownDistributorModal';
+import Button from '../ui/buttons/Button';
 
 const UserRoles = () => {
     const t = useTranslations();

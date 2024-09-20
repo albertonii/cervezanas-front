@@ -1,9 +1,9 @@
 import React from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { DisplayInputError } from '../../common/DisplayInputError';
 import { ModalUpdateBoxPackFormData } from '@/lib//types/product';
 import { formatCurrency } from '@/utils/formatCurrency';
+import { DisplayInputError } from '../../ui/DisplayInputError';
 
 interface Props {
     form: UseFormReturn<ModalUpdateBoxPackFormData, any>;
@@ -34,7 +34,7 @@ export function UpdateBoxSummary({ form }: Props) {
 
                     {Object.keys(errors).map((error, index) => (
                         <div key={index} className="text-md">
-                            Campo: <DisplayInputError message={error} />
+                            {t('field')}: <DisplayInputError message={error} />
                         </div>
                     ))}
                 </fieldset>

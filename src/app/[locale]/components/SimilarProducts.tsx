@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import DisplayImageProduct from './common/DisplayImageProduct';
+import DisplayImageProduct from './ui/DisplayImageProduct';
 
 export function SimilarProducts() {
     return (

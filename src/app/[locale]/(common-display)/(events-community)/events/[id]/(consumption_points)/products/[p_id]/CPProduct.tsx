@@ -1,6 +1,5 @@
 'use client';
 
-import MarketCartButtons from '@/app/[locale]/components/common/MarketCartButtons';
 import React, {
     useCallback,
     useEffect,
@@ -10,8 +9,6 @@ import React, {
 } from 'react';
 import { useTranslations } from 'next-intl';
 import { faCartArrowDown } from '@fortawesome/free-solid-svg-icons';
-import Button from '@/app/[locale]/components/common/Button';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
 import { useEventCart } from '@/app/context/EventCartContext';
 import { ProductOverallReview } from '@/app/[locale]/components/reviews/ProductOverallReview';
 import { ProductReviews } from '@/app/[locale]/components/reviews/ProductReviews';
@@ -25,13 +22,6 @@ import {
     IReview,
 } from '@/lib/types/types';
 import dynamic from 'next/dynamic';
-
-const DynamicSpinner = dynamic(
-    () => import('@/app/[locale]/components/common/Spinner'),
-    {
-        ssr: false,
-    },
-);
 
 interface Props {
     product: ICPMProducts;

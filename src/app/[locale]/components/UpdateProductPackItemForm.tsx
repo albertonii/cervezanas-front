@@ -1,18 +1,18 @@
-import { useTranslations } from 'next-intl';
+import Spinner from './ui/Spinner';
+import InputLabel from './form/InputLabel';
 import { memo, useState } from 'react';
-import { useFieldArray, UseFormReturn } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
+import { SupabaseProps } from '@/constants';
 import { pack_type_options } from '@/lib//beerEnum';
+import { DeleteButton } from './ui/buttons/DeleteButton';
+import { useFieldArray, UseFormReturn } from 'react-hook-form';
+import { FilePreviewImageMultimedia } from './common/FilePreviewImageMultimedia';
+
 import {
     IProductPack,
     ModalUpdateProductFormData,
     ModalUpdateProductPackFormData,
 } from '@/lib//types/types';
-import { DeleteButton } from './common/DeleteButton';
-import { FilePreviewImageMultimedia } from './common/FilePreviewImageMultimedia';
-import InputLabel from './common/InputLabel';
-import Spinner from './common/Spinner';
-import { useAuth } from '../(auth)/Context/useAuth';
-import { SupabaseProps } from '@/constants';
 
 const emptyPack: IProductPack = {
     id: '',

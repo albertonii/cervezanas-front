@@ -1,4 +1,4 @@
-import InputLabel from '../../common/InputLabel';
+import InputLabel from '../../form/InputLabel';
 import useBoxPackStore from '@/app/store//boxPackStore';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';

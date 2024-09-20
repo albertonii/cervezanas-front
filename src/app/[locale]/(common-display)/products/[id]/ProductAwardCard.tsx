@@ -1,7 +1,7 @@
-import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
 import React from 'react';
 import { IAward } from '@/lib/types/types';
 import { SupabaseProps } from '@/constants';
+import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
 
 interface Props {
     award: IAward;

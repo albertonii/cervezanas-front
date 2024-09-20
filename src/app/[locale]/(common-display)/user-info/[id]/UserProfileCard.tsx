@@ -1,4 +1,4 @@
-import DisplayImageProfile from '@/app/[locale]/components/common/DisplayImageProfile';
+import DisplayImageProfile from '@/app/[locale]/components/ui/DisplayImageProfile';
 import { IUserTable } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
 import React from 'react';

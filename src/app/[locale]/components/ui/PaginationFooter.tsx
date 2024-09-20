@@ -1,4 +1,3 @@
-import Button from './Button';
 import React, { memo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import {
@@ -6,6 +5,7 @@ import {
     faChevronCircleRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Button from './buttons/Button';
 interface Props {
     counter: number;
     resultsPerPage: number;

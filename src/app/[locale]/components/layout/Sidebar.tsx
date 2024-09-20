@@ -1,12 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import Button from '@/app/[locale]/components/common/Button';
+import Image from 'next/image';
 import useDeviceDetection from '../../../../hooks/useDeviceDetection';
 import useOnClickOutside from '../../../../hooks/useOnOutsideClickDOM';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ROLE_ENUM } from '@/lib/enums';
-import Image from 'next/image';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAppContext } from '../../../context/AppContext';
@@ -17,6 +16,7 @@ import {
     faTimes,
     IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
+import Button from '../ui/buttons/Button';
 
 type Props = {
     sidebarLinks: { name: string; icon: IconDefinition; option: string }[];
@@ -110,7 +110,7 @@ export function Sidebar({ sidebarLinks }: Props) {
                             />
                             {role && (
                                 <span className="p-2 ml-2 w-full text-sm font-semibold dark:text-white text-center">
-                                           {user?.username}
+                                    {user?.username}
                                 </span>
                             )}
                         </figure>

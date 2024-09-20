@@ -1,4 +1,3 @@
-import Button from '@/app/[locale]/components/common/Button';
 import UpdateAwardInformationForm from '@/app/[locale]/components/products/UpdateAwardInformationForm';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
@@ -6,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { IAward, IAwardUpdateForm } from '@/lib//types/types';
 import { faTrophy } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
 
 const emptyAward: IAward = {
     id: '',
@@ -111,12 +111,7 @@ export function UpdateAwardsSection({
                     </div>
                 ))}
 
-                <Button
-                    class=""
-                    primary
-                    medium
-                    onClick={() => handleAddAward()}
-                >
+                <Button primary medium onClick={() => handleAddAward()}>
                     {t('modal_product_award_add')}
                 </Button>
             </div>

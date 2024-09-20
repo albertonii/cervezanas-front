@@ -1,11 +1,11 @@
-import ArrayInputLabel from '@/app/[locale]/components/ArrayInputLabel';
-import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { ModalUpdateBreweryFormData } from '@/lib/types/types';
 import { faFlaskVial } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
+import ArrayInputLabel from '@/app/[locale]/components/ui/ArrayInputLabel';
 
 interface Props {
     form: UseFormReturn<ModalUpdateBreweryFormData, any>;

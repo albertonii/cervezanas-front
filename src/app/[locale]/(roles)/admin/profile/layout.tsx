@@ -3,8 +3,8 @@ import readUserSession from '@/lib//actions';
 import { redirect } from 'next/navigation';
 import { User } from '@supabase/supabase-js';
 import { ROLE_ENUM } from '@/lib//enums';
-import { Sidebar } from '@/app/[locale]/components/common/Sidebar';
 import { faUser, faBox, faBell } from '@fortawesome/free-solid-svg-icons';
+import { Sidebar } from '@/app/[locale]/components/layout/Sidebar';
 
 type LayoutProps = {
     children: React.ReactNode;

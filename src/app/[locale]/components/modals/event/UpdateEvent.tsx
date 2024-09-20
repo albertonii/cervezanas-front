@@ -15,8 +15,8 @@ import {
 } from '@/lib//types/types';
 import { formatDateDefaultInput } from '@/utils/formatDate';
 import useFetchCPSMobileByEventsId from '../../../../../hooks/useFetchCPsMobileByEventId';
-import InputLabel from '../../common/InputLabel';
-import InputTextarea from '../../common/InputTextarea';
+import InputLabel from '../../form/InputLabel';
+import InputTextarea from '../../form/InputTextarea';
 import { SearchCheckboxCPMobiles } from '../../common/SearchCheckboxCPMobiles';
 import { SearchCheckboxCPFixeds } from '../../common/SearchCheckboxCPFixed';
 import useFetchCPSFixedByEventsId from '../../../../../hooks/useFetchCPsFixedByEventId';

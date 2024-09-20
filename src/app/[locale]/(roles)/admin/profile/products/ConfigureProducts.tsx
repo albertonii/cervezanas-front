@@ -1,6 +1,6 @@
 'use client';
 
-import HorizontalSections from '@/app/[locale]/components/common/HorizontalSections';
+import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
 import React, { useState } from 'react';
 import { Products } from './Products';
 

@@ -2,17 +2,17 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import Spinner from '@/app/[locale]/components/common/Spinner';
-import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
 import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { IProduct } from '@/lib//types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { EditButton } from '@/app/[locale]/components/common/EditButton';
-import { InfoTooltip } from '@/app/[locale]/components/common/InfoTooltip';
-import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
-import { ArchiveButton } from '@/app/[locale]/components/common/ArchiveButton';
+import { ArchiveButton } from '@/app/[locale]/components/ui/buttons/ArchiveButton';
+import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';
+import { EditButton } from '@/app/[locale]/components/ui/buttons/EditButton';
+import { InfoTooltip } from '@/app/[locale]/components/ui/InfoTooltip';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 
 interface Props {
     handleEditShowModal: ComponentProps<any>;

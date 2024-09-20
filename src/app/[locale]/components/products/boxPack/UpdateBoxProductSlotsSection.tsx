@@ -1,4 +1,4 @@
-import InputLabel from '../../common/InputLabel';
+import InputLabel from '../../form/InputLabel';
 import useBoxPackStore from '@/app/store//boxPackStore';
 import DrawingSlotsFromBox from './DrawingSlotsFromBox';
 import BoxProductSlotsSelection from './BoxProductSlotsSelection';

@@ -2,8 +2,8 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { AreaAndWeightInformationFormData } from '@/lib/types/types';
-import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
-import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
+import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';
+import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
 
 interface Props {
     index: number;

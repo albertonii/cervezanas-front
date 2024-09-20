@@ -1,12 +1,12 @@
-import Spinner from './common/Spinner';
-import InputLabel from './common/InputLabel';
+import Spinner from '../ui/Spinner';
+import InputLabel from './InputLabel';
 import { memo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { pack_type_options } from '@/lib//beerEnum';
-import { DeleteButton } from './common/DeleteButton';
+import { DeleteButton } from '../ui/buttons/DeleteButton';
 import { ModalAddProductFormData } from '@/lib//types/types';
-import { FilePreviewImageMultimedia } from './common/FilePreviewImageMultimedia';
+import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
 
 const AddProductPackItemForm = memo(
     ({

@@ -1,8 +1,8 @@
-import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { memo, useMemo, useState } from 'react';
-import { InfoTooltip } from './InfoTooltip';
-import { Tooltip } from './Tooltip';
+// import { Tooltip } from './Tooltip';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { InfoTooltip } from '../InfoTooltip';
 
 interface ButtonProps {
     onClick?: () => void;

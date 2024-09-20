@@ -1,7 +1,7 @@
-import InputLabel from '../../common/InputLabel';
+import InputLabel from '../../form/InputLabel';
 import IngredientInput from './IngredientInput';
-import SelectInput from '../../common/SelectInput';
-import InputTextarea from '../../common/InputTextarea';
+import SelectInput from '../../form/SelectInput';
+import InputTextarea from '../../form/InputTextarea';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';

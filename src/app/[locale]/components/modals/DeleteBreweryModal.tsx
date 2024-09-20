@@ -1,11 +1,11 @@
 'use client';
 
 import Modal from './Modal';
-import Spinner from '../common/Spinner';
 import useBreweryStore from '@/app/store/breweryStore';
 import React, { useState } from 'react';
 import { useMessage } from '../message/useMessage';
 import { useMutation, useQueryClient } from 'react-query';
+import Spinner from '../ui/Spinner';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 const deleteBreweryUrl = `${baseUrl}/api/breweries`;

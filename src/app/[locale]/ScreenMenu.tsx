@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import Button from './components/common/Button';
 import DropdownRoleList from './components/DropdownRoleList';
 import { memo, useEffect, useRef, useState } from 'react';
 import { COMMON } from '@/constants';
@@ -15,6 +14,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { HeaderDropdownButton } from './HeaderDropdownButton';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { DeviceScreenNotification } from './components/DeviceScreenNotification';
+import Button from './components/ui/buttons/Button';
 
 interface Props {
     notifications: INotification[];

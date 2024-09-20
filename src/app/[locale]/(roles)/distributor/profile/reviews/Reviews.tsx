@@ -5,7 +5,6 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { IReview } from '@/lib//types/types';
-import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
 import { Rate } from '@/app/[locale]/components/reviews/Rate';
 import { formatDateString } from '@/utils/formatDate';
 import { useAuth } from '../../../../(auth)/Context/useAuth';

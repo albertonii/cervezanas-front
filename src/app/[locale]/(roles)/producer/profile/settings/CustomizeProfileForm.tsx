@@ -6,11 +6,11 @@ import { useTranslations } from 'next-intl';
 import { IProfile } from '@/lib//types/types';
 import { SupabaseProps } from '@/constants';
 import { isValidObject } from '@/utils/utils';
-import Button from '@/app/[locale]/components/common/Button';
-import { FilePreviewAndHide } from '@/app/[locale]/components/common/FilePreviewAndHide';
-import Spinner from '@/app/[locale]/components/common/Spinner';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useAppContext } from '@/app/context/AppContext';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import { FilePreviewAndHide } from '@/app/[locale]/components/ui/FilePreviewAndHide';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 type FormValues = {
     bg_url: any;

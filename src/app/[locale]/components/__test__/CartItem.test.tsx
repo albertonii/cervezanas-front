@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import { render } from '@/utils/testing/test-util';
 import { IProductPackCartItem } from '@/lib//types/types';
-import { CartItem } from '../Cart/CartItem';
+import { CartItem } from '../cart/CartItem';
 
 const item: IProductPackCartItem = {
     id: '1',

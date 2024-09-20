@@ -1,5 +1,3 @@
-import Button from '@/app/[locale]/components/common/Button';
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
 import React, { useState } from 'react';
 import { FieldError, SubmitHandler, useForm } from 'react-hook-form';
 import { IShipmentTracking, ShipmentTrackingFormData } from '@/lib/types/types';
@@ -10,6 +8,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { handleUpdateShipmentTracking } from '../../../actions';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { DISTRIBUTOR_ONLINE_ORDER_STATUS } from '@/constants';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
 
 const schemaTrackingInfo: ZodType<ShipmentTrackingFormData> = z.object({
     id: z.string(),

@@ -11,7 +11,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { IDistributionContract } from '@/lib//types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { faCancel, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
+import { IconButton } from '@/app/[locale]/components/ui/IconButton';
 
 interface Props {
     counter: number;

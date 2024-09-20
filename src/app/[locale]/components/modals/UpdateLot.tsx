@@ -10,11 +10,10 @@ import { IProductLot } from '@/lib//types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format_options } from '@/lib//beerEnum';
 import { useMutation, useQueryClient } from 'react-query';
-import InputLabel from '../common/InputLabel';
-import SelectInput from '../common/SelectInput';
-import InputTextarea from '../common/InputTextarea';
+import InputLabel from '../form/InputLabel';
+import SelectInput from '../form/SelectInput';
+import InputTextarea from '../form/InputTextarea';
 import { formatDateDefaultInput } from '@/utils/formatDate';
-import Spinner from '../common/Spinner';
 
 const ModalWithForm = dynamic(() => import('./ModalWithForm'), { ssr: false });
 

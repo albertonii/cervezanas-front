@@ -6,9 +6,9 @@ import React from 'react';
 import { ICPMobile, IEventExperience } from '@/lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import EventExperiences from './EventExperiences';
-import Button from '@/app/[locale]/components/common/Button';
 import { ROUTE_EVENTS } from '@/config';
 import { useRouter } from 'next/navigation';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
 
 interface Props {
     cpMobile: ICPMobile;

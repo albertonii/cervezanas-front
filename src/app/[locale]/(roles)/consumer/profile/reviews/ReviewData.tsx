@@ -1,14 +1,13 @@
 import Link from 'next/link';
 import React, { ComponentProps } from 'react';
 import { Rate } from '@/app/[locale]/components/reviews/Rate';
-import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
 import { useLocale, useTranslations } from 'next-intl';
 import { IReview } from '@/lib//types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { formatDateString } from '@/utils/formatDate';
-import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
 import { SupabaseProps } from '@/constants';
-import DisplayImageProfile from '@/app/[locale]/components/common/DisplayImageProfile';
+import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
+import DisplayImageProfile from '@/app/[locale]/components/ui/DisplayImageProfile';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 

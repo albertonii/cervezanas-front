@@ -2,10 +2,6 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
-import Button from '@/app/[locale]/components/common/Button';
-import Spinner from '@/app/[locale]/components/common/Spinner';
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
 import React, { useEffect, useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useLocale } from 'next-intl';
@@ -16,13 +12,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-const DynamicSpinner = dynamic(
-    () => import('@/app/[locale]/components/common/Spinner'),
-    {
-        ssr: false,
-    },
-);
+import InputLabel from '../../components/form/InputLabel';
+import Button from '../../components/ui/buttons/Button';
+import Spinner from '../../components/ui/Spinner';
 
 type SigninFormData = {
     email: string;
@@ -180,9 +172,7 @@ export default function SignIn() {
     };
 
     if (!isPageLoad) {
-        return (
-            <DynamicSpinner color="beer-blonde" size={'fullScreen'} absolute />
-        );
+        return <Spinner color="beer-blonde" size={'fullScreen'} absolute />;
     }
 
     return (

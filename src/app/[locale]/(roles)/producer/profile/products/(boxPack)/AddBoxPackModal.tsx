@@ -2,7 +2,6 @@
 
 import dynamic from 'next/dynamic';
 import useBoxPackStore from '@/app/store//boxPackStore';
-import Spinner from '@/app/[locale]/components/common/Spinner';
 import BoxProductSlotsSection from '@/app/[locale]/components/products/boxPack/BoxProductSlotsSection';
 import React, { useState, useEffect } from 'react';
 import { z, ZodType } from 'zod';
@@ -17,6 +16,7 @@ import { BoxSummary } from '@/app/[locale]/components/products/boxPack/BoxSummar
 import { BoxPackStepper } from '@/app/[locale]/components/products/boxPack/BoxPackStepper';
 import { BoxPackInfoSection } from '@/app/[locale]/components/products/boxPack/BoxPackInfoSection';
 import { BoxMultimediaSection } from '@/app/[locale]/components/products/boxPack/BoxMultimediaSection';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 const ModalWithForm = dynamic(
     () => import('@/app/[locale]/components/modals/ModalWithForm'),
@@ -263,9 +263,9 @@ export function AddBoxPackModal() {
                     btnTitle={'add_box_pack'}
                 >
                     <>
-                    <p className="text-slate-500 my-4 text-sm leading-normal max-w-full text-justify bg-cerv-brown bg-opacity-10 p-4 rounded-2xl">
-                                {t('modal_product_description')}
-                            </p>
+                        <p className="text-slate-500 my-4 text-sm leading-normal max-w-full text-justify bg-cerv-brown bg-opacity-10 p-4 rounded-2xl">
+                            {t('modal_product_description')}
+                        </p>
 
                         {activeStep === 0 ? (
                             <BoxPackInfoSection form={form} />

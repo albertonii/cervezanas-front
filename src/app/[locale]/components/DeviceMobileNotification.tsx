@@ -1,10 +1,10 @@
 'use client';
 
-import Image from 'next/image';
 import React from 'react';
+import Image from 'next/image';
+import Button from './ui/buttons/Button';
 import { INotification } from '@/lib//types/types';
 import { useAppContext } from '@/app/context/AppContext';
-import Button from './common/Button';
 import { NotificationPopup } from './notificationPopup/NotificationPopup';
 
 interface Props {

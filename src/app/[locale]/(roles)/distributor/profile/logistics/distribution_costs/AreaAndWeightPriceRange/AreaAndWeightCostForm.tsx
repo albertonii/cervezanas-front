@@ -3,13 +3,10 @@
 import AreaSidebar from './AreaSidebar';
 import AreaAndWeightRangeForm from './AreaAndWeightRangeForm';
 import SelectDistributionCost from '../SelectDistributionCost';
-import Button from '@/app/[locale]/components/common/Button';
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
 import React, { useEffect, useState } from 'react';
 import { z, ZodType } from 'zod';
 import {
     AreaAndWeightCostFormData,
-    IAreaAndWeightCost,
     IAreaAndWeightInformation,
     IDistributionCost,
 } from '@/lib/types/types';
@@ -17,7 +14,9 @@ import { DistributionCostType, DistributionDestinationType } from '@/lib/enums';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
 
 const areaWeightCostRange = z
     .object({

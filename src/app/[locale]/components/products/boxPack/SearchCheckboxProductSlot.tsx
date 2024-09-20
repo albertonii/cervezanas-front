@@ -4,11 +4,11 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import useFetchProductsByOwnerAndPagination from '../../../../../hooks/useFetchProductsByOwnerAndPagination';
 import { Type } from '@/lib//productEnum';
-import Spinner from '../../common/Spinner';
 import { IProduct } from '@/lib//types/types';
 import ProductSlotList from './ProductSlotList';
-import InputSearch from '../../common/InputSearch';
-import PaginationFooter from '../../common/PaginationFooter';
+import InputSearch from '../../form/InputSearch';
+import PaginationFooter from '../../ui/PaginationFooter';
+import Spinner from '../../ui/Spinner';
 
 interface Props {
     form: UseFormReturn<any, any>;

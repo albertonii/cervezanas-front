@@ -13,7 +13,7 @@ import { z, ZodType } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { SearchCheckboxCPFixeds } from '../../common/SearchCheckboxCPFixed';
 import { SearchCheckboxCPMobiles } from '../../common/SearchCheckboxCPMobiles';
-import Spinner from '../../common/Spinner';
+import Spinner from '../../ui/Spinner';
 
 const ModalWithForm = dynamic(() => import('../ModalWithForm'), { ssr: false });
 

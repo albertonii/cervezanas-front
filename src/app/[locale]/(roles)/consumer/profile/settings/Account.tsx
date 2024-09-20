@@ -1,6 +1,6 @@
 'use client';
 
-import UserRoles from '../../../../components/common/UserRoles';
+import UserRoles from '../../../../components/user/UserRoles';
 import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 import { useTranslations } from 'next-intl';
 import { IUserTable } from '@/lib//types/types';

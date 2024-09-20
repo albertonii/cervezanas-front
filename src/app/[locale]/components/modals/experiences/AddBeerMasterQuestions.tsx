@@ -1,4 +1,3 @@
-import Button from '../../common/Button';
 import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwner';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
@@ -13,6 +12,7 @@ import {
 } from '@/lib//types/quiz';
 import BMQuestionItem from './BMQuestionItem';
 import { Type } from '@/lib//productEnum';
+import Button from '../../ui/buttons/Button';
 
 interface Props {
     form: UseFormReturn<IAddModalExperienceBeerMasterFormData, any>;

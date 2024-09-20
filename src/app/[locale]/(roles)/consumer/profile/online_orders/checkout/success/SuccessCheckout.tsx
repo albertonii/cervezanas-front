@@ -1,14 +1,14 @@
 'use client';
 
-import Spinner from '@/app/[locale]/components/common/Spinner';
-import DistributorCard from '@/app/[locale]/components/common/DistributorCard';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import DistributorCard from '@/app/[locale]/components/cards/DistributorCard';
 import BillingInformationBox from '@/app/[locale]/components/BillingInformationBox';
 import PaymentInformationBox from '@/app/[locale]/components/PaymentInformationBox';
 import ShippingInformationBox from '@/app/[locale]/components/ShippingInformationBox';
 import BusinessOrderItem from '../../../../../../components/common/BusinessOrderItem';
 import React, { useState, useEffect } from 'react';
-import { IBusinessOrder, IOrder } from '@/lib/types/types';
 import { useTranslations } from 'next-intl';
+import { IBusinessOrder, IOrder } from '@/lib/types/types';
 import { useAuth } from '../../../../../../(auth)/Context/useAuth';
 
 interface Props {

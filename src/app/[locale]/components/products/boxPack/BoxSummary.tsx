@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { DisplayInputError } from '../../common/DisplayInputError';
 import { ModalAddBoxPackFormData } from '@/lib//types/product';
 import { formatCurrency } from '@/utils/formatCurrency';
+import { DisplayInputError } from '../../ui/DisplayInputError';
 
 interface Props {
     form: UseFormReturn<ModalAddBoxPackFormData, any>;

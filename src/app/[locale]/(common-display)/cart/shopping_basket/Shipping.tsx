@@ -14,7 +14,7 @@ import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { FormShippingData, ValidationSchemaShipping } from './ShoppingBasket';
 import { DeleteAddress } from '@/app/[locale]/components/modals/DeleteAddress';
-import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
+import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
 
 interface Props {
     formShipping: UseFormReturn<FormShippingData, any>;

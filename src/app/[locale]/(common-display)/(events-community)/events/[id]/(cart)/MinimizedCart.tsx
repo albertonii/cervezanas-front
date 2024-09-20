@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
-import Button from '@/app/[locale]/components/common/Button';
 import useEventCartStore from '@/app/store//eventCartStore';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
 
 interface Props {
     eventId: string;

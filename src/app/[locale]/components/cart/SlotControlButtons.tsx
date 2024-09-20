@@ -1,8 +1,8 @@
-import React from 'react';
 import debounce from 'debounce';
-import { IconButton } from './IconButton';
-import { DeleteButton } from './DeleteButton';
+import React from 'react';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { IconButton } from '../ui/buttons/IconButton';
+import { DeleteButton } from '../ui/buttons/DeleteButton';
 
 interface Props {
     quantity: number;
@@ -13,7 +13,7 @@ interface Props {
     displayDeleteButton?: boolean;
 }
 
-export default function MarketCartButtons2({
+export default function SlotControlButtons({
     quantity,
     item,
     handleIncreaseCartQuantity,
@@ -25,8 +25,8 @@ export default function MarketCartButtons2({
     const onClickDecreaseDebounce = debounce(handleDecreaseCartQuantity, 100);
 
     return (
-        <section className="mr-2 flex items-center justify-center rounded-md border bg-white">
-            <span className="mx-2 w-[30px] text-center text-xl text-beer-draft">
+        <section className="flex items-center justify-center space-x-2 rounded-md border">
+            <span className="mx-2 w-[20px] text-center text-xl text-beer-draft">
                 {quantity}
             </span>
 
@@ -34,7 +34,7 @@ export default function MarketCartButtons2({
                 <figure className="border">
                     <IconButton
                         onClick={() => onClickIncreaseDebounce()}
-                        classContainer="rounded-none border-none p-1 hover:bg-beer-softBlonde"
+                        classContainer="border-none hover:bg-beer-softBlonde"
                         classIcon={''}
                         icon={faChevronUp}
                         title={''}
@@ -44,7 +44,7 @@ export default function MarketCartButtons2({
                 <figure className="border">
                     <IconButton
                         onClick={() => onClickDecreaseDebounce()}
-                        classContainer="rounded-none border-none p-1 hover:bg-beer-softBlonde"
+                        classContainer="border-none hover:bg-beer-softBlonde"
                         classIcon={''}
                         icon={faChevronDown}
                         title={''}

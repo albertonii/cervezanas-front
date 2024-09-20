@@ -1,8 +1,6 @@
 'use client';
 
-import Spinner from '@/app/[locale]/components/common/Spinner';
 import useFetchEventOrders from '../../../../../../hooks/useFetchEventOrders';
-import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
@@ -11,7 +9,9 @@ import { IEventOrder } from '@/lib//types/types';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
+import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 
 interface Props {
     eventOrders: IEventOrder[];

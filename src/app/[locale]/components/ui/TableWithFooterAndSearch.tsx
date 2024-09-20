@@ -1,6 +1,6 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import InputSearch from './common/InputSearch';
-import PaginationFooter from './common/PaginationFooter';
+import React, { useState, useMemo } from 'react';
+import InputSearch from '../form/InputSearch';
+import PaginationFooter from './PaginationFooter';
 
 interface Column {
     header: string;

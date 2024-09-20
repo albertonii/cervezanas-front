@@ -1,9 +1,7 @@
 import RegionTable from './RegionTable';
 import useSWRMutation from 'swr/mutation';
 import CheckboxListRegions from './CheckboxListSubRegions';
-import Button from '@/app/[locale]/components/common/Button';
-import Spinner from '@/app/[locale]/components/common/Spinner';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
@@ -17,6 +15,8 @@ import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import { ICoverageArea, IDistributionCost } from '@/lib/types/types';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { filterSearchInputQuery, slicePaginationResults } from '@/utils/utils';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 const fetcher = (arg: any, ...args: any) =>
     fetch(arg, ...args).then((res) => res.json());

@@ -1,9 +1,9 @@
-import InputLabel from '../common/InputLabel';
+import InputLabel from '../form/InputLabel';
 import React, { ChangeEvent } from 'react';
 import { useTranslations } from 'next-intl';
 import { SupabaseProps } from '@/constants';
 import { UseFormReturn } from 'react-hook-form';
-import { DeleteButton } from '../common/DeleteButton';
+import { DeleteButton } from '../ui/buttons/DeleteButton';
 import { ModalUpdateProductFormData } from '@/lib//types/types';
 import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
 

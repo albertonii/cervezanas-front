@@ -7,9 +7,9 @@ import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { formatDateString } from '@/utils/formatDate';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
+import { IconButton } from '@/app/[locale]/components/ui/IconButton';
 import { IProducerUser } from '@/lib//types/types';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import dynamic from 'next/dynamic';
 import {
     sendEmailAcceptUserAsProducer,

@@ -4,15 +4,15 @@ import Link from 'next/link';
 import useFetchCPFixed from '../../../../../../hooks/useFetchCPFixed';
 import EditCPFixedModal from './EditCPFixedModal';
 import DeleteCPFixedModal from './DeleteCPFixedModal';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import React, { useEffect, useMemo, useState } from 'react';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useLocale, useTranslations } from 'next-intl';
 import { ICPFixed } from '@/lib//types/types';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
-import Spinner from '@/app/[locale]/components/common/Spinner';
 import { formatDateString } from '@/utils/formatDate';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
+import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
+import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 interface Props {
     cpsId: string;

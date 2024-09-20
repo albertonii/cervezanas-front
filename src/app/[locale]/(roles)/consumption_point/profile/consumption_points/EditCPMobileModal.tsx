@@ -18,10 +18,10 @@ import Modal from '@/app/[locale]/components/modals/Modal';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { cleanObject, isValidObject } from '@/utils/utils';
 import { formatDateDefaultInput } from '@/utils/formatDate';
-import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
-import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
-import SelectInput from '@/app/[locale]/components/common/SelectInput';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
+import SelectInput from '@/app/[locale]/components/form/SelectInput';
+import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
 
 enum CPMobileStatus {
     active = 'active',

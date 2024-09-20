@@ -1,10 +1,10 @@
 'use client';
 
-import HorizontalSections from '@/app/[locale]/components/common/HorizontalSections';
 import React, { useEffect, useState } from 'react';
-import Spinner from '@/app/[locale]/components/common/Spinner';
 import { IDistributorUser } from '@/lib//types/types';
 import { Account } from './Account';
+import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 interface Props {
     profile: IDistributorUser;

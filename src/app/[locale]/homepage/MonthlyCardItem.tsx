@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
 import React, { useEffect, useState } from 'react';
 import { SupabaseProps } from '@/constants';
 import { IMonthlyProduct } from '@/lib//types/types';
@@ -9,9 +8,10 @@ import { useLocale, useTranslations } from 'next-intl';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../(auth)/Context/useAuth';
 import { MonthlyProductCategory } from '@/lib//productEnum';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
-import Button from '@/app/[locale]/components/common/Button';
 import useFetchProductLikes from '../../../hooks/useFetchProductLikes';
+import Button from '../components/ui/buttons/Button';
+import { IconButton } from '../components/ui/buttons/IconButton';
+import DisplayImageProduct from '../components/ui/DisplayImageProduct';
 
 interface Props {
     mProduct: IMonthlyProduct;

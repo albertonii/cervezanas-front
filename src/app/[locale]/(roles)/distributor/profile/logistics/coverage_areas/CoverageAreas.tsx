@@ -10,7 +10,7 @@ import { IDistributorUser } from '@/lib/types/types';
 import { DistributionDestinationType } from '@/lib/enums';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import { Tooltip } from '@/app/[locale]/components/common/Tooltip';
+import { Tooltip } from '@/app/[locale]/components/ui/Tooltip';
 
 export default function CoverageAreas() {
     const t = useTranslations();

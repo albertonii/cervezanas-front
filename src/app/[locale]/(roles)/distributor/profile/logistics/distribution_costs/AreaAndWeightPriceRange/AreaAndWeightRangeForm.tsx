@@ -1,8 +1,6 @@
 'use client';
 
 import Error from 'next/error';
-import Button from '@/app/[locale]/components/common/Button';
-import Spinner from '@/app/[locale]/components/common/Spinner';
 import AreaAndWeightRangeFormRow from './AreaAndWeightRangeFormRow';
 import React, { useEffect, useState } from 'react';
 import { z } from 'zod';
@@ -16,8 +14,10 @@ import {
     IAreaAndWeightCostRange,
     IAreaAndWeightInformation,
 } from '@/lib/types/types';
-import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 import { updateAreaAndWeightRangeByAreaAndWeightInformationId } from '../../../../actions';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 const areaWeightCostRange = z
     .object({

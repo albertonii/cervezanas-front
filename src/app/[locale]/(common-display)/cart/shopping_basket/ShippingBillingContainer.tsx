@@ -5,7 +5,7 @@ import Shipping from './Shipping';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import { InfoTooltip } from '@/app/[locale]/components/common/InfoTooltip';
+import { InfoTooltip } from '@/app/[locale]/components/ui/InfoTooltip';
 
 interface Props {
     formShipping: UseFormReturn<any, any>;

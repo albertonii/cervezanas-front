@@ -2,7 +2,6 @@
 
 import dynamic from 'next/dynamic';
 import useFetchOrders from '../../../../../../hooks/useFetchOrders';
-import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IOrder } from '@/lib//types/types';
@@ -12,14 +11,9 @@ import { formatDateString } from '@/utils/formatDate';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
-
-const DynamicSpinner = dynamic(
-    () => import('@/app/[locale]/components/common/Spinner'),
-    {
-        ssr: false,
-    },
-);
+import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 
 interface Props {
     counter: number;
@@ -113,7 +107,7 @@ export function OrderList({ counter }: Props) {
 
     if (!isReady)
         return (
-            <DynamicSpinner
+            <Spinner
                 color="beer-blonde"
                 size="xLarge"
                 absolute
@@ -132,7 +126,7 @@ export function OrderList({ counter }: Props) {
             )}
 
             {isLoading && (
-                <DynamicSpinner
+                <Spinner
                     color="beer-blonde"
                     size="xLarge"
                     absolute

@@ -6,8 +6,6 @@ import Decimal from 'decimal.js';
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
-import Button from '@/app/[locale]/components/common/Button';
-import { CustomLoading } from '@/app/[locale]/components/common/CustomLoading';
 import { randomTransactionId, CURRENCIES } from 'redsys-easy';
 import {
     createRedirectForm,
@@ -23,6 +21,8 @@ import { useMutation, useQueryClient } from 'react-query';
 import { IProductPack, IProductPackEventCartItem } from '@/lib/types/types';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import useEventCartStore from '@/app/store//eventCartStore';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import { CustomLoading } from '@/app/[locale]/components/ui/CustomLoading';
 
 interface Props {
     eventId: string;

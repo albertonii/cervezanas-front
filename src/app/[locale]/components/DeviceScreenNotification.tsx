@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Button from './common/Button';
+import Button from './ui/buttons/Button';
 import React, { useEffect, useState } from 'react';
 import { INotification } from '@/lib//types/types';
 import { useAppContext } from '@/app/context/AppContext';

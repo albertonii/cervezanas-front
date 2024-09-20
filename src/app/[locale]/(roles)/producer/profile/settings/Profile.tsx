@@ -1,16 +1,14 @@
 'use client';
 
-import Button from '@/app/[locale]/components/common/Button';
-import Spinner from '@/app/[locale]/components/common/Spinner';
-import HorizontalSections from '@/app/[locale]/components/common/HorizontalSections';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
 import React, { useEffect, useState } from 'react';
-import { IProducerUser } from '@/lib//types/types';
+import { Values } from './Values';
 import { Account } from './Account';
 import { Details } from './Details';
-import { Values } from './Values';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { ROLE_ENUM } from '@/lib//enums';
 import { useTranslations } from 'next-intl';
+import { IProducerUser } from '@/lib//types/types';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
 
 interface Props {
     profile: IProducerUser;

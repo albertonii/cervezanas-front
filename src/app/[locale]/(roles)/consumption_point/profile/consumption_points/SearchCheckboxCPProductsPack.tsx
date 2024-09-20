@@ -1,13 +1,13 @@
 'use client';
 
 import ProductAccordion from './ProductAccordion';
-import Spinner from '@/app/[locale]/components/common/Spinner';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
 import React, { useEffect, useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { IProduct } from '@/lib//types/types';
+import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 interface Props {
     form: UseFormReturn<any, any>;

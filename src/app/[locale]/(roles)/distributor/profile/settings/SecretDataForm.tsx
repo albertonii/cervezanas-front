@@ -7,10 +7,10 @@ import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import Button from '@/app/[locale]/components/common/Button';
-import Spinner from '@/app/[locale]/components/common/Spinner';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 type FormData = {
     old_password: string;

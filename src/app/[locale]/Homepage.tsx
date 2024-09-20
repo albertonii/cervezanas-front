@@ -10,10 +10,9 @@ import { Highlights } from './homepage/Highlights';
 import { MonthlyBeersDesign } from './homepage/MonthlyBeersDesign';
 import { Community } from './homepage/Community';
 import { Reviews } from './homepage/Reviews';
-import { History } from './homepage/History';
 import { IMonthlyProduct } from '@/lib//types/types';
 import QRCode from 'react-qr-code';
-import Spinner from './components/common/Spinner';
+import Spinner from './components/ui/Spinner';
 
 interface Props {
     monthlyProducts: IMonthlyProduct[];
@@ -31,7 +30,7 @@ export default function Homepage({ monthlyProducts }: Props) {
 
     return (
         <section className="h-full  bg-[url('/assets/home/bg-home.webp')] bg-auto bg-repeat bg-top">
-           <SliderMobile />
+            <SliderMobile />
             <Homeheader />
             <Highlights />
             <TopBeers />

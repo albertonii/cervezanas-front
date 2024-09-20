@@ -1,12 +1,10 @@
-import ProducerCard from '@/app/[locale]/components/common/ProducerCard';
+import ProducerCard from '../cards/ProducerCard';
 import OrderItemCard from '@/app/[locale]/components/common/OrderItemCard';
-import DistributorCard from '@/app/[locale]/components/common/DistributorCard';
+import ConsumerShipmentTrackingInformation from './ConsumerShipmentTrackingInformation';
 import ProductBusinnesInformation from '@/app/[locale]/components/ProductBusinnesInformation';
 import OrderItemReview from '../../(roles)/consumer/profile/online_orders/checkout/success/OrderItemReview';
 import React from 'react';
 import { IBusinessOrder, IOrderItem } from '@/lib/types/types';
-import { StatusTimeline } from '@/app/[locale]/components/StatusTimeline';
-import ConsumerShipmentTrackingInformation from './ConsumerShipmentTrackingInformation';
 
 interface Props {
     bOrder: IBusinessOrder;

@@ -1,6 +1,5 @@
 'use client';
 
-import Spinner from '@/app/[locale]/components/common/Spinner';
 import PaymentInformationBox from '@/app/[locale]/components/PaymentInformationBox';
 import BillingInformationBox from '@/app/[locale]/components/BillingInformationBox';
 import BusinessOrderItem from '@/app/[locale]/components/common/BusinessOrderItem';
@@ -11,6 +10,7 @@ import { useTranslations } from 'next-intl';
 import { IOrder } from '@/lib//types/types';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 interface Props {
     isError?: boolean;

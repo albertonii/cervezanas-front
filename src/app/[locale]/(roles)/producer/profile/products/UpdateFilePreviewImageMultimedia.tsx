@@ -1,13 +1,13 @@
 'use client';
 
-import FilePreviewBlurImage from '@/app/[locale]/components/common/FilePreviewBlurImage';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { MULTIMEDIA } from '@/constants';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
+import FilePreviewBlurImage from '@/app/[locale]/components/ui/FilePreviewBlurImage';
+import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
 
 interface Props {
     productId: string;

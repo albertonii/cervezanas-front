@@ -2,20 +2,13 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
 import { VIEWS } from '@/constants';
 import { SignUpForm } from './SignUpForm';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
-
-const DynamicSpinner = dynamic(
-    () => import('@/app/[locale]/components/common/Spinner'),
-    {
-        ssr: false,
-    },
-);
+import Spinner from '../../components/ui/Spinner';
 
 export default function Signup() {
     const t = useTranslations();
@@ -38,9 +31,7 @@ export default function Signup() {
     }, [user]);
 
     if (!isPageLoad) {
-        return (
-            <DynamicSpinner color="beer-blonde" size={'fullScreen'} absolute />
-        );
+        return <Spinner color="beer-blonde" size={'fullScreen'} absolute />;
     }
 
     return (

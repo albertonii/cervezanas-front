@@ -1,11 +1,11 @@
 'use client';
 
-import Button from '@/app/[locale]/components/common/Button';
-import Spinner from '@/app/[locale]/components/common/Spinner';
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
-import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
-import { z, ZodType } from 'zod';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
 import { useState } from 'react';
+import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
 import { IProducerUser } from '@/lib//types/types';

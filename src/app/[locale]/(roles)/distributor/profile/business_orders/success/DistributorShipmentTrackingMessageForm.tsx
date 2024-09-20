@@ -1,5 +1,3 @@
-import Button from '@/app/[locale]/components/common/Button';
-import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
 import React, { useState } from 'react';
 import {
     FieldError,
@@ -18,6 +16,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { handleUpdateShipmentTrackingMessages } from '../../../actions';
 import Title from '@/app/[locale]/components/ui/Title';
 import Description from '@/app/[locale]/components/ui/Description';
+import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
 
 const schemaMessages: ZodType<ShipmentTrackingMessagesFormData> = z.object({
     messages: z.array(

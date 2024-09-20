@@ -1,15 +1,15 @@
 'use client';
 
 import useBreweryStore from '@/app/store/breweryStore';
-import Spinner from '@/app/[locale]/components/common/Spinner';
-import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
 import useFetchBreweriesByOwnerAndPagination from '@/hooks/useFetchBreweriesByOwnerAndPagination';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IBrewery } from '@/lib/types/types';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
-import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
-import { EditButton } from '@/app/[locale]/components/common/EditButton';
+import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';
+import { EditButton } from '@/app/[locale]/components/ui/buttons/EditButton';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 
 interface Props {
     counter: number;

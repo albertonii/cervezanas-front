@@ -1,9 +1,6 @@
 import useFetchCitiesOfState from '../useFetchCitiesOfState';
 import useFetchStatesByCountry from '../useFetchStatesByCountry';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
-import Button from '@/app/[locale]/components/common/Button';
-import Spinner from '@/app/[locale]/components/common/Spinner';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import DistributionChipCard from '../DistributionChipCard';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
@@ -15,6 +12,9 @@ import { Country } from 'country-state-city';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { IDistributionCost } from '@/lib/types/types';
 import { updateCityDistribution } from '../../../actions';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 interface FormData {
     country: string;

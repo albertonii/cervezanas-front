@@ -1,7 +1,5 @@
 import Link from 'next/link';
 import useEventCartStore from '@/app/store//eventCartStore';
-import MarketCartButtons2 from '@/app/[locale]/components/common/MarketCartButtons2';
-import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
 import React, { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { SupabaseProps } from '@/constants';
@@ -10,7 +8,9 @@ import { ROUTE_EVENTS, ROUTE_PRODUCTS } from '@/config';
 import { useAuth } from '../../../../../../../(auth)/Context/useAuth';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { ICPFixed, IEventProduct, IProductPack } from '@/lib/types/types';
-import { AddCardButton } from '@/app/[locale]/components/common/AddCartButton';
+import { AddCardButton } from '@/app/[locale]/components/cart/AddCartButton';
+import MarketCartButtons2 from '@/app/[locale]/components/cart/MarketCartButtons2';
+import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
 
 interface ProductProps {
     pack: IProductPack;

@@ -6,22 +6,15 @@ import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { IProduct } from '@/lib//types/types';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import { formatCurrency } from '@/utils/formatCurrency';
-import { EditButton } from '@/app/[locale]/components/common/EditButton';
-import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
-import { ArchiveButton } from '@/app/[locale]/components/common/ArchiveButton';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import dynamic from 'next/dynamic';
-import useFetchProductsAndPagination from '../../../../../../hooks/useFetchProductsAndPaginationByAdmin';
 import useFetchProductsAndPaginationByAdmin from '../../../../../../hooks/useFetchProductsAndPaginationByAdmin';
-
-const DynamicSpinner = dynamic(
-    () => import('@/app/[locale]/components/common/Spinner'),
-    {
-        ssr: false,
-    },
-);
+import { ArchiveButton } from '@/app/[locale]/components/ui/buttons/ArchiveButton';
+import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';
+import { EditButton } from '@/app/[locale]/components/ui/buttons/EditButton';
+import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 interface Props {
     handleEditShowModal: ComponentProps<any>;
@@ -129,7 +122,7 @@ export function ProductList({
             )}
 
             {isLoading && (
-                <DynamicSpinner
+                <Spinner
                     color="beer-blonde"
                     size="xLarge"
                     absolute

@@ -1321,5 +1321,6 @@
         "update_messages": "Actualizar mensajes",
         "message_date": "Fecha del mensaje",
         "tracking_description_messages": "Aquí puedes ver los mensajes de seguimiento que has redactado, así el consumidor tendrá información actualiza acerca de su pedido. Puedes añadir, editar y eliminar mensajes."
-    }
+    },
+    "field": "Campo"
 }

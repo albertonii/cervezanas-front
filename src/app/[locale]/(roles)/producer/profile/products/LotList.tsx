@@ -1,15 +1,15 @@
 import Image from 'next/image';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import useFetchLotsByOwnerAndPagination from '../../../../../../hooks/useFetchLotsByOwner';
 import React, { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { IProductLot } from '@/lib//types/types';
-import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
-import { EditButton } from '@/app/[locale]/components/common/EditButton';
-import Spinner from '@/app/[locale]/components/common/Spinner';
 import { formatDateString } from '@/utils/formatDate';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';
+import { EditButton } from '@/app/[locale]/components/ui/buttons/EditButton';
+import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 interface Props {
     handleEditShowModal: React.Dispatch<React.SetStateAction<any>>;

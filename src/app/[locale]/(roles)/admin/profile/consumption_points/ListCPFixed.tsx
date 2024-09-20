@@ -3,14 +3,14 @@
 import Link from 'next/link';
 import EditCPFixedModal from './EditCPFixedModal';
 import DeleteCPFixedModal from './DeleteCPFixedModal';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import React, { useMemo, useState } from 'react';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useLocale, useTranslations } from 'next-intl';
 import { ICPFixed } from '@/lib//types/types';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
 import { formatDateString } from '@/utils/formatDate';
+import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
+import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
 
 interface Props {
     cpsFixed: ICPFixed[];

@@ -8,17 +8,17 @@ import { getGeocode } from 'use-places-autocomplete';
 import { IUser } from '@/lib//types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { cleanObject, isValidObject } from '@/utils/utils';
-import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodType } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import SelectInput from '@/app/[locale]/components/common/SelectInput';
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
-import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
-import Spinner from '@/app/[locale]/components/common/Spinner';
 import { ROLE_ENUM } from '@/lib//enums';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
+import SelectInput from '@/app/[locale]/components/form/SelectInput';
+import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 enum CPFixedStatus {
     active = 'active',

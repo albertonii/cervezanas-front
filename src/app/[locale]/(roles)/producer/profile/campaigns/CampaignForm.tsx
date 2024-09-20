@@ -5,12 +5,12 @@ import { UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { ICampaign, ICampaignItem } from '@/lib//types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import Button from '@/app/[locale]/components/common/Button';
-import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
-import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';
+import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
 
 enum CampaignStatus {
     uninitialized = 'uninitialized',

@@ -1,6 +1,6 @@
-import InputLabel from '../../common/InputLabel';
-import SelectInput from '../../common/SelectInput';
-import InputTextarea from '../../common/InputTextarea';
+import InputLabel from '../../form/InputLabel';
+import SelectInput from '../../form/SelectInput';
+import InputTextarea from '../../form/InputTextarea';
 import TechnicalInfoSection from './TechnicalInfoSection';
 import ProductPackInformation from '../../ProductPackInformation';
 import React, { useEffect, useState } from 'react';
@@ -23,7 +23,7 @@ import {
 import { capitalizeFirstLetter } from '@/utils/formatWords';
 import { faPalette } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { DisplayInputError } from '../../common/DisplayInputError';
+import { DisplayInputError } from '../../ui/DisplayInputError';
 
 interface Props {
     form: UseFormReturn<ModalAddProductFormData>;

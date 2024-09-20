@@ -15,8 +15,7 @@ import {
     IExperience,
     IUpdModalExperienceBeerMasterFormData,
 } from '@/lib//types/quiz';
-import { shuffleArray } from '@/utils/utils';
-import Spinner from '../../common/Spinner';
+import Spinner from '../../ui/Spinner';
 
 const difficulties = z.union([
     z.literal(Difficulty.EASY),

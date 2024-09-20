@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import Button from '@/app/[locale]/components/common/Button';
 import { IEvent } from '@/lib//types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { formatDateString } from '@/utils/formatDate';
 import { ROUTE_EVENTS } from '@/config';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
 
 interface EventCardProps {
     event: IEvent;

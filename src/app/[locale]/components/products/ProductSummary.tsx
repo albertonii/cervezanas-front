@@ -8,7 +8,6 @@ import {
     family_options,
     fermentation_options,
 } from '@/lib//beerEnum';
-import { DisplayInputError } from '../common/DisplayInputError';
 
 interface Props {
     form: UseFormReturn<ModalAddProductFormData, any>;

@@ -4,7 +4,6 @@ import Link from 'next/link';
 import PaymentInformationBox from '@/app/[locale]/components/PaymentInformationBox';
 import BillingInformationBox from '@/app/[locale]/components/BillingInformationBox';
 import ShippingInformationBox from '@/app/[locale]/components/ShippingInformationBox';
-import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
 import React, { useEffect, useState } from 'react';
 import { SupabaseProps } from '@/constants';
 import { formatDateString } from '@/utils/formatDate';
@@ -12,6 +11,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { IOrder, IOrderItem } from '@/lib//types/types';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { useAuth } from '../../../(auth)/Context/useAuth';
+import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
 
 interface Props {
     isError?: boolean;

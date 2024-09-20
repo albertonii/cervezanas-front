@@ -1,4 +1,3 @@
-import Button from '../common/Button';
 import QuestionCard from './QuestionCard';
 import QuizResults from './QuizResults';
 import React, { ComponentProps, useEffect, useState } from 'react';
@@ -11,6 +10,7 @@ import {
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useMessage } from '../message/useMessage';
+import Button from '../ui/buttons/Button';
 
 interface Props {
     isFinished: boolean;

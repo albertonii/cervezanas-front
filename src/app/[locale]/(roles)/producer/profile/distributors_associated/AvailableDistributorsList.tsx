@@ -1,14 +1,14 @@
 import Link from 'next/link';
-import Spinner from '@/app/[locale]/components/common/Spinner';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import useFetchDistributorsByProducerId from '../../../../../../hooks/useFetchDistributors';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
 import { IDistributorUser } from '@/lib//types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { faFileSignature } from '@fortawesome/free-solid-svg-icons';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
+import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
+import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 enum SortBy {
     NONE = 'none',

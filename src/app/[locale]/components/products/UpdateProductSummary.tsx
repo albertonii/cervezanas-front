@@ -4,9 +4,6 @@ import { useTranslations } from 'next-intl';
 import { SupabaseProps } from '@/constants';
 import { ModalUpdateProductFormData } from '@/lib//types/types';
 import { formatCurrency } from '@/utils/formatCurrency';
-import { FilePreviewImageMultimedia } from '@/app/[locale]/components/common/FilePreviewImageMultimedia';
-import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
-import { FilePreview } from '../common/FilePreview';
 import {
     color_options,
     family_options,

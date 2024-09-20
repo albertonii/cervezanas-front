@@ -1,9 +1,9 @@
 import useSWRMutation from 'swr/mutation';
-import InputLabel from './common/InputLabel';
+import InputLabel from './InputLabel';
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { DisplayInputError } from './common/DisplayInputError';
 import { JSONSubRegion } from '@/lib//types/distribution_areas';
+import { DisplayInputError } from '../ui/DisplayInputError';
 
 interface Props {
     form: ComponentProps<any>;
@@ -13,7 +13,7 @@ interface Props {
 const fetcher = (arg: any, ...args: any) =>
     fetch(arg, ...args).then((res) => res.json());
 
-export default function AddressCompanyForm({ form, addressNameId }: Props) {
+export default function AddressForm({ form, addressNameId }: Props) {
     const t = useTranslations();
 
     const [selectedCountry, setSelectCountry] = useState<string>();
@@ -99,7 +99,7 @@ export default function AddressCompanyForm({ form, addressNameId }: Props) {
     };
 
     return (
-        <form className="w-full" id="company-form-id">
+        <form className="w-full" id="individual-form-id">
             {/* Address Information */}
             <fieldset className="mb-3 space-y-4 rounded bg-beer-foam">
                 <address className="w-full space-y-2">
@@ -110,8 +110,16 @@ export default function AddressCompanyForm({ form, addressNameId }: Props) {
                     <div className="flex gap-4">
                         <InputLabel
                             form={form}
-                            label={'company_name'}
-                            labelText={'loc_company_name'}
+                            label={'name'}
+                            labelText={'loc_name'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                        />
+
+                        <InputLabel
+                            form={form}
+                            label={'lastname'}
                             registerOptions={{
                                 required: true,
                             }}
@@ -122,7 +130,6 @@ export default function AddressCompanyForm({ form, addressNameId }: Props) {
                         <InputLabel
                             form={form}
                             label={'document_id'}
-                            labelText={'loc_company_document_id'}
                             registerOptions={{
                                 required: true,
                             }}

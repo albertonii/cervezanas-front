@@ -1,15 +1,15 @@
 'use client';
 
-import Button from '@/app/[locale]/components/common/Button';
-import Spinner from '@/app/[locale]/components/common/Spinner';
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { IProfileLocation } from '@/lib//types/types';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
-import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
+import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
 
 interface FormProps {
     addressName: string;
@@ -158,7 +158,10 @@ export function LocationForm({ profile_location }: Props) {
             id="location_data"
             className="container mb-4 space-y-3 bg-white px-6 py-4"
         >
-            <h2 id="location-data-title" className="text-4xl font-['NexaRust-script']">
+            <h2
+                id="location-data-title"
+                className="text-4xl font-['NexaRust-script']"
+            >
                 {t('location')}
             </h2>
 

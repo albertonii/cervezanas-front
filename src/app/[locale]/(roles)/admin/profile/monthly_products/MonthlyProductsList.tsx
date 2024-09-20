@@ -4,12 +4,12 @@ import React, { useMemo, useState } from 'react';
 import { SupabaseProps } from '@/constants';
 import { IMonthlyProduct, IProduct } from '@/lib//types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
-import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
-import { EditButton } from '@/app/[locale]/components/common/EditButton';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import AddMonthlyProduct from '@/app/[locale]/components/modals/AddMonthlyProduct';
 import { DeleteMonthlyProduct } from '@/app/[locale]/components/modals/DeleteMonthlyProduct';
+import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';
+import { EditButton } from '@/app/[locale]/components/ui/buttons/EditButton';
+import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
 
 interface ColumnsProps {
     header: string;

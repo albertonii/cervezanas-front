@@ -7,10 +7,10 @@ import {
     ModalUpdateProductFormData,
     ModalUpdateProductPackFormData,
 } from '@/lib//types/types';
-import { DeleteButton } from '../common/DeleteButton';
 import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
-import InputLabel from '../common/InputLabel';
-import Spinner from '../common/Spinner';
+import InputLabel from '../form/InputLabel';
+import { DeleteButton } from '../ui/buttons/DeleteButton';
+import Spinner from '../ui/Spinner';
 
 const ProductUpdatePackItem = memo(
     ({

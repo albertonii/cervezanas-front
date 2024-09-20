@@ -13,7 +13,6 @@ import { CampaignForm } from './CampaignForm';
 import { SearchCheckboxListCampaign } from './SearchCheckboxListCampaign';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import Button from '@/app/[locale]/components/common/Button';
 import { DeleteCampaign } from '@/app/[locale]/components/modals/DeleteCampaign';
 
 interface Props {

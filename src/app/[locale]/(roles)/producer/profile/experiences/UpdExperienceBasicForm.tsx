@@ -1,9 +1,9 @@
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
-import SelectInput from '@/app/[locale]/components/common/SelectInput';
-import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
 import React from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
+import SelectInput from '@/app/[locale]/components/form/SelectInput';
 
 enum ExperienceTypes {
     beer_master = 'beer_master',

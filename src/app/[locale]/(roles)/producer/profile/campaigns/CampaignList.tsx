@@ -2,16 +2,16 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import Spinner from '@/app/[locale]/components/common/Spinner';
-import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
 import useFetchCampaignsByOwnerAndPagination from '../../../../../../hooks/useFetchCampaignsByOwnerAndPagination';
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { ICampaign } from '@/lib//types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
-import { EditButton } from '@/app/[locale]/components/common/EditButton';
-import { DeleteButton } from '@/app/[locale]/components/common/DeleteButton';
+import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';
+import { EditButton } from '@/app/[locale]/components/ui/buttons/EditButton';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 
 interface Props {
     handleEditShowModal: ComponentProps<any>;

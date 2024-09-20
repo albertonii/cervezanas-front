@@ -8,11 +8,11 @@ import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { IUserTable } from '@/lib//types/types';
-import Button from '@/app/[locale]/components/common/Button';
-import Spinner from '@/app/[locale]/components/common/Spinner';
-import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
 import { formatDateTypeDefaultInput } from '@/utils/formatDate';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 type FormData = {
     name: string;

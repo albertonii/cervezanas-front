@@ -6,11 +6,11 @@ import { useTranslations } from 'next-intl';
 import { IUserTable } from '@/lib//types/types';
 import { SupabaseProps } from '@/constants';
 import { isValidObject } from '@/utils/utils';
-import Button from '@/app/[locale]/components/common/Button';
-import { FilePreviewAndHide } from '@/app/[locale]/components/common/FilePreviewAndHide';
-import Spinner from '@/app/[locale]/components/common/Spinner';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useAppContext } from '@/app/context/AppContext';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import { FilePreviewAndHide } from '@/app/[locale]/components/ui/FilePreviewAndHide';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 type FormValues = {
     bg_url: any;
@@ -133,7 +133,10 @@ export function CustomizeProfileForm({ profile }: Props) {
 
     return (
         <section className="mb-4 space-y-3 bg-white px-6 py-4 border-2 rounded-md border-beer-blonde shadow-2xl">
-            <div id="account-data" className="text-4xl font-['NexaRust-script']">
+            <div
+                id="account-data"
+                className="text-4xl font-['NexaRust-script']"
+            >
                 {t('profile_custom')}
             </div>
 

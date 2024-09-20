@@ -2,7 +2,6 @@
 
 import BMPaymentModal from './BMPaymentModal';
 import QuizPanel from '@/app/[locale]/components/quiz/QuizPanel';
-import Button from '@/app/[locale]/components/common/Button';
 import React, { useEffect, useState } from 'react';
 import {
     IEventExperience,
@@ -29,6 +28,7 @@ import {
     getUserParticipant,
     hasUserParticipatedInExperienceBefore,
 } from './actions';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
 
 interface Props {
     eventExperience: IEventExperience;

@@ -1,13 +1,13 @@
 import useSWRMutation from 'swr/mutation';
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { ModalUpdateBreweryFormData } from '@/lib/types/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapLocation } from '@fortawesome/free-solid-svg-icons';
-import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
 import { JSONSubRegion } from '@/lib/types/distribution_areas';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
 
 interface Props {
     form: UseFormReturn<ModalUpdateBreweryFormData, any>;

@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import { ShoppingCart } from '../[locale]/components/Cart/ShoppingCart';
+import { ShoppingCart } from '../[locale]/components/cart/ShoppingCart';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import {
     IProductPackCartItem,

@@ -1,10 +1,10 @@
 'use client';
 
-import HorizontalSections from '@/app/[locale]/components/common/HorizontalSections';
 import React, { useState } from 'react';
 import { CPFixed } from './CPFixed';
 import { CPMobile } from './CPMobile';
 import { IConsumptionPoints } from '@/lib//types/types';
+import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
 
 interface Props {
     cps: IConsumptionPoints;

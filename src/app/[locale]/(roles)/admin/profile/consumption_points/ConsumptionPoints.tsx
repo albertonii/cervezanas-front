@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IConsumptionPoints, ICPFixed, ICPMobile } from '@/lib//types/types';
-import HorizontalSections from '@/app/[locale]/components/common/HorizontalSections';
 import { CPMobile } from './CPMobile';
 import { CPFixed } from './CPFixed';
+import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
 
 interface Props {
     cps: IConsumptionPoints[];

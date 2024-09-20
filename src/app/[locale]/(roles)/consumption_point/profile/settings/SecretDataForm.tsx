@@ -6,11 +6,11 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Button from '@/app/[locale]/components/common/Button';
-import Spinner from '@/app/[locale]/components/common/Spinner';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { useMutation } from 'react-query';
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 type FormData = {
     old_password: string;

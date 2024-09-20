@@ -1,5 +1,3 @@
-import DisplayImageProduct from '@/app/[locale]/components/common/DisplayImageProduct';
-import MarketCartButtons from '@/app/[locale]/components/common/MarketCartButtons';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { SupabaseProps } from '@/constants';
@@ -11,6 +9,8 @@ import {
 } from '@/lib/types/types';
 import { formatCurrency } from '@/utils/formatCurrency';
 import useEventCartStore from '@/app/store//eventCartStore';
+import MarketCartButtons from '@/app/[locale]/components/cart/MarketCartButtons';
+import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 

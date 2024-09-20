@@ -5,11 +5,11 @@ import { IUserReport } from '@/lib//types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import React, { useEffect, useMemo, useState } from 'react';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import { formatDateString } from '@/utils/formatDate';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import { ROUTE_ADMIN, ROUTE_PROFILE, ROUTE_REPORTS } from '@/config';
+import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
+import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
 
 enum SortBy {
     NONE = 'none',

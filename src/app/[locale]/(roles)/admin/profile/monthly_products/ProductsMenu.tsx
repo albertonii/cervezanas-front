@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { IMonthlyProduct, IProduct } from '@/lib//types/types';
-import HorizontalSections from '@/app/[locale]/components/common/HorizontalSections';
 import MonthlyProductsList from './MonthlyProductsList';
+import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
 
 interface Props {
     products: IProduct[];

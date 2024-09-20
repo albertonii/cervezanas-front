@@ -5,16 +5,10 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 
-import dynamic from 'next/dynamic';
 import { IProductPackEventCartItem } from '@/lib/types/types';
 import useFetchProductById from '../../../../../../../hooks/useFetchProductById';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
-const DynamicSpinner = dynamic(
-    () => import('@/app/[locale]/components/common/Spinner'),
-    {
-        ssr: false,
-    },
-);
 interface Props {
     eventId: string;
     productPack: IProductPackEventCartItem;
@@ -34,7 +28,7 @@ export function EventCheckoutItem({ eventId, productPack }: Props) {
         refetch();
     }, []);
 
-    if (isLoading) return <DynamicSpinner color={'beer-blonde'} />;
+    if (isLoading) return <Spinner color={'beer-blonde'} />;
 
     if (isError) return <div className="text-center text-red-500">Error</div>;
 

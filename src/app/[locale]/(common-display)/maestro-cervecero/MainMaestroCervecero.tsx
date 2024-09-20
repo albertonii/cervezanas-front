@@ -1,13 +1,13 @@
 'use client';
 
-import { useLocale } from 'next-intl';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import Button from '../../components/ui/buttons/Button';
 import React from 'react';
+import { useLocale } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import { IEventExperience } from '@/lib//types/quiz';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { ROUTE_CP_FIXED, ROUTE_CP_MOBILE, ROUTE_EVENTS } from '@/config';
-import { IEventExperience } from '@/lib//types/quiz';
-import Button from '@/app/[locale]/components/common/Button';
 
 interface Props {
     eventExperiences: IEventExperience[];

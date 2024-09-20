@@ -1,8 +1,8 @@
 import React from 'react';
-import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import { DisplayInputError } from '@/app/[locale]/components/common/DisplayInputError';
+import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
+import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
 
 interface Props {
     form: UseFormReturn<any>;

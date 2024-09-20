@@ -1,8 +1,8 @@
-import Spinner from '@/app/[locale]/components/common/Spinner';
 import ExperienceAccordionItem from './ExperienceAccordionItem ';
 import React from 'react';
 import { ICPFixed, ICPMobile, IExperience } from '@/lib//types/types';
 import { UseFormReturn } from 'react-hook-form';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 interface Props {
     experiences: IExperience[];

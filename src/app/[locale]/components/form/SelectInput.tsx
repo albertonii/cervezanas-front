@@ -1,7 +1,7 @@
 import React, { memo, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import { InfoTooltip } from './InfoTooltip';
+import { InfoTooltip } from '../ui/InfoTooltip';
 import { DisplayInputError } from './DisplayInputError';
 
 interface Props {

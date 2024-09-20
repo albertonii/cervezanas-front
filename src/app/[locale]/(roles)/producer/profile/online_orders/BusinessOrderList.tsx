@@ -1,7 +1,5 @@
 'use client';
 
-import Spinner from '@/app/[locale]/components/common/Spinner';
-import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
 import useFetchOrdersByProducerId from '../../../../../../hooks/useFetchOrdersByProducerId';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -12,8 +10,10 @@ import { useLocale, useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IconButton } from '@/app/[locale]/components/common/IconButton';
 import { ROUTE_ONLINE_ORDERS, ROUTE_PRODUCER, ROUTE_PROFILE } from '@/config';
+import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 
 interface Props {
     bOrders: IBusinessOrder[];

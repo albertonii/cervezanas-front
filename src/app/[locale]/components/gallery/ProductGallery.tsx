@@ -2,12 +2,12 @@
 
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Carousel } from './common/Carousel';
-import { IconButton } from './common/IconButton';
-import { ImageModal } from './modals/ImageModal';
+import { ImageModal } from '../modals/ImageModal';
 import { ICarouselItem } from '@/lib//types/types';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import DisplayImageProduct from './common/DisplayImageProduct';
+import { IconButton } from '../ui/buttons/IconButton';
+import DisplayImageProduct from '../ui/DisplayImageProduct';
+import { Carousel } from '../ui/Carousel';
 
 interface Props {
     gallery: ICarouselItem[];

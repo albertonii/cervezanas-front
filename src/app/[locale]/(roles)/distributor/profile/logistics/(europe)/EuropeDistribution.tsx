@@ -1,13 +1,13 @@
 import useFetchAllCountries from '../useFetchAllCountries';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useMutation, useQueryClient } from 'react-query';
 import { useForm, UseFormRegister } from 'react-hook-form';
 import { ICountry } from 'country-state-city/lib/interface';
-import Button from '@/app/[locale]/components/common/Button';
-import InputSearch from '@/app/[locale]/components/common/InputSearch';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import { filterSearchInputQuery } from '@/utils/utils';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
 
 // interface ICountry {
 //   id: string;

@@ -17,14 +17,14 @@ import useFetchCPSMobileByEventsId from '../../../../../../hooks/useFetchCPsMobi
 import useFetchCPSFixedByEventsId from '../../../../../../hooks/useFetchCPsFixedByEventId';
 import { formatDateDefaultInput } from '@/utils/formatDate';
 import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
-import InputTextarea from '@/app/[locale]/components/common/InputTextarea';
 import { ROUTE_EVENTS, ROUTE_PRODUCER, ROUTE_PROFILE } from '@/config';
 import { sendPushNotification } from '@/lib//actions';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z, ZodType } from 'zod';
 import { SearchCheckboxCPMobiles } from './SearchCheckboxCPMobiles';
 import { SearchCheckboxCPFixeds } from './SearchCheckboxCPFixed';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
 interface ModalUpdateFormData {
     is_activated: boolean;
     name: string;

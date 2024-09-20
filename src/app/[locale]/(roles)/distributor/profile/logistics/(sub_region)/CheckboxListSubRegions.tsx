@@ -1,9 +1,9 @@
 import React from 'react';
 import SubRegionRow from './SubRegionRow';
-import PaginationFooter from '@/app/[locale]/components/common/PaginationFooter';
 import { useTranslations } from 'next-intl';
 import { ICoverageArea } from '@/lib/types/types';
 import { JSONSubRegion } from '@/lib/types/distribution_areas';
+import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
 
 interface Props {
     tenSubRegions: JSONSubRegion[];

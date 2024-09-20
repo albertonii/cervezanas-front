@@ -1,9 +1,5 @@
 import Link from 'next/link';
-import Button from '@/app/[locale]/components/common/Button';
-import Spinner from '@/app/[locale]/components/common/Spinner';
 import PasswordStrengthIndicator from './PasswordStrengthIndicator';
-import InputLabel from '@/app/[locale]/components/common/InputLabel';
-import SelectInput from '@/app/[locale]/components/common/SelectInput';
 import ProducerDisclaimerModal from '../../(roles)/admin/profile/consumption_points/ProducerDisclaimerModal';
 import DistributorDisclaimerModal from '../../(roles)/admin/profile/consumption_points/DistributorDisclaimerModal';
 import ConsumptionPointDisclaimerModal from '../../(roles)/admin/profile/consumption_points/ConsumptionPointDisclaimerModal';
@@ -19,6 +15,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SignUpWithPasswordCredentials } from '../Context/AuthContext';
+import SelectInput from '../../components/form/SelectInput';
+import InputLabel from '../../components/form/InputLabel';
+import Button from '../../components/ui/buttons/Button';
+import Spinner from '../../components/ui/Spinner';
 
 interface FormData {
     access_level: string;

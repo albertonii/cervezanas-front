@@ -1,4 +1,3 @@
-import Button from './common/Button';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IProductPack, ModalUpdateProductFormData } from '@/lib//types/types';
@@ -8,6 +7,7 @@ import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import UpdateProductPackItemForm from './UpdateProductPackItemForm';
 import { useAuth } from '../(auth)/Context/useAuth';
+import Button from './ui/buttons/Button';
 
 const emptyPack: IProductPack = {
     id: '',

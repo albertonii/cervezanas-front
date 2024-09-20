@@ -16,8 +16,8 @@ import {
     Difficulty,
     IAddModalExperienceBeerMasterFormData,
 } from '@/lib//types/quiz';
-import { DisplayInputError } from '../../common/DisplayInputError';
-import Spinner from '../../common/Spinner';
+import { DisplayInputError } from '../../ui/DisplayInputError';
+import Spinner from '../../ui/Spinner';
 
 const difficulties = z.union([
     z.literal(Difficulty.EASY),

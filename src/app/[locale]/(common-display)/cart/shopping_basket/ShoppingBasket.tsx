@@ -4,7 +4,6 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 import Decimal from 'decimal.js';
 import PromotionCode from './PromotionCode';
 import ShoppingBasketItems from './ShoppingBasketItems';
-import Spinner from '@/app/[locale]/components/common/Spinner';
 import ShippingBillingContainer from './ShippingBillingContainer';
 import ShoppingBasketOrderSummary from './ShoppingBasketOrderSummary';
 import React, { useState, useEffect, useRef } from 'react';
@@ -20,13 +19,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { IProductPackCartItem, IUserTable } from '@/lib//types/types';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { CustomLoading } from '@/app/[locale]/components/common/CustomLoading';
 import {
     createRedirectForm,
     merchantInfo,
 } from '@/app/[locale]/components/TPV/redsysClient';
 import { insertOnlineOrder } from '../actions';
 import { formatDateForTPV } from '@/utils/formatDate';
+import { CustomLoading } from '@/app/[locale]/components/ui/CustomLoading';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 export type FormShippingData = {
     shipping_info_id: string;

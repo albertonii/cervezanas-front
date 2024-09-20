@@ -1,4 +1,4 @@
-import ProducerCard from '@/app/[locale]/components/common/ProducerCard';
+import ProducerCard from '@/app/[locale]/components/cards/ProducerCard';
 import OrderItemCard from '@/app/[locale]/components/common/OrderItemCard';
 import DistributorProductBusinnesInformation from './DistributorProductBusinnesInformation';
 import React from 'react';
@@ -7,7 +7,6 @@ import { useQueryClient } from 'react-query';
 import { DISTRIBUTOR_ONLINE_ORDER_STATUS } from '@/constants';
 import { IBusinessOrder, IOrderItem } from '@/lib/types/types';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
-import { StatusTimeline } from '@/app/[locale]/components/StatusTimeline';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 
 interface Props {

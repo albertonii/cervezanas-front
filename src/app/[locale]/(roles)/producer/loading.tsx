@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import DisplayImageProfile from '@/app/[locale]/components/common/DisplayImageProfile';
 import SidebarSkeleton from '@/app/[locale]/components/skeletons/SidebarSkeleton';
+import DisplayImageProfile from '../../components/ui/DisplayImageProfile';
 
 export default function loading() {
     return (
