@@ -1,8 +1,8 @@
 import React from 'react';
 import debounce from 'debounce';
-import { IconButton } from '../ui/IconButton';
-import { DeleteButton } from './DeleteButton';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { IconButton } from '../ui/buttons/IconButton';
+import { DeleteButton } from '../ui/buttons/DeleteButton';
 
 interface Props {
     quantity: number;

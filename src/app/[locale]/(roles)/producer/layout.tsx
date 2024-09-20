@@ -1,7 +1,7 @@
 import React from 'react';
 import readUserSession from '@/lib//actions';
 import createServerClient from '@/utils/supabaseServer';
-import IsNotYourRoleLayout from '@/app/[locale]/components/IsNotYourRoleLayout';
+import IsNotYourRoleLayout from '../../components/layout/IsNotYourRoleLayout';
 import AuthorizedAccessLayout from '@/app/[locale]/components/AuthorizedAccessLayout';
 import { redirect } from 'next/navigation';
 import { User } from '@supabase/supabase-js';

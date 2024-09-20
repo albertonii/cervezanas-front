@@ -6,10 +6,9 @@ import { Type } from '@/lib//productEnum';
 import { SupabaseProps } from '@/constants';
 import { useTranslations } from 'next-intl';
 import { handleProductLike } from '../actions';
-import { formatCurrency } from '@/utils/formatCurrency';
 import { ICarouselItem, IProduct } from '@/lib//types/types';
 import { Rate } from '@/app/[locale]/components/reviews/Rate';
-import { ProductGallery } from '@/app/[locale]/components/ProductGallery';
+import { ProductGallery } from '@/app/[locale]/components/gallery/ProductGallery';
 
 const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
 

@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import RejectContractModal from './RejectContractModal';
 import ApproveContractModal from './ApproveContractModal';
-import TableWithFooterAndSearch from '@/app/[locale]/components/TableWithFooterAndSearch';
 import useFetchDistributionContractsByDistributorId from '../../../../../../hooks/useFetchDistributionContractsByDistributorId';
 import React, { useEffect, useState } from 'react';
 import { formatDateString } from '@/utils/formatDate';
@@ -11,7 +10,8 @@ import { useLocale, useTranslations } from 'next-intl';
 import { IDistributionContract } from '@/lib//types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { faCancel, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { IconButton } from '@/app/[locale]/components/ui/IconButton';
+import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
+import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 
 interface Props {
     counter: number;

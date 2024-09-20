@@ -2,9 +2,8 @@ import { SupabaseProps } from '@/constants';
 import { IOrderItem } from '@/lib/types/types';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { useLocale, useTranslations } from 'next-intl';
-import Link from 'next/link';
 import React from 'react';
-import DisplayImageProduct from './DisplayImageProduct';
+import DisplayImageProduct from '../ui/DisplayImageProduct';
 import LinkURL from '../ui/LinkURL';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;

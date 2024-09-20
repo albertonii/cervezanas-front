@@ -1,7 +1,7 @@
 import React from 'react';
 import QRCode from 'react-qr-code';
+import ShareLink from '@/app/[locale]/components/ui/ShareLink';
 import { useLocale } from 'next-intl';
-import ShareLink from '@/app/[locale]/components/ShareLink';
 import { ROUTE_BARMAN, ROUTE_PRODUCER, ROUTE_PRODUCT } from '@/config';
 
 interface Props {

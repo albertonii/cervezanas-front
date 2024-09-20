@@ -5,7 +5,7 @@ import { formatDateString } from '@/utils/formatDate';
 import { IEvent } from '@/lib//types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { IconButton } from '@/app/[locale]/components/ui/IconButton';
+import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 import {
     faEdit,
     faTrash,

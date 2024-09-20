@@ -1,6 +1,6 @@
 import React from 'react';
 import { faBoxArchive } from '@fortawesome/free-solid-svg-icons';
-import { IconButton } from '../ui/IconButton';
+import { IconButton } from './IconButton';
 
 interface Props {
     onClick?: () => void;

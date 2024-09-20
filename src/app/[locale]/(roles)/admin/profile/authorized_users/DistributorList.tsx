@@ -7,7 +7,7 @@ import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { formatDateString } from '@/utils/formatDate';
-import { IconButton } from '@/app/[locale]/components/ui/IconButton';
+import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 import { IDistributorUser } from '@/lib//types/types';
 import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import dynamic from 'next/dynamic';

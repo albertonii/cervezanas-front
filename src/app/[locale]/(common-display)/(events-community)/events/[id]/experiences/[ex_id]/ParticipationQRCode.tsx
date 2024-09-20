@@ -1,6 +1,5 @@
 import React from 'react';
 import QRCode from 'react-qr-code';
-import ShareLink from '@/app/[locale]/components/ShareLink';
 
 import { useLocale } from 'next-intl';
 import {

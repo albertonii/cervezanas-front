@@ -4,7 +4,7 @@ import { IAddress } from '@/lib//types/types';
 import { UseFormRegister } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { IconButton } from '@/app/[locale]/components/ui/IconButton';
+import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 
 interface Props {
     address: IAddress;

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import TableWithFooterAndSearch from '../../components/TableWithFooterAndSearch';
+
 import React, { useState } from 'react';
 import { ROLE_ENUM } from '@/lib/enums';
 import { formatDateString } from '@/utils/formatDate';
@@ -14,6 +14,7 @@ import {
     faEnvelope,
     faEnvelopeOpen,
 } from '@fortawesome/free-solid-svg-icons';
+import TableWithFooterAndSearch from '../../components/ui/TableWithFooterAndSearch';
 
 interface Props {
     notifications: INotification[];

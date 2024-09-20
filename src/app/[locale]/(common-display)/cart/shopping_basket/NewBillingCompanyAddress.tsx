@@ -16,7 +16,7 @@ import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
 import { ModalBillingCompanyAddressFormData } from '@/lib//types/types';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import AddressCompanyForm from '@/app/[locale]/components/AddressCompanyForm';
+import AddressCompanyForm from '@/app/[locale]/components/form/AddressCompanyForm';
 
 export type NewBillingCompanyAddressRef = {
     submit: () => void;

@@ -5,7 +5,7 @@ import React from 'react';
 import readUserSession from '@/lib//actions';
 import createServerClient from '@/utils/supabaseServer';
 import AuthorizedAccessLayout from '@/app/[locale]/components/AuthorizedAccessLayout';
-import IsNotYourRoleLayout from '@/app/[locale]/components/IsNotYourRoleLayout';
+import IsNotYourRoleLayout from '../../components/layout/IsNotYourRoleLayout';
 
 type LayoutProps = {
     children: React.ReactNode;

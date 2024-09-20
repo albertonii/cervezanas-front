@@ -1,6 +1,5 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import useFetchEventOrders from '../../../../../../hooks/useFetchEventOrders';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';

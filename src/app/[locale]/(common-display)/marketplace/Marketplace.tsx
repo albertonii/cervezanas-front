@@ -6,8 +6,8 @@ import VerticalFilterMenu from './VerticalFilterMenu';
 import React from 'react';
 import { Type } from '@/lib/productEnum';
 import { IProduct } from '@/lib/types/types';
-import { BoxPackStoreItem } from '@/app/[locale]/components/cart/BoxPackStoreItem';
-import { ProductPackStoreItem } from '@/app/[locale]/components/cart/ProductPackStoreItem';
+import { ProductPackStoreItem } from '../../components/cart/ProductPackStoreItem';
+import { BoxPackStoreItem } from '../../components/cart/BoxPackStoreItem';
 
 interface Props {
     products: IProduct[];

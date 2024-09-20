@@ -1,6 +1,5 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import useFetchOrders from '../../../../../../hooks/useFetchOrders';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';

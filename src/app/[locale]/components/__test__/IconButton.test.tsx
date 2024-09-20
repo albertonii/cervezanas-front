@@ -1,6 +1,6 @@
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { render, screen } from '@testing-library/react';
-import { IconButton } from '../ui/IconButton';
+import { IconButton } from '../ui/buttons/IconButton';
 import userEvent from '@testing-library/user-event';
 
 const mockHandleClick = jest.fn();

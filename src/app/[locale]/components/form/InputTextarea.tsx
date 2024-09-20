@@ -4,7 +4,7 @@ import React from 'react';
 import { InfoTooltip } from '../ui/InfoTooltip';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import { DisplayInputError } from './DisplayInputError';
+import { DisplayInputError } from '../ui/DisplayInputError';
 
 interface Props {
     form: UseFormReturn<any, any>;

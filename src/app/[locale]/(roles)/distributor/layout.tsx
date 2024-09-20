@@ -4,7 +4,7 @@ import { User } from '@supabase/supabase-js';
 import { redirect } from 'next/navigation';
 import { ROLE_ENUM } from '@/lib//enums';
 import AuthorizedAccessLayout from '@/app/[locale]/components/AuthorizedAccessLayout';
-import IsNotYourRoleLayout from '@/app/[locale]/components/IsNotYourRoleLayout';
+import IsNotYourRoleLayout from '../../components/layout/IsNotYourRoleLayout';
 
 type LayoutProps = {
     children: React.ReactNode;

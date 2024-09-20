@@ -3,10 +3,10 @@
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import { DisplayInputError } from './DisplayInputError';
 import { InfoTooltip } from '../ui/InfoTooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { DisplayInputError } from '../ui/DisplayInputError';
 
 interface Props {
     form: UseFormReturn<any, any>;
