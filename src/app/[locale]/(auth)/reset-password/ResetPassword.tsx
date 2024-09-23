@@ -42,8 +42,8 @@ export default function ResetPassword() {
     const searchParams = useSearchParams(); // Accede a los parámetros de búsqueda
     const token = searchParams.get('token'); // Obtén el token de los parámetros de búsqueda
 
-    alert(searchParams);
-    alert(token);
+    console.log(searchParams);
+    console.log(token);
 
     const [isResetSubmitLoading, setResetSubmitLoading] = useState(false);
     const { updatePassword } = useAuth();
