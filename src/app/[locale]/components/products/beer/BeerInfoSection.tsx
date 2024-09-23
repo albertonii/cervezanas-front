@@ -6,6 +6,10 @@ import ProductPackInformation from '../../ProductPackInformation';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
+import { capitalizeFirstLetter } from '@/utils/formatWords';
+import { faPalette } from '@fortawesome/free-solid-svg-icons';
+import { DisplayInputError } from '../../ui/DisplayInputError';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     aroma_options,
     color_options,
@@ -20,10 +24,6 @@ import {
     ICustomizeSettings,
     ModalAddProductFormData,
 } from '@/lib//types/types';
-import { capitalizeFirstLetter } from '@/utils/formatWords';
-import { faPalette } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { DisplayInputError } from '../../ui/DisplayInputError';
 
 interface Props {
     form: UseFormReturn<ModalAddProductFormData>;
@@ -132,7 +132,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                                 valueAsNumber: true,
                             }}
                             inputType="number"
-                            infoTooltip={t('tooltips.family')}
+                            infoTooltip={t('tooltips.intensity')}
                             isRequired={true}
                         />
 

@@ -1,13 +1,14 @@
+import BeerInfoSection from './beer/BeerInfoSection';
 import React, { useState } from 'react';
-import { UseFormReturn } from 'react-hook-form';
+import { Type } from '@/lib//productEnum';
 import { useTranslations } from 'next-intl';
+import { UseFormReturn } from 'react-hook-form';
+import { product_type_options } from '@/lib//beerEnum';
+
 import {
     ICustomizeSettings,
     ModalAddProductFormData,
 } from '@/lib//types/types';
-import BeerInfoSection from './beer/BeerInfoSection';
-import { product_type_options } from '@/lib//beerEnum';
-import { Type } from '@/lib//productEnum';
 
 interface Props {
     form: UseFormReturn<ModalAddProductFormData, any>;

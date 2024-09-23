@@ -191,7 +191,7 @@ export function AddProductModal() {
             type: Type.BEER,
             is_gluten: false,
             weight: 330,
-            intensity: 4,
+            intensity: 4.3,
             ibu: 30,
             price: 0,
             category: Type.BEER,
@@ -463,13 +463,13 @@ export function AddProductModal() {
                 handler={handleSubmit(onSubmit)}
             >
                 <>
-                <p className="text-slate-500 my-4 text-sm leading-normal max-w-full text-justify bg-cerv-brown bg-opacity-10 p-4 rounded-2xl">
-                            {t('modal_product_description')}
-                        </p>
+                    <p className="text-slate-500 my-4 text-sm leading-normal max-w-full text-justify bg-cerv-brown bg-opacity-10 p-4 rounded-2xl">
+                        {t('modal_product_description')}
+                    </p>
 
-                        <p className="text-slate-500 my-4 text-sm leading-relaxed">
-                            {t('modal_product_description_two')}
-                        </p>
+                    <p className="text-slate-500 my-4 text-sm leading-relaxed">
+                        {t('modal_product_description_two')}
+                    </p>
 
                     {activeStep === 0 ? (
                         <ProductInfoSection
