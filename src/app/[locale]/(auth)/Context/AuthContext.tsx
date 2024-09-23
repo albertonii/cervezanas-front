@@ -471,11 +471,11 @@ export const AuthContextProvider = ({
         return true;
     };
 
-    const updatePassword = async (password: string) => {
+    const updatePassword = async (new_password: string) => {
         const upd_password_success = t('messages.upd_password_success');
 
         const { data: resetData, error } = await supabase.auth.updateUser({
-            password,
+            password: new_password,
         });
 
         // TODO: Error al restablecer contraseña: "Auth Session Missing"
