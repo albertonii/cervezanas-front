@@ -7,6 +7,7 @@ import { IBusinessOrder } from '@/lib//types/types';
 export default async function OrdersPage() {
     const bOrdersData = await getBusinessOrdersData();
     const [bOrders] = await Promise.all([bOrdersData]);
+
     return <BusinessOrders bOrders={bOrders} />;
 }
 

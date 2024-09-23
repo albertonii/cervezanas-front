@@ -1,5 +1,7 @@
 'use client';
 
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import useFetchOrdersByDistributorId from '../../../../../../hooks/useFetchOrdersByDistributorId';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -10,14 +12,13 @@ import { useLocale, useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { faTruck } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
+
 import {
     ROUTE_BUSINESS_ORDERS,
     ROUTE_DISTRIBUTOR,
     ROUTE_PROFILE,
 } from '@/config';
-import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
-import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 
 interface Props {
     bOrders: IBusinessOrder[];
@@ -57,7 +58,7 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
                     bOrdersData
                         .map((order) => order.orders?.order_number)
                         .map((orderNumber) =>
-                            bOs.find(
+                            bOrdersData.find(
                                 (order) =>
                                     order.orders?.order_number === orderNumber,
                             ),
