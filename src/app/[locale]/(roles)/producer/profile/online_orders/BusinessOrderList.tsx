@@ -1,6 +1,8 @@
 'use client';
 
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 import useFetchOrdersByProducerId from '../../../../../../hooks/useFetchOrdersByProducerId';
+import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { encodeBase64 } from '@/utils/utils';
@@ -10,10 +12,8 @@ import { useLocale, useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { ROUTE_ONLINE_ORDERS, ROUTE_PRODUCER, ROUTE_PROFILE } from '@/config';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
-import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
+import { ROUTE_ONLINE_ORDERS, ROUTE_PRODUCER, ROUTE_PROFILE } from '@/config';
 
 interface Props {
     bOrders: IBusinessOrder[];
@@ -71,14 +71,7 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
             render: (_: string, row: IBusinessOrder) =>
                 row?.orders?.customer_name ?? '',
         },
-        {
-            header: t('products_quantity_header'),
-            accessor: 'products_quantity',
-            sortable: true,
-            render: (_: number, row: IBusinessOrder) => {
-                return row.order_items?.length;
-            },
-        },
+
         {
             header: t('price_header'),
             accessor: 'price',
@@ -93,18 +86,11 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
             render: (_: string, row: IBusinessOrder) => t(row?.orders?.status),
         },
         {
-            header: t('tracking_number_header'),
-            accessor: 'tracking_number',
-            sortable: true,
-            render: (_: string, row: IBusinessOrder) =>
-                row?.orders?.tracking_id ?? '',
-        },
-        {
             header: t('date_header'),
             accessor: 'date',
             sortable: true,
             render: (value: string, row: IBusinessOrder) =>
-                formatDateString(value),
+                formatDateString(row.created_at),
         },
         {
             header: t('action_header'),
