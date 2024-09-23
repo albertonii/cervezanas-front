@@ -1,4 +1,8 @@
 import Link from 'next/link';
+import Spinner from '../../components/ui/Spinner';
+import Button from '../../components/ui/buttons/Button';
+import InputLabel from '../../components/form/InputLabel';
+import SelectInput from '../../components/form/SelectInput';
 import PasswordStrengthIndicator from './PasswordStrengthIndicator';
 import ProducerDisclaimerModal from '../../(roles)/admin/profile/consumption_points/ProducerDisclaimerModal';
 import DistributorDisclaimerModal from '../../(roles)/admin/profile/consumption_points/DistributorDisclaimerModal';
@@ -15,10 +19,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SignUpWithPasswordCredentials } from '../Context/AuthContext';
-import SelectInput from '../../components/form/SelectInput';
-import InputLabel from '../../components/form/InputLabel';
-import Button from '../../components/ui/buttons/Button';
-import Spinner from '../../components/ui/Spinner';
 
 interface FormData {
     access_level: string;
@@ -57,12 +57,6 @@ const schema: ZodType<FormData> = z
             .min(5, { message: 'errors.input_required' })
             .transform((val) => val.toLowerCase()), // Normalización a minúsculas
         password: z.string().min(8, { message: 'errors.password_8_length' }),
-        // .regex(
-        //     /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
-        //     {
-        //         message: 'errors.password_security',
-        //     },
-        // ),
         confirm_password: z
             .string()
             .min(8, { message: 'errors.password_8_length' }),

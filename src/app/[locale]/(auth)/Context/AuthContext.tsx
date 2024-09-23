@@ -450,11 +450,7 @@ export const AuthContextProvider = ({
     const sendResetPasswordEmail = async (email: string) => {
         const resetEmailMessage = t('messages.reset_password_email_sent');
 
-        console.log(window.location.origin + '/reset-password');
-
-        const { error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: `${window.location.origin}/reset-password`,
-        });
+        const { error } = await supabase.auth.resetPasswordForEmail(email);
 
         if (error) {
             console.error('Error resetting password:', error.message);
@@ -474,9 +470,18 @@ export const AuthContextProvider = ({
     const updatePassword = async (new_password: string) => {
         const upd_password_success = t('messages.upd_password_success');
 
-        const { data: resetData, error } = await supabase.auth.updateUser({
+        const attributes = {
             password: new_password,
-        });
+        };
+
+        const options = {
+            emailRedirectTo: 'localhost:3000',
+        };
+
+        const { data: resetData, error } = await supabase.auth.updateUser(
+            attributes,
+            options,
+        );
 
         // TODO: Error al restablecer contraseña: "Auth Session Missing"
         if (resetData.user) {
@@ -490,8 +495,9 @@ export const AuthContextProvider = ({
             // }, 2000);
         }
 
+        console.log('dentro');
         if (error) {
-            console.error(error);
+            console.info(error);
             handleMessage({ message: error.message, type: 'error' });
         }
     };

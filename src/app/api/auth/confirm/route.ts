@@ -1,12 +1,9 @@
 import createServerClient from '@/utils/supabaseServer';
-import { type EmailOtpType } from '@supabase/supabase-js';
-import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
+import { type EmailOtpType } from '@supabase/supabase-js';
 
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
-
-    console.log(searchParams);
 
     const token_hash = searchParams.get('token_hash');
     const type = searchParams.get('type') as EmailOtpType | null;
@@ -21,6 +18,7 @@ export async function GET(request: NextRequest) {
             type,
             token_hash,
         });
+
         if (!error) {
             return NextResponse.redirect(redirectTo);
         }

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Spinner from '../../components/ui/Spinner';
 import Button from '../../components/ui/buttons/Button';
 import InputLabel from '../../components/form/InputLabel';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
@@ -12,7 +12,7 @@ import { useAuth } from '../Context/useAuth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useSearchParams } from 'next/navigation';
+import PasswordStrengthIndicator from '../signup/PasswordStrengthIndicator';
 
 type FormData = {
     password: string;
@@ -39,26 +39,19 @@ type ValidationSchema = z.infer<typeof schema>;
  */
 export default function ResetPassword() {
     const t = useTranslations();
-    const searchParams = useSearchParams(); // Accede a los parámetros de búsqueda
-    const token = searchParams.get('token'); // Obtén el token de los parámetros de búsqueda
-
-    console.log(searchParams);
-    console.log(token);
 
     const [isResetSubmitLoading, setResetSubmitLoading] = useState(false);
     const { updatePassword } = useAuth();
 
     const form = useForm<FormData>({
         resolver: zodResolver(schema),
+        defaultValues: {
+            password: '',
+            confirm_password: '',
+        },
     });
 
     const { handleSubmit } = form;
-
-    useEffect(() => {
-        console.log(isResetSubmitLoading);
-
-        return () => {};
-    }, [isResetSubmitLoading]);
 
     async function updPassword(formData: ValidationSchema) {
         setResetSubmitLoading(true);
@@ -99,6 +92,10 @@ export default function ResetPassword() {
                             }}
                             placeholder="*****"
                             inputType="password"
+                        />
+
+                        <PasswordStrengthIndicator
+                            password={form.watch('password')}
                         />
 
                         <InputLabel
