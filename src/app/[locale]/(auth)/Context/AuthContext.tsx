@@ -490,9 +490,9 @@ export const AuthContextProvider = ({
                 type: 'success',
             });
 
-            // setTimeout(() => {
-            //   router.push("/signin");
-            // }, 2000);
+            setTimeout(() => {
+                router.push('/');
+            }, 2000);
         }
 
         console.log('dentro');
