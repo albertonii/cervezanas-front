@@ -1,9 +1,9 @@
-import ResetPassword from "./ResetPassword";
+import ResetPassword from './ResetPassword';
 
 export default async function ResetPasswordPage() {
-  return (
-    <>
-      <ResetPassword />
-    </>
-  );
+    return (
+        <>
+            <ResetPassword />
+        </>
+    );
 }

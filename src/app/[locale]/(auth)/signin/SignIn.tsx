@@ -2,6 +2,9 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import Spinner from '../../components/ui/Spinner';
+import Button from '../../components/ui/buttons/Button';
+import InputLabel from '../../components/form/InputLabel';
 import React, { useEffect, useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useLocale } from 'next-intl';
@@ -12,9 +15,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import InputLabel from '../../components/form/InputLabel';
-import Button from '../../components/ui/buttons/Button';
-import Spinner from '../../components/ui/Spinner';
 
 type SigninFormData = {
     email: string;
@@ -358,6 +358,7 @@ export default function SignIn() {
                                     btnType="submit"
                                     form="reset-form"
                                     disabled={isResetPasswordLoading}
+                                    isLoading={isResetPasswordLoading}
                                 >
                                     <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                         <FontAwesomeIcon

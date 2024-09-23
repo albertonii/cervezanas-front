@@ -798,7 +798,7 @@
         "updated_successfully": "Actualizado correctamente",
         "updated_error": "Error al actualizar",
         "upd_password_success": "Contraseña actualizada correctamente",
-        "reset_password_email_sent": "Correo de restablecimiento de contraseña enviado",
+        "reset_password_email_sent": "Correo de restablecimiento de contraseña enviado. Consulta tu bandeja de entrada.",
         "sign_in_success": "Sesión iniciada correctamente",
         "sign_up_success": "La inscripción se ha realizado correctamente. Consulta tu bandeja de entrada para validar el correo de confirmación.",
         "user_already_registered": "El usuario ya está registrado"

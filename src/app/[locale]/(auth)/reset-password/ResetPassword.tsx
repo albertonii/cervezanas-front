@@ -1,17 +1,18 @@
 'use client';
 
 import Image from 'next/image';
+import Spinner from '../../components/ui/Spinner';
+import Button from '../../components/ui/buttons/Button';
+import InputLabel from '../../components/form/InputLabel';
 import React, { useEffect, useState } from 'react';
 import { z, ZodType } from 'zod';
-import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../Context/useAuth';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import InputLabel from '../../components/form/InputLabel';
-import Button from '../../components/ui/buttons/Button';
-import Spinner from '../../components/ui/Spinner';
+import { useSearchParams } from 'next/navigation';
 
 type FormData = {
     password: string;
@@ -38,6 +39,11 @@ type ValidationSchema = z.infer<typeof schema>;
  */
 export default function ResetPassword() {
     const t = useTranslations();
+    const searchParams = useSearchParams(); // Accede a los parámetros de búsqueda
+    const token = searchParams.get('token'); // Obtén el token de los parámetros de búsqueda
+
+    alert(searchParams);
+    alert(token);
 
     const [isResetSubmitLoading, setResetSubmitLoading] = useState(false);
     const { updatePassword } = useAuth();
