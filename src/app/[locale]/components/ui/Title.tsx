@@ -7,7 +7,7 @@ interface Props {
     children: React.ReactNode;
 }
 
-const ProfileSectionHeader = ({ children, size, color }: Props) => {
+const Title = ({ children, size, color }: Props) => {
     const t = useTranslations();
 
     const sizeClass = {
@@ -37,4 +37,4 @@ const ProfileSectionHeader = ({ children, size, color }: Props) => {
     );
 };
 
-export default ProfileSectionHeader;
+export default Title;

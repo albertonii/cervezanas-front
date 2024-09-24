@@ -763,8 +763,8 @@
     "distributors_associated": "Associated distributors",
     "distributors_list": "Distributors list",
     "form_submit_contract_description": "Select from the list of available distributors and create a contract to start working with them. Once the contract is validated by the distributor and Cervezanas you will be able to start working with him.",
-    "form_submit_contract_title": "Contract with distributor",
-    "apply_contract": "Apply contract",
+    "form_submit_contract_title": "Form submission contract title",
+    "apply_contract": "Apply with new distributor",
     "contract_with_distributor": "Contract with distributor",
     "agree_terms_and_conditions_contract_distribution": "I agree to the terms and conditions of the contract",
     "message_to_distributor_contract_distribution": "Message to distributor",
@@ -979,6 +979,7 @@
     "producer_title_acc_data": "Producer Information",
     "profile_acc_authorized": "Profile Authorized",
     "profile_acc_company_name": "Company Name",
+    "profile_acc_company_legal_representative": "Name of legal Representative",
     "profile_acc_nif_cif": "NIF/CIF/Document ID",
     "profile_acc_phone": "Phone",
     "company_description": "Company",
@@ -1030,7 +1031,8 @@
         "deleting_product": "Product deleted successfully",
         "deleting_product_pack": "Product pack deleted successfully",
         "deleting_product_award": "Product award deleted successfully",
-        "update_shipment_tracking": "Shipment tracking updated successfully"
+        "update_shipment_tracking": "Shipment tracking updated successfully",
+        "profile_acc_data_updated": "Account data updated successfully"
     },
     "num_of_packs": "Number of packs",
     "promo_code": "Promo code",
@@ -1194,7 +1196,8 @@
         "producer_email": "Email",
         "producer_description": "Description",
         "producer_contact": "Contact",
-        "producer_catalog": "Catalog"
+        "producer_catalog": "Catalog",
+        "company_legal_representative": "Legal representative"
     },
     "show_full_info": "Show full information",
     "hide_full_info": "Hide full information",

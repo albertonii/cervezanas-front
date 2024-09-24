@@ -26,7 +26,9 @@ export default function CollaborationDetails({ distributor, producer }: Props) {
 
             <section className="space-y-2">
                 <div>
-                    <h3 className="font-semibold text-2xl mb-4 capitalize">{t('producer')}:</h3>
+                    <h3 className="font-semibold text-2xl mb-4 capitalize">
+                        {t('producer')}:
+                    </h3>
 
                     <div className="mx-6 space-y-2">
                         <summary>
@@ -39,8 +41,8 @@ export default function CollaborationDetails({ distributor, producer }: Props) {
                         </summary>
 
                         <summary>
-                            {t('representative_name')}: [Nombre del
-                            Representante Legal]
+                            {t('representative_name')}:{' '}
+                            {t(producer.company_legal_representative)}
                         </summary>
 
                         <summary>
@@ -56,7 +58,9 @@ export default function CollaborationDetails({ distributor, producer }: Props) {
 
             <section className="space-y-2">
                 <div>
-                    <h3 className="font-semibold text-2xl mb-4 capitalize">{t('distributor')}:</h3>
+                    <h3 className="font-semibold text-2xl mb-4 capitalize">
+                        {t('distributor')}:
+                    </h3>
 
                     <div className="mx-6 space-y-2">
                         <summary>
@@ -69,8 +73,8 @@ export default function CollaborationDetails({ distributor, producer }: Props) {
                         </summary>
 
                         <summary>
-                            {t('representative_name')}: [Nombre del
-                            Representante Legal]
+                            {t('representative_name')}:{' '}
+                            {t(distributor.company_legal_representative)}
                         </summary>
 
                         <summary>

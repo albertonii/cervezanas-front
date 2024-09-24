@@ -36,7 +36,7 @@ interface Props {
 
 export function BasicDataForm({ profile }: Props) {
     const t = useTranslations();
-    const successMessage = t('profile_acc_data_updated');
+    const successMessage = t('success.');
 
     const { supabase } = useAuth();
 

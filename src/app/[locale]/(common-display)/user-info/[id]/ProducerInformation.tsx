@@ -60,6 +60,20 @@ const ProducerInformation = ({ producer }: Props) => {
                     </div>
                 )}
 
+                {producer.company_legal_representative && (
+                    <div className="grid grid-cols-2">
+                        <h2 className="font-semibold">
+                            {t(
+                                'public_user_information.company_legal_representative',
+                            )}
+                        </h2>
+
+                        <span className="px-4 py-2">
+                            {producer.company_legal_representative}
+                        </span>
+                    </div>
+                )}
+
                 {producer.company_phone && (
                     <div className="grid grid-cols-2">
                         <h2 className="font-semibold">

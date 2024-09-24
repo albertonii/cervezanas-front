@@ -1422,6 +1422,7 @@ export type Database = {
           company_history_description: string | null
           company_history_year: number | null
           company_ig: string | null
+          company_legal_representative: string | null
           company_linkedin: string | null
           company_logo: string | null
           company_mission: string | null
@@ -1446,6 +1447,7 @@ export type Database = {
           company_history_description?: string | null
           company_history_year?: number | null
           company_ig?: string | null
+          company_legal_representative?: string | null
           company_linkedin?: string | null
           company_logo?: string | null
           company_mission?: string | null
@@ -1470,6 +1472,7 @@ export type Database = {
           company_history_description?: string | null
           company_history_year?: number | null
           company_ig?: string | null
+          company_legal_representative?: string | null
           company_linkedin?: string | null
           company_logo?: string | null
           company_mission?: string | null
@@ -2358,6 +2361,7 @@ export type Database = {
           company_history_description: string | null
           company_history_year: number | null
           company_ig: string | null
+          company_legal_representative: string | null
           company_linkedin: string | null
           company_logo: string | null
           company_mission: string | null
@@ -2380,6 +2384,7 @@ export type Database = {
           company_history_description?: string | null
           company_history_year?: number | null
           company_ig?: string | null
+          company_legal_representative?: string | null
           company_linkedin?: string | null
           company_logo?: string | null
           company_mission?: string | null
@@ -2402,6 +2407,7 @@ export type Database = {
           company_history_description?: string | null
           company_history_year?: number | null
           company_ig?: string | null
+          company_legal_representative?: string | null
           company_linkedin?: string | null
           company_logo?: string | null
           company_mission?: string | null

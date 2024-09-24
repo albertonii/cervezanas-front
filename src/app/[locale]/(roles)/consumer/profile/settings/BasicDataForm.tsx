@@ -43,7 +43,7 @@ export function BasicDataForm({ profile }: Props) {
     const [loading, setLoading] = useState(false);
 
     const errorMessage = t('errors.basic_data');
-    const successMessage = t('profile_acc_data_updated');
+    const successMessage = t('success.profile_acc_data_updated');
 
     const { handleMessage } = useMessage();
 

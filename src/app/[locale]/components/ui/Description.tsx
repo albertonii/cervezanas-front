@@ -23,7 +23,7 @@ const Description = ({ children, size, color }: Props) => {
 
     return (
         <p
-            className={`${sizeClass[size]} ${colorClass[color]} font-['NexaRust-script']`}
+            className={`${sizeClass[size]} ${colorClass[color]} font-['Ubuntu-light'] max-w-full text-justify`}
         >
             {children}
         </p>

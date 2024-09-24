@@ -9,6 +9,9 @@ import { faFileSignature } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
+import Title from '@/app/[locale]/components/ui/Title';
+import Label from '@/app/[locale]/components/ui/Label';
+import Description from '@/app/[locale]/components/ui/Description';
 
 enum SortBy {
     NONE = 'none',
@@ -113,13 +116,13 @@ export default function AvailableDistributorsList({
 
     return (
         <section className="relative space-y-4 overflow-x-auto px-6 py-4 shadow-md sm:rounded-lg">
-            <span className="text-slate-500 my-4 sm:text-md leading-relaxed">
-                {t('form_submit_contract_description')}
-            </span>
-
-            <h2 className="text-4xl font-['NexaRust-script']">
+            <Title size="large" color="black">
                 {t('distributors_list')}
-            </h2>
+            </Title>
+
+            <Description size={'small'} color={'black'}>
+                {t('form_submit_contract_description')}
+            </Description>
 
             {isError && (
                 <div className="flex items-center justify-center">

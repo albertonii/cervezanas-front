@@ -32,7 +32,7 @@ interface Props {
 
 export function ConsumptionPointBasicDataForm({ profile }: Props) {
     const t = useTranslations();
-    const successMessage = t('profile_acc_data_updated');
+    const successMessage = t('success.profile_acc_data_updated');
 
     const { supabase } = useAuth();
     const { handleMessage } = useMessage();

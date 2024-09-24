@@ -145,7 +145,7 @@ export function AddLot() {
             showModal={showModal}
             setShowModal={setShowModal}
             title={'config_lot'}
-            btnTitle={'save'}
+            btnTitle={'add_lot'}
             description={'modal_product_description'}
             handler={handleSubmit(onSubmit)}
             classContainer={`${isLoading && ' opacity-75'}`}

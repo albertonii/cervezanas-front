@@ -755,8 +755,8 @@
     "distributors_associated": "Distribuidores asociados",
     "distributors_list": "Listado de distribuidores",
     "form_submit_contract_description": "Selecciona del listado los distribuidores disponibles y crea un contrato para poder empezar a trabajar con él. Una vez esté validado el contrato por parte del distribuidor y Cervezanas podrás comenzar a operar con él.",
-    "form_submit_contract_title": "Solicitud de contrato",
-    "apply_contract": "Solicitar contrato",
+    "form_submit_contract_title": "Solicitud de acuerdo de intensiones ",
+    "apply_contract": "Asociar con nuevo distribuidor",
     "contract_with_distributor": "Contrato con distribuidor",
     "agree_terms_and_conditions_contract_distribution": "Acepto los términos y condiciones del contrato de distribución",
     "message_to_distributor_contract_distribution": "Mensaje al distribuidor",
@@ -992,6 +992,7 @@
     "producer_title_acc_data": "Información de Productor",
     "profile_acc_authorized": "Perfil Autorizado",
     "profile_acc_company_name": "Nombre de la empresa",
+    "profile_acc_company_legal_representative": "Nombre representante legal",
     "profile_acc_nif_cif": "NIF/CIF",
     "profile_acc_phone": "Teléfono",
     "company_description": "Descripción de la empresa",
@@ -1048,7 +1049,8 @@
         "deleting_product": "Producto eliminado correctamente",
         "deleting_product_pack": "Pack de producto eliminado correctamente",
         "deleting_product_award": "Premio eliminado correctamente",
-        "update_shipment_tracking": "Seguimiento de envío actualizado correctamente"
+        "update_shipment_tracking": "Seguimiento de envío actualizado correctamente",
+        "profile_acc_data_updated": "Datos de la cuenta actualizados correctamente"
     },
     "num_of_packs": "Número de packs",
     "promo_code": "Código promocional",
@@ -1224,7 +1226,8 @@
         "producer_email": "Correo electrónico",
         "producer_description": "Descripción",
         "producer_contact": "Contacto",
-        "producer_catalog": "Catálogo"
+        "producer_catalog": "Catálogo",
+        "company_legal_representative": "Representante legal"
     },
     "show_full_info": "Mostrar información completa",
     "hide_full_info": "Ocultar información completa",

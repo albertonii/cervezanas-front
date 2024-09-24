@@ -1,5 +1,9 @@
 'use client';
 
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
 import { z, ZodType } from 'zod';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
@@ -9,15 +13,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import InputLabel from '@/app/[locale]/components/form/InputLabel';
-import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
-import Button from '@/app/[locale]/components/ui/buttons/Button';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 type FormData = {
     id_number: string;
     company_name: string;
     company_description: string;
+    company_legal_representative: string;
     company_phone: string;
     company_email: string;
 };
@@ -26,6 +27,9 @@ const schema: ZodType<FormData> = z.object({
     id_number: z.string().nonempty({ message: 'errors.input_required' }),
     company_name: z.string().nonempty({ message: 'errors.input_required' }),
     company_description: z
+        .string()
+        .nonempty({ message: 'errors.input_required' }),
+    company_legal_representative: z
         .string()
         .nonempty({ message: 'errors.input_required' }),
     company_phone: z
@@ -42,7 +46,7 @@ interface Props {
 
 export function DistributorBasicDataForm({ profile }: Props) {
     const t = useTranslations();
-    const successMessage = t('profile_acc_data_updated');
+    const successMessage = t('success.profile_acc_data_updated');
 
     const { supabase } = useAuth();
 
@@ -58,6 +62,7 @@ export function DistributorBasicDataForm({ profile }: Props) {
             id_number: profile.id_number,
             company_name: profile.company_name,
             company_description: profile.company_description,
+            company_legal_representative: profile.company_legal_representative,
             company_phone: profile.company_phone,
             company_email: profile.company_email,
         },
@@ -70,6 +75,7 @@ export function DistributorBasicDataForm({ profile }: Props) {
             company_name,
             id_number,
             company_description,
+            company_legal_representative,
             company_phone,
             company_email,
         } = form;
@@ -80,6 +86,7 @@ export function DistributorBasicDataForm({ profile }: Props) {
                 id_number,
                 company_name,
                 company_description,
+                company_legal_representative,
                 company_phone,
                 company_email,
             })
@@ -157,6 +164,13 @@ export function DistributorBasicDataForm({ profile }: Props) {
                             pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
                         }}
                         placeholder={'Distribuidores SA'}
+                    />
+
+                    <InputLabel
+                        form={form}
+                        label={'company_legal_representative'}
+                        labelText={'profile_acc_company_legal_representative'}
+                        placeholder={'Juan Pérez'}
                     />
 
                     <InputLabel

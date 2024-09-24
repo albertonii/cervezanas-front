@@ -18,22 +18,24 @@ type FormData = {
     id_number: string;
     company_name: string;
     company_description: string;
+    company_legal_representative: string;
     company_phone: string;
     company_email: string;
 };
 
 const schema: ZodType<FormData> = z.object({
-    id_number: z.string().nonempty({ message: 'ID number is required' }),
-    company_name: z.string().nonempty({ message: 'Company name is required' }),
+    id_number: z.string().nonempty({ message: 'errors.input_required' }),
+    company_name: z.string().nonempty({ message: 'errors.input_required' }),
     company_description: z
         .string()
-        .nonempty({ message: 'Company description is required' }),
+        .nonempty({ message: 'errors.input_required' }),
+    company_legal_representative: z
+        .string()
+        .nonempty({ message: 'errors.input_required' }),
     company_phone: z
         .string()
-        .regex(/^\d{9}$/, { message: 'Invalid phone number' }),
-    company_email: z
-        .string()
-        .nonempty({ message: 'Company email is required' }),
+        .regex(/^\d{9}$/, { message: 'errors.invalid_phone_number' }),
+    company_email: z.string().nonempty({ message: 'errors.input_required' }),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -44,7 +46,7 @@ interface Props {
 
 export function ProducerBasicDataForm({ profile }: Props) {
     const t = useTranslations();
-    const successMessage = t('profile_acc_data_updated');
+    const successMessage = t('success.profile_acc_data_updated');
 
     const { supabase } = useAuth();
     const { handleMessage } = useMessage();
@@ -58,6 +60,7 @@ export function ProducerBasicDataForm({ profile }: Props) {
             id_number: profile.id_number,
             company_name: profile.company_name,
             company_description: profile.company_description,
+            company_legal_representative: profile.company_legal_representative,
             company_phone: profile.company_phone,
             company_email: profile.company_email,
         },
@@ -69,6 +72,7 @@ export function ProducerBasicDataForm({ profile }: Props) {
         const {
             company_name,
             company_description,
+            company_legal_representative,
             id_number,
             company_phone,
             company_email,
@@ -80,6 +84,7 @@ export function ProducerBasicDataForm({ profile }: Props) {
                 id_number,
                 company_name,
                 company_description,
+                company_legal_representative,
                 company_email,
                 company_phone,
             })
@@ -147,6 +152,13 @@ export function ProducerBasicDataForm({ profile }: Props) {
                             pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
                         }}
                         placeholder={'Productores SA'}
+                    />
+
+                    <InputLabel
+                        form={form}
+                        label={'company_legal_representative'}
+                        labelText={'profile_acc_company_legal_representative'}
+                        placeholder={'Juan Pérez'}
                     />
 
                     <InputLabel

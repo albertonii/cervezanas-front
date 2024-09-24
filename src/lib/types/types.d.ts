@@ -1419,6 +1419,7 @@ export interface IDistributorUser {
     bank_account: string;
     company_name: string;
     company_description: string;
+    company_legal_representative: string;
     location_id: string;
     is_authorized: boolean;
     is_active: boolean;
@@ -1446,6 +1447,7 @@ export interface IProducerUser {
     created_at: string;
     company_name: string;
     company_description: string;
+    company_legal_representative: string;
     id_number: string;
     location_id: string;
     is_authorized: boolean;
