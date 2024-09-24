@@ -36,6 +36,7 @@ import { Type } from '@/lib//productEnum';
 import { generateUUID } from '@/lib//actions';
 import { UpdateProductInfoSection } from '@/app/[locale]/components/products/UpdateProductInfoSection';
 import axios from 'axios';
+import ProductHeaderDescription from '@/app/[locale]/components/modals/ProductHeaderDescription';
 
 // This is the list of mime types you will accept with the schema
 const ACCEPTED_MIME_TYPES = [
@@ -794,13 +795,7 @@ export function UpdateProductModal({
                 btnTitle={'update_product'}
             >
                 <>
-                    <p className="text-slate-500 my-4 sm:text-md leading-relaxed">
-                        {t('modal_product_description')}
-                    </p>
-
-                    <p className="text-slate-500 my-4 sm:text-md leading-relaxed">
-                        {t('modal_product_description_two')}
-                    </p>
+                    <ProductHeaderDescription />
 
                     {activeStep === 0 ? (
                         <UpdateProductInfoSection

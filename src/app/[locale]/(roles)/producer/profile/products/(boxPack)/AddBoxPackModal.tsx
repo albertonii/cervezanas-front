@@ -17,6 +17,7 @@ import { BoxPackStepper } from '@/app/[locale]/components/products/boxPack/BoxPa
 import { BoxPackInfoSection } from '@/app/[locale]/components/products/boxPack/BoxPackInfoSection';
 import { BoxMultimediaSection } from '@/app/[locale]/components/products/boxPack/BoxMultimediaSection';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
+import ProductHeaderDescription from '@/app/[locale]/components/modals/ProductHeaderDescription';
 
 const ModalWithForm = dynamic(
     () => import('@/app/[locale]/components/modals/ModalWithForm'),
@@ -263,9 +264,7 @@ export function AddBoxPackModal() {
                     btnTitle={'add_box_pack'}
                 >
                     <>
-                        <p className="text-slate-500 my-4 text-sm leading-normal max-w-full text-justify bg-cerv-brown bg-opacity-10 p-4 rounded-2xl">
-                            {t('modal_product_description')}
-                        </p>
+                        <ProductHeaderDescription />
 
                         {activeStep === 0 ? (
                             <BoxPackInfoSection form={form} />

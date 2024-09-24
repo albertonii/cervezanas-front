@@ -3,6 +3,7 @@
 import axios from 'axios';
 import dynamic from 'next/dynamic';
 import useBoxPackStore from '@/app/store//boxPackStore';
+import ProductHeaderDescription from '@/app/[locale]/components/modals/ProductHeaderDescription';
 import UpdateBoxProductSlotsSection from '@/app/[locale]/components/products/boxPack/UpdateBoxProductSlotsSection';
 import React, { useState, useEffect, ComponentProps } from 'react';
 import { z, ZodType } from 'zod';
@@ -358,9 +359,7 @@ export function UpdateBoxPackModal({
                 btnTitle={'update_box_pack'}
             >
                 <>
-                    <p className="text-slate-500 my-4 sm:text-md leading-relaxed">
-                        {t('modal_product_description')}
-                    </p>
+                    <ProductHeaderDescription />
 
                     {activeStep === 0 ? (
                         <UpdateBoxPackInfoSection form={form} />

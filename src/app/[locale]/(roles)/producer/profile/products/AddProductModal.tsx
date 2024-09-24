@@ -22,6 +22,7 @@ import {
     ModalAddProductAwardFormData,
     ModalAddProductFormData,
 } from '@/lib//types/types';
+import ProductHeaderDescription from '@/app/[locale]/components/modals/ProductHeaderDescription';
 
 const ModalWithForm = dynamic(
     () => import('@/app/[locale]/components/modals/ModalWithForm'),
@@ -463,13 +464,7 @@ export function AddProductModal() {
                 handler={handleSubmit(onSubmit)}
             >
                 <>
-                    <p className="text-slate-500 my-4 text-sm leading-normal max-w-full text-justify bg-cerv-brown bg-opacity-10 p-4 rounded-2xl">
-                        {t('modal_product_description')}
-                    </p>
-
-                    <p className="text-slate-500 my-4 text-sm leading-relaxed">
-                        {t('modal_product_description_two')}
-                    </p>
+                    <ProductHeaderDescription />
 
                     {activeStep === 0 ? (
                         <ProductInfoSection

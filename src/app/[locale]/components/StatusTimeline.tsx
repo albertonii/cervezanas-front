@@ -1,5 +1,3 @@
-import React from 'react';
-import { useTranslations } from 'next-intl';
 import OnlineTimelineStatusBar from './OnlineTimelineStatusBar';
 import DistributorOnlineTimelineStatusBar from '../(roles)/distributor/profile/business_orders/success/DistributorOnlineTimelineStatusBar';
 import DistributorOnlineTimelineStatusText from '../(roles)/distributor/profile/business_orders/success/DistributorOnlineTimelineStatusText';
@@ -13,6 +11,8 @@ import EventTimelineStatusText from '../(common-display)/checkout/event/success/
 import EventTimelineStatusBar from '../(common-display)/checkout/event/success/EventTimelineStatusBar';
 import EventProductTimelineStatusText from '../(common-display)/checkout/event/success/EventProductTimelineStatusText';
 import EventProductTimelineStatusBar from '../(common-display)/checkout/event/success/EventProductTimelineStatusBar';
+import React from 'react';
+import { useTranslations } from 'next-intl';
 
 interface OrderTimelineProps {
     orderType: string;
