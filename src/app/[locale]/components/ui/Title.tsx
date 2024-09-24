@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 
 interface Props {
-    size: 'small' | 'medium' | 'large';
+    size: 'xsmall' | 'small' | 'medium' | 'large';
     color: 'black' | 'white' | 'beer-draft' | 'beer-blonde';
     children: React.ReactNode;
 }
@@ -11,6 +11,7 @@ const Title = ({ children, size, color }: Props) => {
     const t = useTranslations();
 
     const sizeClass = {
+        xsmall: 'text-sm',
         small: 'text-xl',
         medium: 'text-3xl',
         large: 'text-5xl',

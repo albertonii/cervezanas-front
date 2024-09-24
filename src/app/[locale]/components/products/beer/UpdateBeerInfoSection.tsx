@@ -1,7 +1,6 @@
 import InputLabel from '../../form/InputLabel';
 import SelectInput from '../../form/SelectInput';
 import InputTextarea from '../../form/InputTextarea';
-import UpdateStockInformation from '../../UpdateStockInformation';
 import UpdateTechnicalInfoSection from './UpdateTechnicalInfoSection';
 import UpdateProductPackInformation from '../../UpdateProductPackInformation';
 import React, { useEffect, useState } from 'react';
@@ -22,7 +21,6 @@ import {
 } from '@/lib//types/types';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import { formatCurrency } from '@/utils/formatCurrency';
 import { capitalizeFirstLetter } from '@/utils/formatWords';
 import { faPalette } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

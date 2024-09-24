@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { IProductPack, ModalUpdateProductFormData } from '@/lib//types/types';
-import { useFieldArray, UseFormReturn } from 'react-hook-form';
-import { v4 as uuidv4 } from 'uuid'; // Ensure uuid is installed
-import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import UpdateProductPackItemForm from './UpdateProductPackItemForm';
-import { useAuth } from '../(auth)/Context/useAuth';
 import Button from './ui/buttons/Button';
+import UpdateProductPackItemForm from './UpdateProductPackItemForm';
+import ProductPackSectionHeader from './modals/ProductPackSectionHeader';
+import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { useTranslations } from 'next-intl';
+import { useAuth } from '../(auth)/Context/useAuth';
+import { faBoxOpen } from '@fortawesome/free-solid-svg-icons';
+import { useFieldArray, UseFormReturn } from 'react-hook-form';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IProductPack, ModalUpdateProductFormData } from '@/lib//types/types';
 
 const emptyPack: IProductPack = {
     id: '',
@@ -70,29 +71,13 @@ export default function UpdateProductPackInformation({ form }: Props) {
     return (
         <section className="relative border-2 rounded-lg border-gray-200 p-6 bg-white shadow-md">
             <FontAwesomeIcon
-                icon={faMoneyBillWave}
+                icon={faBoxOpen}
                 title={'Product Pack Price Icon'}
-                className="h-12 w-12 text-beer-blonde absolute -top-4 -left-4 bg-white p-2 rounded-full shadow-lg"
+                className="h-12 w-12 text-yellow-500 absolute -top-4 -left-4 bg-white p-2 rounded-full shadow-xl transform rotate-12"
             />
 
             <div className="mx-10">
-                <h2 className="text-4xl font-['NexaRust-script']">
-                    {t('add_product_pack')}
-                </h2>
-
-                <div className="space-y-2 mb-4">
-                    <span className="text-sm text-gray-600 mb-4 block">
-                        {t('add_product_pack_description')}
-                    </span>
-
-                    <span className="text-sm text-gray-600 mb-4 block">
-                        {t('add_product_pack_description_2')}
-                    </span>
-
-                    <span className="text-sm text-gray-600 mb-4 block">
-                        {t('add_product_pack_description_3')}
-                    </span>
-                </div>
+                <ProductPackSectionHeader title={'add_product_pack'} />
 
                 {fields.map((pack, index) => (
                     <div key={pack.id} className="relative mb-4">

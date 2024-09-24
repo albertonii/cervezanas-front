@@ -1,13 +1,13 @@
-import AddProductPackItemForm from './form/AddProductPackItemForm';
-import React, { useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { IProductPack, ModalAddProductFormData } from '@/lib//types/types';
-import { useFieldArray, UseFormReturn } from 'react-hook-form';
-import { v4 as uuidv4 } from 'uuid'; // Ensure uuid is installed
-import { faBoxOpen } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from './ui/buttons/Button';
-import Description from './ui/Description';
+import AddProductPackItemForm from './form/AddProductPackItemForm';
+import ProductPackSectionHeader from './modals/ProductPackSectionHeader';
+import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { useTranslations } from 'next-intl';
+import { faBoxOpen } from '@fortawesome/free-solid-svg-icons';
+import { useFieldArray, UseFormReturn } from 'react-hook-form';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IProductPack, ModalAddProductFormData } from '@/lib//types/types';
 
 const emptyPack: IProductPack = {
     id: '',
@@ -65,23 +65,7 @@ export default function ProductPackInformation({ form }: Props) {
             />
 
             <div className="mx-10">
-                <h2 className="text-4xl font-['NexaRust-script']">
-                    {t('add_product_pack')}
-                </h2>
-
-                <div className="space-y-2 mb-4">
-                    <Description size={'xsmall'} color={'black'}>
-                        {t('add_product_pack_description')}
-                    </Description>
-
-                    <Description size={'xsmall'} color={'black'}>
-                        {t('add_product_pack_description_2')}
-                    </Description>
-
-                    <Description size={'xsmall'} color={'black'}>
-                        {t('add_product_pack_description_3')}
-                    </Description>
-                </div>
+                <ProductPackSectionHeader title={'add_product_pack'} />
 
                 <div className="space-y-4 mb-6">
                     {fields.map((pack, index) => (
