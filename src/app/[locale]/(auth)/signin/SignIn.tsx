@@ -78,15 +78,16 @@ export default function SignIn() {
 
     const handleCredentialsSignIn = async (form: SignInValidationSchema) => {
         const { email, password } = form;
-        signIn(email, password);
+        const isSignedIn = await signIn(email, password);
+
+        if (isSignedIn) {
+            resetSignIn();
+        }
     };
 
     const handleCredentialsMutation = useMutation({
         mutationKey: 'credentialsSignIn',
         mutationFn: handleCredentialsSignIn,
-        onSuccess: () => {
-            resetSignIn();
-        },
         onError: (error: Error) => {
             console.error(error);
         },

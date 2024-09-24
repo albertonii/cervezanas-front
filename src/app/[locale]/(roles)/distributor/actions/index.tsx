@@ -5,6 +5,7 @@ import {
     IAreaAndWeightCostRange,
     ICoverageArea,
     IFlatrateAndWeightCostForm,
+    IShipmentTracking,
     ShipmentTrackingFormData,
     ShipmentTrackingMessagesFormData,
 } from '@/lib//types/types';
@@ -489,12 +490,14 @@ export async function handleSelectedDistributionCostType(
 }
 
 export const handleUpdateShipmentTracking = async (
+    emailTo: string,
+    username: string,
     shipmentTrackingFormData: ShipmentTrackingFormData,
 ) => {
     const url = `${baseUrl}/api/shipment_tracking/distributor`;
 
     const formData = new FormData();
-    console.log(shipmentTrackingFormData.id);
+
     formData.append('tracking_id', shipmentTrackingFormData.id as string);
     formData.append('status', shipmentTrackingFormData.status);
     formData.append(
@@ -534,6 +537,17 @@ export const handleUpdateShipmentTracking = async (
                 message:
                     response.data.message || 'Error updating shipment tracking',
             };
+        }
+
+        console.log('Shipment tracking updated successfully');
+
+        if (shipmentTrackingFormData.is_updated_by_distributor) {
+            console.log('Sending email');
+            sendEmailTrackingInformationUpdated(
+                username,
+                emailTo,
+                shipmentTrackingFormData,
+            );
         }
 
         return {
@@ -601,3 +615,27 @@ export const handleUpdateShipmentTrackingMessages = async (
         };
     }
 };
+
+export async function sendEmailTrackingInformationUpdated(
+    username: string,
+    emailTo: string,
+    trackingInformation: ShipmentTrackingFormData,
+) {
+    console.log('dentro');
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const url = `${baseUrl}/api/emails/tracking_information_updated`;
+
+    const formData = new FormData();
+    formData.set('username', username);
+    formData.set('email-to', emailTo);
+    formData.set('tracking_id', trackingInformation.shipment_tracking_id);
+    formData.set('shipment_company', trackingInformation.shipment_company);
+    formData.set('shipment_url', trackingInformation.shipment_url);
+    formData.set('estimated_date', trackingInformation.estimated_date);
+
+    // Email al usuario
+    fetch(url, {
+        method: 'POST',
+        body: formData,
+    });
+}

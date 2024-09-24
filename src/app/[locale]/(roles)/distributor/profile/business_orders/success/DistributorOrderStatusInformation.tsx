@@ -1,11 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
 import DistributorShipmentTrackingForm from './DistributorShipmentTrackingForm';
+import DistributorShipmentTrackingMessageForm from './DistributorShipmentTrackingMessageForm';
 import { IOrder } from '@/lib/types/types';
 import { ONLINE_ORDER_STATUS } from '@/constants';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
-import DistributorShipmentTrackingMessageForm from './DistributorShipmentTrackingMessageForm';
 
 interface Props {
     order: IOrder;
@@ -94,9 +94,11 @@ const DistributorOrderStatusInformation = ({ order, orderStatus }: Props) => {
                 </time>
             </p>
 
-            {shipmentTracking && (
+            {shipmentTracking && order.users && (
                 <div className="space-y-8">
                     <DistributorShipmentTrackingForm
+                        emailTo={order.users?.email}
+                        username={order.users?.username}
                         shipmentTracking={shipmentTracking}
                     />
 

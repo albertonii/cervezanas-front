@@ -1,15 +1,15 @@
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
 import React, { useState } from 'react';
-import { FieldError, SubmitHandler, useForm } from 'react-hook-form';
-import { IShipmentTracking, ShipmentTrackingFormData } from '@/lib/types/types';
 import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { handleUpdateShipmentTracking } from '../../../actions';
-import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { DISTRIBUTOR_ONLINE_ORDER_STATUS } from '@/constants';
-import InputLabel from '@/app/[locale]/components/form/InputLabel';
-import Button from '@/app/[locale]/components/ui/buttons/Button';
+import { handleUpdateShipmentTracking } from '../../../actions';
+import { FieldError, SubmitHandler, useForm } from 'react-hook-form';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { IShipmentTracking, ShipmentTrackingFormData } from '@/lib/types/types';
 
 const schemaTrackingInfo: ZodType<ShipmentTrackingFormData> = z.object({
     id: z.string(),
@@ -24,10 +24,16 @@ const schemaTrackingInfo: ZodType<ShipmentTrackingFormData> = z.object({
 type TrackingInfoValidationSchema = z.infer<typeof schemaTrackingInfo>;
 
 interface Props {
+    emailTo: string;
+    username: string;
     shipmentTracking: IShipmentTracking;
 }
 
-const DistributorShipmentTrackingForm = ({ shipmentTracking }: Props) => {
+const DistributorShipmentTrackingForm = ({
+    shipmentTracking,
+    emailTo,
+    username,
+}: Props) => {
     const t = useTranslations();
 
     const [isLoading, setIsLoading] = useState(false);
@@ -62,7 +68,10 @@ const DistributorShipmentTrackingForm = ({ shipmentTracking }: Props) => {
         setIsLoading(true);
 
         setValueTrackingInfo('id', shipmentTracking.id);
-        await handleUpdateShipmentTracking(form)
+
+        alert('antes');
+
+        await handleUpdateShipmentTracking(emailTo, username, form)
             .then(() => {
                 handleMessage({
                     type: 'success',

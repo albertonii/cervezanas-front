@@ -58,7 +58,7 @@ export interface AuthSession {
     isAuthLoading: boolean;
     setIsAuthLoading: (loading: boolean) => void;
     signUp: (payload: SignUpWithPasswordCredentials) => Promise<any>;
-    signIn: (email: string, password: string) => void;
+    signIn: (email: string, password: string) => Promise<boolean>;
     signInWithProvider: (provider: Provider) => void;
     signOut: () => Promise<void>;
     sendResetPasswordEmail: (email: string) => Promise<boolean>;
@@ -83,7 +83,7 @@ export const AuthContext = createContext<AuthSession>({
     isAuthLoading: false,
     setIsAuthLoading: () => {},
     signUp: async () => null,
-    signIn: async (email: string, password: string) => null,
+    signIn: async (email: string, password: string) => false,
     signInWithProvider: async () => void {},
     signOut: async () => void {},
     sendResetPasswordEmail: async () => false,
@@ -388,13 +388,15 @@ export const AuthContextProvider = ({
                 handleMessage({ message: error.message, type: 'error' });
             }
 
-            return error;
+            return false;
         }
 
         handleMessage({
             type: 'success',
             message: signInMessage,
         });
+
+        return true;
 
         // router.push(`/${locale}`);
     };
