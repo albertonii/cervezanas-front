@@ -39,7 +39,7 @@ const AddProductPackItemForm = memo(
         };
 
         return (
-            <fieldset className="border border-gray-200 p-6 rounded-lg shadow-md bg-white">
+            <fieldset className="relative bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:border-yellow-500 transition-all duration-300 ease-in-out">
                 <div className="flex justify-between items-center">
                     <div className="flex items-center space-x-2">
                         <div className="w-2.5 h-2.5 rounded-full bg-beer-softBlonde" />

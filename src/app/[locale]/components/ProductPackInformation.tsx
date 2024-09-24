@@ -4,9 +4,10 @@ import { useTranslations } from 'next-intl';
 import { IProductPack, ModalAddProductFormData } from '@/lib//types/types';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid'; // Ensure uuid is installed
-import { faMoneyBillWave } from '@fortawesome/free-solid-svg-icons';
+import { faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from './ui/buttons/Button';
+import Description from './ui/Description';
 
 const emptyPack: IProductPack = {
     id: '',
@@ -58,9 +59,9 @@ export default function ProductPackInformation({ form }: Props) {
     return (
         <section className="relative border-2 rounded-lg border-gray-200 p-6 bg-white shadow-md">
             <FontAwesomeIcon
-                icon={faMoneyBillWave}
+                icon={faBoxOpen}
                 title={'Product Pack Price Icon'}
-                className="h-12 w-12 text-beer-blonde absolute -top-4 -left-4 bg-white p-2 rounded-full shadow-lg"
+                className="h-12 w-12 text-yellow-500 absolute -top-4 -left-4 bg-white p-2 rounded-full shadow-xl transform rotate-12"
             />
 
             <div className="mx-10">
@@ -69,28 +70,30 @@ export default function ProductPackInformation({ form }: Props) {
                 </h2>
 
                 <div className="space-y-2 mb-4">
-                    <span className="text-sm text-gray-600 mb-4 block">
+                    <Description size={'xsmall'} color={'black'}>
                         {t('add_product_pack_description')}
-                    </span>
+                    </Description>
 
-                    <span className="text-sm text-gray-600 mb-4 block">
+                    <Description size={'xsmall'} color={'black'}>
                         {t('add_product_pack_description_2')}
-                    </span>
+                    </Description>
 
-                    <span className="text-sm text-gray-600 mb-4 block">
+                    <Description size={'xsmall'} color={'black'}>
                         {t('add_product_pack_description_3')}
-                    </span>
+                    </Description>
                 </div>
 
-                {fields.map((pack, index) => (
-                    <div key={pack.id} className="relative mb-4">
-                        <AddProductPackItemForm
-                            onRemove={handleRemovePack}
-                            index={index}
-                            form={form}
-                        />
-                    </div>
-                ))}
+                <div className="space-y-4 mb-6">
+                    {fields.map((pack, index) => (
+                        <div key={pack.id} className="relative mb-4">
+                            <AddProductPackItemForm
+                                onRemove={handleRemovePack}
+                                index={index}
+                                form={form}
+                            />
+                        </div>
+                    ))}
+                </div>
 
                 <Button
                     primary

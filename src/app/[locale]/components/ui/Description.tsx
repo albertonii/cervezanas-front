@@ -1,13 +1,14 @@
 import React from 'react';
 
 interface Props {
-    size: 'small' | 'medium' | 'large';
+    size: 'xsmall' | 'small' | 'medium' | 'large';
     color: 'black' | 'white' | 'gray' | 'beer-draft' | 'beer-blonde';
     children: React.ReactNode;
 }
 
 const Description = ({ children, size, color }: Props) => {
     const sizeClass = {
+        xsmall: 'text-sm',
         small: 'text-lg',
         medium: 'text-xl',
         large: 'text-2xl',
