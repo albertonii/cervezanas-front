@@ -29,26 +29,3 @@ async function getUser() {
 
     return data as IUserTable;
 }
-
-// async function getCheckout() {
-//   const supabase = await createServerClient();
-
-// Be careful when protecting pages. The server gets the user session from the cookies, which can be spoofed by anyone.
-// const session = await readUserSession();
-
-//   if (!session) {
-// redirect('/signin');
-//   }
-
-//   const { data: userData, error: usersError } = await supabase
-//     .from("users")
-//     .select(`*, shipping_info(*), billing_info(*)`)
-//     .eq("id", session.id);
-
-//   if (usersError) throw usersError;
-
-//   return {
-//     shippingAddresses: userData[0]?.shipping_info as IAddress[],
-//     billingAddresses: userData[0]?.billing_info as IBillingAddress[],
-//   };
-// }

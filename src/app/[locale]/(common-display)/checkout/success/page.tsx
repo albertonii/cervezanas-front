@@ -156,7 +156,21 @@ async function getSuccessData(searchParams: any) {
                         )
                     ),
                     producer_user (*),
-                    distributor_user (*)
+                    distributor_user (*),
+                    shipment_tracking (
+                        id,
+                        created_at,
+                        status,
+                        order_id,
+                        shipment_company,
+                        shipment_url,
+                        estimated_date,
+                        shipment_tracking_id,
+                        is_updated_by_distributor,
+                        shipment_tracking_messages (
+                            *
+                        )
+                    )
                 ),
                 users (*),
                 shipping_name,
