@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     const emailTo = formData.get('email-to') as string;
     const tracking_id = formData.get('tracking_id') as string;
     const shipment_company = formData.get('shipment_company') as string;
-    const tracking_url = formData.get('tracking_url') as string;
+    const shipment_url = formData.get('shipment_url') as string;
     const estimated_date = formData.get('estimated_date') as string;
 
     const res = await fetch('https://api.resend.com/emails', {
@@ -48,10 +48,12 @@ export async function POST(request: NextRequest) {
                                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                             }
                             .header {
-                                background-color: #28a745;
+                                background-color: #fbb123; /* Tono dorado */
                                 color: white;
-                                padding: 10px;
+                                text-align: center;
+                                padding: 15px;
                                 font-size: 24px;
+                                font-weight: bold;
                             }
                             .content {
                                 padding: 20px;
@@ -60,11 +62,14 @@ export async function POST(request: NextRequest) {
                             .button {
                                 display: inline-block;
                                 padding: 10px 20px;
-                                margin-top: 20px;
-                                background-color: #28a745;
+                                background-color: #fbb123;
                                 color: white;
                                 text-decoration: none;
                                 border-radius: 5px;
+                                text-align: center;
+                                margin-top: 20px;
+                                width: fit-content;
+                                font-weight: bold;
                             }
                             .info {
                                 margin: 20px 0;
@@ -89,7 +94,7 @@ export async function POST(request: NextRequest) {
                                 </div>
 
                                 <p>Puedes hacer seguimiento de tu envío utilizando el siguiente enlace:</p>
-                                <a href="${tracking_url}" class="button">Seguir mi pedido</a>
+                                <a href="${shipment_url}" class="button">Seguir mi pedido</a>
 
                                 <p>Además, puedes acceder a la información completa de tu pedido accediendo con tu cuenta Cervezanas</p>
                                 <a href="https://cervezanas.beer/" class="button">Ir a Cervezanas</a>
@@ -98,8 +103,6 @@ export async function POST(request: NextRequest) {
                                 <p>Si tienes alguna pregunta, no dudes en <a href="mailto:cervezanas@socialinnolabs.org">contactarnos</a>.</p>
                                 <p><strong>El equipo de Cervezanas</strong></p>
                             </div>
-
-
                         </div>
                     </body>
                 </html>

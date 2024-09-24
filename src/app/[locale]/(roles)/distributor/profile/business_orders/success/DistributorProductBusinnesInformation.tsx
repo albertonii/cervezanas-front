@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React from 'react';
 import { IBusinessOrder } from '@/lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { formatDateDefaultInput } from '@/utils/formatDate';
@@ -16,14 +16,7 @@ const DistributorProductBusinnesInformation = ({ bOrder }: Props) => {
     )
         return <></>;
 
-    const {
-        status,
-        created_at,
-        estimated_date,
-        shipment_company,
-        shipment_tracking_id,
-        shipment_url,
-    } = bOrder.shipment_tracking;
+    const { status, created_at, estimated_date } = bOrder.shipment_tracking;
 
     const t = useTranslations();
     const locale = useLocale();
@@ -65,8 +58,8 @@ const DistributorProductBusinnesInformation = ({ bOrder }: Props) => {
                 <p>
                     <span className="font-semibold">
                         {t('tracking.estimated_delivery_date')}:{' '}
-                        formatDateDefaultInput(estimated_date)
                     </span>
+                    {formatDateDefaultInput(estimated_date)}
                 </p>
             </div>
         </section>

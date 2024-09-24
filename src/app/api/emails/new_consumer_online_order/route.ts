@@ -141,7 +141,8 @@ export async function POST(request: NextRequest) {
                             border-radius: 5px;
                             text-align: center;
                             margin-top: 20px;
-                            display: block;
+                            width: fit-content;
+                            font-weight: bold;
                         }
                         a {
                             color: #fbb123;

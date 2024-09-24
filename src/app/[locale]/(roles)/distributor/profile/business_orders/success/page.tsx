@@ -115,6 +115,10 @@ async function getSuccessData(searchParams: any) {
                         shipment_tracking_messages (*)
                     )
                 ),
+                users (
+                    email,
+                    username
+                ),
                 shipping_name,
                 shipping_lastname,
                 shipping_document_id,

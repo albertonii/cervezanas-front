@@ -69,8 +69,6 @@ const DistributorShipmentTrackingForm = ({
 
         setValueTrackingInfo('id', shipmentTracking.id);
 
-        alert('antes');
-
         await handleUpdateShipmentTracking(emailTo, username, form)
             .then(() => {
                 handleMessage({

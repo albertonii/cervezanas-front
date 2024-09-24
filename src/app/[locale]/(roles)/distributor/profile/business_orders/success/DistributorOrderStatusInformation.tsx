@@ -94,7 +94,7 @@ const DistributorOrderStatusInformation = ({ order, orderStatus }: Props) => {
                 </time>
             </p>
 
-            {shipmentTracking && order.users && (
+            {shipmentTracking && order.users?.email && order.users.username && (
                 <div className="space-y-8">
                     <DistributorShipmentTrackingForm
                         emailTo={order.users?.email}

@@ -539,16 +539,12 @@ export const handleUpdateShipmentTracking = async (
             };
         }
 
-        console.log('Shipment tracking updated successfully');
-
-        if (shipmentTrackingFormData.is_updated_by_distributor) {
-            console.log('Sending email');
-            sendEmailTrackingInformationUpdated(
-                username,
-                emailTo,
-                shipmentTrackingFormData,
-            );
-        }
+        // We could use update_by_distributor boolean to send the email only when the distributor updates the shipment tracking
+        sendEmailTrackingInformationUpdated(
+            username,
+            emailTo,
+            shipmentTrackingFormData,
+        );
 
         return {
             status: response.status,
@@ -621,7 +617,6 @@ export async function sendEmailTrackingInformationUpdated(
     emailTo: string,
     trackingInformation: ShipmentTrackingFormData,
 ) {
-    console.log('dentro');
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
     const url = `${baseUrl}/api/emails/tracking_information_updated`;
 
