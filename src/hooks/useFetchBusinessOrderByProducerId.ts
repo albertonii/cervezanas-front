@@ -36,7 +36,7 @@ const useFetchBusinessOrdersByProducerId = (
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['business_orders_by_producer_id'],
+        queryKey: 'business_orders_by_producer_id',
         queryFn: () =>
             fetchBusinessOrdersByProducerId(
                 producerId,

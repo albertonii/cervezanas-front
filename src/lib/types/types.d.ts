@@ -872,6 +872,7 @@ export type ModalAddProductFormData = {
     is_public: boolean;
     is_available: boolean;
 
+    brewery_id?: string;
     // campaign: string;
     awards: ModalAddProductAwardFormData[];
     packs: ModalAddProductPackFormData[];
@@ -1053,6 +1054,7 @@ export interface IProduct {
     is_monthly: boolean;
     is_available: boolean;
     owner_id: string;
+    brewery_id: string;
     order_items?: IOrderItem[];
     product_lots?: IProductLot[];
     reviews?: IReview[];
@@ -1064,6 +1066,7 @@ export interface IProduct {
     product_inventory?: IProductInventory;
     product_multimedia?: IProductMultimedia;
     box_packs?: IBoxPack[];
+    breweries?: IBrewery;
 }
 
 export interface IEventProduct {
@@ -1220,6 +1223,7 @@ export interface IModalAddProduct {
     // stock_limit_notification: number;
     lot_id: number;
     lot_quantity: number;
+    brewery_id?: string;
 }
 
 export interface IModalShippingAddress {

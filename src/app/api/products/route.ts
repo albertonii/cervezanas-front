@@ -44,6 +44,9 @@ export async function POST(request: NextRequest) {
         const format = formData.get('beer.format') as string;
         const ibu = parseFloat(formData.get('beer.ibu') as string);
 
+        // Brewery ID
+        const brewery_id = formData.get('brewery_id') as string;
+
         // Technical Attributes
         const ingredients = formData.get(
             'technical_data.ingredients',
@@ -129,6 +132,7 @@ export async function POST(request: NextRequest) {
                 is_available,
                 category,
                 weight,
+                brewery_id,
             })
             .select('id')
             .single();

@@ -2667,6 +2667,7 @@ export type Database = {
       }
       products: {
         Row: {
+          brewery_id: string | null
           campaign_id: string | null
           category: string | null
           created_at: string | null
@@ -2685,6 +2686,7 @@ export type Database = {
           weight: number | null
         }
         Insert: {
+          brewery_id?: string | null
           campaign_id?: string | null
           category?: string | null
           created_at?: string | null
@@ -2703,6 +2705,7 @@ export type Database = {
           weight?: number | null
         }
         Update: {
+          brewery_id?: string | null
           campaign_id?: string | null
           category?: string | null
           created_at?: string | null

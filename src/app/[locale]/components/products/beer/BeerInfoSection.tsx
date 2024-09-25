@@ -24,6 +24,7 @@ import {
     ICustomizeSettings,
     ModalAddProductFormData,
 } from '@/lib//types/types';
+import ProductMadeInBrewerySection from './ProductMadeInBrewerySection';
 
 interface Props {
     form: UseFormReturn<ModalAddProductFormData>;
@@ -370,6 +371,8 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
 
             {/* Technical Information */}
             <TechnicalInfoSection form={form} />
+
+            <ProductMadeInBrewerySection form={form} />
 
             {/* Stock information  */}
             {/* <StockInformation form={form} /> */}

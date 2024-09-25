@@ -14,7 +14,8 @@ const Title = ({ children, size, color }: Props) => {
         xsmall: 'text-sm',
         small: 'text-xl',
         medium: 'text-3xl',
-        large: 'text-5xl',
+        large: 'text-4xl',
+        xLarge: 'text-5xl',
     };
 
     const colorClass = {

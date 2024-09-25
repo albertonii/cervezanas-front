@@ -1,14 +1,16 @@
+import Title from '../../ui/Title';
+import InputLabel from '../../form/InputLabel';
+import Description from '../../ui/Description';
+import IngredientInput from './IngredientInput';
+import SelectInput from '../../form/SelectInput';
+import InputTextarea from '../../form/InputTextarea';
+import React, { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { UseFormReturn } from 'react-hook-form';
 import { recommended_glass_options } from '@/lib/beerEnum';
 import { ModalAddProductFormData } from '@/lib/types/types';
-import { faRulerCombined } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useTranslations } from 'next-intl';
-import React, { useEffect, useState } from 'react';
-import { UseFormReturn } from 'react-hook-form';
-import InputLabel from '../../form/InputLabel';
-import InputTextarea from '../../form/InputTextarea';
-import SelectInput from '../../form/SelectInput';
-import IngredientInput from './IngredientInput';
+import { faRulerCombined } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
     form: UseFormReturn<ModalAddProductFormData, any>;
@@ -34,17 +36,17 @@ const TechnicalInfoSection = ({ form }: Props) => {
             />
 
             <section className="mx-10">
-                <p className="text-4xl font-['NexaRust-script']">
+                <Title size="large" color="black">
                     {t('modal_product_add_technical_details_title')}
-                </p>
+                </Title>
 
                 {/* Technical Details commitment notice */}
-                <p className="text-sm text-gray-600 mb-4 block">
+                <Description size="xsmall" color="gray">
                     Especifica los detalles técnicos de tu producto. Estos datos
                     son <b>opcionales</b> pero recomendados para que los
                     consumidores conozcan mejor tu producto. Las casillas vacías
                     no se mostrarán en la ficha de producto.
-                </p>
+                </Description>
 
                 {/* Ingredients  */}
                 <IngredientInput

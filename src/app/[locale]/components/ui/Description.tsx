@@ -17,14 +17,14 @@ const Description = ({ children, size, color }: Props) => {
     const colorClass = {
         black: 'text-black-800',
         white: 'text-white',
-        gray: 'text-gray-500',
+        gray: 'text-gray-600',
         'beer-draft': 'text-beer-draft',
         'beer-blonde': 'text-beer-blonde',
     };
 
     return (
         <p
-            className={`${sizeClass[size]} ${colorClass[color]} font-['Ubuntu-light'] max-w-full text-justify`}
+            className={`${sizeClass[size]} ${colorClass[color]} font-['Ubuntu-light'] max-w-full text-justify my-1`}
         >
             {children}
         </p>

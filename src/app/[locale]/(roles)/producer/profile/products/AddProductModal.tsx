@@ -163,6 +163,7 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
         .max(50, {
             message: 'errors.error_50_number_max_length',
         }),
+    brewery_id: z.string().optional(),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -255,6 +256,7 @@ export function AddProductModal() {
             hops_type,
             malt_type,
             consumption_temperature,
+            brewery_id,
         } = form;
 
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -304,6 +306,11 @@ export function AddProductModal() {
             'technical_data.consumption_temperature',
             consumption_temperature?.toString() ?? '',
         );
+
+        // Brewery
+        if (brewery_id) {
+            formData.append('brewery_id', brewery_id);
+        }
 
         // Stock
         // formData.append('stock.quantity', stock_quantity.toString());

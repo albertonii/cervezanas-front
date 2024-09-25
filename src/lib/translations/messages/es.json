@@ -1329,5 +1329,9 @@
         "message_date": "Fecha del mensaje",
         "tracking_description_messages": "Aquí puedes ver los mensajes de seguimiento que has redactado, así el consumidor tendrá información actualiza acerca de su pedido. Puedes añadir, editar y eliminar mensajes."
     },
-    "field": "Campo"
+    "field": "Campo",
+    "modal_product_select_brewery_title": "Seleccionar cervecería",
+    "modal_product_add_brewery_description": " Ofrece más información al consumidor acerca de dónde se produce tu producto. Si no encuentras la cervecería en la lista, puedes añadirla en el apartado de 'fábricas'.",
+    "modal_product_add_brewery_description_two": "  Si no deseas mostrar la cervecería en la ficha de producto, puedes dejar este campo vacío.",
+    "select_brewery": "Seleccionar cervecería"
 }
