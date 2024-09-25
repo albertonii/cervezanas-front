@@ -913,6 +913,7 @@ export type ModalUpdateProductFormData = {
     weight: number;
     format: string;
     category: string;
+    brewery_id?: string;
     // campaign: string;
     // stock_quantity: number;
     // stock_limit_notification: number;

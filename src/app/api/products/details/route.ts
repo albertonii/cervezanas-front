@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+import readUserSession from '@/lib/actions';
 import createServerClient from '@/utils/supabaseServer';
 import { Type } from '@/lib//productEnum';
-import readUserSession from '@/lib/actions';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function PUT(request: NextRequest) {
     try {
@@ -15,6 +15,7 @@ export async function PUT(request: NextRequest) {
             (formData.get('is_available') as string) === 'true';
         const price = parseFloat(formData.get('price') as string);
         const weight = parseFloat(formData.get('weight') as string);
+        const brewery_id = formData.get('brewery_id') as string;
 
         const supabase = await createServerClient();
         const session = await readUserSession();
@@ -39,6 +40,7 @@ export async function PUT(request: NextRequest) {
                 owner_id: userId,
                 category: Type.BEER,
                 type: Type.BEER,
+                brewery_id: brewery_id !== '' ? brewery_id : null,
             })
             .eq('id', productId);
 

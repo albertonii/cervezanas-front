@@ -1,26 +1,32 @@
-import Label from '../../ui/Label';
 import Title from '../../ui/Title';
+import Label from '../../ui/Label';
 import Description from '../../ui/Description';
 import useFetchBreweriesByOwnerId from '@/hooks/useFetchBreweriesByOwnerId';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import { ModalAddProductFormData } from '@/lib/types/types';
+import { ModalUpdateProductFormData } from '@/lib/types/types';
+import { faIndustry } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faIndustry } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
-    form: UseFormReturn<ModalAddProductFormData>;
+    form: UseFormReturn<ModalUpdateProductFormData>;
 }
 
-const ProductMadeInBrewerySection = ({ form }: Props) => {
+const UpdateProductMadeInBrewerySection = ({ form }: Props) => {
     const t = useTranslations();
-    const { register } = form;
+    const { register, getValues, setValue } = form;
 
     const { user } = useAuth();
 
     const { data: breweries, error } = useFetchBreweriesByOwnerId(user.id);
+
+    const handleBreweryChange = (
+        event: React.ChangeEvent<HTMLSelectElement>,
+    ) => {
+        setValue('brewery_id', event.target.value, { shouldDirty: true });
+    };
 
     if (error) {
         return <div>{t('error_fetching_breweries')}</div>;
@@ -54,6 +60,7 @@ const ProductMadeInBrewerySection = ({ form }: Props) => {
                         id="brewery"
                         {...register('brewery_id', { required: true })}
                         className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
+                        onChange={handleBreweryChange}
                     >
                         <option key={'01'} value={''} selected>
                             -
@@ -61,7 +68,13 @@ const ProductMadeInBrewerySection = ({ form }: Props) => {
 
                         {breweries &&
                             breweries.map((brewery) => (
-                                <option key={brewery.id} value={brewery.id}>
+                                <option
+                                    key={brewery.id}
+                                    value={brewery.id}
+                                    selected={
+                                        brewery.id === getValues('brewery_id')
+                                    }
+                                >
                                     {brewery.name} - {brewery.foundation_year}
                                 </option>
                             ))}
@@ -72,4 +85,4 @@ const ProductMadeInBrewerySection = ({ form }: Props) => {
     );
 };
 
-export default ProductMadeInBrewerySection;
+export default UpdateProductMadeInBrewerySection;

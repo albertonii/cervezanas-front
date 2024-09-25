@@ -25,6 +25,8 @@ import { capitalizeFirstLetter } from '@/utils/formatWords';
 import { faPalette } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DisplayInputError } from '../../ui/DisplayInputError';
+import ProductMadeInBrewerySection from './ProductMadeInBrewerySection';
+import UpdateProductMadeInBrewerySection from './UpdateProductMadeInBrewerySection';
 
 interface Props {
     form: UseFormReturn<ModalUpdateProductFormData>;
@@ -439,6 +441,8 @@ export default function UpdateBeerInfoSection({
 
             {/* Technical Information */}
             <UpdateTechnicalInfoSection form={form} />
+
+            <UpdateProductMadeInBrewerySection form={form} />
 
             {/* Stock information  */}
             {/* <UpdateStockInformation form={form} /> */}

@@ -115,6 +115,7 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
         .max(50, {
             message: 'errors.error_50_number_max_length',
         }),
+    brewery_id: z.string().optional(),
     // stock_quantity: z.number().min(0, { message: 'errors.input_number_min_0' }),
     // stock_limit_notification: z
     //     .number()
@@ -338,6 +339,7 @@ export function UpdateProductModal({
                 img_url_changed: false,
                 img_url_from_db: award.img_url,
             })),
+            brewery_id: product.brewery_id,
 
             // campaign: "-",
         },
@@ -367,6 +369,7 @@ export function UpdateProductModal({
             is_public,
             is_available,
             weight,
+            brewery_id,
         } = formValues;
 
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -382,6 +385,9 @@ export function UpdateProductModal({
         formData.append('is_available', is_available.toString());
         formData.append('weight', weight.toString());
         formData.append('product_id', product.id);
+
+        // Brewery
+        formData.append('brewery_id', brewery_id ?? '');
 
         const response = await axios.put(url, formData, {
             headers: {
@@ -668,7 +674,8 @@ export function UpdateProductModal({
             dirtyFields.price ||
             dirtyFields.is_public ||
             dirtyFields.is_available ||
-            dirtyFields.weight
+            dirtyFields.weight ||
+            dirtyFields.brewery_id
         ) {
             await updateBasicSection(formValues);
         }
@@ -736,7 +743,7 @@ export function UpdateProductModal({
     };
 
     const updateProductMutation = useMutation({
-        mutationKey: ['updateProduct'],
+        mutationKey: 'updateProduct',
         mutationFn: handleUpdateProduct,
         onMutate: () => {
             setIsSubmitting(true);
