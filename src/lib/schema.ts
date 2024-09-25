@@ -2725,6 +2725,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "products_brewery_id_fkey"
+            columns: ["brewery_id"]
+            isOneToOne: false
+            referencedRelation: "breweries"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "products_owner_id_fkey"
             columns: ["owner_id"]
             isOneToOne: false

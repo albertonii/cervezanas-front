@@ -20,6 +20,7 @@ async function getProductData(productId: string) {
         .select(
             `
             *,
+            brewery_id,
             beers (
               *
             ),
@@ -64,6 +65,28 @@ async function getProductData(productId: string) {
               created_at,
               owner_id,
               product_id
+            ),
+            breweries (
+              id,
+              created_at,
+              producer_id,
+              name,
+              foundation_year,
+              history,
+              description,
+              logo,
+              country,
+              region,
+              sub_region,
+              city,
+              address,
+              website,
+              rrss_ig,
+              rrss_fb,
+              rrss_linkedin,
+              types_of_beers_produced,
+              special_processing_methods,
+              guided_tours
             )
           `,
         )

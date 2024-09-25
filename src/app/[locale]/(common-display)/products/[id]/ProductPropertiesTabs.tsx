@@ -4,6 +4,7 @@ import ProductTechnicalInformation from './ProductTechnicalInformation';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IProduct } from '@/lib/types/types';
+import BreweryPropertiesTab from './BreweryPropertiesTab';
 
 interface Props {
     product: IProduct;
@@ -45,6 +46,10 @@ const ProductPropertiesTabs = ({ product }: Props) => {
             setTabs((prev) => [...prev, 'awards']);
         }
 
+        if (product.brewery_id) {
+            setTabs((prev) => [...prev, 'brewery']);
+        }
+
         return () => {};
     }, []);
 
@@ -72,6 +77,7 @@ const ProductPropertiesTabs = ({ product }: Props) => {
                 {selectedTab === 'details' && (
                     <ProductTechnicalInformation product={product} />
                 )}
+
                 {selectedTab === 'notes' && <ProductNotes product={product} />}
 
                 {selectedTab === 'awards' && (
@@ -84,6 +90,10 @@ const ProductPropertiesTabs = ({ product }: Props) => {
                             </div>
                         )}
                     </>
+                )}
+
+                {product.breweries && selectedTab === 'brewery' && (
+                    <BreweryPropertiesTab brewery={product.breweries} />
                 )}
 
                 {/* {selectedTab === 'faq' && (
