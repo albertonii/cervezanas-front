@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from '@react-pdf/renderer';
+import { formatCurrency } from '@/utils/formatCurrency';
 
 const styles = StyleSheet.create({
     row: {
@@ -102,15 +103,15 @@ export function TableBodyRowTotalInvoice({ items, shippingCost }: Props) {
     return (
         <View style={styles.row}>
             <Text style={styles.data_taxable_income}>
-                {taxableIncome.toFixed(2)} EUR
+                {formatCurrency(taxableIncome)}
             </Text>
             <Text style={styles.data_shipping_cost}>
-                {shippingCost.toFixed(2)} EUR
+                {formatCurrency(shippingCost)}
             </Text>
             {/* <Text style={styles.data_tax}>{totalTax.toFixed(2)} EUR</Text> */}
-            <Text style={styles.data_discount}>0.00 EUR</Text>
+            <Text style={styles.data_discount}>{formatCurrency(0.0)}</Text>
             <Text style={styles.data_total_invoice}>
-                {totalInvoice.toFixed(2)} EUR
+                {formatCurrency(totalInvoice)}
             </Text>
         </View>
     );
