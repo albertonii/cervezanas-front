@@ -171,6 +171,9 @@ export const generateLink = (role: ROLE_ENUM, option: string) => {
         case 'consumption_points':
             return `/${role}/profile/${option}`;
 
+        case 'invoice_module':
+            return `/${role}/profile/${option}`;
+
         default:
             return `/${role}/profile/settings`;
     }

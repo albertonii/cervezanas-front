@@ -1300,5 +1300,7 @@
     "modal_product_select_brewery_title": "Select brewery",
     "modal_product_add_brewery_description": "Provide more information to the consumer about where your product is produced. If you can't find the brewery in the list, you can add it in the 'factories' section.",
     "modal_product_add_brewery_description_two": "If you do not wish to display the brewery on the product page, you can leave this field empty.",
-    "select_brewery": "Select brewery"
+    "select_brewery": "Select brewery",
+    "invoice_module": "Invoice Module",
+    "company_name_header": "Company name"
 }

@@ -49,9 +49,19 @@ const TableWithFooterAndSearch: React.FC<TableProps> = ({
         if (!query) return data;
         return data.filter((row) =>
             columns.some((column) => {
-                return String(row[column.accessor])
-                    .toLowerCase()
-                    .includes(query.toLowerCase());
+                if (column.accessor.includes('.')) {
+                    return String(
+                        row[column.accessor.split('.')[0]][
+                            column.accessor.split('.')[1]
+                        ],
+                    )
+                        .toLowerCase()
+                        .includes(query.toLowerCase());
+                } else {
+                    return String(row[column.accessor])
+                        .toLowerCase()
+                        .includes(query.toLowerCase());
+                }
             }),
         );
     }, [query, data, columns]);

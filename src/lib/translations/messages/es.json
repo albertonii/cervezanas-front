@@ -1333,5 +1333,7 @@
     "modal_product_select_brewery_title": "Seleccionar cervecería",
     "modal_product_add_brewery_description": " Ofrece más información al consumidor acerca de dónde se produce tu producto. Si no encuentras la cervecería en la lista, puedes añadirla en el apartado de 'fábricas'.",
     "modal_product_add_brewery_description_two": "  Si no deseas mostrar la cervecería en la ficha de producto, puedes dejar este campo vacío.",
-    "select_brewery": "Seleccionar cervecería"
+    "select_brewery": "Seleccionar cervecería",
+    "invoice_module": "Módulo de Facturación",
+    "company_name_header": "Nombre de la empresa"
 }
