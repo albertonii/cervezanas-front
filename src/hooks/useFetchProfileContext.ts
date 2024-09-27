@@ -23,7 +23,7 @@ const useFetchProfileContext = (userId?: string) => {
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['profile-context'],
+        queryKey: 'profile-context',
         queryFn: () => fetchProfileContext(supabase, userId),
         enabled: true,
         refetchOnWindowFocus: false,

@@ -52,7 +52,7 @@ const useFetchLotsByOwnerAndPagination = (
 ) => {
     const { supabase } = useAuth();
     return useQuery({
-        queryKey: ['productLotList', ownerId, currentPage, resultsPerPage],
+        queryKey: 'productLotList',
         queryFn: () =>
             fetchLotsByOwner(ownerId, currentPage, resultsPerPage, supabase),
         enabled: true,

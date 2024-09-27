@@ -26,6 +26,7 @@ interface TableProps {
     paginationCounter: number;
     expandedRowRender?: (row: any) => React.ReactNode; // New prop for expanded row render
     sourceDataIsFromServer: boolean;
+    displaySearch?: boolean;
 }
 
 const TableWithFooterAndSearch: React.FC<TableProps> = ({
@@ -39,6 +40,7 @@ const TableWithFooterAndSearch: React.FC<TableProps> = ({
     paginationCounter = 0,
     expandedRowRender,
     sourceDataIsFromServer = false,
+    displaySearch = true,
 }) => {
     const [query, setQuery] = useState(initialQuery);
     const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.NONE);
@@ -113,11 +115,13 @@ const TableWithFooterAndSearch: React.FC<TableProps> = ({
 
     return (
         <div className="space-y-6">
-            <InputSearch
-                query={query}
-                setQuery={setQuery}
-                searchPlaceholder={searchPlaceHolder}
-            />
+            {displaySearch && (
+                <InputSearch
+                    query={query}
+                    setQuery={setQuery}
+                    searchPlaceholder={searchPlaceHolder}
+                />
+            )}
 
             <div className="overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200">

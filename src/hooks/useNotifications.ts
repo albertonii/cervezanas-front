@@ -9,7 +9,7 @@ const useNotifications = () => {
     const [notifications, setNotifications] = useState<INotification[]>([]);
 
     const { data, refetch, isLoading } = useQuery({
-        queryKey: ['notifications'],
+        queryKey: 'notifications',
         queryFn: () => fetchNotifications(user.id, supabase),
         enabled: false,
         refetchOnWindowFocus: false,

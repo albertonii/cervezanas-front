@@ -305,6 +305,38 @@ export type Database = {
           },
         ]
       }
+      billing_preferences: {
+        Row: {
+          billing_cycle: string | null
+          id: string
+          last_billing_cycle: string | null
+          next_billing_cycle: string | null
+          producer_id: string | null
+        }
+        Insert: {
+          billing_cycle?: string | null
+          id?: string
+          last_billing_cycle?: string | null
+          next_billing_cycle?: string | null
+          producer_id?: string | null
+        }
+        Update: {
+          billing_cycle?: string | null
+          id?: string
+          last_billing_cycle?: string | null
+          next_billing_cycle?: string | null
+          producer_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "billing_preferences_producer_id_fkey"
+            columns: ["producer_id"]
+            isOneToOne: false
+            referencedRelation: "producer_user"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       bm_experience_participants: {
         Row: {
           correct_answers: number | null
@@ -2025,6 +2057,59 @@ export type Database = {
           },
         ]
       }
+      invoices: {
+        Row: {
+          cervezanas_comission: number | null
+          created_at: string
+          from_invoice_date: string | null
+          id: string
+          invoice_generation_date: string | null
+          producer_earnings: number | null
+          producer_email: string | null
+          producer_id: string | null
+          producer_username: string | null
+          to_invoice_date: string | null
+          total_sales: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          cervezanas_comission?: number | null
+          created_at?: string
+          from_invoice_date?: string | null
+          id?: string
+          invoice_generation_date?: string | null
+          producer_earnings?: number | null
+          producer_email?: string | null
+          producer_id?: string | null
+          producer_username?: string | null
+          to_invoice_date?: string | null
+          total_sales?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          cervezanas_comission?: number | null
+          created_at?: string
+          from_invoice_date?: string | null
+          id?: string
+          invoice_generation_date?: string | null
+          producer_earnings?: number | null
+          producer_email?: string | null
+          producer_id?: string | null
+          producer_username?: string | null
+          to_invoice_date?: string | null
+          total_sales?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_producer_id_fkey"
+            columns: ["producer_id"]
+            isOneToOne: false
+            referencedRelation: "producer_user"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       likes: {
         Row: {
           created_at: string | null
@@ -2349,6 +2434,47 @@ export type Database = {
             columns: ["owner_id"]
             isOneToOne: false
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          amount_paid: number | null
+          created_at: string
+          id: string
+          invoice_id: string | null
+          payment_date: string | null
+          payment_method: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount_paid?: number | null
+          created_at?: string
+          id?: string
+          invoice_id?: string | null
+          payment_date?: string | null
+          payment_method?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount_paid?: number | null
+          created_at?: string
+          id?: string
+          invoice_id?: string | null
+          payment_date?: string | null
+          payment_method?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
             referencedColumns: ["id"]
           },
         ]

@@ -28,7 +28,7 @@ const useFetchCPFixedPacks = (cpId: string) => {
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['cpFixed', cpId],
+        queryKey: 'cpFixed',
         queryFn: () => fetchCPFixedPacks(cpId, supabase),
         enabled: true,
         refetchOnWindowFocus: false,

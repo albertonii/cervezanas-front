@@ -33,7 +33,7 @@ const fetchCitiesOfState = async (country: string, state: string) => {
 
 const useFetchCitiesOfState = (country: string, state: string) => {
     return useQuery({
-        queryKey: ['citiesOfState', country, state],
+        queryKey: 'citiesOfState',
         queryFn: () => fetchCitiesOfState(country, state),
         enabled: false,
         refetchOnWindowFocus: false,

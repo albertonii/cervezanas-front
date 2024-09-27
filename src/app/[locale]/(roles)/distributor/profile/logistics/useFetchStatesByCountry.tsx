@@ -34,7 +34,7 @@ const fetchStatesByCountry = async (countryIsoCode: string) => {
 
 const useFetchStatesByCountry = (countryIsoCode: string) => {
     return useQuery({
-        queryKey: ['statesByCountry'],
+        queryKey: 'statesByCountry',
         queryFn: () => fetchStatesByCountry(countryIsoCode),
         enabled: false,
         refetchOnWindowFocus: false,

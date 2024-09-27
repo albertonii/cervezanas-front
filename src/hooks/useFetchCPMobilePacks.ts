@@ -28,7 +28,7 @@ const useFetchCPMobilePacks = (cpId: string) => {
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['cpMobile', cpId],
+        queryKey: 'cpMobile',
         queryFn: () => fetchCPMobile(cpId, supabase),
         enabled: true,
         refetchOnWindowFocus: false,

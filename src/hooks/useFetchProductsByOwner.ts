@@ -41,7 +41,7 @@ const useFetchProductsByOwner = (ownerId: string, isPublic?: boolean) => {
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['productListByOwner', ownerId, isPublic],
+        queryKey: 'productListByOwner',
         queryFn: () =>
             fetchProductsByOwner(ownerId, isPublic ?? true, supabase),
         enabled: true,

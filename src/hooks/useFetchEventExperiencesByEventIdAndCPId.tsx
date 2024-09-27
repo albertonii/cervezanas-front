@@ -41,7 +41,7 @@ const useFetchEventExperiencesByEventIdAndCPMobileId = (
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['experiences'],
+        queryKey: 'experiences',
         queryFn: () => fetchEventExperiences(eventId, cpMobileId, supabase),
         enabled: true,
         refetchOnWindowFocus: false,

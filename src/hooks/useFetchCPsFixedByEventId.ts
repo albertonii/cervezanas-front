@@ -30,7 +30,7 @@ const useFetchCPSFixedByEventsId = (eventId: string) => {
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['cpf_events'],
+        queryKey: 'cpf_events',
         queryFn: () => fetchCPSFixedByEventId(eventId, supabase),
         enabled: false,
         refetchOnWindowFocus: false,

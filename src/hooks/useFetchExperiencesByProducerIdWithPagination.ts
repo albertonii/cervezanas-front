@@ -52,7 +52,7 @@ const useFetchExperiencesByProducerIdWithPagination = (
     const { user, supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['experiences'],
+        queryKey: 'experiences',
         queryFn: () =>
             fetchExperiencesByProducerId(
                 user?.id,

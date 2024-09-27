@@ -38,7 +38,7 @@ const useFetchCPFixed = (
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['cpFixed', cpId, currentPage, resultsPerPage],
+        queryKey: 'cpFixed',
         queryFn: () =>
             fetchCPFixed(cpId, currentPage, resultsPerPage, supabase),
         enabled: true,

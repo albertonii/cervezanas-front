@@ -25,7 +25,7 @@ const useFetchCustomSettings = (
 ): UseQueryResult<ICustomizeSettings, unknown> => {
     const { supabase } = useAuth();
     return useQuery({
-        queryKey: ['customSettings', userId],
+        queryKey: 'customSettings',
         queryFn: () => fetchCustomSettingsById(userId, supabase),
         enabled: true,
         refetchOnWindowFocus: false,

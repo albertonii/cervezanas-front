@@ -1301,6 +1301,18 @@
     "modal_product_add_brewery_description": "Provide more information to the consumer about where your product is produced. If you can't find the brewery in the list, you can add it in the 'factories' section.",
     "modal_product_add_brewery_description_two": "If you do not wish to display the brewery on the product page, you can leave this field empty.",
     "select_brewery": "Select brewery",
-    "invoice_module": "Invoice Module",
-    "company_name_header": "Company name"
+    "company_name_header": "Company name",
+    "invoice_module": {
+        "title": "Invoice Module",
+        "invoice_current_period": "Invoices for the current period",
+        "total_amount": "Total amount",
+        "producer_earnings": "Producer earnings",
+        "cervezanas_comission": "Cervezanas commission (15%)",
+        "period_header": "Period",
+        "generation_date_header": "Generation date",
+        "total_sales_header": "Total sales",
+        "producer_earnings_header": "Producer earnings",
+        "cervezanas_comission_header": "Cervezanas commission"
+    },
+    "about": "About"
 }

@@ -1,28 +1,35 @@
 'use client';
 
+import { IInvoice } from '@/lib/types/types';
 import { useQuery } from 'react-query';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
-import { IBusinessOrder } from '@/lib//types/types';
 
-const fetchOrdersByProducerId = async (
+const fetchInvoices = async (
     producerId: string,
     currentPage: number,
     resultsPerPage: number,
     supabase: any,
 ) => {
     const { data, error } = await supabase
-        .from('business_orders')
+        .from('invoices')
         .select(
             `
                 *,
-                order_id,
-                orders (
-                    *
+                payments (
+                    id,
+                    invoice_id,
+                    amount_paid,
+                    payment_method,
+                    status,
+                    created_at,
+                    updated_at
                 ),
-                order_items (*)
+                producer_user (
+                    *
+                )
             `,
         )
-        .eq('producer_id', [producerId])
+        .eq('producer_id', producerId)
         .range(
             (currentPage - 1) * resultsPerPage,
             currentPage * resultsPerPage - 1,
@@ -30,10 +37,10 @@ const fetchOrdersByProducerId = async (
         .order('created_at', { ascending: false });
 
     if (error) throw error;
-    return data as IBusinessOrder[];
+    return data as IInvoice[];
 };
 
-const useFetchOrdersByProducerId = (
+const useFetchInvoicesByProducerId = (
     producerId: string,
     currentPage: number,
     resultsPerPage: number,
@@ -41,17 +48,12 @@ const useFetchOrdersByProducerId = (
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: 'orders_by_producer_id',
+        queryKey: 'invoices_by_producer_id',
         queryFn: () =>
-            fetchOrdersByProducerId(
-                producerId,
-                currentPage,
-                resultsPerPage,
-                supabase,
-            ),
+            fetchInvoices(producerId, currentPage, resultsPerPage, supabase),
         enabled: false,
         refetchOnWindowFocus: false,
     });
 };
 
-export default useFetchOrdersByProducerId;
+export default useFetchInvoicesByProducerId;

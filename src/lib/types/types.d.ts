@@ -1914,3 +1914,41 @@ export interface ShipmentTrackingMessageFormData {
     content: string;
     tracking_id: string;
 }
+
+export interface IInvoice {
+    id: string;
+    producer_id: string;
+    producer_earnings: number;
+    cervezanas_comission: number;
+    total_sales: number;
+    status: string;
+    invoice_generation_date: string;
+    from_invoice_date: string;
+    to_invoice_date: string;
+    created_at: string;
+    updated_at: string;
+    producer_user?: IProducerUser;
+    producer_username: string;
+    producer_email: string;
+    payments?: IPayment[];
+}
+
+export interface IPayment {
+    id: string;
+    invoice_id: string;
+    amount_paid: number;
+    payment_method: string;
+    status: string;
+    created_at: string;
+    updated_at: string;
+    invoices?: IInvoice;
+}
+
+export interface IBillingPreferences {
+    id: string;
+    producer_id: string;
+    billing_cycle: string;
+    last_billing_date: string;
+    next_billing_date: string;
+    producer_user?: IProducerUser;
+}

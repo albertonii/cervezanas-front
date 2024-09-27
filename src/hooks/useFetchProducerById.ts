@@ -43,7 +43,7 @@ const useFetchProducerById = (producerId: string) => {
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['producerById', producerId],
+        queryKey: 'producerById',
         queryFn: () => fetchProducerById(supabase, producerId),
         enabled: true,
         refetchOnWindowFocus: false,

@@ -44,7 +44,7 @@ const useFetchEventsByOwnerId = (
     const { user, supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['events', user?.id, currentPage, resultsPerPage],
+        queryKey: 'events',
         queryFn: () =>
             fetchEventsByOwnerId(
                 user?.id,

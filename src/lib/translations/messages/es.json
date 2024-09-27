@@ -1334,6 +1334,21 @@
     "modal_product_add_brewery_description": " Ofrece más información al consumidor acerca de dónde se produce tu producto. Si no encuentras la cervecería en la lista, puedes añadirla en el apartado de 'fábricas'.",
     "modal_product_add_brewery_description_two": "  Si no deseas mostrar la cervecería en la ficha de producto, puedes dejar este campo vacío.",
     "select_brewery": "Seleccionar cervecería",
-    "invoice_module": "Módulo de Facturación",
-    "company_name_header": "Nombre de la empresa"
+    "company_name_header": "Nombre de la empresa",
+    "invoice_module": {
+        "title": "Módulo de Facturación",
+        "invoice_current_period": "Facturas del periodo actual",
+        "total_amount": "Importe total",
+        "producer_earnings": "Ganancias del productor",
+        "cervezanas_comission": "Comisión de Cervezanas (15%)",
+        "historial_title": "Historial de facturas",
+        "sales_summary": "Resumen de ventas",
+        "historial_description": "Aquí puedes ver todas las facturas que has generado en la plataforma. Puedes ver el importe total de cada factura, las ganancias del productor y la comisión de Cervezanas.",
+        "period_header": "Periodo",
+        "generation_date_header": "Fecha de generación",
+        "total_sales_header": "Ventas totales",
+        "producer_earnings_header": "Ganancias del productor",
+        "cervezanas_comission_header": "Comisión de Cervezanas"
+    },
+    "about": "Acerca de"
 }

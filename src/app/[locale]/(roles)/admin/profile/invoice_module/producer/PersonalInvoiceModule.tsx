@@ -1,12 +1,24 @@
+'use client';
+
+import InvoiceHistory from './InvoiceHistory';
+import CurrentInvoiceSummary from './CurrentInvoiceSummary';
 import React from 'react';
-import { IProducerUser } from '@/lib/types/types';
+import { IBusinessOrder, IProducerUser } from '@/lib/types/types';
+import ProducerCard from './ProducerCard';
 
 interface Props {
     producer: IProducerUser;
+    bOrders: IBusinessOrder[];
 }
 
-const PersonalInvoiceModule = ({ producer }: Props) => {
-    return <div></div>;
+const PersonalInvoiceModule = ({ producer, bOrders }: Props) => {
+    return (
+        <div className="space-y-8">
+            <ProducerCard producer={producer} />
+            <CurrentInvoiceSummary producer={producer} bOrders={bOrders} />
+            <InvoiceHistory />
+        </div>
+    );
 };
 
 export default PersonalInvoiceModule;

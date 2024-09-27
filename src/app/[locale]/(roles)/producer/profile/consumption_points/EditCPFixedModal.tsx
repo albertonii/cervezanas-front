@@ -104,7 +104,7 @@ export default function EditCPFixedModal({
     };
 
     const query = useQuery({
-        queryKey: ['organizers'],
+        queryKey: 'organizers',
         queryFn: getExternalOrganizers,
         enabled: false,
     });

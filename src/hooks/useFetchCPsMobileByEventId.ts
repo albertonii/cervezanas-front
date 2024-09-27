@@ -31,7 +31,7 @@ const useFetchCPSMobileByEventsId = (eventId: string) => {
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['cpm_events'],
+        queryKey: 'cpm_events',
         queryFn: () => fetchCPSMobileByEventId(eventId, supabase),
         enabled: false,
         refetchOnWindowFocus: false,

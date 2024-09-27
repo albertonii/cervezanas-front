@@ -24,7 +24,7 @@ const fetchSpanishRegions = async () => {
 
 const useFetchSpanishRegions = () => {
     return useQuery({
-        queryKey: ['spanishRegions'],
+        queryKey: 'spanishRegions',
         queryFn: () => fetchSpanishRegions(),
         enabled: false,
         refetchOnWindowFocus: false,

@@ -44,7 +44,7 @@ const useFetchOrdersByDistributorId = (
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['orders_by_distributor_id'],
+        queryKey: 'orders_by_distributor_id',
         queryFn: () =>
             fetchOrdersByDistributorId(
                 distributorId,

@@ -37,7 +37,7 @@ const useFetchBusinessOrders = (
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['business_orders'],
+        queryKey: 'business_orders',
         queryFn: () =>
             fetchBusinessOrders(ownerId, currentPage, resultsPerPage, supabase),
         enabled: false,

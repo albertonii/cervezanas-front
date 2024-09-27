@@ -53,7 +53,7 @@ const useFetchDistributionContractsByDistributorId = (
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['distributionContract'],
+        queryKey: 'distributionContract',
         queryFn: () => fetchDistributionContracts(distributorId, supabase),
         enabled: true,
         refetchOnWindowFocus: false,
