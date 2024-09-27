@@ -88,8 +88,8 @@ async function getCheckoutErrorData(searchParams: any) {
                 business_orders!business_orders_order_id_fkey (
                     *,
                     order_items (
-                    *,
-                    product_packs (*)
+                        *,
+                        product_packs (*)
                     )
                 ),
                 shipping_name,

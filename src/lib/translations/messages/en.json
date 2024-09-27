@@ -1312,7 +1312,9 @@
         "generation_date_header": "Generation date",
         "total_sales_header": "Total sales",
         "producer_earnings_header": "Producer earnings",
-        "cervezanas_comission_header": "Cervezanas commission"
+        "cervezanas_comission_header": "Cervezanas commission (15%)",
+        "generate_invoice": "Generate invoice",
+        "generate_sales_invoice": "Generate sales invoice"
     },
     "about": "About"
 }

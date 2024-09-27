@@ -646,6 +646,9 @@ export interface IOrderItem {
     created_at: string;
     quantity: number;
     is_reviewed: boolean;
+    product_name: string;
+    product_pack_name: string;
+    product_price: number;
     business_orders?: IBusinessOrder;
     product_packs?: IProductPack;
 }
@@ -1917,20 +1920,32 @@ export interface ShipmentTrackingMessageFormData {
 
 export interface IInvoice {
     id: string;
-    producer_id: string;
-    producer_earnings: number;
-    cervezanas_comission: number;
-    total_sales: number;
-    status: string;
-    invoice_generation_date: string;
-    from_invoice_date: string;
-    to_invoice_date: string;
     created_at: string;
     updated_at: string;
+    producer_id: string;
+    net_amount: number;
+    comission: number;
+    total_sales: number;
+    status: string;
+    invoice_period: string; // Marzo 2025
     producer_user?: IProducerUser;
     producer_username: string;
     producer_email: string;
     payments?: IPayment[];
+}
+
+export interface IInvoiceItem {
+    id: string;
+    invoice_id: string;
+    business_order_id: string;
+    product_name: string;
+    product_pack_name: string;
+    product_quantity: number;
+    sale_total: number;
+    comission: number;
+    net_amount: number;
+    business_orders?: IBusinessOrder;
+    invoices?: IInvoice;
 }
 
 export interface IPayment {
@@ -1944,11 +1959,15 @@ export interface IPayment {
     invoices?: IInvoice;
 }
 
-export interface IBillingPreferences {
+export interface IRefund {
     id: string;
-    producer_id: string;
-    billing_cycle: string;
-    last_billing_date: string;
-    next_billing_date: string;
-    producer_user?: IProducerUser;
+    business_order_id: string;
+    invoice_id: string;
+    amount: number;
+    reason: string;
+    status: string;
+    created_at: string;
+    updated_at: string;
+    business_orders?: IBusinessOrder;
+    invoices?: IInvoice;
 }

@@ -48,7 +48,12 @@ async function getBusinessOrdersByProducerId(userId: string) {
                 *,
                 order_items (
                     *,
-                    product_packs (*)
+                    product_packs (
+                        *,
+                        products (
+                            name
+                        )
+                    )
                 )
             `,
         )

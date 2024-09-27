@@ -89,12 +89,12 @@ async function getSuccessData(searchParams: any) {
                         )
                     ),
                     order_items (
-                    *,
-                    product_packs (
                         *,
-                        products (
+                        product_packs (
                             *,
-                            product_multimedia (*)
+                            products (
+                                *,
+                                product_multimedia (*)
                             )
                         )
                     ),

@@ -62,8 +62,8 @@ async function getSuccessData(orderNumber: string) {
                         product_packs (
                             *,
                             products (
-                            *,
-                            product_multimedia (*)
+                                *,
+                                product_multimedia (*)
                             )
                         )
                     )

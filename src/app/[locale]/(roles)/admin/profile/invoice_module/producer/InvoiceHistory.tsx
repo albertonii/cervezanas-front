@@ -49,19 +49,15 @@ const InvoiceHistory = () => {
             accessor: 'invoice_date',
             sortable: true,
             render: (_: any, row: IInvoice) => (
-                <span>
-                    {row.from_invoice_date} - {row.to_invoice_date}
-                </span>
+                <span>{row.invoice_period}</span>
             ),
         },
         {
             header: t('invoice_module.generation_date_header'),
-            key: 'invoice_generation_date',
-            accessor: 'invoice_generation_date',
+            key: 'created_at',
+            accessor: 'created_at',
             sortable: true,
-            render: (_: any, row: IInvoice) => (
-                <span>{row.invoice_generation_date}</span>
-            ),
+            render: (_: any, row: IInvoice) => <span>{row.created_at}</span>,
         },
         {
             header: t('invoice_module.total_sales_header'),
@@ -74,20 +70,20 @@ const InvoiceHistory = () => {
         },
         {
             header: t('invoice_module.producer_earnings_header'),
-            key: 'producer_earnings',
-            accessor: 'producer_earnings',
+            key: 'net_amount',
+            accessor: 'net_amount',
             sortable: true,
             render: (_: any, row: IInvoice) => (
-                <span>{formatCurrency(row.producer_earnings)}</span>
+                <span>{formatCurrency(row.net_amount)}</span>
             ),
         },
         {
             header: t('invoice_module.cervezanas_comission_header'),
-            key: 'cervezanas_comission',
-            accessor: 'cervezanas_comission',
+            key: 'comission',
+            accessor: 'comission',
             sortable: true,
             render: (_: any, row: IInvoice) => (
-                <span>{formatCurrency(row.cervezanas_comission)}</span>
+                <span>{formatCurrency(row.comission)}</span>
             ),
         },
         {

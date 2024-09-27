@@ -1,10 +1,10 @@
 'use client';
 
+import ProducerCard from './ProducerCard';
 import InvoiceHistory from './InvoiceHistory';
 import CurrentInvoiceSummary from './CurrentInvoiceSummary';
 import React from 'react';
 import { IBusinessOrder, IProducerUser } from '@/lib/types/types';
-import ProducerCard from './ProducerCard';
 
 interface Props {
     producer: IProducerUser;

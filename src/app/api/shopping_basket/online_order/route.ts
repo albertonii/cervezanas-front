@@ -227,6 +227,9 @@ export async function POST(request: NextRequest) {
                             business_order_id: businessOrder.id,
                             product_pack_id: pack.id,
                             quantity: pack.quantity,
+                            product_name: pack.products?.name,
+                            product_pack_name: pack.name,
+                            product_price: pack.price,
                             is_reviewed: false,
                         });
 

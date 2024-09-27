@@ -27,7 +27,7 @@ const sidebarLinks = [
         option: 'authorized_users',
     },
     {
-        name: 'invoice_module',
+        name: 'invoice_module.title',
         icon: faMoneyBill,
         option: 'invoice_module',
     },
