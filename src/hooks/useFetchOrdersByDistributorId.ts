@@ -16,7 +16,7 @@ const fetchOrdersByDistributorId = async (
             `
                 *, 
                 orders (
-                *
+                    *
                 ),
                 order_items (
                     *

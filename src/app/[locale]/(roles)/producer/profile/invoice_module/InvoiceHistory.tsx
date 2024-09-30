@@ -8,10 +8,9 @@ import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IInvoiceProducer } from '@/lib/types/types';
 import { formatCurrency } from '@/utils/formatCurrency';
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
-import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 import { formatDateDefaultInput } from '@/utils/formatDate';
+import DownloadInvoiceButton from './DownloadInvoiceButton';
 
 const InvoiceHistory = () => {
     const t = useTranslations();
@@ -32,7 +31,6 @@ const InvoiceHistory = () => {
     useEffect(() => {
         if (user) {
             refetch().then((res) => {
-                console.log(res);
                 const data = res.data as IInvoiceProducer[];
 
                 setInvoices(data);
@@ -85,11 +83,7 @@ const InvoiceHistory = () => {
             accessor: 'actions',
             render: (_: any, row: IInvoiceProducer) => (
                 <div className="flex justify-center space-x-2">
-                    <IconButton
-                        // onClick={() => handleClickView(row)}
-                        icon={faDownload}
-                        title={''}
-                    />{' '}
+                    <DownloadInvoiceButton invoiceId={row.id} />
                 </div>
             ),
         },

@@ -194,6 +194,12 @@ export async function POST(request: NextRequest) {
                                 producer_id: producerId,
                                 distributor_id: distributorId,
                                 tracking_id: shipmentTracking.id,
+                                total_sales: pack.price * pack.quantity,
+                                platform_comission_producer: 0.15,
+                                platform_comission_distributor: 0.05,
+                                net_revenue_producer:
+                                    pack.price * pack.quantity * 0.85,
+                                // net_revenue_distributor: order.shipment_price * 0.95,
                             })
                             .select('id')
                             .single();
@@ -230,6 +236,7 @@ export async function POST(request: NextRequest) {
                             product_name: pack.products?.name,
                             product_pack_name: pack.name,
                             product_price: pack.price,
+                            subtotal: pack.price * pack.quantity,
                             is_reviewed: false,
                         });
 

@@ -632,27 +632,42 @@ export type Database = {
           created_at: string | null
           distributor_id: string | null
           id: string
+          net_revenue_distributor: number | null
+          net_revenue_producer: number | null
           order_id: string | null
+          platform_comission_distributor: number | null
+          platform_comission_producer: number | null
           producer_id: string | null
           status: string | null
+          total_sales: number | null
           tracking_id: string | null
         }
         Insert: {
           created_at?: string | null
           distributor_id?: string | null
           id?: string
+          net_revenue_distributor?: number | null
+          net_revenue_producer?: number | null
           order_id?: string | null
+          platform_comission_distributor?: number | null
+          platform_comission_producer?: number | null
           producer_id?: string | null
           status?: string | null
+          total_sales?: number | null
           tracking_id?: string | null
         }
         Update: {
           created_at?: string | null
           distributor_id?: string | null
           id?: string
+          net_revenue_distributor?: number | null
+          net_revenue_producer?: number | null
           order_id?: string | null
+          platform_comission_distributor?: number | null
+          platform_comission_producer?: number | null
           producer_id?: string | null
           status?: string | null
+          total_sales?: number | null
           tracking_id?: string | null
         }
         Relationships: [
@@ -2028,27 +2043,36 @@ export type Database = {
       invoice_items: {
         Row: {
           business_order_id: string | null
-          comission: number | null
           id: string
           invoice_id: string | null
           net_amount: number | null
-          sale_total: number | null
+          platform_commission: number | null
+          product_name: string | null
+          product_pack_name: string | null
+          product_quantity: number | null
+          total_sales: number | null
         }
         Insert: {
           business_order_id?: string | null
-          comission?: number | null
           id?: string
           invoice_id?: string | null
           net_amount?: number | null
-          sale_total?: number | null
+          platform_commission?: number | null
+          product_name?: string | null
+          product_pack_name?: string | null
+          product_quantity?: number | null
+          total_sales?: number | null
         }
         Update: {
           business_order_id?: string | null
-          comission?: number | null
           id?: string
           invoice_id?: string | null
           net_amount?: number | null
-          sale_total?: number | null
+          platform_commission?: number | null
+          product_name?: string | null
+          product_pack_name?: string | null
+          product_quantity?: number | null
+          total_sales?: number | null
         }
         Relationships: [
           {
@@ -2062,49 +2086,43 @@ export type Database = {
             foreignKeyName: "invoice_items_invoice_id_fkey"
             columns: ["invoice_id"]
             isOneToOne: false
-            referencedRelation: "invoices"
+            referencedRelation: "invoices_producer"
             referencedColumns: ["id"]
           },
         ]
       }
-      invoices: {
+      invoices_producer: {
         Row: {
-          comission: number | null
           created_at: string
           id: string
           invoice_period: string | null
-          net_amount: number | null
           producer_email: string | null
           producer_id: string | null
           producer_username: string | null
           status: string | null
-          total_sales: number | null
+          total_amount: number | null
           updated_at: string | null
         }
         Insert: {
-          comission?: number | null
           created_at?: string
           id?: string
           invoice_period?: string | null
-          net_amount?: number | null
           producer_email?: string | null
           producer_id?: string | null
           producer_username?: string | null
           status?: string | null
-          total_sales?: number | null
+          total_amount?: number | null
           updated_at?: string | null
         }
         Update: {
-          comission?: number | null
           created_at?: string
           id?: string
           invoice_period?: string | null
-          net_amount?: number | null
           producer_email?: string | null
           producer_id?: string | null
           producer_username?: string | null
           status?: string | null
-          total_sales?: number | null
+          total_amount?: number | null
           updated_at?: string | null
         }
         Relationships: [
@@ -2267,6 +2285,7 @@ export type Database = {
           product_pack_name: string | null
           product_price: number | null
           quantity: number | null
+          subtotal: number | null
         }
         Insert: {
           business_order_id: string
@@ -2277,6 +2296,7 @@ export type Database = {
           product_pack_name?: string | null
           product_price?: number | null
           quantity?: number | null
+          subtotal?: number | null
         }
         Update: {
           business_order_id?: string
@@ -2287,6 +2307,7 @@ export type Database = {
           product_pack_name?: string | null
           product_price?: number | null
           quantity?: number | null
+          subtotal?: number | null
         }
         Relationships: [
           {
@@ -2490,7 +2511,7 @@ export type Database = {
             foreignKeyName: "payments_invoice_id_fkey"
             columns: ["invoice_id"]
             isOneToOne: false
-            referencedRelation: "invoices"
+            referencedRelation: "invoices_producer"
             referencedColumns: ["id"]
           },
         ]
@@ -2987,7 +3008,7 @@ export type Database = {
             foreignKeyName: "refunds_invoice_id_fkey"
             columns: ["invoice_id"]
             isOneToOne: false
-            referencedRelation: "invoices"
+            referencedRelation: "invoices_producer"
             referencedColumns: ["id"]
           },
         ]

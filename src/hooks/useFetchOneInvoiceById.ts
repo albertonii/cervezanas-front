@@ -4,12 +4,7 @@ import { IInvoiceProducer } from '@/lib/types/types';
 import { useQuery } from 'react-query';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 
-const fetchInvoices = async (
-    producerId: string,
-    currentPage: number,
-    resultsPerPage: number,
-    supabase: any,
-) => {
+const fetchOneInvoice = async (producerId: string, supabase: any) => {
     const { data, error } = await supabase
         .from('invoices_producer')
         .select(
@@ -26,34 +21,26 @@ const fetchInvoices = async (
                 ),
                 producer_user (
                     *
-                )
+                ),
+                invoice_items (*)
             `,
         )
-        .eq('producer_id', producerId)
-        .range(
-            (currentPage - 1) * resultsPerPage,
-            currentPage * resultsPerPage - 1,
-        )
-        .order('created_at', { ascending: false });
+        .eq('id', producerId)
+        .single();
 
     if (error) throw error;
-    return data as IInvoiceProducer[];
+    return data as IInvoiceProducer;
 };
 
-const useFetchInvoicesByProducerId = (
-    producerId: string,
-    currentPage: number,
-    resultsPerPage: number,
-) => {
+const useFetchOneInvoiceById = (invoiceId: string) => {
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: 'invoices_by_producer_id',
-        queryFn: () =>
-            fetchInvoices(producerId, currentPage, resultsPerPage, supabase),
+        queryKey: 'one_invoice_by_id',
+        queryFn: () => fetchOneInvoice(invoiceId, supabase),
         enabled: false,
         refetchOnWindowFocus: false,
     });
 };
 
-export default useFetchInvoicesByProducerId;
+export default useFetchOneInvoiceById;
