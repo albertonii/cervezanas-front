@@ -2,8 +2,8 @@
 
 import ProducerCard from './ProducerCard';
 import SalesRecordsHistory from './SalesRecordsHistory';
+import InvoiceUploadedList from './InvoiceUploadedList';
 import CurrentInvoiceSummary from './CurrentInvoiceSummary';
-import InvoiceUploadedList from '@/app/[locale]/(roles)/producer/profile/invoice_module/InvoiceUploadedList';
 import React from 'react';
 import { IBusinessOrder, IProducerUser } from '@/lib/types/types';
 

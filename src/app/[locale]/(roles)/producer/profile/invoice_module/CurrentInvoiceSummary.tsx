@@ -12,16 +12,15 @@ import {
 
 interface Props {
     producer: IProducerUser;
-    bOrders: IBusinessOrder[];
     salesRecords: ISalesRecordsProducer;
 }
 
-const CurrentInvoiceSummary = ({ producer, bOrders, salesRecords }: Props) => {
+const CurrentInvoiceSummary = ({ producer, salesRecords }: Props) => {
     const t = useTranslations();
 
-    const { data, refetch, error, isLoading } = useFetchOneSalesRecordsById(
-        producer.user_id,
-    );
+    // const { data, refetch, error, isLoading } = useFetchOneSalesRecordsById(
+    //     producer.user_id,
+    // );
 
     const [totalAmount, setTotalAmount] = React.useState<number>(0);
     const [cervezanasComission, setCervezanasComission] =

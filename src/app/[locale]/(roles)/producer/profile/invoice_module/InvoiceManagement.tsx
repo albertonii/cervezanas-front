@@ -1,16 +1,16 @@
 import Title from '@/app/[locale]/components/ui/Title';
+import InvoiceUploadedList from './InvoiceUploadedList';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
 import Description from '@/app/[locale]/components/ui/Description';
 import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import React, { useState } from 'react';
 import { z, ZodType } from 'zod';
-import { useMutation, useQueryClient } from 'react-query';
 import { useTranslations } from 'next-intl';
-import { InvoiceFormData } from '@/lib/types/types';
+import { InvoiceFormData, ISalesRecordsProducer } from '@/lib/types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useMutation, useQueryClient } from 'react-query';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
-import InvoiceUploadedList from './InvoiceUploadedList';
 
 // This is the list of mime types you will accept with the schema
 const ACCEPTED_MIME_TYPES = [
@@ -65,7 +65,11 @@ const schema: ZodType<InvoiceFormData> = z.object({
 
 type ValidationSchema = z.infer<typeof schema>;
 
-const InvoiceManagement = () => {
+interface Props {
+    salesRecords: ISalesRecordsProducer;
+}
+
+const InvoiceManagement = ({ salesRecords }: Props) => {
     const t = useTranslations();
 
     const [isLoading, setIsLoading] = useState(false);
@@ -104,6 +108,7 @@ const InvoiceManagement = () => {
         formData.append('invoice_file', file);
         formData.append('total_amount', total_amount.toString());
         formData.append('producer_id', user.id);
+        formData.append('invoice_period', salesRecords.invoice_period);
 
         try {
             const response = await fetch(url, {

@@ -131,8 +131,6 @@ export async function POST(request: NextRequest) {
         {},
     );
 
-    console.log(items);
-
     // Estoy recorriendo todos los elementos del carrito de la compra,
     // aquellos que tengan un pack, los inserto en la tabla order_items
     // además, como son del mismo pack y del mismo producto, los agrupo

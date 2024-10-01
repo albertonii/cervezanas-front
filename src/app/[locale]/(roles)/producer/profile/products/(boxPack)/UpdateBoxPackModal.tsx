@@ -104,8 +104,6 @@ export function UpdateBoxPackModal({
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-    console.log('product', product);
-
     const transformedBoxPackItems =
         product.box_packs && product.box_packs.length > 0
             ? product.box_packs?.[0].box_pack_items?.map((item) => ({

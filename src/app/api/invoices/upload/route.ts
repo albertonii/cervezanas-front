@@ -3,8 +3,6 @@ import createServerClient from '@/utils/supabaseServer';
 import { NextRequest, NextResponse } from 'next/server';
 import { generateFileNameExtension } from '@/utils/utils';
 
-const uploadDir = path.join(process.cwd(), 'public', 'documents', 'invoices');
-
 export async function POST(request: NextRequest) {
     try {
         const supabase = await createServerClient();
@@ -15,7 +13,7 @@ export async function POST(request: NextRequest) {
         const invoiceFile = formData.get('invoice_file') as File;
         const producerId = formData.get('producer_id') as string;
         const totalAmount = parseFloat(formData.get('total_amount') as string);
-        // const invoicePeriod = formData.get('invoice_period') as string;
+        const invoicePeriod = formData.get('invoice_period') as string;
 
         if (!invoiceName || !invoiceFile) {
             return NextResponse.json(
@@ -64,7 +62,7 @@ export async function POST(request: NextRequest) {
                     name: invoiceName,
                     file_path: filePath,
                     total_amount: totalAmount,
-                    // invoice_period: invoicePeriod,
+                    invoice_period: invoicePeriod,
                 },
             ]);
 

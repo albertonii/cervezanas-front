@@ -22,10 +22,9 @@ const PersonalInvoiceModule = ({ producer, bOrders, salesRecords }: Props) => {
             <SalesRecordsHistory />
             <CurrentInvoiceSummary
                 producer={producer}
-                bOrders={bOrders}
                 salesRecords={salesRecords}
             />
-            <InvoiceManagement />
+            <InvoiceManagement salesRecords={salesRecords} />
         </div>
     );
 };

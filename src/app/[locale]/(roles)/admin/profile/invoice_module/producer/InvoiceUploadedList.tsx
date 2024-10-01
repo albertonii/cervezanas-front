@@ -1,11 +1,11 @@
 import Title from '@/app/[locale]/components/ui/Title';
 import Label from '@/app/[locale]/components/ui/Label';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
-import DownloadInvoiceButton from './DownloadInvoiceButton';
 import Description from '@/app/[locale]/components/ui/Description';
 import DeleteModal from '@/app/[locale]/components/modals/DeleteModal';
 import useFetchInvoicesByProducerId from '@/hooks/useFetchInvoicesByProducerId';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
+import DownloadInvoiceButton from '@/app/[locale]/(roles)/producer/profile/invoice_module/DownloadInvoiceButton';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useQueryClient } from 'react-query';
@@ -14,6 +14,7 @@ import { formatDateDefaultInput } from '@/utils/formatDate';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 import { IInvoiceProducer, ISalesRecordsProducer } from '@/lib/types/types';
 import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';
+import { INVOICE_STATUS } from '@/constants';
 
 const InvoiceUploadedList = () => {
     const t = useTranslations();
@@ -57,6 +58,28 @@ const InvoiceUploadedList = () => {
         }
     }, [data]);
 
+    const handleOnChangeStatus = async (
+        e: React.ChangeEvent<HTMLSelectElement>,
+        invoiceId: string,
+    ) => {
+        const status = e.target.value;
+
+        const { error } = await supabase
+            .from('invoices_producer')
+            .update({ status })
+            .eq('id', invoiceId);
+
+        if (error) {
+            console.error(
+                'Error al actualizar el estado de la factura:',
+                error,
+            );
+            return;
+        }
+
+        queryClient.invalidateQueries('invoices_by_producer_id');
+    };
+
     const columns = [
         {
             header: t('invoice_module.period_header'),
@@ -91,7 +114,39 @@ const InvoiceUploadedList = () => {
             accessor: 'status_comission',
             sortable: true,
             render: (_: any, row: ISalesRecordsProducer) => (
-                <Label>{t(row.status)}</Label>
+                <Label>
+                    <select
+                        id="status"
+                        className={`relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 
+                            focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm
+                            ${
+                                row.status === INVOICE_STATUS.PENDING &&
+                                'text-yellow-500'
+                            }
+                            ${
+                                row.status === INVOICE_STATUS.PAID &&
+                                'text-green-500'
+                            }
+                            ${
+                                row.status === INVOICE_STATUS.ERROR &&
+                                'text-red-500'
+                            }
+                            `}
+                        onChange={(e) => handleOnChangeStatus(e, row.id)}
+                    >
+                        {Object.values(INVOICE_STATUS).map(
+                            (status: string, index: number) => (
+                                <option
+                                    key={index}
+                                    value={status}
+                                    selected={status === row.status}
+                                >
+                                    {t(status)}
+                                </option>
+                            ),
+                        )}
+                    </select>
+                </Label>
             ),
         },
         {

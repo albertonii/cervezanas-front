@@ -78,6 +78,12 @@ export const EVENT_ORDER_ITEM_STATUS = {
     NOT_SAVED: 'not_saved',
 };
 
+export const INVOICE_STATUS = {
+    PENDING: 'pending',
+    PAID: 'paid',
+    ERROR: 'error',
+};
+
 /**
  * CSS class names
  * used for generating prepended classes

@@ -23,8 +23,6 @@ export default async function Page({ searchParams }: any) {
 async function getProducerById(userId: string) {
     const supabase = await createServerClient();
 
-    console.log(calculateInvoicePeriod(new Date()));
-
     const { data, error: profileError } = await supabase
         .from('producer_user')
         .select(
@@ -35,7 +33,6 @@ async function getProducerById(userId: string) {
         )
         .eq('user_id', userId)
         .single();
-    console.log(data);
 
     if (profileError) throw profileError;
 

@@ -65,8 +65,6 @@ export default function CervezanasEventList({ counter }: Props) {
         setIsDeleteModal(isDelete);
     };
 
-    console.log(error);
-
     const columns = [
         {
             header: t('event_type_header'),
