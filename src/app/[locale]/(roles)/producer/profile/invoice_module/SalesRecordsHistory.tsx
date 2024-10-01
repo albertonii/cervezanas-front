@@ -12,7 +12,7 @@ import { ISalesRecordsProducer } from '@/lib/types/types';
 import { formatDateDefaultInput } from '@/utils/formatDate';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 
-const InvoiceHistory = () => {
+const SalesRecordsHistory = () => {
     const t = useTranslations();
 
     const resultsPerPage = 10;
@@ -128,4 +128,4 @@ const InvoiceHistory = () => {
     );
 };
 
-export default InvoiceHistory;
+export default SalesRecordsHistory;

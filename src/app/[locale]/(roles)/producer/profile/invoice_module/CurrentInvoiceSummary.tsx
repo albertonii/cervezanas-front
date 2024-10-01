@@ -57,7 +57,7 @@ const CurrentInvoiceSummary = ({ producer, bOrders, salesRecords }: Props) => {
                 </Title>
 
                 <Description size="xsmall">
-                    {t('invoice_module.invoice_current_period')}
+                    {t('invoice_module.sales_records_period')}
                 </Description>
             </div>
 

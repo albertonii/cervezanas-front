@@ -68,6 +68,8 @@ type ValidationSchema = z.infer<typeof schema>;
 const InvoiceManagement = () => {
     const t = useTranslations();
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const { user } = useAuth();
 
     const form = useForm<ValidationSchema>({
@@ -88,6 +90,7 @@ const InvoiceManagement = () => {
     const queryClient = useQueryClient();
 
     const handleUpload = async (form: ValidationSchema) => {
+        setIsLoading(true);
         const { invoice_name, invoice_file, total_amount } = form;
 
         const file = invoice_file[0] as File;
@@ -115,9 +118,11 @@ const InvoiceManagement = () => {
                 const data = await response.json();
                 alert(`Error al subir el archivo: ${data.error}`);
             }
+            setIsLoading(false);
         } catch (error) {
             console.error(error);
             alert('Ocurrió un error al subir el archivo.');
+            setIsLoading(false);
         }
     };
 
@@ -145,7 +150,11 @@ const InvoiceManagement = () => {
     };
 
     return (
-        <section className="space-y-8 border border-xl rounded-lg border-gray-300 p-8">
+        <section
+            className={`space-y-8 border border-xl rounded-lg border-gray-300 p-8 ${
+                isLoading && 'opacity-60'
+            }`}
+        >
             <div className="">
                 <Title size="large" color="black">
                     {t('invoice_module.invoice_management')}
@@ -162,28 +171,42 @@ const InvoiceManagement = () => {
                     <div className="col-span-2">
                         <InputLabel
                             label={'invoice_file'}
+                            labelText={t('invoice_module.upload_invoice_file')}
                             form={form}
                             inputType="file"
+                            isLoading={isLoading}
                         />
                     </div>
 
                     <div className="col-span-1">
-                        <InputLabel label={'invoice_name'} form={form} />
+                        <InputLabel
+                            label={'invoice_name'}
+                            labelText={t('invoice_module.invoice_name')}
+                            form={form}
+                            isLoading={isLoading}
+                        />
                     </div>
 
                     <div className="col-span-1">
                         <InputLabel
                             label={'total_amount'}
+                            labelText={t('invoice_module.total_amount')}
                             form={form}
                             inputType="number"
                             registerOptions={{
                                 valueAsNumber: true,
                             }}
+                            isLoading={isLoading}
                         />
                     </div>
 
-                    <Button primary large btnType="submit">
-                        {t('invoice_module.upload_invoice')}
+                    <Button
+                        primary
+                        large
+                        btnType="submit"
+                        isLoading={isLoading}
+                    >
+                        {t('invoice_module.upload_invoice_button')}
                     </Button>
                 </div>
             </form>

@@ -1324,7 +1324,10 @@
         "net_amount": "Net Amount",
         "comission": "Comission",
         "invoice_management": "Invoice Management",
-        "invoice_management_description": "Upload your invoices and review the history."
+        "invoice_management_description": "Upload your invoices and review the history.",
+        "upload_invoice_file": "Upload invoice file",
+        "invoice_name": "Invoice name",
+        "upload_invoice_button": "Upload invoice"
     },
     "about": "About"
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import InvoiceHistory from './InvoiceHistory';
+import SalesRecordsHistory from './SalesRecordsHistory';
 import InvoiceManagement from './InvoiceManagement';
 import CurrentInvoiceSummary from './CurrentInvoiceSummary';
 import React from 'react';
@@ -19,13 +19,13 @@ interface Props {
 const PersonalInvoiceModule = ({ producer, bOrders, salesRecords }: Props) => {
     return (
         <div className="space-y-8 bg-beer-foam p-4">
+            <SalesRecordsHistory />
             <CurrentInvoiceSummary
                 producer={producer}
                 bOrders={bOrders}
                 salesRecords={salesRecords}
             />
             <InvoiceManagement />
-            <InvoiceHistory />
         </div>
     );
 };

@@ -1,8 +1,9 @@
 'use client';
 
 import ProducerCard from './ProducerCard';
-import InvoiceHistory from './InvoiceHistory';
+import SalesRecordsHistory from './SalesRecordsHistory';
 import CurrentInvoiceSummary from './CurrentInvoiceSummary';
+import InvoiceUploadedList from '@/app/[locale]/(roles)/producer/profile/invoice_module/InvoiceUploadedList';
 import React from 'react';
 import { IBusinessOrder, IProducerUser } from '@/lib/types/types';
 
@@ -16,7 +17,9 @@ const PersonalInvoiceModule = ({ producer, bOrders }: Props) => {
         <div className="space-y-8">
             <ProducerCard producer={producer} />
             <CurrentInvoiceSummary producer={producer} bOrders={bOrders} />
-            <InvoiceHistory />
+            <SalesRecordsHistory />
+            {/* Lista de facturas subidas */}
+            <InvoiceUploadedList />
         </div>
     );
 };

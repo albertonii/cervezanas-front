@@ -4,17 +4,15 @@ import Spinner from '@/app/[locale]/components/ui/Spinner';
 import Description from '@/app/[locale]/components/ui/Description';
 import useFetchSalesRecordsByProducerId from '@/hooks/useFetchSalesRecordsByProducerId';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
+import DownloadInvoiceButton from '@/app/[locale]/(roles)/producer/profile/invoice_module/DownloadInvoiceButton';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { ISalesRecordsProducer } from '@/lib/types/types';
 import { formatDateDefaultInput } from '@/utils/formatDate';
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
-import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
-import DownloadInvoiceButton from '@/app/[locale]/(roles)/producer/profile/invoice_module/DownloadInvoiceButton';
 
-const InvoiceHistory = () => {
+const SalesRecordsHistory = () => {
     const t = useTranslations();
 
     const resultsPerPage = 10;
@@ -128,4 +126,4 @@ const InvoiceHistory = () => {
     );
 };
 
-export default InvoiceHistory;
+export default SalesRecordsHistory;

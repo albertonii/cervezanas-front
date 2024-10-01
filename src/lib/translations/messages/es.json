@@ -1360,7 +1360,10 @@
         "net_amount": "Importe neto",
         "comission": "Comisión",
         "invoice_management": "Gestión de Facturas",
-        "invoice_management_description": "Sube tus facturas y revisa el historial."
+        "invoice_management_description": "Sube tus facturas y revisa el historial.",
+        "upload_invoice_file": "Subir archivo de factura",
+        "invoice_name": "Nombre de la factura",
+        "upload_invoice_button": "Subir factura"
     },
     "about": "Acerca de"
 }

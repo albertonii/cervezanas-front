@@ -35,6 +35,7 @@ interface Props {
     onInput?: (e: React.FormEvent<HTMLInputElement>) => void;
     value?: any;
     isRequired?: boolean;
+    isLoading?: boolean;
 }
 const InputLabel = ({
     form,
@@ -50,6 +51,7 @@ const InputLabel = ({
     onInput,
     value,
     isRequired = false,
+    isLoading = false,
 }: Props) => {
     const t = useTranslations();
     const [visible, setVisible] = useState(false);
@@ -101,7 +103,7 @@ const InputLabel = ({
                         })}
                         placeholder={placeholder}
                         defaultValue={defaultValue}
-                        disabled={disabled}
+                        disabled={disabled || isLoading}
                         min={registerOptions?.min}
                         max={registerOptions?.max}
                         value={value}
@@ -145,7 +147,7 @@ const InputLabel = ({
                         })}
                         placeholder={placeholder}
                         defaultValue={defaultValue}
-                        disabled={disabled}
+                        disabled={disabled || isLoading}
                         min={registerOptions?.min}
                         max={registerOptions?.max}
                         onInput={onInput}
@@ -215,7 +217,7 @@ const InputLabel = ({
                             ...registerOptions,
                         })}
                         placeholder={placeholder}
-                        disabled={disabled}
+                        disabled={disabled || isLoading}
                         id={label}
                     />
                 </label>
