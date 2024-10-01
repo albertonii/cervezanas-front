@@ -1305,6 +1305,8 @@
     "invoice_module": {
         "title": "Invoice Module",
         "invoice_current_period": "Invoices for the current period",
+        "sales_records_period": "Sales in the current period. At the beginning of the month, a document will be generated with the sales recorded by the producer. This information will be sent to them, and they will be able to invoice for that period.",
+        "invoice_currnet_period_title": "Invoice Period",
         "total_amount": "Total amount",
         "producer_earnings": "Producer earnings",
         "cervezanas_comission": "Cervezanas commission (15%)",

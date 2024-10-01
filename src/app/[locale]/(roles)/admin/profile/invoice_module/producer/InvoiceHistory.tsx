@@ -6,12 +6,13 @@ import useFetchSalesRecordsByProducerId from '@/hooks/useFetchSalesRecordsByProd
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ISalesRecordsProducer } from '@/lib/types/types';
 import { formatCurrency } from '@/utils/formatCurrency';
+import { ISalesRecordsProducer } from '@/lib/types/types';
+import { formatDateDefaultInput } from '@/utils/formatDate';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
-import { formatDateDefaultInput } from '@/utils/formatDate';
+import DownloadInvoiceButton from '@/app/[locale]/(roles)/producer/profile/invoice_module/DownloadInvoiceButton';
 
 const InvoiceHistory = () => {
     const t = useTranslations();
@@ -81,11 +82,7 @@ const InvoiceHistory = () => {
             accessor: 'actions',
             render: (_: any, row: ISalesRecordsProducer) => (
                 <div className="flex justify-center space-x-2">
-                    <IconButton
-                        // onClick={() => handleClickView(row)}
-                        icon={faDownload}
-                        title={''}
-                    />{' '}
+                    <DownloadInvoiceButton salesRecordsId={row.id} />
                 </div>
             ),
         },
@@ -95,11 +92,11 @@ const InvoiceHistory = () => {
         <section className="space-y-8 border border-xl rounded-lg border-gray-300 p-8">
             <div className="">
                 <Title size="large" color="black">
-                    {t('invoice_module.historial_title')}
+                    {t('invoice_module.sales_historial_title')}
                 </Title>
 
                 <Description size="xsmall">
-                    {t('invoice_module.sales_historial_description')}
+                    {t('invoice_module.sales_historial_description_admin')}
                 </Description>
             </div>
 

@@ -35,6 +35,7 @@ async function getProducerById(userId: string) {
         )
         .eq('user_id', userId)
         .single();
+    console.log(data);
 
     if (profileError) throw profileError;
 

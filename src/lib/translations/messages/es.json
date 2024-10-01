@@ -1338,6 +1338,9 @@
     "invoice_module": {
         "title": "Módulo de Facturación",
         "invoice_current_period": "Facturas del periodo actual",
+        "sales_records_period": "Ventas en el periodo actual. A principios de mes se generará un documento con las ventas registradas por el productor, esta información le llegará al mismo y podrá realizar la facturación de dicho periodo.",
+        "invoice_current_period_title": "Periodo Actual",
+        "invoice_period_title": "Periodo Actual",
         "total_amount": "Importe total",
         "producer_earnings": "Ganancias del productor",
         "cervezanas_comission": "Comisión de Cervezanas (15%)",
@@ -1346,6 +1349,7 @@
         "sales_summary": "Resumen de ventas",
         "invoice_historial_description": "Aquí puedes ver todas las facturas que has generado en la plataforma. Puedes ver el importe total de cada factura, las ganancias del productor y la comisión de Cervezanas.",
         "sales_historial_description": "Aquí puedes ver todas las ventas que has realizado en la plataforma. Puedes ver el importe total de cada venta, las ganancias del productor y la comisión de Cervezanas.",
+        "sales_historial_description_admin": "Aquí puedes ver todas las ventas que se han realizado en la plataforma. Puedes ver el importe total de cada venta, las ganancias del productor y la comisión de Cervezanas.",
         "period_header": "Periodo",
         "generation_date_header": "Fecha generación de factura",
         "total_sales_header": "Ventas totales",
@@ -1356,7 +1360,7 @@
         "net_amount": "Importe neto",
         "comission": "Comisión",
         "invoice_management": "Gestión de Facturas",
-        "invoice_management_description": "Sube tus facturas y revisar el historial."
+        "invoice_management_description": "Sube tus facturas y revisa el historial."
     },
     "about": "Acerca de"
 }

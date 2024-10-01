@@ -7,7 +7,7 @@ import PasswordStrengthIndicator from './PasswordStrengthIndicator';
 import ProducerDisclaimerModal from '../../(roles)/admin/profile/consumption_points/ProducerDisclaimerModal';
 import DistributorDisclaimerModal from '../../(roles)/admin/profile/consumption_points/DistributorDisclaimerModal';
 import ConsumptionPointDisclaimerModal from '../../(roles)/admin/profile/consumption_points/ConsumptionPointDisclaimerModal';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
@@ -92,11 +92,6 @@ export const SignUpForm = () => {
     });
 
     const { handleSubmit, reset } = form;
-
-    useEffect(() => {
-        console.log(isSignupSubmitLoading);
-        return () => {};
-    }, [isSignupSubmitLoading]);
 
     const handleChangeRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value: any = event?.target.value;

@@ -2,38 +2,58 @@ import Title from '@/app/[locale]/components/ui/Title';
 import DisplayPriceContainer from './DisplayPriceContainer';
 import Description from '@/app/[locale]/components/ui/Description';
 import useFetchOneSalesRecordsById from '@/hooks/useFetchOneSalesRecordsById';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { IBusinessOrder, IProducerUser } from '@/lib/types/types';
+import {
+    IBusinessOrder,
+    IProducerUser,
+    ISalesRecordsProducer,
+} from '@/lib/types/types';
 
 interface Props {
     producer: IProducerUser;
     bOrders: IBusinessOrder[];
+    salesRecords: ISalesRecordsProducer;
 }
 
-const CurrentInvoiceSummary = ({ producer, bOrders }: Props) => {
+const CurrentInvoiceSummary = ({ producer, bOrders, salesRecords }: Props) => {
     const t = useTranslations();
 
     const { data, refetch, error, isLoading } = useFetchOneSalesRecordsById(
         producer.user_id,
     );
 
-    const totalAmount = bOrders.reduce(
-        (acc, bOrder) =>
-            acc +
-            bOrder.order_items![0].quantity +
-            bOrder.order_items![0].product_packs!.price,
-        0,
-    );
+    const [totalAmount, setTotalAmount] = React.useState<number>(0);
+    const [cervezanasComission, setCervezanasComission] =
+        React.useState<number>(0);
+    const [producerEarnings, setProducerEarnings] = React.useState<number>(0);
 
-    const cervezanasComission = totalAmount * 0.15;
-    const producerEarnings = totalAmount - cervezanasComission;
+    useEffect(() => {
+        if (salesRecords && salesRecords.sales_records_items) {
+            const totalAmount = salesRecords.sales_records_items?.reduce(
+                (acc, item) => acc + item.total_sales,
+                0,
+            );
+
+            const cervezanasComission = totalAmount * 0.15;
+            const producerEarnings = totalAmount - cervezanasComission;
+
+            setTotalAmount(totalAmount);
+            setCervezanasComission(cervezanasComission);
+            setProducerEarnings(producerEarnings);
+        }
+    }, [salesRecords]);
 
     return (
         <section className="space-y-8 border border-xl rounded-lg border-gray-300 p-8">
             <div className="">
                 <Title size="large" color="black">
                     {t('invoice_module.sales_summary')}
+                </Title>
+
+                <Title size="large" color="black">
+                    {t('invoice_module.invoice_current_period_title')} :{' '}
+                    {salesRecords?.invoice_period}
                 </Title>
 
                 <Description size="xsmall">

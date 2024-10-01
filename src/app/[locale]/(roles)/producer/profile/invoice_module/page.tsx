@@ -3,19 +3,30 @@ import createServerClient from '@/utils/supabaseServer';
 import PersonalInvoiceModule from './PersonalInvoiceModule';
 import React from 'react';
 import { redirect } from 'next/navigation';
-import { IBusinessOrder, IProducerUser } from '@/lib//types/types';
+import {
+    IBusinessOrder,
+    IProducerUser,
+    ISalesRecordsProducer,
+} from '@/lib//types/types';
+import { calculateInvoicePeriod } from '@/utils/utils';
 
 export default async function Page({ searchParams }: any) {
     const producerData = getProducerById();
     const businessOrdersData = getBusinessOrdersByProducerId();
+    const salesRecordsData = getSalesRecordsByProducerIdAndInvoicePeriod();
 
-    const [producer, businessOrders] = await Promise.all([
+    const [producer, businessOrders, salesRecords] = await Promise.all([
         producerData,
         businessOrdersData,
+        salesRecordsData,
     ]);
 
     return (
-        <PersonalInvoiceModule producer={producer} bOrders={businessOrders} />
+        <PersonalInvoiceModule
+            producer={producer}
+            bOrders={businessOrders}
+            salesRecords={salesRecords}
+        />
     );
 }
 
@@ -53,6 +64,8 @@ async function getBusinessOrdersByProducerId() {
         redirect('/signin');
     }
 
+    const invoicePeriod = calculateInvoicePeriod(new Date());
+
     const { data, error: profileError } = await supabase
         .from('business_orders')
         .select(
@@ -69,9 +82,38 @@ async function getBusinessOrdersByProducerId() {
                 )
             `,
         )
-        .eq('producer_id', session.id);
+        .eq('producer_id', session.id)
+        .eq('invoice_period', invoicePeriod);
 
     if (profileError) throw profileError;
 
     return data as IBusinessOrder[];
+}
+
+async function getSalesRecordsByProducerIdAndInvoicePeriod() {
+    const supabase = await createServerClient();
+
+    const session = await readUserSession();
+
+    if (!session) {
+        redirect('/signin');
+    }
+
+    const invoicePeriod = calculateInvoicePeriod(new Date());
+
+    const { data, error: profileError } = await supabase
+        .from('sales_records_producer')
+        .select(
+            `
+                *,
+                sales_records_items (*)
+            `,
+        )
+        .eq('producer_id', session.id)
+        .eq('invoice_period', invoicePeriod)
+        .maybeSingle();
+
+    if (profileError) throw profileError;
+
+    return data as ISalesRecordsProducer;
 }
