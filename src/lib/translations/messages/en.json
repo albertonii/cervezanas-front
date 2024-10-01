@@ -1308,13 +1308,21 @@
         "total_amount": "Total amount",
         "producer_earnings": "Producer earnings",
         "cervezanas_comission": "Cervezanas commission (15%)",
+        "invoice_historial_title": "Invoice history",
+        "sales_historial_title": "Sales history",
+        "sales_summary": "Sales summary",
+        "historial_description": "Here you can see all the invoices you have generated on the platform. You can see the total amount of each invoice, the producer's earnings, and the Cervezanas commission.",
         "period_header": "Period",
-        "generation_date_header": "Generation date",
+        "generation_date_header": "Invoice generation date",
         "total_sales_header": "Total sales",
         "producer_earnings_header": "Producer earnings",
         "cervezanas_comission_header": "Cervezanas commission (15%)",
         "generate_invoice": "Generate invoice",
-        "generate_sales_invoice": "Generate sales invoice"
+        "generate_sales_invoice": "Generate sales invoice",
+        "net_amount": "Net Amount",
+        "comission": "Comission",
+        "invoice_management": "Invoice Management",
+        "invoice_management_description": "Upload your invoices and review the history."
     },
     "about": "About"
 }

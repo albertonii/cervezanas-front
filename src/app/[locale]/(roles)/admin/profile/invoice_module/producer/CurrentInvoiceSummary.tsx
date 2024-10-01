@@ -30,20 +30,24 @@ const CurrentInvoiceSummary = ({ producer, bOrders }: Props) => {
 
     const handleGenerateSalesInvoice = async () => {
         // 0. Crear un nuevo invoice con los datos de los business orders
-        const { data: invoiceData, error: errorInvoice } = await supabase
-            .from('invoices_producer')
-            .insert({
-                producer_id: producer.user_id,
-                total_amount: totalAmount,
-                producer_username: producer.users?.username,
-                producer_email: producer.users?.email,
-                invoice_period: '2021-09',
-            })
-            .select('id')
-            .single();
+        const { data: salesRecordsData, error: errorSalesRecords } =
+            await supabase
+                .from('sales_records_producer')
+                .insert({
+                    producer_id: producer.user_id,
+                    total_amount: totalAmount,
+                    producer_username: producer.users?.username,
+                    producer_email: producer.users?.email,
+                    invoice_period: '2021-09',
+                })
+                .select('id')
+                .single();
 
-        if (errorInvoice || !invoiceData) {
-            console.error('Error al crear la factura de ventas:', errorInvoice);
+        if (errorSalesRecords || !salesRecordsData) {
+            console.error(
+                'Error al crear el registro de ventas:',
+                errorSalesRecords,
+            );
             return;
         }
 
@@ -52,23 +56,25 @@ const CurrentInvoiceSummary = ({ producer, bOrders }: Props) => {
             // 2. Obtener información del producto
             const orderItem: IOrderItem = bOrder.order_items![0];
 
-            // 3. Cada elemento es una entrada a invoice_items
+            // 3. Cada elemento es una entrada a sales_records_items
             // 3.1. Calcular el monto total
             const total = orderItem.quantity * orderItem.product_price;
             const platformComission =
                 total * bOrder.platform_comission_producer;
             const netAmount = total - platformComission;
 
-            const { error } = await supabase.from('invoice_items').insert({
-                invoice_id: invoiceData.id,
-                business_order_id: bOrder.id,
-                product_name: orderItem.product_packs?.products!.name,
-                product_pack_name: orderItem.product_packs!.name,
-                product_quantity: orderItem.quantity,
-                total_sales: total,
-                platform_commission: platformComission,
-                net_amount: netAmount,
-            });
+            const { error } = await supabase
+                .from('sales_records_items')
+                .insert({
+                    sales_records_id: salesRecordsData.id,
+                    business_order_id: bOrder.id,
+                    product_name: orderItem.product_packs?.products!.name,
+                    product_pack_name: orderItem.product_packs!.name,
+                    product_quantity: orderItem.quantity,
+                    total_sales: total,
+                    platform_commission: platformComission,
+                    net_amount: netAmount,
+                });
 
             if (error) {
                 console.error('Error al crear el item de factura:', error);

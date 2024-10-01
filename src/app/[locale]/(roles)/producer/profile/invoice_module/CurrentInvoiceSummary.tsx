@@ -1,15 +1,10 @@
 import Title from '@/app/[locale]/components/ui/Title';
 import DisplayPriceContainer from './DisplayPriceContainer';
-import Button from '@/app/[locale]/components/ui/buttons/Button';
 import Description from '@/app/[locale]/components/ui/Description';
-import useFetchOneInvoiceById from '@/hooks/useFetchOneInvoiceById';
+import useFetchOneSalesRecordsById from '@/hooks/useFetchOneSalesRecordsById';
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import {
-    IBusinessOrder,
-    IInvoiceProducer,
-    IProducerUser,
-} from '@/lib/types/types';
+import { IBusinessOrder, IProducerUser } from '@/lib/types/types';
 
 interface Props {
     producer: IProducerUser;
@@ -19,7 +14,7 @@ interface Props {
 const CurrentInvoiceSummary = ({ producer, bOrders }: Props) => {
     const t = useTranslations();
 
-    const { data, refetch, error, isLoading } = useFetchOneInvoiceById(
+    const { data, refetch, error, isLoading } = useFetchOneSalesRecordsById(
         producer.user_id,
     );
 
@@ -66,10 +61,6 @@ const CurrentInvoiceSummary = ({ producer, bOrders }: Props) => {
                     />
                 </div>
             </div>
-
-            <Button primary large>
-                {t('invoice_module.generate_sales_invoice')}
-            </Button>
         </section>
     );
 };

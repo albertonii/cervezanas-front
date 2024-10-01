@@ -2,21 +2,19 @@
 
 import ProducerInvoicePDF from './ProducerInvoicePDF';
 import React, { useEffect, useState } from 'react';
-import { IInvoiceProducer } from '@/lib/types/types';
+import { ISalesRecordsProducer } from '@/lib/types/types';
 import { PDFDownloadLink } from '@react-pdf/renderer';
-import Button from '../../ui/buttons/Button';
-import { IconButton } from '../../ui/buttons/IconButton';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface Props {
-    invoice: IInvoiceProducer;
+    salesRecords: ISalesRecordsProducer;
 }
 
-const ProducerInvoiceDownloadButton = ({ invoice }: Props) => {
-    const { invoice_items } = invoice;
+const ProducerSalesRecordsDownloadButton = ({ salesRecords }: Props) => {
+    const { sales_records_items } = salesRecords;
 
-    if (!invoice_items) {
+    if (!sales_records_items) {
         return null;
     }
 
@@ -30,8 +28,10 @@ const ProducerInvoiceDownloadButton = ({ invoice }: Props) => {
         <>
             {isClient && (
                 <PDFDownloadLink
-                    document={<ProducerInvoicePDF invoice={invoice} />}
-                    fileName={`Historial_de_ventas_${invoice.invoice_period}.pdf`}
+                    document={
+                        <ProducerInvoicePDF sales_records={salesRecords} />
+                    }
+                    fileName={`Historial_de_ventas_${salesRecords.invoice_period}.pdf`}
                     style={{
                         textDecoration: 'none',
                         padding: '10px',
@@ -52,4 +52,4 @@ const ProducerInvoiceDownloadButton = ({ invoice }: Props) => {
     );
 };
 
-export default ProducerInvoiceDownloadButton;
+export default ProducerSalesRecordsDownloadButton;

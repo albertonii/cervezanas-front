@@ -1,7 +1,7 @@
 // InvoicePDF.jsx
 import React from 'react';
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
-import { IInvoiceItem, IInvoiceProducer } from '@/lib/types/types';
+import { ISalesRecordsItem, ISalesRecordsProducer } from '@/lib/types/types';
 
 // Opcional: Registrar fuentes personalizadas
 // Font.register({ family: 'Roboto', src: 'path/to/roboto.ttf' });
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     header: {
         marginBottom: 20,
     },
-    invoiceInfo: {
+    salesRecordsInfo: {
         marginBottom: 20,
     },
     tableHeader: {
@@ -43,13 +43,13 @@ const styles = StyleSheet.create({
 });
 
 interface Props {
-    invoice: IInvoiceProducer;
+    sales_records: ISalesRecordsProducer;
 }
 
-const InvoicePDF = ({ invoice }: Props) => {
-    const { invoice_items } = invoice;
+const InvoicePDF = ({ sales_records }: Props) => {
+    const { sales_records_items } = sales_records;
 
-    if (!invoice_items) {
+    if (!sales_records_items) {
         return <></>;
     }
 
@@ -61,16 +61,18 @@ const InvoicePDF = ({ invoice }: Props) => {
                     <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
                         Factura
                     </Text>
-                    <Text>Período: {invoice.invoice_period}</Text>
+                    <Text>Período: {sales_records.invoice_period}</Text>
                 </View>
 
                 {/* Información del productor */}
-                <View style={styles.invoiceInfo}>
-                    <Text>Productor: {invoice.producer_username}</Text>
-                    <Text>Email: {invoice.producer_email}</Text>
+                <View style={styles.salesRecordsInfo}>
+                    <Text>Productor: {sales_records.producer_username}</Text>
+                    <Text>Email: {sales_records.producer_email}</Text>
                     <Text>
                         Fecha de emisión:{' '}
-                        {new Date(invoice.created_at).toLocaleDateString()}
+                        {new Date(
+                            sales_records.created_at,
+                        ).toLocaleDateString()}
                     </Text>
                 </View>
 
@@ -82,7 +84,7 @@ const InvoicePDF = ({ invoice }: Props) => {
                         <Text style={styles.tableColHeader}>Cantidad</Text>
                         <Text style={styles.tableColHeader}>Total</Text>
                     </View>
-                    {invoice_items?.map((item) => (
+                    {sales_records_items?.map((item) => (
                         <View style={styles.tableRow} key={item.id}>
                             <Text style={styles.tableCol}>
                                 {item.product_name}
@@ -103,11 +105,11 @@ const InvoicePDF = ({ invoice }: Props) => {
                 {/* Totales */}
                 <View style={styles.total}>
                     <Text>
-                        Total Ventas: {invoice.total_amount.toFixed(2)} €
+                        Total Ventas: {sales_records.total_amount.toFixed(2)} €
                     </Text>
                     <Text>
                         Comisión Plataforma:{' '}
-                        {invoice_items
+                        {sales_records_items
                             .reduce(
                                 (sum, item) => sum + item.platform_commission,
                                 0,
@@ -118,8 +120,8 @@ const InvoicePDF = ({ invoice }: Props) => {
                     <Text>
                         Ingresos Netos:{' '}
                         {(
-                            invoice.total_amount -
-                            invoice_items.reduce(
+                            sales_records.total_amount -
+                            sales_records_items.reduce(
                                 (sum, item) => sum + item.platform_commission,
                                 0,
                             )

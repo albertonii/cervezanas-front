@@ -1511,6 +1511,7 @@ export interface IBusinessOrder {
     platform_comission_producer: number; // Comisión de la plataforma (15% de total_sales para Productores y 5% para Distribuidores)
     net_revenue_distributor: number; // Ingreso neto para el productor/distribuidor
     net_revenue_producer: number; // Ingreso neto para el productor/distribuidor
+    invoice_period: string;
     producer_user?: IProducerUser;
     distributor_user?: IDistributorUser;
     shipment_tracking?: IShipmentTracking;
@@ -1924,24 +1925,24 @@ export interface ShipmentTrackingMessageFormData {
     tracking_id: string;
 }
 
-export interface IInvoiceProducer {
+export interface ISalesRecordsProducer {
     id: string;
     created_at: string;
     updated_at: string;
     producer_id: string;
-    total_amount: number; // Sum of net amounts from IInvoiceItems
+    total_amount: number; // Sum of net amounts from ISalesRecordsItems
     status: string; // 'Pending', 'Paid', etc.
     invoice_period: string; // 03/2025
     producer_username: string;
     producer_email: string;
     producer_user?: IProducerUser;
     payments?: IPayment[];
-    invoice_items?: IInvoiceItem[];
+    sales_records_items?: ISalesRecordsItem[];
 }
 
-export interface IInvoiceItem {
+export interface ISalesRecordsItem {
     id: string;
-    invoice_id: string;
+    sales_records_id: string;
     business_order_id: string;
     product_name: string;
     product_pack_name: string;
@@ -1950,7 +1951,22 @@ export interface IInvoiceItem {
     platform_commission: number;
     net_amount: number;
     business_orders?: IBusinessOrder;
-    invoices?: IInvoice;
+    sales_records_producer?: ISalesRecordsProducer;
+}
+
+export interface IInvoiceProducer {
+    id: string;
+    created_at: string;
+    updated_at: string;
+    producer_id: string;
+    name: string;
+    file_path: string;
+    invoice_period: string;
+    total_amount: number;
+    status: string;
+    producer_user?: IProducerUser;
+    payments?: IPayment[];
+    refunds?: IRefund[];
 }
 
 export interface IPayment {
@@ -1961,7 +1977,7 @@ export interface IPayment {
     status: string;
     created_at: string;
     updated_at: string;
-    invoices?: IInvoice;
+    invoices?: IInvoiceProducer;
 }
 
 export interface IRefund {
@@ -1974,5 +1990,11 @@ export interface IRefund {
     created_at: string;
     updated_at: string;
     business_orders?: IBusinessOrder;
-    invoices?: IInvoice;
+    invoices?: IInvoiceProducer;
+}
+
+export interface InvoiceFormData {
+    invoice_name: string;
+    invoice_file: FileList;
+    total_amount: number;
 }

@@ -1,43 +1,39 @@
 import Spinner from '@/app/[locale]/components/ui/Spinner';
-import useFetchOneInvoiceById from '@/hooks/useFetchOneInvoiceById';
-import ProducerInvoiceDownloadButton from '@/app/[locale]/components/invoice/producer_invoice/ProducerInvoiceDownloadButton';
 import React, { useEffect, useState } from 'react';
-import { IInvoiceProducer } from '@/lib/types/types';
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
-import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
+import { ISalesRecordsProducer } from '@/lib/types/types';
+import useFetchOneSalesRecordsById from '@/hooks/useFetchOneSalesRecordsById';
+import ProducerSalesRecordsDownloadButton from '@/app/[locale]/components/invoice/producer_invoice/ProducerSalesRecordsDownloadButton';
 
 interface Props {
-    invoiceId: string;
+    salesRecordsId: string;
 }
 
-const DownloadInvoiceButton = ({ invoiceId }: Props) => {
+const DownloadInvoiceButton = ({ salesRecordsId }: Props) => {
     const { data, refetch, error, isLoading } =
-        useFetchOneInvoiceById(invoiceId);
+        useFetchOneSalesRecordsById(salesRecordsId);
 
-    const [invoice, setInvoice] = useState<IInvoiceProducer>();
+    const [salesRecords, setSalesRecords] = useState<ISalesRecordsProducer>();
 
     useEffect(() => {
         refetch().then((res) => {
-            const invoice = res.data as IInvoiceProducer;
+            const salesRecords = res.data as ISalesRecordsProducer;
 
-            if (invoice) setInvoice(invoice);
+            if (salesRecords) setSalesRecords(salesRecords);
         });
     }, []);
 
     const handleDownloadSalesInvoice = async () => {
         const res = await refetch();
 
-        const invoice = res.data as IInvoiceProducer;
+        const salesRecords = res.data as ISalesRecordsProducer;
 
         if (error) {
             console.log(error);
             return;
         }
 
-        console.log(invoice);
-
-        if (invoice) {
-            setInvoice(invoice);
+        if (salesRecords) {
+            setSalesRecords(salesRecords);
         }
     };
 
@@ -46,16 +42,12 @@ const DownloadInvoiceButton = ({ invoiceId }: Props) => {
 
     return (
         <div>
-            {invoice && <ProducerInvoiceDownloadButton invoice={invoice} />}
+            {salesRecords && (
+                <ProducerSalesRecordsDownloadButton
+                    salesRecords={salesRecords}
+                />
+            )}
         </div>
-    );
-
-    return (
-        <IconButton
-            onClick={() => handleDownloadSalesInvoice()}
-            icon={faDownload}
-            title={''}
-        />
     );
 };
 

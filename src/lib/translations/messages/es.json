@@ -1341,16 +1341,22 @@
         "total_amount": "Importe total",
         "producer_earnings": "Ganancias del productor",
         "cervezanas_comission": "Comisión de Cervezanas (15%)",
-        "historial_title": "Historial de facturas",
+        "invoice_historial_title": "Historial de facturas",
+        "sales_historial_title": "Historial de ventas",
         "sales_summary": "Resumen de ventas",
-        "historial_description": "Aquí puedes ver todas las facturas que has generado en la plataforma. Puedes ver el importe total de cada factura, las ganancias del productor y la comisión de Cervezanas.",
+        "invoice_historial_description": "Aquí puedes ver todas las facturas que has generado en la plataforma. Puedes ver el importe total de cada factura, las ganancias del productor y la comisión de Cervezanas.",
+        "sales_historial_description": "Aquí puedes ver todas las ventas que has realizado en la plataforma. Puedes ver el importe total de cada venta, las ganancias del productor y la comisión de Cervezanas.",
         "period_header": "Periodo",
         "generation_date_header": "Fecha generación de factura",
         "total_sales_header": "Ventas totales",
         "producer_earnings_header": "Ganancias del productor",
         "cervezanas_comission_header": "Comisión de Cervezanas (15%)",
         "generate_invoice": "Generar factura",
-        "generate_sales_invoice": "Generar factura de ventas"
+        "generate_sales_invoice": "Generar factura de ventas",
+        "net_amount": "Importe neto",
+        "comission": "Comisión",
+        "invoice_management": "Gestión de Facturas",
+        "invoice_management_description": "Sube tus facturas y revisar el historial."
     },
     "about": "Acerca de"
 }

@@ -274,3 +274,9 @@ export const getBreadcrumbs = (path: string, locale: 'en' | 'es') => {
 
     return breadcrumbs;
 };
+
+export const calculateInvoicePeriod = (date: Date) => {
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${month}/${year}`;
+};

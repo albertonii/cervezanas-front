@@ -1,35 +1,37 @@
 import Title from '@/app/[locale]/components/ui/Title';
 import Label from '@/app/[locale]/components/ui/Label';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
+import DownloadInvoiceButton from './DownloadInvoiceButton';
 import Description from '@/app/[locale]/components/ui/Description';
-import useFetchSalesRecordsByProducerId from '@/hooks/useFetchSalesRecordsByProducerId';
+import useFetchInvoicesByProducerId from '@/hooks/useFetchInvoicesByProducerId';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ISalesRecordsProducer } from '@/lib/types/types';
 import { formatCurrency } from '@/utils/formatCurrency';
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
-import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
-import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 import { formatDateDefaultInput } from '@/utils/formatDate';
+import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
+import { IInvoiceProducer, ISalesRecordsProducer } from '@/lib/types/types';
 
-const InvoiceHistory = () => {
+const InvoiceUploadedList = () => {
     const t = useTranslations();
 
     const resultsPerPage = 10;
     const [currentPage, setCurrentPage] = useState(1);
     const [counter, setCounter] = useState(0);
-    const [invoices, setInvoices] = useState<ISalesRecordsProducer[]>([]);
+    const [invoices, setInvoices] = useState<IInvoiceProducer[]>([]);
 
     const { user } = useAuth();
 
-    const { data, isError, isLoading, refetch } =
-        useFetchSalesRecordsByProducerId(user?.id, currentPage, resultsPerPage);
+    const { data, isError, isLoading, refetch } = useFetchInvoicesByProducerId(
+        user?.id,
+        currentPage,
+        resultsPerPage,
+    );
 
     useEffect(() => {
         if (user) {
             refetch().then((res) => {
-                const data = res.data as ISalesRecordsProducer[];
+                const data = res.data as IInvoiceProducer[];
 
                 setInvoices(data);
                 setCounter(data.length);
@@ -38,6 +40,10 @@ const InvoiceHistory = () => {
 
         return () => {};
     }, [user]);
+
+    useEffect(() => {
+        console.log(data);
+    }, [data]);
 
     const columns = [
         {
@@ -59,7 +65,7 @@ const InvoiceHistory = () => {
             ),
         },
         {
-            header: t('invoice_module.total_sales_header'),
+            header: t('invoice_module.total_amount'),
             key: 'total_sales',
             accessor: 'total_sales',
             sortable: true,
@@ -81,11 +87,7 @@ const InvoiceHistory = () => {
             accessor: 'actions',
             render: (_: any, row: ISalesRecordsProducer) => (
                 <div className="flex justify-center space-x-2">
-                    <IconButton
-                        // onClick={() => handleClickView(row)}
-                        icon={faDownload}
-                        title={''}
-                    />{' '}
+                    <DownloadInvoiceButton salesRecordsId={row.id} />
                 </div>
             ),
         },
@@ -95,11 +97,11 @@ const InvoiceHistory = () => {
         <section className="space-y-8 border border-xl rounded-lg border-gray-300 p-8">
             <div className="">
                 <Title size="large" color="black">
-                    {t('invoice_module.historial_title')}
+                    {t('invoice_module.invoice_historial_title')}
                 </Title>
 
                 <Description size="xsmall">
-                    {t('invoice_module.sales_historial_description')}
+                    {t('invoice_module.invoice_historial_description')}
                 </Description>
             </div>
 
@@ -131,4 +133,4 @@ const InvoiceHistory = () => {
     );
 };
 
-export default InvoiceHistory;
+export default InvoiceUploadedList;

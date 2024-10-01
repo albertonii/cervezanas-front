@@ -10,6 +10,7 @@ import { ONLINE_ORDER_STATUS } from '@/constants';
 import { sendPushNotification } from '@/lib//actions';
 import { IProductPackCartItem } from '@/lib//types/types';
 import createServerClient from '@/utils/supabaseServer';
+import { calculateInvoicePeriod } from '@/utils/utils';
 
 export async function POST(request: NextRequest) {
     const supabase = await createServerClient();
@@ -200,6 +201,9 @@ export async function POST(request: NextRequest) {
                                 net_revenue_producer:
                                     pack.price * pack.quantity * 0.85,
                                 // net_revenue_distributor: order.shipment_price * 0.95,
+                                invoice_period: calculateInvoicePeriod(
+                                    new Date(),
+                                ),
                             })
                             .select('id')
                             .single();
