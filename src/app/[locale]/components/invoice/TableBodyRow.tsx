@@ -89,7 +89,7 @@ export function TableBodyRow({ items }: Props) {
             <Text style={styles.data_article}>{item.article}</Text>
             <Text style={styles.data_price}>{formatCurrency(item.price)}</Text>
             <Text style={styles.data_unit}>{item.quantity}</Text>
-            <Text style={styles.data_total}>{item.total}</Text>
+            <Text style={styles.data_total}>{formatCurrency(item.total)}</Text>
         </View>
     ));
     return <>{rows}</>;

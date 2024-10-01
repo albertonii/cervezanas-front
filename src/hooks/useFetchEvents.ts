@@ -31,7 +31,7 @@ const useFetchEvents = (currentPage: number, resultsPerPage: number) => {
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['events', currentPage, resultsPerPage],
+        queryKey: 'events',
         queryFn: () => fetchEvents(currentPage, resultsPerPage, supabase),
         enabled: true,
         refetchOnWindowFocus: false,

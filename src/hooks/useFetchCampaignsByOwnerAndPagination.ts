@@ -41,7 +41,7 @@ const useFetchCampaignsByOwnerAndPagination = (
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['campaignList', ownerId, currentPage, resultsPerPage],
+        queryKey: 'campaignList',
         queryFn: () =>
             fetchCampaignsByOwner(
                 ownerId,

@@ -44,7 +44,7 @@ const useFetchProductsAndPaginationByAdmin = (
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['adminProductList', currentPage, resultsPerPage],
+        queryKey: 'adminProductList',
         queryFn: () => fetchProducts(currentPage, resultsPerPage, supabase),
         enabled: true,
         refetchOnWindowFocus: false,

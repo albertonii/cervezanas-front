@@ -1,12 +1,12 @@
 import React from 'react';
 
 interface Props {
-    size: 'xsmall' | 'small' | 'medium' | 'large';
-    color: 'black' | 'white' | 'gray' | 'beer-draft' | 'beer-blonde';
+    size?: 'xsmall' | 'small' | 'medium' | 'large';
+    color?: 'black' | 'white' | 'gray' | 'beer-draft' | 'beer-blonde';
     children: React.ReactNode;
 }
 
-const Description = ({ children, size, color }: Props) => {
+const Description = ({ children, size = 'medium', color = 'black' }: Props) => {
     const sizeClass = {
         xsmall: 'text-sm',
         small: 'text-lg',

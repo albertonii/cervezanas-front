@@ -25,7 +25,7 @@ const useFetchShippingByOwnerId = (ownerId: string) => {
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['shippingAddresses', ownerId],
+        queryKey: 'shippingAddresses',
         queryFn: () => fetchShippingByOwnerId(ownerId, supabase),
         enabled: true,
         refetchOnWindowFocus: false,

@@ -28,7 +28,7 @@ const useFetchExperiencesByProducerId = () => {
     const { supabase, user } = useAuth();
 
     return useQuery({
-        queryKey: ['experiences', user.id],
+        queryKey: 'experiences',
         queryFn: () => fetchExperiences(user.id, supabase),
         enabled: true,
         refetchOnWindowFocus: false,

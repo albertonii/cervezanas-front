@@ -103,7 +103,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
     };
 
     const query = useQuery({
-        queryKey: ['organizers'],
+        queryKey: 'organizers',
         queryFn: getExternalOrganizers,
         enabled: false,
     });

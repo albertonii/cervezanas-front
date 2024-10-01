@@ -26,7 +26,7 @@ const useFetchBillingByOwnerId = (ownerId: string) => {
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['billingAddresses', ownerId],
+        queryKey: 'billingAddresses',
         queryFn: () => fetchBillingByOwnerId(ownerId, supabase),
         enabled: true,
         refetchOnWindowFocus: false,

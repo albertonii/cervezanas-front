@@ -107,7 +107,7 @@ export default function AddCPFixedModal({ cpsId }: Props) {
     };
 
     const query = useQuery({
-        queryKey: ['organizers'],
+        queryKey: 'organizers',
         queryFn: getExternalOrganizers,
         enabled: false,
     });

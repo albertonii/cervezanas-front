@@ -3,7 +3,12 @@ import readUserSession from '@/lib//actions';
 import { redirect } from 'next/navigation';
 import { User } from '@supabase/supabase-js';
 import { ROLE_ENUM } from '@/lib//enums';
-import { faUser, faBox, faBell } from '@fortawesome/free-solid-svg-icons';
+import {
+    faUser,
+    faBox,
+    faBell,
+    faMoneyBill,
+} from '@fortawesome/free-solid-svg-icons';
 import { Sidebar } from '@/app/[locale]/components/layout/Sidebar';
 
 type LayoutProps = {
@@ -12,14 +17,19 @@ type LayoutProps = {
 
 const sidebarLinks = [
     {
-        name: 'contracts_cps',
-        icon: faUser,
-        option: 'contracts_cps',
-    },
-    {
         name: 'monthly_products',
         icon: faBox,
         option: 'monthly_products',
+    },
+    {
+        name: 'authorized_users',
+        icon: faUser,
+        option: 'authorized_users',
+    },
+    {
+        name: 'invoice_module.title',
+        icon: faMoneyBill,
+        option: 'invoice_module',
     },
     {
         name: 'admin_products',
@@ -32,6 +42,11 @@ const sidebarLinks = [
         option: 'events',
     },
     {
+        name: 'contracts_cps',
+        icon: faUser,
+        option: 'contracts_cps',
+    },
+    {
         name: 'admin_cps',
         icon: faBox,
         option: 'consumption_points',
@@ -41,6 +56,7 @@ const sidebarLinks = [
         icon: faBox,
         option: 'campaigns',
     },
+
     {
         name: 'notifications.label',
         icon: faBell,
@@ -50,11 +66,6 @@ const sidebarLinks = [
         name: 'user_reports',
         icon: faBell,
         option: 'reports',
-    },
-    {
-        name: 'authorized_users',
-        icon: faUser,
-        option: 'authorized_users',
     },
 ];
 

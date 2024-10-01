@@ -646,6 +646,10 @@ export interface IOrderItem {
     created_at: string;
     quantity: number;
     is_reviewed: boolean;
+    product_name: string;
+    product_pack_name: string;
+    product_price: number; // Precio unitario del producto
+    subtotal: number; // product_price * quantity
     business_orders?: IBusinessOrder;
     product_packs?: IProductPack;
 }
@@ -1498,15 +1502,20 @@ export interface IBusinessOrder {
     id: string;
     created_at: string;
     order_id: string;
-    orders?: IOrder;
-    order_items?: IOrderItem[];
     producer_id: string;
-    tracking_id: string;
     distributor_id: string;
+    tracking_id: string;
     status: string;
+    total_sales: number; // Subtotal del IOrderItem
+    platform_comission_distributor: number; // Comisión de la plataforma (15% de total_sales para Productores y 5% para Distribuidores)
+    platform_comission_producer: number; // Comisión de la plataforma (15% de total_sales para Productores y 5% para Distribuidores)
+    net_revenue_distributor: number; // Ingreso neto para el productor/distribuidor
+    net_revenue_producer: number; // Ingreso neto para el productor/distribuidor
     producer_user?: IProducerUser;
     distributor_user?: IDistributorUser;
     shipment_tracking?: IShipmentTracking;
+    orders?: IOrder;
+    order_items?: IOrderItem[];
 }
 
 export interface IBusinessOrderRef {
@@ -1913,4 +1922,57 @@ export interface ShipmentTrackingMessageFormData {
     created_at: string;
     content: string;
     tracking_id: string;
+}
+
+export interface IInvoiceProducer {
+    id: string;
+    created_at: string;
+    updated_at: string;
+    producer_id: string;
+    total_amount: number; // Sum of net amounts from IInvoiceItems
+    status: string; // 'Pending', 'Paid', etc.
+    invoice_period: string; // 03/2025
+    producer_username: string;
+    producer_email: string;
+    producer_user?: IProducerUser;
+    payments?: IPayment[];
+    invoice_items?: IInvoiceItem[];
+}
+
+export interface IInvoiceItem {
+    id: string;
+    invoice_id: string;
+    business_order_id: string;
+    product_name: string;
+    product_pack_name: string;
+    product_quantity: number;
+    total_sales: number;
+    platform_commission: number;
+    net_amount: number;
+    business_orders?: IBusinessOrder;
+    invoices?: IInvoice;
+}
+
+export interface IPayment {
+    id: string;
+    invoice_id: string;
+    amount_paid: number;
+    payment_method: string;
+    status: string;
+    created_at: string;
+    updated_at: string;
+    invoices?: IInvoice;
+}
+
+export interface IRefund {
+    id: string;
+    business_order_id: string;
+    invoice_id: string;
+    amount: number;
+    reason: string;
+    status: string;
+    created_at: string;
+    updated_at: string;
+    business_orders?: IBusinessOrder;
+    invoices?: IInvoice;
 }

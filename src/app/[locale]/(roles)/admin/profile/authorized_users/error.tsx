@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
 export default function errors() {
-  return <div>Error en CPS</div>;
+    return <div>Error en Authorized Users</div>;
 }

@@ -27,7 +27,7 @@ const Title = ({ children, size, color }: Props) => {
 
     return (
         <header
-            className="flex flex-col justify-between items-start rounded-lg space-y-1 pb-4"
+            className="flex flex-col justify-between items-start rounded-lg space-y-1 pb-2"
             id="header"
         >
             <h1

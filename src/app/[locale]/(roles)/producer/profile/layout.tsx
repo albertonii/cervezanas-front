@@ -13,6 +13,7 @@ import {
     faShoppingCart,
     faBell,
     faIndustry,
+    faMoneyBill,
 } from '@fortawesome/free-solid-svg-icons';
 import { useAppContext } from '@/app/context/AppContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -46,6 +47,11 @@ export default function layout({ children }: LayoutProps) {
             name: 'breweries',
             icon: faIndustry,
             option: 'breweries',
+        },
+        {
+            name: 'invoice_module.title',
+            icon: faMoneyBill,
+            option: 'invoice_module',
         },
         { name: 'experiences', icon: faStar, option: 'experiences' },
         { name: 'reviews', icon: faStar, option: 'reviews' },

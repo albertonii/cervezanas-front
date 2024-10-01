@@ -42,7 +42,7 @@ const useFetchDistributorById = (distributorId: string) => {
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['distributorById', distributorId],
+        queryKey: 'distributorById',
         queryFn: () => fetchDistributorById(supabase, distributorId),
         enabled: true,
         refetchOnWindowFocus: false,

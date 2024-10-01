@@ -180,7 +180,7 @@ export default function DistributorList({ distributors }: Props) {
             <InputSearch
                 query={query}
                 setQuery={setQuery}
-                searchPlaceholder={'search_products'}
+                searchPlaceholder={'search_distributor'}
             />
 
             <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">

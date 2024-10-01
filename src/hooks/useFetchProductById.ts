@@ -35,7 +35,7 @@ const useFetchProductById = (productId: string) => {
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['product_id'],
+        queryKey: 'product_id',
         queryFn: () => fetchProductById(productId, supabase),
         enabled: false,
         refetchOnWindowFocus: false,

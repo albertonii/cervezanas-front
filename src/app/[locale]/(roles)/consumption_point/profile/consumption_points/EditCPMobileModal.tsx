@@ -105,7 +105,7 @@ export default function EditCPMobileModal({
     };
 
     const query = useQuery({
-        queryKey: ['organizers'],
+        queryKey: 'organizers',
         queryFn: getExternalOrganizers,
         enabled: false,
     });

@@ -30,7 +30,7 @@ const useFetchProductLikes = (pId: string) => {
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['likes', pId],
+        queryKey: 'likes',
         queryFn: () => fetchProductLikes(pId, supabase),
         refetchOnWindowFocus: false,
     });

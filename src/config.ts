@@ -24,6 +24,7 @@ export const ROUTE_SETTINGS = '/settings';
 export const ROUTE_CONTRACTS_CPS = '/contracts_cps';
 export const ROUTE_MONTHLY_PRODUCTS = '/monthly_products';
 export const ROUTE_NOTIFICATIONS = '/notifications';
+export const ROUTE_INVOICE_MODULE = '/invoice_module';
 
 export const ROUTE_CONSUMER = '/consumer';
 export const ROUTE_PRODUCER = '/producer';

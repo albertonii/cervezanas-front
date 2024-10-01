@@ -46,7 +46,7 @@ const useFetchDistributorsByProducerId = (producerId: string) => {
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['distributors'],
+        queryKey: 'distributors',
         queryFn: () => fetchDistributorsByProducerId(supabase, producerId),
         enabled: true,
         refetchOnWindowFocus: false,

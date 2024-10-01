@@ -39,7 +39,7 @@ const useFetchCPMobile = (
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['cpMobile', cpId, currentPage, resultsPerPage],
+        queryKey: 'cpMobile',
         queryFn: () =>
             fetchCPMobile(cpId, currentPage, resultsPerPage, supabase),
         enabled: true,

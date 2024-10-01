@@ -40,7 +40,7 @@ const fetchAllCountries = async () => {
 
 const useFetchAllCountries = () => {
     return useQuery({
-        queryKey: ['allCountries'],
+        queryKey: 'allCountries',
         queryFn: () => fetchAllCountries(),
         enabled: false,
         refetchOnWindowFocus: false,

@@ -24,7 +24,7 @@ async function getBusinessOrdersData() {
         .from('business_orders')
         .select(
             `
-                *, 
+                *,
                 orders (*),
                 order_items (*)
             `,

@@ -37,7 +37,7 @@ const useFetchCPOrders = (
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: ['event_orders'],
+        queryKey: 'event_orders',
         queryFn: () =>
             fetchCPOrders(ownerId, currentPage, resultsPerPage, supabase),
         enabled: true,
