@@ -2,6 +2,7 @@ import createServerClient from '@/utils/supabaseServer';
 import PersonalInvoiceModule from './PersonalInvoiceModule';
 import React from 'react';
 import { IBusinessOrder, IProducerUser } from '@/lib//types/types';
+import { calculateInvoicePeriod } from '@/utils/utils';
 
 export default async function Page({ searchParams }: any) {
     const { id } = searchParams;
@@ -22,6 +23,8 @@ export default async function Page({ searchParams }: any) {
 async function getProducerById(userId: string) {
     const supabase = await createServerClient();
 
+    console.log(calculateInvoicePeriod(new Date()));
+
     const { data, error: profileError } = await supabase
         .from('producer_user')
         .select(
@@ -41,6 +44,8 @@ async function getProducerById(userId: string) {
 async function getBusinessOrdersByProducerId(userId: string) {
     const supabase = await createServerClient();
 
+    const invoicePeriod = calculateInvoicePeriod(new Date());
+
     const { data, error: profileError } = await supabase
         .from('business_orders')
         .select(
@@ -55,9 +60,11 @@ async function getBusinessOrdersByProducerId(userId: string) {
                         )
                     )
                 )
+                    
             `,
         )
-        .eq('producer_id', userId);
+        .eq('producer_id', userId)
+        .eq('invoice_period', invoicePeriod);
 
     if (profileError) throw profileError;
 
