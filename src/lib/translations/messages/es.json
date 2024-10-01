@@ -1363,7 +1363,10 @@
         "invoice_management_description": "Sube tus facturas y revisa el historial.",
         "upload_invoice_file": "Subir archivo de factura",
         "invoice_name": "Nombre de la factura",
-        "upload_invoice_button": "Subir factura"
+        "upload_invoice_button": "Subir factura",
+        "delete_invoice_modal_title": "Eliminar factura",
+        "delete_invoice_modal_description": "¿Estás seguro de que deseas eliminar la factura? Esta acción no se puede deshacer.",
+        "delete_invoice_modal_btn": "Eliminar factura"
     },
     "about": "Acerca de"
 }
