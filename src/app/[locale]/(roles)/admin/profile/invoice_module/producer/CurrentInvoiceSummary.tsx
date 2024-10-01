@@ -38,7 +38,7 @@ const CurrentInvoiceSummary = ({ producer, bOrders }: Props) => {
                     total_amount: totalAmount,
                     producer_username: producer.users?.username,
                     producer_email: producer.users?.email,
-                    invoice_period: '2021-09',
+                    invoice_period: bOrders[0].invoice_period,
                 })
                 .select('id')
                 .single();
