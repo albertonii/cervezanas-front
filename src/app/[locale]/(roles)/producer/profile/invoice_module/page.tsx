@@ -3,53 +3,60 @@ import createServerClient from '@/utils/supabaseServer';
 import PersonalInvoiceModule from './PersonalInvoiceModule';
 import React from 'react';
 import { redirect } from 'next/navigation';
-import {
-    IBusinessOrder,
-    IProducerUser,
-    ISalesRecordsProducer,
-} from '@/lib//types/types';
+import { IBusinessOrder, ISalesRecordsProducer } from '@/lib//types/types';
 import { calculateInvoicePeriod } from '@/utils/utils';
 
 export default async function Page() {
-    const producerData = getProducerById();
+    const businessOrdersData = getBusinessOrdersByProducerId();
     const salesRecordsData = getSalesRecordsByProducerIdAndInvoicePeriod();
 
-    const [producer, salesRecords] = await Promise.all([
-        producerData,
+    const [salesRecords, businessOrders] = await Promise.all([
         salesRecordsData,
+        businessOrdersData,
     ]);
 
     return (
         <PersonalInvoiceModule
-            producer={producer}
+            bOrders={businessOrders}
             salesRecords={salesRecords}
         />
     );
 }
 
-async function getProducerById() {
-    const supabase = await createServerClient();
-
+async function getBusinessOrdersByProducerId() {
     const session = await readUserSession();
 
     if (!session) {
         redirect('/signin');
     }
 
+    const supabase = await createServerClient();
+
+    const invoicePeriod = calculateInvoicePeriod(new Date());
+
     const { data, error: profileError } = await supabase
-        .from('producer_user')
+        .from('business_orders')
         .select(
             `
                 *,
-                users (*)
+                order_items (
+                    *,
+                    product_packs (
+                        *,
+                        products (
+                            name
+                        )
+                    )
+                )
+                    
             `,
         )
-        .eq('user_id', session.id)
-        .single();
+        .eq('producer_id', session.id)
+        .eq('invoice_period', invoicePeriod);
 
     if (profileError) throw profileError;
 
-    return data as IProducerUser;
+    return data as IBusinessOrder[];
 }
 
 async function getSalesRecordsByProducerIdAndInvoicePeriod() {

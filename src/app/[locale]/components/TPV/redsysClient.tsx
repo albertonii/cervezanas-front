@@ -45,7 +45,7 @@ export const merchantInfo = {
     DS_MERCHANT_VERSION: '2.1.0',
     DS_MERCHANT_MERCHANTNAME: 'Cervezanas M&M SL',
     DS_MERCHANT_MERCHANTCODE: '097839427',
-    DS_MERCHANT_MERCHANTURL: `https://cervezanas-front-git-staging-albertonii.vercel.app/api/notification`,
+    DS_MERCHANT_MERCHANTURL: `https://cervezanas-front-git-staging-cervezanas-team.vercel.app/api/notification`,
     // DS_MERCHANT_MERCHANTURL: `${endpointRedsys}/api/notification`,
     // DS_MERCHANT_MERCHANTURL: `https://cervezanas-front.vercel.app/api/notification`,
     // DS_MERCHANT_MERCHANTURL: `192.168.0.39:5000/api/notification`,

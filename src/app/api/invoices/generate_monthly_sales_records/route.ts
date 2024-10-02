@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { calculateInvoicePeriod } from '@/utils/utils';
 import { IBusinessOrder, IProducerUser } from '@/lib/types/types';
 
-export async function POST() {
+export async function GET() {
     try {
         const supabase = await createServerClient();
 

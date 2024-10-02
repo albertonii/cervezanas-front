@@ -4,17 +4,17 @@ import SalesRecordsList from './SalesRecordsList';
 import InvoiceManagement from './InvoiceManagement';
 import CurrentSalesRecordsSummary from './CurrentSalesRecordsSummary';
 import React from 'react';
-import { IProducerUser, ISalesRecordsProducer } from '@/lib/types/types';
+import { IBusinessOrder, ISalesRecordsProducer } from '@/lib/types/types';
 
 interface Props {
-    producer: IProducerUser;
+    bOrders: IBusinessOrder[];
     salesRecords: ISalesRecordsProducer;
 }
 
-const PersonalInvoiceModule = ({ producer, salesRecords }: Props) => {
+const PersonalInvoiceModule = ({ bOrders, salesRecords }: Props) => {
     return (
         <div className="space-y-8 bg-beer-foam p-4">
-            <CurrentSalesRecordsSummary salesRecords={salesRecords} />
+            <CurrentSalesRecordsSummary bOrders={bOrders} />
             <SalesRecordsList />
             <InvoiceManagement salesRecords={salesRecords} />
         </div>

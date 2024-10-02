@@ -50,6 +50,7 @@ export const ONLINE_ORDER_STATUS = {
     DELIVERED: 'delivered',
     ORDER_PLACED: 'order_placed',
     CANCELLED: 'cancelled',
+    CANCELLED_BY_EXPIRATION: 'cancelled_by_expiration',
     ERROR: 'error',
 };
 

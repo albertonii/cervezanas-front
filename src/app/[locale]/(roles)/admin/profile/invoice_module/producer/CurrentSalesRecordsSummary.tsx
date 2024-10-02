@@ -15,7 +15,7 @@ interface Props {
 
 const CurrentSalesRecordsSummary = ({ producer, bOrders }: Props) => {
     const t = useTranslations();
-    console.log(bOrders);
+
     const { supabase } = useAuth();
     const { handleMessage } = useMessage();
 

@@ -3,18 +3,15 @@ import DisplayPriceContainer from './DisplayPriceContainer';
 import Description from '@/app/[locale]/components/ui/Description';
 import React, { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { IProducerUser, ISalesRecordsProducer } from '@/lib/types/types';
+import { IBusinessOrder } from '@/lib/types/types';
+import { calculateInvoicePeriod } from '@/utils/utils';
 
 interface Props {
-    salesRecords: ISalesRecordsProducer;
+    bOrders: IBusinessOrder[];
 }
 
-const CurrentSalesRecordsSummary = ({ salesRecords }: Props) => {
+const CurrentSalesRecordsSummary = ({ bOrders }: Props) => {
     const t = useTranslations();
-
-    // const { data, refetch, error, isLoading } = useFetchOneSalesRecordsById(
-    //     producer.user_id,
-    // );
 
     const [totalAmount, setTotalAmount] = React.useState<number>(0);
     const [cervezanasComission, setCervezanasComission] =
@@ -22,9 +19,12 @@ const CurrentSalesRecordsSummary = ({ salesRecords }: Props) => {
     const [producerEarnings, setProducerEarnings] = React.useState<number>(0);
 
     useEffect(() => {
-        if (salesRecords && salesRecords.sales_records_items) {
-            const totalAmount = salesRecords.sales_records_items?.reduce(
-                (acc, item) => acc + item.total_sales,
+        if (bOrders) {
+            const totalAmount = bOrders.reduce(
+                (acc, bOrder) =>
+                    acc +
+                    bOrder.order_items![0].quantity *
+                        bOrder.order_items![0].product_packs!.price,
                 0,
             );
 
@@ -35,7 +35,7 @@ const CurrentSalesRecordsSummary = ({ salesRecords }: Props) => {
             setCervezanasComission(cervezanasComission);
             setProducerEarnings(producerEarnings);
         }
-    }, [salesRecords]);
+    }, [bOrders]);
 
     return (
         <section className="space-y-8 border border-xl rounded-lg border-gray-300 p-8">
@@ -46,7 +46,7 @@ const CurrentSalesRecordsSummary = ({ salesRecords }: Props) => {
 
                 <Title size="large" color="black">
                     {t('invoice_module.invoice_current_period_title')} :{' '}
-                    {salesRecords?.invoice_period}
+                    {calculateInvoicePeriod(new Date())}
                 </Title>
 
                 <Description size="xsmall">
