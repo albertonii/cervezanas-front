@@ -38,6 +38,7 @@ export async function POST(req: NextRequest) {
     const supabase = await createServerClient();
 
     console.log(isResponseCodeOk(responseCode));
+    console.log(responseCode);
 
     if (isResponseCodeOk(responseCode)) {
         console.info(`Payment for order ${orderId} succeded`);
