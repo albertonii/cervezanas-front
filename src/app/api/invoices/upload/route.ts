@@ -32,7 +32,6 @@ export async function POST(request: NextRequest) {
             invoiceName +
             '-' +
             uniqueSuffix +
-            '.' +
             generateFileNameExtension(invoiceFile.name);
 
         // Subir el archivo al almacenamiento de Supabase

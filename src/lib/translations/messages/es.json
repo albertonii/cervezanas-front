@@ -1367,7 +1367,8 @@
         "delete_invoice_modal_title": "Eliminar factura",
         "delete_invoice_modal_description": "¿Estás seguro de que deseas eliminar la factura? Esta acción no se puede deshacer.",
         "delete_invoice_modal_btn": "Eliminar factura",
-        "select_status": "Seleccionar estado"
+        "select_status": "Seleccionar estado",
+        "invoice_name_placeholder": "Introduce el nombre de la factura"
     },
     "about": "Acerca de"
 }

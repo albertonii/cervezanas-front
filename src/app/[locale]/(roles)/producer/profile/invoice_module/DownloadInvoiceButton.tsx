@@ -1,44 +1,31 @@
 import Spinner from '@/app/[locale]/components/ui/Spinner';
-import React, { useEffect, useState } from 'react';
-import { ISalesRecordsProducer } from '@/lib/types/types';
 import useFetchOneSalesRecordsById from '@/hooks/useFetchOneSalesRecordsById';
 import ProducerSalesRecordsDownloadButton from '@/app/[locale]/components/invoice/producer_invoice/ProducerSalesRecordsDownloadButton';
+import React, { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { ISalesRecordsProducer } from '@/lib/types/types';
 
 interface Props {
     salesRecordsId: string;
 }
 
 const DownloadInvoiceButton = ({ salesRecordsId }: Props) => {
-    const { data, refetch, error, isLoading } =
+    const t = useTranslations();
+
+    const { data, error, isLoading } =
         useFetchOneSalesRecordsById(salesRecordsId);
 
     const [salesRecords, setSalesRecords] = useState<ISalesRecordsProducer>();
 
     useEffect(() => {
-        refetch().then((res) => {
-            const salesRecords = res.data as ISalesRecordsProducer;
-
+        if (data) {
+            const salesRecords = data as ISalesRecordsProducer;
             if (salesRecords) setSalesRecords(salesRecords);
-        });
-    }, []);
-
-    const handleDownloadSalesInvoice = async () => {
-        const res = await refetch();
-
-        const salesRecords = res.data as ISalesRecordsProducer;
-
-        if (error) {
-            console.log(error);
-            return;
         }
-
-        if (salesRecords) {
-            setSalesRecords(salesRecords);
-        }
-    };
+    }, [data]);
 
     if (isLoading) return <Spinner size="small" color="beer-blonde" />;
-    if (error) return <p>Error</p>;
+    if (error) return <p>{t('error')}</p>;
 
     return (
         <div>

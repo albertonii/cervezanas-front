@@ -6,11 +6,11 @@ import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import React, { useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
-import { InvoiceFormData, ISalesRecordsProducer } from '@/lib/types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
+import { InvoiceFormData, ISalesRecordsProducer } from '@/lib/types/types';
 
 // This is the list of mime types you will accept with the schema
 const ACCEPTED_MIME_TYPES = [
@@ -189,6 +189,9 @@ const InvoiceManagement = ({ salesRecords }: Props) => {
                             labelText={t('invoice_module.invoice_name')}
                             form={form}
                             isLoading={isLoading}
+                            placeholder={t(
+                                'invoice_module.invoice_name_placeholder',
+                            )}
                         />
                     </div>
 

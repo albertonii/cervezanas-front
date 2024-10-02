@@ -1330,7 +1330,8 @@
         "upload_invoice_button": "Upload invoice",
         "delete_invoice_modal_title": "Delete invoice",
         "delete_invoice_modal_description": "Are you sure you want to delete the invoice? This action cannot be undone.",
-        "delete_invoice_modal_btn": "Delete invoice"
+        "delete_invoice_modal_btn": "Delete invoice",
+        "invoice_name_placeholder": "Enter the invoice name"
     },
     "about": "About"
 }

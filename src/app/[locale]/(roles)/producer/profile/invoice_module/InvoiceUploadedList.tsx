@@ -12,8 +12,9 @@ import { useQueryClient } from 'react-query';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDateDefaultInput } from '@/utils/formatDate';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
-import { IInvoiceProducer, ISalesRecordsProducer } from '@/lib/types/types';
+import { IInvoiceProducer } from '@/lib/types/types';
 import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 
 const InvoiceUploadedList = () => {
     const t = useTranslations();
@@ -23,7 +24,9 @@ const InvoiceUploadedList = () => {
     const [counter, setCounter] = useState(0);
     const [invoices, setInvoices] = useState<IInvoiceProducer[]>([]);
     const [isDeleteShowModal, setIsDeleteShowModal] = useState(false);
-    const [invoiceId, setInvoiceId] = useState<string>();
+    const [invoice, setInvoice] = useState<IInvoiceProducer>();
+
+    const { handleMessage } = useMessage();
 
     const queryClient = useQueryClient();
 
@@ -63,7 +66,7 @@ const InvoiceUploadedList = () => {
             key: 'invoice_period',
             accessor: 'invoice_date',
             sortable: true,
-            render: (_: any, row: ISalesRecordsProducer) => (
+            render: (_: any, row: IInvoiceProducer) => (
                 <span>{row.invoice_period}</span>
             ),
         },
@@ -72,7 +75,7 @@ const InvoiceUploadedList = () => {
             key: 'created_at',
             accessor: 'created_at',
             sortable: true,
-            render: (_: any, row: ISalesRecordsProducer) => (
+            render: (_: any, row: IInvoiceProducer) => (
                 <span>{formatDateDefaultInput(row.created_at)}</span>
             ),
         },
@@ -81,7 +84,7 @@ const InvoiceUploadedList = () => {
             key: 'total_sales',
             accessor: 'total_sales',
             sortable: true,
-            render: (_: any, row: ISalesRecordsProducer) => (
+            render: (_: any, row: IInvoiceProducer) => (
                 <span>{formatCurrency(row.total_amount)}</span>
             ),
         },
@@ -90,41 +93,56 @@ const InvoiceUploadedList = () => {
             key: 'status_comission',
             accessor: 'status_comission',
             sortable: true,
-            render: (_: any, row: ISalesRecordsProducer) => (
+            render: (_: any, row: IInvoiceProducer) => (
                 <Label>{t(row.status)}</Label>
             ),
         },
         {
             header: t('action_header'),
             accessor: 'actions',
-            render: (_: any, row: ISalesRecordsProducer) => (
+            render: (_: any, row: IInvoiceProducer) => (
                 <div className="flex justify-center space-x-2">
                     <DownloadInvoiceButton salesRecordsId={row.id} />
-                    <DeleteButton onClick={() => handleDeleteClick(row.id)} />
+                    <DeleteButton onClick={() => handleDeleteClick(row)} />
                 </div>
             ),
         },
     ];
 
-    const handleDeleteClick = (invoiceId: string) => {
+    const handleDeleteClick = (invoice: IInvoiceProducer) => {
         setIsDeleteShowModal(true);
-        setInvoiceId(invoiceId);
+        setInvoice(invoice);
     };
 
     const handleAcceptDelete = async () => {
-        if (invoiceId) {
-            const { error } = await supabase
-                .from('invoices_producer')
-                .delete()
-                .eq('id', invoiceId);
+        if (invoice) {
+            const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-            if (error) {
-                console.error('Error al eliminar la factura:', error);
-                return;
+            const url = `${baseUrl}/api/invoices/delete`;
+
+            const formData = new FormData();
+            formData.set('invoice_id', invoice.id);
+            formData.set('invoice_file_path', invoice.file_path);
+
+            const res = await fetch(url, {
+                method: 'DELETE',
+                body: formData,
+            });
+
+            if (res.ok) {
+                queryClient.invalidateQueries('invoices_by_producer_id');
+                handleMessage({
+                    type: 'success',
+                    message: t('invoice_module.invoice_deleted_successfully'),
+                });
+            } else {
+                handleMessage({
+                    type: 'error',
+                    message: t('errors.deleting_invoice'),
+                });
             }
 
             setIsDeleteShowModal(false);
-            queryClient.invalidateQueries('invoices_by_producer_id');
         }
     };
 
@@ -167,7 +185,7 @@ const InvoiceUploadedList = () => {
                 )}
             </section>
 
-            {isDeleteShowModal && invoiceId && (
+            {isDeleteShowModal && invoice && (
                 <DeleteModal
                     title="invoice_module.delete_invoice_modal_title"
                     description="invoice_module.delete_invoice_modal_description"

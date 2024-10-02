@@ -17,7 +17,7 @@ const fetchOneSalesRecords = async (producerId: string, supabase: any) => {
             `,
         )
         .eq('id', producerId)
-        .single();
+        .maybeSingle();
 
     if (error) throw error;
     return data as ISalesRecordsProducer;
@@ -29,7 +29,7 @@ const useFetchOneSalesRecordsById = (invoiceId: string) => {
     return useQuery({
         queryKey: 'one_sales_records_by_id',
         queryFn: () => fetchOneSalesRecords(invoiceId, supabase),
-        enabled: false,
+        enabled: true,
         refetchOnWindowFocus: false,
     });
 };
