@@ -509,9 +509,10 @@
     "signed_id_as": "Signed in as",
     "order_number": "Order number",
     "order_placed": "Order placed",
-    "processing": "En proceso",
-    "started": "Iniciado",
-    "pending": "Pendiente",
+    "processing": "Processing",
+    "started": "Started",
+    "pending": "Pending",
+    "downloaded": "Downloaded",
     "accepted": "Aceptado",
     "status_rejected": "Rechazado",
     "paid": "Pagado",
@@ -731,7 +732,9 @@
         "is_accept_terms": "You must accept the terms and conditions.",
         "fetching_breweries": "Error fetching breweries.",
         "invalid_characters": "Invalid characters.",
-        "update_shipment_tracking": "Error updating shipment tracking."
+        "update_shipment_tracking": "Error updating shipment tracking.",
+        "create_sales_record": "Error creating sales record.",
+        "updating_sales_records_download_status": "Error updating sales records download status."
     },
     "product_packs": "Product packs",
     "units": "Units",
@@ -1032,7 +1035,8 @@
         "deleting_product_pack": "Product pack deleted successfully",
         "deleting_product_award": "Product award deleted successfully",
         "update_shipment_tracking": "Shipment tracking updated successfully",
-        "profile_acc_data_updated": "Account data updated successfully"
+        "profile_acc_data_updated": "Account data updated successfully",
+        "sales_records_download_status_updated": "Sales records download status updated successfully"
     },
     "num_of_packs": "Number of packs",
     "promo_code": "Promo code",
@@ -1311,7 +1315,7 @@
         "producer_earnings": "Producer earnings",
         "cervezanas_comission": "Cervezanas commission (15%)",
         "invoice_historial_title": "Invoice history",
-        "sales_historial_title": "Sales history",
+        "sales_historial_title": "Sales Records",
         "sales_summary": "Sales summary",
         "historial_description": "Here you can see all the invoices you have generated on the platform. You can see the total amount of each invoice, the producer's earnings, and the Cervezanas commission.",
         "period_header": "Period",

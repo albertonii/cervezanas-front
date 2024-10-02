@@ -203,19 +203,19 @@ const ScreenMenu = memo(function ScreenMenu({
                                 {/* Cart  */}
                                 {role === ROLE_ENUM.Cervezano && (
                                     <li
-                                        className={`items´center flex ${
+                                        className={`flex items-center relative ${
                                             animateShoppingCart &&
                                             'animate-wiggle'
                                         }`}
                                     >
-                                        <Button
-                                            class={
-                                                'border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent dark:bg-transparent dark:hover:bg-transparent'
-                                            }
-                                            onClick={() => openCart()}
-                                            title={''}
-                                        >
-                                            <section className="relative rounded-full lg:mr-4">
+                                        <div className="relative flex h-full items-center justify-center font-medium w-[50px]">
+                                            <Button
+                                                class={
+                                                    'border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent dark:bg-transparent dark:hover:bg-transparent relative rounded-full lg:mr-4'
+                                                }
+                                                onClick={() => openCart()}
+                                                title={''}
+                                            >
                                                 <Image
                                                     src={
                                                         '/icons/shopping-cart-nobg.svg'
@@ -227,22 +227,24 @@ const ScreenMenu = memo(function ScreenMenu({
                                                         'rounded-full bg-beer-blonde w-[40px]  lg:w-[50px] p-[5px] border-beer-softBlondeBubble border-2'
                                                     }
                                                 />
-                                                <div
+                                                <span
                                                     className={`
                                                         white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-softBlonde 
                                                     `}
                                                 >
                                                     {cartQuantity()}
-                                                </div>
-                                            </section>
-                                        </Button>
+                                                </span>
+                                            </Button>
+                                        </div>
                                     </li>
                                 )}
 
-                                {/* Notifications  */}
-                                <DeviceScreenNotification
-                                    notifications={notifications}
-                                />
+                                <li className={`flex items-center relative`}>
+                                    {/* Notifications  */}
+                                    <DeviceScreenNotification
+                                        notifications={notifications}
+                                    />
+                                </li>
 
                                 <li className="flex items-center relative">
                                     {displayDropdownRoles && (

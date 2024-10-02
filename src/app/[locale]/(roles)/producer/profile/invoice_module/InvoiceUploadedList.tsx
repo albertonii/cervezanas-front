@@ -30,7 +30,7 @@ const InvoiceUploadedList = () => {
 
     const queryClient = useQueryClient();
 
-    const { user, supabase } = useAuth();
+    const { user } = useAuth();
 
     const { data, isError, isLoading, refetch } = useFetchInvoicesByProducerId(
         user?.id,

@@ -2,9 +2,10 @@ import Title from '@/app/[locale]/components/ui/Title';
 import DisplayPriceContainer from './DisplayPriceContainer';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
 import Description from '@/app/[locale]/components/ui/Description';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { IBusinessOrder, IOrderItem, IProducerUser } from '@/lib/types/types';
 
 interface Props {
@@ -12,24 +13,38 @@ interface Props {
     bOrders: IBusinessOrder[];
 }
 
-const CurrentInvoiceSummary = ({ producer, bOrders }: Props) => {
+const CurrentSalesRecordsSummary = ({ producer, bOrders }: Props) => {
     const t = useTranslations();
-
+    console.log(bOrders);
     const { supabase } = useAuth();
+    const { handleMessage } = useMessage();
 
-    const totalAmount = bOrders.reduce(
-        (acc, bOrder) =>
-            acc +
-            bOrder.order_items![0].quantity +
-            bOrder.order_items![0].product_packs!.price,
-        0,
-    );
+    const [totalAmount, setTotalAmount] = React.useState<number>(0);
+    const [cervezanasComission, setCervezanasComission] =
+        React.useState<number>(0);
+    const [producerEarnings, setProducerEarnings] = React.useState<number>(0);
 
-    const cervezanasComission = totalAmount * 0.15;
-    const producerEarnings = totalAmount - cervezanasComission;
+    useEffect(() => {
+        if (bOrders) {
+            const totalAmount = bOrders.reduce(
+                (acc, bOrder) =>
+                    acc +
+                    bOrder.order_items![0].quantity *
+                        bOrder.order_items![0].product_packs!.price,
+                0,
+            );
+
+            const cervezanasComission = totalAmount * 0.15;
+            const producerEarnings = totalAmount - cervezanasComission;
+
+            setTotalAmount(totalAmount);
+            setCervezanasComission(cervezanasComission);
+            setProducerEarnings(producerEarnings);
+        }
+    }, [bOrders]);
 
     const handleGenerateSalesInvoice = async () => {
-        // 0. Crear un nuevo invoice con los datos de los business orders
+        // 0. Crear un nuevo registro de ventas con los datos de los business orders
         const { data: salesRecordsData, error: errorSalesRecords } =
             await supabase
                 .from('sales_records_producer')
@@ -48,6 +63,12 @@ const CurrentInvoiceSummary = ({ producer, bOrders }: Props) => {
                 'Error al crear el registro de ventas:',
                 errorSalesRecords,
             );
+
+            handleMessage({
+                type: 'error',
+                message: t('errors.create_sales_record'),
+            });
+
             return;
         }
 
@@ -128,4 +149,4 @@ const CurrentInvoiceSummary = ({ producer, bOrders }: Props) => {
     );
 };
 
-export default CurrentInvoiceSummary;
+export default CurrentSalesRecordsSummary;

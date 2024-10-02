@@ -1,21 +1,15 @@
 import Title from '@/app/[locale]/components/ui/Title';
 import DisplayPriceContainer from './DisplayPriceContainer';
 import Description from '@/app/[locale]/components/ui/Description';
-import useFetchOneSalesRecordsById from '@/hooks/useFetchOneSalesRecordsById';
 import React, { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import {
-    IBusinessOrder,
-    IProducerUser,
-    ISalesRecordsProducer,
-} from '@/lib/types/types';
+import { IProducerUser, ISalesRecordsProducer } from '@/lib/types/types';
 
 interface Props {
-    producer: IProducerUser;
     salesRecords: ISalesRecordsProducer;
 }
 
-const CurrentInvoiceSummary = ({ producer, salesRecords }: Props) => {
+const CurrentSalesRecordsSummary = ({ salesRecords }: Props) => {
     const t = useTranslations();
 
     // const { data, refetch, error, isLoading } = useFetchOneSalesRecordsById(
@@ -84,4 +78,4 @@ const CurrentInvoiceSummary = ({ producer, salesRecords }: Props) => {
     );
 };
 
-export default CurrentInvoiceSummary;
+export default CurrentSalesRecordsSummary;

@@ -1,29 +1,21 @@
 'use client';
 
-import SalesRecordsHistory from './SalesRecordsHistory';
+import SalesRecordsList from './SalesRecordsList';
 import InvoiceManagement from './InvoiceManagement';
-import CurrentInvoiceSummary from './CurrentInvoiceSummary';
+import CurrentSalesRecordsSummary from './CurrentSalesRecordsSummary';
 import React from 'react';
-import {
-    IBusinessOrder,
-    IProducerUser,
-    ISalesRecordsProducer,
-} from '@/lib/types/types';
+import { IProducerUser, ISalesRecordsProducer } from '@/lib/types/types';
 
 interface Props {
     producer: IProducerUser;
-    bOrders: IBusinessOrder[];
     salesRecords: ISalesRecordsProducer;
 }
 
-const PersonalInvoiceModule = ({ producer, bOrders, salesRecords }: Props) => {
+const PersonalInvoiceModule = ({ producer, salesRecords }: Props) => {
     return (
         <div className="space-y-8 bg-beer-foam p-4">
-            <SalesRecordsHistory />
-            <CurrentInvoiceSummary
-                producer={producer}
-                salesRecords={salesRecords}
-            />
+            <CurrentSalesRecordsSummary salesRecords={salesRecords} />
+            <SalesRecordsList />
             <InvoiceManagement salesRecords={salesRecords} />
         </div>
     );

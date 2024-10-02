@@ -507,6 +507,7 @@
     "started": "Iniciado",
     "pending": "Pendiente",
     "accepted": "Aceptado",
+    "downloaded": "Descargado",
     "status_rejected": "Rechazado",
     "paid": "Pagado",
     "in_process": "En proceso",
@@ -723,7 +724,9 @@
         "is_accept_terms": "Debes aceptar los términos y condiciones",
         "fetching_breweries": "Error al obtener las cervecerías",
         "invalid_characters": "Caracteres inválidos",
-        "update_shipment_tracking": "Error al actualizar el seguimiento del envío."
+        "update_shipment_tracking": "Error al actualizar el seguimiento del envío.",
+        "create_sales_record": "Error al crear el registro de ventas.",
+        "updating_sales_records_download_status": "Error al actualizar el estado de descarga de los registros de ventas."
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",
@@ -776,7 +779,6 @@
     "reject_contract": "Rechazar contrato",
     "send_to": "Enviar a",
     "select": "Seleccionar",
-
     "modal_delete_address_title": "Eliminar dirección",
     "modal_delete_address_description": "¿Está seguro de que desea eliminar la dirección? Esta acción no se puede deshacer.",
     "event_cart": "Carrito de eventos",
@@ -1050,7 +1052,8 @@
         "deleting_product_pack": "Pack de producto eliminado correctamente",
         "deleting_product_award": "Premio eliminado correctamente",
         "update_shipment_tracking": "Seguimiento de envío actualizado correctamente",
-        "profile_acc_data_updated": "Datos de la cuenta actualizados correctamente"
+        "profile_acc_data_updated": "Datos de la cuenta actualizados correctamente",
+        "sales_records_download_status_updated": "Estado de descarga de los registros de ventas actualizado correctamente"
     },
     "num_of_packs": "Número de packs",
     "promo_code": "Código promocional",
@@ -1345,7 +1348,7 @@
         "producer_earnings": "Ganancias del productor",
         "cervezanas_comission": "Comisión de Cervezanas (15%)",
         "invoice_historial_title": "Historial de facturas",
-        "sales_historial_title": "Historial de ventas",
+        "sales_historial_title": "Registro de ventas",
         "sales_summary": "Resumen de ventas",
         "invoice_historial_description": "Aquí puedes ver todas las facturas que has generado en la plataforma. Puedes ver el importe total de cada factura, las ganancias del productor y la comisión de Cervezanas.",
         "sales_historial_description": "Aquí puedes ver todas las ventas que has realizado en la plataforma. Puedes ver el importe total de cada venta, las ganancias del productor y la comisión de Cervezanas.",

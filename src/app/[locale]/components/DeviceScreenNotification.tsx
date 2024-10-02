@@ -38,7 +38,7 @@ export function DeviceScreenNotification({ notifications }: Props) {
     };
 
     return (
-        <li className={`relative flex items-center pr-2`}>
+        <>
             <Button
                 class={`
                     ${animateNotifications && 'animate-wiggle'}
@@ -69,6 +69,6 @@ export function DeviceScreenNotification({ notifications }: Props) {
                 open={openNotification}
                 setOpen={setOpenNotification}
             />
-        </li>
+        </>
     );
 }
