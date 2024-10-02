@@ -161,10 +161,10 @@ export async function POST(request: NextRequest) {
                 );
             }
 
-            for (const item of itemsGroup) {
-                item.packs.map(async (pack) => {
-                    const distributorId = item.distributor_id;
-                    const producerId = item.producer_id;
+            for (const product of itemsGroup) {
+                product.packs.map(async (pack) => {
+                    const distributorId = product.distributor_id;
+                    const producerId = product.producer_id;
 
                     if (!distributorId) {
                         return NextResponse.json(
@@ -236,7 +236,7 @@ export async function POST(request: NextRequest) {
                             business_order_id: businessOrder.id,
                             product_pack_id: pack.id,
                             quantity: pack.quantity,
-                            product_name: pack.products?.name,
+                            product_name: product.name,
                             product_pack_name: pack.name,
                             product_price: pack.price,
                             subtotal: pack.price * pack.quantity,

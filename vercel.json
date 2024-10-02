@@ -1,0 +1,15 @@
+{
+  "functions": {
+    "api/generate_monthly_sales_records/route.ts": {
+      "runtime": "edge"
+    }
+  },
+  "cron": {
+    "jobs": [
+      {
+        "path": "/api/generate_monthly_sales_records",
+        "schedule": "0 0 1 * *"
+      }
+    ]
+  }
+}

@@ -261,6 +261,7 @@ export async function insertOnlineOrder(form: InsertOnlineOrderProps) {
     formData.set('order_number', form.order_number);
     formData.set('type', form.type);
     formData.set('tax', form.tax.toString());
+
     formData.set('items', JSON.stringify(form.items));
 
     // Shipping Info
