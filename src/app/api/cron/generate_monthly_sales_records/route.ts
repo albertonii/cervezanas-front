@@ -68,9 +68,12 @@ export async function GET(request: NextRequest) {
         // Lógica para generar sales_records
         await generateSalesRecords(supabase, invoicePeriod);
 
-        return NextResponse.json({
-            message: 'Sales records generated successfully',
-        });
+        return NextResponse.json(
+            {
+                message: 'Sales records generated successfully',
+            },
+            { status: 200 },
+        );
     } catch (error) {
         console.error('Error generating sales records:', error);
         return NextResponse.json(

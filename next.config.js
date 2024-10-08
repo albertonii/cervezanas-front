@@ -9,6 +9,9 @@ module.exports = withNextIntl({
   // experimental: {
   //   appDir: true,
   // },
+  experimental: {
+    webpackBuildWorker: true,
+  },
   images: {
     formats: [
       'image/avif',

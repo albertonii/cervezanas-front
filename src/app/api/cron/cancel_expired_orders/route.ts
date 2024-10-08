@@ -77,9 +77,12 @@ export async function GET(request: NextRequest) {
 
         console.info(`Cancelled ${cancelledOrdersCount} expired orders.`);
 
-        return NextResponse.json({
-            message: `Cancelled ${cancelledOrdersCount} expired orders.`,
-        });
+        return NextResponse.json(
+            {
+                message: `Cancelled ${cancelledOrdersCount} expired orders.`,
+            },
+            { status: 200 },
+        );
     } catch (error) {
         console.error('Unexpected error:', error);
         return NextResponse.json(
