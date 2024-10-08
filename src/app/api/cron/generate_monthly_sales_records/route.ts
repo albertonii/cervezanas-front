@@ -50,12 +50,13 @@ import { NextRequest, NextResponse } from 'next/server';
  */
 export async function GET(request: NextRequest) {
     const authHeader = request.headers.get('authorization');
+    const authHeaderWithoutBearer = authHeader?.replace('Bearer ', '');
 
     const CRON_JOB_TOKEN = process.env.CRON_SECRET; // Configura esta variable de entorno
 
     console.log(CRON_JOB_TOKEN);
 
-    if (authHeader !== CRON_JOB_TOKEN) {
+    if (authHeaderWithoutBearer !== CRON_JOB_TOKEN) {
         console.log('Token: ', authHeader);
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
