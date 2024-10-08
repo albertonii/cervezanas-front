@@ -2,6 +2,7 @@ import createServerClient from '@/utils/supabaseServer';
 import { calculateInvoicePeriod } from '@/utils/utils';
 import { IBusinessOrder, IProducerUser } from '@/lib/types/types';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 
 /**
  * @swagger
@@ -48,13 +49,15 @@ import { NextApiRequest, NextApiResponse } from 'next';
  *                   type: string
  *                   example: Error generating sales records
  */
-export async function GET(request: NextApiRequest, res: NextApiResponse) {
-    const sharedKey = request.query.key;
+export async function GET(request: NextRequest) {
+    const { searchParams } = new URL(request.url);
+    const sharedKey = searchParams.get('key');
+
     const CRON_JOB_TOKEN = process.env.NEXT_PUBLIC_CRON_JOB_TOKEN; // Configura esta variable de entorno
 
     if (!sharedKey || sharedKey !== CRON_JOB_TOKEN) {
         console.log('Token: ', sharedKey);
-        return res.status(401).json({ error: 'Unauthorized' });
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     try {
@@ -66,12 +69,15 @@ export async function GET(request: NextApiRequest, res: NextApiResponse) {
         // Lógica para generar sales_records
         await generateSalesRecords(supabase, invoicePeriod);
 
-        res.status(200).json({
+        return NextResponse.json({
             message: 'Sales records generated successfully',
         });
     } catch (error) {
         console.error('Error generating sales records:', error);
-        res.status(500).json({ error: 'Error generating sales records' });
+        return NextResponse.json(
+            { error: 'Error generating sales records' },
+            { status: 500 },
+        );
     }
 }
 

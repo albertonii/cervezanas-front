@@ -1,9 +1,8 @@
 import createServerClient from '@/utils/supabaseServer';
 import { ONLINE_ORDER_STATUS } from '@/constants';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 
 // Esta es una llamada desde el EDGE de Vercel: CRON JOB
-
 /**
  * Handles GET requests to cancel expired orders.
  *
@@ -18,7 +17,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
  * - `NEXT_PUBLIC_ORDER_EXPIRATION_TIME`: The time in minutes after which an order is considered expired. Defaults to 30 minutes if not set.
  *
  * The function performs the following steps:
- * 1. Extracts and verifies the authorization token from the request headers.
+ * 1. Extracts and verifies the authorization token from the request query parameters.
  * 2. Creates a Supabase client instance.
  * 3. Calculates the expiration date and time based on the current time and the expiration time from the environment variable.
  * 4. Updates the status of orders that are pending and have a creation date earlier than the calculated expiration date.
@@ -29,14 +28,15 @@ import { NextApiRequest, NextApiResponse } from 'next';
  * - 500 Internal Server Error: If there is an error cancelling the expired orders or an unexpected error occurs.
  * - 200 OK: If the operation is successful, returns the number of cancelled orders.
  */
-export async function GET(request: NextApiRequest, res: NextApiResponse) {
-    const sharedKey = request.query.key;
+export async function GET(request: NextRequest) {
+    const { searchParams } = new URL(request.url);
+    const sharedKey = searchParams.get('key');
 
     const CRON_JOB_TOKEN = process.env.NEXT_PUBLIC_CRON_JOB_TOKEN; // Configura esta variable de entorno
 
     if (!sharedKey || sharedKey !== CRON_JOB_TOKEN) {
         console.log('Token: ', sharedKey);
-        return res.status(401).json({ error: 'Unauthorized' });
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     try {
@@ -67,20 +67,24 @@ export async function GET(request: NextApiRequest, res: NextApiResponse) {
 
         if (error) {
             console.error('Error cancelling expired orders:', error);
-            return res
-                .status(500)
-                .json({ error: 'Error cancelling expired orders' });
+            return NextResponse.json(
+                { error: 'Error cancelling expired orders' },
+                { status: 500 },
+            );
         }
 
         const cancelledOrdersCount = data.length;
 
         console.info(`Cancelled ${cancelledOrdersCount} expired orders.`);
 
-        res.status(200).json({
+        return NextResponse.json({
             message: `Cancelled ${cancelledOrdersCount} expired orders.`,
         });
     } catch (error) {
         console.error('Unexpected error:', error);
-        res.status(500).json({ error: 'Unexpected error' });
+        return NextResponse.json(
+            { error: 'Unexpected error' },
+            { status: 500 },
+        );
     }
 }
