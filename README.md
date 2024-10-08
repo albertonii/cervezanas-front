@@ -103,6 +103,24 @@ Muestra una lista de productos disponibles para la compra, con detalles como nom
 
 Permite a los usuarios realizar pedidos, ver el estado de sus pedidos y recibir notificaciones por correo electrónico.
 
+## CRON Jobs
+
+La aplicación utiliza **CRON Jobs** para automatizar tareas esenciales que mejoran la eficiencia y la experiencia del usuario.
+
+### Generación de Registros Mensuales de Ventas
+
+- **Descripción**: Genera automáticamente los registros mensuales de ventas para cada productor al inicio de cada mes.
+- **Ruta**: `/api/cron/generate_monthly_sales_records`
+- **Frecuencia**: Se ejecuta el primer día de cada mes a las 00:00 horas.
+- **Propósito**: Facilitar a los productores el acceso a sus informes de ventas mensuales, permitiéndoles generar y emitir las facturas correspondientes a través de la plataforma.
+
+### Cancelación Automática de Pedidos Expirados
+
+- **Descripción**: Cancela los pedidos que han excedido el tiempo máximo permitido para su realización (por defecto, 30 minutos).
+- **Ruta**: `/api/cron/cancel_expired_orders`
+- **Frecuencia**: Se ejecuta diariamente a las 00:00 horas.
+- **Propósito**: Mantener la base de datos limpia y actualizada, mejorando la eficiencia del sistema.
+
 ## Pruebas
 
 Las pruebas están escritas utilizando Jest. Para ejecutar las pruebas, utiliza el siguiente comando:

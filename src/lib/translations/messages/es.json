@@ -1281,7 +1281,7 @@
     "gluten_free": "Sin gluten",
     "need_to_select_shipping_and_billing_address": "Necesitas seleccionar una dirección de envío y una dirección de facturación para continuar con el proceso de compra.",
     "brewery": {
-        "introduce_name": "Introduce el nombre de la cervecería",
+        "introduce_name": "Introduce el nombre de la cervecera",
         "foundation_year": "Año de fundación",
         "history": "Historia",
         "history_placeholder": "Historia de la cervecería",
@@ -1333,10 +1333,10 @@
         "tracking_description_messages": "Aquí puedes ver los mensajes de seguimiento que has redactado, así el consumidor tendrá información actualiza acerca de su pedido. Puedes añadir, editar y eliminar mensajes."
     },
     "field": "Campo",
-    "modal_product_select_brewery_title": "Seleccionar cervecería",
-    "modal_product_add_brewery_description": " Ofrece más información al consumidor acerca de dónde se produce tu producto. Si no encuentras la cervecería en la lista, puedes añadirla en el apartado de 'fábricas'.",
+    "modal_product_select_brewery_title": "Seleccionar cervecera",
+    "modal_product_add_brewery_description": " Ofrece más información al consumidor acerca de dónde se produce tu producto. Si no encuentras la cervecera en la lista, puedes añadirla en el apartado de 'fábricas'.",
     "modal_product_add_brewery_description_two": "  Si no deseas mostrar la cervecería en la ficha de producto, puedes dejar este campo vacío.",
-    "select_brewery": "Seleccionar cervecería",
+    "select_brewery": "Seleccionar cervecera",
     "company_name_header": "Nombre de la empresa",
     "invoice_module": {
         "title": "Módulo de Facturación",
