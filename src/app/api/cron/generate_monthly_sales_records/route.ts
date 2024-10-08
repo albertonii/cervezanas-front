@@ -58,7 +58,7 @@ export async function GET(request: NextRequest) {
         !authHeaderWithoutBearer ||
         authHeaderWithoutBearer !== CRON_JOB_TOKEN
     ) {
-        console.log('Unauthorized Token: ', authHeader);
+        console.info('Unauthorized Token: ', authHeader);
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -199,29 +199,16 @@ const generateSalesRecordsByProducerAndBOrders = async (
     // 5º Insertar en la tabla sales_records_items los items de cada venta
     await Promise.all(
         businessOrders.map(async (bOrder: IBusinessOrder) => {
-            if (!bOrder.order_items) {
+            if (!bOrder.order_items || bOrder.order_items.length === 0) {
                 throw new Error('Error inserting sales records items');
             }
 
             const orderItem = bOrder.order_items[0];
 
-            console.log('ORDER ITEM', orderItem);
-
             const total = orderItem.quantity * orderItem.product_price;
             const platformComission =
                 total * bOrder.platform_comission_producer;
             const netAmount = total - platformComission;
-
-            console.log('Inserting sales records items:', {
-                sales_record_id: salesRecordsData.id,
-                business_order_id: bOrder.id,
-                product_name: orderItem.product_name,
-                product_pack_name: orderItem.product_pack_name,
-                product_quantity: orderItem.quantity,
-                total_sales: total,
-                platform_commission: platformComission,
-                net_amount: netAmount,
-            });
 
             const { error: errorSalesRecordsItems } = await supabase
                 .from('sales_records_items')
