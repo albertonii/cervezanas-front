@@ -3,6 +3,51 @@ import { calculateInvoicePeriod } from '@/utils/utils';
 import { IBusinessOrder, IProducerUser } from '@/lib/types/types';
 import { NextApiRequest, NextApiResponse } from 'next';
 
+/**
+ * @swagger
+ * /api/cron/generate_monthly_sales_records:
+ *   get:
+ *     summary: Generate monthly sales records
+ *     description: Generates sales records for the previous month for all producers.
+ *     parameters:
+ *       - in: query
+ *         name: key
+ *         required: true
+ *         description: Cron job token for authorization
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Sales records generated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Sales records generated successfully
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Unauthorized
+ *       500:
+ *         description: Error generating sales records
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Error generating sales records
+ */
 export async function GET(request: NextApiRequest, res: NextApiResponse) {
     const sharedKey = request.query.key;
     const CRON_JOB_TOKEN = process.env.NEXT_PUBLIC_CRON_JOB_TOKEN; // Configura esta variable de entorno
