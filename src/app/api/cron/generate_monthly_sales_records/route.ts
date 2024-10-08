@@ -54,9 +54,14 @@ export async function GET(request: NextRequest) {
 
     const CRON_JOB_TOKEN = process.env.CRON_SECRET; // Configura esta variable de entorno
 
-    console.log(CRON_JOB_TOKEN);
+    console.log('AUTH', authHeaderWithoutBearer);
 
-    if (authHeaderWithoutBearer !== CRON_JOB_TOKEN) {
+    console.log('CRON', CRON_JOB_TOKEN);
+
+    if (
+        !authHeaderWithoutBearer ||
+        authHeaderWithoutBearer !== CRON_JOB_TOKEN
+    ) {
         console.log('Token: ', authHeader);
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
