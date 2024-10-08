@@ -10,8 +10,8 @@ import { NextRequest, NextResponse } from 'next/server';
  *     summary: Generate monthly sales records
  *     description: Generates sales records for the previous month for all producers.
  *     parameters:
- *       - in: query
- *         name: key
+ *       - in: header
+ *         name: authorization
  *         required: true
  *         description: Cron job token for authorization
  *         schema:
@@ -53,7 +53,9 @@ export async function GET(request: NextRequest) {
 
     const CRON_JOB_TOKEN = process.env.CRON_SECRET; // Configura esta variable de entorno
 
-    if (!authHeader || authHeader !== CRON_JOB_TOKEN) {
+    console.log(CRON_JOB_TOKEN);
+
+    if (authHeader !== CRON_JOB_TOKEN) {
         console.log('Token: ', authHeader);
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

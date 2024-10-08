@@ -17,7 +17,7 @@ import { NextRequest, NextResponse } from 'next/server';
  * - `NEXT_PUBLIC_ORDER_EXPIRATION_TIME`: The time in minutes after which an order is considered expired. Defaults to 30 minutes if not set.
  *
  * The function performs the following steps:
- * 1. Extracts and verifies the authorization token from the request query parameters.
+ * 1. Extracts and verifies the authorization token from the request headers.
  * 2. Creates a Supabase client instance.
  * 3. Calculates the expiration date and time based on the current time and the expiration time from the environment variable.
  * 4. Updates the status of orders that are pending and have a creation date earlier than the calculated expiration date.
