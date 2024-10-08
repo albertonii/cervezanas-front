@@ -1,111 +1,182 @@
-# Cervezanas APP
+# Supabase CLI (v1)
 
-Descripción de la aplicación
+[![Coverage Status](https://coveralls.io/repos/github/supabase/cli/badge.svg?branch=main)](https://coveralls.io/github/supabase/cli?branch=main)
 
-# About
+[Supabase](https://supabase.io) is an open source Firebase alternative. We're building the features of Firebase using enterprise-grade open source tools.
 
-Acerca de Cervezanas
+This repository contains all the functionality for Supabase CLI.
 
-## Motivation
+- [x] Running Supabase locally
+- [x] Managing database migrations
+- [x] Creating and deploying Supabase Functions
+- [x] Generating types directly from your database schema
+- [x] Making authenticated HTTP requests to [Management API](https://supabase.com/docs/reference/api/introduction)
 
-Distribution System API surge por la necesidad de conocer cuales son los puntos de distribución a los cuales un distribuidor puede realizar un envío.
+## Getting started
 
-# Stack tecnológico
+### Install the CLI
 
-## NEXTJS
-
-## What is Supabase?
-
-[Supabase](https://supabase.com/) is, as they describe it, an open-source alternative to Firebase.
-
-It is essentially a managed Postgres environment with additional functionalities such as auth, storage, and real-time capabilities.
-
-### Good to know
-
-A veces es necesario actualizar información interna de supabase. Por ejemplo, si quisieramos cambiar de la tabla interna auth.users la propiedad "access_level" o role del usuario para darle permisos de administrador. Podríamos lograrlo de la siguiente manera:
+Available via [NPM](https://www.npmjs.com) as dev dependency. To install:
 
 ```bash
-    UPDATE auth.users
-    SET raw_user_meta_data = jsonb_set(raw_user_meta_data, '{access_level}', '"admin"')
-    WHERE raw_user_meta_data ->> 'email' = 'wawogar929@getmola.com';
+npm i supabase --save-dev
 ```
 
-## JEST + Supertest
-
-### Test in local network
-
-To test the app with different devices inside the same network we need to run the script inside package.json:
+To install the beta release channel:
 
 ```bash
-dev:local-network
+npm i supabase@beta --save-dev
 ```
 
-This way we can have access to the application through the phone or another device going to linked host (192.168.1.137:5000)
-This is useful for functionalities as QR scan code of products in event.
+When installing with yarn 4, you need to disable experimental fetch with the following nodejs config.
 
-# Scripts
+```
+NODE_OPTIONS=--no-experimental-fetch yarn add supabase
+```
 
-## pnpm run gen-link
+> **Note**
+For Bun versions below v1.0.17, you must add `supabase` as a [trusted dependency](https://bun.sh/guides/install/trusted) before running `bun add -D supabase`.
 
-This command will execute the following code:
-"cloudflared tunnel --url http://localhost:3000"
-creating a tunnel between Cloudfare and our application in localhost. We are going to use this functionality when testing TPV notification PUSH status, etc.
-In the example above we need tunneling because the service is not deployed yet.
+<details>
+  <summary><b>macOS</b></summary>
 
-# Getting started
+  Available via [Homebrew](https://brew.sh). To install:
 
-## Pre-requisites
+  ```sh
+  brew install supabase/tap/supabase
+  ```
 
-We're going to use pnpm, so make sure it's installed in your system. Make sure to sign up for a Supabase account, as well.
+  To install the beta release channel:
+  
+  ```sh
+  brew install supabase/tap/supabase-beta
+  brew link --overwrite supabase-beta
+  ```
+  
+  To upgrade:
 
-## Step 1: Set up the project locally
+  ```sh
+  brew upgrade supabase
+  ```
+</details>
 
-Then, go into the directory of your clone, and copy .env.template to .env.
+<details>
+  <summary><b>Windows</b></summary>
 
-Go to Supabase, go into your project -> settings -> API. Copy and paste your keys into your newly created .env file.
+  Available via [Scoop](https://scoop.sh). To install:
 
-Then, run:
+  ```powershell
+  scoop bucket add supabase https://github.com/supabase/scoop-bucket.git
+  scoop install supabase
+  ```
+
+  To upgrade:
+
+  ```powershell
+  scoop update supabase
+  ```
+</details>
+
+<details>
+  <summary><b>Linux</b></summary>
+
+  Available via [Homebrew](https://brew.sh) and Linux packages.
+
+  #### via Homebrew
+
+  To install:
+
+  ```sh
+  brew install supabase/tap/supabase
+  ```
+
+  To upgrade:
+
+  ```sh
+  brew upgrade supabase
+  ```
+
+  #### via Linux packages
+
+  Linux packages are provided in [Releases](https://github.com/supabase/cli/releases). To install, download the `.apk`/`.deb`/`.rpm`/`.pkg.tar.zst` file depending on your package manager and run the respective commands.
+
+  ```sh
+  sudo apk add --allow-untrusted <...>.apk
+  ```
+
+  ```sh
+  sudo dpkg -i <...>.deb
+  ```
+
+  ```sh
+  sudo rpm -i <...>.rpm
+  ```
+
+  ```sh
+  sudo pacman -U <...>.pkg.tar.zst
+  ```
+</details>
+
+<details>
+  <summary><b>Other Platforms</b></summary>
+
+  You can also install the CLI via [go modules](https://go.dev/ref/mod#go-install) without the help of package managers.
+
+  ```sh
+  go install github.com/supabase/cli@latest
+  ```
+
+  Add a symlink to the binary in `$PATH` for easier access:
+
+  ```sh
+  ln -s "$(go env GOPATH)/cli" /usr/bin/supabase
+  ```
+
+  This works on other non-standard Linux distros.
+</details>
+
+<details>
+  <summary><b>Community Maintained Packages</b></summary>
+
+  Available via [pkgx](https://pkgx.sh/). Package script [here](https://github.com/pkgxdev/pantry/blob/main/projects/supabase.com/cli/package.yml).
+  To install in your working directory:
+
+  ```bash
+  pkgx install supabase
+  ```
+
+  Available via [Nixpkgs](https://nixos.org/). Package script [here](https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/tools/supabase-cli/default.nix).
+</details>
+
+### Run the CLI
 
 ```bash
-pnpm install
-
-pnpm run dev
+supabase bootstrap
 ```
 
----
-
-# Production
-
-## Optimize
-
-To analyze the final bundle we can use tools to look for optimizations:
-
-### Next Bundle Analyzer
-
-Run the next script to analyze the bundle sizes of the packages created by the build command. We can visualize what can be removed.
+Or using npx:
 
 ```bash
-    pnpm analyze
+npx supabase bootstrap
 ```
 
-# Distribution System API Endpoints
+The bootstrap command will guide you through the process of setting up a Supabase project using one of the [starter](https://github.com/supabase-community/supabase-samples/blob/main/samples.json) templates.
 
-## Main url
+## Docs
 
-MIGRACIÓN:
-https://distributionsystemapi-dev-tdzj.2.ie-1.fl0.io
+Command & config reference can be found [here](https://supabase.com/docs/reference/cli/about).
 
-NUEVO:
-https://distributionsystemapi.onrender.com/
+## Breaking changes
 
-## GET
+We follow semantic versioning for changes that directly impact CLI commands, flags, and configurations.
 
-`Fetch data from country in GeoJSON format` /countries/${countryName} <br/>
-`Fetch data from Autonomous Community in Spain in GeoJSON format` /communities/${countryName} <br/>
-`Check if specific point [lat, lng] is inside Autonomous Community` /communities/${countryName}/inside?lat=[latitude]&lng=[longitude] <br/>
+However, due to dependencies on other service images, we cannot guarantee that schema migrations, seed.sql, and generated types will always work for the same CLI major version. If you need such guarantees, we encourage you to pin a specific version of CLI in package.json.
 
-# TODO List
+## Developing
 
-[ ] - Sistema de Distribución
-[ ] - Optimizar bundle
-[ ] - TODO 3
+To run from source:
+
+```sh
+# Go >= 1.22
+go run . help
+```

@@ -1,20 +1,12 @@
 {
-  "functions": {
-    "api/invoices/generate_monthly_sales_records/route.ts": {
-      "runtime": "edge"
-    },
-    "api/shopping_basket/cancel_expired_orders/route.ts": {
-      "runtime": "edge"
-    }
-  },
   "crons": [
     {
-      "path": "/api/invoices/generate_monthly_sales_records",
+      "path": "/api/cron/generate_monthly_sales_records",
       "schedule": "0 0 1 * *"
     },
     {
-      "path": "/api/shopping_basket/cancel_expired_orders?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.gkTquFo3L8PN0xu06boW8iBLbslsw0actpJ_p9drNsA",
-      "schedule": "*/15 * * * *"
+      "path": "/api/cron/cancel_expired_orders",
+      "schedule": "0 0 * * *"
     }
   ]
 }

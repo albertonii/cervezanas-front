@@ -1,6 +1,6 @@
 import createServerClient from '@/utils/supabaseServer';
 import { ONLINE_ORDER_STATUS } from '@/constants';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 // Esta es una llamada desde el EDGE de Vercel: CRON JOB
 
@@ -14,7 +14,7 @@ import { NextRequest, NextResponse } from 'next/server';
  * @returns {Promise<NextResponse>} - The response object containing the result of the operation.
  *
  * Environment Variables:
- * - `NEXT_PUBLIC_ORDER_CRON_JOB_TOKEN`: The token used to authorize the CRON JOB request.
+ * - `NEXT_PUBLIC_CRON_JOB_TOKEN`: The token used to authorize the CRON JOB request.
  * - `NEXT_PUBLIC_ORDER_EXPIRATION_TIME`: The time in minutes after which an order is considered expired. Defaults to 30 minutes if not set.
  *
  * The function performs the following steps:
@@ -29,20 +29,19 @@ import { NextRequest, NextResponse } from 'next/server';
  * - 500 Internal Server Error: If there is an error cancelling the expired orders or an unexpected error occurs.
  * - 200 OK: If the operation is successful, returns the number of cancelled orders.
  */
-export async function GET(request: NextRequest): Promise<NextResponse> {
-    const authHeader = request.headers.get('Authorization');
-    const token = authHeader?.split(' ')[1];
+export async function GET(request: NextApiRequest, res: NextApiResponse) {
+    const sharedKey = request.query.key;
 
-    const CRON_JOB_TOKEN = process.env.NEXT_PUBLIC_ORDER_CRON_JOB_TOKEN; // Configura esta variable de entorno
+    const CRON_JOB_TOKEN = process.env.NEXT_PUBLIC_CRON_JOB_TOKEN; // Configura esta variable de entorno
 
-    if (!token || token !== CRON_JOB_TOKEN) {
-        console.log('Token: ', token);
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (!sharedKey || sharedKey !== CRON_JOB_TOKEN) {
+        console.log('Token: ', sharedKey);
+        return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    const supabase = await createServerClient();
-
     try {
+        const supabase = await createServerClient();
+
         // Definir el tiempo de expiración en minutos
         const expirationTime = parseInt(
             process.env.NEXT_PUBLIC_ORDER_EXPIRATION_TIME || '30',
@@ -68,24 +67,20 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
         if (error) {
             console.error('Error cancelling expired orders:', error);
-            return NextResponse.json(
-                { error: 'Error cancelling expired orders' },
-                { status: 500 },
-            );
+            return res
+                .status(500)
+                .json({ error: 'Error cancelling expired orders' });
         }
 
         const cancelledOrdersCount = data.length;
 
         console.info(`Cancelled ${cancelledOrdersCount} expired orders.`);
 
-        return NextResponse.json({
+        res.status(200).json({
             message: `Cancelled ${cancelledOrdersCount} expired orders.`,
         });
     } catch (error) {
         console.error('Unexpected error:', error);
-        return NextResponse.json(
-            { error: 'Unexpected error' },
-            { status: 500 },
-        );
+        res.status(500).json({ error: 'Unexpected error' });
     }
 }
