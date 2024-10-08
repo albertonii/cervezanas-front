@@ -20,7 +20,7 @@ const Breadcrumb = () => {
     return (
         <nav
             aria-label="breadcrumb"
-            className="bg-beer-dark p-2 rounded-lg shadow-lg my-2"
+            className="bg-beer-dark p-2 rounded-lg shadow-lg my-2 mx-4"
         >
             <ul className="flex items-center text-beer-blonde text-sm space-x-2">
                 <li className="flex items-center">

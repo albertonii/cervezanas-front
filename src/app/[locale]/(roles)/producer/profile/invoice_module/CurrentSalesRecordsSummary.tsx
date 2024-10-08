@@ -1,38 +1,41 @@
 import Title from '@/app/[locale]/components/ui/Title';
 import DisplayPriceContainer from './DisplayPriceContainer';
-import Button from '@/app/[locale]/components/ui/buttons/Button';
 import Description from '@/app/[locale]/components/ui/Description';
-import useFetchOneInvoiceById from '@/hooks/useFetchOneInvoiceById';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import {
-    IBusinessOrder,
-    IInvoiceProducer,
-    IProducerUser,
-} from '@/lib/types/types';
+import { IBusinessOrder } from '@/lib/types/types';
+import { calculateInvoicePeriod } from '@/utils/utils';
 
 interface Props {
-    producer: IProducerUser;
     bOrders: IBusinessOrder[];
 }
 
-const CurrentInvoiceSummary = ({ producer, bOrders }: Props) => {
+const CurrentSalesRecordsSummary = ({ bOrders }: Props) => {
     const t = useTranslations();
 
-    const { data, refetch, error, isLoading } = useFetchOneInvoiceById(
-        producer.user_id,
-    );
+    const [totalAmount, setTotalAmount] = React.useState<number>(0);
+    const [cervezanasComission, setCervezanasComission] =
+        React.useState<number>(0);
+    const [producerEarnings, setProducerEarnings] = React.useState<number>(0);
 
-    const totalAmount = bOrders.reduce(
-        (acc, bOrder) =>
-            acc +
-            bOrder.order_items![0].quantity +
-            bOrder.order_items![0].product_packs!.price,
-        0,
-    );
+    useEffect(() => {
+        if (bOrders) {
+            const totalAmount = bOrders.reduce(
+                (acc, bOrder) =>
+                    acc +
+                    bOrder.order_items![0].quantity *
+                        bOrder.order_items![0].product_packs!.price,
+                0,
+            );
 
-    const cervezanasComission = totalAmount * 0.15;
-    const producerEarnings = totalAmount - cervezanasComission;
+            const cervezanasComission = totalAmount * 0.15;
+            const producerEarnings = totalAmount - cervezanasComission;
+
+            setTotalAmount(totalAmount);
+            setCervezanasComission(cervezanasComission);
+            setProducerEarnings(producerEarnings);
+        }
+    }, [bOrders]);
 
     return (
         <section className="space-y-8 border border-xl rounded-lg border-gray-300 p-8">
@@ -41,8 +44,13 @@ const CurrentInvoiceSummary = ({ producer, bOrders }: Props) => {
                     {t('invoice_module.sales_summary')}
                 </Title>
 
+                <Title size="large" color="black">
+                    {t('invoice_module.invoice_current_period_title')} :{' '}
+                    {calculateInvoicePeriod(new Date())}
+                </Title>
+
                 <Description size="xsmall">
-                    {t('invoice_module.invoice_current_period')}
+                    {t('invoice_module.sales_records_period')}
                 </Description>
             </div>
 
@@ -66,12 +74,8 @@ const CurrentInvoiceSummary = ({ producer, bOrders }: Props) => {
                     />
                 </div>
             </div>
-
-            <Button primary large>
-                {t('invoice_module.generate_sales_invoice')}
-            </Button>
         </section>
     );
 };
 
-export default CurrentInvoiceSummary;
+export default CurrentSalesRecordsSummary;

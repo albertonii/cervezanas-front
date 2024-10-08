@@ -2,7 +2,6 @@ import ProducerInformation from '@/app/[locale]/(common-display)/user-info/[id]/
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { IProducerUser } from '@/lib/types/types';
-import UserInformation from '@/app/[locale]/(common-display)/user-info/[id]/UserInformation';
 import UserAbout from '@/app/[locale]/(common-display)/user-info/[id]/UserAbout';
 
 interface Props {

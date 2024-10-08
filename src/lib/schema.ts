@@ -632,6 +632,7 @@ export type Database = {
           created_at: string | null
           distributor_id: string | null
           id: string
+          invoice_period: string | null
           net_revenue_distributor: number | null
           net_revenue_producer: number | null
           order_id: string | null
@@ -646,6 +647,7 @@ export type Database = {
           created_at?: string | null
           distributor_id?: string | null
           id?: string
+          invoice_period?: string | null
           net_revenue_distributor?: number | null
           net_revenue_producer?: number | null
           order_id?: string | null
@@ -660,6 +662,7 @@ export type Database = {
           created_at?: string | null
           distributor_id?: string | null
           id?: string
+          invoice_period?: string | null
           net_revenue_distributor?: number | null
           net_revenue_producer?: number | null
           order_id?: string | null
@@ -2040,94 +2043,43 @@ export type Database = {
           },
         ]
       }
-      invoice_items: {
-        Row: {
-          business_order_id: string | null
-          id: string
-          invoice_id: string | null
-          net_amount: number | null
-          platform_commission: number | null
-          product_name: string | null
-          product_pack_name: string | null
-          product_quantity: number | null
-          total_sales: number | null
-        }
-        Insert: {
-          business_order_id?: string | null
-          id?: string
-          invoice_id?: string | null
-          net_amount?: number | null
-          platform_commission?: number | null
-          product_name?: string | null
-          product_pack_name?: string | null
-          product_quantity?: number | null
-          total_sales?: number | null
-        }
-        Update: {
-          business_order_id?: string | null
-          id?: string
-          invoice_id?: string | null
-          net_amount?: number | null
-          platform_commission?: number | null
-          product_name?: string | null
-          product_pack_name?: string | null
-          product_quantity?: number | null
-          total_sales?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "invoice_items_business_order_id_fkey"
-            columns: ["business_order_id"]
-            isOneToOne: false
-            referencedRelation: "business_orders"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "invoice_items_invoice_id_fkey"
-            columns: ["invoice_id"]
-            isOneToOne: false
-            referencedRelation: "invoices_producer"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       invoices_producer: {
         Row: {
           created_at: string
+          file_path: string | null
           id: string
           invoice_period: string | null
-          producer_email: string | null
+          name: string | null
           producer_id: string | null
-          producer_username: string | null
           status: string | null
           total_amount: number | null
           updated_at: string | null
         }
         Insert: {
           created_at?: string
+          file_path?: string | null
           id?: string
           invoice_period?: string | null
-          producer_email?: string | null
+          name?: string | null
           producer_id?: string | null
-          producer_username?: string | null
           status?: string | null
           total_amount?: number | null
           updated_at?: string | null
         }
         Update: {
           created_at?: string
+          file_path?: string | null
           id?: string
           invoice_period?: string | null
-          producer_email?: string | null
+          name?: string | null
           producer_id?: string | null
-          producer_username?: string | null
           status?: string | null
           total_amount?: number | null
           updated_at?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "invoices_producer_id_fkey"
+            foreignKeyName: "invoices_producer_producer_id_fkey"
             columns: ["producer_id"]
             isOneToOne: false
             referencedRelation: "producer_user"
@@ -3070,6 +3022,101 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "products"
             referencedColumns: ["id"]
+          },
+        ]
+      }
+      sales_records_items: {
+        Row: {
+          business_order_id: string | null
+          id: string
+          net_amount: number | null
+          platform_commission: number | null
+          product_name: string | null
+          product_pack_name: string | null
+          product_quantity: number | null
+          sales_records_id: string | null
+          total_sales: number | null
+        }
+        Insert: {
+          business_order_id?: string | null
+          id?: string
+          net_amount?: number | null
+          platform_commission?: number | null
+          product_name?: string | null
+          product_pack_name?: string | null
+          product_quantity?: number | null
+          sales_records_id?: string | null
+          total_sales?: number | null
+        }
+        Update: {
+          business_order_id?: string | null
+          id?: string
+          net_amount?: number | null
+          platform_commission?: number | null
+          product_name?: string | null
+          product_pack_name?: string | null
+          product_quantity?: number | null
+          sales_records_id?: string | null
+          total_sales?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoice_items_business_order_id_fkey"
+            columns: ["business_order_id"]
+            isOneToOne: false
+            referencedRelation: "business_orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoice_items_invoice_id_fkey"
+            columns: ["sales_records_id"]
+            isOneToOne: false
+            referencedRelation: "sales_records_producer"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sales_records_producer: {
+        Row: {
+          created_at: string
+          id: string
+          invoice_period: string | null
+          producer_email: string | null
+          producer_id: string | null
+          producer_username: string | null
+          status: string | null
+          total_amount: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          invoice_period?: string | null
+          producer_email?: string | null
+          producer_id?: string | null
+          producer_username?: string | null
+          status?: string | null
+          total_amount?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          invoice_period?: string | null
+          producer_email?: string | null
+          producer_id?: string | null
+          producer_username?: string | null
+          status?: string | null
+          total_amount?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_producer_id_fkey"
+            columns: ["producer_id"]
+            isOneToOne: false
+            referencedRelation: "producer_user"
+            referencedColumns: ["user_id"]
           },
         ]
       }

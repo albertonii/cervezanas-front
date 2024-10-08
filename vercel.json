@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/generate_monthly_sales_records?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.gkTquFo3L8PN0xu06boW8iBLbslsw0actpJ_p9drNsA",
+      "schedule": "0 0 1 * *"
+    },
+    {
+      "path": "/api/cron/cancel_expired_orders?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.gkTquFo3L8PN0xu06boW8iBLbslsw0actpJ_p9drNsA",
+      "schedule": "0 0 * * *"
+    }
+  ]
+}

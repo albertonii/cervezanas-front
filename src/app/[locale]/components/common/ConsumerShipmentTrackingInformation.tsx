@@ -24,11 +24,8 @@ const ConsumerShipmentTrackingInformation = ({ shipmentTracking }: Props) => {
         shipment_tracking_messages,
     } = shipmentTracking;
 
-    console.log(shipment_tracking_messages);
-
     useEffect(() => {
         if (shipmentTracking) {
-            console.log(shipmentTracking.is_updated_by_distributor);
             setIsUpdatedByDistributor(
                 shipmentTracking.is_updated_by_distributor,
             );

@@ -1,30 +1,23 @@
 'use client';
 
-import { IInvoiceProducer } from '@/lib/types/types';
 import { useQuery } from 'react-query';
+import { ISalesRecordsProducer } from '@/lib/types/types';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 
-const fetchInvoicesByProducerId = async (
+const fetchSalesRecords = async (
     producerId: string,
     currentPage: number,
     resultsPerPage: number,
     supabase: any,
 ) => {
     const { data, error } = await supabase
-        .from('invoices_producer')
+        .from('sales_records_producer')
         .select(
             `
                 *,
-                payments (
-                    id,
-                    invoice_id,
-                    amount_paid,
-                    payment_method,
-                    status,
-                    created_at,
-                    updated_at
+                sales_records_items (
+                    *
                 ),
-                refunds (*),
                 producer_user (
                     *
                 )
@@ -38,10 +31,10 @@ const fetchInvoicesByProducerId = async (
         .order('created_at', { ascending: false });
 
     if (error) throw error;
-    return data as IInvoiceProducer[];
+    return data as ISalesRecordsProducer[];
 };
 
-const useFetchInvoicesByProducerId = (
+const useFetchSalesRecordsByProducerId = (
     producerId: string,
     currentPage: number,
     resultsPerPage: number,
@@ -49,17 +42,17 @@ const useFetchInvoicesByProducerId = (
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: 'invoices_by_producer_id',
+        queryKey: 'sales_records_by_producer_id',
         queryFn: () =>
-            fetchInvoicesByProducerId(
+            fetchSalesRecords(
                 producerId,
                 currentPage,
                 resultsPerPage,
                 supabase,
             ),
-        enabled: true,
+        enabled: false,
         refetchOnWindowFocus: false,
     });
 };
 
-export default useFetchInvoicesByProducerId;
+export default useFetchSalesRecordsByProducerId;

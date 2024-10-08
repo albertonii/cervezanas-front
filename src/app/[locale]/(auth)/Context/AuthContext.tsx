@@ -239,7 +239,6 @@ export const AuthContextProvider = ({
                         setInitial(false);
                         break;
                     case EVENTS.PASSWORD_RECOVERY:
-                        console.log('PASSWORD_RECOVERY');
                         setView(VIEWS.UPDATE_PASSWORD);
                         break;
                     case EVENTS.SIGNED_IN:
@@ -497,7 +496,6 @@ export const AuthContextProvider = ({
             }, 2000);
         }
 
-        console.log('dentro');
         if (error) {
             console.info(error);
             handleMessage({ message: error.message, type: 'error' });

@@ -35,6 +35,7 @@ interface Props {
     onInput?: (e: React.FormEvent<HTMLInputElement>) => void;
     value?: any;
     isRequired?: boolean;
+    isLoading?: boolean;
 }
 const InputLabel = ({
     form,
@@ -50,6 +51,7 @@ const InputLabel = ({
     onInput,
     value,
     isRequired = false,
+    isLoading = false,
 }: Props) => {
     const t = useTranslations();
     const [visible, setVisible] = useState(false);
@@ -101,7 +103,7 @@ const InputLabel = ({
                         })}
                         placeholder={placeholder}
                         defaultValue={defaultValue}
-                        disabled={disabled}
+                        disabled={disabled || isLoading}
                         min={registerOptions?.min}
                         max={registerOptions?.max}
                         value={value}
@@ -145,7 +147,7 @@ const InputLabel = ({
                         })}
                         placeholder={placeholder}
                         defaultValue={defaultValue}
-                        disabled={disabled}
+                        disabled={disabled || isLoading}
                         min={registerOptions?.min}
                         max={registerOptions?.max}
                         onInput={onInput}
@@ -193,6 +195,31 @@ const InputLabel = ({
                             onClick={() => setVisible(!visible)}
                         />
                     </span>
+                </label>
+            )}
+
+            {inputType === 'file' && (
+                <label
+                    className={` relative w-full items-start space-y-2 text-sm text-gray-600`}
+                    htmlFor={label}
+                >
+                    <span className="font-medium">
+                        {labelText ? labelText : t(label)}
+                    </span>
+
+                    <input
+                        type={inputType}
+                        className={` 
+                            ${disabled && 'bg-gray-100'}
+                            ${'relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm'}
+                        `}
+                        {...register(label, {
+                            ...registerOptions,
+                        })}
+                        placeholder={placeholder}
+                        disabled={disabled || isLoading}
+                        id={label}
+                    />
                 </label>
             )}
 

@@ -507,6 +507,7 @@
     "started": "Iniciado",
     "pending": "Pendiente",
     "accepted": "Aceptado",
+    "downloaded": "Descargado",
     "status_rejected": "Rechazado",
     "paid": "Pagado",
     "in_process": "En proceso",
@@ -723,7 +724,9 @@
         "is_accept_terms": "Debes aceptar los términos y condiciones",
         "fetching_breweries": "Error al obtener las cervecerías",
         "invalid_characters": "Caracteres inválidos",
-        "update_shipment_tracking": "Error al actualizar el seguimiento del envío."
+        "update_shipment_tracking": "Error al actualizar el seguimiento del envío.",
+        "create_sales_record": "Error al crear el registro de ventas.",
+        "updating_sales_records_download_status": "Error al actualizar el estado de descarga de los registros de ventas."
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",
@@ -776,7 +779,6 @@
     "reject_contract": "Rechazar contrato",
     "send_to": "Enviar a",
     "select": "Seleccionar",
-
     "modal_delete_address_title": "Eliminar dirección",
     "modal_delete_address_description": "¿Está seguro de que desea eliminar la dirección? Esta acción no se puede deshacer.",
     "event_cart": "Carrito de eventos",
@@ -1050,7 +1052,8 @@
         "deleting_product_pack": "Pack de producto eliminado correctamente",
         "deleting_product_award": "Premio eliminado correctamente",
         "update_shipment_tracking": "Seguimiento de envío actualizado correctamente",
-        "profile_acc_data_updated": "Datos de la cuenta actualizados correctamente"
+        "profile_acc_data_updated": "Datos de la cuenta actualizados correctamente",
+        "sales_records_download_status_updated": "Estado de descarga de los registros de ventas actualizado correctamente"
     },
     "num_of_packs": "Número de packs",
     "promo_code": "Código promocional",
@@ -1338,19 +1341,37 @@
     "invoice_module": {
         "title": "Módulo de Facturación",
         "invoice_current_period": "Facturas del periodo actual",
+        "sales_records_period": "Ventas en el periodo actual. A principios de mes se generará un documento con las ventas registradas por el productor, esta información le llegará al mismo y podrá realizar la facturación de dicho periodo.",
+        "invoice_current_period_title": "Periodo Actual",
+        "invoice_period_title": "Periodo Actual",
         "total_amount": "Importe total",
         "producer_earnings": "Ganancias del productor",
         "cervezanas_comission": "Comisión de Cervezanas (15%)",
-        "historial_title": "Historial de facturas",
+        "invoice_historial_title": "Historial de facturas",
+        "sales_historial_title": "Registro de ventas",
         "sales_summary": "Resumen de ventas",
-        "historial_description": "Aquí puedes ver todas las facturas que has generado en la plataforma. Puedes ver el importe total de cada factura, las ganancias del productor y la comisión de Cervezanas.",
+        "invoice_historial_description": "Aquí puedes ver todas las facturas que has generado en la plataforma. Puedes ver el importe total de cada factura, las ganancias del productor y la comisión de Cervezanas.",
+        "sales_historial_description": "Aquí puedes ver todas las ventas que has realizado en la plataforma. Puedes ver el importe total de cada venta, las ganancias del productor y la comisión de Cervezanas.",
+        "sales_historial_description_admin": "Aquí puedes ver todas las ventas que se han realizado en la plataforma. Puedes ver el importe total de cada venta, las ganancias del productor y la comisión de Cervezanas.",
         "period_header": "Periodo",
         "generation_date_header": "Fecha generación de factura",
         "total_sales_header": "Ventas totales",
         "producer_earnings_header": "Ganancias del productor",
         "cervezanas_comission_header": "Comisión de Cervezanas (15%)",
         "generate_invoice": "Generar factura",
-        "generate_sales_invoice": "Generar factura de ventas"
+        "generate_sales_invoice": "Generar factura de ventas",
+        "net_amount": "Importe neto",
+        "comission": "Comisión",
+        "invoice_management": "Gestión de Facturas",
+        "invoice_management_description": "Sube tus facturas y revisa el historial.",
+        "upload_invoice_file": "Subir archivo de factura",
+        "invoice_name": "Nombre de la factura",
+        "upload_invoice_button": "Subir factura",
+        "delete_invoice_modal_title": "Eliminar factura",
+        "delete_invoice_modal_description": "¿Estás seguro de que deseas eliminar la factura? Esta acción no se puede deshacer.",
+        "delete_invoice_modal_btn": "Eliminar factura",
+        "select_status": "Seleccionar estado",
+        "invoice_name_placeholder": "Introduce el nombre de la factura"
     },
     "about": "Acerca de"
 }

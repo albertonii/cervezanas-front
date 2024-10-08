@@ -1,61 +1,40 @@
 import Spinner from '@/app/[locale]/components/ui/Spinner';
-import useFetchOneInvoiceById from '@/hooks/useFetchOneInvoiceById';
-import ProducerInvoiceDownloadButton from '@/app/[locale]/components/invoice/producer_invoice/ProducerInvoiceDownloadButton';
+import useFetchOneSalesRecordsById from '@/hooks/useFetchOneSalesRecordsById';
+import ProducerSalesRecordsDownloadButton from '@/app/[locale]/components/invoice/producer_invoice/ProducerSalesRecordsDownloadButton';
 import React, { useEffect, useState } from 'react';
-import { IInvoiceProducer } from '@/lib/types/types';
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
-import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
+import { useTranslations } from 'next-intl';
+import { ISalesRecordsProducer } from '@/lib/types/types';
 
 interface Props {
-    invoiceId: string;
+    salesRecordsId: string;
 }
 
-const DownloadInvoiceButton = ({ invoiceId }: Props) => {
-    const { data, refetch, error, isLoading } =
-        useFetchOneInvoiceById(invoiceId);
+const DownloadInvoiceButton = ({ salesRecordsId }: Props) => {
+    const t = useTranslations();
 
-    const [invoice, setInvoice] = useState<IInvoiceProducer>();
+    const { data, error, isLoading } =
+        useFetchOneSalesRecordsById(salesRecordsId);
+
+    const [salesRecords, setSalesRecords] = useState<ISalesRecordsProducer>();
 
     useEffect(() => {
-        refetch().then((res) => {
-            const invoice = res.data as IInvoiceProducer;
-
-            if (invoice) setInvoice(invoice);
-        });
-    }, []);
-
-    const handleDownloadSalesInvoice = async () => {
-        const res = await refetch();
-
-        const invoice = res.data as IInvoiceProducer;
-
-        if (error) {
-            console.log(error);
-            return;
+        if (data) {
+            const salesRecords = data as ISalesRecordsProducer;
+            if (salesRecords) setSalesRecords(salesRecords);
         }
-
-        console.log(invoice);
-
-        if (invoice) {
-            setInvoice(invoice);
-        }
-    };
+    }, [data]);
 
     if (isLoading) return <Spinner size="small" color="beer-blonde" />;
-    if (error) return <p>Error</p>;
+    if (error) return <p>{t('error')}</p>;
 
     return (
         <div>
-            {invoice && <ProducerInvoiceDownloadButton invoice={invoice} />}
+            {salesRecords && (
+                <ProducerSalesRecordsDownloadButton
+                    salesRecords={salesRecords}
+                />
+            )}
         </div>
-    );
-
-    return (
-        <IconButton
-            onClick={() => handleDownloadSalesInvoice()}
-            icon={faDownload}
-            title={''}
-        />
     );
 };
 

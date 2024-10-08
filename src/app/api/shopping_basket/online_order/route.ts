@@ -1,4 +1,10 @@
+import createServerClient from '@/utils/supabaseServer';
 import { NextRequest, NextResponse } from 'next/server';
+
+import { ONLINE_ORDER_STATUS } from '@/constants';
+import { sendPushNotification } from '@/lib//actions';
+import { calculateInvoicePeriod } from '@/utils/utils';
+import { IProductPackCartItem } from '@/lib//types/types';
 import {
     ROUTE_BUSINESS_ORDERS,
     ROUTE_DISTRIBUTOR,
@@ -6,10 +12,6 @@ import {
     ROUTE_PRODUCER,
     ROUTE_PROFILE,
 } from '@/config';
-import { ONLINE_ORDER_STATUS } from '@/constants';
-import { sendPushNotification } from '@/lib//actions';
-import { IProductPackCartItem } from '@/lib//types/types';
-import createServerClient from '@/utils/supabaseServer';
 
 export async function POST(request: NextRequest) {
     const supabase = await createServerClient();
@@ -129,8 +131,6 @@ export async function POST(request: NextRequest) {
         {},
     );
 
-    console.log(items);
-
     // Estoy recorriendo todos los elementos del carrito de la compra,
     // aquellos que tengan un pack, los inserto en la tabla order_items
     // además, como son del mismo pack y del mismo producto, los agrupo
@@ -161,10 +161,10 @@ export async function POST(request: NextRequest) {
                 );
             }
 
-            for (const item of itemsGroup) {
-                item.packs.map(async (pack) => {
-                    const distributorId = item.distributor_id;
-                    const producerId = item.producer_id;
+            for (const product of itemsGroup) {
+                product.packs.map(async (pack) => {
+                    const distributorId = product.distributor_id;
+                    const producerId = product.producer_id;
 
                     if (!distributorId) {
                         return NextResponse.json(
@@ -200,6 +200,9 @@ export async function POST(request: NextRequest) {
                                 net_revenue_producer:
                                     pack.price * pack.quantity * 0.85,
                                 // net_revenue_distributor: order.shipment_price * 0.95,
+                                invoice_period: calculateInvoicePeriod(
+                                    new Date(),
+                                ),
                             })
                             .select('id')
                             .single();
@@ -233,7 +236,7 @@ export async function POST(request: NextRequest) {
                             business_order_id: businessOrder.id,
                             product_pack_id: pack.id,
                             quantity: pack.quantity,
-                            product_name: pack.products?.name,
+                            product_name: product.name,
                             product_pack_name: pack.name,
                             product_price: pack.price,
                             subtotal: pack.price * pack.quantity,

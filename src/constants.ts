@@ -50,6 +50,7 @@ export const ONLINE_ORDER_STATUS = {
     DELIVERED: 'delivered',
     ORDER_PLACED: 'order_placed',
     CANCELLED: 'cancelled',
+    CANCELLED_BY_EXPIRATION: 'cancelled_by_expiration',
     ERROR: 'error',
 };
 
@@ -76,6 +77,12 @@ export const EVENT_ORDER_ITEM_STATUS = {
     WITHOUT_STOCK: 'without_stock',
     CONSUMED: 'consumed',
     NOT_SAVED: 'not_saved',
+};
+
+export const INVOICE_STATUS = {
+    PENDING: 'pending',
+    PAID: 'paid',
+    ERROR: 'error',
 };
 
 /**

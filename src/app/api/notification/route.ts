@@ -37,6 +37,9 @@ export async function POST(req: NextRequest) {
 
     const supabase = await createServerClient();
 
+    console.log(isResponseCodeOk(responseCode));
+    console.log(responseCode);
+
     if (isResponseCodeOk(responseCode)) {
         console.info(`Payment for order ${orderId} succeded`);
 
@@ -89,7 +92,7 @@ export async function POST(req: NextRequest) {
         // Update order status
         const { error } = await supabase
             .from('orders')
-            .update({ status: ONLINE_ORDER_STATUS.ERROR })
+            .update({ status: ONLINE_ORDER_STATUS.CANCELLED })
             .eq('order_number', orderId);
 
         if (error) {
