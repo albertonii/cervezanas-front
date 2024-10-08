@@ -48,13 +48,14 @@ import { NextRequest, NextResponse } from 'next/server';
  *                   type: string
  *                   example: Error generating sales records
  */
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const sharedKey = searchParams.get('token');
+    const authHeader = request.headers.get('authorization');
 
-    const CRON_JOB_TOKEN = process.env.NEXT_PUBLIC_CRON_JOB_TOKEN; // Configura esta variable de entorno
+    const CRON_JOB_TOKEN = process.env.CRON_SECRET; // Configura esta variable de entorno
 
-    if (!sharedKey || sharedKey !== CRON_JOB_TOKEN) {
+    if (!authHeader || authHeader !== CRON_JOB_TOKEN) {
         console.log('Token: ', sharedKey);
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
