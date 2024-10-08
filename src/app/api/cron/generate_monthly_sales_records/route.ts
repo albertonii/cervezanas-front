@@ -54,15 +54,11 @@ export async function GET(request: NextRequest) {
 
     const CRON_JOB_TOKEN = process.env.CRON_SECRET; // Configura esta variable de entorno
 
-    console.log('AUTH', authHeaderWithoutBearer);
-
-    console.log('CRON', CRON_JOB_TOKEN);
-
     if (
         !authHeaderWithoutBearer ||
         authHeaderWithoutBearer !== CRON_JOB_TOKEN
     ) {
-        console.log('Token: ', authHeader);
+        console.log('Unauthorized Token: ', authHeader);
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -209,7 +205,7 @@ const generateSalesRecordsByProducerAndBOrders = async (
 
             const orderItem = bOrder.order_items[0];
 
-            console.log(orderItem);
+            console.log('ORDER ITEM', orderItem);
 
             const total = orderItem.quantity * orderItem.product_price;
             const platformComission =
