@@ -29,13 +29,12 @@ import { NextRequest, NextResponse } from 'next/server';
  * - 200 OK: If the operation is successful, returns the number of cancelled orders.
  */
 export async function GET(request: NextRequest) {
-    const { searchParams } = new URL(request.url);
-    const sharedKey = searchParams.get('token');
+    const authHeader = request.headers.get('authorization');
 
     const CRON_JOB_TOKEN = process.env.NEXT_PUBLIC_CRON_JOB_TOKEN; // Configura esta variable de entorno
 
-    if (!sharedKey || sharedKey !== CRON_JOB_TOKEN) {
-        console.log('Token: ', sharedKey);
+    if (!authHeader || authHeader !== CRON_JOB_TOKEN) {
+        console.log('Token: ', authHeader);
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
