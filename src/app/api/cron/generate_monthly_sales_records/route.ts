@@ -1,7 +1,7 @@
 import createServerClient from '@/utils/supabaseServer';
 import { calculateInvoicePeriod } from '@/utils/utils';
-import { IBusinessOrder, IProducerUser } from '@/lib/types/types';
 import { NextRequest, NextResponse } from 'next/server';
+import { IBusinessOrder, IProducerUser } from '@/lib/types/types';
 
 /**
  * @swagger
@@ -122,14 +122,22 @@ async function generateSalesRecords(supabase: any, invoicePeriod: string) {
                 producerBusinessOrders,
                 invoicePeriod,
             );
+
+            // Si el productor tiene ventas, enviar email
+            await sendEmailToProducer(producer);
         }),
     );
 }
 
 async function getAllProducers(supabase: any) {
-    const { data: producers, error } = await supabase
-        .from('producer_user')
-        .select('user_id');
+    const { data: producers, error } = await supabase.from('producer_user')
+        .select(`
+            user_id,
+            users (
+                email,
+                username
+            )
+        `);
 
     if (error) {
         throw new Error('Error getting producers');
@@ -235,3 +243,22 @@ const generateSalesRecordsByProducerAndBOrders = async (
 
     return salesRecordsData;
 };
+
+async function sendEmailToProducer(producer: IProducerUser) {
+    if (!producer.users?.email) {
+        console.info('Producer without email:', producer);
+        return;
+    }
+
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const newSalesRecordsEmailUrl = `${baseUrl}/api/emails/new_sales_records`;
+
+    const formData = new FormData();
+    formData.append('email-to', producer.users?.email);
+
+    // Email al productor
+    fetch(newSalesRecordsEmailUrl, {
+        method: 'POST',
+        body: formData,
+    });
+}
