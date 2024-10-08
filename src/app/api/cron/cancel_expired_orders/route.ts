@@ -30,7 +30,7 @@ import { NextRequest, NextResponse } from 'next/server';
  */
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
-    const sharedKey = searchParams.get('key');
+    const sharedKey = searchParams.get('token');
 
     const CRON_JOB_TOKEN = process.env.NEXT_PUBLIC_CRON_JOB_TOKEN; // Configura esta variable de entorno
 
