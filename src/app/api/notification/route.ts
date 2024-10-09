@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
             .from('orders')
             .update({ status: ONLINE_ORDER_STATUS.PAID })
             .eq('order_number', orderId)
-            .select('business_order');
+            .select('business_orders');
 
         console.log('ERROR', JSON.stringify(error));
 
@@ -110,7 +110,6 @@ export async function POST(req: NextRequest) {
         }
 
         // Send notification to distributor associated
-
         return NextResponse.json({
             message: `Order number ${orderId} updated successfully`,
         });
