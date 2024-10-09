@@ -2,6 +2,7 @@ import createServerClient from '@/utils/supabaseServer';
 import { calculateInvoicePeriod } from '@/utils/utils';
 import { NextRequest, NextResponse } from 'next/server';
 import { IBusinessOrder, IProducerUser } from '@/lib/types/types';
+import { ONLINE_ORDER_STATUS } from '@/constants';
 
 /**
  * @swagger
@@ -163,11 +164,16 @@ async function getBusinessOrdersByProducerIdAndPeriod(
                 product_price,
                 quantity,
                 subtotal
+            ),
+            orders!inner (
+                status
             )
         `,
         )
         .eq('producer_id', producerId)
-        .eq('invoice_period', invoicePeriod);
+        .eq('invoice_period', invoicePeriod)
+        .eq('orders.status', ONLINE_ORDER_STATUS.PAID);
+    console.log('businessOrders', businessOrders);
 
     if (error) {
         throw new Error('Error getting sales records');
