@@ -33,10 +33,6 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     const CRON_JOB_TOKEN = process.env.CRON_SECRET;
 
-    console.log('AUTH HEADER', authHeader);
-    console.log('AUTH HEADER No bearer', authHeaderWithoutBearer);
-    console.log('CRON JOB TOKEN', process.env.CRON_SECRET);
-
     if (
         !authHeaderWithoutBearer ||
         authHeaderWithoutBearer !== CRON_JOB_TOKEN
