@@ -1,6 +1,6 @@
 import Homepage from './Homepage';
-import { IMonthlyProduct } from '@/lib/types/types';
 import createServerClient from '@/utils/supabaseServer';
+import { IMonthlyProduct } from '@/lib/types/types';
 
 export const metadata = {
     title: { default: 'Comunidad Cervezanas', template: `%s | Cervezanas` },

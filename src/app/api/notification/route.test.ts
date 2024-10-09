@@ -24,9 +24,9 @@ jest.mock('next/server', () => ({
     },
 }));
 
-global.Response = jest.fn().mockImplementation(() => ({
-    json: jest.fn(),
-}));
+// global.Response = jest.fn().mockImplementation(() => ({
+//     json: jest.fn(),
+// }));
 
 describe('POST /api/notification', () => {
     let req: NextRequest;

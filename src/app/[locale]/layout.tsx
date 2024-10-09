@@ -1,12 +1,13 @@
 import '../../styles/globals.css';
 
+import Providers from './providers';
 import HeaderMenu from './HeaderMenu';
 import classNames from 'classnames';
-import Providers from './providers';
 import Footer from './components/layout/Footer';
 import Breadcrumb from './components/layout/Breadcrumb';
 import createServerClient from '@/utils/supabaseServer';
 import { notFound } from 'next/navigation';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { MessageList } from './components/message/MessageList';
 
 type LayoutProps = {
@@ -60,6 +61,7 @@ export default async function AppLocaleLayout({
                     )}
                 >
                     <MessageList />
+                    <SpeedInsights />
                     {children}
                 </main>
 
