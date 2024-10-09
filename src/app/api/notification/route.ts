@@ -4,6 +4,28 @@ import { APP_URLS, ONLINE_ORDER_STATUS } from '@/constants';
 import { isResponseCodeOk, ResponseJSONSuccess } from 'redsys-easy';
 import { processRestNotification } from '../../[locale]/components/TPV/redsysClient';
 
+/**
+ * Handles POST requests to receive payment status updates from Redsys.
+ * Utilizes the notification URL to receive updates on payment statuses directly from Redsys,
+ * regardless of user actions in the browser.
+ *
+ * @param {NextRequest} req - The incoming request object containing form data from Redsys.
+ * @returns {Promise<NextResponse>} - A JSON response indicating the result of the payment processing.
+ *
+ * The function performs the following steps:
+ * 1. Extracts the signature version, merchant parameters, and signature from the request form data.
+ * 2. Constructs a `ResponseJSONSuccess` object with the extracted data.
+ * 3. Processes the notification using `processRestNotification`.
+ * 4. Checks the response code to determine if the payment was successful.
+ * 5. If the payment is successful:
+ *    - Updates the order status to `PAID` in the database.
+ *    - Sends a notification to the producer associated with the order.
+ * 6. If the payment fails:
+ *    - Updates the order status to `CANCELLED` in the database.
+ * 7. Returns a JSON response indicating the result of the payment processing.
+ *
+ * @see https://pagosonline.redsys.es/codigosRespuesta.html#codigo-dsresponse for response code details.
+ */
 export async function POST(req: NextRequest) {
     const data = await req.formData();
     const signatureVersion = data.get('Ds_SignatureVersion');
@@ -15,6 +37,8 @@ export async function POST(req: NextRequest) {
         Ds_SignatureVersion: signatureVersion as string,
         Ds_MerchantParameters: merchantParameters as string,
     };
+
+    console.log('ANTES DE ENTRAR', body);
 
     const restNotification = processRestNotification(body);
 
@@ -31,14 +55,14 @@ export async function POST(req: NextRequest) {
      * 0129 Código de seguridad (CVV2/CVC2) incorrecto
      * 172 Denegada, no repetir
      */
+
+    console.log('ESTAMOS DENTRO', restNotification);
+
     const responseCode = restNotification.Ds_Response;
 
     const orderId = restNotification.Ds_Order;
 
     const supabase = await createServerClient();
-
-    console.log(isResponseCodeOk(responseCode));
-    console.log(responseCode);
 
     if (isResponseCodeOk(responseCode)) {
         console.info(`Payment for order ${orderId} succeded`);
@@ -50,9 +74,13 @@ export async function POST(req: NextRequest) {
             .eq('order_number', orderId)
             .select('business_order');
 
+        console.log('ERROR', JSON.stringify(error));
+
         if (error) {
             console.error(
-                `Error in payment for order ${orderId}. Error: ${error}`,
+                `Error in payment for order ${orderId}. Error: ${JSON.stringify(
+                    error,
+                )}`,
             );
 
             return NextResponse.json({
