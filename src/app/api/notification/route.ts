@@ -38,8 +38,6 @@ export async function POST(req: NextRequest) {
         Ds_MerchantParameters: merchantParameters as string,
     };
 
-    console.log('ANTES DE ENTRAR', body);
-
     const restNotification = processRestNotification(body);
 
     /**
@@ -56,8 +54,6 @@ export async function POST(req: NextRequest) {
      * 172 Denegada, no repetir
      */
 
-    console.log('ESTAMOS DENTRO', restNotification);
-
     const responseCode = restNotification.Ds_Response;
 
     const orderId = restNotification.Ds_Order;
@@ -73,9 +69,14 @@ export async function POST(req: NextRequest) {
             .update({ status: ONLINE_ORDER_STATUS.PAID })
             .eq('order_number', orderId);
 
-        console.log('ERROR', JSON.stringify(error));
+        console.log('ERROR', error);
+        console.log('ERROR string', JSON.stringify(error));
 
         if (error) {
+            console.log(error.code);
+            console.log(error.details);
+            console.log(error.message);
+
             console.error(
                 `Error in payment for order ${orderId}. Error: ${JSON.stringify(
                     error,
