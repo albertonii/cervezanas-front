@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/react';
-import { render } from '@/utils/testing/test-util';
+import { render } from '@/utils/testing_/test-util';
 import { IProductPackCartItem } from '@/lib//types/types';
 import { CartItem } from '../cart/CartItem';
 
