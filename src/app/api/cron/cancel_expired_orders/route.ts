@@ -28,7 +28,7 @@ import { NextRequest, NextResponse } from 'next/server';
  * - 500 Internal Server Error: If there is an error cancelling the expired orders or an unexpected error occurs.
  * - 200 OK: If the operation is successful, returns the number of cancelled orders.
  */
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
     const authHeader = request.headers.get('authorization');
     const authHeaderWithoutBearer = authHeader?.replace('Bearer ', '');
 

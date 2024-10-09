@@ -58,7 +58,7 @@ export async function GET(request: NextRequest) {
         !authHeaderWithoutBearer ||
         authHeaderWithoutBearer !== CRON_JOB_TOKEN
     ) {
-        console.info('Unauthorized Token: ', authHeader);
+        console.info('Unauthorized Token: ', authHeaderWithoutBearer);
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
