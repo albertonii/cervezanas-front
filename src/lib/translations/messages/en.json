@@ -435,6 +435,7 @@
     "slogan": "Slogan",
     "goal": "Goal",
     "status": "Status",
+    "status_shipment": "Shipment Status",
     "start_date": "Start Date",
     "end_date": "End Date",
     "campaign_added_successfully": "Campaign added successfully",

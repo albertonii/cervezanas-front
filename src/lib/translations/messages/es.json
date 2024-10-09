@@ -429,6 +429,7 @@
     "slogan": "Slogan",
     "goal": "Objetivo",
     "status": "Estado",
+    "status_shipment": "Estado del envío",
     "start_date": "Fecha de inicio",
     "end_date": "Fecha de fin",
     "campaign_added_successfully": "Campaña añadida correctamente",

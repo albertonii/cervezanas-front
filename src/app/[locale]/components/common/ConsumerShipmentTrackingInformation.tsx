@@ -37,7 +37,7 @@ const ConsumerShipmentTrackingInformation = ({ shipmentTracking }: Props) => {
     return (
         <section className="col-span-2 md:col-span-1">
             <p>
-                <span className="font-semibold">{t('status')}: </span>
+                <span className="font-semibold">{t('status_shipment')}: </span>
                 {t(status)}
             </p>
 
