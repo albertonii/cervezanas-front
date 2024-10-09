@@ -2,7 +2,6 @@ import createServerClient from '@/utils/supabaseServer';
 import { ONLINE_ORDER_STATUS } from '@/constants';
 import { NextRequest, NextResponse } from 'next/server';
 
-// Esta es una llamada desde el EDGE de Vercel: CRON JOB
 /**
  * Handles GET requests to cancel expired orders.
  *
@@ -32,7 +31,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     const authHeader = request.headers.get('authorization');
     const authHeaderWithoutBearer = authHeader?.replace('Bearer ', '');
 
-    const CRON_JOB_TOKEN = process.env.CRON_SECRET; // Configura esta variable de entorno
+    const CRON_JOB_TOKEN = process.env.CRON_SECRET;
+
+    console.log('AUTH HEADER', authHeader);
+    console.log('AUTH HEADER No bearer', authHeaderWithoutBearer);
+    console.log('CRON JOB TOKEN', process.env.CRON_SECRET);
 
     if (
         !authHeaderWithoutBearer ||

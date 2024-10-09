@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
     const authHeader = request.headers.get('authorization');
     const authHeaderWithoutBearer = authHeader?.replace('Bearer ', '');
 
-    const CRON_JOB_TOKEN = process.env.CRON_SECRET; // Configura esta variable de entorno
+    const CRON_JOB_TOKEN = process.env.CRON_SECRET;
 
     if (
         !authHeaderWithoutBearer ||
