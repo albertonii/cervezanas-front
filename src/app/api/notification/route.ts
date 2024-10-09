@@ -71,8 +71,7 @@ export async function POST(req: NextRequest) {
         const { error } = await supabase
             .from('orders')
             .update({ status: ONLINE_ORDER_STATUS.PAID })
-            .eq('order_number', orderId)
-            .select('business_orders');
+            .eq('order_number', orderId);
 
         console.log('ERROR', JSON.stringify(error));
 
