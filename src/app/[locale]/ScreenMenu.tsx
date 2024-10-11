@@ -14,6 +14,7 @@ import { usePathname } from 'next/navigation';
 import { HeaderDropdownButton } from './HeaderDropdownButton';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { DeviceScreenNotification } from './components/DeviceScreenNotification';
+import { Beer, Calendar, Globe, Map, ShoppingCart } from 'lucide-react';
 
 interface Props {
     notifications: INotification[];
@@ -33,6 +34,7 @@ const ScreenMenu = memo(function ScreenMenu({
 
     const [animateShoppingCart, setAnimateShoppingCart] = useState(false);
     const [displayDropdownRoles, setDisplayDropdownRoles] = useState(false);
+    const [isLanguageOpen, setIsLanguageOpen] = useState(false);
 
     const { cartQuantity, openCart } = useShoppingCart();
 
@@ -82,8 +84,7 @@ const ScreenMenu = memo(function ScreenMenu({
         onLoginClick();
     };
 
-    const MENU_ITEM_STYLES =
-        'block text-sm font-bold text-beer-dark hover:bg-cerv-banana hover:bg-opacity-50 px-3 py-3 bg-beer-softBlonde bg-opacity-50 rounded-xl hover:text-white border-2 border-beer-softFoam mt-1 mb-1 uppercase';
+    const MENU_ITEM_STYLES = `block text-sm font-bold text-beer-foam  px-3  uppercase animation-all ease-in-out duration-300`;
 
     return (
         <section className="py-1 hidden rounded border-gray-200 bg-[url('/assets/header-bg.jpg')] bg-cover bg-center bg-no-repeat dark:bg-gray-900 sm:block sm:px-4 dark:text-white">
@@ -109,9 +110,14 @@ const ScreenMenu = memo(function ScreenMenu({
                     </div>
                 </section>
                 <section className="flex w-full items-right justify-end sm:w-[350px] lg:w-[400px] ml-auto">
-                    <ul className="align-center sm:flex md:mt-0 md:flex-row md:space-x-4 md:text-sm md:font-medium mx-6 space-x-4">
-                        <li className="flex items-center">
-                            <Link href="/marketplace" locale={locale}>
+                    <ul className="align-center sm:flex md:mt-0 md:flex-row md:space-x-4 md:text-sm md:font-medium mx-6 space-x-4 ">
+                        <li className="flex items-center ">
+                            <Link
+                                href="/marketplace"
+                                locale={locale}
+                                className="header-btn"
+                            >
+                                <Beer size={24} color="#fefefe" />
                                 <span className={`${MENU_ITEM_STYLES}`}>
                                     {t('marketplace')}
                                 </span>
@@ -119,7 +125,13 @@ const ScreenMenu = memo(function ScreenMenu({
                         </li>
 
                         <li className="flex items-center">
-                            <Link href="/events" locale={locale}>
+                            <Link
+                                href="/events"
+                                locale={locale}
+                                className="header-btn"
+                            >
+                                <Calendar size={24} color="#fefefe" />
+
                                 <span
                                     className={`${MENU_ITEM_STYLES}`}
                                     aria-current="page"
@@ -128,8 +140,15 @@ const ScreenMenu = memo(function ScreenMenu({
                                 </span>
                             </Link>
                         </li>
-                        {/* <li className="flex items-center">
-                            <Link href={'/beer-me'} locale={locale}>
+
+                        <li className="flex items-center">
+                            <Link
+                                href={'/beer-me'}
+                                locale={locale}
+                                className="header-btn"
+                            >
+                                <Map size={24} color="#fefefe" />
+
                                 <span
                                     className={`${MENU_ITEM_STYLES}`}
                                     aria-current="page"
@@ -137,7 +156,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                     Puntos cervezanas
                                 </span>
                             </Link>
-                        </li> */}
+                        </li>
                     </ul>
                 </section>
 
@@ -165,18 +184,33 @@ const ScreenMenu = memo(function ScreenMenu({
                             </Select>
                             </li> */}
 
-                        {i18nLocaleArray.map((locale) => {
-                            return (
-                                <li
-                                    key={locale}
-                                    className="mt-3 h-[30px] w-[30px] rounded-full border-2 bg-beer-blonde p-1 text-center text-xs uppercase text-beer-dark hover:text-white hover:bg-beer-draft pt-[5px]"
+                        <div className="flex items-center space-x-6">
+                            <div className="relative">
+                                <button
+                                    onClick={() =>
+                                        setIsLanguageOpen(!isLanguageOpen)
+                                    }
+                                    className="icon-btn"
+                                    aria-label="Cambiar idioma"
                                 >
-                                    <Link href={redirectedPathName(locale)}>
-                                        {locale}
-                                    </Link>
-                                </li>
-                            );
-                        })}
+                                    <Globe size={30} color="#f9d56e" />
+                                </button>
+
+                                {isLanguageOpen && (
+                                    <div className="dropdown-menu">
+                                        {i18nLocaleArray.map((lang, index) => (
+                                            <a
+                                                key={index}
+                                                href={redirectedPathName(lang)}
+                                                className="dropdown-item"
+                                            >
+                                                {lang}
+                                            </a>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
 
                         {!user ? (
                             <>

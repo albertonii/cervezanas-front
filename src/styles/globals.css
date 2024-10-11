@@ -159,3 +159,15 @@ input[type='range']:focus::-moz-range-thumb {
         @apply hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft;
     }
 }
+
+@layer components {
+    .header-btn {
+        @apply flex items-center space-x-2 px-3 py-2 rounded-md text-beer-blonde hover:text-white hover:bg-cerv-banana transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-beer-draft  px-3 py-3 mt-1 mb-1;
+    }
+    .dropdown-menu {
+        @apply absolute right-0 mt-0 w-48 bg-white rounded-md shadow-lg py-1 z-10 ring-1 ring-black ring-opacity-5;
+    }
+    .dropdown-item {
+        @apply block px-4 py-2 text-sm text-gray-700 hover:bg-beer-blonde hover:text-beer-draft transition-colors duration-150;
+    }
+}
