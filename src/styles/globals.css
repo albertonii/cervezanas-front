@@ -164,6 +164,9 @@ input[type='range']:focus::-moz-range-thumb {
     .header-btn {
         @apply flex items-center space-x-2 px-3 py-2 rounded-md text-beer-blonde hover:text-white hover:bg-cerv-banana transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-beer-draft  px-3 py-3 mt-1 mb-1;
     }
+    .icon-btn {
+        @apply p-2 rounded-full hover:text-white hover:bg-beer-gold transition-all duration-300 transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 hover:border-beer-softBlondeBubble hover:border-2;
+    }
     .dropdown-menu {
         @apply absolute right-0 mt-0 w-48 bg-white rounded-md shadow-lg py-1 z-10 ring-1 ring-black ring-opacity-5;
     }

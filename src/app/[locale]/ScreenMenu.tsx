@@ -163,27 +163,6 @@ const ScreenMenu = memo(function ScreenMenu({
                 {/* Right elements  */}
                 <section className="w-[320px] ">
                     <ul className="py-2 pt-1  :flex sm:flex-row sm:justify-end sm:gap-0 sm:align-middle md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium flex space-x-4">
-                        {/* Language  */}
-                        {/* <li className="flex max-w-[50px] items-center">
-                            <Select
-                                size="tiny"
-                                name="language"
-                                style={{
-                                backgroundColor: "transparent",
-                                maxWidth: "50px",
-                                }}
-                                onChange={onChangeLanguage}
-                                className=""
-                            >
-                                <Select.Option value="es">
-                                <Link href={redirectedPathName(locale)}>🇪🇸</Link>
-                                </Select.Option>
-                                <Select.Option value="en">
-                                <Link href={redirectedPathName(locale)}>🇬🇧</Link>
-                                </Select.Option>
-                            </Select>
-                            </li> */}
-
                         <div className="flex items-center space-x-6">
                             <div className="relative">
                                 <button
@@ -193,7 +172,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                     className="icon-btn"
                                     aria-label="Cambiar idioma"
                                 >
-                                    <Globe size={30} color="#f9d56e" />
+                                    <Globe size={30} color="#fefefe" />
                                 </button>
 
                                 {isLanguageOpen && (
