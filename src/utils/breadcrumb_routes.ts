@@ -14,6 +14,37 @@ export const routes: Record<string, RouteLocaleNames> = {
         es: 'Detalles del Producto',
     },
     '/marketplace': { en: 'Marketplace', es: 'Mercado', path: '/marketplace' },
+    '/consumer': {
+        en: 'Consumer',
+        es: 'Consumidor',
+        path: '/consumer/profile/settings',
+    },
+    '/consumer/profile': {
+        en: 'Profile',
+        es: 'Perfil',
+        path: '/consumer/profile/settings',
+    },
+    '/consumer/profile/settings': {
+        en: 'Settings',
+        es: 'Configuración',
+        path: '/consumer/profile/settings',
+    },
+    '/consumer/profile/event_orders': {
+        en: 'Event Orders',
+        es: 'Pedidos de Eventos',
+    },
+    '/consumer/profile/online_orders': {
+        en: 'Online Orders',
+        es: 'Pedidos en Línea',
+    },
+    '/consumer/profile/reviews': {
+        en: 'Reviews',
+        es: 'Reseñas',
+    },
+    '/consumer/profile/notifications': {
+        en: 'Notifications',
+        es: 'Notificaciones',
+    },
     '/producer': {
         en: 'Producer',
         es: 'Productor',
@@ -44,6 +75,18 @@ export const routes: Record<string, RouteLocaleNames> = {
     '/producer/profile/consumption_points': {
         en: 'Consumption Points',
         es: 'Puntos de Consumo',
+    },
+    '/producer/profile/breweries': {
+        en: 'Breweries',
+        es: 'Cerveceras',
+    },
+    '/producer/profile/invoice_module': {
+        en: 'Invoice Module',
+        es: 'Módulo de Facturación',
+    },
+    '/producer/profile/reviews': {
+        en: 'Reviews',
+        es: 'Opiniones',
     },
     '/producer/profile/experiences': {
         en: 'Experiences',
@@ -85,33 +128,6 @@ export const routes: Record<string, RouteLocaleNames> = {
         es: 'Pedidos en Línea',
     },
     '/distributor/profile/notifications': {
-        en: 'Notifications',
-        es: 'Notificaciones',
-    },
-    '/consumer': { en: 'Consumer', es: 'Consumidor' },
-    '/consumer/profile': {
-        en: 'Profile',
-        es: 'Perfil',
-        path: '/consumer/profile/settings',
-    },
-    '/consumer/profile/settings': {
-        en: 'Settings',
-        es: 'Configuración',
-        path: '/consumer/profile/settings',
-    },
-    'consumer/profile/event_orders': {
-        en: 'Event Orders',
-        es: 'Pedidos de Eventos',
-    },
-    'consumer/profile/online_orders': {
-        en: 'Online Orders',
-        es: 'Pedidos en Línea',
-    },
-    'consumer/profile/reviews': {
-        en: 'Reviews',
-        es: 'Reseñas',
-    },
-    'consumer/profile/notifications': {
         en: 'Notifications',
         es: 'Notificaciones',
     },
