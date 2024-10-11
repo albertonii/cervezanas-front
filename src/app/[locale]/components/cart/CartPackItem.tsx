@@ -1,25 +1,21 @@
 'use client';
 
-import Link from 'next/link';
 import MarketCartButtons from './MarketCartButtons';
+import DisplayImageProduct from '../ui/DisplayImageProduct';
 import { useState } from 'react';
 import { SupabaseProps } from '@/constants';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { useShoppingCart } from '../../../context/ShoppingCartContext';
 import { IProductPack, IProductPackCartItem } from '@/lib//types/types';
-import DisplayImageProduct from '../ui/DisplayImageProduct';
 
 type Props = {
     pack: IProductPack;
     item: IProductPackCartItem;
 };
 
-const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
-
 export function CartPackItem({ item, pack }: Props) {
     const t = useTranslations();
-    const locale = useLocale();
     const [animateRemove, setAnimateRemove] = useState(false);
 
     const {
@@ -62,7 +58,7 @@ export function CartPackItem({ item, pack }: Props) {
                                     width={240}
                                     height={200}
                                     imgSrc={
-                                        BASE_PRODUCTS_URL +
+                                        SupabaseProps.BASE_PRODUCTS_URL +
                                         decodeURIComponent(pack.img_url)
                                     }
                                     alt={'Cart Item display image'}
@@ -74,12 +70,7 @@ export function CartPackItem({ item, pack }: Props) {
                             <div className="ml-4 flex flex-1 flex-col">
                                 <div className="flex justify-between text-base font-medium text-gray-900">
                                     <p className="md:text-md mt-1 text-gray-500 lg:text-lg">
-                                        <Link
-                                            href={`/products/${pack.product_id}`}
-                                            locale={locale}
-                                        >
-                                            {pack.name}
-                                        </Link>
+                                        {pack.name}
                                     </p>
 
                                     <span>
