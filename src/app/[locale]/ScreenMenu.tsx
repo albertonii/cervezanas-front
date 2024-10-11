@@ -2,35 +2,34 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import Button from './components/ui/buttons/Button';
 import DropdownRoleList from './components/DropdownRoleList';
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { COMMON } from '@/constants';
 import { ROLE_ENUM } from '@/lib/enums';
-import { ROUTE_SIGNIN } from '@/config';
 import { INotification } from '@/lib/types/types';
 import { useAuth } from './(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { HeaderDropdownButton } from './HeaderDropdownButton';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { DeviceScreenNotification } from './components/DeviceScreenNotification';
-import Button from './components/ui/buttons/Button';
 
 interface Props {
     notifications: INotification[];
     i18nLocaleArray: string[];
+    onLoginClick: () => void;
 }
 
 const ScreenMenu = memo(function ScreenMenu({
     notifications,
     i18nLocaleArray,
+    onLoginClick,
 }: Props) {
     const { user, role, changeRole } = useAuth();
     const locale = useLocale();
     const t = useTranslations();
     const pathName = usePathname();
-
-    const router = useRouter();
 
     const [animateShoppingCart, setAnimateShoppingCart] = useState(false);
     const [displayDropdownRoles, setDisplayDropdownRoles] = useState(false);
@@ -80,7 +79,7 @@ const ScreenMenu = memo(function ScreenMenu({
     };
 
     const handleSignIn = () => {
-        router.push(`/${locale}${ROUTE_SIGNIN}`);
+        onLoginClick();
     };
 
     const MENU_ITEM_STYLES =
@@ -193,7 +192,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                                 alt={'Login'}
                                                 src={COMMON.PROFILE_IMG}
                                             />
-                                            <span>{t('access')}</span>
+                                            <span>{t('sign_in')}</span>
                                         </section>
                                     </Button>
                                 </li>

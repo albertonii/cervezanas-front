@@ -18,7 +18,7 @@ const PersonalInvoiceModule = ({ producer, bOrders }: Props) => {
             <ProducerCard producer={producer} />
             <CurrentSalesRecordsSummary producer={producer} bOrders={bOrders} />
             <SalesRecordsList />
-            <InvoiceUploadedList />
+            <InvoiceUploadedList producer={producer} />
         </div>
     );
 };

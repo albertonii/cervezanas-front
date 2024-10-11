@@ -103,28 +103,6 @@ export default function SignIn() {
         }
     };
 
-    // const handleKeyPress = useCallback(
-    //   (event: KeyboardEvent) => {
-    //     const handleCredentialsSignIn = async (
-    //       email: string,
-    //       password: string
-    //     ) => {
-    //       signIn(email, password);
-    //     };
-
-    //     if (event.key === "Enter") handleCredentialsSignIn();
-    //   },
-    //   [email, handleMessage, password, signIn]
-    // );
-
-    // useEffect(() => {
-    //   document.addEventListener("keydown", handleKeyPress);
-    //   // remove the event listener
-    //   return () => {
-    //     document.removeEventListener("keydown", handleKeyPress);
-    //   };
-    // }, [handleKeyPress]);
-
     const handleResetPassword = async (email: string) => {
         setIsResetPasswordLoading(true);
         const isMessageSent = await sendResetPasswordEmail(email);
@@ -157,19 +135,6 @@ export default function SignIn() {
 
     const handleGoogleSignIn = async () => {
         signInWithProvider('google');
-
-        // const supabaseClient = createBrowserClient();
-
-        // supabaseClient.auth.signInWithOAuth({
-        //   provider: "google",
-        //   options: {
-        //     redirectTo: `${window.location.origin}/api/auth/callback`,
-        //     queryParams: {
-        //       access_type: "offline",
-        //       prompt: "consent",
-        //     },
-        //   },
-        // });
     };
 
     if (!isPageLoad) {
@@ -226,7 +191,7 @@ export default function SignIn() {
                                         icon={faLock}
                                         className="mr-2"
                                     />
-                                    {t('access')}
+                                    {t('sign_in')}
                                 </Button>
                             </fieldset>
                         </form>

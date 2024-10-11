@@ -1997,4 +1997,5 @@ export interface InvoiceFormData {
     invoice_name: string;
     invoice_file: FileList;
     total_amount: number;
+    invoice_period_selected: string;
 }

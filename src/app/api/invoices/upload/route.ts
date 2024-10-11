@@ -1,4 +1,3 @@
-import path from 'path';
 import createServerClient from '@/utils/supabaseServer';
 import { NextRequest, NextResponse } from 'next/server';
 import { generateFileNameExtension } from '@/utils/utils';

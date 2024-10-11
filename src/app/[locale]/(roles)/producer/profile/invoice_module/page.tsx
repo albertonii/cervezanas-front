@@ -8,19 +8,10 @@ import { calculateInvoicePeriod } from '@/utils/utils';
 
 export default async function Page() {
     const businessOrdersData = getBusinessOrdersByProducerId();
-    const salesRecordsData = getSalesRecordsByProducerIdAndInvoicePeriod();
 
-    const [salesRecords, businessOrders] = await Promise.all([
-        salesRecordsData,
-        businessOrdersData,
-    ]);
+    const [businessOrders] = await Promise.all([businessOrdersData]);
 
-    return (
-        <PersonalInvoiceModule
-            bOrders={businessOrders}
-            salesRecords={salesRecords}
-        />
-    );
+    return <PersonalInvoiceModule bOrders={businessOrders} />;
 }
 
 async function getBusinessOrdersByProducerId() {
@@ -57,32 +48,4 @@ async function getBusinessOrdersByProducerId() {
     if (profileError) throw profileError;
 
     return data as IBusinessOrder[];
-}
-
-async function getSalesRecordsByProducerIdAndInvoicePeriod() {
-    const supabase = await createServerClient();
-
-    const session = await readUserSession();
-
-    if (!session) {
-        redirect('/signin');
-    }
-
-    const invoicePeriod = calculateInvoicePeriod(new Date());
-
-    const { data, error: profileError } = await supabase
-        .from('sales_records_producer')
-        .select(
-            `
-                *,
-                sales_records_items (*)
-            `,
-        )
-        .eq('producer_id', session.id)
-        .eq('invoice_period', invoicePeriod)
-        .maybeSingle();
-
-    if (profileError) throw profileError;
-
-    return data as ISalesRecordsProducer;
 }
