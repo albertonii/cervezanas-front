@@ -3,8 +3,8 @@ import { IOrderItem } from '@/lib/types/types';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { useLocale, useTranslations } from 'next-intl';
 import React from 'react';
-import DisplayImageProduct from '../ui/DisplayImageProduct';
 import LinkURL from '../ui/LinkURL';
+import DisplayImageProduct from '../ui/DisplayImageProduct';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -41,7 +41,6 @@ const OrderItemCard = ({ orderItem }: Props) => {
                             class="h-full w-full object-cover object-center"
                         />
                     </figure>
-
                     <div>
                         <span className="space-y-1">
                             <p className="text-sm text-gray-500">
