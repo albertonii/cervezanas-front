@@ -1,5 +1,6 @@
 import Button from '../ui/buttons/Button';
 import InputLabel from '../form/InputLabel';
+import useOnClickOutside from '@/hooks/useOnOutsideClickDOM';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
 import { z, ZodType } from 'zod';
@@ -12,7 +13,6 @@ import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/navigation';
 import { ROUTE_SIGNIN } from '@/config';
-import useOnClickOutside from '@/hooks/useOnOutsideClickDOM';
 
 interface AuthPopupProps {
     onClose: () => void;
@@ -83,6 +83,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ onClose }) => {
 
     const handleGoToSignInPage = () => {
         router.push(`/${locale}${ROUTE_SIGNIN}`);
+        onClose();
     };
 
     useOnClickOutside(modalRef, () => onClose());

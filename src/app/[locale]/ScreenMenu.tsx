@@ -197,8 +197,9 @@ const ScreenMenu = memo(function ScreenMenu({
                                     <Button
                                         onClick={() => handleSignIn()}
                                         title={''}
+                                        primary
                                     >
-                                        <section className="mx-2 my-1 flex items-center justify-center space-x-2 text-white hover:text-bear-dark p-1 ">
+                                        <section className="mx-2 my-1 flex items-center justify-center space-x-2 hover:text-bear-dark p-1 ">
                                             <Image
                                                 width={25}
                                                 height={25}

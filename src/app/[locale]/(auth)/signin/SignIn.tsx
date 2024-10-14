@@ -148,9 +148,7 @@ export default function SignIn() {
                     {/* Login form */}
                     <div className="mx-auto flex w-full flex-1 flex-col justify-start lg:flex-none bg-white p-8">
                         <header>
-                            <h2 className="text-start font-bold tracking-tight font-['NexaRust-script'] text-6xl md:text-8xl -mt-2 -mb-8 text-beer-draft -rotate-2">
-                                {t('sign_in')}
-                            </h2>
+                            <h2 className="text-start font-bold tracking-tight font-['NexaRust-script'] text-6xl md:text-8xl -mt-2 -mb-8 text-beer-draft -rotate-2"></h2>
                         </header>
 
                         <form
