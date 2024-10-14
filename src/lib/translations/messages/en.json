@@ -435,6 +435,7 @@
     "slogan": "Slogan",
     "goal": "Goal",
     "status": "Status",
+    "status_shipment": "Shipment Status",
     "start_date": "Start Date",
     "end_date": "End Date",
     "campaign_added_successfully": "Campaign added successfully",
@@ -1335,7 +1336,9 @@
         "delete_invoice_modal_title": "Delete invoice",
         "delete_invoice_modal_description": "Are you sure you want to delete the invoice? This action cannot be undone.",
         "delete_invoice_modal_btn": "Delete invoice",
-        "invoice_name_placeholder": "Enter the invoice name"
+        "invoice_name_placeholder": "Enter the invoice name",
+        "selected_period": "Selected period"
     },
-    "about": "About"
+    "about": "About",
+    "go_to_signin_and_signup_page": "Go to sign in and sign up page"
 }

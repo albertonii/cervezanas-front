@@ -36,6 +36,7 @@ interface Props {
     value?: any;
     isRequired?: boolean;
     isLoading?: boolean;
+    isNumberWithDecimals?: boolean;
 }
 const InputLabel = ({
     form,
@@ -52,6 +53,7 @@ const InputLabel = ({
     value,
     isRequired = false,
     isLoading = false,
+    isNumberWithDecimals = false,
 }: Props) => {
     const t = useTranslations();
     const [visible, setVisible] = useState(false);
@@ -70,7 +72,6 @@ const InputLabel = ({
     return (
         <div className="w-full">
             {(inputType === 'text' ||
-                inputType === 'number' ||
                 inputType === 'email' ||
                 inputType === 'tel' ||
                 inputType === 'url' ||
@@ -109,6 +110,46 @@ const InputLabel = ({
                         value={value}
                         onInput={onInput}
                         id={label}
+                    />
+                </label>
+            )}
+
+            {inputType === 'number' && (
+                <label
+                    className={`flex-col flex w-full items-start space-y-2 text-sm text-gray-600`}
+                    htmlFor={label}
+                >
+                    <span className="font-medium">
+                        {labelText ? t(labelText) : t(label)}
+                        {isRequired && <span className="text-red-500"> *</span>}
+                        {infoTooltip && (
+                            <InfoTooltip
+                                content={`${t(infoTooltip)}`}
+                                delay={0}
+                                width={600}
+                            />
+                        )}
+                    </span>
+
+                    <input
+                        type={inputType}
+                        className={` 
+                            ${disabled && 'bg-gray-100'}
+                            ${'relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm'}
+                        `}
+                        {...register(label, {
+                            ...registerOptions,
+                            onChange: handleOnChange,
+                        })}
+                        placeholder={placeholder}
+                        defaultValue={defaultValue}
+                        disabled={disabled || isLoading}
+                        min={registerOptions?.min}
+                        max={registerOptions?.max}
+                        value={value}
+                        onInput={onInput}
+                        id={label}
+                        step={isNumberWithDecimals ? '0.01' : '1'}
                     />
                 </label>
             )}

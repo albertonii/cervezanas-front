@@ -32,11 +32,13 @@ const Breadcrumb = () => {
                         <FontAwesomeIcon icon={faHome} />
                     </Link>
                 </li>
+
                 {breadcrumbs.length > 0 && (
                     <li className="text-beer-light">
                         <FontAwesomeIcon icon={faChevronRight} />
                     </li>
                 )}
+
                 {breadcrumbs.map((breadcrumb, index) => {
                     const isActive = index === breadcrumbs.length - 1;
 
@@ -54,6 +56,7 @@ const Breadcrumb = () => {
                                     {breadcrumb.name}
                                 </Link>
                             </li>
+
                             {index < breadcrumbs.length - 1 && (
                                 <li className="text-beer-light">
                                     <FontAwesomeIcon icon={faChevronRight} />

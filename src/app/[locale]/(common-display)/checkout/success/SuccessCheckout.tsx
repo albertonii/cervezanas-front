@@ -5,7 +5,6 @@ import PaymentInformationBox from '@/app/[locale]/components/PaymentInformationB
 import BillingInformationBox from '@/app/[locale]/components/BillingInformationBox';
 import BusinessOrderItem from '@/app/[locale]/components/common/BusinessOrderItem';
 import ShippingInformationBox from '@/app/[locale]/components/ShippingInformationBox';
-import BusinessOrderStatusInformation from '@/app/[locale]/components/common/BussinessOrderStatusInformation';
 import React, { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { IOrder } from '@/lib//types/types';

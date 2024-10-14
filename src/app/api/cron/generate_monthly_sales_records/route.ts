@@ -1,7 +1,8 @@
 import createServerClient from '@/utils/supabaseServer';
 import { calculateInvoicePeriod } from '@/utils/utils';
-import { IBusinessOrder, IProducerUser } from '@/lib/types/types';
 import { NextRequest, NextResponse } from 'next/server';
+import { IBusinessOrder, IProducerUser } from '@/lib/types/types';
+import { ONLINE_ORDER_STATUS } from '@/constants';
 
 /**
  * @swagger
@@ -10,8 +11,8 @@ import { NextRequest, NextResponse } from 'next/server';
  *     summary: Generate monthly sales records
  *     description: Generates sales records for the previous month for all producers.
  *     parameters:
- *       - in: query
- *         name: key
+ *       - in: header
+ *         name: authorization
  *         required: true
  *         description: Cron job token for authorization
  *         schema:
@@ -49,13 +50,16 @@ import { NextRequest, NextResponse } from 'next/server';
  *                   example: Error generating sales records
  */
 export async function GET(request: NextRequest) {
-    const { searchParams } = new URL(request.url);
-    const sharedKey = searchParams.get('token');
+    const authHeader = request.headers.get('authorization');
+    const authHeaderWithoutBearer = authHeader?.replace('Bearer ', '');
 
-    const CRON_JOB_TOKEN = process.env.NEXT_PUBLIC_CRON_JOB_TOKEN; // Configura esta variable de entorno
+    const CRON_JOB_TOKEN = process.env.CRON_SECRET;
 
-    if (!sharedKey || sharedKey !== CRON_JOB_TOKEN) {
-        console.log('Token: ', sharedKey);
+    if (
+        !authHeaderWithoutBearer ||
+        authHeaderWithoutBearer !== CRON_JOB_TOKEN
+    ) {
+        console.info('Unauthorized Token: ', authHeaderWithoutBearer);
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -68,9 +72,12 @@ export async function GET(request: NextRequest) {
         // Lógica para generar sales_records
         await generateSalesRecords(supabase, invoicePeriod);
 
-        return NextResponse.json({
-            message: 'Sales records generated successfully',
-        });
+        return NextResponse.json(
+            {
+                message: 'Sales records generated successfully',
+            },
+            { status: 200 },
+        );
     } catch (error) {
         console.error('Error generating sales records:', error);
         return NextResponse.json(
@@ -116,14 +123,22 @@ async function generateSalesRecords(supabase: any, invoicePeriod: string) {
                 producerBusinessOrders,
                 invoicePeriod,
             );
+
+            // Si el productor tiene ventas, enviar email
+            await sendEmailToProducer(producer);
         }),
     );
 }
 
 async function getAllProducers(supabase: any) {
-    const { data: producers, error } = await supabase
-        .from('producer_user')
-        .select('user_id');
+    const { data: producers, error } = await supabase.from('producer_user')
+        .select(`
+            user_id,
+            users (
+                email,
+                username
+            )
+        `);
 
     if (error) {
         throw new Error('Error getting producers');
@@ -149,11 +164,15 @@ async function getBusinessOrdersByProducerIdAndPeriod(
                 product_price,
                 quantity,
                 subtotal
+            ),
+            orders!inner (
+                status
             )
         `,
         )
         .eq('producer_id', producerId)
-        .eq('invoice_period', invoicePeriod);
+        .eq('invoice_period', invoicePeriod)
+        .eq('orders.status', ONLINE_ORDER_STATUS.PAID);
 
     if (error) {
         throw new Error('Error getting sales records');
@@ -193,29 +212,16 @@ const generateSalesRecordsByProducerAndBOrders = async (
     // 5º Insertar en la tabla sales_records_items los items de cada venta
     await Promise.all(
         businessOrders.map(async (bOrder: IBusinessOrder) => {
-            if (!bOrder.order_items) {
+            if (!bOrder.order_items || bOrder.order_items.length === 0) {
                 throw new Error('Error inserting sales records items');
             }
 
             const orderItem = bOrder.order_items[0];
 
-            console.log(orderItem);
-
             const total = orderItem.quantity * orderItem.product_price;
             const platformComission =
                 total * bOrder.platform_comission_producer;
             const netAmount = total - platformComission;
-
-            console.log('Inserting sales records items:', {
-                sales_record_id: salesRecordsData.id,
-                business_order_id: bOrder.id,
-                product_name: orderItem.product_name,
-                product_pack_name: orderItem.product_pack_name,
-                product_quantity: orderItem.quantity,
-                total_sales: total,
-                platform_commission: platformComission,
-                net_amount: netAmount,
-            });
 
             const { error: errorSalesRecordsItems } = await supabase
                 .from('sales_records_items')
@@ -242,3 +248,22 @@ const generateSalesRecordsByProducerAndBOrders = async (
 
     return salesRecordsData;
 };
+
+async function sendEmailToProducer(producer: IProducerUser) {
+    if (!producer.users?.email) {
+        console.info('Producer without email:', producer);
+        return;
+    }
+
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const newSalesRecordsEmailUrl = `${baseUrl}/api/emails/new_sales_records`;
+
+    const formData = new FormData();
+    formData.append('email-to', producer.users?.email);
+
+    // Email al productor
+    fetch(newSalesRecordsEmailUrl, {
+        method: 'POST',
+        body: formData,
+    });
+}

@@ -2,7 +2,6 @@ import createServerClient from '@/utils/supabaseServer';
 import { ONLINE_ORDER_STATUS } from '@/constants';
 import { NextRequest, NextResponse } from 'next/server';
 
-// Esta es una llamada desde el EDGE de Vercel: CRON JOB
 /**
  * Handles GET requests to cancel expired orders.
  *
@@ -17,7 +16,7 @@ import { NextRequest, NextResponse } from 'next/server';
  * - `NEXT_PUBLIC_ORDER_EXPIRATION_TIME`: The time in minutes after which an order is considered expired. Defaults to 30 minutes if not set.
  *
  * The function performs the following steps:
- * 1. Extracts and verifies the authorization token from the request query parameters.
+ * 1. Extracts and verifies the authorization token from the request headers.
  * 2. Creates a Supabase client instance.
  * 3. Calculates the expiration date and time based on the current time and the expiration time from the environment variable.
  * 4. Updates the status of orders that are pending and have a creation date earlier than the calculated expiration date.
@@ -28,14 +27,17 @@ import { NextRequest, NextResponse } from 'next/server';
  * - 500 Internal Server Error: If there is an error cancelling the expired orders or an unexpected error occurs.
  * - 200 OK: If the operation is successful, returns the number of cancelled orders.
  */
-export async function GET(request: NextRequest) {
-    const { searchParams } = new URL(request.url);
-    const sharedKey = searchParams.get('token');
+export async function GET(request: NextRequest): Promise<NextResponse> {
+    const authHeader = request.headers.get('authorization');
+    const authHeaderWithoutBearer = authHeader?.replace('Bearer ', '');
 
-    const CRON_JOB_TOKEN = process.env.NEXT_PUBLIC_CRON_JOB_TOKEN; // Configura esta variable de entorno
+    const CRON_JOB_TOKEN = process.env.CRON_SECRET;
 
-    if (!sharedKey || sharedKey !== CRON_JOB_TOKEN) {
-        console.log('Token: ', sharedKey);
+    if (
+        !authHeaderWithoutBearer ||
+        authHeaderWithoutBearer !== CRON_JOB_TOKEN
+    ) {
+        console.info('Unauthorized Token: ', authHeaderWithoutBearer);
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -77,9 +79,12 @@ export async function GET(request: NextRequest) {
 
         console.info(`Cancelled ${cancelledOrdersCount} expired orders.`);
 
-        return NextResponse.json({
-            message: `Cancelled ${cancelledOrdersCount} expired orders.`,
-        });
+        return NextResponse.json(
+            {
+                message: `Cancelled ${cancelledOrdersCount} expired orders.`,
+            },
+            { status: 200 },
+        );
     } catch (error) {
         console.error('Unexpected error:', error);
         return NextResponse.json(

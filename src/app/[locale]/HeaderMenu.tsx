@@ -2,11 +2,12 @@
 
 import MobileMenu from './MobileMenu';
 import ScreenMenu from './ScreenMenu';
+import AuthPopup from './components/user/AuthPopup';
+import useNotifications from '@/hooks/useNotifications';
 import useDeviceDetection from '@/hooks/useDeviceDetection';
 import { useEffect, useState } from 'react';
 import { INotification } from '@/lib/types/types';
 import { useAuth } from './(auth)/Context/useAuth';
-import useNotifications from '@/hooks/useNotifications';
 
 interface Props {
     i18nLocaleArray: string[];
@@ -15,16 +16,10 @@ interface Props {
 export default function HeaderMenu({ i18nLocaleArray }: Props) {
     const device = useDeviceDetection();
 
+    const [showLoginPopup, setShowLoginPopup] = useState(false);
+
     const { supabase } = useAuth();
     const { notifications, setNotifications } = useNotifications();
-
-    // const [notificationState, setNotificationState] = useState<INotification[]>(
-    //     [],
-    // );
-
-    // useEffect(() => {
-    //     setNotificationState(notifications);
-    // }, [notifications]);
 
     useEffect(() => {
         supabase
@@ -58,9 +53,14 @@ export default function HeaderMenu({ i18nLocaleArray }: Props) {
                     <ScreenMenu
                         notifications={notifications}
                         i18nLocaleArray={i18nLocaleArray}
+                        onLoginClick={() => setShowLoginPopup(true)}
                     />
                 )}
             </nav>
+
+            {showLoginPopup && (
+                <AuthPopup onClose={() => setShowLoginPopup(false)} />
+            )}
         </header>
     );
 }

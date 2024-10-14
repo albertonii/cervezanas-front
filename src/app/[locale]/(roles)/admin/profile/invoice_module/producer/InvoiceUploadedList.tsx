@@ -9,14 +9,22 @@ import DownloadInvoiceButton from '@/app/[locale]/(roles)/producer/profile/invoi
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useQueryClient } from 'react-query';
+import { INVOICE_STATUS } from '@/constants';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDateDefaultInput } from '@/utils/formatDate';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
-import { IInvoiceProducer, ISalesRecordsProducer } from '@/lib/types/types';
 import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';
-import { INVOICE_STATUS } from '@/constants';
+import {
+    IInvoiceProducer,
+    IProducerUser,
+    ISalesRecordsProducer,
+} from '@/lib/types/types';
 
-const InvoiceUploadedList = () => {
+interface Props {
+    producer: IProducerUser;
+}
+
+const InvoiceUploadedList = ({ producer }: Props) => {
     const t = useTranslations();
 
     const resultsPerPage = 10;
@@ -31,7 +39,7 @@ const InvoiceUploadedList = () => {
     const { user, supabase } = useAuth();
 
     const { data, isError, isLoading, refetch } = useFetchInvoicesByProducerId(
-        user?.id,
+        producer.user_id,
         currentPage,
         resultsPerPage,
     );

@@ -3,14 +3,16 @@ import InvoiceUploadedList from './InvoiceUploadedList';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
 import Description from '@/app/[locale]/components/ui/Description';
 import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import SelectInput from '@/app/[locale]/components/form/SelectInput';
 import React, { useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
+import { InvoiceFormData } from '@/lib/types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { calculateInvoicePeriod } from '@/utils/utils';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
-import { InvoiceFormData, ISalesRecordsProducer } from '@/lib/types/types';
 
 // This is the list of mime types you will accept with the schema
 const ACCEPTED_MIME_TYPES = [
@@ -61,15 +63,14 @@ const schema: ZodType<InvoiceFormData> = z.object({
     invoice_name: z.string().nonempty({ message: 'errors.input_required' }),
     invoice_file: z.instanceof(FileList).superRefine(validateFile),
     total_amount: z.number().min(0, { message: 'errors.input_number_min_0' }),
+    invoice_period_selected: z
+        .string()
+        .nonempty({ message: 'errors.input_required' }),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
 
-interface Props {
-    salesRecords: ISalesRecordsProducer;
-}
-
-const InvoiceManagement = ({ salesRecords }: Props) => {
+const InvoiceManagement = () => {
     const t = useTranslations();
 
     const [isLoading, setIsLoading] = useState(false);
@@ -82,6 +83,7 @@ const InvoiceManagement = ({ salesRecords }: Props) => {
         defaultValues: {
             invoice_name: '',
             total_amount: 0,
+            invoice_period_selected: '',
         },
     });
 
@@ -95,7 +97,12 @@ const InvoiceManagement = ({ salesRecords }: Props) => {
 
     const handleUpload = async (form: ValidationSchema) => {
         setIsLoading(true);
-        const { invoice_name, invoice_file, total_amount } = form;
+        const {
+            invoice_name,
+            invoice_file,
+            total_amount,
+            invoice_period_selected,
+        } = form;
 
         const file = invoice_file[0] as File;
 
@@ -108,7 +115,7 @@ const InvoiceManagement = ({ salesRecords }: Props) => {
         formData.append('invoice_file', file);
         formData.append('total_amount', total_amount.toString());
         formData.append('producer_id', user.id);
-        formData.append('invoice_period', salesRecords.invoice_period);
+        formData.append('invoice_period', invoice_period_selected);
 
         try {
             const response = await fetch(url, {
@@ -154,6 +161,15 @@ const InvoiceManagement = ({ salesRecords }: Props) => {
         });
     };
 
+    const invoicePeriodOptions = Array.from({ length: 12 }, (_, i) => {
+        const date = new Date();
+        date.setMonth(date.getMonth() - i);
+        return {
+            label: calculateInvoicePeriod(date),
+            value: calculateInvoicePeriod(date),
+        };
+    });
+
     return (
         <section
             className={`space-y-8 border border-xl rounded-lg border-gray-300 p-8 ${
@@ -173,7 +189,20 @@ const InvoiceManagement = ({ salesRecords }: Props) => {
             {/* Sección de subida de archivos */}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="grid grid-cols-2 border-xl border-1 border-gray-500 gap-4">
-                    <div className="col-span-2">
+                    <div className="col-span-1">
+                        <SelectInput
+                            form={form}
+                            label={'invoice_period_selected'}
+                            labelText={t('invoice_module.period_selected')}
+                            options={invoicePeriodOptions}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            defaultValue={invoicePeriodOptions[0].value}
+                        />
+                    </div>
+
+                    <div className="col-span-1">
                         <InputLabel
                             label={'invoice_file'}
                             labelText={t('invoice_module.upload_invoice_file')}
@@ -203,8 +232,11 @@ const InvoiceManagement = ({ salesRecords }: Props) => {
                             inputType="number"
                             registerOptions={{
                                 valueAsNumber: true,
+                                required: true,
+                                min: 0,
                             }}
                             isLoading={isLoading}
+                            isNumberWithDecimals
                         />
                     </div>
 

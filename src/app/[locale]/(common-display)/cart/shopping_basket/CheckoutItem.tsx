@@ -1,15 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
 import DeliveryError from '../DeliveryError';
 import CheckoutPackItem from './CheckoutPackItem';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 import useFetchProductById from '../../../../../hooks/useFetchProductById';
 import React, { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { IProductPackCartItem } from '@/lib//types/types';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 interface Props {
     productPack: IProductPackCartItem;
@@ -63,21 +62,18 @@ export function CheckoutItem({ productPack, isShippingCostLoading }: Props) {
                         ${isShippingCostLoading ? 'pointer-events-none' : ''}
                      `}
         >
-            <Link
-                href={`/products/${productWithInfo.id}`}
-                locale={locale}
-                target={'_blank'}
-            >
-                <p className="space-x-2 text-xl">
-                    <span className=" dark:text-white">
-                        {t('product_name')}:
-                    </span>
-
-                    <span className="font-semibold hover:text-beer-gold dark:text-white hover:underline">
+            <p className="space-x-2 text-xl">
+                <span className=" dark:text-white">{t('product_name')}:</span>
+                <Link
+                    href={`/products/${productWithInfo.id}`}
+                    locale={locale}
+                    target={'_blank'}
+                >
+                    <span className="font-semibold text-beer-draft hover:text-beer-gold dark:text-white hover:underline animation-all ease-in-out duration-200">
                         {productPack.name}
                     </span>
-                </p>
-            </Link>
+                </Link>
+            </p>
 
             {isItemUnDeliverable && <DeliveryError />}
 

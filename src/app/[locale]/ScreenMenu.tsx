@@ -2,38 +2,39 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import Button from './components/ui/buttons/Button';
 import DropdownRoleList from './components/DropdownRoleList';
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { COMMON } from '@/constants';
 import { ROLE_ENUM } from '@/lib/enums';
-import { ROUTE_SIGNIN } from '@/config';
 import { INotification } from '@/lib/types/types';
 import { useAuth } from './(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { HeaderDropdownButton } from './HeaderDropdownButton';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { DeviceScreenNotification } from './components/DeviceScreenNotification';
-import Button from './components/ui/buttons/Button';
+import { Beer, Calendar, Globe, Map, ShoppingCart } from 'lucide-react';
 
 interface Props {
     notifications: INotification[];
     i18nLocaleArray: string[];
+    onLoginClick: () => void;
 }
 
 const ScreenMenu = memo(function ScreenMenu({
     notifications,
     i18nLocaleArray,
+    onLoginClick,
 }: Props) {
     const { user, role, changeRole } = useAuth();
     const locale = useLocale();
     const t = useTranslations();
     const pathName = usePathname();
 
-    const router = useRouter();
-
     const [animateShoppingCart, setAnimateShoppingCart] = useState(false);
     const [displayDropdownRoles, setDisplayDropdownRoles] = useState(false);
+    const [isLanguageOpen, setIsLanguageOpen] = useState(false);
 
     const { cartQuantity, openCart } = useShoppingCart();
 
@@ -80,11 +81,10 @@ const ScreenMenu = memo(function ScreenMenu({
     };
 
     const handleSignIn = () => {
-        router.push(`/${locale}${ROUTE_SIGNIN}`);
+        onLoginClick();
     };
 
-    const MENU_ITEM_STYLES =
-        'block text-sm font-bold text-beer-dark hover:bg-cerv-banana hover:bg-opacity-50 px-3 py-3 bg-beer-softBlonde bg-opacity-50 rounded-xl hover:text-white border-2 border-beer-softFoam mt-1 mb-1 uppercase';
+    const MENU_ITEM_STYLES = `block text-sm font-bold text-beer-foam  px-3  uppercase animation-all ease-in-out duration-300`;
 
     return (
         <section className="py-1 hidden rounded border-gray-200 bg-[url('/assets/header-bg.jpg')] bg-cover bg-center bg-no-repeat dark:bg-gray-900 sm:block sm:px-4 dark:text-white">
@@ -110,9 +110,14 @@ const ScreenMenu = memo(function ScreenMenu({
                     </div>
                 </section>
                 <section className="flex w-full items-right justify-end sm:w-[350px] lg:w-[400px] ml-auto">
-                    <ul className="align-center sm:flex md:mt-0 md:flex-row md:space-x-4 md:text-sm md:font-medium mx-6 space-x-4">
-                        <li className="flex items-center">
-                            <Link href="/marketplace" locale={locale}>
+                    <ul className="align-center sm:flex md:mt-0 md:flex-row md:space-x-4 md:text-sm md:font-medium mx-6 space-x-4 ">
+                        <li className="flex items-center ">
+                            <Link
+                                href="/marketplace"
+                                locale={locale}
+                                className="header-btn"
+                            >
+                                <Beer size={24} color="#fefefe" />
                                 <span className={`${MENU_ITEM_STYLES}`}>
                                     {t('marketplace')}
                                 </span>
@@ -120,7 +125,13 @@ const ScreenMenu = memo(function ScreenMenu({
                         </li>
 
                         <li className="flex items-center">
-                            <Link href="/events" locale={locale}>
+                            <Link
+                                href="/events"
+                                locale={locale}
+                                className="header-btn"
+                            >
+                                <Calendar size={24} color="#fefefe" />
+
                                 <span
                                     className={`${MENU_ITEM_STYLES}`}
                                     aria-current="page"
@@ -129,8 +140,15 @@ const ScreenMenu = memo(function ScreenMenu({
                                 </span>
                             </Link>
                         </li>
-                        {/* <li className="flex items-center">
-                            <Link href={'/beer-me'} locale={locale}>
+
+                        <li className="flex items-center">
+                            <Link
+                                href={'/beer-me'}
+                                locale={locale}
+                                className="header-btn"
+                            >
+                                <Map size={24} color="#fefefe" />
+
                                 <span
                                     className={`${MENU_ITEM_STYLES}`}
                                     aria-current="page"
@@ -138,46 +156,40 @@ const ScreenMenu = memo(function ScreenMenu({
                                     Puntos cervezanas
                                 </span>
                             </Link>
-                        </li> */}
+                        </li>
                     </ul>
                 </section>
 
                 {/* Right elements  */}
                 <section className="w-[320px] ">
                     <ul className="py-2 pt-1  :flex sm:flex-row sm:justify-end sm:gap-0 sm:align-middle md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium flex space-x-4">
-                        {/* Language  */}
-                        {/* <li className="flex max-w-[50px] items-center">
-                            <Select
-                                size="tiny"
-                                name="language"
-                                style={{
-                                backgroundColor: "transparent",
-                                maxWidth: "50px",
-                                }}
-                                onChange={onChangeLanguage}
-                                className=""
-                            >
-                                <Select.Option value="es">
-                                <Link href={redirectedPathName(locale)}>🇪🇸</Link>
-                                </Select.Option>
-                                <Select.Option value="en">
-                                <Link href={redirectedPathName(locale)}>🇬🇧</Link>
-                                </Select.Option>
-                            </Select>
-                            </li> */}
-
-                        {i18nLocaleArray.map((locale) => {
-                            return (
-                                <li
-                                    key={locale}
-                                    className="mt-3 h-[30px] w-[30px] rounded-full border-2 bg-beer-blonde p-1 text-center text-xs uppercase text-beer-dark hover:text-white hover:bg-beer-draft pt-[5px]"
+                        <div className="flex items-center space-x-6">
+                            <div className="relative">
+                                <button
+                                    onClick={() =>
+                                        setIsLanguageOpen(!isLanguageOpen)
+                                    }
+                                    className="icon-btn"
+                                    aria-label="Cambiar idioma"
                                 >
-                                    <Link href={redirectedPathName(locale)}>
-                                        {locale}
-                                    </Link>
-                                </li>
-                            );
-                        })}
+                                    <Globe size={30} color="#fefefe" />
+                                </button>
+
+                                {isLanguageOpen && (
+                                    <div className="dropdown-menu">
+                                        {i18nLocaleArray.map((lang, index) => (
+                                            <a
+                                                key={index}
+                                                href={redirectedPathName(lang)}
+                                                className="dropdown-item"
+                                            >
+                                                {lang}
+                                            </a>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
 
                         {!user ? (
                             <>
@@ -185,15 +197,16 @@ const ScreenMenu = memo(function ScreenMenu({
                                     <Button
                                         onClick={() => handleSignIn()}
                                         title={''}
+                                        primary
                                     >
-                                        <section className="mx-2 my-1 flex items-center justify-center space-x-2 text-white hover:text-bear-dark p-1 ">
+                                        <section className="mx-2 my-1 flex items-center justify-center space-x-2 hover:text-bear-dark p-1 ">
                                             <Image
                                                 width={25}
                                                 height={25}
                                                 alt={'Login'}
                                                 src={COMMON.PROFILE_IMG}
                                             />
-                                            <span>{t('access')}</span>
+                                            <span>{t('sign_in')}</span>
                                         </section>
                                     </Button>
                                 </li>

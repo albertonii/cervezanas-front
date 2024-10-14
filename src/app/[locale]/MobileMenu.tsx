@@ -127,16 +127,14 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
 
                 {/* Logo Cervezanas  */}
                 <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24">
-                    <figure className="absolute flex h-[70px] w-[70px] right-0 p-2 sm:h-[143px] sm:w-[141px] sm:p-2 lg:h-[153] lg:w-[151px] ">
+                    <figure className="absolute flex h-[55px] w-[55px] right-0 p-2 sm:h-[65px] sm:w-[65px] sm:p-2 sm:mr-8 sm:mt-2 lg:h-[153] lg:w-[151px] ">
                         <Link href={'/'} locale={locale}>
                             <Image
                                 src="/logo_cervezanas.svg"
                                 alt="Cervezanas Logo"
-                                width={100}
-                                height={100}
-                                style={{ objectFit: 'contain' }}
+                                layout="fill"
+                                objectFit="contain"
                                 priority={true}
-                                sizes="100px"
                             />
                         </Link>
                         <div className="absolute -bottom-5 h-[22px] w-full pt-[22px]"></div>

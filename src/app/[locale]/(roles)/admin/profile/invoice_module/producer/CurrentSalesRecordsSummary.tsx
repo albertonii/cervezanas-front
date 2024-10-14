@@ -4,6 +4,7 @@ import Button from '@/app/[locale]/components/ui/buttons/Button';
 import Description from '@/app/[locale]/components/ui/Description';
 import React, { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
+import { calculateInvoicePeriod } from '@/utils/utils';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { IBusinessOrder, IOrderItem, IProducerUser } from '@/lib/types/types';
@@ -25,7 +26,7 @@ const CurrentSalesRecordsSummary = ({ producer, bOrders }: Props) => {
     const [producerEarnings, setProducerEarnings] = React.useState<number>(0);
 
     useEffect(() => {
-        if (bOrders) {
+        if (bOrders && bOrders.length > 0) {
             const totalAmount = bOrders.reduce(
                 (acc, bOrder) =>
                     acc +
@@ -113,7 +114,7 @@ const CurrentSalesRecordsSummary = ({ producer, bOrders }: Props) => {
 
                 <Title size="medium" color="black">
                     {t('invoice_module.invoice_current_period_title')} :{' '}
-                    {bOrders[0].invoice_period}
+                    {calculateInvoicePeriod(new Date())}
                 </Title>
 
                 <Description size="xsmall">

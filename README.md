@@ -1,182 +1,138 @@
-# Supabase CLI (v1)
+Cervezanas Frontend
 
-[![Coverage Status](https://coveralls.io/repos/github/supabase/cli/badge.svg?branch=main)](https://coveralls.io/github/supabase/cli?branch=main)
+# Cervezanas Frontend
 
-[Supabase](https://supabase.io) is an open source Firebase alternative. We're building the features of Firebase using enterprise-grade open source tools.
+Este proyecto es el frontend de Cervezanas, una tienda en línea para la venta de cervezas artesanales. El proyecto está construido utilizando Next.js y Supabase para la gestión de la base de datos y la autenticación.
 
-This repository contains all the functionality for Supabase CLI.
+## Características
 
-- [x] Running Supabase locally
-- [x] Managing database migrations
-- [x] Creating and deploying Supabase Functions
-- [x] Generating types directly from your database schema
-- [x] Making authenticated HTTP requests to [Management API](https://supabase.com/docs/reference/api/introduction)
+- [x] Gestión de migraciones de bases de datos
+- [x] Creación y despliegue de funciones de Supabase
+- [x] Generación de tipos directamente desde el esquema de la base de datos
+- [x] Realización de solicitudes HTTP autenticadas a la API de Gestión
+- [x] Envío de correos electrónicos de confirmación de pedidos
+- [x] Cancelación de pedidos expirados
 
-## Getting started
+## Requisitos Previos
 
-### Install the CLI
+- Node.js (versión 14 o superior)
+- NPM o PNPM o Yarn
+- Supabase CLI
 
-Available via [NPM](https://www.npmjs.com) as dev dependency. To install:
+## Instalación
 
-```bash
-npm i supabase --save-dev
-```
+1. Clonar el repositorio
+2. Instalar dependencias
+3. Configurar variables de entorno
 
-To install the beta release channel:
+## Configurar variables de entorno
 
-```bash
-npm i supabase@beta --save-dev
-```
+Crea un archivo `.env.local` en la raíz del proyecto y añade las siguientes variables de entorno:
+NEXT_PUBLIC_SUPABASE_URL=tu_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_supabase_anon_key
+NEXT_PUBLIC_RESEND_API_KEY=tu_resend_api_key
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
 
-When installing with yarn 4, you need to disable experimental fetch with the following nodejs config.
+## Scripts Disponibles
 
-```
-NODE_OPTIONS=--no-experimental-fetch yarn add supabase
-```
+En el directorio del proyecto, puedes ejecutar:
 
-> **Note**
-For Bun versions below v1.0.17, you must add `supabase` as a [trusted dependency](https://bun.sh/guides/install/trusted) before running `bun add -D supabase`.
+### `npm run dev`
 
-<details>
-  <summary><b>macOS</b></summary>
+Ejecuta la aplicación en modo de desarrollo.  
+Abre [http://localhost:3000](http://localhost:3000) para verlo en tu navegador.
 
-  Available via [Homebrew](https://brew.sh). To install:
+### `npm run build`
 
-  ```sh
-  brew install supabase/tap/supabase
-  ```
+Construye la aplicación para producción en la carpeta `build`.  
+Empaqueta React en modo de producción y optimiza la construcción para el mejor rendimiento.
 
-  To install the beta release channel:
-  
-  ```sh
-  brew install supabase/tap/supabase-beta
-  brew link --overwrite supabase-beta
-  ```
-  
-  To upgrade:
+### `npm start`
 
-  ```sh
-  brew upgrade supabase
-  ```
-</details>
+Ejecuta la aplicación en modo de producción.  
+Asegúrate de haber ejecutado `npm run build` primero.
 
-<details>
-  <summary><b>Windows</b></summary>
+### `npm test`
 
-  Available via [Scoop](https://scoop.sh). To install:
+Ejecuta las pruebas utilizando Jest.
 
-  ```powershell
-  scoop bucket add supabase https://github.com/supabase/scoop-bucket.git
-  scoop install supabase
-  ```
+## Estructura del Proyecto
 
-  To upgrade:
+- `/src`: Contiene el código fuente de la aplicación.
+  - `/app`: Contiene las páginas y componentes de la aplicación.
+    - `/api`: Contiene las rutas API de Next.js.
+      - `/emails`: Contiene las rutas para el envío de correos electrónicos.
+      - `/shopping_basket`: Contiene las rutas relacionadas con el carrito de compras.
+    - `/components`: Contiene los componentes reutilizables de la aplicación.
+    - `/styles`: Contiene los archivos de estilos CSS.
+    - `/utils`: Contiene utilidades y funciones auxiliares.
 
-  ```powershell
-  scoop update supabase
-  ```
-</details>
+## Funciones Principales
 
-<details>
-  <summary><b>Linux</b></summary>
+### Envío de Correos Electrónicos
 
-  Available via [Homebrew](https://brew.sh) and Linux packages.
+La función `POST` en `route.ts` se encarga de enviar correos electrónicos de confirmación de pedidos utilizando la API de Resend.
 
-  #### via Homebrew
+### Cancelación de Pedidos Expirados
 
-  To install:
+La función `cancel_expired_orders` en `route.ts` se encarga de cancelar los pedidos que han expirado.
 
-  ```sh
-  brew install supabase/tap/supabase
-  ```
+## Funciones Principales
 
-  To upgrade:
+### Envío de Correos Electrónicos
 
-  ```sh
-  brew upgrade supabase
-  ```
+La función `POST` en `route.ts` se encarga de enviar correos electrónicos de confirmación de pedidos utilizando la API de Resend.
 
-  #### via Linux packages
+### Cancelación de Pedidos Expirados
 
-  Linux packages are provided in [Releases](https://github.com/supabase/cli/releases). To install, download the `.apk`/`.deb`/`.rpm`/`.pkg.tar.zst` file depending on your package manager and run the respective commands.
+La función `cancel_expired_orders` en `route.ts` se encarga de cancelar los pedidos que han expirado.
 
-  ```sh
-  sudo apk add --allow-untrusted <...>.apk
-  ```
+### Autenticación de Usuarios
 
-  ```sh
-  sudo dpkg -i <...>.deb
-  ```
+Utiliza Supabase para la autenticación de usuarios, permitiendo el registro, inicio de sesión y gestión de sesiones.
 
-  ```sh
-  sudo rpm -i <...>.rpm
-  ```
+### Gestión de Carritos de Compra
 
-  ```sh
-  sudo pacman -U <...>.pkg.tar.zst
-  ```
-</details>
+Permite a los usuarios añadir, actualizar y eliminar productos de su carrito de compras.
 
-<details>
-  <summary><b>Other Platforms</b></summary>
+### Visualización de Productos
 
-  You can also install the CLI via [go modules](https://go.dev/ref/mod#go-install) without the help of package managers.
+Muestra una lista de productos disponibles para la compra, con detalles como nombre, precio y descripción.
 
-  ```sh
-  go install github.com/supabase/cli@latest
-  ```
+### Gestión de Pedidos
 
-  Add a symlink to the binary in `$PATH` for easier access:
+Permite a los usuarios realizar pedidos, ver el estado de sus pedidos y recibir notificaciones por correo electrónico.
 
-  ```sh
-  ln -s "$(go env GOPATH)/cli" /usr/bin/supabase
-  ```
+## CRON Jobs
 
-  This works on other non-standard Linux distros.
-</details>
+La aplicación utiliza **CRON Jobs** para automatizar tareas esenciales que mejoran la eficiencia y la experiencia del usuario.
 
-<details>
-  <summary><b>Community Maintained Packages</b></summary>
+### Generación de Registros Mensuales de Ventas
 
-  Available via [pkgx](https://pkgx.sh/). Package script [here](https://github.com/pkgxdev/pantry/blob/main/projects/supabase.com/cli/package.yml).
-  To install in your working directory:
+- **Descripción**: Genera automáticamente los registros mensuales de ventas para cada productor al inicio de cada mes.
+- **Ruta**: `/api/cron/generate_monthly_sales_records`
+- **Frecuencia**: Se ejecuta el primer día de cada mes a las 00:00 horas.
+- **Propósito**: Facilitar a los productores el acceso a sus informes de ventas mensuales, permitiéndoles generar y emitir las facturas correspondientes a través de la plataforma.
 
-  ```bash
-  pkgx install supabase
-  ```
+### Cancelación Automática de Pedidos Expirados
 
-  Available via [Nixpkgs](https://nixos.org/). Package script [here](https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/tools/supabase-cli/default.nix).
-</details>
+- **Descripción**: Cancela los pedidos que han excedido el tiempo máximo permitido para su realización (por defecto, 30 minutos).
+- **Ruta**: `/api/cron/cancel_expired_orders`
+- **Frecuencia**: Se ejecuta diariamente a las 00:00 horas.
+- **Propósito**: Mantener la base de datos limpia y actualizada, mejorando la eficiencia del sistema.
 
-### Run the CLI
+## Pruebas
+
+Las pruebas están escritas utilizando Jest. Para ejecutar las pruebas, utiliza el siguiente comando:
 
 ```bash
-supabase bootstrap
+npm test
 ```
 
-Or using npx:
+## Contribuir
 
-```bash
-npx supabase bootstrap
-```
+Las contribuciones son bienvenidas. Por favor, abre un issue o un pull request para discutir cualquier cambio que te gustaría hacer.
 
-The bootstrap command will guide you through the process of setting up a Supabase project using one of the [starter](https://github.com/supabase-community/supabase-samples/blob/main/samples.json) templates.
+## Licencia
 
-## Docs
-
-Command & config reference can be found [here](https://supabase.com/docs/reference/cli/about).
-
-## Breaking changes
-
-We follow semantic versioning for changes that directly impact CLI commands, flags, and configurations.
-
-However, due to dependencies on other service images, we cannot guarantee that schema migrations, seed.sql, and generated types will always work for the same CLI major version. If you need such guarantees, we encourage you to pin a specific version of CLI in package.json.
-
-## Developing
-
-To run from source:
-
-```sh
-# Go >= 1.22
-go run . help
-```
+Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo LICENSE para más detalles.
