@@ -131,7 +131,7 @@ export async function POST(request: NextRequest) {
         {},
     );
 
-    console.log('ITEMS BY DISTRIBUTOR', JSON.stringify(itemsByDistributor));
+    // ERROR: En producción no está llegando a insertar los business Orders
 
     // Estoy recorriendo todos los elementos del carrito de la compra,
     // aquellos que tengan un pack, los inserto en la tabla order_items
@@ -141,29 +141,30 @@ export async function POST(request: NextRequest) {
         itemsByDistributor as { [key: string]: IProductPackCartItem[] },
     ).map(async (itemsGroup: IProductPackCartItem[]) => {
         // Creamos una entrada en shipment_tracking para que lo compartan entre los demás business_orders para un mismo distribuidor
-        const { data: shipmentTracking, error: shipmentTrackingError } =
-            await supabase
-                .from('shipment_tracking')
-                .insert({
-                    order_id: order.id,
-                    status: ONLINE_ORDER_STATUS.PENDING,
-                    estimated_date: new Date(
-                        new Date().getTime() + 1000 * 60 * 60 * 24 * 7,
-                    ).toISOString(), // 7 days,
-                })
-                .select('id')
-                .single();
+        // const { data: shipmentTracking, error: shipmentTrackingError } =
+        //     await supabase
+        //         .from('shipment_tracking')
+        //         .insert({
+        //             order_id: order.id,
+        //             status: ONLINE_ORDER_STATUS.PENDING,
+        //             estimated_date: new Date(
+        //                 new Date().getTime() + 1000 * 60 * 60 * 24 * 7,
+        //             ).toISOString(), // 7 days,
+        //         })
+        //         .select('id')
+        //         .single();
 
-        if (!shipmentTracking || shipmentTrackingError) {
-            return NextResponse.json(
-                { message: 'Error creating shipment tracking' },
-                { status: 500 },
-            );
-        }
+        // if (!shipmentTracking || shipmentTrackingError) {
+        //     return NextResponse.json(
+        //         { message: 'Error creating shipment tracking' },
+        //         { status: 500 },
+        //     );
+        // }
 
         console.log('ITEMS GROUP', JSON.stringify(itemsGroup));
 
         for (const product of itemsGroup) {
+            console.log('PRODUCT', product);
             product.packs.map(async (pack) => {
                 const distributorId = product.distributor_id;
                 const producerId = product.producer_id;
