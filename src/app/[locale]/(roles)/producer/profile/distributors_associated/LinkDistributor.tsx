@@ -1,6 +1,6 @@
-import Modal from '@/app/[locale]/components/modals/Modal';
 import useFetchProducerById from '@/hooks/useFetchProducerById';
 import AvailableDistributorsList from './AvailableDistributorsList';
+import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
 import React, { useEffect, useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -12,7 +12,6 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { IDistributorUser, IProducerUser } from '@/lib//types/types';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
 
 type FormData = {
     message: string;
@@ -111,6 +110,7 @@ export default function LinkDistributor() {
             message: submitSuccessMessage,
         });
 
+        setSelectedDistributor(null);
         reset();
 
         queryClient.invalidateQueries('distributionContract');
