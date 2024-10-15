@@ -1373,7 +1373,8 @@
         "delete_invoice_modal_btn": "Eliminar factura",
         "select_status": "Seleccionar estado",
         "invoice_name_placeholder": "Introduce el nombre de la factura",
-        "period_selected": "Periodo seleccionado"
+        "period_selected": "Periodo seleccionado",
+        "invoice_deleted_successfully": "Factura eliminada con éxito"
     },
     "about": "Acerca de",
     "go_to_signin_and_signup_page": "Ir a la página de inicio de sesión y registro",

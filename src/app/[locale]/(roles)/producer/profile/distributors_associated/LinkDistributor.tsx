@@ -111,6 +111,8 @@ export default function LinkDistributor() {
         });
 
         setSelectedDistributor(null);
+        setShowFooter(false);
+
         reset();
 
         queryClient.invalidateQueries('distributionContract');
