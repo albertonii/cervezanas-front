@@ -195,7 +195,7 @@ export async function POST(request: NextRequest) {
                             order_id: order.id,
                             producer_id: producerId,
                             distributor_id: distributorId,
-                            tracking_id: shipmentTracking.id,
+                            // tracking_id: shipmentTracking.id,
                             total_sales: pack.price * pack.quantity,
                             platform_comission_producer: 0.15,
                             platform_comission_distributor: 0.05,
