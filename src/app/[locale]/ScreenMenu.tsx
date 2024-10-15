@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Button from './components/ui/buttons/Button';
 import DropdownRoleList from './components/DropdownRoleList';
+import ShoppingCartScreenMenuButton from './components/ui/buttons/ShoppingCartScreenMenuButton';
 import { memo, useEffect, useState } from 'react';
 import { COMMON } from '@/constants';
 import { ROLE_ENUM } from '@/lib/enums';
@@ -14,7 +15,8 @@ import { usePathname } from 'next/navigation';
 import { HeaderDropdownButton } from './HeaderDropdownButton';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { DeviceScreenNotification } from './components/DeviceScreenNotification';
-import { Beer, Calendar, Globe, Map, ShoppingCart } from 'lucide-react';
+import { Beer, Calendar, Globe, Map } from 'lucide-react';
+import LanguageScreenMenuButton from './components/ui/buttons/LanguageScreenMenuButton';
 
 interface Props {
     notifications: INotification[];
@@ -30,13 +32,11 @@ const ScreenMenu = memo(function ScreenMenu({
     const { user, role, changeRole } = useAuth();
     const locale = useLocale();
     const t = useTranslations();
-    const pathName = usePathname();
 
     const [animateShoppingCart, setAnimateShoppingCart] = useState(false);
     const [displayDropdownRoles, setDisplayDropdownRoles] = useState(false);
-    const [isLanguageOpen, setIsLanguageOpen] = useState(false);
 
-    const { cartQuantity, openCart } = useShoppingCart();
+    const { cartQuantity } = useShoppingCart();
 
     useEffect(() => {
         setTimeout(() => {
@@ -73,13 +73,6 @@ const ScreenMenu = memo(function ScreenMenu({
     //   // i18n.changeLanguage(language);
     // };
 
-    const redirectedPathName = (locale: string) => {
-        if (!pathName) return '/';
-        const segments = pathName.split('/');
-        segments[1] = locale;
-        return segments.join('/');
-    };
-
     const handleSignIn = () => {
         onLoginClick();
     };
@@ -102,18 +95,19 @@ const ScreenMenu = memo(function ScreenMenu({
 
                 {/* Logo Cervezanas  */}
                 <section
-                    className="relative flex w-full flex-shrink-0 justify-center pt-1 w-[300px] sm:w-[350px]"
+                    className="relative flex w-full pt-1"
                     id="navbar-default"
                 >
                     <Link href={'/'} locale={locale}>
                         <Image
                             src="/logo-cervezanas-horizontal.webp"
                             alt="Cervezanas Logo"
+                            layout="responsive"
                             width={810}
                             height={137}
                             style={{ objectFit: 'contain' }}
                             priority={true}
-                            sizes="380px"
+                            sizes="(max-width: 768px) 200px, (max-width: 1200px) 300px, 350px"
                         />
                     </Link>
                 </section>
@@ -127,7 +121,10 @@ const ScreenMenu = memo(function ScreenMenu({
                                 className="header-btn"
                             >
                                 <Beer size={24} color="#fefefe" />
-                                <span className={`${MENU_ITEM_STYLES}`}>
+
+                                <span
+                                    className={`${MENU_ITEM_STYLES} hidden xl:block`}
+                                >
                                     {t('marketplace')}
                                 </span>
                             </Link>
@@ -142,7 +139,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                 <Calendar size={24} color="#fefefe" />
 
                                 <span
-                                    className={`${MENU_ITEM_STYLES}`}
+                                    className={`${MENU_ITEM_STYLES} hidden xl:block`}
                                     aria-current="page"
                                 >
                                     {t('events')}
@@ -159,10 +156,10 @@ const ScreenMenu = memo(function ScreenMenu({
                                 <Map size={24} color="#fefefe" />
 
                                 <span
-                                    className={`${MENU_ITEM_STYLES}`}
+                                    className={`${MENU_ITEM_STYLES} hidden xl:block`}
                                     aria-current="page"
                                 >
-                                    Puntos cervezanas
+                                    {t('cervezanas_spots')}
                                 </span>
                             </Link>
                         </li>
@@ -172,33 +169,9 @@ const ScreenMenu = memo(function ScreenMenu({
                 {/* Right elements  */}
                 <section className="w-[320px] ">
                     <ul className="py-2 pt-1  :flex sm:flex-row sm:justify-end sm:gap-0 sm:align-middle md:mt-0 md:flex-row md:space-x-8 md:text-sm md:font-medium flex space-x-4">
-                        <div className="flex items-center space-x-6">
-                            <div className="relative">
-                                <button
-                                    onClick={() =>
-                                        setIsLanguageOpen(!isLanguageOpen)
-                                    }
-                                    className="icon-btn"
-                                    aria-label="Cambiar idioma"
-                                >
-                                    <Globe size={30} color="#fefefe" />
-                                </button>
-
-                                {isLanguageOpen && (
-                                    <div className="dropdown-menu">
-                                        {i18nLocaleArray.map((lang, index) => (
-                                            <a
-                                                key={index}
-                                                href={redirectedPathName(lang)}
-                                                className="dropdown-item"
-                                            >
-                                                {lang}
-                                            </a>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
+                        <LanguageScreenMenuButton
+                            i18nLocaleArray={i18nLocaleArray}
+                        />
 
                         {!user ? (
                             <>
@@ -230,34 +203,7 @@ const ScreenMenu = memo(function ScreenMenu({
                                             'animate-wiggle'
                                         }`}
                                     >
-                                        <div className="relative flex h-full items-center justify-center font-medium w-[50px]">
-                                            <Button
-                                                class={
-                                                    'border-none transition-all hover:scale-110 hover:cursor-pointer hover:bg-transparent dark:bg-transparent dark:hover:bg-transparent relative rounded-full lg:mr-4'
-                                                }
-                                                onClick={() => openCart()}
-                                                title={''}
-                                            >
-                                                <Image
-                                                    src={
-                                                        '/icons/shopping-cart-nobg.svg'
-                                                    }
-                                                    width={40}
-                                                    height={40}
-                                                    alt={'Go to Shopping cart'}
-                                                    className={
-                                                        'rounded-full bg-beer-blonde w-[40px]  lg:w-[50px] p-[5px] border-beer-softBlondeBubble border-2'
-                                                    }
-                                                />
-                                                <span
-                                                    className={`
-                                                        white absolute bottom-0 right-0 flex h-6 w-6 translate-x-2 translate-y-2 items-center justify-center rounded-full bg-beer-softBlonde 
-                                                    `}
-                                                >
-                                                    {cartQuantity()}
-                                                </span>
-                                            </Button>
-                                        </div>
+                                        <ShoppingCartScreenMenuButton />
                                     </li>
                                 )}
 
