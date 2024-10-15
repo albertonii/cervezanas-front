@@ -117,6 +117,8 @@ export async function POST(request: NextRequest) {
     // De esta manera podremos enviar notificaciones a los distribuidores de los pedidos que les corresponden
     // Y estos podrán actualizar la información de tracking para que sea visible por el cliente
 
+    console.log('ITEMS', JSON.stringify(items));
+
     // Agrupar todos aquellos productos que tengan el mismo ID de productor
     const itemsByDistributor = items.reduce(
         (acc: any, item: IProductPackCartItem) => {
@@ -130,6 +132,8 @@ export async function POST(request: NextRequest) {
         },
         {},
     );
+
+    console.log('ITEMS BY DISTRIBUTOR', JSON.stringify(itemsByDistributor));
 
     // Estoy recorriendo todos los elementos del carrito de la compra,
     // aquellos que tengan un pack, los inserto en la tabla order_items
@@ -146,10 +150,7 @@ export async function POST(request: NextRequest) {
                         status: ONLINE_ORDER_STATUS.PENDING,
                         estimated_date: new Date(
                             new Date().getTime() + 1000 * 60 * 60 * 24 * 7,
-                        ).toISOString(), // 3 days,
-                        // shipment_company: 'DHL', Esta información la rellenerá más adelante el distribuidor
-                        // shipment_url: 'https://www.dhl.com',
-                        // shipment_tracking_id: '123456789',
+                        ).toISOString(), // 7 days,
                     })
                     .select('id')
                     .single();
@@ -160,6 +161,8 @@ export async function POST(request: NextRequest) {
                     { status: 500 },
                 );
             }
+
+            console.log('ITEMS GROUP', JSON.stringify(itemsGroup));
 
             for (const product of itemsGroup) {
                 product.packs.map(async (pack) => {
