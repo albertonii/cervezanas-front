@@ -3,8 +3,14 @@ import SelectInput from '../../form/SelectInput';
 import InputTextarea from '../../form/InputTextarea';
 import UpdateTechnicalInfoSection from './UpdateTechnicalInfoSection';
 import UpdateProductPackInformation from '../../UpdateProductPackInformation';
+import UpdateProductMadeInBrewerySection from './UpdateProductMadeInBrewerySection';
 import React, { useEffect, useState } from 'react';
-
+import { useTranslations } from 'next-intl';
+import { UseFormReturn } from 'react-hook-form';
+import { capitalizeFirstLetter } from '@/utils/formatWords';
+import { faPalette } from '@fortawesome/free-solid-svg-icons';
+import { DisplayInputError } from '../../ui/DisplayInputError';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     aroma_options,
     color_options,
@@ -19,14 +25,6 @@ import {
     ICustomizeSettings,
     ModalUpdateProductFormData,
 } from '@/lib//types/types';
-import { useTranslations } from 'next-intl';
-import { UseFormReturn } from 'react-hook-form';
-import { capitalizeFirstLetter } from '@/utils/formatWords';
-import { faPalette } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { DisplayInputError } from '../../ui/DisplayInputError';
-import ProductMadeInBrewerySection from './ProductMadeInBrewerySection';
-import UpdateProductMadeInBrewerySection from './UpdateProductMadeInBrewerySection';
 
 interface Props {
     form: UseFormReturn<ModalUpdateProductFormData>;

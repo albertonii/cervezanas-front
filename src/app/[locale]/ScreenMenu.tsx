@@ -87,28 +87,37 @@ const ScreenMenu = memo(function ScreenMenu({
     const MENU_ITEM_STYLES = `block text-sm font-bold text-beer-foam  px-3  uppercase animation-all ease-in-out duration-300`;
 
     return (
-        <section className="py-1 hidden rounded border-gray-200 bg-[url('/assets/header-bg.jpg')] bg-cover bg-center bg-no-repeat dark:bg-gray-900 sm:block sm:px-4 dark:text-white">
+        <section className="py-1 hidden rounded border-gray-200 bg-cover bg-center bg-no-repeat dark:bg-gray-900 sm:block sm:px-4 dark:text-white">
+            <Image
+                src="/assets/header-bg.jpg"
+                alt="Header Background"
+                layout="fill"
+                objectFit="cover"
+                quality={100}
+                className="rounded"
+            />
+
             <nav className="container grid max-w-full grid-cols-3 bg-beer-darkGold sm:flex sm:justify-between sm:gap-2 sm:bg-transparent  w-[1250px] m-auto">
                 {/* Left elements  */}
 
                 {/* Logo Cervezanas  */}
-                <section className="w-[300px] sm:w-[350px]" id="navbar-default">
-                    <div className="relative flex w-full flex-shrink-0 justify-center">
-                        <div className="relative flex justify-center pt-1">
-                            <Link href={'/'} locale={locale}>
-                                <Image
-                                    src="/logo-cervezanas-horizontal.webp"
-                                    alt="Cervezanas Logo"
-                                    width={810}
-                                    height={137}
-                                    style={{ objectFit: 'contain' }}
-                                    priority={true}
-                                    sizes="380px"
-                                />
-                            </Link>
-                        </div>
-                    </div>
+                <section
+                    className="relative flex w-full flex-shrink-0 justify-center pt-1 w-[300px] sm:w-[350px]"
+                    id="navbar-default"
+                >
+                    <Link href={'/'} locale={locale}>
+                        <Image
+                            src="/logo-cervezanas-horizontal.webp"
+                            alt="Cervezanas Logo"
+                            width={810}
+                            height={137}
+                            style={{ objectFit: 'contain' }}
+                            priority={true}
+                            sizes="380px"
+                        />
+                    </Link>
                 </section>
+
                 <section className="flex w-full items-right justify-end sm:w-[350px] lg:w-[400px] ml-auto">
                     <ul className="align-center sm:flex md:mt-0 md:flex-row md:space-x-4 md:text-sm md:font-medium mx-6 space-x-4 ">
                         <li className="flex items-center ">

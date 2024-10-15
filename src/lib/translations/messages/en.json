@@ -1340,5 +1340,7 @@
         "selected_period": "Selected period"
     },
     "about": "About",
-    "go_to_signin_and_signup_page": "Go to sign in and sign up page"
+    "go_to_signin_and_signup_page": "Go to sign in and sign up page",
+    "event": "Event",
+    "cervezanas_event": "Cervezanas Event"
 }
