@@ -9,6 +9,8 @@ import createServerClient from '@/utils/supabaseServer';
 import { notFound } from 'next/navigation';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { MessageList } from './components/message/MessageList';
+import AgeVerificationBanner from './components/ageBanner/AgeVerificationBanner';
+import CookieBanner from './components/cookieBanner/CookieBanner';
 
 type LayoutProps = {
     children: React.ReactNode;
@@ -66,6 +68,8 @@ export default async function AppLocaleLayout({
                 </main>
 
                 <Footer />
+                <AgeVerificationBanner />
+                <CookieBanner />
             </section>
         </Providers>
     );
