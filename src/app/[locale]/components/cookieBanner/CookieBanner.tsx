@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Cookies from 'js-cookie';
 import Link from 'next/link';
+import Cookies from 'js-cookie';
+import { useState, useEffect } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 
 const CookieBanner: React.FC = () => {
