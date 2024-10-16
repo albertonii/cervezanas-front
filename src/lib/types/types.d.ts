@@ -1022,6 +1022,7 @@ export interface IProductPackEventCartItem {
     name: string;
     products?: IEventProduct;
     producer_id: string;
+    distributor_id: string;
     cpf_id: string;
     cpm_id: string;
     cp_name: string;
