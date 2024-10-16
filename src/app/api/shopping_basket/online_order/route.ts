@@ -165,113 +165,118 @@ export async function POST(request: NextRequest) {
 
         for (const product of itemsGroup) {
             console.log('PRODUCT', product);
-            product.packs.map(async (pack) => {
-                const distributorId = product.distributor_id;
-                const producerId = product.producer_id;
+            await Promise.all(
+                product.packs.map(async (pack) => {
+                    const distributorId = product.distributor_id;
+                    const producerId = product.producer_id;
 
-                console.log('PACK', pack);
-                console.log('DISTRIBUTOR ID', distributorId);
-                console.log('PRODUCER ID', producerId);
-
-                if (!distributorId) {
-                    return NextResponse.json(
-                        {
-                            message:
-                                'Distributor ID not found for the item order',
-                        },
-                        { status: 500 },
-                    );
-                }
-
-                if (!producerId) {
-                    return NextResponse.json(
-                        {
-                            message: 'Producer ID not found for the item order',
-                        },
-                        { status: 500 },
-                    );
-                }
-
-                // ERROR: En producción no está llegando a insertar los business Orders
-                const { data: businessOrder, error: businessOrderError } =
-                    await supabase
-                        .from('business_orders')
-                        .insert({
-                            order_id: order.id,
-                            producer_id: producerId,
-                            distributor_id: distributorId,
-                            tracking_id: shipmentTracking.id,
-                            total_sales: pack.price * pack.quantity,
-                            platform_comission_producer: 0.15,
-                            platform_comission_distributor: 0.05,
-                            net_revenue_producer:
-                                pack.price * pack.quantity * 0.85,
-                            // net_revenue_distributor: order.shipment_price * 0.95,
-                            net_revenue_distributor: 0,
-                            invoice_period: calculateInvoicePeriod(new Date()),
-                        })
-                        .select('id')
-                        .single();
-
-                console.log('BUSINESS ORDER', businessOrder);
-                console.log('BUSINESS ORDER ERROR', businessOrderError);
-
-                if (businessOrderError) {
-                    const { error: cancelOrderStatusError } = await supabase
-                        .from('orders')
-                        .update({ status: ONLINE_ORDER_STATUS.ERROR });
-
-                    if (cancelOrderStatusError) {
+                    if (!distributorId) {
                         return NextResponse.json(
                             {
                                 message:
-                                    'Error updating order status to CANCEL',
+                                    'Distributor ID not found for the item order',
                             },
                             { status: 500 },
                         );
                     }
 
-                    return NextResponse.json(
-                        {
-                            message: 'Error inserting new business_order',
-                        },
-                        { status: 500 },
+                    if (!producerId) {
+                        return NextResponse.json(
+                            {
+                                message:
+                                    'Producer ID not found for the item order',
+                            },
+                            { status: 500 },
+                        );
+                    }
+
+                    // ERROR: En producción no está llegando a insertar los business Orders
+                    const { data: businessOrder, error: businessOrderError } =
+                        await supabase
+                            .from('business_orders')
+                            .insert({
+                                order_id: order.id,
+                                producer_id: producerId,
+                                distributor_id: distributorId,
+                                tracking_id: shipmentTracking.id,
+                                total_sales: pack.price * pack.quantity,
+                                platform_comission_producer: 0.15,
+                                platform_comission_distributor: 0.05,
+                                net_revenue_producer:
+                                    pack.price * pack.quantity * 0.85,
+                                // net_revenue_distributor: order.shipment_price * 0.95,
+                                net_revenue_distributor: 0,
+                                invoice_period: calculateInvoicePeriod(
+                                    new Date(),
+                                ),
+                            })
+                            .select('id')
+                            .single();
+
+                    console.log('BUSINESS ORDER', businessOrder);
+                    console.log('BUSINESS ORDER ERROR', businessOrderError);
+
+                    if (businessOrderError) {
+                        const { error: cancelOrderStatusError } = await supabase
+                            .from('orders')
+                            .update({ status: ONLINE_ORDER_STATUS.ERROR });
+
+                        if (cancelOrderStatusError) {
+                            return NextResponse.json(
+                                {
+                                    message:
+                                        'Error updating order status to CANCEL',
+                                },
+                                { status: 500 },
+                            );
+                        }
+
+                        return NextResponse.json(
+                            {
+                                message: 'Error inserting new business_order',
+                            },
+                            { status: 500 },
+                        );
+                    }
+
+                    const { error: orderItemError } = await supabase
+                        .from('order_items')
+                        .insert({
+                            business_order_id: businessOrder.id,
+                            product_pack_id: pack.id,
+                            quantity: pack.quantity,
+                            product_name: product.name,
+                            product_pack_name: pack.name,
+                            product_price: pack.price,
+                            subtotal: pack.price * pack.quantity,
+                            is_reviewed: false,
+                        });
+
+                    pack.products?.owner_id;
+
+                    if (orderItemError) throw orderItemError;
+
+                    // Notification to distributor
+                    const distributorMessage = `Tienes un nuevo pedido online de ${name} ${lastname} con número de pedido ${orderNumber} y con identificador de negocio ${businessOrder.id}`;
+                    const distributorLink = `${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_BUSINESS_ORDERS}`;
+
+                    sendPushNotification(
+                        distributorId,
+                        distributorMessage,
+                        distributorLink,
                     );
-                }
 
-                const { error: orderItemError } = await supabase
-                    .from('order_items')
-                    .insert({
-                        business_order_id: businessOrder.id,
-                        product_pack_id: pack.id,
-                        quantity: pack.quantity,
-                        product_name: product.name,
-                        product_pack_name: pack.name,
-                        product_price: pack.price,
-                        subtotal: pack.price * pack.quantity,
-                        is_reviewed: false,
-                    });
+                    // Notification to producer
+                    const producerMessage = `Tienes un nuevo pedido online de ${name} ${lastname} con número de pedido ${orderNumber} y con identificador de negocio ${businessOrder.id}`;
+                    const producerLink = `${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_ONLINE_ORDERS}`;
 
-                pack.products?.owner_id;
-
-                if (orderItemError) throw orderItemError;
-
-                // Notification to distributor
-                const distributorMessage = `Tienes un nuevo pedido online de ${name} ${lastname} con número de pedido ${orderNumber} y con identificador de negocio ${businessOrder.id}`;
-                const distributorLink = `${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_BUSINESS_ORDERS}`;
-
-                sendPushNotification(
-                    distributorId,
-                    distributorMessage,
-                    distributorLink,
-                );
-
-                // Notification to producer
-                const producerMessage = `Tienes un nuevo pedido online de ${name} ${lastname} con número de pedido ${orderNumber} y con identificador de negocio ${businessOrder.id}`;
-                const producerLink = `${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_ONLINE_ORDERS}`;
-
-                sendPushNotification(producerId, producerMessage, producerLink);
-            });
+                    sendPushNotification(
+                        producerId,
+                        producerMessage,
+                        producerLink,
+                    );
+                }),
+            );
         }
     }
 
