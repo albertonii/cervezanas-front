@@ -152,8 +152,6 @@ export async function POST(request: NextRequest) {
                 .select('id')
                 .single();
 
-        console.log('SHIPMENT TRACKING', shipmentTracking);
-
         if (!shipmentTracking || shipmentTrackingError) {
             return NextResponse.json(
                 { message: 'Error creating shipment tracking' },
@@ -161,10 +159,7 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        console.log('ITEMS GROUP', JSON.stringify(itemsGroup));
-
         for (const product of itemsGroup) {
-            console.log('PRODUCT', product);
             await Promise.all(
                 product.packs.map(async (pack) => {
                     const distributorId = product.distributor_id;
@@ -190,7 +185,6 @@ export async function POST(request: NextRequest) {
                         );
                     }
 
-                    // ERROR: En producción no está llegando a insertar los business Orders
                     const { data: businessOrder, error: businessOrderError } =
                         await supabase
                             .from('business_orders')
@@ -212,9 +206,6 @@ export async function POST(request: NextRequest) {
                             })
                             .select('id')
                             .single();
-
-                    console.log('BUSINESS ORDER', businessOrder);
-                    console.log('BUSINESS ORDER ERROR', businessOrderError);
 
                     if (businessOrderError) {
                         const { error: cancelOrderStatusError } = await supabase
@@ -251,8 +242,6 @@ export async function POST(request: NextRequest) {
                             subtotal: pack.price * pack.quantity,
                             is_reviewed: false,
                         });
-
-                    pack.products?.owner_id;
 
                     if (orderItemError) throw orderItemError;
 
