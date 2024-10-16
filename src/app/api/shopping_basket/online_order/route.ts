@@ -135,18 +135,10 @@ export async function POST(request: NextRequest) {
     // aquellos que tengan un pack, los inserto en la tabla order_items
     // además, como son del mismo pack y del mismo producto, los agrupo
     // y asigno el mismo identificador de pedido para el negocio - business_order_id
-    Object.values(
+    for (const itemsGroup of Object.values(
         itemsByDistributor as { [key: string]: IProductPackCartItem[] },
-    ).map(async (itemsGroup: IProductPackCartItem[]) => {
+    )) {
         // Creamos una entrada en shipment_tracking para que lo compartan entre los demás business_orders para un mismo distribuidor
-        console.log('ORDER', order);
-        console.log(
-            'ESTIMATED DATE',
-            new Date(
-                new Date().getTime() + 1000 * 60 * 60 * 24 * 7,
-            ).toISOString(),
-        );
-
         const { data: shipmentTracking, error: shipmentTrackingError } =
             await supabase
                 .from('shipment_tracking')
@@ -218,8 +210,8 @@ export async function POST(request: NextRequest) {
                             net_revenue_distributor: 0,
                             invoice_period: calculateInvoicePeriod(new Date()),
                         })
-                        .select('id');
-                // .single();
+                        .select('id')
+                        .single();
 
                 console.log('BUSINESS ORDER', businessOrder);
                 console.log('BUSINESS ORDER ERROR', businessOrderError);
@@ -250,7 +242,7 @@ export async function POST(request: NextRequest) {
                 const { error: orderItemError } = await supabase
                     .from('order_items')
                     .insert({
-                        business_order_id: businessOrder[0].id,
+                        business_order_id: businessOrder.id,
                         product_pack_id: pack.id,
                         quantity: pack.quantity,
                         product_name: product.name,
@@ -265,7 +257,7 @@ export async function POST(request: NextRequest) {
                 if (orderItemError) throw orderItemError;
 
                 // Notification to distributor
-                const distributorMessage = `Tienes un nuevo pedido online de ${name} ${lastname} con número de pedido ${orderNumber} y con identificador de negocio ${businessOrder[0].id}`;
+                const distributorMessage = `Tienes un nuevo pedido online de ${name} ${lastname} con número de pedido ${orderNumber} y con identificador de negocio ${businessOrder.id}`;
                 const distributorLink = `${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_BUSINESS_ORDERS}`;
 
                 sendPushNotification(
@@ -275,13 +267,13 @@ export async function POST(request: NextRequest) {
                 );
 
                 // Notification to producer
-                const producerMessage = `Tienes un nuevo pedido online de ${name} ${lastname} con número de pedido ${orderNumber} y con identificador de negocio ${businessOrder[0].id}`;
+                const producerMessage = `Tienes un nuevo pedido online de ${name} ${lastname} con número de pedido ${orderNumber} y con identificador de negocio ${businessOrder.id}`;
                 const producerLink = `${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_ONLINE_ORDERS}`;
 
                 sendPushNotification(producerId, producerMessage, producerLink);
             });
         }
-    });
+    }
 
     return NextResponse.json({ message: order.id }, { status: 201 });
 }
