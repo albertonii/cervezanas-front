@@ -192,6 +192,16 @@ export async function POST(request: NextRequest) {
                 }
 
                 // ERROR: En producción no está llegando a insertar los business Orders
+                console.log(
+                    'INVOICE PERIOD',
+                    calculateInvoicePeriod(new Date()),
+                );
+                console.log('ORDER ID', order.id);
+                console.log('total_sales ', pack.price * pack.quantity);
+                console.log(
+                    'net_revenue_producer',
+                    pack.price * pack.quantity * 0.85,
+                );
 
                 const { data: businessOrder, error: businessOrderError } =
                     await supabase
@@ -207,10 +217,10 @@ export async function POST(request: NextRequest) {
                             net_revenue_producer:
                                 pack.price * pack.quantity * 0.85,
                             // net_revenue_distributor: order.shipment_price * 0.95,
+                            net_revenue_distributor: 0,
                             invoice_period: calculateInvoicePeriod(new Date()),
                         })
-                        .select('id')
-                        .single();
+                        .select('id');
 
                 console.log('BUSINESS ORDER', businessOrder);
                 console.log('BUSINESS ORDER ERROR', businessOrderError);
