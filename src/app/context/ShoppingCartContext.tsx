@@ -386,6 +386,7 @@ export function ShoppingCartProvider({ children }: Props) {
         });
 
         setItems(newItems);
+        updateCanMakeThePayment(false);
     };
 
     const decreaseOnePackCartQuantity = (productId: string, packId: string) => {
@@ -412,6 +413,7 @@ export function ShoppingCartProvider({ children }: Props) {
         });
 
         setItems(newItems);
+        updateCanMakeThePayment(false);
     };
 
     const removeFromCart = (productId: string, packId: string) => {
@@ -436,6 +438,8 @@ export function ShoppingCartProvider({ children }: Props) {
                 return item.packs.length > 0;
             });
         });
+
+        updateCanMakeThePayment(false);
     };
 
     // Update one item in the cart by identifier
@@ -462,7 +466,7 @@ export function ShoppingCartProvider({ children }: Props) {
         let quantity = 0;
 
         if (!items) return quantity;
-        items.map((item) => {
+        items.forEach((item) => {
             quantity += item.packs.reduce(
                 (acc, pack) => acc + pack.quantity,
                 0,
@@ -512,6 +516,7 @@ export function ShoppingCartProvider({ children }: Props) {
     };
 
     const updateCanMakeThePayment = (canMakeThePayment: boolean) => {
+        console.log('updateCanMakeThePayment', canMakeThePayment);
         setCanMakeThePayment(canMakeThePayment);
     };
 

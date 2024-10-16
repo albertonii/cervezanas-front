@@ -1,75 +1,50 @@
-import React, { useEffect, useState } from 'react';
+import MarketCartButtons from '@/app/[locale]/components/cart/MarketCartButtons';
+import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
+import React, { useMemo, useState } from 'react';
+import { Beer } from 'lucide-react';
 import { SupabaseProps } from '@/constants';
 import { useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
-import { useShoppingCart } from '@/app/context/ShoppingCartContext';
-import {
-    IProduct,
-    IProductPack,
-    IProductPackCartItem,
-} from '@/lib//types/types';
 import { calculateProductPacksWeight } from '@/utils/distribution';
-import { Beer } from 'lucide-react';
-import MarketCartButtons from '@/app/[locale]/components/cart/MarketCartButtons';
-import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
+import { useShoppingCart } from '@/app/context/ShoppingCartContext';
+import { IProductPack, IProductPackCartItem } from '@/lib//types/types';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 interface Props {
     productPack: IProductPackCartItem;
-    productWithInfo: IProduct;
     pack: IProductPack;
 }
 
-export default function CheckoutPackItem({
-    productPack,
-    productWithInfo,
-    pack,
-}: Props) {
+export default function CheckoutPackItem({ productPack, pack }: Props) {
     const t = useTranslations();
 
     const [animateRemove, setAnimateRemove] = useState(false);
-    const [packWeight, setPackWeight] = useState(0);
-    const [isLoadingWeightCalculations, setIsLoadingWeightCalculations] =
-        useState(false);
 
-    useEffect(() => {
-        setIsLoadingWeightCalculations(true);
-
-        const getPackWeight = async () => {
-            const weight = calculateProductPacksWeight(productPack);
-            setPackWeight(weight);
-            setIsLoadingWeightCalculations(false);
-        };
-
-        getPackWeight();
-    }, [productPack]);
+    const packWeight = useMemo(
+        () => calculateProductPacksWeight(productPack),
+        [productPack],
+    );
 
     const {
         removeFromCart,
         increaseOnePackCartQuantity,
         decreaseOnePackCartQuantity,
+        updateCanMakeThePayment,
     } = useShoppingCart();
 
-    const handleIncreaseCartQuantity = (
-        item: IProductPackCartItem,
-        pack: IProductPack,
-    ) => {
-        increaseOnePackCartQuantity(item.product_id, pack.id);
+    const handleIncreaseCartQuantity = () => {
+        increaseOnePackCartQuantity(productPack.product_id, pack.id);
     };
 
-    const handleDecreaseCartQuantity = (
-        item: IProductPackCartItem,
-        pack: IProductPack,
-    ) => {
-        decreaseOnePackCartQuantity(item.product_id, pack.id);
+    const handleDecreaseCartQuantity = () => {
+        decreaseOnePackCartQuantity(productPack.product_id, pack.id);
     };
 
-    const handleRemoveFromCart = (itemId: string, packId: string) => {
+    const handleRemoveFromCart = () => {
         setAnimateRemove(true);
         setTimeout(() => {
-            removeFromCart(itemId, packId);
+            removeFromCart(productPack.product_id, pack.id);
         }, 500);
     };
 
@@ -100,16 +75,12 @@ export default function CheckoutPackItem({
                     {/* Peso del pack  */}
                     <div className="flex w-full flex-col items-center sm:items-start justify-start space-x-2">
                         <p className="text-base leading-6 text-gray-800 dark:text-white xl:text-lg ">
-                            {isLoadingWeightCalculations ? (
-                                <Spinner color="beer-blonde" size="small" />
-                            ) : (
-                                <div className="flex items-center mb-4">
-                                    <Beer className="text-amber-600 mr-2" />
-                                    <span className="text-amber-700 font-semibold">
-                                        {`${packWeight}${t('g')}`}
-                                    </span>
-                                </div>
-                            )}
+                            <div className="flex items-center mb-4">
+                                <Beer className="text-amber-600 mr-2" />
+                                <span className="text-amber-700 font-semibold">
+                                    {`${packWeight}${t('g')}`}
+                                </span>
+                            </div>
                         </p>
                     </div>
                 </div>
@@ -122,17 +93,12 @@ export default function CheckoutPackItem({
                         quantity={pack.quantity}
                         item={productPack}
                         handleIncreaseCartQuantity={() =>
-                            handleIncreaseCartQuantity(productPack, pack)
+                            handleIncreaseCartQuantity()
                         }
                         handleDecreaseCartQuantity={() =>
-                            handleDecreaseCartQuantity(productPack, pack)
+                            handleDecreaseCartQuantity()
                         }
-                        handleRemoveFromCart={() =>
-                            handleRemoveFromCart(
-                                productPack.product_id,
-                                pack.id,
-                            )
-                        }
+                        handleRemoveFromCart={() => handleRemoveFromCart()}
                         displayDeleteButton={true}
                     />
                 </div>

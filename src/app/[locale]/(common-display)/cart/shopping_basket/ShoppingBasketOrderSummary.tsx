@@ -1,6 +1,6 @@
 import Button from '@/app/[locale]/components/ui/buttons/Button';
 import ShoppingBasketAddressesSummary from './ShoppingBasketAddressesSummary';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
@@ -23,6 +23,11 @@ const ShoppingBasketOrderSummary = ({
     const t = useTranslations();
 
     const { canMakeThePayment, selectedShippingAddress } = useShoppingCart();
+
+    useEffect(() => {
+        console.log(canMakeThePayment);
+        return () => {};
+    }, [canMakeThePayment]);
 
     return (
         <div className="border-product-softBlonde flex w-full flex-col items-center justify-between gap-4 border bg-gray-50 px-4 py-6 dark:bg-gray-800 md:items-start md:p-6 xl:w-96 xl:p-8">

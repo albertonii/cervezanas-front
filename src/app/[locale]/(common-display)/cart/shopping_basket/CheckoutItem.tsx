@@ -79,11 +79,7 @@ export function CheckoutItem({ productPack, isShippingCostLoading }: Props) {
 
             {productPack.packs.map((pack) => (
                 <div key={pack.id}>
-                    <CheckoutPackItem
-                        productPack={productPack}
-                        productWithInfo={productWithInfo}
-                        pack={pack}
-                    />
+                    <CheckoutPackItem productPack={productPack} pack={pack} />
                 </div>
             ))}
         </article>

@@ -109,8 +109,8 @@ export function ShoppingBasket({ user }: Props) {
 
     useEffect(() => {
         let subtotal = 0;
-        items.map((item) => {
-            item.packs.map((pack) => {
+        items.forEach((item) => {
+            item.packs.forEach((pack) => {
                 subtotal += pack.price * pack.quantity;
             });
         });
@@ -121,6 +121,7 @@ export function ShoppingBasket({ user }: Props) {
 
     useEffect(() => {
         setCanMakeThePaymentResponse(false);
+        setDeliveryCost(0);
     }, [selectedShippingAddress]);
 
     useEffect(() => {
@@ -138,10 +139,6 @@ export function ShoppingBasket({ user }: Props) {
         selectedBillingAddress,
         canMakeThePaymentResponse,
     ]);
-
-    useEffect(() => {
-        setDeliveryCost(0);
-    }, [selectedShippingAddress]);
 
     const checkForm = async () => {
         const resultBillingInfoId = await triggerBilling('billing_info_id', {
