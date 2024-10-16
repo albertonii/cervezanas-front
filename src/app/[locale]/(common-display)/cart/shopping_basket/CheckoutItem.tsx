@@ -28,22 +28,22 @@ export function CheckoutItem({ productPack, isShippingCostLoading }: Props) {
 
     return (
         <article
-            className={`mt-4 space-y-4 
-                        ${isShippingCostLoading ? 'pointer-events-none' : ''}
-                     `}
+            className={`mt-6 ${
+                isShippingCostLoading ? 'pointer-events-none opacity-50' : ''
+            }`}
         >
-            <p className="space-x-2 text-xl">
+            <div className="flex items-baseline space-x-2">
                 <span className=" dark:text-white">{t('product_name')}:</span>
                 <Link
                     href={`/products/${productPack.product_id}`}
                     locale={locale}
                     target={'_blank'}
                 >
-                    <span className="font-semibold text-beer-draft hover:text-beer-gold dark:text-white hover:underline animation-all ease-in-out duration-200">
+                    <span className="text-lg font-semibold text-beer-draft hover:text-beer-gold dark:text-white hover:underline animation-all ease-in-out duration-200">
                         {productPack.name}
                     </span>
                 </Link>
-            </p>
+            </div>
 
             {isItemUndeliverable && <DeliveryError />}
 

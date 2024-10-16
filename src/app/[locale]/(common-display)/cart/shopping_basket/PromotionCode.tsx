@@ -93,67 +93,69 @@ export default function PromoCode() {
     };
 
     return (
-        <section className="relative w-full space-y-6 p-6 rounded-lg shadow-md bg-gray-50 dark:bg-gray-800">
-            <FontAwesomeIcon
-                icon={faTicketAlt}
-                title={'Promo Code Icon'}
-                className="text-beer-blonde absolute -top-4 -left-4 bg-white p-2 rounded-full shadow-lg"
-                size="2xl"
-            />
-
-            {isFetching && (
-                <Spinner
-                    class=" top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
-                    size="xxLarge"
-                    absolute
-                />
-            )}
-
-            <h3 className="text-2xl font-semibold text-gray-800 dark:text-white">
-                {t('promo_code')}
-            </h3>
-
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <InputLabel
-                    label="code"
-                    form={form}
-                    registerOptions={{ required: true }}
-                    placeholder={t('enter_promo_code')}
-                    disabled={isFetching}
+        <section className="w-full p-6 bg-white dark:bg-gray-900 rounded-lg shadow space-y-6">
+            <div className="relative w-full space-y-6 p-6 rounded-lg shadow-md bg-gray-50 dark:bg-gray-800">
+                <FontAwesomeIcon
+                    icon={faTicketAlt}
+                    title={'Promo Code Icon'}
+                    className="text-beer-blonde absolute -top-4 -left-4 bg-white p-2 rounded-full shadow-lg"
+                    size="2xl"
                 />
 
-                {errors.code && (
-                    <DisplayInputError message={errors.code.message} />
+                {isFetching && (
+                    <Spinner
+                        class=" top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
+                        size="xxLarge"
+                        absolute
+                    />
                 )}
 
-                <Button
-                    title={t('apply_promo_code')}
-                    primary
-                    large
-                    btnType="submit"
-                    disabled={isFetching}
-                >
-                    {t('apply_promo_code')}
-                </Button>
-            </form>
+                <h3 className="text-2xl font-semibold text-gray-800 dark:text-white">
+                    {t('promo_code')}
+                </h3>
 
-            {/* Información del código promocional: */}
-            {promotionData && (
-                <div className="flex flex-col space-y-2">
-                    <p className="text-sm text-gray-800 dark:text-white">
-                        {t('promo_code')}:{' '}
-                        <span className="font-semibold">
-                            {JSON.stringify(promotionData)}
-                            {/* {promotionData.code} */}
-                        </span>
-                        <br />
-                        {t('discount')}:{' '}
-                        <span className="font-semibold">
-                            {/* {promotionData.discount} */}
-                        </span>
-                    </p>
-                </div>
-            )}
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                    <InputLabel
+                        label="code"
+                        form={form}
+                        registerOptions={{ required: true }}
+                        placeholder={t('enter_promo_code')}
+                        disabled={isFetching}
+                    />
+
+                    {errors.code && (
+                        <DisplayInputError message={errors.code.message} />
+                    )}
+
+                    <Button
+                        title={t('apply_promo_code')}
+                        primary
+                        large
+                        btnType="submit"
+                        disabled={isFetching}
+                    >
+                        {t('apply_promo_code')}
+                    </Button>
+                </form>
+
+                {/* Información del código promocional: */}
+                {promotionData && (
+                    <div className="flex flex-col space-y-2">
+                        <p className="text-sm text-gray-800 dark:text-white">
+                            {t('promo_code')}:{' '}
+                            <span className="font-semibold">
+                                {JSON.stringify(promotionData)}
+                                {/* {promotionData.code} */}
+                            </span>
+                            <br />
+                            {t('discount')}:{' '}
+                            <span className="font-semibold">
+                                {/* {promotionData.discount} */}
+                            </span>
+                        </p>
+                    </div>
+                )}
+            </div>
         </section>
     );
 }
