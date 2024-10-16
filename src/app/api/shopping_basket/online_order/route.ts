@@ -131,8 +131,6 @@ export async function POST(request: NextRequest) {
         {},
     );
 
-    // ERROR: En producción no está llegando a insertar los business Orders
-
     // Estoy recorriendo todos los elementos del carrito de la compra,
     // aquellos que tengan un pack, los inserto en la tabla order_items
     // además, como son del mismo pack y del mismo producto, los agrupo
@@ -141,6 +139,7 @@ export async function POST(request: NextRequest) {
         itemsByDistributor as { [key: string]: IProductPackCartItem[] },
     ).map(async (itemsGroup: IProductPackCartItem[]) => {
         // Creamos una entrada en shipment_tracking para que lo compartan entre los demás business_orders para un mismo distribuidor
+        // ERROR DESCOMENTAR ESTA SECCION
         // const { data: shipmentTracking, error: shipmentTrackingError } =
         //     await supabase
         //         .from('shipment_tracking')
@@ -169,6 +168,10 @@ export async function POST(request: NextRequest) {
                 const distributorId = product.distributor_id;
                 const producerId = product.producer_id;
 
+                console.log('PACK', pack);
+                console.log('DISTRIBUTOR ID', distributorId);
+                console.log('PRODUCER ID', producerId);
+
                 if (!distributorId) {
                     return NextResponse.json(
                         {
@@ -188,6 +191,8 @@ export async function POST(request: NextRequest) {
                     );
                 }
 
+                // ERROR: En producción no está llegando a insertar los business Orders
+
                 const { data: businessOrder, error: businessOrderError } =
                     await supabase
                         .from('business_orders')
@@ -206,6 +211,9 @@ export async function POST(request: NextRequest) {
                         })
                         .select('id')
                         .single();
+
+                console.log('BUSINESS ORDER', businessOrder);
+                console.log('BUSINESS ORDER ERROR', businessOrderError);
 
                 if (businessOrderError) {
                     const { error: cancelOrderStatusError } = await supabase
