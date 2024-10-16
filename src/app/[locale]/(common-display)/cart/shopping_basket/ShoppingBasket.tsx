@@ -68,6 +68,7 @@ export function ShoppingBasket({ user }: Props) {
         defaultBillingAddress,
         defaultShippingAddress,
         updateCanMakeThePayment,
+        updateNeedsToCheckDelivery,
     } = useShoppingCart();
 
     // const formRef = useRef<HTMLFormElement>(null);
@@ -286,6 +287,7 @@ export function ShoppingBasket({ user }: Props) {
         }
 
         setIsShippingCostLoading(false);
+        updateNeedsToCheckDelivery(false);
     };
 
     // REDSYS PAYMENT

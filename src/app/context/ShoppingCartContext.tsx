@@ -58,6 +58,8 @@ type ShoppingCartContextType = {
     updateDefaultBillingAddress: (address: IAddress) => void;
     canMakeThePayment: boolean;
     updateCanMakeThePayment: (canMakeThePayment: boolean) => void;
+    needsToCheckDelivery: boolean;
+    updateNeedsToCheckDelivery: (value: boolean) => void;
 };
 
 const ShoppingCartContext = createContext<ShoppingCartContextType>({
@@ -99,6 +101,8 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
     isBillingAddressSelected: () => false,
     canMakeThePayment: false,
     updateCanMakeThePayment: () => void {},
+    needsToCheckDelivery: true,
+    updateNeedsToCheckDelivery: () => void {},
 });
 
 interface Props {
@@ -129,6 +133,9 @@ export function ShoppingCartProvider({ children }: Props) {
     >([]);
 
     const [canMakeThePayment, setCanMakeThePayment] = useState<boolean>(false);
+
+    const [needsToCheckDelivery, setNeedsToCheckDelivery] =
+        useState<boolean>(true);
 
     const clearItems = () => {
         setItems([]);
@@ -386,7 +393,7 @@ export function ShoppingCartProvider({ children }: Props) {
         });
 
         setItems(newItems);
-        updateCanMakeThePayment(false);
+        updateNeedsToCheckDelivery(true);
     };
 
     const decreaseOnePackCartQuantity = (productId: string, packId: string) => {
@@ -413,7 +420,7 @@ export function ShoppingCartProvider({ children }: Props) {
         });
 
         setItems(newItems);
-        updateCanMakeThePayment(false);
+        updateNeedsToCheckDelivery(true);
     };
 
     const removeFromCart = (productId: string, packId: string) => {
@@ -439,7 +446,7 @@ export function ShoppingCartProvider({ children }: Props) {
             });
         });
 
-        updateCanMakeThePayment(false);
+        updateNeedsToCheckDelivery(true);
     };
 
     // Update one item in the cart by identifier
@@ -516,8 +523,11 @@ export function ShoppingCartProvider({ children }: Props) {
     };
 
     const updateCanMakeThePayment = (canMakeThePayment: boolean) => {
-        console.log('updateCanMakeThePayment', canMakeThePayment);
         setCanMakeThePayment(canMakeThePayment);
+    };
+
+    const updateNeedsToCheckDelivery = (value: boolean) => {
+        setNeedsToCheckDelivery(value);
     };
 
     const value = {
@@ -550,6 +560,8 @@ export function ShoppingCartProvider({ children }: Props) {
         isBillingAddressSelected,
         canMakeThePayment,
         updateCanMakeThePayment,
+        needsToCheckDelivery,
+        updateNeedsToCheckDelivery,
     };
 
     return (
