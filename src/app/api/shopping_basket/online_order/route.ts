@@ -135,33 +135,32 @@ export async function POST(request: NextRequest) {
     // aquellos que tengan un pack, los inserto en la tabla order_items
     // además, como son del mismo pack y del mismo producto, los agrupo
     // y asigno el mismo identificador de pedido para el negocio - business_order_id
-    Object.values(itemsByDistributor as IProductPackCartItem[][]).map(
-        async (itemsGroup: IProductPackCartItem[]) => {
-            // Creamos una entrada en shipment_tracking para que lo compartan entre los demás business_orders para un mismo distribuidor
-            const { data: shipmentTracking, error: shipmentTrackingError } =
-                await supabase
-                    .from('shipment_tracking')
-                    .insert({
-                        order_id: order.id,
-                        status: ONLINE_ORDER_STATUS.PENDING,
-                        estimated_date: new Date(
-                            new Date().getTime() + 1000 * 60 * 60 * 24 * 7,
-                        ).toISOString(), // 3 days,
-                        // shipment_company: 'DHL', Esta información la rellenerá más adelante el distribuidor
-                        // shipment_url: 'https://www.dhl.com',
-                        // shipment_tracking_id: '123456789',
-                    })
-                    .select('id')
-                    .single();
+    for (const itemsGroup of Object.values(
+        itemsByDistributor as { [key: string]: IProductPackCartItem[] },
+    )) {
+        // Creamos una entrada en shipment_tracking para que lo compartan entre los demás business_orders para un mismo distribuidor
+        const { data: shipmentTracking, error: shipmentTrackingError } =
+            await supabase
+                .from('shipment_tracking')
+                .insert({
+                    order_id: order.id,
+                    status: ONLINE_ORDER_STATUS.PENDING,
+                    estimated_date: new Date(
+                        new Date().getTime() + 1000 * 60 * 60 * 24 * 7,
+                    ).toISOString(), // 7 days,
+                })
+                .select('id')
+                .single();
 
-            if (!shipmentTracking || shipmentTrackingError) {
-                return NextResponse.json(
-                    { message: 'Error creating shipment tracking' },
-                    { status: 500 },
-                );
-            }
+        if (!shipmentTracking || shipmentTrackingError) {
+            return NextResponse.json(
+                { message: 'Error creating shipment tracking' },
+                { status: 500 },
+            );
+        }
 
-            for (const product of itemsGroup) {
+        for (const product of itemsGroup) {
+            await Promise.all(
                 product.packs.map(async (pack) => {
                     const distributorId = product.distributor_id;
                     const producerId = product.producer_id;
@@ -200,6 +199,7 @@ export async function POST(request: NextRequest) {
                                 net_revenue_producer:
                                     pack.price * pack.quantity * 0.85,
                                 // net_revenue_distributor: order.shipment_price * 0.95,
+                                net_revenue_distributor: 0,
                                 invoice_period: calculateInvoicePeriod(
                                     new Date(),
                                 ),
@@ -243,8 +243,6 @@ export async function POST(request: NextRequest) {
                             is_reviewed: false,
                         });
 
-                    pack.products?.owner_id;
-
                     if (orderItemError) throw orderItemError;
 
                     // Notification to distributor
@@ -266,10 +264,10 @@ export async function POST(request: NextRequest) {
                         producerMessage,
                         producerLink,
                     );
-                });
-            }
-        },
-    );
+                }),
+            );
+        }
+    }
 
     return NextResponse.json({ message: order.id }, { status: 201 });
 }

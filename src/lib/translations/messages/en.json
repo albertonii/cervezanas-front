@@ -1337,8 +1337,12 @@
         "delete_invoice_modal_description": "Are you sure you want to delete the invoice? This action cannot be undone.",
         "delete_invoice_modal_btn": "Delete invoice",
         "invoice_name_placeholder": "Enter the invoice name",
-        "selected_period": "Selected period"
+        "selected_period": "Selected period",
+        "invoice_deleted_successfully": "Invoice deleted successfully"
     },
     "about": "About",
-    "go_to_signin_and_signup_page": "Go to sign in and sign up page"
+    "go_to_signin_and_signup_page": "Go to sign in and sign up page",
+    "event": "Event",
+    "cervezanas_event": "Cervezanas Event",
+    "cervezanas_spots": "Cervezanas Spots"
 }

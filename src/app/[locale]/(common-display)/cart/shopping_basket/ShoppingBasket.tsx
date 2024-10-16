@@ -68,6 +68,7 @@ export function ShoppingBasket({ user }: Props) {
         defaultBillingAddress,
         defaultShippingAddress,
         updateCanMakeThePayment,
+        updateNeedsToCheckDelivery,
     } = useShoppingCart();
 
     // const formRef = useRef<HTMLFormElement>(null);
@@ -109,8 +110,8 @@ export function ShoppingBasket({ user }: Props) {
 
     useEffect(() => {
         let subtotal = 0;
-        items.map((item) => {
-            item.packs.map((pack) => {
+        items.forEach((item) => {
+            item.packs.forEach((pack) => {
                 subtotal += pack.price * pack.quantity;
             });
         });
@@ -121,6 +122,7 @@ export function ShoppingBasket({ user }: Props) {
 
     useEffect(() => {
         setCanMakeThePaymentResponse(false);
+        setDeliveryCost(0);
     }, [selectedShippingAddress]);
 
     useEffect(() => {
@@ -138,10 +140,6 @@ export function ShoppingBasket({ user }: Props) {
         selectedBillingAddress,
         canMakeThePaymentResponse,
     ]);
-
-    useEffect(() => {
-        setDeliveryCost(0);
-    }, [selectedShippingAddress]);
 
     const checkForm = async () => {
         const resultBillingInfoId = await triggerBilling('billing_info_id', {
@@ -289,6 +287,7 @@ export function ShoppingBasket({ user }: Props) {
         }
 
         setIsShippingCostLoading(false);
+        updateNeedsToCheckDelivery(false);
     };
 
     // REDSYS PAYMENT
@@ -447,12 +446,10 @@ export function ShoppingBasket({ user }: Props) {
                                 formBilling={formBilling}
                             />
 
-                            <section className="w-full flex flex-col items-center space-y-2 bg-gray-50 p-6 rounded-lg shadow-md dark:bg-gray-800">
-                                {/* Promotion Code  */}
-                                <PromotionCode />
+                            {/* Promotion Code  */}
+                            <PromotionCode />
 
-                                {/* <CarrierDetails /> */}
-                            </section>
+                            {/* <CarrierDetails /> */}
                         </div>
 
                         {/* Order summary */}

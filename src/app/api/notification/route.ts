@@ -105,7 +105,9 @@ export async function POST(req: NextRequest) {
 
         if (errorProducerNotification) {
             console.error(
-                `Error in payment for order ${orderId}. Error: ${errorProducerNotification}`,
+                `Error in payment for order ${orderId}. Error: ${JSON.stringify(
+                    errorProducerNotification,
+                )}`,
             );
         }
 

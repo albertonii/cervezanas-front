@@ -20,7 +20,7 @@ const ShoppingBasketItems = ({
     const t = useTranslations();
 
     return (
-        <section className="relative w-full space-y-6 p-6 rounded-lg shadow-md bg-gray-50 dark:bg-gray-800">
+        <section className="relative w-full p-6 bg-white dark:bg-gray-900 rounded-lg shadow space-y-6">
             <FontAwesomeIcon
                 icon={faShoppingCart}
                 title={'Shipping Info Icon'}

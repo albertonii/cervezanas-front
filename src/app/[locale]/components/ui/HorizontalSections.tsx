@@ -17,7 +17,7 @@ export default function HorizontalSections({ handleMenuClick, tabs }: Props) {
         setActiveTab(tab);
         handleMenuClick(tab);
     };
-
+    console.log(tabs);
     return (
         <>
             <ul className="mx-16 flex justify-center bg-white rounded-lg shadow-md overflow-hidden border-2 border-gray-300">
@@ -45,7 +45,7 @@ export default function HorizontalSections({ handleMenuClick, tabs }: Props) {
                         `}
                         onClick={() => handleClick(tab)}
                     >
-                        {t(tab)}
+                        {t(tab.toLowerCase())}
                     </li>
                 ))}
             </ul>

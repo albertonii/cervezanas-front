@@ -58,6 +58,8 @@ type ShoppingCartContextType = {
     updateDefaultBillingAddress: (address: IAddress) => void;
     canMakeThePayment: boolean;
     updateCanMakeThePayment: (canMakeThePayment: boolean) => void;
+    needsToCheckDelivery: boolean;
+    updateNeedsToCheckDelivery: (value: boolean) => void;
 };
 
 const ShoppingCartContext = createContext<ShoppingCartContextType>({
@@ -99,6 +101,8 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
     isBillingAddressSelected: () => false,
     canMakeThePayment: false,
     updateCanMakeThePayment: () => void {},
+    needsToCheckDelivery: true,
+    updateNeedsToCheckDelivery: () => void {},
 });
 
 interface Props {
@@ -129,6 +133,9 @@ export function ShoppingCartProvider({ children }: Props) {
     >([]);
 
     const [canMakeThePayment, setCanMakeThePayment] = useState<boolean>(false);
+
+    const [needsToCheckDelivery, setNeedsToCheckDelivery] =
+        useState<boolean>(true);
 
     const clearItems = () => {
         setItems([]);
@@ -386,6 +393,7 @@ export function ShoppingCartProvider({ children }: Props) {
         });
 
         setItems(newItems);
+        updateNeedsToCheckDelivery(true);
     };
 
     const decreaseOnePackCartQuantity = (productId: string, packId: string) => {
@@ -412,6 +420,7 @@ export function ShoppingCartProvider({ children }: Props) {
         });
 
         setItems(newItems);
+        updateNeedsToCheckDelivery(true);
     };
 
     const removeFromCart = (productId: string, packId: string) => {
@@ -436,6 +445,8 @@ export function ShoppingCartProvider({ children }: Props) {
                 return item.packs.length > 0;
             });
         });
+
+        updateNeedsToCheckDelivery(true);
     };
 
     // Update one item in the cart by identifier
@@ -462,7 +473,7 @@ export function ShoppingCartProvider({ children }: Props) {
         let quantity = 0;
 
         if (!items) return quantity;
-        items.map((item) => {
+        items.forEach((item) => {
             quantity += item.packs.reduce(
                 (acc, pack) => acc + pack.quantity,
                 0,
@@ -515,6 +526,10 @@ export function ShoppingCartProvider({ children }: Props) {
         setCanMakeThePayment(canMakeThePayment);
     };
 
+    const updateNeedsToCheckDelivery = (value: boolean) => {
+        setNeedsToCheckDelivery(value);
+    };
+
     const value = {
         items,
         undeliverableItems,
@@ -545,6 +560,8 @@ export function ShoppingCartProvider({ children }: Props) {
         isBillingAddressSelected,
         canMakeThePayment,
         updateCanMakeThePayment,
+        needsToCheckDelivery,
+        updateNeedsToCheckDelivery,
     };
 
     return (

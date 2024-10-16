@@ -339,7 +339,7 @@ export function UpdateProductModal({
                 img_url_changed: false,
                 img_url_from_db: award.img_url,
             })),
-            brewery_id: product.brewery_id,
+            brewery_id: product.brewery_id ?? '',
 
             // campaign: "-",
         },
@@ -387,7 +387,9 @@ export function UpdateProductModal({
         formData.append('product_id', product.id);
 
         // Brewery
-        formData.append('brewery_id', brewery_id ?? '');
+        if (brewery_id && brewery_id !== '') {
+            formData.append('brewery_id', brewery_id);
+        }
 
         const response = await axios.put(url, formData, {
             headers: {

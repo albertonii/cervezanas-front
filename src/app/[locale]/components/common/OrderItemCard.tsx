@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import React from 'react';
 import LinkURL from '../ui/LinkURL';
 import DisplayImageProduct from '../ui/DisplayImageProduct';
+import { Type } from '@/lib/productEnum';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -21,6 +22,8 @@ const OrderItemCard = ({ orderItem }: Props) => {
     const productPackQuantity = orderItem.product_packs?.quantity;
     const total = orderItemQuantity * productPackPrice;
 
+    const itemCategory = orderItem.product_packs?.products?.category;
+
     return (
         <fieldset className="grid grid-cols-1 justify-between gap-2 rounded-lg border border-gray-200 sm:space-x-4 sm:p-4 lg:grid-cols-2 lg:space-x-2 lg:p-6 ">
             <legend className="text-lg">{t('product_information')}</legend>
@@ -35,7 +38,10 @@ const OrderItemCard = ({ orderItem }: Props) => {
                             imgSrc={`${
                                 BASE_PRODUCTS_URL +
                                 decodeURIComponent(
-                                    orderItem.product_packs?.img_url,
+                                    itemCategory === Type.BOX_PACK
+                                        ? orderItem.product_packs?.products
+                                              ?.product_multimedia?.p_principal
+                                        : orderItem.product_packs?.img_url,
                                 )
                             }`}
                             class="h-full w-full object-cover object-center"
