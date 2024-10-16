@@ -139,26 +139,35 @@ export async function POST(request: NextRequest) {
         itemsByDistributor as { [key: string]: IProductPackCartItem[] },
     ).map(async (itemsGroup: IProductPackCartItem[]) => {
         // Creamos una entrada en shipment_tracking para que lo compartan entre los demás business_orders para un mismo distribuidor
-        // ERROR DESCOMENTAR ESTA SECCION
-        // const { data: shipmentTracking, error: shipmentTrackingError } =
-        //     await supabase
-        //         .from('shipment_tracking')
-        //         .insert({
-        //             order_id: order.id,
-        //             status: ONLINE_ORDER_STATUS.PENDING,
-        //             estimated_date: new Date(
-        //                 new Date().getTime() + 1000 * 60 * 60 * 24 * 7,
-        //             ).toISOString(), // 7 days,
-        //         })
-        //         .select('id')
-        //         .single();
+        console.log('ORDER', order);
+        console.log(
+            'ESTIMATED DATE',
+            new Date(
+                new Date().getTime() + 1000 * 60 * 60 * 24 * 7,
+            ).toISOString(),
+        );
 
-        // if (!shipmentTracking || shipmentTrackingError) {
-        //     return NextResponse.json(
-        //         { message: 'Error creating shipment tracking' },
-        //         { status: 500 },
-        //     );
-        // }
+        const { data: shipmentTracking, error: shipmentTrackingError } =
+            await supabase
+                .from('shipment_tracking')
+                .insert({
+                    order_id: order.id,
+                    status: ONLINE_ORDER_STATUS.PENDING,
+                    estimated_date: new Date(
+                        new Date().getTime() + 1000 * 60 * 60 * 24 * 7,
+                    ).toISOString(), // 7 days,
+                })
+                .select('id')
+                .single();
+
+        console.log('SHIPMENT TRACKING', shipmentTracking);
+
+        if (!shipmentTracking || shipmentTrackingError) {
+            return NextResponse.json(
+                { message: 'Error creating shipment tracking' },
+                { status: 500 },
+            );
+        }
 
         console.log('ITEMS GROUP', JSON.stringify(itemsGroup));
 
@@ -192,17 +201,6 @@ export async function POST(request: NextRequest) {
                 }
 
                 // ERROR: En producción no está llegando a insertar los business Orders
-                console.log(
-                    'INVOICE PERIOD',
-                    calculateInvoicePeriod(new Date()),
-                );
-                console.log('ORDER ID', order.id);
-                console.log('total_sales ', pack.price * pack.quantity);
-                console.log(
-                    'net_revenue_producer',
-                    pack.price * pack.quantity * 0.85,
-                );
-
                 const { data: businessOrder, error: businessOrderError } =
                     await supabase
                         .from('business_orders')
@@ -210,7 +208,7 @@ export async function POST(request: NextRequest) {
                             order_id: order.id,
                             producer_id: producerId,
                             distributor_id: distributorId,
-                            // tracking_id: shipmentTracking.id,
+                            tracking_id: shipmentTracking.id,
                             total_sales: pack.price * pack.quantity,
                             platform_comission_producer: 0.15,
                             platform_comission_distributor: 0.05,
