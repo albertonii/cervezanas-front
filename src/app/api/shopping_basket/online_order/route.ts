@@ -221,6 +221,7 @@ export async function POST(request: NextRequest) {
                             invoice_period: calculateInvoicePeriod(new Date()),
                         })
                         .select('id');
+                // .single();
 
                 console.log('BUSINESS ORDER', businessOrder);
                 console.log('BUSINESS ORDER ERROR', businessOrderError);
@@ -251,7 +252,7 @@ export async function POST(request: NextRequest) {
                 const { error: orderItemError } = await supabase
                     .from('order_items')
                     .insert({
-                        business_order_id: businessOrder.id,
+                        business_order_id: businessOrder[0].id,
                         product_pack_id: pack.id,
                         quantity: pack.quantity,
                         product_name: product.name,
@@ -266,7 +267,7 @@ export async function POST(request: NextRequest) {
                 if (orderItemError) throw orderItemError;
 
                 // Notification to distributor
-                const distributorMessage = `Tienes un nuevo pedido online de ${name} ${lastname} con número de pedido ${orderNumber} y con identificador de negocio ${businessOrder.id}`;
+                const distributorMessage = `Tienes un nuevo pedido online de ${name} ${lastname} con número de pedido ${orderNumber} y con identificador de negocio ${businessOrder[0].id}`;
                 const distributorLink = `${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_BUSINESS_ORDERS}`;
 
                 sendPushNotification(
@@ -276,7 +277,7 @@ export async function POST(request: NextRequest) {
                 );
 
                 // Notification to producer
-                const producerMessage = `Tienes un nuevo pedido online de ${name} ${lastname} con número de pedido ${orderNumber} y con identificador de negocio ${businessOrder.id}`;
+                const producerMessage = `Tienes un nuevo pedido online de ${name} ${lastname} con número de pedido ${orderNumber} y con identificador de negocio ${businessOrder[0].id}`;
                 const producerLink = `${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_ONLINE_ORDERS}`;
 
                 sendPushNotification(producerId, producerMessage, producerLink);
