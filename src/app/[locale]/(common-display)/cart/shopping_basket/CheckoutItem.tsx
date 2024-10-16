@@ -20,41 +20,11 @@ export function CheckoutItem({ productPack, isShippingCostLoading }: Props) {
     const locale = useLocale();
 
     const { undeliverableItems } = useShoppingCart();
-    const [isItemUnDeliverable, setIsItemUnDeliverable] = useState(false);
 
-    useEffect(() => {
-        if (undeliverableItems?.length === 0) {
-            setIsItemUnDeliverable(false);
-            return;
-        }
-
-        // Comprobar si el producto es entregable
-        undeliverableItems.find((item) => {
-            if (item.id === productPack.id) {
-                setIsItemUnDeliverable(true);
-                return;
-            }
-        });
-    }, [undeliverableItems]);
-
-    const {
-        data: productWithInfo,
-        isError,
-        isLoading: isLoadingProduct,
-        refetch,
-    } = useFetchProductById(productPack.product_id);
-
-    useEffect(() => {
-        refetch();
-    }, []);
-
-    if (isLoadingProduct) {
-        return <Spinner color={'beer-blonde'} size={'medium'} />;
-    }
-
-    if (isError) return <div className="text-center text-red-500">Error</div>;
-
-    if (!productWithInfo) return null;
+    // Determinar si el producto no es entregable
+    const isItemUndeliverable = React.useMemo(() => {
+        return undeliverableItems.some((item) => item.id === productPack.id);
+    }, [undeliverableItems, productPack.id]);
 
     return (
         <article
@@ -65,7 +35,7 @@ export function CheckoutItem({ productPack, isShippingCostLoading }: Props) {
             <p className="space-x-2 text-xl">
                 <span className=" dark:text-white">{t('product_name')}:</span>
                 <Link
-                    href={`/products/${productWithInfo.id}`}
+                    href={`/products/${productPack.product_id}`}
                     locale={locale}
                     target={'_blank'}
                 >
@@ -75,7 +45,7 @@ export function CheckoutItem({ productPack, isShippingCostLoading }: Props) {
                 </Link>
             </p>
 
-            {isItemUnDeliverable && <DeliveryError />}
+            {isItemUndeliverable && <DeliveryError />}
 
             {productPack.packs.map((pack) => (
                 <div key={pack.id}>

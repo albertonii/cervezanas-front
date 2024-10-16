@@ -1,13 +1,11 @@
 'use client';
 
-import EventCheckoutPackItem from './EventCheckoutPackItem';
-import React from 'react';
-import { useEffect } from 'react';
-import { useTranslations } from 'next-intl';
-
-import { IProductPackEventCartItem } from '@/lib/types/types';
-import useFetchProductById from '../../../../../../../hooks/useFetchProductById';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
+import EventCheckoutPackItem from './EventCheckoutPackItem';
+import useFetchProductById from '../../../../../../../hooks/useFetchProductById';
+import React from 'react';
+import { useTranslations } from 'next-intl';
+import { IProductPackEventCartItem } from '@/lib/types/types';
 
 interface Props {
     eventId: string;
@@ -21,12 +19,7 @@ export function EventCheckoutItem({ eventId, productPack }: Props) {
         data: productWithInfo,
         isError,
         isLoading,
-        refetch,
     } = useFetchProductById(productPack.product_id);
-
-    useEffect(() => {
-        refetch();
-    }, []);
 
     if (isLoading) return <Spinner color={'beer-blonde'} />;
 
