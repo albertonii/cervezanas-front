@@ -22,6 +22,13 @@ export async function POST(request: NextRequest) {
 
         const formData = await request.formData();
 
+        // Aquí obtienes todos los archivos que se hayan subido bajo la clave 'media_file'
+        const mediaFiles = formData.getAll('media_files') as File[];
+
+        if (mediaFiles.length === 0) {
+            throw new Error('No se encontraron archivos en el FormData');
+        }
+
         // Basic
         const name = formData.get('name') as string;
         const description = formData.get('description') as string;
@@ -353,162 +360,206 @@ export async function POST(request: NextRequest) {
             });
         }
 
+        for (let index = 0; index < mediaFiles.length; index++) {
+            const file = mediaFiles[index];
+
+            console.log(`Procesando archivo ${file.name}`);
+
+            // Obtener el campo 'isMain' correspondiente
+            const isMain = formData.get(`isMain_${index}`) === 'true';
+
+            // Si necesitas subir el archivo a Supabase, podrías hacer algo como esto:
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${SupabaseProps.ARTICLES}${product?.id}/${randomUUID}.${fileExt}`;
+
+            // Subir a Supabase Storage
+            const { error } = await supabase.storage
+                .from('products') // Tu bucket en Supabase
+                .upload(fileName, file);
+
+            if (error) {
+                throw new Error(`Error al subir archivo: ${error.message}`);
+            }
+
+            // Guardar la URL pública del archivo en la base de datos, por ejemplo
+            const publicUrl = supabase.storage
+                .from('products')
+                .getPublicUrl(fileName).data.publicUrl;
+
+            // Guardar product_media
+            const { error: mediaError } = await supabase
+                .from('product_media')
+                .insert({
+                    product_id: product?.id,
+                    url: publicUrl,
+                    type: file.type,
+                    alt_text: file.name,
+                    is_primary: isMain,
+                });
+
+            if (mediaError) {
+                throw new Error(
+                    `Error al guardar en product_media: ${mediaError.message}`,
+                );
+            }
+        }
+
         // Multimedia
-        let p_principal_url = '';
-        let p_back_url = '';
-        let p_extra_1_url = '';
-        let p_extra_2_url = '';
-        let p_extra_3_url = '';
+        // let p_principal_url = '';
+        // let p_back_url = '';
+        // let p_extra_1_url = '';
+        // let p_extra_2_url = '';
+        // let p_extra_3_url = '';
 
-        if (p_principal) {
-            const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_PRINCIPAL}/${randomUUID}`;
+        // if (p_principal) {
+        //     const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_PRINCIPAL}/${randomUUID}`;
 
-            p_principal_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(p_principal.name)}`,
-            );
+        //     p_principal_url = encodeURIComponent(
+        //         `${fileName}${generateFileNameExtension(p_principal.name)}`,
+        //     );
 
-            const { error: p_principal_error } = await supabase.storage
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(p_principal.name)}`,
-                    p_principal,
-                    {
-                        contentType: p_principal.type,
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
+        //     const { error: p_principal_error } = await supabase.storage
+        //         .from('products')
+        //         .upload(
+        //             `${fileName}${generateFileNameExtension(p_principal.name)}`,
+        //             p_principal,
+        //             {
+        //                 contentType: p_principal.type,
+        //                 cacheControl: '3600',
+        //                 upsert: false,
+        //             },
+        //         );
 
-            if (p_principal_error)
-                return NextResponse.json(
-                    { message: 'Error uploading p_principal' },
-                    { status: 500 },
-                );
-        }
+        //     if (p_principal_error)
+        //         return NextResponse.json(
+        //             { message: 'Error uploading p_principal' },
+        //             { status: 500 },
+        //         );
+        // }
 
-        if (p_back) {
-            const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_BACK}/${randomUUID}`;
+        // if (p_back) {
+        //     const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_BACK}/${randomUUID}`;
 
-            p_back_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(p_back.name)}`,
-            );
+        //     p_back_url = encodeURIComponent(
+        //         `${fileName}${generateFileNameExtension(p_back.name)}`,
+        //     );
 
-            const { error: p_back_error } = await supabase.storage
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(p_back.name)}`,
-                    p_back,
-                    {
-                        contentType: p_back.type,
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
+        //     const { error: p_back_error } = await supabase.storage
+        //         .from('products')
+        //         .upload(
+        //             `${fileName}${generateFileNameExtension(p_back.name)}`,
+        //             p_back,
+        //             {
+        //                 contentType: p_back.type,
+        //                 cacheControl: '3600',
+        //                 upsert: false,
+        //             },
+        //         );
 
-            if (p_back_error)
-                return NextResponse.json(
-                    { message: 'Error uploading p_back' },
-                    { status: 500 },
-                );
-        }
+        //     if (p_back_error)
+        //         return NextResponse.json(
+        //             { message: 'Error uploading p_back' },
+        //             { status: 500 },
+        //         );
+        // }
 
-        if (p_extra_1) {
-            const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_EXTRA_1}/${randomUUID}`;
+        // if (p_extra_1) {
+        //     const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_EXTRA_1}/${randomUUID}`;
 
-            p_extra_1_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(p_extra_1.name)}`,
-            );
+        //     p_extra_1_url = encodeURIComponent(
+        //         `${fileName}${generateFileNameExtension(p_extra_1.name)}`,
+        //     );
 
-            const { error: p_extra_1_error } = await supabase.storage
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(p_extra_1.name)}`,
-                    p_extra_1,
-                    {
-                        contentType: p_extra_1.type,
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
+        //     const { error: p_extra_1_error } = await supabase.storage
+        //         .from('products')
+        //         .upload(
+        //             `${fileName}${generateFileNameExtension(p_extra_1.name)}`,
+        //             p_extra_1,
+        //             {
+        //                 contentType: p_extra_1.type,
+        //                 cacheControl: '3600',
+        //                 upsert: false,
+        //             },
+        //         );
 
-            if (p_extra_1_error)
-                return NextResponse.json(
-                    { message: 'Error uploading p_extra_1' },
-                    { status: 500 },
-                );
-        }
+        //     if (p_extra_1_error)
+        //         return NextResponse.json(
+        //             { message: 'Error uploading p_extra_1' },
+        //             { status: 500 },
+        //         );
+        // }
 
-        if (p_extra_2) {
-            const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_EXTRA_2}/${randomUUID}`;
+        // if (p_extra_2) {
+        //     const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_EXTRA_2}/${randomUUID}`;
 
-            p_extra_2_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(p_extra_2.name)}`,
-            );
+        //     p_extra_2_url = encodeURIComponent(
+        //         `${fileName}${generateFileNameExtension(p_extra_2.name)}`,
+        //     );
 
-            const { error: p_extra_2_error } = await supabase.storage
+        //     const { error: p_extra_2_error } = await supabase.storage
 
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(p_extra_2.name)}`,
-                    p_extra_2,
-                    {
-                        contentType: p_extra_2.type,
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
+        //         .from('products')
+        //         .upload(
+        //             `${fileName}${generateFileNameExtension(p_extra_2.name)}`,
+        //             p_extra_2,
+        //             {
+        //                 contentType: p_extra_2.type,
+        //                 cacheControl: '3600',
+        //                 upsert: false,
+        //             },
+        //         );
 
-            if (p_extra_2_error)
-                return NextResponse.json(
-                    { message: 'Error uploading p_extra_2' },
-                    { status: 500 },
-                );
-        }
+        //     if (p_extra_2_error)
+        //         return NextResponse.json(
+        //             { message: 'Error uploading p_extra_2' },
+        //             { status: 500 },
+        //         );
+        // }
 
-        if (p_extra_3) {
-            const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_EXTRA_3}/${randomUUID}`;
+        // if (p_extra_3) {
+        //     const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_EXTRA_3}/${randomUUID}`;
 
-            p_extra_3_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(p_extra_3.name)}`,
-            );
+        //     p_extra_3_url = encodeURIComponent(
+        //         `${fileName}${generateFileNameExtension(p_extra_3.name)}`,
+        //     );
 
-            const { error: p_extra_3_error } = await supabase.storage
+        //     const { error: p_extra_3_error } = await supabase.storage
 
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(p_extra_3.name)}`,
-                    p_extra_3,
-                    {
-                        contentType: p_extra_3.type,
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
+        //         .from('products')
+        //         .upload(
+        //             `${fileName}${generateFileNameExtension(p_extra_3.name)}`,
+        //             p_extra_3,
+        //             {
+        //                 contentType: p_extra_3.type,
+        //                 cacheControl: '3600',
+        //                 upsert: false,
+        //             },
+        //         );
 
-            if (p_extra_3_error)
-                return NextResponse.json(
-                    { message: 'Error uploading p_extra_3' },
-                    { status: 500 },
-                );
-        }
+        //     if (p_extra_3_error)
+        //         return NextResponse.json(
+        //             { message: 'Error uploading p_extra_3' },
+        //             { status: 500 },
+        //         );
+        // }
 
-        const { error: multError } = await supabase
-            .from('product_multimedia')
-            .insert({
-                product_id: product.id,
-                p_principal: p_principal_url ?? '',
-                p_back: p_back_url ?? '',
-                p_extra_1: p_extra_1_url ?? '',
-                p_extra_2: p_extra_2_url ?? '',
-                p_extra_3: p_extra_3_url ?? '',
-            });
+        // const { error: multError } = await supabase
+        //     .from('product_multimedia')
+        //     .insert({
+        //         product_id: product.id,
+        //         p_principal: p_principal_url ?? '',
+        //         p_back: p_back_url ?? '',
+        //         p_extra_1: p_extra_1_url ?? '',
+        //         p_extra_2: p_extra_2_url ?? '',
+        //         p_extra_3: p_extra_3_url ?? '',
+        //     });
 
-        if (multError) {
-            return NextResponse.json(
-                { message: 'Error creating product multimedia' },
-                { status: 500 },
-            );
-        }
+        // if (multError) {
+        //     return NextResponse.json(
+        //         { message: 'Error creating product multimedia' },
+        //         { status: 500 },
+        //     );
+        // }
 
         return NextResponse.json(
             { message: 'Product successfully created' },

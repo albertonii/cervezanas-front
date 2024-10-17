@@ -2555,45 +2555,6 @@ export type Database = {
           },
         ]
       }
-      product_consumption: {
-        Row: {
-          consumer_id: string
-          created_at: string
-          datetime_consumption: string | null
-          product_id: string
-          score: number | null
-        }
-        Insert: {
-          consumer_id?: string
-          created_at?: string
-          datetime_consumption?: string | null
-          product_id?: string
-          score?: number | null
-        }
-        Update: {
-          consumer_id?: string
-          created_at?: string
-          datetime_consumption?: string | null
-          product_id?: string
-          score?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "public_product_consumption_consumer_id_fkey"
-            columns: ["consumer_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_product_consumption_product_id_fkey"
-            columns: ["product_id"]
-            isOneToOne: false
-            referencedRelation: "products"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       product_inventory: {
         Row: {
           created_at: string | null
@@ -2682,6 +2643,44 @@ export type Database = {
           },
           {
             foreignKeyName: "product_lots_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      product_media: {
+        Row: {
+          alt_text: string | null
+          created_at: string
+          id: string
+          is_primary: boolean | null
+          product_id: string | null
+          type: string | null
+          url: string | null
+        }
+        Insert: {
+          alt_text?: string | null
+          created_at?: string
+          id?: string
+          is_primary?: boolean | null
+          product_id?: string | null
+          type?: string | null
+          url?: string | null
+        }
+        Update: {
+          alt_text?: string | null
+          created_at?: string
+          id?: string
+          is_primary?: boolean | null
+          product_id?: string | null
+          type?: string | null
+          url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_media_product_id_fkey"
             columns: ["product_id"]
             isOneToOne: false
             referencedRelation: "products"

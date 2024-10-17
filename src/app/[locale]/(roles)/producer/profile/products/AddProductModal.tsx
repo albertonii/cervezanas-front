@@ -6,7 +6,7 @@ import { z, ZodType } from 'zod';
 import { Type } from '@/lib//productEnum';
 import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useAppContext } from '@/app/context/AppContext';
 import { faBox } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
@@ -164,6 +164,7 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
             message: 'errors.error_50_number_max_length',
         }),
     brewery_id: z.string().optional(),
+    multimedia_files: z.array(z.any()).optional(), // Añadir campo para los archivos
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -257,12 +258,22 @@ export function AddProductModal() {
             malt_type,
             consumption_temperature,
             brewery_id,
+            multimedia_files,
         } = form;
 
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
         const url = `${baseUrl}/api/products`;
 
         const formData = new FormData();
+
+        // Agregar archivos al FormData
+        multimedia_files?.forEach((object, index) => {
+            formData.append('media_files', object.file);
+            formData.append(
+                `isMain_${index}`,
+                object.isMain ? 'true' : 'false',
+            );
+        });
 
         // Basic
         formData.append('name', name);
@@ -444,49 +455,53 @@ export function AddProductModal() {
     };
 
     return (
-        <ModalWithForm
-            showBtn={true}
-            showModal={showModal}
-            setShowModal={setShowModal}
-            title={'add_product'}
-            btnTitle={'add_new_product'}
-            triggerBtnTitle={'add_product'}
-            description={''}
-            icon={faBox}
-            classContainer={`${isLoading && ' opacity-75'}`}
-            handler={() => {}}
-            handlerClose={() => {
-                setActiveStep(0);
-                setShowModal(false);
-            }}
-            form={form}
-            showTriggerBtn={false}
-            showCancelBtn={false}
-        >
-            <ProductStepper
-                activeStep={activeStep}
-                handleSetActiveStep={handleSetActiveStep}
-                isSubmitting={isSubmitting}
+        <FormProvider {...form}>
+            {' '}
+            {/* Envolver todo en FormProvider */}
+            <ModalWithForm
+                showBtn={true}
+                showModal={showModal}
+                setShowModal={setShowModal}
+                title={'add_product'}
                 btnTitle={'add_new_product'}
-                handler={handleSubmit(onSubmit)}
+                triggerBtnTitle={'add_product'}
+                description={''}
+                icon={faBox}
+                classContainer={`${isLoading && ' opacity-75'}`}
+                handler={() => {}}
+                handlerClose={() => {
+                    setActiveStep(0);
+                    setShowModal(false);
+                }}
+                form={form}
+                showTriggerBtn={false}
+                showCancelBtn={false}
             >
-                <>
-                    <ProductHeaderDescription />
+                <ProductStepper
+                    activeStep={activeStep}
+                    handleSetActiveStep={handleSetActiveStep}
+                    isSubmitting={isSubmitting}
+                    btnTitle={'add_new_product'}
+                    handler={handleSubmit(onSubmit)}
+                >
+                    <>
+                        <ProductHeaderDescription />
 
-                    {activeStep === 0 ? (
-                        <ProductInfoSection
-                            form={form}
-                            customizeSettings={customizeSettings}
-                        />
-                    ) : activeStep === 1 ? (
-                        <MultimediaSection form={form} />
-                    ) : activeStep === 2 ? (
-                        <AwardsSection form={form} />
-                    ) : (
-                        <ProductSummary form={form} />
-                    )}
-                </>
-            </ProductStepper>
-        </ModalWithForm>
+                        {activeStep === 0 ? (
+                            <ProductInfoSection
+                                form={form}
+                                customizeSettings={customizeSettings}
+                            />
+                        ) : activeStep === 1 ? (
+                            <MultimediaSection />
+                        ) : activeStep === 2 ? (
+                            <AwardsSection form={form} />
+                        ) : (
+                            <ProductSummary form={form} />
+                        )}
+                    </>
+                </ProductStepper>
+            </ModalWithForm>
+        </FormProvider>
     );
 }

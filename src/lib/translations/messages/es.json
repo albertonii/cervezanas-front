@@ -1380,5 +1380,13 @@
     "go_to_signin_and_signup_page": "Ir a la página de inicio de sesión y registro",
     "event": "Evento",
     "cervezanas_event": "Evento Cervezanas",
-    "cervezanas_spots": "Puntos Cervezanas"
+    "cervezanas_spots": "Puntos Cervezanas",
+    "media_uploader": {
+        "loading_files": "Cargando archivos ...",
+        "limitations": "PNG, JPG, GIF hasta 5MB. 1 video hasta 50MB.",
+        "images": "Imágenes",
+        "max_imgs_reached": "Máximo de imágenes alcanzado",
+        "main_image": "Imagen principal",
+        "move": "Arrastrar"
+    }
 }

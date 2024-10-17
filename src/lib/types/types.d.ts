@@ -880,6 +880,7 @@ export type ModalAddProductFormData = {
     // campaign: string;
     awards: ModalAddProductAwardFormData[];
     packs: ModalAddProductPackFormData[];
+    multimedia_files?: any[];
 };
 
 export type ModalUpdateProductFormData = {
@@ -1071,6 +1072,7 @@ export interface IProduct {
     users?: IUserTable;
     product_inventory?: IProductInventory;
     product_multimedia?: IProductMultimedia;
+    product_media?: IProductMedia[];
     box_packs?: IBoxPack[];
     breweries?: IBrewery;
 }
@@ -1999,4 +2001,14 @@ export interface InvoiceFormData {
     invoice_file: FileList;
     total_amount: number;
     invoice_period_selected: string;
+}
+
+export interface IProductMedia {
+    id: string;
+    created_at: string;
+    product_id: string;
+    type: string; // Photo or Video
+    url: string;
+    alt_text: string;
+    is_primary: boolean;
 }
