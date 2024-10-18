@@ -23,6 +23,7 @@ import {
     ModalAddProductFormData,
 } from '@/lib//types/types';
 import ProductHeaderDescription from '@/app/[locale]/components/modals/ProductHeaderDescription';
+import ProductFooterDescription from '@/app/[locale]/components/modals/ProductFooterDescription';
 
 const ModalWithForm = dynamic(
     () => import('@/app/[locale]/components/modals/ModalWithForm'),
@@ -499,6 +500,8 @@ export function AddProductModal() {
                         ) : (
                             <ProductSummary form={form} />
                         )}
+
+                        <ProductFooterDescription />
                     </>
                 </ProductStepper>
             </ModalWithForm>
