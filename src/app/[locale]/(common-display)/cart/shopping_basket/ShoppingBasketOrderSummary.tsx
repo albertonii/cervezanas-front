@@ -25,11 +25,6 @@ const ShoppingBasketOrderSummary = ({
     const { canMakeThePayment, selectedShippingAddress, needsToCheckDelivery } =
         useShoppingCart();
 
-    useEffect(() => {
-        console.log(canMakeThePayment);
-        return () => {};
-    }, [canMakeThePayment]);
-
     return (
         <div className=" flex w-full flex-col items-center justify-between gap-4 border bg-gray-50 px-4 py-6 dark:bg-gray-800 md:items-start md:p-6 xl:w-96 xl:p-4">
             <div className="flex h-full w-full flex-col items-stretch justify-start md:flex-col lg:space-x-8 xl:flex-col xl:space-x-0">
