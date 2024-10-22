@@ -22,42 +22,6 @@ export function UpdateMultimediaSection({ form, productId }: Props) {
             />
 
             <ProductMediaUploader />
-            {/* 
-
-            <UpdateFilePreviewImageMultimedia
-                productId={productId}
-                form={form}
-                registerName="p_principal"
-                preUrl={preUrl}
-            />
-
-            <UpdateFilePreviewImageMultimedia
-                productId={productId}
-                form={form}
-                registerName="p_back"
-                preUrl={preUrl}
-            />
-
-            <UpdateFilePreviewImageMultimedia
-                productId={productId}
-                form={form}
-                registerName="p_extra_1"
-                preUrl={preUrl}
-            />
-
-            <UpdateFilePreviewImageMultimedia
-                productId={productId}
-                form={form}
-                registerName="p_extra_2"
-                preUrl={preUrl}
-            />
-
-            <UpdateFilePreviewImageMultimedia
-                productId={productId}
-                form={form}
-                registerName="p_extra_3"
-                preUrl={preUrl}
-            /> */}
         </section>
     );
 }

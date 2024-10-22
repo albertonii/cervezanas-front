@@ -13,13 +13,7 @@ module.exports = withNextIntl({
     webpackBuildWorker: true,
   },
   images: {
-    formats: [
-      'image/avif',
-      'image/webp',
-      'image/png',
-      'image/jpg',
-      'image/jpeg',
-    ],
+    formats: ['image/avif', 'image/webp'], // Solo los formatos válidos
     domains: [
       'nzlovxxjnbrzfykphpaj.supabase.co',
       'randomuser.me',
@@ -80,6 +74,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 //   hideSourceMaps: true,
 // };
 
-module.exports = withBundleAnalyzer({});
+// module.exports = withBundleAnalyzer({});
 
 // module.exports = withSentryConfig(sentryWebpackPluginOptions, sentryOptions);

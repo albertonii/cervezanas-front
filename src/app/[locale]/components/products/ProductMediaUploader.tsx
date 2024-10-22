@@ -1,6 +1,6 @@
 import imageCompression from 'browser-image-compression';
 import DraggableFile from './DraggableFile';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { useTranslations } from 'next-intl';
 import { useDropzone } from 'react-dropzone';
@@ -12,38 +12,14 @@ const MAX_IMAGES = 5;
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50MB
 
-interface UploadedFile {
-    file: File;
-    type: 'image' | 'video';
-    isMain?: boolean;
-}
-
 const ProductMediaUploader: React.FC = () => {
     const t = useTranslations();
 
-    const { files, setFiles } = useFileUpload();
+    const { files, setFiles, setFilesToDelete } = useFileUpload();
 
     const [errors, setErrors] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
     const [previewFile, setPreviewFile] = useState<string | null>(null);
-
-    // useEffect(() => {
-    //     const existingFiles = getValues('multimedia_files') || [];
-
-    //     console.log('existingFiles', existingFiles);
-
-    //     const initialFiles = existingFiles.map((file: File) => ({
-    //         file,
-    //         type: file.type.startsWith('image/') ? 'image' : 'video',
-    //         isMain: false,
-    //     }));
-
-    //     if (initialFiles.length > 0 && initialFiles[0].type === 'image') {
-    //         initialFiles[0].isMain = true;
-    //     }
-
-    //     setFiles(initialFiles);
-    // }, [getValues]);
 
     const onDrop = useCallback(
         async (acceptedFiles: File[]) => {
@@ -124,14 +100,23 @@ const ProductMediaUploader: React.FC = () => {
 
     const removeFile = (index: number) => {
         setFiles((prevFiles) => {
+            const fileToRemove = prevFiles[index];
             const newFiles = prevFiles.filter((_, i) => i !== index);
-            if (
-                prevFiles[index].isMain &&
-                newFiles.length > 0 &&
-                newFiles[0].type === 'image'
-            ) {
-                newFiles[0].isMain = true;
+
+            // Si el archivo es existente, agrégalo a filesToDelete
+            if (fileToRemove.isExisting) {
+                setFilesToDelete((prev) => [...prev, fileToRemove]);
             }
+
+            // Ajustar isMain si es necesario
+            if (
+                fileToRemove.isMain &&
+                newFiles.length > 0 &&
+                newFiles.some((f) => f.type === 'image')
+            ) {
+                newFiles.find((f) => f.type === 'image')!.isMain = true;
+            }
+
             return newFiles;
         });
     };

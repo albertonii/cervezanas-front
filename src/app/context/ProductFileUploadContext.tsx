@@ -1,14 +1,11 @@
+import { UploadedFile } from '@/lib/types/types';
 import React, { createContext, useState, useContext } from 'react';
-
-interface UploadedFile {
-    file: File;
-    type: 'image' | 'video';
-    isMain?: boolean;
-}
 
 interface FileUploadContextType {
     files: UploadedFile[];
     setFiles: React.Dispatch<React.SetStateAction<UploadedFile[]>>;
+    filesToDelete: UploadedFile[];
+    setFilesToDelete: React.Dispatch<React.SetStateAction<UploadedFile[]>>;
     clearFiles: () => void;
 }
 
@@ -24,13 +21,22 @@ export const ProductFileUploadProvider: React.FC<
     ProductFileUploadProviderProps
 > = ({ children }) => {
     const [files, setFiles] = useState<UploadedFile[]>([]);
+    const [filesToDelete, setFilesToDelete] = useState<UploadedFile[]>([]);
 
     const clearFiles = () => {
         setFiles([]);
     };
 
     return (
-        <FileUploadContext.Provider value={{ files, setFiles, clearFiles }}>
+        <FileUploadContext.Provider
+            value={{
+                files,
+                setFiles,
+                filesToDelete,
+                setFilesToDelete,
+                clearFiles,
+            }}
+        >
             {children}
         </FileUploadContext.Provider>
     );

@@ -3,7 +3,6 @@ import readUserSession, { generateUUID } from '@/lib//actions';
 import { SupabaseProps } from '@/constants';
 import { NextRequest, NextResponse } from 'next/server';
 import { fileTypeToExtension, generateFileNameExtension } from '@/utils/utils';
-import { IProductMedia, IProductPack } from '@/lib/types/types';
 
 export async function POST(request: NextRequest) {
     try {
@@ -343,6 +342,7 @@ export async function POST(request: NextRequest) {
             });
         }
 
+        // Media Files
         for (let index = 0; index < mediaFiles.length; index++) {
             const file = mediaFiles[index];
 

@@ -915,6 +915,7 @@ export type ModalUpdateProductFormData = {
     awards: ModalUpdateProductAwardFormData[];
     packs: ModalUpdateProductPackFormData[];
     multimedia_files?: any[];
+    media_files?: IProductMediaFormData[];
 };
 
 type ModalAddProductAwardFormData = {
@@ -2004,8 +2005,19 @@ export interface IProductMedia {
     is_primary: boolean;
 }
 
+export interface IProductMediaFormData {
+    product_id: string;
+    type: string; // Photo or Video
+    url: string;
+    alt_text: string;
+    is_primary: boolean;
+}
+
 export interface UploadedFile {
-    file: File;
-    type: 'image' | 'video';
+    file?: File;
+    type: string;
     isMain?: boolean;
+    isExisting?: boolean;
+    url?: string;
+    id?: string;
 }

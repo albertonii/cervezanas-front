@@ -1,9 +1,9 @@
 import Image from 'next/image';
-import React, { useRef, useState } from 'react';
-import { useDrag, useDrop } from 'react-dnd';
+import React, { useRef } from 'react';
 import { useTranslations } from 'next-intl';
-import { Move, Star, Video, X, ZoomIn } from 'lucide-react';
+import { useDrag, useDrop } from 'react-dnd';
 import { UploadedFile } from '@/lib/types/types';
+import { Move, Star, Video, X, ZoomIn } from 'lucide-react';
 
 interface DraggableFileProps {
     index: number;
@@ -23,7 +23,6 @@ const DraggableFile: React.FC<DraggableFileProps> = ({
     setMainImage,
 }) => {
     const t = useTranslations();
-
     const ref = useRef<HTMLDivElement>(null);
 
     const [{ isDragging }, drag] = useDrag({
@@ -52,13 +51,26 @@ const DraggableFile: React.FC<DraggableFileProps> = ({
 
     drag(drop(ref));
 
-    const fileUrl = URL.createObjectURL(file.file);
+    // Genera la URL del archivo
+    let fileUrl = '';
+
+    if (file.isExisting && file.url) {
+        // Para archivos existentes, usamos la URL proporcionada
+        fileUrl = file.url;
+    } else if (file.file) {
+        // Para archivos nuevos, generamos una URL temporal
+        fileUrl = URL.createObjectURL(file.file);
+    } else {
+        // Si no hay archivo ni URL, no podemos mostrar nada
+        console.warn('No se pudo generar la URL del archivo.');
+        return null;
+    }
 
     return (
         <div ref={ref} className={`relative ${isDragging ? 'opacity-50' : ''}`}>
             {file.type === 'image' ? (
                 <Image
-                    src={fileUrl ?? ''}
+                    src={fileUrl}
                     alt={`Uploaded ${index + 1}`}
                     className="w-full h-24 object-cover rounded-lg cursor-move"
                     width={192}
@@ -79,7 +91,7 @@ const DraggableFile: React.FC<DraggableFileProps> = ({
             </button>
 
             <button
-                onClick={() => openPreview(fileUrl ?? '')}
+                onClick={() => openPreview(fileUrl)}
                 className="absolute bottom-0 right-0 bg-beer-gold text-white rounded-full p-1 m-1"
                 aria-label="Previsualizar archivo"
             >
@@ -101,7 +113,6 @@ const DraggableFile: React.FC<DraggableFileProps> = ({
                     <Star size={16} />
                 </button>
             )}
-
             <div className="absolute bottom-0 left-0 bg-gray-800 text-white text-xs px-1 rounded-tr-lg">
                 <Move size={12} className="inline mr-1" />
                 {t('media_uploader.move')}

@@ -6,7 +6,6 @@ import ProductHeaderDescription from '@/app/[locale]/components/modals/ProductHe
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { z, ZodType } from 'zod';
 import { Type } from '@/lib//productEnum';
-import { useTranslations } from 'next-intl';
 import { generateUUID } from '@/lib//actions';
 import { isNotEmptyArray } from '@/utils/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -15,6 +14,7 @@ import { useAppContext } from '@/app/context/AppContext';
 import { useMutation, useQueryClient } from 'react-query';
 import { UpdateAwardsSection } from './UpdateAwardsSection';
 import { UpdateMultimediaSection } from './UpdateMultimediaSection';
+import { useFileUpload } from '@/app/context/ProductFileUploadContext';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { ProductStepper } from '@/app/[locale]/components/products/ProductStepper';
 import { UpdateProductSummary } from '../../../../components/products/UpdateProductSummary';
@@ -24,6 +24,7 @@ import {
     ModalUpdateProductFormData,
     ModalUpdateProductPackFormData,
     ModalUpdateProductAwardFormData,
+    UploadedFile,
 } from '@/lib//types/types';
 import {
     Aroma,
@@ -170,7 +171,18 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
             product_id: z.string(),
         }),
     ),
-    multimedia_files: z.array(z.any()).optional(), // Añadir campo para los archivos
+    media_files: z
+        .array(
+            z.object({
+                id: z.string().optional(),
+                product_id: z.string(),
+                type: z.string(),
+                url: z.string(),
+                alt_text: z.string(),
+                is_primary: z.boolean(),
+            }),
+        )
+        .optional(),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -186,7 +198,6 @@ export function UpdateProductModal({
     showModal,
     handleEditShowModal,
 }: Props) {
-    const t = useTranslations();
     const [activeStep, setActiveStep] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -196,6 +207,8 @@ export function UpdateProductModal({
     const handleSetActiveStep = (value: number) => {
         setActiveStep(value);
     };
+
+    const { clearFiles, setFiles, files, filesToDelete } = useFileUpload();
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [awardsToDeleteArray, setAwardsToDeleteArray] = useState<
@@ -331,8 +344,15 @@ export function UpdateProductModal({
                 img_url_from_db: award.img_url,
             })),
             brewery_id: product.brewery_id ?? '',
-            multimedia_files: product.product_media,
             // campaign: "-",
+            media_files: product.product_media?.map((media) => ({
+                id: media.id,
+                product_id: media.product_id,
+                type: media.type,
+                url: media.url,
+                alt_text: media.alt_text,
+                is_primary: media.is_primary,
+            })),
         },
     });
 
@@ -342,6 +362,24 @@ export function UpdateProductModal({
     } = form;
 
     const queryClient = useQueryClient();
+
+    useEffect(() => {
+        clearFiles();
+
+        // Mapea los archivos existentes del producto
+        const initialFiles =
+            product.product_media?.map((media) => ({
+                id: media.id,
+                type: media.type.startsWith('image/') ? 'image' : 'video',
+                isMain: media.is_primary,
+                isExisting: true,
+                url: media.url,
+                // No necesitamos 'file' aquí para archivos existentes
+            })) || [];
+
+        // Establece los archivos en el contexto
+        setFiles(initialFiles);
+    }, [product.product_media]);
 
     useEffect(() => {
         if (Object.keys(errors).length > 0) {
@@ -618,20 +656,41 @@ export function UpdateProductModal({
     };
 
     const updateMultimediaSection = async (
-        formValues: ValidationSchema,
-        randomUUID: string,
+        files: UploadedFile[],
+        filesToDelete: UploadedFile[],
     ) => {
-        const multimediaFiles = formValues.multimedia_files; // Asegúrate de que este campo esté en el formulario
-
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-        const url = `${baseUrl}/api/products`;
+        const url = `${baseUrl}/api/products/media`;
 
         const formData = new FormData();
         formData.append('product_id', product.id);
 
-        multimediaFiles?.forEach((file: any, index: number) => {
-            formData.append('multimedia_files', file);
-            formData.append(`isMain_${index}`, file.isMain ? 'true' : 'false');
+        // Manejar archivos nuevos
+        files
+            .filter((f) => !f.isExisting)
+            .forEach((fileObj, index) => {
+                formData.append('media_files', fileObj.file!);
+                formData.append(
+                    `isMain_${index}`,
+                    fileObj.isMain ? 'true' : 'false',
+                );
+            });
+
+        // Manejar archivos existentes (actualizar isMain si es necesario)
+        files
+            .filter((f) => f.isExisting)
+            .forEach((fileObj, index) => {
+                formData.append(`existingMedia[${index}][id]`, fileObj.id!);
+                formData.append(
+                    `existingMedia[${index}][isMain]`,
+                    fileObj.isMain ? 'true' : 'false',
+                );
+            });
+
+        // Manejar archivos a eliminar
+        filesToDelete.forEach((fileObj, index) => {
+            formData.append(`filesToDelete[${index}][id]`, fileObj.id!);
+            formData.append(`filesToDelete[${index}][url]`, fileObj.url!);
         });
 
         const response = await fetch(url, {
@@ -646,6 +705,8 @@ export function UpdateProductModal({
             });
             return;
         }
+
+        queryClient.invalidateQueries('productList');
     };
 
     const deleteAwards = async () => {
@@ -759,9 +820,7 @@ export function UpdateProductModal({
                 await deleteAwards();
             }
 
-            if (dirtyFields.multimedia_files) {
-                await updateMultimediaSection(formValues, randomUUID);
-            }
+            await updateMultimediaSection(files, filesToDelete);
 
             if (dirtyFields.awards && awards && isNotEmptyArray(awards)) {
                 await updateAwards(awards, randomUUID);
@@ -788,18 +847,16 @@ export function UpdateProductModal({
     });
 
     const onSubmit = (formValues: ModalUpdateProductFormData) => {
-        if (isDirty) {
-            return new Promise<void>((resolve, reject) => {
-                updateProductMutation.mutate(formValues, {
-                    onSuccess: () => {
-                        resolve();
-                    },
-                    onError: (error) => {
-                        reject(error);
-                    },
-                });
+        return new Promise<void>((resolve, reject) => {
+            updateProductMutation.mutate(formValues, {
+                onSuccess: () => {
+                    resolve();
+                },
+                onError: (error) => {
+                    reject(error);
+                },
             });
-        }
+        });
     };
 
     const handleArrayOfAwardsToDelete = (award: {
