@@ -16,7 +16,7 @@ export function UpdateMultimediaSection({ form, productId }: Props) {
 
     return (
         <section
-            className="relative border-2 rounded-lg border-gray-200 p-6 bg-white shadow-md flex w-full space-x-4 py-16"
+            className="relative border-2 rounded-lg border-gray-200 py-6 px-2 sm:px-6 bg-white shadow-md flex w-full space-x-4 py-16"
             id="photo_gallery"
         >
             <FontAwesomeIcon

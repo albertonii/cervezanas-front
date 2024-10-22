@@ -27,7 +27,7 @@ const ProductMadeInBrewerySection = ({ form }: Props) => {
     }
 
     return (
-        <div className="relative border-2 rounded-lg border-gray-200 p-6 bg-white shadow-md">
+        <div className="relative border-2 rounded-lg border-gray-200 py-6 px-2 sm:px-6 bg-white shadow-md">
             <FontAwesomeIcon
                 icon={faIndustry}
                 title={'Industry Selector Icon'}

@@ -9,7 +9,7 @@ export default function Footer() {
     const locale = useLocale();
 
     return (
-        <footer className="relative w-full bg-cerv-coffee border-t-8 border-beer-blonde mx-auto px-4 pt-12 sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
+        <footer className="relative w-full bg-cerv-coffee border-t-8 border-beer-blonde mx-auto px-4 pt-12 md:px-24 lg:px-8">
             <div className="absolute top-0 left-0 w-full h-full">
                 <Image
                     src="/assets/rec-graf4c.png"
@@ -21,7 +21,7 @@ export default function Footer() {
                 />
             </div>
 
-            <div className="row-gap-10 mb-8 grid gap-16 lg:grid-cols-6">
+            <div className="row-gap-10 mb-8 grid gap-16 lg:grid-cols-6 max-w-[1240px] m-auto">
                 {/* Descripción de la empresa */}
                 <div className="md:max-w-md lg:col-span-2">
                     <Link
@@ -199,7 +199,7 @@ export default function Footer() {
             </div>
 
             <div className="border-deep-purple-accent-200 flex flex-col justify-between border-t pb-10 pt-5 sm:flex-row">
-                <p className="text-sm text-gray-100">{t('copyright')}</p>
+                <p className="text-sm text-gray-100 m-auto">{t('copyright')}</p>
 
                 {/* RRSS Icons  */}
                 <div className="mt-4 flex items-center justify-center space-x-4 sm:mt-0">

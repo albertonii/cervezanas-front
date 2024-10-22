@@ -81,7 +81,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
     };
 
     return (
-        <section className="relative border-2 rounded-lg border-gray-200 p-6 bg-white shadow-md space-y-8 mt-8">
+        <section className="relative border-2 rounded-lg border-gray-200 py-6 px-2 sm:px-6 bg-white shadow-md space-y-8 mt-8">
             <p className="text-4xl font-['NexaRust-script']">
                 {t('modal_product_add_details_title')}
             </p>
@@ -112,7 +112,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                 />
             </div>
 
-            <div className="relative border-2 rounded-lg border-gray-200 p-6 bg-white shadow-md">
+            <div className="relative border-2 rounded-lg border-gray-200 py-6 px-2 sm:px-6 bg-white shadow-md">
                 <FontAwesomeIcon
                     icon={faPalette}
                     title={'Beer Properties Icon'}

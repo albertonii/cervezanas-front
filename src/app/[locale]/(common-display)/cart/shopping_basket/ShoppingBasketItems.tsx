@@ -28,7 +28,7 @@ const ShoppingBasketItems = ({
                 size="2xl"
             />
 
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
+            <h2 className="text-4xl font-['NexaRust-script'] pt-8 lg:pt-0 text-gray-800 dark:text-white ">
                 {t('customer_s_cart')}
             </h2>
 

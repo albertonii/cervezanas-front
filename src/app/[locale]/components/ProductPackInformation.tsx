@@ -57,7 +57,7 @@ export default function ProductPackInformation({ form }: Props) {
     };
 
     return (
-        <section className="relative border-2 rounded-lg border-gray-200 p-6 bg-white shadow-md">
+        <section className="relative border-2 rounded-lg border-gray-200 py-6 px-2 sm:px-6 bg-white shadow-md">
             <FontAwesomeIcon
                 icon={faBoxOpen}
                 title={'Product Pack Price Icon'}

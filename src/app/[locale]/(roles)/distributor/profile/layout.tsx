@@ -48,7 +48,7 @@ export default function layout({ children }: LayoutProps) {
             <Sidebar sidebarLinks={sidebarLinks} />
 
             <div
-                className="w-full bg-[url('/assets/madera-account.webp')] bg-auto bg-top bg-repeat sm:pt-[5vh] md:pt-[5vh] rounded-b-2xl"
+                className="w-full bg-[url('/assets/madera-account.webp')] bg-auto bg-top bg-repeat sm:pt-[5vh] md:pt-[5vh] rounded-b-2xl pt-10"
                 aria-label="Container Distributor settings"
             >
                 {children}

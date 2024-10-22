@@ -122,7 +122,7 @@ export default function CoverageAreas() {
     }
 
     return (
-        <fieldset className="space-y-6 p-6 rounded-lg border border-gray-300 bg-white shadow-sm max-w-3xl mx-auto">
+        <fieldset className="space-y-6 p-6 px-3 sm:px-6 rounded-lg border border-gray-300 bg-white shadow-sm max-w-3xl sm:max-w-full mx-auto">
             <div className="flex justify-between items-center space-y-4">
                 <h2 className="text-4xl font-['NexaRust-script']">
                     {t('distribution_destination')}

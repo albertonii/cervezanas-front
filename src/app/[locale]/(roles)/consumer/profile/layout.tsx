@@ -188,13 +188,15 @@ export default async function layout({ children }: LayoutProps) {
                             </section>
 
                             {/* Username and experience level */}
-                            <section className="absolute bottom-4 right-10 flex flex-col items-center justify-center gap-4 rounded-xl bg-beer-draft bg-opacity-90 sm:-bottom-4 sm:left-[50%] sm:right-[50%] sm:w-[10rem] sm:-translate-x-[5rem] sm:p-4 border-2 p-4 border-beer-softFoam shadow-lg">
-                                <p className="text-md font-semibold text-white p2">
-                                    {user?.username}
-                                </p>
-                                <p className="font-semibold text-white text-2xl">
-                                    {user?.gamification?.score} XP
-                                </p>
+                            <section className="relative m-auto w-[200px] -bottom-6 rounded-t-full bg-beer-draft bg-opacity-90 p-2 max-h-[100px] -mt-28">
+                                <div className="border-beer-blonde border-t-2 border-dashed rounded-t-full justify-center flex flex-col items-center gap-1 p-3 bg-cerv-titlehigh bg-opacity-30">
+                                    <p className="text-lg font-semibold text-white">
+                                        {user?.gamification?.score} XP
+                                    </p>
+                                    <p className="text-md font-semibold text-white px-5 py-2 bg-beer-dark rounded-lg border-beer-blonde border-b-2">
+                                        {user?.username}
+                                    </p>
+                                </div>
                             </section>
                         </section>
 

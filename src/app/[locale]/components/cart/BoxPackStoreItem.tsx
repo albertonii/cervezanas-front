@@ -154,12 +154,12 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
     };
 
     return (
-        <section className="bg-[url('/assets/rec-graf4c.png')] bg-contain bg-top bg-no-repeat  m-auto max-w-sm bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6">
+        <section className="bg-[url('/assets/rec-graf4c.png')] bg-contain bg-top bg-no-repeat  m-auto max-w-sm bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6  min-h-[490px]">
             {isLoading ? (
                 <Spinner color="beer-blonde" size="medium" />
             ) : (
                 <>
-                    <article className="relative mb-4 flex justify-center">
+                    <article className="relative mb-4 flex justify-center border-beer-softBlonde border-2 rounded-3xl shadow-md overflow-hidden bg-white">
                         <header className="absolute right-0 top-0 p-3 z-10">
                             <IconButton
                                 icon={faHeart}

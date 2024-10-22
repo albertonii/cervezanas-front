@@ -150,7 +150,7 @@ export function ProductStepper({
                     </div>
 
                     <h3
-                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-2xl font-['NexaRust-script'] ${detailsTextClass}`}
+                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-base sm:text-2xl font-['NexaRust-script'] ${detailsTextClass}`}
                     >
                         {t('details')}
                     </h3>
@@ -190,7 +190,7 @@ export function ProductStepper({
                     </div>
 
                     <h3
-                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-2xl font-['NexaRust-script'] ${multimediaTextClass}`}
+                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-base sm:text-2xl font-['NexaRust-script'] ${multimediaTextClass}`}
                     >
                         {t('multimedia')}
                     </h3>
@@ -235,7 +235,7 @@ export function ProductStepper({
                     </div>
 
                     <h3
-                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-2xl font-['NexaRust-script'] ${awardsTextClass}`}
+                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-base sm:text-2xl font-['NexaRust-script'] ${awardsTextClass}`}
                     >
                         {t('awards')}
                     </h3>
@@ -271,7 +271,7 @@ export function ProductStepper({
                         </svg>
                     </div>
                     <h3
-                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-2xl font-['NexaRust-script'] ${confirmTextClass}`}
+                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-base sm:text-2xl font-['NexaRust-script'] ${confirmTextClass}`}
                     >
                         {t('confirm')}
                     </h3>

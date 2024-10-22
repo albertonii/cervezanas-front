@@ -397,7 +397,7 @@ export default function CityDistribution({
     };
 
     return (
-        <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam p-4">
+        <section className="flex flex-col items-start space-y-4 rounded-xl border border-beer-softBlondeBubble border-b-gray-200 bg-beer-foam py-4 px-1 sm:px-4 max-w-full">
             {isLoading && (
                 <Spinner
                     size={'large'}

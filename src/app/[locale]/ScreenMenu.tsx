@@ -90,7 +90,7 @@ const ScreenMenu = memo(function ScreenMenu({
                 className="rounded"
             />
 
-            <nav className="container grid max-w-full grid-cols-3 bg-beer-darkGold sm:flex sm:justify-between sm:gap-2 sm:bg-transparent  w-[1250px] m-auto">
+            <nav className="container grid max-w-full grid-cols-3 bg-beer-darkGold sm:flex sm:justify-between sm:gap-2 sm:bg-transparent  w-[1540px] m-auto">
                 {/* Left elements  */}
 
                 {/* Logo Cervezanas  */}

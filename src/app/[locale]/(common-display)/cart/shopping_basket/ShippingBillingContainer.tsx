@@ -21,7 +21,7 @@ export default function ShippingBillingContainer({
     return (
         <section className="w-full p-6 bg-white dark:bg-gray-900 rounded-lg shadow space-y-6">
             <div className="flex items-center space-x-2">
-                <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
+                <h2 className="text-4xl font-semibold text-gray-800 dark:text-white font-['NexaRust-script']">
                     {t('shipping_and_billing_info')}
                 </h2>
                 <InfoTooltip

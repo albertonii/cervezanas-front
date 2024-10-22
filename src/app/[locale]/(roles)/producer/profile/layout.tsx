@@ -202,7 +202,7 @@ export default function layout({ children }: LayoutProps) {
                             </section>
 
                             {/* Username and experience level */}
-                            <section className="absolute -bottom-6 right-10 rounded-t-full bg-beer-draft bg-opacity-90 sm:left-[50%] sm:right-[50%] sm:w-[10rem] sm:-translate-x-[5rem] p-2 max-h-[100px]">
+                            <section className="relative m-auto w-[200px] -bottom-6 rounded-t-full bg-beer-draft bg-opacity-90 p-2 max-h-[100px] -mt-28">
                                 <div className="border-beer-blonde border-t-2 border-dashed rounded-t-full justify-center flex flex-col items-center gap-1 p-3 bg-cerv-titlehigh bg-opacity-30">
                                     <p className="text-lg font-semibold text-white">
                                         {user?.gamification?.score} XP
@@ -215,7 +215,7 @@ export default function layout({ children }: LayoutProps) {
                         </section>
 
                         <div
-                            className="w-full bg-[url('/assets/madera-account.webp')] bg-auto bg-top bg-repeat sm:pt-[5vh] md:pt-[5vh] rounded-b-2xl"
+                            className="w-full bg-[url('/assets/madera-account.webp')] bg-auto bg-top bg-repeat sm:pt-[5vh] md:pt-[5vh] rounded-b-2xl pt-10"
                             aria-label="Container Producer settings"
                         >
                             {children}
