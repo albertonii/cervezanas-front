@@ -36,7 +36,8 @@ const fetchProductsByOwner = async (
                     )
                 ),
                 brewery_id,
-                breweries (*)
+                breweries (*),
+                product_media (*)
             `,
         )
         .eq('owner_id', ownerId)

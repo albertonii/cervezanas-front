@@ -469,188 +469,73 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
     try {
         const formData = await request.formData();
-
         const productId = formData.get('product_id') as string;
-        const p_principal = formData.get('p_principal') as string;
-        const p_back = formData.get('p_back') as string;
-        const p_extra_1 = formData.get('p_extra_1') as string;
-        const p_extra_2 = formData.get('p_extra_2') as string;
-        const p_extra_3 = formData.get('p_extra_3') as string;
+        const mediaIds = formData.getAll('media_ids') as string[];
+
+        if (!productId || mediaIds.length === 0) {
+            return NextResponse.json(
+                { message: 'Product ID and media IDs are required' },
+                { status: 400 },
+            );
+        }
 
         const supabase = await createServerClient();
 
-        if (p_principal) {
-            const { error: deleteError } = await supabase.storage
-                .from('products')
-                .remove([decodeURIComponent(p_principal)]);
+        // Obtener los medios a eliminar
+        const { data: mediaToDelete, error: fetchMediaError } = await supabase
+            .from('product_media')
+            .select('id, url')
+            .in('id', mediaIds);
 
-            if (deleteError) {
-                return NextResponse.json(
-                    {
-                        message:
-                            'Error deleting p_principal product multimedia image',
-                    },
-                    { status: 500 },
-                );
-            }
-
-            const { error: multError } = await supabase
-                .from('product_multimedia')
-                .update({
-                    p_principal: '',
-                })
-                .eq('product_id', productId);
-
-            if (multError) {
-                return NextResponse.json(
-                    {
-                        message:
-                            'Error deleting p_principal product multimedia image',
-                    },
-                    { status: 500 },
-                );
-            }
+        if (fetchMediaError) {
+            console.error('Error fetching media to delete:', fetchMediaError);
+            return NextResponse.json(
+                { message: 'Error fetching media to delete' },
+                { status: 500 },
+            );
         }
 
-        if (p_back) {
-            const { error: deleteError } = await supabase.storage
-                .from('products')
-                .remove([decodeURIComponent(p_back)]);
+        // Eliminar archivos del bucket
+        const filesToDelete = mediaToDelete.map((media) => {
+            if (!media.url) return '';
+            const url = new URL(media.url);
+            return url.pathname.replace('/storage/v1/object/', '');
+        });
 
-            if (deleteError) {
-                return NextResponse.json(
-                    {
-                        message:
-                            'Error deleting p_back product multimedia image',
-                    },
-                    { status: 500 },
-                );
-            }
+        const { error: deleteError } = await supabase.storage
+            .from('products')
+            .remove(filesToDelete);
 
-            const { error: multError } = await supabase
-                .from('product_multimedia')
-                .update({
-                    p_back: '',
-                })
-                .eq('product_id', productId);
-
-            if (multError) {
-                return NextResponse.json(
-                    {
-                        message:
-                            'Error deleting p_back product multimedia image',
-                    },
-                    { status: 500 },
-                );
-            }
+        if (deleteError) {
+            console.error('Error deleting media files:', deleteError);
+            return NextResponse.json(
+                { message: 'Error deleting media files' },
+                { status: 500 },
+            );
         }
 
-        if (p_extra_1) {
-            const { error: deleteError } = await supabase.storage
-                .from('products')
-                .remove([decodeURIComponent(p_extra_1)]);
+        // Eliminar entradas de la base de datos
+        const { error: deleteMediaError } = await supabase
+            .from('product_media')
+            .delete()
+            .in('id', mediaIds);
 
-            if (deleteError) {
-                return NextResponse.json(
-                    {
-                        message:
-                            'Error deleting p_extra_1 product multimedia image',
-                    },
-                    { status: 500 },
-                );
-            }
-
-            const { error: multError } = await supabase
-                .from('product_multimedia')
-                .update({
-                    p_extra_1: '',
-                })
-                .eq('product_id', productId);
-
-            if (multError) {
-                return NextResponse.json(
-                    {
-                        message:
-                            'Error deleting p_extra_1 product multimedia image',
-                    },
-                    { status: 500 },
-                );
-            }
-        }
-
-        if (p_extra_2) {
-            const { error: deleteError } = await supabase.storage
-                .from('products')
-                .remove([decodeURIComponent(p_extra_2)]);
-
-            if (deleteError) {
-                return NextResponse.json(
-                    {
-                        message:
-                            'Error deleting p_extra_2 product multimedia image',
-                    },
-                    { status: 500 },
-                );
-            }
-
-            const { error: multError } = await supabase
-                .from('product_multimedia')
-                .update({
-                    p_extra_2: '',
-                })
-                .eq('product_id', productId);
-
-            if (multError) {
-                return NextResponse.json(
-                    {
-                        message:
-                            'Error deleting p_extra_2 product multimedia image',
-                    },
-                    { status: 500 },
-                );
-            }
-        }
-
-        if (p_extra_3) {
-            const { error: deleteError } = await supabase.storage
-                .from('products')
-                .remove([decodeURIComponent(p_extra_3)]);
-
-            if (deleteError) {
-                return NextResponse.json(
-                    {
-                        message:
-                            'Error deleting p_extra_3 product multimedia image',
-                    },
-                    { status: 500 },
-                );
-            }
-
-            const { error: multError } = await supabase
-                .from('product_multimedia')
-                .update({
-                    p_extra_3: '',
-                })
-                .eq('product_id', productId);
-
-            if (multError) {
-                return NextResponse.json(
-                    {
-                        message:
-                            'Error deleting p_extra_3 product multimedia image',
-                    },
-                    { status: 500 },
-                );
-            }
+        if (deleteMediaError) {
+            console.error('Error deleting media entries:', deleteMediaError);
+            return NextResponse.json(
+                { message: 'Error deleting media entries' },
+                { status: 500 },
+            );
         }
 
         return NextResponse.json(
-            { message: 'Product multimedia image deleted' },
+            { message: 'Media deleted successfully' },
             { status: 200 },
         );
     } catch (err) {
+        console.error('Error in DELETE handler:', err);
         return NextResponse.json(
-            { message: 'Error updating product multimedia image' },
+            { message: 'Error deleting media' },
             { status: 500 },
         );
     }

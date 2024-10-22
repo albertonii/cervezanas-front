@@ -1,20 +1,12 @@
 import imageCompression from 'browser-image-compression';
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import DraggableFile from './DraggableFile';
+import React, { useState, useCallback } from 'react';
+import { DndProvider } from 'react-dnd';
 import { useTranslations } from 'next-intl';
 import { useDropzone } from 'react-dropzone';
+import { Upload, AlertCircle } from 'lucide-react';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
-
-import {
-    Upload,
-    X,
-    AlertCircle,
-    Move,
-    ZoomIn,
-    Star,
-    Video,
-} from 'lucide-react';
-import { useFormContext } from 'react-hook-form';
+import { useFileUpload } from '@/app/context/ProductFileUploadContext';
 
 const MAX_IMAGES = 5;
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -29,29 +21,29 @@ interface UploadedFile {
 const ProductMediaUploader: React.FC = () => {
     const t = useTranslations();
 
-    const {
-        setValue,
-        getValues,
-        formState: { dirtyFields },
-    } = useFormContext(); // Recibe setValue desde react-hook-form
+    const { files, setFiles } = useFileUpload();
 
-    const [files, setFiles] = useState<UploadedFile[]>([]);
     const [errors, setErrors] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
     const [previewFile, setPreviewFile] = useState<string | null>(null);
 
-    useEffect(() => {
-        const existingFiles = getValues('multimedia_files') || [];
-        const initialFiles = existingFiles.map((file: File) => ({
-            file,
-            type: file.type.startsWith('image/') ? 'image' : 'video',
-            isMain: false,
-        }));
-        if (initialFiles.length > 0 && initialFiles[0].type === 'image') {
-            initialFiles[0].isMain = true;
-        }
-        setFiles(initialFiles);
-    }, [getValues]);
+    // useEffect(() => {
+    //     const existingFiles = getValues('multimedia_files') || [];
+
+    //     console.log('existingFiles', existingFiles);
+
+    //     const initialFiles = existingFiles.map((file: File) => ({
+    //         file,
+    //         type: file.type.startsWith('image/') ? 'image' : 'video',
+    //         isMain: false,
+    //     }));
+
+    //     if (initialFiles.length > 0 && initialFiles[0].type === 'image') {
+    //         initialFiles[0].isMain = true;
+    //     }
+
+    //     setFiles(initialFiles);
+    // }, [getValues]);
 
     const onDrop = useCallback(
         async (acceptedFiles: File[]) => {
@@ -61,7 +53,9 @@ const ProductMediaUploader: React.FC = () => {
             const newFiles = [...files];
             const newErrors: string[] = [];
 
-            for (const file of acceptedFiles) {
+            for (let index = 0; index < acceptedFiles.length; index++) {
+                const file = acceptedFiles[index];
+
                 if (file.type.startsWith('image/')) {
                     if (
                         newFiles.filter((f) => f.type === 'image').length >=
@@ -115,11 +109,8 @@ const ProductMediaUploader: React.FC = () => {
             setFiles(newFiles);
             setErrors(newErrors);
             setLoading(false);
-
-            // Actualizar el valor de 'files' en react-hook-form
-            setValue('multimedia_files', newFiles); // Aquí envías los archivos junto con su información de 'isMain'
         },
-        [files, getValues, setValue],
+        [files],
     );
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -267,108 +258,6 @@ const ProductMediaUploader: React.FC = () => {
                     )}
                 </div>
             </DndProvider>
-        </div>
-    );
-};
-
-interface DraggableFileProps {
-    index: number;
-    file: UploadedFile;
-    removeFile: (index: number) => void;
-    moveFile: (dragIndex: number, hoverIndex: number) => void;
-    openPreview: (fileSrc: string) => void;
-    setMainImage: (index: number) => void;
-}
-
-const DraggableFile: React.FC<DraggableFileProps> = ({
-    index,
-    file,
-    removeFile,
-    moveFile,
-    openPreview,
-    setMainImage,
-}) => {
-    const t = useTranslations();
-
-    const ref = useRef<HTMLDivElement>(null);
-
-    const [{ isDragging }, drag] = useDrag({
-        type: 'FILE',
-        item: { index },
-        collect: (monitor) => ({
-            isDragging: monitor.isDragging(),
-        }),
-    });
-
-    const [, drop] = useDrop({
-        accept: 'FILE',
-        hover(item: { index: number }, monitor) {
-            if (!ref.current) {
-                return;
-            }
-            const dragIndex = item.index;
-            const hoverIndex = index;
-            if (dragIndex === hoverIndex) {
-                return;
-            }
-            moveFile(dragIndex, hoverIndex);
-            item.index = hoverIndex;
-        },
-    });
-
-    drag(drop(ref));
-
-    const fileUrl = URL.createObjectURL(file.file);
-
-    return (
-        <div ref={ref} className={`relative ${isDragging ? 'opacity-50' : ''}`}>
-            {file.type === 'image' ? (
-                <img
-                    src={fileUrl}
-                    alt={`Uploaded ${index + 1}`}
-                    className="w-full h-24 object-cover rounded-lg cursor-move"
-                />
-            ) : (
-                <div className="w-full h-24 bg-gray-200 flex items-center justify-center rounded-lg cursor-move">
-                    <Video className="text-gray-500" size={32} />
-                </div>
-            )}
-
-            <button
-                onClick={() => removeFile(index)}
-                className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 transform translate-x-1/2 -translate-y-1/2"
-                aria-label="Eliminar archivo"
-            >
-                <X size={16} />
-            </button>
-
-            <button
-                onClick={() => openPreview(fileUrl)}
-                className="absolute bottom-0 right-0 bg-beer-gold text-white rounded-full p-1 m-1"
-                aria-label="Previsualizar archivo"
-            >
-                <ZoomIn size={16} />
-            </button>
-
-            {file.type === 'image' && (
-                <button
-                    onClick={() => setMainImage(index)}
-                    className={`absolute top-0 left-0 ${
-                        file.isMain ? 'text-beer-blonde' : 'text-gray-400'
-                    } bg-white rounded-full p-1 m-1`}
-                    aria-label={
-                        file.isMain
-                            ? 'Imagen principal'
-                            : 'Establecer como imagen principal'
-                    }
-                >
-                    <Star size={16} />
-                </button>
-            )}
-            <div className="absolute bottom-0 left-0 bg-gray-800 text-white text-xs px-1 rounded-tr-lg">
-                <Move size={12} className="inline mr-1" />
-                {t('media_uploader.move')}
-            </div>
         </div>
     );
 };

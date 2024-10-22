@@ -1,9 +1,8 @@
 import { UseFormReturn } from 'react-hook-form';
-import { SupabaseProps } from '@/constants';
-import { ModalUpdateProductFormData } from '@/lib//types/types';
-import { UpdateFilePreviewImageMultimedia } from './UpdateFilePreviewImageMultimedia';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
+import { ModalUpdateProductFormData } from '@/lib//types/types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ProductMediaUploader from '@/app/[locale]/components/products/ProductMediaUploader';
 
 export interface Props {
     productId: string;
@@ -11,9 +10,6 @@ export interface Props {
 }
 
 export function UpdateMultimediaSection({ form, productId }: Props) {
-    const preUrl =
-        SupabaseProps.BASE_URL + SupabaseProps.STORAGE_PRODUCTS_IMG_URL;
-
     return (
         <section
             className="relative border-2 rounded-lg border-gray-200 p-6 bg-white shadow-md flex w-full space-x-4 py-16"
@@ -24,6 +20,9 @@ export function UpdateMultimediaSection({ form, productId }: Props) {
                 title={'Beer Properties Icon'}
                 className="h-12 w-12 text-beer-blonde absolute -top-4 -left-4 bg-white p-2 rounded-full shadow-lg"
             />
+
+            <ProductMediaUploader />
+            {/* 
 
             <UpdateFilePreviewImageMultimedia
                 productId={productId}
@@ -58,7 +57,7 @@ export function UpdateMultimediaSection({ form, productId }: Props) {
                 form={form}
                 registerName="p_extra_3"
                 preUrl={preUrl}
-            />
+            /> */}
         </section>
     );
 }

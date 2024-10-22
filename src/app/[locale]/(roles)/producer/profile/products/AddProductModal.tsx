@@ -10,7 +10,7 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useAppContext } from '@/app/context/AppContext';
 import { faBox } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
-import { isFileEmpty, isNotEmptyArray } from '@/utils/utils';
+import { isNotEmptyArray } from '@/utils/utils';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { AwardsSection } from '@/app/[locale]/components/products/AwardsSection';
 import { ProductSummary } from '@/app/[locale]/components/products/ProductSummary';
@@ -24,6 +24,8 @@ import {
 } from '@/lib//types/types';
 import ProductHeaderDescription from '@/app/[locale]/components/modals/ProductHeaderDescription';
 import ProductFooterDescription from '@/app/[locale]/components/modals/ProductFooterDescription';
+import { useFileUpload } from '@/app/context/ProductFileUploadContext';
+import { clear } from 'console';
 
 const ModalWithForm = dynamic(
     () => import('@/app/[locale]/components/modals/ModalWithForm'),
@@ -139,11 +141,6 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
             img_url: z.custom<File>().superRefine(validateFile).optional(),
         }),
     ),
-    p_principal: z.custom<File>().superRefine(validateFile).optional(),
-    p_back: z.custom<File>().superRefine(validateFile).optional(),
-    p_extra_1: z.custom<File>().superRefine(validateFile).optional(),
-    p_extra_2: z.custom<File>().superRefine(validateFile).optional(),
-    p_extra_3: z.custom<File>().superRefine(validateFile).optional(),
     is_public: z.boolean(),
     is_available: z.boolean(),
     volume: z.number().min(0, { message: 'errors.input_number_min_0' }),
@@ -165,7 +162,6 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
             message: 'errors.error_50_number_max_length',
         }),
     brewery_id: z.string().optional(),
-    multimedia_files: z.array(z.any()).optional(), // Añadir campo para los archivos
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -180,6 +176,7 @@ export function AddProductModal() {
     const [activeStep, setActiveStep] = useState<number>(0);
 
     const { handleMessage } = useMessage();
+    const { files, clearFiles } = useFileUpload();
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -229,11 +226,6 @@ export function AddProductModal() {
             is_gluten,
             type,
             awards,
-            p_principal,
-            p_back,
-            p_extra_1,
-            p_extra_2,
-            p_extra_3,
             is_public,
             is_available,
             name,
@@ -259,7 +251,6 @@ export function AddProductModal() {
             malt_type,
             consumption_temperature,
             brewery_id,
-            multimedia_files,
         } = form;
 
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -268,13 +259,15 @@ export function AddProductModal() {
         const formData = new FormData();
 
         // Agregar archivos al FormData
-        multimedia_files?.forEach((object, index) => {
+        files?.forEach((object, index) => {
             formData.append('media_files', object.file);
             formData.append(
                 `isMain_${index}`,
                 object.isMain ? 'true' : 'false',
             );
         });
+
+        clearFiles();
 
         // Basic
         formData.append('name', name);
@@ -359,27 +352,6 @@ export function AddProductModal() {
             });
 
             formData.append('awards_size', awards.length.toString());
-        }
-
-        // Multimedia
-        if (p_principal && !isFileEmpty(p_principal)) {
-            formData.append('p_principal', p_principal);
-        }
-
-        if (p_back && !isFileEmpty(p_back)) {
-            formData.append('p_back', p_back);
-        }
-
-        if (p_extra_1 && !isFileEmpty(p_extra_1)) {
-            formData.append('p_extra_1', p_extra_1);
-        }
-
-        if (p_extra_2 && !isFileEmpty(p_extra_2)) {
-            formData.append('p_extra_2', p_extra_2);
-        }
-
-        if (p_extra_3 && !isFileEmpty(p_extra_3)) {
-            formData.append('p_extra_3', p_extra_3);
         }
 
         // CORS

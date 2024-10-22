@@ -43,7 +43,7 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
                         </span>
                         <span className="text-sm text-red-600 mt-1">
                             {t('error_field_message')}:{' '}
-                            {t(item[subField].message)}
+                            {t(item[subField]?.message)}
                         </span>
                     </li>
                 )),

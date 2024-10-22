@@ -1,11 +1,30 @@
 'use client';
 
+import axios from 'axios';
 import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
+import ProductHeaderDescription from '@/app/[locale]/components/modals/ProductHeaderDescription';
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { z, ZodType } from 'zod';
-import { useForm } from 'react-hook-form';
+import { Type } from '@/lib//productEnum';
 import { useTranslations } from 'next-intl';
+import { generateUUID } from '@/lib//actions';
+import { isNotEmptyArray } from '@/utils/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { FormProvider, useForm } from 'react-hook-form';
+import { useAppContext } from '@/app/context/AppContext';
+import { useMutation, useQueryClient } from 'react-query';
+import { UpdateAwardsSection } from './UpdateAwardsSection';
+import { UpdateMultimediaSection } from './UpdateMultimediaSection';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { ProductStepper } from '@/app/[locale]/components/products/ProductStepper';
+import { UpdateProductSummary } from '../../../../components/products/UpdateProductSummary';
+import { UpdateProductInfoSection } from '@/app/[locale]/components/products/UpdateProductInfoSection';
+import {
+    IProduct,
+    ModalUpdateProductFormData,
+    ModalUpdateProductPackFormData,
+    ModalUpdateProductAwardFormData,
+} from '@/lib//types/types';
 import {
     Aroma,
     aroma_options,
@@ -18,25 +37,6 @@ import {
     product_type_options,
     recommended_glass_options,
 } from '@/lib//beerEnum';
-import {
-    IProduct,
-    ModalUpdateProductFormData,
-    ModalUpdateProductPackFormData,
-    ModalUpdateProductAwardFormData,
-} from '@/lib//types/types';
-import { useMutation, useQueryClient } from 'react-query';
-import { UpdateMultimediaSection } from './UpdateMultimediaSection';
-import { isNotEmptyArray } from '@/utils/utils';
-import { UpdateProductSummary } from '../../../../components/products/UpdateProductSummary';
-import { useAppContext } from '@/app/context/AppContext';
-import { UpdateAwardsSection } from './UpdateAwardsSection';
-import { ProductStepper } from '@/app/[locale]/components/products/ProductStepper';
-import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { Type } from '@/lib//productEnum';
-import { generateUUID } from '@/lib//actions';
-import { UpdateProductInfoSection } from '@/app/[locale]/components/products/UpdateProductInfoSection';
-import axios from 'axios';
-import ProductHeaderDescription from '@/app/[locale]/components/modals/ProductHeaderDescription';
 
 // This is the list of mime types you will accept with the schema
 const ACCEPTED_MIME_TYPES = [
@@ -170,11 +170,7 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
             product_id: z.string(),
         }),
     ),
-    p_principal: z.custom<File>().superRefine(validateFile).optional(),
-    p_back: z.custom<File>().superRefine(validateFile).optional(),
-    p_extra_1: z.custom<File>().superRefine(validateFile).optional(),
-    p_extra_2: z.custom<File>().superRefine(validateFile).optional(),
-    p_extra_3: z.custom<File>().superRefine(validateFile).optional(),
+    multimedia_files: z.array(z.any()).optional(), // Añadir campo para los archivos
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -312,11 +308,6 @@ export function UpdateProductModal({
             family: familyDefault.value,
             fermentation: fermentationDefault.value,
             is_gluten: product.beers?.is_gluten ?? false,
-            p_principal: product.product_multimedia?.p_principal,
-            p_back: product.product_multimedia?.p_back,
-            p_extra_1: product.product_multimedia?.p_extra_1,
-            p_extra_2: product.product_multimedia?.p_extra_2,
-            p_extra_3: product.product_multimedia?.p_extra_3,
             packs: product.product_packs?.map((pack) => {
                 return {
                     id: pack.id,
@@ -340,7 +331,7 @@ export function UpdateProductModal({
                 img_url_from_db: award.img_url,
             })),
             brewery_id: product.brewery_id ?? '',
-
+            multimedia_files: product.product_media,
             // campaign: "-",
         },
     });
@@ -626,6 +617,37 @@ export function UpdateProductModal({
         queryClient.invalidateQueries('productList');
     };
 
+    const updateMultimediaSection = async (
+        formValues: ValidationSchema,
+        randomUUID: string,
+    ) => {
+        const multimediaFiles = formValues.multimedia_files; // Asegúrate de que este campo esté en el formulario
+
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+        const url = `${baseUrl}/api/products`;
+
+        const formData = new FormData();
+        formData.append('product_id', product.id);
+
+        multimediaFiles?.forEach((file: any, index: number) => {
+            formData.append('multimedia_files', file);
+            formData.append(`isMain_${index}`, file.isMain ? 'true' : 'false');
+        });
+
+        const response = await fetch(url, {
+            method: 'PUT',
+            body: formData,
+        });
+
+        if (response.status !== 200) {
+            handleMessage({
+                type: 'error',
+                message: 'errors.update_multimedia',
+            });
+            return;
+        }
+    };
+
     const deleteAwards = async () => {
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
         const url = `${baseUrl}/api/products/awards`;
@@ -665,6 +687,7 @@ export function UpdateProductModal({
         } = formValues;
 
         setActiveStep(0);
+        setIsLoading(true);
 
         const randomUUID = await generateUUID();
 
@@ -736,11 +759,16 @@ export function UpdateProductModal({
                 await deleteAwards();
             }
 
+            if (dirtyFields.multimedia_files) {
+                await updateMultimediaSection(formValues, randomUUID);
+            }
+
             if (dirtyFields.awards && awards && isNotEmptyArray(awards)) {
                 await updateAwards(awards, randomUUID);
             }
         }
 
+        setIsLoading(false);
         handleEditShowModal(false);
     };
 
@@ -782,52 +810,54 @@ export function UpdateProductModal({
     };
 
     return (
-        <ModalWithForm
-            showBtn={false}
-            showModal={showModal}
-            setShowModal={handleEditShowModal}
-            title={'update_product'}
-            btnTitle={'save'}
-            description={''}
-            classContainer={`${isLoading && ' opacity-75'}`}
-            handler={() => {}}
-            handlerClose={() => handleEditShowModal(false)}
-            form={form}
-            showTriggerBtn={false}
-            showCancelBtn={false}
-        >
-            <ProductStepper
-                activeStep={activeStep}
-                handleSetActiveStep={handleSetActiveStep}
-                isSubmitting={isSubmitting}
-                handler={handleSubmit(onSubmit)}
-                btnTitle={'update_product'}
+        <FormProvider {...form}>
+            <ModalWithForm
+                showBtn={false}
+                showModal={showModal}
+                setShowModal={handleEditShowModal}
+                title={'update_product'}
+                btnTitle={'save'}
+                description={''}
+                classContainer={`${isLoading && ' opacity-75'}`}
+                handler={() => {}}
+                handlerClose={() => handleEditShowModal(false)}
+                form={form}
+                showTriggerBtn={false}
+                showCancelBtn={false}
             >
-                <>
-                    <ProductHeaderDescription />
+                <ProductStepper
+                    activeStep={activeStep}
+                    handleSetActiveStep={handleSetActiveStep}
+                    isSubmitting={isSubmitting}
+                    handler={handleSubmit(onSubmit)}
+                    btnTitle={'update_product'}
+                >
+                    <>
+                        <ProductHeaderDescription />
 
-                    {activeStep === 0 ? (
-                        <UpdateProductInfoSection
-                            form={form}
-                            customizeSettings={customizeSettings}
-                        />
-                    ) : activeStep === 1 ? (
-                        <UpdateMultimediaSection
-                            form={form}
-                            productId={product.id}
-                        />
-                    ) : activeStep === 2 ? (
-                        <UpdateAwardsSection
-                            form={form}
-                            handleArrayOfAwardsToDelete={
-                                handleArrayOfAwardsToDelete
-                            }
-                        />
-                    ) : (
-                        <UpdateProductSummary form={form} />
-                    )}
-                </>
-            </ProductStepper>
-        </ModalWithForm>
+                        {activeStep === 0 ? (
+                            <UpdateProductInfoSection
+                                form={form}
+                                customizeSettings={customizeSettings}
+                            />
+                        ) : activeStep === 1 ? (
+                            <UpdateMultimediaSection
+                                form={form}
+                                productId={product.id}
+                            />
+                        ) : activeStep === 2 ? (
+                            <UpdateAwardsSection
+                                form={form}
+                                handleArrayOfAwardsToDelete={
+                                    handleArrayOfAwardsToDelete
+                                }
+                            />
+                        ) : (
+                            <UpdateProductSummary form={form} />
+                        )}
+                    </>
+                </ProductStepper>
+            </ModalWithForm>
+        </FormProvider>
     );
 }

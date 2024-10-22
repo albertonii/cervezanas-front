@@ -868,11 +868,6 @@ export type ModalAddProductFormData = {
     // stock_quantity: number;
     // stock_limit_notification: number;
     category: string;
-    p_principal?: any;
-    p_back?: any;
-    p_extra_1?: any;
-    p_extra_2?: any;
-    p_extra_3?: any;
     is_public: boolean;
     is_available: boolean;
 
@@ -907,11 +902,6 @@ export type ModalUpdateProductFormData = {
     hops_type?: string | null;
     malt_type?: string | null;
     consumption_temperature?: number | null;
-    p_principal?: any;
-    p_back?: any;
-    p_extra_1?: any;
-    p_extra_2?: any;
-    p_extra_3?: any;
     is_public: boolean;
     is_available: boolean;
     volume: number;
@@ -924,6 +914,7 @@ export type ModalUpdateProductFormData = {
     // stock_limit_notification: number;
     awards: ModalUpdateProductAwardFormData[];
     packs: ModalUpdateProductPackFormData[];
+    multimedia_files?: any[];
 };
 
 type ModalAddProductAwardFormData = {
@@ -2011,4 +2002,10 @@ export interface IProductMedia {
     url: string;
     alt_text: string;
     is_primary: boolean;
+}
+
+export interface UploadedFile {
+    file: File;
+    type: 'image' | 'video';
+    isMain?: boolean;
 }

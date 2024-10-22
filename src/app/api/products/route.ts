@@ -3,6 +3,7 @@ import readUserSession, { generateUUID } from '@/lib//actions';
 import { SupabaseProps } from '@/constants';
 import { NextRequest, NextResponse } from 'next/server';
 import { fileTypeToExtension, generateFileNameExtension } from '@/utils/utils';
+import { IProductMedia, IProductPack } from '@/lib/types/types';
 
 export async function POST(request: NextRequest) {
     try {
@@ -17,10 +18,6 @@ export async function POST(request: NextRequest) {
 
         // Aquí obtienes todos los archivos que se hayan subido bajo la clave 'media_file'
         const mediaFiles = formData.getAll('media_files') as File[];
-
-        if (mediaFiles.length === 0) {
-            throw new Error('No se encontraron archivos en el FormData');
-        }
 
         // Basic
         const name = formData.get('name') as string;
@@ -112,13 +109,6 @@ export async function POST(request: NextRequest) {
 
             awards.push(award);
         }
-
-        // Multimedia
-        const p_principal = formData.get('p_principal') as File;
-        const p_back = formData.get('p_back') as File;
-        const p_extra_1 = formData.get('p_extra_1') as File;
-        const p_extra_2 = formData.get('p_extra_2') as File;
-        const p_extra_3 = formData.get('p_extra_3') as File;
 
         const { data: product, error: errorProduct } = await supabase
             .from('products')
@@ -400,29 +390,203 @@ export async function POST(request: NextRequest) {
             { message: 'Product successfully created' },
             { status: 200 },
         );
-    } catch (err) {
+    } catch (err: any) {
         return NextResponse.json(
-            { message: 'Error creating product' },
+            { message: 'Error creating product', error: err.message },
             { status: 500 },
         );
     }
 }
 
 // TODO: Eliminar imágenes en el Bucket desde aquí.
+// export async function DELETE(request: NextRequest) {
+//     try {
+//         const formData = await request.formData();
+
+//         const supabase = await createServerClient();
+
+//         const productId = formData.get('product_id') as string;
+
+//         const { error: productError } = await supabase
+//             .from('products')
+//             .delete()
+//             .eq('id', productId);
+
+//         if (productError) {
+//             return NextResponse.json(
+//                 { message: 'Error deleting product' },
+//                 { status: 500 },
+//             );
+//         }
+
+//         return NextResponse.json(
+//             { message: 'Product successfully deleted' },
+//             { status: 200 },
+//         );
+//     } catch (err) {
+//         return NextResponse.json(
+//             { message: 'Error deleting product' },
+//             { status: 500 },
+//         );
+//     }
+// }
+
 export async function DELETE(request: NextRequest) {
     try {
-        const formData = await request.formData();
-
         const supabase = await createServerClient();
 
+        const formData = await request.formData();
         const productId = formData.get('product_id') as string;
 
-        const { error: productError } = await supabase
+        if (!productId) {
+            return NextResponse.json(
+                { message: 'Product ID is required' },
+                { status: 400 },
+            );
+        }
+
+        // Paso 1: Obtener referencias a los archivos asociados al producto
+
+        // Obtener los medios del producto (imágenes, videos, etc.)
+        const { data: productMedia, error: mediaError } = await supabase
+            .from('product_media')
+            .select('url')
+            .eq('product_id', productId);
+
+        if (mediaError) {
+            console.error('Error fetching product media:', mediaError);
+            return NextResponse.json(
+                { message: 'Error fetching product media' },
+                { status: 500 },
+            );
+        }
+
+        // Obtener los packs asociados al producto
+        const { data: productPacks, error: packsError } = await supabase
+            .from('product_packs')
+            .select('img_url')
+            .eq('product_id', productId);
+
+        if (packsError) {
+            console.error('Error fetching product packs:', packsError);
+            return NextResponse.json(
+                { message: 'Error fetching product packs' },
+                { status: 500 },
+            );
+        }
+
+        // Obtener los premios (awards) asociados al producto
+        const { data: productAwards, error: awardsError } = await supabase
+            .from('awards')
+            .select('img_url')
+            .eq('product_id', productId);
+
+        if (awardsError) {
+            console.error('Error fetching product awards:', awardsError);
+            return NextResponse.json(
+                { message: 'Error fetching product awards' },
+                { status: 500 },
+            );
+        }
+
+        // Paso 2: Eliminar archivos del bucket de Supabase Storage
+
+        // Función para extraer el path relativo del archivo desde la URL pública
+        const getFilePathFromUrl = (publicUrl: string) => {
+            const url = new URL(publicUrl);
+            return url.pathname.replace(
+                '/storage/v1/object/public/products/',
+                '',
+            );
+        };
+
+        // Lista para acumular los paths de los archivos a eliminar
+        let filesToDelete: string[] = [];
+
+        // Añadir los archivos de product_media
+        if (productMedia && productMedia.length > 0) {
+            const mediaFiles = productMedia
+                .map((media) => {
+                    if (media.url) {
+                        return getFilePathFromUrl(media.url);
+                    }
+                    return null; // Maneja el caso donde media.url puede ser null
+                })
+                .filter((path): path is string => path !== null); // Filtra los valores null
+
+            filesToDelete = filesToDelete.concat(mediaFiles);
+        }
+
+        // Añadir los archivos de product_packs
+        if (productPacks && productPacks.length > 0) {
+            const packFiles = productPacks
+                .map((pack) => {
+                    if (pack.img_url) {
+                        return decodeURIComponent(pack.img_url);
+                    }
+                    return null;
+                })
+                .filter((path): path is string => path !== null);
+
+            filesToDelete = filesToDelete.concat(packFiles);
+        }
+
+        // Añadir los archivos de awards
+        if (productAwards && productAwards.length > 0) {
+            const awardFiles = productAwards
+                .map((award) => {
+                    if (award.img_url) {
+                        return decodeURIComponent(award.img_url);
+                    }
+                    return null;
+                })
+                .filter((path): path is string => path !== null);
+
+            filesToDelete = filesToDelete.concat(awardFiles);
+        }
+
+        // Eliminar los archivos del bucket
+        if (filesToDelete.length > 0) {
+            const { data, error: deleteError } = await supabase.storage
+                .from('products')
+                .remove(filesToDelete);
+
+            if (deleteError) {
+                console.error(
+                    'Error deleting files from storage:',
+                    deleteError,
+                );
+                return NextResponse.json(
+                    { message: 'Error deleting files from storage' },
+                    { status: 500 },
+                );
+            }
+        }
+
+        // Paso 3: Eliminar las entradas relacionadas en la base de datos
+
+        // Eliminar entradas de product_media
+        const { error: deleteMediaError } = await supabase
+            .from('product_media')
+            .delete()
+            .eq('product_id', productId);
+
+        if (deleteMediaError) {
+            console.error('Error deleting product media:', deleteMediaError);
+            return NextResponse.json(
+                { message: 'Error deleting product media' },
+                { status: 500 },
+            );
+        }
+
+        // Eliminar el producto de la base de datos
+        const { error: deleteProductError } = await supabase
             .from('products')
             .delete()
             .eq('id', productId);
 
-        if (productError) {
+        if (deleteProductError) {
+            console.error('Error deleting product:', deleteProductError);
             return NextResponse.json(
                 { message: 'Error deleting product' },
                 { status: 500 },
@@ -430,10 +594,11 @@ export async function DELETE(request: NextRequest) {
         }
 
         return NextResponse.json(
-            { message: 'Product successfully deleted' },
+            { message: 'Product and associated data successfully deleted' },
             { status: 200 },
         );
     } catch (err) {
+        console.error('Error in DELETE handler:', err);
         return NextResponse.json(
             { message: 'Error deleting product' },
             { status: 500 },
