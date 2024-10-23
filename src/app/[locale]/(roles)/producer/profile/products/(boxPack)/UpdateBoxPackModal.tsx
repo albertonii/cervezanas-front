@@ -18,6 +18,7 @@ import { BoxPackStepper } from '@/app/[locale]/components/products/boxPack/BoxPa
 import { UpdateBoxSummary } from '@/app/[locale]/components/products/boxPack/UpdateBoxSummary';
 import { UpdateBoxPackInfoSection } from '@/app/[locale]/components/products/boxPack/UpdateBoxPackInfoSection';
 import { UpdateBoxMultimediaSection } from '@/app/[locale]/components/products/boxPack/UpdateBoxMultimediaSection';
+import { useFileUpload } from '@/app/context/ProductFileUploadContext';
 
 const ModalWithForm = dynamic(
     () => import('@/app/[locale]/components/modals/ModalWithForm'),
@@ -103,6 +104,7 @@ export function UpdateBoxPackModal({
     const { handleMessage } = useMessage();
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const { clearFiles, setFiles, files, filesToDelete } = useFileUpload();
 
     const transformedBoxPackItems =
         product.box_packs && product.box_packs.length > 0
@@ -166,12 +168,15 @@ export function UpdateBoxPackModal({
             price: product.price,
             weight: product.weight,
             slots_per_box: product.box_packs?.[0]?.slots_per_box ?? 0,
-            p_principal: product.product_multimedia?.p_principal,
-            p_back: product.product_multimedia?.p_back,
-            p_extra_1: product.product_multimedia?.p_extra_1,
-            p_extra_2: product.product_multimedia?.p_extra_2,
-            p_extra_3: product.product_multimedia?.p_extra_3,
             box_pack_items: transformedBoxPackItems,
+            media_files: product.product_media?.map((media) => ({
+                id: media.id,
+                product_id: media.product_id,
+                type: media.type,
+                url: media.url,
+                alt_text: media.alt_text,
+                is_primary: media.is_primary,
+            })),
         },
     });
 
@@ -185,6 +190,22 @@ export function UpdateBoxPackModal({
 
     useEffect(() => {
         if (product.box_packs) assignBoxPack(product.box_packs[0]);
+        if (product.product_media) {
+            clearFiles();
+
+            // Mapea los archivos existentes del producto
+            const initialFiles =
+                product.product_media?.map((media) => ({
+                    id: media.id,
+                    type: media.type.startsWith('image/') ? 'image' : 'video',
+                    isMain: media.is_primary,
+                    isExisting: true,
+                    url: media.url,
+                    // No necesitamos 'file' aquí para archivos existentes
+                })) || [];
+
+            setFiles(initialFiles);
+        }
     }, [product]);
 
     useEffect(() => {
@@ -276,6 +297,59 @@ export function UpdateBoxPackModal({
         setIsLoading(false);
     };
 
+    const updateMediaSection = async () => {
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+        const url = `${baseUrl}/api/products/box_packs/multimedia`;
+
+        const formData = new FormData();
+        formData.append('product_id', product.id);
+
+        // Manejar archivos nuevos
+        files
+            .filter((f) => !f.isExisting)
+            .forEach((fileObj, index) => {
+                formData.append('media_files', fileObj.file!);
+                formData.append(
+                    `isMain_${index}`,
+                    fileObj.isMain ? 'true' : 'false',
+                );
+            });
+
+        // Manejar archivos existentes (actualizar isMain si es necesario)
+        files
+            .filter((f) => f.isExisting)
+            .forEach((fileObj, index) => {
+                formData.append(`existingMedia[${index}][id]`, fileObj.id!);
+                formData.append(
+                    `existingMedia[${index}][isMain]`,
+                    fileObj.isMain ? 'true' : 'false',
+                );
+            });
+
+        // Manejar archivos a eliminar
+        filesToDelete.forEach((fileObj, index) => {
+            formData.append(`filesToDelete[${index}][id]`, fileObj.id!);
+            formData.append(`filesToDelete[${index}][url]`, fileObj.url!);
+        });
+
+        console.log('formData', formData.get('existingMedia[0]'));
+
+        const response = await fetch(url, {
+            method: 'PUT',
+            body: formData,
+        });
+
+        if (response.status !== 200) {
+            handleMessage({
+                type: 'error',
+                message: 'errors.update_multimedia',
+            });
+            return;
+        }
+
+        queryClient.invalidateQueries('productList');
+    };
+
     const handleUpdateBoxPack = async (form: ValidationSchema) => {
         if (
             dirtyFields.name ||
@@ -292,6 +366,8 @@ export function UpdateBoxPackModal({
         if (boxPack.is_box_pack_dirty) {
             await updateSlotsSection();
         }
+
+        await updateMediaSection();
 
         handleMessage({
             type: 'success',
@@ -364,10 +440,7 @@ export function UpdateBoxPackModal({
                     ) : activeStep === 1 ? (
                         <UpdateBoxProductSlotsSection form={form} />
                     ) : activeStep === 2 ? (
-                        <UpdateBoxMultimediaSection
-                            form={form}
-                            productId={product.id}
-                        />
+                        <UpdateBoxMultimediaSection />
                     ) : (
                         <UpdateBoxSummary form={form} />
                     )}

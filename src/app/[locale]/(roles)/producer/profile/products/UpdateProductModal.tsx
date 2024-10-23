@@ -39,13 +39,6 @@ import {
     recommended_glass_options,
 } from '@/lib//beerEnum';
 
-// This is the list of mime types you will accept with the schema
-const ACCEPTED_MIME_TYPES = [
-    'image/gif',
-    'image/jpeg',
-    'image/png',
-    'image/webp',
-];
 const MB_BYTES = 1000000; // Number of bytes in a megabyte.
 
 const validateFile = (f: File, ctx: any) => {
@@ -358,7 +351,7 @@ export function UpdateProductModal({
 
     const {
         handleSubmit,
-        formState: { errors, isDirty, dirtyFields },
+        formState: { errors, dirtyFields },
     } = form;
 
     const queryClient = useQueryClient();
@@ -377,7 +370,6 @@ export function UpdateProductModal({
                 // No necesitamos 'file' aquí para archivos existentes
             })) || [];
 
-        // Establece los archivos en el contexto
         setFiles(initialFiles);
     }, [product.product_media]);
 
@@ -655,10 +647,7 @@ export function UpdateProductModal({
         queryClient.invalidateQueries('productList');
     };
 
-    const updateMultimediaSection = async (
-        files: UploadedFile[],
-        filesToDelete: UploadedFile[],
-    ) => {
+    const updateMediaSection = async () => {
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
         const url = `${baseUrl}/api/products/media`;
 
@@ -820,7 +809,7 @@ export function UpdateProductModal({
                 await deleteAwards();
             }
 
-            await updateMultimediaSection(files, filesToDelete);
+            await updateMediaSection();
 
             if (dirtyFields.awards && awards && isNotEmptyArray(awards)) {
                 await updateAwards(awards, randomUUID);
@@ -898,10 +887,7 @@ export function UpdateProductModal({
                                 customizeSettings={customizeSettings}
                             />
                         ) : activeStep === 1 ? (
-                            <UpdateMultimediaSection
-                                form={form}
-                                productId={product.id}
-                            />
+                            <UpdateMultimediaSection />
                         ) : activeStep === 2 ? (
                             <UpdateAwardsSection
                                 form={form}

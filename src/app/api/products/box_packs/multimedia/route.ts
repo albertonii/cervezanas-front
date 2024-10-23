@@ -1,592 +1,202 @@
 import createServerClient from '@/utils/supabaseServer';
 import { NextRequest, NextResponse } from 'next/server';
-import {
-    ROUTE_P_BACK,
-    ROUTE_P_EXTRA_1,
-    ROUTE_P_EXTRA_2,
-    ROUTE_P_EXTRA_3,
-    ROUTE_P_PRINCIPAL,
-} from '@/config';
-import { MULTIMEDIA, SupabaseProps } from '@/constants';
-import { generateFileNameExtension } from '@/utils/utils';
-import { generateUUID } from '@/lib//actions';
+import { generateUUID } from '@/lib/actions';
+import { SupabaseProps } from '@/constants';
+import { fileTypeToExtension } from '@/utils/utils';
 
 export async function PUT(request: NextRequest) {
     try {
+        const supabase = await createServerClient();
         const formData = await request.formData();
 
         const productId = formData.get('product_id') as string;
-        const multimediaType = formData.get('multimedia_type') as string;
-        const multimedia = formData.get('multimedia') as File;
 
-        const supabase = await createServerClient();
+        if (!productId) {
+            return NextResponse.json(
+                { message: 'Product ID is required' },
+                { status: 400 },
+            );
+        }
 
         const randomUUID = await generateUUID();
 
-        if (multimediaType === MULTIMEDIA.P_PRINCIPAL) {
-            // First remove previous image storaged in Supabase Bucket
-            // 1. Get url from product_multimedia
-            const { data: productMult, error: errorProductMult } =
-                await supabase
-                    .from('product_multimedia')
-                    .select('p_principal')
-                    .eq('product_id', productId)
-                    .single();
+        // Manejar archivos nuevos (media_files)
+        const mediaFiles = formData.getAll('media_files') as File[];
+        let mediaFileIndex = 0;
 
-            if (errorProductMult) {
-                return NextResponse.json(
-                    { message: 'Error getting product multimedia image' },
-                    { status: 500 },
-                );
-            }
+        for (let i = 0; i < mediaFiles.length; i++) {
+            const file = mediaFiles[i];
+            const isMain = formData.get(`isMain_${mediaFileIndex}`) === 'true';
+            mediaFileIndex++;
 
-            // 2. Remove image from Supabase Bucket if exists
-            if (productMult.p_principal) {
-                // 2. Remove image from Supabase Bucket
-                const { error: deleteError } = await supabase.storage
-                    .from('products')
-                    .remove([decodeURIComponent(productMult.p_principal)]);
+            const fileExt = fileTypeToExtension(file.type);
+            const fileName = `${SupabaseProps.ARTICLES}${productId}/${randomUUID}_${i}.${fileExt}`;
 
-                if (deleteError) {
-                    return NextResponse.json(
-                        { message: 'Error deleting product multimedia image' },
-                        { status: 500 },
-                    );
-                }
-            }
-
-            // 3. Update product_multimedia with new image
-            const fileName = `${SupabaseProps.ARTICLES}${productId}${ROUTE_P_PRINCIPAL}/${randomUUID}`;
-
-            const p_principal_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(multimedia.name)}`,
-            );
-
-            const { error } = await supabase.storage
+            // Subir archivo al almacenamiento
+            const { error: uploadError } = await supabase.storage
                 .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(multimedia.name)}`,
-                    multimedia,
-                    {
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
+                .upload(fileName, file);
 
-            if (error) {
-                return NextResponse.json(
-                    { message: 'Error uploading product multimedia image' },
-                    { status: 500 },
+            if (uploadError) {
+                throw new Error(
+                    `Error al subir archivo: ${uploadError.message}`,
                 );
             }
 
-            const { error: multError } = await supabase
-                .from('product_multimedia')
-                .update({
-                    p_principal: p_principal_url,
-                })
-                .eq('product_id', productId);
+            // Obtener URL pública
+            const { data } = supabase.storage
+                .from('products')
+                .getPublicUrl(fileName);
 
-            if (multError) {
-                return NextResponse.json(
-                    { message: 'Error updating product multimedia image' },
-                    { status: 500 },
+            const publicUrl = data.publicUrl;
+
+            // Insertar en 'product_media'
+            const { error: insertError } = await supabase
+                .from('product_media')
+                .insert({
+                    product_id: productId,
+                    url: publicUrl,
+                    type: file.type,
+                    alt_text: file.name,
+                    is_primary: isMain,
+                });
+
+            if (insertError) {
+                throw new Error(
+                    `Error al insertar en product_media: ${insertError.message}`,
                 );
             }
-
-            return NextResponse.json(
-                { message: 'Product multimedia image updated' },
-                { status: 200 },
-            );
         }
 
-        if (multimediaType === MULTIMEDIA.P_BACK) {
-            // First remove previous image storaged in Supabase Bucket
-            // 1. Get url from product_multimedia
-            const { data: productMult, error: errorProductMult } =
-                await supabase
-                    .from('product_multimedia')
-                    .select('p_back')
-                    .eq('product_id', productId)
-                    .single();
-
-            if (errorProductMult) {
-                return NextResponse.json(
-                    { message: 'Error getting product multimedia image' },
-                    { status: 500 },
-                );
+        // Manejar actualizaciones de medios existentes (existingMedia)
+        const existingMediaEntries: {
+            key: string;
+            value: FormDataEntryValue;
+        }[] = [];
+        formData.forEach((value, key) => {
+            if (key.startsWith('existingMedia')) {
+                existingMediaEntries.push({ key, value });
             }
+        });
 
-            // 2. Remove image from Supabase Bucket if exists
-            if (productMult.p_back) {
-                // 2. Remove image from Supabase Bucket
-                const { error: deleteError } = await supabase.storage
-                    .from('products')
-                    .remove([decodeURIComponent(productMult.p_back)]);
+        // Parsear entradas de medios existentes
+        const existingMediaMap: {
+            [index: string]: { id: string; isMain: boolean };
+        } = {};
 
-                if (deleteError) {
-                    return NextResponse.json(
-                        { message: 'Error deleting product multimedia image' },
-                        { status: 500 },
+        existingMediaEntries.forEach((entry) => {
+            const match = entry.key.match(/existingMedia\[(\d+)\]\[(.+)\]/);
+            if (match) {
+                const index = match[1];
+                const field = match[2];
+                const value = entry.value as string;
+                if (!existingMediaMap[index]) {
+                    existingMediaMap[index] = { id: '', isMain: false };
+                }
+                if (field === 'id') {
+                    existingMediaMap[index]['id'] = value;
+                } else if (field === 'isMain') {
+                    existingMediaMap[index]['isMain'] = value === 'true';
+                }
+            }
+        });
+
+        // Actualizar medios existentes en la base de datos
+        for (const key in existingMediaMap) {
+            const mediaEntry = existingMediaMap[key];
+            const mediaId = mediaEntry['id'];
+            const isMain = mediaEntry['isMain'];
+
+            if (mediaId) {
+                const { error: updateError } = await supabase
+                    .from('product_media')
+                    .update({ is_primary: isMain })
+                    .eq('id', mediaId);
+
+                if (updateError) {
+                    throw new Error(
+                        `Error al actualizar product_media: ${updateError.message}`,
                     );
                 }
             }
-
-            // 3. Update product_multimedia with new image
-            const fileName = `${SupabaseProps.ARTICLES}${productId}${ROUTE_P_BACK}/${randomUUID}`;
-            const p_back_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(multimedia.name)}`,
-            );
-
-            const { error } = await supabase.storage
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(multimedia.name)}`,
-                    multimedia,
-                    {
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
-            if (error) {
-                return NextResponse.json(
-                    { message: 'Error uploading product multimedia image' },
-                    { status: 500 },
-                );
-            }
-
-            const { error: multError } = await supabase
-                .from('product_multimedia')
-                .update({
-                    p_back: p_back_url,
-                })
-                .eq('product_id', productId);
-
-            if (multError) {
-                return NextResponse.json(
-                    { message: 'Error updating product multimedia image' },
-                    { status: 500 },
-                );
-            }
-
-            return NextResponse.json(
-                { message: 'Product multimedia image updated' },
-                { status: 200 },
-            );
         }
 
-        if (multimediaType === MULTIMEDIA.P_EXTRA_1) {
-            // First remove previous image storaged in Supabase Bucket
-            // 1. Get url from product_multimedia
-            const { data: productMult, error: errorProductMult } =
-                await supabase
-                    .from('product_multimedia')
-                    .select('p_extra_1')
-                    .eq('product_id', productId)
-                    .single();
+        // Manejar archivos para eliminar (filesToDelete)
+        const filesToDeleteEntries: {
+            key: string;
+            value: FormDataEntryValue;
+        }[] = [];
+        formData.forEach((value, key) => {
+            if (key.startsWith('filesToDelete')) {
+                filesToDeleteEntries.push({ key, value });
+            }
+        });
 
-            if (errorProductMult) {
-                return NextResponse.json(
-                    { message: 'Error getting product multimedia image' },
-                    { status: 500 },
+        // Parsear archivos para eliminar
+        const filesToDeleteMap: {
+            [index: string]: { id: string; url: string };
+        } = {};
+
+        filesToDeleteEntries.forEach((entry) => {
+            const match = entry.key.match(/filesToDelete\[(\d+)\]\[(.+)\]/);
+            if (match) {
+                const index = match[1];
+                const field = match[2];
+                const value = entry.value as string;
+                if (!filesToDeleteMap[index]) {
+                    filesToDeleteMap[index] = { id: '', url: '' };
+                }
+                if (field === 'id') {
+                    filesToDeleteMap[index]['id'] = value;
+                } else if (field === 'url') {
+                    filesToDeleteMap[index]['url'] = value;
+                }
+            }
+        });
+
+        // Eliminar archivos y registros
+        for (const key in filesToDeleteMap) {
+            const fileEntry = filesToDeleteMap[key];
+            const mediaId = fileEntry['id'];
+            const url = fileEntry['url'];
+
+            // Eliminar registro de 'product_media'
+            const { error: deleteError } = await supabase
+                .from('product_media')
+                .delete()
+                .eq('id', mediaId);
+
+            if (deleteError) {
+                throw new Error(
+                    `Error al eliminar de product_media: ${deleteError.message}`,
                 );
             }
 
-            // 2. Remove image from Supabase Bucket if exists
-            if (productMult.p_extra_1) {
-                // 2. Remove image from Supabase Bucket
-                const { error: deleteError } = await supabase.storage
-                    .from('products')
-                    .remove([decodeURIComponent(productMult.p_extra_1)]);
+            // Eliminar archivo del almacenamiento
+            const filePath = url.split(
+                `${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`,
+            )[1];
 
-                if (deleteError) {
-                    return NextResponse.json(
-                        { message: 'Error deleting product multimedia image' },
-                        { status: 500 },
+            if (filePath) {
+                const { error: storageError } = await supabase.storage
+                    .from('products')
+                    .remove([filePath]);
+
+                if (storageError) {
+                    throw new Error(
+                        `Error al eliminar archivo del almacenamiento: ${storageError.message}`,
                     );
                 }
             }
-
-            // 3. Update product_multimedia with new image
-            const fileName = `${SupabaseProps.ARTICLES}${productId}${ROUTE_P_BACK}/${randomUUID}`;
-            const p_extra_1_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(multimedia.name)}`,
-            );
-
-            const { error } = await supabase.storage
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(multimedia.name)}`,
-                    multimedia,
-                    {
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
-            if (error) {
-                return NextResponse.json(
-                    { message: 'Error uploading product multimedia image' },
-                    { status: 500 },
-                );
-            }
-
-            const { error: multError } = await supabase
-                .from('product_multimedia')
-                .update({
-                    p_extra_1: p_extra_1_url,
-                })
-                .eq('product_id', productId);
-
-            if (multError) {
-                return NextResponse.json(
-                    { message: 'Error updating product multimedia image' },
-                    { status: 500 },
-                );
-            }
-
-            return NextResponse.json(
-                { message: 'Product multimedia image updated' },
-                { status: 200 },
-            );
-        }
-        if (multimediaType === MULTIMEDIA.P_EXTRA_1) {
-            // First remove previous image storaged in Supabase Bucket
-            // 1. Get url from product_multimedia
-            const { data: productMult, error: errorProductMult } =
-                await supabase
-                    .from('product_multimedia')
-                    .select('p_extra_1')
-                    .eq('product_id', productId)
-                    .single();
-
-            if (errorProductMult) {
-                return NextResponse.json(
-                    { message: 'Error getting product multimedia image' },
-                    { status: 500 },
-                );
-            }
-
-            // 2. Remove image from Supabase Bucket if exists
-            if (productMult.p_extra_1) {
-                // 2. Remove image from Supabase Bucket
-                const { error: deleteError } = await supabase.storage
-                    .from('products')
-                    .remove([decodeURIComponent(productMult.p_extra_1)]);
-
-                if (deleteError) {
-                    return NextResponse.json(
-                        { message: 'Error deleting product multimedia image' },
-                        { status: 500 },
-                    );
-                }
-            }
-
-            // 3. Update product_multimedia with new image
-            const fileName = `${SupabaseProps.ARTICLES}${productId}${ROUTE_P_EXTRA_1}/${randomUUID}`;
-            const p_extra_1_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(multimedia.name)}`,
-            );
-
-            const { error } = await supabase.storage
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(multimedia.name)}`,
-                    multimedia,
-                    {
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
-            if (error) {
-                return NextResponse.json(
-                    { message: 'Error uploading product multimedia image' },
-                    { status: 500 },
-                );
-            }
-
-            const { error: multError } = await supabase
-                .from('product_multimedia')
-                .update({
-                    p_extra_1: p_extra_1_url,
-                })
-                .eq('product_id', productId);
-
-            if (multError) {
-                return NextResponse.json(
-                    { message: 'Error updating product multimedia image' },
-                    { status: 500 },
-                );
-            }
-
-            return NextResponse.json(
-                { message: 'Product multimedia image updated' },
-                { status: 200 },
-            );
-        }
-
-        if (multimediaType === MULTIMEDIA.P_EXTRA_2) {
-            // First remove previous image storaged in Supabase Bucket
-            // 1. Get url from product_multimedia
-            const { data: productMult, error: errorProductMult } =
-                await supabase
-                    .from('product_multimedia')
-                    .select('p_extra_2')
-                    .eq('product_id', productId)
-                    .single();
-
-            if (errorProductMult) {
-                return NextResponse.json(
-                    { message: 'Error getting product multimedia image' },
-                    { status: 500 },
-                );
-            }
-
-            // 2. Remove image from Supabase Bucket if exists
-            if (productMult.p_extra_2) {
-                // 2. Remove image from Supabase Bucket
-                const { error: deleteError } = await supabase.storage
-                    .from('products')
-                    .remove([decodeURIComponent(productMult.p_extra_2)]);
-
-                if (deleteError) {
-                    return NextResponse.json(
-                        { message: 'Error deleting product multimedia image' },
-                        { status: 500 },
-                    );
-                }
-            }
-
-            // 3. Update product_multimedia with new image
-            const fileName = `${SupabaseProps.ARTICLES}${productId}${ROUTE_P_EXTRA_2}/${randomUUID}`;
-            const p_extra_2_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(multimedia.name)}`,
-            );
-
-            const { error } = await supabase.storage
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(multimedia.name)}`,
-                    multimedia,
-                    {
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
-            if (error) {
-                return NextResponse.json(
-                    { message: 'Error uploading product multimedia image' },
-                    { status: 500 },
-                );
-            }
-
-            const { error: multError } = await supabase
-                .from('product_multimedia')
-                .update({
-                    p_extra_2: p_extra_2_url,
-                })
-                .eq('product_id', productId);
-
-            if (multError) {
-                return NextResponse.json(
-                    { message: 'Error updating product multimedia image' },
-                    { status: 500 },
-                );
-            }
-
-            return NextResponse.json(
-                { message: 'Product multimedia image updated' },
-                { status: 200 },
-            );
-        }
-
-        if (multimediaType === MULTIMEDIA.P_EXTRA_3) {
-            // First remove previous image storaged in Supabase Bucket
-            // 1. Get url from product_multimedia
-            const { data: productMult, error: errorProductMult } =
-                await supabase
-                    .from('product_multimedia')
-                    .select('p_extra_3')
-                    .eq('product_id', productId)
-                    .single();
-
-            if (errorProductMult) {
-                return NextResponse.json(
-                    { message: 'Error getting product multimedia image' },
-                    { status: 500 },
-                );
-            }
-
-            // 2. Remove image from Supabase Bucket if exists
-            if (productMult.p_extra_3) {
-                // 2. Remove image from Supabase Bucket
-                const { error: deleteError } = await supabase.storage
-                    .from('products')
-                    .remove([decodeURIComponent(productMult.p_extra_3)]);
-
-                if (deleteError) {
-                    return NextResponse.json(
-                        {
-                            message: 'Error deleting product multimedia image',
-                        },
-                        { status: 500 },
-                    );
-                }
-            }
-
-            // 3. Update product_multimedia with new image
-            const fileName = `${SupabaseProps.ARTICLES}${productId}${ROUTE_P_EXTRA_3}/${randomUUID}`;
-            const p_extra_3_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(multimedia.name)}`,
-            );
-
-            const { error } = await supabase.storage
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(multimedia.name)}`,
-                    multimedia,
-                    {
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
-            if (error) {
-                return NextResponse.json(
-                    { message: 'Error uploading product multimedia image' },
-                    { status: 500 },
-                );
-            }
-
-            const { error: multError } = await supabase
-                .from('product_multimedia')
-                .update({
-                    p_extra_3: p_extra_3_url,
-                })
-                .eq('product_id', productId);
-
-            if (multError) {
-                return NextResponse.json(
-                    { message: 'Error updating product multimedia image' },
-                    { status: 500 },
-                );
-            }
-
-            return NextResponse.json(
-                { message: 'Product multimedia image updated' },
-                { status: 200 },
-            );
         }
 
         return NextResponse.json(
-            { message: 'Product multimedia image updated' },
+            { message: 'Medios actualizados correctamente' },
             { status: 200 },
         );
-    } catch (err) {
+    } catch (err: any) {
         return NextResponse.json(
-            { message: 'Error updating product multimedia image' },
-            { status: 500 },
-        );
-    }
-}
-
-export async function DELETE(request: NextRequest) {
-    try {
-        const formData = await request.formData();
-
-        const p_principal = formData.get('p_principal') as string;
-        const p_back = formData.get('p_back') as string;
-        const p_extra_1 = formData.get('p_extra_1') as string;
-        const p_extra_2 = formData.get('p_extra_2') as string;
-        const p_extra_3 = formData.get('p_extra_3') as string;
-
-        const supabase = await createServerClient();
-
-        if (p_principal) {
-            const { error: deleteError } = await supabase.storage
-                .from('products')
-                .remove([decodeURIComponent(p_principal)]);
-
-            if (deleteError) {
-                return NextResponse.json(
-                    {
-                        message:
-                            'Error deleting p_principal product multimedia image',
-                    },
-                    { status: 500 },
-                );
-            }
-        }
-
-        if (p_back) {
-            const { error: deleteError } = await supabase.storage
-                .from('products')
-                .remove([decodeURIComponent(p_back)]);
-
-            if (deleteError) {
-                return NextResponse.json(
-                    {
-                        message:
-                            'Error deleting p_back product multimedia image',
-                    },
-                    { status: 500 },
-                );
-            }
-        }
-
-        if (p_extra_1) {
-            const { error: deleteError } = await supabase.storage
-                .from('products')
-                .remove([decodeURIComponent(p_extra_1)]);
-
-            if (deleteError) {
-                return NextResponse.json(
-                    {
-                        message:
-                            'Error deleting p_extra_1 product multimedia image',
-                    },
-                    { status: 500 },
-                );
-            }
-        }
-
-        if (p_extra_2) {
-            const { error: deleteError } = await supabase.storage
-                .from('products')
-                .remove([decodeURIComponent(p_extra_2)]);
-
-            if (deleteError) {
-                return NextResponse.json(
-                    {
-                        message:
-                            'Error deleting p_extra_2 product multimedia image',
-                    },
-                    { status: 500 },
-                );
-            }
-        }
-
-        if (p_extra_3) {
-            const { error: deleteError } = await supabase.storage
-                .from('products')
-                .remove([decodeURIComponent(p_extra_3)]);
-
-            if (deleteError) {
-                return NextResponse.json(
-                    {
-                        message:
-                            'Error deleting p_extra_3 product multimedia image',
-                    },
-                    { status: 500 },
-                );
-            }
-        }
-
-        return NextResponse.json(
-            { message: 'Product multimedia image deleted' },
-            { status: 200 },
-        );
-    } catch (err) {
-        return NextResponse.json(
-            { message: 'Error updating product multimedia image' },
+            { message: 'Error al actualizar medios', error: err.message },
             { status: 500 },
         );
     }

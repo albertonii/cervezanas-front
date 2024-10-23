@@ -1,16 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
-import {
-    ROUTE_P_BACK,
-    ROUTE_P_EXTRA_1,
-    ROUTE_P_EXTRA_2,
-    ROUTE_P_EXTRA_3,
-    ROUTE_P_PRINCIPAL,
-} from '@/config';
-import createServerClient from '@/utils/supabaseServer';
-import { fileTypeToExtension, generateFileNameExtension } from '@/utils/utils';
-import { SupabaseProps } from '@/constants';
-import { Type } from '@/lib//productEnum';
 import readUserSession, { generateUUID } from '@/lib//actions';
+import createServerClient from '@/utils/supabaseServer';
+import { Type } from '@/lib//productEnum';
+import { SupabaseProps } from '@/constants';
+import { fileTypeToExtension } from '@/utils/utils';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
     try {

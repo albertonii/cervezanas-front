@@ -914,7 +914,6 @@ export type ModalUpdateProductFormData = {
     // stock_limit_notification: number;
     awards: ModalUpdateProductAwardFormData[];
     packs: ModalUpdateProductPackFormData[];
-    multimedia_files?: any[];
     media_files?: IProductMediaFormData[];
 };
 

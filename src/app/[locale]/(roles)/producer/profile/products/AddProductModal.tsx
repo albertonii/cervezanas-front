@@ -208,8 +208,10 @@ export function AddProductModal() {
     const queryClient = useQueryClient();
 
     useEffect(() => {
-        clearFiles();
-    }, []);
+        if (showModal) {
+            clearFiles();
+        }
+    }, [showModal]);
 
     useEffect(() => {
         if (Object.keys(errors).length > 0) {
