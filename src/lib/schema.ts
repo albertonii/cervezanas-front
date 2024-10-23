@@ -1261,42 +1261,6 @@ export type Database = {
           },
         ]
       }
-      discount_codes: {
-        Row: {
-          code: string | null
-          created_at: string
-          discount_type: string | null
-          discount_value: number | null
-          expiration_date: string | null
-          id: string
-          max_uses: number | null
-          updated_at: string | null
-          uses: number | null
-        }
-        Insert: {
-          code?: string | null
-          created_at?: string
-          discount_type?: string | null
-          discount_value?: number | null
-          expiration_date?: string | null
-          id?: string
-          max_uses?: number | null
-          updated_at?: string | null
-          uses?: number | null
-        }
-        Update: {
-          code?: string | null
-          created_at?: string
-          discount_type?: string | null
-          discount_value?: number | null
-          expiration_date?: string | null
-          id?: string
-          max_uses?: number | null
-          updated_at?: string | null
-          uses?: number | null
-        }
-        Relationships: []
-      }
       distribution: {
         Row: {
           business_order_id: string | null
@@ -2688,56 +2652,6 @@ export type Database = {
           },
         ]
       }
-      product_multimedia: {
-        Row: {
-          created_at: string | null
-          p_back: string | null
-          p_extra_1: string | null
-          p_extra_2: string | null
-          p_extra_3: string | null
-          p_extra_4: string | null
-          p_principal: string | null
-          product_id: string
-          v_extra_1: string | null
-          v_extra_2: string | null
-          v_principal: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          p_back?: string | null
-          p_extra_1?: string | null
-          p_extra_2?: string | null
-          p_extra_3?: string | null
-          p_extra_4?: string | null
-          p_principal?: string | null
-          product_id: string
-          v_extra_1?: string | null
-          v_extra_2?: string | null
-          v_principal?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          p_back?: string | null
-          p_extra_1?: string | null
-          p_extra_2?: string | null
-          p_extra_3?: string | null
-          p_extra_4?: string | null
-          p_principal?: string | null
-          product_id?: string
-          v_extra_1?: string | null
-          v_extra_2?: string | null
-          v_principal?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "product_multimedia_product_id_fkey"
-            columns: ["product_id"]
-            isOneToOne: true
-            referencedRelation: "products"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       product_packs: {
         Row: {
           created_at: string
@@ -2915,6 +2829,54 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      promo_codes: {
+        Row: {
+          code: string | null
+          created_at: string
+          description: string | null
+          discount_type: string | null
+          discount_value: number | null
+          expiration_date: string | null
+          id: string
+          is_active: boolean | null
+          max_usage_per_user: number | null
+          max_uses: number | null
+          start_date: string | null
+          updated_at: string | null
+          uses: number | null
+        }
+        Insert: {
+          code?: string | null
+          created_at?: string
+          description?: string | null
+          discount_type?: string | null
+          discount_value?: number | null
+          expiration_date?: string | null
+          id?: string
+          is_active?: boolean | null
+          max_usage_per_user?: number | null
+          max_uses?: number | null
+          start_date?: string | null
+          updated_at?: string | null
+          uses?: number | null
+        }
+        Update: {
+          code?: string | null
+          created_at?: string
+          description?: string | null
+          discount_type?: string | null
+          discount_value?: number | null
+          expiration_date?: string | null
+          id?: string
+          is_active?: boolean | null
+          max_usage_per_user?: number | null
+          max_uses?: number | null
+          start_date?: string | null
+          updated_at?: string | null
+          uses?: number | null
+        }
+        Relationships: []
       }
       refunds: {
         Row: {
@@ -3287,31 +3249,37 @@ export type Database = {
         }
         Relationships: []
       }
-      user_discount_codes: {
+      user_promo_codes: {
         Row: {
-          discount_code_id: string | null
+          created_at: string | null
           id: string
+          order_id: string | null
+          promo_code_id: string | null
           used_at: string | null
           user_id: string
         }
         Insert: {
-          discount_code_id?: string | null
+          created_at?: string | null
           id?: string
+          order_id?: string | null
+          promo_code_id?: string | null
           used_at?: string | null
           user_id?: string
         }
         Update: {
-          discount_code_id?: string | null
+          created_at?: string | null
           id?: string
+          order_id?: string | null
+          promo_code_id?: string | null
           used_at?: string | null
           user_id?: string
         }
         Relationships: [
           {
             foreignKeyName: "user_discount_codes_discount_code_id_fkey"
-            columns: ["discount_code_id"]
+            columns: ["promo_code_id"]
             isOneToOne: false
-            referencedRelation: "discount_codes"
+            referencedRelation: "promo_codes"
             referencedColumns: ["id"]
           },
           {
@@ -3319,6 +3287,13 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_promo_codes_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
             referencedColumns: ["id"]
           },
         ]

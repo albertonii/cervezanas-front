@@ -4,6 +4,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 import Decimal from 'decimal.js';
 import PromotionCode from './PromotionCode';
 import ShoppingBasketItems from './ShoppingBasketItems';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 import ShippingBillingContainer from './ShippingBillingContainer';
 import ShoppingBasketOrderSummary from './ShoppingBasketOrderSummary';
 import React, { useState, useEffect, useRef } from 'react';
@@ -11,7 +12,9 @@ import { z, ZodType } from 'zod';
 import { API_METHODS } from '@/constants';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
+import { insertOnlineOrder } from '../actions';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { formatDateForTPV } from '@/utils/formatDate';
 import { useMutation, useQueryClient } from 'react-query';
 import { randomTransactionId, CURRENCIES } from 'redsys-easy';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
@@ -19,14 +22,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { IProductPackCartItem, IUserTable } from '@/lib//types/types';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { CustomLoading } from '@/app/[locale]/components/ui/CustomLoading';
 import {
     createRedirectForm,
     merchantInfo,
 } from '@/app/[locale]/components/TPV/redsysClient';
-import { insertOnlineOrder } from '../actions';
-import { formatDateForTPV } from '@/utils/formatDate';
-import { CustomLoading } from '@/app/[locale]/components/ui/CustomLoading';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 export type FormShippingData = {
     shipping_info_id: string;
@@ -60,6 +60,7 @@ export function ShoppingBasket({ user }: Props) {
     const { handleMessage } = useMessage();
 
     const {
+        subtotal,
         items,
         handleUndeliverableItems,
         calculateShippingCostCartContext,
@@ -69,12 +70,13 @@ export function ShoppingBasket({ user }: Props) {
         defaultShippingAddress,
         updateCanMakeThePayment,
         updateNeedsToCheckDelivery,
+        discountAmount,
+        discountCode,
     } = useShoppingCart();
 
     // const formRef = useRef<HTMLFormElement>(null);
     const btnRef = useRef<HTMLButtonElement>(null);
 
-    const [subtotal, setSubtotal] = useState(0);
     const [deliveryCost, setDeliveryCost] = useState(0);
     const [total, setTotal] = useState(0);
     const [loadingPayment, setLoadingPayment] = useState(false);
@@ -116,9 +118,8 @@ export function ShoppingBasket({ user }: Props) {
             });
         });
 
-        setSubtotal(subtotal);
-        setTotal(() => subtotal + deliveryCost);
-    }, [items, deliveryCost, subtotal]);
+        setTotal(subtotal + deliveryCost - discountAmount);
+    }, [items, deliveryCost, subtotal, discountAmount]);
 
     useEffect(() => {
         setCanMakeThePaymentResponse(false);
@@ -198,8 +199,6 @@ export function ShoppingBasket({ user }: Props) {
             total: total,
             subtotal: subtotal,
             delivery_cost: deliveryCost,
-            discount: 0,
-            discount_code: 'none',
             currency: 'EUR',
             order_number: orderNumber,
             type: 'online',
@@ -227,6 +226,8 @@ export function ShoppingBasket({ user }: Props) {
             billing_city: selectedBillingAddress.city,
             billing_zipcode: selectedBillingAddress.zipcode,
             billing_is_company: selectedBillingAddress.is_company,
+            discount: discountAmount,
+            discount_code: discountCode || 'none',
         };
 
         await insertOnlineOrder(order).catch((error) => {
