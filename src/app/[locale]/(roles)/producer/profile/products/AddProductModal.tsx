@@ -208,6 +208,10 @@ export function AddProductModal() {
     const queryClient = useQueryClient();
 
     useEffect(() => {
+        clearFiles();
+    }, []);
+
+    useEffect(() => {
         if (Object.keys(errors).length > 0) {
             console.info('Errores detectados creando un producto', errors);
         }
@@ -260,11 +264,13 @@ export function AddProductModal() {
 
         // Agregar archivos al FormData
         files?.forEach((object, index) => {
-            formData.append('media_files', object.file);
-            formData.append(
-                `isMain_${index}`,
-                object.isMain ? 'true' : 'false',
-            );
+            if (object.file) {
+                formData.append('media_files', object.file);
+                formData.append(
+                    `isMain_${index}`,
+                    object.isMain ? 'true' : 'false',
+                );
+            }
         });
 
         clearFiles();
