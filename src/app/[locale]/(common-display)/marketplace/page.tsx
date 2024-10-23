@@ -22,9 +22,8 @@ async function getMarketplaceProducts() {
         .select(
             `
               *,
-              product_multimedia (
-                *,
-                p_principal
+              product_media (
+                *
               ),
               product_inventory (
                 *

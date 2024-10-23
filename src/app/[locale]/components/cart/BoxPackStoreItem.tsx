@@ -31,7 +31,7 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
     const router = useRouter();
 
     const src = `${BASE_PRODUCTS_URL}${decodeURIComponent(
-        product.product_multimedia?.p_principal ?? '',
+        product.product_media?.find((media) => media.is_primary)?.url ?? '',
     )}`;
 
     const [pack, setPack] = useState<IProductPack>();
@@ -56,7 +56,9 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
             created_at: product.created_at,
             quantity: 1,
             price: product.price,
-            img_url: product.product_multimedia?.p_principal,
+            img_url:
+                product.product_media?.find((media) => media.is_primary)?.url ??
+                '',
             name: product.name,
             randomUUID: '',
         };

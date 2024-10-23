@@ -36,10 +36,10 @@ async function getCPMobile(cpId: string) {
             *,
             products!product_packs_product_id_fkey (
               id,
-              name,
+              name, 
               description,
               type,
-              product_multimedia!product_multimedia_product_id_fkey (p_principal)
+              product_media!product_media_product_id_fkey (*)
             )
           )
         )

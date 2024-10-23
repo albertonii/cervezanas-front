@@ -56,7 +56,7 @@ async function getEventExperienceData(eventExperienceId: string) {
                       name,
                       description,
                       type,
-                      product_multimedia!product_multimedia_product_id_fkey (p_principal)
+                      product_media!product_media_product_id_fkey (*)
                     )
                   )
                 )

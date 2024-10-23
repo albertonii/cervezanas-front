@@ -76,7 +76,6 @@ interface IProductBoxFormData {
     // product_lots?: IProductLot[];
     beers?: IBeerFormData;
     // product_inventory?: IProductInventory;
-    // product_multimedia?: IProductMultimedia;
 }
 
 export interface IBeerFormData {

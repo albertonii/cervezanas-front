@@ -104,9 +104,10 @@ export function Reviews({ reviews: r }: Props) {
                                                     width={80}
                                                     height={80}
                                                     src={`${
-                                                        review.products
-                                                            ?.product_multimedia
-                                                            ?.p_principal ??
+                                                        review.products?.product_media?.find(
+                                                            (media) =>
+                                                                media.is_primary,
+                                                        )?.url ??
                                                         '/icons/beer-240.png'
                                                     } `}
                                                     alt=""

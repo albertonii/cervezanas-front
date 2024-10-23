@@ -17,7 +17,6 @@ const fetchProductsByOwner = async (
         .select(
             `
                 *,
-                product_multimedia (*),
                 product_inventory (*),
                 likes (*),
                 product_lots (*),

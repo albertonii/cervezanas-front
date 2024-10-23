@@ -15,7 +15,7 @@ const fetchProducts = async (
         .select(
             `
           *, 
-          product_multimedia (*),
+          product_media (*),
           product_inventory (*),
           likes (*),
           product_lots (*),

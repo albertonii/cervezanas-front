@@ -1,13 +1,13 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { ProductList } from './ProductList';
 import { IProduct } from '@/lib//types/types';
+import { AddProductModal } from '../../../producer/profile/products/AddProductModal';
 import { DeleteProductModal } from '@/app/[locale]/components/modals/DeleteProductModal';
-import { UpdateProductAdmin } from './UpdateProductAdmin';
-import { AddProductModal } from './AddProductModal';
-import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
+import { UpdateProductModal } from '../../../producer/profile/products/UpdateProductModal';
 
 export function Products() {
     const t = useTranslations();
@@ -51,7 +51,7 @@ export function Products() {
             />
 
             {isEditShowModal && productModal != null && (
-                <UpdateProductAdmin
+                <UpdateProductModal
                     product={productModal}
                     showModal={isEditShowModal}
                     handleEditShowModal={handleEditShowModal}

@@ -305,7 +305,9 @@ export function ShoppingCartProvider({ children }: Props) {
             packs: [pack],
             name: product.name,
             price: product.price,
-            image: product.product_multimedia?.p_principal ?? '',
+            image:
+                product.product_media?.find((media) => media.is_primary)?.url ??
+                '',
             producer_id: product.owner_id,
             distributor_id: '',
             products: product,

@@ -46,8 +46,8 @@ async function getMarketplaceData() {
             `
         id,
         price,
-        product_multimedia (
-          p_principal
+        product_media (
+          *
         )
       `,
         )

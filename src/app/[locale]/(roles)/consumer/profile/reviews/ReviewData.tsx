@@ -96,10 +96,9 @@ export default function ReviewData({ review, handleSetReviews }: Props) {
                                         imgSrc={`${
                                             BASE_PRODUCTS_URL +
                                             decodeURIComponent(
-                                                review.products
-                                                    ?.product_multimedia
-                                                    ?.p_principal ??
-                                                    '/icons/beer-240.png',
+                                                review.products?.product_media?.find(
+                                                    (media) => media.is_primary,
+                                                )?.url ?? '/icons/beer-240.png',
                                             )
                                         }`}
                                         class="h-full w-full object-cover object-center"

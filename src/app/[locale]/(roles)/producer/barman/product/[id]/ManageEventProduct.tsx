@@ -25,7 +25,7 @@ export default function ManageEventProduct({ eventOrderItem }: Props) {
     if (!selectedProduct)
         return <Spinner color={'beer-blonde'} size="medium" />;
 
-    const selectedMultimedia = selectedProduct.product_multimedia;
+    const selectedMultimedia = selectedProduct.product_media;
     if (!selectedMultimedia)
         return <Spinner color={'beer-blonde'} size="medium" />;
 
@@ -72,7 +72,11 @@ export default function ManageEventProduct({ eventOrderItem }: Props) {
                     <DisplayImageProduct
                         imgSrc={
                             BASE_PRODUCTS_URL +
-                            decodeURIComponent(selectedMultimedia.p_principal)
+                            decodeURIComponent(
+                                selectedMultimedia.find(
+                                    (media) => media.is_primary,
+                                )?.url ?? '',
+                            )
                         }
                     />
                 </div>

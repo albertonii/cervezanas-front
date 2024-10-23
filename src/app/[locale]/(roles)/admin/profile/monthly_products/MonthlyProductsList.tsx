@@ -170,9 +170,10 @@ export default function MonthlyProductsList({ mProducts, products }: Props) {
                                                 imgSrc={
                                                     BASE_PRODUCTS_URL +
                                                     decodeURIComponent(
-                                                        product.products
-                                                            ?.product_multimedia
-                                                            ?.p_principal ?? '',
+                                                        product.products?.product_media?.find(
+                                                            (media) =>
+                                                                media.is_primary,
+                                                        )?.url ?? '',
                                                     )
                                                 }
                                                 width={128}

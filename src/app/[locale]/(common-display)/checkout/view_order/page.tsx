@@ -63,7 +63,7 @@ async function getSuccessData(orderNumber: string) {
                             *,
                             products (
                                 *,
-                                product_multimedia (*)
+                                product_media (*)
                             )
                         )
                     )
