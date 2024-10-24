@@ -27,8 +27,8 @@ async function getReviewsData() {
                 products (
                     id,
                     name,
-                    product_multimedia (
-                        p_principal
+                    product_media (
+                        *
                     )
                 ),
                 users (

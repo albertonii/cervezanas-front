@@ -24,14 +24,7 @@ async function getProductData(productId: string) {
             beers (
               *
             ),
-            product_multimedia (
-              *,
-              p_principal,
-              p_back,
-              p_extra_1,
-              p_extra_2,
-              p_extra_3
-            ),
+            product_media (*),
             product_packs (*),
             awards (*),
             reviews (
@@ -53,7 +46,7 @@ async function getProductData(productId: string) {
                 slots_per_product,
                 products (
                   *,
-                  product_multimedia (*),
+                  product_media (*),
                   beers (
                     *
                   )

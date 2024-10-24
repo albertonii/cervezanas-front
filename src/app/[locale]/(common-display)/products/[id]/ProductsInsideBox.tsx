@@ -55,7 +55,8 @@ export default function ProductsInsideBox({ product, boxPack }: Props) {
             created_at: product.created_at ?? '',
             quantity: packQuantity,
             price: product.price ?? 0,
-            img_url: product.product_multimedia?.p_principal ?? '',
+            img_url:
+                product.product_media?.find((media) => media.is_primary) ?? '',
             name: product.name ?? '',
             randomUUID: '',
             product_id: product.id ?? '',

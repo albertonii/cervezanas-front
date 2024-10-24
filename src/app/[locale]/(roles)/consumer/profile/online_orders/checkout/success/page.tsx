@@ -94,7 +94,7 @@ async function getSuccessData(searchParams: any) {
                             *,
                             products (
                                 *,
-                                product_multimedia (*)
+                                product_media (*)
                             )
                         )
                     ),

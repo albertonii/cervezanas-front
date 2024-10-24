@@ -1344,5 +1344,13 @@
     "go_to_signin_and_signup_page": "Go to sign in and sign up page",
     "event": "Event",
     "cervezanas_event": "Cervezanas Event",
-    "cervezanas_spots": "Cervezanas Spots"
+    "cervezanas_spots": "Cervezanas Spots",
+    "media_uploader": {
+        "loading_files": "Loading files...",
+        "limitations": "PNG, JPG, GIF up to 5MB. 1 video up to 50MB.",
+        "images": "Images",
+        "max_imgs_reached": "Maximum images reached",
+        "main_image": "Main image",
+        "move": "Drag"
+    }
 }

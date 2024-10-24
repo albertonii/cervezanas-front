@@ -5,6 +5,7 @@ import {
     ICPMobile,
     IEvent,
     IProducerUser,
+    IProductMedia,
     IUserProfile,
 } from './types';
 
@@ -253,7 +254,7 @@ export type IProductQuizFormData = {
     is_monthly: boolean;
     owner_id: string;
     beers?: IBeerQuizFormData;
-    product_multimedia?: IProductMultimediaQuizFormData;
+    product_media?: IProductMediaQuizFormData;
 };
 
 export interface IBeerQuizFormData {
@@ -278,17 +279,9 @@ export interface IBeerQuizFormData {
     fg: number;
 }
 
-export interface IProductMultimediaQuizFormData {
+export interface IProductMediaQuizFormData {
     product_id: string; // PK
-    p_principal: string;
-    p_back: string;
-    p_extra_1: string;
-    p_extra_2: string;
-    p_extra_3: string;
-    p_extra_4: string;
-    v_principal: string;
-    v_extra_1: string;
-    v_extra_2: string;
+    product_media: IProductMedia[];
 }
 
 export interface IGamificationQuizFormData {

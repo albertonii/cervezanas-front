@@ -1,8 +1,8 @@
+import ProductMediaUploader from '../ProductMediaUploader';
 import { UseFormReturn } from 'react-hook-form';
-import { ModalAddBoxPackFormData } from '@/lib//types/product';
-import { FilePreviewImageMultimedia } from '../../common/FilePreviewImageMultimedia';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
+import { ModalAddBoxPackFormData } from '@/lib//types/product';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface Props {
     form: UseFormReturn<ModalAddBoxPackFormData, any>;
@@ -19,14 +19,8 @@ export function BoxMultimediaSection({ form }: Props) {
                 title={'Beer Properties Icon'}
                 className="h-12 w-12 text-beer-blonde absolute -top-4 -left-4 bg-white p-2 rounded-full shadow-lg"
             />
-            <FilePreviewImageMultimedia
-                form={form}
-                registerName="p_principal"
-            />
-            <FilePreviewImageMultimedia form={form} registerName="p_back" />
-            <FilePreviewImageMultimedia form={form} registerName="p_extra_1" />
-            <FilePreviewImageMultimedia form={form} registerName="p_extra_2" />
-            <FilePreviewImageMultimedia form={form} registerName="p_extra_3" />
+
+            <ProductMediaUploader />
         </section>
     );
 }

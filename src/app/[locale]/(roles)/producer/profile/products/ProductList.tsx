@@ -97,12 +97,6 @@ export function ProductList({
                 </Link>
             ),
         },
-        // {
-        //     header: t('pvpr'),
-        //     accessor: 'price',
-        //     sortable: true,
-        //     render: (price: number) => formatCurrency(price),
-        // },
         {
             header: t('num_of_packs'),
             accessor: 'product_packs',
@@ -161,7 +155,7 @@ export function ProductList({
         delete updatedProduct.likes;
         delete updatedProduct.product_inventory;
         delete updatedProduct.product_lots;
-        delete updatedProduct.product_multimedia;
+        delete updatedProduct.product_media;
 
         const { error } = await supabase
             .from('products')

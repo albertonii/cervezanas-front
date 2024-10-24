@@ -17,7 +17,7 @@ export default function HorizontalSections({ handleMenuClick, tabs }: Props) {
         setActiveTab(tab);
         handleMenuClick(tab);
     };
-    console.log(tabs);
+
     return (
         <>
             <ul className="mx-14 sm:mx-16 block sm:flex justify-center bg-white rounded-lg shadow-md overflow-hidden border-2 border-gray-300">

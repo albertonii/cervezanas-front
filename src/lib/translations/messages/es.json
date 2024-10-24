@@ -727,7 +727,8 @@
         "invalid_characters": "Caracteres inválidos",
         "update_shipment_tracking": "Error al actualizar el seguimiento del envío.",
         "create_sales_record": "Error al crear el registro de ventas.",
-        "updating_sales_records_download_status": "Error al actualizar el estado de descarga de los registros de ventas."
+        "updating_sales_records_download_status": "Error al actualizar el estado de descarga de los registros de ventas.",
+        "update_multimedia": "Error al actualizar el multimedia."
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",
@@ -1380,5 +1381,13 @@
     "go_to_signin_and_signup_page": "Ir a la página de inicio de sesión y registro",
     "event": "Evento",
     "cervezanas_event": "Evento Cervezanas",
-    "cervezanas_spots": "Puntos Cervezanas"
+    "cervezanas_spots": "Puntos Cervezanas",
+    "media_uploader": {
+        "loading_files": "Cargando archivos ...",
+        "limitations": "PNG, JPG, GIF hasta 5MB. 1 video hasta 50MB.",
+        "images": "Imágenes",
+        "max_imgs_reached": "Máximo de imágenes alcanzado",
+        "main_image": "Imagen principal",
+        "move": "Arrastrar"
+    }
 }

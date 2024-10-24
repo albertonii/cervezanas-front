@@ -1,10 +1,10 @@
 import InputLabel from '../form/InputLabel';
 import React from 'react';
-import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
-import { UseFormReturn } from 'react-hook-form';
-import { ModalAddProductFormData } from '@/lib//types/types';
 import { useTranslations } from 'next-intl';
+import { UseFormReturn } from 'react-hook-form';
 import { DeleteButton } from '../ui/buttons/DeleteButton';
+import { ModalAddProductFormData } from '@/lib//types/types';
+import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
 
 interface Props {
     form: UseFormReturn<ModalAddProductFormData, any>;

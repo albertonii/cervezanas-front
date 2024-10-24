@@ -7,7 +7,6 @@ import React, { useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
-import { validatePromoCode } from '../actions'; // Asegúrate de crear esta función en tu backend
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useAuth } from '../../../(auth)/Context/useAuth';
@@ -15,6 +14,7 @@ import { faTicketAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
+import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 
 const promoCodeSchema: ZodType<{ code: string }> = z.object({
     code: z.string().nonempty({ message: 'errors.input_required' }),
@@ -22,17 +22,13 @@ const promoCodeSchema: ZodType<{ code: string }> = z.object({
 
 type PromoCodeValidationSchema = z.infer<typeof promoCodeSchema>;
 
-interface Props {
-    applyDiscount: (discount: number) => void;
-}
-
 export default function PromoCode() {
     const t = useTranslations();
 
     const { handleMessage } = useMessage();
     const { user } = useAuth();
-    const [promotionData, setPromotionData] = useState<any>(null);
     const [isFetching, setIsFetching] = useState(false);
+    const { applyDiscount } = useShoppingCart();
 
     const form = useForm<PromoCodeValidationSchema>({
         resolver: zodResolver(promoCodeSchema),
@@ -41,40 +37,46 @@ export default function PromoCode() {
     const {
         handleSubmit,
         formState: { errors },
+        reset,
     } = form;
 
-    const validatePromo = async (code: string) => {
+    const validatePromoCode = async (code: string) => {
         setIsFetching(true);
+        try {
+            const response = await fetch('/api/shopping_basket/promo_code', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ code, user_id: user.id }),
+            });
 
-        // Aquí puedes hacer la llamada a tu backend para validar el código promocional
-        const response = await validatePromoCode(code, user.id); // Reemplaza con tu función real
+            const data = await response.json();
 
-        setTimeout(() => {
+            if (response.ok && data.isValid) {
+                applyDiscount(data);
+                handleMessage({
+                    type: 'success',
+                    message: t('promo_code_applied'),
+                });
+                reset();
+            } else {
+                handleMessage({
+                    type: 'error',
+                    message: data.message || t('invalid_promo_code'),
+                });
+            }
+        } catch (error) {
+            console.error(error);
+            handleMessage({
+                type: 'error',
+                message: t('errors.validating_promo_code'),
+            });
+        } finally {
             setIsFetching(false);
-        }, 1000);
-
-        return response;
+        }
     };
 
     const validatePromoMutation = useMutation({
-        mutationFn: validatePromo,
-        onSuccess: (data) => {
-            setPromotionData(data);
-            // if (data.isValid) {
-            //     applyDiscount(data.discount);
-            //     handleMessage({
-            //         type: 'success',
-            //         message: ('promo_code_applied', {
-            //             discount: data.discount,
-            //         }),
-            //     });
-            // } else {
-            //     handleMessage({
-            //         type: 'error',
-            //         message: ('invalid_promo_code'),
-            //     });
-            // }
-        },
+        mutationFn: validatePromoCode,
         onError: (error: any) => {
             console.error(error);
             handleMessage({
@@ -137,24 +139,6 @@ export default function PromoCode() {
                         {t('apply_promo_code')}
                     </Button>
                 </form>
-
-                {/* Información del código promocional: */}
-                {promotionData && (
-                    <div className="flex flex-col space-y-2">
-                        <p className="text-sm text-gray-800 dark:text-white">
-                            {t('promo_code')}:{' '}
-                            <span className="font-semibold">
-                                {JSON.stringify(promotionData)}
-                                {/* {promotionData.code} */}
-                            </span>
-                            <br />
-                            {t('discount')}:{' '}
-                            <span className="font-semibold">
-                                {/* {promotionData.discount} */}
-                            </span>
-                        </p>
-                    </div>
-                )}
             </div>
         </section>
     );

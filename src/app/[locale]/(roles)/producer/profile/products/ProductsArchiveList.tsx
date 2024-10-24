@@ -87,7 +87,7 @@ export function ProductsArchiveList({
         delete updatedProduct.likes;
         delete updatedProduct.product_inventory;
         delete updatedProduct.product_lots;
-        delete updatedProduct.product_multimedia;
+        delete updatedProduct.product_media;
 
         // Send product to supabase database
         const { error } = await supabase

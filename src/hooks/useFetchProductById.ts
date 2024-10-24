@@ -19,7 +19,7 @@ const fetchProductById = async (
             `
         *,
         beers (*),
-        product_multimedia (
+        product_media (
           p_principal
         ),
         product_inventory (

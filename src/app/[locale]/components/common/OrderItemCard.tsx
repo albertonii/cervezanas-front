@@ -39,8 +39,9 @@ const OrderItemCard = ({ orderItem }: Props) => {
                                 BASE_PRODUCTS_URL +
                                 decodeURIComponent(
                                     itemCategory === Type.BOX_PACK
-                                        ? orderItem.product_packs?.products
-                                              ?.product_multimedia?.p_principal
+                                        ? orderItem.product_packs?.products?.product_media?.find(
+                                              (media) => media.is_primary,
+                                          )?.url
                                         : orderItem.product_packs?.img_url,
                                 )
                             }`}

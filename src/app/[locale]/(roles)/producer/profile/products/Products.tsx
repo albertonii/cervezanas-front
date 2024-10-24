@@ -11,6 +11,7 @@ import { UpdateProductModal } from './UpdateProductModal';
 import { AddBoxPackModal } from './(boxPack)/AddBoxPackModal';
 import { UpdateBoxPackModal } from './(boxPack)/UpdateBoxPackModal';
 import { DeleteProductModal } from '@/app/[locale]/components/modals/DeleteProductModal';
+import { ProductFileUploadProvider } from '@/app/context/ProductFileUploadContext';
 
 interface Props {
     counter: number;
@@ -40,49 +41,53 @@ export function Products({ counter }: Props) {
             className="px-4 py-6 flex flex-col space-y-4"
             aria-label="Products"
         >
-            <ProfileSectionHeader
-                headerTitle="products"
-                headerDescription={t('profile_configure_products_description')}
-                btnActions={
-                    <>
-                        <AddProductModal />
-                        <AddBoxPackModal />
-                    </>
-                }
-            />
-
-            <ProductList
-                handleEditShowModal={handleEditShowModal}
-                handleDeleteShowModal={handleDeleteShowModal}
-                handleProductModal={handleProductModal}
-                counter={counter}
-            />
-
-            {isEditShowModal && productModal && (
-                <>
-                    {productModal.type === ProductType.BEER ? (
-                        <UpdateProductModal
-                            product={productModal}
-                            showModal={isEditShowModal}
-                            handleEditShowModal={handleEditShowModal}
-                        />
-                    ) : (
-                        <UpdateBoxPackModal
-                            product={productModal}
-                            showModal={isEditShowModal}
-                            handleEditShowModal={handleEditShowModal}
-                        />
+            <ProductFileUploadProvider>
+                <ProfileSectionHeader
+                    headerTitle="products"
+                    headerDescription={t(
+                        'profile_configure_products_description',
                     )}
-                </>
-            )}
-
-            {isDeleteShowModal && productModal && (
-                <DeleteProductModal
-                    product={productModal}
-                    showModal={isDeleteShowModal}
-                    handleDeleteShowModal={handleDeleteShowModal}
+                    btnActions={
+                        <>
+                            <AddProductModal />
+                            <AddBoxPackModal />
+                        </>
+                    }
                 />
-            )}
+
+                <ProductList
+                    handleEditShowModal={handleEditShowModal}
+                    handleDeleteShowModal={handleDeleteShowModal}
+                    handleProductModal={handleProductModal}
+                    counter={counter}
+                />
+
+                {isEditShowModal && productModal && (
+                    <>
+                        {productModal.type === ProductType.BEER ? (
+                            <UpdateProductModal
+                                product={productModal}
+                                showModal={isEditShowModal}
+                                handleEditShowModal={handleEditShowModal}
+                            />
+                        ) : (
+                            <UpdateBoxPackModal
+                                product={productModal}
+                                showModal={isEditShowModal}
+                                handleEditShowModal={handleEditShowModal}
+                            />
+                        )}
+                    </>
+                )}
+
+                {isDeleteShowModal && productModal && (
+                    <DeleteProductModal
+                        product={productModal}
+                        showModal={isDeleteShowModal}
+                        handleDeleteShowModal={handleDeleteShowModal}
+                    />
+                )}
+            </ProductFileUploadProvider>
         </section>
     );
 }

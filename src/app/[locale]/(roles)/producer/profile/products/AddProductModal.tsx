@@ -6,11 +6,11 @@ import { z, ZodType } from 'zod';
 import { Type } from '@/lib//productEnum';
 import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useAppContext } from '@/app/context/AppContext';
 import { faBox } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
-import { isFileEmpty, isNotEmptyArray } from '@/utils/utils';
+import { isNotEmptyArray } from '@/utils/utils';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { AwardsSection } from '@/app/[locale]/components/products/AwardsSection';
 import { ProductSummary } from '@/app/[locale]/components/products/ProductSummary';
@@ -23,6 +23,9 @@ import {
     ModalAddProductFormData,
 } from '@/lib//types/types';
 import ProductHeaderDescription from '@/app/[locale]/components/modals/ProductHeaderDescription';
+import ProductFooterDescription from '@/app/[locale]/components/modals/ProductFooterDescription';
+import { useFileUpload } from '@/app/context/ProductFileUploadContext';
+import { clear } from 'console';
 
 const ModalWithForm = dynamic(
     () => import('@/app/[locale]/components/modals/ModalWithForm'),
@@ -138,11 +141,6 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
             img_url: z.custom<File>().superRefine(validateFile).optional(),
         }),
     ),
-    p_principal: z.custom<File>().superRefine(validateFile).optional(),
-    p_back: z.custom<File>().superRefine(validateFile).optional(),
-    p_extra_1: z.custom<File>().superRefine(validateFile).optional(),
-    p_extra_2: z.custom<File>().superRefine(validateFile).optional(),
-    p_extra_3: z.custom<File>().superRefine(validateFile).optional(),
     is_public: z.boolean(),
     is_available: z.boolean(),
     volume: z.number().min(0, { message: 'errors.input_number_min_0' }),
@@ -178,6 +176,7 @@ export function AddProductModal() {
     const [activeStep, setActiveStep] = useState<number>(0);
 
     const { handleMessage } = useMessage();
+    const { files, clearFiles } = useFileUpload();
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -209,6 +208,12 @@ export function AddProductModal() {
     const queryClient = useQueryClient();
 
     useEffect(() => {
+        if (showModal) {
+            clearFiles();
+        }
+    }, [showModal]);
+
+    useEffect(() => {
         if (Object.keys(errors).length > 0) {
             console.info('Errores detectados creando un producto', errors);
         }
@@ -227,11 +232,6 @@ export function AddProductModal() {
             is_gluten,
             type,
             awards,
-            p_principal,
-            p_back,
-            p_extra_1,
-            p_extra_2,
-            p_extra_3,
             is_public,
             is_available,
             name,
@@ -263,6 +263,19 @@ export function AddProductModal() {
         const url = `${baseUrl}/api/products`;
 
         const formData = new FormData();
+
+        // Agregar archivos al FormData
+        files?.forEach((object, index) => {
+            if (object.file) {
+                formData.append('media_files', object.file);
+                formData.append(
+                    `isMain_${index}`,
+                    object.isMain ? 'true' : 'false',
+                );
+            }
+        });
+
+        clearFiles();
 
         // Basic
         formData.append('name', name);
@@ -349,27 +362,6 @@ export function AddProductModal() {
             formData.append('awards_size', awards.length.toString());
         }
 
-        // Multimedia
-        if (p_principal && !isFileEmpty(p_principal)) {
-            formData.append('p_principal', p_principal);
-        }
-
-        if (p_back && !isFileEmpty(p_back)) {
-            formData.append('p_back', p_back);
-        }
-
-        if (p_extra_1 && !isFileEmpty(p_extra_1)) {
-            formData.append('p_extra_1', p_extra_1);
-        }
-
-        if (p_extra_2 && !isFileEmpty(p_extra_2)) {
-            formData.append('p_extra_2', p_extra_2);
-        }
-
-        if (p_extra_3 && !isFileEmpty(p_extra_3)) {
-            formData.append('p_extra_3', p_extra_3);
-        }
-
         // CORS
         const headers = new Headers();
         headers.append('Access-Control-Allow-Origin', '*');
@@ -444,49 +436,55 @@ export function AddProductModal() {
     };
 
     return (
-        <ModalWithForm
-            showBtn={true}
-            showModal={showModal}
-            setShowModal={setShowModal}
-            title={'add_product'}
-            btnTitle={'add_new_product'}
-            triggerBtnTitle={'add_product'}
-            description={''}
-            icon={faBox}
-            classContainer={`${isLoading && ' opacity-75'}`}
-            handler={() => {}}
-            handlerClose={() => {
-                setActiveStep(0);
-                setShowModal(false);
-            }}
-            form={form}
-            showTriggerBtn={false}
-            showCancelBtn={false}
-        >
-            <ProductStepper
-                activeStep={activeStep}
-                handleSetActiveStep={handleSetActiveStep}
-                isSubmitting={isSubmitting}
+        <FormProvider {...form}>
+            {' '}
+            {/* Envolver todo en FormProvider */}
+            <ModalWithForm
+                showBtn={true}
+                showModal={showModal}
+                setShowModal={setShowModal}
+                title={'add_product'}
                 btnTitle={'add_new_product'}
-                handler={handleSubmit(onSubmit)}
+                triggerBtnTitle={'add_product'}
+                description={''}
+                icon={faBox}
+                classContainer={`${isLoading && ' opacity-75'}`}
+                handler={() => {}}
+                handlerClose={() => {
+                    setActiveStep(0);
+                    setShowModal(false);
+                }}
+                form={form}
+                showTriggerBtn={false}
+                showCancelBtn={false}
             >
-                <>
-                    <ProductHeaderDescription />
+                <ProductStepper
+                    activeStep={activeStep}
+                    handleSetActiveStep={handleSetActiveStep}
+                    isSubmitting={isSubmitting}
+                    btnTitle={'add_new_product'}
+                    handler={handleSubmit(onSubmit)}
+                >
+                    <>
+                        <ProductHeaderDescription />
 
-                    {activeStep === 0 ? (
-                        <ProductInfoSection
-                            form={form}
-                            customizeSettings={customizeSettings}
-                        />
-                    ) : activeStep === 1 ? (
-                        <MultimediaSection form={form} />
-                    ) : activeStep === 2 ? (
-                        <AwardsSection form={form} />
-                    ) : (
-                        <ProductSummary form={form} />
-                    )}
-                </>
-            </ProductStepper>
-        </ModalWithForm>
+                        {activeStep === 0 ? (
+                            <ProductInfoSection
+                                form={form}
+                                customizeSettings={customizeSettings}
+                            />
+                        ) : activeStep === 1 ? (
+                            <MultimediaSection />
+                        ) : activeStep === 2 ? (
+                            <AwardsSection form={form} />
+                        ) : (
+                            <ProductSummary form={form} />
+                        )}
+
+                        <ProductFooterDescription />
+                    </>
+                </ProductStepper>
+            </ModalWithForm>
+        </FormProvider>
     );
 }

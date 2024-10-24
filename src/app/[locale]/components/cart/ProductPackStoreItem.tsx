@@ -32,7 +32,7 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
     const router = useRouter();
 
     const src = `${BASE_PRODUCTS_URL}${decodeURIComponent(
-        product.product_multimedia?.p_principal ?? '',
+        product.product_media?.find((media) => media.is_primary)?.url ?? '',
     )}`;
 
     const [packs, setPacks] = useState<IProductPack[]>();

@@ -38,7 +38,10 @@ export default function MonthlyCardItem({ mProduct }: Props) {
 
     const primaryImg =
         BASE_PRODUCTS_URL +
-        decodeURIComponent(product?.product_multimedia?.p_principal ?? '');
+        decodeURIComponent(
+            product?.product_media?.find((media) => media.is_primary)?.url ??
+                '',
+        );
 
     const { error: fetchLikesError, refetch } = useFetchProductLikes(
         product?.id,

@@ -25,7 +25,7 @@ async function getMonthlyProducts() {
       year,
       products (
         *,
-        product_multimedia (*),
+        product_media (*),
         reviews (*),
         likes (*)
       )

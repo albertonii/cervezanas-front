@@ -22,8 +22,13 @@ const ShoppingBasketOrderSummary = ({
 }: Props) => {
     const t = useTranslations();
 
-    const { canMakeThePayment, selectedShippingAddress, needsToCheckDelivery } =
-        useShoppingCart();
+    const {
+        canMakeThePayment,
+        selectedShippingAddress,
+        needsToCheckDelivery,
+        discountAmount,
+        discountCode,
+    } = useShoppingCart();
 
     return (
         <div className=" flex w-full flex-col items-center justify-between gap-4 border bg-gray-50 px-4 py-6 dark:bg-gray-800 md:items-start md:p-6 xl:w-96 xl:p-4">
@@ -51,6 +56,17 @@ const ShoppingBasketOrderSummary = ({
                                     {formatCurrency(deliveryCost)}
                                 </p>
                             </div>
+
+                            {discountCode && (
+                                <div className="flex w-full items-center justify-between">
+                                    <p className="text-base leading-4 text-gray-800 dark:text-white">
+                                        {t('discount')} ({discountCode})
+                                    </p>
+                                    <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
+                                        -{formatCurrency(discountAmount)}
+                                    </p>
+                                </div>
+                            )}
                         </div>
 
                         <div className="flex w-full items-start justify-between">

@@ -11,7 +11,8 @@ interface Props {
 
 const MinimalisticProductCard = ({ product }: Props) => {
     const locale = useLocale();
-    const imgUrl = product.product_multimedia!.p_principal;
+    const imgUrl =
+        product.product_media?.find((media) => media.is_primary)?.url ?? '';
 
     return (
         <div className="max-w-sm mx-auto bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 ease-in-out w-[150px] h-48 hover:bg-beer-softFoam">

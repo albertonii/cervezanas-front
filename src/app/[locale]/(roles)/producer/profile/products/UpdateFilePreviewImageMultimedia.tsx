@@ -97,7 +97,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                         if (response.status !== 200) {
                             handleMessage({
                                 type: 'error',
-                                message: 'errors.update_product_multimedia',
+                                message: 'errors.update_product_media',
                             });
                             setImage(prevImg);
 
@@ -107,7 +107,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                         if (response.status === 200) {
                             handleMessage({
                                 type: 'success',
-                                message: 'success.update_product_multimedia',
+                                message: 'success.update_product_media',
                             });
                         }
                     })
@@ -130,7 +130,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                         if (response.status !== 200) {
                             handleMessage({
                                 type: 'error',
-                                message: 'errors.update_product_multimedia',
+                                message: 'errors.update_product_media',
                             });
                             return;
                         }
@@ -138,7 +138,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                         if (response.status === 200) {
                             handleMessage({
                                 type: 'success',
-                                message: 'success.update_product_multimedia',
+                                message: 'success.update_product_media',
                             });
                         }
                     })
@@ -160,7 +160,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                         if (response.status !== 200) {
                             handleMessage({
                                 type: 'error',
-                                message: 'errors.update_product_multimedia',
+                                message: 'errors.update_product_media',
                             });
                             return;
                         }
@@ -168,7 +168,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                         if (response.status === 200) {
                             handleMessage({
                                 type: 'success',
-                                message: 'success.update_product_multimedia',
+                                message: 'success.update_product_media',
                             });
                         }
                     })
@@ -190,7 +190,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                         if (response.status !== 200) {
                             handleMessage({
                                 type: 'error',
-                                message: 'errors.update_product_multimedia',
+                                message: 'errors.update_product_media',
                             });
                             return;
                         }
@@ -198,7 +198,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                         if (response.status === 200) {
                             handleMessage({
                                 type: 'success',
-                                message: 'success.update_product_multimedia',
+                                message: 'success.update_product_media',
                             });
                         }
                     })
@@ -220,7 +220,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                         if (response.status !== 200) {
                             handleMessage({
                                 type: 'error',
-                                message: 'errors.update_product_multimedia',
+                                message: 'errors.update_product_media',
                             });
                             return;
                         }
@@ -228,7 +228,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                         if (response.status === 200) {
                             handleMessage({
                                 type: 'success',
-                                message: 'success.update_product_multimedia',
+                                message: 'success.update_product_media',
                             });
                         }
                     })
@@ -282,7 +282,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                     if (response.status !== 200) {
                         handleMessage({
                             type: 'error',
-                            message: 'errors.removing_product_multimedia',
+                            message: 'errors.removing_product_media',
                         });
                         setImage(prevImg);
 
@@ -292,7 +292,7 @@ export const UpdateFilePreviewImageMultimedia = ({
                     if (response.status === 200) {
                         handleMessage({
                             type: 'success',
-                            message: 'success.removing_product_multimedia',
+                            message: 'success.removing_product_media',
                         });
                     }
                 })

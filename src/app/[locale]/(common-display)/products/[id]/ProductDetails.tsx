@@ -10,8 +10,6 @@ import { ICarouselItem, IProduct } from '@/lib//types/types';
 import { Rate } from '@/app/[locale]/components/reviews/Rate';
 import { ProductGallery } from '@/app/[locale]/components/gallery/ProductGallery';
 
-const productsUrl = `${SupabaseProps.BASE_URL}${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`;
-
 interface Props {
     product: IProduct;
     reviewRef: React.MutableRefObject<any>;
@@ -23,90 +21,36 @@ export default function ProductDetails({ product, reviewRef }: Props) {
     const [isLike, setIsLike] = useState<boolean>(
         Boolean(product.likes?.length),
     );
-    const [gallery, setGallery] = useState<ICarouselItem[]>([]);
+
+    const gallery: ICarouselItem[] =
+        product.product_media?.map((media) => ({
+            link: '/',
+            title: media.alt_text,
+            imageUrl: media.url,
+        })) || [];
 
     const starColor = { filled: '#fdc300', unfilled: '#a87a12' };
     const reviews = product.reviews;
-    const selectedMultimedia = product.product_multimedia;
 
     const handleSetIsLike = async (value: React.SetStateAction<boolean>) => {
-        await handleLike()
-            .then(() => setIsLike(value))
-            .catch(() => console.error('Error setting like'));
+        try {
+            await handleLike();
+            setIsLike(value);
+        } catch (error) {
+            console.error('Error setting like');
+        }
     };
 
-    const productStars = useMemo(() => {
-        const sum =
-            reviews?.reduce((acc, review) => acc + review.overall, 0) ?? 0;
-        return reviews?.length ? sum / reviews.length : 0;
-    }, [reviews]);
+    const productStars = reviews?.length
+        ? reviews.reduce((acc, review) => acc + review.overall, 0) /
+          reviews.length
+        : 0;
 
-    const executeScroll = useCallback(
-        () => reviewRef.current.scrollIntoView(),
-        [reviewRef],
-    );
+    const executeScroll = () => reviewRef.current.scrollIntoView();
 
     async function handleLike() {
         handleProductLike(product.id, product.owner_id, isLike);
     }
-
-    useEffect(() => {
-        if (!selectedMultimedia) return;
-
-        const { p_principal, p_back, p_extra_1, p_extra_2, p_extra_3 } =
-            selectedMultimedia;
-
-        setGallery(
-            [
-                ...[
-                    {
-                        link: '/',
-                        title: 'Principal',
-                        imageUrl:
-                            p_principal &&
-                            productsUrl + decodeURIComponent(p_principal),
-                    },
-                ],
-                ...[
-                    {
-                        link: '/',
-                        title: 'Back',
-                        imageUrl:
-                            p_back && productsUrl + decodeURIComponent(p_back),
-                    },
-                ],
-                ...[
-                    {
-                        link: '/',
-                        title: 'Photo Extra 1',
-                        imageUrl:
-                            p_extra_1 &&
-                            productsUrl + decodeURIComponent(p_extra_1),
-                    },
-                ],
-                ...[
-                    {
-                        link: '/',
-                        title: 'Photo Extra 2',
-                        imageUrl:
-                            p_extra_2 &&
-                            productsUrl + decodeURIComponent(p_extra_2),
-                    },
-                ],
-                ...[
-                    {
-                        link: '/',
-                        title: 'Photo Extra 3',
-                        imageUrl:
-                            p_extra_3 &&
-                            productsUrl + decodeURIComponent(p_extra_3),
-                    },
-                ],
-            ].filter(
-                ({ imageUrl }) => imageUrl && !imageUrl.includes('undefined'),
-            ),
-        );
-    }, [selectedMultimedia, product.owner_id]);
 
     return (
         <>
@@ -175,7 +119,7 @@ export default function ProductDetails({ product, reviewRef }: Props) {
                 </section>
 
                 {/* Display Product Details if Type === BEER */}
-                {product && product.type === Type.BEER && (
+                {product?.type === Type.BEER && (
                     <section aria-labelledby="packs" className="space-y-8">
                         <Packs product={product} />
                         <ProductPropertiesTabs product={product} />
@@ -184,7 +128,10 @@ export default function ProductDetails({ product, reviewRef }: Props) {
 
                 {/* List of products if Type === BOX_PACK */}
                 {product.type === Type.BOX_PACK && product.box_packs && (
-                    <section aria-labelledby="packs" className="h-[20vh]">
+                    <section
+                        aria-labelledby="products_indise_box"
+                        className="h-[20vh]"
+                    >
                         <ProductsInsideBox
                             product={product}
                             boxPack={product.box_packs[0]}

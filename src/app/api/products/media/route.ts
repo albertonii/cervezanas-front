@@ -1,12 +1,13 @@
 import createServerClient from '@/utils/supabaseServer';
-import { NextRequest, NextResponse } from 'next/server';
-import { generateUUID } from '@/lib/actions';
+import { generateUUID } from '@/lib//actions';
 import { SupabaseProps } from '@/constants';
+import { NextRequest, NextResponse } from 'next/server';
 import { fileTypeToExtension } from '@/utils/utils';
 
 export async function PUT(request: NextRequest) {
     try {
         const supabase = await createServerClient();
+
         const formData = await request.formData();
 
         const productId = formData.get('product_id') as string;
@@ -18,21 +19,21 @@ export async function PUT(request: NextRequest) {
             );
         }
 
-        const randomUUID = await generateUUID();
-
-        // Manejar archivos nuevos (media_files)
+        // Manejar archivos nuevos
         const mediaFiles = formData.getAll('media_files') as File[];
         let mediaFileIndex = 0;
 
         for (let i = 0; i < mediaFiles.length; i++) {
             const file = mediaFiles[i];
+
             const isMain = formData.get(`isMain_${mediaFileIndex}`) === 'true';
             mediaFileIndex++;
 
             const fileExt = fileTypeToExtension(file.type);
+            const randomUUID = await generateUUID();
             const fileName = `${SupabaseProps.ARTICLES}${productId}/${randomUUID}_${i}.${fileExt}`;
 
-            // Subir archivo al almacenamiento
+            // Subir a Supabase Storage
             const { error: uploadError } = await supabase.storage
                 .from('products')
                 .upload(fileName, file);
@@ -50,7 +51,7 @@ export async function PUT(request: NextRequest) {
 
             const publicUrl = data.publicUrl;
 
-            // Insertar en 'product_media'
+            // Insertar en product_media
             const { error: insertError } = await supabase
                 .from('product_media')
                 .insert({
@@ -63,16 +64,13 @@ export async function PUT(request: NextRequest) {
 
             if (insertError) {
                 throw new Error(
-                    `Error al insertar en product_media: ${insertError.message}`,
+                    `Error al guardar en product_media: ${insertError.message}`,
                 );
             }
         }
 
-        // Manejar actualizaciones de medios existentes (existingMedia)
-        const existingMediaEntries: {
-            key: string;
-            value: FormDataEntryValue;
-        }[] = [];
+        // Manejar actualizaciones de medios existentes
+        const existingMediaEntries: any[] = [];
         formData.forEach((value, key) => {
             if (key.startsWith('existingMedia')) {
                 existingMediaEntries.push({ key, value });
@@ -89,19 +87,19 @@ export async function PUT(request: NextRequest) {
             if (match) {
                 const index = match[1];
                 const field = match[2];
-                const value = entry.value as string;
+                const value = entry.value;
                 if (!existingMediaMap[index]) {
                     existingMediaMap[index] = { id: '', isMain: false };
                 }
                 if (field === 'id') {
-                    existingMediaMap[index]['id'] = value;
+                    existingMediaMap[index]['id'] = value as string;
                 } else if (field === 'isMain') {
                     existingMediaMap[index]['isMain'] = value === 'true';
                 }
             }
         });
 
-        // Actualizar medios existentes en la base de datos
+        // Actualizar entradas de medios existentes
         for (const key in existingMediaMap) {
             const mediaEntry = existingMediaMap[key];
             const mediaId = mediaEntry['id'];
@@ -121,11 +119,8 @@ export async function PUT(request: NextRequest) {
             }
         }
 
-        // Manejar archivos para eliminar (filesToDelete)
-        const filesToDeleteEntries: {
-            key: string;
-            value: FormDataEntryValue;
-        }[] = [];
+        // Manejar archivos para eliminar
+        const filesToDeleteEntries: any[] = [];
         formData.forEach((value, key) => {
             if (key.startsWith('filesToDelete')) {
                 filesToDeleteEntries.push({ key, value });
@@ -142,25 +137,25 @@ export async function PUT(request: NextRequest) {
             if (match) {
                 const index = match[1];
                 const field = match[2];
-                const value = entry.value as string;
+                const value = entry.value;
                 if (!filesToDeleteMap[index]) {
                     filesToDeleteMap[index] = { id: '', url: '' };
                 }
                 if (field === 'id') {
-                    filesToDeleteMap[index]['id'] = value;
+                    filesToDeleteMap[index]['id'] = value as string;
                 } else if (field === 'url') {
-                    filesToDeleteMap[index]['url'] = value;
+                    filesToDeleteMap[index]['url'] = value as string;
                 }
             }
         });
 
-        // Eliminar archivos y registros
+        // Eliminar archivos y entradas
         for (const key in filesToDeleteMap) {
             const fileEntry = filesToDeleteMap[key];
             const mediaId = fileEntry['id'];
             const url = fileEntry['url'];
 
-            // Eliminar registro de 'product_media'
+            // Eliminar de product_media
             const { error: deleteError } = await supabase
                 .from('product_media')
                 .delete()
@@ -168,11 +163,12 @@ export async function PUT(request: NextRequest) {
 
             if (deleteError) {
                 throw new Error(
-                    `Error al eliminar de product_media: ${deleteError.message}`,
+                    `Error al eliminar product_media: ${deleteError.message}`,
                 );
             }
 
-            // Eliminar archivo del almacenamiento
+            // Eliminar del almacenamiento
+            // Extraer la ruta del archivo de la URL
             const filePath = url.split(
                 `${SupabaseProps.STORAGE_PRODUCTS_IMG_URL}`,
             )[1];
@@ -184,19 +180,22 @@ export async function PUT(request: NextRequest) {
 
                 if (storageError) {
                     throw new Error(
-                        `Error al eliminar archivo del almacenamiento: ${storageError.message}`,
+                        `Error al eliminar archivo de storage: ${storageError.message}`,
                     );
                 }
             }
         }
 
         return NextResponse.json(
-            { message: 'Medios actualizados correctamente' },
+            { message: 'Medios del producto actualizados correctamente' },
             { status: 200 },
         );
     } catch (err: any) {
         return NextResponse.json(
-            { message: 'Error al actualizar medios', error: err.message },
+            {
+                message: 'Error al actualizar los medios del producto',
+                error: err.message,
+            },
             { status: 500 },
         );
     }

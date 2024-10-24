@@ -254,20 +254,6 @@ export interface IAwardUpdateForm {
     products?: IProduct;
 }
 
-export interface IProductMultimedia {
-    product_id: string; // PK
-    p_principal: string;
-    p_back: string;
-    p_extra_1: string;
-    p_extra_2: string;
-    p_extra_3: string;
-    p_extra_4: string;
-    v_principal: string;
-    v_extra_1: string;
-    v_extra_2: string;
-    products?: IProduct;
-}
-
 interface IProductMultimediaItem {
     id: string;
     created_at: string;
@@ -685,7 +671,7 @@ export interface IEventOrderItem {
     status: string;
     is_reviewed: boolean;
     product_packs?: IProductPack;
-    product_multimedia?: IProductMultimedia[];
+    product_media?: IProductMedia[];
     orders?: IOrder;
 }
 
@@ -868,11 +854,6 @@ export type ModalAddProductFormData = {
     // stock_quantity: number;
     // stock_limit_notification: number;
     category: string;
-    p_principal?: any;
-    p_back?: any;
-    p_extra_1?: any;
-    p_extra_2?: any;
-    p_extra_3?: any;
     is_public: boolean;
     is_available: boolean;
 
@@ -880,6 +861,7 @@ export type ModalAddProductFormData = {
     // campaign: string;
     awards: ModalAddProductAwardFormData[];
     packs: ModalAddProductPackFormData[];
+    multimedia_files?: any[];
 };
 
 export type ModalUpdateProductFormData = {
@@ -906,11 +888,6 @@ export type ModalUpdateProductFormData = {
     hops_type?: string | null;
     malt_type?: string | null;
     consumption_temperature?: number | null;
-    p_principal?: any;
-    p_back?: any;
-    p_extra_1?: any;
-    p_extra_2?: any;
-    p_extra_3?: any;
     is_public: boolean;
     is_available: boolean;
     volume: number;
@@ -923,6 +900,7 @@ export type ModalUpdateProductFormData = {
     // stock_limit_notification: number;
     awards: ModalUpdateProductAwardFormData[];
     packs: ModalUpdateProductPackFormData[];
+    media_files?: IProductMediaFormData[];
 };
 
 type ModalAddProductAwardFormData = {
@@ -1026,6 +1004,7 @@ export interface IProductPackEventCartItem {
     cpf_id: string;
     cpm_id: string;
     cp_name: string;
+    product_media?: IProductMedia[];
 }
 
 export interface ICarouselItem {
@@ -1070,7 +1049,7 @@ export interface IProduct {
     beers?: IBeer;
     users?: IUserTable;
     product_inventory?: IProductInventory;
-    product_multimedia?: IProductMultimedia;
+    product_media?: IProductMedia[];
     box_packs?: IBoxPack[];
     breweries?: IBrewery;
 }
@@ -1092,7 +1071,7 @@ export interface IEventProduct {
     is_monthly: boolean;
     owner_id: string;
     beers?: IBee;
-    product_multimedia?: IProductMultimedia;
+    product_media?: IProductMedia[];
     product_lots?: IProductLot[];
     product_inventory?: IProductInventory;
     reviews?: IReview[];
@@ -1119,11 +1098,8 @@ export interface IModalProduct {
     category: string;
     is_monthly: boolean;
     owner_id: string;
-    product_multimedia: IProductMultimedia[];
+    product_media: IProductMedia[];
     order_items?: OrderItem[];
-
-    // Debemos de mirar en las respectivas tablas para hacer el vínculo correcto tal y como se hace en supabase:
-    // Ejemplo: product_multimedia!product_multimedia_product_id_fkey (p_principal),
     product_lots?: IProductLot[];
     product_inventory?: IProductInventory[];
     reviews?: IReview[];
@@ -1999,4 +1975,31 @@ export interface InvoiceFormData {
     invoice_file: FileList;
     total_amount: number;
     invoice_period_selected: string;
+}
+
+export interface IProductMedia {
+    id: string;
+    created_at: string;
+    product_id: string;
+    type: string; // Photo or Video
+    url: string;
+    alt_text: string;
+    is_primary: boolean;
+}
+
+export interface IProductMediaFormData {
+    product_id: string;
+    type: string; // Photo or Video
+    url: string;
+    alt_text: string;
+    is_primary: boolean;
+}
+
+export interface UploadedFile {
+    file?: File;
+    type: string;
+    isMain?: boolean;
+    isExisting?: boolean;
+    url?: string;
+    id?: string;
 }

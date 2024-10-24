@@ -53,7 +53,7 @@ async function getMonthlyProductsData() {
           is_available,
           owner_id,
           brewery_id,
-          product_multimedia (*)
+          product_media (*)
         )
       `,
         );

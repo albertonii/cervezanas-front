@@ -34,7 +34,7 @@ async function getReviewsData() {
               *,
               products (
                 *,
-                product_multimedia (
+                product_media (
                   *
                 )
               ),

@@ -42,8 +42,8 @@ async function getEventOrderItemData(eventOrderItemId: string) {
         product_packs!event_order_items_product_pack_id_fkey (
           *,
             products!product_packs_product_id_fkey (*,
-              product_multimedia (
-                p_principal
+              product_media (
+                *
               )
             )
         )
