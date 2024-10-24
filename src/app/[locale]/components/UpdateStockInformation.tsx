@@ -20,7 +20,7 @@ export default function UpdateStockInformation({ form }: Props) {
                 className="h-12 w-12 text-beer-blonde absolute -top-4 -left-4 bg-white p-2 rounded-full shadow-lg"
             />
 
-            <section className="mx-10">
+            <section className="mx-0 sm:mx-10  py-8 sm:py-0">
                 <p className="text-slate-700 my-4 text-xl font-semibold">
                     {t('modal_product_add_stock_title')}
                 </p>

@@ -195,7 +195,7 @@ const AreaAndWeightCostForm = ({
 
             <section className="relative flex flex-col gap-4 w-full">
                 <form onSubmit={form.handleSubmit((data) => console.log(data))}>
-                    <div className="flex flex-row gap-4">
+                    <div className="flex flex-col md:flex-row gap-4 items-center">
                         <InputLabel
                             form={form}
                             label={'cost_extra_per_kg'}

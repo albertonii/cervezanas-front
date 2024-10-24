@@ -34,7 +34,7 @@ const ProductMadeInBrewerySection = ({ form }: Props) => {
                 className="h-12 w-12 text-beer-blonde absolute -top-4 -left-4 bg-white p-2 rounded-full shadow-lg"
             />
 
-            <section className="mx-10 space-y-4">
+            <section className="mx-0 sm:mx-10 space-y-4 py-8 sm:py-0">
                 <Title size="large" color="black">
                     {t('modal_product_select_brewery_title')}
                 </Title>

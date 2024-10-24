@@ -157,7 +157,7 @@ export function CampaignForm({
                 {/* Campaign Status Signal  */}
                 <div className="absolute right-0 top-0 mr-2 mt-2">
                     <div className="flex flex-row items-center space-x-2">
-                        <p className="text-md font-semibold text-gray-600">
+                        <p className="text-base font-semibold text-black ">
                             {campaignStatus === CampaignStatus.active
                                 ? t('active').toUpperCase()
                                 : campaignStatus === CampaignStatus.paused
