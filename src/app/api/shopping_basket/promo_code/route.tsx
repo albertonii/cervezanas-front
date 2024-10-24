@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
 import createServerClient from '@/utils/supabaseServer'; // Ajusta la ruta según tu estructura de proyecto
+import { z } from 'zod';
+import { NextRequest, NextResponse } from 'next/server';
 
 const validatePromoCodeSchema = z.object({
     code: z.string().nonempty(),

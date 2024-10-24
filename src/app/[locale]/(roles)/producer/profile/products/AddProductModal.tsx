@@ -25,7 +25,7 @@ import {
 import ProductHeaderDescription from '@/app/[locale]/components/modals/ProductHeaderDescription';
 import ProductFooterDescription from '@/app/[locale]/components/modals/ProductFooterDescription';
 import { useFileUpload } from '@/app/context/ProductFileUploadContext';
-import { clear } from 'console';
+import axios from 'axios';
 
 const ModalWithForm = dynamic(
     () => import('@/app/[locale]/components/modals/ModalWithForm'),
@@ -363,21 +363,25 @@ export function AddProductModal() {
         }
 
         // CORS
-        const headers = new Headers();
-        headers.append('Access-Control-Allow-Origin', '*');
-        headers.append('Access-Control-Allow-Methods', 'POST');
-        headers.append('Access-Control-Allow-Headers', 'Content-Type');
-        headers.append('Access-Control-Allow-Credentials', 'true');
-        headers.append(
-            'Access-Control-Allow-Headers',
-            'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
-        );
 
-        const response = await fetch(url, {
-            method: 'POST',
-            body: formData,
-            headers: headers,
+        const response = await axios.post(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'POST',
+                'Access-Control-Allow-Credentials': 'true',
+                'Access-Control-Allow-Headers':
+                    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+            },
         });
+
+        console.log(response);
+
+        // const response = await fetch(url, {
+        //     method: 'POST',
+        //     body: formData,
+        //     headers: headers,
+        // });
 
         if (response.status !== 200) {
             handleMessage({
