@@ -1,5 +1,6 @@
 import NewBillingModal from './NewBillingModal';
 import AddressRadioInput from './AddressRadioInput';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 import useFetchBillingByOwnerId from '@/hooks/useFetchBillingByOwnerId';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
@@ -23,6 +24,7 @@ interface Props {
 export default function Billing({ formBilling }: Props) {
     const t = useTranslations();
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+
     const { handleMessage } = useMessage();
     const queryClient = useQueryClient();
 
@@ -31,7 +33,7 @@ export default function Billing({ formBilling }: Props) {
     const {
         data: billingAddresses,
         error: billingAddressesError,
-        refetch,
+        isLoading,
     } = useFetchBillingByOwnerId(user?.id);
 
     const {
@@ -49,21 +51,14 @@ export default function Billing({ formBilling }: Props) {
     } = formBilling;
 
     useEffect(() => {
-        if (user?.id) {
-            refetch();
+        const defaultAddress = billingAddresses?.find(
+            (address) => address.is_default,
+        );
+        if (defaultAddress) {
+            updateDefaultBillingAddress(defaultAddress);
+            updateSelectedBillingAddress(defaultAddress);
+            setValue('billing_info_id', defaultAddress.id);
         }
-    }, [user?.id]);
-
-    useEffect(() => {
-        billingAddresses?.map((address) => {
-            if (address.is_default) {
-                updateDefaultBillingAddress(address);
-                updateSelectedBillingAddress(address);
-                setValue('billing_info_id', address.id);
-            }
-        });
-
-        return () => {};
     }, [billingAddresses]);
 
     // Triggers when the user clicks on the button "Delete" in the modal for Campaign deletion
@@ -77,21 +72,32 @@ export default function Billing({ formBilling }: Props) {
             return;
         }
 
-        removeBillingAddressById(selectedBillingAddress.id)
-            .then(() => {
-                handleMessage({
-                    type: 'success',
-                    message: 'success.billing_address_removed',
-                });
+        try {
+            await removeBillingAddressById(selectedBillingAddress.id)
+                .then(() => {
+                    handleMessage({
+                        type: 'success',
+                        message: 'success.billing_address_removed',
+                    });
 
-                queryClient.invalidateQueries('billingAddresses');
-            })
-            .catch(() => {
-                handleMessage({
-                    type: 'error',
-                    message: 'errors.removing_billing_address',
+                    queryClient.invalidateQueries([
+                        'billingAddresses',
+                        user?.id,
+                    ]);
+                })
+                .catch(() => {
+                    handleMessage({
+                        type: 'error',
+                        message: 'errors.removing_billing_address',
+                    });
                 });
+        } catch (error) {
+            console.error(error);
+            handleMessage({
+                type: 'error',
+                message: 'errors.removing_billing_address',
             });
+        }
     };
 
     const deleteBillingAddress = useMutation({
@@ -113,49 +119,57 @@ export default function Billing({ formBilling }: Props) {
     };
 
     const handleUpdateDefaultBillingAddress = async (address: IAddress) => {
-        if (address.id !== defaultBillingAddress?.id) {
-            if (defaultBillingAddress?.prevDefaultAddressId) {
-                // Delete previous default billing address
-                const { error: prevError } = await supabase
+        try {
+            if (address.id !== defaultBillingAddress?.id) {
+                // Set is_default to false for all addresses except the one being updated
+                const { error: updateError } = await supabase
                     .from('billing_info')
                     .update({ is_default: false })
-                    .eq('id', defaultBillingAddress.prevDefaultAddressId);
+                    .neq('id', address.id);
 
-                if (prevError) {
+                if (updateError) {
                     handleMessage({
                         type: 'error',
-                        message:
-                            'errors.updating_to_false_prev_default_billing_address',
+                        message: 'errors.updating_default_billing_address',
                     });
-
                     return;
                 }
+
+                // Set is_default to true for the selected address
+                const { error } = await supabase
+                    .from('billing_info')
+                    .update({ is_default: true })
+                    .eq('id', address.id);
+
+                if (error) {
+                    handleMessage({
+                        type: 'error',
+                        message: 'errors.updating_default_billing_address',
+                    });
+                    return;
+                }
+
+                updateDefaultBillingAddress(address);
             }
-
-            const { error } = await supabase
-                .from('billing_info')
-                .update({ is_default: true })
-                .eq('id', address.id);
-
-            if (error) {
-                handleMessage({
-                    type: 'error',
-                    message: 'errors.updating_default_billing_address',
-                });
-
-                return;
-            }
-
-            updateDefaultBillingAddress(address);
+        } catch (error) {
+            console.error(error);
+            handleMessage({
+                type: 'error',
+                message: 'errors.updating_default_billing_address',
+            });
         }
     };
+
+    if (isLoading) {
+        return <Spinner color="beer-blonde" size="medium" />;
+    }
 
     if (billingAddressesError) {
         handleMessage({
             type: 'error',
             message: t('errors.loading_billing_addresses'),
         });
-        return null;
+        return <div>{t('errors.loading_billing_addresses')}</div>;
     }
 
     return (

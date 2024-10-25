@@ -96,7 +96,10 @@ export const NewBillingIndividualAddress = forwardRef(
 
             await insertIndividualBillingAddress(object)
                 .then(() => {
-                    queryClient.invalidateQueries('billingAddresses');
+                    queryClient.invalidateQueries([
+                        'billingAddresses',
+                        user?.id,
+                    ]);
                     reset();
 
                     handleMessage({

@@ -15,6 +15,7 @@ import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { FormShippingData, ValidationSchemaShipping } from './ShoppingBasket';
 import { DeleteAddress } from '@/app/[locale]/components/modals/DeleteAddress';
 import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 interface Props {
     formShipping: UseFormReturn<FormShippingData, any>;
@@ -22,7 +23,9 @@ interface Props {
 
 export default function Shipping({ formShipping }: Props) {
     const t = useTranslations();
+
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+
     const { handleMessage } = useMessage();
     const queryClient = useQueryClient();
 
@@ -31,7 +34,7 @@ export default function Shipping({ formShipping }: Props) {
     const {
         data: shippingAddresses,
         error: shippingAddressesError,
-        refetch,
+        isLoading,
     } = useFetchShippingByOwnerId(user?.id);
 
     const {
@@ -49,26 +52,16 @@ export default function Shipping({ formShipping }: Props) {
     } = formShipping;
 
     useEffect(() => {
-        if (user?.id) {
-            refetch();
-        }
-    }, [user?.id]);
-
-    useEffect(() => {
         const defaultAddress = shippingAddresses?.find(
             (address) => address.is_default,
         );
+
         if (defaultAddress) {
             updateDefaultShippingAddress(defaultAddress);
             updateSelectedShippingAddress(defaultAddress);
             setValue('shipping_info_id', defaultAddress.id);
         }
-    }, [
-        shippingAddresses,
-        updateDefaultShippingAddress,
-        updateSelectedShippingAddress,
-        setValue,
-    ]);
+    }, [shippingAddresses]);
 
     // Triggers when the user clicks on the button "Delete" in the modal for Campaign deletion
     const handleRemoveShippingAddress = async () => {
@@ -89,7 +82,10 @@ export default function Shipping({ formShipping }: Props) {
                         message: 'success.shipping_address_removed',
                     });
 
-                    queryClient.invalidateQueries('shippingAddresses');
+                    queryClient.invalidateQueries([
+                        'shippingAddresses',
+                        user?.id,
+                    ]);
                 })
                 .catch(() => {
                     handleMessage({
@@ -127,7 +123,7 @@ export default function Shipping({ formShipping }: Props) {
     const handleUpdateDefaultShippingAddress = async (address: IAddress) => {
         try {
             if (address.id !== defaultShippingAddress?.id) {
-                // Single Update for All Records: First, set is_default to false for all addresses except the one being updated.
+                // Set is_default to false for all addresses except the one being updated
                 const { error: neqError } = await supabase
                     .from('shipping_info')
                     .update({ is_default: false })
@@ -167,12 +163,16 @@ export default function Shipping({ formShipping }: Props) {
         }
     };
 
+    if (isLoading) {
+        return <Spinner color="beer-blonde" size="medium" />;
+    }
+
     if (shippingAddressesError) {
         handleMessage({
             type: 'error',
             message: t('errors.loading_shipping_addresses'),
         });
-        return null;
+        return <div>{t('errors.loading_shipping_addresses')}</div>;
     }
 
     return (

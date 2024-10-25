@@ -11,6 +11,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { z, ZodType } from 'zod';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import AddressForm from '@/app/[locale]/components/form/AddressForm';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 const schema: ZodType<ModalShippingAddressFormData> = z.object({
     name: z.string().nonempty({ message: 'errors.input_required' }),
@@ -47,11 +48,7 @@ export function NewShippingAddress({ shippingAddressesLength }: Props) {
         resolver: zodResolver(schema),
     });
 
-    const {
-        reset,
-        handleSubmit,
-        formState: { errors },
-    } = form;
+    const { reset, handleSubmit } = form;
 
     const handleAddShippingAddress = async (form: ValidationSchema) => {
         setIsLoading(true);
@@ -74,11 +71,11 @@ export function NewShippingAddress({ shippingAddressesLength }: Props) {
 
         await insertShippingAddress(object)
             .then(() => {
-                queryClient.invalidateQueries('shippingAddresses');
                 setShowModal(false);
                 setIsLoading(false);
                 setIsSubmitting(false);
                 reset();
+                queryClient.invalidateQueries(['shippingAddresses', user?.id]);
 
                 handleMessage({
                     type: 'success',
@@ -132,7 +129,11 @@ export function NewShippingAddress({ shippingAddressesLength }: Props) {
             handler={handleSubmit(onSubmit)}
             form={form}
         >
-            <AddressForm form={form} addressNameId={'shipping'} />
+            {isLoading ? (
+                <Spinner color="beer-blonde" size="medium" />
+            ) : (
+                <AddressForm form={form} addressNameId={'shipping'} />
+            )}
         </ModalWithForm>
     );
 }
