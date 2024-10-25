@@ -27,7 +27,7 @@ const useFetchShippingByOwnerId = (ownerId: string) => {
     return useQuery({
         queryKey: 'shippingAddresses',
         queryFn: () => fetchShippingByOwnerId(ownerId, supabase),
-        enabled: true,
+        enabled: false,
         refetchOnWindowFocus: false,
     });
 };

@@ -28,8 +28,11 @@ export default function Billing({ formBilling }: Props) {
 
     const { supabase, user } = useAuth();
 
-    const { data: billingAddresses, error: billingAddressesError } =
-        useFetchBillingByOwnerId(user?.id);
+    const {
+        data: billingAddresses,
+        error: billingAddressesError,
+        refetch,
+    } = useFetchBillingByOwnerId(user?.id);
 
     const {
         selectedBillingAddress,
@@ -45,9 +48,11 @@ export default function Billing({ formBilling }: Props) {
         setValue,
     } = formBilling;
 
-    if (billingAddressesError) {
-        throw billingAddressesError;
-    }
+    useEffect(() => {
+        if (user?.id) {
+            refetch();
+        }
+    }, [user?.id]);
 
     useEffect(() => {
         billingAddresses?.map((address) => {
@@ -144,6 +149,14 @@ export default function Billing({ formBilling }: Props) {
             updateDefaultBillingAddress(address);
         }
     };
+
+    if (billingAddressesError) {
+        handleMessage({
+            type: 'error',
+            message: t('errors.loading_billing_addresses'),
+        });
+        return null;
+    }
 
     return (
         <section className="relative w-full space-y-6 p-6 rounded-lg shadow-md bg-gray-50 dark:bg-gray-800">
