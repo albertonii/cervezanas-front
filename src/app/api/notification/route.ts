@@ -66,7 +66,12 @@ export async function POST(req: NextRequest) {
             .from('orders')
             .update({ status: ONLINE_ORDER_STATUS.PAID })
             .eq('order_number', orderNumber)
-            .select('id')
+            .select(
+                `
+                id,
+                owner_id
+            `,
+            )
             .single();
 
         if (error) {
@@ -127,7 +132,6 @@ export async function POST(req: NextRequest) {
                 .eq('id', promoCodeId);
 
             if (promoCodeError) {
-                console.log('Error en promocode', promoCodeError);
                 console.error(
                     `Error in payment for order ${orderNumber} - PROMO CODES. Error: ${JSON.stringify(
                         promoCodeError,
@@ -148,8 +152,8 @@ export async function POST(req: NextRequest) {
         const { error: errorProducerNotification } = await supabase
             .from('notifications')
             .insert({
-                source: '',
-                user_id: '',
+                source: process.env.NEXT_PUBLIC_ADMIN_ID,
+                user_id: order.owner_id,
                 message: producerMessage,
                 link: APP_URLS.PRODUCER_ONLINE_ORDER,
                 read: false,
@@ -157,7 +161,7 @@ export async function POST(req: NextRequest) {
 
         if (errorProducerNotification) {
             console.error(
-                `Error in payment for order ${orderNumber}. Error: ${JSON.stringify(
+                `Error in payment for order ${orderNumber} - NOTIFICATIONS. Error: ${JSON.stringify(
                     errorProducerNotification,
                 )}`,
             );
