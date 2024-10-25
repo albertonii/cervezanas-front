@@ -63,13 +63,13 @@ export default async function SuccessPage({ searchParams }: any) {
 
     return (
         <>
-            {order && (
+            {/* {order && (
                 <SuccessCheckout
                     order={order}
                     isError={isError}
                     santanderResponse={santanderResponse}
                 />
-            )}
+            )} */}
         </>
     );
 }

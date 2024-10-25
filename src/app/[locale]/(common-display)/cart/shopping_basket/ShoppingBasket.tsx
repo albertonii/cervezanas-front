@@ -70,6 +70,7 @@ export function ShoppingBasket({ user }: Props) {
         defaultShippingAddress,
         updateCanMakeThePayment,
         updateNeedsToCheckDelivery,
+        discountId,
         discountAmount,
         discountCode,
     } = useShoppingCart();

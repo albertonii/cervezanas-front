@@ -69,14 +69,7 @@ export async function POST(req: NextRequest) {
             .update({ status: ONLINE_ORDER_STATUS.PAID })
             .eq('order_number', orderId);
 
-        console.log('ERROR', error);
-        console.log('ERROR string', JSON.stringify(error));
-
         if (error) {
-            console.log(error.code);
-            console.log(error.details);
-            console.log(error.message);
-
             console.error(
                 `Error in payment for order ${orderId}. Error: ${JSON.stringify(
                     error,
@@ -86,6 +79,57 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({
                 message: `Order number ${orderId} failed with error: ${error.message}. Error Code: ${error.code}`,
             });
+        }
+
+        console.log(`Order number ${orderId} updated successfully`);
+        // Comprobar si en user_promo_codes hay un registro con el order_id
+        const { data: userPromoCodeData, error: userPromoCodeError } =
+            await supabase
+                .from('user_promo_codes')
+                .select(
+                    `
+                    id,
+                    promo_codes (*)
+                `,
+                )
+                .eq('order_id', orderId)
+                .single();
+
+        console.log('userPromoCodeData', userPromoCodeData);
+
+        if (userPromoCodeError) {
+            console.error(
+                `Error in payment for order ${orderId}. Error: ${JSON.stringify(
+                    userPromoCodeError,
+                )}`,
+            );
+
+            return NextResponse.json({
+                message: `Order number ${orderId} failed with error: ${userPromoCodeError.message}. Error Code: ${userPromoCodeError.code}`,
+            });
+        }
+
+        // Si es así, hay que incrementar el contador de usos del código promocional en la table promo_codes
+        if (userPromoCodeData) {
+            const promoCodeUses = userPromoCodeData.promo_codes?.uses ?? 0;
+
+            const { error: promoCodeError } = await supabase
+                .from('promo_codes')
+                .update({ uses: promoCodeUses + 1 })
+                .eq('id', userPromoCodeData.id);
+
+            console.log('promoCodeError', promoCodeError);
+            if (promoCodeError) {
+                console.error(
+                    `Error in payment for order ${orderId}. Error: ${JSON.stringify(
+                        promoCodeError,
+                    )}`,
+                );
+
+                return NextResponse.json({
+                    message: `Order number ${orderId} failed with error: ${promoCodeError.message}. Error Code: ${promoCodeError.code}`,
+                });
+            }
         }
 
         // Send notification to producer associated

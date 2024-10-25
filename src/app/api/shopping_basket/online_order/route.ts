@@ -331,23 +331,24 @@ export async function POST(request: NextRequest) {
 
         if (promoCodeData) {
             // Incrementamos el uso del código promocional
-            const { data: updatedPromoCode, error: updatePromoCodeError } =
-                await supabase
-                    .from('promo_codes')
-                    .update({ uses: promoCodeData.uses + 1 })
-                    .eq('id', promoCodeData.id)
-                    .select('id')
-                    .single();
+            //     const { data: updatedPromoCode, error: updatePromoCodeError } =
+            //         await supabase
+            //             .from('promo_codes')
+            //             .update({ uses: promoCodeData.uses + 1 })
+            //             .eq('id', promoCodeData.id)
+            //             .select('id')
+            //             .single();
 
-            if (updatePromoCodeError || !updatedPromoCode) {
-                throw new Error(
-                    'Error al actualizar el uso del código promocional.',
-                );
-            }
-            // Para el rollback
-            createdPromoCodeId.push(updatedPromoCode);
+            //     if (updatePromoCodeError || !updatedPromoCode) {
+            //         throw new Error(
+            //             'Error al actualizar el uso del código promocional.',
+            //         );
+            //     }
+            //     // Para el rollback
+            //     createdPromoCodeId.push(updatedPromoCode);
 
             // Insertar registro en 'user_promo_codes'
+            // De esta manera cuando se valide la compra, podemos comprobar si se aplicó una promoción para esa orden de compra en /api/notification
             const { error: promoCodeUseError } = await supabase
                 .from('user_promo_codes')
                 .insert({
