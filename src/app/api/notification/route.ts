@@ -61,6 +61,8 @@ export async function POST(req: NextRequest) {
     const supabase = await createServerClient();
 
     if (isResponseCodeOk(responseCode)) {
+        console.log(orderNumber, 'Payment successful');
+
         // Update order status
         const { data: order, error } = await supabase
             .from('orders')
@@ -76,7 +78,7 @@ export async function POST(req: NextRequest) {
 
         if (error) {
             console.error(
-                `Error in payment for order ${orderNumber}. Error: ${JSON.stringify(
+                `Error in payment for order ${orderNumber} - ORDERS. Error: ${JSON.stringify(
                     error,
                 )}`,
             );
@@ -101,7 +103,7 @@ export async function POST(req: NextRequest) {
 
         if (userPromoCodeError) {
             console.error(
-                `Error in payment for order ${orderNumber}. Error: ${JSON.stringify(
+                `Error in payment for order ${orderNumber} - USER PROMO CODE. Error: ${JSON.stringify(
                     userPromoCodeError,
                 )}`,
             );
@@ -118,7 +120,7 @@ export async function POST(req: NextRequest) {
 
             if (!promoCodeId) {
                 console.error(
-                    `Error in payment for order ${orderNumber}. Error: Promo code id not found`,
+                    `Error in payment for order ${orderNumber} - USER PROMO CODE ID. Error: Promo code id not found`,
                 );
 
                 return NextResponse.json({
