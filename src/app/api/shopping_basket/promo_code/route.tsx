@@ -20,7 +20,6 @@ export async function POST(request: NextRequest) {
     try {
         const supabase = await createServerClient();
 
-        console.log('babyhello');
         // Parsear y validar el cuerpo de la solicitud
         const body = await request.json();
         const { code, user_id } = validatePromoCodeSchema.parse(body);
@@ -169,12 +168,13 @@ export async function POST(request: NextRequest) {
         // Todas las validaciones han pasado, devolver los detalles del descuento
         return NextResponse.json(
             {
+                id: promoCode.id,
                 isValid: true,
                 discountType: promoCode.discount_type,
                 discountValue: promoCode.discount_value,
                 message: 'Código promocional aplicado con éxito.',
                 code: promoCode.code,
-                // Incluir otros detalles necesarios del código promocional
+                uses: promoCode.uses,
             },
             { status: 200 },
         );

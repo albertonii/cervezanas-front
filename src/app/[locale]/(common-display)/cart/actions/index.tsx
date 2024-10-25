@@ -257,6 +257,7 @@ export async function insertOnlineOrder(form: InsertOnlineOrderProps) {
     formData.set('delivery_cost', form.delivery_cost.toString());
     formData.set('discount', form.discount.toString());
     formData.set('discount_code', form.discount_code);
+    formData.set('discount_amount', form.discount.toString());
     formData.set('currency', form.currency);
     formData.set('order_number', form.order_number);
     formData.set('type', form.type);
@@ -301,26 +302,6 @@ export async function insertOnlineOrder(form: InsertOnlineOrderProps) {
     return {
         status: res.status,
         message: res.statusText,
-    };
-}
-
-export async function validatePromoCode(code: string, userId: string) {
-    const url = `${baseUrl}/api/shopping_basket/promo_code`;
-
-    const formData = new FormData();
-    formData.set('code', code);
-    formData.set('user_id', userId);
-
-    const res = await fetch(url, {
-        method: 'POST',
-        body: formData,
-    });
-
-    const data = await res.json();
-
-    return {
-        status: res.status,
-        data,
     };
 }
 

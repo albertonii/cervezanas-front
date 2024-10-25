@@ -12,9 +12,9 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { faTicketAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
-import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 
 const promoCodeSchema: ZodType<{ code: string }> = z.object({
     code: z.string().nonempty({ message: 'errors.input_required' }),
@@ -55,7 +55,7 @@ export default function PromoCode() {
                 applyDiscount(data);
                 handleMessage({
                     type: 'success',
-                    message: t('promo_code_applied'),
+                    message: t('success.promo_code_applied'),
                 });
                 reset();
             } else {
@@ -124,10 +124,6 @@ export default function PromoCode() {
                         placeholder={t('enter_promo_code')}
                         disabled={isFetching}
                     />
-
-                    {errors.code && (
-                        <DisplayInputError message={errors.code.message} />
-                    )}
 
                     <Button
                         title={t('apply_promo_code')}

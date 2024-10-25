@@ -71,12 +71,9 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
     name: z.string().min(2, { message: 'errors.min_2_characters' }).max(50, {
         message: 'errors.error_50_number_max_length',
     }),
-    description: z
-        .string()
-        .max(320, {
-            message: 'errors.error_320_max_length',
-        })
-        .optional(),
+    description: z.string().max(320, {
+        message: 'errors.error_320_max_length',
+    }),
     price: z.number().min(0, { message: 'errors.input_number_min_0' }),
     fermentation: z.number().min(0, { message: 'errors.input_number_min_0' }),
     color: z.number().min(0, { message: 'errors.input_number_min_0' }),
@@ -374,8 +371,6 @@ export function AddProductModal() {
                     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
             },
         });
-
-        console.log(response);
 
         // const response = await fetch(url, {
         //     method: 'POST',

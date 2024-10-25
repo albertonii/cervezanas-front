@@ -1038,7 +1038,8 @@
         "deleting_product_award": "Product award deleted successfully",
         "update_shipment_tracking": "Shipment tracking updated successfully",
         "profile_acc_data_updated": "Account data updated successfully",
-        "sales_records_download_status_updated": "Sales records download status updated successfully"
+        "sales_records_download_status_updated": "Sales records download status updated successfully",
+        "promo_code_applied": "Promo code applied successfully"
     },
     "num_of_packs": "Number of packs",
     "promo_code": "Promo code",

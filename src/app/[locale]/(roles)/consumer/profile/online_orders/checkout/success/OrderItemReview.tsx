@@ -1,11 +1,8 @@
+import Button from '@/app/[locale]/components/ui/buttons/Button';
 import ProductReview from '@/app/[locale]/components/reviews/ProductReview';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { SupabaseProps } from '@/constants';
 import { IBusinessOrder, IOrderItem } from '@/lib/types/types';
-import Button from '@/app/[locale]/components/ui/buttons/Button';
-
-const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 interface Props {
     bOrder: IBusinessOrder;

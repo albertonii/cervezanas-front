@@ -1056,7 +1056,8 @@
         "deleting_product_award": "Premio eliminado correctamente",
         "update_shipment_tracking": "Seguimiento de envío actualizado correctamente",
         "profile_acc_data_updated": "Datos de la cuenta actualizados correctamente",
-        "sales_records_download_status_updated": "Estado de descarga de los registros de ventas actualizado correctamente"
+        "sales_records_download_status_updated": "Estado de descarga de los registros de ventas actualizado correctamente",
+        "promo_code_applied": "Código promocional aplicado correctamente"
     },
     "num_of_packs": "Número de packs",
     "promo_code": "Código promocional",
