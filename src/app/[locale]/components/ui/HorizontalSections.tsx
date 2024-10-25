@@ -17,18 +17,18 @@ export default function HorizontalSections({ handleMenuClick, tabs }: Props) {
         setActiveTab(tab);
         handleMenuClick(tab);
     };
-    console.log(tabs);
+
     return (
         <>
-            <ul className="mx-16 flex justify-center bg-white rounded-lg shadow-md overflow-hidden border-2 border-gray-300">
+            <ul className="mx-14 sm:mx-16 block sm:flex justify-center bg-white rounded-lg shadow-md overflow-hidden border-2 border-gray-300">
                 {tabs.map((tab, index) => (
                     <li
                         key={index}
                         className={`
-                            flex-1 
+                            flex-1
                             text-center 
                             px-4 
-                            py-2
+                            py-3
                             cursor-pointer 
                             font-semibold 
                             uppercase 

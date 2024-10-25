@@ -101,7 +101,7 @@ export default function CPMProductItem({
             is_monthly: product.is_monthly,
             owner_id: product.owner_id,
             beers: product.beers,
-            product_multimedia: product.product_multimedia,
+            product_media: product.product_media,
             product_lots: product.product_lots,
             product_inventory: product.product_inventory,
             reviews: product.reviews,

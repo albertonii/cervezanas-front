@@ -2,17 +2,11 @@ import createServerClient from '@/utils/supabaseServer';
 import readUserSession, { generateUUID } from '@/lib//actions';
 import { SupabaseProps } from '@/constants';
 import { NextRequest, NextResponse } from 'next/server';
-import { generateFileNameExtension } from '@/utils/utils';
-import {
-    ROUTE_P_BACK,
-    ROUTE_P_EXTRA_1,
-    ROUTE_P_EXTRA_2,
-    ROUTE_P_EXTRA_3,
-    ROUTE_P_PRINCIPAL,
-} from '@/config';
+import { fileTypeToExtension, generateFileNameExtension } from '@/utils/utils';
 
 export async function POST(request: NextRequest) {
     try {
+        console.log('dentro');
         const randomUUID = await generateUUID();
 
         const supabase = await createServerClient();
@@ -21,6 +15,9 @@ export async function POST(request: NextRequest) {
         const userId = session?.id;
 
         const formData = await request.formData();
+
+        // Aquí obtienes todos los archivos que se hayan subido bajo la clave 'media_file'
+        const mediaFiles = formData.getAll('media_files') as File[];
 
         // Basic
         const name = formData.get('name') as string;
@@ -112,13 +109,6 @@ export async function POST(request: NextRequest) {
 
             awards.push(award);
         }
-
-        // Multimedia
-        const p_principal = formData.get('p_principal') as File;
-        const p_back = formData.get('p_back') as File;
-        const p_extra_1 = formData.get('p_extra_1') as File;
-        const p_extra_2 = formData.get('p_extra_2') as File;
-        const p_extra_3 = formData.get('p_extra_3') as File;
 
         const { data: product, error: errorProduct } = await supabase
             .from('products')
@@ -353,190 +343,251 @@ export async function POST(request: NextRequest) {
             });
         }
 
-        // Multimedia
-        let p_principal_url = '';
-        let p_back_url = '';
-        let p_extra_1_url = '';
-        let p_extra_2_url = '';
-        let p_extra_3_url = '';
+        // Media Files
+        for (let index = 0; index < mediaFiles.length; index++) {
+            const file = mediaFiles[index];
 
-        if (p_principal) {
-            const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_PRINCIPAL}/${randomUUID}`;
+            // Obtener el campo 'isMain' correspondiente
+            const isMain = formData.get(`isMain_${index}`) === 'true';
+            // Si necesitas subir el archivo a Supabase, podrías hacer algo como esto:
+            // const fileExt = file.name.split('.').pop();
+            const fileExt = fileTypeToExtension(file.type);
 
-            p_principal_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(p_principal.name)}`,
-            );
+            const fileName = `${SupabaseProps.ARTICLES}${product?.id}/${randomUUID}_${index}.${fileExt}`;
 
-            const { error: p_principal_error } = await supabase.storage
+            // Subir a Supabase Storage
+            const { error } = await supabase.storage
+                .from('products') // Tu bucket en Supabase
+                .upload(fileName, file);
+
+            if (error) {
+                throw new Error(`Error al subir archivo: ${error.message}`);
+            }
+
+            // Guardar la URL pública del archivo en la base de datos, por ejemplo
+            const publicUrl = supabase.storage
                 .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(p_principal.name)}`,
-                    p_principal,
-                    {
-                        contentType: p_principal.type,
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
+                .getPublicUrl(fileName).data.publicUrl;
+
+            // Guardar product_media
+            const { error: mediaError } = await supabase
+                .from('product_media')
+                .insert({
+                    product_id: product?.id,
+                    url: publicUrl,
+                    type: file.type,
+                    alt_text: file.name,
+                    is_primary: isMain,
+                });
+
+            if (mediaError) {
+                throw new Error(
+                    `Error al guardar en product_media: ${mediaError.message}`,
                 );
-
-            if (p_principal_error)
-                return NextResponse.json(
-                    { message: 'Error uploading p_principal' },
-                    { status: 500 },
-                );
-        }
-
-        if (p_back) {
-            const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_BACK}/${randomUUID}`;
-
-            p_back_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(p_back.name)}`,
-            );
-
-            const { error: p_back_error } = await supabase.storage
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(p_back.name)}`,
-                    p_back,
-                    {
-                        contentType: p_back.type,
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
-
-            if (p_back_error)
-                return NextResponse.json(
-                    { message: 'Error uploading p_back' },
-                    { status: 500 },
-                );
-        }
-
-        if (p_extra_1) {
-            const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_EXTRA_1}/${randomUUID}`;
-
-            p_extra_1_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(p_extra_1.name)}`,
-            );
-
-            const { error: p_extra_1_error } = await supabase.storage
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(p_extra_1.name)}`,
-                    p_extra_1,
-                    {
-                        contentType: p_extra_1.type,
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
-
-            if (p_extra_1_error)
-                return NextResponse.json(
-                    { message: 'Error uploading p_extra_1' },
-                    { status: 500 },
-                );
-        }
-
-        if (p_extra_2) {
-            const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_EXTRA_2}/${randomUUID}`;
-
-            p_extra_2_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(p_extra_2.name)}`,
-            );
-
-            const { error: p_extra_2_error } = await supabase.storage
-
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(p_extra_2.name)}`,
-                    p_extra_2,
-                    {
-                        contentType: p_extra_2.type,
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
-
-            if (p_extra_2_error)
-                return NextResponse.json(
-                    { message: 'Error uploading p_extra_2' },
-                    { status: 500 },
-                );
-        }
-
-        if (p_extra_3) {
-            const fileName = `${SupabaseProps.ARTICLES}${product.id}${ROUTE_P_EXTRA_3}/${randomUUID}`;
-
-            p_extra_3_url = encodeURIComponent(
-                `${fileName}${generateFileNameExtension(p_extra_3.name)}`,
-            );
-
-            const { error: p_extra_3_error } = await supabase.storage
-
-                .from('products')
-                .upload(
-                    `${fileName}${generateFileNameExtension(p_extra_3.name)}`,
-                    p_extra_3,
-                    {
-                        contentType: p_extra_3.type,
-                        cacheControl: '3600',
-                        upsert: false,
-                    },
-                );
-
-            if (p_extra_3_error)
-                return NextResponse.json(
-                    { message: 'Error uploading p_extra_3' },
-                    { status: 500 },
-                );
-        }
-
-        const { error: multError } = await supabase
-            .from('product_multimedia')
-            .insert({
-                product_id: product.id,
-                p_principal: p_principal_url ?? '',
-                p_back: p_back_url ?? '',
-                p_extra_1: p_extra_1_url ?? '',
-                p_extra_2: p_extra_2_url ?? '',
-                p_extra_3: p_extra_3_url ?? '',
-            });
-
-        if (multError) {
-            return NextResponse.json(
-                { message: 'Error creating product multimedia' },
-                { status: 500 },
-            );
+            }
         }
 
         return NextResponse.json(
             { message: 'Product successfully created' },
             { status: 200 },
         );
-    } catch (err) {
+    } catch (err: any) {
         return NextResponse.json(
-            { message: 'Error creating product' },
+            { message: 'Error creating product', error: err.message },
             { status: 500 },
         );
     }
 }
 
 // TODO: Eliminar imágenes en el Bucket desde aquí.
+// export async function DELETE(request: NextRequest) {
+//     try {
+//         const formData = await request.formData();
+
+//         const supabase = await createServerClient();
+
+//         const productId = formData.get('product_id') as string;
+
+//         const { error: productError } = await supabase
+//             .from('products')
+//             .delete()
+//             .eq('id', productId);
+
+//         if (productError) {
+//             return NextResponse.json(
+//                 { message: 'Error deleting product' },
+//                 { status: 500 },
+//             );
+//         }
+
+//         return NextResponse.json(
+//             { message: 'Product successfully deleted' },
+//             { status: 200 },
+//         );
+//     } catch (err) {
+//         return NextResponse.json(
+//             { message: 'Error deleting product' },
+//             { status: 500 },
+//         );
+//     }
+// }
+
 export async function DELETE(request: NextRequest) {
     try {
-        const formData = await request.formData();
-
         const supabase = await createServerClient();
 
+        const formData = await request.formData();
         const productId = formData.get('product_id') as string;
 
-        const { error: productError } = await supabase
+        if (!productId) {
+            return NextResponse.json(
+                { message: 'Product ID is required' },
+                { status: 400 },
+            );
+        }
+
+        // Paso 1: Obtener referencias a los archivos asociados al producto
+
+        // Obtener los medios del producto (imágenes, videos, etc.)
+        const { data: productMedia, error: mediaError } = await supabase
+            .from('product_media')
+            .select('url')
+            .eq('product_id', productId);
+
+        if (mediaError) {
+            console.error('Error fetching product media:', mediaError);
+            return NextResponse.json(
+                { message: 'Error fetching product media' },
+                { status: 500 },
+            );
+        }
+
+        // Obtener los packs asociados al producto
+        const { data: productPacks, error: packsError } = await supabase
+            .from('product_packs')
+            .select('img_url')
+            .eq('product_id', productId);
+
+        if (packsError) {
+            console.error('Error fetching product packs:', packsError);
+            return NextResponse.json(
+                { message: 'Error fetching product packs' },
+                { status: 500 },
+            );
+        }
+
+        // Obtener los premios (awards) asociados al producto
+        const { data: productAwards, error: awardsError } = await supabase
+            .from('awards')
+            .select('img_url')
+            .eq('product_id', productId);
+
+        if (awardsError) {
+            console.error('Error fetching product awards:', awardsError);
+            return NextResponse.json(
+                { message: 'Error fetching product awards' },
+                { status: 500 },
+            );
+        }
+
+        // Paso 2: Eliminar archivos del bucket de Supabase Storage
+
+        // Función para extraer el path relativo del archivo desde la URL pública
+        const getFilePathFromUrl = (publicUrl: string) => {
+            const url = new URL(publicUrl);
+            return url.pathname.replace(
+                '/storage/v1/object/public/products/',
+                '',
+            );
+        };
+
+        // Lista para acumular los paths de los archivos a eliminar
+        let filesToDelete: string[] = [];
+
+        // Añadir los archivos de product_media
+        if (productMedia && productMedia.length > 0) {
+            const mediaFiles = productMedia
+                .map((media) => {
+                    if (media.url) {
+                        return getFilePathFromUrl(media.url);
+                    }
+                    return null; // Maneja el caso donde media.url puede ser null
+                })
+                .filter((path): path is string => path !== null); // Filtra los valores null
+
+            filesToDelete = filesToDelete.concat(mediaFiles);
+        }
+
+        // Añadir los archivos de product_packs
+        if (productPacks && productPacks.length > 0) {
+            const packFiles = productPacks
+                .map((pack) => {
+                    if (pack.img_url) {
+                        return decodeURIComponent(pack.img_url);
+                    }
+                    return null;
+                })
+                .filter((path): path is string => path !== null);
+
+            filesToDelete = filesToDelete.concat(packFiles);
+        }
+
+        // Añadir los archivos de awards
+        if (productAwards && productAwards.length > 0) {
+            const awardFiles = productAwards
+                .map((award) => {
+                    if (award.img_url) {
+                        return decodeURIComponent(award.img_url);
+                    }
+                    return null;
+                })
+                .filter((path): path is string => path !== null);
+
+            filesToDelete = filesToDelete.concat(awardFiles);
+        }
+
+        // Eliminar los archivos del bucket
+        if (filesToDelete.length > 0) {
+            const { data, error: deleteError } = await supabase.storage
+                .from('products')
+                .remove(filesToDelete);
+
+            if (deleteError) {
+                console.error(
+                    'Error deleting files from storage:',
+                    deleteError,
+                );
+                return NextResponse.json(
+                    { message: 'Error deleting files from storage' },
+                    { status: 500 },
+                );
+            }
+        }
+
+        // Paso 3: Eliminar las entradas relacionadas en la base de datos
+
+        // Eliminar entradas de product_media
+        const { error: deleteMediaError } = await supabase
+            .from('product_media')
+            .delete()
+            .eq('product_id', productId);
+
+        if (deleteMediaError) {
+            console.error('Error deleting product media:', deleteMediaError);
+            return NextResponse.json(
+                { message: 'Error deleting product media' },
+                { status: 500 },
+            );
+        }
+
+        // Eliminar el producto de la base de datos
+        const { error: deleteProductError } = await supabase
             .from('products')
             .delete()
             .eq('id', productId);
 
-        if (productError) {
+        if (deleteProductError) {
+            console.error('Error deleting product:', deleteProductError);
             return NextResponse.json(
                 { message: 'Error deleting product' },
                 { status: 500 },
@@ -544,10 +595,11 @@ export async function DELETE(request: NextRequest) {
         }
 
         return NextResponse.json(
-            { message: 'Product successfully deleted' },
+            { message: 'Product and associated data successfully deleted' },
             { status: 200 },
         );
     } catch (err) {
+        console.error('Error in DELETE handler:', err);
         return NextResponse.json(
             { message: 'Error deleting product' },
             { status: 500 },

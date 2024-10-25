@@ -27,14 +27,14 @@ const UpdateTechnicalInfoSection = ({ form }: Props) => {
     }, [ingredients]);
 
     return (
-        <div className="relative border-2 rounded-lg border-gray-200 p-6 bg-white shadow-md">
+        <div className="relative border-2 rounded-lg border-gray-200 py-6 px-2 sm:px-6 bg-white shadow-md">
             <FontAwesomeIcon
                 icon={faRulerCombined}
                 title={'Beer Properties Icon'}
                 className="h-12 w-12 text-beer-blonde absolute -top-4 -left-4 bg-white p-2 rounded-full shadow-lg"
             />
 
-            <section className="mx-10">
+            <section className="mx-0 sm:mx-10  py-8 sm:py-0">
                 <p className="text-4xl font-['NexaRust-script']">
                     {t('modal_product_add_technical_details_title')}
                 </p>

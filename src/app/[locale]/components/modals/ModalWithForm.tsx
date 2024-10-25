@@ -174,7 +174,7 @@ export default function ModalWithForm({
                                 </div>
 
                                 {/*body*/}
-                                <div className="relative flex-auto p-5">
+                                <div className="relative flex-auto px-0 sm:px-5 py-5">
                                     {!isEmpty(description) && (
                                         <p className="text-slate-500 my-4 sm:text-md leading-relaxed">
                                             {t(description)}

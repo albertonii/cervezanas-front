@@ -1,58 +1,17 @@
-import { UseFormReturn } from 'react-hook-form';
-import { SupabaseProps } from '@/constants';
-import { ModalUpdateBoxPackFormData } from '@/lib//types/product';
-import { UpdateFilePreviewImageMultimedia } from '../../../(roles)/producer/profile/products/UpdateFilePreviewImageMultimedia';
+import ProductMediaUploader from '../ProductMediaUploader';
+import { faImage } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export interface Props {
-    productId: string;
-    form: UseFormReturn<ModalUpdateBoxPackFormData, any>;
-}
-
-export function UpdateBoxMultimediaSection({ form, productId }: Props) {
-    const preUrl =
-        SupabaseProps.BASE_URL + SupabaseProps.STORAGE_PRODUCTS_IMG_URL;
-
+export function UpdateBoxMultimediaSection() {
     return (
         <section className=" flex w-full space-x-4" id="photo_gallery">
-            <UpdateFilePreviewImageMultimedia
-                productId={productId}
-                form={form}
-                registerName="p_principal"
-                preUrl={preUrl}
-                isBoxPack={true}
+            <FontAwesomeIcon
+                icon={faImage}
+                title={'Beer Properties Icon'}
+                className="h-12 w-12 text-beer-blonde absolute -top-4 -left-4 bg-white p-2 rounded-full shadow-lg"
             />
 
-            <UpdateFilePreviewImageMultimedia
-                productId={productId}
-                form={form}
-                registerName="p_back"
-                preUrl={preUrl}
-                isBoxPack={true}
-            />
-
-            <UpdateFilePreviewImageMultimedia
-                productId={productId}
-                form={form}
-                registerName="p_extra_1"
-                preUrl={preUrl}
-                isBoxPack={true}
-            />
-
-            <UpdateFilePreviewImageMultimedia
-                productId={productId}
-                form={form}
-                registerName="p_extra_2"
-                preUrl={preUrl}
-                isBoxPack={true}
-            />
-
-            <UpdateFilePreviewImageMultimedia
-                productId={productId}
-                form={form}
-                registerName="p_extra_3"
-                preUrl={preUrl}
-                isBoxPack={true}
-            />
+            <ProductMediaUploader />
         </section>
     );
 }

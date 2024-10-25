@@ -19,7 +19,6 @@ const CurrentSalesRecordsSummary = ({ bOrders }: Props) => {
 
     useEffect(() => {
         if (bOrders) {
-            console.log(bOrders);
             const totalAmount = bOrders.reduce((acc, bOrder) => {
                 if (bOrder.order_items && bOrder.order_items[0]) {
                     return (

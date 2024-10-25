@@ -21,7 +21,7 @@ const ShoppingCartScreenMenuButton = () => {
                     width={40}
                     height={40}
                     className={
-                        'rounded-full bg-beer-blonde w-[40px] lg:w-[50px] p-[5px] border-beer-softBlondeBubble border-2'
+                        'rounded-full bg-beer-blonde w-[40px] lg:w-[50px] p-[5px] border-beer-softBlondeBubble border-2 max-w-[80px]'
                     }
                 />
                 <span

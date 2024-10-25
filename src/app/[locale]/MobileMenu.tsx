@@ -126,7 +126,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                 )}
 
                 {/* Logo Cervezanas  */}
-                <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24">
+                <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24 overflow-hidden">
                     <figure className="absolute flex h-[55px] w-[55px] right-0 p-2 sm:h-[65px] sm:w-[65px] sm:p-2 sm:mr-8 sm:mt-2 lg:h-[153] lg:w-[151px] ">
                         <Link href={'/'} locale={locale}>
                             <Image

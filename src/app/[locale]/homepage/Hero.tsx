@@ -2,7 +2,6 @@ import Image from 'next/image';
 import React from 'react';
 import { IMonthlyProduct } from '@/lib//types/types';
 import MonthlyBeers from './MonthlyBeers';
-import MonthlyCardItem from './MonthlyCardItem';
 
 interface Props {
     monthlyProducts: IMonthlyProduct[];

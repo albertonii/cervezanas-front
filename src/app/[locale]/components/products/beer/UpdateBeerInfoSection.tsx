@@ -113,7 +113,7 @@ export default function UpdateBeerInfoSection({
     };
 
     return (
-        <section className="relative border-2 rounded-lg border-gray-200 p-6 bg-white shadow-md space-y-8 mt-8">
+        <section className="relative border-2 rounded-lg border-gray-200 py-6 px-2 sm:px-6 bg-white shadow-md space-y-8 mt-8">
             <p className="text-4xl font-['NexaRust-script']">
                 {t('modal_product_update_details_title')}
             </p>
@@ -143,14 +143,14 @@ export default function UpdateBeerInfoSection({
                 />
             </div>
 
-            <div className="relative border-2 rounded-lg border-gray-200 p-6 bg-white shadow-md">
+            <div className="relative border-2 rounded-lg border-gray-200 py-6 px-2 sm:px-6 bg-white shadow-md">
                 <FontAwesomeIcon
                     icon={faPalette}
                     title={'Beer Properties Icon'}
                     className="h-12 w-12 text-beer-blonde absolute -top-4 -left-4 bg-white p-2 rounded-full shadow-lg"
                 />
 
-                <section className="mx-10">
+                <section className="mx-0 sm:mx-10  py-8 sm:py-0">
                     {/* Intensity & Fermentation  */}
                     <div className="flex w-full flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
                         <InputLabel

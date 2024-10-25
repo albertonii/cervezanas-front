@@ -1,6 +1,6 @@
 import Button from '@/app/[locale]/components/ui/buttons/Button';
 import ShoppingBasketAddressesSummary from './ShoppingBasketAddressesSummary';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
@@ -22,14 +22,16 @@ const ShoppingBasketOrderSummary = ({
 }: Props) => {
     const t = useTranslations();
 
-    const { canMakeThePayment, selectedShippingAddress } = useShoppingCart();
+    const {
+        canMakeThePayment,
+        selectedShippingAddress,
+        needsToCheckDelivery,
+        discountAmount,
+        discountCode,
+    } = useShoppingCart();
 
     return (
-        <div className="border-product-softBlonde flex w-full flex-col items-center justify-between gap-4 border bg-gray-50 px-4 py-6 dark:bg-gray-800 md:items-start md:p-6 xl:w-96 xl:p-8">
-            <h3 className="text-xl font-semibold leading-5 text-gray-800 dark:text-white">
-                {t('customer')}
-            </h3>
-
+        <div className=" flex w-full flex-col items-center justify-between gap-4 border bg-gray-50 px-4 py-6 dark:bg-gray-800 md:items-start md:p-6 xl:w-96 xl:p-4">
             <div className="flex h-full w-full flex-col items-stretch justify-start md:flex-col lg:space-x-8 xl:flex-col xl:space-x-0">
                 {/* Summary */}
                 <div className="flex flex-shrink-0 flex-col items-start justify-start">
@@ -54,6 +56,17 @@ const ShoppingBasketOrderSummary = ({
                                     {formatCurrency(deliveryCost)}
                                 </p>
                             </div>
+
+                            {discountCode && (
+                                <div className="flex w-full items-center justify-between">
+                                    <p className="text-base leading-4 text-gray-800 dark:text-white">
+                                        {t('discount')} ({discountCode})
+                                    </p>
+                                    <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
+                                        -{formatCurrency(discountAmount)}
+                                    </p>
+                                </div>
+                            )}
                         </div>
 
                         <div className="flex w-full items-start justify-between">
@@ -92,7 +105,9 @@ const ShoppingBasketOrderSummary = ({
                                 large
                                 primary
                                 title={t('proceed_to_pay')}
-                                disabled={!canMakeThePayment}
+                                disabled={
+                                    !canMakeThePayment || needsToCheckDelivery
+                                }
                                 onClick={onSubmit}
                             >
                                 {t('proceed_to_pay')}

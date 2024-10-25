@@ -99,26 +99,14 @@ export function Reviews({ reviews: r }: Props) {
                                         <div className="space-y-2">
                                             {/* Img Product  */}
                                             <div className="flex flex-row items-center space-x-4 space-y-4">
-                                                {/* <Image
-                                                        className="sm:w-100 sm:h-100 h-20 w-20 rounded"
-                                                        width={80}
-                                                        height={80}
-                                                        src={`${
-                                                            review.products
-                                                                ?.product_multimedia
-                                                                ?.p_principal ??
-                                                            '/icons/beer-240.png'
-                                                        } `}
-                                                        alt=""
-                                                    /> */}
-
                                                 <DisplayImageProduct
                                                     imgSrc={
                                                         SupabaseProps.BASE_PRODUCTS_URL +
                                                         decodeURIComponent(
-                                                            review.products
-                                                                ?.product_multimedia
-                                                                ?.p_principal ??
+                                                            review.products?.product_media?.find(
+                                                                (media) =>
+                                                                    media.is_primary,
+                                                            )?.url ??
                                                                 '/icons/beer-240.png',
                                                         )
                                                     }

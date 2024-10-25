@@ -6,11 +6,6 @@ interface BoxCartType {
     id: string;
     slots_per_box: number;
     boxPackItems: IBoxPackItem[];
-    p_principal: any;
-    p_back: any;
-    p_extra_1: any;
-    p_extra_2: any;
-    p_extra_3: any;
     is_box_pack_dirty: boolean;
 }
 
@@ -39,11 +34,6 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
             id: '',
             slots_per_box: 6,
             boxPackItems: [],
-            p_principal: null,
-            p_back: null,
-            p_extra_1: null,
-            p_extra_2: null,
-            p_extra_3: null,
             is_box_pack_dirty: false,
         },
     };
@@ -235,11 +225,6 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
                         id: '',
                         slots_per_box: 6,
                         boxPackItems: [],
-                        p_principal: null,
-                        p_back: null,
-                        p_extra_1: null,
-                        p_extra_2: null,
-                        p_extra_3: null,
                         is_box_pack_dirty: false,
                     },
                 };
@@ -254,21 +239,6 @@ const useBoxPackStore = create<BoxCartState>((set, get) => {
                         id: boxPack.id,
                         slots_per_box: boxPack.slots_per_box,
                         boxPackItems: boxPack.box_pack_items ?? [],
-                        p_principal:
-                            boxPack.products?.[0].product_multimedia
-                                ?.p_principal ?? '',
-                        p_back:
-                            boxPack.products?.[0].product_multimedia?.p_back ??
-                            '',
-                        p_extra_1:
-                            boxPack.products?.[0].product_multimedia
-                                ?.p_extra_1 ?? '',
-                        p_extra_2:
-                            boxPack.products?.[0].product_multimedia
-                                ?.p_extra_2 ?? '',
-                        p_extra_3:
-                            boxPack.products?.[0].product_multimedia
-                                ?.p_extra_3 ?? '',
                         is_box_pack_dirty: false,
                     },
                 };

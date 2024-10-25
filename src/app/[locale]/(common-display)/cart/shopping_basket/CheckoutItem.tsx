@@ -20,70 +20,36 @@ export function CheckoutItem({ productPack, isShippingCostLoading }: Props) {
     const locale = useLocale();
 
     const { undeliverableItems } = useShoppingCart();
-    const [isItemUnDeliverable, setIsItemUnDeliverable] = useState(false);
 
-    useEffect(() => {
-        if (undeliverableItems?.length === 0) {
-            setIsItemUnDeliverable(false);
-            return;
-        }
-
-        // Comprobar si el producto es entregable
-        undeliverableItems.find((item) => {
-            if (item.id === productPack.id) {
-                setIsItemUnDeliverable(true);
-                return;
-            }
-        });
-    }, [undeliverableItems]);
-
-    const {
-        data: productWithInfo,
-        isError,
-        isLoading: isLoadingProduct,
-        refetch,
-    } = useFetchProductById(productPack.product_id);
-
-    useEffect(() => {
-        refetch();
-    }, []);
-
-    if (isLoadingProduct) {
-        return <Spinner color={'beer-blonde'} size={'medium'} />;
-    }
-
-    if (isError) return <div className="text-center text-red-500">Error</div>;
-
-    if (!productWithInfo) return null;
+    // Determinar si el producto no es entregable
+    const isItemUndeliverable = React.useMemo(() => {
+        return undeliverableItems.some((item) => item.id === productPack.id);
+    }, [undeliverableItems, productPack.id]);
 
     return (
         <article
-            className={`mt-4 space-y-4 
-                        ${isShippingCostLoading ? 'pointer-events-none' : ''}
-                     `}
+            className={`mt-6 ${
+                isShippingCostLoading ? 'pointer-events-none opacity-50' : ''
+            }`}
         >
-            <p className="space-x-2 text-xl">
+            <div className="flex items-baseline space-x-2">
                 <span className=" dark:text-white">{t('product_name')}:</span>
                 <Link
-                    href={`/products/${productWithInfo.id}`}
+                    href={`/products/${productPack.product_id}`}
                     locale={locale}
                     target={'_blank'}
                 >
-                    <span className="font-semibold text-beer-draft hover:text-beer-gold dark:text-white hover:underline animation-all ease-in-out duration-200">
+                    <span className="text-lg font-semibold text-beer-draft hover:text-beer-gold dark:text-white hover:underline animation-all ease-in-out duration-200">
                         {productPack.name}
                     </span>
                 </Link>
-            </p>
+            </div>
 
-            {isItemUnDeliverable && <DeliveryError />}
+            {isItemUndeliverable && <DeliveryError />}
 
             {productPack.packs.map((pack) => (
                 <div key={pack.id}>
-                    <CheckoutPackItem
-                        productPack={productPack}
-                        productWithInfo={productWithInfo}
-                        pack={pack}
-                    />
+                    <CheckoutPackItem productPack={productPack} pack={pack} />
                 </div>
             ))}
         </article>

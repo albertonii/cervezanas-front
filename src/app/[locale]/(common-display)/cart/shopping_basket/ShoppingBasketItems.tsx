@@ -20,7 +20,7 @@ const ShoppingBasketItems = ({
     const t = useTranslations();
 
     return (
-        <section className="relative w-full space-y-6 p-6 rounded-lg shadow-md bg-gray-50 dark:bg-gray-800">
+        <section className="relative w-full p-6 bg-white dark:bg-gray-900 rounded-lg shadow space-y-6">
             <FontAwesomeIcon
                 icon={faShoppingCart}
                 title={'Shipping Info Icon'}
@@ -28,7 +28,7 @@ const ShoppingBasketItems = ({
                 size="2xl"
             />
 
-            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
+            <h2 className="text-4xl font-['NexaRust-script'] pt-8 lg:pt-0 text-gray-800 dark:text-white ">
                 {t('customer_s_cart')}
             </h2>
 

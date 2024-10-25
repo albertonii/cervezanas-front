@@ -2,6 +2,8 @@
 
 import dynamic from 'next/dynamic';
 import useBoxPackStore from '@/app/store//boxPackStore';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import ProductHeaderDescription from '@/app/[locale]/components/modals/ProductHeaderDescription';
 import BoxProductSlotsSection from '@/app/[locale]/components/products/boxPack/BoxProductSlotsSection';
 import React, { useState, useEffect } from 'react';
 import { z, ZodType } from 'zod';
@@ -11,52 +13,17 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import { faBoxes } from '@fortawesome/free-solid-svg-icons';
 import { ModalAddBoxPackFormData } from '@/lib/types/product';
+import { useFileUpload } from '@/app/context/ProductFileUploadContext';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { BoxSummary } from '@/app/[locale]/components/products/boxPack/BoxSummary';
 import { BoxPackStepper } from '@/app/[locale]/components/products/boxPack/BoxPackStepper';
 import { BoxPackInfoSection } from '@/app/[locale]/components/products/boxPack/BoxPackInfoSection';
 import { BoxMultimediaSection } from '@/app/[locale]/components/products/boxPack/BoxMultimediaSection';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
-import ProductHeaderDescription from '@/app/[locale]/components/modals/ProductHeaderDescription';
 
 const ModalWithForm = dynamic(
     () => import('@/app/[locale]/components/modals/ModalWithForm'),
     { ssr: false },
 );
-
-// This is the list of mime types you will accept with the schema
-const ACCEPTED_MIME_TYPES = [
-    'image/gif',
-    'image/jpeg',
-    'image/png',
-    'image/webp',
-];
-const MB_BYTES = 1000000; // Number of bytes in a megabyte.
-
-const validateFile = (f: File, ctx: any) => {
-    if (!f) return;
-    if (typeof f === 'string') return;
-
-    if (!ACCEPTED_MIME_TYPES.includes(f.type)) {
-        ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: `File must be one of [${ACCEPTED_MIME_TYPES.join(
-                ', ',
-            )}] but was ${f.type}`,
-        });
-    }
-    if (f.size > 3 * MB_BYTES) {
-        ctx.addIssue({
-            code: z.ZodIssueCode.too_big,
-            type: 'array',
-            message: `The file must not be larger than ${3 * MB_BYTES} bytes: ${
-                f.size
-            }`,
-            maximum: 3 * MB_BYTES,
-            inclusive: true,
-        });
-    }
-};
 
 const schema: ZodType<ModalAddBoxPackFormData> = z.object({
     is_public: z.boolean(),
@@ -66,11 +33,6 @@ const schema: ZodType<ModalAddBoxPackFormData> = z.object({
     price: z.number().min(0, 'errors.input_number_min_0'),
     weight: z.number().min(0, 'errors.input_number_min_0'),
     slots_per_box: z.number().min(1, 'errors.input_number_min_1'),
-    p_principal: z.custom<File>().superRefine(validateFile),
-    p_back: z.custom<File>().superRefine(validateFile).optional(),
-    p_extra_1: z.custom<File>().superRefine(validateFile).optional(),
-    p_extra_2: z.custom<File>().superRefine(validateFile).optional(),
-    p_extra_3: z.custom<File>().superRefine(validateFile).optional(),
 });
 
 type ValidationSchema = z.infer<typeof schema>;
@@ -82,6 +44,8 @@ export function AddBoxPackModal() {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [activeStep, setActiveStep] = useState<number>(0);
     const { clear, boxPack } = useBoxPackStore();
+    const { files, clearFiles } = useFileUpload();
+
     const { handleMessage } = useMessage();
 
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -97,7 +61,6 @@ export function AddBoxPackModal() {
             price: 0,
             weight: 0,
             slots_per_box: 6,
-            p_principal: null,
         },
     });
 
@@ -108,6 +71,12 @@ export function AddBoxPackModal() {
     } = form;
 
     const queryClient = useQueryClient();
+
+    useEffect(() => {
+        if (showModal) {
+            clearFiles();
+        }
+    }, [showModal]);
 
     useEffect(() => {
         if (Object.keys(errors).length > 0) {
@@ -130,17 +99,25 @@ export function AddBoxPackModal() {
             is_public,
             is_available,
             slots_per_box,
-            p_principal,
-            p_back,
-            p_extra_1,
-            p_extra_2,
-            p_extra_3,
         } = form;
 
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
         const url = `${baseUrl}/api/products/box_packs`;
 
         const formData = new FormData();
+
+        // Agregar archivos al FormData
+        files?.forEach((object, index) => {
+            if (object.file) {
+                formData.append('media_files', object.file);
+                formData.append(
+                    `isMain_${index}`,
+                    object.isMain ? 'true' : 'false',
+                );
+            }
+        });
+
+        clearFiles();
 
         formData.set('name', name);
         formData.set('description', description);
@@ -152,26 +129,6 @@ export function AddBoxPackModal() {
 
         const boxPackItems = boxPack.boxPackItems;
         formData.set('box_packs', JSON.stringify(boxPackItems));
-
-        if (p_principal) {
-            formData.set('p_principal', p_principal as File);
-        }
-
-        if (p_back) {
-            formData.set('p_back', p_back as File);
-        }
-
-        if (p_extra_1) {
-            formData.set('p_extra_1', p_extra_1 as File);
-        }
-
-        if (p_extra_2) {
-            formData.set('p_extra_2', p_extra_2 as File);
-        }
-
-        if (boxPack.p_extra_3) {
-            formData.set('p_extra_3', p_extra_3 as File);
-        }
 
         const response = await fetch(url, {
             method: 'POST',

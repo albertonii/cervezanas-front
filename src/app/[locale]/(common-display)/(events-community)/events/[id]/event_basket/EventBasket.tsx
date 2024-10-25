@@ -219,7 +219,7 @@ export default function EventBasket({ eventId }: Props) {
                 <>
                     <div className="container sm:py-4 lg:py-6">
                         <header className="flex items-center justify-start space-x-2 space-y-2">
-                            <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl dark:text-beer-blonde">
+                            <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl dark:text-beer-blonde font-['NexaRust-script']">
                                 {t('checkout')}
                             </h1>
                         </header>

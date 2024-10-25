@@ -30,7 +30,7 @@ async function getCPFixed(cpId: string) {
             *,
             products!product_packs_product_id_fkey (
               *,
-              product_multimedia!product_multimedia_product_id_fkey (*)
+              product_media!product_media_product_id_fkey (*)
             )
           )
         )

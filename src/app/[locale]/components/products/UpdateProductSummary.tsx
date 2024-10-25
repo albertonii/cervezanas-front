@@ -83,7 +83,7 @@ export function UpdateProductSummary({ form }: Props) {
     };
 
     return (
-        <section className="flex flex-col gap-4 p-6 bg-white rounded-lg shadow-md border border-gray-200">
+        <section className="flex flex-col gap-4 p-2 sm:p-6 bg-beer-softBlondeBubble rounded-lg shadow-md border border-gray-200">
             {/* Resumen de las características del producto que se va a crear  */}
             {/* Errores detectados */}
             {Object.keys(errors).length > 0 && (
@@ -105,28 +105,30 @@ export function UpdateProductSummary({ form }: Props) {
             )}
 
             {/* Public */}
-            <div className="flex flex-row gap-4">
-                <label className="text-md font-semibold text-gray-600">
+            <div className="flex flex-col md:flex-row gap-4 items-center">
+                <label className="text-base font-semibold text-black ">
                     {t('is_public')}
                 </label>
-                <span className="text-md">
+                <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
                     {getValues('is_public') ? t('yes') : t('no')}
                 </span>
             </div>
 
             {/* Añadir border y demás  */}
-            <div className="flex flex-col gap-4 p-6 bg-white rounded-lg shadow-md border border-gray-200">
+            <div className="flex flex-col gap-4 p-6 bg-beer-softFoam rounded-lg shadow-md border border-gray-200">
                 {/* Name */}
-                <div className="flex flex-row gap-4">
-                    <label className="text-md font-semibold text-gray-600">
+                <div className="flex flex-col md:flex-row gap-4 items-center">
+                    <label className="text-base font-semibold text-black ">
                         {t('name_label')}
                     </label>
-                    <span className="text-md">{getValues('name')}</span>
+                    <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
+                        {getValues('name')}
+                    </span>
                 </div>
 
                 {/* Description */}
-                <div className="flex flex-row gap-4">
-                    <label className="text-md font-semibold text-gray-600">
+                <div className="flex flex-col md:flex-row gap-4 items-center">
+                    <label className="text-base font-semibold text-black ">
                         {t('description')}
                     </label>
                     <span className="text-md truncate">
@@ -135,83 +137,91 @@ export function UpdateProductSummary({ form }: Props) {
                 </div>
 
                 {/* ABV Fermentation */}
-                <div className="flex flex-row justify-between gap-4">
+                <div className="flex flex-col md:flex-row justify-between gap-4">
                     <div className="flex flex-col">
-                        <label className="text-md font-semibold text-gray-600">
+                        <label className="text-base font-semibold text-black ">
                             {t('intensity_label')}
                         </label>
 
-                        <span className="text-md">
+                        <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
                             {getValues('intensity')} %
                         </span>
                     </div>
 
                     <div className="flex flex-col">
-                        <label className="text-md font-semibold text-gray-600">
+                        <label className="text-base font-semibold text-black ">
                             {t('fermentation_label')}
                         </label>
-                        <span className="text-md">{fermentationLabel}</span>
+                        <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
+                            {fermentationLabel}
+                        </span>
                     </div>
                 </div>
 
                 {/* Color Family  */}
-                <div className="flex flex-row justify-between gap-4">
+                <div className="flex flex-col md:flex-row justify-between gap-4">
                     <div className="flex flex-col">
-                        <label className="text-md font-semibold text-gray-600">
+                        <label className="text-base font-semibold text-black ">
                             {t('color_label')}
                         </label>
-                        <span className="text-md">{colorLabel}</span>
+                        <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
+                            {colorLabel}
+                        </span>
                     </div>
 
                     <div className="flex flex-col">
-                        <label className="text-md font-semibold text-gray-600">
+                        <label className="text-base font-semibold text-black ">
                             {t('family_label')}
                         </label>
-                        <span className="text-md">{familyLabel}</span>
+                        <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
+                            {familyLabel}
+                        </span>
                     </div>
                 </div>
 
                 {/* Format Volume Price */}
-                <div className="flex flex-row justify-between gap-4">
+                <div className="flex flex-col md:flex-row justify-between gap-4">
                     <div className="flex flex-col">
-                        <label className="text-md font-semibold text-gray-600">
+                        <label className="text-base font-semibold text-black ">
                             {t('format_label')}
                         </label>
-                        <span className="text-md">
+                        <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
                             {t(getValues('format'))}
                         </span>
                     </div>
                     <div className="flex flex-col">
-                        <label className="text-md font-semibold text-gray-600">
+                        <label className="text-base font-semibold text-black ">
                             {t('volume_label')} (ml)
                         </label>
-                        <span className="text-md">{getValues('volume')}</span>
+                        <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
+                            {getValues('volume')}
+                        </span>
                     </div>
                     {/* <div className="flex flex-col">
-                            <label className="text-md font-semibold text-gray-600">
+                            <label className="text-base font-semibold text-black ">
                                 {t('pvpr')}
                             </label>
-                            <span className="text-md">
+                            <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
                                 {formatCurrency(getValues('price'))}
                             </span>
                         </div> */}
                 </div>
 
                 {/* Stock Quantity and Notification */}
-                {/* <div className="flex flex-row justify-between gap-4">
+                {/* <div className="flex flex-col md:flex-row justify-between gap-4">
                         <div className="flex flex-col">
-                            <label className="text-md font-semibold text-gray-600">
+                            <label className="text-base font-semibold text-black ">
                                 {t('stock_quantity_label')}
                             </label>
-                            <span className="text-md">
+                            <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
                                 {getValues('stock_quantity')}
                             </span>
                         </div>
                         <div className="flex flex-col">
-                            <label className="text-md font-semibold text-gray-600">
+                            <label className="text-base font-semibold text-black ">
                                 {t('stock_limit_notification_label')}
                             </label>
-                            <span className="text-md">
+                            <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
                                 {getValues('stock_limit_notification')}
                             </span>
                         </div>
@@ -220,19 +230,19 @@ export function UpdateProductSummary({ form }: Props) {
 
             {/* Packs */}
             {getValues('packs').length > 0 && (
-                <div className="flex flex-col gap-4 p-6 bg-white rounded-lg shadow-md border ">
+                <div className="flex flex-col gap-4 p-2 sm:p-6 bg-white rounded-lg shadow-md border ">
                     <h4 className="text-xl text-gray-600">{t('packs')}</h4>
 
                     {getValues('packs').map((pack, index) => (
                         <div
                             key={index}
-                            className="flex flex-row gap-2 space-y-4 rounded border p-2  justify-between items-center"
+                            className="flex flex-col md:flex-row flex-row gap-2 space-y-4 rounded border p-2  justify-between items-center"
                         >
                             <div className="flex flex-col">
-                                <label className="text-md font-semibold text-gray-600">
+                                <label className="text-base font-semibold text-black ">
                                     {t('pack_name')}
                                 </label>
-                                <span className="text-md">
+                                <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
                                     {pack.name.length === 0
                                         ? t('unassigned')
                                         : pack.name}
@@ -240,17 +250,19 @@ export function UpdateProductSummary({ form }: Props) {
                             </div>
 
                             <div className="flex flex-col">
-                                <label className="text-md font-semibold text-gray-600">
+                                <label className="text-base font-semibold text-black ">
                                     {t('pack_quantity')}
                                 </label>
-                                <span className="text-md">{pack.quantity}</span>
+                                <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
+                                    {pack.quantity}
+                                </span>
                             </div>
 
                             <div className="flex flex-col">
-                                <label className="text-md font-semibold text-gray-600">
+                                <label className="text-base font-semibold text-black ">
                                     {t('pack_price')} €
                                 </label>
-                                <span className="text-md">
+                                <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
                                     {formatCurrency(pack.price)}
                                 </span>
                             </div>
@@ -261,7 +273,7 @@ export function UpdateProductSummary({ form }: Props) {
 
             {/* Awards */}
             {getValues('awards').length > 0 && (
-                <div className="flex flex-col gap-4 p-6 bg-white rounded-lg shadow-md border ">
+                <div className="flex flex-col gap-4 p-2 sm:p-6 bg-white rounded-lg shadow-md border ">
                     <h4 className="text-xl text-gray-600">{t('awards')}</h4>
 
                     {getValues('awards').map((award, index) => (
@@ -270,10 +282,10 @@ export function UpdateProductSummary({ form }: Props) {
                             className="flex flex-row gap-2 space-y-4 rounded border p-2 justify-between items-center"
                         >
                             <div className="flex flex-col">
-                                <label className="text-md font-semibold text-gray-600">
+                                <label className="text-base font-semibold text-black ">
                                     {t('award_name')}
                                 </label>
-                                <span className="text-md">
+                                <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
                                     {award.name.length === 0
                                         ? t('unassigned')
                                         : award.name}
@@ -281,19 +293,21 @@ export function UpdateProductSummary({ form }: Props) {
                             </div>
 
                             <div className="flex flex-col">
-                                <label className="text-md font-semibold text-gray-600">
+                                <label className="text-base font-semibold text-black ">
                                     {t('description')}
                                 </label>
-                                <span className="text-md">
+                                <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
                                     {award.description}
                                 </span>
                             </div>
 
                             <div className="flex flex-col">
-                                <label className="text-md font-semibold text-gray-600">
+                                <label className="text-base font-semibold text-black ">
                                     {t('award_year')}
                                 </label>
-                                <span className="text-md">{award.year}</span>
+                                <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
+                                    {award.year}
+                                </span>
                             </div>
                         </div>
                     ))}

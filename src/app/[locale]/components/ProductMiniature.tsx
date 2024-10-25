@@ -35,7 +35,8 @@ export default function ProductMiniature({ product }: Props) {
                 imgSrc={
                     SupabaseProps.BASE_PRODUCTS_URL +
                     decodeURIComponent(
-                        product.product_multimedia?.p_principal ?? '',
+                        product.product_media?.find((media) => media.is_primary)
+                            ?.url ?? '',
                     )
                 }
                 alt={product.name}

@@ -127,7 +127,7 @@ export default function DistributionCost({ userId }: Props) {
     }
 
     return (
-        <fieldset className="space-y-6 p-6 rounded-lg border border-gray-300 bg-white shadow-sm max-w-3xl mx-auto">
+        <fieldset className="space-y-6 p-6 px-3 sm:px-6 rounded-lg border border-gray-300 bg-white shadow-sm max-w-3xl sm:max-w-full mx-auto">
             {isLoadingDistributionCostsIncluded && (
                 <div className="absolute top-0 left-0 w-full h-full bg-gray-100 bg-opacity-50 flex justify-center items-center">
                     <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-beer-blonde"></div>

@@ -16,6 +16,12 @@ import {
     getShippingInfo,
 } from '../[locale]/(common-display)/cart/actions';
 
+interface PromoData {
+    discountType: 'percentage' | 'fixed_amount' | 'gift';
+    discountValue: number;
+    code: string;
+}
+
 interface IAddressWithPrev extends IAddress {
     prevDefaultAddressId?: string;
 }
@@ -58,6 +64,12 @@ type ShoppingCartContextType = {
     updateDefaultBillingAddress: (address: IAddress) => void;
     canMakeThePayment: boolean;
     updateCanMakeThePayment: (canMakeThePayment: boolean) => void;
+    needsToCheckDelivery: boolean;
+    updateNeedsToCheckDelivery: (value: boolean) => void;
+    subtotal: number;
+    discountAmount: number;
+    discountCode: string | null;
+    applyDiscount: (promoData: any) => void;
 };
 
 const ShoppingCartContext = createContext<ShoppingCartContextType>({
@@ -99,6 +111,12 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
     isBillingAddressSelected: () => false,
     canMakeThePayment: false,
     updateCanMakeThePayment: () => void {},
+    needsToCheckDelivery: true,
+    updateNeedsToCheckDelivery: () => void {},
+    subtotal: 0,
+    discountAmount: 0,
+    discountCode: null,
+    applyDiscount: () => void {},
 });
 
 interface Props {
@@ -129,6 +147,17 @@ export function ShoppingCartProvider({ children }: Props) {
     >([]);
 
     const [canMakeThePayment, setCanMakeThePayment] = useState<boolean>(false);
+
+    const [needsToCheckDelivery, setNeedsToCheckDelivery] =
+        useState<boolean>(true);
+
+    const [discountAmount, setDiscountAmount] = useState(0);
+    const [discountCode, setDiscountCode] = useState<string | null>(null);
+    const [subtotal, setSubtotal] = useState<number>(0);
+
+    useEffect(() => {
+        calculateSubtotal();
+    }, [items]);
 
     const clearItems = () => {
         setItems([]);
@@ -298,7 +327,9 @@ export function ShoppingCartProvider({ children }: Props) {
             packs: [pack],
             name: product.name,
             price: product.price,
-            image: product.product_multimedia?.p_principal ?? '',
+            image:
+                product.product_media?.find((media) => media.is_primary)?.url ??
+                '',
             producer_id: product.owner_id,
             distributor_id: '',
             products: product,
@@ -386,6 +417,7 @@ export function ShoppingCartProvider({ children }: Props) {
         });
 
         setItems(newItems);
+        updateNeedsToCheckDelivery(true);
     };
 
     const decreaseOnePackCartQuantity = (productId: string, packId: string) => {
@@ -412,6 +444,7 @@ export function ShoppingCartProvider({ children }: Props) {
         });
 
         setItems(newItems);
+        updateNeedsToCheckDelivery(true);
     };
 
     const removeFromCart = (productId: string, packId: string) => {
@@ -436,6 +469,8 @@ export function ShoppingCartProvider({ children }: Props) {
                 return item.packs.length > 0;
             });
         });
+
+        updateNeedsToCheckDelivery(true);
     };
 
     // Update one item in the cart by identifier
@@ -462,7 +497,7 @@ export function ShoppingCartProvider({ children }: Props) {
         let quantity = 0;
 
         if (!items) return quantity;
-        items.map((item) => {
+        items.forEach((item) => {
             quantity += item.packs.reduce(
                 (acc, pack) => acc + pack.quantity,
                 0,
@@ -515,6 +550,35 @@ export function ShoppingCartProvider({ children }: Props) {
         setCanMakeThePayment(canMakeThePayment);
     };
 
+    const updateNeedsToCheckDelivery = (value: boolean) => {
+        setNeedsToCheckDelivery(value);
+    };
+
+    const applyDiscount = (promoData: PromoData) => {
+        let discount = 0;
+        if (promoData.discountType === 'percentage') {
+            // Assuming you have access to the subtotal here
+            discount = subtotal * (promoData.discountValue / 100);
+        } else if (promoData.discountType === 'fixed_amount') {
+            discount = promoData.discountValue;
+        } else if (promoData.discountType === 'gift') {
+            discount = 0;
+            // Handle gift logic here
+        }
+        setDiscountAmount(discount);
+        setDiscountCode(promoData.code);
+    };
+
+    const calculateSubtotal = () => {
+        const newSubtotal = items.reduce((total, item) => {
+            const itemTotal = item.packs.reduce((packTotal, pack) => {
+                return packTotal + pack.price * pack.quantity;
+            }, 0);
+            return total + itemTotal;
+        }, 0);
+        setSubtotal(newSubtotal);
+    };
+
     const value = {
         items,
         undeliverableItems,
@@ -545,6 +609,12 @@ export function ShoppingCartProvider({ children }: Props) {
         isBillingAddressSelected,
         canMakeThePayment,
         updateCanMakeThePayment,
+        needsToCheckDelivery,
+        updateNeedsToCheckDelivery,
+        discountAmount,
+        discountCode,
+        applyDiscount,
+        subtotal,
     };
 
     return (

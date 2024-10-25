@@ -143,7 +143,7 @@ const UpdateBreweryLocation = ({ form }: Props) => {
     return (
         <section
             id="account_brewery_location_data"
-            className="relative border-2 rounded-lg border-gray-200 p-6 bg-white shadow-md"
+            className="relative border-2 rounded-lg border-gray-200 py-6 px-2 sm:px-6 bg-white shadow-md"
         >
             <FontAwesomeIcon
                 icon={faMapLocation}

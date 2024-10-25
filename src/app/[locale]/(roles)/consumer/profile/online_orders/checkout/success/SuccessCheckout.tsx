@@ -74,11 +74,6 @@ export default function SuccessCheckout({ order, isError }: Props) {
 
     return (
         <section className="m-4 sm:py-4 lg:py-6">
-            {/* <BusinessOrderStatusInformation
-                bOrders={orderByDistributorBOrders}
-                order={order}
-            /> */}
-
             {orderByDistributorBOrders &&
                 Object.values(orderByDistributorBOrders).map(
                     (bOrders: IBusinessOrder[], index) => {
@@ -93,11 +88,6 @@ export default function SuccessCheckout({ order, isError }: Props) {
                                         bOrder={bOrder}
                                     />
                                 ))}
-
-                                {/* Distributor information data  */}
-                                {bOrders[0].distributor_user && (
-                                    <DistributorCard bOrder={bOrders[0]} />
-                                )}
                             </article>
                         );
                     },

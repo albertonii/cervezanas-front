@@ -23,7 +23,7 @@ export function UpdateBoxSummary({ form }: Props) {
             {Object.keys(errors).length > 0 && (
                 <fieldset className="flex flex-col gap-2 space-y-4 rounded border p-2">
                     <h4 className="text-xl text-red-600">
-                        <label className="text-md font-semibold text-gray-600">
+                        <label className="text-base font-semibold text-black ">
                             {t('errors.form_errors_detected')}
                         </label>
                     </h4>
@@ -69,7 +69,7 @@ export function UpdateBoxSummary({ form }: Props) {
                 <label className="text-md text-gray-600 space-x-2">
                     <span className="font-semibold">{t('price')}</span>
 
-                    <span className="text-md">
+                    <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
                         {formatCurrency(getValues('price'))}
                     </span>
                 </label>
@@ -77,27 +77,29 @@ export function UpdateBoxSummary({ form }: Props) {
                 <label className="text-md text-gray-600 space-x-2">
                     <span className="font-semibold">{t('weight')}</span>
 
-                    <span className="text-md">{getValues('weight')}</span>
+                    <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
+                        {getValues('weight')}
+                    </span>
                 </label>
             </fieldset>
 
             {/* <fieldset className="flex flex-row justify-between gap-2 space-x-4">
                     <h4 className="space-x-2">
-                        <label className="text-md font-semibold text-gray-600">
+                        <label className="text-base font-semibold text-black ">
                             {t('stock_quantity_label')}
                         </label>
 
-                        <span className="text-md">
+                        <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
                             {getValues('stock_quantity')}
                         </span>
                     </h4>
 
                     <h4 className="space-x-2">
-                        <label className="text-md font-semibold text-gray-600">
+                        <label className="text-base font-semibold text-black ">
                             {t('stock_limit_notification_label')}
                         </label>
 
-                        <span className="text-md">
+                        <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
                             {getValues('stock_limit_notification')}
                         </span>
                     </h4>
@@ -105,7 +107,7 @@ export function UpdateBoxSummary({ form }: Props) {
 
             {/* {getValues('packs').length > 0 && (
                     <h4 className="text-xl text-beer-draft">
-                        <label className="text-md font-semibold text-gray-600">
+                        <label className="text-base font-semibold text-black ">
                             {t('packs')}
                         </label>
                     </h4>
@@ -118,11 +120,11 @@ export function UpdateBoxSummary({ form }: Props) {
                     >
                         <div className="flex flex-row justify-between">
                             <div className="space-x-2">
-                                <label className="text-md font-semibold text-gray-600">
+                                <label className="text-base font-semibold text-black ">
                                     {t('pack_name')}
                                 </label>
 
-                                <span className="text-md">
+                                <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
                                     {pack.name.length === 0
                                         ? t('unassigned')
                                         : pack.name}
@@ -130,31 +132,31 @@ export function UpdateBoxSummary({ form }: Props) {
                             </div>
 
                             <div className="space-x-2">
-                                <label className="text-md font-semibold text-gray-600">
+                                <label className="text-base font-semibold text-black ">
                                     {t('pack_quantity')}
                                 </label>
 
-                                <span className="text-md">{pack.quantity}</span>
+                                <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">{pack.quantity}</span>
                             </div>
                         </div>
 
                         <div className="flex flex-row justify-between">
                             <h4 className="space-x-2">
-                                <label className="text-md font-semibold text-gray-600">
+                                <label className="text-base font-semibold text-black ">
                                     {t('pack_price')} €
                                 </label>
 
-                                <span className="text-md">
+                                <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
                                     {formatCurrency(pack.price)}
                                 </span>
                             </h4>
 
                             <h4 className="space-x-2">
-                                <label className="text-md font-semibold text-gray-600">
+                                <label className="text-base font-semibold text-black ">
                                     {t('pack_img_url')}
                                 </label>
 
-                                <span className="text-md">
+                                <span className="text-md bg-white p-2  rounded-md border-2 border-gray-300 min-w-[180px] min-h-[40px]">
                                     {pack.img_url.length === 0 ? (
                                         t('unassigned')
                                     ) : (

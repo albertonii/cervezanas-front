@@ -312,6 +312,7 @@
     "add_lot": "Añadir Lote",
     "edit_lot": "Editar Lote",
     "lots": "Lotes",
+    "customize_settings": "Personalizar",
     "next": "Siguiente",
     "prev": "Anterior",
     "back": "Atrás",
@@ -727,7 +728,8 @@
         "invalid_characters": "Caracteres inválidos",
         "update_shipment_tracking": "Error al actualizar el seguimiento del envío.",
         "create_sales_record": "Error al crear el registro de ventas.",
-        "updating_sales_records_download_status": "Error al actualizar el estado de descarga de los registros de ventas."
+        "updating_sales_records_download_status": "Error al actualizar el estado de descarga de los registros de ventas.",
+        "update_multimedia": "Error al actualizar el multimedia."
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",
@@ -1054,7 +1056,8 @@
         "deleting_product_award": "Premio eliminado correctamente",
         "update_shipment_tracking": "Seguimiento de envío actualizado correctamente",
         "profile_acc_data_updated": "Datos de la cuenta actualizados correctamente",
-        "sales_records_download_status_updated": "Estado de descarga de los registros de ventas actualizado correctamente"
+        "sales_records_download_status_updated": "Estado de descarga de los registros de ventas actualizado correctamente",
+        "promo_code_applied": "Código promocional aplicado correctamente"
     },
     "num_of_packs": "Número de packs",
     "promo_code": "Código promocional",
@@ -1249,7 +1252,7 @@
     "set_shipping_info_as_default": "Establecer como dirección de envío por defecto",
     "set_billing_info_as_default": "Establecer como dirección de facturación por defecto",
     "view_order": "Ver Pedido",
-    "check_can_delivery_to_address": "Comprobar entrega",
+    "check_can_delivery_to_address": "Calcular entrega",
     "consumer_online_orders_description": "Aquí puedes ver todos los pedidos que has realizado en la plataforma. Puedes ver el estado de cada pedido, los productos que has comprado y el importe total de cada pedido.",
     "company_name": "Nombre de la empresa",
     "identification_fiscal_number": "Número de identificación fiscal",
@@ -1380,5 +1383,13 @@
     "go_to_signin_and_signup_page": "Ir a la página de inicio de sesión y registro",
     "event": "Evento",
     "cervezanas_event": "Evento Cervezanas",
-    "cervezanas_spots": "Puntos Cervezanas"
+    "cervezanas_spots": "Puntos Cervezanas",
+    "media_uploader": {
+        "loading_files": "Cargando archivos ...",
+        "limitations": "PNG, JPG, GIF hasta 5MB. 1 video hasta 50MB.",
+        "images": "Imágenes",
+        "max_imgs_reached": "Máximo de imágenes alcanzado",
+        "main_image": "Imagen principal",
+        "move": "Arrastrar"
+    }
 }

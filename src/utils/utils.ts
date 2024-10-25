@@ -52,6 +52,21 @@ export function generateFileName(fName: string) {
     return encodedFileName;
 }
 
+export const fileTypeToExtension = (fileType: string): string => {
+    switch (fileType) {
+        case 'image/jpeg':
+            return 'jpg';
+        case 'image/png':
+            return 'png';
+        case 'image/webp':
+            return 'webp';
+        case 'image/gif':
+            return 'gif';
+        default:
+            return 'blob';
+    }
+};
+
 export function generateFileNameExtension(fName: string) {
     if (!fName) return '';
     const fileExt = fName.split('.').pop();

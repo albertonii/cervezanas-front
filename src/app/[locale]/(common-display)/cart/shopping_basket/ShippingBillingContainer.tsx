@@ -8,8 +8,8 @@ import { UseFormReturn } from 'react-hook-form';
 import { InfoTooltip } from '@/app/[locale]/components/ui/InfoTooltip';
 
 interface Props {
-    formShipping: UseFormReturn<any, any>;
-    formBilling: UseFormReturn<any, any>;
+    formShipping: UseFormReturn<any>;
+    formBilling: UseFormReturn<any>;
 }
 
 export default function ShippingBillingContainer({
@@ -19,21 +19,20 @@ export default function ShippingBillingContainer({
     const t = useTranslations();
 
     return (
-        <section className="w-full flex flex-col items-center space-y-2 bg-gray-50 p-6 rounded-lg shadow-md dark:bg-gray-800">
-            <div className="flex">
-                <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
+        <section className="w-full p-6 bg-white dark:bg-gray-900 rounded-lg shadow space-y-6">
+            <div className="flex items-center space-x-2">
+                <h2 className="text-4xl font-semibold text-gray-800 dark:text-white font-['NexaRust-script']">
                     {t('shipping_and_billing_info')}
                 </h2>
-
                 <InfoTooltip
-                    content={`${t('tooltips.shipping_logic_selected_info')}`}
+                    content={t('tooltips.shipping_logic_selected_info')}
                     delay={0}
-                    width={'500px'}
-                    direction={'top'}
+                    width="400px"
+                    direction="top"
                 />
             </div>
 
-            <div className="space-y-4 lg:space-y-8">
+            <div className="space-y-8">
                 {/* Shipping */}
                 <Shipping formShipping={formShipping} />
 

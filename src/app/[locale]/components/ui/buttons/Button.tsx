@@ -62,7 +62,7 @@ const Button = memo(function PaginationFooter({
 
     const getSizeClass = () => {
         if (small) return 'text-sm lg:text-md lg:px-4';
-        if (medium) return 'px-1 lg:px-4 text-base';
+        if (medium) return 'px-1 py-2 lg:px-4 text-base';
         if (large) return 'px-2 lg:px-4 text-base lg:text-lg';
         if (xLarge) return 'px-3 lg:px-6 text-lg lg:text-xl';
         if (xxLarge) return 'px-3 lg:px-6 text-xl lg:text-2xl';

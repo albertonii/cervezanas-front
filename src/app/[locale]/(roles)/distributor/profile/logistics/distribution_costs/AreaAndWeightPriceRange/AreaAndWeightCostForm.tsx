@@ -195,7 +195,7 @@ const AreaAndWeightCostForm = ({
 
             <section className="relative flex flex-col gap-4 w-full">
                 <form onSubmit={form.handleSubmit((data) => console.log(data))}>
-                    <div className="flex flex-row gap-4">
+                    <div className="flex flex-col md:flex-row gap-4 items-center">
                         <InputLabel
                             form={form}
                             label={'cost_extra_per_kg'}
@@ -220,7 +220,7 @@ const AreaAndWeightCostForm = ({
                 <AreaSidebar form={form} onItemClick={onItemClick} />
 
                 {selectedArea && (
-                    <fieldset className="space-y-6 p-6 rounded-lg border border-gray-300 bg-white shadow-sm max-w-3xl mx-auto">
+                    <fieldset className="space-y-6 p-6 px-3 sm:px-6 rounded-lg border border-gray-300 bg-white shadow-sm max-w-3xl sm:max-w-full mx-auto">
                         <AreaAndWeightRangeForm selectedArea={selectedArea} />
                     </fieldset>
                 )}

@@ -121,6 +121,22 @@ La aplicación utiliza **CRON Jobs** para automatizar tareas esenciales que mejo
 - **Frecuencia**: Se ejecuta diariamente a las 00:00 horas.
 - **Propósito**: Mantener la base de datos limpia y actualizada, mejorando la eficiencia del sistema.
 
+### Gestión de Códigos Promocional al realizar un pedido
+
+Es crucial que, al momento de procesar el pedido (es decir, cuando el usuario hace clic en "Pagar" y se confirma el pago), realices nuevamente las validaciones del código promocional en el backend. Esto garantiza que:
+
+- El código promocional sigue siendo válido y no ha expirado.
+- No se ha excedido el límite de uso global o por usuario.
+- Se evita que el usuario manipule los datos en el frontend.
+
+Para ello debemos de:
+
+1. Modificar el Endpoint de Creación de pedidos
+   Si se envía un código promocional debe ser validado.
+
+2. Actualizar contadores de uso
+   Hay que incrementar `uses` y registrar su uso en la tabla `user_promo_codes`
+
 ## Pruebas
 
 Las pruebas están escritas utilizando Jest. Para ejecutar las pruebas, utiliza el siguiente comando:

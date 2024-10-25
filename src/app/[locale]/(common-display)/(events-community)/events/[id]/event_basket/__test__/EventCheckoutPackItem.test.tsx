@@ -45,6 +45,9 @@ const item: IProductPackCartItem = {
             product_id: '1',
         },
     ],
+    product_id: '',
+    producer_id: '',
+    distributor_id: '',
 };
 
 const productWithInfo: IProduct = {
@@ -87,20 +90,6 @@ const productWithInfo: IProduct = {
             fg: 0,
         },
     ],
-    product_multimedia: [
-        {
-            id: '1',
-            p_principal: '',
-            p_back: '',
-            p_extra_1: '',
-            p_extra_2: '',
-            p_extra_3: '',
-            p_extra_4: '',
-            v_principal: '',
-            v_extra_1: '',
-            v_extra_2: '',
-        },
-    ],
 };
 
 const pack: IProductPack = {
@@ -141,7 +130,7 @@ describe('Event Cart Item', () => {
         expect(headingPackName).toBeInTheDocument();
 
         const paragraphFermentation = screen.getByText(
-            productWithInfo.beers.fermentation,
+            productWithInfo?.beers.fermentation,
         );
         expect(paragraphFermentation).toBeInTheDocument();
     });

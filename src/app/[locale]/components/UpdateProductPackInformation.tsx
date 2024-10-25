@@ -69,14 +69,14 @@ export default function UpdateProductPackInformation({ form }: Props) {
     };
 
     return (
-        <section className="relative border-2 rounded-lg border-gray-200 p-6 bg-white shadow-md">
+        <section className="relative border-2 rounded-lg border-gray-200 py-6 px-2 sm:px-6 bg-white shadow-md">
             <FontAwesomeIcon
                 icon={faBoxOpen}
                 title={'Product Pack Price Icon'}
                 className="h-12 w-12 text-yellow-500 absolute -top-4 -left-4 bg-white p-2 rounded-full shadow-xl transform rotate-12"
             />
 
-            <div className="mx-10">
+            <div className="mx-0 sm:mx-10 space-y-4 py-8 sm:py-0">
                 <ProductPackSectionHeader title={'add_product_pack'} />
 
                 {fields.map((pack, index) => (

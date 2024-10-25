@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Button from './components/ui/buttons/Button';
 import DropdownRoleList from './components/DropdownRoleList';
+import LanguageScreenMenuButton from './components/ui/buttons/LanguageScreenMenuButton';
 import ShoppingCartScreenMenuButton from './components/ui/buttons/ShoppingCartScreenMenuButton';
 import { memo, useEffect, useState } from 'react';
 import { COMMON } from '@/constants';
@@ -11,12 +12,10 @@ import { ROLE_ENUM } from '@/lib/enums';
 import { INotification } from '@/lib/types/types';
 import { useAuth } from './(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
-import { usePathname } from 'next/navigation';
+import { Beer, Calendar, Globe, Map } from 'lucide-react';
 import { HeaderDropdownButton } from './HeaderDropdownButton';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { DeviceScreenNotification } from './components/DeviceScreenNotification';
-import { Beer, Calendar, Globe, Map } from 'lucide-react';
-import LanguageScreenMenuButton from './components/ui/buttons/LanguageScreenMenuButton';
 
 interface Props {
     notifications: INotification[];
@@ -90,7 +89,7 @@ const ScreenMenu = memo(function ScreenMenu({
                 className="rounded"
             />
 
-            <nav className="container grid max-w-full grid-cols-3 bg-beer-darkGold sm:flex sm:justify-between sm:gap-2 sm:bg-transparent  w-[1250px] m-auto">
+            <nav className="container grid max-w-full grid-cols-3 bg-beer-darkGold sm:flex sm:justify-between sm:gap-2 sm:bg-transparent  w-[1540px] m-auto">
                 {/* Left elements  */}
 
                 {/* Logo Cervezanas  */}

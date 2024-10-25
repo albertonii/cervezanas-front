@@ -22,7 +22,7 @@ export function ConfigureProducts({ counter }: Props) {
                 return <Lots />;
             case 'archive':
                 return <Archive />;
-            case 'customizeSettings':
+            case 'customize_settings':
                 return <CustomizeSettings />;
         }
     };
@@ -35,7 +35,7 @@ export function ConfigureProducts({ counter }: Props) {
         <>
             <HorizontalSections
                 handleMenuClick={handleMenuClick}
-                tabs={['products', 'lots', 'archive', 'customizeSettings']}
+                tabs={['products', 'lots', 'archive', 'customize_settings']}
             />
             {renderSwitch()}
         </>

@@ -1,12 +1,12 @@
+import Button from '../ui/buttons/Button';
 import AddAwardInformationForm from './AddAwardInformationForm';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { IAward } from '@/lib//types/types';
+import { faTrophy } from '@fortawesome/free-solid-svg-icons';
 import { ModalAddProductFormData } from '@/lib//types/types';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrophy } from '@fortawesome/free-solid-svg-icons';
-import Button from '../ui/buttons/Button';
 
 const emptyAward: IAward = {
     id: '',
@@ -80,7 +80,7 @@ export const AwardsSection = ({ form }: Props) => {
     return (
         <section
             id="Award"
-            className="relative border-2 rounded-lg border-gray-200 p-6 bg-white shadow-md"
+            className="relative border-2 rounded-lg border-gray-200 py-6 px-2 sm:px-6 bg-white shadow-md"
         >
             <FontAwesomeIcon
                 icon={faTrophy}
@@ -88,7 +88,7 @@ export const AwardsSection = ({ form }: Props) => {
                 className="h-12 w-12 text-beer-blonde absolute -top-4 -left-4 bg-white p-2 rounded-full shadow-lg"
             />
 
-            <div className="mx-10">
+            <div className="mx-0 sm:mx-10 space-y-4 py-8 sm:py-0">
                 <h2 className="text-4xl font-['NexaRust-script']">
                     {t('modal_product_awards_title')}
                 </h2>

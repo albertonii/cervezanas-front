@@ -23,7 +23,7 @@ const fetchProductsByOwner = async (
                 owner_id,
                 type, 
                 weight,
-                product_multimedia (p_principal)
+                product_media (*)
             `,
             {
                 count: 'exact',

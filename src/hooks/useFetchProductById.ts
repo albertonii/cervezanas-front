@@ -9,13 +9,17 @@ const fetchProductById = async (
     productId: string,
     supabase: SupabaseClient<any>,
 ) => {
+    if (!productId) {
+        throw new Error('Product ID is required');
+    }
+
     const { data, error } = await supabase
         .from('products')
         .select(
             `
         *,
         beers (*),
-        product_multimedia (
+        product_media (
           p_principal
         ),
         product_inventory (
@@ -35,9 +39,9 @@ const useFetchProductById = (productId: string) => {
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: 'product_id',
+        queryKey: ['product', productId],
         queryFn: () => fetchProductById(productId, supabase),
-        enabled: false,
+        enabled: !!productId, // La consulta se habilita cuando productId es truthy
         refetchOnWindowFocus: false,
     });
 };

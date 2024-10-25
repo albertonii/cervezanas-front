@@ -1,9 +1,8 @@
 import createServerClient from '@/utils/supabaseServer';
-import { NextRequest, NextResponse } from 'next/server';
-
 import { ONLINE_ORDER_STATUS } from '@/constants';
 import { sendPushNotification } from '@/lib//actions';
 import { calculateInvoicePeriod } from '@/utils/utils';
+import { NextRequest, NextResponse } from 'next/server';
 import { IProductPackCartItem } from '@/lib//types/types';
 import {
     ROUTE_BUSINESS_ORDERS,
@@ -60,133 +59,185 @@ export async function POST(request: NextRequest) {
     const billingZipcode = formData.get('billing_zipcode') as string;
     const billingIsCompany = formData.get('billing_is_company') === 'true';
 
-    const { data: order, error: orderError } = await supabase
-        .from('orders')
-        .insert({
-            owner_id: user_id,
-            customer_name: `${name} ${lastname}`,
-            status: ONLINE_ORDER_STATUS.PENDING,
-            tracking_id: '123456789',
-            issue_date: new Date().toISOString(),
-            estimated_date: new Date(
-                new Date().getTime() + 1000 * 60 * 60 * 24 * 3,
-            ).toISOString(), // 3 days
-            total: total,
-            subtotal: subtotal,
-            shipping: deliveryCost,
-            discount: discount,
-            discount_code: discountCode,
-            currency: currency,
-            order_number: orderNumber,
-            type: type,
-            tax: tax,
-            shipping_name: shippingName,
-            shipping_lastname: shippingLastname,
-            shipping_document_id: shippingDocumentId,
-            shipping_phone: shippingPhone,
-            shipping_address: shippingAddress,
-            shipping_address_extra: shippingAddressExtra,
-            shipping_country: shippingCountry,
-            shipping_region: shippingRegion,
-            shipping_sub_region: shippingSubRegion,
-            shipping_city: shippingCity,
-            shipping_zipcode: shippingZipcode,
-            billing_name: billingName,
-            billing_lastname: billingLastname,
-            billing_document_id: billingDocumentId,
-            billing_phone: billingPhone,
-            billing_address: billingAddress,
-            billing_country: billingCountry,
-            billing_region: billingRegion,
-            billing_sub_region: billingSubRegion,
-            billing_city: billingCity,
-            billing_zipcode: billingZipcode,
-            billing_is_company: billingIsCompany,
-        })
-        .select('id')
-        .single();
+    const createdOrderIds = [];
+    const createdPromoCodeId: any[] = [];
 
-    if (!order || orderError) {
-        return NextResponse.json(
-            { message: 'Error creating online order' },
-            { status: 500 },
-        );
-    }
+    let promoCodeData = null;
 
-    // Vamos a agrupar los items por distributor_id así podremos crear el tracking_id por distribuidores
-    // De esta manera podremos enviar notificaciones a los distribuidores de los pedidos que les corresponden
-    // Y estos podrán actualizar la información de tracking para que sea visible por el cliente
+    try {
+        if (
+            discountCode !== null &&
+            discountCode !== '' &&
+            discountCode !== 'none'
+        ) {
+            const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+            const url = `${baseUrl}/api/shopping_basket/promo_code`;
 
-    // Agrupar todos aquellos productos que tengan el mismo ID de productor
-    const itemsByDistributor = items.reduce(
-        (acc: any, item: IProductPackCartItem) => {
-            if (!acc[item.producer_id]) {
-                acc[item.producer_id] = [];
+            // Validar código promocional
+            const promoCodeResponse = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ code: discountCode, user_id }),
+            });
+
+            if (!promoCodeResponse.ok) {
+                return NextResponse.json(
+                    { message: 'Invalid promo code' },
+                    { status: 400 },
+                );
             }
 
-            acc[item.producer_id].push(item);
+            /*
+                id
+                isValid
+                discountType
+                discountValue
+                message
+                code
+            */
+            promoCodeData = await promoCodeResponse.json();
 
-            return acc;
-        },
-        {},
-    );
+            if (!promoCodeData || !promoCodeData.isValid) {
+                return NextResponse.json(
+                    { message: 'Invalid promo code' },
+                    { status: 400 },
+                );
+            }
+        }
 
-    // Estoy recorriendo todos los elementos del carrito de la compra,
-    // aquellos que tengan un pack, los inserto en la tabla order_items
-    // además, como son del mismo pack y del mismo producto, los agrupo
-    // y asigno el mismo identificador de pedido para el negocio - business_order_id
-    for (const itemsGroup of Object.values(
-        itemsByDistributor as { [key: string]: IProductPackCartItem[] },
-    )) {
-        // Creamos una entrada en shipment_tracking para que lo compartan entre los demás business_orders para un mismo distribuidor
-        const { data: shipmentTracking, error: shipmentTrackingError } =
-            await supabase
-                .from('shipment_tracking')
-                .insert({
-                    order_id: order.id,
-                    status: ONLINE_ORDER_STATUS.PENDING,
-                    estimated_date: new Date(
-                        new Date().getTime() + 1000 * 60 * 60 * 24 * 7,
-                    ).toISOString(), // 7 days,
-                })
-                .select('id')
-                .single();
+        const { data: order, error: orderError } = await supabase
+            .from('orders')
+            .insert({
+                owner_id: user_id,
+                customer_name: `${name} ${lastname}`,
+                status: ONLINE_ORDER_STATUS.PENDING,
+                tracking_id: '123456789',
+                issue_date: new Date().toISOString(),
+                estimated_date: new Date(
+                    new Date().getTime() + 1000 * 60 * 60 * 24 * 3,
+                ).toISOString(), // 3 days
+                total: total,
+                subtotal: subtotal,
+                shipping: deliveryCost,
+                discount: discount,
+                discount_code: discountCode,
+                currency: currency,
+                order_number: orderNumber,
+                type: type,
+                tax: tax,
+                shipping_name: shippingName,
+                shipping_lastname: shippingLastname,
+                shipping_document_id: shippingDocumentId,
+                shipping_phone: shippingPhone,
+                shipping_address: shippingAddress,
+                shipping_address_extra: shippingAddressExtra,
+                shipping_country: shippingCountry,
+                shipping_region: shippingRegion,
+                shipping_sub_region: shippingSubRegion,
+                shipping_city: shippingCity,
+                shipping_zipcode: shippingZipcode,
+                billing_name: billingName,
+                billing_lastname: billingLastname,
+                billing_document_id: billingDocumentId,
+                billing_phone: billingPhone,
+                billing_address: billingAddress,
+                billing_country: billingCountry,
+                billing_region: billingRegion,
+                billing_sub_region: billingSubRegion,
+                billing_city: billingCity,
+                billing_zipcode: billingZipcode,
+                billing_is_company: billingIsCompany,
+            })
+            .select('id')
+            .single();
 
-        if (!shipmentTracking || shipmentTrackingError) {
+        if (!order || orderError) {
             return NextResponse.json(
-                { message: 'Error creating shipment tracking' },
+                { message: 'Error creating online order' },
                 { status: 500 },
             );
         }
 
-        for (const product of itemsGroup) {
-            await Promise.all(
-                product.packs.map(async (pack) => {
-                    const distributorId = product.distributor_id;
-                    const producerId = product.producer_id;
+        createdOrderIds.push(order.id);
 
-                    if (!distributorId) {
-                        return NextResponse.json(
-                            {
-                                message:
-                                    'Distributor ID not found for the item order',
-                            },
-                            { status: 500 },
-                        );
-                    }
+        // Vamos a agrupar los items por distributor_id así podremos crear el tracking_id por distribuidores
+        // De esta manera podremos enviar notificaciones a los distribuidores de los pedidos que les corresponden
+        // Y estos podrán actualizar la información de tracking para que sea visible por el cliente
 
-                    if (!producerId) {
-                        return NextResponse.json(
-                            {
-                                message:
-                                    'Producer ID not found for the item order',
-                            },
-                            { status: 500 },
-                        );
-                    }
+        // Agrupar todos aquellos productos que tengan el mismo ID de productor
+        const itemsByDistributor = items.reduce(
+            (acc: any, item: IProductPackCartItem) => {
+                if (!acc[item.producer_id]) {
+                    acc[item.producer_id] = [];
+                }
 
-                    const { data: businessOrder, error: businessOrderError } =
-                        await supabase
+                acc[item.producer_id].push(item);
+
+                return acc;
+            },
+            {},
+        );
+
+        // Estoy recorriendo todos los elementos del carrito de la compra,
+        // aquellos que tengan un pack, los inserto en la tabla order_items
+        // además, como son del mismo pack y del mismo producto, los agrupo
+        // y asigno el mismo identificador de pedido para el negocio - business_order_id
+        for (const itemsGroup of Object.values(
+            itemsByDistributor as { [key: string]: IProductPackCartItem[] },
+        )) {
+            // Creamos una entrada en shipment_tracking para que lo compartan entre los demás business_orders para un mismo distribuidor
+            const { data: shipmentTracking, error: shipmentTrackingError } =
+                await supabase
+                    .from('shipment_tracking')
+                    .insert({
+                        order_id: order.id,
+                        status: ONLINE_ORDER_STATUS.PENDING,
+                        estimated_date: new Date(
+                            new Date().getTime() + 1000 * 60 * 60 * 24 * 7,
+                        ).toISOString(), // 7 days,
+                    })
+                    .select('id')
+                    .single();
+
+            if (!shipmentTracking || shipmentTrackingError) {
+                return NextResponse.json(
+                    { message: 'Error creating shipment tracking' },
+                    { status: 500 },
+                );
+            }
+
+            for (const product of itemsGroup) {
+                await Promise.all(
+                    product.packs.map(async (pack) => {
+                        const distributorId = product.distributor_id;
+                        const producerId = product.producer_id;
+
+                        if (!distributorId) {
+                            return NextResponse.json(
+                                {
+                                    message:
+                                        'Distributor ID not found for the item order',
+                                },
+                                { status: 500 },
+                            );
+                        }
+
+                        if (!producerId) {
+                            return NextResponse.json(
+                                {
+                                    message:
+                                        'Producer ID not found for the item order',
+                                },
+                                { status: 500 },
+                            );
+                        }
+
+                        const {
+                            data: businessOrder,
+                            error: businessOrderError,
+                        } = await supabase
                             .from('business_orders')
                             .insert({
                                 order_id: order.id,
@@ -207,67 +258,129 @@ export async function POST(request: NextRequest) {
                             .select('id')
                             .single();
 
-                    if (businessOrderError) {
-                        const { error: cancelOrderStatusError } = await supabase
-                            .from('orders')
-                            .update({ status: ONLINE_ORDER_STATUS.ERROR });
+                        if (businessOrderError) {
+                            const { error: cancelOrderStatusError } =
+                                await supabase.from('orders').update({
+                                    status: ONLINE_ORDER_STATUS.ERROR,
+                                });
 
-                        if (cancelOrderStatusError) {
+                            if (cancelOrderStatusError) {
+                                return NextResponse.json(
+                                    {
+                                        message:
+                                            'Error updating order status to CANCEL',
+                                    },
+                                    { status: 500 },
+                                );
+                            }
+
                             return NextResponse.json(
                                 {
                                     message:
-                                        'Error updating order status to CANCEL',
+                                        'Error inserting new business_order',
                                 },
                                 { status: 500 },
                             );
                         }
 
-                        return NextResponse.json(
-                            {
-                                message: 'Error inserting new business_order',
-                            },
-                            { status: 500 },
+                        const { data, error: orderItemError } = await supabase
+                            .from('order_items')
+                            .insert({
+                                business_order_id: businessOrder.id,
+                                product_pack_id: pack.id,
+                                quantity: pack.quantity,
+                                product_name: product.name,
+                                product_pack_name: pack.name,
+                                product_price: pack.price,
+                                subtotal: pack.price * pack.quantity,
+                                is_reviewed: false,
+                            })
+                            .select('product_pack_id')
+                            .single();
+
+                        if (orderItemError) {
+                            return NextResponse.json(
+                                { message: 'Error inserting new order_item' },
+                                { status: 500 },
+                            );
+                        }
+
+                        // Notification to distributor
+                        const distributorMessage = `Tienes un nuevo pedido online de ${name} ${lastname} con número de pedido ${orderNumber} y con identificador de negocio ${businessOrder.id}`;
+                        const distributorLink = `${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_BUSINESS_ORDERS}`;
+
+                        sendPushNotification(
+                            distributorId,
+                            distributorMessage,
+                            distributorLink,
                         );
-                    }
 
-                    const { error: orderItemError } = await supabase
-                        .from('order_items')
-                        .insert({
-                            business_order_id: businessOrder.id,
-                            product_pack_id: pack.id,
-                            quantity: pack.quantity,
-                            product_name: product.name,
-                            product_pack_name: pack.name,
-                            product_price: pack.price,
-                            subtotal: pack.price * pack.quantity,
-                            is_reviewed: false,
-                        });
+                        // Notification to producer
+                        const producerMessage = `Tienes un nuevo pedido online de ${name} ${lastname} con número de pedido ${orderNumber} y con identificador de negocio ${businessOrder.id}`;
+                        const producerLink = `${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_ONLINE_ORDERS}`;
 
-                    if (orderItemError) throw orderItemError;
-
-                    // Notification to distributor
-                    const distributorMessage = `Tienes un nuevo pedido online de ${name} ${lastname} con número de pedido ${orderNumber} y con identificador de negocio ${businessOrder.id}`;
-                    const distributorLink = `${ROUTE_DISTRIBUTOR}${ROUTE_PROFILE}${ROUTE_BUSINESS_ORDERS}`;
-
-                    sendPushNotification(
-                        distributorId,
-                        distributorMessage,
-                        distributorLink,
-                    );
-
-                    // Notification to producer
-                    const producerMessage = `Tienes un nuevo pedido online de ${name} ${lastname} con número de pedido ${orderNumber} y con identificador de negocio ${businessOrder.id}`;
-                    const producerLink = `${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_ONLINE_ORDERS}`;
-
-                    sendPushNotification(
-                        producerId,
-                        producerMessage,
-                        producerLink,
-                    );
-                }),
-            );
+                        sendPushNotification(
+                            producerId,
+                            producerMessage,
+                            producerLink,
+                        );
+                    }),
+                );
+            }
         }
-    }
 
-    return NextResponse.json({ message: order.id }, { status: 201 });
+        if (promoCodeData) {
+            // Incrementamos el uso del código promocional
+            const { data: updatedPromoCode, error: updatePromoCodeError } =
+                await supabase
+                    .from('promo_codes')
+                    .update({ uses: promoCodeData.uses + 1 })
+                    .eq('id', promoCodeData.id)
+                    .select('id')
+                    .single();
+
+            if (updatePromoCodeError || !updatedPromoCode) {
+                throw new Error(
+                    'Error al actualizar el uso del código promocional.',
+                );
+            }
+            // Para el rollback
+            createdPromoCodeId.push(updatedPromoCode);
+
+            // Insertar registro en 'user_promo_codes'
+            const { error: promoCodeUseError } = await supabase
+                .from('user_promo_codes')
+                .insert({
+                    user_id,
+                    promo_code_id: promoCodeData.id,
+                    order_id: order.id,
+                });
+
+            if (promoCodeUseError) {
+                return NextResponse.json(
+                    { message: 'Error using promo code' },
+                    { status: 500 },
+                );
+            }
+        }
+
+        return NextResponse.json({ message: order.id }, { status: 201 });
+    } catch (error) {
+        // Rollback
+        if (createdOrderIds.length > 0) {
+            await supabase.from('orders').delete().in('id', createdOrderIds);
+        }
+
+        if (createdPromoCodeId.length > 0) {
+            await supabase
+                .from('promo_codes')
+                .update({ uses: createdPromoCodeId[0].uses - 1 })
+                .eq('id', createdPromoCodeId[0].id);
+        }
+
+        return NextResponse.json(
+            { message: 'Error creating online order' },
+            { status: 500 },
+        );
+    }
 }

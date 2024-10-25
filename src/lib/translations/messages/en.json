@@ -328,6 +328,7 @@
     "add_lot": "Add Lot",
     "edit_lot": "Edit Lot",
     "lots": "Lots",
+    "customize_settings": "Customize",
     "next": "Next",
     "prev": "Prev",
     "back": "Back",
@@ -1037,7 +1038,8 @@
         "deleting_product_award": "Product award deleted successfully",
         "update_shipment_tracking": "Shipment tracking updated successfully",
         "profile_acc_data_updated": "Account data updated successfully",
-        "sales_records_download_status_updated": "Sales records download status updated successfully"
+        "sales_records_download_status_updated": "Sales records download status updated successfully",
+        "promo_code_applied": "Promo code applied successfully"
     },
     "num_of_packs": "Number of packs",
     "promo_code": "Promo code",
@@ -1344,5 +1346,13 @@
     "go_to_signin_and_signup_page": "Go to sign in and sign up page",
     "event": "Event",
     "cervezanas_event": "Cervezanas Event",
-    "cervezanas_spots": "Cervezanas Spots"
+    "cervezanas_spots": "Cervezanas Spots",
+    "media_uploader": {
+        "loading_files": "Loading files...",
+        "limitations": "PNG, JPG, GIF up to 5MB. 1 video up to 50MB.",
+        "images": "Images",
+        "max_imgs_reached": "Maximum images reached",
+        "main_image": "Main image",
+        "move": "Drag"
+    }
 }
