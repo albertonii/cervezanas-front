@@ -61,8 +61,6 @@ export async function POST(req: NextRequest) {
     const supabase = await createServerClient();
 
     if (isResponseCodeOk(responseCode)) {
-        console.info(`Payment for order ${orderNumber} succeded`);
-
         // Update order status
         const { data: order, error } = await supabase
             .from('orders')
@@ -96,8 +94,6 @@ export async function POST(req: NextRequest) {
                 .eq('order_id', order.id)
                 .single();
 
-        console.log('userPromoCodeData', userPromoCodeData);
-
         if (userPromoCodeError) {
             console.error(
                 `Error in payment for order ${orderNumber}. Error: ${JSON.stringify(
@@ -125,16 +121,18 @@ export async function POST(req: NextRequest) {
                 });
             }
 
+            console.log('Promo code id', promoCodeId);
+
             const { error: promoCodeError } = await supabase
                 .from('promo_codes')
                 .update({ uses: promoCodeUses + 1 })
                 .eq('id', promoCodeId);
 
-            console.log('se debe haber actualizado ya');
+            console.log('Error en promocode', promoCodeError);
 
             if (promoCodeError) {
                 console.error(
-                    `Error in payment for order ${orderNumber}. Error: ${JSON.stringify(
+                    `Error in payment for order ${orderNumber} - PROMO CODES. Error: ${JSON.stringify(
                         promoCodeError,
                     )}`,
                 );
