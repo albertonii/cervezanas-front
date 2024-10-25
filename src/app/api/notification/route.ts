@@ -56,32 +56,34 @@ export async function POST(req: NextRequest) {
 
     const responseCode = restNotification.Ds_Response;
 
-    const orderId = restNotification.Ds_Order;
+    const orderNumber = restNotification.Ds_Order;
 
     const supabase = await createServerClient();
 
     if (isResponseCodeOk(responseCode)) {
-        console.info(`Payment for order ${orderId} succeded`);
+        console.info(`Payment for order ${orderNumber} succeded`);
 
         // Update order status
-        const { error } = await supabase
+        const { data: order, error } = await supabase
             .from('orders')
             .update({ status: ONLINE_ORDER_STATUS.PAID })
-            .eq('order_number', orderId);
+            .eq('order_number', orderNumber)
+            .select('id')
+            .single();
 
         if (error) {
             console.error(
-                `Error in payment for order ${orderId}. Error: ${JSON.stringify(
+                `Error in payment for order ${orderNumber}. Error: ${JSON.stringify(
                     error,
                 )}`,
             );
 
             return NextResponse.json({
-                message: `Order number ${orderId} failed with error: ${error.message}. Error Code: ${error.code}`,
+                message: `Order number ${orderNumber} failed with error: ${error.message}. Error Code: ${error.code}`,
             });
         }
 
-        console.log(`Order number ${orderId} updated successfully`);
+        console.log(`Order number ${order.id} updated successfully`);
         // Comprobar si en user_promo_codes hay un registro con el order_id
         const { data: userPromoCodeData, error: userPromoCodeError } =
             await supabase
@@ -92,20 +94,20 @@ export async function POST(req: NextRequest) {
                     promo_codes (*)
                 `,
                 )
-                .eq('order_id', orderId)
+                .eq('order_id', order.id)
                 .single();
 
         console.log('userPromoCodeData', userPromoCodeData);
 
         if (userPromoCodeError) {
             console.error(
-                `Error in payment for order ${orderId}. Error: ${JSON.stringify(
+                `Error in payment for order ${orderNumber}. Error: ${JSON.stringify(
                     userPromoCodeError,
                 )}`,
             );
 
             return NextResponse.json({
-                message: `Order number ${orderId} failed with error: ${userPromoCodeError.message}. Error Code: ${userPromoCodeError.code}`,
+                message: `Order number ${orderNumber} failed with error: ${userPromoCodeError.message}. Error Code: ${userPromoCodeError.code}`,
             });
         }
 
@@ -121,13 +123,13 @@ export async function POST(req: NextRequest) {
             console.log('promoCodeError', promoCodeError);
             if (promoCodeError) {
                 console.error(
-                    `Error in payment for order ${orderId}. Error: ${JSON.stringify(
+                    `Error in payment for order ${orderNumber}. Error: ${JSON.stringify(
                         promoCodeError,
                     )}`,
                 );
 
                 return NextResponse.json({
-                    message: `Order number ${orderId} failed with error: ${promoCodeError.message}. Error Code: ${promoCodeError.code}`,
+                    message: `Order number ${orderNumber} failed with error: ${promoCodeError.message}. Error Code: ${promoCodeError.code}`,
                 });
             }
         }
@@ -135,7 +137,7 @@ export async function POST(req: NextRequest) {
         // Send notification to producer associated
 
         // Notificación enviada al productor de que el pedido se ha generado con éxito
-        const producerMessage = `Se ha generado con éxito un nuevo pedido con número de pedido: ${orderId}. Puedes verlo en la sección de pedidos.`;
+        const producerMessage = `Se ha generado con éxito un nuevo pedido con número de pedido: ${orderNumber}. Puedes verlo en la sección de pedidos.`;
 
         const { error: errorProducerNotification } = await supabase
             .from('notifications')
@@ -149,7 +151,7 @@ export async function POST(req: NextRequest) {
 
         if (errorProducerNotification) {
             console.error(
-                `Error in payment for order ${orderId}. Error: ${JSON.stringify(
+                `Error in payment for order ${orderNumber}. Error: ${JSON.stringify(
                     errorProducerNotification,
                 )}`,
             );
@@ -157,27 +159,27 @@ export async function POST(req: NextRequest) {
 
         // Send notification to distributor associated
         return NextResponse.json({
-            message: `Order number ${orderId} updated successfully`,
+            message: `Order number ${orderNumber} updated successfully`,
         });
     } else {
-        console.info(`Payment for order ${orderId} failed`);
+        console.info(`Payment for order ${orderNumber} failed`);
 
         // Update order status
         const { error } = await supabase
             .from('orders')
             .update({ status: ONLINE_ORDER_STATUS.CANCELLED })
-            .eq('order_number', orderId);
+            .eq('order_number', orderNumber);
 
         if (error) {
             console.error(error);
 
             return NextResponse.json({
-                message: `Order number ${orderId} failed with error: ${error.message}. Error Code: ${error.code}`,
+                message: `Order number ${orderNumber} failed with error: ${error.message}. Error Code: ${error.code}`,
             });
         }
 
         return NextResponse.json({
-            message: `Order number ${orderId} failed. Error Code: ${responseCode}`,
+            message: `Order number ${orderNumber} failed. Error Code: ${responseCode}`,
         });
     }
 }
