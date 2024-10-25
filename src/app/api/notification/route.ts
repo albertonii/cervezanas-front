@@ -121,16 +121,13 @@ export async function POST(req: NextRequest) {
                 });
             }
 
-            console.log('Promo code id', promoCodeId);
-
             const { error: promoCodeError } = await supabase
                 .from('promo_codes')
                 .update({ uses: promoCodeUses + 1 })
                 .eq('id', promoCodeId);
 
-            console.log('Error en promocode', promoCodeError);
-
             if (promoCodeError) {
+                console.log('Error en promocode', promoCodeError);
                 console.error(
                     `Error in payment for order ${orderNumber} - PROMO CODES. Error: ${JSON.stringify(
                         promoCodeError,
