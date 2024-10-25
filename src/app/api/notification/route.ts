@@ -76,6 +76,8 @@ export async function POST(req: NextRequest) {
             )
             .single();
 
+        console.log(order, error);
+
         if (error) {
             console.error(
                 `Error in payment for order ${orderNumber} - ORDERS. Error: ${JSON.stringify(
