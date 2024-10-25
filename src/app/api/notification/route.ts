@@ -83,7 +83,6 @@ export async function POST(req: NextRequest) {
             });
         }
 
-        console.log(`Order number ${order.id} updated successfully`);
         // Comprobar si en user_promo_codes hay un registro con el order_id
         const { data: userPromoCodeData, error: userPromoCodeError } =
             await supabase
@@ -113,14 +112,26 @@ export async function POST(req: NextRequest) {
 
         // Si es así, hay que incrementar el contador de usos del código promocional en la table promo_codes
         if (userPromoCodeData) {
+            const promoCodeId = userPromoCodeData.promo_codes?.id;
             const promoCodeUses = userPromoCodeData.promo_codes?.uses ?? 0;
+
+            if (!promoCodeId) {
+                console.error(
+                    `Error in payment for order ${orderNumber}. Error: Promo code id not found`,
+                );
+
+                return NextResponse.json({
+                    message: `Order number ${orderNumber} failed with error: Promo code id not found`,
+                });
+            }
 
             const { error: promoCodeError } = await supabase
                 .from('promo_codes')
                 .update({ uses: promoCodeUses + 1 })
-                .eq('id', userPromoCodeData.id);
+                .eq('id', promoCodeId);
 
-            console.log('promoCodeError', promoCodeError);
+            console.log('se debe haber actualizado ya');
+
             if (promoCodeError) {
                 console.error(
                     `Error in payment for order ${orderNumber}. Error: ${JSON.stringify(
