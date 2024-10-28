@@ -1817,18 +1817,6 @@ export interface IBMExperienceUserResponseFormData {
     is_correct: boolean;
 }
 
-export interface IDiscountCode {
-    id: string;
-    created_at: string;
-    code: string;
-    discount_type: string;
-    discount_value: number;
-    max_uses: number;
-    uses: number;
-    expiration_date: string;
-    updated_at: string;
-}
-
 export interface IUserDiscountCode {
     id: string;
     user_id: string;
@@ -2002,4 +1990,31 @@ export interface UploadedFile {
     isExisting?: boolean;
     url?: string;
     id?: string;
+}
+
+export interface IPromoCode {
+    id: string;
+    created_at: string;
+    code: string;
+    discount_type: string;
+    discount_value: number;
+    max_uses: number;
+    uses: number;
+    expiration_date: string;
+    updated_at: string;
+    description: string;
+    start_date: string;
+    is_active: boolean;
+    max_usage_per_user: number;
+    product_id: string;
+    products?: IProduct[];
+}
+
+export interface IUserPromoCode {
+    id: string;
+    user_id: string;
+    promo_code_id: string;
+    used_at: string;
+    order_id: string;
+    created_at: string;
 }

@@ -2830,6 +2830,39 @@ export type Database = {
           },
         ]
       }
+      promo_code_products: {
+        Row: {
+          created_at: string
+          product_id: string
+          promo_code_id: string
+        }
+        Insert: {
+          created_at?: string
+          product_id?: string
+          promo_code_id?: string
+        }
+        Update: {
+          created_at?: string
+          product_id?: string
+          promo_code_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "promo_code_products_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "promo_code_products_promo_code_id_fkey"
+            columns: ["promo_code_id"]
+            isOneToOne: false
+            referencedRelation: "promo_codes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       promo_codes: {
         Row: {
           code: string | null
@@ -2842,6 +2875,7 @@ export type Database = {
           is_active: boolean | null
           max_usage_per_user: number | null
           max_uses: number | null
+          product_id: string | null
           start_date: string | null
           updated_at: string | null
           uses: number | null
@@ -2857,6 +2891,7 @@ export type Database = {
           is_active?: boolean | null
           max_usage_per_user?: number | null
           max_uses?: number | null
+          product_id?: string | null
           start_date?: string | null
           updated_at?: string | null
           uses?: number | null
@@ -2872,6 +2907,7 @@ export type Database = {
           is_active?: boolean | null
           max_usage_per_user?: number | null
           max_uses?: number | null
+          product_id?: string | null
           start_date?: string | null
           updated_at?: string | null
           uses?: number | null

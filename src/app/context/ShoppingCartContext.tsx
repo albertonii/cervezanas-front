@@ -16,11 +16,14 @@ import {
     getShippingInfo,
 } from '../[locale]/(common-display)/cart/actions';
 
-interface PromoData {
+export interface PromoData {
     id: string;
     discountType: 'percentage' | 'fixed_amount' | 'gift';
     discountValue: number;
     code: string;
+    isValid: boolean;
+    uses: number;
+    message: string;
 }
 
 interface IAddressWithPrev extends IAddress {
@@ -569,7 +572,7 @@ export function ShoppingCartProvider({ children }: Props) {
             discount = 0;
             // Handle gift logic here
         }
-        console.log(promoData);
+
         setDiscountId(promoData.id);
         setDiscountAmount(discount);
         setDiscountCode(promoData.code);

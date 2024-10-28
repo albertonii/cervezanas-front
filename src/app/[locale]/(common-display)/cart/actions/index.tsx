@@ -9,6 +9,7 @@ import {
     IProductPackCartItem,
     IShippingInfo,
 } from '@/lib//types/types';
+import createServerClient from '@/utils/supabaseServer';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -697,4 +698,69 @@ const isInsideSubRegion = async (
         console.error('Error:', error);
         return false;
     }
+};
+
+export const validatePromoCode = async (code: string, userId: string) => {
+    try {
+        const url = `${baseUrl}/api/shopping_basket/promo_code`;
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code, user_id: userId }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.isValid) {
+            return data;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error(error);
+
+        return null;
+    }
+};
+
+export const validatePromoCodeForProduct = async (
+    code: string,
+    user_id: string,
+    product_id: string,
+) => {
+    const response = await validatePromoCode(code, user_id);
+
+    if (!response) {
+        return { isValid: false, message: 'Código promocional inválido.' };
+    }
+
+    const promoCode = response.promoCode;
+
+    // Verificar si el código está asociado al producto
+    if (promoCode.product_id && promoCode.product_id !== product_id) {
+        return {
+            isValid: false,
+            message: 'Este código promocional no es válido para este producto.',
+        };
+    }
+
+    const supabase = await createServerClient();
+
+    // Si usas una tabla intermedia `promo_code_products`, debes verificar si el producto está en la lista
+    const { data: promoCodeProduct } = await supabase
+        .from('promo_code_products')
+        .select('*')
+        .eq('promo_code_id', promoCode.id)
+        .eq('product_id', product_id)
+        .single();
+
+    if (!promoCodeProduct) {
+        return {
+            isValid: false,
+            message: 'Este código promocional no es válido para este producto.',
+        };
+    }
+
+    return { isValid: true, promoCode };
 };

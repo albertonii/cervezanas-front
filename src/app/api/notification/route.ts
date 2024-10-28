@@ -61,8 +61,6 @@ export async function POST(req: NextRequest) {
     const supabase = await createServerClient();
 
     if (isResponseCodeOk(responseCode)) {
-        console.log(orderNumber, 'Payment successful');
-
         // Update order status
         const { data: order, error } = await supabase
             .from('orders')
@@ -75,8 +73,6 @@ export async function POST(req: NextRequest) {
             `,
             )
             .single();
-
-        console.log(order, error);
 
         if (error) {
             console.error(
@@ -96,9 +92,9 @@ export async function POST(req: NextRequest) {
                 .from('user_promo_codes')
                 .select(
                     `
-                    id,
-                    promo_codes (*)
-                `,
+                        id,
+                        promo_codes (*)
+                    `,
                 )
                 .eq('order_id', order.id)
                 .single();

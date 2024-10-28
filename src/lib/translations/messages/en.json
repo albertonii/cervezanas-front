@@ -736,7 +736,9 @@
         "invalid_characters": "Invalid characters.",
         "update_shipment_tracking": "Error updating shipment tracking.",
         "create_sales_record": "Error creating sales record.",
-        "updating_sales_records_download_status": "Error updating sales records download status."
+        "updating_sales_records_download_status": "Error updating sales records download status.",
+        "validating_promo_code": "Error validating promo code.",
+        "invalid_promo_code": "Invalid promo code."
     },
     "product_packs": "Product packs",
     "units": "Units",
