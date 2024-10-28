@@ -162,8 +162,7 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Validaciones adicionales (por ejemplo, monto mínimo del pedido) pueden implementarse aquí
-        // Puedes pasar datos adicionales en el cuerpo de la solicitud para estas validaciones
+        // Validaciones adicionales (por ejemplo, precio mínimo del pedido)
 
         // Todas las validaciones han pasado, devolver los detalles del descuento
         return NextResponse.json(
