@@ -17,6 +17,7 @@ import {
 } from '../[locale]/(common-display)/cart/actions';
 
 interface PromoData {
+    id: string;
     discountType: 'percentage' | 'fixed_amount' | 'gift';
     discountValue: number;
     code: string;
@@ -67,9 +68,10 @@ type ShoppingCartContextType = {
     needsToCheckDelivery: boolean;
     updateNeedsToCheckDelivery: (value: boolean) => void;
     subtotal: number;
+    discountId: string | null;
     discountAmount: number;
     discountCode: string | null;
-    applyDiscount: (promoData: any) => void;
+    applyDiscount: (promoData: PromoData) => void;
 };
 
 const ShoppingCartContext = createContext<ShoppingCartContextType>({
@@ -114,6 +116,7 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
     needsToCheckDelivery: true,
     updateNeedsToCheckDelivery: () => void {},
     subtotal: 0,
+    discountId: null,
     discountAmount: 0,
     discountCode: null,
     applyDiscount: () => void {},
@@ -151,6 +154,7 @@ export function ShoppingCartProvider({ children }: Props) {
     const [needsToCheckDelivery, setNeedsToCheckDelivery] =
         useState<boolean>(true);
 
+    const [discountId, setDiscountId] = useState<string | null>(null);
     const [discountAmount, setDiscountAmount] = useState(0);
     const [discountCode, setDiscountCode] = useState<string | null>(null);
     const [subtotal, setSubtotal] = useState<number>(0);
@@ -565,6 +569,8 @@ export function ShoppingCartProvider({ children }: Props) {
             discount = 0;
             // Handle gift logic here
         }
+        console.log(promoData);
+        setDiscountId(promoData.id);
         setDiscountAmount(discount);
         setDiscountCode(promoData.code);
     };
@@ -611,6 +617,7 @@ export function ShoppingCartProvider({ children }: Props) {
         updateCanMakeThePayment,
         needsToCheckDelivery,
         updateNeedsToCheckDelivery,
+        discountId,
         discountAmount,
         discountCode,
         applyDiscount,

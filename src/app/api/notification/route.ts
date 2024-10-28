@@ -56,48 +56,108 @@ export async function POST(req: NextRequest) {
 
     const responseCode = restNotification.Ds_Response;
 
-    const orderId = restNotification.Ds_Order;
+    const orderNumber = restNotification.Ds_Order;
 
     const supabase = await createServerClient();
 
     if (isResponseCodeOk(responseCode)) {
-        console.info(`Payment for order ${orderId} succeded`);
+        console.log(orderNumber, 'Payment successful');
 
         // Update order status
-        const { error } = await supabase
+        const { data: order, error } = await supabase
             .from('orders')
             .update({ status: ONLINE_ORDER_STATUS.PAID })
-            .eq('order_number', orderId);
+            .eq('order_number', orderNumber)
+            .select(
+                `
+                id,
+                owner_id
+            `,
+            )
+            .single();
 
-        console.log('ERROR', error);
-        console.log('ERROR string', JSON.stringify(error));
+        console.log(order, error);
 
         if (error) {
-            console.log(error.code);
-            console.log(error.details);
-            console.log(error.message);
-
             console.error(
-                `Error in payment for order ${orderId}. Error: ${JSON.stringify(
+                `Error in payment for order ${orderNumber} - ORDERS. Error: ${JSON.stringify(
                     error,
                 )}`,
             );
 
             return NextResponse.json({
-                message: `Order number ${orderId} failed with error: ${error.message}. Error Code: ${error.code}`,
+                message: `Order number ${orderNumber} failed with error: ${error.message}. Error Code: ${error.code}`,
             });
+        }
+
+        // Comprobar si en user_promo_codes hay un registro con el order_id
+        const { data: userPromoCodeData, error: userPromoCodeError } =
+            await supabase
+                .from('user_promo_codes')
+                .select(
+                    `
+                    id,
+                    promo_codes (*)
+                `,
+                )
+                .eq('order_id', order.id)
+                .single();
+
+        if (userPromoCodeError) {
+            console.error(
+                `Error in payment for order ${orderNumber} - USER PROMO CODE. Error: ${JSON.stringify(
+                    userPromoCodeError,
+                )}`,
+            );
+
+            return NextResponse.json({
+                message: `Order number ${orderNumber} failed with error: ${userPromoCodeError.message}. Error Code: ${userPromoCodeError.code}`,
+            });
+        }
+
+        // Si es así, hay que incrementar el contador de usos del código promocional en la table promo_codes
+        if (userPromoCodeData) {
+            const promoCodeId = userPromoCodeData.promo_codes?.id;
+            const promoCodeUses = userPromoCodeData.promo_codes?.uses ?? 0;
+
+            if (!promoCodeId) {
+                console.error(
+                    `Error in payment for order ${orderNumber} - USER PROMO CODE ID. Error: Promo code id not found`,
+                );
+
+                return NextResponse.json({
+                    message: `Order number ${orderNumber} failed with error: Promo code id not found`,
+                });
+            }
+
+            const { error: promoCodeError } = await supabase
+                .from('promo_codes')
+                .update({ uses: promoCodeUses + 1 })
+                .eq('id', promoCodeId);
+
+            if (promoCodeError) {
+                console.error(
+                    `Error in payment for order ${orderNumber} - PROMO CODES. Error: ${JSON.stringify(
+                        promoCodeError,
+                    )}`,
+                );
+
+                return NextResponse.json({
+                    message: `Order number ${orderNumber} failed with error: ${promoCodeError.message}. Error Code: ${promoCodeError.code}`,
+                });
+            }
         }
 
         // Send notification to producer associated
 
         // Notificación enviada al productor de que el pedido se ha generado con éxito
-        const producerMessage = `Se ha generado con éxito un nuevo pedido con número de pedido: ${orderId}. Puedes verlo en la sección de pedidos.`;
+        const producerMessage = `Se ha generado con éxito un nuevo pedido con número de pedido: ${orderNumber}. Puedes verlo en la sección de pedidos.`;
 
         const { error: errorProducerNotification } = await supabase
             .from('notifications')
             .insert({
-                source: '',
-                user_id: '',
+                source: process.env.NEXT_PUBLIC_ADMIN_ID,
+                user_id: order.owner_id,
                 message: producerMessage,
                 link: APP_URLS.PRODUCER_ONLINE_ORDER,
                 read: false,
@@ -105,7 +165,7 @@ export async function POST(req: NextRequest) {
 
         if (errorProducerNotification) {
             console.error(
-                `Error in payment for order ${orderId}. Error: ${JSON.stringify(
+                `Error in payment for order ${orderNumber} - NOTIFICATIONS. Error: ${JSON.stringify(
                     errorProducerNotification,
                 )}`,
             );
@@ -113,27 +173,27 @@ export async function POST(req: NextRequest) {
 
         // Send notification to distributor associated
         return NextResponse.json({
-            message: `Order number ${orderId} updated successfully`,
+            message: `Order number ${orderNumber} updated successfully`,
         });
     } else {
-        console.info(`Payment for order ${orderId} failed`);
+        console.info(`Payment for order ${orderNumber} failed`);
 
         // Update order status
         const { error } = await supabase
             .from('orders')
             .update({ status: ONLINE_ORDER_STATUS.CANCELLED })
-            .eq('order_number', orderId);
+            .eq('order_number', orderNumber);
 
         if (error) {
             console.error(error);
 
             return NextResponse.json({
-                message: `Order number ${orderId} failed with error: ${error.message}. Error Code: ${error.code}`,
+                message: `Order number ${orderNumber} failed with error: ${error.message}. Error Code: ${error.code}`,
             });
         }
 
         return NextResponse.json({
-            message: `Order number ${orderId} failed. Error Code: ${responseCode}`,
+            message: `Order number ${orderNumber} failed. Error Code: ${responseCode}`,
         });
     }
 }
