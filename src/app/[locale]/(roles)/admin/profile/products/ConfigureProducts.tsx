@@ -2,15 +2,19 @@
 
 import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
 import React, { useState } from 'react';
-import { Products } from './Products';
+import { Products } from '../../../producer/profile/products/Products';
 
-export function ConfigureProducts() {
+interface Props {
+    counter: number;
+}
+
+export function ConfigureProducts({ counter }: Props) {
     const [menuOption, setMenuOption] = useState<string>('products');
 
     const renderSwitch = () => {
         switch (menuOption) {
             case 'products':
-                return <Products />;
+                return <Products counter={counter} />;
         }
     };
 
