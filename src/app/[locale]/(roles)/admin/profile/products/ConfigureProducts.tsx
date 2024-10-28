@@ -2,7 +2,7 @@
 
 import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
 import React, { useState } from 'react';
-import { Products } from '../../../producer/profile/products/Products';
+import { Products } from './Products';
 
 interface Props {
     counter: number;
