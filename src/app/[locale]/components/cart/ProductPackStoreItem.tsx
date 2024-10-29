@@ -1,25 +1,22 @@
 'use client';
 
 import Link from 'next/link';
+import Spinner from '../ui/Spinner';
 import MarketCartButtons2 from './MarketCartButtons2';
+import DisplayImageProduct from '../ui/DisplayImageProduct';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { AddCardButton } from './AddCartButton';
 import { useMessage } from '../message/useMessage';
-import { SupabaseProps } from '@/constants';
+import { IconButton } from '../ui/buttons/IconButton';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
-import { AddCardButton } from './AddCartButton';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { formatCurrency } from '@/utils/formatCurrency';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { IProduct, IProductPack } from '@/lib//types/types';
 import { useShoppingCart } from '../../../context/ShoppingCartContext';
-import { IconButton } from '../ui/buttons/IconButton';
-import DisplayImageProduct from '../ui/DisplayImageProduct';
-import Spinner from '../ui/Spinner';
 
 type StoreItemProps = { product: IProduct; products: IProduct[] };
-
-const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export function ProductPackStoreItem({ product }: StoreItemProps) {
     const t = useTranslations();
@@ -31,9 +28,8 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
     const productId = product.id;
     const router = useRouter();
 
-    const src = `${BASE_PRODUCTS_URL}${decodeURIComponent(
-        product.product_media?.find((media) => media.is_primary)?.url ?? '',
-    )}`;
+    const src =
+        product.product_media?.find((media) => media.is_primary)?.url ?? '';
 
     const [packs, setPacks] = useState<IProductPack[]>();
     const [selectedPack, setSelectedPack] = useState<IProductPack>();
