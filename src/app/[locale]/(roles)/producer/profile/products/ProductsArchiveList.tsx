@@ -54,7 +54,6 @@ export function ProductsArchiveList({
         { header: t('product_type_header') },
         { header: t('name_header') },
         { header: t('price_header') },
-        { header: t('stock_header') },
         { header: t('lot_header') },
         { header: t('public_header') },
         { header: t('action_header') },

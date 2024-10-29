@@ -1,11 +1,11 @@
 'use client';
 
+import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
 import React, { useState } from 'react';
 import { Lots } from './Lots';
 import { Archive } from './Archive';
 import { Products } from './Products';
 import { CustomizeSettings } from './CustomizeSettings';
-import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
 
 interface Props {
     counter: number;

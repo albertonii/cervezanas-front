@@ -1,35 +1,31 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
-import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IProduct } from '@/lib//types/types';
-import InputSearch from '@/app/[locale]/components/form/InputSearch';
-import { formatCurrency } from '@/utils/formatCurrency';
-import dynamic from 'next/dynamic';
-import useFetchProductsAndPaginationByAdmin from '../../../../../../hooks/useFetchProductsAndPaginationByAdmin';
-import { ArchiveButton } from '@/app/[locale]/components/ui/buttons/ArchiveButton';
-import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';
-import { EditButton } from '@/app/[locale]/components/ui/buttons/EditButton';
-import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
+import Image from 'next/image';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
+import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
+import useFetchProductsAndPaginationByAdmin from '../../../../../../hooks/useFetchProductsAndPaginationByAdmin';
+import React, { ComponentProps, useEffect, useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { IProduct } from '@/lib//types/types';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { InfoTooltip } from '@/app/[locale]/components/ui/InfoTooltip';
+import { EditButton } from '@/app/[locale]/components/ui/buttons/EditButton';
+import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';
+import { ArchiveButton } from '@/app/[locale]/components/ui/buttons/ArchiveButton';
 
 interface Props {
     handleEditShowModal: ComponentProps<any>;
     handleDeleteShowModal: ComponentProps<any>;
     handleProductModal: ComponentProps<any>;
-}
-
-interface ColumnsProps {
-    header: string;
+    counter: number;
 }
 
 export function ProductList({
     handleEditShowModal,
     handleDeleteShowModal,
     handleProductModal,
+    counter,
 }: Props) {
     const { supabase, user } = useAuth();
     if (!user) return null;
@@ -37,41 +33,30 @@ export function ProductList({
     const t = useTranslations();
     const locale = useLocale();
 
-    const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const resultsPerPage = 10;
 
-    const {
-        data: products,
-        isError,
-        isLoading,
-        isSuccess,
-    } = useFetchProductsAndPaginationByAdmin(currentPage, resultsPerPage);
+    const [products, setProducts] = useState<IProduct[] | null>([]);
 
-    // TODO: Arreglar la paginación
-    const [counter, setCounter] = useState(0);
+    const { data, isError, isLoading, refetch, isFetchedAfterMount } =
+        useFetchProductsAndPaginationByAdmin(currentPage, resultsPerPage);
 
     useEffect(() => {
-        if (products) {
-            setCounter(products.length);
+        if (isFetchedAfterMount) {
+            setProducts(data as IProduct[]);
         }
-    }, [isSuccess]);
+    }, [isFetchedAfterMount, data]);
 
-    const COLUMNS = [
-        { header: t('product_type_header') },
-        { header: t('name_header') },
-        { header: t('price_header') },
-        { header: t('stock_header') },
-        { header: t('lot_header') },
-        { header: t('public_header') },
-        { header: t('action_header') },
-    ];
+    useEffect(() => {
+        refetch().then((res: any) => {
+            const data = res.data as IProduct[];
+            const products =
+                data?.filter((product) => !product.is_archived) ?? [];
+            setProducts(products);
+        });
 
-    const handleEditClick = (product: IProduct) => {
-        handleEditShowModal(true);
-        handleDeleteShowModal(false);
-        handleProductModal(product);
-    };
+        return () => {};
+    }, [currentPage]);
 
     const handleArchive = async (product: any) => {
         // Update product state to archived and isPublic to false
@@ -98,24 +83,90 @@ export function ProductList({
         if (error) throw error;
     };
 
+    const columns = [
+        {
+            header: t('product_type_header'),
+            accessor: 'type',
+            sortable: true,
+            render: (_: any, row: IProduct) => (
+                <Image
+                    width={32}
+                    height={32}
+                    className="rounded-full"
+                    src="/icons/beer-240.png"
+                    alt="Beer Type"
+                />
+            ),
+        },
+        {
+            header: t('name_header'),
+            accessor: 'name',
+            sortable: true,
+            render: (name: string, row: IProduct) => (
+                <Link href={`/products/${row.id}`} locale={locale}>
+                    <span className="font-semibold text-beer-blonde hover:text-beer-draft">
+                        {name}
+                    </span>
+                    {row.product_packs?.length === 0 && (
+                        <InfoTooltip
+                            content={`${t('errors.product_pack_not_exists')}`}
+                            delay={0}
+                            width={'auto'}
+                            direction={'top'}
+                        />
+                    )}
+                </Link>
+            ),
+        },
+        {
+            header: t('num_of_packs'),
+            accessor: 'product_packs',
+            sortable: true,
+            render: (product_packs: any[]) => product_packs.length,
+        },
+        {
+            header: t('public_header'),
+            accessor: 'is_public',
+            sortable: true,
+            render: (is_public: boolean) => (is_public ? t('yes') : t('no')),
+        },
+        {
+            header: t('is_available_header'),
+            accessor: 'is_available',
+            sortable: true,
+            render: (is_available: boolean) =>
+                is_available ? t('yes') : t('no'),
+        },
+        {
+            header: t('action_header'),
+            accessor: 'actions',
+            render: (_: any, row: IProduct) => (
+                <div className="flex justify-center space-x-2">
+                    <EditButton onClick={() => handleEditClick(row)} />
+                    <DeleteButton onClick={() => handleDeleteClick(row)} />
+                    <ArchiveButton onClick={() => handleArchive(row)} />
+                </div>
+            ),
+        },
+    ];
+
+    const handleEditClick = (product: IProduct) => {
+        handleEditShowModal(true);
+        handleDeleteShowModal(false);
+        handleProductModal(product);
+    };
+
     const handleDeleteClick = (product: IProduct) => {
         handleEditShowModal(false);
         handleDeleteShowModal(true);
         handleProductModal(product);
     };
 
-    const filteredItems = useMemo<any[]>(() => {
-        if (!products) return [];
-        return products.filter((product) => {
-            return product.name?.toLowerCase().includes(query.toLowerCase());
-        });
-    }, [products, query]);
-
     return (
-        <div className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg bg-beer-foam">
+        <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
             {isError && (
-                <div className="flex items-center justify-center">
-                    <p className="text-gray-500 dark:text-gray-400">
+                <div className="flex items-center justify-center py-6">
+                    <p className="text-gray-500">
                         {t('errors.fetching_products')}
                     </p>
                 </div>
@@ -126,150 +177,27 @@ export function ProductList({
                     color="beer-blonde"
                     size="xLarge"
                     absolute
-                    absolutePosition="center"
+                    flexCenter
                 />
             )}
 
             {!isError && !isLoading && products?.length === 0 ? (
                 <div className="my-[10vh] flex items-center justify-center">
-                    <p className="text-2xl text-gray-500 dark:text-gray-400">
-                        {t('no_products')}
-                    </p>
+                    <p className="text-2xl text-gray-500">{t('no_products')}</p>
                 </div>
             ) : (
-                <>
-                    <InputSearch
-                        query={query}
-                        setQuery={setQuery}
-                        searchPlaceholder={'search_products'}
-                    />
-
-                    <table className="bg-beer-foam w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
-                        <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                {COLUMNS.map(
-                                    (column: ColumnsProps, index: number) => {
-                                        return (
-                                            <th
-                                                key={index}
-                                                scope="col"
-                                                className="px-6 py-3"
-                                            >
-                                                {column.header}
-                                            </th>
-                                        );
-                                    },
-                                )}
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {products &&
-                                filteredItems.map((product) => {
-                                    return (
-                                        <tr key={product.id} className="">
-                                            <>
-                                                <th
-                                                    scope="row"
-                                                    className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                                                >
-                                                    <Image
-                                                        width={128}
-                                                        height={128}
-                                                        className="h-8 w-8 rounded-full"
-                                                        src={
-                                                            '/icons/beer-240.png'
-                                                        }
-                                                        alt="Beer Type"
-                                                    />
-                                                </th>
-
-                                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
-                                                    <Link
-                                                        href={`/products/${product.id}`}
-                                                        locale={locale}
-                                                    >
-                                                        {product.name}
-                                                    </Link>
-                                                </td>
-
-                                                <td className="px-6 py-4">
-                                                    {formatCurrency(
-                                                        product.price,
-                                                    )}
-                                                </td>
-
-                                                <td className="px-6 py-4">
-                                                    {product.product_inventory &&
-                                                    product.product_inventory
-                                                        ?.quantity
-                                                        ? product
-                                                              .product_inventory
-                                                              .quantity
-                                                        : '-'}
-                                                </td>
-
-                                                <td className="px-6 py-4">
-                                                    {product.product_lots &&
-                                                    product.product_lots[0]
-                                                        ?.lot_id
-                                                        ? product
-                                                              .product_lots[0]
-                                                              ?.lot_id
-                                                        : '-'}
-                                                </td>
-
-                                                <td className="px-6 py-4">
-                                                    {product.is_public
-                                                        ? t('yes')
-                                                        : t('no')}
-                                                </td>
-
-                                                <td className="px-6 py-4">
-                                                    <div className="flex space-x-1">
-                                                        <EditButton
-                                                            onClick={() =>
-                                                                handleEditClick(
-                                                                    product,
-                                                                )
-                                                            }
-                                                        />
-
-                                                        <DeleteButton
-                                                            onClick={() =>
-                                                                handleDeleteClick(
-                                                                    product,
-                                                                )
-                                                            }
-                                                        />
-
-                                                        <ArchiveButton
-                                                            onClick={() =>
-                                                                handleArchive(
-                                                                    product,
-                                                                )
-                                                            }
-                                                        />
-                                                    </div>
-                                                </td>
-                                            </>
-                                        </tr>
-                                    );
-                                })}
-                        </tbody>
-                    </table>
-
-                    {/* Prev and Next button for pagination  */}
-                    <div className="my-4 flex items-center justify-around">
-                        <PaginationFooter
-                            counter={counter}
-                            resultsPerPage={resultsPerPage}
-                            currentPage={currentPage}
-                            setCurrentPage={setCurrentPage}
-                        />
-                    </div>
-                </>
+                <TableWithFooterAndSearch
+                    columns={columns}
+                    data={products ?? []}
+                    initialQuery={''}
+                    resultsPerPage={resultsPerPage}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                    searchPlaceHolder={'search_by_name'}
+                    paginationCounter={counter}
+                    sourceDataIsFromServer={false}
+                />
             )}
-        </div>
+        </section>
     );
 }
