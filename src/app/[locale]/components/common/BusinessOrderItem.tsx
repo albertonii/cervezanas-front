@@ -1,11 +1,11 @@
 import ProducerCard from '../cards/ProducerCard';
+import DistributorCard from '../cards/DistributorCard';
 import OrderItemCard from '@/app/[locale]/components/common/OrderItemCard';
 import ConsumerShipmentTrackingInformation from './ConsumerShipmentTrackingInformation';
 import ProductBusinnesInformation from '@/app/[locale]/components/ProductBusinnesInformation';
 import OrderItemReview from '../../(roles)/consumer/profile/online_orders/checkout/success/OrderItemReview';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { IBusinessOrder, IOrderItem } from '@/lib/types/types';
-import DistributorCard from '../cards/DistributorCard';
 
 interface Props {
     bOrder: IBusinessOrder;
@@ -14,35 +14,8 @@ interface Props {
 export default function BusinessOrderItem({ bOrder }: Props) {
     if (!bOrder.order_items || bOrder.order_items.length === 0) return <></>;
 
-    // useEffect(() => {
-    //     if (bOrder) {
-
-    //         if (!bOrder) return;
-
-    //         const orderByDistributorBOrders = bOrders.reduce(
-    //             (acc: any, bOrder: any) => {
-    //                 if (!acc[bOrder.distributor_id]) {
-    //                     acc[bOrder.distributor_id] = [];
-    //                 }
-
-    //                 acc[bOrder.distributor_id].push(bOrder);
-
-    //                 return acc;
-    //             },
-    //             {},
-    //         );
-
-    //         setOrderByDistributorBOrders(orderByDistributorBOrders);
-    //     }
-    // }, [order]);
-
     return (
         <section className="relative border-separate space-y-8 rounded-lg border bg-beer-foam p-2 py-4">
-            {/* <StatusTimeline
-                status={bOrder.status}
-                orderType={'distributor_online'}
-            /> */}
-
             <section className="grid grid-cols-1 gap-x-2 space-y-4 lg:grid-cols-2 md:gap-x-4 w-full">
                 {/* Display the product information for this pack  */}
                 {bOrder && (

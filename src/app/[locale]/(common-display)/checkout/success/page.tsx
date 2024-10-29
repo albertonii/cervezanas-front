@@ -145,6 +145,26 @@ async function getSuccessData(searchParams: any) {
                 *,
                 business_orders!business_orders_order_id_fkey (
                     *,
+                    producer_user!business_orders_producer_id_fkey (*,
+                        users (
+                            *,
+                            name,
+                            lastname,
+                            email,
+                            username,
+                            avatar_url
+                        )
+                    ),
+                    distributor_user!business_orders_distributor_id_fkey (*,
+                        users (
+                            *,
+                            name,
+                            lastname,
+                            email,
+                            username,
+                            avatar_url
+                        )
+                    ),
                     order_items (
                         *,
                         product_packs (
@@ -155,8 +175,6 @@ async function getSuccessData(searchParams: any) {
                             )
                         )
                     ),
-                    producer_user (*),
-                    distributor_user (*),
                     shipment_tracking (
                         id,
                         created_at,
