@@ -351,7 +351,7 @@ export function ShoppingCartProvider({ children }: Props) {
             if (itemFind) {
                 // Si existe el producto, buscamos el pack
                 const packFind = itemFind.packs.find((p) => {
-                    return p.product_id === pack.product_id;
+                    return p.id === pack.id;
                 });
 
                 // Si no existe el pack pero si el producto, lo añadimos

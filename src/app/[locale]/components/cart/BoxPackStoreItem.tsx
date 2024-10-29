@@ -26,6 +26,7 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
     const { isLoading, supabase, isLoggedIn } = useAuth();
     const productId = product.id;
     const router = useRouter();
+    const [isNotificationVisible, setIsNotificationVisible] = useState(false);
 
     const src =
         product.product_media?.find((media) => media.is_primary)?.url ?? '';
@@ -128,6 +129,8 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
     };
 
     const handleAddToCart = () => {
+        setIsNotificationVisible(true);
+
         if (!isLoggedIn) {
             handleMessage({
                 type: 'info',
@@ -231,6 +234,10 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
                                 <AddCardButton
                                     withText={true}
                                     onClick={handleAddToCart}
+                                    isVisible={isNotificationVisible}
+                                    onClose={() =>
+                                        setIsNotificationVisible(false)
+                                    }
                                 />
                             </div>
                         </div>
