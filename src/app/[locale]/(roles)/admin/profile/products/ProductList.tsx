@@ -125,14 +125,6 @@ export function ProductList({
             render: (product_packs: any[]) => product_packs.length,
         },
         {
-            header: t('stock_header'),
-            accessor: 'product_inventory',
-            sortable: true,
-            render: (product_inventory: any) =>
-                product_inventory?.quantity ?? '-',
-        },
-
-        {
             header: t('public_header'),
             accessor: 'is_public',
             sortable: true,
