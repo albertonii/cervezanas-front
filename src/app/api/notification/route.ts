@@ -117,17 +117,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
                         .eq('code', order.promo_code)
                         .single();
 
-                console.log('PROMO CODE', order.promo_code);
-                console.log('order', order);
-                console.log('promoCodeData', promoCodeData);
-
-                console.log(promoCodeError);
-
-                if (!promoCodeData) {
-                    console.log('ERROR EN PROMO CODE DATA ! ');
-                }
-
-                if (promoCodeError) {
+                if (promoCodeError !== null || !promoCodeData) {
                     console.error(
                         `Error fetching promo code data for order ${orderNumber}. Error: ${JSON.stringify(
                             promoCodeError,
