@@ -110,15 +110,16 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
             });
 
             if (order.promo_code) {
-                console.log('PROMO CODE', order.promo_code);
-                console.log('order', order);
-
                 const { data: promoCodeData, error: promoCodeError } =
                     await supabase
                         .from('promo_codes')
                         .select('*')
-                        .eq('promo_code', order.promo_code)
+                        .eq('code', order.promo_code)
                         .single();
+
+                console.log('PROMO CODE', order.promo_code);
+                console.log('order', order);
+                console.log('promoCodeData', promoCodeData);
 
                 if (promoCodeError || !promoCodeData) {
                     console.error(
