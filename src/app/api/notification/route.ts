@@ -80,7 +80,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     if (isResponseCodeOk(responseCode)) {
         try {
-            console.log('ORDER NUMBER', orderNumber);
             // Update order status
             const { data: order, error } = await supabase
                 .from('orders')
@@ -111,6 +110,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
             });
 
             if (order.promo_code) {
+                console.log('PROMO CODE', order.promo_code);
+                console.log('order', order);
+
                 const { data: promoCodeData, error: promoCodeError } =
                     await supabase
                         .from('promo_codes')
@@ -265,8 +267,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
                 `Error al procesar el pago para la orden ${orderNumber}:`,
                 err,
             );
-
-            console.log(rollbackOperations);
 
             // Realizar rollback manual en orden inverso
             for (const rollbackOperation of rollbackOperations.reverse()) {
