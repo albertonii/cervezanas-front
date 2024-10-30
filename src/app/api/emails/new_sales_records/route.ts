@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_RESEND_API_KEY}`,
         },
         body: JSON.stringify({
-            from: 'cervezanas@socialinnolabs.org',
+            from: 'info@cervezanas.beer',
             to: emailTo,
             subject: `Registro mensual de ventas disponible período ${getPreviousInvoicePeriod()}`,
             html: `
@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
                             </p>
                             <a href="https://cervezanas.beer" class="button">Acceder a Cervezanas</a>
                             <p>
-                                Si tienes alguna duda, por favor contáctanos a <a href="mailto:cervezanas@socialinnolabs.org">cervezanas@socialinnolabs.org</a>
+                                Si tienes alguna duda, por favor contáctanos a <a href="mailto:info@cervezanas.beer">info@cervezanas.beer</a>
                             </p>
                             <p>
                                 <strong>El equipo de Cervezanas</strong>

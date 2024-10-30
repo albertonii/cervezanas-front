@@ -592,7 +592,7 @@ export interface IOrder {
     tax: number;
     currency: string;
     discount: number;
-    discount_code: string;
+    promo_code: string;
     order_number: string;
     is_consumer_email_sent: boolean;
     is_producer_email_sent: boolean;
@@ -652,7 +652,7 @@ export interface IEventOrder {
     tax: number;
     currency: string;
     discount: number;
-    discount_code: string;
+    promo_code: string;
     order_number: string;
     event_order_items?: IEventOrderItem[];
     customer_id: string;
@@ -1031,7 +1031,7 @@ export interface IProduct {
     is_public: boolean;
     discount_percent: number;
     weight: number;
-    discount_code: string;
+    promo_code: string;
     price: number; // TODO : quitar el price - pq está en product_pack
     campaign_id: string;
     is_archived: boolean;
@@ -1063,7 +1063,7 @@ export interface IEventProduct {
     is_public: boolean;
     discount_percent: number;
     weight: number;
-    discount_code: string;
+    promo_code: string;
     price: number; // TODO : quitar el price - pq está en product_pack
     campaign_id: string;
     is_archived: boolean;
@@ -1091,7 +1091,7 @@ export interface IModalProduct {
     type: ProductType;
     is_public: boolean;
     discount_percent: number;
-    discount_code: string;
+    promo_code: string;
     price: number;
     campaign_id: string;
     is_archived: boolean;
@@ -1815,13 +1815,6 @@ export interface IBMExperienceUserResponseFormData {
     answer_id: string;
     participation_id: string;
     is_correct: boolean;
-}
-
-export interface IUserDiscountCode {
-    id: string;
-    user_id: string;
-    discount_code_id: string;
-    used_at: string;
 }
 
 export interface IBrewery {

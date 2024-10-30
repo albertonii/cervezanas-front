@@ -27,17 +27,19 @@ import { processRestNotification } from '../../[locale]/components/TPV/redsysCli
  *
  * @see https://pagosonline.redsys.es/codigosRespuesta.html#codigo-dsresponse for response code details.
  */
-export async function POST(req: NextRequest) {
-    // Verificar la firma
-    const isValidNotification = verifyNotificationSignature(body);
+export async function POST(req: NextRequest): Promise<NextResponse> {
+    console.log('REQUEST', req);
 
-    if (!isValidNotification) {
-        console.error('Invalid payment notification signature');
-        return NextResponse.json(
-            { message: 'Invalid signature' },
-            { status: 400 },
-        );
-    }
+    // Verificar la firma
+    // const isValidNotification = verifyNotificationSignature(req.body);
+
+    // if (!isValidNotification) {
+    //     console.error('Invalid payment notification signature');
+    //     return NextResponse.json(
+    //         { message: 'Invalid signature' },
+    //         { status: 400 },
+    //     );
+    // }
 
     // Si la firma es válida, procesar la notificación
     const data = await req.formData();
@@ -71,143 +73,222 @@ export async function POST(req: NextRequest) {
 
     const orderNumber = restNotification.Ds_Order;
 
+    // Variables para rollback manual
+    const rollbackOperations = [];
+
     const supabase = await createServerClient();
 
     if (isResponseCodeOk(responseCode)) {
-        // Update order status
-        const { data: order, error } = await supabase
-            .from('orders')
-            .update({ status: ONLINE_ORDER_STATUS.PAID })
-            .eq('order_number', orderNumber)
-            .select('id, owner_id, promo_code_id')
-            .single();
+        try {
+            // Update order status
+            const { data: order, error } = await supabase
+                .from('orders')
+                .update({ status: ONLINE_ORDER_STATUS.PAID })
+                .eq('order_number', orderNumber)
+                .select('id, owner_id, promo_code')
+                .single();
 
-        if (error || !order) {
-            console.error(
-                `Error in payment for order ${orderNumber} - ORDERS. Error: ${JSON.stringify(
-                    error,
-                )}`,
-            );
+            if (error || !order) {
+                console.error(
+                    `Error in payment for order ${orderNumber} - ORDERS. Error: ${JSON.stringify(
+                        error,
+                    )}`,
+                );
 
-            return NextResponse.json({
-                message: `Order number ${orderNumber} failed with error: ${error.message}. Error Code: ${error.code}`,
-            });
-        }
+                return NextResponse.json({
+                    message: `Order number ${orderNumber} failed with error: ${error.message}. Error Code: ${error.code}`,
+                });
+            }
 
-        if (order.promo_code_id) {
-            const { data: promoCodeData, error: promoCodeError } =
+            // Registrar operación para rollback
+            rollbackOperations.push(async () => {
+                // Revertir el estado de la orden a 'PENDING' o el estado anterior
                 await supabase
-                    .from('promo_codes')
-                    .select('*')
-                    .eq('id', order.promo_code_id)
-                    .single();
-            if (promoCodeError || !promoCodeData) {
-                // Manejo de errores
-            } else {
-                // Insertar en 'user_promo_codes'
-                const { error: promoCodeUseError } = await supabase
-                    .from('user_promo_codes')
-                    .insert({
-                        user_id: order.owner_id,
-                        promo_code_id: promoCodeData.id,
-                        order_id: order.id,
+                    .from('orders')
+                    .update({ status: ONLINE_ORDER_STATUS.PENDING })
+                    .eq('id', order.id);
+            });
+
+            if (order.promo_code) {
+                const { data: promoCodeData, error: promoCodeError } =
+                    await supabase
+                        .from('promo_codes')
+                        .select('*')
+                        .eq('promo_code', order.promo_code)
+                        .single();
+
+                if (promoCodeError || !promoCodeData) {
+                    console.error(
+                        `Error fetching promo code data for order ${orderNumber}. Error: ${JSON.stringify(
+                            promoCodeError,
+                        )}`,
+                    );
+                    throw new Error(
+                        `Error al obtener datos del código promocional: ${promoCodeError?.message}`,
+                    );
+                } else {
+                    if (!order.owner_id) {
+                        console.error(
+                            `Error fetching owner_id for order ${orderNumber}. Error: ${JSON.stringify(
+                                promoCodeError,
+                            )}`,
+                        );
+                        throw new Error(
+                            `owner_id no encontrado para la orden ${orderNumber}`,
+                        );
+                    }
+
+                    // Insertar en 'user_promo_codes'
+                    const {
+                        data: userPromoCodeData,
+                        error: promoCodeUseError,
+                    } = await supabase
+                        .from('user_promo_codes')
+                        .insert({
+                            user_id: order.owner_id,
+                            promo_code_id: promoCodeData.id,
+                            order_id: order.id,
+                        })
+                        .select('id')
+                        .single();
+
+                    if (promoCodeUseError || !userPromoCodeData) {
+                        console.error(
+                            `Error inserting user promo code for order ${orderNumber}. Error: ${JSON.stringify(
+                                promoCodeUseError,
+                            )}`,
+                        );
+
+                        throw new Error(
+                            `Error al insertar en user_promo_codes: ${promoCodeUseError?.message}`,
+                        );
+                    }
+
+                    // Registrar operación para rollback
+                    rollbackOperations.push(async () => {
+                        // Eliminar el registro de 'user_promo_codes'
+                        await supabase
+                            .from('user_promo_codes')
+                            .delete()
+                            .eq('id', userPromoCodeData.id);
                     });
 
-                // Incrementar el contador de usos
-                const { error: promoCodeUpdateError } = await supabase
-                    .from('promo_codes')
-                    .update({ uses: promoCodeData.uses + 1 })
-                    .eq('id', promoCodeData.id);
+                    if (!promoCodeData.uses) {
+                        console.error(
+                            `Error fetching promo code uses for order ${orderNumber}. Error: ${JSON.stringify(
+                                promoCodeError,
+                            )}`,
+                        );
 
-                // Manejo de errores si es necesario
+                        throw new Error(
+                            `Error al obtener los usos del código promocional.`,
+                        );
+                    }
+
+                    // Incrementar el contador de usos
+                    const { error: promoCodeUpdateError } = await supabase
+                        .from('promo_codes')
+                        .update({ uses: promoCodeData.uses + 1 })
+                        .eq('id', promoCodeData.id);
+
+                    if (promoCodeUpdateError) {
+                        console.error(
+                            `Error updating promo code uses for order ${orderNumber}. Error: ${JSON.stringify(
+                                promoCodeUpdateError,
+                            )}`,
+                        );
+
+                        throw new Error(
+                            `Error al actualizar el contador de usos del código promocional: ${promoCodeUpdateError.message}`,
+                        );
+                    }
+
+                    // Registrar operación para rollback
+                    rollbackOperations.push(async () => {
+                        // Decrementar el contador de usos
+                        await supabase
+                            .from('promo_codes')
+                            .update({ uses: promoCodeData.uses })
+                            .eq('id', promoCodeData.id);
+                    });
+                }
             }
-        }
 
-        // // Comprobar si en user_promo_codes hay un registro con el order_id
-        // const { data: userPromoCodeData, error: userPromoCodeError } =
-        //     await supabase
-        //         .from('user_promo_codes')
-        //         .select(
-        //             `
-        //                 id,
-        //                 promo_codes (*)
-        //             `,
-        //         )
-        //         .eq('order_id', order.id)
-        //         .single();
+            // Send notification to producer associated
 
-        // if (userPromoCodeError) {
-        //     console.error(
-        //         `Error in payment for order ${orderNumber} - USER PROMO CODE. Error: ${JSON.stringify(
-        //             userPromoCodeError,
-        //         )}`,
-        //     );
+            // Notificación enviada al productor de que el pedido se ha generado con éxito
+            const producerMessage = `Se ha generado con éxito un nuevo pedido con identificador: ${orderNumber}. Accede a la sección de pedidos para más información.`;
 
-        //     return NextResponse.json({
-        //         message: `Order number ${orderNumber} failed with error: ${userPromoCodeError.message}. Error Code: ${userPromoCodeError.code}`,
-        //     });
-        // }
+            const { data: notificationData, error: errorProducerNotification } =
+                await supabase
+                    .from('notifications')
+                    .insert({
+                        source: process.env.NEXT_PUBLIC_ADMIN_ID,
+                        user_id: order.owner_id,
+                        message: producerMessage,
+                        link: APP_URLS.PRODUCER_ONLINE_ORDER,
+                        read: false,
+                    })
+                    .select('id')
+                    .single();
 
-        // // Si es así, hay que incrementar el contador de usos del código promocional en la tabla promo_codes
-        // if (userPromoCodeData) {
-        //     const promoCodeId = userPromoCodeData.promo_codes?.id;
-        //     const promoCodeUses = userPromoCodeData.promo_codes?.uses ?? 0;
+            if (errorProducerNotification || !notificationData) {
+                console.error(
+                    `Error in payment for order ${orderNumber} - NOTIFICATIONS. Error: ${JSON.stringify(
+                        errorProducerNotification,
+                    )}`,
+                );
 
-        //     if (!promoCodeId) {
-        //         console.error(
-        //             `Error in payment for order ${orderNumber} - USER PROMO CODE ID. Error: Promo code id not found`,
-        //         );
+                throw new Error(
+                    `Error al insertar la notificación: ${errorProducerNotification?.message}`,
+                );
+            }
 
-        //         return NextResponse.json({
-        //             message: `Order number ${orderNumber} failed with error: Promo code id not found`,
-        //         });
-        //     }
-
-        //     const { error: promoCodeError } = await supabase
-        //         .from('promo_codes')
-        //         .update({ uses: promoCodeUses + 1 })
-        //         .eq('id', promoCodeId);
-
-        //     if (promoCodeError) {
-        //         console.error(
-        //             `Error in payment for order ${orderNumber} - PROMO CODES. Error: ${JSON.stringify(
-        //                 promoCodeError,
-        //             )}`,
-        //         );
-
-        //         return NextResponse.json({
-        //             message: `Order number ${orderNumber} failed with error: ${promoCodeError.message}. Error Code: ${promoCodeError.code}`,
-        //         });
-        //     }
-        // }
-
-        // Send notification to producer associated
-
-        // Notificación enviada al productor de que el pedido se ha generado con éxito
-        const producerMessage = `Se ha generado con éxito un nuevo pedido con número de pedido: ${orderNumber}. Puedes verlo en la sección de pedidos.`;
-
-        const { error: errorProducerNotification } = await supabase
-            .from('notifications')
-            .insert({
-                source: process.env.NEXT_PUBLIC_ADMIN_ID,
-                user_id: order.owner_id,
-                message: producerMessage,
-                link: APP_URLS.PRODUCER_ONLINE_ORDER,
-                read: false,
+            // Registrar operación para rollback
+            rollbackOperations.push(async () => {
+                // Eliminar la notificación
+                await supabase
+                    .from('notifications')
+                    .delete()
+                    .eq('id', notificationData.id);
             });
 
-        if (errorProducerNotification) {
-            console.error(
-                `Error in payment for order ${orderNumber} - NOTIFICATIONS. Error: ${JSON.stringify(
-                    errorProducerNotification,
-                )}`,
-            );
-        }
+            // throw 'Error de prueba';
 
-        // Send notification to distributor associated
-        return NextResponse.json({
-            message: `Order number ${orderNumber} updated successfully`,
-        });
+            // Send notification to distributor associated
+            return NextResponse.json({
+                message: `Order number ${orderNumber} updated successfully`,
+            });
+        } catch (err) {
+            console.error(
+                `Error al procesar el pago para la orden ${orderNumber}:`,
+                err,
+            );
+
+            console.log(rollbackOperations);
+
+            // Realizar rollback manual en orden inverso
+            for (const rollbackOperation of rollbackOperations.reverse()) {
+                try {
+                    await rollbackOperation();
+                } catch (rollbackError) {
+                    console.error(
+                        'Error durante la operación de rollback:',
+                        rollbackError,
+                    );
+                }
+            }
+
+            // Opcional: Actualizar el estado de la orden a 'ERROR' o similar
+            await supabase
+                .from('orders')
+                .update({ status: ONLINE_ORDER_STATUS.ERROR })
+                .eq('order_number', orderNumber);
+
+            return NextResponse.json({
+                message: `Orden número ${orderNumber} falló con error: ${err}`,
+            });
+        }
     } else {
         console.info(`Payment for order ${orderNumber} failed`);
 
@@ -232,7 +313,9 @@ export async function POST(req: NextRequest) {
 }
 
 function verifyNotificationSignature(body: any) {
+    console.log('DENTRO');
     const { Ds_SignatureVersion, Ds_MerchantParameters, Ds_Signature } = body;
+    console.log(Ds_SignatureVersion, Ds_MerchantParameters, Ds_Signature);
 
     // Verificar que la versión de la firma es la esperada
     if (Ds_SignatureVersion !== 'HMAC_SHA256_V1') {

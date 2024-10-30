@@ -27,7 +27,7 @@ const ShoppingBasketOrderSummary = ({
         selectedShippingAddress,
         needsToCheckDelivery,
         discountAmount,
-        discountCode,
+        promoCode,
     } = useShoppingCart();
 
     return (
@@ -57,10 +57,10 @@ const ShoppingBasketOrderSummary = ({
                                 </p>
                             </div>
 
-                            {discountCode && (
+                            {promoCode && (
                                 <div className="flex w-full items-center justify-between">
                                     <p className="text-base leading-4 text-gray-800 dark:text-white">
-                                        {t('discount')} ({discountCode})
+                                        {t('discount')} "{promoCode}""
                                     </p>
                                     <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
                                         -{formatCurrency(discountAmount)}

@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_RESEND_API_KEY}`,
         },
         body: JSON.stringify({
-            from: 'cervezanas@socialinnolabs.org',
+            from: 'info@cervezanas.beer',
             to: emailTo,
             subject: 'Actualización de envío: Tu pedido está en camino',
             html: `
@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
                                 <a href="https://cervezanas.beer/" class="button">Ir a Cervezanas</a>
 
                                 <p>Gracias por confiar en nosotros.</p>
-                                <p>Si tienes alguna pregunta, no dudes en <a href="mailto:cervezanas@socialinnolabs.org">contactarnos</a>.</p>
+                                <p>Si tienes alguna pregunta, no dudes en <a href="mailto:info@cervezanas.beer">contactarnos</a>.</p>
                                 <p><strong>El equipo de Cervezanas</strong></p>
                             </div>
                         </div>

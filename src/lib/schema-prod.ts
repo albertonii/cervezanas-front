@@ -935,7 +935,7 @@ export interface Database {
                     currency: string | null;
                     customer_id: string | null;
                     discount: number | null;
-                    discount_code: string | null;
+                    promo_code: string | null;
                     event_id: string | null;
                     id: string;
                     order_number: string | null;
@@ -951,7 +951,7 @@ export interface Database {
                     currency?: string | null;
                     customer_id?: string | null;
                     discount?: number | null;
-                    discount_code?: string | null;
+                    promo_code?: string | null;
                     event_id?: string | null;
                     id?: string;
                     order_number?: string | null;
@@ -967,7 +967,7 @@ export interface Database {
                     currency?: string | null;
                     customer_id?: string | null;
                     discount?: number | null;
-                    discount_code?: string | null;
+                    promo_code?: string | null;
                     event_id?: string | null;
                     id?: string;
                     order_number?: string | null;
@@ -1097,7 +1097,7 @@ export interface Database {
                     currency: string | null;
                     customer_id: string | null;
                     discount: number | null;
-                    discount_code: string | null;
+                    promo_code: string | null;
                     id: string;
                     order_number: string | null;
                     payment_method: string | null;
@@ -1112,7 +1112,7 @@ export interface Database {
                     currency?: string | null;
                     customer_id?: string | null;
                     discount?: number | null;
-                    discount_code?: string | null;
+                    promo_code?: string | null;
                     id?: string;
                     order_number?: string | null;
                     payment_method?: string | null;
@@ -1127,7 +1127,7 @@ export interface Database {
                     currency?: string | null;
                     customer_id?: string | null;
                     discount?: number | null;
-                    discount_code?: string | null;
+                    promo_code?: string | null;
                     id?: string;
                     order_number?: string | null;
                     payment_method?: string | null;
@@ -1414,7 +1414,7 @@ export interface Database {
                     currency: string | null;
                     customer_name: string | null;
                     discount: number | null;
-                    discount_code: string | null;
+                    promo_code: string | null;
                     estimated_date: string | null;
                     id: string;
                     issue_date: string | null;
@@ -1438,7 +1438,7 @@ export interface Database {
                     currency?: string | null;
                     customer_name?: string | null;
                     discount?: number | null;
-                    discount_code?: string | null;
+                    promo_code?: string | null;
                     estimated_date?: string | null;
                     id?: string;
                     issue_date?: string | null;
@@ -1462,7 +1462,7 @@ export interface Database {
                     currency?: string | null;
                     customer_name?: string | null;
                     discount?: number | null;
-                    discount_code?: string | null;
+                    promo_code?: string | null;
                     estimated_date?: string | null;
                     id?: string;
                     issue_date?: string | null;
@@ -1732,7 +1732,7 @@ export interface Database {
                     category: string | null;
                     created_at: string;
                     description: string;
-                    discount_code: string | null;
+                    promo_code: string | null;
                     discount_percent: number | null;
                     id: string;
                     is_archived: boolean | null;
@@ -1751,7 +1751,7 @@ export interface Database {
                     category?: string | null;
                     created_at?: string;
                     description: string;
-                    discount_code?: string | null;
+                    promo_code?: string | null;
                     discount_percent?: number | null;
                     id?: string;
                     is_archived?: boolean | null;
@@ -1770,7 +1770,7 @@ export interface Database {
                     category?: string | null;
                     created_at?: string;
                     description?: string;
-                    discount_code?: string | null;
+                    promo_code?: string | null;
                     discount_percent?: number | null;
                     id?: string;
                     is_archived?: boolean | null;

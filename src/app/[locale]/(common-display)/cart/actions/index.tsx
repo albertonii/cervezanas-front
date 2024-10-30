@@ -215,7 +215,7 @@ interface InsertOnlineOrderProps {
     subtotal: number;
     delivery_cost: number;
     discount: number;
-    discount_code: string;
+    promo_code: string;
     currency: string;
     order_number: string;
     type: string;
@@ -257,12 +257,11 @@ export async function insertOnlineOrder(form: InsertOnlineOrderProps) {
     formData.set('subtotal', form.subtotal.toString());
     formData.set('delivery_cost', form.delivery_cost.toString());
     formData.set('discount', form.discount.toString());
-    formData.set('discount_code', form.discount_code);
+    formData.set('promo_code', form.promo_code);
     formData.set('discount_amount', form.discount.toString());
     formData.set('currency', form.currency);
     formData.set('order_number', form.order_number);
     formData.set('type', form.type);
-    formData.set('tax', form.tax.toString());
 
     formData.set('items', JSON.stringify(form.items));
 

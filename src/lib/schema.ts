@@ -2259,7 +2259,6 @@ export type Database = {
           currency: string | null
           customer_name: string | null
           discount: number | null
-          discount_code: string | null
           estimated_date: string | null
           id: string
           is_consumer_email_sent: boolean | null
@@ -2269,6 +2268,7 @@ export type Database = {
           order_number: string | null
           owner_id: string | null
           payment_method: string | null
+          promo_code: string | null
           shipping: number | null
           shipping_address: string | null
           shipping_address_extra: string | null
@@ -2305,7 +2305,6 @@ export type Database = {
           currency?: string | null
           customer_name?: string | null
           discount?: number | null
-          discount_code?: string | null
           estimated_date?: string | null
           id?: string
           is_consumer_email_sent?: boolean | null
@@ -2315,6 +2314,7 @@ export type Database = {
           order_number?: string | null
           owner_id?: string | null
           payment_method?: string | null
+          promo_code?: string | null
           shipping?: number | null
           shipping_address?: string | null
           shipping_address_extra?: string | null
@@ -2351,7 +2351,6 @@ export type Database = {
           currency?: string | null
           customer_name?: string | null
           discount?: number | null
-          discount_code?: string | null
           estimated_date?: string | null
           id?: string
           is_consumer_email_sent?: boolean | null
@@ -2361,6 +2360,7 @@ export type Database = {
           order_number?: string | null
           owner_id?: string | null
           payment_method?: string | null
+          promo_code?: string | null
           shipping?: number | null
           shipping_address?: string | null
           shipping_address_extra?: string | null
@@ -3312,24 +3312,24 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "user_discount_codes_discount_code_id_fkey"
+            foreignKeyName: "user_promo_codes_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_promo_codes_promo_code_id_fkey"
             columns: ["promo_code_id"]
             isOneToOne: false
             referencedRelation: "promo_codes"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "user_discount_codes_user_id_fkey"
+            foreignKeyName: "user_promo_codes_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "user_promo_codes_order_id_fkey"
-            columns: ["order_id"]
-            isOneToOne: false
-            referencedRelation: "orders"
             referencedColumns: ["id"]
           },
         ]

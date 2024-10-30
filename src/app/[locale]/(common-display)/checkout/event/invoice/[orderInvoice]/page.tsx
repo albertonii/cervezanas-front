@@ -48,7 +48,7 @@ async function getInvoiceData(slug: any) {
             tax,
             currency,
             discount,
-            discount_code,
+            promo_code,
             order_number,
             is_consumer_email_sent,
             is_producer_email_sent,

@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_RESEND_API_KEY}`,
         },
         body: JSON.stringify({
-            from: 'cervezanas@socialinnolabs.org',
+            from: 'info@cervezanas.beer',
             to: emailTo,
             subject: 'Solicitud rol de PRODUCTOR',
             html: `
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
 
                                 <p>
                                     Si tienes alguna duda, por favor contáctanos a <a href="mailto:
-                                    cervezanas@socialinnolabs.org">
+                                    info@cervezanas.beer">
                                 </p>
 
                                 <p>

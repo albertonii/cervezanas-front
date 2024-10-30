@@ -24,11 +24,11 @@ export async function POST(request: NextRequest) {
     const subtotal = Number(formData.get('subtotal'));
     const deliveryCost = Number(formData.get('delivery_cost'));
     const discount = Number(formData.get('discount'));
-    const discountCode = formData.get('discount_code') as string;
+    const promoCode = formData.get('promo_code') as string;
     const currency = formData.get('currency') as string;
     const orderNumber = formData.get('order_number') as string;
     const type = formData.get('type') as string;
-    const tax = Number(formData.get('tax'));
+    // const tax = Number(formData.get('tax'));
     const items = JSON.parse(formData.get('items') as string);
 
     // Información envío
@@ -64,11 +64,7 @@ export async function POST(request: NextRequest) {
     let promoCodeData = null;
 
     try {
-        if (
-            discountCode !== null &&
-            discountCode !== '' &&
-            discountCode !== 'none'
-        ) {
+        if (promoCode !== null && promoCode !== '' && promoCode !== 'none') {
             const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
             const url = `${baseUrl}/api/shopping_basket/promo_code`;
 
@@ -78,7 +74,7 @@ export async function POST(request: NextRequest) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ code: discountCode, user_id }),
+                body: JSON.stringify({ code: promoCode, user_id }),
             });
 
             if (!promoCodeResponse.ok) {
@@ -121,11 +117,11 @@ export async function POST(request: NextRequest) {
                 subtotal: subtotal,
                 shipping: deliveryCost,
                 discount: discount,
-                discount_code: discountCode,
+                promo_code: promoCode,
                 currency: currency,
                 order_number: orderNumber,
                 type: type,
-                tax: tax,
+                // tax: tax,
                 shipping_name: shippingName,
                 shipping_lastname: shippingLastname,
                 shipping_document_id: shippingDocumentId,

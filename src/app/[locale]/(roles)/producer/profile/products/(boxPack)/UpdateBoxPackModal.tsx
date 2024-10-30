@@ -125,7 +125,7 @@ export function UpdateBoxPackModal({
                             is_available: item.products.is_available,
                             discount_percent: item.products.discount_percent,
                             weight: item.products.weight,
-                            discount_code: item.products.discount_code,
+                            promo_code: item.products.promo_code,
                             price: item.products.price,
                             campaign_id: item.products.campaign_id,
                             is_archived: item.products.is_archived,

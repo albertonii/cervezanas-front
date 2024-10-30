@@ -57,7 +57,7 @@ const productWithInfo: IProduct = {
     description: 'Cerveza Jaira IPA',
     type: ProductType.BEER,
     is_public: true,
-    discount_code: '',
+    promo_code: '',
     discount_percent: 0,
     price: 1000,
     campaign_id: '-1',

@@ -73,7 +73,7 @@ type ShoppingCartContextType = {
     subtotal: number;
     discountId: string | null;
     discountAmount: number;
-    discountCode: string | null;
+    promoCode: string | null;
     applyDiscount: (promoData: PromoData) => void;
 };
 
@@ -121,7 +121,7 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
     subtotal: 0,
     discountId: null,
     discountAmount: 0,
-    discountCode: null,
+    promoCode: null,
     applyDiscount: () => void {},
 });
 
@@ -159,7 +159,7 @@ export function ShoppingCartProvider({ children }: Props) {
 
     const [discountId, setDiscountId] = useState<string | null>(null);
     const [discountAmount, setDiscountAmount] = useState(0);
-    const [discountCode, setDiscountCode] = useState<string | null>(null);
+    const [promoCode, setPromoCode] = useState<string | null>(null);
     const [subtotal, setSubtotal] = useState<number>(0);
 
     useEffect(() => {
@@ -575,7 +575,7 @@ export function ShoppingCartProvider({ children }: Props) {
 
         setDiscountId(promoData.id);
         setDiscountAmount(discount);
-        setDiscountCode(promoData.code);
+        setPromoCode(promoData.code);
     };
 
     const calculateSubtotal = () => {
@@ -622,7 +622,7 @@ export function ShoppingCartProvider({ children }: Props) {
         updateNeedsToCheckDelivery,
         discountId,
         discountAmount,
-        discountCode,
+        promoCode,
         applyDiscount,
         subtotal,
     };

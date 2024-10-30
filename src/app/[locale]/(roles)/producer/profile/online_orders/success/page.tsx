@@ -78,7 +78,7 @@ async function getSuccessData(searchParams: any) {
                 tax,
                 currency,
                 discount,
-                discount_code,
+                promo_code,
                 order_number,
                 business_orders!business_orders_order_id_fkey (
                     *,

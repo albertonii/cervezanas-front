@@ -123,8 +123,7 @@ export default function Footer() {
                                     {t('phone_number')}: <b>+34 687 85 96 55</b>
                                 </span>
                                 <span className=" text-white">
-                                    {t('email')}:{' '}
-                                    <b>cervezanas@socialinnolabs.org</b>
+                                    {t('email')}: <b>info@cervezanas.beer</b>
                                 </span>
                             </p>
                         </div>

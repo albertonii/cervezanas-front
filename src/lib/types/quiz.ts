@@ -246,7 +246,7 @@ export type IProductQuizFormData = {
     is_public: boolean;
     discount_percent: number;
     weight: number;
-    discount_code: string;
+    promo_code: string;
     price: number; // TODO : quitar el price - pq está en product_pack
     campaign_id: string;
     is_archived: boolean;

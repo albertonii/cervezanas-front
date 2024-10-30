@@ -2,7 +2,7 @@ import React from 'react';
 import { IOrder } from '@/lib/types/types';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { useTranslations } from 'next-intl';
-import { ONLINE_ORDER_STATUS, ORDER_TYPE } from '@/constants';
+import { ONLINE_ORDER_STATUS } from '@/constants';
 
 interface Props {
     order: IOrder;
@@ -47,16 +47,6 @@ const PaymentInformationBox = ({ order }: Props) => {
                 </dd>
             </div>
 
-            {order.discount_code && order.discount_code !== 'none' && (
-                <div className="flex items-center justify-between py-2">
-                    <dt className="text-gray-600">{t('discount')}</dt>
-                    <dd className="font-medium text-gray-900">
-                        {t('discount_code')} {order.discount_code} {' - '}{' '}
-                        {formatCurrency(order.discount)}
-                    </dd>
-                </div>
-            )}
-
             <div className="flex items-center justify-between py-2">
                 <dt className="text-gray-600">{t('shipping')}</dt>
                 <dd className="font-medium text-gray-900">
@@ -64,12 +54,15 @@ const PaymentInformationBox = ({ order }: Props) => {
                 </dd>
             </div>
 
-            <div className="flex items-center justify-between py-2">
-                <dt className="text-gray-600">{t('tax')}</dt>
-                <dd className="font-medium text-gray-900">
-                    {formatCurrency(order.tax)}
-                </dd>
-            </div>
+            {order.promo_code && order.discount && (
+                <div className="flex items-center justify-between py-2">
+                    <dt className="text-gray-600">{t('discount')}</dt>
+                    <dd className="font-medium text-green-700">
+                        {t('promo_code')} {order.promo_code} {' - '}{' '}
+                        {formatCurrency(order.discount)}{' '}
+                    </dd>
+                </div>
+            )}
 
             <div className="flex items-center justify-between py-2">
                 <dt className="font-medium text-gray-900">{t('total')}</dt>
