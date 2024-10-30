@@ -731,7 +731,8 @@
         "updating_sales_records_download_status": "Error al actualizar el estado de descarga de los registros de ventas.",
         "update_multimedia": "Error al actualizar el multimedia.",
         "validating_promo_code": "Error al validar el código promocional.",
-        "invalid_promo_code": "Código promocional inválido"
+        "invalid_promo_code": "Código promocional inválido",
+        "sending_notification": "Error al enviar la notificación."
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",
@@ -1393,5 +1394,9 @@
         "max_imgs_reached": "Máximo de imágenes alcanzado",
         "main_image": "Imagen principal",
         "move": "Arrastrar"
+    },
+    "cps": {
+        "fixed_has_been_assigned_as_organizer": "Has sido asignado como organizador del punto de consumo fijo {cp_name}",
+        "mobile_has_been_assigned_as_orgenizer": "Has sido asignado como organizador del punto de consumo móvil ${cp_name}"
     }
 }

@@ -738,7 +738,8 @@
         "create_sales_record": "Error creating sales record.",
         "updating_sales_records_download_status": "Error updating sales records download status.",
         "validating_promo_code": "Error validating promo code.",
-        "invalid_promo_code": "Invalid promo code."
+        "invalid_promo_code": "Invalid promo code.",
+        "sending_notification": "Error sending notification."
     },
     "product_packs": "Product packs",
     "units": "Units",
@@ -1356,5 +1357,9 @@
         "max_imgs_reached": "Maximum images reached",
         "main_image": "Main image",
         "move": "Drag"
+    },
+    "cps": {
+        "fixed_has_been_assigned_as_organizer": "You have been assigned as the organizer of the fixed consumption point {cp_name}",
+        "mobile_has_been_assigned_as_orgenizer": "You have been assigned as organizer for the mobile consumption point ${cp_name}"
     }
 }

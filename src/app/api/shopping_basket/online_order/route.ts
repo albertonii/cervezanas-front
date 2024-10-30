@@ -60,7 +60,6 @@ export async function POST(request: NextRequest) {
     const billingIsCompany = formData.get('billing_is_company') === 'true';
 
     const createdOrderIds = [];
-    const createdPromoCodeId: any[] = [];
 
     let promoCodeData = null;
 
@@ -330,39 +329,21 @@ export async function POST(request: NextRequest) {
         }
 
         if (promoCodeData) {
-            // Incrementamos el uso del código promocional
-            //     const { data: updatedPromoCode, error: updatePromoCodeError } =
-            //         await supabase
-            //             .from('promo_codes')
-            //             .update({ uses: promoCodeData.uses + 1 })
-            //             .eq('id', promoCodeData.id)
-            //             .select('id')
-            //             .single();
-
-            //     if (updatePromoCodeError || !updatedPromoCode) {
-            //         throw new Error(
-            //             'Error al actualizar el uso del código promocional.',
-            //         );
-            //     }
-            //     // Para el rollback
-            //     createdPromoCodeId.push(updatedPromoCode);
-
             // Insertar registro en 'user_promo_codes'
             // De esta manera cuando se valide la compra, podemos comprobar si se aplicó una promoción para esa orden de compra en /api/notification
-            const { error: promoCodeUseError } = await supabase
-                .from('user_promo_codes')
-                .insert({
-                    user_id,
-                    promo_code_id: promoCodeData.id,
-                    order_id: order.id,
-                });
-
-            if (promoCodeUseError) {
-                return NextResponse.json(
-                    { message: 'Error using promo code' },
-                    { status: 500 },
-                );
-            }
+            // const { error: promoCodeUseError } = await supabase
+            //     .from('user_promo_codes')
+            //     .insert({
+            //         user_id,
+            //         promo_code_id: promoCodeData.id,
+            //         order_id: order.id,
+            //     });
+            // if (promoCodeUseError) {
+            //     return NextResponse.json(
+            //         { message: 'Error using promo code' },
+            //         { status: 500 },
+            //     );
+            // }
         }
 
         return NextResponse.json({ message: order.id }, { status: 201 });
@@ -370,13 +351,6 @@ export async function POST(request: NextRequest) {
         // Rollback
         if (createdOrderIds.length > 0) {
             await supabase.from('orders').delete().in('id', createdOrderIds);
-        }
-
-        if (createdPromoCodeId.length > 0) {
-            await supabase
-                .from('promo_codes')
-                .update({ uses: createdPromoCodeId[0].uses - 1 })
-                .eq('id', createdPromoCodeId[0].id);
         }
 
         return NextResponse.json(

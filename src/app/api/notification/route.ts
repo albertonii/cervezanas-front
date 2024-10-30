@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import createServerClient from '@/utils/supabaseServer';
 import { NextRequest, NextResponse } from 'next/server';
 import { APP_URLS, ONLINE_ORDER_STATUS } from '@/constants';
@@ -27,6 +28,18 @@ import { processRestNotification } from '../../[locale]/components/TPV/redsysCli
  * @see https://pagosonline.redsys.es/codigosRespuesta.html#codigo-dsresponse for response code details.
  */
 export async function POST(req: NextRequest) {
+    // Verificar la firma
+    const isValidNotification = verifyNotificationSignature(body);
+
+    if (!isValidNotification) {
+        console.error('Invalid payment notification signature');
+        return NextResponse.json(
+            { message: 'Invalid signature' },
+            { status: 400 },
+        );
+    }
+
+    // Si la firma es válida, procesar la notificación
     const data = await req.formData();
     const signatureVersion = data.get('Ds_SignatureVersion');
     const merchantParameters = data.get('Ds_MerchantParameters');
@@ -66,15 +79,10 @@ export async function POST(req: NextRequest) {
             .from('orders')
             .update({ status: ONLINE_ORDER_STATUS.PAID })
             .eq('order_number', orderNumber)
-            .select(
-                `
-                id,
-                owner_id
-            `,
-            )
+            .select('id, owner_id, promo_code_id')
             .single();
 
-        if (error) {
+        if (error || !order) {
             console.error(
                 `Error in payment for order ${orderNumber} - ORDERS. Error: ${JSON.stringify(
                     error,
@@ -86,63 +94,92 @@ export async function POST(req: NextRequest) {
             });
         }
 
-        // Comprobar si en user_promo_codes hay un registro con el order_id
-        const { data: userPromoCodeData, error: userPromoCodeError } =
-            await supabase
-                .from('user_promo_codes')
-                .select(
-                    `
-                        id,
-                        promo_codes (*)
-                    `,
-                )
-                .eq('order_id', order.id)
-                .single();
+        if (order.promo_code_id) {
+            const { data: promoCodeData, error: promoCodeError } =
+                await supabase
+                    .from('promo_codes')
+                    .select('*')
+                    .eq('id', order.promo_code_id)
+                    .single();
+            if (promoCodeError || !promoCodeData) {
+                // Manejo de errores
+            } else {
+                // Insertar en 'user_promo_codes'
+                const { error: promoCodeUseError } = await supabase
+                    .from('user_promo_codes')
+                    .insert({
+                        user_id: order.owner_id,
+                        promo_code_id: promoCodeData.id,
+                        order_id: order.id,
+                    });
 
-        if (userPromoCodeError) {
-            console.error(
-                `Error in payment for order ${orderNumber} - USER PROMO CODE. Error: ${JSON.stringify(
-                    userPromoCodeError,
-                )}`,
-            );
+                // Incrementar el contador de usos
+                const { error: promoCodeUpdateError } = await supabase
+                    .from('promo_codes')
+                    .update({ uses: promoCodeData.uses + 1 })
+                    .eq('id', promoCodeData.id);
 
-            return NextResponse.json({
-                message: `Order number ${orderNumber} failed with error: ${userPromoCodeError.message}. Error Code: ${userPromoCodeError.code}`,
-            });
-        }
-
-        // Si es así, hay que incrementar el contador de usos del código promocional en la table promo_codes
-        if (userPromoCodeData) {
-            const promoCodeId = userPromoCodeData.promo_codes?.id;
-            const promoCodeUses = userPromoCodeData.promo_codes?.uses ?? 0;
-
-            if (!promoCodeId) {
-                console.error(
-                    `Error in payment for order ${orderNumber} - USER PROMO CODE ID. Error: Promo code id not found`,
-                );
-
-                return NextResponse.json({
-                    message: `Order number ${orderNumber} failed with error: Promo code id not found`,
-                });
-            }
-
-            const { error: promoCodeError } = await supabase
-                .from('promo_codes')
-                .update({ uses: promoCodeUses + 1 })
-                .eq('id', promoCodeId);
-
-            if (promoCodeError) {
-                console.error(
-                    `Error in payment for order ${orderNumber} - PROMO CODES. Error: ${JSON.stringify(
-                        promoCodeError,
-                    )}`,
-                );
-
-                return NextResponse.json({
-                    message: `Order number ${orderNumber} failed with error: ${promoCodeError.message}. Error Code: ${promoCodeError.code}`,
-                });
+                // Manejo de errores si es necesario
             }
         }
+
+        // // Comprobar si en user_promo_codes hay un registro con el order_id
+        // const { data: userPromoCodeData, error: userPromoCodeError } =
+        //     await supabase
+        //         .from('user_promo_codes')
+        //         .select(
+        //             `
+        //                 id,
+        //                 promo_codes (*)
+        //             `,
+        //         )
+        //         .eq('order_id', order.id)
+        //         .single();
+
+        // if (userPromoCodeError) {
+        //     console.error(
+        //         `Error in payment for order ${orderNumber} - USER PROMO CODE. Error: ${JSON.stringify(
+        //             userPromoCodeError,
+        //         )}`,
+        //     );
+
+        //     return NextResponse.json({
+        //         message: `Order number ${orderNumber} failed with error: ${userPromoCodeError.message}. Error Code: ${userPromoCodeError.code}`,
+        //     });
+        // }
+
+        // // Si es así, hay que incrementar el contador de usos del código promocional en la tabla promo_codes
+        // if (userPromoCodeData) {
+        //     const promoCodeId = userPromoCodeData.promo_codes?.id;
+        //     const promoCodeUses = userPromoCodeData.promo_codes?.uses ?? 0;
+
+        //     if (!promoCodeId) {
+        //         console.error(
+        //             `Error in payment for order ${orderNumber} - USER PROMO CODE ID. Error: Promo code id not found`,
+        //         );
+
+        //         return NextResponse.json({
+        //             message: `Order number ${orderNumber} failed with error: Promo code id not found`,
+        //         });
+        //     }
+
+        //     const { error: promoCodeError } = await supabase
+        //         .from('promo_codes')
+        //         .update({ uses: promoCodeUses + 1 })
+        //         .eq('id', promoCodeId);
+
+        //     if (promoCodeError) {
+        //         console.error(
+        //             `Error in payment for order ${orderNumber} - PROMO CODES. Error: ${JSON.stringify(
+        //                 promoCodeError,
+        //             )}`,
+        //         );
+
+        //         return NextResponse.json({
+        //             message: `Order number ${orderNumber} failed with error: ${promoCodeError.message}. Error Code: ${promoCodeError.code}`,
+        //         });
+        //     }
+        // }
 
         // Send notification to producer associated
 
@@ -192,4 +229,56 @@ export async function POST(req: NextRequest) {
             message: `Order number ${orderNumber} failed. Error Code: ${responseCode}`,
         });
     }
+}
+
+function verifyNotificationSignature(body: any) {
+    const { Ds_SignatureVersion, Ds_MerchantParameters, Ds_Signature } = body;
+
+    // Verificar que la versión de la firma es la esperada
+    if (Ds_SignatureVersion !== 'HMAC_SHA256_V1') {
+        console.error('Unsupported signature version:', Ds_SignatureVersion);
+        return false;
+    }
+
+    // Tu clave secreta proporcionada por Redsys (en base64)
+    const merchantSecretKey = process.env.NEXT_PUBLIC_DS_SIGNATURE_SECRET ?? ''; // Asegúrate de que esta clave está en base64
+
+    // Paso 1: Decodificar Ds_MerchantParameters de Base64
+    const decodedParams = Buffer.from(Ds_MerchantParameters, 'base64').toString(
+        'utf8',
+    );
+
+    // Paso 2: Parsear los parámetros a un objeto JSON
+    const merchantParams = JSON.parse(decodedParams);
+
+    // Paso 3: Obtener el Número de Pedido (Ds_Order)
+    const orderNumber = merchantParams['Ds_Order'];
+
+    // Paso 4: Generar la clave de firma (clave derivada)
+    const key = Buffer.from(merchantSecretKey, 'base64');
+    const orderKey = crypto
+        .createHmac('sha256', key)
+        .update(orderNumber, 'utf8')
+        .digest();
+
+    // Paso 5: Generar la firma HMAC SHA256
+    const signature = crypto
+        .createHmac('sha256', orderKey)
+        .update(Ds_MerchantParameters, 'utf8')
+        .digest('base64');
+
+    // Paso 6: Reemplazar caracteres '+' y '/' por '-' y '_'
+    const signatureSafe = signature.replace(/\+/g, '-').replace(/\//g, '_');
+
+    // Paso 7: Comparar la firma generada con la firma recibida
+    const isValid = signatureSafe === Ds_Signature;
+
+    if (!isValid) {
+        console.error('Invalid signature:', {
+            expected: signatureSafe,
+            received: Ds_Signature,
+        });
+    }
+
+    return isValid;
 }

@@ -5,11 +5,13 @@ import dynamic from 'next/dynamic';
 import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import React, { useMemo, useState } from 'react';
 import { ROLE_ENUM } from '@/lib//enums';
+import { createNotification } from '@/utils/utils';
 import { IProducerUser } from '@/lib//types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 import { faCancel, faCheck, faUser } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -50,6 +52,8 @@ export default function ProducerList({ producers }: Props) {
 
     const [sorting, setSorting] = useState<SortBy>(SortBy.NONE);
     const [selectedProducer, setSelectedProducer] = useState<IProducerUser>();
+
+    const { handleMessage } = useMessage();
 
     const filteredItems: IProducerUser[] = useMemo<IProducerUser[]>(() => {
         return producers.filter((producer) => {
@@ -120,16 +124,25 @@ export default function ProducerList({ producers }: Props) {
     };
 
     const sendNotification = async (message: string) => {
-        // Notify user that has been accepted/rejected has a producer
-        const { error } = await supabase.from('notifications').insert({
-            message: `${message}`,
-            user_id: selectedProducer?.user_id,
-            link: `/${ROLE_ENUM.Productor}/profile?a=settings`,
-            source: user?.id, // User that has created the consumption point
-        });
+        if (!selectedProducer) return;
 
-        if (error) {
-            throw error;
+        const link = `/${ROLE_ENUM.Productor}/profile?a=settings`;
+        // Notify user that has been accepted/rejected has a producer
+        const response = await createNotification(
+            supabase,
+            selectedProducer.user_id,
+            user?.id,
+            link,
+            message,
+        );
+
+        if (response.error) {
+            console.error(response.error);
+            handleMessage({
+                type: 'error',
+                message: t('notifications.error'),
+            });
+            return;
         }
     };
 

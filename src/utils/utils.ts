@@ -295,3 +295,27 @@ export const calculateInvoicePeriod = (date: Date) => {
     const year = date.getFullYear();
     return `${month}/${year}`;
 };
+
+const validatePromoCode = (promoCode: string) => {};
+
+export const createNotification = async (
+    supabase: any,
+    user_id: string,
+    source_id: string,
+    link: string,
+    message: string,
+) => {
+    // Notify user that has been accepted/rejected has a distributor
+    const { error } = await supabase.from('notifications').insert({
+        message: `${message}`,
+        user_id: user_id,
+        link: link,
+        source: source_id,
+    });
+
+    if (error) {
+        return { error, message: 'Error al crear notificación' };
+    }
+
+    return { error: null, message: 'Notificación creada exitosamente' };
+};
