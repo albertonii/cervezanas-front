@@ -108,7 +108,6 @@ export async function POST(request: NextRequest) {
                 owner_id: user_id,
                 customer_name: `${name} ${lastname}`,
                 status: ONLINE_ORDER_STATUS.PENDING,
-                tracking_id: '123456789',
                 issue_date: new Date().toISOString(),
                 estimated_date: new Date(
                     new Date().getTime() + 1000 * 60 * 60 * 24 * 3,

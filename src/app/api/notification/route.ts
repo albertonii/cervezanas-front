@@ -80,6 +80,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     if (isResponseCodeOk(responseCode)) {
         try {
+            console.log('ORDER NUMBER', orderNumber);
             // Update order status
             const { data: order, error } = await supabase
                 .from('orders')

@@ -117,18 +117,26 @@ async function getSuccessData(searchParams: any) {
         Ds_Card_Brand,
     } = JSON.parse(decodeBase64(Ds_MerchantParameters));
 
-    console.log('Hora', Ds_Hour);
-    console.log('Fecha', Ds_Date);
-    console.log('Cantidad', Ds_Amount);
-    console.log('Terminal', Ds_Terminal);
-    console.log('Respuesta', Ds_Response);
-    console.log('Tipo Dato', Ds_MerchantData);
-    console.log('Pago Seguro', Ds_SecurePayment);
-    console.log('Tipo transacción', Ds_TransactionType);
-    console.log('Código País Tarjeta', Ds_Card_Country);
-    console.log('Código Auth', Ds_AuthorisationCode);
-    console.log('Idioma', Ds_ConsumerLanguage);
-    console.log('Marca Tarjeta', Ds_Card_Brand);
+    const logData = {
+        Hora: Ds_Hour,
+        Fecha: Ds_Date,
+        Cantidad: Ds_Amount,
+        Terminal: Ds_Terminal,
+        Respuesta: Ds_Response,
+        'Tipo Dato': Ds_MerchantData,
+        'Pago Seguro': Ds_SecurePayment,
+        'Tipo transacción': Ds_TransactionType,
+        'Código País Tarjeta': Ds_Card_Country,
+        'Código Auth': Ds_AuthorisationCode,
+        Idioma: Ds_ConsumerLanguage,
+        'Marca Tarjeta': Ds_Card_Brand,
+    };
+
+    console.log('=== Datos de la Transacción ===');
+    Object.entries(logData).forEach(([key, value]) => {
+        console.log(`${key}: ${value}`);
+    });
+    console.log('==============================');
 
     const supabase = await createServerClient();
 
