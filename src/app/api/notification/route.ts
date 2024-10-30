@@ -176,11 +176,12 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
                     console.log('CODE DATA', promoCodeData);
                     console.log(promoCodeData.uses);
 
-                    if (!promoCodeData.uses) {
+                    if (
+                        promoCodeData.uses === null ||
+                        promoCodeData.uses === undefined
+                    ) {
                         console.error(
-                            `Error fetching promo code uses for order ${orderNumber}. Error: ${JSON.stringify(
-                                promoCodeError,
-                            )}`,
+                            `Error fetching promo code uses for order ${orderNumber}. `,
                         );
 
                         throw new Error(
