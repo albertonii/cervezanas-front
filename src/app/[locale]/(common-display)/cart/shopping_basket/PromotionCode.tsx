@@ -13,8 +13,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { faTicketAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { PromoData, useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { PromoData, useShoppingCart } from '@/app/context/ShoppingCartContext';
 
 const promoCodeSchema: ZodType<{ code: string }> = z.object({
     code: z.string().nonempty({ message: 'errors.input_required' }),
@@ -28,7 +28,7 @@ export default function PromoCode() {
     const { handleMessage } = useMessage();
     const { user } = useAuth();
     const [isFetching, setIsFetching] = useState(false);
-    const { applyDiscount } = useShoppingCart();
+    const { applyDiscount, checkProductPackExists } = useShoppingCart();
 
     const form = useForm<PromoCodeValidationSchema>({
         resolver: zodResolver(promoCodeSchema),
@@ -46,6 +46,22 @@ export default function PromoCode() {
             );
 
             if (promoCodeRes.isValid) {
+                const productPackExists =
+                    promoCodeRes.product_pack_id &&
+                    promoCodeRes.product_id &&
+                    checkProductPackExists(
+                        promoCodeRes.product_id,
+                        promoCodeRes.product_pack_id,
+                    );
+
+                if (!productPackExists) {
+                    handleMessage({
+                        type: 'error',
+                        message: t('errors.invalid_promo_code'),
+                    });
+                    return;
+                }
+
                 applyDiscount(promoCodeRes);
                 handleMessage({
                     type: 'success',

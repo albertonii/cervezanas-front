@@ -323,24 +323,6 @@ export async function POST(request: NextRequest) {
             }
         }
 
-        if (promoCodeData) {
-            // Insertar registro en 'user_promo_codes'
-            // De esta manera cuando se valide la compra, podemos comprobar si se aplicó una promoción para esa orden de compra en /api/notification
-            // const { error: promoCodeUseError } = await supabase
-            //     .from('user_promo_codes')
-            //     .insert({
-            //         user_id,
-            //         promo_code_id: promoCodeData.id,
-            //         order_id: order.id,
-            //     });
-            // if (promoCodeUseError) {
-            //     return NextResponse.json(
-            //         { message: 'Error using promo code' },
-            //         { status: 500 },
-            //     );
-            // }
-        }
-
         return NextResponse.json({ message: order.id }, { status: 201 });
     } catch (error) {
         // Rollback

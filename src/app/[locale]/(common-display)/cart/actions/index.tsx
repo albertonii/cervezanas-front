@@ -700,66 +700,213 @@ const isInsideSubRegion = async (
 };
 
 export const validatePromoCode = async (code: string, userId: string) => {
+    // Get promo code type
     try {
-        const url = `${baseUrl}/api/shopping_basket/promo_code`;
+        const url = `${baseUrl}/api/shopping_basket/promo_code?code=${code}`;
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data) {
+            // Si el tipo de código promocional es porcentaje llamar validatePromoCodePercentage
+            if (data.discountType === 'percentage') {
+                const response = await validatePromoCodePercentage(
+                    code,
+                    userId,
+                );
+                return response;
+            } else if (data.discountType === 'product' && data.product_id) {
+                if (data.product_pack_id) {
+                    const response =
+                        await validatePromoCodeForProductByProductPackId(
+                            code,
+                            userId,
+                            data.product_id,
+                            data.product_pack_id,
+                        );
+
+                    return response;
+                } else {
+                    const response = await validatePromoCodeForProduct(
+                        code,
+                        userId,
+                        data.product_id,
+                    );
+                    return response;
+                }
+            }
+        } else {
+            return { isValid: false, message: 'Código promocional inválido.' };
+        }
+    } catch (error) {
+        console.error(error);
+
+        return { isValid: false, message: 'Código promocional inválido.' };
+    }
+};
+
+export const validatePromoCodePercentage = async (
+    code: string,
+    userId: string,
+) => {
+    try {
+        const url = `${baseUrl}/api/shopping_basket/promo_code/by_percentage`;
+
+        const headers = new Headers();
+        headers.append('Access-Control-Allow-Origin', '*');
+        headers.append('Access-Control-Allow-Methods', 'POST');
+        headers.append('Access-Control-Allow-Headers', 'Content-Type');
+        headers.append('Access-Control-Allow-Credentials', 'true');
+        headers.append(
+            'Access-Control-Allow-Headers',
+            'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+        );
 
         const response = await fetch(url, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: headers,
             body: JSON.stringify({ code, user_id: userId }),
         });
 
         const data = await response.json();
 
         if (response.ok && data.isValid) {
-            return data;
+            const promoCode = data.promoCode;
+            return promoCode;
         } else {
-            return null;
+            return { isValid: false, message: 'Código promocional inválido.' };
         }
     } catch (error) {
         console.error(error);
 
-        return null;
+        return {
+            isValid: false,
+            message: 'Código promocional inválido. Catch ERROR',
+        };
     }
 };
 
 export const validatePromoCodeForProduct = async (
     code: string,
-    user_id: string,
-    product_id: string,
+    userId: string,
+    productId: string,
 ) => {
-    const response = await validatePromoCode(code, user_id);
+    try {
+        const url = `${baseUrl}/api/shopping_basket/promo_code/by_product`;
 
-    if (!response) {
-        return { isValid: false, message: 'Código promocional inválido.' };
-    }
+        const headers = new Headers();
+        headers.append('Access-Control-Allow-Origin', '*');
+        headers.append('Access-Control-Allow-Methods', 'POST');
+        headers.append('Access-Control-Allow-Headers', 'Content-Type');
+        headers.append('Access-Control-Allow-Credentials', 'true');
+        headers.append(
+            'Access-Control-Allow-Headers',
+            'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+        );
 
-    const promoCode = response.promoCode;
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({
+                code,
+                user_id: userId,
+                product_id: productId,
+            }),
+        });
 
-    // Verificar si el código está asociado al producto
-    if (promoCode.product_id && promoCode.product_id !== product_id) {
+        const promoCode = await response.json();
+
+        if (response.ok && promoCode.isValid) {
+            // Verificar si el código está asociado al producto
+            if (promoCode.product_id && promoCode.product_id !== productId) {
+                return {
+                    isValid: false,
+                    message:
+                        'Este código promocional no es válido para este producto.',
+                };
+            }
+
+            return promoCode;
+        } else {
+            return { isValid: false, message: promoCode.message };
+        }
+    } catch (error) {
+        console.error(error);
+
         return {
             isValid: false,
-            message: 'Este código promocional no es válido para este producto.',
+            message: 'Código promocional inválido. Catch ERROR',
         };
     }
+};
 
-    const supabase = await createServerClient();
+export const validatePromoCodeForProductByProductPackId = async (
+    code: string,
+    userId: string,
+    productId: string,
+    packId: string,
+) => {
+    try {
+        const url = `${baseUrl}/api/shopping_basket/promo_code/by_product_and_pack_id`;
 
-    // Si usas una tabla intermedia `promo_code_products`, debes verificar si el producto está en la lista
-    const { data: promoCodeProduct } = await supabase
-        .from('promo_code_products')
-        .select('*')
-        .eq('promo_code_id', promoCode.id)
-        .eq('product_id', product_id)
-        .single();
+        const headers = new Headers();
+        headers.append('Access-Control-Allow-Origin', '*');
+        headers.append('Access-Control-Allow-Methods', 'POST');
+        headers.append('Access-Control-Allow-Headers', 'Content-Type');
+        headers.append('Access-Control-Allow-Credentials', 'true');
+        headers.append(
+            'Access-Control-Allow-Headers',
+            'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+        );
 
-    if (!promoCodeProduct) {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({
+                code,
+                user_id: userId,
+                product_id: productId,
+                product_pack_id: packId,
+            }),
+        });
+
+        const promoCode = await response.json();
+
+        if (response.ok && promoCode.isValid) {
+            // Verificar si el código está asociado al producto
+            if (promoCode.product_id && promoCode.product_id !== productId) {
+                return {
+                    isValid: false,
+                    message:
+                        'Este código promocional no es válido para este producto.',
+                };
+            }
+
+            if (
+                promoCode.product_pack_id &&
+                promoCode.product_pack_id !== packId
+            ) {
+                return {
+                    isValid: false,
+                    message:
+                        'Este código promocional no es válido para este producto.',
+                };
+            }
+
+            return promoCode;
+        } else {
+            return { isValid: false, message: promoCode.message };
+        }
+    } catch (error) {
+        console.error(error);
+
         return {
             isValid: false,
-            message: 'Este código promocional no es válido para este producto.',
+            message: 'Código promocional inválido. Catch ERROR',
         };
     }
-
-    return { isValid: true, promoCode };
 };

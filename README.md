@@ -127,8 +127,8 @@ Atributos: id, created_at, code, discount_type, discount_value, max_uses, uses, 
 
 Tipos de descuento promocional:
 
-- Por porcentaje descuento
-- Asociados a productos con porcentaje descuento
+- Por porcentaje descuento - "percentage"
+- Asociados a productos con porcentaje descuento - "product"
 
 Cada vez que se aplica un código promocional hay que validarlo dos veces: una antes de realizar el pedio y otra al presionar en el botón para proceder al pago. Una vez confirmado el pago, se deberá aumentar los contadores de uso del código promocional para asegurar que las validaciones siguen siendo correctas, además de introducir en la tabla user_promo_codes el usuario que ha obtenido dicho código promocional.
 

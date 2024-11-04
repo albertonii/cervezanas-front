@@ -173,9 +173,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
                             .eq('id', userPromoCodeData.id);
                     });
 
-                    console.log('CODE DATA', promoCodeData);
-                    console.log(promoCodeData.uses);
-
                     if (
                         promoCodeData.uses === null ||
                         promoCodeData.uses === undefined
