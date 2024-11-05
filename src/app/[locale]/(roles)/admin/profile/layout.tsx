@@ -1,15 +1,14 @@
-import React from 'react';
 import readUserSession from '@/lib//actions';
+import { ROLE_ENUM } from '@/lib//enums';
 import { redirect } from 'next/navigation';
 import { User } from '@supabase/supabase-js';
-import { ROLE_ENUM } from '@/lib//enums';
 import {
     faUser,
     faBox,
     faBell,
     faMoneyBill,
 } from '@fortawesome/free-solid-svg-icons';
-import { Sidebar } from '@/app/[locale]/components/layout/Sidebar';
+import ProfileSidebarLayout from '@/app/[locale]/components/ui/ProfileSidebarLayout';
 
 type LayoutProps = {
     children: React.ReactNode;
@@ -75,16 +74,9 @@ export default async function layout({ children }: LayoutProps) {
     return (
         <>
             {hasAuthorization ? (
-                <section className="relative flex w-full min-h-[80vh] ">
-                    <Sidebar sidebarLinks={sidebarLinks} />
-
-                    <div
-                        className="w-full relative pt-4 sm:pt-8"
-                        aria-label="Container Admin settings"
-                    >
-                        {children}
-                    </div>
-                </section>
+                <ProfileSidebarLayout sidebarLinks={sidebarLinks}>
+                    <div>{children}</div>
+                </ProfileSidebarLayout>
             ) : (
                 <section>
                     <h2>

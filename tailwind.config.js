@@ -162,6 +162,8 @@ module.exports = {
         light: '#a87a12',
         blonde: '#edb640',
         alvine: '#ffd37c',
+        brown: '#bf922b',
+        dark_brown: '#7a5e1e',
       },
       transparent: 'transparent',
       current: 'currentColor',
