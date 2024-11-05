@@ -12,6 +12,7 @@ import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { faCancel, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
+import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 
 interface Props {
     counter: number;
@@ -41,9 +42,8 @@ export default function AssociatedProducersList({ counter }: Props) {
 
     const [contracts, setContracts] = useState<IDistributionContract[]>([]);
 
-    const { data, refetch } = useFetchDistributionContractsByDistributorId(
-        user?.id,
-    );
+    const { data, refetch, isError, isLoading } =
+        useFetchDistributionContractsByDistributorId(user?.id);
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -83,7 +83,7 @@ export default function AssociatedProducersList({ counter }: Props) {
                     href={`/user-info/${row.producer_id}`}
                     locale={locale}
                     target="_blank"
-                    className="font-semibold text-beer-blonde hover:text-beer-draft"
+                    className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde"
                 >
                     {row.producer_user?.users?.username}
                 </Link>
@@ -135,7 +135,11 @@ export default function AssociatedProducersList({ counter }: Props) {
     ];
 
     return (
-        <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
+        <ListTableWrapper
+            isError={isError}
+            isLoading={isLoading}
+            errorMessage={'errors.fetching_producers'}
+        >
             {isApproveModal && selectedContract && (
                 <>
                     <ApproveContractModal
@@ -167,6 +171,6 @@ export default function AssociatedProducersList({ counter }: Props) {
                 paginationCounter={counter}
                 sourceDataIsFromServer={false}
             />
-        </section>
+        </ListTableWrapper>
     );
 }

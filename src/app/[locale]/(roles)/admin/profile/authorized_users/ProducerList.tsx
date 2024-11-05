@@ -249,7 +249,7 @@ export default function ProducerList({ producers }: Props) {
                                     />
                                 </th>
 
-                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
                                     <Link
                                         href={`/user-info/${producer.user_id}`}
                                         locale={locale}

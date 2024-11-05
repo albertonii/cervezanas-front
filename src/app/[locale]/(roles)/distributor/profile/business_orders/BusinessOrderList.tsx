@@ -19,6 +19,7 @@ import {
     ROUTE_DISTRIBUTOR,
     ROUTE_PROFILE,
 } from '@/config';
+import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 
 interface Props {
     bOrders: IBusinessOrder[];
@@ -145,24 +146,11 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
     ];
 
     return (
-        <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
-            {isError && (
-                <div className="flex items-center justify-center">
-                    <p className="text-gray-500 dark:text-gray-400">
-                        {t('errors.fetching_online_orders')}
-                    </p>
-                </div>
-            )}
-
-            {isLoading && (
-                <Spinner
-                    color="beer-blonde"
-                    size="xLarge"
-                    absolute
-                    flexCenter
-                />
-            )}
-
+        <ListTableWrapper
+            isError={isError}
+            isLoading={isLoading}
+            errorMessage={'errors.fetching_online_orders'}
+        >
             {!isError && !isLoading && bOrders && bOrders.length === 0 ? (
                 <div className="flex items-center justify-center">
                     <p className="text-gray-500 dark:text-gray-400">
@@ -182,6 +170,6 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
                     sourceDataIsFromServer={false}
                 />
             )}
-        </section>
+        </ListTableWrapper>
     );
 }

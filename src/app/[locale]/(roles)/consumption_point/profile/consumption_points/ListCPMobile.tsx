@@ -13,6 +13,7 @@ import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
+import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 
 enum SortBy {
     NONE = 'none',
@@ -107,7 +108,12 @@ export function ListCPMobile({ cpsId }: Props) {
     };
 
     return (
-        <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
+        <ListTableWrapper
+            isError={isError}
+            isLoading={isLoading}
+            errorMessage={'errors.fetching_cp_mobile'}
+        >
+            {' '}
             {/* Don't remove isEditModal or the selectedCP will not be updated when changed from selected CP  */}
             {isEditModal && selectedCP && (
                 <>
@@ -118,7 +124,6 @@ export function ListCPMobile({ cpsId }: Props) {
                     />
                 </>
             )}
-
             {isDeleteModal && selectedCP && (
                 <DeleteCPMobileModal
                     selectedCPId={selectedCP.id}
@@ -126,24 +131,6 @@ export function ListCPMobile({ cpsId }: Props) {
                     handleDeleteModal={handleDeleteModal}
                 />
             )}
-
-            {isError && (
-                <div className="flex items-center justify-center">
-                    <p className="text-gray-500 dark:text-gray-400">
-                        {t('errors.fetching_cp_mobile')}
-                    </p>
-                </div>
-            )}
-
-            {isLoading && (
-                <Spinner
-                    color="beer-blonde"
-                    size="xLarge"
-                    absolute
-                    absolutePosition="center"
-                />
-            )}
-
             {!isError && !isLoading && cpMobile.length === 0 ? (
                 <div className="flex items-center justify-center">
                     <p className="text-gray-500 dark:text-gray-400">
@@ -253,6 +240,6 @@ export function ListCPMobile({ cpsId }: Props) {
                     </div>
                 </div>
             )}
-        </section>
+        </ListTableWrapper>
     );
 }

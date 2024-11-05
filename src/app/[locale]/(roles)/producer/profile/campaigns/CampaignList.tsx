@@ -84,7 +84,7 @@ export function CampaignList({
                 <Link
                     href={`/campaigns/${row.id}`}
                     locale={locale}
-                    className="font-semibold text-beer-blonde hover:text-beer-draft"
+                    className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde"
                 >
                     {value}
                 </Link>

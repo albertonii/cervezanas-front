@@ -13,6 +13,7 @@ import { InfoTooltip } from '@/app/[locale]/components/ui/InfoTooltip';
 import { EditButton } from '@/app/[locale]/components/ui/buttons/EditButton';
 import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';
 import { ArchiveButton } from '@/app/[locale]/components/ui/buttons/ArchiveButton';
+import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 
 interface Props {
     handleEditShowModal: ComponentProps<any>;
@@ -104,7 +105,7 @@ export function ProductList({
             sortable: true,
             render: (name: string, row: IProduct) => (
                 <Link href={`/products/${row.id}`} locale={locale}>
-                    <span className="font-semibold text-beer-blonde hover:text-beer-draft">
+                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:text-beer-softBlonde">
                         {name}
                     </span>
                     {row.product_packs?.length === 0 && (
@@ -163,24 +164,11 @@ export function ProductList({
     };
 
     return (
-        <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
-            {isError && (
-                <div className="flex items-center justify-center py-6">
-                    <p className="text-gray-500">
-                        {t('errors.fetching_products')}
-                    </p>
-                </div>
-            )}
-
-            {isLoading && (
-                <Spinner
-                    color="beer-blonde"
-                    size="xLarge"
-                    absolute
-                    flexCenter
-                />
-            )}
-
+        <ListTableWrapper
+            isError={isError}
+            isLoading={isLoading}
+            errorMessage={'errors.fetching_products'}
+        >
             {!isError && !isLoading && products?.length === 0 ? (
                 <div className="my-[10vh] flex items-center justify-center">
                     <p className="text-2xl text-gray-500">{t('no_products')}</p>
@@ -198,6 +186,6 @@ export function ProductList({
                     sourceDataIsFromServer={false}
                 />
             )}
-        </section>
+        </ListTableWrapper>
     );
 }

@@ -2,9 +2,11 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 import DeleteEventModal from '@/app/[locale]/components/modals/DeleteEventModal';
 import UpdateEventModal from '@/app/[locale]/components/modals/event/UpdateEvent';
 import useFetchEventsByOwnerId from '../../../../../../../hooks/useFetchEventsByOwnerId';
+import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import React, { useEffect, useState } from 'react';
 import { ROUTE_EVENTS } from '@/config';
 import { formatDateString } from '@/utils/formatDate';
@@ -12,8 +14,6 @@ import { useLocale, useTranslations } from 'next-intl';
 import { ICPFixed, ICPMobile, IEvent } from '@/lib/types/types';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
-import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 
 interface Props {
     counter: number;
@@ -61,7 +61,7 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
             sortable: true,
             render: (value: string, row: IEvent) => (
                 <Link href={`${ROUTE_EVENTS}/${row.id}`} locale={locale}>
-                    <span className="font-semibold text-beer-blonde hover:text-beer-draft">
+                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
                         {value}
                     </span>
                 </Link>
@@ -127,7 +127,11 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
     };
 
     return (
-        <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
+        <ListTableWrapper
+            isError={isError}
+            isLoading={isLoading}
+            errorMessage={'errors.fetching_events'}
+        >
             {isEditModal && selectedEvent && (
                 <UpdateEventModal
                     selectedEvent={selectedEvent}
@@ -143,23 +147,6 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
                     selectedEventId={selectedEvent.id}
                     isDeleteModal={isDeleteModal}
                     handleDeleteModal={handlDeleteModal}
-                />
-            )}
-
-            {isError && (
-                <div className="flex items-center justify-center">
-                    <p className="text-gray-500 dark:text-gray-400">
-                        {t('errors.fetching_events')}
-                    </p>
-                </div>
-            )}
-
-            {isLoading && (
-                <Spinner
-                    color="beer-blonde"
-                    size="xLarge"
-                    absolute
-                    flexCenter
                 />
             )}
 
@@ -182,6 +169,6 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
                     sourceDataIsFromServer={false}
                 />
             )}
-        </section>
+        </ListTableWrapper>
     );
 }

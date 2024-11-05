@@ -14,6 +14,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
+import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 
 interface Props {
     counter: number;
@@ -86,7 +87,7 @@ export default function CervezanasEventList({ counter }: Props) {
                 <Link
                     href={`/cpm/${row.cp_id}`}
                     locale={locale}
-                    className="font-semibold text-beer-blonde hover:text-beer-draft"
+                    className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde"
                 >
                     {row.cp_mobile?.cp_name}
                 </Link>
@@ -132,7 +133,11 @@ export default function CervezanasEventList({ counter }: Props) {
     ];
 
     return (
-        <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
+        <ListTableWrapper
+            isError={isError}
+            isLoading={isLoading}
+            errorMessage={'errors.fetching_events'}
+        >
             {isEditModal && selectedCPMEvent && (
                 <UpdateCPMEventModal
                     selectedCPMEvent={selectedCPMEvent}
@@ -147,23 +152,6 @@ export default function CervezanasEventList({ counter }: Props) {
                     cpId={selectedCPMEvent.cp_id}
                     isDeleteModal={isDeleteModal}
                     handleDeleteModal={handlDeleteModal}
-                />
-            )}
-
-            {isError && (
-                <div className="flex items-center justify-center">
-                    <p className="text-gray-500 dark:text-gray-400">
-                        {t('errors.fetching_events')}
-                    </p>
-                </div>
-            )}
-
-            {isLoading && (
-                <Spinner
-                    color="beer-blonde"
-                    size="xLarge"
-                    absolute
-                    flexCenter
                 />
             )}
 
@@ -186,6 +174,6 @@ export default function CervezanasEventList({ counter }: Props) {
                     sourceDataIsFromServer={false}
                 />
             )}
-        </section>
+        </ListTableWrapper>
     );
 }

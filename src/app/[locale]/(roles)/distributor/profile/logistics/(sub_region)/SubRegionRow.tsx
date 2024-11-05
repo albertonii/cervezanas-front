@@ -48,7 +48,7 @@ const SubRegionRow = ({
                 />
             </th>
 
-            <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+            <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
                 {sub_region.name}
             </td>
         </>
