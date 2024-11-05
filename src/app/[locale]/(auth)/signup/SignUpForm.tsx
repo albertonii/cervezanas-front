@@ -19,6 +19,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SignUpWithPasswordCredentials } from '../Context/AuthContext';
+import Label from '../../components/ui/Label';
 
 interface FormData {
     access_level: string;
@@ -184,10 +185,7 @@ export const SignUpForm = () => {
     };
 
     return (
-        <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="mt-4 flex flex-col space-y-4 relative"
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-4 space-y-4">
             {isSignupSubmitLoading && (
                 <span>
                     <Spinner
@@ -277,35 +275,26 @@ export const SignUpForm = () => {
                     placeholder="*****"
                     inputType="checkbox"
                 />
-                <p className="text-xs text-gray-500">
-                    {t('is_legal_age_description')}
-                </p>
+                <Label size="small">{t('is_legal_age_description')}</Label>
             </div>
 
             {role === ROLE_ENUM.Productor && (
                 <div className="flex w-full flex-col space-y-2">
-                    <div className="w-full">
-                        <label
+                    <div className="w-full flex items-start gap-2">
+                        <input
+                            type="checkbox"
                             className={
-                                'flex w-full flex-row-reverse  items-end justify-end gap-1 space-y-2 text-sm text-gray-600'
+                                'h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde'
                             }
-                            htmlFor="producer_disclaimer"
-                        >
-                            <span className="font-medium">
-                                {t('producer_disclaimer_read_and_accepantance')}
-                            </span>
+                            id="producer_disclaimer"
+                        />
 
-                            <input
-                                type="checkbox"
-                                className={
-                                    'float-right h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde'
-                                }
-                                id="producer_disclaimer"
-                            />
-                        </label>
+                        <Label size="small" htmlFor="producer_disclaimer">
+                            {t('producer_disclaimer_read_and_accepantance')}
+                        </Label>
                     </div>
 
-                    <p className="text-xs text-gray-500">
+                    <Label size="xsmall">
                         <Link
                             href={
                                 SupabaseProps.BASE_DOCUMENTS_URL +
@@ -313,12 +302,12 @@ export const SignUpForm = () => {
                             }
                             target={'_blank'}
                         >
-                            <span className="mx-1 text-beer-darkGold hover:underline">
+                            <span className="mx-1 hover:underline">
                                 {t('click_here_to_download')}{' '}
                                 {t('producer_read_disclaimer')}
                             </span>
                         </Link>
-                    </p>
+                    </Label>
                 </div>
             )}
 

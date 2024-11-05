@@ -55,9 +55,12 @@ const SelectInput = memo(
 
         return (
             <div className="w-full">
-                <label htmlFor={label} className="flex text-sm text-gray-600">
+                <label
+                    htmlFor={label}
+                    className="flex text-sm text-gray-600 dark:text-gray-300 font-medium "
+                >
                     {labelText ? labelText : t(label)}
-                    {isRequired && <span className="text-red-500"> *</span>}
+                    {isRequired && <span className="text-red-500 "> *</span>}
                     {labelTooltip && (
                         <InfoTooltip
                             content={`${t(labelTooltip)}`}

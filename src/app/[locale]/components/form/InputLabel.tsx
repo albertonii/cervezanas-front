@@ -160,7 +160,7 @@ const InputLabel = ({
                         inputType === 'checkbox'
                             ? 'flex-row-reverse items-end justify-end gap-1'
                             : 'flex-col '
-                    } flex w-full items-start space-y-2 text-sm text-gray-600`}
+                    } flex w-full items-start space-y-2 text-sm text-gray-600 dark:text-gray-300`}
                     htmlFor={label}
                 >
                     <span className="font-medium">
@@ -199,7 +199,7 @@ const InputLabel = ({
 
             {inputType === 'password' && (
                 <label
-                    className={` relative w-full items-start space-y-2 text-sm text-gray-600`}
+                    className={` relative w-full items-start space-y-2 text-sm text-gray-600 dark:text-gray-300`}
                     htmlFor={label}
                 >
                     <span className="font-medium">
@@ -241,7 +241,7 @@ const InputLabel = ({
 
             {inputType === 'file' && (
                 <label
-                    className={` relative w-full items-start space-y-2 text-sm text-gray-600`}
+                    className={` relative w-full items-start space-y-2 text-sm text-gray-600 dark:text-gray-300`}
                     htmlFor={label}
                 >
                     <span className="font-medium">
