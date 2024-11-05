@@ -24,7 +24,6 @@ export default function ProducerDisclaimerModal({
             description={'¡Gracias por registrarse como productor!'}
             handler={() => handleCloseModal()}
             handlerClose={() => handleCloseModal()}
-            classIcon={''}
             classContainer={''}
         >
             <section className="space-y-4">

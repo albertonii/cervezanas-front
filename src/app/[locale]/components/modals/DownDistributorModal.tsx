@@ -99,7 +99,6 @@ export function DownDistributorModal({
             description={'modal_down_distributor_description'}
             handler={handleSubmitDownDistributor}
             handlerClose={() => handleShowDownDistributorModal(false)}
-            classIcon={''}
             classContainer={''}
         >
             <></>

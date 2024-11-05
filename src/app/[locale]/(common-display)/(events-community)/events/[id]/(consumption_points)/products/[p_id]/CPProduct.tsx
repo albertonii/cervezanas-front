@@ -280,7 +280,6 @@ export default function CPProduct({ product, marketplaceProducts }: Props) {
                       <div>
                         <IconButton
                           classContainer="mt-0 transition ease-in duration-300 inline-flex items-center text-sm font-medium mb-2 md:mb-0 bg-purple-500 px-5 py-2 hover:shadow-lg tracking-wider text-white rounded-full hover:bg-purple-600"
-                          classIcon={""}
                           onClick={() =>
                             handleIncreaseToCartItem(selectedpack.product_id)
                           }

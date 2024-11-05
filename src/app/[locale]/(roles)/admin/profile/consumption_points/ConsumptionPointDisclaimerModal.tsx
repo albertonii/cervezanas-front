@@ -24,7 +24,6 @@ export default function ConsumptionPointDisclaimerModal({
             description={'¡Gracias por registrarse como Punto de Consumo!'}
             handler={() => handleCloseModal()}
             handlerClose={() => handleCloseModal()}
-            classIcon={''}
             classContainer={''}
         >
             <section className="space-y-4">

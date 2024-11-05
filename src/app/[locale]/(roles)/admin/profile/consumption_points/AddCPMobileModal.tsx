@@ -314,7 +314,6 @@ export default function AddCPMobileModal({ cpsId }: Props) {
             btnTitle={t('new_cp_mobile_config')}
             description={''}
             handler={handleSubmit(onSubmit)}
-            classIcon={'w-6 h-6'}
             classContainer={''}
         >
             <form>

@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { IAddress } from '@/lib//types/types';
 import { removeShippingAddressById } from '../actions';
 import { useMutation, useQueryClient } from 'react-query';
-import { NewShippingAddress } from './NewShippingAddress';
+import { NewShippingModal } from './NewShippingModal';
 import { UseFormReturn, SubmitHandler } from 'react-hook-form';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -224,7 +224,7 @@ export default function Shipping({ formShipping }: Props) {
             </ul>
 
             {shippingAddresses && shippingAddresses.length < 5 && (
-                <NewShippingAddress
+                <NewShippingModal
                     shippingAddressesLength={shippingAddresses.length}
                 />
             )}

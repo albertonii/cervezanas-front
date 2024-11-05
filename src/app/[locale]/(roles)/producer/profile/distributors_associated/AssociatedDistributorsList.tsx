@@ -103,7 +103,6 @@ export default function AssociatedDistributorsList({ counter }: Props) {
                         onClick={() => handleDeleteClick(row)}
                         color={deleteColor}
                         classContainer="hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full"
-                        classIcon=""
                         title={t('delete')}
                     />
                     {row.status !== DistributionStatus.ACCEPTED && (
@@ -112,7 +111,6 @@ export default function AssociatedDistributorsList({ counter }: Props) {
                             onClick={() => handleCancelClick(row)}
                             color={cancelColor}
                             classContainer="hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full"
-                            classIcon=""
                             title={t('cancel_contract')}
                         />
                     )}
@@ -267,7 +265,6 @@ export default function AssociatedDistributorsList({ counter }: Props) {
                                                         classContainer={
                                                             'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
                                                         }
-                                                        classIcon={''}
                                                         title={t('delete')}
                                                     />
 
@@ -284,7 +281,6 @@ export default function AssociatedDistributorsList({ counter }: Props) {
                                                             classContainer={
                                                                 'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
                                                             }
-                                                            classIcon={''}
                                                             title={t(
                                                                 'cancel_contract',
                                                             )}

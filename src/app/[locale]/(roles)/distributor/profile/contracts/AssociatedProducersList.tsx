@@ -114,7 +114,6 @@ export default function AssociatedProducersList({ counter }: Props) {
                             classContainer={
                                 'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0'
                             }
-                            classIcon={''}
                             title={t('accept')}
                         />
                     )}
@@ -127,7 +126,6 @@ export default function AssociatedProducersList({ counter }: Props) {
                             classContainer={
                                 'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0 '
                             }
-                            classIcon={''}
                             title={t('reject')}
                         />
                     )}

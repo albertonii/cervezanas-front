@@ -35,7 +35,6 @@ export default function MarketCartButtons2({
                     <IconButton
                         onClick={() => onClickIncreaseDebounce()}
                         classContainer="rounded-none border-none p-1 hover:bg-beer-softBlonde"
-                        classIcon={''}
                         icon={faChevronUp}
                         title={''}
                     ></IconButton>
@@ -45,7 +44,6 @@ export default function MarketCartButtons2({
                     <IconButton
                         onClick={() => onClickDecreaseDebounce()}
                         classContainer="rounded-none border-none p-1 hover:bg-beer-softBlonde"
-                        classIcon={''}
                         icon={faChevronDown}
                         title={''}
                     ></IconButton>

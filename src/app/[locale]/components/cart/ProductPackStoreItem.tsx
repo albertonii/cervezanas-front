@@ -155,7 +155,6 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
                                 isActive={isLike}
                                 color={heartColor}
                                 classContainer="bg-white shadow hover:shadow-md text-gray-500 w-auto h-9 text-center p-2 rounded-full"
-                                classIcon=""
                                 title={t('add_to_favs')}
                             />
                         </header>

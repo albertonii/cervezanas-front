@@ -157,7 +157,6 @@ export default function DistributorList({ distributors }: Props) {
                     showModal={isAcceptModal}
                     setShowModal={setIsAcceptModal}
                     description={'authorize_distributor_description_modal'}
-                    classIcon={''}
                     classContainer={''}
                     btnTitle={t('accept')}
                 >
@@ -177,7 +176,6 @@ export default function DistributorList({ distributors }: Props) {
                     showModal={isRejectModal}
                     setShowModal={setIsRejectModal}
                     description={t('unauthorize_distributor_description_modal')}
-                    classIcon={''}
                     classContainer={''}
                     btnTitle={t('accept')}
                 >
@@ -282,7 +280,6 @@ export default function DistributorList({ distributors }: Props) {
                                         classContainer={
                                             'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0'
                                         }
-                                        classIcon={''}
                                         title={t('accept')}
                                     />
                                     <IconButton
@@ -295,7 +292,6 @@ export default function DistributorList({ distributors }: Props) {
                                         classContainer={
                                             'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0 '
                                         }
-                                        classIcon={''}
                                         title={t('reject')}
                                     />
                                 </td>

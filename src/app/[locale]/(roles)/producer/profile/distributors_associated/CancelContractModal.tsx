@@ -60,7 +60,6 @@ export default function CancelContractModal({
             showModal={true}
             setShowModal={() => void 0}
             handlerClose={handleCancelModal}
-            classIcon={''}
             classContainer={''}
         >
             <></>

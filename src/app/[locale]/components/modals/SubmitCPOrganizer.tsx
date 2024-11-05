@@ -146,7 +146,6 @@ export function SubmitCPOrganizer({ handleCPOrganizerStatus }: Props) {
                 btnTitle={'apply_cp_organizer'}
                 description={'form_submit_cp_organizer_description'}
                 handler={handleSubmit(onSubmit)}
-                classIcon={''}
                 classContainer={''}
             >
                 <section className="space-y-4">

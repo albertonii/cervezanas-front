@@ -213,7 +213,6 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                     showModal={isAcceptModal}
                     setShowModal={setIsAcceptModal}
                     description={'accept_cp_description_modal'}
-                    classIcon={''}
                     classContainer={''}
                     btnTitle={t('accept')}
                 >
@@ -235,7 +234,6 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                     showModal={isRejectModal}
                     setShowModal={setIsRejectModal}
                     description={t('reject_cp_description_modal')}
-                    classIcon={''}
                     classContainer={''}
                     btnTitle={t('accept')}
                 >
@@ -359,7 +357,6 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                                         classContainer={
                                             'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0'
                                         }
-                                        classIcon={''}
                                         title={t('accept')}
                                     />
                                     <IconButton
@@ -369,7 +366,6 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                                         classContainer={
                                             'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0 '
                                         }
-                                        classIcon={''}
                                         title={t('reject')}
                                     />
                                 </td>

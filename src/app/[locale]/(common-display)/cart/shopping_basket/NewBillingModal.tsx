@@ -1,15 +1,13 @@
 import Modal from '@/app/[locale]/components/modals/Modal';
 import React, { useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { BillingInformationType } from '@/lib/enums';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
+import { NewBillingCompanyAddress } from './NewBillingCompanyAddress';
 import {
     NewBillingIndividualAddress,
     NewBillingIndividualAddressRef,
 } from './NewBillingIndividualAddress';
-import { NewBillingCompanyAddress } from './NewBillingCompanyAddress';
-import { BillingInformationType } from '@/lib/enums';
-import { useShoppingCart } from '@/app/context/ShoppingCartContext';
-import { IAddress } from '@/lib/types/types';
 
 interface Props {
     billingAddressesLength: number;
@@ -65,7 +63,6 @@ const NewBillingModal = ({ billingAddressesLength }: Props) => {
             description={''}
             icon={faAdd}
             btnSize={'small'}
-            classIcon={'w-6 h-6'}
             classContainer={`!w-1/2 `}
             handler={handleSubmitBillingForm}
         >

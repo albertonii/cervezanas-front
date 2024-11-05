@@ -301,7 +301,6 @@ export default function EditCPFixedModal({
                 handleEditModal(false);
             }}
             btnSize={'large'}
-            classIcon={'w-6 h-6'}
             classContainer={''}
         >
             <form>

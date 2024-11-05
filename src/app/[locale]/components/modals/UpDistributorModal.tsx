@@ -190,7 +190,6 @@ export function UpDistributorModal({
             description={'modal_up_distributor_description'}
             handler={handleSubmitUpNewDistributor}
             handlerClose={() => handleShowUpDistributorModal(false)}
-            classIcon={''}
             classContainer={''}
         >
             <></>

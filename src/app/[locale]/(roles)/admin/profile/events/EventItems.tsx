@@ -112,7 +112,6 @@ export default function EventItems({
                         classContainer={
                             'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full'
                         }
-                        classIcon={''}
                         title={t('unauthorize_event')}
                     />
                 ) : (
@@ -125,7 +124,6 @@ export default function EventItems({
                         classContainer={
                             'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full'
                         }
-                        classIcon={''}
                         title={t('authorize_event')}
                     />
                 )}
@@ -139,7 +137,6 @@ export default function EventItems({
                     classContainer={
                         'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full'
                     }
-                    classIcon={''}
                     title={t('edit')}
                 />
 
@@ -152,7 +149,6 @@ export default function EventItems({
                     classContainer={
                         'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
                     }
-                    classIcon={''}
                     title={t('delete')}
                 />
             </td>

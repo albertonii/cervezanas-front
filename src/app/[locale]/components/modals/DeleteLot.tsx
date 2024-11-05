@@ -55,7 +55,6 @@ export function DeleteLot({
             description={'modal_delete_lot_description'}
             handler={handleSubmitDelete}
             handlerClose={() => handleDeleteShowModal(false)}
-            classIcon={''}
             classContainer={''}
         >
             <></>

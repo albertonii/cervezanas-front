@@ -24,7 +24,6 @@ export default function DistributorDisclaimerModal({
             description={'¡Gracias por registrarse como distribuidor!'}
             handler={() => handleCloseModal()}
             handlerClose={() => handleCloseModal()}
-            classIcon={''}
             classContainer={''}
         >
             <section className="space-y-4">

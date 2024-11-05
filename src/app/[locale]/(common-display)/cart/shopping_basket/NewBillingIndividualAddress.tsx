@@ -17,6 +17,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { ModalBillingAddressFormData } from '@/lib//types/types';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import AddressForm from '@/app/[locale]/components/form/AddressForm';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 export type NewBillingIndividualAddressRef = {
     submit: () => void;
@@ -168,13 +169,11 @@ export const NewBillingIndividualAddress = forwardRef(
 
         return (
             <>
-                {isLoading && (
-                    <div className="absolute top-0 left-0 w-full h-full bg-gray-200 bg-opacity-50 z-50 flex items-center justify-center">
-                        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-beer-blonde"></div>
-                    </div>
+                {isLoading ? (
+                    <Spinner color="beer-blonde" size="medium" />
+                ) : (
+                    <AddressForm form={form} addressNameId={'billing'} />
                 )}
-
-                <AddressForm form={form} addressNameId={'billing'} />
             </>
         );
     },
