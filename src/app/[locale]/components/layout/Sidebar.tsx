@@ -2,21 +2,21 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import Button from '../ui/buttons/Button';
 import useDeviceDetection from '../../../../hooks/useDeviceDetection';
 import useOnClickOutside from '../../../../hooks/useOnOutsideClickDOM';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ROLE_ENUM } from '@/lib/enums';
+import { generateLink } from '@/utils/utils';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAppContext } from '../../../context/AppContext';
-import { generateLink } from '@/utils/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faBars,
     faTimes,
     IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
-import Button from '../ui/buttons/Button';
 
 type Props = {
     sidebarLinks: { name: string; icon: IconDefinition; option: string }[];
@@ -135,7 +135,7 @@ export function Sidebar({ sidebarLinks }: Props) {
                                 key={link.name}
                                 className={`flex items-center rounded-lg p-2 text-sm font-normal text-gray-600 hover:bg-beer-blonde dark:text-white dark:hover:bg-gray-700 ${
                                     sidebar === link.option
-                                        ? 'bg-beer-softBlonde text-gray-700'
+                                        ? 'bg-beer-softBlonde dark:bg-beer-draft text-gray-700'
                                         : 'text-gray-600'
                                 }`}
                             >
