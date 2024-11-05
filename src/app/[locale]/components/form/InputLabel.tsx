@@ -77,7 +77,7 @@ const InputLabel = ({
                 inputType === 'url' ||
                 inputType === 'date') && (
                 <label
-                    className={`flex-col flex w-full items-start space-y-2 text-sm text-gray-600`}
+                    className={`flex-col flex w-full items-start space-y-2 text-sm text-gray-600 dark:text-gray-300`}
                     htmlFor={label}
                 >
                     <span className="font-medium">
@@ -116,7 +116,7 @@ const InputLabel = ({
 
             {inputType === 'number' && (
                 <label
-                    className={`flex-col flex w-full items-start space-y-2 text-sm text-gray-600`}
+                    className={`flex-col flex w-full items-start space-y-2 text-sm text-gray-600 dark:text-gray-300`}
                     htmlFor={label}
                 >
                     <span className="font-medium">
