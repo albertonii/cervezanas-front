@@ -18,11 +18,11 @@ export default function Label({
     className,
 }: Props) {
     const sizeClass = {
-        xsmall: 'text-sm',
-        small: 'text-md',
-        medium: 'text-lg',
-        large: 'text-xl',
-        xlarge: 'text-3xl',
+        xsmall: 'text-sm h-6',
+        small: 'text-md h-6',
+        medium: 'text-lg h-8',
+        large: 'text-xl h-12 ',
+        xlarge: 'text-3xl h-12',
     };
 
     const colorClass = {
@@ -40,7 +40,8 @@ export default function Label({
 
     return (
         <label
-            className={`${sizeClass[size]} ${colorClass[color]} ${fontClass[font]} ${htmlFor} ${className} flex h-12 flex-col items-start space-y-2 dark:text-gray-300`}
+            htmlFor={htmlFor}
+            className={`${sizeClass[size]} ${colorClass[color]} ${fontClass[font]}  ${className} flex flex-col items-start space-y-2 dark:text-gray-300 justify-center`}
         >
             {children}
         </label>

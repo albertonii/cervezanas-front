@@ -9,6 +9,8 @@ import {
 } from '@/lib/beerEnum';
 import { useTranslations } from 'next-intl';
 import { FilterProps, useAppContext } from '@/app/context/AppContext';
+import Title from '../../components/ui/Title';
+import Label from '../../components/ui/Label';
 
 const regions = [
     'Cataluña',
@@ -146,19 +148,20 @@ const VerticalFilterMenu = () => {
                 {/* Barra lateral de filtros */}
 
                 <aside
-                    className={`z-20 bg-gray-50 shadow-xl p-4 w-full md:w-64 space-y-6 transition-transform duration-300 ease-in-out  ${
+                    className={`z-20 bg-gray-50 shadow-xl p-4 w-full md:w-64 space-y-6 transition-transform duration-300 ease-in-out dark:bg-gray-700 ${
                         isSidebarVisible
                             ? 'transform translate-x-0'
                             : 'transform -translate-x-full'
                     } md:transform-none`} // md:transform-none para ignorar transform en pantallas más grandes
                 >
                     <div className="flex justify-between items-center">
-                        <h2 className="text-5xl font-bold font-['NexaRust-script'] text-beer-blonde">
+                        <Title size="xlarge" color="beer-blonde">
                             {t('filters')}
-                        </h2>
+                        </Title>
+
                         <button
                             onClick={clearFilters}
-                            className="text-xs text-gray-400 hover:text-black w-[70px]"
+                            className="text-xs text-gray-400 hover:text-black w-[70px] dark:text-gray-300"
                         >
                             {t('clear_filters')}
                         </button>
@@ -174,8 +177,8 @@ const VerticalFilterMenu = () => {
                     </figure>
 
                     {/* Precio */}
-                    <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">{t('price')}</h3>
+                    <div className="">
+                        <Label>{t('price_range')}</Label>
                         <div className="space-y-2">
                             <input
                                 type="range"
@@ -190,7 +193,7 @@ const VerticalFilterMenu = () => {
                                 }
                                 className="w-full"
                             />
-                            <div className="flex justify-between">
+                            <div className="flex justify-between dark:text-gray-300">
                                 <span>{filters.price[0]}€</span>
                                 <span>{filters.price[1]}€</span>
                             </div>
@@ -198,8 +201,8 @@ const VerticalFilterMenu = () => {
                     </div>
 
                     {/* Estilo */}
-                    <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">{t('family')}</h3>
+                    <div className="">
+                        <Label>{t('family')}</Label>
                         <div className="space-y-2">
                             {visibleFamilies.map((family) => (
                                 <div
@@ -234,7 +237,7 @@ const VerticalFilterMenu = () => {
                                     onClick={() =>
                                         setShowMoreFamilies(!showMoreFamilies)
                                     }
-                                    className="text-beer-draft text-sm mt-2 focus:outline-none"
+                                    className="text-beer-draft text-sm mt-2 focus:outline-none dark:text-beer-blonde"
                                 >
                                     {showMoreFamilies
                                         ? t('show_less')
@@ -281,10 +284,8 @@ const VerticalFilterMenu = () => {
                     </div> */}
 
                     {/* IBUs */}
-                    <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">
-                            {t('bitterness')}
-                        </h3>
+                    <div className="">
+                        <Label>{t('bitterness')}</Label>
                         <div className="space-y-2">
                             <input
                                 type="range"
@@ -304,7 +305,7 @@ const VerticalFilterMenu = () => {
                                 }}
                             />
 
-                            <div className="flex justify-between">
+                            <div className="flex justify-between dark:text-gray-300">
                                 <span>{filters.ibu[0]} IBU</span>
                                 <span>{filters.ibu[1]} IBU</span>
                             </div>
@@ -312,10 +313,9 @@ const VerticalFilterMenu = () => {
                     </div>
 
                     {/* ABV */}
-                    <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">
-                            {t('abv_alcoholic')}
-                        </h3>
+                    <div className="">
+                        <Label htmlFor="abv">{t('abv_alcoholic')}</Label>
+
                         <div className="space-y-2">
                             <input
                                 type="range"
@@ -331,7 +331,7 @@ const VerticalFilterMenu = () => {
                                 }
                                 className="w-full"
                             />
-                            <div className="flex justify-between">
+                            <div className="flex justify-between dark:text-gray-300">
                                 <span>{filters.abv[0]}%</span>
                                 <span>{filters.abv[1]}%</span>
                             </div>
@@ -339,8 +339,8 @@ const VerticalFilterMenu = () => {
                     </div>
 
                     {/* Color */}
-                    <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">{t('color')}</h3>
+                    <div className="">
+                        <Label htmlFor="color">{t('color')}</Label>
                         <div className="space-y-2">
                             {visibleColors.map((color) => (
                                 <div
@@ -361,12 +361,13 @@ const VerticalFilterMenu = () => {
                                         }
                                         className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
                                     />
-                                    <label
+
+                                    <Label
+                                        size="small"
                                         htmlFor={`color-${color}`}
-                                        className="text-gray-700"
                                     >
                                         {t(color.value)}
-                                    </label>
+                                    </Label>
                                 </div>
                             ))}
 
@@ -375,7 +376,7 @@ const VerticalFilterMenu = () => {
                                     onClick={() =>
                                         setShowMoreColors(!showMoreColors)
                                     }
-                                    className="text-beer-draft text-sm mt-2 focus:outline-none"
+                                    className="text-beer-draft text-sm mt-2 focus:outline-none dark:text-beer-blonde"
                                 >
                                     {showMoreColors
                                         ? t('show_less')
@@ -387,9 +388,8 @@ const VerticalFilterMenu = () => {
 
                     {/* Volumen Lata */}
                     <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">
-                            {t('volume_can') + ' (ml)'}
-                        </h3>
+                        <Label>{t('volume_can') + ' (ml)'}</Label>
+
                         <div className="space-y-2">
                             {visibleVolumesCan.map((volume) => (
                                 <div
@@ -410,12 +410,13 @@ const VerticalFilterMenu = () => {
                                         }
                                         className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
                                     />
-                                    <label
+
+                                    <Label
+                                        size="small"
                                         htmlFor={`volume-can-${volume}`}
-                                        className="text-gray-700"
                                     >
                                         {t(volume.label)}
-                                    </label>
+                                    </Label>
                                 </div>
                             ))}
 
@@ -426,7 +427,7 @@ const VerticalFilterMenu = () => {
                                             !showMoreVolumesCan,
                                         )
                                     }
-                                    className="text-beer-draft text-sm mt-2 focus:outline-none"
+                                    className="text-beer-draft text-sm mt-2 focus:outline-none dark:text-beer-blonde"
                                 >
                                     {showMoreVolumesCan
                                         ? t('show_less')
@@ -438,9 +439,8 @@ const VerticalFilterMenu = () => {
 
                     {/* Volumen Botella */}
                     <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">
-                            {t('volume_bottle') + ' (ml)'}
-                        </h3>
+                        <Label>{t('volume_bottle') + ' (ml)'}</Label>
+
                         <div className="space-y-2">
                             {visibleVolumesBottle.map((volume) => (
                                 <div
@@ -461,12 +461,13 @@ const VerticalFilterMenu = () => {
                                         }
                                         className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
                                     />
-                                    <label
+
+                                    <Label
+                                        size="small"
                                         htmlFor={`volume-bottle-${volume}`}
-                                        className="text-gray-700"
                                     >
                                         {t(volume.label)}
-                                    </label>
+                                    </Label>
                                 </div>
                             ))}
 
@@ -477,7 +478,7 @@ const VerticalFilterMenu = () => {
                                             !showMoreVolumesBottle,
                                         )
                                     }
-                                    className="text-beer-draft text-sm mt-2 focus:outline-none"
+                                    className="text-beer-draft text-sm mt-2 focus:outline-none dark:text-beer-blonde"
                                 >
                                     {showMoreVolumesBottle
                                         ? t('show_less')
@@ -489,9 +490,8 @@ const VerticalFilterMenu = () => {
 
                     {/* Volumen Barril */}
                     <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">
-                            {t('volume_keg') + ' (lt)'}
-                        </h3>
+                        <Label>{t('volume_keg') + ' (lt)'}</Label>
+
                         <div className="space-y-2">
                             {visibleVolumesDraft.map((volume) => (
                                 <div
@@ -512,12 +512,12 @@ const VerticalFilterMenu = () => {
                                         }
                                         className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
                                     />
-                                    <label
+                                    <Label
+                                        size="small"
                                         htmlFor={`volume-keg-${volume}`}
-                                        className="text-gray-700"
                                     >
                                         {t(volume.label)}
-                                    </label>
+                                    </Label>
                                 </div>
                             ))}
 
@@ -528,7 +528,7 @@ const VerticalFilterMenu = () => {
                                             !showMoreVolumesDraft,
                                         )
                                     }
-                                    className="text-beer-draft text-sm mt-2 focus:outline-none"
+                                    className="text-beer-draft text-sm mt-2 focus:outline-none dark:text-beer-blonde"
                                 >
                                     {showMoreVolumesDraft
                                         ? t('show_less')
@@ -540,7 +540,8 @@ const VerticalFilterMenu = () => {
 
                     {/* Región */}
                     <div className="space-y-4">
-                        <h3 className="text-lg font-semibold">{t('region')}</h3>
+                        <Label>{t('region')}</Label>
+
                         <div className="space-y-2">
                             {visibleRegions.map((region) => (
                                 <div
@@ -561,12 +562,12 @@ const VerticalFilterMenu = () => {
                                         }
                                         className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
                                     />
-                                    <label
+                                    <Label
+                                        size="small"
                                         htmlFor={`region-${region}`}
-                                        className="text-gray-700"
                                     >
-                                        {region}
-                                    </label>
+                                        {t(region)}
+                                    </Label>
                                 </div>
                             ))}
 
@@ -575,7 +576,7 @@ const VerticalFilterMenu = () => {
                                     onClick={() =>
                                         setShowMoreRegions(!showMoreRegions)
                                     }
-                                    className="text-beer-draft text-sm mt-2 focus:outline-none"
+                                    className="text-beer-draft text-sm mt-2 focus:outline-none dark:text-beer-blonde"
                                 >
                                     {showMoreRegions
                                         ? t('show_less')
@@ -595,9 +596,9 @@ const VerticalFilterMenu = () => {
                                 onChange={() => handleSwitchChange('isPack')}
                                 className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
                             />
-                            <label htmlFor="isPack" className="text-gray-700">
+                            <Label htmlFor="isPack" size="small">
                                 {t('pack_different_beers')}
-                            </label>
+                            </Label>
                         </div>
 
                         <div className="flex items-center space-x-2">
@@ -610,12 +611,10 @@ const VerticalFilterMenu = () => {
                                 }
                                 className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
                             />
-                            <label
-                                htmlFor="isAwardWinning"
-                                className="text-gray-700"
-                            >
+
+                            <Label htmlFor="isAwardWinning" size="small">
                                 {t('award_winning')}
-                            </label>
+                            </Label>
                         </div>
 
                         <div className="flex items-center space-x-2">
@@ -626,12 +625,10 @@ const VerticalFilterMenu = () => {
                                 onChange={() => handleSwitchChange('isOrganic')}
                                 className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
                             />
-                            <label
-                                htmlFor="isOrganic"
-                                className="text-gray-700"
-                            >
+
+                            <Label htmlFor="isOrganic" size="small">
                                 {t('eco_beers')}
-                            </label>
+                            </Label>
                         </div>
 
                         <div className="flex items-center space-x-2">
@@ -644,12 +641,10 @@ const VerticalFilterMenu = () => {
                                 }
                                 className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
                             />
-                            <label
-                                htmlFor="isNonAlcoholic"
-                                className="text-gray-700"
-                            >
+
+                            <Label size="small" htmlFor="isNonAlcoholic">
                                 {t('non_alcoholic')}
-                            </label>
+                            </Label>
                         </div>
 
                         <div className="flex items-center space-x-2">
@@ -662,12 +657,9 @@ const VerticalFilterMenu = () => {
                                 }
                                 className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
                             />
-                            <label
-                                htmlFor="isGlutenFree"
-                                className="text-gray-700"
-                            >
+                            <Label size="small" htmlFor="isGlutenFree">
                                 {t('gluten_free')}
-                            </label>
+                            </Label>
                         </div>
                     </div>
                 </aside>
