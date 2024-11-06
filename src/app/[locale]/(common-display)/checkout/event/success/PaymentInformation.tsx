@@ -20,7 +20,9 @@ export default function PaymentInformation({ order }: Props) {
             0,
         ) ?? 0;
 
-    const { promo_code, discount, tax } = order;
+    // const { promo_code, discount, tax } = order;
+    const { discount, tax } = order;
+
     const total = subtotal + order.tax - order.discount;
 
     return (
@@ -33,7 +35,7 @@ export default function PaymentInformation({ order }: Props) {
                     </dd>
                 </div>
 
-                {order.promo_code && order.discount && (
+                {/* {order.promo_code && order.discount && (
                     <div className="flex items-center justify-between pb-4">
                         <dt className="text-gray-600">{t('discount')}</dt>
                         <dd className="font-medium text-gray-900">
@@ -41,7 +43,7 @@ export default function PaymentInformation({ order }: Props) {
                             {formatCurrency(order.discount)}
                         </dd>
                     </div>
-                )}
+                )} */}
 
                 <div className="flex items-center justify-between py-4">
                     <dt className="text-gray-600">{t('tax')}</dt>

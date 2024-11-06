@@ -652,7 +652,7 @@ export interface IEventOrder {
     tax: number;
     currency: string;
     discount: number;
-    promo_code: string;
+    // promo_code: string;
     order_number: string;
     event_order_items?: IEventOrderItem[];
     customer_id: string;
@@ -1031,7 +1031,6 @@ export interface IProduct {
     is_public: boolean;
     discount_percent: number;
     weight: number;
-    promo_code: string;
     price: number; // TODO : quitar el price - pq está en product_pack
     campaign_id: string;
     is_archived: boolean;
@@ -1063,7 +1062,7 @@ export interface IEventProduct {
     is_public: boolean;
     discount_percent: number;
     weight: number;
-    promo_code: string;
+    // promo_code: string;
     price: number; // TODO : quitar el price - pq está en product_pack
     campaign_id: string;
     is_archived: boolean;

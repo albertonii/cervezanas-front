@@ -91,7 +91,7 @@ export default function CPMProductItem({
             description: product.description,
             type: product.type,
             is_public: product.is_public,
-            promo_code: product.promo_code,
+            // promo_code: product.promo_code,
             discount_percent: product.discount_percent,
             weight: product.weight,
             price: product.price,

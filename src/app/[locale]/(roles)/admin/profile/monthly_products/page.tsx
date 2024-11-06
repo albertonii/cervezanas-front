@@ -44,7 +44,6 @@ async function getMonthlyProductsData() {
           discount_percent, 
           weight, 
           type, 
-          promo_code, 
           price, 
           campaign_id, 
           is_archived, 

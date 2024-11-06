@@ -85,33 +85,32 @@ async function getSuccessData(searchParams: any) {
         .from('event_orders')
         .select(
             `
-      id, 
-      created_at,
-      updated_at,
-      customer_id,
-      event_id,
-      status,
-      total,
-      subtotal,
-      tax,
-      currency,
-      discount,
-      promo_code,
-      order_number,
-      event_order_items (
-        *,
-        product_pack_id,
-        product_packs (
-          *,
-          products (
-            name,
-            description
-          )
-        )
-      ),
-      users (*),
-      events (*)
-    `,
+                id, 
+                created_at,
+                updated_at,
+                customer_id,
+                event_id,
+                status,
+                total,
+                subtotal,
+                tax,
+                currency,
+                discount,
+                order_number,
+                event_order_items (
+                    *,
+                    product_pack_id,
+                    product_packs (
+                    *,
+                    products (
+                        name,
+                        description
+                    )
+                    )
+                ),
+                users (*),
+                events (*)
+                `,
         )
         .eq('order_number', orderNumber)
         .single();

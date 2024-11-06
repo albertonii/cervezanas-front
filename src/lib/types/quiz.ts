@@ -253,6 +253,8 @@ export type IProductQuizFormData = {
     category: string;
     is_monthly: boolean;
     owner_id: string;
+    brewery_id?: string;
+    is_available: boolean;
     beers?: IBeerQuizFormData;
     product_media?: IProductMediaQuizFormData;
 };
