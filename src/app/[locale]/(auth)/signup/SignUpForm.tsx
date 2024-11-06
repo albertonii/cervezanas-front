@@ -187,16 +187,7 @@ export const SignUpForm = () => {
         },
     });
 
-    const {
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = form;
-
-    useEffect(() => {
-        console.log(errors);
-        return () => {};
-    }, [errors]);
+    const { handleSubmit, reset } = form;
 
     const handleChangeRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value: any = event?.target.value;
@@ -209,12 +200,33 @@ export const SignUpForm = () => {
 
         const { username, email, password } = form;
 
-        const data = {
+        const data: {
+            access_level: ROLE_ENUM[];
+            username: string;
+            email: string;
+            email_verified: boolean;
+            company_name?: string;
+            id_number?: string;
+            company_email?: string;
+            company_phone?: string;
+            company_description?: string;
+            company_legal_representative?: string;
+        } = {
             access_level: [role],
             username: username,
             email: email,
             email_verified: false,
         };
+
+        if (role === ROLE_ENUM.Distributor || role === ROLE_ENUM.Productor) {
+            data.company_name = form.company_name;
+            data.id_number = form.id_number;
+            data.company_email = form.company_email;
+            data.company_phone = form.company_phone;
+            data.company_description = form.company_description;
+            data.company_legal_representative =
+                form.company_legal_representative;
+        }
 
         if (
             role === ROLE_ENUM.Distributor ||
@@ -627,15 +639,11 @@ export const SignUpForm = () => {
                 </div>
             )}
 
-            <div className="flex w-full flex-col space-y-2">
-                <InputLabel
-                    form={form}
-                    label={'is_legal_age'}
-                    registerOptions={{
-                        required: true,
-                    }}
-                    placeholder="*****"
-                    inputType="checkbox"
+            <div className="w-full flex items-start gap-2">
+                <input
+                    type="checkbox"
+                    {...form.register('is_legal_age', { required: true })}
+                    className="h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde"
                 />
                 <Label size="small">{t('is_legal_age_description')}</Label>
             </div>
@@ -668,7 +676,7 @@ export const SignUpForm = () => {
                         title={'sign_up'}
                         btnType="submit"
                         class={
-                            'group relative my-4 flex w-full justify-center rounded-md border border-none border-transparent bg-beer-blonde px-4 py-2 text-sm font-medium hover:bg-beer-draft hover:font-semibold hover:text-beer-blonde focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 '
+                            'group relative my-1 flex w-full justify-center rounded-md border border-none border-transparent bg-beer-blonde px-4 py-2 text-sm font-medium hover:bg-beer-draft hover:font-semibold hover:text-beer-blonde focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 '
                         }
                         fullSize
                     >
