@@ -31,15 +31,53 @@ import { NotificationPopup } from './components/notificationPopup/NotificationPo
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { ROLE_ENUM } from '@/lib//enums';
 import Button from './components/ui/buttons/Button';
+import { generateLink } from '@/utils/utils';
+import DropdownRoleList from './components/DropdownRoleList';
+
 
 interface Props {
     notifications: INotification[];
     i18nLocaleArray: string[];
+    options: string[];
 }
 
-export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
-    const { role, user } = useAuth();
-
+export default function MobileMenu({
+    notifications,
+    i18nLocaleArray,
+    options,
+}: Props) {
+    //const { role, user } = useAuth();
+    const { role, signOut, changeRole, user } = useAuth();
+    const [open, setOpen] = useState(false);
+    const dropdown = useRef<HTMLDivElement>(null);
+    const handleOpenCallback = () => {
+        setOpen(false);
+    };
+    const imageSrc =
+        role === ROLE_ENUM.Admin
+            ? '/icons/icon-admin.png'
+            : role === ROLE_ENUM.Distributor
+            ? '/icons/icon-distrib.png'
+            : role === ROLE_ENUM.Productor
+            ? '/icons/icon-prod.png'
+            : '/icons/icon-cerv.png';
+    const [displayDropdownRoles, setDisplayDropdownRoles] = useState(false);
+    const [isArrowDown, setIsArrowDown] = useState(false);
+    const { changeSidebarActive } = useAppContext();
+    const handleOnClickRole = () => {
+        //  setDisplayDropdownRoles(true);
+        setDisplayDropdownRoles(!isArrowDown);
+        setIsArrowDown((prevState) => !prevState);
+    };
+    const handleOnClickRoleOutside = () => {
+        setDisplayDropdownRoles(false);
+        setIsArrowDown(true);
+    };
+    const handleOnClickOption = (option: string) => {
+        setOpen(false);
+        changeSidebarActive(option);
+    };
+  
     const sidebarRef = useRef<HTMLDivElement>(null);
 
     const { openNotification, setOpenNotification } = useAppContext();
@@ -77,6 +115,31 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
     const handleSignOut = () => {
         router.push(`/${locale}/signout`);
         setOpenNotification(false);
+    };
+
+    const handleDropdownButton = (option: string) => {
+        if (!role) return;
+
+        switch (option) {
+            case 'profile':
+                return (
+                    <Link href={generateLink(role, option)} locale={locale}>
+                        <div
+                            className={`bg-beer-foam p-2 hover:bg-beer-softBlondeBubble active:bg-beer-gold transition-all ease-in-out dark:bg-gray-700 
+                                dark:text-white dark:hover:bg-gray-600 hover:cursor-pointer dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600
+                                hover:cursor-pointer text-sm lg:text-base`}
+                            onClick={() => handleOnClickOption(option)}
+                        >
+                            <span
+                                className={`text-beer-dark dark:text-white `}
+                                aria-current="page"
+                            >
+                                {t(option)}
+                            </span>
+                        </div>
+                    </Link>
+                );
+        }
     };
 
     const MENU_ITEM_STYLES =
@@ -232,6 +295,53 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                             </span>
                                         </div>
                                     </Button>
+                                    {/* Profile */}
+                                    <div
+                                        className="relative flex h-full items-center justify-center font-medium w-[50px]"
+                                        id="profile-dropdown"
+                                        ref={dropdown}
+                                    >
+                                        <div
+                                            //   onClick={() => setOpen(!open)}
+                                            onClick={handleOnClickRole}
+                                            className="hover:cursor-pointer"
+                                        >
+                                            <Image
+                                                src={imageSrc}
+                                                alt={'Profile'}
+                                                className={
+                                                    'h-[40px] w-[40px] lg:h-[50px] lg:w-[50px]  rounded-full bg-beer-blonde border-beer-softBlondeBubble border-2 '
+                                                }
+                                                width={40}
+                                                height={40}
+                                            />
+
+                                            <Image
+                                                src={
+                                                    isArrowDown
+                                                        ? '/icons/arrow-down.svg'
+                                                        : '/icons/arrow-up.svg'
+                                                }
+                                                alt="Arrow icon"
+                                                className="ml-2 absolute top-6 right-0"
+                                                width={20}
+                                                height={20}
+                                            />
+                                            <div className="-left-20 relative -top-10">
+                                                {displayDropdownRoles && (
+                                                    <DropdownRoleList
+                                                        handleOnClickRoleOutside={
+                                                            handleOnClickRoleOutside
+                                                        }
+                                                    />
+                                                )}
+
+                                                {/*  <span className=" text-sm text-white font-semibold dark:text-white ">
+                        {t('role.' + `${role}`)}
+                    </span>*/}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </>
                             )}
                         </li>
