@@ -110,7 +110,7 @@ async function getSuccessData(searchParams: any) {
                 ),
                 users (*),
                 events (*)
-                `,
+            `,
         )
         .eq('order_number', orderNumber)
         .single();
