@@ -147,7 +147,7 @@ export default function SignIn() {
             {!resetPassword && (
                 <article className="mx-auto flex w-[80vw] sm:w-[60vw] flex-1 gap-4 flex-col justify-start pl-4 py-12 sm:pl-6 lg:w-full lg:flex-none lg:pl-20 xl:pl-24">
                     {/* Login form */}
-                    <div className="justify-start lg:w-full mx-auto flex flex-1 flex-col lg:flex-none ">
+                    <div className="w-full justify-start lg:w-full mx-auto flex flex-1 flex-col lg:flex-none ">
                         <Title size="xlarge" color="beer-blonde">
                             {t('sign_in')}
                         </Title>
@@ -291,7 +291,7 @@ export default function SignIn() {
                     )}
 
                     {/* Reset form */}
-                    <div className="justify-start lg:w-full mx-auto flex flex-1 flex-col lg:flex-none ">
+                    <div className="w-full justify-start lg:w-full mx-auto flex flex-1 flex-col lg:flex-none ">
                         <Title size="xlarge" color="beer-blonde">
                             {t('reset_password')}
                         </Title>
