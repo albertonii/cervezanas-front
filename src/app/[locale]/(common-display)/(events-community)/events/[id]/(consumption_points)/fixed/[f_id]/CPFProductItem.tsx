@@ -8,7 +8,7 @@ import { ROUTE_EVENTS, ROUTE_PRODUCTS } from '@/config';
 import { useAuth } from '../../../../../../../(auth)/Context/useAuth';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { ICPFixed, IEventProduct, IProductPack } from '@/lib/types/types';
-import { AddCardButton } from '@/app/[locale]/components/cart/AddCartButton';
+import { AddCartButton } from '@/app/[locale]/components/cart/AddCartButton';
 import MarketCartButtons2 from '@/app/[locale]/components/cart/MarketCartButtons2';
 import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
 
@@ -182,7 +182,7 @@ export default function CPFProductItem({
             <td className="space-x-2 px-6 py-4">
                 {packQuantity === 0 ? (
                     <>
-                        <AddCardButton
+                        <AddCartButton
                             withText={true}
                             onClick={() => handleAddToCart()}
                         />

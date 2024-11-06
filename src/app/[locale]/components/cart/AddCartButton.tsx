@@ -11,7 +11,7 @@ interface Props {
     onClose?: () => void;
 }
 
-export function AddCardButton({ onClick, isVisible, onClose }: Props) {
+export function AddCartButton({ onClick, isVisible, onClose }: Props) {
     const t = useTranslations();
 
     const [animateCartBtn, setAnimateCartBtn] = useState(false);

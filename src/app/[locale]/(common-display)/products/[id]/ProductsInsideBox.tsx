@@ -8,7 +8,7 @@ import { useAuth } from '../../../(auth)/Context/useAuth';
 import { IProduct, IProductPack } from '@/lib//types/types';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { AddCardButton } from '@/app/[locale]/components/cart/AddCartButton';
+import { AddCartButton } from '@/app/[locale]/components/cart/AddCartButton';
 
 interface Props {
     product: IProduct;
@@ -131,7 +131,7 @@ export default function ProductsInsideBox({ product, boxPack }: Props) {
                             displayDeleteButton={false}
                         />
 
-                        <AddCardButton
+                        <AddCartButton
                             withText={true}
                             onClick={() => handleAddToCart()}
                         />

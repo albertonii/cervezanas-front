@@ -6,7 +6,7 @@ import MarketCartButtons2 from './MarketCartButtons2';
 import DisplayImageProduct from '../ui/DisplayImageProduct';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { AddCardButton } from './AddCartButton';
+import { AddCartButton } from './AddCartButton';
 import { useMessage } from '../message/useMessage';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
@@ -15,6 +15,7 @@ import { formatCurrency } from '@/utils/formatCurrency';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { IProduct, IProductPack } from '@/lib//types/types';
 import { useShoppingCart } from '../../../context/ShoppingCartContext';
+import Label from '../ui/Label';
 
 type StoreItemProps = { product: IProduct; products: IProduct[] };
 
@@ -142,7 +143,7 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
     };
 
     return (
-        <section className="bg-[url('/assets/rec-graf4c.png')] bg-contain bg-top bg-no-repeat  m-auto max-w-sm bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6  min-h-[490px]">
+        <section className="bg-[url('/assets/rec-graf4c.png')] bg-contain bg-top bg-no-repeat  m-auto max-w-sm bg-white dark:bg-gray-700 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6  min-h-[490px]">
             {isLoading ? (
                 <Spinner color="beer-blonde" size="medium" />
             ) : (
@@ -173,7 +174,7 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
 
                     <section className="flex flex-col justify-between">
                         <div className="flex flex-wrap">
-                            <figure className="flex w-full items-center text-sm text-gray-600">
+                            <figure className="flex w-full items-center text-sm text-gray-600 ">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     className="mr-1 h-4 w-4 text-yellow-500"
@@ -186,7 +187,7 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
                             </figure>
 
                             <div className="flex w-full min-w-0 items-center justify-between ">
-                                <h2 className="hover:text-purple-500 m-auto mr-auto cursor-pointer truncate py-2 text-2xl font-bold text-beer-draft transition-all hover:text-beer-blonde">
+                                <h2 className="hover:text-purple-500 m-auto mr-auto cursor-pointer truncate py-2 text-2xl font-bold text-beer-draft dark:text-beer-blonde transition-all hover:text-beer-blonde ">
                                     <Link
                                         href={`/products/${product.id}`}
                                         locale={locale}
@@ -197,13 +198,13 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
                             </div>
                         </div>
 
-                        <div className="text-lg font-semibold text-gray-800">
+                        <Label size="small">
                             {selectedPack?.quantity}{' '}
                             {selectedPack && selectedPack?.quantity > 1
                                 ? t('units')
                                 : t('unit')}
                             /{formatCurrency(selectedPack?.price ?? 0)}
-                        </div>
+                        </Label>
 
                         <div className="mt-2 flex flex-col items-start space-y-2 text-sm font-medium text-gray-800">
                             <select
@@ -243,7 +244,7 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
                                     />
                                 )}
 
-                                <AddCardButton
+                                <AddCartButton
                                     withText={true}
                                     onClick={handleAddToCart}
                                     isVisible={isNotificationVisible}
