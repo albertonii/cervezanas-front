@@ -126,7 +126,7 @@ export function BoxPackStepper({
     };
 
     return (
-        <section className={`p-5 ${isSubmitting && 'opacity-50'}`}>
+        <section className={`p-2 sm:p-5 ${isSubmitting && 'opacity-50'}`}>
             <div className="flex items-center">
                 <figure
                     className="relative flex items-center hover:cursor-pointer"
@@ -151,7 +151,7 @@ export function BoxPackStepper({
                         </svg>
                     </div>
                     <h3
-                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-base sm:text-2xl font-['NexaRust-script'] ${detailsTextClass}`}
+                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-sm sm:text-2xl font-['NexaRust-script'] ${detailsTextClass}`}
                     >
                         {t('details')}
                     </h3>
@@ -185,7 +185,7 @@ export function BoxPackStepper({
                     </div>
 
                     <h3
-                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-base sm:text-2xl font-['NexaRust-script'] ${productSlotsTextClass}`}
+                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-sm sm:text-2xl font-['NexaRust-script'] ${productSlotsTextClass}`}
                     >
                         {t('slots')}
                     </h3>
@@ -224,7 +224,7 @@ export function BoxPackStepper({
                     </div>
 
                     <h3
-                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-base sm:text-2xl font-['NexaRust-script'] ${multimediaTextClass}`}
+                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-sm sm:text-2xl font-['NexaRust-script'] ${multimediaTextClass}`}
                     >
                         {t('multimedia')}
                     </h3>
@@ -260,7 +260,7 @@ export function BoxPackStepper({
                     </div>
 
                     <h3
-                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-base sm:text-2xl font-['NexaRust-script'] ${confirmTextClass}`}
+                        className={`absolute top-0 -ml-10 mt-16 w-32 text-center text-sm sm:text-2xl font-['NexaRust-script'] ${confirmTextClass}`}
                     >
                         {t('confirm')}
                     </h3>

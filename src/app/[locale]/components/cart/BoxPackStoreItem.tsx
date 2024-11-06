@@ -156,7 +156,7 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
     };
 
     return (
-        <section className="bg-[url('/assets/rec-graf4c.png')] bg-contain bg-top bg-no-repeat  m-auto max-w-sm bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6  min-h-[490px]">
+        <section className="bg-[url('/assets/rec-graf4c.png')] bg-contain bg-top bg-no-repeat  m-auto w-[280px] bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 h-[490px]">
             {isLoading ? (
                 <Spinner color="beer-blonde" size="medium" />
             ) : (

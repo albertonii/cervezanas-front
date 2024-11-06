@@ -32,7 +32,7 @@ export function ProductGallery({ gallery, isLike, handleSetIsLike }: Props) {
     return (
         <>
             <section
-                className="w-full overflow-hidden container mx-auto px-4 relative flex justify-center"
+                className="w-full overflow-hidden container mx-auto px-0 sm:px-4 relative flex justify-center"
                 aria-label={t('Product Gallery')}
             >
                 {/* Botón para añadir a favoritos */}

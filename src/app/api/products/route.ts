@@ -6,6 +6,7 @@ import { fileTypeToExtension, generateFileNameExtension } from '@/utils/utils';
 
 export async function POST(request: NextRequest) {
     try {
+        console.log('Dentro API');
         const randomUUID = await generateUUID();
 
         const supabase = await createServerClient();
