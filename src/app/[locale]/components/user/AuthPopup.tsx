@@ -13,6 +13,7 @@ import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/navigation';
 import { ROUTE_SIGNIN } from '@/config';
+import Title from '../ui/Title';
 
 interface AuthPopupProps {
     onClose: () => void;
@@ -107,11 +108,13 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ onClose }) => {
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 -top-[25vh]">
             <div
-                className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md"
+                className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md dark:bg-gray-700"
                 ref={modalRef}
             >
                 <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl font-bold">{t('sign_in')}</h2>
+                    <Title size="large" color="beer-blonde">
+                        {t('sign_in')}
+                    </Title>
                     <button
                         onClick={onClose}
                         className="text-gray-500 hover:text-gray-700"
@@ -148,8 +151,10 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ onClose }) => {
                     {/* submit  */}
                     <Button
                         title={'sign_in'}
-                        class="w-full bg-beer-blonde text-white py-2 rounded-md hover:bg-beer-draft transition"
+                        class="w-full"
                         btnType="submit"
+                        primary
+                        large
                     >
                         <FontAwesomeIcon icon={faLock} className="mr-2" />
                         {t('sign_in')}
@@ -161,7 +166,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ onClose }) => {
                         <div className="w-full border-t border-gray-300"></div>
                     </div>
                     <div className="relative flex justify-center text-sm">
-                        <span className="px-2 bg-white text-gray-500">O</span>
+                        <span className="px-2 bg-white text-gray-500"></span>
                     </div>
                 </div>
 
@@ -227,7 +232,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ onClose }) => {
                         <div className="w-full border-t border-gray-300"></div>
                     </div>
                     <div className="relative flex justify-center text-sm">
-                        <span className="px-2 bg-white text-gray-500">O</span>
+                        <span className="px-2 bg-white text-gray-500"></span>
                     </div>
                 </div>
 
@@ -235,7 +240,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ onClose }) => {
                     className="mt-4 text-center hover:underline cursor-pointer"
                     onClick={handleGoToSignInPage}
                 >
-                    <span className="text-beer-draft text-lg hover:underline">
+                    <span className="text-beer-draft text-lg hover:underline dark:text-beer-blonde">
                         {t('go_to_signin_and_signup_page')}
                     </span>
                 </div>
