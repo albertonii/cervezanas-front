@@ -7,15 +7,16 @@ import DropdownRoleList from './components/DropdownRoleList';
 import LanguageScreenMenuButton from './components/ui/buttons/LanguageScreenMenuButton';
 import ShoppingCartScreenMenuButton from './components/ui/buttons/ShoppingCartScreenMenuButton';
 import { memo, useEffect, useState } from 'react';
-import { COMMON } from '@/constants';
 import { ROLE_ENUM } from '@/lib/enums';
 import { INotification } from '@/lib/types/types';
 import { useAuth } from './(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
-import { Beer, Calendar, Globe, Map } from 'lucide-react';
+import { Beer, Calendar, Map } from 'lucide-react';
 import { HeaderDropdownButton } from './HeaderDropdownButton';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { DeviceScreenNotification } from './components/DeviceScreenNotification';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
     notifications: INotification[];
@@ -180,13 +181,13 @@ const ScreenMenu = memo(function ScreenMenu({
                                         title={''}
                                         primary
                                     >
-                                        <section className="mx-2 my-1 flex items-center justify-center space-x-2 hover:text-bear-dark p-1 ">
-                                            <Image
-                                                width={25}
-                                                height={25}
-                                                alt={'Login'}
-                                                src={COMMON.PROFILE_IMG}
+                                        <section className="mx-2 my-1 flex items-center justify-center space-x-1 p-1 ">
+                                            <FontAwesomeIcon
+                                                icon={faUser}
+                                                title={'Sign In avatar'}
+                                                className="h-4 w-4 text-black dark:text-white"
                                             />
+
                                             <span>{t('sign_in')}</span>
                                         </section>
                                     </Button>
