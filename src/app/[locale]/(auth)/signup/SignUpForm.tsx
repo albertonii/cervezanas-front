@@ -1,13 +1,16 @@
 import Link from 'next/link';
+import Title from '../../components/ui/Title';
+import Label from '../../components/ui/Label';
 import Spinner from '../../components/ui/Spinner';
 import Button from '../../components/ui/buttons/Button';
 import InputLabel from '../../components/form/InputLabel';
 import SelectInput from '../../components/form/SelectInput';
+import InputTextarea from '../../components/form/InputTextarea';
 import PasswordStrengthIndicator from './PasswordStrengthIndicator';
 import ProducerDisclaimerModal from '../../(roles)/admin/profile/consumption_points/ProducerDisclaimerModal';
 import DistributorDisclaimerModal from '../../(roles)/admin/profile/consumption_points/DistributorDisclaimerModal';
 import ConsumptionPointDisclaimerModal from '../../(roles)/admin/profile/consumption_points/ConsumptionPointDisclaimerModal';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
@@ -19,7 +22,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SignUpWithPasswordCredentials } from '../Context/AuthContext';
-import Label from '../../components/ui/Label';
 
 interface FormData {
     access_level: string;
@@ -28,15 +30,12 @@ interface FormData {
     password: string;
     confirm_password: string;
     is_legal_age: boolean;
-    // avatar_url: string;
-    // email_verified: boolean;
-    // full_name: string;
-    // iss: string;
-    // name: string;
-    // lastname: string;
-    // picture: string;
-    // provider_id: string;
-    // sub: string;
+    company_name?: string;
+    id_number?: string;
+    company_email?: string;
+    company_phone?: string;
+    company_description?: string;
+    company_legal_representative?: string;
 }
 
 const schema: ZodType<FormData> = z
@@ -64,11 +63,107 @@ const schema: ZodType<FormData> = z
         is_legal_age: z.boolean().refine((data) => data === true, {
             message: 'errors.register_legal_age',
         }),
+        company_name: z.string().optional(),
+        id_number: z.string().optional(),
+        company_email: z.string().optional(),
+        company_phone: z.string().optional(),
+        company_description: z.string().optional(),
+        company_legal_representative: z.string().optional(),
     })
     .refine((data) => data.password === data.confirm_password, {
         path: ['confirm_password'],
         message: 'errors.password_match',
-    });
+    })
+    .refine(
+        (data) => {
+            if (
+                data.access_level === ROLE_ENUM.Productor ||
+                data.access_level === ROLE_ENUM.Distributor
+            ) {
+                return !!data.company_name;
+            }
+            return true;
+        },
+        {
+            path: ['company_name'],
+            message: 'errors.input_required',
+        },
+    )
+    .refine(
+        (data) => {
+            if (
+                data.access_level === ROLE_ENUM.Productor ||
+                data.access_level === ROLE_ENUM.Distributor
+            ) {
+                return !!data.id_number;
+            }
+            return true;
+        },
+        {
+            path: ['id_number'],
+            message: 'errors.input_required',
+        },
+    )
+    .refine(
+        (data) => {
+            if (
+                data.access_level === ROLE_ENUM.Productor ||
+                data.access_level === ROLE_ENUM.Distributor
+            ) {
+                return !!data.company_email;
+            }
+            return true;
+        },
+        {
+            path: ['company_email'],
+            message: 'errors.input_required',
+        },
+    )
+    .refine(
+        (data) => {
+            if (
+                data.access_level === ROLE_ENUM.Productor ||
+                data.access_level === ROLE_ENUM.Distributor
+            ) {
+                return !!data.company_phone;
+            }
+            return true;
+        },
+        {
+            path: ['company_phone'],
+            message: 'errors.input_required',
+        },
+    )
+    .refine(
+        (data) => {
+            if (
+                data.access_level === ROLE_ENUM.Productor ||
+                data.access_level === ROLE_ENUM.Distributor
+            ) {
+                return !!data.company_description;
+            }
+            return true;
+        },
+        {
+            path: ['company_description'],
+            message: 'errors.input_required',
+        },
+    )
+    .refine(
+        (data) => {
+            if (
+                data.access_level === ROLE_ENUM.Productor ||
+                data.access_level === ROLE_ENUM.Distributor
+            ) {
+                return !!data.company_legal_representative;
+            }
+            return true;
+        },
+        {
+            path: ['company_legal_representative'],
+            message: 'errors.input_required',
+        },
+    );
 
 type ValidationSchema = z.infer<typeof schema>;
 
@@ -92,7 +187,16 @@ export const SignUpForm = () => {
         },
     });
 
-    const { handleSubmit, reset } = form;
+    const {
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = form;
+
+    useEffect(() => {
+        console.log(errors);
+        return () => {};
+    }, [errors]);
 
     const handleChangeRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value: any = event?.target.value;
@@ -185,98 +289,226 @@ export const SignUpForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-4 space-y-4">
-            {isSignupSubmitLoading && (
-                <span>
-                    <Spinner
-                        color={'beer-blonde'}
-                        size={'large'}
-                        absolute
-                        absolutePosition={'center'}
-                    />
-                </span>
-            )}
+        <form onSubmit={handleSubmit(onSubmit)} className="mt-4 space-y-8">
+            <div className="space-y-4">
+                {isSignupSubmitLoading && (
+                    <span>
+                        <Spinner
+                            color={'beer-blonde'}
+                            size={'large'}
+                            absolute
+                            absolutePosition={'center'}
+                        />
+                    </span>
+                )}
 
-            <SelectInput
-                form={form}
-                labelTooltip={'tooltips.role_description'}
-                options={ROLE_OPTIONS}
-                label={'access_level'}
-                registerOptions={{
-                    required: true,
-                }}
-                onChange={handleChangeRole}
-                defaultValue={role}
-            />
-
-            {/* <div className="flex w-full flex-col space-y-2">
-                <select
-                {...register("access_level")}
-                value={role}
-                onChange={handleChangeRole}
-                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                >
-                {ROLE_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value}>
-                    {option.label}
-                    </option>
-                ))}
-                </select>
-            </div> */}
-
-            <InputLabel
-                form={form}
-                label={'username'}
-                registerOptions={{
-                    required: true,
-                }}
-                placeholder="user_123"
-            />
-
-            <InputLabel
-                form={form}
-                label={'email'}
-                registerOptions={{
-                    required: true,
-                }}
-                placeholder="ejemplo@cervezanas.com"
-                inputType="email"
-            />
-
-            <InputLabel
-                form={form}
-                label={'password'}
-                registerOptions={{
-                    required: true,
-                }}
-                placeholder="*****"
-                inputType="password"
-            />
-
-            <PasswordStrengthIndicator password={form.watch('password')} />
-
-            <InputLabel
-                form={form}
-                label={'confirm_password'}
-                registerOptions={{
-                    required: true,
-                }}
-                placeholder="*****"
-                inputType="password"
-            />
-
-            <div className="flex w-full flex-col space-y-2">
-                <InputLabel
+                <SelectInput
                     form={form}
-                    label={'is_legal_age'}
+                    labelTooltip={'tooltips.role_description'}
+                    options={ROLE_OPTIONS}
+                    label={'access_level'}
                     registerOptions={{
                         required: true,
                     }}
-                    placeholder="*****"
-                    inputType="checkbox"
+                    onChange={handleChangeRole}
+                    defaultValue={role}
                 />
-                <Label size="small">{t('is_legal_age_description')}</Label>
+
+                <div className="flex gap-4">
+                    <InputLabel
+                        form={form}
+                        label={'username'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder="user_123"
+                    />
+
+                    <InputLabel
+                        form={form}
+                        label={'email'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder="ejemplo@cervezanas.beer"
+                        inputType="email"
+                    />
+                </div>
+
+                <div className="flex gap-4">
+                    <InputLabel
+                        form={form}
+                        label={'password'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder="*****"
+                        inputType="password"
+                    />
+
+                    <InputLabel
+                        form={form}
+                        label={'confirm_password'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder="*****"
+                        inputType="password"
+                    />
+                </div>
+
+                <PasswordStrengthIndicator password={form.watch('password')} />
             </div>
+
+            {role === ROLE_ENUM.Productor && (
+                <div className="flex w-full flex-col space-y-2">
+                    <Title size="medium" color="beer-blonde">
+                        {t('company_information')}
+                    </Title>
+
+                    <div className="flex gap-4">
+                        <InputLabel
+                            form={form}
+                            label={'company_name'}
+                            labelText={'public_user_information.company_name'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder="Empresa Cervezanas SL"
+                        />
+
+                        <InputLabel
+                            form={form}
+                            label={'id_number'}
+                            labelText={'public_user_information.id_number'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder="G35887712"
+                        />
+                    </div>
+
+                    <div className="flex gap-4">
+                        <InputLabel
+                            form={form}
+                            label={'company_legal_representative'}
+                            labelText={
+                                'public_user_information.company_legal_representative'
+                            }
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder="Juan Pérez"
+                        />
+
+                        <InputLabel
+                            form={form}
+                            label={'company_phone'}
+                            labelText={'public_user_information.company_phone'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder="+34 123 456 789"
+                        />
+                    </div>
+
+                    <InputLabel
+                        form={form}
+                        label={'company_email'}
+                        labelText={'public_user_information.company_email'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder="correoempresa@cervezanas.beer"
+                        inputType="email"
+                    />
+
+                    <InputTextarea
+                        form={form}
+                        label={'company_description'}
+                        labelText={'company_description'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder="Breve descripción de la empresa"
+                    />
+                </div>
+            )}
+
+            {role === ROLE_ENUM.Distributor && (
+                <div className="flex w-full flex-col space-y-2">
+                    <Title size="medium" color="beer-blonde">
+                        {t('company_information')}
+                    </Title>
+
+                    <div className="flex gap-4">
+                        <InputLabel
+                            form={form}
+                            label={'company_name'}
+                            labelText={'public_user_information.company_name'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder="Empresa Cervezanas SL"
+                        />
+
+                        <InputLabel
+                            form={form}
+                            label={'id_number'}
+                            labelText={'public_user_information.id_number'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder="G35887712"
+                        />
+                    </div>
+
+                    <div className="flex gap-4">
+                        <InputLabel
+                            form={form}
+                            label={'company_legal_representative'}
+                            labelText={
+                                'public_user_information.company_legal_representative'
+                            }
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder="Juan Pérez"
+                        />
+
+                        <InputLabel
+                            form={form}
+                            label={'company_phone'}
+                            labelText={'public_user_information.company_phone'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder="+34 123 456 789"
+                        />
+                    </div>
+
+                    <InputLabel
+                        form={form}
+                        label={'company_email'}
+                        labelText={'public_user_information.company_email'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder="correoempresa@cervezanas.beer"
+                        inputType="email"
+                    />
+
+                    <InputTextarea
+                        form={form}
+                        label={'company_description'}
+                        labelText={'company_description'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder="Breve descripción de la empresa"
+                    />
+                </div>
+            )}
 
             {role === ROLE_ENUM.Productor && (
                 <div className="flex w-full flex-col space-y-2">
@@ -394,6 +626,19 @@ export const SignUpForm = () => {
                     </p>
                 </div>
             )}
+
+            <div className="flex w-full flex-col space-y-2">
+                <InputLabel
+                    form={form}
+                    label={'is_legal_age'}
+                    registerOptions={{
+                        required: true,
+                    }}
+                    placeholder="*****"
+                    inputType="checkbox"
+                />
+                <Label size="small">{t('is_legal_age_description')}</Label>
+            </div>
 
             {isSignupSubmitLoading ? (
                 <Spinner color={'beer-blonde'} size={'small'} />

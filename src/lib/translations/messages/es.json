@@ -1236,7 +1236,11 @@
         "producer_description": "Descripción",
         "producer_contact": "Contacto",
         "producer_catalog": "Catálogo",
-        "company_legal_representative": "Representante legal"
+        "company_legal_representative": "Representante legal",
+        "id_number": "Número de identificación",
+        "company_name": "Nombre de la empresa",
+        "company_phone": "Teléfono",
+        "company_email": "Correo electrónico"
     },
     "show_full_info": "Mostrar información completa",
     "hide_full_info": "Ocultar información completa",
@@ -1397,5 +1401,6 @@
     "cps": {
         "fixed_has_been_assigned_as_organizer": "Has sido asignado como organizador del punto de consumo fijo {cp_name}",
         "mobile_has_been_assigned_as_orgenizer": "Has sido asignado como organizador del punto de consumo móvil ${cp_name}"
-    }
+    },
+    "company_information": "Información de la empresa"
 }

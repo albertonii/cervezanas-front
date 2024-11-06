@@ -165,7 +165,7 @@ export default function SignIn() {
                                     registerOptions={{
                                         required: true,
                                     }}
-                                    placeholder="user@cervezanas.com"
+                                    placeholder="user@cervezanas.beer"
                                     inputType="email"
                                 />
 
@@ -309,7 +309,7 @@ export default function SignIn() {
                                     registerOptions={{
                                         required: true,
                                     }}
-                                    placeholder="user@cervezanas.com"
+                                    placeholder="user@cervezanas.beer"
                                     inputType="email"
                                 />
 

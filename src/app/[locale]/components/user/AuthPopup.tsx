@@ -106,9 +106,9 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ onClose }) => {
     }, [handleKeyPress]);
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 -top-[25vh]">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 -top-[25vh] ">
             <div
-                className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md dark:bg-gray-700"
+                className="bg-white rounded-lg shadow-2xl p-6 w-full max-w-md dark:bg-gray-700 transform transition-all duration-300 scale-105"
                 ref={modalRef}
             >
                 <div className="flex justify-between items-center mb-4">
@@ -133,7 +133,7 @@ const AuthPopup: React.FC<AuthPopupProps> = ({ onClose }) => {
                         registerOptions={{
                             required: true,
                         }}
-                        placeholder="user@cervezanas.com"
+                        placeholder="user@cervezanas.beer"
                         inputType="email"
                     />
 
