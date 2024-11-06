@@ -10,7 +10,7 @@ import PasswordStrengthIndicator from './PasswordStrengthIndicator';
 import ProducerDisclaimerModal from '../../(roles)/admin/profile/consumption_points/ProducerDisclaimerModal';
 import DistributorDisclaimerModal from '../../(roles)/admin/profile/consumption_points/DistributorDisclaimerModal';
 import ConsumptionPointDisclaimerModal from '../../(roles)/admin/profile/consumption_points/ConsumptionPointDisclaimerModal';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
@@ -301,7 +301,7 @@ export const SignUpForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-4 space-y-8">
+        <form onSubmit={handleSubmit(onSubmit)} className={`mt-4 space-y-8`}>
             <div className="space-y-4">
                 {isSignupSubmitLoading && (
                     <span>
@@ -334,6 +334,7 @@ export const SignUpForm = () => {
                             required: true,
                         }}
                         placeholder="user_123"
+                        disabled={isSignupSubmitLoading}
                     />
 
                     <InputLabel
@@ -344,6 +345,7 @@ export const SignUpForm = () => {
                         }}
                         placeholder="ejemplo@cervezanas.beer"
                         inputType="email"
+                        disabled={isSignupSubmitLoading}
                     />
                 </div>
 
@@ -356,6 +358,7 @@ export const SignUpForm = () => {
                         }}
                         placeholder="*****"
                         inputType="password"
+                        disabled={isSignupSubmitLoading}
                     />
 
                     <InputLabel
@@ -366,6 +369,7 @@ export const SignUpForm = () => {
                         }}
                         placeholder="*****"
                         inputType="password"
+                        disabled={isSignupSubmitLoading}
                     />
                 </div>
 
@@ -387,6 +391,7 @@ export const SignUpForm = () => {
                                 required: true,
                             }}
                             placeholder="Empresa Cervezanas SL"
+                            disabled={isSignupSubmitLoading}
                         />
 
                         <InputLabel
@@ -397,6 +402,7 @@ export const SignUpForm = () => {
                                 required: true,
                             }}
                             placeholder="G35887712"
+                            disabled={isSignupSubmitLoading}
                         />
                     </div>
 
@@ -411,6 +417,7 @@ export const SignUpForm = () => {
                                 required: true,
                             }}
                             placeholder="Juan Pérez"
+                            disabled={isSignupSubmitLoading}
                         />
 
                         <InputLabel
@@ -421,6 +428,7 @@ export const SignUpForm = () => {
                                 required: true,
                             }}
                             placeholder="+34 123 456 789"
+                            disabled={isSignupSubmitLoading}
                         />
                     </div>
 
@@ -433,6 +441,7 @@ export const SignUpForm = () => {
                         }}
                         placeholder="correoempresa@cervezanas.beer"
                         inputType="email"
+                        disabled={isSignupSubmitLoading}
                     />
 
                     <InputTextarea
@@ -443,6 +452,7 @@ export const SignUpForm = () => {
                             required: true,
                         }}
                         placeholder="Breve descripción de la empresa"
+                        disabled={isSignupSubmitLoading}
                     />
                 </div>
             )}
@@ -462,6 +472,7 @@ export const SignUpForm = () => {
                                 required: true,
                             }}
                             placeholder="Empresa Cervezanas SL"
+                            disabled={isSignupSubmitLoading}
                         />
 
                         <InputLabel
@@ -472,6 +483,7 @@ export const SignUpForm = () => {
                                 required: true,
                             }}
                             placeholder="G35887712"
+                            disabled={isSignupSubmitLoading}
                         />
                     </div>
 
@@ -486,6 +498,7 @@ export const SignUpForm = () => {
                                 required: true,
                             }}
                             placeholder="Juan Pérez"
+                            disabled={isSignupSubmitLoading}
                         />
 
                         <InputLabel
@@ -496,6 +509,7 @@ export const SignUpForm = () => {
                                 required: true,
                             }}
                             placeholder="+34 123 456 789"
+                            disabled={isSignupSubmitLoading}
                         />
                     </div>
 
@@ -508,6 +522,7 @@ export const SignUpForm = () => {
                         }}
                         placeholder="correoempresa@cervezanas.beer"
                         inputType="email"
+                        disabled={isSignupSubmitLoading}
                     />
 
                     <InputTextarea
@@ -518,6 +533,7 @@ export const SignUpForm = () => {
                             required: true,
                         }}
                         placeholder="Breve descripción de la empresa"
+                        disabled={isSignupSubmitLoading}
                     />
                 </div>
             )}
@@ -531,6 +547,7 @@ export const SignUpForm = () => {
                                 'h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde'
                             }
                             id="producer_disclaimer"
+                            disabled={isSignupSubmitLoading}
                         />
 
                         <Label size="small" htmlFor="producer_disclaimer">
@@ -576,6 +593,7 @@ export const SignUpForm = () => {
                                     'float-right h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde'
                                 }
                                 id="distributor_disclaimer"
+                                disabled={isSignupSubmitLoading}
                             />
                         </label>
                     </div>
@@ -618,6 +636,7 @@ export const SignUpForm = () => {
                                     'float-right h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde'
                                 }
                                 id="consumption_point_disclaimer"
+                                disabled={isSignupSubmitLoading}
                             />
                         </label>
                     </div>
@@ -643,7 +662,9 @@ export const SignUpForm = () => {
                 <input
                     type="checkbox"
                     {...form.register('is_legal_age', { required: true })}
-                    className="h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde"
+                    className="h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine 
+                        dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde"
+                    disabled={isSignupSubmitLoading}
                 />
                 <Label size="small">{t('is_legal_age_description')}</Label>
             </div>
@@ -679,6 +700,7 @@ export const SignUpForm = () => {
                             'group relative my-1 flex w-full justify-center rounded-md border border-none border-transparent bg-beer-blonde px-4 py-2 text-sm font-medium hover:bg-beer-draft hover:font-semibold hover:text-beer-blonde focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 '
                         }
                         fullSize
+                        disabled={isSignupSubmitLoading}
                     >
                         <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                             <FontAwesomeIcon
