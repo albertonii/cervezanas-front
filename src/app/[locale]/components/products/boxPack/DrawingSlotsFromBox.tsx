@@ -1,4 +1,6 @@
 import React from 'react';
+import { faBeer } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface BoxProductSlotsSelectionProps {
     slotsPerBox: number;
@@ -26,7 +28,7 @@ const DrawingSlotsFromBox: React.FC<BoxProductSlotsSelectionProps> = ({
 
     return (
         <div
-            className="col-span-2 px-16 py-8  bg-white bg-center bg-no-repeat"
+            className="col-span-2 px-16 py-8  bg-white bg-[url('/assets/caja.webp')] bg-center bg-no-repeat"
             style={{ backgroundSize: '100% 100%' }}
         >
             <div className="grid grid-cols-2 gap-0 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-8">

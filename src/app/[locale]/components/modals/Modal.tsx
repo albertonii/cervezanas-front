@@ -61,8 +61,9 @@ export default function Modal({
         setIsLoading(true);
 
         try {
-            await handler();
-            handleShowModal(false);
+            await handler().then(() => {
+                handleClose();
+            });
         } catch (e) {
             console.error(e);
         } finally {
