@@ -1,12 +1,12 @@
 import DistributorRRSS from './DistributorRRSS';
+
+import DistributorHistory from './DistributorHistory';
+import DistributorMoreDetails from './DistributorMoreDetails.';
+import DistributorCoverageAreas from './DistributorCoverageAreas';
+import DistributorContactInformation from './DistributorContactInformation';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IDistributorUser } from '@/lib/types/types';
-import DistributorHistory from './DistributorHistory';
-import DistributorContactInformation from './DistributorContactInformation';
-import DistributorMoreDetails from './DistributorMoreDetails.';
-import SubRegionTable from '@/app/[locale]/(roles)/distributor/profile/logistics/(sub_region)/SubRegionTable';
-import DistributorCoverageAreas from './DistributorCoverageAreas';
 
 interface Props {
     distributor: IDistributorUser;

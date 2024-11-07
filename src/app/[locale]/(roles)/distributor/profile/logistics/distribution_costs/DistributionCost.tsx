@@ -1,5 +1,7 @@
 'use client';
 
+import Title from '@/app/[locale]/components/ui/Title';
+import Label from '@/app/[locale]/components/ui/Label';
 import FlatrateCostForm from './FlatrateCost/FlatrateCostForm';
 import PriceRangeCostForm from './PrinceRange/PriceRangeCostForm';
 import HorizontalMenuCoverageCost from '../HorizontalMenuCoverageCost';
@@ -10,20 +12,28 @@ import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { DistributionCostType } from '@/lib/enums';
 import { IDistributionCost } from '@/lib/types/types';
+import { Tooltip } from '@/app/[locale]/components/ui/Tooltip';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { updateIsDistributionCostsIncludedInProduct } from '../../../actions';
-import { Tooltip } from '@/app/[locale]/components/ui/Tooltip';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 
 interface Props {
     userId: string;
+    distributionCosts: IDistributionCost;
 }
 
-export default function DistributionCost({ userId }: Props) {
+export default function DistributionCost({
+    userId,
+    distributionCosts: dCostFromServer,
+}: Props) {
     const t = useTranslations();
 
+    const { handleMessage } = useMessage();
+
     const [includeDistributionCost, setIncludeDistributionCost] =
-        useState<boolean>(false);
+        useState<boolean>(dCostFromServer.distribution_costs_in_product);
+
     const [
         isLoadingDistributionCostsIncluded,
         setIsLoadingDistributioncostsIncluded,
@@ -45,16 +55,30 @@ export default function DistributionCost({ userId }: Props) {
         DistributionCostType.AREA_AND_WEIGHT,
     );
 
-    const handleCheckboxChange = async () => {
+    const handleIsCostIncludedInProductsCheckboxChange = async () => {
         if (!distributionCosts) return;
 
         setIsLoadingDistributioncostsIncluded(true);
         setIncludeDistributionCost(!includeDistributionCost);
 
-        await updateIsDistributionCostsIncludedInProduct(
+        const res = await updateIsDistributionCostsIncludedInProduct(
             distributionCosts.id,
             !includeDistributionCost,
         );
+
+        if (res.status === 200) {
+            setDistributionCosts({
+                ...distributionCosts,
+                distribution_costs_in_product: !includeDistributionCost,
+            });
+
+            handleMessage({
+                type: 'success',
+                message: t(
+                    'distributor.distribution_cost_updated_successfully',
+                ),
+            });
+        }
 
         setIsLoadingDistributioncostsIncluded(false);
     };
@@ -115,15 +139,15 @@ export default function DistributionCost({ userId }: Props) {
     };
 
     if (isLoading) {
-        return <div>Cargando...</div>; // Maneja el estado de carga
+        return <div>{t('loading')}</div>; // Maneja el estado de carga
     }
 
     if (error) {
-        return <div>Error al cargar los costos de distribución.</div>; // Maneja el caso de error
+        return <div>{t('errors.loading_distribution_costs')}</div>; // Maneja el caso de error
     }
 
     if (!distributionCosts) {
-        return <div>No se encontraron datos de costos de distribución.</div>; // Maneja el caso donde no hay datos
+        return <div>{t('errors.distribution_costs_not_found')}</div>; // Maneja el caso donde no hay datos
     }
 
     return (
@@ -135,10 +159,10 @@ export default function DistributionCost({ userId }: Props) {
             )}
 
             <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                    <h2 className="text-4xl font-['NexaRust-script']">
+                <div className="flex gap-4 items-center">
+                    <Title size="large" color="black">
                         {t('distribution_cost')}
-                    </h2>
+                    </Title>
 
                     <Tooltip
                         content="Configure los costos de distribución para la venta online"
@@ -165,27 +189,18 @@ export default function DistributionCost({ userId }: Props) {
                         type="checkbox"
                         id="includeDistributionCost"
                         checked={includeDistributionCost}
-                        onChange={handleCheckboxChange}
+                        onChange={handleIsCostIncludedInProductsCheckboxChange}
                         className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
                     />
-                    <label
-                        htmlFor="includeDistributionCost"
-                        className="text-gray-800 font-medium"
-                    >
-                        Los Costes de Distribución están incluidos en el
-                        producto
-                    </label>
+                    <Label htmlFor="includeDistributionCost" size="small">
+                        {t('distributor.distribution_cost_included_in_product')}
+                    </Label>
                 </div>
 
                 {includeDistributionCost && (
                     <>
                         <p className="mt-2 text-sm text-red-600">
-                            Nota: Esta opción solo se debe marcar si el
-                            productor y distribuidor/transportista son el mismo
-                            usuario. El coste de envío será 0, pero el precio
-                            del producto cubrirá los costes de distribución. Si
-                            selecciona esta opción, la configuración de los
-                            costes de distribución no se aplicará.
+                            {t('distributor.distribution_cost_note')}
                         </p>
                     </>
                 )}

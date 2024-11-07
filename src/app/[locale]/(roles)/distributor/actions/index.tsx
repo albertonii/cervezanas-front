@@ -203,24 +203,44 @@ export async function updateIsDistributionCostsIncludedInProduct(
         isDistributionCostIncluded.toString(),
     );
 
-    const urlPUT = `${baseUrl}/api/distribution_costs/distribution_costs_in_product`;
+    const urlPATCH = `${baseUrl}/api/distribution_costs/distribution_costs_in_product`;
+    try {
+        const response = await axios.patch(urlPATCH, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'PATCH',
+                'Access-Control-Allow-Credentials': 'true',
+                'Access-Control-Allow-Headers':
+                    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+            },
+        });
 
-    const resPut = await fetch(urlPUT, {
-        method: 'PUT',
-        body: formData,
-    });
+        if (
+            response.status !== 200 &&
+            response.status !== 201 &&
+            response.status !== 202
+        ) {
+            return {
+                status: response.status,
+                message: 'errors.toggle_is_distribution_costs_in_product',
+            };
+        }
 
-    if (!resPut.ok) {
         return {
-            status: resPut.status,
-            message: 'Error updating is_distribution_costs_in_product',
+            status: response.status,
+            message: 'success.updating_is_distribution_costs_in_product',
+        };
+    } catch (error: any) {
+        console.error(
+            'errors.updating_is_distribution_costs_in_product:',
+            error,
+        );
+        return {
+            status: error.response?.status || 500,
+            message: error.response?.data.message || 'Internal Server Error',
         };
     }
-
-    return {
-        status: resPut.status,
-        message: 'is_distribution_costs_in_product updated successfully',
-    };
 }
 
 export async function updateAreaAndWeightRangeByAreaAndWeightInformationId(

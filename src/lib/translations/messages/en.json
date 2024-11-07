@@ -671,7 +671,7 @@
         "lower_greater_than_upper": "The lower limit must be less than the upper limit",
         "inserting_report": "Error inserting report.",
         "updating_report": "Error updating report.",
-        "answer_is_correct_marked": "It must be  atleast one answer marked as correct",
+        "answer_is_correct_marked": "It must be at least one answer marked as correct",
         "insert_product": "Error inserting product.",
         "inserting_cp_event_no_cp_owner_id": "Error inserting consumption point event. No consumption point owner id.",
         "inserting_order": "Error inserting order.",
@@ -738,7 +738,11 @@
         "updating_sales_records_download_status": "Error updating sales records download status.",
         "validating_promo_code": "Error validating promo code.",
         "invalid_promo_code": "Invalid promo code.",
-        "sending_notification": "Error sending notification."
+        "sending_notification": "Error sending notification.",
+        "loading_distribution_costs": "Error loading distribution costs.",
+        "distribution_costs_not_found": "No distribution cost data found.",
+        "toggle_is_distribution_costs_in_product": "Error updating if distribution costs are included in the product.",
+        "updating_is_distribution_costs_in_product": "Error updating if distribution costs are included in the product."
     },
     "product_packs": "Product packs",
     "units": "Units",
@@ -1041,7 +1045,8 @@
         "update_shipment_tracking": "Shipment tracking updated successfully",
         "profile_acc_data_updated": "Account data updated successfully",
         "sales_records_download_status_updated": "Sales records download status updated successfully",
-        "promo_code_applied": "Promo code applied successfully"
+        "promo_code_applied": "Promo code applied successfully",
+        "updating_is_distribution_costs_in_product": "Successfully updated: distribution costs are included in the product"
     },
     "num_of_packs": "Number of packs",
     "promo_code": "Promo code",
@@ -1360,5 +1365,10 @@
     "cps": {
         "fixed_has_been_assigned_as_organizer": "You have been assigned as the organizer of the fixed consumption point {cp_name}",
         "mobile_has_been_assigned_as_orgenizer": "You have been assigned as organizer for the mobile consumption point ${cp_name}"
+    },
+    "company_information": "Company Information",
+    "distributor": {
+        "distribution_cost_included_in_product": "Distribution cost included in the product",
+        "distribution_cost_note": "Note: This option should only be checked if the producer and distributor/carrier are the same user. The shipping cost will be 0, but the product price will cover the distribution costs. If you select this option, the distribution cost settings will not apply."
     }
 }
