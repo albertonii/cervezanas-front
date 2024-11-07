@@ -7,6 +7,9 @@ import { DownProducerModal } from '@/app/[locale]/components/modals/DownProducer
 import { UpDistributorModal } from '@/app/[locale]/components/modals/UpDistributorModal';
 import { DownDistributorModal } from '@/app/[locale]/components/modals/DownDistributorModal';
 import Button from '../ui/buttons/Button';
+import Title from '../ui/Title';
+import Label from '../ui/Label';
+import ProfileSettingsContainer from '../ui/ProfileSettingsContainer';
 
 const UserRoles = () => {
     const t = useTranslations();
@@ -41,10 +44,7 @@ const UserRoles = () => {
     };
 
     return (
-        <section
-            id="account_basic_data"
-            className="mb-4 space-y-3 bg-white px-6 py-4 rounded-xl border"
-        >
+        <ProfileSettingsContainer sectionId="account_basic_data">
             {showUpDistributorRoleModal && (
                 <UpDistributorModal
                     handleShowUpDistributorModal={handleShowUpDistributorModal}
@@ -76,15 +76,15 @@ const UserRoles = () => {
             )}
 
             <div>
-                <h2
-                    id="account-data"
-                    className="text-4xl font-['NexaRust-script']"
-                >
+                <Title size="large" color="black">
                     {t('profile_title_roles')}
-                </h2>
-                <span className="text-base ">
+                </Title>
+
+                <Label>
                     <i>{t('profile_description_roles')}</i>
-                </span>
+                </Label>
+
+                <span className="text-base "></span>
             </div>
 
             <div id="roles" className="flex flex-wrap">
@@ -137,7 +137,7 @@ const UserRoles = () => {
                     </Button>
                 )}
             </section>
-        </section>
+        </ProfileSettingsContainer>
     );
 };
 

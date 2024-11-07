@@ -1370,5 +1370,6 @@
     "distributor": {
         "distribution_cost_included_in_product": "Distribution cost included in the product",
         "distribution_cost_note": "Note: This option should only be checked if the producer and distributor/carrier are the same user. The shipping cost will be 0, but the product price will cover the distribution costs. If you select this option, the distribution cost settings will not apply."
-    }
+    },
+    "info": "Information"
 }

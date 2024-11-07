@@ -12,6 +12,8 @@ import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
+import Title from '@/app/[locale]/components/ui/Title';
+import ProfileSettingsContainer from '@/app/[locale]/components/ui/ProfileSettingsContainer';
 
 type FormData = {
     company_ig?: string;
@@ -140,16 +142,10 @@ export function RRSSForm({ profile }: Props) {
     };
 
     return (
-        <section
-            id="account_distributor_data"
-            className="mb-4 space-y-3 bg-white px-6 py-4 rounded-xl border"
-        >
-            <span
-                id="account-distributor-data"
-                className="text-4xl font-['NexaRust-script']"
-            >
+        <ProfileSettingsContainer sectionId="account_distributor_data">
+            <Title size="large" color="black">
                 {t('rrss_title_acc_data')}
-            </span>
+            </Title>
 
             <form
                 onSubmit={handleSubmit(onSubmit)}
@@ -207,6 +203,6 @@ export function RRSSForm({ profile }: Props) {
                     {t('save')}
                 </Button>
             </form>
-        </section>
+        </ProfileSettingsContainer>
     );
 }

@@ -1411,5 +1411,6 @@
     "distributor": {
         "distribution_cost_included_in_product": "Coste de distribución incluido en el producto",
         "distribution_cost_note": " Nota: Esta opción solo se debe marcar si el productor y distribuidor/transportista son el mismo usuario. El coste de envío será 0, pero el precio del producto cubrirá los costes de distribución. Si selecciona esta opción, la configuración de los costes de distribución no se aplicará."
-    }
+    },
+    "info": "Información"
 }

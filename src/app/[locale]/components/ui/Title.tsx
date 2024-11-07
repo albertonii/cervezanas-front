@@ -19,8 +19,8 @@ const Title = ({ children, size, color }: Props) => {
     };
 
     const colorClass = {
-        black: 'text-black-800',
-        white: 'text-white',
+        black: 'text-black-800 dark:text-white',
+        white: 'text-white dark:text-black-800',
         'beer-draft': 'text-beer-draft',
         'beer-blonde': 'text-beer-blonde',
     };

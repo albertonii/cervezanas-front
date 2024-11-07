@@ -27,7 +27,7 @@ export default function EmptyCart() {
                     <FontAwesomeIcon
                         icon={faCircleExclamation}
                         style={{ color: '#fdc300', height: '40px' }}
-                        title={'circle_warning'}
+                        title={t('info')}
                         width={80}
                         height={80}
                     />

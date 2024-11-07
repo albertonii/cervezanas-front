@@ -333,6 +333,8 @@ export async function calculateCheapestShippingCostsByDistributor(
         }),
     ).then((weights) => weights.reduce((prev, current) => prev + current, 0));
 
+    console.log('TOTAL WEIGHT', totalWeight);
+
     // Obtener el costo de envío de cada distribuidor
     const shippingCostInformation: {
         distributor_id: string | null;
@@ -340,6 +342,10 @@ export async function calculateCheapestShippingCostsByDistributor(
     }[] = await Promise.all(
         distributionContracts.map(async (distributionContract) => {
             try {
+                console.log(
+                    distributionContract.distributor_user?.distribution_costs,
+                );
+
                 if (
                     distributionContract.distributor_user?.distribution_costs
                         ?.distribution_costs_in_product
@@ -412,6 +418,8 @@ export async function calculateCheapestShippingCostsByDistributor(
             : validShippingCosts.reduce((prev, current) =>
                   prev.delivery_cost! < current.delivery_cost! ? prev : current,
               );
+
+    console.log('Cheapest shipping cost:', cheapestShippingCost);
 
     return cheapestShippingCost;
 }

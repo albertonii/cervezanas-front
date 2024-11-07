@@ -13,6 +13,9 @@ import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
+import Title from '@/app/[locale]/components/ui/Title';
+import Label from '@/app/[locale]/components/ui/Label';
+import ProfileSettingsContainer from '@/app/[locale]/components/ui/ProfileSettingsContainer';
 
 type FormData = {
     company_history_year?: number;
@@ -123,21 +126,15 @@ export function CompanyHistoryForm({ profile }: Props) {
     };
 
     return (
-        <section
-            id="account_producer_data"
-            className="mb-4 space-y-3 bg-white px-6 py-4 rounded-xl border"
-        >
+        <ProfileSettingsContainer sectionId="account_producer_data">
             <div>
-                <h2
-                    id="account-producer-data"
-                    className="text-4xl font-['NexaRust-script']"
-                >
+                <Title size="large" color="black">
                     {t('history_title_acc_data')}
-                </h2>
+                </Title>
 
-                <span className="text-base ">
+                <Label>
                     <i>{t('company_history_description_descriptive')}</i>
-                </span>
+                </Label>
             </div>
 
             <form
@@ -207,6 +204,6 @@ export function CompanyHistoryForm({ profile }: Props) {
                     {t('save')}
                 </Button>
             </form>
-        </section>
+        </ProfileSettingsContainer>
     );
 }
