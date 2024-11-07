@@ -205,12 +205,8 @@ export function AddBoxPackModal() {
             showCancelBtn={false}
         >
             {isLoading ? (
-                <div className="h-[50vh]">
-                    <Spinner
-                        size="xxLarge"
-                        color="beer-blonde"
-                        absolutePosition="center"
-                    />
+                <div className="flex justify-center items-center h-[50vh]">
+                    <Spinner size="xxLarge" color="beer-blonde" />
                 </div>
             ) : (
                 <BoxPackStepper
