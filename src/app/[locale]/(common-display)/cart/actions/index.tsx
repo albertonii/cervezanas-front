@@ -324,7 +324,7 @@ export async function calculateCheapestShippingCostsByDistributor(
     shippingInfo: IShippingInfo,
     distributionContracts: IDistributionContract[],
 ) {
-    const url = `${baseUrl}/api/calculate_shipping`;
+    const urlCalculateShipping = `${baseUrl}/api/calculate_shipping`;
 
     // Sumar el peso total de los productos
     const totalWeight = await Promise.all(
@@ -340,7 +340,17 @@ export async function calculateCheapestShippingCostsByDistributor(
     }[] = await Promise.all(
         distributionContracts.map(async (distributionContract) => {
             try {
-                const response = await axios.get(url, {
+                if (
+                    distributionContract.distributor_user?.distribution_costs
+                        ?.distribution_costs_in_product
+                ) {
+                    return {
+                        distributor_id: distributionContract.distributor_id,
+                        delivery_cost: 0,
+                    };
+                }
+
+                const response = await axios.get(urlCalculateShipping, {
                     params: {
                         distributor_id: distributionContract.distributor_id,
                         total_weight: totalWeight,
