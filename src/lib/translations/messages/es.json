@@ -1413,5 +1413,9 @@
         "distribution_cost_note": " Nota: Esta opción solo se debe marcar si el productor y distribuidor/transportista son el mismo usuario. El coste de envío será 0, pero el precio del producto cubrirá los costes de distribución. Si selecciona esta opción, la configuración de los costes de distribución no se aplicará."
     },
     "info": "Información",
-    "box_has_this_products": "Este pack contiene los siguientes productos"
+    "box_has_this_products": "Este pack contiene los siguientes productos",
+    "add_price_range": "Añadir rango de precios",
+    "low_limit": "Límite inferior",
+    "high_limit": "Límite superior",
+    "delivery_cost": "Coste de envío"
 }

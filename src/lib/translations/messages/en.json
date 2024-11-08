@@ -1372,5 +1372,9 @@
         "distribution_cost_note": "Note: This option should only be checked if the producer and distributor/carrier are the same user. The shipping cost will be 0, but the product price will cover the distribution costs. If you select this option, the distribution cost settings will not apply."
     },
     "info": "Information",
-    "box_has_this_products": "This pack contains the following products"
+    "box_has_this_products": "This pack contains the following products",
+    "add_price_range": "Add price range",
+    "low_limit": "Lower limit",
+    "high_limit": "Upper limit",
+    "delivery_cost": "Shipping cost"
 }

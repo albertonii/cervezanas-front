@@ -3,7 +3,7 @@ import React from 'react';
 interface Props {
     children: React.ReactNode;
     class_?: string;
-    key?: string;
+    key?: string | number;
 }
 
 const TR = ({ class_, key, children }: Props) => {

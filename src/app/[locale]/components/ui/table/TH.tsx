@@ -7,9 +7,18 @@ interface Props {
     size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge';
     class_?: string;
     onClick?: () => void;
+    colSpan?: number;
 }
 
-const TH = ({ children, scope, fontFamily, size, class_, onClick }: Props) => {
+const TH = ({
+    children,
+    scope,
+    fontFamily,
+    size,
+    class_,
+    onClick,
+    colSpan,
+}: Props) => {
     const sizeClass = {
         xsmall: 'text-sm',
         small: 'text-md',
@@ -26,6 +35,7 @@ const TH = ({ children, scope, fontFamily, size, class_, onClick }: Props) => {
             `}
             scope={scope}
             onClick={onClick}
+            colSpan={colSpan}
         >
             {children}
         </th>
