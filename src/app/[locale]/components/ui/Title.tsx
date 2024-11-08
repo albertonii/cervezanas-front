@@ -4,10 +4,11 @@ import { useTranslations } from 'next-intl';
 interface Props {
     size: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
     color: 'black' | 'white' | 'beer-draft' | 'beer-blonde';
+    font?: 'semi-bold' | 'bold';
     children: React.ReactNode;
 }
 
-const Title = ({ children, size, color }: Props) => {
+const Title = ({ children, size, color, font = 'bold' }: Props) => {
     const t = useTranslations();
 
     const sizeClass = {
@@ -31,7 +32,7 @@ const Title = ({ children, size, color }: Props) => {
             id="header"
         >
             <h1
-                className={`${sizeClass[size]} ${colorClass[color]} font-bold font-['NexaRust-script']`}
+                className={`${sizeClass[size]} ${colorClass[color]} ${font} font-['NexaRust-script']`}
             >
                 {children}
             </h1>

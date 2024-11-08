@@ -10,6 +10,13 @@ import { formatDateString } from '@/utils/formatDate';
 import { ROUTE_ADMIN, ROUTE_PROFILE, ROUTE_REPORTS } from '@/config';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
+import THead from '@/app/[locale]/components/ui/table/THead';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import TH from '@/app/[locale]/components/ui/table/TH';
+import TBody from '@/app/[locale]/components/ui/table/TBody';
+import TD from '@/app/[locale]/components/ui/table/TD';
+import TDActions from '@/app/[locale]/components/ui/table/TDActions';
+import Table from '@/app/[locale]/components/ui/table/Table';
 
 enum SortBy {
     NONE = 'none',
@@ -75,66 +82,60 @@ export default function EventList({ reports: rs }: Props) {
                 searchPlaceholder={'search_by_name'}
             />
 
-            <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
-                <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th
+            <Table>
+                <THead>
+                    <TR>
+                        <TH
                             scope="col"
-                            className="px-6 py-3 hover:cursor-pointer"
+                            class_="hover:cursor-pointer"
                             onClick={() => {
                                 handleChangeSort(SortBy.TITLE);
                             }}
                         >
                             {t('title_header')}
-                        </th>
+                        </TH>
 
-                        <th
+                        <TH
                             scope="col"
-                            className="px-6 py-3 hover:cursor-pointer"
+                            class_="hover:cursor-pointer"
                             onClick={() => {
                                 handleChangeSort(SortBy.CREATED_DATE);
                             }}
                         >
                             {t('created_date_header')}
-                        </th>
+                        </TH>
 
-                        <th scope="col" className="hover px-6 py-3">
-                            {t('description_header')}
-                        </th>
+                        <TH scope="col">{t('description_header')}</TH>
 
-                        <th scope="col" className="hover px-6 py-3">
-                            {t('status_header')}
-                        </th>
+                        <TH scope="col">{t('status_header')}</TH>
 
-                        <th scope="col" className="px-6 py-3 ">
-                            {t('action_header')}
-                        </th>
-                    </tr>
-                </thead>
+                        <TH scope="col">{t('action_header')}</TH>
+                    </TR>
+                </THead>
 
-                <tbody>
+                <TBody>
                     {sortedItems.map((userReport: IUserReport) => {
                         return (
-                            <tr key={userReport.id} className="">
-                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
+                            <TR key={userReport.id}>
+                                <TD class_="text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
                                     <Link
                                         href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_REPORTS}/${userReport.id}`}
                                         locale={locale}
                                     >
                                         {userReport.title}
                                     </Link>
-                                </td>
+                                </TD>
 
-                                <td className="px-6 py-4">
+                                <TD>
                                     {formatDateString(userReport.created_at)}
-                                </td>
+                                </TD>
 
-                                <td className="cursor-pointer truncate px-6 py-4">
+                                <TD class_="truncate">
                                     {userReport.description}
-                                </td>
+                                </TD>
 
-                                <td
-                                    className={`${
+                                <TD
+                                    class_={`${
                                         userReport.is_resolved &&
                                         'font-semibold text-beer-gold'
                                     } cursor-pointer truncate px-6 py-4`}
@@ -142,9 +143,9 @@ export default function EventList({ reports: rs }: Props) {
                                     {userReport.is_resolved
                                         ? t('resolved')
                                         : t('pending')}
-                                </td>
+                                </TD>
 
-                                <td className="flex items-center justify-center px-6 py-4">
+                                <TDActions>
                                     <Link
                                         href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_REPORTS}/${userReport.id}`}
                                         locale={locale}
@@ -158,12 +159,12 @@ export default function EventList({ reports: rs }: Props) {
                                             title={t('view_report')}
                                         />
                                     </Link>
-                                </td>
-                            </tr>
+                                </TDActions>
+                            </TR>
                         );
                     })}
-                </tbody>
-            </table>
+                </TBody>
+            </Table>
 
             {/* Prev and Next button for pagination  */}
             <div className="my-4 flex items-center justify-around">

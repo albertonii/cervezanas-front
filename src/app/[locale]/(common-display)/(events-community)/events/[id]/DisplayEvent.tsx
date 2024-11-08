@@ -12,6 +12,13 @@ import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { ICPF_events, ICPM_events, IEvent } from '@/lib//types/types';
 import { IBMExperienceParticipants, IEventExperience } from '@/lib//types/quiz';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
+import Title from '@/app/[locale]/components/ui/Title';
+import Table from '@/app/[locale]/components/ui/table/Table';
+import THead from '@/app/[locale]/components/ui/table/THead';
+import TBody from '@/app/[locale]/components/ui/table/TBody';
+import TH from '@/app/[locale]/components/ui/table/TH';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import Label from '@/app/[locale]/components/ui/Label';
 
 interface Props {
     event: IEvent;
@@ -184,37 +191,28 @@ export default function DisplayEvent({
             <section className="mt-8">
                 {cpmEvents.length > 0 ? (
                     <div className="overflow-x-auto">
-                        <h3 className="mb-2 text-xl font-bold">
+                        <Title size="xlarge" color="beer-blonde">
                             {t('cp_mobile')}
-                        </h3>
+                        </Title>
 
-                        <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
-                            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th
+                        <Table>
+                            <THead>
+                                <TR>
+                                    <TH scope="col">{t('logo_header')}</TH>
+
+                                    <TH scope="col">{t('name_header')}</TH>
+
+                                    <TH
                                         scope="col"
-                                        className="hidden px-6 py-3 sm:block "
-                                    >
-                                        {t('logo_header')}
-                                    </th>
-
-                                    <th scope="col" className="px-2 py-3 ">
-                                        {t('name_header')}
-                                    </th>
-
-                                    <th
-                                        scope="col"
-                                        className="hidden sm:block px-2 py-3 "
+                                        class_="hidden sm:block px-2 py-3 "
                                     >
                                         {t('date_header')}
-                                    </th>
+                                    </TH>
 
-                                    <th scope="col" className="px-2 py-3 ">
-                                        {t('status_header')}
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                                    <TH scope="col">{t('status_header')}</TH>
+                                </TR>
+                            </THead>
+                            <TBody>
                                 {cpmEvents.map((cpm) => (
                                     <>
                                         {cpm.cp_mobile && (
@@ -226,15 +224,15 @@ export default function DisplayEvent({
                                         )}
                                     </>
                                 ))}
-                            </tbody>
-                        </table>
+                            </TBody>
+                        </Table>
                     </div>
                 ) : (
                     <>
-                        <h3 className="mb-2 text-xl font-bold">
+                        <Title size="xlarge" color="beer-blonde">
                             {t('cp_mobile')}
-                        </h3>
-                        <p className="text-gray-500">{t('no_cp_mobile')}</p>
+                        </Title>
+                        <Label>{t('no_cp_mobile')}</Label>
                     </>
                 )}
             </section>
@@ -243,34 +241,23 @@ export default function DisplayEvent({
             <section className="mt-8">
                 {cpfEvents.length > 0 ? (
                     <div className="overflow-x-auto">
-                        <h3 className="mb-2 text-xl font-bold">
+                        <Title size="xlarge" color="beer-blonde">
                             {t('cp_fixed')}
-                        </h3>
+                        </Title>
 
-                        <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
-                            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th scope="col" className="px-6 py-3 ">
-                                        {t('logo_header')}
-                                    </th>
+                        <Table>
+                            <THead>
+                                <TR>
+                                    <TH scope="col">{t('logo_header')}</TH>
 
-                                    <th scope="col" className="px-6 py-3 ">
-                                        {t('name_header')}
-                                    </th>
+                                    <TH scope="col">{t('name_header')}</TH>
 
-                                    <th
-                                        scope="col"
-                                        className="hidden sm:block px-6 py-3 "
-                                    >
-                                        {t('date_header')}
-                                    </th>
+                                    <TH scope="col">{t('date_header')}</TH>
 
-                                    <th scope="col" className="px-6 py-3 ">
-                                        {t('status_header')}
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                                    <TH scope="col">{t('status_header')}</TH>
+                                </TR>
+                            </THead>
+                            <TBody>
                                 {cpfEvents.map((cpf) => (
                                     <>
                                         {cpf.cp_fixed && (
@@ -282,15 +269,16 @@ export default function DisplayEvent({
                                         )}
                                     </>
                                 ))}
-                            </tbody>
-                        </table>
+                            </TBody>
+                        </Table>
                     </div>
                 ) : (
                     <>
-                        <h3 className="mb-2 text-xl font-bold">
+                        <Title size="xlarge" color="beer-blonde">
                             {t('cp_fixed')}
-                        </h3>
-                        <p className="text-gray-500">{t('no_cp_fixed')}</p>
+                        </Title>
+
+                        <Label>{t('no_cp_fixed')}</Label>
                     </>
                 )}
             </section>

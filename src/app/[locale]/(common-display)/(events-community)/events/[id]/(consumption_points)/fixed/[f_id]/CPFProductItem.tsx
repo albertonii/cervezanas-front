@@ -1,5 +1,10 @@
 import Link from 'next/link';
+
+import TR from '@/app/[locale]/components/ui/table/TR';
+import TD from '@/app/[locale]/components/ui/table/TD';
 import useEventCartStore from '@/app/store//eventCartStore';
+import MarketCartButtons2 from '@/app/[locale]/components/cart/MarketCartButtons2';
+import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
 import React, { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { SupabaseProps } from '@/constants';
@@ -9,8 +14,6 @@ import { useAuth } from '../../../../../../../(auth)/Context/useAuth';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { ICPFixed, IEventProduct, IProductPack } from '@/lib/types/types';
 import { AddCartButton } from '@/app/[locale]/components/cart/AddCartButton';
-import MarketCartButtons2 from '@/app/[locale]/components/cart/MarketCartButtons2';
-import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
 
 interface ProductProps {
     pack: IProductPack;
@@ -139,8 +142,8 @@ export default function CPFProductItem({
     };
 
     return (
-        <tr key={pack.product_id} className="">
-            <td className="space-x-2 px-6 py-4">
+        <TR key={pack.product_id}>
+            <TD>
                 <DisplayImageProduct
                     imgSrc={
                         SupabaseProps.BASE_PRODUCTS_URL +
@@ -151,9 +154,9 @@ export default function CPFProductItem({
                     height={600}
                     class="w-[10vw] px-2 py-2 sm:w-[15vw] md:w-[20vw] lg:w-[6vw]"
                 />
-            </td>
+            </TD>
 
-            <td className="space-x-2 px-6 py-4 font-semibold hover:cursor-pointer hover:text-beer-draft">
+            <TD class_="hover:cursor-pointer hover:text-beer-draft">
                 <Link
                     target={'_blank'}
                     href={`${ROUTE_EVENTS}/${eventId}${ROUTE_PRODUCTS}/${cpfId}`}
@@ -161,25 +164,21 @@ export default function CPFProductItem({
                 >
                     {product?.name}
                 </Link>
-            </td>
+            </TD>
 
-            <td className="space-x-2 px-6 py-4 font-semibold">{name}</td>
+            <TD>{name}</TD>
 
-            <td className="space-x-2 px-6 py-4 font-semibold">{quantity}</td>
+            <TD>{quantity}</TD>
 
-            <td className="hidden max-w-[14vw] space-x-2 overflow-hidden px-6 py-4 md:block">
+            <TD class_="hidden max-w-[14vw] overflow-hidden md:block">
                 <span className="truncate">{product?.description}</span>
-            </td>
+            </TD>
 
-            <td className="space-x-2 px-6 py-4 font-medium  text-green-500">
-                {formatCurrency(price)}
-            </td>
+            <TD class_="text-green-500">{formatCurrency(price)}</TD>
 
-            <td className="hidden space-x-2 px-6 py-4 md:block">
-                {t(product?.type.toLowerCase())}
-            </td>
+            <TD class_="hidden md:block">{t(product?.type.toLowerCase())}</TD>
 
-            <td className="space-x-2 px-6 py-4">
+            <TD>
                 {packQuantity === 0 ? (
                     <>
                         <AddCartButton
@@ -205,7 +204,7 @@ export default function CPFProductItem({
                         />
                     </>
                 )}
-            </td>
-        </tr>
+            </TD>
+        </TR>
     );
 }

@@ -1,15 +1,21 @@
-import { useLocale, useTranslations } from 'next-intl';
 import Link from 'next/link';
+
+import TH from '@/app/[locale]/components/ui/table/TH';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import TD from '@/app/[locale]/components/ui/table/TD';
+import THead from '@/app/[locale]/components/ui/table/THead';
+import Table from '@/app/[locale]/components/ui/table/Table';
+import TBody from '@/app/[locale]/components/ui/table/TBody';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
+import TDActions from '@/app/[locale]/components/ui/table/TDActions';
+import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
+import AddMonthlyProduct from '@/app/[locale]/components/modals/AddMonthlyProduct';
 import React, { useMemo, useState } from 'react';
 import { SupabaseProps } from '@/constants';
+import { useLocale, useTranslations } from 'next-intl';
 import { IMonthlyProduct, IProduct } from '@/lib//types/types';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import InputSearch from '@/app/[locale]/components/form/InputSearch';
-import AddMonthlyProduct from '@/app/[locale]/components/modals/AddMonthlyProduct';
-import { DeleteMonthlyProduct } from '@/app/[locale]/components/modals/DeleteMonthlyProduct';
-import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';
 import { EditButton } from '@/app/[locale]/components/ui/buttons/EditButton';
-import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
+import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';
 
 interface ColumnsProps {
     header: string;
@@ -138,33 +144,29 @@ export default function MonthlyProductsList({ mProducts, products }: Props) {
                 />
 
                 {/* Monthly product table  */}
-                <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
-                    <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
+                <Table>
+                    <THead>
+                        <TR>
                             {COLUMNS.map(
                                 (column: ColumnsProps, index: number) => {
                                     return (
-                                        <th
-                                            key={index}
-                                            scope="col"
-                                            className="px-6 py-3"
-                                        >
+                                        <TH key={index} scope="col">
                                             {column.header}
-                                        </th>
+                                        </TH>
                                     );
                                 },
                             )}
-                        </tr>
-                    </thead>
+                        </TR>
+                    </THead>
 
-                    <tbody>
+                    <TBody>
                         {filteredItems &&
                             filteredItems.map((product) => {
                                 return (
-                                    <tr key={product.product_id} className="">
-                                        <th
+                                    <TR key={product.product_id}>
+                                        <TH
                                             scope="row"
-                                            className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                                            class_="whitespace-nowrap"
                                         >
                                             <DisplayImageProduct
                                                 imgSrc={
@@ -181,25 +183,23 @@ export default function MonthlyProductsList({ mProducts, products }: Props) {
                                                 class="h-8 w-8 rounded-full"
                                                 alt="Beer Type"
                                             />
-                                        </th>
+                                        </TH>
 
-                                        <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
+                                        <TD class_="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
                                             <Link
                                                 href={`/products/${product.product_id}`}
                                                 locale={locale}
                                             >
                                                 {product.products?.name}
                                             </Link>
-                                        </td>
+                                        </TD>
 
-                                        <td className="px-6 py-4">
-                                            {t(product.category)}
-                                        </td>
-                                        <td className="px-6 py-4">
+                                        <TD>{t(product.category)}</TD>
+                                        <TD>
                                             {product.month}/{product.year}
-                                        </td>
+                                        </TD>
 
-                                        <td className="px-6 py-4">
+                                        <TDActions>
                                             <div className="flex space-x-1">
                                                 <EditButton
                                                     onClick={() => {
@@ -218,22 +218,22 @@ export default function MonthlyProductsList({ mProducts, products }: Props) {
                                                     }}
                                                 />
                                             </div>
-                                        </td>
-                                    </tr>
+                                        </TDActions>
+                                    </TR>
                                 );
                             })}
-                    </tbody>
-                </table>
+                    </TBody>
+                </Table>
 
                 {/* {isDeleteShowModal && (
-          <DeleteMonthlyProduct
-            products={mProducts ?? []}
-            product={productModal}
-            showModal={isDeleteShowModal}
-            handleDeleteShowModal={handleDeleteShowModal}
-            handleSetProducts={handleDeleteProduct}
-          />
-        )} */}
+                    <DeleteMonthlyProduct
+                        products={mProducts ?? []}
+                        product={productModal}
+                        showModal={isDeleteShowModal}
+                        handleDeleteShowModal={handleDeleteShowModal}
+                        handleSetProducts={handleDeleteProduct}
+                    />
+                    )} */}
             </section>
         </>
     );

@@ -1,5 +1,11 @@
-import React from 'react';
 import CPMProduct from './CPMProductItem';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import Title from '@/app/[locale]/components/ui/Title';
+import TH from '@/app/[locale]/components/ui/table/TH';
+import TBody from '@/app/[locale]/components/ui/table/TBody';
+import THead from '@/app/[locale]/components/ui/table/THead';
+import React from 'react';
+import { Table } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { ICPMobile, ICPMProducts } from '@/lib/types/types';
 
@@ -20,52 +26,38 @@ export default function ProductList({ cpMobile, eventId }: Props) {
         <>
             {activeCPMProducts && activeCPMProducts.length > 0 && (
                 <section className="overflow-x-auto">
-                    <h3 className="mb-2 text-xl font-bold"> {t('products')}</h3>
+                    <Title size={'small'} color={'black'}>
+                        {t('products')}
+                    </Title>
 
-                    <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
-                        <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th scope="col" className="px-6 py-3 ">
-                                    {t('img')}
-                                </th>
+                    <Table>
+                        <THead>
+                            <TR>
+                                <TH scope="col">{t('img')}</TH>
 
-                                <th scope="col" className="px-6 py-3 ">
-                                    {t('name_header')}
-                                </th>
+                                <TH scope="col">{t('name_header')}</TH>
 
-                                <th scope="col" className="px-6 py-3 ">
-                                    {t('pack_name_header')}
-                                </th>
+                                <TH scope="col">{t('pack_name_header')}</TH>
 
-                                <th scope="col" className="px-6 py-3 ">
+                                <TH scope="col">
                                     {t('quantity_in_pack_header')}
-                                </th>
+                                </TH>
 
-                                <th
-                                    scope="col"
-                                    className="hidden px-6 py-3 md:block"
-                                >
+                                <TH scope="col" class_="hidden md:block">
                                     {t('description_header')}
-                                </th>
+                                </TH>
 
-                                <th scope="col" className="px-6 py-3 ">
-                                    {t('price_header')}
-                                </th>
+                                <TH scope="col">{t('price_header')}</TH>
 
-                                <th
-                                    scope="col"
-                                    className="hidden px-6 py-3 md:block"
-                                >
+                                <TH scope="col" class_="hidden md:block">
                                     {t('type_header')}
-                                </th>
+                                </TH>
 
-                                <th scope="col" className="px-6 py-3 ">
-                                    {t('action_header')}
-                                </th>
-                            </tr>
-                        </thead>
+                                <TH scope="col">{t('action_header')}</TH>
+                            </TR>
+                        </THead>
 
-                        <tbody>
+                        <TBody>
                             {activeCPMProducts.map(
                                 (cpm_product: ICPMProducts) => (
                                     <>
@@ -85,8 +77,8 @@ export default function ProductList({ cpMobile, eventId }: Props) {
                                     </>
                                 ),
                             )}
-                        </tbody>
-                    </table>
+                        </TBody>
+                    </Table>
                 </section>
             )}
         </>

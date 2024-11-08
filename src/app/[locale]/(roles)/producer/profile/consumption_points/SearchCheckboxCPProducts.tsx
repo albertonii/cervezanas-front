@@ -11,6 +11,12 @@ import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFet
 import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
+import Table from '@/app/[locale]/components/ui/table/Table';
+import THead from '@/app/[locale]/components/ui/table/THead';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import TH from '@/app/[locale]/components/ui/table/TH';
+import TBody from '@/app/[locale]/components/ui/table/TBody';
+import TD from '@/app/[locale]/components/ui/table/TD';
 
 interface ColumnsProps {
     header: string;
@@ -78,32 +84,25 @@ export function SearchCheckboxCPProducts({ form }: Props) {
                 searchPlaceholder={'search_cp_products'}
             />
 
-            <table className="bg-beer-foam w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
-                <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
+            <Table>
+                <THead>
+                    <TR>
                         {COLUMNS.map((column: ColumnsProps, index: number) => {
                             return (
-                                <th
-                                    key={index}
-                                    scope="col"
-                                    className="px-6 py-3"
-                                >
+                                <TH key={index} scope="col">
                                     {column.header}
-                                </th>
+                                </TH>
                             );
                         })}
-                    </tr>
-                </thead>
+                    </TR>
+                </THead>
 
-                <tbody>
+                <TBody>
                     {filteredItemsByProductsName.map((product, index) => {
                         return (
-                            <tr key={product.id} className="">
+                            <TR key={product.id}>
                                 <>
-                                    <th
-                                        scope="row"
-                                        className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                                    >
+                                    <TH scope="row" class_="whitespace-nowrap ">
                                         <input
                                             id={`checkbox-item-${product.id}`}
                                             type="checkbox"
@@ -113,9 +112,9 @@ export function SearchCheckboxCPProducts({ form }: Props) {
                                             value={product.id}
                                             className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
                                         />
-                                    </th>
+                                    </TH>
 
-                                    <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
+                                    <TD class_="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
                                         <Link
                                             href={`/products/${product.id}`}
                                             target={'_blank'}
@@ -123,17 +122,15 @@ export function SearchCheckboxCPProducts({ form }: Props) {
                                         >
                                             {product.name}
                                         </Link>
-                                    </td>
+                                    </TD>
 
-                                    <td className="px-6 py-4">
-                                        {formatCurrency(product.price)}
-                                    </td>
+                                    <TD>{formatCurrency(product.price)}</TD>
                                 </>
-                            </tr>
+                            </TR>
                         );
                     })}
-                </tbody>
-            </table>
+                </TBody>
+            </Table>
 
             <PaginationFooter
                 counter={fixedCount}

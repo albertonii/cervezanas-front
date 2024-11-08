@@ -1,18 +1,16 @@
 'use client';
 
 import React from 'react';
+import Spinner from './components/ui/Spinner';
 import MonthlyBeers from './homepage/MonthlyBeers';
-import { useAuth } from './(auth)/Context/useAuth';
+import { Reviews } from './homepage/Reviews';
 import { TopBeers } from './homepage/TopBeers';
-import { SliderMobile } from './homepage/SliderMobile';
+import { Community } from './homepage/Community';
+import { useAuth } from './(auth)/Context/useAuth';
 import { Homeheader } from './homepage/Homeheader';
 import { Highlights } from './homepage/Highlights';
-import { MonthlyBeersDesign } from './homepage/MonthlyBeersDesign';
-import { Community } from './homepage/Community';
-import { Reviews } from './homepage/Reviews';
 import { IMonthlyProduct } from '@/lib//types/types';
-import QRCode from 'react-qr-code';
-import Spinner from './components/ui/Spinner';
+import { SliderMobile } from './homepage/SliderMobile';
 
 interface Props {
     monthlyProducts: IMonthlyProduct[];

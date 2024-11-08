@@ -1,5 +1,16 @@
 import Link from 'next/link';
+import Title from '@/app/[locale]/components/ui/Title';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import TH from '@/app/[locale]/components/ui/table/TH';
+import TD from '@/app/[locale]/components/ui/table/TD';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import THead from '@/app/[locale]/components/ui/table/THead';
+import Table from '@/app/[locale]/components/ui/table/Table';
+import TBody from '@/app/[locale]/components/ui/table/TBody';
+import Description from '@/app/[locale]/components/ui/Description';
+import TDActions from '@/app/[locale]/components/ui/table/TDActions';
 import InputSearch from '@/app/[locale]/components/form/InputSearch';
+import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
 import useFetchDistributorsByProducerId from '../../../../../../hooks/useFetchDistributors';
 import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
 import { IDistributorUser } from '@/lib//types/types';
@@ -7,11 +18,6 @@ import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { faFileSignature } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
-import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
-import Title from '@/app/[locale]/components/ui/Title';
-import Label from '@/app/[locale]/components/ui/Label';
-import Description from '@/app/[locale]/components/ui/Description';
 
 enum SortBy {
     NONE = 'none',
@@ -173,43 +179,38 @@ export default function AvailableDistributorsList({
                 </div>
             ) : (
                 <>
-                    <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
-                        <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th
+                    <Table>
+                        <THead>
+                            <TR>
+                                <TH
                                     scope="col"
-                                    className="px-6 py-3 hover:cursor-pointer"
+                                    class_="hover:cursor-pointer"
                                     onClick={() => {
                                         handleChangeSort(SortBy.NAME);
                                     }}
                                 >
                                     {t('name_header')}
-                                </th>
+                                </TH>
 
-                                <th
-                                    className="px-6 py-3 hover:cursor-pointer"
+                                <TH
+                                    class_="hover:cursor-pointer"
                                     onClick={() => {
                                         handleChangeSort(SortBy.CREATED_DATE);
                                     }}
                                 >
                                     {t('created_date_header')}
-                                </th>
+                                </TH>
 
-                                <th scope="col" className="px-6 py-3 ">
-                                    {t('action_header')}
-                                </th>
-                            </tr>
-                        </thead>
+                                <TH scope="col">{t('action_header')}</TH>
+                            </TR>
+                        </THead>
 
-                        <tbody>
+                        <TBody>
                             {filteredItems.map(
                                 (distributor: IDistributorUser) => {
                                     return (
-                                        <tr
-                                            key={distributor.user_id}
-                                            className=""
-                                        >
-                                            <td className="px-6 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
+                                        <TR key={distributor.user_id}>
+                                            <TD class_="text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
                                                 <Link
                                                     href={`/user-info/${distributor.user_id}`}
                                                     locale={locale}
@@ -220,13 +221,14 @@ export default function AvailableDistributorsList({
                                                             ?.username
                                                     }
                                                 </Link>
-                                            </td>
-                                            <td className="px-6 py-4">
+                                            </TD>
+
+                                            <TD>
                                                 {formatDateString(
                                                     distributor.created_at,
                                                 )}
-                                            </td>
-                                            <td className="flex items-center justify-center px-6 py-4">
+                                            </TD>
+                                            <TDActions>
                                                 <IconButton
                                                     icon={faFileSignature}
                                                     onClick={() => {
@@ -242,13 +244,13 @@ export default function AvailableDistributorsList({
                                                         'contract_with_distributor',
                                                     )}
                                                 />
-                                            </td>
-                                        </tr>
+                                            </TDActions>
+                                        </TR>
                                     );
                                 },
                             )}
-                        </tbody>
-                    </table>
+                        </TBody>
+                    </Table>
 
                     <PaginationFooter
                         counter={counter}

@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import React, { ComponentProps, useState } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
-import { formatDateString } from '@/utils/formatDate';
+import { ROUTE_EVENTS } from '@/config';
 import { IEvent } from '@/lib//types/types';
+import { formatDateString } from '@/utils/formatDate';
+import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
@@ -12,7 +13,7 @@ import {
     faCancel,
     faThumbsUp,
 } from '@fortawesome/free-solid-svg-icons';
-import { ROUTE_EVENTS } from '@/config';
+import TD from '@/app/[locale]/components/ui/table/TD';
 
 interface Props {
     event: IEvent;
@@ -89,19 +90,15 @@ export default function EventItems({
 
     return (
         <>
-            <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
+            <TD class_="text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
                 <Link href={`${ROUTE_EVENTS}/${event.id}`} locale={locale}>
                     {event.name}
                 </Link>
-            </td>
+            </TD>
 
-            <td className="px-6 py-4">{formatDateString(event.created_at)}</td>
+            <TD>{formatDateString(event.created_at)}</TD>
 
-            <td className="cursor-pointer px-6 py-4"></td>
-
-            <td className="cursor-pointer px-6 py-4"></td>
-
-            <td className="flex items-center justify-center px-6 py-4">
+            <TD class_="flex items-center justify-center ">
                 {isAuthorized ? (
                     <IconButton
                         icon={faCancel}
@@ -151,7 +148,7 @@ export default function EventItems({
                     }
                     title={t('delete')}
                 />
-            </td>
+            </TD>
         </>
     );
 }

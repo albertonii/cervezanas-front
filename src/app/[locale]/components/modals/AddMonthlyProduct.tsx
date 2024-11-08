@@ -1,21 +1,28 @@
 'use client';
 
-import React, { ComponentProps, useMemo, useState, useEffect } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import TD from '../ui/table/TD';
+import TR from '../ui/table/TR';
+import TH from '../ui/table/TH';
+import Spinner from '../ui/Spinner';
+import THead from '../ui/table/THead';
+import TBody from '../ui/table/TBody';
+import ModalWithForm from './ModalWithForm';
+import TDActions from '../ui/table/TDActions';
+import InputSearch from '../form/InputSearch';
+import React, { ComponentProps, useMemo, useState } from 'react';
+import { z, ZodType } from 'zod';
+import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
 import { IProduct } from '@/lib//types/types';
-import { category_options } from '@/lib//productEnum';
-import { faHandPointer } from '@fortawesome/free-solid-svg-icons';
-import { useAuth } from '../../(auth)/Context/useAuth';
-import InputSearch from '../form/InputSearch';
-import { z, ZodType } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from 'react-query';
-import ModalWithForm from './ModalWithForm';
 import { useMessage } from '../message/useMessage';
 import { IconButton } from '../ui/buttons/IconButton';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { category_options } from '@/lib//productEnum';
+import { useAuth } from '../../(auth)/Context/useAuth';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { DisplayInputError } from '../ui/DisplayInputError';
-import Spinner from '../ui/Spinner';
+import { faHandPointer } from '@fortawesome/free-solid-svg-icons';
+import Table from '../ui/table/Table';
 
 enum SortBy {
     NONE = 'none',
@@ -308,50 +315,49 @@ export default function AddMonthlyProduct({
                                 searchPlaceholder={'search_products'}
                             />
 
-                            <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
-                                <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                                    <tr>
-                                        <th
-                                            scope="col"
-                                            className="px-6 py-3"
-                                        ></th>
+                            <Table>
+                                <THead>
+                                    <TR>
+                                        <TH scope="col">.</TH>
 
-                                        <th
+                                        <TH
                                             scope="col"
-                                            className="px-6 py-3 hover:cursor-pointer"
+                                            class_=" hover:cursor-pointer"
                                             onClick={() => {
                                                 handleChangeSort(SortBy.NAME);
                                             }}
                                         >
                                             {t('name_header')}
-                                        </th>
+                                        </TH>
 
-                                        <th scope="col" className="px-6 py-3 ">
+                                        <TH scope="col">
                                             {t('action_header')}
-                                        </th>
-                                    </tr>
-                                </thead>
+                                        </TH>
+                                    </TR>
+                                </THead>
 
-                                <tbody>
+                                <TBody>
                                     {sortedItems.map((product) => {
                                         return (
-                                            <tr
+                                            <TR
                                                 key={product.id}
-                                                className={` border-b dark:border-gray-700 dark:bg-gray-800 
-                      ${
-                          product.id === selectedProduct?.id && `bg-beer-draft`
-                      } `}
+                                                class_={` border-b 
+                                                ${
+                                                    product.id ===
+                                                        selectedProduct?.id &&
+                                                    `bg-beer-draft`
+                                                } `}
                                             >
-                                                <th
+                                                <TH
                                                     scope="row"
-                                                    className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
-                                                ></th>
+                                                    class_="whitespace-nowrap"
+                                                >
+                                                    .
+                                                </TH>
 
-                                                <td className="px-6 py-4 font-semibold text-beer-blonde ">
-                                                    {product.name}
-                                                </td>
+                                                <TD>{product.name}</TD>
 
-                                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
+                                                <TDActions>
                                                     <IconButton
                                                         onClick={() =>
                                                             handleProductClicked(
@@ -363,12 +369,12 @@ export default function AddMonthlyProduct({
                                                             'select_product',
                                                         )}
                                                     />
-                                                </td>
-                                            </tr>
+                                                </TDActions>
+                                            </TR>
                                         );
                                     })}
-                                </tbody>
-                            </table>
+                                </TBody>
+                            </Table>
                         </div>
                     </fieldset>
                 </form>

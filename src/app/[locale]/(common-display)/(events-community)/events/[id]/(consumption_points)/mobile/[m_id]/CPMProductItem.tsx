@@ -11,6 +11,8 @@ import { useAuth } from '../../../../../../../(auth)/Context/useAuth';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { ICPMobile, IEventProduct, IProductPack } from '@/lib/types/types';
 import { AddCartButton } from '@/app/[locale]/components/cart/AddCartButton';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import TD from '@/app/[locale]/components/ui/table/TD';
 
 interface ProductProps {
     pack: IProductPack;
@@ -139,8 +141,8 @@ export default function CPMProductItem({
     };
 
     return (
-        <tr className="">
-            <td className="space-x-2 px-6 py-4">
+        <TR>
+            <TD>
                 <DisplayImageProduct
                     imgSrc={
                         SupabaseProps.BASE_PRODUCTS_URL +
@@ -151,9 +153,9 @@ export default function CPMProductItem({
                     height={600}
                     class="w-[10vw] px-2 py-2 sm:w-[15vw] md:w-[20vw] lg:w-[6vw]"
                 />
-            </td>
+            </TD>
 
-            <td className="space-x-2 px-6 py-4 font-semibold hover:cursor-pointer hover:text-beer-draft">
+            <TD class_="hover:cursor-pointer hover:text-beer-draft">
                 <Link
                     target={'_blank'}
                     href={`${ROUTE_EVENTS}/${eventId}${ROUTE_PRODUCTS}/${cpmId}`}
@@ -161,25 +163,21 @@ export default function CPMProductItem({
                 >
                     {product?.name}
                 </Link>
-            </td>
+            </TD>
 
-            <td className="space-x-2 px-6 py-4 font-semibold">{name}</td>
+            <TD>{name}</TD>
 
-            <td className="space-x-2 px-6 py-4 font-semibold">{quantity}</td>
+            <TD>{quantity}</TD>
 
-            <td className="hidden max-w-[14vw] space-x-2 overflow-hidden px-6 py-4 md:block">
+            <TD class_="hidden max-w-[14vw] overflow-hidden md:block">
                 <span className="truncate">{product?.description}</span>
-            </td>
+            </TD>
 
-            <td className="space-x-2 px-6 py-4 font-medium  text-green-500">
-                {formatCurrency(price)}
-            </td>
+            <TD class_="font-medium text-green-500">{formatCurrency(price)}</TD>
 
-            <td className="hidden space-x-2 px-6 py-4 md:block">
-                {t(product?.type.toLowerCase())}
-            </td>
+            <TD class_="hidden md:block">{t(product?.type.toLowerCase())}</TD>
 
-            <td className="space-x-2 px-6 py-4">
+            <TD>
                 {packQuantity === 0 ? (
                     <>
                         <AddCartButton
@@ -205,7 +203,7 @@ export default function CPMProductItem({
                         />
                     </>
                 )}
-            </td>
-        </tr>
+            </TD>
+        </TR>
     );
 }

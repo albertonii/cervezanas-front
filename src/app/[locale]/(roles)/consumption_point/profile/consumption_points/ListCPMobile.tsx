@@ -14,6 +14,13 @@ import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
 import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
+import Table from '@/app/[locale]/components/ui/table/Table';
+import THead from '@/app/[locale]/components/ui/table/THead';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import TH from '@/app/[locale]/components/ui/table/TH';
+import TBody from '@/app/[locale]/components/ui/table/TBody';
+import TD from '@/app/[locale]/components/ui/table/TD';
+import TDActions from '@/app/[locale]/components/ui/table/TDActions';
 
 enum SortBy {
     NONE = 'none',
@@ -146,22 +153,22 @@ export function ListCPMobile({ cpsId }: Props) {
                     />
 
                     <div className="overflow-x-scroll border-2 ">
-                        <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400 border-2 ">
-                            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th
+                        <Table>
+                            <THead>
+                                <TR>
+                                    <TH
                                         scope="col"
-                                        className="px-6 py-3 hover:cursor-pointer"
+                                        class_="hover:cursor-pointer"
                                         onClick={() => {
                                             handleChangeSort(SortBy.NAME);
                                         }}
                                     >
                                         {t('name_header')}
-                                    </th>
+                                    </TH>
 
-                                    <th
+                                    <TH
                                         scope="col"
-                                        className="px-6 py-3 hover:cursor-pointer"
+                                        class_="hover:cursor-pointer"
                                         onClick={() => {
                                             handleChangeSort(
                                                 SortBy.CREATED_DATE,
@@ -169,19 +176,17 @@ export function ListCPMobile({ cpsId }: Props) {
                                         }}
                                     >
                                         {t('created_date_header')}
-                                    </th>
+                                    </TH>
 
-                                    <th scope="col" className="px-6 py-3 ">
-                                        {t('action_header')}
-                                    </th>
-                                </tr>
-                            </thead>
+                                    <TH scope="col">{t('action_header')}</TH>
+                                </TR>
+                            </THead>
 
-                            <tbody>
+                            <TBody>
                                 {sortedItems.map((cp: ICPMobile) => {
                                     return (
-                                        <tr key={cp.id} className="">
-                                            <td className="px-6 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
+                                        <TR key={cp.id}>
+                                            <TD class_="font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
                                                 <Link
                                                     target={'_blank'}
                                                     href={`/consumption_points/mobile/${cp.id}`}
@@ -189,15 +194,15 @@ export function ListCPMobile({ cpsId }: Props) {
                                                 >
                                                     {cp.cp_name}
                                                 </Link>
-                                            </td>
+                                            </TD>
 
-                                            <td className="px-6 py-4">
+                                            <TD>
                                                 {formatDateString(
                                                     cp.created_at,
                                                 )}
-                                            </td>
+                                            </TD>
 
-                                            <td className="flex items-center justify-center px-6 py-4">
+                                            <TDActions>
                                                 <IconButton
                                                     icon={faEdit}
                                                     onClick={() => {
@@ -221,12 +226,12 @@ export function ListCPMobile({ cpsId }: Props) {
                                                     }
                                                     title={t('delete')}
                                                 />
-                                            </td>
-                                        </tr>
+                                            </TDActions>
+                                        </TR>
                                     );
                                 })}
-                            </tbody>
-                        </table>
+                            </TBody>
+                        </Table>
                     </div>
 
                     {/* Prev and Next button for pagination  */}
