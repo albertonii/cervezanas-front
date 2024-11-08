@@ -1105,7 +1105,8 @@
         "mark_as_read": "Mark as read",
         "mark_as_unread": "Mark as unread",
         "is_read": "Read",
-        "is_unread": "Unread"
+        "is_unread": "Unread",
+        "mark_all_as_read": "Mark all as read"
     },
     "profile_title_roles": "Roles",
     "more_info": "More info",

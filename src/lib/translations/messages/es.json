@@ -1123,7 +1123,8 @@
         "mark_as_read": "Marcar como leído",
         "mark_as_unread": "Marcar como no leído",
         "is_read": "Leído",
-        "is_unread": "No leído"
+        "is_unread": "No leído",
+        "mark_all_as_read": "Marcar todo como leído"
     },
     "request_distributor_deregistration": "Solicitar baja como distribuidor",
     "request_producer_deregistration": "Solicitar baja como productor",

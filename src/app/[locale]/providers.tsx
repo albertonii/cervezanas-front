@@ -8,6 +8,7 @@ import { AuthContextProvider } from './(auth)/Context/AuthContext';
 import { MessageProvider } from './components/message/MessageContext';
 import { AppContextProvider } from '@/app//context/AppContext';
 import { ShoppingCartProvider } from '@/app//context/ShoppingCartContext';
+import { NotificationsProvider } from '../context/NotificationsContext';
 
 interface Props {
     children: React.ReactNode;
@@ -36,11 +37,13 @@ export default function Providers({
                     <ReactQueryWrapper>
                         <AuthContextProvider serverSession={session}>
                             <AppContextProvider>
-                                <ShoppingCartProvider>
-                                    <EventCartProvider>
-                                        {children}
-                                    </EventCartProvider>
-                                </ShoppingCartProvider>
+                                <NotificationsProvider>
+                                    <ShoppingCartProvider>
+                                        <EventCartProvider>
+                                            {children}
+                                        </EventCartProvider>
+                                    </ShoppingCartProvider>
+                                </NotificationsProvider>
                             </AppContextProvider>
                         </AuthContextProvider>
                     </ReactQueryWrapper>

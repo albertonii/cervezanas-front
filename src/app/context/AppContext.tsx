@@ -3,13 +3,13 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { SupabaseProps } from '@/constants';
+import { useAuth } from '../[locale]/(auth)/Context/useAuth';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import {
     ICustomizeSettings,
     IProduct,
     IRefProductLot,
 } from '@/lib//types/types';
-import { useAuth } from '../[locale]/(auth)/Context/useAuth';
 
 // Definir el tipo de datos para el objeto de imágenes
 type ImageDataRecord = {
@@ -44,8 +44,6 @@ type AppContextType = {
     setProfileImg: (newBgImg: string) => void;
     sidebar: string;
     changeSidebarActive: (select: string) => void;
-    openNotification: boolean;
-    setOpenNotification: (open: boolean) => void;
     products: IProduct[];
     setProducts: (newProducts: IProduct[]) => void;
     lots: IRefProductLot[];
@@ -83,8 +81,6 @@ const AppContext = createContext<AppContextType>({
     setProfileImg: () => void {},
     sidebar: '',
     changeSidebarActive: () => void {},
-    openNotification: false,
-    setOpenNotification: () => void {},
     products: [],
     setProducts: () => void {},
     lots: [],
@@ -140,7 +136,6 @@ export function AppContextProvider(props: Props) {
     const [products, setProducts] = useState<IProduct[]>([]);
     const [lots, setLots] = useState<IRefProductLot[]>([]);
     const [imageData, setImageData] = useState<ImageDataRecord>({});
-    const [openNotification, setOpenNotification] = useState(false);
 
     const customUrl = `${SupabaseProps.CUSTOM_BG_URL}`;
     const profilePhotoUrl = `${SupabaseProps.PROFILE_PHOTO_URL}`;
@@ -226,8 +221,6 @@ export function AppContextProvider(props: Props) {
         setProfileImg,
         sidebar,
         changeSidebarActive,
-        openNotification,
-        setOpenNotification,
         products,
         setProducts,
         lots,

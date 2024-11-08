@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import Button from './components/ui/buttons/Button';
+import useNotifications from '@/hooks/useNotifications';
 import useOnClickOutside from '@/hooks/useOnOutsideClickDOM';
-import { useLocale } from 'next-intl';
 import { useRef, useState } from 'react';
 import {
     ROUTE_ADMIN,
@@ -22,27 +23,25 @@ import {
     ROUTE_SETTINGS,
     ROUTE_SIGNIN,
 } from '@/config';
-import { useTranslations } from 'next-intl';
-import { INotification } from '@/lib/types/types';
-import { useAuth } from './(auth)/Context/useAuth';
-import { useAppContext } from '@/app/context/AppContext';
-import { usePathname, useRouter } from 'next/navigation';
-import { NotificationPopup } from './components/notificationPopup/NotificationPopup';
-import { useShoppingCart } from '@/app/context/ShoppingCartContext';
+import { useLocale } from 'next-intl';
 import { ROLE_ENUM } from '@/lib//enums';
-import Button from './components/ui/buttons/Button';
+import { useTranslations } from 'next-intl';
+import { useAuth } from './(auth)/Context/useAuth';
+import { usePathname, useRouter } from 'next/navigation';
+import { useShoppingCart } from '@/app/context/ShoppingCartContext';
+import { NotificationPopup } from './components/notificationPopup/NotificationPopup';
 
 interface Props {
-    notifications: INotification[];
     i18nLocaleArray: string[];
 }
 
-export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
+export default function MobileMenu({ i18nLocaleArray }: Props) {
     const { role, user } = useAuth();
+    const { notifications } = useNotifications();
 
     const sidebarRef = useRef<HTMLDivElement>(null);
 
-    const { openNotification, setOpenNotification } = useAppContext();
+    const { setOpenNotification } = useNotifications();
     const { cartQuantity, openCart } = useShoppingCart();
     useOnClickOutside(sidebarRef, () => handleClickOutsideCallback());
 
@@ -198,11 +197,7 @@ export default function MobileMenu({ notifications, i18nLocaleArray }: Props) {
                                         </div>
                                     </Button>
 
-                                    <NotificationPopup
-                                        open={openNotification}
-                                        setOpen={setOpenNotification}
-                                        notifications={notifications}
-                                    />
+                                    <NotificationPopup />
 
                                     {/* Cart  */}
                                     <Button

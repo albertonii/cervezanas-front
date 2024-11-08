@@ -1,55 +1,75 @@
+// NotificationPopup.tsx
 'use client';
 
-import useOnClickOutside from '../../../../hooks/useOnOutsideClickDOM';
-import React, { ComponentProps, useRef } from 'react';
-import { INotification } from '@/lib//types/types';
-import { useTranslations } from 'next-intl';
+import Label from '../ui/Label';
+import Title from '../ui/Title';
+import Button from '../ui/buttons/Button';
 import NotificationItem from './NotificationItem';
+import useOnClickOutside from '../../../../hooks/useOnOutsideClickDOM';
+import React, { useRef } from 'react';
+import { useTranslations } from 'next-intl';
+import { useAuth } from '../../(auth)/Context/useAuth';
+import { useNotificationsContext } from '@/app/context/NotificationsContext';
 
-interface Props {
-    open: boolean;
-    setOpen: ComponentProps<any>;
-    notifications: INotification[];
-}
-
-export function NotificationPopup({ open, setOpen, notifications }: Props) {
+export function NotificationPopup() {
     const t = useTranslations();
     const notificationRef = useRef<HTMLDivElement>(null);
-    useOnClickOutside(notificationRef, () => handleClickOutsideCallback());
+    const { supabase } = useAuth();
+    const {
+        notifications,
+        setNotifications,
+        openNotification,
+        setOpenNotification,
+    } = useNotificationsContext();
 
-    if (!open) return null;
+    useOnClickOutside(notificationRef, () => {
+        setOpenNotification(false);
+    });
 
-    const handleClickOutsideCallback = () => {
-        setOpen(false);
+    if (!openNotification) return null;
+
+    const handleMarkAllAsRead = async () => {
+        const notificationIds = notifications.map((n) => n.id);
+
+        await supabase
+            .from('notifications')
+            .update({ read: true })
+            .in('id', notificationIds);
+
+        setNotifications(
+            notifications.map((notification) => ({
+                ...notification,
+                read: true,
+            })),
+        );
     };
 
-    if (!notifications) return <></>;
-
     return (
-        <section ref={notificationRef}>
-            <div className="absolute -right-10 top-10 z-50 flex items-center justify-center ">
-                <div className="w-80 overflow-hidden rounded-lg bg-white shadow-lg dark:bg-gray-800 md:w-[50vw] lg:w-[35vw]">
-                    <div className="bg-beer-softFoam p-4 dark:bg-beer-dark flex justify-between ">
-                        <h3 className="text-xl lg:text-2xl font-bold">
-                            {t('notifications.label')}
-                        </h3>
-                    </div>
+        <section
+            ref={notificationRef}
+            className="absolute -right-10 top-10 z-50 flex items-center justify-center w-80 overflow-hidden rounded-lg bg-white shadow-lg dark:bg-gray-800 md:w-[50vw] lg:w-[35vw]"
+        >
+            <div className="w-full">
+                <div className="bg-beer-softFoam px-4 pt-4 dark:bg-beer-dark flex justify-between ">
+                    <Title size="xlarge" color="beer-draft">
+                        {t('notifications.label')}
+                    </Title>
 
-                    <div className="max-h-80 overflow-y-auto divide-y divide-gray-200">
-                        {notifications.length === 0 ? (
-                            <div className="p-4 text-gray-500">
-                                {t('no_notifications')}
+                    <Button accent small onClick={handleMarkAllAsRead}>
+                        {t('notifications.mark_all_as_read')}
+                    </Button>
+                </div>
+
+                <div className="max-h-80 overflow-y-auto divide-y divide-gray-200">
+                    {notifications.length === 0 ? (
+                        <Label className="p-4">{t('no_notifications')}</Label>
+                    ) : (
+                        notifications.map((notification) => (
+                            <div key={notification.id}>
+                                <NotificationItem notification={notification} />
                             </div>
-                        ) : (
-                            notifications.map((notification) => (
-                                <div key={notification.id}>
-                                    <NotificationItem
-                                        notification={notification}
-                                    />
-                                </div>
-                            ))
-                        )}
-                    </div>
+                        ))
+                    )}
                 </div>
             </div>
         </section>
