@@ -20,58 +20,58 @@ export default function BusinessOrderItem({
     setPackStatusArray,
     index,
 }: Props) {
-    const t = useTranslations();
-    const { supabase } = useAuth();
-    const queryClient = useQueryClient();
+    // const t = useTranslations();
+    // const { supabase } = useAuth();
+    // const queryClient = useQueryClient();
 
     const orderItems = bOrder.order_items;
 
-    const { handleMessage } = useMessage();
+    // const { handleMessage } = useMessage();
 
-    const submitSuccessMessage = t('messages.updated_successfully');
-    const submitErrorMessage = t('messages.updated_error');
+    // const submitSuccessMessage = t('messages.updated_successfully');
+    // const submitErrorMessage = t('messages.updated_error');
 
-    const [bOrderStatus, setBOrderStatus] = React.useState(bOrder.status);
+    // const [bOrderStatus, setBOrderStatus] = React.useState(bOrder.status);
 
-    const handleBOrderStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const status = e.target.value;
-        setBOrderStatus(status);
-        onClickOrderStatus(status);
-        setPackStatusArray((prev) => {
-            const newArray = [...prev];
-            newArray[index] = status;
-            return newArray;
-        });
-    };
+    // const handleBOrderStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    //     const status = e.target.value;
+    //     setBOrderStatus(status);
+    //     onClickOrderStatus(status);
+    //     setPackStatusArray((prev) => {
+    //         const newArray = [...prev];
+    //         newArray[index] = status;
+    //         return newArray;
+    //     });
+    // };
 
-    // Update the status of the business_order
-    const onClickOrderStatus = async (status: string) => {
-        const { error } = await supabase
-            .from('business_orders')
-            .update({ status })
-            .eq('id', bOrder.id)
-            .select();
+    // // Update the status of the business_order
+    // const onClickOrderStatus = async (status: string) => {
+    //     const { error } = await supabase
+    //         .from('business_orders')
+    //         .update({ status })
+    //         .eq('id', bOrder.id)
+    //         .select();
 
-        if (error) {
-            handleMessage({
-                type: 'error',
-                message: submitErrorMessage,
-            });
-            throw error;
-        }
+    //     if (error) {
+    //         handleMessage({
+    //             type: 'error',
+    //             message: submitErrorMessage,
+    //         });
+    //         throw error;
+    //     }
 
-        queryClient.invalidateQueries('distribution');
+    //     queryClient.invalidateQueries('distribution');
 
-        handleMessage({
-            type: 'success',
-            message: submitSuccessMessage,
-        });
-    };
+    //     handleMessage({
+    //         type: 'success',
+    //         message: submitSuccessMessage,
+    //     });
+    // };
 
     return (
         <section className="relative border-separate space-y-8 rounded-lg border bg-beer-foam p-2">
             {/* Input select que actualizará el estado para ese business_order  */}
-            <select
+            {/* <select
                 id="status"
                 name="status"
                 autoComplete="status"
@@ -97,7 +97,7 @@ export default function BusinessOrderItem({
                 <option value={DISTRIBUTOR_ONLINE_ORDER_STATUS.ERROR}>
                     {t(DISTRIBUTOR_ONLINE_ORDER_STATUS.ERROR)}
                 </option>
-            </select>
+            </select> */}
             {/* 
             <StatusTimeline
                 status={bOrderStatus}

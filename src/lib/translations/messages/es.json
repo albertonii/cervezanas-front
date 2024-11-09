@@ -66,7 +66,7 @@
     "history_business_title": "Historia de la compaña",
     "history_business_description": "Cuenta acerca de tu origen",
     "history_business_year": "Año de fundación",
-    "product_name": "Nombre del producto",
+    "product_name": "Producto",
     "price_label": "Precio",
     "pack_label": "Pack",
     "format_label": "Formato",
@@ -312,6 +312,7 @@
     "add_lot": "Añadir Lote",
     "edit_lot": "Editar Lote",
     "lots": "Lotes",
+    "customize_settings": "Personalizar",
     "next": "Siguiente",
     "prev": "Anterior",
     "back": "Atrás",
@@ -404,7 +405,6 @@
     "order_status": "Estado del pedido",
     "order_product_status": "Estado del producto",
     "welcome": "Bienvenido",
-    "discount_code": "Código de descuento",
     "comment": "Comentario",
     "rate_product": "Valorar el producto",
     "rate": "Valorar",
@@ -728,7 +728,10 @@
         "update_shipment_tracking": "Error al actualizar el seguimiento del envío.",
         "create_sales_record": "Error al crear el registro de ventas.",
         "updating_sales_records_download_status": "Error al actualizar el estado de descarga de los registros de ventas.",
-        "update_multimedia": "Error al actualizar el multimedia."
+        "update_multimedia": "Error al actualizar el multimedia.",
+        "validating_promo_code": "Error al validar el código promocional.",
+        "invalid_promo_code": "Código promocional inválido",
+        "sending_notification": "Error al enviar la notificación."
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",
@@ -1055,7 +1058,8 @@
         "deleting_product_award": "Premio eliminado correctamente",
         "update_shipment_tracking": "Seguimiento de envío actualizado correctamente",
         "profile_acc_data_updated": "Datos de la cuenta actualizados correctamente",
-        "sales_records_download_status_updated": "Estado de descarga de los registros de ventas actualizado correctamente"
+        "sales_records_download_status_updated": "Estado de descarga de los registros de ventas actualizado correctamente",
+        "promo_code_applied": "Código promocional aplicado correctamente"
     },
     "num_of_packs": "Número de packs",
     "promo_code": "Código promocional",
@@ -1232,7 +1236,11 @@
         "producer_description": "Descripción",
         "producer_contact": "Contacto",
         "producer_catalog": "Catálogo",
-        "company_legal_representative": "Representante legal"
+        "company_legal_representative": "Representante legal",
+        "id_number": "Número de identificación",
+        "company_name": "Nombre de la empresa",
+        "company_phone": "Teléfono",
+        "company_email": "Correo electrónico"
     },
     "show_full_info": "Mostrar información completa",
     "hide_full_info": "Ocultar información completa",
@@ -1389,5 +1397,10 @@
         "max_imgs_reached": "Máximo de imágenes alcanzado",
         "main_image": "Imagen principal",
         "move": "Arrastrar"
-    }
+    },
+    "cps": {
+        "fixed_has_been_assigned_as_organizer": "Has sido asignado como organizador del punto de consumo fijo {cp_name}",
+        "mobile_has_been_assigned_as_orgenizer": "Has sido asignado como organizador del punto de consumo móvil ${cp_name}"
+    },
+    "company_information": "Información de la empresa"
 }

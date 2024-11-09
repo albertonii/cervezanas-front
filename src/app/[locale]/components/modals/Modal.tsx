@@ -1,13 +1,12 @@
+import Spinner from '../ui/Spinner';
+import PortalModal from './PortalModal';
+import Button from '../ui/buttons/Button';
 import useOnClickOutside from '../../../../hooks/useOnOutsideClickDOM';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import PortalModal from './PortalModal';
 import { isEmpty } from '@/utils/utils';
 import { useTranslations } from 'next-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import Button from '../ui/buttons/Button';
-import { IconButton } from '../ui/buttons/IconButton';
-import Spinner from '../ui/Spinner';
 
 interface Props {
     showBtn?: boolean;
@@ -18,7 +17,6 @@ interface Props {
     description: string;
     children: JSX.Element;
     icon?: IconDefinition;
-    classIcon: string;
     classContainer: string;
     color?: { filled: string; unfilled: string };
     btnSize?: 'small' | 'medium' | 'large' | 'xLarge' | 'xxLarge';
@@ -40,10 +38,7 @@ export default function Modal({
     description,
     children,
     icon,
-    classIcon,
     classContainer,
-    color,
-    btnSize,
     setShowModal,
     showFooter = true,
     btnCancelTitle,
@@ -108,30 +103,15 @@ export default function Modal({
         <>
             {showBtn && (
                 <>
-                    {icon ? (
-                        <IconButton
-                            icon={icon}
-                            classIcon={classIcon}
-                            classContainer={classContainer}
-                            onClick={() => handleShowModal(true)}
-                            isActive={false}
-                            color={color}
-                            title={title}
-                            size={btnSize}
-                            primary
-                        >
-                            {triggerBtnTitle ? t(triggerBtnTitle) : t(btnTitle)}
-                        </IconButton>
-                    ) : (
-                        <Button
-                            class={`${classContainer} px-2 py-1`}
-                            onClick={() => handleShowModal(true)}
-                            title={title}
-                            primary
-                        >
-                            {triggerBtnTitle ? t(triggerBtnTitle) : t(btnTitle)}
-                        </Button>
-                    )}
+                    <Button
+                        class={`${classContainer} px-2 py-1`}
+                        onClick={() => handleShowModal(true)}
+                        title={title}
+                        primary
+                        icon={icon}
+                    >
+                        {triggerBtnTitle ? t(triggerBtnTitle) : t(btnTitle)}
+                    </Button>
                 </>
             )}
 

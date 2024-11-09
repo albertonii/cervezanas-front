@@ -54,7 +54,6 @@ export function ProductsArchiveList({
         { header: t('product_type_header') },
         { header: t('name_header') },
         { header: t('price_header') },
-        { header: t('stock_header') },
         { header: t('lot_header') },
         { header: t('public_header') },
         { header: t('action_header') },
@@ -189,7 +188,7 @@ export function ProductsArchiveList({
                                                         />
                                                     </th>
 
-                                                    <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+                                                    <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
                                                         <Link
                                                             href={`/products/${product.id}`}
                                                             locale={locale}

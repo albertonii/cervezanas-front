@@ -183,7 +183,6 @@ export function UpProducerModal({
             description={'modal_up_producer_description'}
             handler={handleSubmitUpNewProducer}
             handlerClose={() => handleShowUpProducerModal(false)}
-            classIcon={''}
             classContainer={''}
         >
             <></>

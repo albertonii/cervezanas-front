@@ -116,7 +116,7 @@ export default function EventList({ reports: rs }: Props) {
                     {sortedItems.map((userReport: IUserReport) => {
                         return (
                             <tr key={userReport.id} className="">
-                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
                                     <Link
                                         href={`${ROUTE_ADMIN}${ROUTE_PROFILE}${ROUTE_REPORTS}/${userReport.id}`}
                                         locale={locale}
@@ -155,7 +155,6 @@ export default function EventList({ reports: rs }: Props) {
                                             classContainer={
                                                 'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full'
                                             }
-                                            classIcon={''}
                                             title={t('view_report')}
                                         />
                                     </Link>

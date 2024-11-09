@@ -71,7 +71,7 @@ export function ShoppingBasket({ user }: Props) {
         updateCanMakeThePayment,
         updateNeedsToCheckDelivery,
         discountAmount,
-        discountCode,
+        promoCode,
     } = useShoppingCart();
 
     // const formRef = useRef<HTMLFormElement>(null);
@@ -227,7 +227,7 @@ export function ShoppingBasket({ user }: Props) {
             billing_zipcode: selectedBillingAddress.zipcode,
             billing_is_company: selectedBillingAddress.is_company,
             discount: discountAmount,
-            discount_code: discountCode || 'none',
+            promo_code: promoCode || '',
         };
 
         await insertOnlineOrder(order).catch((error) => {

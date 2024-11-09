@@ -24,7 +24,6 @@ export default function ConsumptionPointDisclaimerModal({
             description={'¡Gracias por registrarse como Punto de Consumo!'}
             handler={() => handleCloseModal()}
             handlerClose={() => handleCloseModal()}
-            classIcon={''}
             classContainer={''}
         >
             <section className="space-y-4">
@@ -80,7 +79,7 @@ export default function ConsumptionPointDisclaimerModal({
                     <span className="font-semibold">Consultas y Contacto:</span>{' '}
                     Si tiene preguntas o necesita asistencia durante el proceso
                     de registro, por favor contáctenos a{' '}
-                    <i>cervezanas@socialinnolabs.org</i> .
+                    <i>info@cervezanas.beer</i> .
                 </p>
 
                 <p>

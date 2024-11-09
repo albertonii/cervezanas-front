@@ -67,7 +67,6 @@ export default function BMPaymentModal({
             description={`¡Bienvenido a la experiencia de Maestro Cervecero en el Evento ${eventExperience.events?.name}! `}
             handler={() => handleOnClickParticipate()}
             handlerClose={() => handleCloseModal(true)}
-            classIcon={''}
             classContainer={''}
         >
             <section className={`space-y-4`}>

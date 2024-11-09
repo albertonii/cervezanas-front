@@ -1,16 +1,17 @@
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import AddressForm from '@/app/[locale]/components/form/AddressForm';
 import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
 import React, { useState } from 'react';
+import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
 import { insertShippingAddress } from '../actions';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useAuth } from '../../../(auth)/Context/useAuth';
-import { IAddressForm, ModalShippingAddressFormData } from '@/lib//types/types';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
-import { z, ZodType } from 'zod';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import AddressForm from '@/app/[locale]/components/form/AddressForm';
+import { IAddressForm, ModalShippingAddressFormData } from '@/lib//types/types';
 
 const schema: ZodType<ModalShippingAddressFormData> = z.object({
     name: z.string().nonempty({ message: 'errors.input_required' }),
@@ -32,7 +33,7 @@ interface Props {
     shippingAddressesLength: number;
 }
 
-export function NewShippingAddress({ shippingAddressesLength }: Props) {
+export function NewShippingModal({ shippingAddressesLength }: Props) {
     const t = useTranslations();
     const { user } = useAuth();
     const { handleMessage } = useMessage();
@@ -47,11 +48,7 @@ export function NewShippingAddress({ shippingAddressesLength }: Props) {
         resolver: zodResolver(schema),
     });
 
-    const {
-        reset,
-        handleSubmit,
-        formState: { errors },
-    } = form;
+    const { reset, handleSubmit } = form;
 
     const handleAddShippingAddress = async (form: ValidationSchema) => {
         setIsLoading(true);
@@ -74,11 +71,11 @@ export function NewShippingAddress({ shippingAddressesLength }: Props) {
 
         await insertShippingAddress(object)
             .then(() => {
-                queryClient.invalidateQueries('shippingAddresses');
                 setShowModal(false);
                 setIsLoading(false);
                 setIsSubmitting(false);
                 reset();
+                queryClient.invalidateQueries(['shippingAddresses', user?.id]);
 
                 handleMessage({
                     type: 'success',
@@ -132,7 +129,11 @@ export function NewShippingAddress({ shippingAddressesLength }: Props) {
             handler={handleSubmit(onSubmit)}
             form={form}
         >
-            <AddressForm form={form} addressNameId={'shipping'} />
+            {isLoading ? (
+                <Spinner color="beer-blonde" size="medium" />
+            ) : (
+                <AddressForm form={form} addressNameId={'shipping'} />
+            )}
         </ModalWithForm>
     );
 }

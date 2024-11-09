@@ -43,10 +43,10 @@ export default function IsNotYourRoleLayout({ role }: Props) {
                     Si tienes alguna pregunta, por favor, contacta con el
                     administrador a través de:
                     <a
-                        href="mailto:cervezanas@socialinnolabs.org"
+                        href="mailto:info@cervezanas.beer"
                         className="text-beer-blonde font-semibold mt-2 hover:underline"
                     >
-                        cervezanas@socialinnolabs.org
+                        info@cervezanas.beer
                     </a>
                 </p>
 

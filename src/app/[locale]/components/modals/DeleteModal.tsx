@@ -22,7 +22,6 @@ export default function DeleteModal({
     setShowModal,
 }: Props) {
     const deleteColor = { filled: '#90470b', unfilled: 'grey' };
-    const classIcon = '';
     const classContainer = '';
 
     return (
@@ -35,7 +34,6 @@ export default function DeleteModal({
             handlerClose={() => handlerClose()}
             showModal={showModal}
             setShowModal={setShowModal}
-            classIcon={classIcon}
             classContainer={classContainer}
             btnTitle={btnTitle}
         >

@@ -127,7 +127,7 @@ export function BasicDataForm({ profile }: Props) {
                         required: true,
                         pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
                     }}
-                    placeholder={'user@cervezanas.com'}
+                    placeholder={'user@cervezanas.beer'}
                     disabled
                 />
 

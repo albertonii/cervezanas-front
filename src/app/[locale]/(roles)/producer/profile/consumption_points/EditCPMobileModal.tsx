@@ -303,7 +303,6 @@ export default function EditCPMobileModal({
                 handleEditModal(false);
             }}
             btnSize={'large'}
-            classIcon={'w-6 h-6'}
             classContainer={''}
         >
             <form>

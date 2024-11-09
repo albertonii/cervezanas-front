@@ -52,7 +52,6 @@ export function DeleteMonthlyProduct({
             btnTitle={'delete'}
             description={'modal_delete_monthly_product_description'}
             handler={handleDeleteClick}
-            classIcon={''}
             classContainer={''}
         >
             <></>

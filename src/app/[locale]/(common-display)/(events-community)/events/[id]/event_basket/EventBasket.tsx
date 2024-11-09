@@ -94,7 +94,7 @@ export default function EventBasket({ eventId }: Props) {
                 currency: 'EUR',
                 subtotal: subtotal,
                 // discount: discount,
-                // discount_code: "123456789",
+                // promo_code: "123456789",
                 // payment_method: PAYMENT_METHOD.CREDIT_CARD,
             })
             .select('id');
@@ -315,16 +315,6 @@ export default function EventBasket({ eventId }: Props) {
                             {formatCurrency(discount)} {discount / subtotal}%
                           </p>
                         </div> */}
-
-                                                {/* taxes  */}
-                                                <div className="flex w-full items-center justify-between">
-                                                    <p className="text-base leading-4 text-gray-800 dark:text-white">
-                                                        {t('tax')}
-                                                    </p>
-                                                    <p className="text-base leading-4 text-gray-600 dark:text-gray-300">
-                                                        {formatCurrency(tax)}
-                                                    </p>
-                                                </div>
                                             </div>
 
                                             <div className="flex w-full items-center justify-between">

@@ -59,7 +59,6 @@ export function DeleteCampaign({
             description={'modal_delete_campaign_description'}
             handler={onSubmitDelete}
             handlerClose={() => handleDeleteShowModal(false)}
-            classIcon={''}
             classContainer={''}
         >
             <></>

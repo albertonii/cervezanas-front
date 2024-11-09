@@ -2,23 +2,25 @@
 
 import CPGoogleMap from './CPGoogleMap';
 import ListCPMProducts from './ListCPMProducts';
-import React, { useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { getGeocode } from 'use-places-autocomplete';
-import { IUser } from '@/lib//types/types';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { cleanObject, isValidObject } from '@/utils/utils';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z, ZodType } from 'zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { ROLE_ENUM } from '@/lib//enums';
-import InputLabel from '@/app/[locale]/components/form/InputLabel';
-import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
-import SelectInput from '@/app/[locale]/components/form/SelectInput';
-import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import SelectInput from '@/app/[locale]/components/form/SelectInput';
+import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
+import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
+import React, { useState } from 'react';
+import { z, ZodType } from 'zod';
+import { ROLE_ENUM } from '@/lib//enums';
+import { IUser } from '@/lib//types/types';
+import { useTranslations } from 'next-intl';
+import { createNotification } from '@/utils/utils';
+import { getGeocode } from 'use-places-autocomplete';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { cleanObject, isValidObject } from '@/utils/utils';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 
 enum CPFixedStatus {
     active = 'active',
@@ -82,6 +84,8 @@ interface Props {
 export default function AddCPFixedModal({ cpsId }: Props) {
     const t = useTranslations();
     const { user, supabase } = useAuth();
+
+    const { handleMessage } = useMessage();
 
     const [isLoading, setIsLoading] = useState(false);
     const [isInternalOrganizer, setIsInternalOrganizer] =
@@ -237,16 +241,29 @@ export default function AddCPFixedModal({ cpsId }: Props) {
         }
 
         if (!isInternalOrganizer) {
-            // Notify user that has been assigned as organizer
-            const { error } = await supabase.from('notifications').insert({
-                message: `You have been assigned as organizer for the fixed consumption point ${cp_name}`,
-                user_id: selectedEOrganizer,
-                link: `/${ROLE_ENUM.Productor}/profile?a=consumption_points`,
-                source: user?.id, // User that has created the consumption point
-            });
+            if (!selectedEOrganizer) {
+                setIsLoading(false);
+                return;
+            }
 
-            if (error) {
-                throw error;
+            const link = `/${ROLE_ENUM.Productor}/profile?a=consumption_points`;
+            // Notify user that has been accepted/rejected has a producer
+            const response = await createNotification(
+                supabase,
+                selectedEOrganizer,
+                user?.id,
+                link,
+                t('cps.fixed_has_been_assigned_as_organizer', { cp_name }),
+            );
+
+            if (response.error) {
+                handleMessage({
+                    type: 'error',
+                    message: t('errors.sending_notification'),
+                });
+                console.info(response.error);
+                setIsLoading(false);
+                return;
             }
         }
 

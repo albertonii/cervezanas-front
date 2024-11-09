@@ -177,7 +177,6 @@ export default function MonthlyCardItem({ mProduct }: Props) {
                         classContainer={
                             'transition ease-in duration-300 bg-gray-800 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0'
                         }
-                        classIcon={''}
                         title={t('add_to_favs')}
                     >
                         <span className=" pt-1 text-center text-base font-bold text-beer-foam">

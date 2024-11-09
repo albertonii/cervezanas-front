@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
         const res = await axios.post(
             'https://api.resend.com/emails',
             {
-                from: 'cervezanas@socialinnolabs.org',
+                from: 'info@cervezanas.beer',
                 to: emailTo,
                 subject: `Nuevo pedido recibido #${orderNumber}`,
                 html: `
@@ -213,7 +213,7 @@ export async function POST(request: NextRequest) {
 
                             <a href="${urlOrder}" class="button">Ver pedido completo</a>
 
-                            <p>Si tienes alguna duda, no dudes en contactarnos en <a href="mailto:cervezanas@socialinnolabs.org">cervezanas@socialinnolabs.org</a>.</p>
+                            <p>Si tienes alguna duda, no dudes en contactarnos en <a href="mailto:info@cervezanas.beer">info@cervezanas.beer</a>.</p>
                             <p><strong>¡Gracias por ser parte de Cervezanas!</strong></p>
                         </div>
                     </div>

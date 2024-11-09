@@ -84,7 +84,6 @@ export function DeleteProductModal({
             btnTitle={'delete'}
             description={'modal_delete_product_description'}
             handler={onSubmitDelete}
-            classIcon={''}
             classContainer={`${isLoading && ' opacity-75'}`}
         >
             <>

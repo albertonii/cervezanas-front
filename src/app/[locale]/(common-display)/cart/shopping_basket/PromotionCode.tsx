@@ -7,14 +7,14 @@ import React, { useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
+import { validatePromoCode } from '../actions';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { faTicketAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
-import { useShoppingCart } from '@/app/context/ShoppingCartContext';
+import { PromoData, useShoppingCart } from '@/app/context/ShoppingCartContext';
 
 const promoCodeSchema: ZodType<{ code: string }> = z.object({
     code: z.string().nonempty({ message: 'errors.input_required' }),
@@ -28,40 +28,51 @@ export default function PromoCode() {
     const { handleMessage } = useMessage();
     const { user } = useAuth();
     const [isFetching, setIsFetching] = useState(false);
-    const { applyDiscount } = useShoppingCart();
+    const { applyDiscount, checkProductPackExists } = useShoppingCart();
 
     const form = useForm<PromoCodeValidationSchema>({
         resolver: zodResolver(promoCodeSchema),
     });
 
-    const {
-        handleSubmit,
-        formState: { errors },
-        reset,
-    } = form;
+    const { handleSubmit, reset } = form;
 
-    const validatePromoCode = async (code: string) => {
+    const validatePromoCode_ = async (code: string) => {
         setIsFetching(true);
+
         try {
-            const response = await fetch('/api/shopping_basket/promo_code', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ code, user_id: user.id }),
-            });
+            const promoCodeRes: PromoData = await validatePromoCode(
+                code,
+                user.id,
+            );
 
-            const data = await response.json();
+            if (promoCodeRes.isValid) {
+                const productPackExists =
+                    promoCodeRes.product_pack_id &&
+                    promoCodeRes.product_id &&
+                    checkProductPackExists(
+                        promoCodeRes.product_id,
+                        promoCodeRes.product_pack_id,
+                    );
 
-            if (response.ok && data.isValid) {
-                applyDiscount(data);
+                if (!productPackExists) {
+                    handleMessage({
+                        type: 'error',
+                        message: t('errors.invalid_promo_code'),
+                    });
+                    return;
+                }
+
+                applyDiscount(promoCodeRes);
                 handleMessage({
                     type: 'success',
-                    message: t('promo_code_applied'),
+                    message: t('success.promo_code_applied'),
                 });
                 reset();
             } else {
                 handleMessage({
                     type: 'error',
-                    message: data.message || t('invalid_promo_code'),
+                    message:
+                        promoCodeRes.message || t('errors.invalid_promo_code'),
                 });
             }
         } catch (error) {
@@ -76,7 +87,7 @@ export default function PromoCode() {
     };
 
     const validatePromoMutation = useMutation({
-        mutationFn: validatePromoCode,
+        mutationFn: validatePromoCode_,
         onError: (error: any) => {
             console.error(error);
             handleMessage({
@@ -124,10 +135,6 @@ export default function PromoCode() {
                         placeholder={t('enter_promo_code')}
                         disabled={isFetching}
                     />
-
-                    {errors.code && (
-                        <DisplayInputError message={errors.code.message} />
-                    )}
 
                     <Button
                         title={t('apply_promo_code')}

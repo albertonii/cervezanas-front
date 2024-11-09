@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_RESEND_API_KEY}`,
         },
         body: JSON.stringify({
-            from: 'cervezanas@socialinnolabs.org',
+            from: 'info@cervezanas.beer',
             to: emailTo,
             subject: `Tu cuenta ${username} ha dejado de tener los privilegios de DISTRIBUIDOR `,
             html: `
@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
                                 </p>
 
                                 <p>
-                                    Si consideras que esto ha sido un error, por favor contáctanos a <a href="mailto:cervezanas@socialinnolabs.org" />
+                                    Si consideras que esto ha sido un error, por favor contáctanos a <a href="mailto:info@cervezanas.beer" />
                                 </p>
 
                                 <a href="https://cervezanas.beer" class="button">Ir a Cervezanas</a>

@@ -16,10 +16,16 @@ import {
     getShippingInfo,
 } from '../[locale]/(common-display)/cart/actions';
 
-interface PromoData {
-    discountType: 'percentage' | 'fixed_amount' | 'gift';
+export interface PromoData {
+    id: string;
+    discountType: 'percentage' | 'product';
     discountValue: number;
     code: string;
+    isValid: boolean;
+    uses: number;
+    message: string;
+    product_id: string;
+    product_pack_id: string;
 }
 
 interface IAddressWithPrev extends IAddress {
@@ -67,9 +73,11 @@ type ShoppingCartContextType = {
     needsToCheckDelivery: boolean;
     updateNeedsToCheckDelivery: (value: boolean) => void;
     subtotal: number;
+    discountId: string | null;
     discountAmount: number;
-    discountCode: string | null;
-    applyDiscount: (promoData: any) => void;
+    promoCode: string | null;
+    applyDiscount: (promoData: PromoData) => void;
+    checkProductPackExists: (product_id: string, pack_id: string) => boolean;
 };
 
 const ShoppingCartContext = createContext<ShoppingCartContextType>({
@@ -114,9 +122,11 @@ const ShoppingCartContext = createContext<ShoppingCartContextType>({
     needsToCheckDelivery: true,
     updateNeedsToCheckDelivery: () => void {},
     subtotal: 0,
+    discountId: null,
     discountAmount: 0,
-    discountCode: null,
+    promoCode: null,
     applyDiscount: () => void {},
+    checkProductPackExists: () => false,
 });
 
 interface Props {
@@ -151,8 +161,9 @@ export function ShoppingCartProvider({ children }: Props) {
     const [needsToCheckDelivery, setNeedsToCheckDelivery] =
         useState<boolean>(true);
 
+    const [discountId, setDiscountId] = useState<string | null>(null);
     const [discountAmount, setDiscountAmount] = useState(0);
-    const [discountCode, setDiscountCode] = useState<string | null>(null);
+    const [promoCode, setPromoCode] = useState<string | null>(null);
     const [subtotal, setSubtotal] = useState<number>(0);
 
     useEffect(() => {
@@ -344,7 +355,7 @@ export function ShoppingCartProvider({ children }: Props) {
             if (itemFind) {
                 // Si existe el producto, buscamos el pack
                 const packFind = itemFind.packs.find((p) => {
-                    return p.product_id === pack.product_id;
+                    return p.id === pack.id;
                 });
 
                 // Si no existe el pack pero si el producto, lo añadimos
@@ -391,6 +402,9 @@ export function ShoppingCartProvider({ children }: Props) {
                 return [...currItems, newPack];
             }
         });
+
+        updateDiscountInformation(null, 0, null);
+        updateNeedsToCheckDelivery(true);
     };
 
     const increaseOnePackCartQuantity = (productId: string, packId: string) => {
@@ -418,6 +432,7 @@ export function ShoppingCartProvider({ children }: Props) {
 
         setItems(newItems);
         updateNeedsToCheckDelivery(true);
+        updateDiscountInformation(null, 0, null);
     };
 
     const decreaseOnePackCartQuantity = (productId: string, packId: string) => {
@@ -445,6 +460,7 @@ export function ShoppingCartProvider({ children }: Props) {
 
         setItems(newItems);
         updateNeedsToCheckDelivery(true);
+        updateDiscountInformation(null, 0, null);
     };
 
     const removeFromCart = (productId: string, packId: string) => {
@@ -471,6 +487,7 @@ export function ShoppingCartProvider({ children }: Props) {
         });
 
         updateNeedsToCheckDelivery(true);
+        updateDiscountInformation(null, 0, null);
     };
 
     // Update one item in the cart by identifier
@@ -559,14 +576,22 @@ export function ShoppingCartProvider({ children }: Props) {
         if (promoData.discountType === 'percentage') {
             // Assuming you have access to the subtotal here
             discount = subtotal * (promoData.discountValue / 100);
-        } else if (promoData.discountType === 'fixed_amount') {
+        } else if (promoData.discountType === 'product') {
+            // El valor que obtenemos es el descuento directo al producto
             discount = promoData.discountValue;
-        } else if (promoData.discountType === 'gift') {
-            discount = 0;
-            // Handle gift logic here
         }
-        setDiscountAmount(discount);
-        setDiscountCode(promoData.code);
+
+        updateDiscountInformation(promoData.id, discount, promoData.code);
+    };
+
+    const updateDiscountInformation = (
+        discountId: string | null,
+        discountAmount: number,
+        promoCode: string | null,
+    ) => {
+        setDiscountId(discountId);
+        setDiscountAmount(discountAmount);
+        setPromoCode(promoCode);
     };
 
     const calculateSubtotal = () => {
@@ -577,6 +602,14 @@ export function ShoppingCartProvider({ children }: Props) {
             return total + itemTotal;
         }, 0);
         setSubtotal(newSubtotal);
+    };
+
+    const checkProductPackExists = (product_id: string, pack_id: string) => {
+        return items.some(
+            (item) =>
+                item.product_id === product_id &&
+                item.packs.some((pack) => pack.id === pack_id),
+        );
     };
 
     const value = {
@@ -611,10 +644,12 @@ export function ShoppingCartProvider({ children }: Props) {
         updateCanMakeThePayment,
         needsToCheckDelivery,
         updateNeedsToCheckDelivery,
+        discountId,
         discountAmount,
-        discountCode,
+        promoCode,
         applyDiscount,
         subtotal,
+        checkProductPackExists,
     };
 
     return (

@@ -39,7 +39,7 @@ export function CheckoutItem({ productPack, isShippingCostLoading }: Props) {
                     locale={locale}
                     target={'_blank'}
                 >
-                    <span className="text-lg font-semibold text-beer-draft hover:text-beer-gold dark:text-white hover:underline animation-all ease-in-out duration-200">
+                    <span className="text-lg font-semibold text-beer-draft text-right hover:text-beer-gold dark:text-white hover:underline animation-all ease-in-out duration-200">
                         {productPack.name}
                     </span>
                 </Link>

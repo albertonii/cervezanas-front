@@ -1,7 +1,6 @@
-import React from 'react';
-import { SupabaseProps } from '@/constants';
-import { IProduct } from '@/lib/types/types';
 import Link from 'next/link';
+import React from 'react';
+import { IProduct } from '@/lib/types/types';
 import { useLocale } from 'next-intl';
 import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
 
@@ -23,10 +22,7 @@ const MinimalisticProductCard = ({ product }: Props) => {
             >
                 <DisplayImageProduct
                     class="w-full h-24 object-cover p-2"
-                    imgSrc={
-                        SupabaseProps.BASE_PRODUCTS_URL +
-                        decodeURIComponent(imgUrl)
-                    }
+                    imgSrc={imgUrl}
                     alt={product.name}
                 />
                 <div className="p-4">

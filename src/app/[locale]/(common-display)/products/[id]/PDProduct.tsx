@@ -43,7 +43,7 @@ export default function PDProduct({ product }: Props) {
             <ProductDetails product={product} reviewRef={reviewRef} />
 
             {/* Reviews */}
-            <div className="item-center col-span-12 mx-6 flex flex-col justify-center bg-gray-50 p-10 border-2 rounded-xl">
+            <div className="item-center col-span-12 mx-6 flex flex-col justify-center bg-gray-50 dark:bg-gray-600 p-10 border-2 rounded-xl">
                 <ProductOverallReview
                     reviews={productReviews}
                     emptyReviews={emptyReviews}

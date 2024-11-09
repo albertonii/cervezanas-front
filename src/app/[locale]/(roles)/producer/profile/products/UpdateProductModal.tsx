@@ -24,7 +24,6 @@ import {
     ModalUpdateProductFormData,
     ModalUpdateProductPackFormData,
     ModalUpdateProductAwardFormData,
-    UploadedFile,
 } from '@/lib//types/types';
 import {
     Aroma,

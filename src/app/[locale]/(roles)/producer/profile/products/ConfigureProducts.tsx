@@ -1,11 +1,11 @@
 'use client';
 
+import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
 import React, { useState } from 'react';
 import { Lots } from './Lots';
 import { Archive } from './Archive';
 import { Products } from './Products';
 import { CustomizeSettings } from './CustomizeSettings';
-import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
 
 interface Props {
     counter: number;
@@ -22,7 +22,7 @@ export function ConfigureProducts({ counter }: Props) {
                 return <Lots />;
             case 'archive':
                 return <Archive />;
-            case 'customizeSettings':
+            case 'customize_settings':
                 return <CustomizeSettings />;
         }
     };
@@ -35,7 +35,7 @@ export function ConfigureProducts({ counter }: Props) {
         <>
             <HorizontalSections
                 handleMenuClick={handleMenuClick}
-                tabs={['products', 'lots', 'archive', 'customizeSettings']}
+                tabs={['products', 'lots', 'archive', 'customize_settings']}
             />
             {renderSwitch()}
         </>

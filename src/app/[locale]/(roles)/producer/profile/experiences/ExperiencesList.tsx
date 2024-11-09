@@ -2,6 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
+import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import DeleteExperienceModal from '@/app/[locale]/components/modals/experiences/DeleteBeerMasterExperienceModal';
 import useFetchExperiencesByProducerId from '../../../../../../hooks/useFetchExperiencesByProducerIdWithPagination';
 import UpdateBeerMasterExperienceModalNew from '@/app/[locale]/components/modals/experiences/UpdateBeerMasterExperienceModal';
@@ -12,8 +14,6 @@ import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
-import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 
 interface Props {
     experiences: IExperience[];
@@ -88,7 +88,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
             sortable: true,
             render: (value: string, row: IExperience) => (
                 <Link href={`/experiences/${row.id}`} locale={locale}>
-                    <span className="font-semibold text-beer-blonde hover:text-beer-draft">
+                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
                         {value}
                     </span>
                 </Link>
@@ -112,7 +112,6 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
                         classContainer={
                             'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full'
                         }
-                        classIcon={''}
                         title={t('edit')}
                     />
                     <IconButton
@@ -122,7 +121,6 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
                         classContainer={
                             'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
                         }
-                        classIcon={''}
                         title={t('delete')}
                     />
                 </div>
@@ -131,7 +129,11 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
     ];
 
     return (
-        <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
+        <ListTableWrapper
+            isError={isError}
+            isLoading={isLoading}
+            errorMessage={'errors.fetching_experiences'}
+        >
             {isEditModal && selectedExperience && (
                 <UpdateBeerMasterExperienceModalNew
                     selectedExperience={selectedExperience}
@@ -145,23 +147,6 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
                     selectedExperienceId={selectedExperience.id}
                     isDeleteModal={isDeleteModal}
                     handleDeleteModal={handlDeleteModal}
-                />
-            )}
-
-            {isError && (
-                <div className="flex items-center justify-center">
-                    <p className="text-gray-500 dark:text-gray-400">
-                        {t('errors.fetching_experiences')}
-                    </p>
-                </div>
-            )}
-
-            {isLoading && (
-                <Spinner
-                    color="beer-blonde"
-                    size="xLarge"
-                    absolute
-                    flexCenter
                 />
             )}
 
@@ -184,6 +169,6 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
                     sourceDataIsFromServer={false}
                 />
             )}
-        </section>
+        </ListTableWrapper>
     );
 }

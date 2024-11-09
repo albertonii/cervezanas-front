@@ -1,8 +1,11 @@
 import Link from 'next/link';
+import Title from '../../components/ui/Title';
+import Label from '../../components/ui/Label';
 import Spinner from '../../components/ui/Spinner';
 import Button from '../../components/ui/buttons/Button';
 import InputLabel from '../../components/form/InputLabel';
 import SelectInput from '../../components/form/SelectInput';
+import InputTextarea from '../../components/form/InputTextarea';
 import PasswordStrengthIndicator from './PasswordStrengthIndicator';
 import ProducerDisclaimerModal from '../../(roles)/admin/profile/consumption_points/ProducerDisclaimerModal';
 import DistributorDisclaimerModal from '../../(roles)/admin/profile/consumption_points/DistributorDisclaimerModal';
@@ -27,15 +30,12 @@ interface FormData {
     password: string;
     confirm_password: string;
     is_legal_age: boolean;
-    // avatar_url: string;
-    // email_verified: boolean;
-    // full_name: string;
-    // iss: string;
-    // name: string;
-    // lastname: string;
-    // picture: string;
-    // provider_id: string;
-    // sub: string;
+    company_name?: string;
+    id_number?: string;
+    company_email?: string;
+    company_phone?: string;
+    company_description?: string;
+    company_legal_representative?: string;
 }
 
 const schema: ZodType<FormData> = z
@@ -63,11 +63,107 @@ const schema: ZodType<FormData> = z
         is_legal_age: z.boolean().refine((data) => data === true, {
             message: 'errors.register_legal_age',
         }),
+        company_name: z.string().optional(),
+        id_number: z.string().optional(),
+        company_email: z.string().optional(),
+        company_phone: z.string().optional(),
+        company_description: z.string().optional(),
+        company_legal_representative: z.string().optional(),
     })
     .refine((data) => data.password === data.confirm_password, {
         path: ['confirm_password'],
         message: 'errors.password_match',
-    });
+    })
+    .refine(
+        (data) => {
+            if (
+                data.access_level === ROLE_ENUM.Productor ||
+                data.access_level === ROLE_ENUM.Distributor
+            ) {
+                return !!data.company_name;
+            }
+            return true;
+        },
+        {
+            path: ['company_name'],
+            message: 'errors.input_required',
+        },
+    )
+    .refine(
+        (data) => {
+            if (
+                data.access_level === ROLE_ENUM.Productor ||
+                data.access_level === ROLE_ENUM.Distributor
+            ) {
+                return !!data.id_number;
+            }
+            return true;
+        },
+        {
+            path: ['id_number'],
+            message: 'errors.input_required',
+        },
+    )
+    .refine(
+        (data) => {
+            if (
+                data.access_level === ROLE_ENUM.Productor ||
+                data.access_level === ROLE_ENUM.Distributor
+            ) {
+                return !!data.company_email;
+            }
+            return true;
+        },
+        {
+            path: ['company_email'],
+            message: 'errors.input_required',
+        },
+    )
+    .refine(
+        (data) => {
+            if (
+                data.access_level === ROLE_ENUM.Productor ||
+                data.access_level === ROLE_ENUM.Distributor
+            ) {
+                return !!data.company_phone;
+            }
+            return true;
+        },
+        {
+            path: ['company_phone'],
+            message: 'errors.input_required',
+        },
+    )
+    .refine(
+        (data) => {
+            if (
+                data.access_level === ROLE_ENUM.Productor ||
+                data.access_level === ROLE_ENUM.Distributor
+            ) {
+                return !!data.company_description;
+            }
+            return true;
+        },
+        {
+            path: ['company_description'],
+            message: 'errors.input_required',
+        },
+    )
+    .refine(
+        (data) => {
+            if (
+                data.access_level === ROLE_ENUM.Productor ||
+                data.access_level === ROLE_ENUM.Distributor
+            ) {
+                return !!data.company_legal_representative;
+            }
+            return true;
+        },
+        {
+            path: ['company_legal_representative'],
+            message: 'errors.input_required',
+        },
+    );
 
 type ValidationSchema = z.infer<typeof schema>;
 
@@ -104,12 +200,33 @@ export const SignUpForm = () => {
 
         const { username, email, password } = form;
 
-        const data = {
+        const data: {
+            access_level: ROLE_ENUM[];
+            username: string;
+            email: string;
+            email_verified: boolean;
+            company_name?: string;
+            id_number?: string;
+            company_email?: string;
+            company_phone?: string;
+            company_description?: string;
+            company_legal_representative?: string;
+        } = {
             access_level: [role],
             username: username,
             email: email,
             email_verified: false,
         };
+
+        if (role === ROLE_ENUM.Distributor || role === ROLE_ENUM.Productor) {
+            data.company_name = form.company_name;
+            data.id_number = form.id_number;
+            data.company_email = form.company_email;
+            data.company_phone = form.company_phone;
+            data.company_description = form.company_description;
+            data.company_legal_representative =
+                form.company_legal_representative;
+        }
 
         if (
             role === ROLE_ENUM.Distributor ||
@@ -184,128 +301,261 @@ export const SignUpForm = () => {
     };
 
     return (
-        <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="mt-4 flex flex-col space-y-4 relative"
-        >
-            {isSignupSubmitLoading && (
-                <span>
-                    <Spinner
-                        color={'beer-blonde'}
-                        size={'large'}
-                        absolute
-                        absolutePosition={'center'}
-                    />
-                </span>
-            )}
+        <form onSubmit={handleSubmit(onSubmit)} className={`mt-4 space-y-8`}>
+            <div className="space-y-4">
+                {isSignupSubmitLoading && (
+                    <span>
+                        <Spinner
+                            color={'beer-blonde'}
+                            size={'large'}
+                            absolute
+                            absolutePosition={'center'}
+                        />
+                    </span>
+                )}
 
-            <SelectInput
-                form={form}
-                labelTooltip={'tooltips.role_description'}
-                options={ROLE_OPTIONS}
-                label={'access_level'}
-                registerOptions={{
-                    required: true,
-                }}
-                onChange={handleChangeRole}
-                defaultValue={role}
-            />
-
-            {/* <div className="flex w-full flex-col space-y-2">
-                <select
-                {...register("access_level")}
-                value={role}
-                onChange={handleChangeRole}
-                className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm"
-                >
-                {ROLE_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value}>
-                    {option.label}
-                    </option>
-                ))}
-                </select>
-            </div> */}
-
-            <InputLabel
-                form={form}
-                label={'username'}
-                registerOptions={{
-                    required: true,
-                }}
-                placeholder="user_123"
-            />
-
-            <InputLabel
-                form={form}
-                label={'email'}
-                registerOptions={{
-                    required: true,
-                }}
-                placeholder="ejemplo@cervezanas.com"
-                inputType="email"
-            />
-
-            <InputLabel
-                form={form}
-                label={'password'}
-                registerOptions={{
-                    required: true,
-                }}
-                placeholder="*****"
-                inputType="password"
-            />
-
-            <PasswordStrengthIndicator password={form.watch('password')} />
-
-            <InputLabel
-                form={form}
-                label={'confirm_password'}
-                registerOptions={{
-                    required: true,
-                }}
-                placeholder="*****"
-                inputType="password"
-            />
-
-            <div className="flex w-full flex-col space-y-2">
-                <InputLabel
+                <SelectInput
                     form={form}
-                    label={'is_legal_age'}
+                    labelTooltip={'tooltips.role_description'}
+                    options={ROLE_OPTIONS}
+                    label={'access_level'}
                     registerOptions={{
                         required: true,
                     }}
-                    placeholder="*****"
-                    inputType="checkbox"
+                    onChange={handleChangeRole}
+                    defaultValue={role}
                 />
-                <p className="text-xs text-gray-500">
-                    {t('is_legal_age_description')}
-                </p>
+
+                <div className="flex gap-4">
+                    <InputLabel
+                        form={form}
+                        label={'username'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder="user_123"
+                        disabled={isSignupSubmitLoading}
+                    />
+
+                    <InputLabel
+                        form={form}
+                        label={'email'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder="ejemplo@cervezanas.beer"
+                        inputType="email"
+                        disabled={isSignupSubmitLoading}
+                    />
+                </div>
+
+                <div className="flex gap-4">
+                    <InputLabel
+                        form={form}
+                        label={'password'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder="*****"
+                        inputType="password"
+                        disabled={isSignupSubmitLoading}
+                    />
+
+                    <InputLabel
+                        form={form}
+                        label={'confirm_password'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder="*****"
+                        inputType="password"
+                        disabled={isSignupSubmitLoading}
+                    />
+                </div>
+
+                <PasswordStrengthIndicator password={form.watch('password')} />
             </div>
 
             {role === ROLE_ENUM.Productor && (
                 <div className="flex w-full flex-col space-y-2">
-                    <div className="w-full">
-                        <label
-                            className={
-                                'flex w-full flex-row-reverse  items-end justify-end gap-1 space-y-2 text-sm text-gray-600'
-                            }
-                            htmlFor="producer_disclaimer"
-                        >
-                            <span className="font-medium">
-                                {t('producer_disclaimer_read_and_accepantance')}
-                            </span>
+                    <Title size="medium" color="beer-blonde">
+                        {t('company_information')}
+                    </Title>
 
-                            <input
-                                type="checkbox"
-                                className={
-                                    'float-right h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde'
-                                }
-                                id="producer_disclaimer"
-                            />
-                        </label>
+                    <div className="flex gap-4">
+                        <InputLabel
+                            form={form}
+                            label={'company_name'}
+                            labelText={'public_user_information.company_name'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder="Empresa Cervezanas SL"
+                            disabled={isSignupSubmitLoading}
+                        />
+
+                        <InputLabel
+                            form={form}
+                            label={'id_number'}
+                            labelText={'public_user_information.id_number'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder="G35887712"
+                            disabled={isSignupSubmitLoading}
+                        />
                     </div>
 
-                    <p className="text-xs text-gray-500">
+                    <div className="flex gap-4">
+                        <InputLabel
+                            form={form}
+                            label={'company_legal_representative'}
+                            labelText={
+                                'public_user_information.company_legal_representative'
+                            }
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder="Juan Pérez"
+                            disabled={isSignupSubmitLoading}
+                        />
+
+                        <InputLabel
+                            form={form}
+                            label={'company_phone'}
+                            labelText={'public_user_information.company_phone'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder="+34 123 456 789"
+                            disabled={isSignupSubmitLoading}
+                        />
+                    </div>
+
+                    <InputLabel
+                        form={form}
+                        label={'company_email'}
+                        labelText={'public_user_information.company_email'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder="correoempresa@cervezanas.beer"
+                        inputType="email"
+                        disabled={isSignupSubmitLoading}
+                    />
+
+                    <InputTextarea
+                        form={form}
+                        label={'company_description'}
+                        labelText={'company_description'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder="Breve descripción de la empresa"
+                        disabled={isSignupSubmitLoading}
+                    />
+                </div>
+            )}
+
+            {role === ROLE_ENUM.Distributor && (
+                <div className="flex w-full flex-col space-y-2">
+                    <Title size="medium" color="beer-blonde">
+                        {t('company_information')}
+                    </Title>
+
+                    <div className="flex gap-4">
+                        <InputLabel
+                            form={form}
+                            label={'company_name'}
+                            labelText={'public_user_information.company_name'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder="Empresa Cervezanas SL"
+                            disabled={isSignupSubmitLoading}
+                        />
+
+                        <InputLabel
+                            form={form}
+                            label={'id_number'}
+                            labelText={'public_user_information.id_number'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder="G35887712"
+                            disabled={isSignupSubmitLoading}
+                        />
+                    </div>
+
+                    <div className="flex gap-4">
+                        <InputLabel
+                            form={form}
+                            label={'company_legal_representative'}
+                            labelText={
+                                'public_user_information.company_legal_representative'
+                            }
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder="Juan Pérez"
+                            disabled={isSignupSubmitLoading}
+                        />
+
+                        <InputLabel
+                            form={form}
+                            label={'company_phone'}
+                            labelText={'public_user_information.company_phone'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                            placeholder="+34 123 456 789"
+                            disabled={isSignupSubmitLoading}
+                        />
+                    </div>
+
+                    <InputLabel
+                        form={form}
+                        label={'company_email'}
+                        labelText={'public_user_information.company_email'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder="correoempresa@cervezanas.beer"
+                        inputType="email"
+                        disabled={isSignupSubmitLoading}
+                    />
+
+                    <InputTextarea
+                        form={form}
+                        label={'company_description'}
+                        labelText={'company_description'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder="Breve descripción de la empresa"
+                        disabled={isSignupSubmitLoading}
+                    />
+                </div>
+            )}
+
+            {role === ROLE_ENUM.Productor && (
+                <div className="flex w-full flex-col space-y-2">
+                    <div className="w-full flex items-start gap-2">
+                        <input
+                            type="checkbox"
+                            className={
+                                'h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde'
+                            }
+                            id="producer_disclaimer"
+                            disabled={isSignupSubmitLoading}
+                        />
+
+                        <Label size="small" htmlFor="producer_disclaimer">
+                            {t('producer_disclaimer_read_and_accepantance')}
+                        </Label>
+                    </div>
+
+                    <Label size="xsmall">
                         <Link
                             href={
                                 SupabaseProps.BASE_DOCUMENTS_URL +
@@ -313,12 +563,12 @@ export const SignUpForm = () => {
                             }
                             target={'_blank'}
                         >
-                            <span className="mx-1 text-beer-darkGold hover:underline">
+                            <span className="mx-1 hover:underline">
                                 {t('click_here_to_download')}{' '}
                                 {t('producer_read_disclaimer')}
                             </span>
                         </Link>
-                    </p>
+                    </Label>
                 </div>
             )}
 
@@ -343,6 +593,7 @@ export const SignUpForm = () => {
                                     'float-right h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde'
                                 }
                                 id="distributor_disclaimer"
+                                disabled={isSignupSubmitLoading}
                             />
                         </label>
                     </div>
@@ -385,6 +636,7 @@ export const SignUpForm = () => {
                                     'float-right h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde'
                                 }
                                 id="consumption_point_disclaimer"
+                                disabled={isSignupSubmitLoading}
                             />
                         </label>
                     </div>
@@ -405,6 +657,17 @@ export const SignUpForm = () => {
                     </p>
                 </div>
             )}
+
+            <div className="w-full flex items-start gap-2">
+                <input
+                    type="checkbox"
+                    {...form.register('is_legal_age', { required: true })}
+                    className="h-5 w-5 rounded border-bear-light bg-beer-softBlonde text-beer-blonde focus:ring-2 focus:ring-bear-alvine 
+                        dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-beer-softBlonde"
+                    disabled={isSignupSubmitLoading}
+                />
+                <Label size="small">{t('is_legal_age_description')}</Label>
+            </div>
 
             {isSignupSubmitLoading ? (
                 <Spinner color={'beer-blonde'} size={'small'} />
@@ -434,9 +697,10 @@ export const SignUpForm = () => {
                         title={'sign_up'}
                         btnType="submit"
                         class={
-                            'group relative my-4 flex w-full justify-center rounded-md border border-none border-transparent bg-beer-blonde px-4 py-2 text-sm font-medium hover:bg-beer-draft hover:font-semibold hover:text-beer-blonde focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 '
+                            'group relative my-1 flex w-full justify-center rounded-md border border-none border-transparent bg-beer-blonde px-4 py-2 text-sm font-medium hover:bg-beer-draft hover:font-semibold hover:text-beer-blonde focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 '
                         }
                         fullSize
+                        disabled={isSignupSubmitLoading}
                     >
                         <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                             <FontAwesomeIcon

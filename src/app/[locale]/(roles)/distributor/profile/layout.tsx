@@ -1,5 +1,6 @@
 'use client';
 
+import ProfileSidebarLayout from '@/app/[locale]/components/ui/ProfileSidebarLayout';
 import React from 'react';
 import {
     faUser,
@@ -8,7 +9,6 @@ import {
     faTruck,
     faShoppingCart,
 } from '@fortawesome/free-solid-svg-icons';
-import { Sidebar } from '@/app/[locale]/components/layout/Sidebar';
 
 type LayoutProps = {
     children: React.ReactNode;
@@ -44,15 +44,8 @@ export default function layout({ children }: LayoutProps) {
     ];
 
     return (
-        <section className="relative flex w-full bg-[url('/assets/home/bg-home.webp')] bg-auto bg-repeat bg-top max-w-[1530px] m-auto">
-            <Sidebar sidebarLinks={sidebarLinks} />
-
-            <div
-                className="w-full bg-[url('/assets/madera-account.webp')] bg-auto bg-top bg-repeat sm:pt-[5vh] md:pt-[5vh] rounded-b-2xl pt-10"
-                aria-label="Container Distributor settings"
-            >
-                {children}
-            </div>
-        </section>
+        <ProfileSidebarLayout sidebarLinks={sidebarLinks}>
+            <div>{children}</div>
+        </ProfileSidebarLayout>
     );
 }

@@ -46,9 +46,7 @@ const OrderStatusInformation = ({ order, orderStatus }: Props) => {
                                     ? 'text-green-600'
                                     : 'text-beer-draft'
                             } `}
-                        >
-                            {t(orderStatus)}
-                        </span>
+                        ></span>
                     </span>
                 </div>
 

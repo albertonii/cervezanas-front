@@ -82,7 +82,6 @@ export function DeleteBreweryModal() {
             btnTitle={'delete'}
             description={'modal_delete_brewery_description'}
             handler={onSubmitDelete}
-            classIcon={''}
             classContainer={`${isLoading && ' opacity-75'}`}
         >
             <>

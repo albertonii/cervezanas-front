@@ -23,6 +23,7 @@ module.exports = withNextIntl({
       'images.pexels.com',
       'i.ibb.co',
       'lh3.googleusercontent.com',
+      'api.resend.com',
     ],
     remotePatterns: [
       {

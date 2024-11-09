@@ -89,7 +89,6 @@ export default function RejectContractModal({
             handler={() => onSubmit()}
             handlerClose={() => handleRejectModal(false)}
             btnSize={'large'}
-            classIcon={'w-6 h-6'}
             classContainer={''}
         >
             <fieldset className="grid grid-cols-1 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">

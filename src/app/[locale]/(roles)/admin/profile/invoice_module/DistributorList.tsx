@@ -1,21 +1,23 @@
 'use client';
 
 import Link from 'next/link';
-import React, { useMemo, useState } from 'react';
-import { faCancel, faCheck, faUser } from '@fortawesome/free-solid-svg-icons';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { useLocale, useTranslations } from 'next-intl';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { formatDateString } from '@/utils/formatDate';
-import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
-import { IDistributorUser } from '@/lib//types/types';
-import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import dynamic from 'next/dynamic';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import {
     sendEmailAcceptUserAsProducer,
     sendEmailCancelUserAsDistributor,
 } from '@/lib//actions';
+import React, { useMemo, useState } from 'react';
 import { ROLE_ENUM } from '@/lib//enums';
+import { createNotification } from '@/utils/utils';
+import { formatDateString } from '@/utils/formatDate';
+import { IDistributorUser } from '@/lib//types/types';
+import { useLocale, useTranslations } from 'next-intl';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
+import { faCancel, faCheck, faUser } from '@fortawesome/free-solid-svg-icons';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 
 enum SortBy {
     NONE = 'none',
@@ -41,6 +43,8 @@ export default function DistributorList({ distributors }: Props) {
     const [query, setQuery] = useState('');
 
     const { user, supabase } = useAuth();
+
+    const { handleMessage } = useMessage();
 
     const acceptColor = { filled: '#90470b', unfilled: 'grey' };
     const rejectColor = { filled: 'red', unfilled: 'grey' };
@@ -123,15 +127,33 @@ export default function DistributorList({ distributors }: Props) {
     };
 
     const sendNotification = async (message: string) => {
-        // Notify user that has been accepted/rejected has a distributor
-        const { error } = await supabase.from('notifications').insert({
-            message: `${message}`,
-            user_id: selectedDistributor?.user_id,
-            link: `/${ROLE_ENUM.Distributor}/profile?a=settings`,
-            source: user?.id, // User that has created the consumption point
-        });
-        if (error) {
-            throw error;
+        if (!selectedDistributor) {
+            handleMessage({
+                type: 'error',
+                message: t('errors.send_notification'),
+            });
+
+            return;
+        }
+
+        const link = `/${ROLE_ENUM.Distributor}/profile?a=settings`;
+
+        // Notify user that has been assigned as organizer
+        const response = await createNotification(
+            supabase,
+            selectedDistributor?.user_id,
+            user?.id,
+            link,
+            message,
+        );
+
+        if (response.error) {
+            console.error(response.error);
+            handleMessage({
+                type: 'error',
+                message: t('notifications.error'),
+            });
+            return;
         }
     };
 
@@ -149,7 +171,6 @@ export default function DistributorList({ distributors }: Props) {
                     showModal={isAcceptModal}
                     setShowModal={setIsAcceptModal}
                     description={'authorize_distributor_description_modal'}
-                    classIcon={''}
                     classContainer={''}
                     btnTitle={t('accept')}
                 >
@@ -169,7 +190,6 @@ export default function DistributorList({ distributors }: Props) {
                     showModal={isRejectModal}
                     setShowModal={setIsRejectModal}
                     description={t('unauthorize_distributor_description_modal')}
-                    classIcon={''}
                     classContainer={''}
                     btnTitle={t('accept')}
                 >
@@ -240,7 +260,7 @@ export default function DistributorList({ distributors }: Props) {
                                     />
                                 </th>
 
-                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
                                     <Link
                                         href={`/user-info/${distributor.user_id}`}
                                         locale={locale}
@@ -274,7 +294,6 @@ export default function DistributorList({ distributors }: Props) {
                                         classContainer={
                                             'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0'
                                         }
-                                        classIcon={''}
                                         title={t('accept')}
                                     />
                                     <IconButton
@@ -287,7 +306,6 @@ export default function DistributorList({ distributors }: Props) {
                                         classContainer={
                                             'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0 '
                                         }
-                                        classIcon={''}
                                         title={t('reject')}
                                     />
                                 </td>

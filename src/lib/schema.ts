@@ -2259,7 +2259,6 @@ export type Database = {
           currency: string | null
           customer_name: string | null
           discount: number | null
-          discount_code: string | null
           estimated_date: string | null
           id: string
           is_consumer_email_sent: boolean | null
@@ -2269,6 +2268,7 @@ export type Database = {
           order_number: string | null
           owner_id: string | null
           payment_method: string | null
+          promo_code: string | null
           shipping: number | null
           shipping_address: string | null
           shipping_address_extra: string | null
@@ -2305,7 +2305,6 @@ export type Database = {
           currency?: string | null
           customer_name?: string | null
           discount?: number | null
-          discount_code?: string | null
           estimated_date?: string | null
           id?: string
           is_consumer_email_sent?: boolean | null
@@ -2315,6 +2314,7 @@ export type Database = {
           order_number?: string | null
           owner_id?: string | null
           payment_method?: string | null
+          promo_code?: string | null
           shipping?: number | null
           shipping_address?: string | null
           shipping_address_extra?: string | null
@@ -2351,7 +2351,6 @@ export type Database = {
           currency?: string | null
           customer_name?: string | null
           discount?: number | null
-          discount_code?: string | null
           estimated_date?: string | null
           id?: string
           is_consumer_email_sent?: boolean | null
@@ -2361,6 +2360,7 @@ export type Database = {
           order_number?: string | null
           owner_id?: string | null
           payment_method?: string | null
+          promo_code?: string | null
           shipping?: number | null
           shipping_address?: string | null
           shipping_address_extra?: string | null
@@ -2693,6 +2693,69 @@ export type Database = {
           },
         ]
       }
+      product_promo_codes: {
+        Row: {
+          created_at: string
+          order_id: string | null
+          product_id: string
+          product_pack_id: string | null
+          promo_code_id: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          order_id?: string | null
+          product_id: string
+          product_pack_id?: string | null
+          promo_code_id: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          order_id?: string | null
+          product_id?: string
+          product_pack_id?: string | null
+          promo_code_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_promo_codes_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_promo_codes_product_pack_id_fkey"
+            columns: ["product_pack_id"]
+            isOneToOne: false
+            referencedRelation: "product_packs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_promo_codes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "promo_code_products_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "promo_code_products_promo_code_id_fkey"
+            columns: ["promo_code_id"]
+            isOneToOne: false
+            referencedRelation: "promo_codes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       products: {
         Row: {
           brewery_id: string | null
@@ -2842,6 +2905,8 @@ export type Database = {
           is_active: boolean | null
           max_usage_per_user: number | null
           max_uses: number | null
+          product_id: string | null
+          product_pack_id: string | null
           start_date: string | null
           updated_at: string | null
           uses: number | null
@@ -2857,6 +2922,8 @@ export type Database = {
           is_active?: boolean | null
           max_usage_per_user?: number | null
           max_uses?: number | null
+          product_id?: string | null
+          product_pack_id?: string | null
           start_date?: string | null
           updated_at?: string | null
           uses?: number | null
@@ -2872,11 +2939,21 @@ export type Database = {
           is_active?: boolean | null
           max_usage_per_user?: number | null
           max_uses?: number | null
+          product_id?: string | null
+          product_pack_id?: string | null
           start_date?: string | null
           updated_at?: string | null
           uses?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "promo_codes_product_pack_id_fkey"
+            columns: ["product_pack_id"]
+            isOneToOne: false
+            referencedRelation: "product_packs"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       refunds: {
         Row: {
@@ -3276,24 +3353,24 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "user_discount_codes_discount_code_id_fkey"
+            foreignKeyName: "user_promo_codes_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_promo_codes_promo_code_id_fkey"
             columns: ["promo_code_id"]
             isOneToOne: false
             referencedRelation: "promo_codes"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "user_discount_codes_user_id_fkey"
+            foreignKeyName: "user_promo_codes_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "user_promo_codes_order_id_fkey"
-            columns: ["order_id"]
-            isOneToOne: false
-            referencedRelation: "orders"
             referencedColumns: ["id"]
           },
         ]

@@ -2,8 +2,10 @@
 
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import React, { useMemo, useState } from 'react';
 import { ROLE_ENUM } from '@/lib//enums';
+import { createNotification } from '@/utils/utils';
 import { useLocale, useTranslations } from 'next-intl';
 import { IConsumptionPoints } from '@/lib//types/types';
 import { generateDownloadableLink } from '@/utils/utils';
@@ -20,7 +22,7 @@ import {
     formatDateString,
     formatDateTypeDefaultInput,
 } from '@/utils/formatDate';
-import InputSearch from '@/app/[locale]/components/form/InputSearch';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 
 enum SortBy {
     NONE = 'none',
@@ -49,6 +51,8 @@ export default function ListPendingCP({ submittedCPs }: Props) {
     const t = useTranslations();
     const locale = useLocale();
     const [query, setQuery] = useState('');
+
+    const { handleMessage } = useMessage();
 
     const { user, supabase } = useAuth();
 
@@ -151,16 +155,24 @@ export default function ListPendingCP({ submittedCPs }: Props) {
         );
     }
     const sendNotification = async (message: string) => {
-        // Notify user that has been assigned as organizer
-        const { error } = await supabase.from('notifications').insert({
-            message: `${message}`,
-            user_id: submittedCPs[0].users.id,
-            link: `/${ROLE_ENUM.Productor}/profile?a=consumption_points`,
-            source: user?.id, // User that has created the consumption point
-        });
+        const link = `/${ROLE_ENUM.Productor}/profile?a=consumption_points`;
 
-        if (error) {
-            throw error;
+        // Notify user that has been assigned as organizer
+        const response = await createNotification(
+            supabase,
+            submittedCPs[0].users.id,
+            user?.id,
+            link,
+            message,
+        );
+
+        if (response.error) {
+            console.error(response.error);
+            handleMessage({
+                type: 'error',
+                message: t('notifications.error'),
+            });
+            return;
         }
     };
 
@@ -201,7 +213,6 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                     showModal={isAcceptModal}
                     setShowModal={setIsAcceptModal}
                     description={'accept_cp_description_modal'}
-                    classIcon={''}
                     classContainer={''}
                     btnTitle={t('accept')}
                 >
@@ -223,7 +234,6 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                     showModal={isRejectModal}
                     setShowModal={setIsRejectModal}
                     description={t('reject_cp_description_modal')}
-                    classIcon={''}
                     classContainer={''}
                     btnTitle={t('accept')}
                 >
@@ -298,7 +308,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                                     />
                                 </th>
 
-                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft">
+                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
                                     <Link
                                         href={`/products/${cp.users.id}`}
                                         locale={locale}
@@ -347,7 +357,6 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                                         classContainer={
                                             'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0'
                                         }
-                                        classIcon={''}
                                         title={t('accept')}
                                     />
                                     <IconButton
@@ -357,7 +366,6 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                                         classContainer={
                                             'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full !m-0 '
                                         }
-                                        classIcon={''}
                                         title={t('reject')}
                                     />
                                 </td>

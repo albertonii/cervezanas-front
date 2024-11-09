@@ -1,4 +1,5 @@
 import ProducerCard from '../cards/ProducerCard';
+import DistributorCard from '../cards/DistributorCard';
 import OrderItemCard from '@/app/[locale]/components/common/OrderItemCard';
 import ConsumerShipmentTrackingInformation from './ConsumerShipmentTrackingInformation';
 import ProductBusinnesInformation from '@/app/[locale]/components/ProductBusinnesInformation';
@@ -15,11 +16,6 @@ export default function BusinessOrderItem({ bOrder }: Props) {
 
     return (
         <section className="relative border-separate space-y-8 rounded-lg border bg-beer-foam p-2 py-4">
-            {/* <StatusTimeline
-                status={bOrder.status}
-                orderType={'distributor_online'}
-            /> */}
-
             <section className="grid grid-cols-1 gap-x-2 space-y-4 lg:grid-cols-2 md:gap-x-4 w-full">
                 {/* Display the product information for this pack  */}
                 {bOrder && (
@@ -58,11 +54,11 @@ export default function BusinessOrderItem({ bOrder }: Props) {
                 )}
 
                 {/* Distributor information data  */}
-                {/* {bOrder.distributor_user && (
+                {bOrder.distributor_user && (
                     <div className="col-span-2 md:col-span-1">
                         <DistributorCard bOrder={bOrder} />
                     </div>
-                )} */}
+                )}
             </section>
         </section>
     );

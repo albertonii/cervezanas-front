@@ -15,6 +15,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Title from '../../components/ui/Title';
 
 type SigninFormData = {
     email: string;
@@ -146,10 +147,10 @@ export default function SignIn() {
             {!resetPassword && (
                 <article className="mx-auto flex w-[80vw] sm:w-[60vw] flex-1 gap-4 flex-col justify-start pl-4 py-12 sm:pl-6 lg:w-full lg:flex-none lg:pl-20 xl:pl-24">
                     {/* Login form */}
-                    <div className="mx-auto flex w-full flex-1 flex-col justify-start lg:flex-none bg-white p-8">
-                        <header>
-                            <h2 className="text-start font-bold tracking-tight font-['NexaRust-script'] text-6xl md:text-8xl -mt-2 -mb-8 text-beer-draft -rotate-2"></h2>
-                        </header>
+                    <div className="w-full justify-start lg:w-full mx-auto flex flex-1 flex-col lg:flex-none ">
+                        <Title size="xlarge" color="beer-blonde">
+                            {t('sign_in')}
+                        </Title>
 
                         <form
                             className="mt-4 space-y-4"
@@ -164,7 +165,7 @@ export default function SignIn() {
                                     registerOptions={{
                                         required: true,
                                     }}
-                                    placeholder="user@cervezanas.com"
+                                    placeholder="user@cervezanas.beer"
                                     inputType="email"
                                 />
 
@@ -194,25 +195,25 @@ export default function SignIn() {
                             </fieldset>
                         </form>
 
-                        <p className="my-2 flex flex-col sm:flex-row w-full items-start justify-start text-sm text-gray-700">
+                        <p className="my-2 flex flex-col sm:flex-row w-full items-start justify-start text-sm text-gray-700 dark:text-gray-100">
                             {t('not_registered_question')}
                             <Link
-                                className="cursor-pointer font-bold"
+                                className="cursor-pointer font-bold "
                                 href={'/signup'}
                                 locale={locale}
                             >
-                                <span className="mx-1 text-beer-darkGold hover:underline">
+                                <span className="mx-1 text-beer-darkGold dark:text-beer-gold hover:underline">
                                     {t('sign_me_up')}
                                 </span>
                             </Link>
                         </p>
 
-                        <p className="my-2 flex flex-col sm:flex-row w-full items-start justify-start text-sm text-gray-700">
+                        <p className="my-2 flex flex-col sm:flex-row w-full items-start justify-start text-sm text-gray-700  dark:text-gray-100">
                             {t('forgot_password_question')}
 
                             <button
                                 onClick={() => toggleResetPassword()}
-                                className="mx-1 cursor-pointer font-bold text-beer-darkGold hover:underline"
+                                className="mx-1 cursor-pointer font-bold text-beer-darkGold dark:text-beer-gold hover:underline"
                             >
                                 {t('reset_password')}
                             </button>
@@ -222,7 +223,8 @@ export default function SignIn() {
                     {/* TODO: Volver y arreglar esto  */}
                     <Button
                         accent
-                        class=" mr-2 w-full rounded-lg border bg-white px-4 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                        class=" mr-2 w-full rounded-lg border bg-white px-4 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 
+                        dark:bg-gray-800 dark:text-white dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
                         onClick={() => handleGoogleSignIn()}
                     >
                         <div className="flex items-center ">
@@ -278,7 +280,7 @@ export default function SignIn() {
             )}
 
             {resetPassword && (
-                <article className="mx-auto flex w-[80vw] sm:w-[60vw] flex-1 gap-4 flex-col justify-start px-4 py-12 sm:px-6 lg:w-full lg:flex-none lg:px-20 xl:px-24">
+                <article className="mx-auto flex w-[80vw] sm:w-[60vw] flex-1 gap-4 flex-col justify-start pl-4 py-12 sm:pl-6 lg:w-full lg:flex-none lg:pl-20 xl:pl-24">
                     {isResetPasswordLoading && (
                         <Spinner
                             color={'beer-blonde'}
@@ -289,12 +291,10 @@ export default function SignIn() {
                     )}
 
                     {/* Reset form */}
-                    <div className="justify-startlg:w-full mx-auto flex flex-1 flex-col lg:flex-none ">
-                        <header>
-                            <h2 className="mt-6 text-start text-3xl font-bold tracking-tight text-gray-900">
-                                {t('reset_password')}
-                            </h2>
-                        </header>
+                    <div className="w-full justify-start lg:w-full mx-auto flex flex-1 flex-col lg:flex-none ">
+                        <Title size="xlarge" color="beer-blonde">
+                            {t('reset_password')}
+                        </Title>
 
                         <form
                             className="mt-4 space-y-4"
@@ -309,16 +309,14 @@ export default function SignIn() {
                                     registerOptions={{
                                         required: true,
                                     }}
-                                    placeholder="user@cervezanas.com"
+                                    placeholder="user@cervezanas.beer"
                                     inputType="email"
                                 />
 
                                 {/* submit  */}
                                 <Button
                                     title={'reset_password'}
-                                    class={
-                                        'group relative my-4 flex w-full justify-center rounded-md border border-none border-transparent bg-beer-blonde px-4 py-2 text-sm font-medium hover:bg-beer-draft hover:font-semibold hover:text-beer-blonde focus:outline-none focus:ring-2 focus:ring-beer-softBlonde focus:ring-offset-2 '
-                                    }
+                                    class="w-full bg-beer-blonde text-white py-2 rounded-md hover:bg-beer-draft transition"
                                     btnType="submit"
                                     form="reset-form"
                                     disabled={isResetPasswordLoading}
@@ -337,12 +335,12 @@ export default function SignIn() {
                             </fieldset>
                         </form>
 
-                        <p className="my-2 flex flex-col sm:flex-row w-full items-start justify-start text-sm text-gray-700">
+                        <p className="my-2 flex flex-col sm:flex-row w-full items-start justify-start text-sm text-gray-700 dark:text-gray-100">
                             {t('come_back_to_signin')}
 
                             <button
                                 onClick={() => toggleResetPassword()}
-                                className="mx-1 cursor-pointer font-bold text-beer-darkGold hover:underline"
+                                className="mx-1 cursor-pointer font-bold text-beer-darkGold dark:text-beer-gold hover:underline"
                             >
                                 {t('sign_in')}
                             </button>

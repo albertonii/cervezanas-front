@@ -125,13 +125,13 @@ const TableWithFooterAndSearch: React.FC<TableProps> = ({
 
             <div className="overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
+                    <thead className="bg-gray-50 dark:bg-gray-500">
                         <tr>
                             {columns.map((column) => (
                                 <th
                                     key={column.accessor}
                                     className={`
-                                        px-6 py-3 border-b border-gray-200 text-gray-800 text-left text-sm font-medium tracking-wider
+                                        px-6 py-3 border-b border-gray-200 text-gray-800 text-left text-sm font-medium tracking-wider dark:text-gray-300
                                         ${
                                             column.sortable
                                                 ? 'cursor-pointer select-none'
@@ -158,13 +158,14 @@ const TableWithFooterAndSearch: React.FC<TableProps> = ({
                             ))}
                         </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+
+                    <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-500 dark:bg-gray-400">
                         {paginatedItems.map((row, rowIndex) => {
                             return (
                                 <>
                                     <tr
                                         key={rowIndex}
-                                        className={`hover:bg-gray-100 ${
+                                        className={`hover:bg-gray-100 dark:hover:bg-gray-300 transition-all ease-in-out duration-100 ${
                                             expandedRowRender &&
                                             'cursor-pointer'
                                         }`}
@@ -177,7 +178,7 @@ const TableWithFooterAndSearch: React.FC<TableProps> = ({
                                         {columns.map((column) => (
                                             <td
                                                 key={column.accessor}
-                                                className="px-6 py-4 whitespace-nowrap text-gray-700"
+                                                className="px-6 py-4 whitespace-nowrap text-gray-700 dark:text-gray-100"
                                             >
                                                 {column.render
                                                     ? column.render(

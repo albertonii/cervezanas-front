@@ -12,6 +12,7 @@ import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
+import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 
 interface Props {
     cpsId: string;
@@ -77,7 +78,7 @@ export function ListCPFixed({ cpsId, counterCPFixed }: Props) {
                     target={'_blank'}
                     href={`/consumption_points/fixed?id=${row.id}`}
                     locale={locale}
-                    className="font-semibold text-beer-blonde hover:text-beer-draft"
+                    className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde"
                 >
                     {value}
                 </Link>
@@ -101,7 +102,6 @@ export function ListCPFixed({ cpsId, counterCPFixed }: Props) {
                         classContainer={
                             'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full'
                         }
-                        classIcon={''}
                         title={t('edit')}
                     />
                     <IconButton
@@ -111,7 +111,6 @@ export function ListCPFixed({ cpsId, counterCPFixed }: Props) {
                         classContainer={
                             'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
                         }
-                        classIcon={''}
                         title={t('delete')}
                     />
                 </div>
@@ -120,7 +119,11 @@ export function ListCPFixed({ cpsId, counterCPFixed }: Props) {
     ];
 
     return (
-        <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
+        <ListTableWrapper
+            isError={isError}
+            isLoading={isLoading}
+            errorMessage={'errors.fetching_cp_fixed'}
+        >
             {/* Don't remove isEditModal or the selectedCP will not be updated when changed from selected CP  */}
             {isEditModal && selectedCP && (
                 <EditCPFixedModal
@@ -129,7 +132,6 @@ export function ListCPFixed({ cpsId, counterCPFixed }: Props) {
                     handleEditModal={handleEditModal}
                 />
             )}
-
             {isDeleteModal && selectedCP && (
                 <DeleteCPFixedModal
                     selectedCPId={selectedCP.id}
@@ -137,24 +139,6 @@ export function ListCPFixed({ cpsId, counterCPFixed }: Props) {
                     handleDeleteModal={handleDeleteModal}
                 />
             )}
-
-            {isError && (
-                <div className="flex items-center justify-center">
-                    <p className="text-gray-500 dark:text-gray-400">
-                        {t('errors.fetching_cp_fixed')}
-                    </p>
-                </div>
-            )}
-
-            {isLoading && (
-                <Spinner
-                    color="beer-blonde"
-                    size="xLarge"
-                    absolute
-                    absolutePosition="center"
-                />
-            )}
-
             {!isError && !isLoading && cpFixed.length === 0 ? (
                 <div className="flex items-center justify-center">
                     <p className="text-gray-500 dark:text-gray-400">
@@ -174,6 +158,6 @@ export function ListCPFixed({ cpsId, counterCPFixed }: Props) {
                     sourceDataIsFromServer={false}
                 />
             )}
-        </section>
+        </ListTableWrapper>
     );
 }

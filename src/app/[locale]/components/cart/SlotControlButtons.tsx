@@ -35,7 +35,6 @@ export default function SlotControlButtons({
                     <IconButton
                         onClick={() => onClickIncreaseDebounce()}
                         classContainer="border-none hover:bg-beer-softBlonde"
-                        classIcon={''}
                         icon={faChevronUp}
                         title={''}
                     ></IconButton>
@@ -45,7 +44,6 @@ export default function SlotControlButtons({
                     <IconButton
                         onClick={() => onClickDecreaseDebounce()}
                         classContainer="border-none hover:bg-beer-softBlonde"
-                        classIcon={''}
                         icon={faChevronDown}
                         title={''}
                     ></IconButton>

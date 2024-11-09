@@ -62,8 +62,6 @@ export default function SuccessCheckout({
 
     return (
         <section className="m-4 sm:py-4 lg:py-6">
-            {/* <BusinessOrderStatusInformation bOrders={bOrders!} order={order} /> */}
-
             {/* Product and packs information */}
             {bOrders &&
                 bOrders.map((bOrder) => {

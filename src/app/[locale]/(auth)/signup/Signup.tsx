@@ -2,13 +2,14 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import Spinner from '../../components/ui/Spinner';
 import React, { useEffect, useState } from 'react';
 import { VIEWS } from '@/constants';
 import { SignUpForm } from './SignUpForm';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
-import Spinner from '../../components/ui/Spinner';
+import Title from '../../components/ui/Title';
 
 export default function Signup() {
     const t = useTranslations();
@@ -35,19 +36,17 @@ export default function Signup() {
     }
 
     return (
-        <section className="w-full lg:grid lg:grid-cols-2">
+        <section className="w-full lg:grid lg:grid-cols-2 bg-[url('/assets/home/bg-home.webp')] bg-auto bg-repeat bg-top h-full">
             {/* Signup form  */}
-            <article className="mx-auto flex w-[80vw] sm:w-[60vw] flex-1 gap-4 flex-col justify-start px-4 py-12 sm:px-6 lg:w-full lg:flex-none lg:px-20 xl:px-24">
-                <div className="mx-auto flex w-full flex-1 flex-col justify-start lg:flex-none ">
-                    <span>
-                        <h2 className="mt-6 text-start text-3xl font-bold tracking-tight text-gray-900">
-                            {t('create_account')}
-                        </h2>
-                    </span>
+            <article className="mx-auto flex w-[80vw] sm:w-[60vw] flex-1 gap-4 flex-col justify-start pl-4 py-12 sm:pl-6 lg:w-full lg:flex-none lg:pl-20 xl:pl-24">
+                <div className="w-full justify-start lg:w-full mx-auto flex flex-1 flex-col lg:flex-none ">
+                    <Title size="xlarge" color="beer-blonde">
+                        {t('create_account')}
+                    </Title>
 
                     <SignUpForm />
 
-                    <p className="my-2 flex w-full justify-start text-sm text-gray-700">
+                    <p className="my-2 flex w-full justify-start text-sm text-gray-700 dark:text-gray-300">
                         {t('already_account')}
                         <Link
                             className="cursor-pointer font-bold"
@@ -63,10 +62,10 @@ export default function Signup() {
             </article>
 
             {/* Hero Image */}
-            <figure className="hidden w-full justify-center lg:flex">
+            <figure className="hidden lg:flex w-full justify-center items-center">
                 <Image
                     style={{ aspectRatio: '4/5' }}
-                    className="inset-0 rounded-3xl w-auto lg:w-[40vw] xl:w-[30vw]"
+                    className="rounded-3xl w-auto lg:w-[40vw] xl:w-[30vw] object-cover"
                     alt="Cervezanas artesanales"
                     sizes="(max-width: 1024px) 100vw, 1024px"
                     width={1024}

@@ -4,7 +4,9 @@ interface Props {
     size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
     color?: 'black' | 'white' | 'beer-draft' | 'beer-blonde';
     font?: 'semibold' | 'bold' | 'normal';
+    htmlFor?: string;
     children: React.ReactNode;
+    className?: string;
 }
 
 export default function Label({
@@ -12,13 +14,15 @@ export default function Label({
     size = 'medium',
     color = 'black',
     font = 'normal',
+    htmlFor,
+    className,
 }: Props) {
     const sizeClass = {
-        xsmall: 'text-sm',
-        small: 'text-md',
-        medium: 'text-lg',
-        large: 'text-xl',
-        xlarge: 'text-3xl',
+        xsmall: 'text-sm h-6',
+        small: 'text-md h-6',
+        medium: 'text-lg h-8',
+        large: 'text-xl h-12 ',
+        xlarge: 'text-3xl h-12',
     };
 
     const colorClass = {
@@ -36,7 +40,8 @@ export default function Label({
 
     return (
         <label
-            className={`${sizeClass[size]} ${colorClass[color]} ${fontClass[font]} flex h-12 flex-col items-start space-y-2`}
+            htmlFor={htmlFor}
+            className={`${sizeClass[size]} ${colorClass[color]} ${fontClass[font]}  ${className} flex flex-col items-start space-y-2 dark:text-gray-300 justify-center`}
         >
             {children}
         </label>

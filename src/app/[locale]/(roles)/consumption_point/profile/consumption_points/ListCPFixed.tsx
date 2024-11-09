@@ -13,6 +13,7 @@ import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
+import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 
 interface Props {
     cpsId: string;
@@ -107,7 +108,12 @@ export function ListCPFixed({ cpsId }: Props) {
     };
 
     return (
-        <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
+        <ListTableWrapper
+            isError={isError}
+            isLoading={isLoading}
+            errorMessage={'errors.fetching_cp_fixed'}
+        >
+            {' '}
             {/* Don't remove isEditModal or the selectedCP will not be updated when changed from selected CP  */}
             {isEditModal && selectedCP && (
                 <EditCPFixedModal
@@ -116,7 +122,6 @@ export function ListCPFixed({ cpsId }: Props) {
                     handleEditModal={handleEditModal}
                 />
             )}
-
             {isDeleteModal && selectedCP && (
                 <DeleteCPFixedModal
                     selectedCPId={selectedCP.id}
@@ -124,24 +129,6 @@ export function ListCPFixed({ cpsId }: Props) {
                     handleDeleteModal={handleDeleteModal}
                 />
             )}
-
-            {isError && (
-                <div className="flex items-center justify-center">
-                    <p className="text-gray-500 dark:text-gray-400">
-                        {t('errors.fetching_cp_fixed')}
-                    </p>
-                </div>
-            )}
-
-            {isLoading && (
-                <Spinner
-                    color="beer-blonde"
-                    size="xLarge"
-                    absolute
-                    absolutePosition="center"
-                />
-            )}
-
             {!isError && !isLoading && cpFixed.length === 0 ? (
                 <div className="flex items-center justify-center">
                     <p className="text-gray-500 dark:text-gray-400">
@@ -221,7 +208,6 @@ export function ListCPFixed({ cpsId }: Props) {
                                                     classContainer={
                                                         'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full'
                                                     }
-                                                    classIcon={''}
                                                     title={t('edit')}
                                                 />
 
@@ -234,7 +220,6 @@ export function ListCPFixed({ cpsId }: Props) {
                                                     classContainer={
                                                         'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
                                                     }
-                                                    classIcon={''}
                                                     title={t('delete')}
                                                 />
                                             </td>
@@ -256,6 +241,6 @@ export function ListCPFixed({ cpsId }: Props) {
                     </footer>
                 </div>
             )}
-        </section>
+        </ListTableWrapper>
     );
 }

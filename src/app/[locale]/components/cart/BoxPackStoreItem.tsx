@@ -1,25 +1,23 @@
 'use client';
 
 import Link from 'next/link';
+import Spinner from '../ui/Spinner';
 import MarketCartButtons2 from './MarketCartButtons2';
+import DisplayImageProduct from '../ui/DisplayImageProduct';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { SupabaseProps } from '@/constants';
-import { useLocale, useTranslations } from 'next-intl';
-import { AddCardButton } from './AddCartButton';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { IProduct, IProductPack } from '@/lib//types/types';
-import { formatCurrency } from '@/utils/formatCurrency';
-import { useShoppingCart } from '../../../context/ShoppingCartContext';
-import { useAuth } from '../../(auth)/Context/useAuth';
+import { AddCartButton } from './AddCartButton';
 import { useMessage } from '../message/useMessage';
 import { IconButton } from '../ui/buttons/IconButton';
-import DisplayImageProduct from '../ui/DisplayImageProduct';
-import Spinner from '../ui/Spinner';
+import { useAuth } from '../../(auth)/Context/useAuth';
+import { useLocale, useTranslations } from 'next-intl';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { IProduct, IProductPack } from '@/lib//types/types';
+import { useShoppingCart } from '../../../context/ShoppingCartContext';
+import Label from '../ui/Label';
 
 type StoreItemProps = { product: IProduct; products: IProduct[] };
-
-const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export function BoxPackStoreItem({ product }: StoreItemProps) {
     const t = useTranslations();
@@ -29,10 +27,10 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
     const { isLoading, supabase, isLoggedIn } = useAuth();
     const productId = product.id;
     const router = useRouter();
+    const [isNotificationVisible, setIsNotificationVisible] = useState(false);
 
-    const src = `${BASE_PRODUCTS_URL}${decodeURIComponent(
-        product.product_media?.find((media) => media.is_primary)?.url ?? '',
-    )}`;
+    const src =
+        product.product_media?.find((media) => media.is_primary)?.url ?? '';
 
     const [pack, setPack] = useState<IProductPack>();
 
@@ -132,6 +130,8 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
     };
 
     const handleAddToCart = () => {
+        setIsNotificationVisible(true);
+
         if (!isLoggedIn) {
             handleMessage({
                 type: 'info',
@@ -156,7 +156,7 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
     };
 
     return (
-        <section className="bg-[url('/assets/rec-graf4c.png')] bg-contain bg-top bg-no-repeat  m-auto w-[280px] bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 h-[490px]">
+        <section className="bg-[url('/assets/rec-graf4c.png')] bg-contain bg-top bg-no-repeat  m-auto w-[280px] bg-white dark:bg-gray-700 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 h-[490px]">
             {isLoading ? (
                 <Spinner color="beer-blonde" size="medium" />
             ) : (
@@ -169,7 +169,6 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
                                 isActive={isLike}
                                 color={heartColor}
                                 classContainer="bg-white shadow hover:shadow-md text-gray-500 w-auto h-9 text-center p-2 rounded-full"
-                                classIcon=""
                                 title={t('add_to_favs')}
                             />
                         </header>
@@ -201,7 +200,7 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
                             </figure>
 
                             <div className="flex w-full min-w-0 items-center justify-between ">
-                                <h2 className="hover:text-purple-500 m-auto mr-auto cursor-pointer truncate py-2 text-2xl font-bold text-beer-draft transition-all hover:text-beer-blonde">
+                                <h2 className="hover:text-purple-500 m-auto mr-auto cursor-pointer truncate py-2 text-2xl font-bold text-beer-draft dark:text-beer-blonde transition-all hover:text-beer-blonde">
                                     <Link
                                         href={`/products/${product.id}`}
                                         locale={locale}
@@ -212,10 +211,10 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
                             </div>
                         </div>
 
-                        <div className="text-lg font-semibold text-gray-800">
+                        <Label size="small">
                             {pack?.quantity} {t('unit')} /
                             {formatCurrency(pack?.price ?? 0)}
-                        </div>
+                        </Label>
 
                         <div className="mt-10 flex flex-col items-start space-y-2 text-sm font-medium text-gray-800">
                             <div className="w-full"></div>
@@ -232,9 +231,13 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
                                     }
                                     handleRemoveFromCart={() => void 0}
                                 />
-                                <AddCardButton
+                                <AddCartButton
                                     withText={true}
                                     onClick={handleAddToCart}
+                                    isVisible={isNotificationVisible}
+                                    onClose={() =>
+                                        setIsNotificationVisible(false)
+                                    }
                                 />
                             </div>
                         </div>

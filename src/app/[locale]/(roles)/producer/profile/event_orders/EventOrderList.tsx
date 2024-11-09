@@ -1,6 +1,8 @@
 'use client';
 
+import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 import useFetchEventOrders from '../../../../../../hooks/useFetchEventOrders';
+import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
@@ -10,8 +12,6 @@ import { formatCurrency } from '@/utils/formatCurrency';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
-import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 
 interface Props {
     eventOrders: IEventOrder[];
@@ -92,24 +92,11 @@ export function EventOrderList({ eventOrders: os }: Props) {
     ];
 
     return (
-        <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
-            {isError && (
-                <div className="flex items-center justify-center">
-                    <p className="text-gray-500 dark:text-gray-400">
-                        {t('errors.fetching_event_orders')}
-                    </p>
-                </div>
-            )}
-
-            {isLoading && (
-                <Spinner
-                    color="beer-blonde"
-                    size="xLarge"
-                    absolute
-                    flexCenter
-                />
-            )}
-
+        <ListTableWrapper
+            isError={isError}
+            isLoading={isLoading}
+            errorMessage={'errors.fetching_event_orders'}
+        >
             {!isError && !isLoading && orders && orders.length === 0 ? (
                 <div className="flex items-center justify-center">
                     <p className="text-gray-500 dark:text-gray-400">
@@ -129,6 +116,6 @@ export function EventOrderList({ eventOrders: os }: Props) {
                     sourceDataIsFromServer={false}
                 />
             )}
-        </section>
+        </ListTableWrapper>
     );
 }

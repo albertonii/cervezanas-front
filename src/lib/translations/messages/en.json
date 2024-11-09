@@ -71,7 +71,7 @@
     "company_history_year": "Foundation year",
     "our_company_history": "Our company history",
     "company_history_description_descriptive": "Tell us about your company's history",
-    "product_name": "Product name",
+    "product_name": "Product",
     "price_label": "Price",
     "pack_label": "Pack",
     "format_label": "Format",
@@ -328,6 +328,7 @@
     "add_lot": "Add Lot",
     "edit_lot": "Edit Lot",
     "lots": "Lots",
+    "customize_settings": "Customize",
     "next": "Next",
     "prev": "Prev",
     "back": "Back",
@@ -419,7 +420,6 @@
     "order_status": "Order Status",
     "order_product_status": "Order Product Status",
     "welcome": "Welcome",
-    "discount_code": "Discount Code",
     "comment": "Comment",
     "rate_product": "Rate Product",
     "rate": "Rate",
@@ -735,7 +735,10 @@
         "invalid_characters": "Invalid characters.",
         "update_shipment_tracking": "Error updating shipment tracking.",
         "create_sales_record": "Error creating sales record.",
-        "updating_sales_records_download_status": "Error updating sales records download status."
+        "updating_sales_records_download_status": "Error updating sales records download status.",
+        "validating_promo_code": "Error validating promo code.",
+        "invalid_promo_code": "Invalid promo code.",
+        "sending_notification": "Error sending notification."
     },
     "product_packs": "Product packs",
     "units": "Units",
@@ -1037,7 +1040,8 @@
         "deleting_product_award": "Product award deleted successfully",
         "update_shipment_tracking": "Shipment tracking updated successfully",
         "profile_acc_data_updated": "Account data updated successfully",
-        "sales_records_download_status_updated": "Sales records download status updated successfully"
+        "sales_records_download_status_updated": "Sales records download status updated successfully",
+        "promo_code_applied": "Promo code applied successfully"
     },
     "num_of_packs": "Number of packs",
     "promo_code": "Promo code",
@@ -1352,5 +1356,9 @@
         "max_imgs_reached": "Maximum images reached",
         "main_image": "Main image",
         "move": "Drag"
+    },
+    "cps": {
+        "fixed_has_been_assigned_as_organizer": "You have been assigned as the organizer of the fixed consumption point {cp_name}",
+        "mobile_has_been_assigned_as_orgenizer": "You have been assigned as organizer for the mobile consumption point ${cp_name}"
     }
 }

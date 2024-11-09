@@ -2,21 +2,23 @@
 
 import CPGoogleMap from './CPGoogleMap';
 import ListCPMProducts from './ListCPMProducts';
-import React, { useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useTranslations } from 'next-intl';
-import { getGeocode } from 'use-places-autocomplete';
-import { IUser } from '@/lib//types/types';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { cleanObject, isValidObject } from '@/utils/utils';
 import Modal from '@/app/[locale]/components/modals/Modal';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { zodResolver } from '@hookform/resolvers/zod';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import SelectInput from '@/app/[locale]/components/form/SelectInput';
+import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
+import React, { useState } from 'react';
 import { z, ZodType } from 'zod';
 import { ROLE_ENUM } from '@/lib//enums';
-import InputLabel from '@/app/[locale]/components/form/InputLabel';
-import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
-import SelectInput from '@/app/[locale]/components/form/SelectInput';
+import { IUser } from '@/lib//types/types';
+import { useTranslations } from 'next-intl';
+import { createNotification } from '@/utils/utils';
+import { getGeocode } from 'use-places-autocomplete';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { cleanObject, isValidObject } from '@/utils/utils';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
 
 enum CPMobileStatus {
@@ -79,6 +81,8 @@ interface Props {
 export default function AddCPMobileModal({ cpsId }: Props) {
     const t = useTranslations();
     const { user, supabase } = useAuth();
+
+    const { handleMessage } = useMessage();
 
     const [isInternalOrganizer, setIsInternalOrganizer] =
         useState<boolean>(true);
@@ -229,16 +233,34 @@ export default function AddCPMobileModal({ cpsId }: Props) {
         }
 
         if (!isInternalOrganizer) {
-            // Notify user that has been assigned as organizer
-            const { error } = await supabase.from('notifications').insert({
-                message: `You have been assigned as organizer for the mobile consumption point ${cp_name}`,
-                user_id: selectedEOrganizer,
-                link: `/${ROLE_ENUM.Productor}/profile?a=consumption_points`,
-                source: user?.id, // User that has created the consumption point
-            });
+            if (!selectedEOrganizer) {
+                handleMessage({
+                    type: 'error',
+                    message: t('errors.send_notification'),
+                });
 
-            if (error) {
-                throw error;
+                return;
+            }
+
+            const link = `/${ROLE_ENUM.Productor}/profile?a=consumption_points`;
+
+            // Notify user that has been assigned as organizer
+            const response = await createNotification(
+                supabase,
+                selectedEOrganizer,
+                user?.id,
+                link,
+                t('cps.mobile_has_been_assigned_as_organizer'),
+            );
+
+            if (response.error) {
+                console.error(response.error);
+                handleMessage({
+                    type: 'error',
+                    message: t('notifications.error'),
+                });
+
+                return;
             }
         }
 
@@ -295,7 +317,6 @@ export default function AddCPMobileModal({ cpsId }: Props) {
             btnTitle={t('new_cp_mobile_config')}
             description={''}
             handler={handleSubmit(onSubmit)}
-            classIcon={'w-6 h-6'}
             classContainer={''}
         >
             <form>

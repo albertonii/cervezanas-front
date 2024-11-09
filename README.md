@@ -121,6 +121,55 @@ La aplicación utiliza **CRON Jobs** para automatizar tareas esenciales que mejo
 - **Frecuencia**: Se ejecuta diariamente a las 00:00 horas.
 - **Propósito**: Mantener la base de datos limpia y actualizada, mejorando la eficiencia del sistema.
 
+## Códigos de Promoción
+
+Atributos: id, created_at, code, discount_type, discount_value, max_uses, uses, expiration_date, updated_at, description, start_date, is_active, max_usage_per_user, product_id
+
+Tipos de descuento promocional:
+
+- Por porcentaje descuento - "percentage"
+- Asociados a productos con porcentaje descuento - "product"
+
+Cada vez que se aplica un código promocional hay que validarlo dos veces: una antes de realizar el pedio y otra al presionar en el botón para proceder al pago. Una vez confirmado el pago, se deberá aumentar los contadores de uso del código promocional para asegurar que las validaciones siguen siendo correctas, además de introducir en la tabla user_promo_codes el usuario que ha obtenido dicho código promocional.
+
+### Gestión de Códigos Promocionales al realizar un pedido
+
+Es crucial que, al momento de procesar el pedido (es decir, cuando el usuario hace clic en "Pagar" y se confirma el pago), realices nuevamente las validaciones del código promocional en el backend. Esto garantiza que:
+
+- El código promocional sigue siendo válido y no ha expirado.
+- No se ha excedido el límite de uso global o por usuario.
+- Se evita que el usuario manipule los datos en el frontend.
+
+Para ello debemos de:
+
+1. Modificar el Endpoint de Creación de pedidos
+   Si se envía un código promocional debe ser validado.
+
+2. Actualizar contadores de uso
+   Hay que incrementar `uses` y registrar su uso en la tabla `user_promo_codes`
+
+### Gestión de Códigos Promocionales vinculados a un producto
+
+Este caso de uso surge por la necesidad que tenemos de realizar los envíos a los ganadores del merchandising del BBF 2024. Tenemos como objetivos:
+
+- Regalar merchandising a los usuarios.
+- Los usuarios canjean un código promocional en el carrito de la compra antes de proceder al pago.
+- Este código está relacionado con un producto específico al cual se aplicará un descuento del 100% (u otro porcentaje especificado).
+
+Para ello debemos:
+
+- Asociar cada código promocional a productos específicos.
+  En el momento de validar un código promocional hay que tener en cuenta que es válido, está activo, que está asociado a un producto específico y que el usuario cumple con las restricciones de uso.
+
+- Permitir que el usuario ingrese un código promocional en el carrito y aplicar el descuento al producto correspondiente.
+- Manejar la lógica de descuento para que se aplique solo al producto especificado y no al resto del carrito.
+- Asegurar que el código promocional se consuma correctamente y se controle su uso (por ejemplo, limitar el número de usos por usuario o en total).
+- Modificar las tablas y la lógica del backend para soportar esta nueva funcionalidad.
+
+#### Tabla promo_codes_products
+
+Para hacer los códios promocionales más versátiles, creamos esta tabla para poder aplicar un mismo código a múltiples productos.
+
 ## Pruebas
 
 Las pruebas están escritas utilizando Jest. Para ejecutar las pruebas, utiliza el siguiente comando:

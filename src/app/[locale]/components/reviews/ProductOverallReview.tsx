@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { IReview } from '@/lib//types/types';
 import { ReviewQualification } from '@/lib//beerEnum';
+import Label from '../ui/Label';
 
 interface Props {
     reviews: IReview[];
@@ -100,6 +101,7 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
                         <p className="inline-flex items-center rounded bg-blue-100 p-1.5 text-lg font-semibold text-beer-blonde dark:bg-blue-200 dark:text-blue-800">
                             {!emptyReviews ? overall.toFixed(1) : 0}
                         </p>
+
                         <p
                             className={`ml-2 font-medium text-gray-900 dark:text-white ${
                                 qualification == ReviewQualification.superb &&
@@ -130,11 +132,10 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
                     <div className="gap-8 sm:grid sm:grid-cols-2">
                         <div>
                             <dl>
-                                <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                                    {t('aroma')}
-                                </dt>
+                                <Label size="small">{t('aroma')}</Label>
+
                                 <dd className="mb-3 flex items-center">
-                                    <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700">
+                                    <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-300">
                                         <div
                                             className={`h-2.5 rounded bg-beer-blonde dark:bg-blue-500 `}
                                             style={{
@@ -150,11 +151,10 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
                                 </dd>
                             </dl>
                             <dl>
-                                <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                                    {t('appearance')}
-                                </dt>
+                                <Label size="small">{t('appearance')}</Label>
+
                                 <dd className="mb-3 flex items-center">
-                                    <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700">
+                                    <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-300">
                                         <div
                                             className={`h-2.5 rounded bg-beer-blonde dark:bg-blue-500 `}
                                             style={{
@@ -170,11 +170,10 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
                                 </dd>
                             </dl>
                             <dl>
-                                <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                                    {t('taste')}
-                                </dt>
+                                <Label size="small">{t('taste')}</Label>
+
                                 <dd className="mb-3 flex items-center">
-                                    <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700">
+                                    <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-300">
                                         <div
                                             className={`h-2.5 rounded bg-beer-blonde dark:bg-blue-500 `}
                                             style={{
@@ -192,11 +191,10 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
                         </div>
                         <div>
                             <dl>
-                                <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                                    {t('mouthfeel')}
-                                </dt>
+                                <Label size="small">{t('mouthfeel')}</Label>
+
                                 <dd className="mb-3 flex items-center">
-                                    <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700">
+                                    <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-300">
                                         <div
                                             className={`h-2.5 rounded bg-beer-blonde dark:bg-blue-500`}
                                             style={{
@@ -214,10 +212,12 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
 
                             <dl>
                                 <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                                    {t('bitterness')}
+                                    <Label size="small">
+                                        {t('bitterness')}
+                                    </Label>
                                 </dt>
                                 <dd className="mb-3 flex items-center">
-                                    <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700">
+                                    <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-300">
                                         <div
                                             className={`h-2.5 rounded bg-beer-blonde dark:bg-blue-500`}
                                             style={{
@@ -234,11 +234,9 @@ export function ProductOverallReview({ reviews, emptyReviews }: Props) {
                             </dl>
 
                             <dl>
-                                <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 ">
-                                    {t('overall')}
-                                </dt>
+                                <Label size="small">{t('overall')}</Label>
                                 <dd className="flex items-center ">
-                                    <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700 ">
+                                    <div className="mr-2 h-2.5 w-full rounded bg-gray-200 3 ">
                                         <div
                                             className={`h-2.5 rounded bg-beer-blonde dark:bg-blue-500 `}
                                             style={{

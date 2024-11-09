@@ -98,7 +98,6 @@ export function DownProducerModal({
             description={'modal_down_producer_description'}
             handler={handleSubmitDownProducer}
             handlerClose={() => handleShowDownProducerModal(false)}
-            classIcon={''}
             classContainer={''}
         >
             <></>

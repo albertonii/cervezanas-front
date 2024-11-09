@@ -799,7 +799,7 @@ Habilitar formulario para feedbacks/reporte de errores
 - [x] Traducción question_ADD, associated_experiences, EVENTOS_CERVEZANAS update y añadir
 - [x] Vista móvil -> Flex col para elementos del barman en la experiencia
 - [x] Añadir signout en menú móvil
-- [x] Poner en el footer el correo y el contacto: cervezanas@socialinnolabs.org
+- [x] Poner en el footer el correo y el contacto: info@cervezanas.beer
       teléfono: 687 85 96 55
 - [WBG] Implementar seguridad para la lectura de QRs en experiencia -> Solo puede leer el dueño del stand o el administrador.
 - [x] BG para online orders y event_orders en menu CONSUMER - DISEÑO PARA LISTAS

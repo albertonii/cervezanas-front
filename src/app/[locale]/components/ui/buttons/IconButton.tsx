@@ -93,7 +93,8 @@ export function IconButton({
     };
 
     const getColorClass = () => {
-        if (primary) return 'bg-beer-softBlonde hover:bg-beer-blonde';
+        if (primary)
+            return 'bg-beer-softBlonde hover:bg-beer-blonde dark:bg-beer-dark';
         if (accent) return 'bg-beer-foam hover:bg-beer-softFoam';
         if (danger) return 'bg-red-500 hover:bg-red-600 dark:bg-red-600';
         return 'shrink-0 hover:bg-beer-softBlonde';
@@ -105,7 +106,7 @@ export function IconButton({
             onClick={onClick}
             color={hoverColor}
             className={`
-                mt-0 flex items-center justify-center rounded border-2 border-beer-blonde p-1 transition duration-100 ease-in
+                mt-0 flex items-center justify-center rounded border-2 border-beer-blonde dark:border-beer-draft p-1 transition duration-100 ease-in
                 ${box && 'h-auto w-10'}
                 ${
                     circular &&
@@ -145,7 +146,9 @@ export function IconButton({
                         <span className={`text-bear-dark`}>{iconButton}</span>
                     )}
 
-                    <span className={`font-semibold ${getSizeClass()}`}>
+                    <span
+                        className={`font-semibold dark:text-gray-300 ${getSizeClass()}`}
+                    >
                         {children}
                     </span>
                 </div>

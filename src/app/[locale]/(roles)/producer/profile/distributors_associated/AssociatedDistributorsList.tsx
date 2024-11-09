@@ -12,6 +12,7 @@ import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
+import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 
 interface Props {
     counter: number;
@@ -76,7 +77,7 @@ export default function AssociatedDistributorsList({ counter }: Props) {
                     locale={locale}
                     target="_blank"
                 >
-                    <span className="font-semibold text-beer-blonde hover:text-beer-draft">
+                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
                         {row.distributor_user?.users?.username ?? '-'}
                     </span>
                 </Link>
@@ -103,7 +104,6 @@ export default function AssociatedDistributorsList({ counter }: Props) {
                         onClick={() => handleDeleteClick(row)}
                         color={deleteColor}
                         classContainer="hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full"
-                        classIcon=""
                         title={t('delete')}
                     />
                     {row.status !== DistributionStatus.ACCEPTED && (
@@ -112,7 +112,6 @@ export default function AssociatedDistributorsList({ counter }: Props) {
                             onClick={() => handleCancelClick(row)}
                             color={cancelColor}
                             classContainer="hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full"
-                            classIcon=""
                             title={t('cancel_contract')}
                         />
                     )}
@@ -122,7 +121,11 @@ export default function AssociatedDistributorsList({ counter }: Props) {
     ];
 
     return (
-        <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
+        <ListTableWrapper
+            isError={isError}
+            isLoading={isLoading}
+            errorMessage={'errors.fetching_distributors'}
+        >
             {isDeleteModal &&
                 selectedContract &&
                 selectedContract.distributor_user && (
@@ -143,23 +146,6 @@ export default function AssociatedDistributorsList({ counter }: Props) {
                     />
                 )}
 
-            {isError && (
-                <span className="flex items-center justify-center">
-                    <p className="text-gray-500 dark:text-gray-400">
-                        {t('errors.fetching_distributors')}
-                    </p>
-                </span>
-            )}
-
-            {isLoading && (
-                <Spinner
-                    color="beer-blonde"
-                    size="xLarge"
-                    absolute
-                    flexCenter
-                />
-            )}
-
             {!isError && !isLoading && (
                 <TableWithFooterAndSearch
                     columns={columns}
@@ -173,137 +159,6 @@ export default function AssociatedDistributorsList({ counter }: Props) {
                     sourceDataIsFromServer={true}
                 />
             )}
-        </section>
+        </ListTableWrapper>
     );
-}
-
-{
-    /* <div className="space-y-2">
-                    <InputSearch
-                        query={query}
-                        setQuery={setQuery}
-                        searchPlaceholder={t('search_by_name')}
-                    />
-
-                    <div className="overflow-x-scroll border-2 ">
-                        <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
-                            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th
-                                        scope="col"
-                                        className="px-6 py-3 hover:cursor-pointer"
-                                        onClick={() => {
-                                            handleChangeSort(SortBy.NAME);
-                                        }}
-                                    >
-                                        {t('name_header')}
-                                    </th>
-
-                                    <th
-                                        className="px-6 py-3 hover:cursor-pointer"
-                                        onClick={() => {
-                                            handleChangeSort(
-                                                SortBy.CREATED_DATE,
-                                            );
-                                        }}
-                                    >
-                                        {t('created_date_header')}
-                                    </th>
-
-                                    <th className="px-6 py-3">
-                                        {t('status_header')}
-                                    </th>
-
-                                    <th scope="col" className="px-6 py-3 ">
-                                        {t('action_header')}
-                                    </th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {sortedItems.map(
-                                    (contract: IDistributionContract) => {
-                                        return (
-                                            <tr
-                                                key={
-                                                    contract.distributor_id +
-                                                    '-' +
-                                                    contract.producer_id
-                                                }
-                                                className=""
-                                            >
-                                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft">
-                                                    <Link
-                                                        href={`/user-info/${contract.distributor_id}`}
-                                                        locale={locale}
-                                                        target="_blank"
-                                                    >
-                                                        {contract
-                                                            .distributor_user
-                                                            ?.users?.username ??
-                                                            '-'}
-                                                    </Link>
-                                                </td>
-
-                                                <td className="px-6 py-4">
-                                                    {formatDateString(
-                                                        contract.created_at,
-                                                    )}
-                                                </td>
-
-                                                <td className="px-6 py-4">
-                                                    {t(contract.status)}
-                                                </td>
-
-                                                <td className="flex items-center justify-center gap-2 px-6 py-4">
-                                                    <IconButton
-                                                        icon={faTrash}
-                                                        onClick={() => {
-                                                            handleDeleteClick(
-                                                                contract,
-                                                            );
-                                                        }}
-                                                        color={deleteColor}
-                                                        classContainer={
-                                                            'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
-                                                        }
-                                                        classIcon={''}
-                                                        title={t('delete')}
-                                                    />
-
-                                                    {contract.status !==
-                                                        DistributionStatus.ACCEPTED && (
-                                                        <IconButton
-                                                            icon={faBan}
-                                                            onClick={() => {
-                                                                handleCancelClick(
-                                                                    contract,
-                                                                );
-                                                            }}
-                                                            color={cancelColor}
-                                                            classContainer={
-                                                                'hover:bg-beer-foam transition ease-in duration-300 shadow hover:shadow-md text-gray-500 w-auto h-10 text-center p-2 !rounded-full '
-                                                            }
-                                                            classIcon={''}
-                                                            title={t(
-                                                                'cancel_contract',
-                                                            )}
-                                                        />
-                                                    )}
-                                                </td>
-                                            </tr>
-                                        );
-                                    },
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <PaginationFooter
-                        counter={counter}
-                        resultsPerPage={resultsPerPage}
-                        currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
-                    />
-                </div> */
 }

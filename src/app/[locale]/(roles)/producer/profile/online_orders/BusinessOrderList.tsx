@@ -1,6 +1,6 @@
 'use client';
 
-import Spinner from '@/app/[locale]/components/ui/Spinner';
+import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 import useFetchOrdersByProducerId from '../../../../../../hooks/useFetchOrdersByProducerId';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import React, { useEffect, useState } from 'react';
@@ -122,24 +122,11 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
     ];
 
     return (
-        <section className="bg-beer-foam relative mt-2 rounded-md border-2 border-beer-blonde px-2 py-4 shadow-xl">
-            {isError && (
-                <p className="flex items-center justify-center">
-                    <h2 className="text-gray-500 dark:text-gray-400">
-                        {t('errors.fetching_online_bOrders')}
-                    </h2>
-                </p>
-            )}
-
-            {isLoading && (
-                <Spinner
-                    color="beer-blonde"
-                    size="xLarge"
-                    absolute
-                    flexCenter
-                />
-            )}
-
+        <ListTableWrapper
+            isError={isError}
+            isLoading={isLoading}
+            errorMessage={'errors.fetching_online_bOrders'}
+        >
             {!isError && !isLoading && bOrders && bOrders.length === 0 ? (
                 <p className="flex items-center justify-center">
                     <h3 className="text-gray-500 dark:text-gray-400">
@@ -159,6 +146,6 @@ export function BusinessOrderList({ bOrders: bOs }: Props) {
                     sourceDataIsFromServer={false}
                 />
             )}
-        </section>
+        </ListTableWrapper>
     );
 }

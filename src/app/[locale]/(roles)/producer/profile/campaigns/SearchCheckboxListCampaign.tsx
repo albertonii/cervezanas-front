@@ -65,7 +65,6 @@ export function SearchCheckboxListCampaign({
             description={'select_products_in_campaign_description'}
             handler={handleAcceptClick}
             handlerClose={() => handleShowProductsInCampaignModal(false)}
-            classIcon={''}
             classContainer={''}
         >
             <div className="my-6 w-full">
