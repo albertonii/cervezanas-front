@@ -1,6 +1,12 @@
 import Link from 'next/link';
-import React from 'react';
+import TR from '../../ui/table/TR';
+import TH from '../../ui/table/TH';
+import TD from '../../ui/table/TD';
+import TBody from '../../ui/table/TBody';
+import Table from '../../ui/table/Table';
+import THead from '../../ui/table/THead';
 import useBoxPackStore from '@/app/store//boxPackStore';
+import React from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { ROUTE_PRODUCTS } from '@/config';
 import Table from '../../ui/table/Table';

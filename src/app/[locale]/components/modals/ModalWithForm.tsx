@@ -152,7 +152,7 @@ export default function ModalWithForm({
                             >
                                 {/*header*/}
                                 <div className="border-slate-200 flex items-start justify-between rounded-t p-5 pb-2 bg-beer-blonde border-b-beer-dark border-b-4">
-                                    <h3 className="text-6xl font-semibold font-['NexaRust-script'] text-white">
+                                    <h3 className="text-4xl sm:text-5xl md:text-6xl font-semibold font-['NexaRust-script'] text-white">
                                         {t(title)}
                                     </h3>
 

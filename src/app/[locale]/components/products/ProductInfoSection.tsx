@@ -39,7 +39,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
             {/* Select product type  */}
             <section className="relative flex-auto pt-6">
                 {/* IS Public  */}
-                <div className="flex w-full flex-col items-end">
+                <div className="flex w-full flex-col items-center sm:items-end">
                     <label
                         className="relative inline-flex cursor-pointer items-center"
                         htmlFor="is_public"
@@ -67,7 +67,7 @@ export function ProductInfoSection({ form, customizeSettings }: Props) {
                 </div>
 
                 {/* Is available? Does it have stock?  */}
-                <div className="flex w-full flex-col items-end">
+                <div className="flex w-full flex-col items-center sm:items-end mt-6">
                     <label
                         className="relative inline-flex cursor-pointer items-center"
                         htmlFor="is_available"

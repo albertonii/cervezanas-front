@@ -11,7 +11,7 @@ const BreweryPropertiesTab = ({ brewery }: Props) => {
     const t = useTranslations();
 
     return (
-        <div className="max-w-4xl mx-auto p-10 bg-white rounded-lg shadow-sm border border-gray-200">
+        <div className="max-w-4xl mx-auto p-4 sm:p-10 bg-white rounded-lg shadow-sm border border-gray-200">
             {/* Título de la fábrica */}
             <Title size="xlarge" color="black">
                 {brewery.name}

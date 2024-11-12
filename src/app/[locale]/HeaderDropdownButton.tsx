@@ -353,7 +353,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
     return (
         <div
             className="relative flex h-full items-center justify-center font-medium w-[50px]"
-            id="profile-dropdown"
+            id="profile-dropdown" 
             ref={dropdown}
         >
             <div

@@ -19,7 +19,7 @@ export default function ProductStepperButtons({
     const totalSteps = 4; // Número total de pasos
 
     return (
-        <div className="mt-8 flex flex-col items-center w-full space-y-4">
+        <div className="mt-12 flex flex-col items-center w-full space-y-4">
             {/* Step Indicator */}
             <div className="w-full text-center">
                 <span className="text-gray-500 text-sm tracking-wide">
