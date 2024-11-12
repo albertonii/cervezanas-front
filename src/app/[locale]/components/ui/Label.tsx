@@ -2,7 +2,13 @@ import React from 'react';
 
 interface Props {
     size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
-    color?: 'black' | 'white' | 'beer-draft' | 'beer-blonde';
+    color?:
+        | 'black'
+        | 'white'
+        | 'gray'
+        | 'dark-gray'
+        | 'beer-draft'
+        | 'beer-blonde';
     font?: 'semibold' | 'bold' | 'normal';
     htmlFor?: string;
     children: React.ReactNode;
@@ -28,6 +34,8 @@ export default function Label({
     const colorClass = {
         black: 'text-black-800',
         white: 'text-white',
+        gray: 'text-gray-500',
+        'dark-gray': 'text-gray-700',
         'beer-draft': 'text-beer-draft',
         'beer-blonde': 'text-beer-blonde',
     };

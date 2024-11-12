@@ -1418,5 +1418,23 @@
     "add_price_range": "Añadir rango de precios",
     "low_limit": "Límite inferior",
     "high_limit": "Límite superior",
-    "delivery_cost": "Coste de envío"
+    "delivery_cost": "Coste de envío",
+    "bm_game": {
+        "step": "Paso",
+        "step_completed": "¡Paso completado!",
+        "actual_step": "Estado actual",
+        "ready_to_start_quiz": "¡Listo para empezar el juego!",
+        "start_quiz": "Empezar juego",
+        "scan_qr_to_unlock": "Escanea el código QR en {qr} para desbloquear este paso",
+        "accuracy": "Precisión",
+        "rewards": "Recompensas",
+        "correct_answers": "Respuestas correctas",
+        "your_progress": "Tu progreso",
+        "completed_steps": "Pasos completados",
+        "top_bm_players": "Top Maestros Cerveceros",
+        "points": "pts",
+        "question_one_of_x": "Pregunta {currentQuestionIndex} de {totalQuestions}",
+        "correct_answers_x": "Respuestas correctas: {correctAnswers}",
+        "confirm_answer": "Confirmar respuesta"
+    }
 }

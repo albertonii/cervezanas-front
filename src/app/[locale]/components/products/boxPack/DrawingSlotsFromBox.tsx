@@ -21,9 +21,6 @@ const DrawingSlotsFromBox: React.FC<BoxProductSlotsSelectionProps> = ({
                         : "bg-[url('/assets/hueco-caja.webp')]"
                 }`}
             ></div>,
-            >
-
-            </div>,
         );
     }
 
