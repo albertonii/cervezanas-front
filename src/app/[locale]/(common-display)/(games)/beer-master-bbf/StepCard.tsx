@@ -5,16 +5,17 @@ import { Lock, CheckCircle, ArrowRight, QrCode } from 'lucide-react';
 
 interface StepCardProps {
     step: IStep;
-    onSelect: (stepId: number) => void;
+    onSelect: (stepId: string) => void;
     isActive: boolean;
 }
 
 export default function StepCard({ step, onSelect, isActive }: StepCardProps) {
     const getStepStatus = () => {
-        if (!step.isUnlocked) return <Lock className="w-6 h-6 text-gray-400" />;
-        if (step.isCompleted)
+        if (!step.is_unlocked)
+            return <Lock className="w-6 h-6 text-gray-400" />;
+        if (step.is_completed)
             return <CheckCircle className="w-6 h-6 text-green-500" />;
-        if (!step.isQRScanned)
+        if (!step.is_qr_scanned)
             return <QrCode className="w-6 h-6 text-amber-500" />;
         return <ArrowRight className="w-6 h-6 text-amber-500" />;
     };
@@ -22,11 +23,11 @@ export default function StepCard({ step, onSelect, isActive }: StepCardProps) {
     return (
         <div
             className={`relative p-6 rounded-xl shadow-lg transition-all duration-300 ${
-                step.isUnlocked
+                step.is_unlocked
                     ? 'bg-white cursor-pointer hover:shadow-xl transform hover:-translate-y-1'
                     : 'bg-gray-100 opacity-75'
             } ${isActive ? 'ring-2 ring-amber-500' : ''}`}
-            onClick={() => step.isUnlocked && onSelect(step.id)}
+            onClick={() => step.is_unlocked && onSelect(step.id)}
         >
             <div className="absolute top-4 right-4">{getStepStatus()}</div>
 
@@ -59,21 +60,23 @@ export default function StepCard({ step, onSelect, isActive }: StepCardProps) {
                     </svg>
                     <span>{step.location}</span>
                 </div>
-                {step.isQRScanned && !step.isCompleted && (
+                {step.is_qr_scanned && !step.is_completed && (
                     <span className="text-sm text-amber-600">
-                        {step.currentQuestionIndex + 1}/{step.questions.length}{' '}
-                        preguntas
+                        {step.current_question_index + 1}/
+                        {step.bm_steps_questions?.length} preguntas
                     </span>
                 )}
             </div>
 
-            {step.reward && (
-                <RewardBadge
-                    reward={step.reward}
-                    correctAnswers={step.correctAnswers}
-                    totalQuestions={step.questions.length}
-                />
-            )}
+            {step.bm_steps_rewards &&
+                step.bm_steps_rewards[0] &&
+                step.bm_steps_questions && (
+                    <RewardBadge
+                        reward={step.bm_steps_rewards[0]}
+                        correctAnswers={step.correct_answers}
+                        totalQuestions={step.bm_steps_questions.length}
+                    />
+                )}
         </div>
     );
 }

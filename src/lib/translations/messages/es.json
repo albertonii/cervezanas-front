@@ -1435,6 +1435,7 @@
         "points": "pts",
         "question_one_of_x": "Pregunta {currentQuestionIndex} de {totalQuestions}",
         "correct_answers_x": "Respuestas correctas: {correctAnswers}",
-        "confirm_answer": "Confirmar respuesta"
+        "confirm_answer": "Confirmar respuesta",
+        "beer_master": "Maestro cervecero"
     }
 }

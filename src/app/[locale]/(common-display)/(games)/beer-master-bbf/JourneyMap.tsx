@@ -5,8 +5,8 @@ import { Beer, Lock, CheckCircle } from 'lucide-react';
 
 interface JourneyMapProps {
     steps: IStep[];
-    onStepSelect: (stepId: number) => void;
-    activeStepId: number | null;
+    onStepSelect: (stepId: string) => void;
+    activeStepId: string | null;
 }
 
 export default function JourneyMap({
@@ -14,7 +14,7 @@ export default function JourneyMap({
     onStepSelect,
     activeStepId,
 }: JourneyMapProps) {
-    const t = useTranslations();
+    const t = useTranslations('bm_game');
 
     return (
         <div className="relative w-full bg-beer-softFoam rounded-xl p-8 shadow-lg overflow-hidden">
@@ -33,8 +33,8 @@ export default function JourneyMap({
                 <div className="relative flex justify-between items-center min-h-[150px]">
                     {steps.map((step, index) => {
                         const isActive = step.id === activeStepId;
-                        const isCompleted = step.isCompleted;
-                        const isLocked = !step.isUnlocked;
+                        const isCompleted = step.is_completed;
+                        const isLocked = !step.is_unlocked;
 
                         return (
                             <button
@@ -60,7 +60,7 @@ export default function JourneyMap({
 
                                 <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
                                     <span className="text-sm font-medium text-beer-draft">
-                                        {`${t('bm_game.step')} ${step.id}`}
+                                        {`${t('step')} ${step.step_number}`}
                                     </span>
                                 </div>
                             </button>

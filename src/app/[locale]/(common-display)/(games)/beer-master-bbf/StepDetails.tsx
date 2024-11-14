@@ -18,14 +18,14 @@ export default function StepDetails({
     onClose,
     onStartQuiz,
 }: StepDetailsProps) {
-    const t = useTranslations();
+    const t = useTranslations('bm_game');
 
     return (
         <div className="bg-white rounded-xl shadow-lg p-6 animate-slide-up">
             <div className="flex justify-between items-start mb-6">
                 <div>
                     <h2 className="text-2xl font-bold text-gray-900">
-                        {t('bm_game.step')} {step.id}: {step.title}
+                        {t('step')} {step.step_number}: {step.title}
                     </h2>
                     <div className="flex items-center mt-2 text-gray-600">
                         <MapPin className="w-4 h-4 mr-1" />
@@ -45,39 +45,37 @@ export default function StepDetails({
                     <Label>{step.description}</Label>
                 </div>
 
-                {step.isUnlocked && !step.isCompleted && (
+                {step.is_unlocked && !step.is_completed && (
                     <div
                         className={`rounded-lg p-6 ${
-                            step.isQRScanned
+                            step.is_qr_scanned
                                 ? 'bg-amber-50 border-2 border-amber-200 animate-pulse'
                                 : 'bg-gray-50 border-2 border-gray-200'
                         }`}
                     >
                         <div className="flex items-center justify-between mb-3">
                             <h3 className="font-semibold text-amber-800">
-                                {t('bm_game.actual_step')}
+                                {t('actual_step')}
                             </h3>
-                            {step.isQRScanned ? (
+                            {step.is_qr_scanned ? (
                                 <Beer className="w-6 h-6 text-amber-500" />
                             ) : (
                                 <Lock className="w-6 h-6 text-gray-400" />
                             )}
                         </div>
 
-                        {step.isQRScanned ? (
+                        {step.is_qr_scanned ? (
                             <div className="space-y-4">
-                                <Label>
-                                    {t('bm_game.ready_to_start_quiz')}
-                                </Label>
+                                <Label>{t('ready_to_start_quiz')}</Label>
 
                                 <Button onClick={onStartQuiz} primary medium>
-                                    <span>{t('bm_game.start_quiz')}</span>
+                                    <span>{t('start_quiz')}</span>
                                 </Button>
                             </div>
                         ) : (
                             <div className="text-gray-600">
                                 <Label size="small">
-                                    {t('bm_game.scan_qr_to_unlock', {
+                                    {t('scan_qr_to_unlock', {
                                         qr: step.location,
                                     })}
                                 </Label>
@@ -86,16 +84,17 @@ export default function StepDetails({
                     </div>
                 )}
 
-                {step.isCompleted && (
+                {step.is_completed && (
                     <div className="bg-green-50 rounded-lg p-4">
                         <div className="flex items-center justify-between">
                             <div>
                                 <Title color="beer-blonde" size="large">
-                                    {t('bm_game.step_completed')}
+                                    {t('step_completed')}
                                 </Title>
                                 <p className="text-sm text-green-700">
-                                    Respuestas correctas: {step.correctAnswers}/
-                                    {step.questions.length}
+                                    {t('correct_answers')}:{' '}
+                                    {step.correct_answers}/
+                                    {step.bm_steps_questions?.length}
                                 </p>
                             </div>
                             <CheckCircle className="w-8 h-8 text-green-500" />
@@ -103,11 +102,11 @@ export default function StepDetails({
                     </div>
                 )}
 
-                {step.reward && (
+                {step.bm_steps_rewards && (
                     <RewardBadge
-                        reward={step.reward}
-                        correctAnswers={step.correctAnswers}
-                        totalQuestions={step.questions.length}
+                        reward={step.bm_steps_rewards[0]}
+                        correctAnswers={step.correct_answers}
+                        totalQuestions={step.bm_steps_questions?.length || 0}
                     />
                 )}
             </div>

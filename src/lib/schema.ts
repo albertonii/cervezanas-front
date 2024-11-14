@@ -434,6 +434,72 @@ export type Database = {
           },
         ]
       }
+      bm_game_organizers: {
+        Row: {
+          bm_game_id: string
+          created_at: string
+          owner_id: string
+        }
+        Insert: {
+          bm_game_id?: string
+          created_at?: string
+          owner_id?: string
+        }
+        Update: {
+          bm_game_id?: string
+          created_at?: string
+          owner_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bm_game_organizers_bm_game_id_fkey"
+            columns: ["bm_game_id"]
+            isOneToOne: false
+            referencedRelation: "bm_steps_game_state"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bm_game_organizers_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bm_game_participants: {
+        Row: {
+          bm_game_id: string
+          created_at: string
+          user_id: string
+        }
+        Insert: {
+          bm_game_id?: string
+          created_at?: string
+          user_id?: string
+        }
+        Update: {
+          bm_game_id?: string
+          created_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bm_game_participants_bm_game_id_fkey"
+            columns: ["bm_game_id"]
+            isOneToOne: false
+            referencedRelation: "bm_steps_game_state"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bm_game_participants_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bm_questions: {
         Row: {
           category: string | null
@@ -481,6 +547,224 @@ export type Database = {
             columns: ["product_id"]
             isOneToOne: false
             referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bm_steps: {
+        Row: {
+          bm_state_id: string | null
+          correct_answers: number | null
+          created_at: string
+          current_question_index: number | null
+          description: string | null
+          id: string
+          is_completed: boolean | null
+          is_qr_scanned: boolean | null
+          is_unlocked: boolean | null
+          last_visited: string | null
+          location: string | null
+          step_number: number | null
+          time_spent: number | null
+          title: string | null
+        }
+        Insert: {
+          bm_state_id?: string | null
+          correct_answers?: number | null
+          created_at?: string
+          current_question_index?: number | null
+          description?: string | null
+          id?: string
+          is_completed?: boolean | null
+          is_qr_scanned?: boolean | null
+          is_unlocked?: boolean | null
+          last_visited?: string | null
+          location?: string | null
+          step_number?: number | null
+          time_spent?: number | null
+          title?: string | null
+        }
+        Update: {
+          bm_state_id?: string | null
+          correct_answers?: number | null
+          created_at?: string
+          current_question_index?: number | null
+          description?: string | null
+          id?: string
+          is_completed?: boolean | null
+          is_qr_scanned?: boolean | null
+          is_unlocked?: boolean | null
+          last_visited?: string | null
+          location?: string | null
+          step_number?: number | null
+          time_spent?: number | null
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bm_steps_bm_state_id_fkey"
+            columns: ["bm_state_id"]
+            isOneToOne: false
+            referencedRelation: "bm_steps_game_state"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bm_steps_achievements: {
+        Row: {
+          bm_game_id: string | null
+          description: string | null
+          icon: string | null
+          id: string
+          name: string | null
+          progress: number | null
+          target: number | null
+          type: string | null
+          unlocked_at: string | null
+        }
+        Insert: {
+          bm_game_id?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name?: string | null
+          progress?: number | null
+          target?: number | null
+          type?: string | null
+          unlocked_at?: string | null
+        }
+        Update: {
+          bm_game_id?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name?: string | null
+          progress?: number | null
+          target?: number | null
+          type?: string | null
+          unlocked_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bm_steps_achievements_bm_game_id_fkey"
+            columns: ["bm_game_id"]
+            isOneToOne: false
+            referencedRelation: "bm_steps_game_state"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bm_steps_game_state: {
+        Row: {
+          created_at: string
+          current_step: number | null
+          id: string
+          progress: number | null
+          total_points: number | null
+          total_steps: number | null
+        }
+        Insert: {
+          created_at?: string
+          current_step?: number | null
+          id?: string
+          progress?: number | null
+          total_points?: number | null
+          total_steps?: number | null
+        }
+        Update: {
+          created_at?: string
+          current_step?: number | null
+          id?: string
+          progress?: number | null
+          total_points?: number | null
+          total_steps?: number | null
+        }
+        Relationships: []
+      }
+      bm_steps_questions: {
+        Row: {
+          answered: boolean | null
+          bm_step_id: string | null
+          correct_answer: number | null
+          created_at: string
+          difficulty: string | null
+          explanation: string | null
+          id: string
+          options: string[] | null
+          points: number | null
+          text: string | null
+        }
+        Insert: {
+          answered?: boolean | null
+          bm_step_id?: string | null
+          correct_answer?: number | null
+          created_at?: string
+          difficulty?: string | null
+          explanation?: string | null
+          id?: string
+          options?: string[] | null
+          points?: number | null
+          text?: string | null
+        }
+        Update: {
+          answered?: boolean | null
+          bm_step_id?: string | null
+          correct_answer?: number | null
+          created_at?: string
+          difficulty?: string | null
+          explanation?: string | null
+          id?: string
+          options?: string[] | null
+          points?: number | null
+          text?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bm_steps_questions_bm_step_id_fkey"
+            columns: ["bm_step_id"]
+            isOneToOne: false
+            referencedRelation: "bm_steps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bm_steps_rewards: {
+        Row: {
+          bm_step_id: string | null
+          claim_location: string | null
+          claimed: boolean | null
+          correct_answers: number | null
+          description: string | null
+          id: string
+          name: string | null
+          total_questions: number | null
+        }
+        Insert: {
+          bm_step_id?: string | null
+          claim_location?: string | null
+          claimed?: boolean | null
+          correct_answers?: number | null
+          description?: string | null
+          id?: string
+          name?: string | null
+          total_questions?: number | null
+        }
+        Update: {
+          bm_step_id?: string | null
+          claim_location?: string | null
+          claimed?: boolean | null
+          correct_answers?: number | null
+          description?: string | null
+          id?: string
+          name?: string | null
+          total_questions?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bm_steps_rewards_bm_step_id_fkey"
+            columns: ["bm_step_id"]
+            isOneToOne: false
+            referencedRelation: "bm_steps"
             referencedColumns: ["id"]
           },
         ]

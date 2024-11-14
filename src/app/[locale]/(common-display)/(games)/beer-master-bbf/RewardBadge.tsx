@@ -13,7 +13,8 @@ export default function RewardBadge({
     correctAnswers,
     totalQuestions,
 }: RewardBadgeProps) {
-    const isEarned = correctAnswers >= reward.condition.correctAnswers;
+    if (!reward) return null;
+    const isEarned = correctAnswers >= reward.correct_answers;
 
     return (
         <div
@@ -45,8 +46,8 @@ export default function RewardBadge({
                     {!reward.claimed && (
                         <p className="text-xs mt-1">
                             {isEarned
-                                ? `¡Conseguido! Recógelo en: ${reward.claimLocation}`
-                                : `Necesitas ${reward.condition.correctAnswers}/${reward.condition.totalQuestions} respuestas correctas`}
+                                ? `¡Conseguido! Recógelo en: ${reward.claim_location}`
+                                : `Necesitas ${reward.correct_answers}/${reward.total_questions} respuestas correctas`}
                         </p>
                     )}
                 </div>

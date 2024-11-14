@@ -8,15 +8,18 @@ interface GameStatsProps {
 }
 
 export default function GameStats({ steps }: GameStatsProps) {
-    const t = useTranslations();
+    const t = useTranslations('bm_game');
     const totalSteps = steps.length;
-    const completedSteps = steps.filter((step) => step.isCompleted).length;
+    const completedSteps = steps.filter((step) => step.is_completed).length;
     const totalQuestions = steps.reduce(
-        (acc, step) => acc + step.questions.length,
+        (acc, step) =>
+            step.bm_steps_questions
+                ? acc + step.bm_steps_questions?.length
+                : acc,
         0,
     );
     const totalCorrectAnswers = steps.reduce(
-        (acc, step) => acc + step.correctAnswers,
+        (acc, step) => acc + step.correct_answers,
         0,
     );
     const accuracy =
@@ -24,16 +27,22 @@ export default function GameStats({ steps }: GameStatsProps) {
             ? Math.round((totalCorrectAnswers / totalQuestions) * 100)
             : 0;
     const availableRewards = steps.filter(
-        (step) => step.reward && !step.reward.claimed,
+        (step) =>
+            step.bm_steps_rewards &&
+            step.bm_steps_rewards.length > 0 &&
+            !step.bm_steps_rewards[0].claimed,
     ).length;
     const earnedRewards = steps.filter(
-        (step) => step.reward && step.reward.claimed,
+        (step) =>
+            step.bm_steps_rewards &&
+            step.bm_steps_rewards.length > 0 &&
+            step.bm_steps_rewards[0].claimed,
     ).length;
 
     return (
         <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                {t('bm_game.your_progress')}
+                {t('your_progress')}
             </h2>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -57,7 +66,7 @@ export default function GameStats({ steps }: GameStatsProps) {
                         </span>
                     </div>
                     <p className="text-sm text-gray-600">
-                        {t('bm_game.correct_answers')}
+                        {t('correct_answers')}
                     </p>
                 </div>
 
@@ -68,9 +77,7 @@ export default function GameStats({ steps }: GameStatsProps) {
                             {accuracy}%
                         </span>
                     </div>
-                    <p className="text-sm text-gray-600">
-                        {t('bm_game.accuracy')}
-                    </p>
+                    <p className="text-sm text-gray-600">{t('accuracy')}</p>
                 </div>
 
                 <div className="bg-beer-softFoam rounded-lg p-4">
@@ -80,9 +87,7 @@ export default function GameStats({ steps }: GameStatsProps) {
                             {earnedRewards}/{availableRewards + earnedRewards}
                         </span>
                     </div>
-                    <p className="text-sm text-gray-600">
-                        {t('bm_game.rewards')}
-                    </p>
+                    <p className="text-sm text-gray-600">{t('rewards')}</p>
                 </div>
             </div>
         </div>

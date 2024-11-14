@@ -42,7 +42,8 @@ export function getTimeElapsed(startDate: any): string {
 }
 
 // Convert a date string to a Date object
-export function convertToDate(dateString: string): Date {
+export function convertToDate(dateString: string | undefined): Date {
+    if (!dateString) return new Date();
     return new Date(dateString);
 }
 
