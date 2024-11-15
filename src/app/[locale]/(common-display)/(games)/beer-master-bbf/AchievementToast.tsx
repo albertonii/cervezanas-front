@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Trophy } from 'lucide-react';
 import { IAchievement } from '@/lib/types/beerMasterGame';
 
 interface AchievementToastProps {

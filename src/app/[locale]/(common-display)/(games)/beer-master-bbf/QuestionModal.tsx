@@ -33,7 +33,7 @@ export default function QuestionModal({
 
     const handleSubmit = () => {
         if (selectedOption !== null && !hasAnswered) {
-            const correct = selectedOption === question.correctAnswer;
+            const correct = selectedOption === question.correct_answer;
             setIsCorrect(correct);
             setHasAnswered(true);
             setTimeout(() => {
@@ -86,7 +86,7 @@ export default function QuestionModal({
                             key={index}
                             class={`w-full p-4 text-left rounded-lg border-2 transition-all ${
                                 hasAnswered
-                                    ? index === question.correctAnswer
+                                    ? index === question.correct_answer
                                         ? 'border-green-500 bg-green-50'
                                         : index === selectedOption
                                         ? 'border-red-500 bg-red-50'

@@ -1,3 +1,5 @@
+import { IUserProfile } from './types';
+
 export interface IGameState {
     id: string;
     created_at: string;
@@ -68,4 +70,18 @@ export interface IAchievement {
     bm_game_id: string;
     bm_steps_game_state?: IGameState;
     // type: 'progress' | 'accuracy' | 'speed' | 'streak';
+}
+
+export interface IBMGameStepsRegistered {
+    user_id: string;
+    step_id: string;
+    created_at: string;
+    is_unlocked: boolean;
+    is_qr_scanned: boolean;
+    is_completed: boolean;
+    current_question_index: number;
+    correct_answers: number;
+    time_spent: number;
+    users?: IUserProfile[];
+    bm_steps?: IStep[];
 }

@@ -36,12 +36,10 @@ import { useAppContext } from '../context/AppContext';
 
 interface Props {
     i18nLocaleArray: string[];
-    options: string[];
 }
 
-export default function MobileMenu({ i18nLocaleArray, options }: Props) {
-    //const { role, user } = useAuth();
-    const { role, signOut, changeRole, user } = useAuth();
+export default function MobileMenu({ i18nLocaleArray }: Props) {
+    const { role, user } = useAuth();
     const [open, setOpen] = useState(false);
     const dropdown = useRef<HTMLDivElement>(null);
     const handleOpenCallback = () => {

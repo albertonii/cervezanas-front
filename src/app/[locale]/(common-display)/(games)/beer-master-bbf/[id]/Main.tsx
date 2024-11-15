@@ -4,37 +4,82 @@ import QRScanner from '../QRScanner';
 import GameStats from '../GameStats';
 import JourneyMap from '../JourneyMap';
 import ProgressBar from '../ProgressBar';
+import StepDetails from '../StepDetails';
 import Leaderboard from '../Leaderboard';
 import QuestionModal from '../QuestionModal';
 import AchievementToast from '../AchievementToast';
-import StepDetails from '../StepDetails';
+import useFetchBMGameStepParticipationsByUserId from '@/hooks/useFetchBMGameStepParticipationsByUserId';
 import React, { useState, useEffect } from 'react';
 import { Beer } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { IAchievement, IGameState, IStep } from '@/lib/types/beerMasterGame';
+import { useQueryClient } from 'react-query';
+import { handleBMGameQRCodeScanned } from '../../actions';
+import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 import { convertToDate, formatDateTypeDefaultInput } from '@/utils/formatDate';
+
+import {
+    IAchievement,
+    IBMGameStepsRegistered,
+    IGameState,
+    IStep,
+} from '@/lib/types/beerMasterGame';
 
 interface Props {
     gameState: IGameState;
 }
 
 const Main = ({ gameState }: Props) => {
+    const { user } = useAuth();
+    if (!user) return null;
+
     const t = useTranslations('bm_game');
 
-    console.log(gameState);
+    const {
+        data: userParticipationInGameSteps,
+        error,
+        isLoading,
+        refetch,
+        isFetchedAfterMount,
+    } = useFetchBMGameStepParticipationsByUserId(user.id, gameState.id);
+
+    const queryClient = useQueryClient();
+
+    const [userStepsParticipations, setUserStepsParticipations] = useState<
+        IBMGameStepsRegistered[]
+    >([]);
 
     const achievements = gameState.bm_steps_achievements || [];
     const [steps, setSteps] = useState(gameState.bm_steps || []);
-    const [activeStep, setActiveStep] = useState<IStep | null>(null);
+    const [activeStep, setActiveStep] = useState<IStep | null>(
+        gameState.bm_steps
+            ? gameState.bm_steps.reduce(
+                  (prev, curr) =>
+                      prev.step_number < curr.step_number ? prev : curr,
+                  gameState.bm_steps[0],
+              )
+            : null,
+    );
     const [showQuestion, setShowQuestion] = useState(false);
     const [currentStreak, setCurrentStreak] = useState(0);
     const [bestStreak, setBestStreak] = useState(0);
     const [unlockedAchievement, setUnlockedAchievement] =
         useState<IAchievement | null>(null);
     const [selectedStep, setSelectedStep] = useState<IStep | null>(
-        gameState.bm_steps![0] || null,
+        gameState.bm_steps
+            ? gameState.bm_steps.reduce(
+                  (prev, curr) =>
+                      prev.step_number < curr.step_number ? prev : curr,
+                  gameState.bm_steps[0],
+              )
+            : null,
     );
     const progress = steps.filter((step) => step.is_completed).length;
+
+    useEffect(() => {
+        if (isFetchedAfterMount) {
+            setUserStepsParticipations(userParticipationInGameSteps || []);
+        }
+    }, [isFetchedAfterMount, userParticipationInGameSteps]);
 
     useEffect(() => {
         const checkAchievements = () => {
@@ -98,27 +143,37 @@ const Main = ({ gameState }: Props) => {
         }
     };
 
-    const handleStartQuiz = (step: IStep) => {
+    const handleStartQuiz = (step: IBMGameStepsRegistered) => {
         if (step.is_unlocked && step.is_qr_scanned && !step.is_completed) {
-            const lastVisited = formatDateTypeDefaultInput(new Date());
+            // const lastVisited = formatDateTypeDefaultInput(new Date());
 
-            setActiveStep({ ...step, last_visited: lastVisited });
+            // setActiveStep({ ...step, last_visited: lastVisited });
             setShowQuestion(true);
             setSelectedStep(null);
         }
     };
 
-    const handleScan = () => {
+    const handleScan = async (scannedId: string) => {
+        const res = await handleBMGameQRCodeScanned(scannedId, user.id);
+
+        if (res.status !== 200) {
+            console.error('Error scanning QR code', res.message);
+            return;
+        }
+
+        queryClient.invalidateQueries('bm_steps_participations');
+
+        // NO lo estamos usando (?) - ¿borrar?
         const currentStep = steps.find(
             (step) =>
-                step.is_unlocked && !step.is_qr_scanned && !step.is_completed,
+                step.is_unlocked && step.id === scannedId && step.is_qr_scanned,
         );
 
         if (currentStep) {
             setSteps(
                 steps.map((step) =>
                     step.id === currentStep.id
-                        ? { ...step, isQRScanned: true }
+                        ? { ...step, is_qr_scanned: true }
                         : step,
                 ),
             );
@@ -232,11 +287,12 @@ const Main = ({ gameState }: Props) => {
                         <div className="md:col-span-2">
                             {selectedStep && (
                                 <StepDetails
+                                    userStepsParticipations={
+                                        userStepsParticipations
+                                    }
                                     step={selectedStep}
                                     onClose={() => setSelectedStep(null)}
-                                    onStartQuiz={() =>
-                                        handleStartQuiz(selectedStep)
-                                    }
+                                    onStartQuiz={handleStartQuiz}
                                 />
                             )}
                         </div>

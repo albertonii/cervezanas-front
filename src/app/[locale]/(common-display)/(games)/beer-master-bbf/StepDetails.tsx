@@ -4,21 +4,28 @@ import Title from '@/app/[locale]/components/ui/Title';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { IStep } from '@/lib/types/beerMasterGame';
+import { IBMGameStepsRegistered, IStep } from '@/lib/types/beerMasterGame';
 import { X, MapPin, Beer, Lock, CheckCircle } from 'lucide-react';
 
 interface StepDetailsProps {
     step: IStep;
     onClose: () => void;
-    onStartQuiz: () => void;
+    onStartQuiz: (userStepParticipation: IBMGameStepsRegistered) => void;
+    userStepsParticipations: IBMGameStepsRegistered[];
 }
 
 export default function StepDetails({
     step,
     onClose,
     onStartQuiz,
+    userStepsParticipations,
 }: StepDetailsProps) {
     const t = useTranslations('bm_game');
+
+    // Buscar step en userStepsParticipations
+    const userStepParticipation = userStepsParticipations.find(
+        (usp) => usp.step_id === step.id,
+    );
 
     return (
         <div className="bg-white rounded-xl shadow-lg p-6 animate-slide-up">
@@ -45,46 +52,53 @@ export default function StepDetails({
                     <Label>{step.description}</Label>
                 </div>
 
-                {step.is_unlocked && !step.is_completed && (
-                    <div
-                        className={`rounded-lg p-6 ${
-                            step.is_qr_scanned
-                                ? 'bg-amber-50 border-2 border-amber-200 animate-pulse'
-                                : 'bg-gray-50 border-2 border-gray-200'
-                        }`}
-                    >
-                        <div className="flex items-center justify-between mb-3">
-                            <h3 className="font-semibold text-amber-800">
-                                {t('actual_step')}
-                            </h3>
-                            {step.is_qr_scanned ? (
-                                <Beer className="w-6 h-6 text-amber-500" />
+                {userStepParticipation?.is_unlocked &&
+                    !userStepParticipation.is_completed && (
+                        <div
+                            className={`rounded-lg p-6 ${
+                                userStepParticipation.is_qr_scanned
+                                    ? 'bg-amber-50 border-2 border-amber-200 '
+                                    : 'bg-gray-50 border-2 border-gray-200'
+                            }`}
+                        >
+                            <div className="flex items-center justify-between mb-3">
+                                <h3 className="font-semibold text-amber-800">
+                                    {t('actual_step')}
+                                </h3>
+                                {userStepParticipation.is_qr_scanned ? (
+                                    <Beer className="w-6 h-6 text-amber-500" />
+                                ) : (
+                                    <Lock className="w-6 h-6 text-gray-400" />
+                                )}
+                            </div>
+
+                            {userStepParticipation.is_qr_scanned ? (
+                                <div className="space-y-4">
+                                    <Label>{t('ready_to_start_quiz')}</Label>
+
+                                    <Button
+                                        onClick={() =>
+                                            onStartQuiz(userStepParticipation)
+                                        }
+                                        primary
+                                        medium
+                                    >
+                                        <span>{t('start_quiz')}</span>
+                                    </Button>
+                                </div>
                             ) : (
-                                <Lock className="w-6 h-6 text-gray-400" />
+                                <div className="text-gray-600">
+                                    <Label size="small">
+                                        {t('scan_qr_to_unlock', {
+                                            qr: step.location,
+                                        })}
+                                    </Label>
+                                </div>
                             )}
                         </div>
+                    )}
 
-                        {step.is_qr_scanned ? (
-                            <div className="space-y-4">
-                                <Label>{t('ready_to_start_quiz')}</Label>
-
-                                <Button onClick={onStartQuiz} primary medium>
-                                    <span>{t('start_quiz')}</span>
-                                </Button>
-                            </div>
-                        ) : (
-                            <div className="text-gray-600">
-                                <Label size="small">
-                                    {t('scan_qr_to_unlock', {
-                                        qr: step.location,
-                                    })}
-                                </Label>
-                            </div>
-                        )}
-                    </div>
-                )}
-
-                {step.is_completed && (
+                {userStepParticipation?.is_completed && (
                     <div className="bg-green-50 rounded-lg p-4">
                         <div className="flex items-center justify-between">
                             <div>
@@ -102,7 +116,7 @@ export default function StepDetails({
                     </div>
                 )}
 
-                {step.bm_steps_rewards && (
+                {step.bm_steps_rewards && step.bm_steps_rewards[0] && (
                     <RewardBadge
                         reward={step.bm_steps_rewards[0]}
                         correctAnswers={step.correct_answers}

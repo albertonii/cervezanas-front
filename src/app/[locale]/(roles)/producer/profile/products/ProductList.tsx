@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
+import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
 import React, { ComponentProps, useEffect, useState } from 'react';
@@ -13,7 +13,6 @@ import { InfoTooltip } from '@/app/[locale]/components/ui/InfoTooltip';
 import { EditButton } from '@/app/[locale]/components/ui/buttons/EditButton';
 import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';
 import { ArchiveButton } from '@/app/[locale]/components/ui/buttons/ArchiveButton';
-import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 
 interface Props {
     handleEditShowModal: ComponentProps<any>;

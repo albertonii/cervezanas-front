@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import useFetchProductsAndPaginationByAdmin from '../../../../../../hooks/useFetchProductsAndPaginationByAdmin';
 import React, { ComponentProps, useEffect, useState } from 'react';

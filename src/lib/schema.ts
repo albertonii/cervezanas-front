@@ -500,6 +500,57 @@ export type Database = {
           },
         ]
       }
+      bm_game_steps_registered: {
+        Row: {
+          correct_answers: number | null
+          created_at: string
+          current_question_index: number | null
+          is_completed: boolean | null
+          is_qr_scanned: boolean | null
+          is_unlocked: boolean | null
+          step_id: string
+          time_spent: number | null
+          user_id: string
+        }
+        Insert: {
+          correct_answers?: number | null
+          created_at?: string
+          current_question_index?: number | null
+          is_completed?: boolean | null
+          is_qr_scanned?: boolean | null
+          is_unlocked?: boolean | null
+          step_id?: string
+          time_spent?: number | null
+          user_id?: string
+        }
+        Update: {
+          correct_answers?: number | null
+          created_at?: string
+          current_question_index?: number | null
+          is_completed?: boolean | null
+          is_qr_scanned?: boolean | null
+          is_unlocked?: boolean | null
+          step_id?: string
+          time_spent?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bm_game_steps_registered_step_id_fkey"
+            columns: ["step_id"]
+            isOneToOne: false
+            referencedRelation: "bm_steps"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bm_game_steps_registered_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bm_questions: {
         Row: {
           category: string | null

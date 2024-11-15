@@ -1,50 +1,30 @@
 import Spinner from '../ui/Spinner';
 import PortalModal from './PortalModal';
-import Button from '../ui/buttons/Button';
 import useOnClickOutside from '../../../../hooks/useOnOutsideClickDOM';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { isEmpty } from '@/utils/utils';
 import { useTranslations } from 'next-intl';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
-    showBtn?: boolean;
     showModal: boolean;
     title: string;
-    btnTitle: string;
-    triggerBtnTitle?: string;
     description: string;
     children: JSX.Element;
-    icon?: IconDefinition;
-    classContainer: string;
-    btnSize?: 'small' | 'medium' | 'large' | 'xLarge' | 'xxLarge';
     setShowModal: (b: boolean) => void;
     showFooter?: boolean;
-    btnCancelTitle?: string;
-    handler: () => Promise<any>; // Asegúrate de que handler retorna una promesa
     handlerClose?: () => void;
-    handleCustomClose?: () => void;
     hasErrors?: boolean;
 }
 
-export default function Modal({
-    showBtn,
+export default function BasicModal({
     showModal,
     title,
-    btnTitle,
-    triggerBtnTitle,
     description,
     children,
-    icon,
-    classContainer,
     setShowModal,
-    showFooter = true,
-    btnCancelTitle,
-    handler,
     handlerClose,
-    handleCustomClose,
-    hasErrors,
 }: Props) {
     const t = useTranslations();
     const [isLoading, setIsLoading] = useState(false);
@@ -54,29 +34,11 @@ export default function Modal({
         setShowModal(b);
     };
 
-    const handleAccept = async () => {
-        if (hasErrors) return;
-
-        setIsLoading(true);
-
-        try {
-            await handler().then(() => {
-                handleClose();
-            });
-        } catch (e) {
-            console.error(e);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
     const handleClose = () => {
-        if (handlerClose) handlerClose();
-        handleShowModal(false);
-    };
-
-    const handleCustomClose_ = () => {
-        if (handleCustomClose) handleCustomClose();
+        if (handlerClose) {
+            handlerClose(); // Ejecuta la lógica adicional antes de desmontar el modal
+        }
+        handleShowModal(false); // Cierra el modal definitivamente
     };
 
     useOnClickOutside(modalRef, () => handleClose());
@@ -101,20 +63,6 @@ export default function Modal({
 
     return (
         <>
-            {showBtn && (
-                <>
-                    <Button
-                        class={`${classContainer} px-2 py-1`}
-                        onClick={() => handleShowModal(true)}
-                        title={title}
-                        primary
-                        icon={icon}
-                    >
-                        {triggerBtnTitle ? t(triggerBtnTitle) : t(btnTitle)}
-                    </Button>
-                </>
-            )}
-
             {showModal && (
                 <PortalModal wrapperId="modal-portal">
                     <section
@@ -164,45 +112,6 @@ export default function Modal({
 
                                     {children}
                                 </div>
-
-                                {/*footer*/}
-                                {showFooter && (
-                                    <footer className="border-slate-200 grid grid-cols-1 place-items-center gap-2 rounded-b border-t border-solid p-6 sm:grid-cols-2">
-                                        <Button
-                                            primary
-                                            class="mr-4"
-                                            medium
-                                            btnType="submit"
-                                            onClick={handleAccept}
-                                        >
-                                            {t(btnTitle)}
-                                        </Button>
-
-                                        {btnCancelTitle ? (
-                                            <>
-                                                <Button
-                                                    accent
-                                                    class=""
-                                                    btnType="button"
-                                                    medium
-                                                    onClick={handleCustomClose_}
-                                                >
-                                                    {t(btnCancelTitle)}
-                                                </Button>
-                                            </>
-                                        ) : (
-                                            <Button
-                                                danger
-                                                class=""
-                                                btnType="button"
-                                                medium
-                                                onClick={handleClose}
-                                            >
-                                                {t('close')}
-                                            </Button>
-                                        )}
-                                    </footer>
-                                )}
 
                                 {isLoading && (
                                     <div className="fixed inset-0 z-50 flex items-center justify-center">

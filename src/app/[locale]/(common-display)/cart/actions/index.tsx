@@ -9,7 +9,6 @@ import {
     IProductPackCartItem,
     IShippingInfo,
 } from '@/lib//types/types';
-import createServerClient from '@/utils/supabaseServer';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
