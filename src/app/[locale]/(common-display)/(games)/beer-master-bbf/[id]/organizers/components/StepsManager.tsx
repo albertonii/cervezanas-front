@@ -9,6 +9,9 @@ import {
     Draggable,
     DropResult,
 } from 'react-beautiful-dnd';
+import Title from '@/app/[locale]/components/ui/Title';
+import { useTranslations } from 'next-intl';
+import Label from '@/app/[locale]/components/ui/Label';
 
 interface StepsManagerProps {
     gameState: IGameState;
@@ -131,6 +134,8 @@ const StepItem = React.memo(function StepItem({
 });
 
 export default function StepsManager({ gameState }: StepsManagerProps) {
+    const t = useTranslations('bm_game');
+
     const totalSteps = gameState.total_steps;
     const [steps, setSteps] = useState<IStep[]>([]);
     const [editingStep, setEditingStep] = useState<IStep | null>(null);
@@ -215,13 +220,12 @@ export default function StepsManager({ gameState }: StepsManagerProps) {
     return (
         <div className="space-y-6">
             <div>
-                <h2 className="text-xl font-semibold text-gray-900">
-                    Configuración de Pasos
-                </h2>
-                <p className="text-gray-600 mt-1">
-                    Arrastra y suelta para reordenar los pasos. Haz clic en un
-                    paso para editarlo.
-                </p>
+                <Title size="xlarge" color="black">
+                    {t('steps_configuration')}
+                </Title>
+                <Label color="gray" size="small">
+                    {t('drag_and_drop_to_reorder')}
+                </Label>
             </div>
 
             <DragDropContext onDragEnd={handleDragEnd}>

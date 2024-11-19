@@ -2,13 +2,18 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 
 interface Props {
-    size: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
-    color: 'black' | 'white' | 'beer-draft' | 'beer-blonde';
+    size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
+    color?: 'black' | 'white' | 'beer-draft' | 'beer-blonde' | 'gray';
     font?: 'semi-bold' | 'bold';
     children: React.ReactNode;
 }
 
-const Title = ({ children, size, color, font = 'bold' }: Props) => {
+const Title = ({
+    children,
+    size = 'large',
+    color = 'black',
+    font = 'bold',
+}: Props) => {
     const t = useTranslations();
 
     const sizeClass = {
@@ -20,6 +25,7 @@ const Title = ({ children, size, color, font = 'bold' }: Props) => {
     };
 
     const colorClass = {
+        gray: 'text-gray-700 dark:text-white',
         black: 'text-black-800 dark:text-white',
         white: 'text-white dark:text-black-800',
         'beer-draft': 'text-beer-draft',

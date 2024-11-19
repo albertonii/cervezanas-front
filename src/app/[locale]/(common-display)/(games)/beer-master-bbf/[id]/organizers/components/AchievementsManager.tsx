@@ -1,15 +1,17 @@
+import Button from '@/app/[locale]/components/ui/buttons/Button';
 import React, { useState } from 'react';
-import {
-    IAchievement,
-    IAchievementConditions,
-} from '@/lib/types/beerMasterGame';
+import { useTranslations } from 'next-intl';
+
 import {
     achievements as defaultAchievements,
     achievementTypes,
 } from '../../../data/achievements';
 import {
+    IAchievement,
+    IAchievementConditions,
+} from '@/lib/types/beerMasterGame';
+import {
     Trophy,
-    Plus,
     Trash2,
     Edit2,
     Clock,
@@ -47,6 +49,8 @@ interface FormData {
 }
 
 export default function AchievementsManager() {
+    const t = useTranslations('bm_game');
+
     const [achievements, setAchievements] =
         useState<IAchievement[]>(defaultAchievements);
     const [showForm, setShowForm] = useState(false);
@@ -363,13 +367,9 @@ export default function AchievementsManager() {
                         desbloquear
                     </p>
                 </div>
-                <button
-                    onClick={() => setShowForm(true)}
-                    className="flex items-center space-x-2 px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600"
-                >
-                    <Plus className="w-4 h-4" />
-                    <span>Añadir Logro</span>
-                </button>
+                <Button primary medium onClick={() => setShowForm(true)}>
+                    Añadir Logro
+                </Button>
             </div>
 
             <div className="grid grid-cols-1 gap-4">
@@ -624,26 +624,23 @@ export default function AchievementsManager() {
 
                             {getConditionsFields()}
 
-                            <div className="flex justify-end space-x-3 pt-4">
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        setShowForm(false);
-                                        setEditingAchievement(null);
-                                    }}
-                                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-                                >
-                                    Cancelar
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="px-4 py-2 bg-amber-500 text-white rounded-md hover:bg-amber-600"
-                                >
+                            <div className="flex justify-between space-x-3 pt-4">
+                                <Button btnType="submit" primary small>
                                     {editingAchievement
                                         ? 'Actualizar'
                                         : 'Crear'}{' '}
                                     Logro
-                                </button>
+                                </Button>
+                                <Button
+                                    accent
+                                    small
+                                    onClick={() => {
+                                        setShowForm(false);
+                                        setEditingAchievement(null);
+                                    }}
+                                >
+                                    Cancelar
+                                </Button>
                             </div>
                         </form>
                     </div>

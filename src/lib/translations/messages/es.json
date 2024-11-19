@@ -1449,6 +1449,20 @@
         "total_steps_number": "Número total de pasos",
         "name": "Nombre",
         "total_steps_number_description": " Este número determinará cuántos pasos deberás configurar en la sección de Pasos.",
-        "save": "Guardar"
+        "save": "Guardar",
+        "steps_configuration": "Configuración de pasos",
+        "drag_and_drop_to_reorder": "Arrastra y suelta para reordenar los pasos. Haz clic en un paso para editarlo.",
+        "edit_step_number": "Editar paso {stepNumber}",
+        "questions": "Preguntas",
+        "step_name": "Nombre del paso",
+        "location": "Ubicación",
+        "step_locked_initially": "Este paso estará bloqueado inicialmente",
+        "add_question": "Añadir pregunta",
+        "step_questions": "Preguntas del paso",
+        "question_and_number": "Pregunta {questionNumber}",
+        "question": "Pregunta",
+        "difficulty": "Dificultad",
+        "options": "Opciones",
+        "explanation": "Explicación"
     }
 }

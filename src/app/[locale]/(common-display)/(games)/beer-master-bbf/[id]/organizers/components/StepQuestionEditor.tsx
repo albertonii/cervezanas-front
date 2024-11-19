@@ -2,6 +2,13 @@ import DifficultySelector from './DifficultySelector';
 import React from 'react';
 import { IQuestion } from '@/lib/types/beerMasterGame';
 import { Plus, Trash2, AlertCircle } from 'lucide-react';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import { useTranslations } from 'next-intl';
+import Title from '@/app/[locale]/components/ui/Title';
+import { UseFormReturn } from 'react-hook-form';
+import { StepsFormData } from './StepDetails';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import SelectInput from '@/app/[locale]/components/form/SelectInput';
 
 // interface Question {
 //     id: string;
@@ -16,12 +23,16 @@ import { Plus, Trash2, AlertCircle } from 'lucide-react';
 interface StepQuestionEditorProps {
     questions: IQuestion[];
     onChange: (questions: IQuestion[]) => void;
+    form: UseFormReturn<StepsFormData, any>;
 }
 
 export default function StepQuestionEditor({
+    form,
     questions,
     onChange,
 }: StepQuestionEditorProps) {
+    const t = useTranslations('bm_game');
+
     const addQuestion = () => {
         const newQuestion: IQuestion = {
             id: `q-${Date.now()}`,
@@ -70,16 +81,12 @@ export default function StepQuestionEditor({
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
-                <h3 className="text-lg font-medium text-gray-900">
-                    Preguntas del Paso
-                </h3>
-                <button
-                    onClick={addQuestion}
-                    className="flex items-center space-x-2 px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600"
-                >
-                    <Plus className="w-4 h-4" />
-                    <span>Añadir Pregunta</span>
-                </button>
+                <Title size="large" color="black">
+                    {t('step_questions')}
+                </Title>
+                <Button primary small onClick={addQuestion}>
+                    {t('add_question')}
+                </Button>
             </div>
 
             <div className="space-y-8">
@@ -90,7 +97,9 @@ export default function StepQuestionEditor({
                     >
                         <div className="flex justify-between items-start">
                             <h4 className="text-lg font-medium text-gray-900">
-                                Pregunta {questionIndex + 1}
+                                {t('question_and_number', {
+                                    number: questionIndex + 1,
+                                })}
                             </h4>
                             <button
                                 onClick={() => removeQuestion(questionIndex)}
@@ -102,20 +111,10 @@ export default function StepQuestionEditor({
 
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Pregunta
-                                </label>
-                                <input
-                                    type="text"
-                                    value={question.text}
-                                    onChange={(e) =>
-                                        updateQuestion(
-                                            questionIndex,
-                                            'text',
-                                            e.target.value,
-                                        )
-                                    }
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                <InputLabel
+                                    form={form}
+                                    label="text"
+                                    labelText="question"
                                     placeholder="Escribe la pregunta..."
                                 />
                             </div>
@@ -123,7 +122,7 @@ export default function StepQuestionEditor({
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Dificultad
+                                        {t('difficulty')}
                                     </label>
                                     <DifficultySelector
                                         value={question.difficulty}
@@ -136,30 +135,11 @@ export default function StepQuestionEditor({
                                         }
                                     />
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Puntos
-                                    </label>
-                                    <input
-                                        type="number"
-                                        value={question.points}
-                                        onChange={(e) =>
-                                            updateQuestion(
-                                                questionIndex,
-                                                'points',
-                                                parseInt(e.target.value),
-                                            )
-                                        }
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                                        min="50"
-                                        step="50"
-                                    />
-                                </div>
                             </div>
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Opciones
+                                    {t('options')}
                                 </label>
                                 <div className="space-y-2">
                                     {question.options.map(
@@ -207,7 +187,7 @@ export default function StepQuestionEditor({
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Explicación
+                                    {t('explanation')}
                                 </label>
                                 <div className="relative">
                                     <textarea

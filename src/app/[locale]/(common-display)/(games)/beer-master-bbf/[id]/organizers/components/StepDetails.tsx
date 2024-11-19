@@ -1,7 +1,14 @@
 import StepQuestionEditor from './StepQuestionEditor';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
 import React, { useState } from 'react';
-import { X, Save } from 'lucide-react';
+import { z, ZodType } from 'zod';
+import { X } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 import { IStep } from '@/lib/types/beerMasterGame';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 interface StepDetailsProps {
     step: IStep;
@@ -9,13 +16,68 @@ interface StepDetailsProps {
     onSave: (updatedStep: IStep) => void;
 }
 
+export type StepsFormData = {
+    title: string;
+    description: string;
+    location: string;
+    is_unlocked: boolean;
+    bm_steps_questions?: {
+        id: string;
+        text: string;
+        options: string[];
+        correct_answer: number;
+        explanation?: string;
+        difficulty: string;
+        points: number;
+        created_at?: string;
+        bm_step_id?: string;
+    }[];
+};
+
+const stepSchema: ZodType<StepsFormData> = z.object({
+    title: z.string().min(1, 'Title is required'),
+    description: z.string().min(1, 'Description is required'),
+    location: z.string().min(1, 'Location is required'),
+    is_unlocked: z.boolean(),
+    bm_steps_questions: z
+        .array(
+            z.object({
+                id: z.string(),
+                text: z.string().nonempty('errors.input_required'),
+                options: z.array(z.string().nonempty('errors.input_required')),
+                correct_answer: z
+                    .number()
+                    .positive('errors.input_number_positive'),
+                explanation: z.string().optional(),
+                difficulty: z.string().nonempty('errors.input_required'),
+                points: z.number().min(1, 'errors.input_number_min_1'),
+            }),
+        )
+        .optional(),
+});
+
+type ValidationSchema = z.infer<typeof stepSchema>;
+
 export default function StepDetails({
     step,
     onClose,
     onSave,
 }: StepDetailsProps) {
+    const t = useTranslations('bm_game');
+
     const [editedStep, setEditedStep] = useState(step);
     const [activeTab, setActiveTab] = useState('basic');
+
+    const form = useForm<ValidationSchema>({
+        resolver: zodResolver(stepSchema),
+        defaultValues: {
+            title: step.title,
+            description: step.description,
+            location: step.location,
+            is_unlocked: step.is_unlocked,
+            bm_steps_questions: step.bm_steps_questions,
+        },
+    });
 
     const handleSave = () => {
         onSave(editedStep);
@@ -27,16 +89,14 @@ export default function StepDetails({
             <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-hidden">
                 <div className="flex justify-between items-center p-6 border-b border-gray-200">
                     <h2 className="text-xl font-semibold text-gray-900">
-                        Editar Paso {step.step_number}
+                        {t('edit_step_number', {
+                            stepNumber: step.step_number,
+                        })}
                     </h2>
                     <div className="flex items-center space-x-2">
-                        <button
-                            onClick={handleSave}
-                            className="flex items-center space-x-2 px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600"
-                        >
-                            <Save className="w-4 h-4" />
-                            <span>Guardar</span>
-                        </button>
+                        <Button primary small onClick={handleSave}>
+                            {t('save')}
+                        </Button>
                         <button
                             onClick={onClose}
                             className="text-gray-400 hover:text-gray-600"
@@ -55,7 +115,7 @@ export default function StepDetails({
                                 : 'text-gray-500 hover:text-gray-700'
                         }`}
                     >
-                        Información Básica
+                        {t('basic_info')}
                     </button>
                     <button
                         onClick={() => setActiveTab('questions')}
@@ -65,7 +125,7 @@ export default function StepDetails({
                                 : 'text-gray-500 hover:text-gray-700'
                         }`}
                     >
-                        Preguntas
+                        {t('questions')}
                     </button>
                 </div>
 
@@ -73,75 +133,40 @@ export default function StepDetails({
                     {activeTab === 'basic' ? (
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Nombre del Paso
-                                </label>
-                                <input
-                                    type="text"
-                                    value={editedStep.title}
-                                    onChange={(e) =>
-                                        setEditedStep({
-                                            ...editedStep,
-                                            title: e.target.value,
-                                        })
-                                    }
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                <InputLabel
+                                    form={form}
+                                    label="title"
+                                    labelText={`${t('step_name')}`}
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Descripción
-                                </label>
-                                <textarea
-                                    value={editedStep.description}
-                                    onChange={(e) =>
-                                        setEditedStep({
-                                            ...editedStep,
-                                            description: e.target.value,
-                                        })
-                                    }
+                                <InputTextarea
                                     rows={3}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                    form={form}
+                                    label="description"
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Ubicación
-                                </label>
-                                <input
-                                    type="text"
-                                    value={editedStep.location}
-                                    onChange={(e) =>
-                                        setEditedStep({
-                                            ...editedStep,
-                                            location: e.target.value,
-                                        })
-                                    }
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                <InputLabel
+                                    form={form}
+                                    label="bm_game.location"
                                 />
                             </div>
 
                             <div className="flex items-center space-x-2">
-                                <input
-                                    type="checkbox"
-                                    checked={!editedStep.is_unlocked}
-                                    onChange={(e) =>
-                                        setEditedStep({
-                                            ...editedStep,
-                                            is_unlocked: !e.target.checked,
-                                        })
-                                    }
-                                    className="rounded border-gray-300 text-amber-500 focus:ring-amber-500"
+                                <InputLabel
+                                    inputType="checkbox"
+                                    form={form}
+                                    label="is_unlocked"
+                                    labelText={t('step_locked_initially')}
                                 />
-                                <label className="text-sm text-gray-700">
-                                    Paso bloqueado inicialmente
-                                </label>
                             </div>
                         </div>
                     ) : (
                         <StepQuestionEditor
+                            form={form}
                             questions={editedStep.bm_steps_questions || []}
                             onChange={(questions) =>
                                 setEditedStep({
