@@ -20,10 +20,11 @@ interface Props {
         validate?: any;
         valueAsNumber?: boolean;
     };
-    infoTooltip?: string;
     placeholder?: string;
     disabled?: boolean;
+    infoTooltip?: string;
     isRequired?: boolean;
+    rows?: number;
 }
 export default function InputTextarea({
     form,
@@ -34,6 +35,7 @@ export default function InputTextarea({
     disabled = false,
     infoTooltip,
     isRequired = false,
+    rows = 3,
 }: Props) {
     const t = useTranslations();
 
@@ -65,6 +67,7 @@ export default function InputTextarea({
                     {...register(label, registerOptions)}
                     placeholder={placeholder}
                     disabled={disabled}
+                    rows={rows}
                 />
             </label>
 

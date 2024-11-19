@@ -28,3 +28,36 @@ export async function handleBMGameQRCodeScanned(
         message: res.statusText,
     };
 }
+
+export async function handleSaveBasicGMGameInformation(
+    name: string,
+    description: string,
+    location: string,
+    totalSteps: number,
+    gameStateId: string,
+) {
+    const url = `${baseUrl}/api/beer_master_game/organization/basic_information`;
+
+    const formData = new FormData();
+    formData.set('game_state_id', gameStateId);
+    formData.set('name', name);
+    formData.set('description', description);
+    formData.set('location', location);
+    formData.set('total_steps', totalSteps.toString());
+
+    const res = await axios.put(url, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Headers':
+                'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+        },
+    });
+
+    return {
+        data: res.data,
+        status: res.status,
+        message: res.statusText,
+    };
+}

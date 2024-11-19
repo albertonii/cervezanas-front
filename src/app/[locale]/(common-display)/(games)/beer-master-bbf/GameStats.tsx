@@ -9,6 +9,7 @@ interface GameStatsProps {
 
 export default function GameStats({ steps }: GameStatsProps) {
     const t = useTranslations('bm_game');
+
     const totalSteps = steps.length;
     const completedSteps = steps.filter((step) => step.is_completed).length;
     const totalQuestions = steps.reduce(

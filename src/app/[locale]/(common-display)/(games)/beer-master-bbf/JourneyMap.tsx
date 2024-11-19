@@ -28,7 +28,7 @@ export default function JourneyMap({
             </div>
 
             <div className="relative">
-                <div className="absolute top-1/2 left-0 right-0 h-2 bg-amber-200 transform -translate-y-1/2" />
+                <div className="absolute top-1/2 left-0 right-0 h-2 bg-amber-200 transform -translate-y-1/2 bg-beer-foam" />
 
                 <div className="relative flex justify-between items-center min-h-[150px]">
                     {steps

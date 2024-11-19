@@ -641,12 +641,15 @@
         "password_match": "Las contraseñas no coinciden",
         "password_8_length": "La contraseña debe tener al menos 8 caracteres",
         "select_location_required": "Debes seleccionar una localización",
+        "input_number_min_": "El número debe ser mayor o igual a {`{min}`}",
+        "input_number_max_": "El número debe ser menor o igual a {`{max}`}",
         "input_number_min_0": "El número no puede ser negativo",
         "input_number_min_1": "El número debe ser mayor o igual a 1",
         "input_number__min_2": "El número debe ser mayor o igual a 2",
         "input_number_min_1900": "El número debe ser mayor o igual a 1900",
         "input_number_max_3": "El número debe ser menor o igual a 3",
         "input_number_max_5": "El número debe ser menor o igual a 5",
+        "input_number_max_50": "El número debe ser menor o igual a 50",
         "input_number_max_100": "El número debe ser menor o igual a 100",
         "input_number_max_150": "El número debe ser menor o igual a 150",
         "input_number_max_500": "El número debe ser menor o igual a 500",
@@ -1436,6 +1439,16 @@
         "question_one_of_x": "Pregunta {currentQuestionIndex} de {totalQuestions}",
         "correct_answers_x": "Respuestas correctas: {correctAnswers}",
         "confirm_answer": "Confirmar respuesta",
-        "beer_master": "Maestro cervecero"
+        "beer_master": "Maestro cervecero",
+        "experience_configuration": "Configuración de la experiencia",
+        "save_changes": "Guardar cambios",
+        "basic_info": "Información básica",
+        "basic_info_description": "Configura los detalles principales de tu experiencia cervecera.",
+        "description": "Descripción",
+        "location_event": "Ubicación del evento",
+        "total_steps_number": "Número total de pasos",
+        "name": "Nombre",
+        "total_steps_number_description": " Este número determinará cuántos pasos deberás configurar en la sección de Pasos.",
+        "save": "Guardar"
     }
 }

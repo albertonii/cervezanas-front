@@ -207,7 +207,6 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                 <DynamicModal
                     title={t('accept')}
                     icon={faCheck}
-                    color={acceptColor}
                     handler={async () => {
                         handleUpdateStatus(1);
                         removeFromSubmittedList(selectedCP.id);
@@ -231,7 +230,6 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                 <DynamicModal
                     title={t('reject')}
                     icon={faCheck}
-                    color={acceptColor}
                     handler={async () => {
                         handleUpdateStatus(2);
                         removeFromSubmittedList(selectedCP.id);

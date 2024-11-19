@@ -266,7 +266,6 @@ export const SignUpForm = () => {
     const handleCredentialsMutation = useMutation({
         mutationKey: 'credentialsSignUp',
         mutationFn: handleCredentialsSignUp,
-
         onError: (error: Error) => {
             console.error(error);
         },

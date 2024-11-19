@@ -159,7 +159,6 @@ export default function ProducerList({ producers }: Props) {
                 <DynamicModal
                     title={t('accept')}
                     icon={faCheck}
-                    color={acceptColor}
                     handler={async () => {
                         handleApproveClick(selectedProducer);
                     }}
@@ -178,7 +177,6 @@ export default function ProducerList({ producers }: Props) {
                 <DynamicModal
                     title={t('reject')}
                     icon={faCheck}
-                    color={acceptColor}
                     handler={async () => {
                         handleRejectClick(selectedProducer);
                     }}

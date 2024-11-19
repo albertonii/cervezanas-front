@@ -2010,3 +2010,9 @@ export interface IUserPromoCode {
     order_id: string;
     created_at: string;
 }
+
+export interface AchievementType {
+    name: string;
+    description: string;
+    icon: string;
+}

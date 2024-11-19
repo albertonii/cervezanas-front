@@ -7,6 +7,9 @@ export interface IGameState {
     total_steps: number;
     progress: number;
     total_points: number;
+    title: string;
+    description: string;
+    location: string;
     bm_steps?: IStep[];
     bm_steps_achievements?: IAchievement[];
 }
@@ -70,6 +73,39 @@ export interface IAchievement {
     bm_game_id: string;
     bm_steps_game_state?: IGameState;
     // type: 'progress' | 'accuracy' | 'speed' | 'streak';
+    rarity: string; // common | rare | epic | legendary
+    points: number;
+    share_message?: string;
+    how_to_achieve: string;
+    conditions: IAchievementConditions;
+}
+
+export interface IAchievementConditions {
+    // Progreso
+    steps_completed?: number;
+    total_rewards_collected?: number;
+    total_points_earned?: number;
+    qr_codes_scanned?: number;
+    social_shared?: number;
+
+    // Precisión
+    correct_answers?: number;
+    required_accuracy?: number;
+    consecutive_correct_answers?: number;
+    perfect_steps?: number;
+
+    // Velocidad
+    time_limit?: number; // Segundos
+    steps_in_timeframe?: number;
+    questions_in_timeframe?: number;
+    timeframe_window?: number; // Horas
+
+    // Racha
+    days_required?: number;
+    minimum_daily_steps?: number;
+    minimum_daily_points?: number;
+    last_login_date?: string;
+    current_streak?: number;
 }
 
 export interface IBMGameStepsRegistered {

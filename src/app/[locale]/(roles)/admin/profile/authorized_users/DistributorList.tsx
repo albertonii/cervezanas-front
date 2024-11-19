@@ -156,7 +156,6 @@ export default function DistributorList({ distributors }: Props) {
                 <DynamicModal
                     title={t('accept')}
                     icon={faCheck}
-                    color={acceptColor}
                     handler={async () => {
                         handleApproveClick(selectedDistributor);
                     }}
@@ -175,7 +174,6 @@ export default function DistributorList({ distributors }: Props) {
                 <DynamicModal
                     title={t('reject')}
                     icon={faCheck}
-                    color={acceptColor}
                     handler={async () => {
                         handleRejectClick(selectedDistributor);
                     }}
