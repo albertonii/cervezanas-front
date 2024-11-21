@@ -10,8 +10,6 @@ export default async function Page({ params }: any) {
 
     const [game] = await Promise.all([gameData]);
 
-    console.log(game);
-
     return <AdminPanel gameState={game} />;
 }
 

@@ -1,15 +1,22 @@
 import React from 'react';
 import { Star } from 'lucide-react';
+import { UseFormReturn } from 'react-hook-form';
+import { IConfigurationStepFormData } from '@/lib/types/beerMasterGame';
 
 interface DifficultySelectorProps {
-    value: string;
-    onChange: (value: 'fácil' | 'medio' | 'difícil') => void;
+    questionIndex: number; // Nombre del campo en el formulario
+    form: UseFormReturn<IConfigurationStepFormData, any>;
 }
 
 export default function DifficultySelector({
-    value,
-    onChange,
+    questionIndex,
+    form,
 }: DifficultySelectorProps) {
+    const { setValue, watch } = form;
+
+    // Obtenemos el valor actual del formulario para este campo
+    const value = watch(`bm_steps_questions.${questionIndex}.difficulty`);
+
     const difficulties = [
         { value: 'easy', label: 'fácil', color: 'text-green-500', points: 100 },
         {
@@ -27,20 +34,32 @@ export default function DifficultySelector({
         },
     ];
 
+    const handleSelection = (difficulty: string) => {
+        // Encontramos la dificultad seleccionada
+        const selectedDifficulty = difficulties.find(
+            (d) => d.value === difficulty,
+        );
+        if (selectedDifficulty) {
+            // Actualizamos el valor de la dificultad y los puntos en el formulario
+            setValue(
+                `bm_steps_questions.${questionIndex}.difficulty`,
+                difficulty,
+            );
+            setValue(
+                `bm_steps_questions.${questionIndex}.points`,
+                selectedDifficulty.points,
+            );
+        }
+    };
+
     return (
-        <div>
+        <div className="flex w-full justify-between ">
             <div className="flex space-x-2">
                 {difficulties.map((difficulty) => (
                     <button
                         key={difficulty.value}
-                        onClick={() =>
-                            onChange(
-                                difficulty.value as
-                                    | 'fácil'
-                                    | 'medio'
-                                    | 'difícil',
-                            )
-                        }
+                        onClick={() => handleSelection(difficulty.value)}
+                        type="button"
                         className={`flex items-center space-x-1 px-3 py-2 rounded-md border ${
                             value === difficulty.value
                                 ? `bg-${

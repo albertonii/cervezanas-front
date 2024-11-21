@@ -29,7 +29,7 @@ export interface IStep {
     time_spent?: number;
     last_visited?: string;
     bm_state_id: string;
-    bm_steps_game_stae?: IGameState;
+    bm_steps_game_state?: IGameState;
     bm_steps_questions?: IQuestion[];
     bm_steps_rewards?: IReward[];
 }
@@ -120,4 +120,83 @@ export interface IBMGameStepsRegistered {
     time_spent: number;
     users?: IUserProfile[];
     bm_steps?: IStep[];
+}
+
+export interface IStepFormData {
+    id?: string;
+    step_number: number;
+    title: string;
+    description: string;
+    location: string;
+    is_unlocked: boolean;
+    is_completed: boolean;
+    is_qr_scanned: boolean;
+    current_question_index: number;
+    correct_answers: number;
+    time_spent?: number;
+    last_visited?: string;
+    bm_state_id: string;
+    bm_steps_game_state?: IGameStateFormData;
+    bm_steps_questions?: IQuestionFormData[];
+    bm_steps_rewards?: IRewardFormData[];
+}
+
+export interface IStepQuestionFormData {
+    id: string;
+    text: string;
+    options: string[];
+    correct_answer: number;
+    explanation?: string;
+    difficulty: string;
+    points: number;
+    created_at?: string;
+    bm_step_id?: string;
+}
+
+export interface IGameStateFormData {
+    id: string;
+    created_at: string;
+    current_step: number;
+    total_steps: number;
+    progress: number;
+    total_points: number;
+    title: string;
+    description: string;
+    location: string;
+}
+
+export interface IQuestionFormData {
+    id: string;
+    text: string;
+    options: string[];
+    correct_answer: string;
+    answered?: boolean;
+    explanation?: string;
+    difficulty: string;
+    points: number;
+    bm_step_id?: string;
+}
+
+export interface IRewardFormData {
+    id: string;
+    name: string;
+    description: string;
+    correct_answers: number;
+    total_questions: number;
+    claim_location: string;
+    claimed: boolean;
+    bm_step_id?: string;
+}
+
+export interface IConfigurationStepFormData {
+    id?: string;
+    step_number: number;
+    title: string;
+    description: string;
+    location: string;
+    is_unlocked: boolean;
+    bm_state_id: string;
+    bm_steps_game_state?: IGameStateFormData;
+    bm_steps_questions: IQuestionFormData[];
+    bm_steps_rewards?: IRewardFormData[];
 }

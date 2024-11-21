@@ -1,90 +1,138 @@
 import DifficultySelector from './DifficultySelector';
-import React from 'react';
-import { IQuestion } from '@/lib/types/beerMasterGame';
-import { Plus, Trash2, AlertCircle } from 'lucide-react';
-import Button from '@/app/[locale]/components/ui/buttons/Button';
-import { useTranslations } from 'next-intl';
+import Label from '@/app/[locale]/components/ui/Label';
 import Title from '@/app/[locale]/components/ui/Title';
-import { UseFormReturn } from 'react-hook-form';
-import { StepsFormData } from './StepDetails';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
 import InputLabel from '@/app/[locale]/components/form/InputLabel';
-import SelectInput from '@/app/[locale]/components/form/SelectInput';
-
-// interface Question {
-//     id: string;
-//     text: string;
-//     options: string[];
-//     correctAnswer: number;
-//     explanation?: string;
-//     difficulty: 'fácil' | 'medio' | 'difícil';
-//     points: number;
-// }
+import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
+import React from 'react';
+import { Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { IConfigurationStepFormData } from '@/lib/types/beerMasterGame';
+import { useFieldArray, UseFormReturn } from 'react-hook-form';
+import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
 
 interface StepQuestionEditorProps {
-    questions: IQuestion[];
-    onChange: (questions: IQuestion[]) => void;
-    form: UseFormReturn<StepsFormData, any>;
+    form: UseFormReturn<IConfigurationStepFormData, any>;
 }
-
-export default function StepQuestionEditor({
-    form,
-    questions,
-    onChange,
-}: StepQuestionEditorProps) {
+export default function StepQuestionEditor({ form }: StepQuestionEditorProps) {
     const t = useTranslations('bm_game');
 
-    const addQuestion = () => {
-        const newQuestion: IQuestion = {
+    const {
+        control,
+        register,
+        setValue,
+        watch,
+        formState: { errors },
+        getValues,
+    } = form;
+    const {
+        fields: questions,
+        append,
+        remove,
+    } = useFieldArray({
+        control,
+        name: 'bm_steps_questions',
+    });
+    console.log(questions);
+
+    const addQuestion = () =>
+        append({
             id: `q-${Date.now()}`,
             text: '',
-            options: ['', '', '', ''],
-            correct_answer: 0,
-            difficulty: 'medio',
+            options: ['', '', ''],
+            correct_answer: '0',
+            difficulty: 'medium',
             points: 150,
-            created_at: '',
-            bm_step_id: '',
-        };
-        onChange([...questions, newQuestion]);
-    };
-
-    const updateQuestion = (
-        index: number,
-        field: keyof IQuestion,
-        value: any,
-    ) => {
-        const updatedQuestions = questions.map((q, i) =>
-            i === index ? { ...q, [field]: value } : q,
-        );
-        onChange(updatedQuestions);
-    };
-
-    const updateOption = (
-        questionIndex: number,
-        optionIndex: number,
-        value: string,
-    ) => {
-        const updatedQuestions = questions.map((q, i) => {
-            if (i === questionIndex) {
-                const newOptions = [...q.options];
-                newOptions[optionIndex] = value;
-                return { ...q, options: newOptions };
-            }
-            return q;
+            explanation: '',
         });
-        onChange(updatedQuestions);
+
+    const addOption = (questionIndex: number) => {
+        const options = watch(`bm_steps_questions.${questionIndex}.options`);
+        setValue(`bm_steps_questions.${questionIndex}.options`, [
+            ...options,
+            '',
+        ]);
     };
 
-    const removeQuestion = (index: number) => {
-        onChange(questions.filter((_, i) => i !== index));
+    const removeOption = (questionIndex: number, optionIndex: number) => {
+        const options = watch(`bm_steps_questions.${questionIndex}.options`);
+        const updatedOptions = options.filter((_, idx) => idx !== optionIndex);
+        setValue(`bm_steps_questions.${questionIndex}.options`, updatedOptions);
+    };
+    const renderOptions = (questionIndex: number) => {
+        const options = watch(`bm_steps_questions.${questionIndex}.options`);
+        return options.map((option: string, optionIndex: number) => {
+            return (
+                <div key={optionIndex} className="flex items-center space-x-2">
+                    <input
+                        type="radio"
+                        {...register(
+                            `bm_steps_questions.${questionIndex}.correct_answer`,
+                        )}
+                        value={optionIndex}
+                        className="text-beer-blonde focus:ring-beer-blonde"
+                    />
+                    <DisplayInputError
+                        message={getErrorMessage(
+                            'correct_answer',
+                            questionIndex,
+                        )}
+                    />
+
+                    <input
+                        type="text"
+                        {...register(
+                            `bm_steps_questions.${questionIndex}.options.${optionIndex}`,
+                            {
+                                required: 'Este campo es obligatorio',
+                            },
+                        )}
+                        className="flex-1 px-3 py-2 border border-gray-300 rounded-md"
+                        placeholder={`Opción ${optionIndex + 1}`}
+                    />
+                    <button
+                        type="button"
+                        onClick={() => removeOption(questionIndex, optionIndex)}
+                        className="text-gray-400 hover:text-red-500"
+                    >
+                        <Trash2 className="w-5 h-5" />
+                    </button>
+
+                    {getErrorMessage('options', questionIndex, optionIndex) && (
+                        <DisplayInputError
+                            message={getErrorMessage(
+                                'options',
+                                questionIndex,
+                                optionIndex,
+                            )}
+                        />
+                    )}
+                </div>
+            );
+        });
     };
 
+    const getErrorMessage = (
+        field: keyof IConfigurationStepFormData['bm_steps_questions'][number],
+        questionIndex: number,
+        optionIndex?: number,
+    ) => {
+        const questionError = errors.bm_steps_questions?.[questionIndex];
+        if (field === 'correct_answer') {
+            return questionError?.[field]?.message;
+        }
+        if (optionIndex !== undefined) {
+            return questionError?.options?.[optionIndex]?.message;
+        }
+        return questionError?.[field]?.message;
+    };
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <Title size="large" color="black">
                     {t('step_questions')}
                 </Title>
-                <Button primary small onClick={addQuestion}>
+                <Button primary medium onClick={addQuestion}>
                     {t('add_question')}
                 </Button>
             </div>
@@ -95,117 +143,72 @@ export default function StepQuestionEditor({
                         key={question.id}
                         className="bg-white rounded-lg border border-gray-200 p-6 space-y-4"
                     >
-                        <div className="flex justify-between items-start">
+                        <div className="flex justify-between items-center">
                             <h4 className="text-lg font-medium text-gray-900">
                                 {t('question_and_number', {
-                                    number: questionIndex + 1,
+                                    questionNumber: questionIndex + 1,
                                 })}
                             </h4>
                             <button
-                                onClick={() => removeQuestion(questionIndex)}
+                                type="button"
+                                onClick={() => remove(questionIndex)}
                                 className="text-gray-400 hover:text-red-500"
                             >
                                 <Trash2 className="w-5 h-5" />
                             </button>
                         </div>
 
-                        <div className="space-y-4">
-                            <div>
-                                <InputLabel
-                                    form={form}
-                                    label="text"
-                                    labelText="question"
-                                    placeholder="Escribe la pregunta..."
-                                />
+                        <div className="space-y-2">
+                            <Label size="xsmall">{t('difficulty')}</Label>
+                            <DifficultySelector
+                                questionIndex={questionIndex}
+                                form={form}
+                            />
+                        </div>
+
+                        <div>
+                            <InputLabel
+                                form={form}
+                                label={`bm_steps_questions.${questionIndex}.text`}
+                                labelText="Pregunta"
+                                placeholder="Escribe la pregunta..."
+                            />
+                            <DisplayInputError
+                                message={
+                                    errors.bm_steps_questions?.[questionIndex]
+                                        ?.text?.message
+                                }
+                            />
+                        </div>
+
+                        <div className="space-y-4 border rounded-xl p-2">
+                            <div className="space-y-2">
+                                <Label size="xsmall">{t('options')}</Label>
+                                <Label size="xsmall" color="gray">
+                                    {t('correct_answer_must_be_selected')}
+                                </Label>
+                                {renderOptions(questionIndex)}
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        {t('difficulty')}
-                                    </label>
-                                    <DifficultySelector
-                                        value={question.difficulty}
-                                        onChange={(value) =>
-                                            updateQuestion(
-                                                questionIndex,
-                                                'difficulty',
-                                                value,
-                                            )
-                                        }
-                                    />
-                                </div>
-                            </div>
+                            <Button
+                                small
+                                primary
+                                onClick={() => addOption(questionIndex)}
+                            >
+                                {t('add_answer')}
+                            </Button>
+                        </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    {t('options')}
-                                </label>
-                                <div className="space-y-2">
-                                    {question.options.map(
-                                        (option, optionIndex) => (
-                                            <div
-                                                key={optionIndex}
-                                                className="flex items-center space-x-2"
-                                            >
-                                                <input
-                                                    type="radio"
-                                                    name={`correct-${question.id}`}
-                                                    checked={
-                                                        question.correct_answer ===
-                                                        optionIndex
-                                                    }
-                                                    onChange={() =>
-                                                        updateQuestion(
-                                                            questionIndex,
-                                                            'correct_answer',
-                                                            optionIndex,
-                                                        )
-                                                    }
-                                                    className="text-amber-500 focus:ring-amber-500"
-                                                />
-                                                <input
-                                                    type="text"
-                                                    value={option}
-                                                    onChange={(e) =>
-                                                        updateOption(
-                                                            questionIndex,
-                                                            optionIndex,
-                                                            e.target.value,
-                                                        )
-                                                    }
-                                                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md"
-                                                    placeholder={`Opción ${
-                                                        optionIndex + 1
-                                                    }`}
-                                                />
-                                            </div>
-                                        ),
-                                    )}
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    {t('explanation')}
-                                </label>
-                                <div className="relative">
-                                    <textarea
-                                        value={question.explanation || ''}
-                                        onChange={(e) =>
-                                            updateQuestion(
-                                                questionIndex,
-                                                'explanation',
-                                                e.target.value,
-                                            )
-                                        }
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                                        rows={2}
-                                        placeholder="Explica por qué esta es la respuesta correcta..."
-                                    />
-                                    <AlertCircle className="absolute right-2 top-2 w-4 h-4 text-gray-400" />
-                                </div>
-                            </div>
+                        <div>
+                            <InputTextarea
+                                form={form}
+                                label={`bm_steps_questions.${questionIndex}.explanation`}
+                                rows={2}
+                                labelText={t('explanation')}
+                                placeholder={t(
+                                    'why_is_this_the_correct_answer',
+                                )}
+                            />
                         </div>
                     </div>
                 ))}

@@ -168,13 +168,10 @@ export default function GameBasicInfo({
 
                 <div className="space-y-4">
                     <div>
-                        <Label size="small" color="gray">
-                            {t('total_steps_number')}
-                        </Label>
-
                         <InputLabel
                             form={form}
                             label="totalSteps"
+                            labelText={t('total_steps')}
                             inputType="number"
                             registerOptions={{
                                 min: 1,

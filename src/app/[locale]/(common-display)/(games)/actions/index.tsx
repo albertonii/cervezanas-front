@@ -1,3 +1,7 @@
+import {
+    IConfigurationStepFormData,
+    IStepFormData,
+} from '@/lib/types/beerMasterGame';
 import axios from 'axios';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -44,6 +48,42 @@ export async function handleSaveBasicGMGameInformation(
     formData.set('description', description);
     formData.set('location', location);
     formData.set('total_steps', totalSteps.toString());
+
+    const res = await axios.put(url, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Headers':
+                'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+        },
+    });
+
+    return {
+        data: res.data,
+        status: res.status,
+        message: res.statusText,
+    };
+}
+
+export async function handleSaveBMGameStep(
+    stepToUpd: IConfigurationStepFormData,
+) {
+    const url = `${baseUrl}/api/beer_master_game/organization/step`;
+
+    const formData = new FormData();
+
+    formData.set('step_id', stepToUpd.id || '');
+    formData.set('bm_state_id', stepToUpd.bm_state_id);
+    formData.set('title', stepToUpd.title);
+    formData.set('description', stepToUpd.description);
+    formData.set('location', stepToUpd.location);
+    formData.set('is_unlocked', stepToUpd.is_unlocked.toString());
+    formData.set('step_number', stepToUpd.step_number.toString());
+    formData.set(
+        'bm_steps_questions',
+        JSON.stringify(stepToUpd.bm_steps_questions),
+    );
 
     const res = await axios.put(url, formData, {
         headers: {

@@ -23,8 +23,6 @@ const fetchBreweriesByOwnerId = async (
         .eq('user_id', userId)
         .eq('bm_steps.bm_state_id', gameId);
 
-    console.log('INFO', data);
-
     if (error) throw error;
     return data as IBMGameStepsRegistered[];
 };

@@ -53,7 +53,7 @@ export default function AdminPanel({ gameState }: Props) {
     };
 
     return (
-        <div className="w-full min-h-screen bg-gray-50">
+        <div className="w-full bg-gray-50">
             <header className="bg-white border-b border-gray-200 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16 ">
                 <Title size="xlarge" color="beer-blonde">
                     {t('experience_configuration')}

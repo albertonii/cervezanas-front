@@ -177,7 +177,7 @@ export const SignUpForm = () => {
     const [isConsumptionPoint, setIsConsumptionPoint] = useState(false);
     const [role, setRole] = useState(ROLE_ENUM.Cervezano);
 
-    const form = useForm<FormData>({
+    const form = useForm<ValidationSchema>({
         resolver: zodResolver(schema),
         defaultValues: {
             access_level: ROLE_ENUM.Cervezano,

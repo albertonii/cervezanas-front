@@ -28,8 +28,6 @@ import { processRestNotification } from '../../[locale]/components/TPV/redsysCli
  * @see https://pagosonline.redsys.es/codigosRespuesta.html#codigo-dsresponse for response code details.
  */
 export async function POST(req: NextRequest): Promise<NextResponse> {
-    console.log('REQUEST', req);
-
     // Verificar la firma
     // const isValidNotification = verifyNotificationSignature(req.body);
 
@@ -312,9 +310,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 }
 
 function verifyNotificationSignature(body: any) {
-    console.log('DENTRO');
     const { Ds_SignatureVersion, Ds_MerchantParameters, Ds_Signature } = body;
-    console.log(Ds_SignatureVersion, Ds_MerchantParameters, Ds_Signature);
 
     // Verificar que la versión de la firma es la esperada
     if (Ds_SignatureVersion !== 'HMAC_SHA256_V1') {

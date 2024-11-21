@@ -1463,6 +1463,17 @@
         "question": "Pregunta",
         "difficulty": "Dificultad",
         "options": "Opciones",
-        "explanation": "Explicación"
+        "explanation": "Explicación",
+        "total_steps": "Número total de pasos",
+        "step_and_number": "Paso {stepNumber}",
+        "blocked": "Bloqueado",
+        "edit": "Editar",
+        "step_number": "Número de paso",
+        "why_is_this_the_correct_answer": "¿Por qué es esta la respuesta correcta?",
+        "correct_answer_must_be_selected": "Debes seleccionar la respuesta correcta",
+        "add_answer": "Añadir respuesta",
+        "save_questions": "Guardar preguntas",
+        "title": "Título",
+        "is_unlocked": "¿Está desbloqueado?"
     }
 }

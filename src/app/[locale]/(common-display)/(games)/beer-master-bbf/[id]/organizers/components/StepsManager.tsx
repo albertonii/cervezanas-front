@@ -1,166 +1,76 @@
+import StepItem from './StepItem';
 import StepDetails from './StepDetails';
-import React, { useState, useEffect, useCallback } from 'react';
-import { GripVertical, Gift } from 'lucide-react';
-import { IGameState, IStep } from '@/lib/types/beerMasterGame';
-
-import {
-    DragDropContext,
-    Droppable,
-    Draggable,
-    DropResult,
-} from 'react-beautiful-dnd';
 import Title from '@/app/[locale]/components/ui/Title';
-import { useTranslations } from 'next-intl';
 import Label from '@/app/[locale]/components/ui/Label';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
+import {
+    IConfigurationStepFormData,
+    IGameState,
+    IQuestion,
+    IRewardFormData,
+    IStep,
+} from '@/lib/types/beerMasterGame';
 
 interface StepsManagerProps {
     gameState: IGameState;
 }
 
-// Separate StepItem into its own component with modern patterns
-const StepItem = React.memo(function StepItem({
-    step,
-    index,
-    onStepChange,
-    onEditClick,
-}: {
-    step: IStep;
-    index: number;
-    onStepChange: (updatedStep: IStep) => void;
-    onEditClick: (step: IStep) => void;
-}) {
-    const handleNameChange = useCallback(
-        (e: React.ChangeEvent<HTMLInputElement>) => {
-            onStepChange({ ...step, title: e.target.value });
-        },
-        [step, onStepChange],
-    );
-
-    const handleLocationChange = useCallback(
-        (e: React.ChangeEvent<HTMLInputElement>) => {
-            onStepChange({ ...step, location: e.target.value });
-        },
-        [step, onStepChange],
-    );
-
-    const handleQuestionCountChange = useCallback(
-        (e: React.ChangeEvent<HTMLInputElement>) => {
-            // onStepChange({ ...step, question_count: parseInt(e.target.value) });
-        },
-        [step, onStepChange],
-    );
-
-    const handleLockedChange = useCallback(
-        (e: React.ChangeEvent<HTMLInputElement>) => {
-            onStepChange({ ...step, is_unlocked: !e.target.checked });
-        },
-        [step, onStepChange],
-    );
-
-    return (
-        <Draggable draggableId={step.id} index={index}>
-            {(provided) => (
-                <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow"
-                >
-                    <div className="flex items-center space-x-4">
-                        <div {...provided.dragHandleProps}>
-                            <GripVertical className="w-6 h-6 text-gray-400" />
-                        </div>
-
-                        <div className="flex-1">
-                            <div className="flex items-center space-x-3 mb-2">
-                                <span className="font-medium text-gray-900">
-                                    Paso {step.step_number}
-                                </span>
-                                {step.bm_steps_rewards && (
-                                    <Gift className="w-4 h-4 text-amber-500" />
-                                )}
-                            </div>
-
-                            <div className="grid grid-cols-3 gap-4">
-                                <input
-                                    type="text"
-                                    value={step.title}
-                                    onChange={handleNameChange}
-                                    className="px-3 py-2 border border-gray-300 rounded-md"
-                                    placeholder="Nombre del paso"
-                                />
-
-                                <input
-                                    type="text"
-                                    value={step.location}
-                                    onChange={handleLocationChange}
-                                    className="px-3 py-2 border border-gray-300 rounded-md"
-                                    placeholder="Ubicación"
-                                />
-
-                                <div className="flex items-center space-x-4">
-                                    <input
-                                        type="number"
-                                        min="1"
-                                        value={step.bm_steps_questions?.length}
-                                        onChange={handleQuestionCountChange}
-                                        className="w-20 px-3 py-2 border border-gray-300 rounded-md"
-                                    />
-                                    <label className="flex items-center space-x-2">
-                                        <input
-                                            type="checkbox"
-                                            checked={!step.is_unlocked}
-                                            onChange={handleLockedChange}
-                                            className="rounded border-gray-300 text-amber-500 focus:ring-amber-500"
-                                        />
-                                        <span className="text-sm text-gray-600">
-                                            Bloqueado
-                                        </span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button
-                            onClick={() => onEditClick(step)}
-                            className="px-4 py-2 text-amber-600 hover:bg-amber-50 rounded-lg"
-                        >
-                            Editar
-                        </button>
-                    </div>
-                </div>
-            )}
-        </Draggable>
-    );
-});
-
 export default function StepsManager({ gameState }: StepsManagerProps) {
     const t = useTranslations('bm_game');
 
     const totalSteps = gameState.total_steps;
-    const [steps, setSteps] = useState<IStep[]>([]);
-    const [editingStep, setEditingStep] = useState<IStep | null>(null);
+
+    // Función para transformar IStep[] a IConfigurationStepFormData[]
+    const transformSteps = (steps: IStep[]): IConfigurationStepFormData[] => {
+        return steps.map((step) => ({
+            id: step.id,
+            step_number: step.step_number,
+            title: step.title,
+            description: step.description,
+            location: step.location,
+            is_unlocked: step.is_unlocked,
+            bm_state_id: step.bm_state_id,
+            bm_steps_questions: step.bm_steps_questions
+                ? step.bm_steps_questions.map((question: IQuestion) => ({
+                      id: question.id,
+                      text: question.text,
+                      options: question.options,
+                      correct_answer: String(question.correct_answer), // Convertir a string si es necesario
+                      difficulty: question.difficulty,
+                      points: question.points,
+                      explanation: question.explanation,
+                  }))
+                : [],
+            bm_steps_rewards: step.bm_steps_rewards?.map(
+                (reward: IRewardFormData) => ({
+                    id: reward.id,
+                    name: reward.name,
+                    description: reward.description,
+                    correct_answers: reward.correct_answers,
+                    total_questions: reward.total_questions,
+                    claim_location: reward.claim_location,
+                    claimed: reward.claimed,
+                    bm_step_id: reward.bm_step_id,
+                }),
+            ),
+        }));
+    };
+
+    const [steps, setSteps] = useState<IConfigurationStepFormData[]>(
+        transformSteps(gameState.bm_steps || []),
+    );
+
+    const [editingStep, setEditingStep] =
+        useState<IConfigurationStepFormData | null>(null);
 
     useEffect(() => {
         if (totalSteps > steps.length) {
-            // const newSteps = Array.from(
-            //     { length: totalSteps - steps.length },
-            //     (_, i) => ({
-            //         id: `step-${steps.length + i + 1}`,
-            //         order: steps.length + i + 1,
-            //         name: '',
-            //         description: '',
-            //         location: '',
-            //         is_unlocked: false,
-            //         question_count: 1,
-            //         has_reward: false,
-            //         questions: [],
-            //     }),
-            // );
             const newSteps = Array.from(
                 { length: totalSteps - steps.length },
                 (_, i) => ({
                     id: `step-${steps.length + i + 1}`,
-                    created_at: new Date().toISOString(),
                     step_number: steps.length + i + 1,
                     title: '',
                     description: '',
@@ -171,9 +81,7 @@ export default function StepsManager({ gameState }: StepsManagerProps) {
                     current_question_index: 0,
                     correct_answers: 0,
                     bm_state_id: '',
-                    bm_steps_game_stae: undefined,
                     bm_steps_questions: [],
-                    bm_steps_rewards: [],
                 }),
             );
             setSteps([...steps, ...newSteps]);
@@ -200,22 +108,25 @@ export default function StepsManager({ gameState }: StepsManagerProps) {
         [steps],
     );
 
-    const handleStepChange = useCallback((updatedStep: IStep) => {
-        setSteps((prevSteps) =>
-            prevSteps.map((step) =>
-                step.id === updatedStep.id ? updatedStep : step,
-            ),
-        );
-    }, []);
+    const handleStepChange = useCallback(
+        (updatedStep: IConfigurationStepFormData) => {
+            setSteps((prevSteps) =>
+                prevSteps.map((step) =>
+                    step.id === updatedStep.id ? updatedStep : step,
+                ),
+            );
+        },
+        [],
+    );
 
-    const handleStepSave = useCallback((updatedStep: IStep) => {
+    const handleStepSave = async (updatedStep: IConfigurationStepFormData) => {
         setSteps((prevSteps) =>
             prevSteps.map((step) =>
                 step.id === updatedStep.id ? updatedStep : step,
             ),
         );
         setEditingStep(null);
-    }, []);
+    };
 
     return (
         <div className="space-y-6">

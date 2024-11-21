@@ -20,7 +20,7 @@ interface IconButtonProps {
     primary?: boolean;
     accent?: boolean;
     btnType?: string;
-    size?: 'small' | 'medium' | 'large' | 'xLarge' | 'xxLarge';
+    size?: 'small' | 'medium' | 'large' | 'xLarge' | 'xxLarge' | 'box';
     isLoading?: boolean;
 }
 
@@ -84,6 +84,7 @@ export function IconButton({
     };
 
     const getSizeClass = () => {
+        if (size === 'box') return 'text-md ';
         if (size === 'small') return 'text-md px-4';
         if (size === 'medium') return 'px-1 sm:px-4 text-base';
         if (size === 'large') return 'px-2 sm:px-5 text-base sm:text-lg';
