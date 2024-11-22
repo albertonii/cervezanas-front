@@ -1,10 +1,22 @@
+import React, { useState, useCallback, useEffect } from 'react';
+import {
+    DndContext,
+    closestCenter,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors,
+} from '@dnd-kit/core';
+import {
+    SortableContext,
+    sortableKeyboardCoordinates,
+    arrayMove,
+    verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 import StepItem from './StepItem';
 import StepDetails from './StepDetails';
 import Title from '@/app/[locale]/components/ui/Title';
 import Label from '@/app/[locale]/components/ui/Label';
-import React, { useState, useEffect, useCallback } from 'react';
-import { useTranslations } from 'next-intl';
-import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 import {
     IConfigurationStepFormData,
     IGameState,
@@ -18,11 +30,8 @@ interface StepsManagerProps {
 }
 
 export default function StepsManager({ gameState }: StepsManagerProps) {
-    const t = useTranslations('bm_game');
-
     const totalSteps = gameState.total_steps;
 
-    // Función para transformar IStep[] a IConfigurationStepFormData[]
     const transformSteps = (steps: IStep[]): IConfigurationStepFormData[] => {
         return steps.map((step) => ({
             id: step.id,
@@ -37,7 +46,7 @@ export default function StepsManager({ gameState }: StepsManagerProps) {
                       id: question.id,
                       text: question.text,
                       options: question.options,
-                      correct_answer: String(question.correct_answer), // Convertir a string si es necesario
+                      correct_answer: String(question.correct_answer),
                       difficulty: question.difficulty,
                       points: question.points,
                       explanation: question.explanation,
@@ -76,91 +85,86 @@ export default function StepsManager({ gameState }: StepsManagerProps) {
                     description: '',
                     location: '',
                     is_unlocked: false,
-                    is_completed: false,
-                    is_qr_scanned: false,
-                    current_question_index: 0,
-                    correct_answers: 0,
                     bm_state_id: '',
                     bm_steps_questions: [],
+                    bm_steps_rewards: [],
                 }),
             );
-            setSteps([...steps, ...newSteps]);
+            setSteps((prev) => [...prev, ...newSteps]);
         } else if (totalSteps < steps.length) {
-            setSteps(steps.slice(0, totalSteps));
+            setSteps((prev) => prev.slice(0, totalSteps));
         }
     }, [totalSteps]);
 
-    const handleDragEnd = useCallback(
-        (result: DropResult) => {
-            if (!result.destination) return;
-
-            const items = Array.from(steps);
-            const [reorderedItem] = items.splice(result.source.index, 1);
-            items.splice(result.destination.index, 0, reorderedItem);
-
-            const updatedItems = items.map((item, index) => ({
-                ...item,
-                order: index + 1,
-            }));
-
-            setSteps(updatedItems);
-        },
-        [steps],
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        }),
     );
 
-    const handleStepChange = useCallback(
+    const handleDragEnd = ({ active, over }: any) => {
+        if (!over) return;
+
+        const oldIndex = steps.findIndex((step) => step.id === active.id);
+        const newIndex = steps.findIndex((step) => step.id === over.id);
+
+        if (oldIndex !== newIndex) {
+            const reorderedSteps = arrayMove(steps, oldIndex, newIndex).map(
+                (step, index) => ({
+                    ...step,
+                    step_number: index + 1,
+                }),
+            );
+            setSteps(reorderedSteps);
+        }
+    };
+
+    const handleStepSave = useCallback(
         (updatedStep: IConfigurationStepFormData) => {
             setSteps((prevSteps) =>
                 prevSteps.map((step) =>
                     step.id === updatedStep.id ? updatedStep : step,
                 ),
             );
+            setEditingStep(null);
         },
         [],
     );
 
-    const handleStepSave = async (updatedStep: IConfigurationStepFormData) => {
-        setSteps((prevSteps) =>
-            prevSteps.map((step) =>
-                step.id === updatedStep.id ? updatedStep : step,
-            ),
-        );
-        setEditingStep(null);
-    };
-
     return (
         <div className="space-y-6">
-            <div>
-                <Title size="xlarge" color="black">
-                    {t('steps_configuration')}
-                </Title>
-                <Label color="gray" size="small">
-                    {t('drag_and_drop_to_reorder')}
-                </Label>
-            </div>
+            <Title size="xlarge" color="black">
+                Steps Configuration
+            </Title>
+            <Label color="gray" size="small">
+                Drag and drop to reorder steps
+            </Label>
 
-            <DragDropContext onDragEnd={handleDragEnd}>
-                <Droppable droppableId="steps">
-                    {(provided) => (
-                        <div
-                            {...provided.droppableProps}
-                            ref={provided.innerRef}
-                            className="space-y-3"
-                        >
-                            {steps.map((step, index) => (
-                                <StepItem
-                                    key={step.id}
-                                    step={step}
-                                    index={index}
-                                    onStepChange={handleStepChange}
-                                    onEditClick={setEditingStep}
-                                />
-                            ))}
-                            {provided.placeholder}
-                        </div>
+            <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+            >
+                <SortableContext
+                    items={steps.map(
+                        (step, index) => step.id || `temp-id-${index}`,
                     )}
-                </Droppable>
-            </DragDropContext>
+                    strategy={verticalListSortingStrategy}
+                >
+                    <div className="space-y-3">
+                        {steps.map((step, index) => (
+                            <StepItem
+                                key={step.id}
+                                step={step}
+                                index={index}
+                                onStepChange={() => {}}
+                                onEditClick={setEditingStep}
+                            />
+                        ))}
+                    </div>
+                </SortableContext>
+            </DndContext>
 
             {editingStep && (
                 <StepDetails

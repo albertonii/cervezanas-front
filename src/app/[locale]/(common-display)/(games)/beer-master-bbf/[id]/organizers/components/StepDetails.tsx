@@ -1,7 +1,7 @@
 import StepQuestionEditor from './StepQuestionEditor';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
 import StepBasicInfoEditor from './StepBasicInfoEditor';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { z, ZodType } from 'zod';
 import { X } from 'lucide-react';
 import { useMutation } from 'react-query';
@@ -10,6 +10,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { handleSaveBMGameStep } from '../../../../actions';
 import { IConfigurationStepFormData } from '@/lib/types/beerMasterGame';
+import TabButton from '@/app/[locale]/components/ui/buttons/TabButton';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 
 interface StepDetailsProps {
     step: IConfigurationStepFormData;
@@ -50,11 +52,13 @@ export default function StepDetails({
 }: StepDetailsProps) {
     const t = useTranslations('bm_game');
 
-    const [editedStep, setEditedStep] = useState(step);
     const [activeTab, setActiveTab] = useState('basic');
+
+    const { handleMessage } = useMessage();
 
     const form = useForm<ValidationSchema>({
         resolver: zodResolver(stepSchema),
+        mode: 'onSubmit', // Solo valida al enviar
         defaultValues: {
             bm_state_id: step.id,
             title: step.title,
@@ -92,7 +96,7 @@ export default function StepDetails({
         } = form;
 
         const updatedStep: IConfigurationStepFormData = {
-            ...editedStep,
+            ...step,
             id: step.id || '',
             bm_state_id: step.bm_state_id,
             title,
@@ -108,13 +112,16 @@ export default function StepDetails({
 
             onSave(updatedStep);
             onClose();
-        }
 
-        return null;
+            handleMessage({
+                type: 'success',
+                message: t('step_saved'),
+            });
+        }
     };
 
     const handleStepSaveMutation = useMutation({
-        mutationKey: 'saveStep',
+        mutationKey: ['saveStep', step.id],
         mutationFn: handleStepSave,
         onError: (err: Error) => {
             console.log(err);
@@ -130,6 +137,10 @@ export default function StepDetails({
             console.log(err);
         }
     };
+
+    const handleTabChange = useCallback((tab: 'basic' | 'questions') => {
+        setActiveTab(tab);
+    }, []);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -155,26 +166,18 @@ export default function StepDetails({
                     </div>
 
                     <div className="flex border-b border-gray-200">
-                        <button
+                        <TabButton
+                            isActive={activeTab === 'basic'}
                             onClick={() => setActiveTab('basic')}
-                            className={`px-6 py-3 font-medium ${
-                                activeTab === 'basic'
-                                    ? 'text-amber-600 border-b-2 border-amber-500'
-                                    : 'text-gray-500 hover:text-gray-700'
-                            }`}
                         >
                             {t('basic_info')}
-                        </button>
-                        <button
+                        </TabButton>
+                        <TabButton
+                            isActive={activeTab === 'questions'}
                             onClick={() => setActiveTab('questions')}
-                            className={`px-6 py-3 font-medium ${
-                                activeTab === 'questions'
-                                    ? 'text-amber-600 border-b-2 border-amber-500'
-                                    : 'text-gray-500 hover:text-gray-700'
-                            }`}
                         >
                             {t('questions')}
-                        </button>
+                        </TabButton>
                     </div>
 
                     <div className="p-6 overflow-y-auto max-h-[calc(90vh-12rem)]">

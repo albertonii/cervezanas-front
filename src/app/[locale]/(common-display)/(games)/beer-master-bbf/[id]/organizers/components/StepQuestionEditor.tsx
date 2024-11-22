@@ -4,7 +4,7 @@ import Title from '@/app/[locale]/components/ui/Title';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
 import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { IConfigurationStepFormData } from '@/lib/types/beerMasterGame';
@@ -59,58 +59,73 @@ export default function StepQuestionEditor({ form }: StepQuestionEditorProps) {
         const updatedOptions = options.filter((_, idx) => idx !== optionIndex);
         setValue(`bm_steps_questions.${questionIndex}.options`, updatedOptions);
     };
-    const renderOptions = (questionIndex: number) => {
-        const options = watch(`bm_steps_questions.${questionIndex}.options`);
-        return options.map((option: string, optionIndex: number) => {
-            return (
-                <div key={optionIndex} className="flex items-center space-x-2">
-                    <input
-                        type="radio"
-                        {...register(
-                            `bm_steps_questions.${questionIndex}.correct_answer`,
-                        )}
-                        value={optionIndex}
-                        className="text-beer-blonde focus:ring-beer-blonde"
-                    />
-                    <DisplayInputError
-                        message={getErrorMessage(
-                            'correct_answer',
-                            questionIndex,
-                        )}
-                    />
 
-                    <input
-                        type="text"
-                        {...register(
-                            `bm_steps_questions.${questionIndex}.options.${optionIndex}`,
-                            {
-                                required: 'Este campo es obligatorio',
-                            },
-                        )}
-                        className="flex-1 px-3 py-2 border border-gray-300 rounded-md"
-                        placeholder={`Opción ${optionIndex + 1}`}
-                    />
-                    <button
-                        type="button"
-                        onClick={() => removeOption(questionIndex, optionIndex)}
-                        className="text-gray-400 hover:text-red-500"
+    const renderOptions = useCallback(
+        (questionIndex: number) => {
+            const options = watch(
+                `bm_steps_questions.${questionIndex}.options`,
+            );
+            return options.map((option: string, optionIndex: number) => {
+                return (
+                    <div
+                        key={optionIndex}
+                        className="flex items-center space-x-2"
                     >
-                        <Trash2 className="w-5 h-5" />
-                    </button>
-
-                    {getErrorMessage('options', questionIndex, optionIndex) && (
+                        <input
+                            type="radio"
+                            {...register(
+                                `bm_steps_questions.${questionIndex}.correct_answer`,
+                            )}
+                            value={optionIndex}
+                            className="text-beer-blonde focus:ring-beer-blonde"
+                        />
                         <DisplayInputError
                             message={getErrorMessage(
-                                'options',
+                                'correct_answer',
                                 questionIndex,
-                                optionIndex,
                             )}
                         />
-                    )}
-                </div>
-            );
-        });
-    };
+
+                        <input
+                            type="text"
+                            {...register(
+                                `bm_steps_questions.${questionIndex}.options.${optionIndex}`,
+                                {
+                                    required: 'Este campo es obligatorio',
+                                },
+                            )}
+                            className="flex-1 px-3 py-2 border border-gray-300 rounded-md"
+                            placeholder={`Opción ${optionIndex + 1}`}
+                        />
+                        <button
+                            type="button"
+                            onClick={() =>
+                                removeOption(questionIndex, optionIndex)
+                            }
+                            className="text-gray-400 hover:text-red-500"
+                        >
+                            <Trash2 className="w-5 h-5" />
+                        </button>
+
+                        {getErrorMessage(
+                            'options',
+                            questionIndex,
+                            optionIndex,
+                        ) && (
+                            <DisplayInputError
+                                message={getErrorMessage(
+                                    'options',
+                                    questionIndex,
+                                    optionIndex,
+                                )}
+                            />
+                        )}
+                    </div>
+                );
+            });
+        },
+        [register, getValues, removeOption],
+    );
 
     const getErrorMessage = (
         field: keyof IConfigurationStepFormData['bm_steps_questions'][number],
@@ -126,6 +141,29 @@ export default function StepQuestionEditor({ form }: StepQuestionEditorProps) {
         }
         return questionError?.[field]?.message;
     };
+
+    const QuestionList = React.memo(
+        ({
+            questions,
+            renderOptions,
+        }: {
+            questions: any;
+            renderOptions: (index: number) => JSX.Element[];
+        }) => {
+            return questions.map((question: any, questionIndex: number) => (
+                <div
+                    key={question.id}
+                    className="bg-white rounded-lg border border-gray-200 p-6 space-y-4"
+                >
+                    <h4 className="text-lg font-medium text-gray-900">
+                        {`Pregunta ${questionIndex + 1}`}
+                    </h4>
+                    {renderOptions(questionIndex)}
+                </div>
+            ));
+        },
+    );
+
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
