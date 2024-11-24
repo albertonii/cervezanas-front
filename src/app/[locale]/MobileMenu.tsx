@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import Button from './components/ui/buttons/Button';
+import useNotifications from '@/hooks/useNotifications';
 import useOnClickOutside from '@/hooks/useOnOutsideClickDOM';
-import { useLocale } from 'next-intl';
 import { useRef, useState } from 'react';
 import {
     ROUTE_ADMIN,
@@ -22,30 +23,28 @@ import {
     ROUTE_SETTINGS,
     ROUTE_SIGNIN,
 } from '@/config';
-import { useTranslations } from 'next-intl';
-import { INotification } from '@/lib/types/types';
-import { useAuth } from './(auth)/Context/useAuth';
-import { useAppContext } from '@/app/context/AppContext';
-import { usePathname, useRouter } from 'next/navigation';
-import { NotificationPopup } from './components/notificationPopup/NotificationPopup';
-import { useShoppingCart } from '@/app/context/ShoppingCartContext';
+import { useLocale } from 'next-intl';
 import { ROLE_ENUM } from '@/lib//enums';
-import Button from './components/ui/buttons/Button';
+import { useTranslations } from 'next-intl';
+import { useAuth } from './(auth)/Context/useAuth';
+import { usePathname, useRouter } from 'next/navigation';
+import { useShoppingCart } from '@/app/context/ShoppingCartContext';
+import { NotificationPopup } from './components/notificationPopup/NotificationPopup';
 import { generateLink } from '@/utils/utils';
 import DropdownRoleList from './components/DropdownRoleList';
 
-
 interface Props {
-    notifications: INotification[];
     i18nLocaleArray: string[];
     options: string[];
 }
 
 export default function MobileMenu({
-    notifications,
     i18nLocaleArray,
     options,
 }: Props) {
+   // const { role, user } = useAuth();
+    const { notifications } = useNotifications();
+
     //const { role, user } = useAuth();
     const { role, signOut, changeRole, user } = useAuth();
     const [open, setOpen] = useState(false);
@@ -53,7 +52,8 @@ export default function MobileMenu({
     const handleOpenCallback = () => {
         setOpen(false);
     };
-    const imageSrc =
+
+ const imageSrc =
         role === ROLE_ENUM.Admin
             ? '/icons/icon-admin.png'
             : role === ROLE_ENUM.Distributor
@@ -63,24 +63,26 @@ export default function MobileMenu({
             : '/icons/icon-cerv.png';
     const [displayDropdownRoles, setDisplayDropdownRoles] = useState(false);
     const [isArrowDown, setIsArrowDown] = useState(false);
-    const { changeSidebarActive } = useAppContext();
+   // const { changeSidebarActive } = useAppContext();
     const handleOnClickRole = () => {
         //  setDisplayDropdownRoles(true);
         setDisplayDropdownRoles(!isArrowDown);
         setIsArrowDown((prevState) => !prevState);
     };
+
     const handleOnClickRoleOutside = () => {
         setDisplayDropdownRoles(false);
         setIsArrowDown(true);
     };
     const handleOnClickOption = (option: string) => {
         setOpen(false);
-        changeSidebarActive(option);
+     //   changeSidebarActive(option);
     };
-  
+
+
     const sidebarRef = useRef<HTMLDivElement>(null);
 
-    const { openNotification, setOpenNotification } = useAppContext();
+    const { setOpenNotification } = useNotifications();
     const { cartQuantity, openCart } = useShoppingCart();
     useOnClickOutside(sidebarRef, () => handleClickOutsideCallback());
 
@@ -261,11 +263,7 @@ export default function MobileMenu({
                                         </div>
                                     </Button>
 
-                                    <NotificationPopup
-                                        open={openNotification}
-                                        setOpen={setOpenNotification}
-                                        notifications={notifications}
-                                    />
+                                    <NotificationPopup />
 
                                     {/* Cart  */}
                                     <Button

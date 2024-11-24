@@ -15,6 +15,12 @@ import { updateCityDistribution } from '../../../actions';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
 import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
+import Table from '@/app/[locale]/components/ui/table/Table';
+import Label from '@/app/[locale]/components/ui/Label';
+import THead from '@/app/[locale]/components/ui/table/THead';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import TH from '@/app/[locale]/components/ui/table/TH';
+import TBody from '@/app/[locale]/components/ui/table/TBody';
 
 interface FormData {
     country: string;
@@ -561,20 +567,14 @@ export default function CityDistribution({
                                         </div> */}
 
                                         {/* Display selectable table with all cities in the country selected */}
-                                        <label
-                                            htmlFor="addressCity"
-                                            className="text-sm text-gray-600"
-                                        >
+                                        <Label htmlFor="addressCity">
                                             {t('loc_city')}
-                                        </label>
+                                        </Label>
 
-                                        <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400 bg-beer-foam  ">
-                                            <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                                                <tr>
-                                                    <th
-                                                        scope="col"
-                                                        className="px-6 py-3"
-                                                    >
+                                        <Table>
+                                            <THead>
+                                                <TR>
+                                                    <TH scope="col">
                                                         <input
                                                             type="checkbox"
                                                             onChange={(e) => {
@@ -587,17 +587,14 @@ export default function CityDistribution({
                                                             }
                                                             className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
                                                         />
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        className="px-6 py-3"
-                                                    >
+                                                    </TH>
+                                                    <TH scope="col">
                                                         {t('city')}
-                                                    </th>
-                                                </tr>
-                                            </thead>
+                                                    </TH>
+                                                </TR>
+                                            </THead>
 
-                                            <tbody>
+                                            <TBody>
                                                 {listOfCities?.map(
                                                     (
                                                         city: ICity,
@@ -610,12 +607,11 @@ export default function CityDistribution({
                                                             startIndex + index;
 
                                                         return (
-                                                            <tr
+                                                            <TR
                                                                 key={
                                                                     city.name +
                                                                     currentPage
                                                                 }
-                                                                className=""
                                                             >
                                                                 <>
                                                                     <CityRow
@@ -636,12 +632,12 @@ export default function CityDistribution({
                                                                         }
                                                                     />
                                                                 </>
-                                                            </tr>
+                                                            </TR>
                                                         );
                                                     },
                                                 )}
-                                            </tbody>
-                                        </table>
+                                            </TBody>
+                                        </Table>
 
                                         <PaginationFooter
                                             counter={counter}

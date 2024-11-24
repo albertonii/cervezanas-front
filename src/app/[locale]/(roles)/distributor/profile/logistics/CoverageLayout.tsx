@@ -7,8 +7,13 @@ import DistributionCost from './distribution_costs/DistributionCost';
 import React, { useState } from 'react';
 import { DistributionOption } from '@/lib//enums';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
+import { IDistributionCost } from '@/lib/types/types';
 
-export default function CoverageLayout() {
+interface Props {
+    distributionCosts: IDistributionCost;
+}
+
+export default function CoverageLayout({ distributionCosts }: Props) {
     const [menuOption, setMenuOption] = useState<string>(
         DistributionOption.DESTINATION,
     );
@@ -23,7 +28,12 @@ export default function CoverageLayout() {
                 return <OriginInfo />;
 
             case DistributionOption.COST:
-                return <DistributionCost userId={user.id} />;
+                return (
+                    <DistributionCost
+                        userId={user.id}
+                        distributionCosts={distributionCosts}
+                    />
+                );
 
             case DistributionOption.DESTINATION:
                 return <CoverageAreas />;

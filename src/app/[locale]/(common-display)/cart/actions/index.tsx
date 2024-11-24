@@ -324,7 +324,7 @@ export async function calculateCheapestShippingCostsByDistributor(
     shippingInfo: IShippingInfo,
     distributionContracts: IDistributionContract[],
 ) {
-    const url = `${baseUrl}/api/calculate_shipping`;
+    const urlCalculateShipping = `${baseUrl}/api/calculate_shipping`;
 
     // Sumar el peso total de los productos
     const totalWeight = await Promise.all(
@@ -333,6 +333,8 @@ export async function calculateCheapestShippingCostsByDistributor(
         }),
     ).then((weights) => weights.reduce((prev, current) => prev + current, 0));
 
+    console.log('TOTAL WEIGHT', totalWeight);
+
     // Obtener el costo de envío de cada distribuidor
     const shippingCostInformation: {
         distributor_id: string | null;
@@ -340,7 +342,21 @@ export async function calculateCheapestShippingCostsByDistributor(
     }[] = await Promise.all(
         distributionContracts.map(async (distributionContract) => {
             try {
-                const response = await axios.get(url, {
+                console.log(
+                    distributionContract.distributor_user?.distribution_costs,
+                );
+
+                if (
+                    distributionContract.distributor_user?.distribution_costs
+                        ?.distribution_costs_in_product
+                ) {
+                    return {
+                        distributor_id: distributionContract.distributor_id,
+                        delivery_cost: 0,
+                    };
+                }
+
+                const response = await axios.get(urlCalculateShipping, {
                     params: {
                         distributor_id: distributionContract.distributor_id,
                         total_weight: totalWeight,
@@ -402,6 +418,8 @@ export async function calculateCheapestShippingCostsByDistributor(
             : validShippingCosts.reduce((prev, current) =>
                   prev.delivery_cost! < current.delivery_cost! ? prev : current,
               );
+
+    console.log('Cheapest shipping cost:', cheapestShippingCost);
 
     return cheapestShippingCost;
 }

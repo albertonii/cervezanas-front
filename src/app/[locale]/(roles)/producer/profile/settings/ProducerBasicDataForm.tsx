@@ -13,6 +13,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import Title from '@/app/[locale]/components/ui/Title';
+import ProfileSettingsContainer from '@/app/[locale]/components/ui/ProfileSettingsContainer';
 
 type FormData = {
     id_number: string;
@@ -122,16 +124,10 @@ export function ProducerBasicDataForm({ profile }: Props) {
     };
 
     return (
-        <section
-            id="account_producer_data"
-            className="mb-4 space-y-3 bg-white px-6 py-4 rounded-xl border"
-        >
-            <span
-                id="account-producer-data"
-                className="text-4xl font-['NexaRust-script']"
-            >
+        <ProfileSettingsContainer sectionId="account_producer_data">
+            <Title size="large" color="black">
                 {t('producer_title_acc_data')}
-            </span>
+            </Title>
 
             <form
                 onSubmit={handleSubmit(onSubmit)}
@@ -217,6 +213,6 @@ export function ProducerBasicDataForm({ profile }: Props) {
                     {t('save')}
                 </Button>
             </form>
-        </section>
+        </ProfileSettingsContainer>
     );
 }

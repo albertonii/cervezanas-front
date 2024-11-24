@@ -6,6 +6,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from './buttons/Button';
+import Label from './Label';
 interface Props {
     counter: number;
     resultsPerPage: number;
@@ -51,7 +52,7 @@ const PaginationFooter = memo(function PaginationFooter({
     };
 
     return (
-        <footer className="flex items-center justify-between py-4 px-6 bg-white shadow-md rounded-lg space-x-4">
+        <footer className="flex items-center justify-between py-4 px-6 bg-white shadow-md rounded-lg space-x-4 dark:bg-gray-700">
             <Button
                 onClick={handlePrevPage}
                 small
@@ -61,20 +62,20 @@ const PaginationFooter = memo(function PaginationFooter({
             >
                 <FontAwesomeIcon
                     icon={faChevronCircleLeft}
-                    className="text-gray-600"
+                    className="text-gray-600 dark:text-gray-300"
                     title={'Previous Page'}
                     width={20}
                     height={20}
                 />
             </Button>
 
-            <p className="text-sm lg:text-lg text-gray-600 text-center">
+            <Label size="small">
                 {t('pagination_footer_nums', {
                     from: (currentPage - 1) * resultsPerPage + 1,
                     to: lastElementPage,
                     total: counter,
                 })}
-            </p>
+            </Label>
 
             <Button
                 onClick={handleNextPage}
@@ -85,7 +86,7 @@ const PaginationFooter = memo(function PaginationFooter({
             >
                 <FontAwesomeIcon
                     icon={faChevronCircleRight}
-                    className="text-gray-600"
+                    className="text-gray-600 dark:text-gray-300"
                     title={'Next Page'}
                     width={20}
                     height={20}

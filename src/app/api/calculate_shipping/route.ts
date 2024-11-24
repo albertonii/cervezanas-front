@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { DistributionCostType } from '@/lib//enums';
-import { IAreaAndWeightInformation, IShippingInfo } from '@/lib//types/types';
 import { normalizeAddress } from '@/utils/distribution';
 import { createBrowserClient } from '@/utils/supabaseBrowser';
+import { IAreaAndWeightInformation } from '@/lib//types/types';
 
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
     }
 
     if (distributionCosts.distribution_costs_in_product) {
-        return NextResponse.json({ cost: null }, { status: 200 });
+        return NextResponse.json({ cost: 0 }, { status: 200 });
     }
 
     if (

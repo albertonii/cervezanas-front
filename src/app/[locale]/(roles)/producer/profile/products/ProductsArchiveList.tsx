@@ -14,6 +14,13 @@ import { UnarchiveButton } from '@/app/[locale]/components/ui/buttons/UnarchiveB
 import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
 import { formatCurrency } from '@/utils/formatCurrency';
+import THead from '@/app/[locale]/components/ui/table/THead';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import TH from '@/app/[locale]/components/ui/table/TH';
+import Table from '@/app/[locale]/components/ui/table/Table';
+import TBody from '@/app/[locale]/components/ui/table/TBody';
+import TD from '@/app/[locale]/components/ui/table/TD';
+import TDActions from '@/app/[locale]/components/ui/table/TDActions';
 
 interface Props {
     handleEditShowModal: ComponentProps<any>;
@@ -147,35 +154,31 @@ export function ProductsArchiveList({
                         searchPlaceholder={'search_products'}
                     />
 
-                    <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
-                        <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
+                    <Table>
+                        <THead>
+                            <TR>
                                 {COLUMNS.map(
                                     (column: ColumnsProps, index: number) => {
                                         return (
-                                            <th
-                                                key={index}
-                                                scope="col"
-                                                className="px-6 py-3"
-                                            >
+                                            <TH key={index} scope="col">
                                                 {column.header}
-                                            </th>
+                                            </TH>
                                         );
                                     },
                                 )}
-                            </tr>
-                        </thead>
+                            </TR>
+                        </THead>
 
-                        <tbody>
+                        <TBody>
                             {products &&
                                 filteredItems.map((product) => {
                                     return (
-                                        <tr key={product.id} className="">
+                                        <TR key={product.id}>
                                             {product.is_archived && (
                                                 <>
-                                                    <th
+                                                    <TH
                                                         scope="row"
-                                                        className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                                                        class_="whitespace-nowrap"
                                                     >
                                                         <Image
                                                             width={128}
@@ -186,24 +189,24 @@ export function ProductsArchiveList({
                                                             }
                                                             alt="Beer Type"
                                                         />
-                                                    </th>
+                                                    </TH>
 
-                                                    <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
+                                                    <TD class_="text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
                                                         <Link
                                                             href={`/products/${product.id}`}
                                                             locale={locale}
                                                         >
                                                             {product.name}
                                                         </Link>
-                                                    </td>
+                                                    </TD>
 
-                                                    <td className="px-6 py-4">
+                                                    <TD>
                                                         {formatCurrency(
                                                             product.price,
                                                         )}
-                                                    </td>
+                                                    </TD>
 
-                                                    <td className="px-6 py-4">
+                                                    <TD>
                                                         {product.product_inventory &&
                                                         product
                                                             .product_inventory
@@ -212,9 +215,9 @@ export function ProductsArchiveList({
                                                                   .product_inventory
                                                                   .quantity
                                                             : '-'}
-                                                    </td>
+                                                    </TD>
 
-                                                    <td className="px-6 py-4">
+                                                    <TD>
                                                         {product.product_lots &&
                                                         product.product_lots[0]
                                                             ?.lot_id
@@ -222,15 +225,15 @@ export function ProductsArchiveList({
                                                                   .product_lots[0]
                                                                   ?.lot_id
                                                             : '-'}
-                                                    </td>
+                                                    </TD>
 
-                                                    <td className="px-6 py-4">
+                                                    <TD>
                                                         {product.is_public
                                                             ? t('yes')
                                                             : t('no')}
-                                                    </td>
+                                                    </TD>
 
-                                                    <td className="px-6 py-4">
+                                                    <TDActions>
                                                         <div className="flex space-x-1">
                                                             <EditButton
                                                                 onClick={() =>
@@ -254,14 +257,14 @@ export function ProductsArchiveList({
                                                                 }
                                                             />
                                                         </div>
-                                                    </td>
+                                                    </TDActions>
                                                 </>
                                             )}
-                                        </tr>
+                                        </TR>
                                     );
                                 })}
-                        </tbody>
-                    </table>
+                        </TBody>
+                    </Table>
 
                     {/* Prev and Next button for pagination  */}
                     <div className="my-4 flex items-center justify-around">

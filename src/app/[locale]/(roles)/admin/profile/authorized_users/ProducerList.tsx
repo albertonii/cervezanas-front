@@ -18,6 +18,13 @@ import {
     sendEmailAcceptUserAsProducer,
     sendEmailCancelUserAsProducer,
 } from '@/lib//actions';
+import Table from '@/app/[locale]/components/ui/table/Table';
+import THead from '@/app/[locale]/components/ui/table/THead';
+import TBody from '@/app/[locale]/components/ui/table/TBody';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import TH from '@/app/[locale]/components/ui/table/TH';
+import TD from '@/app/[locale]/components/ui/table/TD';
+import TDActions from '@/app/[locale]/components/ui/table/TDActions';
 
 enum SortBy {
     NONE = 'none',
@@ -192,53 +199,46 @@ export default function ProducerList({ producers }: Props) {
                 searchPlaceholder={'search_producer'}
             />
 
-            <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
-                <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th
-                            scope="col"
-                            className="px-6 py-3 hover:cursor-pointer"
-                        >
+            <Table>
+                <THead>
+                    <TR>
+                        <TH scope="col" class_="hover:cursor-pointer">
                             -
-                        </th>
+                        </TH>
 
-                        <th
+                        <TH
                             scope="col"
-                            className="px-6 py-3 hover:cursor-pointer"
+                            class_="hover:cursor-pointer"
                             onClick={() => {
                                 handleChangeSort(SortBy.USERNAME);
                             }}
                         >
                             {t('username_header')}
-                        </th>
+                        </TH>
 
-                        <th
+                        <TH
                             scope="col"
-                            className="px-6 py-3 hover:cursor-pointer"
+                            class_="hover:cursor-pointer"
                             onClick={() => {
                                 handleChangeSort(SortBy.CREATED_DATE);
                             }}
                         >
                             {t('created_date_header')}
-                        </th>
+                        </TH>
 
-                        <th scope="col" className="px-6 py-3">
-                            {t('status_header')}
-                        </th>
+                        <TH scope="col">{t('status_header')}</TH>
 
-                        <th scope="col" className="px-6 py-3 ">
-                            {t('action_header')}
-                        </th>
-                    </tr>
-                </thead>
+                        <TH scope="col">{t('action_header')}</TH>
+                    </TR>
+                </THead>
 
-                <tbody>
+                <TBody>
                     {sortedItems.map((producer) => {
                         return (
-                            <tr key={producer.user_id} className="">
-                                <th
+                            <TR key={producer.user_id}>
+                                <TH
                                     scope="row"
-                                    className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                                    class_="whitespace-nowrap font-medium "
                                 >
                                     <FontAwesomeIcon
                                         icon={faUser}
@@ -247,32 +247,31 @@ export default function ProducerList({ producers }: Props) {
                                         width={80}
                                         height={80}
                                     />
-                                </th>
+                                </TH>
 
-                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
+                                <TD class_="hover:text-beer-draft">
                                     <Link
                                         href={`/user-info/${producer.user_id}`}
                                         locale={locale}
                                     >
                                         {producer.users?.username}
                                     </Link>
-                                </td>
+                                </TD>
 
-                                <td className="px-6 py-4">
-                                    {formatDateString(producer.created_at)}
-                                </td>
+                                <TD>{formatDateString(producer.created_at)}</TD>
 
-                                <td
-                                    className={`${
+                                <TD
+                                    class_={`${
                                         producer.is_authorized &&
                                         'font-semibold text-beer-gold'
-                                    } cursor-pointer truncate px-6 py-4`}
+                                    } cursor-pointer truncate `}
                                 >
                                     {producer.is_authorized
                                         ? t('authorized')
                                         : t('pending')}
-                                </td>
-                                <td className="flex items-center justify-center px-6 py-4">
+                                </TD>
+
+                                <TDActions>
                                     <IconButton
                                         icon={faCheck}
                                         onClick={() => {
@@ -297,12 +296,12 @@ export default function ProducerList({ producers }: Props) {
                                         }
                                         title={t('reject')}
                                     />
-                                </td>
-                            </tr>
+                                </TDActions>
+                            </TR>
                         );
                     })}
-                </tbody>
-            </table>
+                </TBody>
+            </Table>
         </section>
     );
 }

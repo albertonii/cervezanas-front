@@ -22,14 +22,15 @@ const DrawingSlotsFromBox: React.FC<BoxProductSlotsSelectionProps> = ({
                         ? "bg-[url('/assets/hueco-caja-chapa.webp')]"
                         : "bg-[url('/assets/hueco-caja.webp')]"
                 }`}
-            >
-
-            </div>,
+            ></div>,
         );
     }
 
     return (
-        <div className="col-span-2 px-4 sm:px-16 py-8  bg-white bg-[url('/assets/caja.webp')] bg-center bg-no-repeat w-full sm:w-[500px] xl:w-[780px] m-auto"  style={{ backgroundSize: '100% 100%' }}>
+        <div
+            className="col-span-2 px-4 sm:px-16 py-8  bg-white bg-[url('/assets/caja.webp')] bg-center bg-no-repeat w-full sm:w-[500px] xl:w-[780px] m-auto"
+            style={{ backgroundSize: '100% 100%' }}
+        >
             <div className="grid grid-cols-3 gap-0 sm:grid-cols-5 xl:grid-cols-8 justify-items-center items-center">
                 {slots}
             </div>

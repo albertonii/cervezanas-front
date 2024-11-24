@@ -115,6 +115,7 @@ export function Sidebar({ sidebarLinks }: Props) {
                             )}
                         </figure>
                     </div>
+
                     <div className="lg:hidden absolute top-4 right-4">
                         <Button
                             aria-controls="default-sidebar"
@@ -133,7 +134,7 @@ export function Sidebar({ sidebarLinks }: Props) {
                         {sidebarLinks.map((link) => (
                             <li
                                 key={link.name}
-                                className={`flex items-center rounded-lg p-2 text-sm font-normal text-gray-600 hover:bg-beer-blonde  dark:text-white dark:hover:bg-gray-700 ${
+                                className={`flex items-center rounded-lg p-2 text-sm font-normal text-gray-600 hover:bg-beer-blonde  dark:text-white dark:hover:bg-gray-600 ${
                                     sidebar === link.option
                                         ? 'bg-beer-softBlonde dark:bg-beer-draft text-gray-700 '
                                         : 'text-gray-600 dark:bg-bear-dark_brown dark:hover:bg-beer-draft'

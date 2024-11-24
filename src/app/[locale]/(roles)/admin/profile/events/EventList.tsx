@@ -11,6 +11,11 @@ import { ICPFixed, ICPMobile, IEvent } from '@/lib//types/types';
 import UpdateEventModal from './UpdateEvent';
 import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
+import THead from '@/app/[locale]/components/ui/table/THead';
+import Table from '@/app/[locale]/components/ui/table/Table';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import TH from '@/app/[locale]/components/ui/table/TH';
+import TBody from '@/app/[locale]/components/ui/table/TBody';
 
 enum SortBy {
     NONE = 'none',
@@ -152,40 +157,34 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
                         searchPlaceholder={'search_by_name'}
                     />
 
-                    <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
-                        <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th
+                    <Table>
+                        <THead>
+                            <TR>
+                                <TH
                                     scope="col"
-                                    className="px-6 py-3 hover:cursor-pointer"
+                                    class_=" hover:cursor-pointer"
                                     onClick={() => {
                                         handleChangeSort(SortBy.NAME);
                                     }}
                                 >
                                     {t('name_header')}
-                                </th>
+                                </TH>
 
-                                <th
+                                <TH
                                     scope="col"
-                                    className="px-6 py-3 hover:cursor-pointer"
+                                    class_="hover:cursor-pointer"
                                     onClick={() => {
                                         handleChangeSort(SortBy.CREATED_DATE);
                                     }}
                                 >
                                     {t('created_date_header')}
-                                </th>
+                                </TH>
 
-                                <th scope="col" className="px-6 py-3 "></th>
+                                <TH scope="col">{t('action_header')}</TH>
+                            </TR>
+                        </THead>
 
-                                <th scope="col" className="px-6 py-3 "></th>
-
-                                <th scope="col" className="px-6 py-3 ">
-                                    {t('action_header')}
-                                </th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
+                        <TBody>
                             {sortedItems.map((event: IEvent) => {
                                 return (
                                     <tr key={event.id} className="">
@@ -199,8 +198,8 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
                                     </tr>
                                 );
                             })}
-                        </tbody>
-                    </table>
+                        </TBody>
+                    </Table>
 
                     {/* Prev and Next button for pagination  */}
                     <div className="my-4 flex items-center justify-around">

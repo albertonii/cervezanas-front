@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, View } from '@react-pdf/renderer';
-import { ItemsTable } from './ItemsTable';
 import { ItemsTableOld } from './ItemsTableOld';
 
 const styles = StyleSheet.create({
@@ -25,7 +24,7 @@ interface Props {
     };
 }
 
-export function Table({ data }: Props) {
+export function TableInvoice({ data }: Props) {
     return (
         <View style={styles.page}>
             <ItemsTableOld items={data.items} itemsHeader={data.itemsHeader} />

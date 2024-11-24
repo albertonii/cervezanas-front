@@ -11,6 +11,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import Title from '@/app/[locale]/components/ui/Title';
+import ProfileSettingsContainer from '@/app/[locale]/components/ui/ProfileSettingsContainer';
 
 type FormData = {
     old_password: string;
@@ -102,14 +104,10 @@ export function SecretDataForm() {
     };
 
     return (
-        <section
-            id="account_secret_data"
-            className="mb-4 space-y-3 bg-white px-6 py-4 rounded-xl border"
-        >
-            <h2 id="password" className="text-4xl font-['NexaRust-script']">
+        <ProfileSettingsContainer sectionId="account_secret_data">
+            <Title size="large" color="black">
                 {t('password')}
-            </h2>
-
+            </Title>
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="relative space-y-2"
@@ -158,6 +156,6 @@ export function SecretDataForm() {
                     {t('save')}
                 </Button>
             </form>
-        </section>
+        </ProfileSettingsContainer>
     );
 }

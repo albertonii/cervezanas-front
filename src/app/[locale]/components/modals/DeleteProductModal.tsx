@@ -68,11 +68,12 @@ export function DeleteProductModal({
     });
 
     const onSubmitDelete = async () => {
-        try {
-            deleteProductMutation.mutate();
-        } catch (e) {
-            console.error(e);
-        }
+        return new Promise<void>((resolve, reject) => {
+            deleteProductMutation.mutate(undefined, {
+                onSuccess: () => resolve(),
+                onError: (error) => reject(error),
+            });
+        });
     };
 
     return (

@@ -416,7 +416,7 @@ export function ShoppingBasket({ user }: Props) {
                                         width: '100%',
                                         height: '100%',
                                     }}
-                                    title={'circle_warning'}
+                                    title={t('info')}
                                     width={25}
                                     height={25}
                                 />

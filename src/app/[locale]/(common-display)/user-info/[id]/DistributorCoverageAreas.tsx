@@ -1,7 +1,7 @@
-import React from 'react';
 import SubRegionTable from '@/app/[locale]/(roles)/distributor/profile/logistics/(sub_region)/SubRegionTable';
-import { IDistributorUser } from '@/lib/types/types';
+import React from 'react';
 import { useTranslations } from 'next-intl';
+import { IDistributorUser } from '@/lib/types/types';
 
 interface Props {
     distributor: IDistributorUser;

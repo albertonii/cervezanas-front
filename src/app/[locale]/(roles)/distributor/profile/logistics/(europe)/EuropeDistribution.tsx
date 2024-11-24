@@ -8,6 +8,12 @@ import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import { filterSearchInputQuery } from '@/utils/utils';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
 import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
+import THead from '@/app/[locale]/components/ui/table/THead';
+import Label from '@/app/[locale]/components/ui/Label';
+import Table from '@/app/[locale]/components/ui/table/Table';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import TH from '@/app/[locale]/components/ui/table/TH';
+import TBody from '@/app/[locale]/components/ui/table/TBody';
 
 // interface ICountry {
 //   id: string;
@@ -235,17 +241,14 @@ export default function EuropeDistribution({ coverageAreaId }: Props) {
 
                         <address className="w-full">
                             {/* Display selectable table with all countries in the country selected */}
-                            <label
-                                htmlFor="addressCountry"
-                                className="text-sm text-gray-600"
-                            >
+                            <Label htmlFor="addressCountry">
                                 {t('loc_country')}
-                            </label>
+                            </Label>
 
-                            <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400 ">
-                                <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                                    <tr>
-                                        <th scope="col" className="px-6 py-3">
+                            <Table>
+                                <THead>
+                                    <TR>
+                                        <TH scope="col">
                                             <input
                                                 type="checkbox"
                                                 onChange={(e) => {
@@ -256,14 +259,13 @@ export default function EuropeDistribution({ coverageAreaId }: Props) {
                                                 checked={selectAllCurrentPage}
                                                 className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
                                             />
-                                        </th>
-                                        <th scope="col" className="px-6 py-3">
-                                            {t('country')}
-                                        </th>
-                                    </tr>
-                                </thead>
+                                        </TH>
 
-                                <tbody>
+                                        <TH scope="col">{t('country')}</TH>
+                                    </TR>
+                                </THead>
+
+                                <TBody>
                                     {tenCountries?.map(
                                         (country: any, index: number) => {
                                             const startIndex =
@@ -296,8 +298,8 @@ export default function EuropeDistribution({ coverageAreaId }: Props) {
                                             );
                                         },
                                     )}
-                                </tbody>
-                            </table>
+                                </TBody>
+                            </Table>
 
                             <PaginationFooter
                                 counter={counter}

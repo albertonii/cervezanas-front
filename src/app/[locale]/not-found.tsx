@@ -61,7 +61,7 @@ export default function FourOhFour() {
                 </div>
 
                 <main className="top-[-3rem] z-10 flex h-screen w-full flex-col items-center justify-center bg-beer-softBlondeBubble">
-                    <h1 className="text-[20vw] font-extrabold tracking-widest text-bear-dark">
+                    <h1 className="text-[20vw] font-extrabold tracking-widest text-bear-dark dark:text-gray-300">
                         404
                     </h1>
                     <div className="absolute rotate-12 rounded bg-beer-softBlonde px-2 text-[3vw]">

@@ -23,6 +23,13 @@ import {
     formatDateTypeDefaultInput,
 } from '@/utils/formatDate';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import THead from '@/app/[locale]/components/ui/table/THead';
+import Table from '@/app/[locale]/components/ui/table/Table';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import TH from '@/app/[locale]/components/ui/table/TH';
+import TBody from '@/app/[locale]/components/ui/table/TBody';
+import TD from '@/app/[locale]/components/ui/table/TD';
+import TDActions from '@/app/[locale]/components/ui/table/TDActions';
 
 enum SortBy {
     NONE = 'none',
@@ -247,57 +254,48 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                 searchPlaceholder={'search_products'}
             />
 
-            <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
-                <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th
-                            scope="col"
-                            className="px-6 py-3 hover:cursor-pointer"
-                        >
+            <Table>
+                <THead>
+                    <TR>
+                        <TH scope="col" class_=" hover:cursor-pointer">
                             .
-                        </th>
+                        </TH>
 
-                        <th
+                        <TH
                             scope="col"
-                            className="px-6 py-3 hover:cursor-pointer"
+                            class_="hover:cursor-pointer"
                             onClick={() => {
                                 handleChangeSort(SortBy.USERNAME);
                             }}
                         >
                             {t('username_header')}
-                        </th>
+                        </TH>
 
-                        <th
+                        <TH
                             scope="col"
-                            className="px-6 py-3 hover:cursor-pointer"
+                            class_="hover:cursor-pointer"
                             onClick={() => {
                                 handleChangeSort(SortBy.CREATED_DATE);
                             }}
                         >
                             {t('created_date_header')}
-                        </th>
+                        </TH>
 
-                        <th scope="col" className="px-6 py-3">
-                            {t('cover_letter_header')}
-                        </th>
+                        <TH scope="col">{t('cover_letter_header')}</TH>
 
-                        <th scope="col" className="px-6 py-3 ">
-                            {t('cv_header')}
-                        </th>
+                        <TH scope="col">{t('cv_header')}</TH>
 
-                        <th scope="col" className="px-6 py-3 ">
-                            {t('action_header')}
-                        </th>
-                    </tr>
-                </thead>
+                        <TH scope="col">{t('action_header')}</TH>
+                    </TR>
+                </THead>
 
-                <tbody>
+                <TBody>
                     {sortedItems.map((cp) => {
                         return (
-                            <tr key={cp.id} className="">
-                                <th
+                            <TR key={cp.id}>
+                                <TH
                                     scope="row"
-                                    className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                                    class_="whitespace-nowrap text-gray-900 dark:text-white"
                                 >
                                     <FontAwesomeIcon
                                         icon={faUser}
@@ -306,22 +304,20 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                                         width={80}
                                         height={80}
                                     />
-                                </th>
+                                </TH>
 
-                                <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
+                                <TD class_="text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
                                     <Link
                                         href={`/products/${cp.users.id}`}
                                         locale={locale}
                                     >
                                         {cp.users.username}
                                     </Link>
-                                </td>
+                                </TD>
 
-                                <td className="px-6 py-4">
-                                    {formatDateString(cp.created_at)}
-                                </td>
+                                <TD>{formatDateString(cp.created_at)}</TD>
 
-                                <td className="cursor-pointer px-6 py-4">
+                                <TD class_="cursor-pointer ">
                                     <FontAwesomeIcon
                                         icon={faFileArrowDown}
                                         style={{
@@ -334,9 +330,9 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                                             handleCoverLetterClick(cp)
                                         }
                                     />
-                                </td>
+                                </TD>
 
-                                <td className="cursor-pointer px-6 py-4">
+                                <TD class_="cursor-pointer ">
                                     <FontAwesomeIcon
                                         icon={faFileArrowDown}
                                         style={{
@@ -347,9 +343,9 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                                         title={'download file'}
                                         onClick={() => handleCVClick(cp)}
                                     />
-                                </td>
+                                </TD>
 
-                                <td className="flex items-center justify-center px-6 py-4">
+                                <TDActions>
                                     <IconButton
                                         icon={faCheck}
                                         onClick={() => handleApproveClick(cp)}
@@ -368,12 +364,12 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                                         }
                                         title={t('reject')}
                                     />
-                                </td>
-                            </tr>
+                                </TDActions>
+                            </TR>
                         );
                     })}
-                </tbody>
-            </table>
+                </TBody>
+            </Table>
         </section>
     );
 }

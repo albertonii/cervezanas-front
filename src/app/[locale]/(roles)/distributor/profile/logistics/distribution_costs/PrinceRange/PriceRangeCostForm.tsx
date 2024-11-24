@@ -10,6 +10,12 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { PriceRangeCostFormData } from '@/lib/types/types';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
 import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
+import Table from '@/app/[locale]/components/ui/table/Table';
+import THead from '@/app/[locale]/components/ui/table/THead';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import TH from '@/app/[locale]/components/ui/table/TH';
+import TBody from '@/app/[locale]/components/ui/table/TBody';
+import TD from '@/app/[locale]/components/ui/table/TD';
 
 const rangeObjectSchema = z
     .object({
@@ -178,41 +184,42 @@ const PriceRangeCostForm: React.FC = () => {
                 ))}
 
                 <Button onClick={addPriceRange} btnType={'button'} accent small>
-                    Añadir Franja de Precio
+                    {t('add_price_range')}
                 </Button>
             </form>
-            {/* Minimalistic and simple table displaying all the ranges and costs. Información obtenida del array registrado en "distribution_range_cost*/}
-            <table className="min-w-full bg-white">
-                <thead>
-                    <tr>
-                        <th className="border-b-2 border-gray-300 px-6 py-3 text-left leading-4 tracking-wider text-beer-draft">
-                            Límite inferior
-                        </th>
-                        <th className="border-b-2 border-gray-300 px-6 py-3 text-left leading-4 tracking-wider text-beer-draft">
-                            Límite superior
-                        </th>
-                        <th className="border-b-2 border-gray-300 px-6 py-3 text-left leading-4 tracking-wider text-beer-draft">
-                            Coste de Envío
-                        </th>
-                    </tr>
-                </thead>
 
-                <tbody>
+            {/* Minimalistic and simple table displaying all the ranges and costs. Información obtenida del array registrado en "distribution_range_cost*/}
+            <Table class_="min-w-full">
+                <THead>
+                    <TR>
+                        <TH class_="border-b-2 border-gray-300 text-left leading-4 tracking-wider text-beer-draft">
+                            {t('low_limit')}
+                        </TH>
+                        <TH class_="border-b-2 border-gray-300 text-left leading-4 tracking-wider text-beer-draft">
+                            {t('hight_limit')}
+                        </TH>
+                        <TH class_="border-b-2 border-gray-300 text-left leading-4 tracking-wider text-beer-draft">
+                            {t('delivery_cost')}
+                        </TH>
+                    </TR>
+                </THead>
+
+                <TBody>
                     {priceRanges.map((range, index) => (
-                        <tr key={index}>
-                            <td className="whitespace-no-wrap border-b border-gray-500 px-6 py-4">
+                        <TR key={index}>
+                            <TD class_="whitespace-no-wrap border-b border-gray-500">
                                 {range.lower} €
-                            </td>
-                            <td className="whitespace-no-wrap border-b border-gray-500 px-6 py-4">
+                            </TD>
+                            <TD class_="whitespace-no-wrap border-b border-gray-500">
                                 {range.upper} €
-                            </td>
-                            <td className="whitespace-no-wrap border-b border-gray-500 px-6 py-4">
+                            </TD>
+                            <TD class_="whitespace-no-wrap border-b border-gray-500">
                                 {range.shippingCost} €
-                            </td>
-                        </tr>
+                            </TD>
+                        </TR>
                     ))}
-                </tbody>
-            </table>
+                </TBody>
+            </Table>
         </section>
     );
 };

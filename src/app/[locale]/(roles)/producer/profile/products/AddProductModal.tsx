@@ -26,6 +26,7 @@ import ProductHeaderDescription from '@/app/[locale]/components/modals/ProductHe
 import ProductFooterDescription from '@/app/[locale]/components/modals/ProductFooterDescription';
 import { useFileUpload } from '@/app/context/ProductFileUploadContext';
 import axios from 'axios';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 const ModalWithForm = dynamic(
     () => import('@/app/[locale]/components/modals/ModalWithForm'),
@@ -436,7 +437,6 @@ export function AddProductModal() {
 
     return (
         <FormProvider {...form}>
-            {' '}
             {/* Envolver todo en FormProvider */}
             <ModalWithForm
                 showBtn={true}
@@ -457,32 +457,38 @@ export function AddProductModal() {
                 showTriggerBtn={false}
                 showCancelBtn={false}
             >
-                <ProductStepper
-                    activeStep={activeStep}
-                    handleSetActiveStep={handleSetActiveStep}
-                    isSubmitting={isSubmitting}
-                    btnTitle={'add_new_product'}
-                    handler={handleSubmit(onSubmit)}
-                >
-                    <>
-                        <ProductHeaderDescription />
+                {isLoading ? (
+                    <div className="flex justify-center items-center h-[50vh]">
+                        <Spinner size="xxLarge" color="beer-blonde" />
+                    </div>
+                ) : (
+                    <ProductStepper
+                        activeStep={activeStep}
+                        handleSetActiveStep={handleSetActiveStep}
+                        isSubmitting={isSubmitting}
+                        btnTitle={'add_new_product'}
+                        handler={handleSubmit(onSubmit)}
+                    >
+                        <>
+                            <ProductHeaderDescription />
 
-                        {activeStep === 0 ? (
-                            <ProductInfoSection
-                                form={form}
-                                customizeSettings={customizeSettings}
-                            />
-                        ) : activeStep === 1 ? (
-                            <MultimediaSection />
-                        ) : activeStep === 2 ? (
-                            <AwardsSection form={form} />
-                        ) : (
-                            <ProductSummary form={form} />
-                        )}
+                            {activeStep === 0 ? (
+                                <ProductInfoSection
+                                    form={form}
+                                    customizeSettings={customizeSettings}
+                                />
+                            ) : activeStep === 1 ? (
+                                <MultimediaSection />
+                            ) : activeStep === 2 ? (
+                                <AwardsSection form={form} />
+                            ) : (
+                                <ProductSummary form={form} />
+                            )}
 
-                        <ProductFooterDescription />
-                    </>
-                </ProductStepper>
+                            <ProductFooterDescription />
+                        </>
+                    </ProductStepper>
+                )}
             </ModalWithForm>
         </FormProvider>
     );

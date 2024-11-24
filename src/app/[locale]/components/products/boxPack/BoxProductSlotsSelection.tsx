@@ -3,6 +3,12 @@ import React from 'react';
 import useBoxPackStore from '@/app/store//boxPackStore';
 import { useLocale, useTranslations } from 'next-intl';
 import { ROUTE_PRODUCTS } from '@/config';
+import Table from '../../ui/table/Table';
+import THead from '../../ui/table/THead';
+import TR from '../../ui/table/TR';
+import TH from '../../ui/table/TH';
+import TBody from '../../ui/table/TBody';
+import TD from '../../ui/table/TD';
 
 export default function BoxProductSlotsSelection() {
     const t = useTranslations();
@@ -10,36 +16,21 @@ export default function BoxProductSlotsSelection() {
     const { boxPack } = useBoxPackStore();
 
     return (
-        <table className="block border-2 rounded-lg shadow-lg w-full  overflow-y-scroll text-center text-sm ">
-            <thead className="bg-beer-gold text-beer-foam text-xs uppercase dark:bg-gray-700 dark:text-gray-400 block">
-                <tr className="grid grid-cols-3 items-center">
-                    <th
-                        scope="col cols-span-1"
-                        className="px-1 py-1 lg:px-6 lg:py-3 "
-                    >
-                        {t('name_header')}
-                    </th>
+        <Table>
+            <THead>
+                <TR class_="grid grid-cols-3 items-center">
+                    <TH class_="cols-span-1">{t('name_header')}</TH>
 
-                    <th
-                        scope="col cols-span-1"
-                        className="px-1 py-1 lg:px-6 lg:py-3 "
-                    >
-                        {t('quantity_in_pack_header')}
-                    </th>
+                    <TH class_="cols-span-1">{t('quantity_in_pack_header')}</TH>
 
-                    <th
-                        scope="col cols-span-1"
-                        className="px-1 py-1 lg:px-6 lg:py-3 "
-                    >
-                        {t('slots_per_product')}
-                    </th>
-                </tr>
-            </thead>
+                    <TH class_="cols-span-1">{t('slots_per_product')}</TH>
+                </TR>
+            </THead>
 
-            <tbody>
+            <TBody>
                 {boxPack.boxPackItems.map((item) => (
-                    <tr key={item.id} className="grid grid-cols-3">
-                        <td className="space-x-2 px-4 py-2 font-semibold hover:cursor-pointer hover:text-beer-draft cols-span-1">
+                    <TR key={item.id} class_="grid grid-cols-3">
+                        <TD class_="hover:cursor-pointer hover:text-beer-draft cols-span-1">
                             <Link
                                 target={'_blank'}
                                 href={`${ROUTE_PRODUCTS}/${item.product_id}`}
@@ -47,18 +38,14 @@ export default function BoxProductSlotsSelection() {
                             >
                                 {item.products?.name}
                             </Link>
-                        </td>
+                        </TD>
 
-                        <td className="space-x-2 px-6 py-4 font-semibold cols-span-1">
-                            {item.quantity}
-                        </td>
+                        <TD class_="cols-span-1">{item.quantity}</TD>
 
-                        <td className="space-x-2 px-6 py-4 font-semibold cols-span-1">
-                            {item.slots_per_product}
-                        </td>
-                    </tr>
+                        <TD class_="cols-span-1">{item.slots_per_product}</TD>
+                    </TR>
                 ))}
-            </tbody>
-        </table>
+            </TBody>
+        </Table>
     );
 }

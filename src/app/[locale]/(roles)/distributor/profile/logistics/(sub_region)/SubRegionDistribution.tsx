@@ -245,7 +245,6 @@ export default function SubRegionDistribution({
             });
 
             queryClient.invalidateQueries('distributionCosts');
-            // queryClient.removeQueries('distribution_costs');
 
             setUnCheckedSubRegions([]);
             setNewSelectedSubRegions([]);

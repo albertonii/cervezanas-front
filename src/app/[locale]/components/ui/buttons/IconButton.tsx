@@ -143,7 +143,9 @@ export function IconButton({
             ) : (
                 <div className="">
                     {iconButton ?? (
-                        <span className={`text-bear-dark`}>{iconButton}</span>
+                        <span className={`text-bear-dark dark:text-gray-300`}>
+                            {iconButton}
+                        </span>
                     )}
 
                     <span

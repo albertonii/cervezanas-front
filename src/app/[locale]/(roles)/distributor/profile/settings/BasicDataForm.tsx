@@ -13,6 +13,8 @@ import { formatDateTypeDefaultInput } from '@/utils/formatDate';
 import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
+import Title from '@/app/[locale]/components/ui/Title';
+import ProfileSettingsContainer from '@/app/[locale]/components/ui/ProfileSettingsContainer';
 
 type FormData = {
     name: string;
@@ -111,16 +113,10 @@ export function BasicDataForm({ profile }: Props) {
     };
 
     return (
-        <section
-            id="account_basic_data"
-            className="mb-4 space-y-3 bg-white px-6 py-4 rounded-xl border"
-        >
-            <span
-                id="account-data"
-                className="text-4xl font-['NexaRust-script']"
-            >
+        <ProfileSettingsContainer sectionId="account_basic_data">
+            <Title size="large" color="black">
                 {t('profile_title_acc_data')}
-            </span>
+            </Title>
 
             <form
                 onSubmit={handleSubmit(onSubmit)}
@@ -183,6 +179,6 @@ export function BasicDataForm({ profile }: Props) {
                     {t('save')}
                 </Button>
             </form>
-        </section>
+        </ProfileSettingsContainer>
     );
 }

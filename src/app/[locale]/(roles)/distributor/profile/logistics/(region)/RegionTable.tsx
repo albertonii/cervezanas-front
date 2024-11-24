@@ -1,6 +1,12 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { ICoverageArea } from '@/lib/types/types';
+import Table from '@/app/[locale]/components/ui/table/Table';
+import THead from '@/app/[locale]/components/ui/table/THead';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import TH from '@/app/[locale]/components/ui/table/TH';
+import TBody from '@/app/[locale]/components/ui/table/TBody';
+import TD from '@/app/[locale]/components/ui/table/TD';
 
 interface Props {
     regions: ICoverageArea[];
@@ -33,48 +39,42 @@ const RegionTable = ({ regions }: Props) => {
     const regionArray = Object.values(reducedRegions);
 
     return (
-        <div className="flex flex-col items-center w-full max-h-[42vh]">
-            <div className="overflow-x-auto w-full">
-                <div className="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
-                    <table className="min-w-full leading-normal">
-                        <thead>
-                            <tr className="">
-                                <th
-                                    className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
-                                    colSpan={3}
-                                >
-                                    {t('country')}
-                                </th>
-                                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                                    {t('region')}
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {regionArray.map((area, index) => (
-                                <tr key={`${area.country + index} `}>
-                                    <td
-                                        className="px-5 py-3 border-b border-gray-200 bg-white text-sm"
-                                        colSpan={3}
-                                    >
-                                        <p className="text-gray-900 whitespace-no-wrap">
-                                            {`${t(
-                                                'countries.' + area.country,
-                                            )}`}
-                                        </p>
-                                    </td>
+        <div className="flex flex-col items-center w-full max-h-[42vh] overflow-x-auto w-full inline-block min-w-full shadow-md rounded-lg overflow-hidden">
+            <Table class_="min-w-full leading-normal">
+                <THead>
+                    <TR>
+                        <TH
+                            class_="border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                            colSpan={3}
+                        >
+                            {t('country')}
+                        </TH>
+                        <TH class_="border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            {t('region')}
+                        </TH>
+                    </TR>
+                </THead>
+                <TBody>
+                    {regionArray.map((area, index) => (
+                        <TR key={`${area.country + index} `}>
+                            <TD
+                                class_="border-b border-gray-200 bg-white text-sm"
+                                colSpan={3}
+                            >
+                                <p className="text-gray-900 whitespace-no-wrap">
+                                    {`${t('countries.' + area.country)}`}
+                                </p>
+                            </TD>
 
-                                    <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p className="text-gray-900 whitespace-no-wrap">
-                                            {area.regions}
-                                        </p>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                            <TD class_="border-b border-gray-200 bg-white text-sm">
+                                <p className="text-gray-900 whitespace-no-wrap">
+                                    {area.regions}
+                                </p>
+                            </TD>
+                        </TR>
+                    ))}
+                </TBody>
+            </Table>
         </div>
     );
 };

@@ -11,6 +11,8 @@ import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
+import Title from '@/app/[locale]/components/ui/Title';
+import ProfileSettingsContainer from '@/app/[locale]/components/ui/ProfileSettingsContainer';
 
 type FormData = {
     old_password: string;
@@ -100,13 +102,10 @@ export function SecretDataForm() {
     };
 
     return (
-        <section
-            id="account_secret_data"
-            className="mb-4 space-y-3 bg-white px-6 py-4 rounded-xl border"
-        >
-            <div id="password" className="text-4xl font-['NexaRust-script']">
+        <ProfileSettingsContainer sectionId="account_secret_data">
+            <Title size="large" color="black">
                 {t('password')}
-            </div>
+            </Title>
 
             <form
                 onSubmit={handleSubmit(onSubmit)}
@@ -156,6 +155,6 @@ export function SecretDataForm() {
                     {t('save')}
                 </Button>
             </form>
-        </section>
+        </ProfileSettingsContainer>
     );
 }

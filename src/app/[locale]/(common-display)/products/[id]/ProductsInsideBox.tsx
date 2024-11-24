@@ -1,4 +1,11 @@
+import Image from 'next/image';
 import BoxItem from './BoxItem';
+import Label from '@/app/[locale]/components/ui/Label';
+import TH from '@/app/[locale]/components/ui/table/TH';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import Table from '@/app/[locale]/components/ui/table/Table';
+import THead from '@/app/[locale]/components/ui/table/THead';
+import TBody from '@/app/[locale]/components/ui/table/TBody';
 import MarketCartButtons2 from '@/app/[locale]/components/cart/MarketCartButtons2';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
@@ -68,35 +75,37 @@ export default function ProductsInsideBox({ product, boxPack }: Props) {
 
     return (
         <div>
-            <h2 className="mt-8 text-xl py-1 font-semibold text-center bg-cerv-banana text-white rounded">
-                La caja contiene los siguientes productos
-            </h2>
+            <div className="mt-8 text-xl py-1 text-center bg-cerv-banana dark:bg-beer-dark rounded">
+                <Label font="semibold">{t('box_has_this_products')}</Label>
+            </div>
 
-            <table className="w-full text-center dark:text-gray-400 border rounded-full shadown-xl ">
-                <thead className="text-md uppercase text-white dark:bg-gray-700 dark:text-gray-400 bg-cerv-coal">
-                    <tr>
-                        <th
+            <Table>
+                <THead>
+                    <TR>
+                        <TH
                             scope="col"
-                            className="px-6 py-3 font-['NexaRust-script'] lowercase text-3xl"
+                            size="large"
+                            fontFamily="font-['NexaRust-script']"
                         >
                             {t('product')}
-                        </th>
-                        <th
+                        </TH>
+                        <TH
                             scope="col"
-                            className="px-6 py-3 font-['NexaRust-script'] lowercase text-3xl"
+                            size="large"
+                            fontFamily="font-['NexaRust-script']"
                         >
                             {t('quantity')}
-                        </th>
-                    </tr>
-                </thead>
+                        </TH>
+                    </TR>
+                </THead>
 
-                <tbody className="bg-white text-gray-700 text-xl border-beer-blonde border-b-2 border-t-2 shadow-lg h-[10vh]">
+                <TBody>
                     {boxPack &&
                         boxPack.box_pack_items?.map((item) => {
                             return <BoxItem item={item} />;
                         })}
-                </tbody>
-            </table>
+                </TBody>
+            </Table>
 
             {boxPack && boxPack.box_pack_items && (
                 <div className="mt-6">
@@ -109,12 +118,15 @@ export default function ProductsInsideBox({ product, boxPack }: Props) {
                             <p className="text-2xl font-semibold mt-6 bg-cerv-banana max-w-[140px] text-center p-5 rounded-full text-white shadow-xl  border-white border-4">
                                 {formatCurrency(product?.price)}
                             </p>
-                            <div className="m-auto text-center">
-                                <img
+
+                            <div className="m-auto text-center my-2">
+                                <Image
                                     className="m-auto"
                                     src="/assets/home/detalle.svg"
-                                    width="80"
-                                ></img>
+                                    width={80}
+                                    height={80}
+                                    alt="Detalle"
+                                />
                             </div>
                         </section>
 

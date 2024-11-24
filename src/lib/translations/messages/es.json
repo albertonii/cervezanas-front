@@ -731,7 +731,11 @@
         "update_multimedia": "Error al actualizar el multimedia.",
         "validating_promo_code": "Error al validar el código promocional.",
         "invalid_promo_code": "Código promocional inválido",
-        "sending_notification": "Error al enviar la notificación."
+        "sending_notification": "Error al enviar la notificación.",
+        "loading_distribution_costs": "Error al cargar los costos de distribución.",
+        "distribution_costs_not_found": "No se encontraron datos de costos de distribución.",
+        "toggle_is_distribution_costs_in_product": "Error al actualizar si estń incluidos los costos de distribución en el producto.",
+        "updating_is_distribution_costs_in_product": "Error al actualizar si están incluidos los costos de distribución en el producto."
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",
@@ -1059,7 +1063,8 @@
         "update_shipment_tracking": "Seguimiento de envío actualizado correctamente",
         "profile_acc_data_updated": "Datos de la cuenta actualizados correctamente",
         "sales_records_download_status_updated": "Estado de descarga de los registros de ventas actualizado correctamente",
-        "promo_code_applied": "Código promocional aplicado correctamente"
+        "promo_code_applied": "Código promocional aplicado correctamente",
+        "updating_is_distribution_costs_in_product": "Actualizado con éxito: los costos de distribución están incluidos en el producto"
     },
     "num_of_packs": "Número de packs",
     "promo_code": "Código promocional",
@@ -1118,7 +1123,8 @@
         "mark_as_read": "Marcar como leído",
         "mark_as_unread": "Marcar como no leído",
         "is_read": "Leído",
-        "is_unread": "No leído"
+        "is_unread": "No leído",
+        "mark_all_as_read": "Marcar todo como leído"
     },
     "request_distributor_deregistration": "Solicitar baja como distribuidor",
     "request_producer_deregistration": "Solicitar baja como productor",
@@ -1402,5 +1408,15 @@
         "fixed_has_been_assigned_as_organizer": "Has sido asignado como organizador del punto de consumo fijo {cp_name}",
         "mobile_has_been_assigned_as_orgenizer": "Has sido asignado como organizador del punto de consumo móvil ${cp_name}"
     },
-    "company_information": "Información de la empresa"
+    "company_information": "Información de la empresa",
+    "distributor": {
+        "distribution_cost_included_in_product": "Coste de distribución incluido en el producto",
+        "distribution_cost_note": " Nota: Esta opción solo se debe marcar si el productor y distribuidor/transportista son el mismo usuario. El coste de envío será 0, pero el precio del producto cubrirá los costes de distribución. Si selecciona esta opción, la configuración de los costes de distribución no se aplicará."
+    },
+    "info": "Información",
+    "box_has_this_products": "Este pack contiene los siguientes productos",
+    "add_price_range": "Añadir rango de precios",
+    "low_limit": "Límite inferior",
+    "high_limit": "Límite superior",
+    "delivery_cost": "Coste de envío"
 }

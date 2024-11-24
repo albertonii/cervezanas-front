@@ -151,7 +151,9 @@ const Button = memo(function PaginationFooter({
                 ) : (
                     <div className="">
                         {iconButton ?? (
-                            <span className={`text-bear-dark`}>
+                            <span
+                                className={`text-bear-dark dark:text-gray-300`}
+                            >
                                 {iconButton}
                             </span>
                         )}

@@ -10,6 +10,12 @@ import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton'
 import { EditButton } from '@/app/[locale]/components/ui/buttons/EditButton';
 import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
+import THead from '@/app/[locale]/components/ui/table/THead';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import Table from '@/app/[locale]/components/ui/table/Table';
+import TH from '@/app/[locale]/components/ui/table/TH';
+import TBody from '@/app/[locale]/components/ui/table/TBody';
+import TD from '@/app/[locale]/components/ui/table/TD';
 
 interface Props {
     handleEditShowModal: React.Dispatch<React.SetStateAction<any>>;
@@ -103,33 +109,29 @@ export function LotList({
                         searchPlaceholder={'search_lots'}
                     />
 
-                    <table className="w-full text-center text-sm text-gray-500 dark:text-gray-400">
-                        <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
+                    <Table>
+                        <THead>
+                            <TR>
                                 {COLUMNS.map(
                                     (column: ColumnsProps, index: number) => {
                                         return (
-                                            <th
-                                                key={index}
-                                                scope="col"
-                                                className="px-6 py-3"
-                                            >
+                                            <TH key={index} scope="col">
                                                 {column.header}
-                                            </th>
+                                            </TH>
                                         );
                                     },
                                 )}
-                            </tr>
-                        </thead>
+                            </TR>
+                        </THead>
 
-                        <tbody>
+                        <TBody>
                             {lots &&
                                 filteredItems.map((lot) => {
                                     return (
-                                        <tr key={lot.id} className="">
-                                            <th
+                                        <TR key={lot.id}>
+                                            <TH
                                                 scope="row"
-                                                className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                                                class_="whitespace-nowrap "
                                             >
                                                 <Image
                                                     width={128}
@@ -138,29 +140,25 @@ export function LotList({
                                                     alt="Beer Type"
                                                     src="/icons/beer-240.png"
                                                 />
-                                            </th>
+                                            </TH>
 
-                                            <td className="px-6 py-4">
-                                                {lot.lot_name}
-                                            </td>
+                                            <TD>{lot.lot_name}</TD>
 
-                                            <td className="px-6 py-4">
-                                                {lot.quantity}
-                                            </td>
+                                            <TD>{lot.quantity}</TD>
 
-                                            <td className="px-6 py-4">
+                                            <TD>
                                                 {formatDateString(
                                                     lot.manufacture_date,
                                                 )}
-                                            </td>
+                                            </TD>
 
-                                            <td className="px-6 py-4">
+                                            <TD>
                                                 {formatDateString(
                                                     lot.expiration_date,
                                                 )}
-                                            </td>
+                                            </TD>
 
-                                            <td className="px-6 py-4">
+                                            <TD>
                                                 <div className="flex space-x-1">
                                                     <EditButton
                                                         onClick={() =>
@@ -176,12 +174,12 @@ export function LotList({
                                                         }
                                                     />
                                                 </div>
-                                            </td>
-                                        </tr>
+                                            </TD>
+                                        </TR>
                                     );
                                 })}
-                        </tbody>
-                    </table>
+                        </TBody>
+                    </Table>
 
                     {/* Prev and Next button for pagination  */}
                     <div className="my-4 flex items-center justify-around">

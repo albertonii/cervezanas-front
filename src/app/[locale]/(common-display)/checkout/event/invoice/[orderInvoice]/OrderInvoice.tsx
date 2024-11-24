@@ -16,7 +16,7 @@ import { IOrder } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { FooterInvoice } from '@/app/[locale]/components/invoice/FooterInvoice';
 import { TableTotalInvoiceOld } from '@/app/[locale]/components/invoice/TableTotalInvoiceOld';
-import { Table } from '@/app/[locale]/components/invoice/Table';
+import { TableInvoice } from '@/app/[locale]/components/invoice/TableInvoice';
 
 // Create styles
 const styles = StyleSheet.create({
@@ -278,7 +278,7 @@ export default function OrderInvoice({ order }: Props) {
                                 </View>
 
                                 {/* Products table of the order */}
-                                <Table data={data} />
+                                <TableInvoice data={data} />
 
                                 {/* Total Invoice  */}
                                 <TableTotalInvoiceOld data={data} />

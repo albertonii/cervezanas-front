@@ -8,7 +8,6 @@ import LanguageScreenMenuButton from './components/ui/buttons/LanguageScreenMenu
 import ShoppingCartScreenMenuButton from './components/ui/buttons/ShoppingCartScreenMenuButton';
 import { memo, useEffect, useState } from 'react';
 import { ROLE_ENUM } from '@/lib/enums';
-import { INotification } from '@/lib/types/types';
 import { useAuth } from './(auth)/Context/useAuth';
 import { useLocale, useTranslations } from 'next-intl';
 import { Beer, Calendar, Map } from 'lucide-react';
@@ -19,13 +18,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
-    notifications: INotification[];
     i18nLocaleArray: string[];
     onLoginClick: () => void;
 }
 
 const ScreenMenu = memo(function ScreenMenu({
-    notifications,
     i18nLocaleArray,
     onLoginClick,
 }: Props) {
@@ -209,9 +206,7 @@ const ScreenMenu = memo(function ScreenMenu({
 
                                 <li className={`flex items-center relative`}>
                                     {/* Notifications  */}
-                                    <DeviceScreenNotification
-                                        notifications={notifications}
-                                    />
+                                    <DeviceScreenNotification />
                                 </li>
 
                                 <li className="flex items-center relative">

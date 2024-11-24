@@ -1,7 +1,7 @@
 import createServerClient from '@/utils/supabaseServer';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function PUT(request: NextRequest) {
+export async function PATCH(request: NextRequest) {
     const formData = await request.formData();
 
     const distributionCostsId = formData.get('distribution_costs_id') as string;
