@@ -6,6 +6,13 @@ import Button from './components/ui/buttons/Button';
 import useNotifications from '@/hooks/useNotifications';
 import useOnClickOutside from '@/hooks/useOnOutsideClickDOM';
 import { useRef, useState } from 'react';
+import { useLocale } from 'next-intl';
+import { ROLE_ENUM } from '@/lib//enums';
+import { useTranslations } from 'next-intl';
+import { useAuth } from './(auth)/Context/useAuth';
+import { usePathname, useRouter } from 'next/navigation';
+import { useShoppingCart } from '@/app/context/ShoppingCartContext';
+import { NotificationPopup } from './components/notificationPopup/NotificationPopup';
 import {
     ROUTE_ADMIN,
     ROUTE_CONSUMER,
@@ -23,13 +30,6 @@ import {
     ROUTE_SETTINGS,
     ROUTE_SIGNIN,
 } from '@/config';
-import { useLocale } from 'next-intl';
-import { ROLE_ENUM } from '@/lib//enums';
-import { useTranslations } from 'next-intl';
-import { useAuth } from './(auth)/Context/useAuth';
-import { usePathname, useRouter } from 'next/navigation';
-import { useShoppingCart } from '@/app/context/ShoppingCartContext';
-import { NotificationPopup } from './components/notificationPopup/NotificationPopup';
 import { generateLink } from '@/utils/utils';
 import DropdownRoleList from './components/DropdownRoleList';
 
@@ -343,6 +343,7 @@ export default function MobileMenu({
                                 </>
                             )}
                         </li>
+
                         <li className={`${MENU_HEADER_STYLES}`}>
                             {t('menu').toUpperCase()}
                         </li>
@@ -455,6 +456,7 @@ export default function MobileMenu({
                                         </span>
                                     </Link>
                                 </li>
+
                                 <li className="flex items-center">
                                     <Link
                                         href={`${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_PRODUCTS}`}
@@ -471,6 +473,7 @@ export default function MobileMenu({
                                         </span>
                                     </Link>
                                 </li>
+
                                 <li className="flex items-center">
                                     <Link
                                         href={`${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_EVENTS}`}
@@ -487,6 +490,7 @@ export default function MobileMenu({
                                         </span>
                                     </Link>
                                 </li>
+
                                 <li className="flex items-center">
                                     <Link
                                         href={`${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_EXPERIENCES}`}
@@ -503,6 +507,7 @@ export default function MobileMenu({
                                         </span>
                                     </Link>
                                 </li>
+
                                 <li className="flex items-center">
                                     <Link
                                         href={`${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_ONLINE_ORDERS}`}
@@ -519,6 +524,7 @@ export default function MobileMenu({
                                         </span>
                                     </Link>
                                 </li>
+
                                 <li className="flex items-center">
                                     <Link
                                         href={`${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_EVENT_ORDERS}`}
