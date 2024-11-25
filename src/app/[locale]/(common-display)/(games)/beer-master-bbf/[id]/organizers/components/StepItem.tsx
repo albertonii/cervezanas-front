@@ -1,5 +1,5 @@
 import InputLabelNoForm from '@/app/[locale]/components/form/InputLabelNoForm';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { CSS } from '@dnd-kit/utilities';
 import { useTranslations } from 'next-intl';
 import { useSortable } from '@dnd-kit/sortable';
@@ -11,7 +11,6 @@ import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 interface Props {
     step: IConfigurationStepFormData;
     index: number;
-    onStepChange: (updatedStep: IConfigurationStepFormData) => void;
     onEditClick: (step: IConfigurationStepFormData) => void;
 }
 
@@ -19,27 +18,18 @@ interface Props {
 const StepItem = React.memo(function StepItem({
     step,
     index,
-    onStepChange,
     onEditClick,
 }: Props) {
     const t = useTranslations('bm_game');
 
-    const handleQuestionCountChange = useCallback(
-        (e: React.ChangeEvent<HTMLInputElement>) => {
-            // onStepChange({ ...step, question_count: parseInt(e.target.value) });
-        },
-        [step, onStepChange],
-    );
-
-    const handleLockedChange = useCallback(
-        (e: React.ChangeEvent<HTMLInputElement>) => {
-            onStepChange({ ...step, is_unlocked: !e.target.checked });
-        },
-        [step, onStepChange],
-    );
-
-    const { attributes, listeners, setNodeRef, transform, transition } =
-        useSortable({ id: step.id ?? 'default-id' });
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+        isDragging,
+    } = useSortable({ id: step.id ?? 'default-id' });
 
     const style = {
         transform: CSS.Transform.toString(transform),
@@ -51,11 +41,16 @@ const StepItem = React.memo(function StepItem({
             ref={setNodeRef}
             style={style}
             {...attributes}
-            className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow"
+            className={` rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow  ${
+                isDragging
+                    ? 'shadow-lg bg-gray-100'
+                    : 'bg-white hover:shadow-md'
+            } `}
+            aria-label={`Drag step ${step.step_number}`}
         >
             <div className="flex items-center space-x-4">
-                <div {...listeners}>
-                    <GripVertical className="w-6 h-6 text-gray-400" />
+                <div {...listeners} className={`cursor-grab `}>
+                    <GripVertical className={`w-6 h-6 text-gray-400`} />
                 </div>
                 <div className="flex-1 ">
                     <div className="flex items-center space-x-3 mb-2">
@@ -88,7 +83,6 @@ const StepItem = React.memo(function StepItem({
                                 inputType="checkbox"
                                 label="is_unlocked"
                                 labelText={t('is_unlocked')}
-                                onChange={handleLockedChange}
                                 disabled
                             />
                         </div>

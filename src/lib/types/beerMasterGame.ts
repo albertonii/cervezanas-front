@@ -189,7 +189,7 @@ export interface IRewardFormData {
 }
 
 export interface IConfigurationStepFormData {
-    id?: string;
+    id: string;
     step_number: number;
     title: string;
     description: string;

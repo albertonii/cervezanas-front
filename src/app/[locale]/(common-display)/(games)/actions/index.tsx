@@ -101,3 +101,34 @@ export async function handleSaveBMGameStep(
         message: res.statusText,
     };
 }
+
+export async function updateStepsNumberInDB(
+    updatedSteps: IConfigurationStepFormData[],
+) {
+    try {
+        const url = '/api/beer_master_game/organization/step/list_number';
+        const formData = new FormData();
+
+        updatedSteps.forEach((step, index) => {
+            formData.append(`steps[${index}][id]`, step.id);
+            formData.append(
+                `steps[${index}][step_number]`,
+                step.step_number.toString(),
+            );
+        });
+
+        const response = await axios.put(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+
+        if (response.status === 200) {
+            console.log('Steps updated successfully');
+        } else {
+            console.error('Failed to update steps:', response);
+        }
+    } catch (error) {
+        console.error('Error updating steps in database:', error);
+    }
+}

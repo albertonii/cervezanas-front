@@ -24,6 +24,7 @@ import {
     IRewardFormData,
     IStep,
 } from '@/lib/types/beerMasterGame';
+import { updateStepsNumberInDB } from '../../../../actions';
 
 interface StepsManagerProps {
     gameState: IGameState;
@@ -103,7 +104,7 @@ export default function StepsManager({ gameState }: StepsManagerProps) {
         }),
     );
 
-    const handleDragEnd = ({ active, over }: any) => {
+    const handleDragEnd = async ({ active, over }: any) => {
         if (!over) return;
 
         const oldIndex = steps.findIndex((step) => step.id === active.id);
@@ -117,6 +118,20 @@ export default function StepsManager({ gameState }: StepsManagerProps) {
                 }),
             );
             setSteps(reorderedSteps);
+
+            // Filtrar solo los pasos modificados
+            const modifiedSteps = reorderedSteps.filter(
+                (step, index) =>
+                    step.step_number !==
+                    gameState.bm_steps![index]?.step_number,
+            );
+
+            console.log(modifiedSteps);
+
+            if (modifiedSteps.length > 0) {
+                // Llamar a la API para registrar los cambios
+                await updateStepsNumberInDB(modifiedSteps);
+            }
         }
     };
 
@@ -153,15 +168,21 @@ export default function StepsManager({ gameState }: StepsManagerProps) {
                     strategy={verticalListSortingStrategy}
                 >
                     <div className="space-y-3">
-                        {steps.map((step, index) => (
-                            <StepItem
-                                key={step.id}
-                                step={step}
-                                index={index}
-                                onStepChange={() => {}}
-                                onEditClick={setEditingStep}
-                            />
-                        ))}
+                        {steps.map((step, index) => {
+                            const memoizedStep = React.useMemo(
+                                () => step,
+                                [step],
+                            );
+
+                            return (
+                                <StepItem
+                                    key={memoizedStep.id}
+                                    step={memoizedStep}
+                                    index={index}
+                                    onEditClick={setEditingStep}
+                                />
+                            );
+                        })}
                     </div>
                 </SortableContext>
             </DndContext>

@@ -20,6 +20,7 @@ interface StepDetailsProps {
 }
 
 const stepSchema: ZodType<IConfigurationStepFormData> = z.object({
+    id: z.string().nonempty({ message: 'errors.input_required' }),
     title: z.string().min(1, 'errors.input_required'),
     description: z.string().min(1, 'errors.input_required'),
     location: z.string().min(1, 'errors.input_required'),
@@ -137,10 +138,6 @@ export default function StepDetails({
             console.log(err);
         }
     };
-
-    const handleTabChange = useCallback((tab: 'basic' | 'questions') => {
-        setActiveTab(tab);
-    }, []);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
