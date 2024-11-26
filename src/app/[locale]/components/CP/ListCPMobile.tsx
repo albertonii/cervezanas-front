@@ -1,17 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import DeleteCPMobileModal from './DeleteCPMobileModal';
 import EditCPMobileModal from './EditCPMobileModal';
+import DeleteCPMobileModal from './DeleteCPMobileModal';
 import useFetchCPMobile from '../../../../hooks/useFetchCPMobile';
+import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
+import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import React, { useEffect, useState } from 'react';
 import { ICPMobile } from '@/lib//types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
-import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
-import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 
 interface Props {
     cpsId: string;
@@ -26,11 +26,8 @@ export function ListCPMobile({ cpsId, counterCPMobile }: Props) {
 
     const resultsPerPage = 10;
 
-    const { data, isError, isLoading, refetch } = useFetchCPMobile(
-        cpsId,
-        currentPage,
-        resultsPerPage,
-    );
+    const { data, isError, isLoading, refetch, isFetchedAfterMount } =
+        useFetchCPMobile(cpsId, currentPage, resultsPerPage);
 
     const [cpMobile, setCPMobile] = useState<ICPMobile[]>(data ?? []);
 
@@ -41,6 +38,12 @@ export function ListCPMobile({ cpsId, counterCPMobile }: Props) {
     const [isDeleteModal, setIsDeleteModal] = useState(false);
 
     const [selectedCP, setSelectedCP] = useState<ICPMobile>();
+
+    useEffect(() => {
+        if (isFetchedAfterMount) {
+            setCPMobile(data as ICPMobile[]);
+        }
+    }, [isFetchedAfterMount, data]);
 
     useEffect(() => {
         refetch().then((res) => {

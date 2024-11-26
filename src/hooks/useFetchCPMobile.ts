@@ -16,8 +16,8 @@ const fetchCPMobile = async (
         .from('cp_mobile')
         .select(
             `
-        *
-      `,
+                *
+            `,
         )
         .eq('cp_id', cpId)
         .range(
@@ -39,7 +39,7 @@ const useFetchCPMobile = (
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: 'cpMobile',
+        queryKey: 'cpMobiles',
         queryFn: () =>
             fetchCPMobile(cpId, currentPage, resultsPerPage, supabase),
         enabled: true,

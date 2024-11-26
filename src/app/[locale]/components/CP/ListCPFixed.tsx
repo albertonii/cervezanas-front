@@ -26,11 +26,8 @@ export function ListCPFixed({ cpsId, counterCPFixed }: Props) {
 
     const resultsPerPage = 1;
 
-    const { data, isError, isLoading, refetch } = useFetchCPFixed(
-        cpsId,
-        currentPage,
-        resultsPerPage,
-    );
+    const { data, isError, isLoading, refetch, isFetchedAfterMount } =
+        useFetchCPFixed(cpsId, currentPage, resultsPerPage);
 
     const [cpFixed, setCPFixed] = useState<ICPFixed[]>(data ?? []);
 
@@ -41,6 +38,12 @@ export function ListCPFixed({ cpsId, counterCPFixed }: Props) {
     const [isDeleteModal, setIsDeleteModal] = useState(false);
 
     const [selectedCP, setSelectedCP] = useState<ICPFixed>();
+
+    useEffect(() => {
+        if (isFetchedAfterMount) {
+            setCPFixed(data as ICPFixed[]);
+        }
+    }, [isFetchedAfterMount, data]);
 
     useEffect(() => {
         refetch().then((res) => {

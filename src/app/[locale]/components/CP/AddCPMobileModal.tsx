@@ -1,5 +1,6 @@
 'use client';
 
+import Title from '../ui/Title';
 import CPGoogleMap from './CPGoogleMap';
 import ListCPMProducts from './ListCPMProducts';
 import Modal from '@/app/[locale]/components/modals/Modal';
@@ -20,7 +21,6 @@ import { cleanObject, isValidObject } from '@/utils/utils';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
-import Title from '../ui/Title';
 
 enum CPMobileStatus {
     active = 'active',
@@ -265,11 +265,9 @@ export default function AddCPMobileModal({ cpsId }: Props) {
             }
         }
 
-        setTimeout(() => {
-            queryClient.invalidateQueries('cpMobile');
-            setShowModal(false);
-            reset();
-        }, 1000);
+        queryClient.invalidateQueries('cpMobiles');
+        setShowModal(false);
+        reset();
     };
 
     const handleIsInternalOrganizer = (
