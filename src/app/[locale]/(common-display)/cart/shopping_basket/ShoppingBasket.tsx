@@ -74,7 +74,6 @@ export function ShoppingBasket({ user }: Props) {
         promoCode,
     } = useShoppingCart();
 
-    // const formRef = useRef<HTMLFormElement>(null);
     const btnRef = useRef<HTMLButtonElement>(null);
 
     const [deliveryCost, setDeliveryCost] = useState(0);

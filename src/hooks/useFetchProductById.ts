@@ -17,15 +17,12 @@ const fetchProductById = async (
         .from('products')
         .select(
             `
-        *,
-        beers (*),
-        product_media (
-          p_principal
-        ),
-        product_inventory (
-          quantity
-        )
-      `,
+                *,
+                beers (*),
+                product_media (
+                    *
+                )
+            `,
         )
         .eq('id', productId)
         .single();

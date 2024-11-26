@@ -14,7 +14,7 @@ interface Props {
 
 export function EventCheckoutItem({ eventId, productPack }: Props) {
     const t = useTranslations();
-
+    console.log(productPack);
     const {
         data: productWithInfo,
         isError,
