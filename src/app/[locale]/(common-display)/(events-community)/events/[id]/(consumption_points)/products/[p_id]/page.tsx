@@ -1,10 +1,11 @@
-import { IProduct } from '@/lib/types/types';
+import CPProduct from './CPProduct';
 import createServerClient from '@/utils/supabaseServer';
+import { ICPMProducts, IProduct } from '@/lib/types/types';
 
 export default async function ProductId({ params }: any) {
-    const { id } = params;
+    const { p_id } = params;
 
-    const productData = await getProductData(id);
+    const productData = await getProductData(p_id);
     const marketplaceProductsData = await getMarketplaceData();
     const [product, marketplaceProducts] = await Promise.all([
         productData,
@@ -13,7 +14,10 @@ export default async function ProductId({ params }: any) {
 
     return (
         <>
-            {/* <Product product={product} marketplaceProducts={marketplaceProducts} /> */}
+            <CPProduct
+                CPMProduct={product}
+                marketplaceProducts={marketplaceProducts}
+            />
         </>
     );
 }
@@ -25,15 +29,25 @@ async function getProductData(cpId: string) {
     const { data: cpmProducts, error: productError } = await supabase
         .from('cpm_products')
         .select(
-            `*,
-      product_pack_id (*),
-      cp_id (*)
-      `,
+            `
+                *,
+                product_packs (
+                    *,
+                    products (
+                        *,
+                        likes (*)
+                    )
+                ),
+                cp_id (*)
+            `,
         )
-        .eq('cp_id', cpId);
+        .eq('id', cpId)
+        .single();
+
+    console.log(cpmProducts);
 
     if (productError) throw productError;
-    return cpmProducts as any[];
+    return cpmProducts as ICPMProducts;
 }
 
 async function getMarketplaceData() {
@@ -44,12 +58,12 @@ async function getMarketplaceData() {
         .from('products')
         .select(
             `
-        id,
-        price,
-        product_media (
-          *
-        )
-      `,
+                id,
+                price,
+                product_media (
+                *
+                )
+            `,
         )
         .eq('is_public', true);
 

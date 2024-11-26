@@ -1,6 +1,8 @@
 import Link from 'next/link';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import TD from '@/app/[locale]/components/ui/table/TD';
 import useEventCartStore from '@/app/store//eventCartStore';
-import MarketCartButtons2 from '@/app/[locale]/components/cart/MarketCartButtons2';
+import EventCartButtons from '@/app/[locale]/components/cart/EventCartButtons';
 import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
 import React, { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
@@ -11,8 +13,7 @@ import { useAuth } from '../../../../../../../(auth)/Context/useAuth';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { ICPMobile, IEventProduct, IProductPack } from '@/lib/types/types';
 import { AddCartButton } from '@/app/[locale]/components/cart/AddCartButton';
-import TR from '@/app/[locale]/components/ui/table/TR';
-import TD from '@/app/[locale]/components/ui/table/TD';
+import MarketCartButtons from '@/app/[locale]/components/cart/MarketCartButtons';
 
 interface ProductProps {
     pack: IProductPack;
@@ -119,29 +120,19 @@ export default function CPMProductItem({
     };
 
     const handleIncreaseCartQuantity = () => {
-        increaseOnePackCartQuantity(
-            eventId,
-            product_id,
-            cpMobile.id,
-            pack.product_id,
-        );
+        increaseOnePackCartQuantity(eventId, product_id, cpMobile.id, pack.id);
     };
 
     const handleDecreaseCartQuantity = () => {
-        decreaseOnePackCartQuantity(
-            eventId,
-            product_id,
-            cpMobile.id,
-            pack.product_id,
-        );
+        decreaseOnePackCartQuantity(eventId, product_id, cpMobile.id, pack.id);
     };
 
     const handleRemoveFromCart = () => {
-        removeFromCart(eventId, product_id, cpmId, pack.product_id);
+        removeFromCart(eventId, product_id, cpMobile.id, pack.id);
     };
 
     return (
-        <TR>
+        <TR key={cpmId}>
             <TD>
                 <DisplayImageProduct
                     imgSrc={
@@ -169,10 +160,6 @@ export default function CPMProductItem({
 
             <TD>{quantity}</TD>
 
-            <TD class_="hidden max-w-[14vw] overflow-hidden md:block">
-                <span className="truncate">{product?.description}</span>
-            </TD>
-
             <TD class_="font-medium text-green-500">{formatCurrency(price)}</TD>
 
             <TD class_="hidden md:block">{t(product?.type.toLowerCase())}</TD>
@@ -187,7 +174,7 @@ export default function CPMProductItem({
                     </>
                 ) : (
                     <>
-                        <MarketCartButtons2
+                        <EventCartButtons
                             item={pack}
                             quantity={packQuantity}
                             handleIncreaseCartQuantity={() =>

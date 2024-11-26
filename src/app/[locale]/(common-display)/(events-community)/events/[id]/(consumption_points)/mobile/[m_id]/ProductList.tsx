@@ -4,8 +4,8 @@ import Title from '@/app/[locale]/components/ui/Title';
 import TH from '@/app/[locale]/components/ui/table/TH';
 import TBody from '@/app/[locale]/components/ui/table/TBody';
 import THead from '@/app/[locale]/components/ui/table/THead';
+import Table from '@/app/[locale]/components/ui/table/Table';
 import React from 'react';
-import { Table } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { ICPMobile, ICPMProducts } from '@/lib/types/types';
 
@@ -26,7 +26,7 @@ export default function ProductList({ cpMobile, eventId }: Props) {
         <>
             {activeCPMProducts && activeCPMProducts.length > 0 && (
                 <section className="overflow-x-auto">
-                    <Title size={'small'} color={'black'}>
+                    <Title size={'large'} color={'beer-blonde'}>
                         {t('products')}
                     </Title>
 
@@ -41,10 +41,6 @@ export default function ProductList({ cpMobile, eventId }: Props) {
 
                                 <TH scope="col">
                                     {t('quantity_in_pack_header')}
-                                </TH>
-
-                                <TH scope="col" class_="hidden md:block">
-                                    {t('description_header')}
                                 </TH>
 
                                 <TH scope="col">{t('price_header')}</TH>
@@ -63,16 +59,14 @@ export default function ProductList({ cpMobile, eventId }: Props) {
                                     <>
                                         {cpm_product.product_packs &&
                                             cpm_product.is_active && (
-                                                <div key={cpm_product.id}>
-                                                    <CPMProduct
-                                                        pack={
-                                                            cpm_product.product_packs
-                                                        }
-                                                        cpmId={cpm_product.id}
-                                                        cpMobile={cpMobile}
-                                                        eventId={eventId}
-                                                    />
-                                                </div>
+                                                <CPMProduct
+                                                    pack={
+                                                        cpm_product.product_packs
+                                                    }
+                                                    cpmId={cpm_product.id}
+                                                    cpMobile={cpMobile}
+                                                    eventId={eventId}
+                                                />
                                             )}
                                     </>
                                 ),

@@ -1,13 +1,15 @@
 import Link from 'next/link';
 import EventProduct from './EventProduct';
 import useEventCartStore from '@/app/store//eventCartStore';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
 import EmptyCart from '../../../../cart/shopping_basket/EmptyCart';
 import React, { useEffect, useState } from 'react';
 import { ROUTE_EVENTS } from '@/config';
 import { useLocale, useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { IProductPackEventCartItem } from '@/lib/types/types';
-import Button from '@/app/[locale]/components/ui/buttons/Button';
+import Title from '@/app/[locale]/components/ui/Title';
+import Label from '@/app/[locale]/components/ui/Label';
 
 interface Props {
     items: IProductPackEventCartItem[];
@@ -39,9 +41,9 @@ export default function MaxifiedCart({ items, eventId }: Props) {
 
     return (
         <div className={`relative flex flex-col items-center transition-all`}>
-            <h1 className="text-xl font-medium text-gray-900">
+            <Title size="large" color="beer-blonde">
                 {t('shopping_cart')}
-            </h1>
+            </Title>
 
             <Button
                 onClick={() => handleOpen(true)}
@@ -92,16 +94,18 @@ export default function MaxifiedCart({ items, eventId }: Props) {
                 {items?.length > 0 && (
                     <footer className="border-t border-gray-200 px-4 py-6 sm:px-6">
                         <div className="flex justify-between text-base font-medium text-gray-900">
-                            <p>{t('subtotal')}</p>
+                            <Label size="medium" font="semibold" color="black">
+                                {t('subtotal')}
+                            </Label>
 
-                            <p className="text-xl">
+                            <Label size="large">
                                 {formatCurrency(subTotal)}
-                            </p>
+                            </Label>
                         </div>
 
-                        <p className="mt-0.5 text-sm text-gray-500">
+                        <Label color="gray" size="small">
                             {t('go_to_checkout_for_final_price')}
-                        </p>
+                        </Label>
 
                         <div className="mt-2">
                             <Link

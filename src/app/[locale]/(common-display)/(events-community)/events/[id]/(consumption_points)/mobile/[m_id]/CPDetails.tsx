@@ -3,6 +3,8 @@ import { useTranslations } from 'next-intl';
 import { ICPMobile } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
+import Title from '@/app/[locale]/components/ui/Title';
+import Label from '@/app/[locale]/components/ui/Label';
 
 interface Props {
     cpMobile: ICPMobile;
@@ -13,39 +15,66 @@ export default function CPDetails({ cpMobile }: Props) {
 
     return (
         <>
-            <article>
+            <article className="space-y-4 border rounded-md border-beer-blonde p-4 ">
                 <header>
-                    <h1 className="mb-2 text-3xl font-bold text-beer-darkGold">
+                    <Title size="large" color="beer-blonde">
                         {cpMobile.cp_name}
-                    </h1>
-                    <h2 className="mb-4 text-lg text-gray-500">
+                    </Title>
+
+                    <Label size="medium" color="gray">
                         {cpMobile.cp_description}
-                    </h2>
+                    </Label>
                 </header>
 
-                <div className="mb-4">
-                    {/* Start and End date */}
-                    <span className="text-gray-500">
-                        {t('start_date')}:{' '}
-                        {formatDateString(cpMobile.start_date)}
-                    </span>
-                    <span className="ml-4 text-gray-500">
-                        {t('end_date')}: {formatDateString(cpMobile.end_date)}
-                    </span>
+                <div className="mb-4 grid grid-cols-2">
+                    <div>
+                        <Label color="gray" size="small">
+                            {t('start_date')}:{' '}
+                        </Label>
+                        <Label color="black" size="small">
+                            {formatDateString(cpMobile.start_date)}
+                        </Label>
+                    </div>
+
+                    <div>
+                        <Label color="gray" size="small">
+                            {t('end_date')}:
+                        </Label>
+                        <Label color="black" size="small">
+                            {formatDateString(cpMobile.end_date)}
+                        </Label>
+                    </div>
                 </div>
 
                 {/* Organizer information */}
-                <footer className="mb-4">
-                    <span className="text-gray-500">
-                        {t('organizer')}: {cpMobile.organizer_name}{' '}
-                        {cpMobile.organizer_lastname}
-                    </span>
-                    <span className="ml-4 text-gray-500">
-                        {t('email')}: {cpMobile.organizer_email}
-                    </span>
-                    <span className="ml-4 text-gray-500">
-                        {t('phone')}: {cpMobile.organizer_phone}
-                    </span>
+                <footer className="space-y-2">
+                    <div className="grid grid-cols-2">
+                        <Label color="gray" size="small">
+                            {t('organizer')}:
+                        </Label>
+                        <Label color="black" size="small">
+                            {cpMobile.organizer_name}{' '}
+                            {cpMobile.organizer_lastname}{' '}
+                        </Label>
+                    </div>
+
+                    <div className="grid grid-cols-2">
+                        <Label color="gray" size="small">
+                            {t('email')}:
+                        </Label>
+                        <Label color="black" size="small">
+                            {cpMobile.organizer_email}
+                        </Label>
+                    </div>
+
+                    <div className="grid grid-cols-2">
+                        <Label color="gray" size="small">
+                            {t('phone')}:
+                        </Label>
+                        <Label color="black" size="small">
+                            {cpMobile.organizer_phone}
+                        </Label>
+                    </div>
                 </footer>
             </article>
 

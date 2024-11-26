@@ -1,10 +1,12 @@
 import useEventCartStore from '@/app/store//eventCartStore';
-import React, { useState } from 'react';
-import { SupabaseProps } from '@/constants';
-import { IProductPack, IProductPackEventCartItem } from '@/lib/types/types';
-import { formatCurrency } from '@/utils/formatCurrency';
+
 import MarketCartButtons from '@/app/[locale]/components/cart/MarketCartButtons';
 import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
+import React, { useState } from 'react';
+import { SupabaseProps } from '@/constants';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { IProductPack, IProductPackEventCartItem } from '@/lib/types/types';
+import Label from '@/app/[locale]/components/ui/Label';
 
 interface Props {
     pack: IProductPack;
@@ -56,12 +58,10 @@ export default function EventPackItem({ pack, item, eventId }: Props) {
                 class="w-[6vw] px-2 py-2 sm:w-[5vw] md:w-[6vw] lg:w-[5vw]"
             />
 
-            <h3 className="text-sm text-gray-900">{pack.name}</h3>
+            <Label size="xsmall">{pack.name}</Label>
 
             <div className="flex flex-1 items-center justify-end gap-2 space-x-2">
-                <p className="xl:text-md text-base leading-6 dark:text-white">
-                    {formatCurrency(pack.price)}
-                </p>
+                <Label size="xsmall">{formatCurrency(pack.price)}</Label>
 
                 <MarketCartButtons
                     item={pack}

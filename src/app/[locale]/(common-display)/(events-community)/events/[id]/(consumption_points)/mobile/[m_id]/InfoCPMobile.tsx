@@ -2,13 +2,15 @@
 
 import CPDetails from './CPDetails';
 import ProductList from './ProductList';
-import React from 'react';
-import { ICPMobile, IEventExperience } from '@/lib/types/types';
-import { useLocale, useTranslations } from 'next-intl';
 import EventExperiences from './EventExperiences';
+import Label from '@/app/[locale]/components/ui/Label';
+import Title from '@/app/[locale]/components/ui/Title';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import React from 'react';
 import { ROUTE_EVENTS } from '@/config';
 import { useRouter } from 'next/navigation';
-import Button from '@/app/[locale]/components/ui/buttons/Button';
+import { useLocale, useTranslations } from 'next-intl';
+import { ICPMobile, IEventExperience } from '@/lib/types/types';
 
 interface Props {
     cpMobile: ICPMobile;
@@ -51,22 +53,19 @@ export default function InfoCPMobile({
                 small
                 onClick={handleOnClickEventComeBack}
             >
-                Volver al Evento
+                {t('back_to_event')}
             </Button>
 
             {/* Event Experiences  */}
             {experiencesCounter > 0 && (
-                <section className="space-y-4">
-                    <h2 className="text-2xl font-bold mt-8">
-                        {t('experiences')}
-                    </h2>
+                <section className=" mt-4">
+                    <Title size="xlarge">{t('experiences')}</Title>
 
-                    <p>
-                        <span className="text-xl">
-                            Este Punto de Consumo ofrece {experiencesCounter}{' '}
-                            experiencias en las que puedes participar
-                        </span>
-                    </p>
+                    <Label size="medium" color="gray">
+                        {t('event_experience_participation_description', {
+                            experiencesCounter: experiencesCounter,
+                        })}
+                    </Label>
 
                     <EventExperiences eventExperiences={eventExperiences} />
                 </section>

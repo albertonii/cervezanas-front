@@ -527,10 +527,10 @@
     "form_submit_cp_organizer_cv_description": "Adjunta tu CV para que podamos conocer tu experiencia en el sector de la cerveza y organización de eventos.",
     "cp_fixed": "Puntos fijos",
     "cp_mobile": "Puntos móviles",
-    "add_new_cp_fixed": "Añadir Punto Fijo",
-    "add_new_cp_mobile": "Añadir Punto Móvil",
-    "new_cp_fixed_config": "Nuevo Punto Fijo",
-    "new_cp_mobile_config": "Nuevo Punto Móvil",
+    "add_new_cp_fixed": "Agregar Punto Fijo",
+    "add_new_cp_mobile": "Agregar Punto Móvil",
+    "new_cp_fixed_config": "Agregar Punto Fijo",
+    "new_cp_mobile_config": "Agregar Punto Móvil",
     "search_an_address": "Busca una dirección",
     "cp_name": "Nombre del punto de consumo",
     "organizer_info": "Información del organizador",
@@ -1475,5 +1475,8 @@
         "save_questions": "Guardar preguntas",
         "title": "Título",
         "is_unlocked": "¿Está desbloqueado?"
-    }
+    },
+    "back_to_event": "Volver al evento",
+    "event_experience_participation_description": "Este Punto de Consumo ofrece {experiencesCounter} experiencias en las que puedes participar",
+    "organizer": "Organizador"
 }

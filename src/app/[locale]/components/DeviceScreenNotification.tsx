@@ -30,11 +30,6 @@ export function DeviceScreenNotification() {
         (notification) => !notification.read,
     ).length;
 
-    useEffect(() => {
-        console.log('numberOfUnreadNotifications', numberOfUnreadNotifications);
-        console.log('notifications', notifications);
-    }, [numberOfUnreadNotifications, notifications]);
-
     return (
         <div className="relative flex h-full items-center justify-center font-medium w-[50px]">
             <Button

@@ -63,9 +63,10 @@ const useEventCartStore = create<EventCartState>((set, get) => {
 
     if (typeof window !== 'undefined') {
         // Acceder a localStorage solo si está en el lado del cliente
-        const savedState = localStorage.getItem('event-carts');
+        const savedState = localStorage.getItem(STORAGE_KEY);
+
         if (savedState) {
-            initialState = JSON.parse(savedState);
+            initialState = { ...initialState, ...JSON.parse(savedState) };
         }
     }
 
@@ -133,9 +134,8 @@ const useEventCartStore = create<EventCartState>((set, get) => {
 
                 const newItems = eventItems.map((item) => {
                     if (
-                        (item.product_id === productId &&
-                            item.cpf_id === cpId) ||
-                        (item.product_id === productId && item.cpm_id === cpId)
+                        item.product_id === productId &&
+                        (item.cpf_id === cpId || item.cpm_id === cpId)
                     ) {
                         const newPacks = item.packs.map((pack) => {
                             if (pack.id === packId) {
@@ -164,9 +164,8 @@ const useEventCartStore = create<EventCartState>((set, get) => {
 
                 const newItems = eventItems.map((item) => {
                     if (
-                        (item.product_id === productId &&
-                            item.cpf_id === cpId) ||
-                        (item.product_id === productId && item.cpm_id === cpId)
+                        item.product_id === productId &&
+                        (item.cpf_id === cpId || item.cpm_id === cpId)
                     ) {
                         const newPacks = item.packs.map((pack) => {
                             if (pack.id === packId && pack.quantity > 1) {
@@ -192,11 +191,11 @@ const useEventCartStore = create<EventCartState>((set, get) => {
         removeFromCart: (eventId, productId, cpId, packId) => {
             set((state) => {
                 const eventItems = state.eventCarts[eventId] || [];
+
                 const newItems = eventItems.map((item) => {
                     if (
-                        (item.product_id === productId &&
-                            item.cpf_id === cpId) ||
-                        (item.product_id === productId && item.cpm_id === cpId)
+                        item.product_id === productId &&
+                        (item.cpf_id === cpId || item.cpm_id === cpId)
                     ) {
                         const newPacks = item.packs.filter(
                             (pack) => pack.id !== packId,
@@ -206,6 +205,8 @@ const useEventCartStore = create<EventCartState>((set, get) => {
                     }
                     return item;
                 });
+
+                console.log(newItems);
 
                 // Si no hay packs en el producto, elimina el producto del carrito
                 const newItemsv2 = newItems.filter(
@@ -237,8 +238,8 @@ const useEventCartStore = create<EventCartState>((set, get) => {
 
             const product = eventItems.find(
                 (item) =>
-                    (item.product_id === productId && item.cpm_id === cpId) ||
-                    (item.product_id === productId && item.cpf_id === cpId),
+                    item.product_id === productId &&
+                    (item.cpf_id === cpId || item.cpm_id === cpId),
             );
 
             if (product) {
@@ -275,8 +276,11 @@ const useEventCartStore = create<EventCartState>((set, get) => {
             get().saveState();
         },
         saveState: () => {
-            const state = get();
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            // const state = get();
+            // localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            const { eventCarts, isOpen } = get();
+            const stateToSave = { eventCarts, isOpen };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToSave));
         },
         setEventCarts: (eventCarts) => {
             set((state) => {

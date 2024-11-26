@@ -1,6 +1,7 @@
 import EventPackItem from './EventPackItem';
 import React, { useEffect, useState } from 'react';
 import { IProductPackEventCartItem, IProductPack } from '@/lib/types/types';
+import Label from '@/app/[locale]/components/ui/Label';
 
 interface Props {
     item: IProductPackEventCartItem;
@@ -15,12 +16,12 @@ export default function EventProduct({ item, eventId }: Props) {
     }, [item]);
 
     return (
-        <figure className="flex w-full flex-col space-y-2 border-2 bg-beer-softBlondeBubble p-2">
+        <figure className="flex w-full flex-col space-y-1 border-2 bg-beer-softBlondeBubble p-2">
             {/* Display Consumption Point name */}
-            <h2 className="text-lg text-gray-900">{item.cp_name}</h2>
+            <Label>{item.cp_name}</Label>
 
             {/* Display product name */}
-            <h2 className="text-lg text-gray-900">{item.name}</h2>
+            <Label>{item.name}</Label>
 
             {packs.map((pack) => {
                 return (

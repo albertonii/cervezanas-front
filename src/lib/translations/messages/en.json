@@ -1377,5 +1377,7 @@
     "add_price_range": "Add price range",
     "low_limit": "Lower limit",
     "high_limit": "Upper limit",
-    "delivery_cost": "Shipping cost"
+    "delivery_cost": "Shipping cost",
+    "back_to_event": "Back to event",
+    "organizer": "Organizer"
 }
