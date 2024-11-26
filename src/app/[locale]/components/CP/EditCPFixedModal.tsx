@@ -6,24 +6,25 @@ import Modal from '@/app/[locale]/components/modals/Modal';
 import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import SelectInput from '@/app/[locale]/components/form/SelectInput';
 import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
-import useFetchCPMobilePacks from '../../../../../../hooks/useFetchCPMobilePacks';
+import useFetchCPFixedPacks from '../../../../hooks/useFetchCPFixedPacks';
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
+import { useAuth } from '../../(auth)/Context/useAuth';
 import { GeocodeResult } from 'use-places-autocomplete';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { cleanObject, isValidObject } from '@/utils/utils';
 import { formatDateDefaultInput } from '@/utils/formatDate';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
 import {
-    ICPMobile,
-    ICPMProductsEditCPMobileModal,
+    ICPFixed,
+    ICPMProductsEditCPFixedModal,
     IUser,
 } from '@/lib//types/types';
+import Title from '../ui/Title';
 
-enum CPMobileStatus {
+enum CPFixedStatus {
     active = 'active',
     finished = 'finished',
     error = 'error',
@@ -31,15 +32,15 @@ enum CPMobileStatus {
     paused = 'paused',
 }
 
-export const cp_mobile_status_options: {
+export const cp_fixed_status_options: {
     label: string;
-    value: CPMobileStatus;
+    value: CPFixedStatus;
 }[] = [
-    { label: 'active', value: CPMobileStatus.active },
-    { label: 'finished', value: CPMobileStatus.finished },
-    { label: 'error', value: CPMobileStatus.error },
-    { label: 'cancelled', value: CPMobileStatus.cancelled },
-    { label: 'paused', value: CPMobileStatus.paused },
+    { label: 'active', value: CPFixedStatus.active },
+    { label: 'finished', value: CPFixedStatus.finished },
+    { label: 'error', value: CPFixedStatus.error },
+    { label: 'cancelled', value: CPFixedStatus.cancelled },
+    { label: 'paused', value: CPFixedStatus.paused },
 ];
 
 interface FormData {
@@ -61,25 +62,24 @@ interface FormData {
 }
 
 interface Props {
-    selectedCP: ICPMobile;
+    selectedCP: ICPFixed;
     isEditModal: boolean;
     handleEditModal: ComponentProps<any>;
 }
 
-export default function EditCPMobileModal({
+export default function EditCPFixedModal({
     selectedCP,
     isEditModal,
     handleEditModal,
 }: Props) {
     const t = useTranslations();
-    const { supabase } = useAuth();
-    const { user } = useAuth();
+    const { user, supabase } = useAuth();
 
     const {
         data: packsInProduct,
         refetch,
         isLoading: isFetchLoading,
-    } = useFetchCPMobilePacks(selectedCP.id);
+    } = useFetchCPFixedPacks(selectedCP.id);
 
     const [productItems, setProductItems] = useState<string[]>([]);
 
@@ -126,6 +126,7 @@ export default function EditCPMobileModal({
             ),
             end_date: formatDateDefaultInput(selectedCP?.end_date.toString()),
             product_items: productItems,
+            status: selectedCP?.status,
             // is_booking_required: selectedCP?.is_booking_required,
         },
     });
@@ -139,7 +140,7 @@ export default function EditCPMobileModal({
 
     useEffect(() => {
         if (packsInProduct) {
-            packsInProduct.map((item: ICPMProductsEditCPMobileModal) => {
+            packsInProduct.map((item: ICPMProductsEditCPFixedModal) => {
                 const productPackId: string = item.product_pack_id;
                 setProductItems((current) => {
                     if (!current.includes(productPackId))
@@ -170,7 +171,7 @@ export default function EditCPMobileModal({
         }
     };
 
-    // Update CP Mobile in database
+    // Update CP Fixed in database
     const handleUpdate = async (formValues: FormData) => {
         if (!selectedEOrganizer && !isInternalOrganizer) {
             setErrorOnSelectEOrganizer(true);
@@ -198,7 +199,7 @@ export default function EditCPMobileModal({
 
         if (selectedCP) {
             const { error } = await supabase
-                .from('cp_mobile')
+                .from('cp_fixed')
                 .update({
                     cp_name,
                     cp_description,
@@ -216,7 +217,7 @@ export default function EditCPMobileModal({
             if (error) throw error;
 
             const { error: errorDelete } = await supabase
-                .from('cpm_products')
+                .from('cpf_products')
                 .delete()
                 .eq('cp_id', selectedCP.id);
 
@@ -229,7 +230,7 @@ export default function EditCPMobileModal({
                 // Convert pItemsFiltered JSON objects to array
                 const pItemsFilteredArray = Object.values(pItemsFiltered);
 
-                const cpMobileId = selectedCP.id;
+                const cpFixedId = selectedCP.id;
 
                 // Link the pack with the consumption Point
                 pItemsFilteredArray.map(async (pack: any) => {
@@ -237,9 +238,9 @@ export default function EditCPMobileModal({
                     if (typeof pack.id === 'object') {
                         pack.id.map(async (packId: string) => {
                             const { error } = await supabase
-                                .from('cpm_products')
+                                .from('cpf_products')
                                 .insert({
-                                    cp_id: cpMobileId,
+                                    cp_id: cpFixedId,
                                     product_pack_id: packId,
                                 });
 
@@ -249,9 +250,9 @@ export default function EditCPMobileModal({
                         });
                     } else {
                         const { error } = await supabase
-                            .from('cpm_products')
+                            .from('cpf_products')
                             .insert({
-                                cp_id: cpMobileId,
+                                cp_id: cpFixedId,
                                 product_pack_id: pack.id,
                             });
 
@@ -264,16 +265,14 @@ export default function EditCPMobileModal({
                 refetch();
             }
 
-            queryClient.invalidateQueries('cpMobile');
+            queryClient.invalidateQueries('cpFixed');
+            handleEditModal(false);
         }
     };
 
-    const updateCPMobileMutation = useMutation({
-        mutationKey: ['updateCPMobile'],
+    const updateCPFixedMutation = useMutation({
+        mutationKey: ['updateCPFixed'],
         mutationFn: handleUpdate,
-        onSuccess: () => {
-            handleEditModal(false);
-        },
         onError: (e: any) => {
             console.error(e);
         },
@@ -281,7 +280,7 @@ export default function EditCPMobileModal({
 
     const onSubmit = (formValues: FormData) => {
         try {
-            updateCPMobileMutation.mutate(formValues);
+            updateCPFixedMutation.mutate(formValues);
         } catch (e) {
             console.error(e);
         }
@@ -294,8 +293,8 @@ export default function EditCPMobileModal({
             showBtn={false}
             showModal={isEditModal}
             setShowModal={handleEditModal}
-            title={t('edit_cp_mobile_config')}
-            btnTitle={t('edit_cp_mobile_config')}
+            title={t('edit_cp_fixed_config')}
+            btnTitle={t('edit_cp_fixed_config')}
             description={''}
             icon={faAdd}
             handler={handleSubmit(onSubmit)}
@@ -308,14 +307,14 @@ export default function EditCPMobileModal({
             <form>
                 <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
                     <legend className="m-2 text-2xl">
-                        {t('cp_mobile_info')}
+                        {t('cp_fixed_info')}
                     </legend>
 
                     {/* Status */}
                     <SelectInput
                         form={form}
                         labelTooltip={'cp_fixed_status_tooltip'}
-                        options={cp_mobile_status_options}
+                        options={cp_fixed_status_options}
                         label={'status'}
                         registerOptions={{
                             required: true,
@@ -341,6 +340,10 @@ export default function EditCPMobileModal({
                         }}
                     />
 
+                    {errors.cp_description && (
+                        <DisplayInputError message="errors.input_required" />
+                    )}
+
                     {/* Start date and end date  */}
                     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                         <InputLabel
@@ -365,7 +368,9 @@ export default function EditCPMobileModal({
 
                 {/* Organizer Information  */}
                 <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                    <legend className="text-2xl">{t('organizer_info')}</legend>
+                    <legend>
+                        <Title size="large">{t('organizer_info')}</Title>
+                    </legend>
 
                     {/* Is internal organizer value  */}
                     <div className="flex flex-row space-x-2">
@@ -499,7 +504,7 @@ export default function EditCPMobileModal({
 
                 <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
                     <legend className="text-2xl">
-                        {t('cp_mobile_location')}
+                        {t('cp_fixed_location')}
                     </legend>
 
                     {addressInputRequired && (
@@ -518,7 +523,7 @@ export default function EditCPMobileModal({
 
                 <fieldset className="mt-4 flex flex-col space-y-4">
                     <legend className="text-2xl">
-                        {t('cp_mobile_products')}
+                        {t('cp_fixed_products')}
                     </legend>
 
                     {/* List of selectable products that the owner can use */}

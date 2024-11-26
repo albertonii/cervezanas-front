@@ -1,27 +1,27 @@
 'use client';
 
+import AddCPMobileModal from '@/app/[locale]/components/CP/AddCPMobileModal';
 import React from 'react';
-import AddCPFixedModal from './AddCPFixedModal';
 import { useTranslations } from 'next-intl';
-import { ListCPFixed } from './ListCPFixed';
+import { ListCPMobile } from '@/app/[locale]/components/CP/ListCPMobile';
 
 interface Props {
     cpsId: string;
-    counterCPFixed: number;
+    counterCPMobile: number;
 }
 
-export function CPFixed({ cpsId, counterCPFixed }: Props) {
+export function CPMobile({ cpsId, counterCPMobile }: Props) {
     const t = useTranslations();
 
     return (
         <section className="px-4 py-6" aria-label="Products">
             <header className="flex flex-col space-y-4">
                 <div className="w-40">
-                    <AddCPFixedModal cpsId={cpsId} />{' '}
+                    <AddCPMobileModal cpsId={cpsId} />
                 </div>
             </header>
 
-            <ListCPFixed cpsId={cpsId} counterCPFixed={counterCPFixed} />
+            <ListCPMobile cpsId={cpsId} counterCPMobile={counterCPMobile} />
         </section>
     );
 }

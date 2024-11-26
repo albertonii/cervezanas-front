@@ -1,18 +1,30 @@
-import { redirect } from 'next/navigation';
-import { IProfile, IConsumptionPoints } from '@/lib//types/types';
-import createServerClient from '@/utils/supabaseServer';
 import readUserSession from '@/lib//actions';
+import createServerClient from '@/utils/supabaseServer';
+import { redirect } from 'next/navigation';
 import { ConsumptionPoints } from './ConsumptionPoints';
+import { IProfile, IConsumptionPoints } from '@/lib//types/types';
 
 export default async function ProfilePage() {
     const cpsData = getCPSData();
     const profileData = getProfileData();
-    const [cps, profile] = await Promise.all([cpsData, profileData]);
+    const counterCPMobileData = getCPMobileCounter();
+    const counterCPFixedData = getCPFixedCounter();
+    const [cps, profile, counterCPMobile, counterCPFixed] = await Promise.all([
+        cpsData,
+        profileData,
+        counterCPMobileData,
+        counterCPFixedData,
+    ]);
     if (!profile) return <></>;
 
     return (
         <>
-            <ConsumptionPoints cps={cps ?? []} profile={profile} />
+            <ConsumptionPoints
+                cps={cps ?? []}
+                profile={profile}
+                counterCPMobile={counterCPMobile}
+                counterCPFixed={counterCPFixed}
+            />
         </>
     );
 }
@@ -61,4 +73,40 @@ async function getProfileData() {
     if (profileError) throw profileError;
 
     return profileData[0] as IProfile;
+}
+
+async function getCPMobileCounter() {
+    const supabase = await createServerClient();
+    const session = await readUserSession();
+
+    if (!session) {
+        redirect('/signin');
+    }
+
+    const { count, error: cpFixedError } = await supabase
+        .from('cp_mobile')
+        .select('id', { count: 'exact' })
+        .eq('owner_id', session.id);
+
+    if (cpFixedError) throw cpFixedError;
+
+    return count as number | 0;
+}
+
+async function getCPFixedCounter() {
+    const supabase = await createServerClient();
+    const session = await readUserSession();
+
+    if (!session) {
+        redirect('/signin');
+    }
+
+    const { count, error: cpFixedError } = await supabase
+        .from('cp_fixed')
+        .select('id', { count: 'exact' })
+        .eq('owner_id', session.id);
+
+    if (cpFixedError) throw cpFixedError;
+
+    return count as number | 0;
 }

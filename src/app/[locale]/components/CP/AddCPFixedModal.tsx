@@ -2,23 +2,24 @@
 
 import CPGoogleMap from './CPGoogleMap';
 import ListCPMProducts from './ListCPMProducts';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import SelectInput from '@/app/[locale]/components/form/SelectInput';
+import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
+import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
 import React, { useState } from 'react';
+import { z, ZodType } from 'zod';
+import { ROLE_ENUM } from '@/lib//enums';
 import { useTranslations } from 'next-intl';
-import { getGeocode } from 'use-places-autocomplete';
 import { IUser } from '@/lib//types/types';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { getGeocode } from 'use-places-autocomplete';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useAuth } from '../../(auth)/Context/useAuth';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { cleanObject, isValidObject } from '@/utils/utils';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z, ZodType } from 'zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { ROLE_ENUM } from '@/lib//enums';
-import InputLabel from '@/app/[locale]/components/form/InputLabel';
-import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
-import SelectInput from '@/app/[locale]/components/form/SelectInput';
 import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
+import Title from '../ui/Title';
 
 enum CPFixedStatus {
     active = 'active',
@@ -377,8 +378,8 @@ export default function AddCPFixedModal({ cpsId }: Props) {
 
                     {/* Organizer Information  */}
                     <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                        <legend className="text-2xl">
-                            {t('organizer_info')}
+                        <legend>
+                            <Title size="large">{t('organizer_info')}</Title>
                         </legend>
 
                         {/* Is internal organizer value  */}

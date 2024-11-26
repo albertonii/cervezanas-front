@@ -1,10 +1,10 @@
 'use client';
 
-import CPGoogleMap from './CPGoogleMap';
-import ListCPMProducts from './ListCPMProducts';
 import Modal from '@/app/[locale]/components/modals/Modal';
 import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import CPGoogleMap from '@/app/[locale]/components/CP/CPGoogleMap';
 import SelectInput from '@/app/[locale]/components/form/SelectInput';
+import ListCPMProducts from '../../../../components/CP/ListCPMProducts';
 import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
 import React, { useState } from 'react';
 import { z, ZodType } from 'zod';
@@ -18,8 +18,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { cleanObject, isValidObject } from '@/utils/utils';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
+import Title from '@/app/[locale]/components/ui/Title';
 
 enum CPMobileStatus {
     active = 'active',
@@ -318,8 +319,8 @@ export default function AddCPMobileModal({ cpsId }: Props) {
         >
             <form>
                 <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                    <legend className="m-2 text-2xl">
-                        {t('cp_mobile_info')}
+                    <legend>
+                        <Title size="large">{t('cp_mobile_info')}</Title>
                     </legend>
 
                     {/* Status */}
@@ -346,7 +347,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
                     <InputTextarea
                         form={form}
                         label={'cp_description'}
-                        labelText={'description'}
+                        labelText={t('description')}
                         registerOptions={{
                             required: true,
                         }}
@@ -376,7 +377,9 @@ export default function AddCPMobileModal({ cpsId }: Props) {
 
                 {/* Organizer Information  */}
                 <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                    <legend className="text-2xl">{t('organizer_info')}</legend>
+                    <legend>
+                        <Title size="large">{t('organizer_info')}</Title>
+                    </legend>
 
                     {/* Is internal organizer value  */}
                     <div className="flex flex-row space-x-2">
@@ -495,8 +498,8 @@ export default function AddCPMobileModal({ cpsId }: Props) {
                 </fieldset>
 
                 <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                    <legend className="text-2xl">
-                        {t('cp_mobile_location')}
+                    <legend>
+                        <Title size="large">{t('cp_mobile_location')}</Title>
                     </legend>
 
                     {addressInputRequired && (
@@ -508,8 +511,8 @@ export default function AddCPMobileModal({ cpsId }: Props) {
                 </fieldset>
 
                 <fieldset className="mt-4 flex flex-col space-y-4">
-                    <legend className="text-2xl">
-                        {t('cp_mobile_products')}
+                    <legend>
+                        <Title size="large">{t('cp_mobile_products')}</Title>
                     </legend>
 
                     {/* List of selectable products that the owner can use */}

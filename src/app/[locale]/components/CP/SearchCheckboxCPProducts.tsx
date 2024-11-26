@@ -1,21 +1,22 @@
 'use client';
 
 import Link from 'next/link';
-import React, { useEffect, useMemo, useState } from 'react';
-import { UseFormReturn } from 'react-hook-form';
-import { IProduct } from '@/lib//types/types';
-import { useLocale, useTranslations } from 'next-intl';
-import { formatCurrency } from '@/utils/formatCurrency';
-import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
-import InputSearch from '@/app/[locale]/components/form/InputSearch';
-import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import TH from '@/app/[locale]/components/ui/table/TH';
+import TD from '@/app/[locale]/components/ui/table/TD';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
+import TBody from '@/app/[locale]/components/ui/table/TBody';
 import Table from '@/app/[locale]/components/ui/table/Table';
 import THead from '@/app/[locale]/components/ui/table/THead';
-import TR from '@/app/[locale]/components/ui/table/TR';
-import TBody from '@/app/[locale]/components/ui/table/TBody';
-import TD from '@/app/[locale]/components/ui/table/TD';
-import TH from '@/app/[locale]/components/ui/table/TH';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
+import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
+import useFetchProductsByOwnerAndPagination from '../../../../hooks/useFetchProductsByOwnerAndPagination';
+import React, { useEffect, useMemo, useState } from 'react';
+import { IProduct } from '@/lib//types/types';
+import { UseFormReturn } from 'react-hook-form';
+import { useLocale, useTranslations } from 'next-intl';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { useAuth } from '../../(auth)/Context/useAuth';
 
 interface ColumnsProps {
     header: string;
@@ -27,6 +28,7 @@ interface Props {
 export function SearchCheckboxCPProducts({ form }: Props) {
     const t = useTranslations();
     const locale = useLocale();
+    const { user } = useAuth();
 
     const [query, setQuery] = useState('');
     const [products, setProducts] = useState<IProduct[]>([]);
@@ -100,7 +102,7 @@ export function SearchCheckboxCPProducts({ form }: Props) {
                         return (
                             <TR key={product.id}>
                                 <>
-                                    <TH scope="row" class_="whitespace-nowrap">
+                                    <TH scope="row" class_="whitespace-nowrap ">
                                         <input
                                             id={`checkbox-item-${product.id}`}
                                             type="checkbox"

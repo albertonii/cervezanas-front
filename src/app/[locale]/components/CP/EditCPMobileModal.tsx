@@ -1,27 +1,28 @@
 'use client';
 
 import CPGoogleMap from './CPGoogleMap';
-import ListCPMProducts from './ListCPMProducts';
-import useFetchCPMobilePacks from '../../../../../../hooks/useFetchCPMobilePacks';
+import Modal from '@/app/[locale]/components/modals/Modal';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import SelectInput from '@/app/[locale]/components/form/SelectInput';
+import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
+import useFetchCPMobilePacks from '../../../../hooks/useFetchCPMobilePacks';
 import React, { ComponentProps, useEffect, useState } from 'react';
-import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
+import { GeocodeResult } from 'use-places-autocomplete';
+import { faAdd } from '@fortawesome/free-solid-svg-icons';
+import { cleanObject, isValidObject } from '@/utils/utils';
+import { formatDateDefaultInput } from '@/utils/formatDate';
+import { useAuth } from '../../(auth)/Context/useAuth';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
 import {
     ICPMobile,
     ICPMProductsEditCPMobileModal,
     IUser,
 } from '@/lib//types/types';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { GeocodeResult } from 'use-places-autocomplete';
-import Modal from '@/app/[locale]/components/modals/Modal';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { cleanObject, isValidObject } from '@/utils/utils';
-import { formatDateDefaultInput } from '@/utils/formatDate';
-import InputLabel from '@/app/[locale]/components/form/InputLabel';
-import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
-import SelectInput from '@/app/[locale]/components/form/SelectInput';
-import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
+import ListCPMProducts from './ListCPMProducts';
+import Title from '../ui/Title';
 
 enum CPMobileStatus {
     active = 'active',
@@ -307,8 +308,8 @@ export default function EditCPMobileModal({
         >
             <form>
                 <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                    <legend className="m-2 text-2xl">
-                        {t('cp_mobile_info')}
+                    <legend>
+                        <Title size="large">{t('cp_mobile_info')}</Title>
                     </legend>
 
                     {/* Status */}
@@ -365,7 +366,9 @@ export default function EditCPMobileModal({
 
                 {/* Organizer Information  */}
                 <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                    <legend className="text-2xl">{t('organizer_info')}</legend>
+                    <legend>
+                        <Title size="large">{t('organizer_info')}</Title>
+                    </legend>
 
                     {/* Is internal organizer value  */}
                     <div className="flex flex-row space-x-2">
@@ -498,8 +501,8 @@ export default function EditCPMobileModal({
                 </fieldset>
 
                 <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                    <legend className="text-2xl">
-                        {t('cp_mobile_location')}
+                    <legend>
+                        <Title size="large">{t('cp_mobile_location')}</Title>
                     </legend>
 
                     {addressInputRequired && (
@@ -517,8 +520,8 @@ export default function EditCPMobileModal({
                 </fieldset>
 
                 <fieldset className="mt-4 flex flex-col space-y-4">
-                    <legend className="text-2xl">
-                        {t('cp_mobile_products')}
+                    <legend>
+                        <Title size="large">{t('cp_mobile_products')}</Title>
                     </legend>
 
                     {/* List of selectable products that the owner can use */}

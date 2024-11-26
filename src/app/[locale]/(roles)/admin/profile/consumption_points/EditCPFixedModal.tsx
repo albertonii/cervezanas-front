@@ -1,27 +1,28 @@
 'use client';
 
-import CPGoogleMap from './CPGoogleMap';
-import ListCPMProducts from './ListCPMProducts';
+import Modal from '@/app/[locale]/components/modals/Modal';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import SelectInput from '@/app/[locale]/components/form/SelectInput';
+import ListCPMProducts from '../../../../components/CP/ListCPMProducts';
+import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
 import useFetchCPFixedPacks from '../../../../../../hooks/useFetchCPFixedPacks';
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
+import { GeocodeResult } from 'use-places-autocomplete';
+import { cleanObject, isValidObject } from '@/utils/utils';
+import { formatDateDefaultInput } from '@/utils/formatDate';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import CPGoogleMap from '@/app/[locale]/components/CP/CPGoogleMap';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
 import {
     ICPFixed,
     ICPMProductsEditCPFixedModal,
     IUser,
 } from '@/lib//types/types';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import Modal from '@/app/[locale]/components/modals/Modal';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { GeocodeResult } from 'use-places-autocomplete';
-import { cleanObject, isValidObject } from '@/utils/utils';
-import { formatDateDefaultInput } from '@/utils/formatDate';
-import InputLabel from '@/app/[locale]/components/form/InputLabel';
-import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
-import SelectInput from '@/app/[locale]/components/form/SelectInput';
-import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
+import Title from '@/app/[locale]/components/ui/Title';
 
 enum CPFixedStatus {
     active = 'active',
@@ -367,7 +368,9 @@ export default function EditCPFixedModal({
 
                 {/* Organizer Information  */}
                 <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                    <legend className="text-2xl">{t('organizer_info')}</legend>
+                    <legend>
+                        <Title size="large">{t('organizer_info')}</Title>
+                    </legend>
 
                     {/* Is internal organizer value  */}
                     <div className="flex flex-row space-x-2">

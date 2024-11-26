@@ -1,11 +1,10 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { IConsumptionPoints, ICPFixed, ICPMobile } from '@/lib//types/types';
-import { CPMobile } from './CPMobile';
-import { CPFixed } from './CPFixed';
 import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
+import React, { useEffect, useState } from 'react';
+import { CPFixed } from './CPFixed';
+import { CPMobile } from './CPMobile';
+import { IConsumptionPoints, ICPFixed, ICPMobile } from '@/lib//types/types';
 
 interface Props {
     cps: IConsumptionPoints[];
@@ -57,6 +56,9 @@ export function ConsumptionPoints({ cps }: Props) {
 
     const renderSwitch = () => {
         if (isLoading) return <div>Loading...</div>;
+
+        console.log('FIXED', cpsFixed);
+        console.log('MOBILES', cpsMobile);
 
         switch (menuOption) {
             case 'cp_fixed':

@@ -1,11 +1,10 @@
 'use client';
 
-import AddCPMobileModal from './AddCPMobileModal';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { ListCPMobile } from './ListCPMobile';
 import { ICPMobile } from '@/lib//types/types';
-import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 
 interface Props {
     cpsMobile: ICPMobile[];

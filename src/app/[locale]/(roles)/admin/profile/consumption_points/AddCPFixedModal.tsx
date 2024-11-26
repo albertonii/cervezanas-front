@@ -1,10 +1,10 @@
 'use client';
 
-import CPGoogleMap from './CPGoogleMap';
-import ListCPMProducts from './ListCPMProducts';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
+import CPGoogleMap from '@/app/[locale]/components/CP/CPGoogleMap';
 import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import SelectInput from '@/app/[locale]/components/form/SelectInput';
+import ListCPMProducts from '../../../../components/CP/ListCPMProducts';
 import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
 import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
 import React, { useState } from 'react';
@@ -21,6 +21,7 @@ import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import Title from '@/app/[locale]/components/ui/Title';
 
 enum CPFixedStatus {
     active = 'active',
@@ -391,8 +392,8 @@ export default function AddCPFixedModal({ cpsId }: Props) {
 
                     {/* Organizer Information  */}
                     <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                        <legend className="text-2xl">
-                            {t('organizer_info')}
+                        <legend>
+                            <Title size="large">{t('organizer_info')}</Title>
                         </legend>
 
                         {/* Is internal organizer value  */}

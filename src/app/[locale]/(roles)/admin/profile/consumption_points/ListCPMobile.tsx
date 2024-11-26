@@ -38,6 +38,8 @@ export function ListCPMobile({ cpsMobile }: Props) {
     const t = useTranslations();
     const locale = useLocale();
 
+    console.log('CPS MOBILE', cpsMobile);
+
     const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 

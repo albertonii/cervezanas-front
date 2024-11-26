@@ -1,8 +1,7 @@
-import { redirect } from 'next/navigation';
-import { VIEWS } from '@/constants';
-import { IProfile, IConsumptionPoints } from '@/lib//types/types';
-import createServerClient from '@/utils/supabaseServer';
 import readUserSession from '@/lib//actions';
+import createServerClient from '@/utils/supabaseServer';
+import { redirect } from 'next/navigation';
+import { IConsumptionPoints } from '@/lib//types/types';
 import { ConsumptionPoints } from './ConsumptionPoints';
 
 export default async function ProfilePage() {
@@ -29,10 +28,10 @@ async function getCPSData() {
         .from('consumption_points')
         .select(
             `
-        *,
-        cp_fixed (*),
-        cp_mobile (*)
-      `,
+                *,
+                cp_fixed (*),
+                cp_mobile (*)
+            `,
         );
 
     if (cpsError) console.error(cpsError);

@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { CPPending } from './CPPending';
-import { CPAccepted } from './CPAccepted';
-import { CPRejected } from './CPRejected';
+import { CPPending } from '../../../../components/CP/CPPending';
+import { CPAccepted } from '../../../../components/CP/CPAccepted';
+import { CPRejected } from '../../../../components/CP/CPRejected';
 import { IConsumptionPoints, IProfile } from '@/lib//types/types';
 import { SubmitCPOrganizer } from '@/app/[locale]/components/modals/SubmitCPOrganizer';
 import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
@@ -23,9 +23,6 @@ export function ConsumptionPoints({
     counterCPFixed,
 }: Props) {
     const t = useTranslations();
-
-    // const [cpOrganizerStatus, setCPOrganizerStatus] =
-    //     useState(cp_organizer_status);
 
     const [cpOrganizerStatus, setCPOrganizerStatus] = useState(1);
 
