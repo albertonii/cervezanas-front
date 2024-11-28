@@ -9,6 +9,7 @@ import { formatDateString } from '@/utils/formatDate';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { EVENT_ORDER_ITEM_STATUS, EVENT_ORDER_STATUS } from '@/constants';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
+import Label from '@/app/[locale]/components/ui/Label';
 
 interface Props {
     isError?: boolean;
@@ -110,13 +111,11 @@ export default function SuccessCheckout({ order, isError, domain }: Props) {
                             {t('order_number')} #{order.order_number}
                         </h1>
 
-                        <p
-                            onClick={() => handleInvoicePdf()}
-                            className="mt-4 hidden text-sm font-medium tracking-wide text-gray-500 hover:cursor-pointer hover:text-beer-blonde sm:ml-2 sm:mt-0 sm:block"
-                        >
+                        <p className="mt-4 hidden text-sm font-medium tracking-wide text-gray-500 hover:cursor-pointer hover:text-beer-blonde sm:ml-2 sm:mt-0 sm:block"></p>
+                        <Label onClick={() => handleInvoicePdf()} font="link">
                             {t('view_invoice')}
                             <span aria-hidden="true"> &rarr;</span>
-                        </p>
+                        </Label>
                     </span>
 
                     {/* Order Status  */}

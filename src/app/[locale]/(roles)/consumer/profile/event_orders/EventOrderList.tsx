@@ -1,6 +1,8 @@
 'use client';
 
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 import useFetchEventOrders from '../../../../../../hooks/useFetchEventOrders';
+import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
@@ -11,8 +13,6 @@ import { formatCurrency } from '@/utils/formatCurrency';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
-import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 interface Props {
     counter: number;

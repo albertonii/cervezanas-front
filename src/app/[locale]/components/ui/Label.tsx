@@ -9,10 +9,11 @@ interface Props {
         | 'dark-gray'
         | 'beer-draft'
         | 'beer-blonde';
-    font?: 'semibold' | 'bold' | 'normal';
+    font?: 'semibold' | 'bold' | 'normal' | 'link';
     htmlFor?: string;
     children: React.ReactNode;
     className?: string;
+    onClick?: () => void;
 }
 
 export default function Label({
@@ -22,6 +23,7 @@ export default function Label({
     font = 'normal',
     htmlFor,
     className,
+    onClick,
 }: Props) {
     const sizeClass = {
         xsmall: 'text-sm h-6',
@@ -44,12 +46,14 @@ export default function Label({
         semibold: 'font-semibold',
         bold: 'font-bold',
         normal: 'font-normal',
+        link: 'font-normal underline hover:text-beer-blonde hover:cursor-pointer',
     };
 
     return (
         <label
+            onClick={onClick}
             htmlFor={htmlFor}
-            className={`${sizeClass[size]} ${colorClass[color]} ${fontClass[font]}  ${className} flex flex-col items-start space-y-2 dark:text-gray-300 justify-center`}
+            className={`${sizeClass[size]} ${colorClass[color]} ${fontClass[font]}  ${className} flex flex-row items-start space-y-2 dark:text-gray-300 justify-center`}
         >
             {children}
         </label>

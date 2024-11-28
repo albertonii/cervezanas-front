@@ -1,5 +1,6 @@
 'use client';
 
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { CPPending } from '../../../../components/CP/CPPending';
@@ -7,7 +8,6 @@ import { CPAccepted } from '../../../../components/CP/CPAccepted';
 import { CPRejected } from '../../../../components/CP/CPRejected';
 import { IConsumptionPoints, IProfile } from '@/lib//types/types';
 import { SubmitCPOrganizer } from '@/app/[locale]/components/modals/SubmitCPOrganizer';
-import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 
 interface Props {
     cps: IConsumptionPoints[];

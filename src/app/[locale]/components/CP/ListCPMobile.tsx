@@ -78,7 +78,7 @@ export function ListCPMobile({ cpsId, counterCPMobile }: Props) {
             render: (value: string, row: ICPMobile) => (
                 <Link
                     target={'_blank'}
-                    href={`/consumption_points/mobile/${row.id}`}
+                    href={`/producer/profile/consumption_points/${row.id}`}
                     locale={locale}
                     className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde"
                 >
