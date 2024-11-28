@@ -160,7 +160,7 @@ export function LocationForm({ profile_location }: Props) {
         >
             <h2
                 id="location-data-title"
-                className="text-4xl font-['NexaRust-script']"
+                className="text-4xl font-['NexaRust-script'] dark:text-white"
             >
                 {t('location')}
             </h2>

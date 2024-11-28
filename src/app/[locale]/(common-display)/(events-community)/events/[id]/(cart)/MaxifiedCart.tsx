@@ -94,12 +94,12 @@ export default function MaxifiedCart({ items, eventId }: Props) {
                         <div className="flex justify-between text-base font-medium text-gray-900">
                             <p>{t('subtotal')}</p>
 
-                            <p className="text-xl">
+                            <p className="text-xl dark:text-white">
                                 {formatCurrency(subTotal)}
                             </p>
                         </div>
 
-                        <p className="mt-0.5 text-sm text-gray-500">
+                        <p className="mt-0.5 text-sm text-gray-500 dark:text-white">
                             {t('go_to_checkout_for_final_price')}
                         </p>
 

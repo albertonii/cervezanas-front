@@ -27,7 +27,7 @@ const UpdateBreweryRRSS = ({ form }: Props) => {
             <section className="mx-0 sm:mx-10  py-8 sm:py-0">
                 <span
                     id="account-brewery-rrss-data"
-                    className="text-4xl font-['NexaRust-script']"
+                    className="text-4xl font-['NexaRust-script'] dark:text-white"
                 >
                     {t('brewery.rrss_title')}
                 </span>

@@ -10,7 +10,7 @@ export function TopBeers() {
             <section className="relative m-auto w-full max-w-screen-2xl justify-center bg-cerv-softBlonde pt-10 pb-0  rounded-t-full border-l-2 border-beer-blonde overflow-visible">
                 <header className="mb-10 text-center text-4xl font-bold text-cerv-titlehigh md:text-6xl font-['NexaRust']">
                     {t('homepage.topbeers.header')}
-                    <p className="font-['NexaRust-script'] text-6xl md:text-8xl -mt-2 -mb-8 text-beer-draft -rotate-2">
+                    <p className="font-['NexaRust-script'] text-6xl md:text-8xl -mt-2 -mb-8 text-beer-draft -rotate-2 dark:text-beer-softBlonde">
                         {' '}
                         {t('homepage.topbeers.header2')}
                     </p>

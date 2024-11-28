@@ -98,7 +98,7 @@ export default function Packs({ product }: Props) {
                             {t('choose_pack')}
                         </legend>
 
-                        <div className="flex flex-wrap gap-4 border-2 pl-2 rounded-md border-beer-blonde p-2 bg-white shadow-lg">
+                        <div className="flex flex-wrap gap-4 border-2 pl-2 rounded-md border-beer-blonde p-2 bg-white shadow-lg dark:bg-cerv-titlehigh">
                             {product_packs
                                 .slice() // Copy the array to avoid mutating the original
                                 .sort((a, b) => a.quantity - b.quantity) // Sort by quantity
@@ -127,7 +127,7 @@ export default function Packs({ product }: Props) {
                             </div>
                         )}
 
-                        <div className="flex space-x-2 bg-gray-100 p-3 shadow-lg relative float-left justify-center items-center">
+                        <div className="flex space-x-2 bg-gray-100 p-3 shadow-lg relative float-left justify-center items-center dark:bg-cerv-titlehigh">
                             <MarketCartButtons2
                                 item={product_packs[0]}
                                 quantity={packQuantity}

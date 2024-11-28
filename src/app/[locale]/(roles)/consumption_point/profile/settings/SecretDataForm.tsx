@@ -104,7 +104,7 @@ export function SecretDataForm() {
     return (
         <section
             id="account_secret_data"
-            className="mb-4 space-y-3  rounded-md border-2 border-beer-blonde  bg-white px-6 py-4 shadow-2xl"
+            className="mb-4 space-y-3  rounded-md border-2 border-beer-blonde  bg-white px-6 py-4 shadow-2xl dark:bg-cerv-titlehigh"
         >
             <h2 id="password" className="text-2xl">
                 {t('password')}

@@ -132,10 +132,10 @@ export function CustomizeProfileForm({ profile }: Props) {
     }, [setProfileImg, userProfileImg]);
 
     return (
-        <section className="mb-4 space-y-3 bg-white px-6 py-4 border-2 rounded-md border-beer-blonde shadow-2xl">
+        <section className="mb-4 space-y-3 bg-white px-6 py-4 border-2 rounded-md border-beer-blonde shadow-2xl dark:bg-cerv-titlehigh">
             <div
                 id="account-data"
-                className="text-4xl font-['NexaRust-script']"
+                className="text-4xl font-['NexaRust-script'] dark:text-white"
             >
                 {t('profile_custom')}
             </div>

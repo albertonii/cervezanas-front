@@ -7,7 +7,7 @@ export function Reviews() {
     return (
         <>
             {/*  bloque 7 */}
-            <section className="relative m-auto w-full max-w-screen-2xl justify-center bg-cerv-titlehigh rounded-t-full border-l-4 border-beer-blonde overflow-visible p-20 px-0 md:px-20 -mt-20 shadow-inner">
+            <section className="relative m-auto w-full max-w-screen-2xl justify-center bg-cerv-titlehigh rounded-t-full border-l-4 border-beer-blonde overflow-visible p-20 px-0 md:px-20 -mt-20 shadow-inner dark:bg-beer-dark">
                 <header className="mb-10  mt-20 text-center  text-3xl md:text-4xl font-bold text-white font-['NexaRust']">
                     {t('homepage.reviews.header')}
                     <p className="font-['NexaRust-script'] text-5xl md:text-7xl -mt-2 mb-8 text-beer-softBlondeBubble -rotate-2">
@@ -17,7 +17,7 @@ export function Reviews() {
                 </header>
                 <figure className="absolute top-50 h-[600px] w-[250px] sm:w-[600px] bg-[url('/assets/rec-graf4.webp')] bg-contain bg-center bg-no-repeat opacity-20 mix-blend-multiply left-0 md:left-2/4 ml-0 md:-ml-[300px]"></figure>
                 {/*  review 1 */}
-                <article className="relative z-10 m-auto block max-w-4xl bg-cerv-brown bg-opacity-70 px-10 pt-10 sm:flex shadow-xl">
+                <article className="relative z-10 m-auto block max-w-4xl bg-cerv-brown bg-opacity-70 px-10 pt-10 sm:flex shadow-xl dark:bg-cerv-coffee">
                     <div className="w-full border-b-2 px-0 sm:px-10 text-white sm:w-2/6 sm:border-yellow-400">
                         <div className="text-xs">01/01/2023</div>
                         <div className="text-center text-xl sm:text-left">
@@ -48,7 +48,7 @@ export function Reviews() {
                     </div>
                 </article>
                 {/*  review 2 */}
-                <article className="relative z-10 m-auto block max-w-4xl bg-cerv-brown bg-opacity-70 px-10 pt-10 sm:flex">
+                <article className="relative z-10 m-auto block max-w-4xl bg-cerv-brown bg-opacity-70 px-10 pt-10 sm:flex dark:bg-cerv-coffee">
                     <div className="w-full border-b-2 pb-10 text-white sm:w-2/6 sm:border-yellow-400">
                         <div className="text-xs">01/01/2023</div>
                         <div className="text-center text-xl sm:text-left">
@@ -81,7 +81,7 @@ export function Reviews() {
                     </div>
                 </article>
                 {/*  review 3 */}
-                <article className="relative z-10 m-auto block max-w-4xl bg-cerv-brown bg-opacity-70 px-10 pt-10 sm:flex">
+                <article className="relative z-10 m-auto block max-w-4xl bg-cerv-brown bg-opacity-70 px-10 pt-10 sm:flex dark:bg-cerv-coffee">
                     <div className="w-full border-b-2 pb-10 text-white sm:w-2/6 sm:border-yellow-400">
                         <div className="text-xs">01/01/2023</div>
                         <div className="text-center text-xl sm:text-left">

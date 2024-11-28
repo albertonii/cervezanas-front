@@ -89,7 +89,7 @@ export const AwardsSection = ({ form }: Props) => {
             />
 
             <div className="mx-0 sm:mx-10 space-y-4 py-8 sm:py-0">
-                <h2 className="text-4xl font-['NexaRust-script']">
+                <h2 className="text-4xl font-['NexaRust-script'] dark:text-white">
                     {t('modal_product_awards_title')}
                 </h2>
 

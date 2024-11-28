@@ -32,7 +32,7 @@ const Title = ({ children, size, color, font = 'bold' }: Props) => {
             id="header"
         >
             <h1
-                className={`${sizeClass[size]} ${colorClass[color]} ${font} font-['NexaRust-script']`}
+                className={`${sizeClass[size]} ${colorClass[color]} ${font} font-['NexaRust-script'] dark:text-white`}
             >
                 {children}
             </h1>

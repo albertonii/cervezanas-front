@@ -82,7 +82,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
 
     return (
         <section className="relative border-2 rounded-lg border-gray-200 py-6 px-2 sm:px-6 bg-white shadow-md space-y-8 mt-8">
-            <p className="text-4xl font-['NexaRust-script']">
+            <p className="text-4xl font-['NexaRust-script'] dark:text-white">
                 {t('modal_product_add_details_title')}
             </p>
 

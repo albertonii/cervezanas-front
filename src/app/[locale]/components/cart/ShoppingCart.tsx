@@ -81,7 +81,7 @@ export function ShoppingCart() {
                             >
                                 <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
                                     <div
-                                        className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl"
+                                        className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl dark:bg-cerv-titlehigh"
                                         ref={dialogDivRef}
                                     >
                                         <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-6 sm:px-6">
@@ -135,12 +135,12 @@ export function ShoppingCart() {
                                             <div className="flex justify-between text-base font-medium text-gray-900">
                                                 <p>{t('subtotal')}</p>
 
-                                                <p className="text-xl">
+                                                <p className="text-xl dark:text-white">
                                                     {formatCurrency(subTotal)}
                                                 </p>
                                             </div>
 
-                                            <p className="mt-0.5 text-sm text-gray-500">
+                                            <p className="mt-0.5 text-sm text-gray-500 dark:text-white">
                                                 {t(
                                                     'shipping_and_taxes_calculated_at_checkout',
                                                 )}
@@ -167,7 +167,7 @@ export function ShoppingCart() {
                                                     {t('or')} &nbsp;
                                                     <button
                                                         type="button"
-                                                        className="font-medium text-beer-draft hover:text-beer-dark"
+                                                        className="font-medium text-beer-draft hover:text-beer-dark dark:text-beer-softBlondeBubble"
                                                         onClick={() => {
                                                             closeCart();
                                                         }}

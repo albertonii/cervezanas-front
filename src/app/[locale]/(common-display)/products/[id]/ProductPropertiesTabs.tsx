@@ -73,7 +73,7 @@ const ProductPropertiesTabs = ({ product }: Props) => {
                 ))}
             </div>
 
-            <div className="bg-gradient-to-br from-white to-gray-100 backdrop-blur-sm bg-opacity-80 bg-white p-2 sm:p-6 rounded-b-lg shadow-md space-y-4 border-beer-blonde border-b-2 border-r-2 border-l-2">
+            <div className="bg-gradient-to-br from-white to-gray-100 backdrop-blur-sm bg-opacity-80 bg-white p-2 sm:p-6 rounded-b-lg shadow-md space-y-4 border-beer-blonde border-b-2 border-r-2 border-l-2 dark:from-cerv-coffee dark:to-beer-dark">
                 {selectedTab === 'details' && (
                     <ProductTechnicalInformation product={product} />
                 )}
