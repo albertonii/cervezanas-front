@@ -11,7 +11,7 @@ import React, { useState } from 'react';
 import { z, ZodType } from 'zod';
 import { ROLE_ENUM } from '@/lib//enums';
 import { useTranslations } from 'next-intl';
-import { IUser } from '@/lib//types/types';
+import { IUser } from '@/lib/types/types';
 import { getGeocode } from 'use-places-autocomplete';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '../../(auth)/Context/useAuth';

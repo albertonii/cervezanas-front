@@ -6,7 +6,7 @@ import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { IProfileLocation } from '@/lib//types/types';
+import { IProfileLocation } from '@/lib/types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';

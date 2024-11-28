@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { IDistributorUser } from '@/lib//types/types';
+import { IDistributorUser } from '@/lib/types/types';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { formatDateTypeDefaultInput } from '@/utils/formatDate';
 import InputLabel from '@/app/[locale]/components/form/InputLabel';

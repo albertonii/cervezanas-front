@@ -3,7 +3,7 @@
 import ProductAccordion from './ProductAccordion';
 import React, { useEffect, useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { IProduct } from '@/lib//types/types';
+import { IProduct } from '@/lib/types/types';
 import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
 import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';

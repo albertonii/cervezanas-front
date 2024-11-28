@@ -6,7 +6,7 @@ import { pack_type_options } from '@/lib//beerEnum';
 import {
     ModalUpdateProductFormData,
     ModalUpdateProductPackFormData,
-} from '@/lib//types/types';
+} from '@/lib/types/types';
 import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
 import InputLabel from '../form/InputLabel';
 import { DeleteButton } from '../ui/buttons/DeleteButton';

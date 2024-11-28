@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import createServerClient from '@/utils/supabaseServer';
 import { DistributionDestinationType } from '@/lib//enums';
-import { ICoverageArea } from '@/lib//types/types';
+import { ICoverageArea } from '@/lib/types/types';
 
 export async function PUT(request: NextRequest) {
     const formData = await request.formData();

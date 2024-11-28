@@ -2,7 +2,7 @@ import useFetchDistributionContractsByProducerId from '../../../../../hooks/useF
 import useFetchShippingByOwnerId from '../../../../../hooks/useFetchShippingByOwnerId';
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../../(auth)/Context/useAuth';
-import { IDistributorUser, IProduct, IAddress } from '@/lib//types/types';
+import { IDistributorUser, IProduct, IAddress } from '@/lib/types/types';
 import { useTranslations } from 'next-intl';
 
 interface Props {

@@ -3,7 +3,7 @@
 import ProductDetails from './ProductDetails';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
 import React, { useEffect, useRef, useState } from 'react';
-import { IProduct, IReview } from '@/lib//types/types';
+import { IProduct, IReview } from '@/lib/types/types';
 import { ProductReviews } from '@/app/[locale]/components/reviews/ProductReviews';
 import { ProductOverallReview } from '@/app/[locale]/components/reviews/ProductOverallReview';
 

@@ -2,7 +2,7 @@ import createServerClient from '@/utils/supabaseServer';
 import PersonalInvoiceModule from './PersonalInvoiceModule';
 import React from 'react';
 import { calculateInvoicePeriod } from '@/utils/utils';
-import { IBusinessOrder, IProducerUser } from '@/lib//types/types';
+import { IBusinessOrder, IProducerUser } from '@/lib/types/types';
 
 export default async function Page({ searchParams }: any) {
     const { id } = searchParams;

@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import useFetchProductsByOwnerAndPagination from '../../../../../hooks/useFetchProductsByOwnerAndPagination';
 import { Type } from '@/lib//productEnum';
-import { IProduct } from '@/lib//types/types';
+import { IProduct } from '@/lib/types/types';
 import ProductSlotList from './ProductSlotList';
 import InputSearch from '../../form/InputSearch';
 import PaginationFooter from '../../ui/PaginationFooter';

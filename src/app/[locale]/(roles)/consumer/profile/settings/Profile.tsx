@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { IUserTable } from '@/lib//types/types';
+import { IUserTable } from '@/lib/types/types';
 import { Account } from './Account';
 import { Details } from './Details';
 import { Values } from './Values';

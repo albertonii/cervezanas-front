@@ -1,6 +1,6 @@
 import Events from './Events';
 import createServerClient from '@/utils/supabaseServer';
-import { IEvent } from '@/lib//types/types';
+import { IEvent } from '@/lib/types/eventOrders';
 
 export default async function EventsPage() {
     const eventsData = getEvents();

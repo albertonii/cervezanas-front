@@ -13,9 +13,9 @@ import TDActions from '@/app/[locale]/components/ui/table/TDActions';
 import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
 import React, { useMemo, useState } from 'react';
-import { ICPFixed } from '@/lib//types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
+import { ICPFixed } from '@/lib/types/consumptionPoints';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 

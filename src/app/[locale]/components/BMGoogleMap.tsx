@@ -1,6 +1,9 @@
 'use client';
 
+import '@reach/combobox/styles.css';
 import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { formatDateString } from '@/utils/formatDate';
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 import {
     Combobox,
@@ -9,14 +12,15 @@ import {
     ComboboxList,
     ComboboxOption,
 } from '@reach/combobox';
-import '@reach/combobox/styles.css';
 import usePlacesAutocomplete, {
     getGeocode,
     getLatLng,
 } from 'use-places-autocomplete';
-import { useTranslations } from 'next-intl';
-import { IConsumptionPoints, ICPFixed, ICPMobile } from '@/lib//types/types';
-import { formatDateString } from '@/utils/formatDate';
+import {
+    IConsumptionPoints,
+    ICPFixed,
+    ICPMobile,
+} from '@/lib/types/consumptionPoints';
 
 const containerStyle = {
     width: '100%',

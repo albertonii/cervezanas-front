@@ -7,7 +7,7 @@ import ShippingInformationBox from '@/app/[locale]/components/ShippingInformatio
 import BusinessOrderStatusInformation from '@/app/[locale]/components/common/BussinessOrderStatusInformation';
 import React, { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { IOrder } from '@/lib//types/types';
+import { IOrder } from '@/lib/types/types';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IProduct } from '@/lib//types/types';
+import { IProduct } from '@/lib/types/types';
 import { UseFormReturn } from 'react-hook-form';
 import ProductAccordionItem from './ProductAccordionItem';
 import Spinner from '@/app/[locale]/components/ui/Spinner';

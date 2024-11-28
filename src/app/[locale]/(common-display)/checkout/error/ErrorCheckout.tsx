@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { SupabaseProps } from '@/constants';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
-import { IOrder, IOrderItem } from '@/lib//types/types';
+import { IOrder, IOrderItem } from '@/lib/types/types';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';

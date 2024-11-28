@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { IBusinessOrder } from '@/lib//types/types';
+import { IBusinessOrder } from '@/lib/types/types';
 import { BusinessOrderList } from './BusinessOrderList';
 import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 

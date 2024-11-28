@@ -22,7 +22,7 @@ import {
     ICPF_events,
     ICPMobile,
     ICPM_events,
-} from '@/lib//types/types';
+} from '@/lib/types/consumptionPoints';
 
 export type ModalAddEventFormData = {
     is_activated: boolean;

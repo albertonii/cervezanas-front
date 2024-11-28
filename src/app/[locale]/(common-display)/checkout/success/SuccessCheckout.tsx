@@ -7,7 +7,7 @@ import BusinessOrderItem from '@/app/[locale]/components/common/BusinessOrderIte
 import ShippingInformationBox from '@/app/[locale]/components/ShippingInformationBox';
 import React, { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { IOrder } from '@/lib//types/types';
+import { IOrder } from '@/lib/types/types';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 

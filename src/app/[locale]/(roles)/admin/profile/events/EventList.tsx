@@ -1,21 +1,21 @@
 'use client';
 
-import dynamic from 'next/dynamic';
-import InputSearch from '@/app/[locale]/components/form/InputSearch';
-import useFetchEvents from '../../../../../../hooks/useFetchEvents';
 import EventItems from './EventItems';
-import DeleteCEventModal from '@/app/[locale]/components/modals/DeleteEventModal';
-import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { ICPFixed, ICPMobile, IEvent } from '@/lib//types/types';
 import UpdateEventModal from './UpdateEvent';
-import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import TH from '@/app/[locale]/components/ui/table/TH';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
 import THead from '@/app/[locale]/components/ui/table/THead';
 import Table from '@/app/[locale]/components/ui/table/Table';
-import TR from '@/app/[locale]/components/ui/table/TR';
-import TH from '@/app/[locale]/components/ui/table/TH';
 import TBody from '@/app/[locale]/components/ui/table/TBody';
+import useFetchEvents from '../../../../../../hooks/useFetchEvents';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
+import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
+import DeleteCEventModal from '@/app/[locale]/components/modals/DeleteEventModal';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { IEvent } from '@/lib/types/eventOrders';
+import { ICPFixed, ICPMobile } from '@/lib/types/consumptionPoints';
 
 enum SortBy {
     NONE = 'none',

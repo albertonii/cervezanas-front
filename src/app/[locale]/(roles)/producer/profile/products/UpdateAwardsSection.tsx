@@ -2,7 +2,7 @@ import UpdateAwardInformationForm from '@/app/[locale]/components/products/Updat
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
-import { IAward, IAwardUpdateForm } from '@/lib//types/types';
+import { IAward, IAwardUpdateForm } from '@/lib/types/types';
 import { faTrophy } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from '@/app/[locale]/components/ui/buttons/Button';

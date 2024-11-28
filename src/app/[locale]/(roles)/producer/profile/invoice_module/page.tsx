@@ -3,7 +3,7 @@ import createServerClient from '@/utils/supabaseServer';
 import PersonalInvoiceModule from './PersonalInvoiceModule';
 import React from 'react';
 import { redirect } from 'next/navigation';
-import { IBusinessOrder, ISalesRecordsProducer } from '@/lib//types/types';
+import { IBusinessOrder, ISalesRecordsProducer } from '@/lib/types/types';
 import { calculateInvoicePeriod } from '@/utils/utils';
 
 export default async function Page() {

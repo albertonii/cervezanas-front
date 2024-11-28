@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { useMessage } from '../../message/useMessage';
-import { IProduct } from '@/lib//types/types';
-import { IBoxPackItem } from '@/lib//types/product';
+import { IProduct } from '@/lib/types/types';
+import { IBoxPackItem } from '@/lib/types/product';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
 

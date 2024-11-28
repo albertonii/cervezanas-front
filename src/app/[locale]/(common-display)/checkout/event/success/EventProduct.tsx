@@ -1,14 +1,15 @@
 import React from 'react';
-import GenerateQR from './GenerateQR';
 import Link from 'next/link';
-import { useLocale, useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
-import { IEventOrderItem } from '@/lib//types/types';
-import { EVENT_ORDER_ITEM_STATUS, SupabaseProps } from '@/constants';
-import { StatusTimeline } from '@/app/[locale]/components/StatusTimeline';
-import { formatCurrency } from '@/utils/formatCurrency';
+import GenerateQR from './GenerateQR';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
 import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
+import { useRouter } from 'next/navigation';
+import { IEventOrderItem } from '@/lib/types/types';
+import { useLocale, useTranslations } from 'next-intl';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { EVENT_ORDER_ITEM_STATUS, SupabaseProps } from '@/constants';
+import { StatusTimeline } from '@/app/[locale]/components/StatusTimeline';
+import Label from '@/app/[locale]/components/ui/Label';
 
 interface Props {
     eventOrderItem: IEventOrderItem;
@@ -51,12 +52,12 @@ export default function EventProduct({ eventOrderItem, domain }: Props) {
                     </h3>
 
                     <span className="space-y-1">
-                        <p className="text-sm text-gray-500">
+                        <Label size="small" color="gray">
                             {t('description')}
-                        </p>
-                        <p className="truncate">
+                        </Label>
+                        <Label className="truncate">
                             {product_packs.products?.description}
-                        </p>
+                        </Label>
                     </span>
                 </div>
 

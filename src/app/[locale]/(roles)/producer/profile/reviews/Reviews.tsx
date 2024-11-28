@@ -2,7 +2,7 @@
 
 import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 import React, { useState } from 'react';
-import { IReview } from '@/lib//types/types';
+import { IReview } from '@/lib/types/types';
 import { SupabaseProps } from '@/constants';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';

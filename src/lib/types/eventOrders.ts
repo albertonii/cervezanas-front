@@ -1,3 +1,6 @@
+import { ICPFixed, ICPMobile } from './consumptionPoints';
+import { IUserTable } from './types';
+
 export interface IEventOrder {
     id: string;
     order_number: string;
@@ -37,3 +40,24 @@ export const statusTranslations = {
     ready: 'Listo para recoger',
     completed: 'Entregado',
 };
+
+export interface IEvent {
+    id: string;
+    created_at: string;
+    name: string;
+    description: string;
+    start_date: string;
+    end_date: string;
+    logo_url: string;
+    promotional_url: string;
+    status: string;
+    // geoArgs: GeocodeResult[];
+    geoArgs: any[];
+    address: string;
+    owner_id: string;
+    cp_mobile: ICPMobile[];
+    cp_fixed: ICPFixed[];
+    users: IUserTable;
+    is_activated: boolean;
+    is_cervezanas_event: boolean;
+}

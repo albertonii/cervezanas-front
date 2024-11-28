@@ -1,7 +1,7 @@
 import CPInformation from './CPInformation';
 import React from 'react';
 import { OrdersQueue } from './OrdersQueue';
-import { ICPMobile } from '@/lib/types/types';
+import { ICPMobile } from '@/lib/types/consumptionPoints';
 
 interface Props {
     cpMobile: ICPMobile;

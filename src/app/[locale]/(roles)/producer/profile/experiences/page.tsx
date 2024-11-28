@@ -3,7 +3,7 @@ import readUserSession from '@/lib//actions';
 import Experiences from './Experiences';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import { IExperience } from '@/lib//types/quiz';
+import { IExperience } from '@/lib/types/quiz';
 
 export default async function EventsPage() {
     const experiencesData = getExperiencesData();

@@ -1,7 +1,7 @@
 import ProductMediaUploader from '../ProductMediaUploader';
 import { UseFormReturn } from 'react-hook-form';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
-import { ModalAddBoxPackFormData } from '@/lib//types/product';
+import { ModalAddBoxPackFormData } from '@/lib/types/product';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface Props {

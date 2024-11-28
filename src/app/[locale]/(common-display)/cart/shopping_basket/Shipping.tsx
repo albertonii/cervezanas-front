@@ -2,7 +2,7 @@ import AddressRadioInput from './AddressRadioInput';
 import useFetchShippingByOwnerId from '@/hooks/useFetchShippingByOwnerId';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { IAddress } from '@/lib//types/types';
+import { IAddress } from '@/lib/types/types';
 import { removeShippingAddressById } from '../actions';
 import { useMutation, useQueryClient } from 'react-query';
 import { NewShippingModal } from './NewShippingModal';

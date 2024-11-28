@@ -12,7 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { ModalAddCampaignFormData } from '@/lib//types/types';
+import { ModalAddCampaignFormData } from '@/lib/types/types';
 import { FilePreviewImageMultimedia } from '@/app/[locale]/components/common/FilePreviewImageMultimedia';
 
 // const generateUUID = () => {

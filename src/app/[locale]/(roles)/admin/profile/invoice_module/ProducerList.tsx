@@ -4,7 +4,7 @@ import Link from 'next/link';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import React, { useState } from 'react';
 import { ROLE_ENUM } from '@/lib//enums';
-import { IProducerUser } from '@/lib//types/types';
+import { IProducerUser } from '@/lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import {

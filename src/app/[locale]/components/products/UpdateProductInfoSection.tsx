@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import {
     ICustomizeSettings,
     ModalUpdateProductFormData,
-} from '@/lib//types/types';
+} from '@/lib/types/types';
 import { Type } from '@/lib//productEnum';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';

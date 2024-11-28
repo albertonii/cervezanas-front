@@ -1,6 +1,7 @@
 import CPProduct from './CPProduct';
 import createServerClient from '@/utils/supabaseServer';
-import { ICPMProducts, IProduct } from '@/lib/types/types';
+import { IProduct } from '@/lib/types/types';
+import { ICPMProducts } from '@/lib/types/consumptionPoints';
 
 export default async function ProductId({ params }: any) {
     const { p_id } = params;
@@ -43,8 +44,6 @@ async function getProductData(cpId: string) {
         )
         .eq('id', cpId)
         .single();
-
-    console.log(cpmProducts);
 
     if (productError) throw productError;
     return cpmProducts as ICPMProducts;

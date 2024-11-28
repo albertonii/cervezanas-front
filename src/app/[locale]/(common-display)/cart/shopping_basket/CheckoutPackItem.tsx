@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { calculateProductPacksWeight } from '@/utils/distribution';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
-import { IProductPack, IProductPackCartItem } from '@/lib//types/types';
+import { IProductPack, IProductPackCartItem } from '@/lib/types/types';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 

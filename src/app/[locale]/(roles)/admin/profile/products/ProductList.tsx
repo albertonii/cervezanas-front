@@ -6,7 +6,7 @@ import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFoot
 import useFetchProductsAndPaginationByAdmin from '../../../../../../hooks/useFetchProductsAndPaginationByAdmin';
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { IProduct } from '@/lib//types/types';
+import { IProduct } from '@/lib/types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { InfoTooltip } from '@/app/[locale]/components/ui/InfoTooltip';
 import { EditButton } from '@/app/[locale]/components/ui/buttons/EditButton';

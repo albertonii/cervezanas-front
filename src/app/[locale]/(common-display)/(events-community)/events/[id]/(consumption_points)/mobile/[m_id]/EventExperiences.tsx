@@ -1,6 +1,6 @@
+import EventExperienceDetails from './EventExperienceDetails';
 import React from 'react';
 import { IEventExperience } from '@/lib/types/types';
-import EventExperienceDetails from './EventExperienceDetails';
 
 interface Props {
     eventExperiences: IEventExperience[];

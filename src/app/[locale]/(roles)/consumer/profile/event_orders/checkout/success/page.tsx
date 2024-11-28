@@ -3,7 +3,7 @@ import createServerClient from '@/utils/supabaseServer';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { decodeBase64 } from '@/utils/utils';
-import { IEventOrder } from '@/lib//types/types';
+import { IEventOrder } from '@/lib/types/types';
 import SuccessCheckout from '@/app/[locale]/(common-display)/checkout/event/success/SuccessCheckout';
 
 export async function generateMetadata({ searchParams }: any) {

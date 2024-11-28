@@ -1,6 +1,6 @@
-import React from 'react';
 import BMGoogleMap from '@/app/[locale]/components/BMGoogleMap';
-import { IConsumptionPoints } from '@/lib//types/types';
+import React from 'react';
+import { IConsumptionPoints } from '@/lib/types/consumptionPoints';
 
 interface Props {
     cps: IConsumptionPoints[];

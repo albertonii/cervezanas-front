@@ -6,7 +6,7 @@ import { RRSSForm } from './RRSSForm';
 import { useTranslations } from 'next-intl';
 import { BasicDataForm } from './BasicDataForm';
 import { SecretDataForm } from './SecretDataForm';
-import { IDistributorUser } from '@/lib//types/types';
+import { IDistributorUser } from '@/lib/types/types';
 import { CompanyHistoryForm } from './CompanyHistoryForm';
 import { DistributorBasicDataForm } from './DistributorBasicDataForm';
 

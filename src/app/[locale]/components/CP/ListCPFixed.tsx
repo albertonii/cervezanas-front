@@ -1,17 +1,18 @@
 'use client';
 
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-import { ICPFixed } from '@/lib//types/types';
-import { formatDateString } from '@/utils/formatDate';
-import { useLocale, useTranslations } from 'next-intl';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
-import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
-import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
+
+import EditCPFixedModal from './EditCPFixedModal';
 import useFetchCPFixed from '@/hooks/useFetchCPFixed';
 import DeleteCPFixedModal from './DeleteCPFixedModal';
-import EditCPFixedModal from './EditCPFixedModal';
+import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
+import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
+import React, { useEffect, useState } from 'react';
+import { formatDateString } from '@/utils/formatDate';
+import { useLocale, useTranslations } from 'next-intl';
+import { ICPFixed } from '@/lib/types/consumptionPoints';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 
 interface Props {
     cpsId: string;

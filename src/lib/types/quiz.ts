@@ -1,13 +1,7 @@
 import { Type as ProductType } from '../productEnum';
-import { GeoArgs, GeocodeResult } from 'use-places-autocomplete';
-import {
-    ICPFixed,
-    ICPMobile,
-    IEvent,
-    IProducerUser,
-    IProductMedia,
-    IUserProfile,
-} from './types';
+import { ICPFixed, ICPMobile } from './consumptionPoints';
+import { IEvent } from './eventOrders';
+import { IProducerUser, IProductMedia, IUserProfile } from './types';
 
 export enum Difficulty {
     EASY = 'easy',

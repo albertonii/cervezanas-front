@@ -6,7 +6,7 @@ import PaginationFooter from '../../ui/PaginationFooter';
 import useFetchProductsByOwnerAndPagination from '../../../../../hooks/useFetchProductsByOwnerAndPagination';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Type } from '@/lib//productEnum';
-import { IProduct } from '@/lib//types/types';
+import { IProduct } from '@/lib/types/types';
 import { UseFormReturn } from 'react-hook-form';
 import Spinner from '../../ui/Spinner';
 

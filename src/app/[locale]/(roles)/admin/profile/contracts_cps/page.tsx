@@ -1,10 +1,9 @@
-import { redirect } from 'next/navigation';
-import React from 'react';
-import { VIEWS } from '@/constants';
-import readUserSession from '@/lib//actions';
-import { IConsumptionPoints } from '@/lib//types/types';
-import createServerClient from '@/utils/supabaseServer';
 import ContractsCPS from './ContractsCPS';
+import readUserSession from '@/lib//actions';
+import createServerClient from '@/utils/supabaseServer';
+import React from 'react';
+import { redirect } from 'next/navigation';
+import { IConsumptionPoints } from '@/lib/types/consumptionPoints';
 
 export default async function CPsContractsPage() {
     const cpsContracts = await getCPsContracts();

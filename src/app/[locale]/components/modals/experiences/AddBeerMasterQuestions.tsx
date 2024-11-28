@@ -2,14 +2,14 @@ import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwne
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../../(auth)/Context/useAuth';
-import { IProduct } from '@/lib//types/types';
+import { IProduct } from '@/lib/types/types';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import {
     IAddModalExperienceBeerMasterFormData,
     IAddBeerMasterQuestionFormData,
     Difficulty,
     AnswerFormData,
-} from '@/lib//types/quiz';
+} from '@/lib/types/quiz';
 import BMQuestionItem from './BMQuestionItem';
 import { Type } from '@/lib//productEnum';
 import Button from '../../ui/buttons/Button';

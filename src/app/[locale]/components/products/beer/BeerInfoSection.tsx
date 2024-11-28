@@ -20,10 +20,7 @@ import {
     volume_can_type_options,
     volume_draft_type_options,
 } from '@/lib//beerEnum';
-import {
-    ICustomizeSettings,
-    ModalAddProductFormData,
-} from '@/lib//types/types';
+import { ICustomizeSettings, ModalAddProductFormData } from '@/lib/types/types';
 import ProductMadeInBrewerySection from './ProductMadeInBrewerySection';
 
 interface Props {

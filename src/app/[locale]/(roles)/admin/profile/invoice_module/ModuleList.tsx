@@ -4,7 +4,7 @@ import ProducerList from './ProducerList';
 import DistributorList from './DistributorList';
 import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
 import React, { useState } from 'react';
-import { IDistributorUser, IProducerUser } from '@/lib//types/types';
+import { IDistributorUser, IProducerUser } from '@/lib/types/types';
 
 interface Props {
     producers: IProducerUser[];

@@ -13,7 +13,7 @@ import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
 import useFetchDistributorsByProducerId from '../../../../../../hooks/useFetchDistributors';
 import React, { ComponentProps, useEffect, useMemo, useState } from 'react';
-import { IDistributorUser } from '@/lib//types/types';
+import { IDistributorUser } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { faFileSignature } from '@fortawesome/free-solid-svg-icons';

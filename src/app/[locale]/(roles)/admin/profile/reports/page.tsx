@@ -1,5 +1,5 @@
 import React from 'react';
-import { IUserReport } from '@/lib//types/types';
+import { IUserReport } from '@/lib/types/types';
 import createServerClient from '@/utils/supabaseServer';
 import Reports from './Reports';
 

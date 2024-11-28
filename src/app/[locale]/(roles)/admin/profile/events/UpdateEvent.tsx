@@ -1,30 +1,31 @@
 'use client';
 
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
+import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
+import useFetchCPSFixedByEventsId from '../../../../../../hooks/useFetchCPsFixedByEventId';
+import useFetchCPSMobileByEventsId from '../../../../../../hooks/useFetchCPsMobileByEventId';
 import React, { ComponentProps, useEffect } from 'react';
-import { faAdd } from '@fortawesome/free-solid-svg-icons';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
+import { IEvent } from '@/lib/types/eventOrders';
+import { sendPushNotification } from '@/lib//actions';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
+import { formatDateDefaultInput } from '@/utils/formatDate';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { SearchCheckboxCPFixeds } from './SearchCheckboxCPFixed';
+import { SearchCheckboxCPMobiles } from './SearchCheckboxCPMobiles';
+import { ROUTE_EVENTS, ROUTE_PRODUCER, ROUTE_PROFILE } from '@/config';
 import {
     ICPFixed,
     ICPF_events,
     ICPMobile,
     ICPM_events,
-    IEvent,
-} from '@/lib//types/types';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import useFetchCPSMobileByEventsId from '../../../../../../hooks/useFetchCPsMobileByEventId';
-import useFetchCPSFixedByEventsId from '../../../../../../hooks/useFetchCPsFixedByEventId';
-import { formatDateDefaultInput } from '@/utils/formatDate';
-import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
-import { ROUTE_EVENTS, ROUTE_PRODUCER, ROUTE_PROFILE } from '@/config';
-import { sendPushNotification } from '@/lib//actions';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z, ZodType } from 'zod';
-import { SearchCheckboxCPMobiles } from './SearchCheckboxCPMobiles';
-import { SearchCheckboxCPFixeds } from './SearchCheckboxCPFixed';
-import InputLabel from '@/app/[locale]/components/form/InputLabel';
-import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
+} from '@/lib/types/consumptionPoints';
+
 interface ModalUpdateFormData {
     is_activated: boolean;
     name: string;

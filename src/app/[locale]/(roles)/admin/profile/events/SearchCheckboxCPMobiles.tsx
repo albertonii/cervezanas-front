@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { ICPMobile, ICPM_events } from '@/lib//types/types';
 import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { ICPMobile, ICPM_events } from '@/lib/types/consumptionPoints';
 
 interface Props {
     cpsMobile: ICPMobile[];
@@ -123,8 +123,8 @@ export function SearchCheckboxCPMobiles({
                                     className="hover:cursor-pointer ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
                                 >
                                     {cp.cp_name} - PERTENECE A usuario:{' '}
-                                    {cp.consumption_points?.users.username}.
-                                    Email: {cp.consumption_points?.users.email}
+                                    {cp.consumption_points?.users?.username}.
+                                    Email: {cp.consumption_points?.users?.email}
                                 </label>
                             </li>
                         );

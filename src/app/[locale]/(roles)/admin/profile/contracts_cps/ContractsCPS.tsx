@@ -1,6 +1,6 @@
-import React from 'react';
 import ListPendingCP from './PendingList';
-import { IConsumptionPoints } from '@/lib//types/types';
+import React from 'react';
+import { IConsumptionPoints } from '@/lib/types/consumptionPoints';
 
 interface Props {
     cpsContracts: IConsumptionPoints[];

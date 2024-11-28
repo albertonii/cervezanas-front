@@ -1,5 +1,6 @@
 'use client';
 
+import Title from '../ui/Title';
 import CPGoogleMap from './CPGoogleMap';
 import ListCPMProducts from './ListCPMProducts';
 import Modal from '@/app/[locale]/components/modals/Modal';
@@ -8,6 +9,7 @@ import SelectInput from '@/app/[locale]/components/form/SelectInput';
 import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
 import useFetchCPFixedPacks from '../../../../hooks/useFetchCPFixedPacks';
 import React, { ComponentProps, useEffect, useState } from 'react';
+import { IUser } from '@/lib/types/types';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../(auth)/Context/useAuth';
@@ -20,9 +22,7 @@ import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputErro
 import {
     ICPFixed,
     ICPMProductsEditCPFixedModal,
-    IUser,
-} from '@/lib//types/types';
-import Title from '../ui/Title';
+} from '@/lib/types/consumptionPoints';
 
 enum CPFixedStatus {
     active = 'active',

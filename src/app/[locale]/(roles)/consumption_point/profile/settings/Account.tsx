@@ -1,11 +1,11 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
-import { IConsumptionPointUser } from '@/lib//types/types';
-import { BasicDataForm } from './BasicDataForm';
-import { ConsumptionPointBasicDataForm } from './ConsumptionPointBasicDataForm';
-import { SecretDataForm } from './SecretDataForm';
 import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
+import { useTranslations } from 'next-intl';
+import { BasicDataForm } from './BasicDataForm';
+import { SecretDataForm } from './SecretDataForm';
+import { IConsumptionPointUser } from '@/lib/types/types';
+import { ConsumptionPointBasicDataForm } from './ConsumptionPointBasicDataForm';
 
 interface Props {
     profile: IConsumptionPointUser;

@@ -3,7 +3,7 @@
 import UserRoles from '../../../../components/user/UserRoles';
 import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 import { useTranslations } from 'next-intl';
-import { IUserTable } from '@/lib//types/types';
+import { IUserTable } from '@/lib/types/types';
 import { BasicDataForm } from './BasicDataForm';
 import { SecretDataForm } from './SecretDataForm';
 import { CustomizeProfileForm } from './CustomizeProfileForm';

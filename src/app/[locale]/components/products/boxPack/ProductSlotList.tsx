@@ -1,6 +1,6 @@
 import ProductSlotItem from './ProductSlotItem';
 import React from 'react';
-import { IProduct } from '@/lib//types/types';
+import { IProduct } from '@/lib/types/types';
 import { UseFormReturn } from 'react-hook-form';
 import Spinner from '../../ui/Spinner';
 

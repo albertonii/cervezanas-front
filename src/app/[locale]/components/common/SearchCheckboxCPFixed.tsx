@@ -1,8 +1,8 @@
+import InputSearch from '../form/InputSearch';
 import React, { useEffect, useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { ICPFixed, ICPM_events } from '@/lib//types/types';
 import { useMessage } from '../message/useMessage';
-import InputSearch from '../form/InputSearch';
+import { ICPFixed, ICPM_events } from '@/lib/types/consumptionPoints';
 
 interface Props {
     cpsFixed: ICPFixed[];

@@ -2,7 +2,7 @@ import React from 'react';
 import { FieldError, UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
-import { ModalAddProductFormData } from '@/lib//types/types';
+import { ModalAddProductFormData } from '@/lib/types/types';
 import {
     color_options,
     family_options,

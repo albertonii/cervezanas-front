@@ -1,4 +1,4 @@
-import { ICoverageArea } from '@/lib//types/types';
+import { ICoverageArea } from '@/lib/types/types';
 import { isSameSubRegion } from '@/utils/distribution';
 
 describe('isSameSubRegion', () => {

@@ -2,10 +2,10 @@
 
 import EventList from './EventList';
 import AddEvent from '@/app/[locale]/components/modals/event/AddEvent';
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { ICPFixed, ICPMobile } from '@/lib/types/types';
-import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
+import { ICPFixed, ICPMobile } from '@/lib/types/consumptionPoints';
 
 interface Props {
     cpsMobile: ICPMobile[];

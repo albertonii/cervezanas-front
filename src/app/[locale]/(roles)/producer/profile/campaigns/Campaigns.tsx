@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ICampaign, IProduct } from '@/lib//types/types';
+import { ICampaign, IProduct } from '@/lib/types/types';
 import { DeleteCampaign } from '@/app/[locale]/components/modals/DeleteCampaign';
 import { AddCampaign } from './AddCampaign';
 import { CampaignList } from './CampaignList';

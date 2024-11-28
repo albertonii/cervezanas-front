@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IProfileLocation } from '@/lib//types/types';
+import { IProfileLocation } from '@/lib/types/types';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import Button from '@/app/[locale]/components/ui/buttons/Button';

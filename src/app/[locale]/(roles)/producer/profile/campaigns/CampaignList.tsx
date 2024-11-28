@@ -5,7 +5,7 @@ import Link from 'next/link';
 import useFetchCampaignsByOwnerAndPagination from '../../../../../../hooks/useFetchCampaignsByOwnerAndPagination';
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { ICampaign } from '@/lib//types/types';
+import { ICampaign } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';

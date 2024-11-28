@@ -12,7 +12,7 @@ import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
 import useFetchProductsByOwnerAndPagination from '../../../../hooks/useFetchProductsByOwnerAndPagination';
 import React, { useEffect, useMemo, useState } from 'react';
-import { IProduct } from '@/lib//types/types';
+import { IProduct } from '@/lib/types/types';
 import { UseFormReturn } from 'react-hook-form';
 import { useLocale, useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';

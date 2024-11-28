@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { ICPFixed, ICPM_events } from '@/lib//types/types';
 import InputSearch from '@/app/[locale]/components/form/InputSearch';
+import { ICPFixed, ICPM_events } from '@/lib/types/consumptionPoints';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 
 interface Props {

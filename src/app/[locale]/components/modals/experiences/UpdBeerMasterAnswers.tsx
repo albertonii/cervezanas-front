@@ -7,7 +7,7 @@ import { useQueryClient } from 'react-query';
 import {
     AnswerFormData,
     IUpdModalExperienceBeerMasterFormData,
-} from '@/lib//types/quiz';
+} from '@/lib/types/quiz';
 import { defaultOverrides } from 'next/dist/server/require-hook';
 import Button from '../../ui/buttons/Button';
 import { DeleteButton } from '../../ui/buttons/DeleteButton';

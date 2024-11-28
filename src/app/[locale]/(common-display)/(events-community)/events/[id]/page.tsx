@@ -1,8 +1,9 @@
 import DisplayEvent from './DisplayEvent';
-import createServerClient from '@/utils/supabaseServer';
-import { ICPF_events, ICPM_events, IEvent } from '@/lib//types/types';
-import { IBMExperienceParticipants, IEventExperience } from '@/lib//types/quiz';
 import readUserSession from '@/lib//actions';
+import createServerClient from '@/utils/supabaseServer';
+import { IEvent } from '@/lib/types/eventOrders';
+import { ICPF_events, ICPM_events } from '@/lib/types/consumptionPoints';
+import { IBMExperienceParticipants, IEventExperience } from '@/lib/types/quiz';
 
 export default async function EventPage({ params }: any) {
     const { id } = params;

@@ -1,6 +1,6 @@
-import { ICPMobile } from '@/lib/types/types';
 import createServerClient from '@/utils/supabaseServer';
 import ConsumptionPointInformation from './ConsumptionPointInformation';
+import { ICPMobile } from '@/lib/types/consumptionPoints';
 
 export default async function Page({ params }: any) {
     const { id } = params;

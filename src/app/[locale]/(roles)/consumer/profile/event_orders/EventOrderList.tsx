@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { encodeBase64 } from '@/utils/utils';
-import { IEventOrder } from '@/lib//types/types';
+import { IEventOrder } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { faEye } from '@fortawesome/free-solid-svg-icons';

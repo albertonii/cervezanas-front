@@ -5,7 +5,7 @@ import { RRSSForm } from './RRSSForm';
 import { useTranslations } from 'next-intl';
 import { BasicDataForm } from './BasicDataForm';
 import { SecretDataForm } from './SecretDataForm';
-import { IProducerUser } from '@/lib//types/types';
+import { IProducerUser } from '@/lib/types/types';
 import { ProducerBasicDataForm } from './ProducerBasicDataForm';
 import { CompanyHistoryForm } from './CompanyHistoryForm';
 import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';

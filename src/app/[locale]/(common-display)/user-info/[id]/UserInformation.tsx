@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { IUserTable } from '@/lib//types/types';
+import { IUserTable } from '@/lib/types/types';
 import DistributorInformation from './DistributorInformation';
 import ProducerInformation from './ProducerInformation';
 import SimilarProfiles from './SimilarProfiles';

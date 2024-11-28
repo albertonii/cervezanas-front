@@ -1,7 +1,7 @@
 import createServerClient from '@/utils/supabaseServer';
 import readUserSession from '@/lib//actions';
 import Profile from './Profile';
-import { IConsumptionPointUser } from '@/lib//types/types';
+import { IConsumptionPointUser } from '@/lib/types/types';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 

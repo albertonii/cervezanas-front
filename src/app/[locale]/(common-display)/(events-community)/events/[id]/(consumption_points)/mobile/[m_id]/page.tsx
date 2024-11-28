@@ -1,6 +1,7 @@
 import InfoCPMobile from './InfoCPMobile';
-import { ICPMobile, IEventExperience } from '@/lib/types/types';
 import createServerClient from '@/utils/supabaseServer';
+import { IEventExperience } from '@/lib/types/types';
+import { ICPMobile } from '@/lib/types/consumptionPoints';
 
 export default async function CPMobilePage({ params }: any) {
     const { id: eventId, m_id: cpId } = params;

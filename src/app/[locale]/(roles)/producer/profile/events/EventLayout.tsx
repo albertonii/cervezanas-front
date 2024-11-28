@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
-import { EventOption } from '@/lib//enums';
-import { ICPFixed, ICPMobile } from '@/lib//types/types';
-import CervezanasEvents from './(cp_event_cervezanas)/CervezanasEvents';
 import Events from './(producer_events)/Events';
 import HorizontalMenuEvent from './HorizontalMenuEvent';
+import CervezanasEvents from './(cp_event_cervezanas)/CervezanasEvents';
+import React, { useState } from 'react';
+import { EventOption } from '@/lib//enums';
+import { ICPFixed, ICPMobile } from '@/lib/types/consumptionPoints';
 
 interface Props {
     cpsMobile: ICPMobile[];

@@ -4,7 +4,7 @@ import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHea
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { ListCPFixed } from './ListCPFixed';
-import { ICPFixed } from '@/lib//types/types';
+import { ICPFixed } from '@/lib/types/consumptionPoints';
 
 interface Props {
     cpsFixed: ICPFixed[];

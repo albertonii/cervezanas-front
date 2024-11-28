@@ -8,7 +8,7 @@ import {
     IShipmentTracking,
     ShipmentTrackingFormData,
     ShipmentTrackingMessagesFormData,
-} from '@/lib//types/types';
+} from '@/lib/types/types';
 import createServerClient from '@/utils/supabaseServer';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;

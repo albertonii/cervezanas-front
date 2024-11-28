@@ -7,7 +7,7 @@ import { SupabaseProps } from '@/constants';
 import { useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { useShoppingCart } from '../../../context/ShoppingCartContext';
-import { IProductPack, IProductPackCartItem } from '@/lib//types/types';
+import { IProductPack, IProductPackCartItem } from '@/lib/types/types';
 
 type Props = {
     pack: IProductPack;

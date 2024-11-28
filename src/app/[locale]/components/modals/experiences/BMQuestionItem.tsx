@@ -4,7 +4,7 @@ import AddBeerMasterAnswers from './AddBeerMasterAnswers';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import { IAddModalExperienceBeerMasterFormData } from '@/lib//types/quiz';
+import { IAddModalExperienceBeerMasterFormData } from '@/lib/types/quiz';
 import { DeleteButton } from '../../ui/buttons/DeleteButton';
 import { DisplayInputError } from '../../ui/DisplayInputError';
 

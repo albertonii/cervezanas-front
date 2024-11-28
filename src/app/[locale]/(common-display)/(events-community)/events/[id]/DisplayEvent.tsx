@@ -2,23 +2,24 @@
 
 import CPMobile from './CPMobile';
 import CPFixed from './CPFixed';
-import useEventCartStore from '@/app/store/eventCartStore';
-import React, { useEffect } from 'react';
-import { ROUTE_EVENTS } from '@/config';
-import { useRouter } from 'next/navigation';
-import { formatDateString } from '@/utils/formatDate';
-import { useLocale, useTranslations } from 'next-intl';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { ICPF_events, ICPM_events, IEvent } from '@/lib//types/types';
-import { IBMExperienceParticipants, IEventExperience } from '@/lib//types/quiz';
-import Button from '@/app/[locale]/components/ui/buttons/Button';
 import Title from '@/app/[locale]/components/ui/Title';
-import Table from '@/app/[locale]/components/ui/table/Table';
-import THead from '@/app/[locale]/components/ui/table/THead';
-import TBody from '@/app/[locale]/components/ui/table/TBody';
 import TH from '@/app/[locale]/components/ui/table/TH';
 import TR from '@/app/[locale]/components/ui/table/TR';
 import Label from '@/app/[locale]/components/ui/Label';
+import Table from '@/app/[locale]/components/ui/table/Table';
+import THead from '@/app/[locale]/components/ui/table/THead';
+import TBody from '@/app/[locale]/components/ui/table/TBody';
+import useEventCartStore from '@/app/store/eventCartStore';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import React, { useEffect } from 'react';
+import { ROUTE_EVENTS } from '@/config';
+import { useRouter } from 'next/navigation';
+import { IEvent } from '@/lib/types/eventOrders';
+import { formatDateString } from '@/utils/formatDate';
+import { useLocale, useTranslations } from 'next-intl';
+import { useAuth } from '../../../../(auth)/Context/useAuth';
+import { ICPF_events, ICPM_events } from '@/lib/types/consumptionPoints';
+import { IBMExperienceParticipants, IEventExperience } from '@/lib/types/quiz';
 
 interface Props {
     event: IEvent;

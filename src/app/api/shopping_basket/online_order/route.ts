@@ -3,7 +3,7 @@ import { ONLINE_ORDER_STATUS } from '@/constants';
 import { sendPushNotification } from '@/lib//actions';
 import { calculateInvoicePeriod } from '@/utils/utils';
 import { NextRequest, NextResponse } from 'next/server';
-import { IProductPackCartItem } from '@/lib//types/types';
+import { IProductPackCartItem } from '@/lib/types/types';
 import {
     ROUTE_BUSINESS_ORDERS,
     ROUTE_DISTRIBUTOR,

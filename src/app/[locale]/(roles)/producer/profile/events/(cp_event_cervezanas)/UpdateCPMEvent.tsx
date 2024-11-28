@@ -1,19 +1,19 @@
 'use client';
 
-import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
-import React, { ComponentProps, useEffect, useState } from 'react';
-import { faAdd } from '@fortawesome/free-solid-svg-icons';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useTranslations } from 'next-intl';
-import { useAuth } from '../../../../../(auth)/Context/useAuth';
-import { useMutation, useQueryClient } from 'react-query';
-import { ICPM_events } from '@/lib/types/types';
-import { formatDateDefaultInput } from '@/utils/formatDate';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z, ZodType } from 'zod';
-import { SearchCheckboxExperiences } from './SearchCheckboxExperiences';
 import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
+import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
+import React, { ComponentProps, useState } from 'react';
+import { z, ZodType } from 'zod';
+import { useTranslations } from 'next-intl';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { faAdd } from '@fortawesome/free-solid-svg-icons';
+import { useMutation, useQueryClient } from 'react-query';
+import { formatDateDefaultInput } from '@/utils/formatDate';
+import { ICPM_events } from '@/lib/types/consumptionPoints';
+import { useAuth } from '../../../../../(auth)/Context/useAuth';
+import { SearchCheckboxExperiences } from './SearchCheckboxExperiences';
 
 type ModalUpdCPMEventFormData = {
     cp_id: string;

@@ -11,7 +11,7 @@ import {
     ROUTE_SIGNIN,
 } from '@/config';
 import { EVENTS, VIEWS } from '@/constants';
-import { IUserProfile } from '@/lib//types/types';
+import { IUserProfile } from '@/lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { createBrowserClient } from '@/utils/supabaseBrowser';

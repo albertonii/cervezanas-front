@@ -9,11 +9,11 @@ import { useLocale, useTranslations } from 'next-intl';
 import { SupabaseProps } from '@/constants';
 import { ROUTE_EVENTS, ROUTE_PRODUCTS } from '@/config';
 import { formatCurrency } from '@/utils/formatCurrency';
+import { ICPMobile } from '@/lib/types/consumptionPoints';
+import { IEventProduct, IProductPack } from '@/lib/types/types';
 import { useAuth } from '../../../../../../../(auth)/Context/useAuth';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { ICPMobile, IEventProduct, IProductPack } from '@/lib/types/types';
 import { AddCartButton } from '@/app/[locale]/components/cart/AddCartButton';
-import MarketCartButtons from '@/app/[locale]/components/cart/MarketCartButtons';
 
 interface ProductProps {
     pack: IProductPack;

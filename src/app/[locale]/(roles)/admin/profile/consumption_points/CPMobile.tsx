@@ -4,7 +4,7 @@ import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHea
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { ListCPMobile } from './ListCPMobile';
-import { ICPMobile } from '@/lib//types/types';
+import { ICPMobile } from '@/lib/types/consumptionPoints';
 
 interface Props {
     cpsMobile: ICPMobile[];

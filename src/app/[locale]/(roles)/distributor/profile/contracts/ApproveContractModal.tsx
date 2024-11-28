@@ -7,7 +7,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import Modal from '@/app/[locale]/components/modals/Modal';
 import { DistributionStatus } from '@/lib//enums';
-import { IDistributionContract } from '@/lib//types/types';
+import { IDistributionContract } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 

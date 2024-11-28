@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { SearchCheckboxProductSlot } from './SearchCheckboxProductSlot';
-import { IBoxPackItem, ModalAddBoxPackFormData } from '@/lib//types/product';
+import { IBoxPackItem, ModalAddBoxPackFormData } from '@/lib/types/product';
 
 interface Props {
     form: UseFormReturn<ModalAddBoxPackFormData, any>;

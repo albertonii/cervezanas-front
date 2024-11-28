@@ -1,8 +1,8 @@
 import readUserSession from '@/lib//actions';
 import createServerClient from '@/utils/supabaseServer';
 import { redirect } from 'next/navigation';
-import { IConsumptionPoints } from '@/lib//types/types';
 import { ConsumptionPoints } from './ConsumptionPoints';
+import { IConsumptionPoints } from '@/lib/types/consumptionPoints';
 
 export default async function ProfilePage() {
     const cpsData = getCPSData();

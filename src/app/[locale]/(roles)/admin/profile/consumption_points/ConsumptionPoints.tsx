@@ -4,7 +4,11 @@ import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections'
 import React, { useEffect, useState } from 'react';
 import { CPFixed } from './CPFixed';
 import { CPMobile } from './CPMobile';
-import { IConsumptionPoints, ICPFixed, ICPMobile } from '@/lib//types/types';
+import {
+    IConsumptionPoints,
+    ICPFixed,
+    ICPMobile,
+} from '@/lib/types/consumptionPoints';
 
 interface Props {
     cps: IConsumptionPoints[];

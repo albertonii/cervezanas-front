@@ -1,4 +1,4 @@
-import { IReview } from '@/lib//types/types';
+import { IReview } from '@/lib/types/types';
 import { redirect } from 'next/navigation';
 import { VIEWS } from '@/constants';
 import { Reviews } from './Reviews';
@@ -39,9 +39,7 @@ async function getReviewsData() {
                 )
               ),
               users (
-                id,
-                username,
-                avatar_url
+                *
               )
             `,
         )

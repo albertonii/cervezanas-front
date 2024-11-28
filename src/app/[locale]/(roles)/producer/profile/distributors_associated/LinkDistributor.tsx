@@ -10,7 +10,7 @@ import { SubmitContract } from './SubmitContract';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from 'react-query';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IDistributorUser, IProducerUser } from '@/lib//types/types';
+import { IDistributorUser, IProducerUser } from '@/lib/types/types';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 
 type FormData = {

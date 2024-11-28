@@ -1,7 +1,8 @@
 import Link from 'next/link';
+import TD from '@/app/[locale]/components/ui/table/TD';
 import React, { ComponentProps, useState } from 'react';
 import { ROUTE_EVENTS } from '@/config';
-import { IEvent } from '@/lib//types/types';
+import { IEvent } from '@/lib/types/eventOrders';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
@@ -13,7 +14,6 @@ import {
     faCancel,
     faThumbsUp,
 } from '@fortawesome/free-solid-svg-icons';
-import TD from '@/app/[locale]/components/ui/table/TD';
 
 interface Props {
     event: IEvent;

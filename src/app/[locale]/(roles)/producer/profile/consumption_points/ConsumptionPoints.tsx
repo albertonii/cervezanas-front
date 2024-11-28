@@ -3,10 +3,11 @@
 import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { IProfile } from '@/lib/types/types';
 import { CPPending } from '../../../../components/CP/CPPending';
 import { CPAccepted } from '../../../../components/CP/CPAccepted';
 import { CPRejected } from '../../../../components/CP/CPRejected';
-import { IConsumptionPoints, IProfile } from '@/lib//types/types';
+import { IConsumptionPoints } from '@/lib/types/consumptionPoints';
 import { SubmitCPOrganizer } from '@/app/[locale]/components/modals/SubmitCPOrganizer';
 
 interface Props {

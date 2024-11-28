@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import React from 'react';
-import { IUserReport } from '@/lib//types/types';
+import { IUserReport } from '@/lib/types/types';
 import ReportList from './ReportList';
 
 interface Props {

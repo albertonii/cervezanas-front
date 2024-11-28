@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { Database } from '@/lib//schema';
-import { IEventExperience } from '@/lib//types/quiz';
+import { IEventExperience } from '@/lib/types/quiz';
 
 const fetchEventExperiences = async (
     eventId: string,

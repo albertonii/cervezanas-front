@@ -8,7 +8,7 @@ import {
     IDistributorUser,
     IProductPackCartItem,
     IShippingInfo,
-} from '@/lib//types/types';
+} from '@/lib/types/types';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 

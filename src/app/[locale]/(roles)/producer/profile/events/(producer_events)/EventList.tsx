@@ -9,11 +9,12 @@ import useFetchEventsByOwnerId from '../../../../../../../hooks/useFetchEventsBy
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import React, { useEffect, useState } from 'react';
 import { ROUTE_EVENTS } from '@/config';
+import { IEvent } from '@/lib/types/eventOrders';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
-import { ICPFixed, ICPMobile, IEvent } from '@/lib/types/types';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
+import { ICPFixed, ICPMobile } from '@/lib/types/consumptionPoints';
 
 interface Props {
     counter: number;

@@ -1,5 +1,6 @@
 'use client';
 
+import Title from '@/app/[locale]/components/ui/Title';
 import Modal from '@/app/[locale]/components/modals/Modal';
 import CPGoogleMap from '@/app/[locale]/components/CP/CPGoogleMap';
 import InputLabel from '@/app/[locale]/components/form/InputLabel';
@@ -8,6 +9,7 @@ import ListCPMProducts from '../../../../components/CP/ListCPMProducts';
 import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
 import useFetchCPMobilePacks from '../../../../../../hooks/useFetchCPMobilePacks';
 import React, { ComponentProps, useEffect, useState } from 'react';
+import { IUser } from '@/lib/types/types';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { GeocodeResult } from 'use-places-autocomplete';
@@ -20,9 +22,7 @@ import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputErro
 import {
     ICPMobile,
     ICPMProductsEditCPMobileModal,
-    IUser,
-} from '@/lib//types/types';
-import Title from '@/app/[locale]/components/ui/Title';
+} from '@/lib/types/consumptionPoints';
 
 enum CPMobileStatus {
     active = 'active',

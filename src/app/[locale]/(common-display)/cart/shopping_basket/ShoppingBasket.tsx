@@ -20,7 +20,7 @@ import { randomTransactionId, CURRENCIES } from 'redsys-easy';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
-import { IProductPackCartItem, IUserTable } from '@/lib//types/types';
+import { IProductPackCartItem, IUserTable } from '@/lib/types/types';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { CustomLoading } from '@/app/[locale]/components/ui/CustomLoading';
 import {

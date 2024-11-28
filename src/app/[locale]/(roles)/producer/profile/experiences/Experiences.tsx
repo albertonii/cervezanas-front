@@ -4,7 +4,7 @@ import ExperienceList from './ExperiencesList';
 import AddBeerMasterExperienceModal from '@/app/[locale]/components/modals/experiences/AddBeerMasterExperienceModal';
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { IExperience } from '@/lib//types/quiz';
+import { IExperience } from '@/lib/types/quiz';
 import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 
 interface Props {

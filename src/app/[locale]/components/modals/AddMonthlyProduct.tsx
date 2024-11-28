@@ -13,7 +13,7 @@ import React, { ComponentProps, useMemo, useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
-import { IProduct } from '@/lib//types/types';
+import { IProduct } from '@/lib/types/types';
 import { useMessage } from '../message/useMessage';
 import { IconButton } from '../ui/buttons/IconButton';
 import { zodResolver } from '@hookform/resolvers/zod';

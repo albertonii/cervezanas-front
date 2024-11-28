@@ -3,12 +3,12 @@
 import Link from 'next/link';
 import DisplayImageProfile from './ui/DisplayImageProfile';
 import React from 'react';
-import { IUser } from '@/lib//types/types';
+import { IUserTable } from '@/lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { formatDateDefaultInput } from '@/utils/formatDate';
 
 interface Props {
-    user?: IUser;
+    user?: IUserTable;
 }
 
 export function ConsumerInfo({ user }: Props) {

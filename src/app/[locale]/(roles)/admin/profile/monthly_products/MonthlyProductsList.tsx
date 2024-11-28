@@ -13,7 +13,7 @@ import AddMonthlyProduct from '@/app/[locale]/components/modals/AddMonthlyProduc
 import React, { useMemo, useState } from 'react';
 import { SupabaseProps } from '@/constants';
 import { useLocale, useTranslations } from 'next-intl';
-import { IMonthlyProduct, IProduct } from '@/lib//types/types';
+import { IMonthlyProduct, IProduct } from '@/lib/types/types';
 import { EditButton } from '@/app/[locale]/components/ui/buttons/EditButton';
 import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';
 

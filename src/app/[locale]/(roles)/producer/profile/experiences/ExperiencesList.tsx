@@ -8,7 +8,7 @@ import DeleteExperienceModal from '@/app/[locale]/components/modals/experiences/
 import useFetchExperiencesByProducerId from '../../../../../../hooks/useFetchExperiencesByProducerIdWithPagination';
 import UpdateBeerMasterExperienceModalNew from '@/app/[locale]/components/modals/experiences/UpdateBeerMasterExperienceModal';
 import React, { useEffect, useState } from 'react';
-import { IExperience } from '@/lib//types/quiz';
+import { IExperience } from '@/lib/types/quiz';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';

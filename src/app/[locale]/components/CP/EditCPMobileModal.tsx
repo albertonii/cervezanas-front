@@ -1,28 +1,28 @@
 'use client';
 
+import Title from '../ui/Title';
 import CPGoogleMap from './CPGoogleMap';
+import ListCPMProducts from './ListCPMProducts';
 import Modal from '@/app/[locale]/components/modals/Modal';
 import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import SelectInput from '@/app/[locale]/components/form/SelectInput';
 import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
 import useFetchCPMobilePacks from '../../../../hooks/useFetchCPMobilePacks';
 import React, { ComponentProps, useEffect, useState } from 'react';
+import { IUser } from '@/lib/types/types';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
+import { useAuth } from '../../(auth)/Context/useAuth';
 import { GeocodeResult } from 'use-places-autocomplete';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { cleanObject, isValidObject } from '@/utils/utils';
 import { formatDateDefaultInput } from '@/utils/formatDate';
-import { useAuth } from '../../(auth)/Context/useAuth';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
 import {
     ICPMobile,
     ICPMProductsEditCPMobileModal,
-    IUser,
-} from '@/lib//types/types';
-import ListCPMProducts from './ListCPMProducts';
-import Title from '../ui/Title';
+} from '@/lib/types/consumptionPoints';
 
 enum CPMobileStatus {
     active = 'active',

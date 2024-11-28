@@ -5,10 +5,7 @@ import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { product_type_options } from '@/lib//beerEnum';
 
-import {
-    ICustomizeSettings,
-    ModalAddProductFormData,
-} from '@/lib//types/types';
+import { ICustomizeSettings, ModalAddProductFormData } from '@/lib/types/types';
 
 interface Props {
     form: UseFormReturn<ModalAddProductFormData, any>;

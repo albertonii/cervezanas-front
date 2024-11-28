@@ -4,7 +4,8 @@ import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
-import { ICPFixed, ICPMobile, IExperience } from '@/lib//types/types';
+import { IExperience } from '@/lib/types/types';
+import { ICPFixed, ICPMobile } from '@/lib/types/consumptionPoints';
 import { SearchCheckboxExperiencesCPFixeds } from './SearchCheckboxExperienceCPFixed';
 import { SearchCheckboxExperiencesCPMobiles } from './SearchCheckboxExperienceCPMobiles';
 

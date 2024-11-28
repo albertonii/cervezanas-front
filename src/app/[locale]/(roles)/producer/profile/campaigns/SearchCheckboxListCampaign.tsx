@@ -1,7 +1,7 @@
 import React, { ComponentProps, useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { ICampaign, ICampaignItem, IProduct } from '@/lib//types/types';
+import { ICampaign, ICampaignItem, IProduct } from '@/lib/types/types';
 import Modal from '@/app/[locale]/components/modals/Modal';
 import InputSearch from '@/app/[locale]/components/form/InputSearch';
 

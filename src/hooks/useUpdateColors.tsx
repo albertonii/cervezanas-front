@@ -1,6 +1,6 @@
 'use client';
 
-import { ICustomizeSettings } from '@/lib//types/types';
+import { ICustomizeSettings } from '@/lib/types/types';
 import { useMutation, UseMutationResult } from 'react-query';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { SupabaseClient } from '@supabase/supabase-js';

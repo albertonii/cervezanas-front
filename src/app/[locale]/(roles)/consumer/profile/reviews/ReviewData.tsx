@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React, { ComponentProps } from 'react';
 import { Rate } from '@/app/[locale]/components/reviews/Rate';
 import { useLocale, useTranslations } from 'next-intl';
-import { IReview } from '@/lib//types/types';
+import { IReview } from '@/lib/types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { formatDateString } from '@/utils/formatDate';
 import { SupabaseProps } from '@/constants';

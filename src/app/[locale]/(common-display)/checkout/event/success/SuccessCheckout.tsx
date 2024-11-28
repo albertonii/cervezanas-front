@@ -2,14 +2,14 @@
 
 import EventProduct from './EventProduct';
 import PaymentInformation from './PaymentInformation';
+import Label from '@/app/[locale]/components/ui/Label';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 import React, { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { IEventOrder } from '@/lib//types/types';
+import { IEventOrder } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { EVENT_ORDER_ITEM_STATUS, EVENT_ORDER_STATUS } from '@/constants';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
-import Label from '@/app/[locale]/components/ui/Label';
 
 interface Props {
     isError?: boolean;
@@ -112,7 +112,11 @@ export default function SuccessCheckout({ order, isError, domain }: Props) {
                         </h1>
 
                         <p className="mt-4 hidden text-sm font-medium tracking-wide text-gray-500 hover:cursor-pointer hover:text-beer-blonde sm:ml-2 sm:mt-0 sm:block"></p>
-                        <Label onClick={() => handleInvoicePdf()} font="link">
+                        <Label
+                            onClick={() => handleInvoicePdf()}
+                            font="link"
+                            size="small"
+                        >
                             {t('view_invoice')}
                             <span aria-hidden="true"> &rarr;</span>
                         </Label>
@@ -135,7 +139,7 @@ export default function SuccessCheckout({ order, isError, domain }: Props) {
                     </div>
                 </header>
 
-                <p className="text-sm text-gray-600">
+                <Label size="xsmall" color="gray">
                     {t('status_order_placed')}
                     <time
                         dateTime="2021-03-22"
@@ -143,14 +147,7 @@ export default function SuccessCheckout({ order, isError, domain }: Props) {
                     >
                         {formatDateString(order.created_at.toString())}
                     </time>
-                </p>
-                <a
-                    href="#"
-                    className="text-sm font-medium hover:text-beer-blonde sm:hidden"
-                >
-                    {t('view_invoice')}
-                    <span aria-hidden="true"> &rarr;</span>
-                </a>
+                </Label>
             </div>
 
             {/* Product and packs information */}

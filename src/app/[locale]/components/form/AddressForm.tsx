@@ -2,7 +2,7 @@ import useSWRMutation from 'swr/mutation';
 import InputLabel from './InputLabel';
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { JSONSubRegion } from '@/lib//types/distribution_areas';
+import { JSONSubRegion } from '@/lib/types/distribution_areas';
 import { DisplayInputError } from '../ui/DisplayInputError';
 
 interface Props {

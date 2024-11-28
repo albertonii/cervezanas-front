@@ -11,6 +11,19 @@ import { Session } from '@supabase/gotrue-js/src/lib/types.d';
 import { Type as ProductType } from '../productEnum';
 import { Fermentation, RecommendedGlass } from '../beerEnum';
 import { IBoxPack } from './product';
+import {
+    IConsumptionPoints,
+    ICPFixed,
+    ICPMobile,
+    ICPFProducts,
+    ICPMProducts,
+    IRefCPMProducts,
+    ICPMProductsEditCPMobileModal,
+    ICPMProductsEditCPFixedModal,
+    ICPM_events,
+    ICPF_events,
+} from './consumptionPoints';
+import { IEvent } from './eventOrders';
 
 export type ButtonTypes = 'button' | 'submit' | 'reset';
 
@@ -221,7 +234,7 @@ export interface ICustomizeSettings {
     colors: string[];
     family_styles: string[];
     owner_id: string;
-    users?: User;
+    users?: IUserTable;
 }
 
 export interface IProductInventory {
@@ -287,7 +300,7 @@ export interface IReview {
     bitterness: number;
     mouthfeel: number;
     overall: number;
-    users?: User;
+    users?: IUserTable;
     products?: IProduct;
 }
 
@@ -304,7 +317,7 @@ export interface IRefReview {
     bitterness: number;
     mouthfeel: number;
     overall: number;
-    users?: User;
+    users?: IUserTable;
     products?: IProduct;
 }
 
@@ -324,7 +337,7 @@ export interface IProfile {
     zipcode: string;
     img_url: any;
     is_public: boolean;
-    users?: User;
+    users?: IUserTable;
     avatar_url: string;
     bg_url: string;
     birthdate: string;
@@ -340,161 +353,6 @@ export interface IProfile {
     customize_settings: ICustomizeSettings[];
     profile_location: IProfileLocation[];
     cp_organizer_status: number;
-}
-
-export interface IEvent {
-    id: string;
-    created_at: string;
-    name: string;
-    description: string;
-    start_date: string;
-    end_date: string;
-    logo_url: string;
-    promotional_url: string;
-    status: string;
-    // geoArgs: GeocodeResult[];
-    geoArgs: any[];
-    address: string;
-    owner_id: string;
-    cp_mobile: ICPMobile[];
-    cp_fixed: ICPFixed[];
-    users: IUserTable;
-    is_activated: boolean;
-    is_cervezanas_event: boolean;
-}
-
-export interface IConsumptionPoints {
-    id: string;
-    created_at: string;
-    cp_fixed: ICPFixed[];
-    cp_mobile: ICPMobile[];
-    cp_organizer_status: number;
-    owner_id: string;
-    users?: User;
-    cv_name: string;
-    cover_letter_name: string;
-}
-
-export interface ICPFixed {
-    id: string;
-    created_at: string;
-    cp_name: string;
-    cp_description: string;
-    organizer_name: string;
-    organizer_lastname: string;
-    organizer_email: string;
-    organizer_phone: string;
-    start_date: string;
-    end_date: string;
-    address: string;
-    logo_url: string;
-    status: string;
-    maximum_capacity: number;
-    is_booking_required: boolean;
-    cp_id: string;
-    is_internal_organizer: boolean;
-    cpf_products?: ICPFProducts[];
-    // geoArgs: GeocodeResult[];
-    geoArgs: any[];
-    consumption_points?: IConsumptionPoints;
-    owner_id: string;
-}
-
-export interface ICPMobile {
-    id: string;
-    created_at: string;
-    cp_id: string;
-    cp_name: string;
-    cp_description: string;
-    organizer_name: string;
-    organizer_lastname: string;
-    organizer_email: string;
-    organizer_phone: string;
-    start_date: string;
-    end_date: string;
-    address: string;
-    status: string;
-    logo_url: string;
-    maximum_capacity: number;
-    is_booking_required: boolean;
-    // geoArgs: GeoArgs[];
-    geoArgs: any[];
-    is_internal_organizer: boolean;
-    cpm_products?: ICPMProducts[];
-    consumption_points?: IConsumptionPoints;
-    owner_id: string;
-}
-
-export interface ICPFProducts {
-    id: string;
-    created_at: string;
-    stock: number;
-    stock_consumed: number;
-    cp_id: string;
-    product_pack_id: string;
-    is_active: boolean;
-    product_packs?: IProductPack;
-    cp_fixed?: ICPFixed;
-}
-
-export interface ICPMProducts {
-    id: string;
-    created_at: string;
-    stock: number;
-    stock_consumed: number;
-    cp_id: string;
-    product_pack_id: string;
-    is_active: boolean;
-    product_packs?: IProductPack;
-    cp_mobile?: ICPMobile;
-}
-
-export interface IRefCPMProducts {
-    id: string;
-    created_at: string;
-    cp_id: any;
-    product_pack_id: IProductPack;
-    stock: number;
-    stock_consumed: number;
-}
-
-export interface ICPMProductsEditCPMobileModal {
-    id: string;
-    created_at: string;
-    cp_id: any;
-    product_pack_id: string;
-    stock: number;
-    stock_consumed: number;
-}
-
-export interface ICPMProductsEditCPFixedModal {
-    id: string;
-    created_at: string;
-    cp_id: any;
-    product_pack_id: string;
-    stock: number;
-    stock_consumed: number;
-}
-
-export interface ICPM_events {
-    cp_id: string;
-    created_at: string;
-    event_id: string;
-    is_active: boolean;
-    is_cervezanas_event: boolean;
-    owner_id: string;
-    cp_mobile?: ICPMobile;
-    events?: IEvent;
-}
-
-export interface ICPF_events {
-    cp_id: string;
-    event_id: string;
-    is_active: boolean;
-    is_cervezanas_event: boolean;
-    owner_id: string;
-    cp_fixed?: ICPFixed;
-    events?: IEvent;
 }
 
 export interface IProfileLocation {
@@ -731,7 +589,7 @@ export interface IAddressForm {
 }
 
 export type UserProps = {
-    user: User;
+    user: IUserTable;
     session: Session;
 };
 
@@ -1158,7 +1016,7 @@ export interface INotification {
 }
 
 export type UserProps = {
-    user: User;
+    user: IUserTable;
     session: Session;
 };
 

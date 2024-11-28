@@ -3,7 +3,7 @@
 import React, { ChangeEvent, ComponentProps, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { ICampaign, ICampaignItem } from '@/lib//types/types';
+import { ICampaign, ICampaignItem } from '@/lib/types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import InputTextarea from '@/app/[locale]/components/form/InputTextarea';

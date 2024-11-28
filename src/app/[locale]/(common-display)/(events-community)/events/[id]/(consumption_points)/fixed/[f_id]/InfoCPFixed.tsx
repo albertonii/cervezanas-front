@@ -3,7 +3,7 @@
 import CPDetails from './CPDetails';
 import ProductList from './ProductList';
 import React from 'react';
-import { ICPFixed } from '@/lib/types/types';
+import { ICPFixed } from '@/lib/types/consumptionPoints';
 
 interface Props {
     cpFixed: ICPFixed;

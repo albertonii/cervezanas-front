@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
-import { IEvent } from '@/lib//types/types';
 import EventCard from './EventCard';
+import React from 'react';
+import { IEvent } from '@/lib/types/eventOrders';
 
 interface Props {
     events: IEvent[];

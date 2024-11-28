@@ -21,7 +21,7 @@ import {
     IModalAddProductPack,
     ModalAddProductAwardFormData,
     ModalAddProductFormData,
-} from '@/lib//types/types';
+} from '@/lib/types/types';
 import ProductHeaderDescription from '@/app/[locale]/components/modals/ProductHeaderDescription';
 import ProductFooterDescription from '@/app/[locale]/components/modals/ProductFooterDescription';
 import { useFileUpload } from '@/app/context/ProductFileUploadContext';

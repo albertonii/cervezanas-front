@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { IAddress } from '@/lib//types/types';
+import { IAddress } from '@/lib/types/types';
 import { UseFormRegister } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faTrash } from '@fortawesome/free-solid-svg-icons';

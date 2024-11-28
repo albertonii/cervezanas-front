@@ -7,7 +7,11 @@ import Table from '@/app/[locale]/components/ui/table/Table';
 import THead from '@/app/[locale]/components/ui/table/THead';
 import TBody from '@/app/[locale]/components/ui/table/TBody';
 import { useTranslations } from 'next-intl';
-import { ICPFixed, ICPFProducts, ICPMProducts } from '@/lib/types/types';
+import {
+    ICPFixed,
+    ICPFProducts,
+    ICPMProducts,
+} from '@/lib/types/consumptionPoints';
 
 interface Props {
     cpFixed: ICPFixed;

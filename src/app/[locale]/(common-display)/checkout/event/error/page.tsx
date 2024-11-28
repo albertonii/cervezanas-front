@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { decodeBase64 } from '@/utils/utils';
 import createServerClient from '@/utils/supabaseServer';
 import { VIEWS } from '@/constants';
-import { IEventOrder, IOrder } from '@/lib//types/types';
+import { IEventOrder, IOrder } from '@/lib/types/types';
 import readUserSession from '@/lib//actions';
 
 export async function generateMetadata({ searchParams }: any) {

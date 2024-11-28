@@ -1,5 +1,5 @@
-import { ICPMobile } from '@/lib/types/types';
 import React from 'react';
+import { ICPMobile } from '@/lib/types/consumptionPoints';
 import {
     MapPin,
     Calendar,

@@ -10,9 +10,10 @@ import { useLocale, useTranslations } from 'next-intl';
 import { SupabaseProps } from '@/constants';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { ROUTE_EVENTS, ROUTE_PRODUCTS } from '@/config';
+import { ICPFixed } from '@/lib/types/consumptionPoints';
+import { IEventProduct, IProductPack } from '@/lib/types/types';
 import { useAuth } from '../../../../../../../(auth)/Context/useAuth';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { ICPFixed, IEventProduct, IProductPack } from '@/lib/types/types';
 import { AddCartButton } from '@/app/[locale]/components/cart/AddCartButton';
 
 interface ProductProps {

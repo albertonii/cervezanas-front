@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
-import { ICPMProducts, IProduct, IReview } from '@/lib/types/types';
 import ProductDetails from '@/app/[locale]/(common-display)/products/[id]/ProductDetails';
-import { ProductOverallReview } from '@/app/[locale]/components/reviews/ProductOverallReview';
+import React, { useRef, useState } from 'react';
+import { IProduct, IReview } from '@/lib/types/types';
+import { ICPMProducts } from '@/lib/types/consumptionPoints';
 import { ProductReviews } from '@/app/[locale]/components/ProductReviews';
+import { ProductOverallReview } from '@/app/[locale]/components/reviews/ProductOverallReview';
 
 interface Props {
     CPMProduct: ICPMProducts;

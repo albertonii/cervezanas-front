@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { ICPMobile } from '@/lib/types/types';
-import { formatDateString } from '@/utils/formatDate';
-import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 import Title from '@/app/[locale]/components/ui/Title';
 import Label from '@/app/[locale]/components/ui/Label';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { formatDateString } from '@/utils/formatDate';
+import { ICPMobile } from '@/lib/types/consumptionPoints';
+import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 
 interface Props {
     cpMobile: ICPMobile;

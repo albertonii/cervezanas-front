@@ -4,7 +4,7 @@ import { useMutation } from 'react-query';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useMessage } from '../message/useMessage';
 import { ROLE_ENUM } from '@/lib//enums';
-import { IDistributionCost } from '@/lib//types/types';
+import { IDistributionCost } from '@/lib/types/types';
 import { formatDateTypeDefaultInput } from '@/utils/formatDate';
 
 interface Props {

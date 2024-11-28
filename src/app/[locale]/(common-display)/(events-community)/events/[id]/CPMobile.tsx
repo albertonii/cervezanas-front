@@ -4,10 +4,10 @@ import React from 'react';
 import TR from '@/app/[locale]/components/ui/table/TR';
 import TD from '@/app/[locale]/components/ui/table/TD';
 import { COMMON } from '@/constants';
-import { ICPMobile } from '@/lib//types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { ROUTE_CP_MOBILE, ROUTE_EVENTS } from '@/config';
+import { ICPMobile } from '@/lib/types/consumptionPoints';
 
 interface CPMobileProps {
     cp: ICPMobile;

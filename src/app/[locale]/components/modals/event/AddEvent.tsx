@@ -1,19 +1,19 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import BasicEventForm from '../../../(roles)/producer/profile/events/(producer_events)/BasicEventForm';
+import Spinner from '../../ui/Spinner';
 import ExperienceForm from '../../../(roles)/producer/profile/events/ExperienceForm';
+import BasicEventForm from '../../../(roles)/producer/profile/events/(producer_events)/BasicEventForm';
 import React, { useEffect, useState } from 'react';
+import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
-import { ICPFixed, ICPMobile } from '@/lib//types/types';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z, ZodType } from 'zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { ICPFixed, ICPMobile } from '@/lib/types/consumptionPoints';
 import { SearchCheckboxCPFixeds } from '../../common/SearchCheckboxCPFixed';
 import { SearchCheckboxCPMobiles } from '../../common/SearchCheckboxCPMobiles';
-import Spinner from '../../ui/Spinner';
 
 const ModalWithForm = dynamic(() => import('../ModalWithForm'), { ssr: false });
 

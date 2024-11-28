@@ -1,26 +1,27 @@
 'use client';
 
+import ModalWithForm from '../ModalWithForm';
+
+import InputLabel from '../../form/InputLabel';
+import InputTextarea from '../../form/InputTextarea';
+import useFetchCPSFixedByEventsId from '../../../../../hooks/useFetchCPsFixedByEventId';
+import useFetchCPSMobileByEventsId from '../../../../../hooks/useFetchCPsMobileByEventId';
 import React, { ComponentProps, useEffect } from 'react';
-import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
+import { IEvent } from '@/lib/types/eventOrders';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
+import { faAdd } from '@fortawesome/free-solid-svg-icons';
+import { formatDateDefaultInput } from '@/utils/formatDate';
+import { SearchCheckboxCPFixeds } from '../../common/SearchCheckboxCPFixed';
+import { SearchCheckboxCPMobiles } from '../../common/SearchCheckboxCPMobiles';
 import {
     ICPFixed,
     ICPF_events,
     ICPMobile,
     ICPM_events,
-    IEvent,
-} from '@/lib//types/types';
-import { formatDateDefaultInput } from '@/utils/formatDate';
-import useFetchCPSMobileByEventsId from '../../../../../hooks/useFetchCPsMobileByEventId';
-import InputLabel from '../../form/InputLabel';
-import InputTextarea from '../../form/InputTextarea';
-import { SearchCheckboxCPMobiles } from '../../common/SearchCheckboxCPMobiles';
-import { SearchCheckboxCPFixeds } from '../../common/SearchCheckboxCPFixed';
-import useFetchCPSFixedByEventsId from '../../../../../hooks/useFetchCPsFixedByEventId';
-import ModalWithForm from '../ModalWithForm';
+} from '@/lib/types/consumptionPoints';
 
 interface FormData {
     is_activated: boolean;

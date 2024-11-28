@@ -1,4 +1,4 @@
-import { IEventOrder } from '@/lib//types/types';
+import { IEventOrder } from '@/lib/types/types';
 import createServerClient from '@/utils/supabaseServer';
 import { redirect } from 'next/navigation';
 import { EventOrders } from './EventOrders';

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { DistributionCostType } from '@/lib//enums';
 import { normalizeAddress } from '@/utils/distribution';
 import { createBrowserClient } from '@/utils/supabaseBrowser';
-import { IAreaAndWeightInformation } from '@/lib//types/types';
+import { IAreaAndWeightInformation } from '@/lib/types/types';
 
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);

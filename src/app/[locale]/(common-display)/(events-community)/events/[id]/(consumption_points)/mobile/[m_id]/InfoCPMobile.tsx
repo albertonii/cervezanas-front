@@ -10,7 +10,8 @@ import React from 'react';
 import { ROUTE_EVENTS } from '@/config';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
-import { ICPMobile, IEventExperience } from '@/lib/types/types';
+import { IEventExperience } from '@/lib/types/types';
+import { ICPMobile } from '@/lib/types/consumptionPoints';
 
 interface Props {
     cpMobile: ICPMobile;

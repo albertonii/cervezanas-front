@@ -2,7 +2,7 @@
 
 import { API_METHODS, DS_API } from '@/constants';
 import { createBrowserClient } from '@/utils/supabaseBrowser';
-import { IDistributionContract, IShippingInfo } from '@/lib//types/types';
+import { IDistributionContract, IShippingInfo } from '@/lib/types/types';
 import { DeliveryType, DistributionStatus } from '@/lib//enums';
 
 export const initShipmentLogic = async (

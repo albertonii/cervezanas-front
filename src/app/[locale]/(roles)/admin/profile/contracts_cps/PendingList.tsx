@@ -2,15 +2,22 @@
 
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import TH from '@/app/[locale]/components/ui/table/TH';
+import TD from '@/app/[locale]/components/ui/table/TD';
+import TBody from '@/app/[locale]/components/ui/table/TBody';
+import THead from '@/app/[locale]/components/ui/table/THead';
+import Table from '@/app/[locale]/components/ui/table/Table';
+import TDActions from '@/app/[locale]/components/ui/table/TDActions';
 import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import React, { useMemo, useState } from 'react';
 import { ROLE_ENUM } from '@/lib//enums';
 import { createNotification } from '@/utils/utils';
 import { useLocale, useTranslations } from 'next-intl';
-import { IConsumptionPoints } from '@/lib//types/types';
 import { generateDownloadableLink } from '@/utils/utils';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 import {
     faCancel,
@@ -22,14 +29,7 @@ import {
     formatDateString,
     formatDateTypeDefaultInput,
 } from '@/utils/formatDate';
-import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import THead from '@/app/[locale]/components/ui/table/THead';
-import Table from '@/app/[locale]/components/ui/table/Table';
-import TR from '@/app/[locale]/components/ui/table/TR';
-import TH from '@/app/[locale]/components/ui/table/TH';
-import TBody from '@/app/[locale]/components/ui/table/TBody';
-import TD from '@/app/[locale]/components/ui/table/TD';
-import TDActions from '@/app/[locale]/components/ui/table/TDActions';
+import { IConsumptionPoints } from '@/lib/types/consumptionPoints';
 
 enum SortBy {
     NONE = 'none',
@@ -78,7 +78,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
         IConsumptionPoints[]
     >(() => {
         return submittedList.filter((submittedCP) => {
-            return submittedCP.users.username
+            return submittedCP.users?.username
                 .toLowerCase()
                 .includes(query.toLowerCase());
         });
@@ -91,7 +91,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
             string,
             (cp: IConsumptionPoints) => any
         > = {
-            [SortBy.USERNAME]: (cp) => cp.users.username,
+            [SortBy.USERNAME]: (cp) => cp.users?.username,
         };
 
         return filteredItems.toSorted((a, b) => {
@@ -113,7 +113,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
     const handleCoverLetterClick = async (cp: IConsumptionPoints) => {
         await supabase.storage
             .from('public/documents')
-            .download(`cover_letter/${cp.users.id}_${cp.cover_letter_name}`)
+            .download(`cover_letter/${cp.users?.id}_${cp.cover_letter_name}`)
             .then((blob: any) => {
                 generateDownloadableLink(blob, cp.cover_letter_name);
             });
@@ -122,7 +122,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
     const handleCVClick = async (cp: IConsumptionPoints) => {
         await supabase.storage
             .from('public/documents')
-            .download(`cv/${cp.users.id}_${cp.cv_name}`)
+            .download(`cv/${cp.users?.id}_${cp.cv_name}`)
             .then((blob: any) => {
                 generateDownloadableLink(blob, cp.cv_name);
             });
@@ -148,7 +148,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                         cp_organizer_status: 1,
                         updated_at: formatDateTypeDefaultInput(new Date()),
                     })
-                    .eq('id', cp.users.id);
+                    .eq('id', cp.users!.id);
             });
     };
 
@@ -167,7 +167,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
         // Notify user that has been assigned as organizer
         const response = await createNotification(
             supabase,
-            submittedCPs[0].users.id,
+            submittedCPs[0].users!.id,
             user?.id,
             link,
             message,
@@ -197,7 +197,7 @@ export default function ListPendingCP({ submittedCPs }: Props) {
                         cp_organizer_status: status,
                         updated_at: formatDateTypeDefaultInput(new Date()),
                     })
-                    .eq('id', selectedCP.users.id);
+                    .eq('id', selectedCP.users!.id);
             });
     };
 
@@ -306,10 +306,10 @@ export default function ListPendingCP({ submittedCPs }: Props) {
 
                                 <TD class_="text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
                                     <Link
-                                        href={`/products/${cp.users.id}`}
+                                        href={`/products/${cp.users?.id}`}
                                         locale={locale}
                                     >
-                                        {cp.users.username}
+                                        {cp.users?.username}
                                     </Link>
                                 </TD>
 

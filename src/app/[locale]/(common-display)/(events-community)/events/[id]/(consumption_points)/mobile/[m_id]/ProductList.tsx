@@ -7,7 +7,7 @@ import THead from '@/app/[locale]/components/ui/table/THead';
 import Table from '@/app/[locale]/components/ui/table/Table';
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { ICPMobile, ICPMProducts } from '@/lib/types/types';
+import { ICPMobile, ICPMProducts } from '@/lib/types/consumptionPoints';
 
 interface Props {
     cpMobile: ICPMobile;

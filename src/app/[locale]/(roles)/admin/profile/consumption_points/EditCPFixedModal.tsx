@@ -1,28 +1,28 @@
 'use client';
 
+import Title from '@/app/[locale]/components/ui/Title';
 import Modal from '@/app/[locale]/components/modals/Modal';
+import CPGoogleMap from '@/app/[locale]/components/CP/CPGoogleMap';
 import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import SelectInput from '@/app/[locale]/components/form/SelectInput';
 import ListCPMProducts from '../../../../components/CP/ListCPMProducts';
 import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
 import useFetchCPFixedPacks from '../../../../../../hooks/useFetchCPFixedPacks';
 import React, { ComponentProps, useEffect, useState } from 'react';
-import { faAdd } from '@fortawesome/free-solid-svg-icons';
+import { IUser } from '@/lib/types/types';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { GeocodeResult } from 'use-places-autocomplete';
+import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { cleanObject, isValidObject } from '@/utils/utils';
 import { formatDateDefaultInput } from '@/utils/formatDate';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import CPGoogleMap from '@/app/[locale]/components/CP/CPGoogleMap';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
 import {
     ICPFixed,
     ICPMProductsEditCPFixedModal,
-    IUser,
-} from '@/lib//types/types';
-import Title from '@/app/[locale]/components/ui/Title';
+} from '@/lib/types/consumptionPoints';
 
 enum CPFixedStatus {
     active = 'active',

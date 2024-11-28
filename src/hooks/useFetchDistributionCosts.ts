@@ -2,7 +2,7 @@
 
 import { SupabaseClient } from '@supabase/supabase-js';
 import { useQuery, UseQueryResult } from 'react-query';
-import { IDistributionCost, IUser } from '@/lib//types/types';
+import { IDistributionCost, IUser } from '@/lib/types/types';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 
 const fetchDistributionCostByOwnerId = async (

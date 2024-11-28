@@ -4,7 +4,7 @@ import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHea
 import { useState } from 'react';
 import { ProductList } from './ProductList';
 import { useTranslations } from 'next-intl';
-import { IProduct } from '@/lib//types/types';
+import { IProduct } from '@/lib/types/types';
 import { AddProductModal } from './AddProductModal';
 import { Type as ProductType } from '@/lib//productEnum';
 import { UpdateProductModal } from './UpdateProductModal';

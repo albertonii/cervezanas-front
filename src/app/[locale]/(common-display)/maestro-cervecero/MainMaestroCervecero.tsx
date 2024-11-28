@@ -5,7 +5,7 @@ import Button from '../../components/ui/buttons/Button';
 import React from 'react';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { IEventExperience } from '@/lib//types/quiz';
+import { IEventExperience } from '@/lib/types/quiz';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { ROUTE_CP_FIXED, ROUTE_CP_MOBILE, ROUTE_EVENTS } from '@/config';
 

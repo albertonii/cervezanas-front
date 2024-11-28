@@ -4,7 +4,7 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import { useMutation, useQueryClient } from 'react-query';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { Database } from '@/lib//schema';
-import { ICustomizeSettings } from '@/lib//types/types';
+import { ICustomizeSettings } from '@/lib/types/types';
 
 const updateColors = async (
     customSettingsId: string,

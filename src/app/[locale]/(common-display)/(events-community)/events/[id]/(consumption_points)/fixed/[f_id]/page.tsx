@@ -1,6 +1,6 @@
 import InfoCPFixed from './InfoCPFixed';
 import createServerClient from '@/utils/supabaseServer';
-import { ICPFixed } from '@/lib/types/types';
+import { ICPFixed } from '@/lib/types/consumptionPoints';
 
 export default async function CPFixedPage({ params }: any) {
     const { id: eventId, f_id } = params;

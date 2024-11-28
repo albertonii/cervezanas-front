@@ -2,7 +2,7 @@ import React from 'react';
 import { FieldError, UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { SupabaseProps } from '@/constants';
-import { ModalUpdateProductFormData } from '@/lib//types/types';
+import { ModalUpdateProductFormData } from '@/lib/types/types';
 import { formatCurrency } from '@/utils/formatCurrency';
 import {
     color_options,

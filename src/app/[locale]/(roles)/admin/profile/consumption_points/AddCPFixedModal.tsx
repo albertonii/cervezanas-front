@@ -10,7 +10,7 @@ import ModalWithForm from '@/app/[locale]/components/modals/ModalWithForm';
 import React, { useState } from 'react';
 import { z, ZodType } from 'zod';
 import { ROLE_ENUM } from '@/lib//enums';
-import { IUser } from '@/lib//types/types';
+import { IUser } from '@/lib/types/types';
 import { useTranslations } from 'next-intl';
 import { createNotification } from '@/utils/utils';
 import { getGeocode } from 'use-places-autocomplete';

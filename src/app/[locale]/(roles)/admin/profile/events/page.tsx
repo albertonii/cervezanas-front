@@ -1,6 +1,6 @@
-import { ICPFixed, ICPMobile } from '@/lib//types/types';
-import createServerClient from '@/utils/supabaseServer';
 import Events from './Events';
+import createServerClient from '@/utils/supabaseServer';
+import { ICPFixed, ICPMobile } from '@/lib/types/consumptionPoints';
 
 export default async function EventsPage() {
     const cpsMobileData = getCPMobileData();

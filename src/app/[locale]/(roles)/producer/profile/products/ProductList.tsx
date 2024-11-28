@@ -6,7 +6,7 @@ import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
 import React, { ComponentProps, useEffect, useState } from 'react';
-import { IProduct } from '@/lib//types/types';
+import { IProduct } from '@/lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { InfoTooltip } from '@/app/[locale]/components/ui/InfoTooltip';

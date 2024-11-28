@@ -1,6 +1,6 @@
 import createServerClient from '@/utils/supabaseServer';
 import { NextRequest, NextResponse } from 'next/server';
-import { ICoverageArea } from '@/lib//types/types';
+import { ICoverageArea } from '@/lib/types/types';
 import { DistributionDestinationType } from '@/lib//enums';
 
 export async function PUT(request: NextRequest) {
