@@ -3,11 +3,11 @@
 import Title from '../ui/Title';
 import CPGoogleMap from './CPGoogleMap';
 import ListCPMProducts from './ListCPMProducts';
-import Modal from '@/app/[locale]/components/modals/Modal';
+import ModalWithForm from '../modals/ModalWithForm';
 import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import SelectInput from '@/app/[locale]/components/form/SelectInput';
 import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { z, ZodType } from 'zod';
 import { ROLE_ENUM } from '@/lib//enums';
@@ -315,8 +315,6 @@ export default function AddConsumptionPointModal({ cpsId }: Props) {
     const onSubmit: SubmitHandler<ValidationSchema> = (
         formValues: ModalAddCPFormData,
     ) => {
-        console.log('DENTRO');
-
         return new Promise<void>((resolve, reject) => {
             insertCPMutation.mutate(formValues, {
                 onSuccess: () => {
@@ -330,13 +328,8 @@ export default function AddConsumptionPointModal({ cpsId }: Props) {
         });
     };
 
-    useEffect(() => {
-        console.log(errors);
-        return () => {};
-    }, [errors]);
-
     return (
-        <Modal
+        <ModalWithForm
             showBtn={true}
             showModal={showModal}
             setShowModal={setShowModal}
@@ -344,9 +337,10 @@ export default function AddConsumptionPointModal({ cpsId }: Props) {
             btnTitle={t('new_cp_config')}
             description={''}
             handler={handleSubmit(onSubmit)}
+            form={form}
             classContainer={''}
         >
-            <form>
+            <>
                 <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
                     <legend>
                         <Title size="large">{t('cp_info')}</Title>
@@ -558,7 +552,7 @@ export default function AddConsumptionPointModal({ cpsId }: Props) {
                     {/* List of selectable products that the owner can use */}
                     <ListCPMProducts form={form} />
                 </fieldset>
-            </form>
-        </Modal>
+            </>
+        </ModalWithForm>
     );
 }
