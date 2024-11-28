@@ -7,11 +7,11 @@ import Modal from '@/app/[locale]/components/modals/Modal';
 import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import SelectInput from '@/app/[locale]/components/form/SelectInput';
 import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { z, ZodType } from 'zod';
 import { ROLE_ENUM } from '@/lib//enums';
-import { IUser } from '@/lib//types/types';
+import { IUser } from '@/lib/types/types';
 import { createNotification } from '@/utils/utils';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { getGeocode } from 'use-places-autocomplete';
@@ -22,7 +22,20 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
 
-enum CPMobileStatus {
+enum CPType {
+    mobile = 'mobile',
+    fixed = 'fixed',
+}
+
+export const cp_type_options: {
+    label: string;
+    value: CPType;
+}[] = [
+    { label: 'Móvil', value: CPType.mobile },
+    { label: 'Fijo', value: CPType.fixed },
+];
+
+enum CPStatus {
     active = 'active',
     finished = 'finished',
     error = 'error',
@@ -30,35 +43,36 @@ enum CPMobileStatus {
     paused = 'paused',
 }
 
-export const cp_mobile_status_options: {
+export const cp_status_options: {
     label: string;
-    value: CPMobileStatus;
+    value: CPStatus;
 }[] = [
-    { label: 'active', value: CPMobileStatus.active },
-    { label: 'finished', value: CPMobileStatus.finished },
-    { label: 'error', value: CPMobileStatus.error },
-    { label: 'cancelled', value: CPMobileStatus.cancelled },
-    { label: 'paused', value: CPMobileStatus.paused },
+    { label: 'active', value: CPStatus.active },
+    { label: 'finished', value: CPStatus.finished },
+    { label: 'error', value: CPStatus.error },
+    { label: 'cancelled', value: CPStatus.cancelled },
+    { label: 'paused', value: CPStatus.paused },
 ];
 
-interface ModalAddCPMobileFormData {
+interface ModalAddCPFormData {
     cp_name: string;
     cp_description: string;
     organizer_name: string;
     organizer_lastname: string;
     organizer_email: string;
     organizer_phone: string;
-    start_date: string;
-    end_date: string;
     address: string;
     status: string;
+    maximum_capacity: number;
+    is_booking_required: boolean;
     is_internal_organizer: boolean;
     product_items?: any[];
+    type: string;
 }
 
 type ValidationSchema = z.infer<typeof schema>;
 
-const schema: ZodType<ModalAddCPMobileFormData> = z.object({
+const schema: ZodType<ModalAddCPFormData> = z.object({
     cp_name: z.string().nonempty({ message: 'errors.input_required' }),
     cp_description: z.string().nonempty({ message: 'errors.input_required' }),
     organizer_name: z.string().nonempty({ message: 'errors.input_required' }),
@@ -67,19 +81,22 @@ const schema: ZodType<ModalAddCPMobileFormData> = z.object({
         .nonempty({ message: 'errors.input_required' }),
     organizer_email: z.string().nonempty({ message: 'errors.input_required' }),
     organizer_phone: z.string().nonempty({ message: 'errors.input_required' }),
-    start_date: z.string().nonempty({ message: 'errors.input_required' }),
-    end_date: z.string().nonempty({ message: 'errors.input_required' }),
     address: z.string().nonempty({ message: 'errors.input_required' }),
     status: z.string().nonempty({ message: 'errors.input_required' }),
     is_internal_organizer: z.boolean(),
     product_items: z.any(),
+    maximum_capacity: z
+        .number()
+        .nonnegative({ message: 'errors.input_required' }),
+    is_booking_required: z.boolean(),
+    type: z.string().nonempty({ message: 'errors.input_required' }),
 });
 
 interface Props {
     cpsId: string;
 }
 
-export default function AddCPMobileModal({ cpsId }: Props) {
+export default function AddConsumptionPointModal({ cpsId }: Props) {
     const t = useTranslations();
     const { user, supabase } = useAuth();
 
@@ -123,11 +140,12 @@ export default function AddCPMobileModal({ cpsId }: Props) {
             organizer_lastname: '',
             organizer_email: '',
             organizer_phone: '',
-            start_date: '',
-            end_date: '',
             address: '',
             status: '',
             is_internal_organizer: true,
+            maximum_capacity: 0,
+            is_booking_required: false,
+            type: CPType.mobile,
         },
     });
 
@@ -142,7 +160,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
         setValue('address', address);
     };
 
-    const handleInsertCPMobile = async (form: ValidationSchema) => {
+    const handleInsertCP = async (form: ValidationSchema) => {
         if (!selectedEOrganizer && !isInternalOrganizer) {
             setErrorOnSelectEOrganizer(true);
             return;
@@ -155,8 +173,6 @@ export default function AddCPMobileModal({ cpsId }: Props) {
             organizer_lastname,
             organizer_email,
             organizer_phone,
-            start_date,
-            end_date,
             product_items,
             status,
             address,
@@ -170,7 +186,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
         const results = (await getGeocode({ address })) as any;
 
         const { data, error } = await supabase
-            .from('cp_mobile')
+            .from('cp')
             .insert({
                 cp_name,
                 cp_description,
@@ -178,15 +194,15 @@ export default function AddCPMobileModal({ cpsId }: Props) {
                 organizer_lastname,
                 organizer_email,
                 organizer_phone,
-                start_date,
-                end_date,
                 address,
                 status,
                 cp_id: cpsId,
                 geoArgs: results,
                 is_internal_organizer: isInternalOrganizer,
-                is_booking_required: false,
                 owner_id: user?.id,
+                type: 'mobile',
+                maximum_capacity: 0,
+                is_booking_required: false,
             })
             .select();
 
@@ -200,7 +216,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
             // Convert pItemsFiltered JSON objects to array
             const pItemsFilteredArray = Object.values(pItemsFiltered);
 
-            const cpMobileId = data[0].id;
+            const consumptionPointId = data[0].id;
 
             // Link the pack with the consumption Point
             pItemsFilteredArray.map(async (pack: any) => {
@@ -210,7 +226,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
                         const { error } = await supabase
                             .from('cpm_products')
                             .insert({
-                                cp_id: cpMobileId,
+                                cp_id: consumptionPointId,
                                 product_pack_id: packId,
                             });
 
@@ -222,7 +238,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
                     const { error } = await supabase
                         .from('cpm_products')
                         .insert({
-                            cp_id: cpMobileId,
+                            cp_id: consumptionPointId,
                             product_pack_id: pack.id,
                         });
 
@@ -251,7 +267,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
                 selectedEOrganizer,
                 user?.id,
                 link,
-                t('cps.mobile_has_been_assigned_as_organizer'),
+                t('cps.has_been_assigned_as_organizer'),
             );
 
             if (response.error) {
@@ -265,7 +281,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
             }
         }
 
-        queryClient.invalidateQueries('cpMobiles');
+        queryClient.invalidateQueries('consumption_points');
         setShowModal(false);
         reset();
     };
@@ -288,19 +304,21 @@ export default function AddCPMobileModal({ cpsId }: Props) {
         }
     };
 
-    const insertCPMobileMutation = useMutation({
-        mutationKey: 'insertCPMobile',
-        mutationFn: handleInsertCPMobile,
+    const insertCPMutation = useMutation({
+        mutationKey: 'insertCPoint',
+        mutationFn: handleInsertCP,
         onError: (error: any) => {
             console.error(error);
         },
     });
 
     const onSubmit: SubmitHandler<ValidationSchema> = (
-        formValues: ModalAddCPMobileFormData,
+        formValues: ModalAddCPFormData,
     ) => {
+        console.log('DENTRO');
+
         return new Promise<void>((resolve, reject) => {
-            insertCPMobileMutation.mutate(formValues, {
+            insertCPMutation.mutate(formValues, {
                 onSuccess: () => {
                     resolve();
                 },
@@ -312,13 +330,18 @@ export default function AddCPMobileModal({ cpsId }: Props) {
         });
     };
 
+    useEffect(() => {
+        console.log(errors);
+        return () => {};
+    }, [errors]);
+
     return (
         <Modal
             showBtn={true}
             showModal={showModal}
             setShowModal={setShowModal}
-            title={t('add_new_cp_mobile')}
-            btnTitle={t('new_cp_mobile_config')}
+            title={t('add_new_cp')}
+            btnTitle={t('new_cp_config')}
             description={''}
             handler={handleSubmit(onSubmit)}
             classContainer={''}
@@ -326,19 +349,31 @@ export default function AddCPMobileModal({ cpsId }: Props) {
             <form>
                 <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
                     <legend>
-                        <Title size="large">{t('cp_mobile_info')}</Title>
+                        <Title size="large">{t('cp_info')}</Title>
                     </legend>
 
-                    {/* Status */}
-                    <SelectInput
-                        form={form}
-                        labelTooltip={'cp_mobile_status_tooltip'}
-                        options={cp_mobile_status_options}
-                        label={'status'}
-                        registerOptions={{
-                            required: true,
-                        }}
-                    />
+                    <div className="flex gap-4">
+                        {/* Status */}
+                        <SelectInput
+                            form={form}
+                            labelTooltip={'cp_status_tooltip'}
+                            options={cp_status_options}
+                            label={'status'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                        />
+
+                        {/* Type - Mobile | Fixed */}
+                        <SelectInput
+                            form={form}
+                            options={cp_type_options}
+                            label={'type'}
+                            registerOptions={{
+                                required: true,
+                            }}
+                        />
+                    </div>
 
                     {/* Event name  */}
                     <InputLabel
@@ -359,26 +394,25 @@ export default function AddCPMobileModal({ cpsId }: Props) {
                         }}
                     />
 
-                    {/* Start date and end date  */}
-                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                        <InputLabel
-                            form={form}
-                            label={'start_date'}
-                            registerOptions={{
-                                required: true,
-                            }}
-                            inputType="date"
-                        />
+                    <InputLabel
+                        form={form}
+                        label={'maximum_capacity'}
+                        inputType="number"
+                        registerOptions={{
+                            required: true,
+                            valueAsNumber: true,
+                        }}
+                        defaultValue={0}
+                    />
 
-                        <InputLabel
-                            form={form}
-                            label={'end_date'}
-                            registerOptions={{
-                                required: true,
-                            }}
-                            inputType="date"
-                        />
-                    </div>
+                    <InputLabel
+                        form={form}
+                        label={'is_booking_required'}
+                        inputType="checkbox"
+                        registerOptions={{
+                            required: true,
+                        }}
+                    />
                 </fieldset>
 
                 {/* Organizer Information  */}
@@ -505,7 +539,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
 
                 <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
                     <legend>
-                        <Title size="large">{t('cp_mobile_location')}</Title>
+                        <Title size="large">{t('cp_location')}</Title>
                     </legend>
 
                     {addressInputRequired && (
@@ -518,7 +552,7 @@ export default function AddCPMobileModal({ cpsId }: Props) {
 
                 <fieldset className="mt-4 flex flex-col space-y-4">
                     <legend>
-                        <Title size="large">{t('cp_mobile_products')}</Title>
+                        <Title size="large">{t('cp_products')}</Title>
                     </legend>
 
                     {/* List of selectable products that the owner can use */}

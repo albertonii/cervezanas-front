@@ -1,5 +1,6 @@
 'use client';
 
+import Title from '@/app/[locale]/components/ui/Title';
 import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
@@ -15,6 +16,7 @@ interface Props {
     profile: IProfile;
     counterCPMobile: number;
     counterCPFixed: number;
+    counterCPs: number;
 }
 
 export function ConsumptionPoints({
@@ -22,6 +24,7 @@ export function ConsumptionPoints({
     profile: { cp_organizer_status },
     counterCPMobile,
     counterCPFixed,
+    counterCPs,
 }: Props) {
     const t = useTranslations();
 
@@ -40,9 +43,9 @@ export function ConsumptionPoints({
 
             {cpOrganizerStatus === -1 ? (
                 <div>
-                    <h3 className="mt-4 bg-beer-foam p-2 text-lg text-beer-dark">
-                        {t('consumption_points_description')}
-                    </h3>
+                    <Title size="large" color="white">
+                        {t('consumption_points_organizer_title')}
+                    </Title>
 
                     <div>
                         <p>
@@ -77,6 +80,7 @@ export function ConsumptionPoints({
                                     cps={cps[0]}
                                     counterCPMobile={counterCPMobile}
                                     counterCPFixed={counterCPFixed}
+                                    counterCP={counterCPs}
                                 />
                             ) : (
                                 <CPRejected />

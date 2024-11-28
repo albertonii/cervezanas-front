@@ -96,6 +96,15 @@ export interface IRefCPMProducts {
     stock_consumed: number;
 }
 
+export interface ICPProductsEditModal {
+    id: string;
+    created_at: string;
+    cp_id: any;
+    product_pack_id: string;
+    stock: number;
+    stock_consumed: number;
+}
+
 export interface ICPMProductsEditCPMobileModal {
     id: string;
     created_at: string;

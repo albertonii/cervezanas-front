@@ -709,24 +709,36 @@ export type Database = {
         Row: {
           created_at: string
           current_step: number | null
+          description: string | null
+          event_id: string | null
           id: string
+          location: string | null
           progress: number | null
+          title: string | null
           total_points: number | null
           total_steps: number | null
         }
         Insert: {
           created_at?: string
           current_step?: number | null
+          description?: string | null
+          event_id?: string | null
           id?: string
+          location?: string | null
           progress?: number | null
+          title?: string | null
           total_points?: number | null
           total_steps?: number | null
         }
         Update: {
           created_at?: string
           current_step?: number | null
+          description?: string | null
+          event_id?: string | null
           id?: string
+          location?: string | null
           progress?: number | null
+          title?: string | null
           total_points?: number | null
           total_steps?: number | null
         }
@@ -1242,6 +1254,84 @@ export type Database = {
           },
         ]
       }
+      cp: {
+        Row: {
+          address: string | null
+          cp_description: string | null
+          cp_id: string | null
+          cp_name: string | null
+          created_at: string
+          geoArgs: Json | null
+          id: string
+          is_booking_required: boolean | null
+          is_internal_organizer: boolean | null
+          logo_url: string | null
+          maximum_capacity: number | null
+          organizer_email: string | null
+          organizer_lastname: string | null
+          organizer_name: string | null
+          organizer_phone: string | null
+          owner_id: string | null
+          status: string | null
+          type: string | null
+        }
+        Insert: {
+          address?: string | null
+          cp_description?: string | null
+          cp_id?: string | null
+          cp_name?: string | null
+          created_at?: string
+          geoArgs?: Json | null
+          id?: string
+          is_booking_required?: boolean | null
+          is_internal_organizer?: boolean | null
+          logo_url?: string | null
+          maximum_capacity?: number | null
+          organizer_email?: string | null
+          organizer_lastname?: string | null
+          organizer_name?: string | null
+          organizer_phone?: string | null
+          owner_id?: string | null
+          status?: string | null
+          type?: string | null
+        }
+        Update: {
+          address?: string | null
+          cp_description?: string | null
+          cp_id?: string | null
+          cp_name?: string | null
+          created_at?: string
+          geoArgs?: Json | null
+          id?: string
+          is_booking_required?: boolean | null
+          is_internal_organizer?: boolean | null
+          logo_url?: string | null
+          maximum_capacity?: number | null
+          organizer_email?: string | null
+          organizer_lastname?: string | null
+          organizer_name?: string | null
+          organizer_phone?: string | null
+          owner_id?: string | null
+          status?: string | null
+          type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cp_cp_id_fkey"
+            columns: ["cp_id"]
+            isOneToOne: false
+            referencedRelation: "consumption_points"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cp_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cp_fixed: {
         Row: {
           address: string | null
@@ -1482,6 +1572,7 @@ export type Database = {
           cp_id: string
           created_at: string
           event_id: string
+          id: string
           is_active: boolean | null
           is_cervezanas_event: boolean | null
           owner_id: string | null
@@ -1490,6 +1581,7 @@ export type Database = {
           cp_id: string
           created_at?: string
           event_id: string
+          id?: string
           is_active?: boolean | null
           is_cervezanas_event?: boolean | null
           owner_id?: string | null
@@ -1498,6 +1590,7 @@ export type Database = {
           cp_id?: string
           created_at?: string
           event_id?: string
+          id?: string
           is_active?: boolean | null
           is_cervezanas_event?: boolean | null
           owner_id?: string | null
@@ -1525,6 +1618,7 @@ export type Database = {
           created_at: string | null
           id: string
           is_active: boolean | null
+          price: number | null
           product_pack_id: string | null
           stock: number | null
           stock_consumed: number | null
@@ -1534,6 +1628,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           is_active?: boolean | null
+          price?: number | null
           product_pack_id?: string | null
           stock?: number | null
           stock_consumed?: number | null
@@ -1543,6 +1638,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           is_active?: boolean | null
+          price?: number | null
           product_pack_id?: string | null
           stock?: number | null
           stock_consumed?: number | null
@@ -1879,12 +1975,54 @@ export type Database = {
           },
         ]
       }
+      event_order_cps: {
+        Row: {
+          cp_id: string | null
+          created_at: string
+          event_order_id: string | null
+          id: string
+          order_number: string | null
+          status: string | null
+        }
+        Insert: {
+          cp_id?: string | null
+          created_at?: string
+          event_order_id?: string | null
+          id?: string
+          order_number?: string | null
+          status?: string | null
+        }
+        Update: {
+          cp_id?: string | null
+          created_at?: string
+          event_order_id?: string | null
+          id?: string
+          order_number?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_order_cps_cp_id_fkey"
+            columns: ["cp_id"]
+            isOneToOne: false
+            referencedRelation: "cpm_events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "event_order_cps_event_order_id_fkey"
+            columns: ["event_order_id"]
+            isOneToOne: false
+            referencedRelation: "event_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       event_order_items: {
         Row: {
           created_at: string | null
-          id: string | null
+          event_order_cp_id: string
+          id: string
           is_reviewed: boolean | null
-          order_id: string
           product_pack_id: string
           quantity: number | null
           quantity_served: number | null
@@ -1892,9 +2030,9 @@ export type Database = {
         }
         Insert: {
           created_at?: string | null
-          id?: string | null
+          event_order_cp_id: string
+          id?: string
           is_reviewed?: boolean | null
-          order_id: string
           product_pack_id: string
           quantity?: number | null
           quantity_served?: number | null
@@ -1902,9 +2040,9 @@ export type Database = {
         }
         Update: {
           created_at?: string | null
-          id?: string | null
+          event_order_cp_id?: string
+          id?: string
           is_reviewed?: boolean | null
-          order_id?: string
           product_pack_id?: string
           quantity?: number | null
           quantity_served?: number | null
@@ -1912,10 +2050,10 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "event_order_items_order_id_fkey"
-            columns: ["order_id"]
+            foreignKeyName: "event_order_items_event_order_cp_id_fkey"
+            columns: ["event_order_cp_id"]
             isOneToOne: false
-            referencedRelation: "event_orders"
+            referencedRelation: "event_order_cps"
             referencedColumns: ["id"]
           },
           {

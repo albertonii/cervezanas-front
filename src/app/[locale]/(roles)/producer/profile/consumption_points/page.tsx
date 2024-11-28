@@ -11,12 +11,16 @@ export default async function ProfilePage() {
     const profileData = getProfileData();
     const counterCPMobileData = getCPMobileCounter();
     const counterCPFixedData = getCPFixedCounter();
-    const [cps, profile, counterCPMobile, counterCPFixed] = await Promise.all([
-        cpsData,
-        profileData,
-        counterCPMobileData,
-        counterCPFixedData,
-    ]);
+    const counterCPsData = getCPsCounter();
+
+    const [cps, profile, counterCPMobile, counterCPFixed, counterCPs] =
+        await Promise.all([
+            cpsData,
+            profileData,
+            counterCPMobileData,
+            counterCPFixedData,
+            counterCPsData,
+        ]);
     if (!profile) return <></>;
 
     return (
@@ -26,6 +30,7 @@ export default async function ProfilePage() {
                 profile={profile}
                 counterCPMobile={counterCPMobile}
                 counterCPFixed={counterCPFixed}
+                counterCPs={counterCPs}
             />
         </Suspense>
     );
@@ -109,6 +114,24 @@ async function getCPFixedCounter() {
         .eq('owner_id', session.id);
 
     if (cpFixedError) throw cpFixedError;
+
+    return count as number | 0;
+}
+
+async function getCPsCounter() {
+    const supabase = await createServerClient();
+    const session = await readUserSession();
+
+    if (!session) {
+        redirect('/signin');
+    }
+
+    const { count, error: cpError } = await supabase
+        .from('cp')
+        .select('id', { count: 'exact' })
+        .eq('owner_id', session.id);
+
+    if (cpError) throw cpError;
 
     return count as number | 0;
 }
