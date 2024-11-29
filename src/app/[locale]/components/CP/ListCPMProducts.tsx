@@ -11,11 +11,6 @@ interface Props {
 
 export default function ListCPMProducts({ form, productItems }: Props) {
     return (
-        <>
-            <SearchCheckboxCPProductsPack
-                form={form}
-                productItems={productItems}
-            />
-        </>
+        <SearchCheckboxCPProductsPack form={form} productItems={productItems} />
     );
 }

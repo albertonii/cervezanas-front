@@ -196,6 +196,33 @@ export interface IBeer {
     products?: IProduct;
 }
 
+export interface IBeerFormData {
+    product_id: string; // FK
+    created_at: string;
+    category: string;
+    fermentation: string;
+    color: string;
+    family: string;
+    aroma: string;
+    is_gluten: boolean;
+    format: string;
+    volume: number;
+    sku: string;
+    intensity: number;
+    ibu: number;
+    ingredients?: string[];
+    pairing?: string;
+    recommended_glass?: string;
+    brewers_note?: string;
+    srm?: number;
+    ebc?: number;
+    og?: number;
+    fg?: number;
+    hops_type?: string;
+    malt_type?: string;
+    consumption_temperature?: number;
+}
+
 export interface IProductLot {
     id: string;
     created_at: string;
@@ -210,6 +237,21 @@ export interface IProductLot {
     packaging: string;
     recipe: string;
     products?: IProduct;
+}
+
+export interface IProductLotFormData {
+    id: string;
+    created_at: string;
+    lot_id: string;
+    lot_number: string;
+    lot_name: string;
+    product_id: string;
+    quantity: number;
+    limit_notification: number;
+    expiration_date: string;
+    manufacture_date: string;
+    packaging: string;
+    recipe: string;
 }
 
 export interface IRefProductLot {
@@ -253,7 +295,16 @@ export interface IAward {
     img_url: any;
     year: number;
     product_id: string;
-    products?: IProduct;
+    products?: IProduct[];
+}
+
+export interface IAwardFormData {
+    id?: string;
+    name: string;
+    description: string;
+    img_url: any;
+    year: number;
+    product_id: string;
 }
 
 export interface IAwardUpdateForm {
@@ -304,7 +355,7 @@ export interface IReview {
     products?: IProduct;
 }
 
-export interface IRefReview {
+export interface IReviewFormData {
     id: string;
     created_at: string;
     updated_at: string;
@@ -317,8 +368,6 @@ export interface IRefReview {
     bitterness: number;
     mouthfeel: number;
     overall: number;
-    users?: IUserTable;
-    products?: IProduct;
 }
 
 export interface IProfile {
@@ -395,6 +444,13 @@ export interface ILike {
     owner_id: string;
     product_id: string;
     products?: IProduct;
+}
+
+export interface ILikeFormData {
+    id: string;
+    created_at: string;
+    owner_id: string;
+    product_id: string;
 }
 
 export interface ISocialCause {
@@ -496,6 +552,18 @@ export interface IOrderItem {
     subtotal: number; // product_price * quantity
     business_orders?: IBusinessOrder;
     product_packs?: IProductPack;
+}
+
+export interface IOrderItemFormData {
+    business_order_id: string;
+    product_pack_id: string;
+    created_at: string;
+    quantity: number;
+    is_reviewed: boolean;
+    product_name: string;
+    product_pack_name: string;
+    product_price: number; // Precio unitario del producto
+    subtotal: number; // product_price * quantity
 }
 
 export interface IEventOrder {
@@ -603,6 +671,17 @@ export type IProductPack = {
     name: string;
     randomUUID: string;
     products?: IProduct;
+};
+
+export type IProductPackFormData = {
+    id: string; // PK
+    product_id: string; // FK
+    created_at: string;
+    quantity: number;
+    price: number;
+    img_url: any;
+    name: string;
+    randomUUID: string;
 };
 
 export type IModalAddProductPack = {
@@ -909,6 +988,32 @@ export interface IProduct {
     product_media?: IProductMedia[];
     box_packs?: IBoxPack[];
     breweries?: IBrewery;
+}
+
+export interface IProductFormData {
+    id: string;
+    created_at: string;
+    name: string;
+    description: string;
+    type: ProductType;
+    is_public: boolean;
+    discount_percent: number;
+    weight: number;
+    price: number; // TODO : quitar el price - pq está en product_pack
+    campaign_id: string;
+    is_archived: boolean;
+    category: string;
+    is_monthly: boolean;
+    is_available: boolean;
+    owner_id: string;
+    brewery_id: string;
+    order_items?: IOrderItemFormData[];
+    product_lots?: IProductLotFormData[];
+    reviews?: IReviewFormData[];
+    likes?: ILikeFormData[];
+    awards?: IAwardFormData[];
+    product_packs?: IProductPackFormData[];
+    beers?: IBeerFormData;
 }
 
 export interface IEventProduct {

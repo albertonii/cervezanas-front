@@ -1332,6 +1332,48 @@ export type Database = {
           },
         ]
       }
+      cp_events: {
+        Row: {
+          cp_id: string | null
+          created_at: string
+          event_id: string | null
+          id: string
+          is_active: boolean | null
+          is_cervezanas_event: boolean | null
+        }
+        Insert: {
+          cp_id?: string | null
+          created_at?: string
+          event_id?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_cervezanas_event?: boolean | null
+        }
+        Update: {
+          cp_id?: string | null
+          created_at?: string
+          event_id?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_cervezanas_event?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cp_events_cp_id_fkey"
+            columns: ["cp_id"]
+            isOneToOne: false
+            referencedRelation: "cp"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cp_events_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cp_fixed: {
         Row: {
           address: string | null
@@ -1476,6 +1518,63 @@ export type Database = {
             columns: ["cp_id"]
             isOneToOne: false
             referencedRelation: "consumption_points"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cp_products: {
+        Row: {
+          cp_id: string | null
+          created_at: string
+          id: string
+          is_active: boolean | null
+          pack_name: string | null
+          price: number | null
+          product_name: string | null
+          product_pack_id: string | null
+          quantity: number | null
+          stock: number | null
+          stock_consumed: number | null
+        }
+        Insert: {
+          cp_id?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          pack_name?: string | null
+          price?: number | null
+          product_name?: string | null
+          product_pack_id?: string | null
+          quantity?: number | null
+          stock?: number | null
+          stock_consumed?: number | null
+        }
+        Update: {
+          cp_id?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          pack_name?: string | null
+          price?: number | null
+          product_name?: string | null
+          product_pack_id?: string | null
+          quantity?: number | null
+          stock?: number | null
+          stock_consumed?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cp_products_cp_id_fkey"
+            columns: ["cp_id"]
+            isOneToOne: false
+            referencedRelation: "cp"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cp_products_product_pack_id_fkey"
+            columns: ["product_pack_id"]
+            isOneToOne: false
+            referencedRelation: "product_packs"
             referencedColumns: ["id"]
           },
         ]

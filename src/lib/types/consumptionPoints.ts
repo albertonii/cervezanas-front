@@ -170,12 +170,15 @@ export interface IConsumptionPoint {
 export interface IConsumptionPointProduct {
     id: string;
     created_at: string;
-    stock: number;
-    stock_consumed: number;
+    product_name: string;
+    pack_name: string;
+    quantity: number;
     price: number;
+    stock_consumed: number;
+    stock: number;
+    is_active: boolean;
     cp_id: string;
     product_pack_id: string;
-    is_active: boolean;
     product_packs?: IProductPack;
 }
 

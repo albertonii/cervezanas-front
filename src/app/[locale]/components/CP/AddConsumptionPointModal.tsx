@@ -11,7 +11,7 @@ import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { z, ZodType } from 'zod';
 import { ROLE_ENUM } from '@/lib//enums';
-import { IUser } from '@/lib/types/types';
+import { IProduct, IUser } from '@/lib/types/types';
 import { createNotification } from '@/utils/utils';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { getGeocode } from 'use-places-autocomplete';
@@ -66,7 +66,7 @@ interface ModalAddCPFormData {
     maximum_capacity: number;
     is_booking_required: boolean;
     is_internal_organizer: boolean;
-    product_items?: any[];
+    product_items?: string[];
     type: string;
 }
 
@@ -157,7 +157,7 @@ export default function AddConsumptionPointModal({ cpsId }: Props) {
     } = form;
 
     const handleAddress = (address: string) => {
-        setValue('address', address);
+        setValue('address', address as any);
     };
 
     const handleInsertCP = async (form: ValidationSchema) => {
@@ -214,32 +214,39 @@ export default function AddConsumptionPointModal({ cpsId }: Props) {
 
         if (pItemsFiltered) {
             // Convert pItemsFiltered JSON objects to array
-            const pItemsFilteredArray = Object.values(pItemsFiltered);
+            const pItemsFilteredArray: { id: string }[] =
+                Object.values(pItemsFiltered);
 
             const consumptionPointId = data[0].id;
 
             // Link the pack with the consumption Point
-            pItemsFilteredArray.map(async (pack: any) => {
+            pItemsFilteredArray.map(async (pack: { id: string }) => {
                 // TODO: Desde el register de accordionItem se introduce un product pack como string/json o como array de objetos. Habría que normalizar la información
                 if (typeof pack.id === 'object') {
-                    pack.id.map(async (packId: string) => {
-                        const { error } = await supabase
-                            .from('cpm_products')
-                            .insert({
-                                cp_id: consumptionPointId,
-                                product_pack_id: packId,
-                            });
-
-                        if (error) {
-                            throw error;
-                        }
-                    });
-                } else {
                     const { error } = await supabase
-                        .from('cpm_products')
+                        .from('cp_products')
                         .insert({
                             cp_id: consumptionPointId,
                             product_pack_id: pack.id,
+                            stock: 0,
+                            price: 0,
+                            product_name: '',
+                            pack_name: '',
+                        });
+
+                    if (error) {
+                        throw error;
+                    }
+                } else {
+                    const { error } = await supabase
+                        .from('cp_products')
+                        .insert({
+                            cp_id: consumptionPointId,
+                            product_pack_id: pack.id,
+                            stock: 0,
+                            price: 0,
+                            product_name: '',
+                            pack_name: '',
                         });
 
                     if (error) {
