@@ -5,11 +5,13 @@ import Label from '@/app/[locale]/components/ui/Label';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
 import useFetchEventOrdersByCPId from '@/hooks/useFetchEventOrdersByCPId';
 import React, { useEffect, useState } from 'react';
-import { Play, CheckCircle2 } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 import { IEventOrder, IEventOrderCPS } from '@/lib/types/eventOrders';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
+import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
+import { faPlay } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
     cp: IConsumptionPointEvent;
@@ -147,18 +149,19 @@ export function OrdersQueue({ cp }: Props) {
                                         key={order.id}
                                         order={order}
                                         actionButton={
-                                            <button
+                                            <IconButton
+                                                primary
                                                 onClick={() =>
                                                     handleUpdateStatus(
                                                         order.id,
                                                         'preparing',
                                                     )
                                                 }
-                                                className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-600 transition-colors"
+                                                icon={faPlay}
+                                                title={''}
                                             >
-                                                <Play className="w-4 h-4 mr-2" />
                                                 Empezar
-                                            </button>
+                                            </IconButton>
                                         }
                                     />
                                 ))}

@@ -16,7 +16,12 @@ async function getCPInformation(cpMobileId: string) {
 
     const { data: cp, error } = await supabase
         .from('cp_events')
-        .select('*')
+        .select(
+            `
+                *,
+                cp (*)
+            `,
+        )
         .eq('id', cpMobileId)
         .single();
 
