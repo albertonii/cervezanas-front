@@ -1,6 +1,6 @@
 import React from 'react';
 import { IEventOrderCPS } from '@/lib/types/eventOrders';
-import { User, Phone } from 'lucide-react';
+import { User } from 'lucide-react';
 
 interface Props {
     order: IEventOrderCPS;

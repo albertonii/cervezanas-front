@@ -2,12 +2,14 @@
 
 import EventOrderCard from './EventOrderCard';
 import Label from '@/app/[locale]/components/ui/Label';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 import useFetchEventOrdersByCPId from '@/hooks/useFetchEventOrdersByCPId';
 import React, { useEffect, useState } from 'react';
 import { Play, CheckCircle2 } from 'lucide-react';
 import { IEventOrder, IEventOrderCPS } from '@/lib/types/eventOrders';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 
 interface Props {
     cp: IConsumptionPointEvent;
@@ -18,6 +20,8 @@ export function OrdersQueue({ cp }: Props) {
 
     const { data, isError, isLoading, isFetchedAfterMount } =
         useFetchEventOrdersByCPId(cp.id);
+
+    const { supabase } = useAuth();
 
     const [orders, setOrders] = useState<IEventOrderCPS[]>([]);
     const [pendingOrders, setPendingOrders] = useState<IEventOrderCPS[]>([]);
@@ -39,14 +43,48 @@ export function OrdersQueue({ cp }: Props) {
         }
     }, [isFetchedAfterMount, data]);
 
-    const handleUpdateStatus = (
+    useEffect(() => {
+        if (orders) {
+            setPendingOrders(
+                orders.filter((order) => order.status === 'pending'),
+            );
+            setPreparingOrders(
+                orders.filter((order) => order.status === 'preparing'),
+            );
+            setReadyOrders(orders.filter((order) => order.status === 'ready'));
+        }
+    }, [orders]);
+
+    const handleUpdateStatus = async (
         orderId: string,
         newStatus: IEventOrder['status'],
     ) => {
-        setOrders(
-            orders.map((order) => {
+        const orders_ = await Promise.all(
+            orders.map(async (order) => {
                 if (order.id === orderId) {
                     const updatedOrder = { ...order, status: newStatus };
+
+                    setOrders((prevOrders) =>
+                        prevOrders.map((prevOrder) =>
+                            prevOrder.id === orderId ? updatedOrder : prevOrder,
+                        ),
+                    );
+
+                    const { data: updatedOrderData, error: errorUpdOrderData } =
+                        await supabase
+                            .from('event_order_cps')
+                            .update({ status: newStatus })
+                            .eq('id', orderId)
+                            .single();
+
+                    if (errorUpdOrderData) {
+                        handleMessage({
+                            message: 'Error al actualizar el pedido',
+                            type: 'error',
+                        });
+                        return order;
+                    }
+
                     if (newStatus === 'ready') {
                         // // Enviar notificación push cuando el pedido esté listo
                         // notificationService.sendNotification(
@@ -60,15 +98,18 @@ export function OrdersQueue({ cp }: Props) {
                         // );
 
                         handleMessage({
-                            message: `¡Pedido #${order.order_number} listo para ${order.event_orders?.username}!`,
+                            message: `¡Pedido #${order.order_number} listo para ${order.event_orders?.users?.username}!`,
                             type: 'success',
                         });
                     }
+
                     return updatedOrder;
                 }
                 return order;
             }),
         );
+
+        setOrders(orders_ as IEventOrderCPS[]);
     };
 
     const handleActivateOrder = (orderId: string) => {
@@ -89,100 +130,110 @@ export function OrdersQueue({ cp }: Props) {
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-4 ">
-            {/* Pending Orders */}
-            <div className="space-y-4">
-                <div className="bg-yellow-50 p-4 rounded-lg">
-                    <Label size="medium" color="yellow" font="bold">
-                        Pedidos Nuevos ({pendingOrders.length})
-                    </Label>
-
+            {isLoading ? (
+                <Spinner color="blonde" size="large" />
+            ) : (
+                <>
+                    {/* Pending Orders */}
                     <div className="space-y-4">
-                        {pendingOrders.map((order) => (
-                            <EventOrderCard
-                                key={order.id}
-                                order={order}
-                                actionButton={
-                                    <button
-                                        onClick={() =>
-                                            handleUpdateStatus(
-                                                order.id,
-                                                'preparing',
-                                            )
+                        <div className="bg-yellow-50 p-4 rounded-lg">
+                            <Label size="medium" color="yellow" font="bold">
+                                Pedidos Nuevos ({pendingOrders.length})
+                            </Label>
+
+                            <div className="space-y-4">
+                                {pendingOrders.map((order) => (
+                                    <EventOrderCard
+                                        key={order.id}
+                                        order={order}
+                                        actionButton={
+                                            <button
+                                                onClick={() =>
+                                                    handleUpdateStatus(
+                                                        order.id,
+                                                        'preparing',
+                                                    )
+                                                }
+                                                className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-600 transition-colors"
+                                            >
+                                                <Play className="w-4 h-4 mr-2" />
+                                                Empezar
+                                            </button>
                                         }
-                                        className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-600 transition-colors"
-                                    >
-                                        <Play className="w-4 h-4 mr-2" />
-                                        Empezar
-                                    </button>
-                                }
-                            />
-                        ))}
+                                    />
+                                ))}
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            {/* Preparing Orders */}
-            <div className="space-y-4">
-                <div className="bg-beer-foam p-4 rounded-lg">
-                    <Label size="medium" color="beer-blonde" font="bold">
-                        En Preparación ({preparingOrders.length})
-                    </Label>
-
+                    {/* Preparing Orders */}
                     <div className="space-y-4">
-                        {preparingOrders.map((order) => (
-                            <EventOrderCard
-                                key={order.id}
-                                order={order}
-                                actionButton={
-                                    <button
-                                        onClick={() =>
-                                            handleUpdateStatus(
-                                                order.id,
-                                                'ready',
-                                            )
+                        <div className="bg-beer-foam p-4 rounded-lg">
+                            <Label
+                                size="medium"
+                                color="beer-blonde"
+                                font="bold"
+                            >
+                                En Preparación ({preparingOrders.length})
+                            </Label>
+
+                            <div className="space-y-4">
+                                {preparingOrders.map((order) => (
+                                    <EventOrderCard
+                                        key={order.id}
+                                        order={order}
+                                        actionButton={
+                                            <button
+                                                onClick={() =>
+                                                    handleUpdateStatus(
+                                                        order.id,
+                                                        'ready',
+                                                    )
+                                                }
+                                                className="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-600 transition-colors"
+                                            >
+                                                <CheckCircle2 className="w-4 h-4 mr-2" />
+                                                Listo
+                                            </button>
                                         }
-                                        className="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-600 transition-colors"
-                                    >
-                                        <CheckCircle2 className="w-4 h-4 mr-2" />
-                                        Listo
-                                    </button>
-                                }
-                            />
-                        ))}
+                                    />
+                                ))}
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            {/* Ready Orders */}
-            <div className="space-y-4">
-                <div className="bg-green-50 p-4 rounded-lg">
-                    <Label size="medium" color="green" font="bold">
-                        Listos para Entregar ({readyOrders.length})
-                    </Label>
-
+                    {/* Ready Orders */}
                     <div className="space-y-4">
-                        {readyOrders.map((order) => (
-                            <EventOrderCard
-                                key={order.id}
-                                order={order}
-                                actionButton={
-                                    <button
-                                        onClick={() =>
-                                            handleUpdateStatus(
-                                                order.id,
-                                                'completed',
-                                            )
+                        <div className="bg-green-50 p-4 rounded-lg">
+                            <Label size="medium" color="green" font="bold">
+                                Listos para Entregar ({readyOrders.length})
+                            </Label>
+
+                            <div className="space-y-4">
+                                {readyOrders.map((order) => (
+                                    <EventOrderCard
+                                        key={order.id}
+                                        order={order}
+                                        actionButton={
+                                            <button
+                                                onClick={() =>
+                                                    handleUpdateStatus(
+                                                        order.id,
+                                                        'completed',
+                                                    )
+                                                }
+                                                className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors"
+                                            >
+                                                Entregado
+                                            </button>
                                         }
-                                        className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors"
-                                    >
-                                        Entregado
-                                    </button>
-                                }
-                            />
-                        ))}
+                                    />
+                                ))}
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </>
+            )}
         </div>
     );
 }

@@ -39,7 +39,7 @@ export interface IEventOrderCPS {
     id: string;
     created_at: string;
     order_number: string;
-    status: string;
+    status: string; // 'not_started' | 'pending' | 'preparing' | 'ready' | 'completed';
     notes: string;
     cp_id: string;
     event_order_id: string;
