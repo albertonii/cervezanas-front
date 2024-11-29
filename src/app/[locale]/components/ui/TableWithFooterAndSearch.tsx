@@ -160,7 +160,7 @@ const TableWithFooterAndSearch: React.FC<TableProps> = ({
                     </thead>
 
                     <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-500 dark:bg-gray-400">
-                        {paginatedItems.map((row, rowIndex) => {
+                        {paginatedItems?.map((row, rowIndex) => {
                             return (
                                 <>
                                     <tr

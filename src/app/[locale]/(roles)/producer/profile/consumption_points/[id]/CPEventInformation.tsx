@@ -1,5 +1,5 @@
 import React from 'react';
-import { IConsumptionPoint } from '@/lib/types/consumptionPoints';
+import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import {
     MapPin,
     Calendar,
@@ -13,10 +13,10 @@ import {
 } from 'lucide-react';
 
 interface Props {
-    cp: IConsumptionPoint;
+    cp: IConsumptionPointEvent;
 }
 
-const CPInformation = ({ cp }: Props) => {
+const CPEventInformation = ({ cp }: Props) => {
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('es-ES', {
             weekday: 'long',
@@ -35,17 +35,19 @@ const CPInformation = ({ cp }: Props) => {
                 <div className="absolute inset-0 bg-black/20"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
                     <div className="flex items-center space-x-4">
-                        {cp.logo_url && (
+                        {cp.cp && cp.cp?.[0].logo_url && (
                             <img
-                                src={cp.logo_url}
-                                alt={cp.cp_name}
+                                src={cp.cp?.[0].logo_url}
+                                alt={cp.cp?.[0].cp_name}
                                 className="w-20 h-20 rounded-lg border-4 border-white shadow-lg object-cover"
                             />
                         )}
                         <div>
-                            <h1 className="text-3xl font-bold">{cp.cp_name}</h1>
+                            <h1 className="text-3xl font-bold">
+                                {cp.cp?.[0].cp_name}
+                            </h1>
                             <p className="text-lg opacity-90">
-                                {cp.cp_description}
+                                {cp.cp?.[0].cp_description}
                             </p>
                         </div>
                     </div>
@@ -61,18 +63,42 @@ const CPInformation = ({ cp }: Props) => {
                         <span className="font-medium">Estado:</span>
                         <span
                             className={`px-3 py-1 rounded-full text-sm ${
-                                cp.status === 'active'
+                                cp.cp?.[0].status === 'active'
                                     ? 'bg-green-100 text-green-800'
                                     : 'bg-yellow-100 text-yellow-800'
                             }`}
                         >
-                            {cp.status === 'active' ? 'Activo' : 'Inactivo'}
+                            {cp.cp?.[0].status === 'active'
+                                ? 'Activo'
+                                : 'Inactivo'}
                         </span>
                     </div>
                     <div className="flex items-center space-x-2">
                         <Users className="w-5 h-5 text-blue-600" />
                         <span className="font-medium">Capacidad máxima:</span>
-                        <span>{cp.maximum_capacity} personas</span>
+                        <span>{cp.cp?.[0].maximum_capacity} personas</span>
+                    </div>
+                </div>
+
+                {/* Fechas y horarios */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex items-start space-x-3">
+                        <Calendar className="w-5 h-5 text-blue-600 mt-1" />
+                        <div>
+                            <h3 className="font-medium">Fecha de inicio</h3>
+                            <p className="text-gray-600">
+                                {formatDate(cp.start_date)}
+                            </p>
+                        </div>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                        <Clock className="w-5 h-5 text-blue-600 mt-1" />
+                        <div>
+                            <h3 className="font-medium">Fecha de fin</h3>
+                            <p className="text-gray-600">
+                                {formatDate(cp.end_date)}
+                            </p>
+                        </div>
                     </div>
                 </div>
 
@@ -81,7 +107,7 @@ const CPInformation = ({ cp }: Props) => {
                     <MapPin className="w-5 h-5 text-blue-600 mt-1" />
                     <div>
                         <h3 className="font-medium text-blue-800">Ubicación</h3>
-                        <p className="text-blue-700">{cp.address}</p>
+                        <p className="text-blue-700">{cp.cp?.[0].address}</p>
                     </div>
                 </div>
 
@@ -95,13 +121,14 @@ const CPInformation = ({ cp }: Props) => {
                         <div>
                             <p className="text-gray-600">Nombre completo</p>
                             <p className="font-medium">
-                                {cp.organizer_name} {cp.organizer_lastname}
+                                {cp.cp?.[0].organizer_name}{' '}
+                                {cp.cp?.[0].organizer_lastname}
                             </p>
                         </div>
                         <div>
                             <p className="text-gray-600">Tipo de organizador</p>
                             <p className="font-medium">
-                                {cp.is_internal_organizer
+                                {cp.cp?.[0].is_internal_organizer
                                     ? 'Interno'
                                     : 'Externo'}
                             </p>
@@ -109,26 +136,26 @@ const CPInformation = ({ cp }: Props) => {
                         <div className="flex items-center space-x-2">
                             <Mail className="w-4 h-4 text-gray-500" />
                             <a
-                                href={`mailto:${cp.organizer_email}`}
+                                href={`mailto:${cp.cp?.[0].organizer_email}`}
                                 className="text-blue-600 hover:underline"
                             >
-                                {cp.organizer_email}
+                                {cp.cp?.[0].organizer_email}
                             </a>
                         </div>
                         <div className="flex items-center space-x-2">
                             <Phone className="w-4 h-4 text-gray-500" />
                             <a
-                                href={`tel:${cp.organizer_phone}`}
+                                href={`tel:${cp.cp?.[0].organizer_phone}`}
                                 className="text-blue-600 hover:underline"
                             >
-                                {cp.organizer_phone}
+                                {cp.cp?.[0].organizer_phone}
                             </a>
                         </div>
                     </div>
                 </div>
 
                 {/* Información adicional */}
-                {cp.is_booking_required && (
+                {cp.cp?.[0].is_booking_required && (
                     <div className="flex items-start space-x-3 p-4 bg-yellow-50 rounded-lg">
                         <Info className="w-5 h-5 text-yellow-600 mt-1" />
                         <div>
@@ -147,4 +174,4 @@ const CPInformation = ({ cp }: Props) => {
     );
 };
 
-export default CPInformation;
+export default CPEventInformation;

@@ -1,17 +1,17 @@
-import CPInformation from './CPInformation';
+import CPEventInformation from './CPEventInformation';
 import React from 'react';
 import { OrdersQueue } from './OrdersQueue';
-import { ICPMobile } from '@/lib/types/consumptionPoints';
+import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 
 interface Props {
-    cpMobile: ICPMobile;
+    cp: IConsumptionPointEvent;
 }
 
-const ConsumptionPointInformation = ({ cpMobile }: Props) => {
+const ConsumptionPointInformation = ({ cp }: Props) => {
     return (
         <div className="py-8 m-8">
-            <OrdersQueue orders_={[]} />
-            <CPInformation cpMobile={cpMobile} />
+            <OrdersQueue cp={cp} />
+            <CPEventInformation cp={cp} />
         </div>
     );
 };

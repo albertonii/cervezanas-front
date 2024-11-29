@@ -1336,26 +1336,35 @@ export type Database = {
         Row: {
           cp_id: string | null
           created_at: string
+          end_date: string | null
           event_id: string | null
           id: string
           is_active: boolean | null
           is_cervezanas_event: boolean | null
+          owner_id: string | null
+          start_date: string | null
         }
         Insert: {
           cp_id?: string | null
           created_at?: string
+          end_date?: string | null
           event_id?: string | null
           id?: string
           is_active?: boolean | null
           is_cervezanas_event?: boolean | null
+          owner_id?: string | null
+          start_date?: string | null
         }
         Update: {
           cp_id?: string | null
           created_at?: string
+          end_date?: string | null
           event_id?: string | null
           id?: string
           is_active?: boolean | null
           is_cervezanas_event?: boolean | null
+          owner_id?: string | null
+          start_date?: string | null
         }
         Relationships: [
           {
@@ -1669,7 +1678,6 @@ export type Database = {
       cpm_events: {
         Row: {
           cp_id: string
-          created_at: string
           event_id: string
           id: string
           is_active: boolean | null
@@ -1678,7 +1686,6 @@ export type Database = {
         }
         Insert: {
           cp_id: string
-          created_at?: string
           event_id: string
           id?: string
           is_active?: boolean | null
@@ -1687,7 +1694,6 @@ export type Database = {
         }
         Update: {
           cp_id?: string
-          created_at?: string
           event_id?: string
           id?: string
           is_active?: boolean | null

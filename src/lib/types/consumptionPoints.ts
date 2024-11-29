@@ -189,7 +189,8 @@ export interface IConsumptionPointEvent {
     event_id: string;
     is_active: boolean;
     is_cervezanas_event: boolean;
-    events?: IEvent;
     start_date: string;
     end_date: string;
+    events?: IEvent;
+    cp?: IConsumptionPoint;
 }

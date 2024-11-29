@@ -1,26 +1,26 @@
 import createServerClient from '@/utils/supabaseServer';
 import ConsumptionPointInformation from './ConsumptionPointInformation';
-import { ICPMobile } from '@/lib/types/consumptionPoints';
+import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 
 export default async function Page({ params }: any) {
     const { id } = params;
 
-    const cpMobileData = await getCPMobileInformation(id);
-    const [cpMobile] = await Promise.all([cpMobileData]);
+    const cpData = await getCPInformation(id);
+    const [cp] = await Promise.all([cpData]);
 
-    return <ConsumptionPointInformation cpMobile={cpMobile} />;
+    return <ConsumptionPointInformation cp={cp} />;
 }
 
-async function getCPMobileInformation(cpMobileId: string) {
+async function getCPInformation(cpMobileId: string) {
     const supabase = await createServerClient();
 
-    const { data: cpMobile, error } = await supabase
-        .from('cp_mobile')
+    const { data: cp, error } = await supabase
+        .from('cp_events')
         .select('*')
         .eq('id', cpMobileId)
         .single();
 
     if (error) console.error(error);
 
-    return cpMobile as ICPMobile;
+    return cp as IConsumptionPointEvent;
 }

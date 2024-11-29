@@ -6,6 +6,8 @@ interface Props {
         | 'black'
         | 'white'
         | 'gray'
+        | 'yellow'
+        | 'green'
         | 'dark-gray'
         | 'beer-draft'
         | 'beer-blonde';
@@ -26,7 +28,7 @@ export default function Label({
     onClick,
 }: Props) {
     const sizeClass = {
-        xsmall: 'text-sm h-6',
+        xsmall: 'text-sm h-4',
         small: 'text-md h-6',
         medium: 'text-lg h-8',
         large: 'text-xl h-12 ',
@@ -37,6 +39,8 @@ export default function Label({
         black: 'text-black-800',
         white: 'text-white',
         gray: 'text-gray-500',
+        yellow: 'text-yellow-800',
+        green: 'text-green-800',
         'dark-gray': 'text-gray-700',
         'beer-draft': 'text-beer-draft',
         'beer-blonde': 'text-beer-blonde',

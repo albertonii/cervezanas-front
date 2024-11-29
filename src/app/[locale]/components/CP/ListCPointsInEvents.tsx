@@ -1,35 +1,36 @@
 'use client';
 
 import Link from 'next/link';
-import EditCPointModal from './EditCPointModal';
 import DeleteCPMobileModal from './DeleteCPMobileModal';
-import useFetchCPointsById from '@/hooks/useFetchCPointById';
 import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
+import useFetchCPointInEventsByOwnerId from '@/hooks/useFetchCPointInEventsByOwnerId';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import React, { useEffect, useState } from 'react';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
-import { IConsumptionPoint } from '@/lib/types/consumptionPoints';
+import { useAuth } from '../../(auth)/Context/useAuth';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 
 interface Props {
-    cpsId: string;
     counterCPMobile: number;
 }
 
-export function ListCPoints({ cpsId, counterCPMobile }: Props) {
+export function ListCPointsInEvents({ counterCPMobile }: Props) {
     const t = useTranslations();
     const locale = useLocale();
+
+    const { user } = useAuth();
 
     const [currentPage, setCurrentPage] = useState(1);
 
     const resultsPerPage = 10;
 
     const { data, isError, isLoading, refetch, isFetchedAfterMount } =
-        useFetchCPointsById(cpsId, currentPage, resultsPerPage);
+        useFetchCPointInEventsByOwnerId(user.id, currentPage, resultsPerPage);
 
-    const [cPoint, setCPoint] = useState<IConsumptionPoint[]>(data ?? []);
+    const [cPoint, setCPoint] = useState<IConsumptionPointEvent[]>(data ?? []);
 
     const editColor = { filled: '#90470b', unfilled: 'grey' };
     const deleteColor = { filled: '#90470b', unfilled: 'grey' };
@@ -37,27 +38,27 @@ export function ListCPoints({ cpsId, counterCPMobile }: Props) {
     const [isEditModal, setIsEditModal] = useState(false);
     const [isDeleteModal, setIsDeleteModal] = useState(false);
 
-    const [selectedCP, setSelectedCP] = useState<IConsumptionPoint>();
+    const [selectedCP, setSelectedCP] = useState<IConsumptionPointEvent>();
 
     useEffect(() => {
         if (isFetchedAfterMount) {
-            setCPoint(data as IConsumptionPoint[]);
+            setCPoint(data as IConsumptionPointEvent[]);
         }
     }, [isFetchedAfterMount, data]);
 
     useEffect(() => {
         refetch().then((res) => {
-            const cpMobile = res.data as IConsumptionPoint[];
+            const cpMobile = res.data as IConsumptionPointEvent[];
             setCPoint(cpMobile);
         });
     }, [currentPage]);
 
-    const handleEditClick = async (cp: IConsumptionPoint) => {
+    const handleEditClick = async (cp: IConsumptionPointEvent) => {
         handleEditModal(true);
         setSelectedCP(cp);
     };
 
-    const handleDeleteClick = async (cp: IConsumptionPoint) => {
+    const handleDeleteClick = async (cp: IConsumptionPointEvent) => {
         setIsDeleteModal(true);
         setSelectedCP(cp);
     };
@@ -75,17 +76,15 @@ export function ListCPoints({ cpsId, counterCPMobile }: Props) {
             header: t('name_header'),
             accessor: 'cp_name',
             sortable: true,
-            render: (value: string, row: IConsumptionPoint) => (
-                <span>
-                    {/* <Link
+            render: (value: string, row: IConsumptionPointEvent) => (
+                <Link
                     target={'_blank'}
                     href={`/producer/profile/consumption_points/${row.id}`}
                     locale={locale}
                     className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde"
-                > */}
-                    {row.cp_name}
-                    {/* </Link> */}
-                </span>
+                >
+                    {row.cp?.cp_name}
+                </Link>
             ),
         },
         {
@@ -97,7 +96,7 @@ export function ListCPoints({ cpsId, counterCPMobile }: Props) {
         {
             header: t('action_header'),
             accessor: 'action',
-            render: (value: any, row: IConsumptionPoint) => (
+            render: (value: any, row: IConsumptionPointEvent) => (
                 <div className="flex items-center justify-center space-x-2">
                     <IconButton
                         icon={faEdit}
@@ -121,6 +120,7 @@ export function ListCPoints({ cpsId, counterCPMobile }: Props) {
             ),
         },
     ];
+    if (!user) return null;
 
     return (
         <ListTableWrapper
@@ -131,11 +131,11 @@ export function ListCPoints({ cpsId, counterCPMobile }: Props) {
             {/* Don't remove isEditModal or the selectedCP will not be updated when changed from selected CP  */}
             {isEditModal && selectedCP && (
                 <>
-                    <EditCPointModal
+                    {/* <EditCPointModal
                         selectedCP={selectedCP}
                         isEditModal={isEditModal}
                         handleEditModal={handleEditModal}
-                    />
+                    /> */}
                 </>
             )}
 

@@ -6,6 +6,7 @@ import { CPFixed } from './CPFixed';
 import { CPMobile } from './CPMobile';
 import { IConsumptionPoints } from '@/lib/types/consumptionPoints';
 import { CPManagement } from './CPManagement';
+import { CPInEvents } from './CPInEvents';
 
 interface Props {
     cps: IConsumptionPoints;
@@ -38,6 +39,8 @@ export function CPAccepted({
                 );
             case 'cp_management':
                 return <CPManagement cpsId={cps.id} counterCP={counterCP} />;
+            case 'cp_in_events':
+                return <CPInEvents counterCP={counterCP} />;
         }
     };
 
@@ -49,7 +52,12 @@ export function CPAccepted({
         <>
             <HorizontalSections
                 handleMenuClick={handleMenuClick}
-                tabs={['cp_mobile', 'cp_fixed', 'cp_management']}
+                tabs={[
+                    'cp_mobile',
+                    'cp_fixed',
+                    'cp_management',
+                    'cp_in_events',
+                ]}
             />
 
             {renderSwitch()}

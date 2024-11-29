@@ -1,29 +1,51 @@
-import { ICPFixed, ICPMobile } from './consumptionPoints';
-import { IUserTable } from './types';
+import {
+    IConsumptionPointEvent,
+    ICPFixed,
+    ICPMobile,
+} from './consumptionPoints';
+import { IProductPack, IUserTable } from './types';
 
 export interface IEventOrder {
     id: string;
-    order_number: string;
-    items: IEventOrderItem[];
+    created_at: string;
+    updated_at: string;
+    customer_id: string;
+    event_id: string;
     status: 'not_started' | 'pending' | 'preparing' | 'ready' | 'completed';
-    timestamp: string;
-    vendor_id: string;
-    vendor_name: string;
-    user_id: string;
-    username: string;
-    user_phone?: string;
     total: number;
-    pickup_kocation: string;
-    estimated_time?: number;
-    is_activated: boolean;
-    notes?: string;
+    subtotal: number;
+    currency: string;
+    discount: number;
+    discount_code: string;
+    tax: number;
+    users?: IUserTable;
+    events?: IEvent;
 }
 
 export interface IEventOrderItem {
     id: string;
-    name: string;
+    created_at: string;
+    status: string;
     quantity: number;
-    price: number;
+    is_reviewed: boolean;
+    quantity_served: number;
+    event_order_cp_id: string;
+    product_pack_id: string;
+    event_order_cps?: IEventOrderCPS;
+    product_packs?: IProductPack;
+}
+
+export interface IEventOrderCPS {
+    id: string;
+    created_at: string;
+    order_number: string;
+    status: string;
+    notes: string;
+    cp_id: string;
+    event_order_id: string;
+    event_orders?: IEventOrder;
+    event_order_items?: IEventOrderItem[];
+    cp_events?: IConsumptionPointEvent[];
 }
 
 export interface IEventVendor {
