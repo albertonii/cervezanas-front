@@ -3,10 +3,7 @@ import Label from '@/app/[locale]/components/ui/Label';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { formatDateString } from '@/utils/formatDate';
-import {
-    IConsumptionPointEvent,
-    ICPMobile,
-} from '@/lib/types/consumptionPoints';
+import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 
 interface Props {

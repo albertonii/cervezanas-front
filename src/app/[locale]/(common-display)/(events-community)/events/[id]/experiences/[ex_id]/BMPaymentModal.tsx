@@ -32,7 +32,7 @@ export default function BMPaymentModal({
                     gamification_id: user?.id,
                     experience_id: experience?.id,
                     event_id: eventExperience.event_id,
-                    cp_id: eventExperience.cp ?? null,
+                    cp_id: eventExperience.cp?.id ?? null,
                     score: 0,
                     is_paid: false,
                     is_cash: false,

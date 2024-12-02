@@ -40,10 +40,9 @@ async function getCPSData() {
         .from('consumption_points')
         .select(
             `
-        *,
-        cp_fixed (*),
-        cp_mobile (*)
-      `,
+                *,
+                cp (*)
+            `,
         )
         .eq('owner_id', session.id);
     if (cpsError) console.error(cpsError);

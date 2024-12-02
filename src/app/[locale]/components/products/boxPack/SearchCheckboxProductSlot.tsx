@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
-import { UseFormReturn } from 'react-hook-form';
-import useFetchProductsByOwnerAndPagination from '../../../../../hooks/useFetchProductsByOwnerAndPagination';
-import { Type } from '@/lib//productEnum';
-import { IProduct } from '@/lib/types/types';
+import Spinner from '../../ui/Spinner';
 import ProductSlotList from './ProductSlotList';
 import InputSearch from '../../form/InputSearch';
 import PaginationFooter from '../../ui/PaginationFooter';
-import Spinner from '../../ui/Spinner';
+import useFetchProductsByOwnerAndPagination from '../../../../../hooks/useFetchProductsByOwnerAndPagination';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Type } from '@/lib//productEnum';
+import { IProduct } from '@/lib/types/types';
+import { UseFormReturn } from 'react-hook-form';
 
 interface Props {
     form: UseFormReturn<any, any>;
@@ -19,7 +19,7 @@ export function SearchCheckboxProductSlot({ form }: Props) {
 
     const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const fixedCount = products.length;
+    const count = products.length;
     const resultsPerPage = 10;
 
     const { isLoading, refetch } = useFetchProductsByOwnerAndPagination(
@@ -72,7 +72,7 @@ export function SearchCheckboxProductSlot({ form }: Props) {
             <ProductSlotList products={filteredItemsByName} form={form} />
 
             <PaginationFooter
-                counter={fixedCount}
+                counter={count}
                 resultsPerPage={resultsPerPage}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}

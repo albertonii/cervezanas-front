@@ -44,8 +44,8 @@ const schema: ZodType<ModalUpdateFormData> = z.object({
     end_date: z.string(),
     logo_url: z.string(),
     promotional_url: z.string(),
-    cps_mobile: z.any(),
-    removed_cps_mobile: z.array(
+    cps: z.any(),
+    removed_cps: z.array(
         z.object({
             id: z.string().optional(),
         }),
@@ -314,7 +314,7 @@ export default function UpdateEventModal({
                         {/* List of Mobile Consumption Points  */}
                         <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
                             <legend className="text-2xl">
-                                {t('cp_mobile_associated')}
+                                {t('cp_associated')}
                             </legend>
 
                             {/* List of CPs  */}

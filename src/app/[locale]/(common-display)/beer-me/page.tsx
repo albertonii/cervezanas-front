@@ -22,14 +22,9 @@ async function getCPsData() {
         .from('consumption_points')
         .select(
             `
-      *,
-      cp_fixed (
-        *
-      ),
-      cp_mobile (
-        *
-      )
-    `,
+                *,
+                cp (*)
+            `,
         );
     if (cpsError) throw cpsError;
 

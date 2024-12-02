@@ -17,8 +17,6 @@ import { useTranslations } from 'next-intl';
 import { IEvent } from '@/lib/types/eventOrders';
 import {
     IConsumptionPoint,
-    ICPFixed,
-    ICPMobile,
 } from '@/lib/types/consumptionPoints';
 
 enum SortBy {

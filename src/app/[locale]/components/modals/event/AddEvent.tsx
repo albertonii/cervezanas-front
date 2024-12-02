@@ -26,8 +26,7 @@ export type ModalAddEventFormData = {
     cps?: any[];
     event_experiences?: {
         experience_id?: string;
-        cp_mobile_id?: string;
-        cp_fixed_id?: string;
+        cp_id?: string;
     }[];
 };
 
@@ -42,8 +41,7 @@ const schema: ZodType<ModalAddEventFormData> = z.object({
     event_experiences: z.array(
         z.object({
             experience_id: z.string().optional(),
-            cp_mobile_id: z.string().optional(),
-            cp_fixed_id: z.string().optional(),
+            cp_id: z.string().optional(),
         }),
     ),
 });
@@ -162,8 +160,7 @@ export default function AddEvent({ cps }: Props) {
                     .insert({
                         event_id: eventId,
                         experience_id: experience.experience_id,
-                        cp_mobile_id: experience.cp_mobile_id ?? null,
-                        cp_fixed_id: experience.cp_fixed_id ?? null,
+                        cp_id: experience.cp_id ?? null,
                     });
 
                 if (experienceError) {
@@ -224,10 +221,10 @@ export default function AddEvent({ cps }: Props) {
                 <form>
                     <BasicEventForm form={form} />
 
-                    {/* List of Mobile Consumption Points  */}
+                    {/* List of Consumption Points  */}
                     <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
                         <legend className="text-2xl">
-                            {t('cp_mobile_associated')}
+                            {t('cp_associated')}
                         </legend>
 
                         <SearchCheckboxCPs cps={cps} form={form} />

@@ -3,11 +3,7 @@ import readUserSession from '@/lib//actions';
 import createServerClient from '@/utils/supabaseServer';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import {
-    IConsumptionPoint,
-    ICPFixed,
-    ICPMobile,
-} from '@/lib/types/consumptionPoints';
+import { IConsumptionPoint } from '@/lib/types/consumptionPoints';
 
 export default async function EventsPage() {
     const cpsData = getCPData();

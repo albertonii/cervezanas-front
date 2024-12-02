@@ -1,8 +1,7 @@
 'use client';
 
-import Link from 'next/link';
 import EditCPointModal from './EditCPointModal';
-import DeleteCPMobileModal from './DeleteCPMobileModal';
+import DeleteCPModal from './DeleteCPModal';
 import useFetchCPointsById from '@/hooks/useFetchCPointById';
 import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
@@ -15,10 +14,10 @@ import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 
 interface Props {
     cpsId: string;
-    counterCPMobile: number;
+    counterCP: number;
 }
 
-export function ListCPoints({ cpsId, counterCPMobile }: Props) {
+export function ListCPoints({ cpsId, counterCP }: Props) {
     const t = useTranslations();
     const locale = useLocale();
 
@@ -47,8 +46,8 @@ export function ListCPoints({ cpsId, counterCPMobile }: Props) {
 
     useEffect(() => {
         refetch().then((res) => {
-            const cpMobile = res.data as IConsumptionPoint[];
-            setCPoint(cpMobile);
+            const cp = res.data as IConsumptionPoint[];
+            setCPoint(cp);
         });
     }, [currentPage]);
 
@@ -126,7 +125,7 @@ export function ListCPoints({ cpsId, counterCPMobile }: Props) {
         <ListTableWrapper
             isError={isError}
             isLoading={isLoading}
-            errorMessage={'errors.fetching_cp_mobile'}
+            errorMessage={'errors.fetching_cp'}
         >
             {/* Don't remove isEditModal or the selectedCP will not be updated when changed from selected CP  */}
             {isEditModal && selectedCP && (
@@ -140,7 +139,7 @@ export function ListCPoints({ cpsId, counterCPMobile }: Props) {
             )}
 
             {isDeleteModal && selectedCP && (
-                <DeleteCPMobileModal
+                <DeleteCPModal
                     selectedCPId={selectedCP.id}
                     isDeleteModal={isDeleteModal}
                     handleDeleteModal={handleDeleteModal}
@@ -150,7 +149,7 @@ export function ListCPoints({ cpsId, counterCPMobile }: Props) {
             {!isError && !isLoading && cPoint.length === 0 ? (
                 <div className="flex items-center justify-center">
                     <p className="text-gray-500 dark:text-gray-400">
-                        {t('no_cp_mobile')}
+                        {t('no_cp')}
                     </p>
                 </div>
             ) : (
@@ -162,7 +161,7 @@ export function ListCPoints({ cpsId, counterCPMobile }: Props) {
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                     searchPlaceHolder={'search_by_name'}
-                    paginationCounter={counterCPMobile}
+                    paginationCounter={counterCP}
                     sourceDataIsFromServer={false}
                 />
             )}

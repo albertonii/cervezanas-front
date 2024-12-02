@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { Database } from '@/lib//schema';
-import { ICPMobile } from '@/lib/types/consumptionPoints';
+import { IConsumptionPoint } from '@/lib/types/consumptionPoints';
 
 const fetchCPMobile = async (
     cpId: string,
@@ -13,7 +13,7 @@ const fetchCPMobile = async (
     supabase: SupabaseClient<Database>,
 ) => {
     const { data, error } = await supabase
-        .from('cp_mobile')
+        .from('cp')
         .select(
             `
                 *
@@ -28,7 +28,7 @@ const fetchCPMobile = async (
 
     if (error) throw error;
 
-    return data as ICPMobile[];
+    return data as IConsumptionPoint[];
 };
 
 const useFetchCPMobile = (
@@ -39,7 +39,7 @@ const useFetchCPMobile = (
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: 'cpMobiles',
+        queryKey: 'cps',
         queryFn: () =>
             fetchCPMobile(cpId, currentPage, resultsPerPage, supabase),
         enabled: true,

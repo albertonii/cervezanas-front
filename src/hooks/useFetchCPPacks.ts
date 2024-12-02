@@ -4,14 +4,14 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import { useQuery } from 'react-query';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { Database } from '@/lib//schema';
-import { ICPMProductsEditCPMobileModal } from '@/lib/types/consumptionPoints';
+import { ICPProductsEditCPModal } from '@/lib/types/consumptionPoints';
 
-const fetchCPMobile = async (
+const fetchCPPacksByCPId = async (
     cpId: string,
     supabase: SupabaseClient<Database>,
 ) => {
     const { data, error } = await supabase
-        .from('cpm_products')
+        .from('cp_products')
         .select(
             `
        *
@@ -21,18 +21,18 @@ const fetchCPMobile = async (
         .select();
     if (error) throw error;
 
-    return data as ICPMProductsEditCPMobileModal[];
+    return data as ICPProductsEditCPModal[];
 };
 
-const useFetchCPMobilePacks = (cpId: string) => {
+const useFetchCPPacksByCPId = (cpId: string) => {
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: 'cpMobile',
-        queryFn: () => fetchCPMobile(cpId, supabase),
+        queryKey: 'cp_packs',
+        queryFn: () => fetchCPPacksByCPId(cpId, supabase),
         enabled: true,
         refetchOnWindowFocus: false,
     });
 };
 
-export default useFetchCPMobilePacks;
+export default useFetchCPPacksByCPId;

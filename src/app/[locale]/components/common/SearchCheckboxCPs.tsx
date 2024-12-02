@@ -64,7 +64,7 @@ export function SearchCheckboxCPs({
     };
 
     useEffect(() => {
-        setValue('cps_mobile', checkedCPsState);
+        setValue('cps', checkedCPsState);
     }, [checkedCPsState]);
 
     const filteredItemsByCPName = useMemo(() => {
@@ -97,7 +97,7 @@ export function SearchCheckboxCPs({
                                 <input
                                     id={`checkbox-item-${cp.id}`}
                                     type="checkbox"
-                                    {...register(`cps_mobile.${cp.id}.cp_id`)}
+                                    {...register(`cps.${cp.id}.cp_id`)}
                                     checked={checkedCPsState?.some(
                                         (cps_event) =>
                                             cps_event.cp_id === cp.id,

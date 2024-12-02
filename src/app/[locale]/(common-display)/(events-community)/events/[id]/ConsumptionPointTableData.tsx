@@ -9,15 +9,12 @@ import { useLocale, useTranslations } from 'next-intl';
 import { ROUTE_CP, ROUTE_EVENTS } from '@/config';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 
-interface CPMobileProps {
+interface CPProps {
     cp: IConsumptionPointEvent;
     eventId: string;
 }
 
-export default function ConsumptionPointTableData({
-    cp,
-    eventId,
-}: CPMobileProps) {
+export default function ConsumptionPointTableData({ cp, eventId }: CPProps) {
     const locale = useLocale();
     const t = useTranslations();
 

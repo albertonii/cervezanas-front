@@ -28,13 +28,12 @@ interface Props {
 export function SearchCheckboxCPProducts({ form }: Props) {
     const t = useTranslations();
     const locale = useLocale();
-    const { user } = useAuth();
 
     const [query, setQuery] = useState('');
     const [products, setProducts] = useState<IProduct[]>([]);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const fixedCount = products.length;
+    const count = products.length;
     const resultsPerPage = 10;
 
     const { register } = form;
@@ -133,7 +132,7 @@ export function SearchCheckboxCPProducts({ form }: Props) {
             </Table>
 
             <PaginationFooter
-                counter={fixedCount}
+                counter={count}
                 resultsPerPage={resultsPerPage}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}

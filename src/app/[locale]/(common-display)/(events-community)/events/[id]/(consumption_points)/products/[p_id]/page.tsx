@@ -1,7 +1,7 @@
 import CPProduct from './CPProduct';
 import createServerClient from '@/utils/supabaseServer';
 import { IProduct } from '@/lib/types/types';
-import { ICPMProducts } from '@/lib/types/consumptionPoints';
+import { IConsumptionPointProduct } from '@/lib/types/consumptionPoints';
 
 export default async function ProductId({ params }: any) {
     const { p_id } = params;
@@ -28,7 +28,7 @@ async function getProductData(cpId: string) {
     const supabase = await createServerClient();
 
     const { data: cpmProducts, error: productError } = await supabase
-        .from('cpm_products')
+        .from('cp_products')
         .select(
             `
                 *,
@@ -46,7 +46,7 @@ async function getProductData(cpId: string) {
         .single();
 
     if (productError) throw productError;
-    return cpmProducts as ICPMProducts;
+    return cpmProducts as IConsumptionPointProduct;
 }
 
 async function getMarketplaceData() {

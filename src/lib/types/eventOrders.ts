@@ -1,8 +1,4 @@
-import {
-    IConsumptionPointEvent,
-    ICPFixed,
-    ICPMobile,
-} from './consumptionPoints';
+import { IConsumptionPoint, IConsumptionPointEvent } from './consumptionPoints';
 import { IProductPack, IUserTable } from './types';
 
 export interface IEventOrder {
@@ -82,8 +78,7 @@ export interface IEvent {
     geoArgs: any[];
     address: string;
     owner_id: string;
-    cp_mobile: ICPMobile[];
-    cp_fixed: ICPFixed[];
+    cps_event: IConsumptionPointEvent[];
     users: IUserTable;
     is_activated: boolean;
     is_cervezanas_event: boolean;

@@ -19,7 +19,7 @@ export function SearchCheckboxCPProductsPack({ form, productItems }: Props) {
 
     const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const fixedCount = products.length;
+    const count = products.length;
     const resultsPerPage = 10;
 
     const { isLoading, refetch } = useFetchProductsByOwnerAndPagination(
@@ -68,7 +68,7 @@ export function SearchCheckboxCPProductsPack({ form, productItems }: Props) {
             />
 
             <PaginationFooter
-                counter={fixedCount}
+                counter={count}
                 resultsPerPage={resultsPerPage}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}

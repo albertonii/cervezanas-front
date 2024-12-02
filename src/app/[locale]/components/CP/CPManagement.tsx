@@ -21,7 +21,7 @@ export function CPManagement({ cpsId, counterCP }: Props) {
                 </div>
             </header>
 
-            <ListCPoints cpsId={cpsId} counterCPMobile={counterCP} />
+            <ListCPoints cpsId={cpsId} counterCP={counterCP} />
         </section>
     );
 }

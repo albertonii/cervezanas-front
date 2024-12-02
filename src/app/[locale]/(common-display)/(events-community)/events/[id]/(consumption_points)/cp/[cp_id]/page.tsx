@@ -3,7 +3,7 @@ import createServerClient from '@/utils/supabaseServer';
 import { IEventExperience } from '@/lib/types/types';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 
-export default async function CPMobilePage({ params }: any) {
+export default async function CPPage({ params }: any) {
     const { id: eventId, cp_id: cpId } = params;
     const cpData = getConsumptionPoint(cpId);
     const eventExperiencesData = getEventExperience(eventId, cpId);
@@ -24,7 +24,7 @@ export default async function CPMobilePage({ params }: any) {
 async function getConsumptionPoint(cpId: string) {
     const supabase = await createServerClient();
 
-    const { data: cp, error: cpMobileError } = await supabase
+    const { data: cp, error } = await supabase
         .from('cp_events')
         .select(
             ` 
@@ -47,7 +47,7 @@ async function getConsumptionPoint(cpId: string) {
         .eq('id', cpId)
         .single();
 
-    if (cpMobileError) console.error(cpMobileError);
+    if (error) console.error(error);
 
     return cp as IConsumptionPointEvent;
 }
@@ -70,7 +70,7 @@ async function getEventExperience(eventId: string, cpId: string) {
                   )
                 `,
             )
-            .eq('cp_mobile_id', cpId)
+            .eq('cp_id', cpId)
             .eq('event_id', eventId);
 
     if (eventExperienceError) console.error(eventExperienceError);

@@ -11,7 +11,7 @@ export default async function Page({ params }: any) {
     return <ConsumptionPointInformation cp={cp} />;
 }
 
-async function getCPInformation(cpMobileId: string) {
+async function getCPInformation(cpId: string) {
     const supabase = await createServerClient();
 
     const { data: cp, error } = await supabase
@@ -22,7 +22,7 @@ async function getCPInformation(cpMobileId: string) {
                 cp (*)
             `,
         )
-        .eq('id', cpMobileId)
+        .eq('id', cpId)
         .single();
 
     if (error) console.error(error);

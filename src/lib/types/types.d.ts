@@ -13,15 +13,6 @@ import { Fermentation, RecommendedGlass } from '../beerEnum';
 import { IBoxPack } from './product';
 import {
     IConsumptionPoints,
-    ICPFixed,
-    ICPMobile,
-    ICPFProducts,
-    ICPMProducts,
-    IRefCPMProducts,
-    ICPMProductsEditCPMobileModal,
-    ICPMProductsEditCPFixedModal,
-    ICPM_events,
-    ICPF_events,
     IConsumptionPoint,
     IConsumptionPointEvent,
 } from './consumptionPoints';

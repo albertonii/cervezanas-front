@@ -308,8 +308,7 @@ export type Database = {
       bm_experience_participants: {
         Row: {
           correct_answers: number | null
-          cpf_id: string | null
-          cpm_id: string | null
+          cp_id: string | null
           created_at: string
           event_id: string | null
           experience_id: string | null
@@ -323,8 +322,7 @@ export type Database = {
         }
         Insert: {
           correct_answers?: number | null
-          cpf_id?: string | null
-          cpm_id?: string | null
+          cp_id?: string | null
           created_at?: string
           event_id?: string | null
           experience_id?: string | null
@@ -338,8 +336,7 @@ export type Database = {
         }
         Update: {
           correct_answers?: number | null
-          cpf_id?: string | null
-          cpm_id?: string | null
+          cp_id?: string | null
           created_at?: string
           event_id?: string | null
           experience_id?: string | null
@@ -353,17 +350,10 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "public_beer_master_experience_cpf_id_fkey"
-            columns: ["cpf_id"]
+            foreignKeyName: "bm_experience_participants_cp_id_fkey"
+            columns: ["cp_id"]
             isOneToOne: false
-            referencedRelation: "cp_fixed"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_beer_master_experience_cpm_id_fkey"
-            columns: ["cpm_id"]
-            isOneToOne: false
-            referencedRelation: "cp_mobile"
+            referencedRelation: "cp"
             referencedColumns: ["id"]
           },
           {

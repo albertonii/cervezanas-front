@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import DeleteCPMobileModal from './DeleteCPMobileModal';
+import DeleteCPModal from './DeleteCPModal';
 import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 import useFetchCPointInEventsByOwnerId from '@/hooks/useFetchCPointInEventsByOwnerId';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
@@ -14,10 +14,10 @@ import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 
 interface Props {
-    counterCPMobile: number;
+    counterCP: number;
 }
 
-export function ListCPointsInEvents({ counterCPMobile }: Props) {
+export function ListCPointsInEvents({ counterCP }: Props) {
     const t = useTranslations();
     const locale = useLocale();
 
@@ -48,8 +48,8 @@ export function ListCPointsInEvents({ counterCPMobile }: Props) {
 
     useEffect(() => {
         refetch().then((res) => {
-            const cpMobile = res.data as IConsumptionPointEvent[];
-            setCPoint(cpMobile);
+            const cp = res.data as IConsumptionPointEvent[];
+            setCPoint(cp);
         });
     }, [currentPage]);
 
@@ -126,7 +126,7 @@ export function ListCPointsInEvents({ counterCPMobile }: Props) {
         <ListTableWrapper
             isError={isError}
             isLoading={isLoading}
-            errorMessage={'errors.fetching_cp_mobile'}
+            errorMessage={'errors.fetching_cp'}
         >
             {/* Don't remove isEditModal or the selectedCP will not be updated when changed from selected CP  */}
             {isEditModal && selectedCP && (
@@ -140,7 +140,7 @@ export function ListCPointsInEvents({ counterCPMobile }: Props) {
             )}
 
             {isDeleteModal && selectedCP && (
-                <DeleteCPMobileModal
+                <DeleteCPModal
                     selectedCPId={selectedCP.id}
                     isDeleteModal={isDeleteModal}
                     handleDeleteModal={handleDeleteModal}
@@ -150,7 +150,7 @@ export function ListCPointsInEvents({ counterCPMobile }: Props) {
             {!isError && !isLoading && cPoint.length === 0 ? (
                 <div className="flex items-center justify-center">
                     <p className="text-gray-500 dark:text-gray-400">
-                        {t('no_cp_mobile')}
+                        {t('no_cp')}
                     </p>
                 </div>
             ) : (
@@ -162,7 +162,7 @@ export function ListCPointsInEvents({ counterCPMobile }: Props) {
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage}
                     searchPlaceHolder={'search_by_name'}
-                    paginationCounter={counterCPMobile}
+                    paginationCounter={counterCP}
                     sourceDataIsFromServer={false}
                 />
             )}

@@ -1,9 +1,9 @@
 'use client';
 
 import ModalWithForm from '../ModalWithForm';
-
 import InputLabel from '../../form/InputLabel';
 import InputTextarea from '../../form/InputTextarea';
+import useFetchCPSEventByEventsId from '@/hooks/useFetchCPsEventByEventId ';
 import React, { ComponentProps, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
@@ -12,14 +12,11 @@ import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { formatDateDefaultInput } from '@/utils/formatDate';
-import { SearchCheckboxCPFixeds } from '../../common/SearchCheckboxCPFixed';
-import { SearchCheckboxCPMobiles } from '../../common/SearchCheckboxCPMobiles';
+import { SearchCheckboxCPs } from '../../common/SearchCheckboxCPs';
 import {
     IConsumptionPoint,
     IConsumptionPointEvent,
 } from '@/lib/types/consumptionPoints';
-import useFetchCPSEventByEventsId from '@/hooks/useFetchCPsEventByEventId ';
-import { SearchCheckboxCPs } from '../../common/SearchCheckboxCPs';
 
 interface FormData {
     is_activated: boolean;
@@ -114,14 +111,14 @@ export default function UpdateEventModal({
         queryClient.invalidateQueries('events');
     };
 
-    const handleCheckedCPs = (cps_mobile: IConsumptionPointEvent[]) => {
-        // Comprobar si todos los elementos de checkedCPMobiles están en cps_mobile
+    const handleCheckedCPs = (cps: IConsumptionPointEvent[]) => {
+        // Comprobar si todos los elementos de checkedCPs están en cps
         const allCheckedInNew = checkedCPs?.every((cp) =>
-            cps_mobile.some((item) => item.cp_id === cp.cp_id),
+            cps.some((item) => item.cp_id === cp.cp_id),
         );
 
-        // Comprobar si todos los elementos de cps_mobile están en checkedCPMobiles
-        const allNewInChecked = cps_mobile.every((item) =>
+        // Comprobar si todos los elementos de cps están en checkedCP
+        const allNewInChecked = cps.every((item) =>
             checkedCPs?.some((cp) => cp.cp_id === item.cp_id),
         );
 
@@ -141,7 +138,7 @@ export default function UpdateEventModal({
             });
 
             // // Insertar los nuevos CPs asociados al evento
-            cps_mobile?.forEach(async (item) => {
+            cps?.forEach(async (item) => {
                 const { error } = await supabase.from('cpm_events').insert({
                     cp_id: item.cp_id,
                     event_id: selectedEvent.id,
@@ -277,10 +274,10 @@ export default function UpdateEventModal({
                             {/* AD Img  */}
                         </fieldset>
 
-                        {/* List of Mobile Consumption Points  */}
+                        {/* List of Consumption Points  */}
                         <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
                             <legend className="text-2xl">
-                                {t('cp_mobile_associated')}
+                                {t('cp_associated')}
                             </legend>
 
                             {/* List of CPs  */}

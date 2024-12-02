@@ -2,12 +2,12 @@
 
 import Title from '../ui/Title';
 import CPGoogleMap from './CPGoogleMap';
-import ListCPMProducts from './ListCPMProducts';
+import ListCPProducts from './ListCPProducts';
 import Modal from '@/app/[locale]/components/modals/Modal';
+import useFetchCPPacksByCPId from '@/hooks/useFetchCPPacks';
 import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import SelectInput from '@/app/[locale]/components/form/SelectInput';
 import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
-import useFetchCPMobilePacks from '../../../../hooks/useFetchCPMobilePacks';
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { IUser } from '@/lib/types/types';
 import { useForm } from 'react-hook-form';
@@ -23,7 +23,7 @@ import {
     ICPProductsEditModal,
 } from '@/lib/types/consumptionPoints';
 
-enum CPMobileStatus {
+enum CPStatus {
     active = 'active',
     finished = 'finished',
     error = 'error',
@@ -31,15 +31,15 @@ enum CPMobileStatus {
     paused = 'paused',
 }
 
-export const cp_mobile_status_options: {
+export const cp_status_options: {
     label: string;
-    value: CPMobileStatus;
+    value: CPStatus;
 }[] = [
-    { label: 'active', value: CPMobileStatus.active },
-    { label: 'finished', value: CPMobileStatus.finished },
-    { label: 'error', value: CPMobileStatus.error },
-    { label: 'cancelled', value: CPMobileStatus.cancelled },
-    { label: 'paused', value: CPMobileStatus.paused },
+    { label: 'active', value: CPStatus.active },
+    { label: 'finished', value: CPStatus.finished },
+    { label: 'error', value: CPStatus.error },
+    { label: 'cancelled', value: CPStatus.cancelled },
+    { label: 'paused', value: CPStatus.paused },
 ];
 
 interface FormData {
@@ -79,7 +79,7 @@ export default function EditCPointModal({
         data: packsInProduct,
         refetch,
         isLoading: isFetchLoading,
-    } = useFetchCPMobilePacks(selectedCP.id);
+    } = useFetchCPPacksByCPId(selectedCP.id);
 
     const [productItems, setProductItems] = useState<string[]>([]);
 
@@ -170,7 +170,7 @@ export default function EditCPointModal({
         }
     };
 
-    // Update CP Mobile in database
+    // Update CP in database
     const handleUpdate = async (formValues: FormData) => {
         if (!selectedEOrganizer && !isInternalOrganizer) {
             setErrorOnSelectEOrganizer(true);
@@ -198,7 +198,7 @@ export default function EditCPointModal({
 
         if (selectedCP) {
             const { error } = await supabase
-                .from('cp_mobile')
+                .from('cp')
                 .update({
                     cp_name,
                     cp_description,
@@ -216,20 +216,20 @@ export default function EditCPointModal({
             if (error) throw error;
 
             const { error: errorDelete } = await supabase
-                .from('cpm_products')
+                .from('cp_products')
                 .delete()
                 .eq('cp_id', selectedCP.id);
 
             if (errorDelete) throw errorDelete;
 
-            // Insert product items in cpm_products table
+            // Insert product items in cp_products table
             const pItemsFiltered = cleanObject(product_items);
 
             if (pItemsFiltered) {
                 // Convert pItemsFiltered JSON objects to array
                 const pItemsFilteredArray = Object.values(pItemsFiltered);
 
-                const cpMobileId = selectedCP.id;
+                const cpId = selectedCP.id;
 
                 // Link the pack with the consumption Point
                 pItemsFilteredArray.map(async (pack: any) => {
@@ -237,9 +237,9 @@ export default function EditCPointModal({
                     if (typeof pack.id === 'object') {
                         pack.id.map(async (packId: string) => {
                             const { error } = await supabase
-                                .from('cpm_products')
+                                .from('cp_products')
                                 .insert({
-                                    cp_id: cpMobileId,
+                                    cp_id: cpId,
                                     product_pack_id: packId,
                                 });
 
@@ -249,9 +249,9 @@ export default function EditCPointModal({
                         });
                     } else {
                         const { error } = await supabase
-                            .from('cpm_products')
+                            .from('cp_products')
                             .insert({
-                                cp_id: cpMobileId,
+                                cp_id: cpId,
                                 product_pack_id: pack.id,
                             });
 
@@ -264,12 +264,12 @@ export default function EditCPointModal({
                 refetch();
             }
 
-            queryClient.invalidateQueries('cpMobile');
+            queryClient.invalidateQueries('cps');
         }
     };
 
-    const updateCPMobileMutation = useMutation({
-        mutationKey: ['updateCPMobile'],
+    const updateCPMutation = useMutation({
+        mutationKey: ['updateCP'],
         mutationFn: handleUpdate,
         onSuccess: () => {
             handleEditModal(false);
@@ -281,7 +281,7 @@ export default function EditCPointModal({
 
     const onSubmit = (formValues: FormData) => {
         try {
-            updateCPMobileMutation.mutate(formValues);
+            updateCPMutation.mutate(formValues);
         } catch (e) {
             console.error(e);
         }
@@ -294,8 +294,8 @@ export default function EditCPointModal({
             showBtn={false}
             showModal={isEditModal}
             setShowModal={handleEditModal}
-            title={t('edit_cp_mobile_config')}
-            btnTitle={t('edit_cp_mobile_config')}
+            title={t('edit_cp_config')}
+            btnTitle={t('edit_cp_config')}
             description={''}
             icon={faAdd}
             handler={handleSubmit(onSubmit)}
@@ -308,14 +308,14 @@ export default function EditCPointModal({
             <form>
                 <fieldset className="grid grid-cols-1 gap-2 rounded-md border-2 border-beer-softBlondeBubble p-4">
                     <legend>
-                        <Title size="large">{t('cp_mobile_info')}</Title>
+                        <Title size="large">{t('cp_info')}</Title>
                     </legend>
 
                     {/* Status */}
                     <SelectInput
                         form={form}
-                        labelTooltip={'cp_fixed_status_tooltip'}
-                        options={cp_mobile_status_options}
+                        labelTooltip={'cp_status_tooltip'}
+                        options={cp_status_options}
                         label={'status'}
                         registerOptions={{
                             required: true,
@@ -501,7 +501,7 @@ export default function EditCPointModal({
 
                 <fieldset className="mt-12 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
                     <legend>
-                        <Title size="large">{t('cp_mobile_location')}</Title>
+                        <Title size="large">{t('cp_location')}</Title>
                     </legend>
 
                     {addressInputRequired && (
@@ -520,11 +520,11 @@ export default function EditCPointModal({
 
                 <fieldset className="mt-4 flex flex-col space-y-4">
                     <legend>
-                        <Title size="large">{t('cp_mobile_products')}</Title>
+                        <Title size="large">{t('cp_products')}</Title>
                     </legend>
 
                     {/* List of selectable products that the owner can use */}
-                    <ListCPMProducts form={form} productItems={productItems} />
+                    <ListCPProducts form={form} productItems={productItems} />
                 </fieldset>
             </form>
         </Modal>

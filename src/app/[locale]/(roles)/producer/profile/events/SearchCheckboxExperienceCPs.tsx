@@ -39,8 +39,8 @@ export function SearchCheckboxExperiencesCPs({
         isChecked: boolean,
     ) => {
         if (isChecked) {
-            // const cpExperience: { cp_mobile_id: string; experience_id: string } = {
-            //   cp_mobile_id: cpMobileId,
+            // const cpExperience: { cp_id: string; experience_id: string } = {
+            //   cp_id: cpMobileId,
             //   experience_id: experienceId,
             // };
             // append(cpExperience);
@@ -60,7 +60,7 @@ export function SearchCheckboxExperiencesCPs({
             };
             setCheckedCPsState([...checkedCPsState, cp_check]);
 
-            setValue(`event_experiences.${index}.cp_mobile_id`, cp.id);
+            setValue(`event_experiences.${index}.cp_id`, cp.id);
             setValue(`event_experiences.${index}.experience_id`, experienceId);
         } else {
             // remove(index);
@@ -68,7 +68,7 @@ export function SearchCheckboxExperiencesCPs({
                 checkedCPsState.filter((item) => item.cp_id !== cp.id),
             );
 
-            setValue(`event_experiences.${index}.cp_mobile_id`, '');
+            setValue(`event_experiences.${index}.cp_id`, '');
             setValue(`event_experiences.${index}.experience_id`, '');
         }
     };
@@ -86,7 +86,7 @@ export function SearchCheckboxExperiencesCPs({
                 <InputSearch
                     query={query}
                     setQuery={setQuery}
-                    searchPlaceholder={'search_cp_mobile_by_name'}
+                    searchPlaceholder={'search_cp_by_name'}
                 />
 
                 <ul

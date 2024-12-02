@@ -2,8 +2,6 @@
 
 import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
 import React, { useState } from 'react';
-import { CPFixed } from './CPFixed';
-import { CPMobile } from './CPMobile';
 import { IConsumptionPoints } from '@/lib/types/consumptionPoints';
 import { CPManagement } from './CPManagement';
 import { CPInEvents } from './CPInEvents';
@@ -19,17 +17,6 @@ export function CPAccepted({ cps, counterCP }: Props) {
 
     const renderSwitch = () => {
         switch (menuOption) {
-            // case 'cp_fixed':
-            //     return (
-            //         <CPFixed cpsId={cps.id} counterCPFixed={counterCPFixed} />
-            //     );
-            // case 'cp_mobile':
-            //     return (
-            //         <CPMobile
-            //             cpsId={cps.id}
-            //             counterCPMobile={counterCPMobile}
-            //         />
-            //     );
             case 'cp_management':
                 return <CPManagement cpsId={cps.id} counterCP={counterCP} />;
             case 'cp_in_events':
@@ -45,12 +32,7 @@ export function CPAccepted({ cps, counterCP }: Props) {
         <>
             <HorizontalSections
                 handleMenuClick={handleMenuClick}
-                tabs={[
-                    'cp_mobile',
-                    'cp_fixed',
-                    'cp_management',
-                    'cp_in_events',
-                ]}
+                tabs={['cp_management', 'cp_in_events']}
             />
 
             {renderSwitch()}

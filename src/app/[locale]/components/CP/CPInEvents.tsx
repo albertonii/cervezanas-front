@@ -13,7 +13,7 @@ export function CPInEvents({ counterCP }: Props) {
 
     return (
         <section className="px-4 py-6" aria-label="Products">
-            <ListCPointsInEvents counterCPMobile={counterCP} />
+            <ListCPointsInEvents counterCP={counterCP} />
         </section>
     );
 }

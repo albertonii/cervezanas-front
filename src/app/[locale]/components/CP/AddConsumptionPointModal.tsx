@@ -2,7 +2,7 @@
 
 import Title from '../ui/Title';
 import CPGoogleMap from './CPGoogleMap';
-import ListCPMProducts from './ListCPMProducts';
+import ListCPMProducts from './ListCPProducts';
 import ModalWithForm from '../modals/ModalWithForm';
 import InputLabel from '@/app/[locale]/components/form/InputLabel';
 import SelectInput from '@/app/[locale]/components/form/SelectInput';
@@ -11,7 +11,7 @@ import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { z, ZodType } from 'zod';
 import { ROLE_ENUM } from '@/lib//enums';
-import { IProduct, IUser } from '@/lib/types/types';
+import { IUser } from '@/lib/types/types';
 import { createNotification } from '@/utils/utils';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { getGeocode } from 'use-places-autocomplete';

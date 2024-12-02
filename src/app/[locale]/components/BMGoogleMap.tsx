@@ -17,9 +17,9 @@ import usePlacesAutocomplete, {
     getLatLng,
 } from 'use-places-autocomplete';
 import {
+    IConsumptionPoint,
+    IConsumptionPointEvent,
     IConsumptionPoints,
-    ICPFixed,
-    ICPMobile,
 } from '@/lib/types/consumptionPoints';
 
 const containerStyle = {
@@ -58,66 +58,27 @@ function Map({ cps }: Props) {
     // const [fixedMarkers, setFixedMarkers] = useState<google.maps.Marker[]>([]);
     const [map, setMap] = useState<google.maps.Map>();
 
-    const onMarkerFixClick = (marker: google.maps.Marker, fixed: ICPFixed) => {
-        const content = `<div class="flex flex-col items-center space-y-4">
-          <div class="flex flex-row space-x-2">
-            <p class="text-md">Fecha inicio: ${formatDateString(
-                fixed.start_date,
-            )}</p>
-            <p class="text-md">Fecha fin: ${formatDateString(
-                fixed.end_date,
-            )}</p>
-          </div>
-
-          <h1 class="text-xl font-bold">${marker.getTitle()}</h1>
-          <p class="text-sm">${fixed.cp_description}</p>
-          <p class="text-sm">Dirección: ${fixed.address}</p>
-          <p class="text-sm">¿Necesario reserva?: ${
-              fixed.is_booking_required ? t('yes') : t('no')
-          }</p>
-         
-
-          <div class="flex flex-col items-center">
-            <div class="text-lg font-semibold"> 
-            Contacto de la persona encargada
-            </div>
-
-            <div class="flex flex-row space-x-2">
-              <p class="text-sm">Nombre: ${fixed.organizer_name} ${
-            fixed.organizer_lastname
-        }</p> 
-              <p class="text-sm">Teléfono: ${fixed.organizer_phone}</p>
-              <p class="text-sm">Email: ${fixed.organizer_email}</p>
-            </div>
-          </div>
-        </div>`;
-
-        const infowindow = new google.maps.InfoWindow({
-            content,
-        });
-
-        infowindow.open(map, marker);
-    };
-
-    const onMarkerMobileClick = (
+    const onMarkerClick = (
         marker: google.maps.Marker,
-        mobile: ICPMobile,
+        consumptionPoint: IConsumptionPoint,
     ) => {
+        //     <div class="flex flex-row space-x-2">
+        //     <p class="text-md">Fecha inicio: ${formatDateString(
+        //         consumptionPoint.start_date,
+        //     )}</p>
+        //     <p class="text-md">Fecha fin: ${formatDateString(
+        //         consumptionPoint.end_date,
+        //     )}</p>
+        //   </div>
+
         const content = `<div class="flex flex-col items-center space-y-4">
-          <div class="flex flex-row space-x-2">
-            <p class="text-md">Fecha inicio: ${formatDateString(
-                mobile.start_date,
-            )}</p>
-            <p class="text-md">Fecha fin: ${formatDateString(
-                mobile.end_date,
-            )}</p>
-          </div>
+        
 
           <h1 class="text-xl font-bold">${marker.getTitle()}</h1>
-          <p class="text-sm">${mobile.cp_description}</p>
-          <p class="text-sm">Dirección: ${mobile.address}</p>
+          <p class="text-sm">${consumptionPoint.cp_description}</p>
+          <p class="text-sm">Dirección: ${consumptionPoint.address}</p>
           <p class="text-sm">¿Necesario reserva?: ${
-              mobile.is_booking_required ? t('yes') : t('no')
+              consumptionPoint.is_booking_required ? t('yes') : t('no')
           }</p>
          
 
@@ -127,11 +88,13 @@ function Map({ cps }: Props) {
             </div>
 
             <div class="flex flex-row space-x-2">
-              <p class="text-sm">Nombre: ${mobile.organizer_name} ${
-            mobile.organizer_lastname
+              <p class="text-sm">Nombre: ${consumptionPoint.organizer_name} ${
+            consumptionPoint.organizer_lastname
         }</p> 
-              <p class="text-sm">Teléfono: ${mobile.organizer_phone}</p>
-              <p class="text-sm">Email: ${mobile.organizer_email}</p>
+              <p class="text-sm">Teléfono: ${
+                  consumptionPoint.organizer_phone
+              }</p>
+              <p class="text-sm">Email: ${consumptionPoint.organizer_email}</p>
             </div>
           </div>
         </div>`;
@@ -159,36 +122,20 @@ function Map({ cps }: Props) {
             });
 
             cps.map((cp) => {
-                cp.cp_fixed?.map(async (fixed) => {
-                    if (!fixed.geoArgs) return;
-                    const { lat, lng } = fixed.geoArgs[0].geometry.location;
+                cp.cp?.map(async (cp) => {
+                    if (!cp.geoArgs) return;
+
+                    const { lat, lng } = cp.geoArgs[0].geometry.location;
                     const marker: google.maps.Marker = new google.maps.Marker({
                         position: { lat, lng },
                         map: map,
-                        title: fixed.cp_name,
-                        icon: '/icons/fixed_place_48.png',
-                        clickable: true,
-                    });
-                    marker.addListener('click', () =>
-                        onMarkerFixClick(marker, fixed),
-                    );
-                    marker.setMap(map);
-                });
-
-                cp.cp_mobile?.map(async (mobile) => {
-                    if (!mobile.geoArgs) return;
-
-                    const { lat, lng } = mobile.geoArgs[0].geometry.location;
-                    const marker: google.maps.Marker = new google.maps.Marker({
-                        position: { lat, lng },
-                        map: map,
-                        title: mobile.cp_name,
+                        title: cp.cp_name,
                         icon: '/icons/mobile_place_48.png',
                         clickable: true,
                     });
 
                     marker.addListener('click', () =>
-                        onMarkerMobileClick(marker, mobile),
+                        onMarkerClick(marker, cp),
                     );
                     marker.setMap(map);
                 });

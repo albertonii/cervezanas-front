@@ -43,8 +43,7 @@ async function getCPSData() {
         .select(
             `
                 *,
-                cp_fixed (*),
-                cp_mobile (*)
+                cps (*)
             `,
         )
         .eq('owner_id', session.id);

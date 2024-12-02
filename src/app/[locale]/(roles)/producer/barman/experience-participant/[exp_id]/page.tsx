@@ -33,8 +33,7 @@ async function getExperienceParticipantData(experienceParticipantId: string) {
             `
                 *,
                 events (*),
-                cp_mobile (*),
-                cp_fixed (*),
+                cp (*),
                 gamification (
                     *,
                     users (

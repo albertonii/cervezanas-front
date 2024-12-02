@@ -2,54 +2,41 @@
 
 import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
 import React, { useEffect, useState } from 'react';
-import { CPFixed } from './CPFixed';
-import { CPMobile } from './CPMobile';
 import {
+    IConsumptionPoint,
     IConsumptionPoints,
-    ICPFixed,
-    ICPMobile,
 } from '@/lib/types/consumptionPoints';
+import { CPManagement } from '@/app/[locale]/components/CP/CPManagement';
+import { CPInEvents } from '@/app/[locale]/components/CP/CPInEvents';
 
 interface Props {
-    cps: IConsumptionPoints[];
+    cps_: IConsumptionPoints[];
+    counterCP: number;
 }
 
-export function ConsumptionPoints({ cps }: Props) {
-    const [cpsFixed, setCPsFixed] = useState<ICPFixed[]>([]);
-    const [cpsMobile, setCPsMobile] = useState<ICPMobile[]>([]);
-
-    const [menuOption, setMenuOption] = useState<string>('cp_fixed');
+// Consumption Point status is in pending for validation by the admin of the platform
+export function ConsumptionPoints({ cps_, counterCP }: Props) {
+    const [menuOption, setMenuOption] = useState<string>('cp_management');
+    const [cpsAccumulated, setCpsAccumulated] = useState<IConsumptionPoints[]>(
+        [],
+    );
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        cps.map((cp) => {
-            if (cp.cp_fixed) {
-                cp.cp_fixed.map((cpf) => {
-                    setCPsFixed((prev) => {
-                        // Avoid cpf that already exists in the array
+        cps_.map((cps: IConsumptionPoints) => {
+            if (cps) {
+                cps.cp?.map((consumptionPoint: IConsumptionPoint) => {
+                    setCpsAccumulated((prev) => {
+                        // Avoid cp that already exists in the array
                         const exists =
-                            prev && prev.find((cp) => cp.id === cpf.id);
+                            prev &&
+                            prev.find((cp) => cp.id === consumptionPoint.id);
 
                         if (prev && !exists) {
-                            return [...prev, cpf];
+                            return [...prev, { ...consumptionPoint, cps: [] }];
                         }
-                        return [cpf];
-                    });
-                });
-            }
-
-            if (cp.cp_mobile) {
-                cp.cp_mobile.map((cpm) => {
-                    setCPsMobile((prev) => {
-                        // Avoid cpm that already exists in the array
-                        const exists =
-                            prev && prev.find((cp) => cp.id === cpm.id);
-
-                        if (prev && !exists) {
-                            return [...prev, cpm];
-                        }
-                        return [cpm];
+                        return prev;
                     });
                 });
             }
@@ -59,16 +46,11 @@ export function ConsumptionPoints({ cps }: Props) {
     }, [cps]);
 
     const renderSwitch = () => {
-        if (isLoading) return <div>Loading...</div>;
-
-        console.log('FIXED', cpsFixed);
-        console.log('MOBILES', cpsMobile);
-
         switch (menuOption) {
-            case 'cp_fixed':
-                return <CPFixed cpsFixed={cpsFixed} />;
-            case 'cp_mobile':
-                return <CPMobile cpsMobile={cpsMobile} />;
+            case 'cp_management':
+                return <CPManagement cpsId={cps.id} counterCP={counterCP} />;
+            case 'cp_in_events':
+                return <CPInEvents counterCP={counterCP} />;
         }
     };
 
@@ -80,7 +62,7 @@ export function ConsumptionPoints({ cps }: Props) {
         <>
             <HorizontalSections
                 handleMenuClick={handleMenuClick}
-                tabs={['cp_fixed', 'cp_mobile']}
+                tabs={['cp_management', 'cp_in_events']}
             />
 
             {renderSwitch()}

@@ -10,7 +10,7 @@ interface Props {
     handleDeleteModal: ComponentProps<any>;
 }
 
-export default function DeleteCPMobileModal({
+export default function DeleteCPModal({
     selectedCPId,
     isDeleteModal,
     handleDeleteModal,
@@ -21,23 +21,23 @@ export default function DeleteCPMobileModal({
 
     const queryClient = useQueryClient();
 
-    // Delete CP Mobile from database
+    // Delete CP from database
     const handleRemoveCP = async () => {
         if (!selectedCPId) return;
 
         const { error } = await supabase
-            .from('cp_mobile')
+            .from('cp')
             .delete()
             .eq('id', selectedCPId);
 
         if (error) throw error;
 
-        queryClient.invalidateQueries('cpMobiles');
+        queryClient.invalidateQueries('cps');
         handleDeleteModal(false);
     };
 
-    const deleteCPMobileMutation = useMutation({
-        mutationKey: ['deleteCPMobile'],
+    const deleteCPMutation = useMutation({
+        mutationKey: ['deleteCP'],
         mutationFn: handleRemoveCP,
         onError: (error) => {
             console.error(error);
@@ -46,7 +46,7 @@ export default function DeleteCPMobileModal({
 
     const onSubmitDelete = () => {
         try {
-            deleteCPMobileMutation.mutate();
+            deleteCPMutation.mutate();
         } catch (e) {
             console.error(e);
         }
