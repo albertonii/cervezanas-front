@@ -3,7 +3,7 @@
 import { useQuery } from 'react-query';
 import { Database } from '@/lib//schema';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { ICPM_events } from '@/lib/types/consumptionPoints';
+import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 
 const fetchCervezanasEventsByOwnerId = async (
@@ -15,12 +15,12 @@ const fetchCervezanasEventsByOwnerId = async (
     if (!ownerId) return [];
 
     const { data, error } = await supabase
-        .from('cpm_events')
+        .from('cp_events')
         .select(
             `
               *,
               events (*),
-              cp_mobile (*)
+              cp (*)
             `,
             {
                 count: 'exact',
@@ -36,7 +36,7 @@ const fetchCervezanasEventsByOwnerId = async (
 
     if (error) throw error;
 
-    return data as ICPM_events[];
+    return data as IConsumptionPointEvent[];
 };
 
 const useFetchCervezanasEventsByOwnerId = (
@@ -47,7 +47,7 @@ const useFetchCervezanasEventsByOwnerId = (
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: 'cpm_events',
+        queryKey: 'cp_events',
         queryFn: () =>
             fetchCervezanasEventsByOwnerId(
                 userId,

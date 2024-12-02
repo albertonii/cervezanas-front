@@ -1,7 +1,6 @@
 'use client';
 
-import CPMobile from './CPMobile';
-import CPFixed from './CPFixed';
+import ConsumptionPointTableData from './ConsumptionPointTableData';
 import Title from '@/app/[locale]/components/ui/Title';
 import TH from '@/app/[locale]/components/ui/table/TH';
 import TR from '@/app/[locale]/components/ui/table/TR';
@@ -18,21 +17,20 @@ import { IEvent } from '@/lib/types/eventOrders';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { ICPF_events, ICPM_events } from '@/lib/types/consumptionPoints';
-import { IBMExperienceParticipants, IEventExperience } from '@/lib/types/quiz';
+import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
+import { IBMExperienceParticipants } from '@/lib/types/quiz';
+import { IEventExperience } from '@/lib/types/types';
 
 interface Props {
     event: IEvent;
-    cpmEvents: ICPM_events[];
-    cpfEvents: ICPF_events[];
+    cpsEvents: IConsumptionPointEvent[];
     eventExperiences: IEventExperience[];
     experienceParticipant: IBMExperienceParticipants[];
 }
 
 export default function DisplayEvent({
     event,
-    cpmEvents,
-    cpfEvents,
+    cpsEvents,
     eventExperiences,
     experienceParticipant,
 }: Props) {
@@ -77,7 +75,7 @@ export default function DisplayEvent({
     };
 
     return (
-        <section className="relative m-auto sm:mb-20 sm:mt-20 h-full w-full max-w-[500px] bg-white p-8 shadow-md sm:max-w-full md:mt-0 md:max-w-[700px] lg:max-w-[900px] bg-opacity-80 space-y-4">
+        <section className="relative w-full m-auto sm:mb-20 sm:mt-20 h-full w-full bg-white p-8 shadow-md  md:mt-0 bg-opacity-80 space-y-4">
             {/* <div className="absolute right-0 -top-4 sm:top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
                 <span
                     className={`text-lg font-medium text-white ${
@@ -188,12 +186,12 @@ export default function DisplayEvent({
                 </span>
             </div> */}
 
-            {/* Products linked to this Mobile Consumption Point */}
+            {/* Products linked to this Consumption Point */}
             <section className="mt-8">
-                {cpmEvents.length > 0 ? (
+                {cpsEvents.length > 0 ? (
                     <div className="overflow-x-auto">
                         <Title size="xlarge" color="beer-blonde">
-                            {t('cp_mobile')}
+                            {t('cp')}
                         </Title>
 
                         <Table>
@@ -214,12 +212,12 @@ export default function DisplayEvent({
                                 </TR>
                             </THead>
                             <TBody>
-                                {cpmEvents.map((cpm) => (
+                                {cpsEvents.map((cp) => (
                                     <>
-                                        {cpm.cp_mobile && (
-                                            <CPMobile
-                                                key={cpm.event_id + cpm.cp_id}
-                                                cp={cpm.cp_mobile}
+                                        {cp.cp && (
+                                            <ConsumptionPointTableData
+                                                key={cp.event_id + cp.cp_id}
+                                                cp={cp}
                                                 eventId={event.id}
                                             />
                                         )}
@@ -231,55 +229,9 @@ export default function DisplayEvent({
                 ) : (
                     <>
                         <Title size="xlarge" color="beer-blonde">
-                            {t('cp_mobile')}
+                            {t('cp')}
                         </Title>
-                        <Label>{t('no_cp_mobile')}</Label>
-                    </>
-                )}
-            </section>
-
-            {/* Products linked to this Fixed Consumption Point */}
-            <section className="mt-8">
-                {cpfEvents.length > 0 ? (
-                    <div className="overflow-x-auto">
-                        <Title size="xlarge" color="beer-blonde">
-                            {t('cp_fixed')}
-                        </Title>
-
-                        <Table>
-                            <THead>
-                                <TR>
-                                    <TH scope="col">{t('logo_header')}</TH>
-
-                                    <TH scope="col">{t('name_header')}</TH>
-
-                                    <TH scope="col">{t('date_header')}</TH>
-
-                                    <TH scope="col">{t('status_header')}</TH>
-                                </TR>
-                            </THead>
-                            <TBody>
-                                {cpfEvents.map((cpf) => (
-                                    <>
-                                        {cpf.cp_fixed && (
-                                            <CPFixed
-                                                key={cpf.event_id + cpf.cp_id}
-                                                cp={cpf.cp_fixed}
-                                                eventId={event.id}
-                                            />
-                                        )}
-                                    </>
-                                ))}
-                            </TBody>
-                        </Table>
-                    </div>
-                ) : (
-                    <>
-                        <Title size="xlarge" color="beer-blonde">
-                            {t('cp_fixed')}
-                        </Title>
-
-                        <Label>{t('no_cp_fixed')}</Label>
+                        <Label>{t('no_cp')}</Label>
                     </>
                 )}
             </section>

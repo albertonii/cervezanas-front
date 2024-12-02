@@ -79,7 +79,7 @@ export default function AchievementsManager() {
             rarity: achievement.rarity,
             points: achievement.points,
             howToAchieve: achievement.how_to_achieve,
-            conditions: achievement.conditions,
+            conditions: achievement.conditions || {},
         });
         setShowForm(true);
     };

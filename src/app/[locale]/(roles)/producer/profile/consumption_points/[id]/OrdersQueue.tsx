@@ -6,12 +6,12 @@ import Spinner from '@/app/[locale]/components/ui/Spinner';
 import useFetchEventOrdersByCPId from '@/hooks/useFetchEventOrdersByCPId';
 import React, { useEffect, useState } from 'react';
 import { CheckCircle2 } from 'lucide-react';
+import { faPlay } from '@fortawesome/free-solid-svg-icons';
+import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 import { IEventOrder, IEventOrderCPS } from '@/lib/types/eventOrders';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
-import { faPlay } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
     cp: IConsumptionPointEvent;
@@ -132,6 +132,14 @@ export function OrdersQueue({ cp }: Props) {
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-4 ">
+            {isError && (
+                <div className="bg-red-50 p-4 rounded-lg">
+                    <Label size="medium" color="red" font="bold">
+                        Error al cargar los pedidos
+                    </Label>
+                </div>
+            )}
+
             {isLoading ? (
                 <Spinner color="blonde" size="large" />
             ) : (
@@ -170,69 +178,61 @@ export function OrdersQueue({ cp }: Props) {
                     </div>
 
                     {/* Preparing Orders */}
-                    <div className="space-y-4">
-                        <div className="bg-beer-foam p-4 rounded-lg">
-                            <Label
-                                size="medium"
-                                color="beer-blonde"
-                                font="bold"
-                            >
-                                En Preparación ({preparingOrders.length})
-                            </Label>
+                    <div className="space-y-4 bg-beer-foam p-4 rounded-lg">
+                        <Label size="medium" color="beer-blonde" font="bold">
+                            En Preparación ({preparingOrders.length})
+                        </Label>
 
-                            <div className="space-y-4">
-                                {preparingOrders.map((order) => (
-                                    <EventOrderCard
-                                        key={order.id}
-                                        order={order}
-                                        actionButton={
-                                            <button
-                                                onClick={() =>
-                                                    handleUpdateStatus(
-                                                        order.id,
-                                                        'ready',
-                                                    )
-                                                }
-                                                className="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-600 transition-colors"
-                                            >
-                                                <CheckCircle2 className="w-4 h-4 mr-2" />
-                                                Listo
-                                            </button>
-                                        }
-                                    />
-                                ))}
-                            </div>
+                        <div className="space-y-4">
+                            {preparingOrders.map((order) => (
+                                <EventOrderCard
+                                    key={order.id}
+                                    order={order}
+                                    actionButton={
+                                        <button
+                                            onClick={() =>
+                                                handleUpdateStatus(
+                                                    order.id,
+                                                    'ready',
+                                                )
+                                            }
+                                            className="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-600 transition-colors"
+                                        >
+                                            <CheckCircle2 className="w-4 h-4 mr-2" />
+                                            Listo
+                                        </button>
+                                    }
+                                />
+                            ))}
                         </div>
                     </div>
 
                     {/* Ready Orders */}
-                    <div className="space-y-4">
-                        <div className="bg-green-50 p-4 rounded-lg">
-                            <Label size="medium" color="green" font="bold">
-                                Listos para Entregar ({readyOrders.length})
-                            </Label>
+                    <div className="space-y-4 bg-green-50 p-4 rounded-lg">
+                        <Label size="medium" color="green" font="bold">
+                            Listos para Entregar ({readyOrders.length})
+                        </Label>
 
-                            <div className="space-y-4">
-                                {readyOrders.map((order) => (
-                                    <EventOrderCard
-                                        key={order.id}
-                                        order={order}
-                                        actionButton={
-                                            <button
-                                                onClick={() =>
-                                                    handleUpdateStatus(
-                                                        order.id,
-                                                        'completed',
-                                                    )
-                                                }
-                                                className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors"
-                                            >
-                                                Entregado
-                                            </button>
-                                        }
-                                    />
-                                ))}
-                            </div>
+                        <div className="space-y-4">
+                            {readyOrders.map((order) => (
+                                <EventOrderCard
+                                    key={order.id}
+                                    order={order}
+                                    actionButton={
+                                        <button
+                                            onClick={() =>
+                                                handleUpdateStatus(
+                                                    order.id,
+                                                    'completed',
+                                                )
+                                            }
+                                            className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors"
+                                        >
+                                            Entregado
+                                        </button>
+                                    }
+                                />
+                            ))}
                         </div>
                     </div>
                 </>

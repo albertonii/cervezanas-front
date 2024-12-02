@@ -1,10 +1,10 @@
 import readUserSession from '@/lib//actions';
 import createServerClient from '@/utils/supabaseServer';
+import SuccessCheckout from '@/app/[locale]/(common-display)/checkout/event/success/SuccessCheckout';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { decodeBase64 } from '@/utils/utils';
-import { IEventOrder } from '@/lib/types/types';
-import SuccessCheckout from '@/app/[locale]/(common-display)/checkout/event/success/SuccessCheckout';
+import { IEventOrder } from '@/lib/types/eventOrders';
 
 export async function generateMetadata({ searchParams }: any) {
     try {

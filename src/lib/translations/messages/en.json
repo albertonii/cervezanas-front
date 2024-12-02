@@ -1379,5 +1379,7 @@
     "high_limit": "Upper limit",
     "delivery_cost": "Shipping cost",
     "back_to_event": "Back to event",
-    "organizer": "Organizer"
+    "organizer": "Organizer",
+    "mobile": "Mobile",
+    "fixed": "Fixed"
 }

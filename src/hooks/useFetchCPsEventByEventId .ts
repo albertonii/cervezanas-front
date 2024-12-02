@@ -3,38 +3,39 @@
 import { useQuery } from 'react-query';
 import { Database } from '@/lib//schema';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { ICPM_events } from '@/lib/types/consumptionPoints';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
+import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 
-const fetchCPSFixedByEventId = async (
+const fetchCPSEventByEventId = async (
     eventId: string,
     supabase: SupabaseClient<Database>,
 ) => {
     if (!eventId) return [];
 
     const { data, error } = await supabase
-        .from('cpf_events')
+        .from('cp_events')
         .select(
             `
         *
       `,
         )
-        .eq('event_id', eventId);
+        .eq('event_id', eventId)
+        .select();
 
     if (error) throw error;
 
-    return data as ICPM_events[];
+    return data as IConsumptionPointEvent[];
 };
 
-const useFetchCPSFixedByEventsId = (eventId: string) => {
+const useFetchCPSEventByEventsId = (eventId: string) => {
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: 'cpf_events',
-        queryFn: () => fetchCPSFixedByEventId(eventId, supabase),
+        queryKey: 'cp_events',
+        queryFn: () => fetchCPSEventByEventId(eventId, supabase),
         enabled: false,
         refetchOnWindowFocus: false,
     });
 };
 
-export default useFetchCPSFixedByEventsId;
+export default useFetchCPSEventByEventsId;

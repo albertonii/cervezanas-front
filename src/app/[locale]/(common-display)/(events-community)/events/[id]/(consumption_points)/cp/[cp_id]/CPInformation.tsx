@@ -9,18 +9,18 @@ import Button from '@/app/[locale]/components/ui/buttons/Button';
 import React from 'react';
 import { ROUTE_EVENTS } from '@/config';
 import { useRouter } from 'next/navigation';
-import { useLocale, useTranslations } from 'next-intl';
 import { IEventExperience } from '@/lib/types/types';
-import { ICPMobile } from '@/lib/types/consumptionPoints';
+import { useLocale, useTranslations } from 'next-intl';
+import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 
 interface Props {
-    cpMobile: ICPMobile;
+    cpEvent: IConsumptionPointEvent;
     eventId: string;
     eventExperiences: IEventExperience[];
 }
 
-export default function InfoCPMobile({
-    cpMobile,
+export default function CPInformation({
+    cpEvent,
     eventExperiences,
     eventId,
 }: Props) {
@@ -35,7 +35,7 @@ export default function InfoCPMobile({
     };
 
     return (
-        <section className="relative h-full w-[1000px] rounded-lg bg-white p-8 shadow-md bg-[url('/assets/rec-graf2b.png')] bg-content bg-no-repeat bg-bottom m-auto">
+        <section className="relative h-full w-full rounded-lg bg-white p-8 shadow-md bg-[url('/assets/rec-graf2b.png')] bg-content bg-no-repeat bg-bottom m-auto">
             {/* <section className="absolute  right-0 top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
                 <span
                     className={`text-lg font-medium text-white ${
@@ -74,12 +74,12 @@ export default function InfoCPMobile({
 
             {/* Display all the information inside the Mobile Consumption Point */}
             <section className="mt-10 grid grid-cols-1 md:grid-cols-2">
-                <CPDetails cpMobile={cpMobile} />
+                <CPDetails cpEvent={cpEvent} />
             </section>
 
             {/* Products linked to this Mobile Consumption Point */}
             <section className="mt-8">
-                <ProductList cpMobile={cpMobile} eventId={eventId} />
+                <ProductList cpEvent={cpEvent} eventId={eventId} />
             </section>
         </section>
     );

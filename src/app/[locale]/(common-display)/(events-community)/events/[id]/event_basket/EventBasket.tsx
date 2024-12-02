@@ -98,7 +98,8 @@ export default function EventBasket({ eventId }: Props) {
                 // promo_code: "123456789",
                 // payment_method: PAYMENT_METHOD.CREDIT_CARD,
             })
-            .select('id');
+            .select('id')
+            .single();
 
         if (orderError) throw orderError;
 
@@ -107,7 +108,7 @@ export default function EventBasket({ eventId }: Props) {
                 const { error: orderItemError } = await supabase
                     .from('event_order_items')
                     .insert({
-                        order_id: order?.[0].id,
+                        event_order_cp_id: order.id,
                         product_pack_id: pack.id,
                         quantity: pack.quantity,
                         status: EVENT_ORDER_ITEM_STATUS.INITIAL,

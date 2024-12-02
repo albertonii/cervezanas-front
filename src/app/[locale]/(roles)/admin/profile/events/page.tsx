@@ -1,64 +1,34 @@
 import Events from './Events';
 import createServerClient from '@/utils/supabaseServer';
-import { ICPFixed, ICPMobile } from '@/lib/types/consumptionPoints';
+import { IConsumptionPoint } from '@/lib/types/consumptionPoints';
 
 export default async function EventsPage() {
-    const cpsMobileData = getCPMobileData();
-    const cpsFixedData = getCPFixedData();
+    const cpsData = getCPData();
     const eventsCounterData = getEventsCounter();
-    const [cpsMobile, cpsFixed, eventsCounter] = await Promise.all([
-        cpsMobileData,
-        cpsFixedData,
+    const [cps, eventsCounter] = await Promise.all([
+        cpsData,
         eventsCounterData,
     ]);
 
-    return (
-        <Events
-            cpsMobile={cpsMobile}
-            cpsFixed={cpsFixed}
-            counter={eventsCounter}
-        />
+    return <Events cps={cps} counter={eventsCounter} />;
+}
+
+async function getCPData() {
+    const supabase = await createServerClient();
+
+    const { data, error: cpError } = await supabase.from('cp').select(
+        `
+            *,
+            consumption_points (
+                owner_id,
+                users (username, email)
+            )
+          `,
     );
-}
-
-async function getCPMobileData() {
-    const supabase = await createServerClient();
-
-    const { data: cpMobiles, error: cpError } = await supabase
-        .from('cp_mobile')
-        .select(
-            `
-            *,
-            consumption_points (
-                owner_id,
-                users (username, email)
-            )
-          `,
-        );
 
     if (cpError) throw cpError;
 
-    return cpMobiles as ICPMobile[];
-}
-
-async function getCPFixedData() {
-    const supabase = await createServerClient();
-
-    const { data: cpFixeds, error: cpError } = await supabase
-        .from('cp_fixed')
-        .select(
-            `
-            *,
-            consumption_points (
-                owner_id,
-                users (username, email)
-            )
-          `,
-        );
-
-    if (cpError) throw cpError;
-
-    return cpFixeds as ICPFixed[];
+    return data as IConsumptionPoint[];
 }
 
 async function getEventsCounter() {

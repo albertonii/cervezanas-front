@@ -29,8 +29,7 @@ export default function EventCheckoutPackItem({
 }: Props) {
     const t = useTranslations();
 
-    const cpId =
-        productPack.cpm_id !== '' ? productPack.cpm_id : productPack.cpf_id;
+    const cpId = productPack.cp_id;
 
     const [animateRemove, setAnimateRemove] = useState(false);
     const [packQuantity, setPackQuantity] = React.useState(0);

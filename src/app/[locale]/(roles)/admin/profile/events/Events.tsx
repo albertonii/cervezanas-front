@@ -1,35 +1,28 @@
 'use client';
 
-import AddEvent from './AddEvent';
 import EventList from './EventList';
+import AddEvent from '@/app/[locale]/components/modals/event/AddEvent';
 import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { ICPFixed, ICPMobile } from '@/lib/types/consumptionPoints';
+import { IConsumptionPoint } from '@/lib/types/consumptionPoints';
 
 interface Props {
-    cpsMobile: ICPMobile[];
-    cpsFixed: ICPFixed[];
+    cps: IConsumptionPoint[];
     counter: number;
 }
 
-export default function Events({ cpsMobile, cpsFixed, counter }: Props) {
+export default function Events({ cps, counter }: Props) {
     const t = useTranslations();
 
     return (
         <section className="px-4 py-6" aria-label="Events">
             <ProfileSectionHeader
                 headerTitle="events"
-                btnActions={
-                    <AddEvent cpsMobile={cpsMobile} cpsFixed={cpsFixed} />
-                }
+                btnActions={<AddEvent cps={cps} />}
             />
 
-            <EventList
-                counter={counter}
-                cpsMobile={cpsMobile}
-                cpsFixed={cpsFixed}
-            />
+            <EventList counter={counter} cps={cps} />
         </section>
     );
 }

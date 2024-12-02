@@ -1,22 +1,21 @@
 'use client';
 
 import Link from 'next/link';
-import React, { useEffect, useMemo, useState } from 'react';
-import { UseFormReturn } from 'react-hook-form';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IProduct } from '@/lib/types/types';
-import { useLocale, useTranslations } from 'next-intl';
-import { formatCurrency } from '@/utils/formatCurrency';
-import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
-import InputSearch from '@/app/[locale]/components/form/InputSearch';
-import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
-import THead from '@/app/[locale]/components/ui/table/THead';
-import Table from '@/app/[locale]/components/ui/table/Table';
 import TR from '@/app/[locale]/components/ui/table/TR';
 import TD from '@/app/[locale]/components/ui/table/TD';
 import TH from '@/app/[locale]/components/ui/table/TH';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import THead from '@/app/[locale]/components/ui/table/THead';
+import Table from '@/app/[locale]/components/ui/table/Table';
 import TBody from '@/app/[locale]/components/ui/table/TBody';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
+import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
+import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
+import React, { useEffect, useMemo, useState } from 'react';
+import { IProduct } from '@/lib/types/types';
+import { UseFormReturn } from 'react-hook-form';
+import { useLocale, useTranslations } from 'next-intl';
+import { formatCurrency } from '@/utils/formatCurrency';
 
 interface ColumnsProps {
     header: string;
@@ -28,7 +27,6 @@ interface Props {
 export function SearchCheckboxCPProducts({ form }: Props) {
     const t = useTranslations();
     const locale = useLocale();
-    const { user } = useAuth();
 
     const [query, setQuery] = useState('');
     const [products, setProducts] = useState<IProduct[]>([]);

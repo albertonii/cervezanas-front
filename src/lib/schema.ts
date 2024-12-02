@@ -665,10 +665,14 @@ export type Database = {
         Row: {
           bm_game_id: string | null
           description: string | null
+          how_to_achieve: string | null
           icon: string | null
           id: string
           name: string | null
+          points: number | null
           progress: number | null
+          rarity: string | null
+          share_message: string | null
           target: number | null
           type: string | null
           unlocked_at: string | null
@@ -676,10 +680,14 @@ export type Database = {
         Insert: {
           bm_game_id?: string | null
           description?: string | null
+          how_to_achieve?: string | null
           icon?: string | null
           id?: string
           name?: string | null
+          points?: number | null
           progress?: number | null
+          rarity?: string | null
+          share_message?: string | null
           target?: number | null
           type?: string | null
           unlocked_at?: string | null
@@ -687,10 +695,14 @@ export type Database = {
         Update: {
           bm_game_id?: string | null
           description?: string | null
+          how_to_achieve?: string | null
           icon?: string | null
           id?: string
           name?: string | null
+          points?: number | null
           progress?: number | null
+          rarity?: string | null
+          share_message?: string | null
           target?: number | null
           type?: string | null
           unlocked_at?: string | null
@@ -2026,24 +2038,21 @@ export type Database = {
       }
       event_experiences: {
         Row: {
-          cp_fixed_id: string | null
-          cp_mobile_id: string | null
+          cp_id: string | null
           created_at: string
           event_id: string | null
           experience_id: string | null
           id: string
         }
         Insert: {
-          cp_fixed_id?: string | null
-          cp_mobile_id?: string | null
+          cp_id?: string | null
           created_at?: string
           event_id?: string | null
           experience_id?: string | null
           id?: string
         }
         Update: {
-          cp_fixed_id?: string | null
-          cp_mobile_id?: string | null
+          cp_id?: string | null
           created_at?: string
           event_id?: string | null
           experience_id?: string | null
@@ -2051,17 +2060,10 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "public_event_experiences_cp_fixed_id_fkey"
-            columns: ["cp_fixed_id"]
+            foreignKeyName: "event_experiences_cp_id_fkey"
+            columns: ["cp_id"]
             isOneToOne: false
-            referencedRelation: "cp_fixed"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_event_experiences_cp_mobile_id_fkey"
-            columns: ["cp_mobile_id"]
-            isOneToOne: false
-            referencedRelation: "cp_mobile"
+            referencedRelation: "cp"
             referencedColumns: ["id"]
           },
           {
@@ -2086,6 +2088,7 @@ export type Database = {
           created_at: string
           event_order_id: string | null
           id: string
+          notes: string | null
           order_number: string | null
           status: string | null
         }
@@ -2094,6 +2097,7 @@ export type Database = {
           created_at?: string
           event_order_id?: string | null
           id?: string
+          notes?: string | null
           order_number?: string | null
           status?: string | null
         }
@@ -2102,6 +2106,7 @@ export type Database = {
           created_at?: string
           event_order_id?: string | null
           id?: string
+          notes?: string | null
           order_number?: string | null
           status?: string | null
         }
@@ -2110,7 +2115,7 @@ export type Database = {
             foreignKeyName: "event_order_cps_cp_id_fkey"
             columns: ["cp_id"]
             isOneToOne: false
-            referencedRelation: "cpm_events"
+            referencedRelation: "cp_events"
             referencedColumns: ["id"]
           },
           {

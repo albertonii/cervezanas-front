@@ -11,7 +11,7 @@ import { SupabaseProps } from '@/constants';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { ROUTE_EVENTS, ROUTE_PRODUCTS } from '@/config';
 import { ICPFixed } from '@/lib/types/consumptionPoints';
-import { IEventProduct, IProductPack } from '@/lib/types/types';
+import { ICartEventProduct, IProductPack } from '@/lib/types/types';
 import { useAuth } from '../../../../../../../(auth)/Context/useAuth';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { AddCartButton } from '@/app/[locale]/components/cart/AddCartButton';
@@ -88,7 +88,7 @@ export default function CPFProductItem({
 
         if (!product) return;
 
-        const productEvent: IEventProduct = {
+        const productEvent: ICartEventProduct = {
             id: product.id,
             created_at: product.created_at,
             name: product.name,
@@ -112,8 +112,7 @@ export default function CPFProductItem({
             likes: product.likes,
             awards: product.awards,
             product_packs: product.product_packs,
-            cpm_id: '',
-            cpf_id: cpFixed.id,
+            cp_id: cpFixed.id,
             cp_name: cpFixed.cp_name,
         };
 

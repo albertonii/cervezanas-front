@@ -3,14 +3,17 @@ import Label from '@/app/[locale]/components/ui/Label';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { formatDateString } from '@/utils/formatDate';
-import { ICPMobile } from '@/lib/types/consumptionPoints';
+import {
+    IConsumptionPointEvent,
+    ICPMobile,
+} from '@/lib/types/consumptionPoints';
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
 
 interface Props {
-    cpMobile: ICPMobile;
+    cpEvent: IConsumptionPointEvent;
 }
 
-export default function CPDetails({ cpMobile }: Props) {
+export default function CPDetails({ cpEvent }: Props) {
     const t = useTranslations();
 
     return (
@@ -18,11 +21,11 @@ export default function CPDetails({ cpMobile }: Props) {
             <article className="space-y-4 border rounded-md border-beer-blonde p-4 ">
                 <header>
                     <Title size="large" color="beer-blonde">
-                        {cpMobile.cp_name}
+                        {cpEvent.cp?.cp_name}
                     </Title>
 
                     <Label size="medium" color="gray">
-                        {cpMobile.cp_description}
+                        {cpEvent.cp?.cp_description}
                     </Label>
                 </header>
 
@@ -32,7 +35,7 @@ export default function CPDetails({ cpMobile }: Props) {
                             {t('start_date')}:{' '}
                         </Label>
                         <Label color="black" size="small">
-                            {formatDateString(cpMobile.start_date)}
+                            {formatDateString(cpEvent.start_date)}
                         </Label>
                     </div>
 
@@ -41,7 +44,7 @@ export default function CPDetails({ cpMobile }: Props) {
                             {t('end_date')}:
                         </Label>
                         <Label color="black" size="small">
-                            {formatDateString(cpMobile.end_date)}
+                            {formatDateString(cpEvent.end_date)}
                         </Label>
                     </div>
                 </div>
@@ -53,8 +56,8 @@ export default function CPDetails({ cpMobile }: Props) {
                             {t('organizer')}:
                         </Label>
                         <Label color="black" size="small">
-                            {cpMobile.organizer_name}{' '}
-                            {cpMobile.organizer_lastname}{' '}
+                            {cpEvent.cp?.organizer_name}{' '}
+                            {cpEvent.cp?.organizer_lastname}{' '}
                         </Label>
                     </div>
 
@@ -63,7 +66,7 @@ export default function CPDetails({ cpMobile }: Props) {
                             {t('email')}:
                         </Label>
                         <Label color="black" size="small">
-                            {cpMobile.organizer_email}
+                            {cpEvent.cp?.organizer_email}
                         </Label>
                     </div>
 
@@ -72,20 +75,20 @@ export default function CPDetails({ cpMobile }: Props) {
                             {t('phone')}:
                         </Label>
                         <Label color="black" size="small">
-                            {cpMobile.organizer_phone}
+                            {cpEvent.cp?.organizer_phone}
                         </Label>
                     </div>
                 </footer>
             </article>
 
             {/* Google maps location  */}
-            <GoogleMapLocation cp={cpMobile} />
+            <GoogleMapLocation cp={cpEvent} />
         </>
     );
 }
 
 interface GoogleMapLocationProps {
-    cp: ICPMobile;
+    cp: IConsumptionPointEvent;
 }
 
 const GoogleMapLocation = ({ cp }: GoogleMapLocationProps) => {
@@ -105,7 +108,7 @@ const containerStyle = {
 };
 
 interface MapsProps {
-    cp: ICPMobile;
+    cp: IConsumptionPointEvent;
 }
 
 function Map({ cp }: MapsProps) {
@@ -115,23 +118,21 @@ function Map({ cp }: MapsProps) {
 
     const onMarkerFixClick = (
         marker: google.maps.Marker,
-        mobile: ICPMobile,
+        cp: IConsumptionPointEvent,
     ) => {
         const content = `<div class="flex flex-col items-center space-y-4">
           <div class="flex flex-row space-x-2">
             <p class="text-md">Fecha inicio: ${formatDateString(
-                mobile.start_date,
+                cp.start_date,
             )}</p>
-            <p class="text-md">Fecha fin: ${formatDateString(
-                mobile.end_date,
-            )}</p>
+            <p class="text-md">Fecha fin: ${formatDateString(cp.end_date)}</p>
           </div>
 
           <h1 class="text-xl font-bold">${marker.getTitle()}</h1>
-          <p class="text-sm">${mobile.cp_description}</p>
-          <p class="text-sm">Dirección: ${mobile.address}</p>
+          <p class="text-sm">${cp.cp?.cp_description}</p>
+          <p class="text-sm">Dirección: ${cp.cp?.address}</p>
           <p class="text-sm">¿Necesario reserva?: ${
-              mobile.is_booking_required ? t('yes') : t('no')
+              cp.cp?.is_booking_required ? t('yes') : t('no')
           }</p>
          
 
@@ -141,11 +142,11 @@ function Map({ cp }: MapsProps) {
             </div>
 
             <div class="flex flex-row space-x-2">
-              <p class="text-sm">Nombre: ${mobile.organizer_name} ${
-            mobile.organizer_lastname
+              <p class="text-sm">Nombre: ${cp.cp?.organizer_name} ${
+            cp.cp?.organizer_lastname
         }</p> 
-              <p class="text-sm">Teléfono: ${mobile.organizer_phone}</p>
-              <p class="text-sm">Email: ${mobile.organizer_email}</p>
+              <p class="text-sm">Teléfono: ${cp.cp?.organizer_phone}</p>
+              <p class="text-sm">Email: ${cp.cp?.organizer_email}</p>
             </div>
           </div>
         </div>`;
@@ -160,12 +161,12 @@ function Map({ cp }: MapsProps) {
     // Loop through CPs and add CP fixed markers in first component render
     useEffect(() => {
         if (map) {
-            if (!cp.geoArgs) return;
-            const { lat, lng } = cp.geoArgs[0].geometry.location;
+            if (!cp.cp?.geoArgs) return;
+            const { lat, lng } = cp.cp?.geoArgs[0].geometry.location;
             const marker: google.maps.Marker = new google.maps.Marker({
                 position: { lat, lng },
                 map: map,
-                title: cp.cp_name,
+                title: cp.cp.cp_name,
                 icon: '/icons/mobile_place_48.png',
                 clickable: true,
             });
@@ -176,8 +177,12 @@ function Map({ cp }: MapsProps) {
         }
     }, [map]);
 
-    const centerLat = cp.geoArgs ? cp.geoArgs[0]?.geometry.location.lat : 0;
-    const centerLng = cp.geoArgs ? cp.geoArgs[0]?.geometry.location.lng : 0;
+    const centerLat = cp.cp?.geoArgs
+        ? cp.cp?.geoArgs[0]?.geometry.location.lat
+        : 0;
+    const centerLng = cp.cp?.geoArgs
+        ? cp.cp?.geoArgs[0]?.geometry.location.lng
+        : 0;
     const center = useMemo(() => ({ lat: centerLat, lng: centerLng }), []);
 
     return (

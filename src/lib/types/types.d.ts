@@ -22,6 +22,8 @@ import {
     ICPMProductsEditCPFixedModal,
     ICPM_events,
     ICPF_events,
+    IConsumptionPoint,
+    IConsumptionPointEvent,
 } from './consumptionPoints';
 import { IEvent } from './eventOrders';
 
@@ -566,41 +568,6 @@ export interface IOrderItemFormData {
     subtotal: number; // product_price * quantity
 }
 
-export interface IEventOrder {
-    id: string;
-    created_at: string;
-    updated_at: string;
-    customer_id: string;
-    event_id: string;
-    status: string;
-    total: number;
-    subtotal: number;
-    tax: number;
-    currency: string;
-    discount: number;
-    // promo_code: string;
-    order_number: string;
-    event_order_items?: IEventOrderItem[];
-    customer_id: string;
-    users?: IUserTable;
-    events?: IEvent;
-    // cp_m_owner: ICPMobile;
-}
-
-export interface IEventOrderItem {
-    id: string;
-    created_at: string;
-    order_id: string;
-    product_pack_id: string;
-    quantity: number;
-    quantity_served: number;
-    status: string;
-    is_reviewed: boolean;
-    product_packs?: IProductPack;
-    product_media?: IProductMedia[];
-    orders?: IOrder;
-}
-
 export interface IShippingInfo {
     id: string;
     created_at: string;
@@ -935,11 +902,10 @@ export interface IProductPackEventCartItem {
     price: number;
     image: string;
     name: string;
-    products?: IEventProduct;
+    products?: ICartEventProduct;
     producer_id: string;
     distributor_id: string;
-    cpf_id: string;
-    cpm_id: string;
+    cp_id: string;
     cp_name: string;
     product_media?: IProductMedia[];
 }
@@ -1016,7 +982,7 @@ export interface IProductFormData {
     beers?: IBeerFormData;
 }
 
-export interface IEventProduct {
+export interface ICartEventProduct {
     id: string;
     created_at: string;
     name: string;
@@ -1040,8 +1006,7 @@ export interface IEventProduct {
     likes?: ILike[];
     awards?: IAward[];
     product_packs?: IProductPack[];
-    cpm_id: string;
-    cpf_id: string;
+    cp_id: string;
     cp_name: string;
 }
 
@@ -1651,11 +1616,10 @@ export interface IEventExperience {
     id: string;
     created_at: string;
     event_id: string;
-    cp_mobile_id: string;
-    cp_fixed_id: string;
+    cp_id: string;
     experience_id: string;
-    cp_mobile?: ICPMobile;
-    cp_fixed?: ICPFixed;
+    cp?: IConsumptionPoint;
+    // cp?: IConsumptionPointEvent;  // Creo que deberíamos de asignarlo a IConsumptionPointEvent. De esta manera cuando tengamos un evento vinculamos cada PC y además, podemos vincular la experiencia que queramos a ese PC que será pasa ese evento. Reutilizamos el conocimiento creado.
     experiences?: IExperience;
     events?: IEvent;
 }

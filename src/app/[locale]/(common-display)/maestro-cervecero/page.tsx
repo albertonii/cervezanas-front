@@ -1,5 +1,4 @@
-import { IEventExperience } from '@/lib/types/quiz';
-import { IProduct } from '@/lib/types/types';
+import { IEventExperience } from '@/lib/types/types';
 import createServerClient from '@/utils/supabaseServer';
 import MainMaestroCervecero from './MainMaestroCervecero';
 
@@ -28,8 +27,7 @@ async function getMaestroCerveceroEventExperiences() {
             .select(
                 `
                 *,
-                cp_mobile (*),
-                cp_fixed (*),
+                cp (*),
                 experience_id (*)
             `,
             )

@@ -1,14 +1,14 @@
 'use client';
 
 import Link from 'next/link';
+import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
 import React, { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IEventOrder, IEventOrderItem } from '@/lib/types/types';
 import { SupabaseProps } from '@/constants';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { formatDateString } from '@/utils/formatDate';
-import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
+import { IEventOrder, IEventOrderItem } from '@/lib/types/eventOrders';
 
 interface Props {
     isError?: boolean;
@@ -104,7 +104,7 @@ export default function ErrorCheckout({ eventOrder, isError }: Props) {
                                 orderItems.map((item: IEventOrderItem) => (
                                     <div
                                         key={
-                                            item.order_id +
+                                            item.event_order_cp_id +
                                             '-' +
                                             item.product_pack_id
                                         }

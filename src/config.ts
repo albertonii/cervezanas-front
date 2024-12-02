@@ -11,6 +11,7 @@ export const ROUTE_PRODUCT = '/product';
 export const ROUTE_PRODUCTS = '/products';
 export const ROUTE_EVENTS = '/events';
 export const ROUTE_EXPERIENCES = '/experiences';
+export const ROUTE_CP = '/cp';
 export const ROUTE_CP_FIXED = '/fixed';
 export const ROUTE_CP_MOBILE = '/mobile';
 export const ROUTE_EXPERIENCE_PARTICIPANT = '/experience-participant';

@@ -14,15 +14,14 @@ import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
-import { ICPFixed, ICPMobile } from '@/lib/types/consumptionPoints';
+import { IConsumptionPoint } from '@/lib/types/consumptionPoints';
 
 interface Props {
     counter: number;
-    cpsMobile: ICPMobile[];
-    cpsFixed: ICPFixed[];
+    cps: IConsumptionPoint[];
 }
 
-export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
+export default function EventList({ counter, cps }: Props) {
     const t = useTranslations();
     const locale = useLocale();
 
@@ -138,8 +137,7 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
                     selectedEvent={selectedEvent}
                     isEditModal={isEditModal}
                     handleEditModal={handleEditModal}
-                    cpsMobile={cpsMobile}
-                    cpsFixed={cpsFixed}
+                    cps={cps}
                 />
             )}
 

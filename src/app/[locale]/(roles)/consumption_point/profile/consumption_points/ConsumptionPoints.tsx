@@ -13,15 +13,13 @@ import { SubmitCPOrganizer } from '@/app/[locale]/components/modals/SubmitCPOrga
 interface Props {
     cps: IConsumptionPoints[];
     profile: IProfile;
-    counterCPMobile: number;
-    counterCPFixed: number;
+    counterCP: number;
 }
 
 export function ConsumptionPoints({
     cps,
     profile: { cp_organizer_status },
-    counterCPMobile,
-    counterCPFixed,
+    counterCP,
 }: Props) {
     const t = useTranslations();
 
@@ -75,8 +73,7 @@ export function ConsumptionPoints({
                             {cpOrganizerStatus === 1 ? (
                                 <CPAccepted
                                     cps={cps[0]}
-                                    counterCPMobile={counterCPMobile}
-                                    counterCPFixed={counterCPFixed}
+                                    counterCP={counterCP}
                                 />
                             ) : (
                                 <CPRejected />

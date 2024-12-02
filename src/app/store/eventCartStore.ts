@@ -2,7 +2,7 @@
 
 import { create } from 'zustand';
 import {
-    IEventProduct,
+    ICartEventProduct,
     IProductPack,
     IProductPackEventCartItem,
 } from '@/lib/types/types';
@@ -17,7 +17,7 @@ interface EventCartState {
     handleOpen: (isOpen: boolean) => void;
     addPackToCart: (
         eventId: string,
-        product: IEventProduct,
+        product: ICartEventProduct,
         pack: IProductPack,
     ) => void;
     increaseOnePackCartQuantity: (
@@ -74,7 +74,7 @@ const useEventCartStore = create<EventCartState>((set, get) => {
         ...initialState,
         addPackToCart: (
             eventId: string,
-            product: IEventProduct,
+            product: ICartEventProduct,
             pack: IProductPack,
         ) => {
             set((state) => {
@@ -82,7 +82,7 @@ const useEventCartStore = create<EventCartState>((set, get) => {
                 const productFind = cart.find(
                     (item) =>
                         item.product_id === product.id &&
-                        product.cpm_id === item.cpm_id,
+                        product.cp_id === item.cp_id,
                 );
 
                 if (productFind) {
@@ -107,8 +107,7 @@ const useEventCartStore = create<EventCartState>((set, get) => {
                             )?.url ?? '',
                         producer_id: product.owner_id,
                         distributor_id: '',
-                        cpm_id: product.cpm_id,
-                        cpf_id: product.cpf_id,
+                        cp_id: product.cp_id,
                         cp_name: product.cp_name,
                     };
                     cart.push(newPack);
@@ -133,10 +132,7 @@ const useEventCartStore = create<EventCartState>((set, get) => {
                 const eventItems = state.eventCarts[eventId] || [];
 
                 const newItems = eventItems.map((item) => {
-                    if (
-                        item.product_id === productId &&
-                        (item.cpf_id === cpId || item.cpm_id === cpId)
-                    ) {
+                    if (item.product_id === productId && item.cp_id === cpId) {
                         const newPacks = item.packs.map((pack) => {
                             if (pack.id === packId) {
                                 return { ...pack, quantity: pack.quantity + 1 };
@@ -163,10 +159,7 @@ const useEventCartStore = create<EventCartState>((set, get) => {
                 const eventItems = state.eventCarts[eventId] || [];
 
                 const newItems = eventItems.map((item) => {
-                    if (
-                        item.product_id === productId &&
-                        (item.cpf_id === cpId || item.cpm_id === cpId)
-                    ) {
+                    if (item.product_id === productId && item.cp_id === cpId) {
                         const newPacks = item.packs.map((pack) => {
                             if (pack.id === packId && pack.quantity > 1) {
                                 return { ...pack, quantity: pack.quantity - 1 };
@@ -193,10 +186,7 @@ const useEventCartStore = create<EventCartState>((set, get) => {
                 const eventItems = state.eventCarts[eventId] || [];
 
                 const newItems = eventItems.map((item) => {
-                    if (
-                        item.product_id === productId &&
-                        (item.cpf_id === cpId || item.cpm_id === cpId)
-                    ) {
+                    if (item.product_id === productId && item.cp_id === cpId) {
                         const newPacks = item.packs.filter(
                             (pack) => pack.id !== packId,
                         );
@@ -237,9 +227,7 @@ const useEventCartStore = create<EventCartState>((set, get) => {
             const eventItems = get().eventCarts[eventId] || [];
 
             const product = eventItems.find(
-                (item) =>
-                    item.product_id === productId &&
-                    (item.cpf_id === cpId || item.cpm_id === cpId),
+                (item) => item.product_id === productId && item.cp_id === cpId,
             );
 
             if (product) {

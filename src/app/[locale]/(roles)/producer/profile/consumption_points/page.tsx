@@ -9,18 +9,13 @@ import { IConsumptionPoints } from '@/lib/types/consumptionPoints';
 export default async function ProfilePage() {
     const cpsData = getCPSData();
     const profileData = getProfileData();
-    const counterCPMobileData = getCPMobileCounter();
-    const counterCPFixedData = getCPFixedCounter();
     const counterCPsData = getCPsCounter();
 
-    const [cps, profile, counterCPMobile, counterCPFixed, counterCPs] =
-        await Promise.all([
-            cpsData,
-            profileData,
-            counterCPMobileData,
-            counterCPFixedData,
-            counterCPsData,
-        ]);
+    const [cps, profile, counterCPs] = await Promise.all([
+        cpsData,
+        profileData,
+        counterCPsData,
+    ]);
     if (!profile) return <></>;
 
     return (
@@ -28,8 +23,6 @@ export default async function ProfilePage() {
             <ConsumptionPoints
                 cps={cps ?? []}
                 profile={profile}
-                counterCPMobile={counterCPMobile}
-                counterCPFixed={counterCPFixed}
                 counterCPs={counterCPs}
             />
         </Suspense>
@@ -80,42 +73,6 @@ async function getProfileData() {
     if (profileError) throw profileError;
 
     return profileData[0] as IProfile;
-}
-
-async function getCPMobileCounter() {
-    const supabase = await createServerClient();
-    const session = await readUserSession();
-
-    if (!session) {
-        redirect('/signin');
-    }
-
-    const { count, error: cpFixedError } = await supabase
-        .from('cp_mobile')
-        .select('id', { count: 'exact' })
-        .eq('owner_id', session.id);
-
-    if (cpFixedError) throw cpFixedError;
-
-    return count as number | 0;
-}
-
-async function getCPFixedCounter() {
-    const supabase = await createServerClient();
-    const session = await readUserSession();
-
-    if (!session) {
-        redirect('/signin');
-    }
-
-    const { count, error: cpFixedError } = await supabase
-        .from('cp_fixed')
-        .select('id', { count: 'exact' })
-        .eq('owner_id', session.id);
-
-    if (cpFixedError) throw cpFixedError;
-
-    return count as number | 0;
 }
 
 async function getCPsCounter() {

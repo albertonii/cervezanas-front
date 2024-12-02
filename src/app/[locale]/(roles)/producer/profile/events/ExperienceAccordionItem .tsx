@@ -2,19 +2,17 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
 import { IExperience } from '@/lib/types/types';
-import { ICPFixed, ICPMobile } from '@/lib/types/consumptionPoints';
-import { SearchCheckboxExperiencesCPFixeds } from './SearchCheckboxExperienceCPFixed';
-import { SearchCheckboxExperiencesCPMobiles } from './SearchCheckboxExperienceCPMobiles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IConsumptionPoint } from '@/lib/types/consumptionPoints';
+import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
+import { SearchCheckboxExperiencesCPs } from './SearchCheckboxExperienceCPs';
 
 interface Props {
     experience: IExperience;
     form: UseFormReturn<any, any>;
     experienceItems?: string[];
-    cpsMobile: ICPMobile[];
-    cpsFixed: ICPFixed[];
+    cps: IConsumptionPoint[];
     index: number;
 }
 
@@ -22,8 +20,7 @@ const ExperienceAccordionItem: React.FC<Props> = ({
     experience,
     form,
     experienceItems,
-    cpsMobile,
-    cpsFixed,
+    cps,
 }) => {
     const t = useTranslations();
     const { register } = form;
@@ -114,14 +111,9 @@ const ExperienceAccordionItem: React.FC<Props> = ({
                         {t('assign_experience_to_cp')}:
                     </span>
 
-                    <SearchCheckboxExperiencesCPMobiles
+                    <SearchCheckboxExperiencesCPs
                         experienceId={experience.id}
-                        cpsMobile={cpsMobile}
-                        form={form}
-                    />
-
-                    <SearchCheckboxExperiencesCPFixeds
-                        cpsFixed={cpsFixed}
+                        cps={cps}
                         form={form}
                     />
                 </div>

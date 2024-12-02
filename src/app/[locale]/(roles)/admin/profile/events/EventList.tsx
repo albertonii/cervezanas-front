@@ -15,7 +15,11 @@ import DeleteCEventModal from '@/app/[locale]/components/modals/DeleteEventModal
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IEvent } from '@/lib/types/eventOrders';
-import { ICPFixed, ICPMobile } from '@/lib/types/consumptionPoints';
+import {
+    IConsumptionPoint,
+    ICPFixed,
+    ICPMobile,
+} from '@/lib/types/consumptionPoints';
 
 enum SortBy {
     NONE = 'none',
@@ -30,11 +34,10 @@ enum SortBy {
 
 interface Props {
     counter: number;
-    cpsMobile: ICPMobile[];
-    cpsFixed: ICPFixed[];
+    cps: IConsumptionPoint[];
 }
 
-export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
+export default function EventList({ counter, cps }: Props) {
     const t = useTranslations();
 
     const [query, setQuery] = useState('');
@@ -113,8 +116,7 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
                     selectedEvent={selectedEvent}
                     isEditModal={isEditModal}
                     handleEditModal={handleEditModal}
-                    cpsMobile={cpsMobile}
-                    cpsFixed={cpsFixed}
+                    cps={cps}
                 />
             )}
 

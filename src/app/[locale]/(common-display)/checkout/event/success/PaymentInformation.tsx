@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { IEventOrder } from '@/lib/types/types';
+import { IEventOrder } from '@/lib/types/eventOrders';
 import { formatCurrency } from '@/utils/formatCurrency';
 
 interface Props {

@@ -8,6 +8,7 @@ interface Props {
         | 'gray'
         | 'yellow'
         | 'green'
+        | 'red'
         | 'dark-gray'
         | 'beer-draft'
         | 'beer-blonde';
@@ -41,6 +42,7 @@ export default function Label({
         gray: 'text-gray-500',
         yellow: 'text-yellow-800',
         green: 'text-green-800',
+        red: 'text-red-800',
         'dark-gray': 'text-gray-700',
         'beer-draft': 'text-beer-draft',
         'beer-blonde': 'text-beer-blonde',

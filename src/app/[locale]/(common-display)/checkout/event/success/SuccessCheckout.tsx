@@ -6,8 +6,8 @@ import Label from '@/app/[locale]/components/ui/Label';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
 import React, { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { IEventOrder } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
+import { IEventOrder } from '@/lib/types/eventOrders';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { EVENT_ORDER_ITEM_STATUS, EVENT_ORDER_STATUS } from '@/constants';
 

@@ -30,8 +30,10 @@ async function getGameStateData(gameId: string) {
                         *
                     )
                 ),
-                bm_steps_achievements (*)
-          `,
+                bm_steps_achievements (
+                    *
+                )
+            `,
         )
         .eq('id', gameId)
         .single();

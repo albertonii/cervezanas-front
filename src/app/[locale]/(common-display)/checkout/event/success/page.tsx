@@ -4,7 +4,7 @@ import createServerClient from '@/utils/supabaseServer';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { decodeBase64 } from '@/utils/utils';
-import { IEventOrder } from '@/lib/types/types';
+import { IEventOrder } from '@/lib/types/eventOrders';
 
 export async function generateMetadata({ searchParams }: any) {
     try {
@@ -92,12 +92,18 @@ async function getSuccessData(searchParams: any) {
                 status,
                 total,
                 subtotal,
-                tax,
                 currency,
                 discount,
                 order_number,
+                tax,
                 event_order_items (
-                    *,
+                    id,
+                    created_at,
+                    event_order_cp_id,
+                    quantity,
+                    status,
+                    is_reviewed,
+                    quantity_served,
                     product_pack_id,
                     product_packs (
                         *,

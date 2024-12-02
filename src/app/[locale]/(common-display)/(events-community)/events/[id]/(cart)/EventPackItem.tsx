@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default function EventPackItem({ pack, item, eventId }: Props) {
-    const cpId = item.cpm_id !== '' ? item.cpm_id : item.cpf_id;
+    const cpId = item.cp_id;
 
     const {
         removeFromCart,

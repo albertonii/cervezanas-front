@@ -1,9 +1,9 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
-import { IEventOrder } from '@/lib/types/types';
-import { EventOrderList } from './EventOrderList';
 import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
+import { useTranslations } from 'next-intl';
+import { EventOrderList } from './EventOrderList';
+import { IEventOrder } from '@/lib/types/eventOrders';
 
 interface Props {
     eventOrders: IEventOrder[];

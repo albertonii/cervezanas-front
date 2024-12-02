@@ -163,8 +163,9 @@ export interface IConsumptionPoint {
     geoArgs: any[]; // Si tienes un tipo específico, úsalo aquí
     owner_id: string;
     type: 'fixed' | 'mobile'; // Diferencia entre fijo y móvil
-    products?: IConsumptionPointProduct[]; // Productos asociados
-    events?: IConsumptionPointEvent[]; // Eventos asociados
+    cp_products?: IConsumptionPointProduct[]; // Productos asociados
+    cp_events?: IConsumptionPointEvent[]; // Eventos asociados
+    users?: IUserTable;
 }
 
 export interface IConsumptionPointProduct {
@@ -180,6 +181,7 @@ export interface IConsumptionPointProduct {
     cp_id: string;
     product_pack_id: string;
     product_packs?: IProductPack;
+    cp?: IConsumptionPoint;
 }
 
 export interface IConsumptionPointEvent {
@@ -187,10 +189,12 @@ export interface IConsumptionPointEvent {
     created_at: string;
     cp_id: string;
     event_id: string;
+    owner_id: string;
     is_active: boolean;
     is_cervezanas_event: boolean;
     start_date: string;
     end_date: string;
     events?: IEvent;
     cp?: IConsumptionPoint;
+    users?: IUserTable;
 }

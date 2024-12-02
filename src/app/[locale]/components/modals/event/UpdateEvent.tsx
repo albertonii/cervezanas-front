@@ -4,8 +4,6 @@ import ModalWithForm from '../ModalWithForm';
 
 import InputLabel from '../../form/InputLabel';
 import InputTextarea from '../../form/InputTextarea';
-import useFetchCPSFixedByEventsId from '../../../../../hooks/useFetchCPsFixedByEventId';
-import useFetchCPSMobileByEventsId from '../../../../../hooks/useFetchCPsMobileByEventId';
 import React, { ComponentProps, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
@@ -17,11 +15,11 @@ import { formatDateDefaultInput } from '@/utils/formatDate';
 import { SearchCheckboxCPFixeds } from '../../common/SearchCheckboxCPFixed';
 import { SearchCheckboxCPMobiles } from '../../common/SearchCheckboxCPMobiles';
 import {
-    ICPFixed,
-    ICPF_events,
-    ICPMobile,
-    ICPM_events,
+    IConsumptionPoint,
+    IConsumptionPointEvent,
 } from '@/lib/types/consumptionPoints';
+import useFetchCPSEventByEventsId from '@/hooks/useFetchCPsEventByEventId ';
+import { SearchCheckboxCPs } from '../../common/SearchCheckboxCPs';
 
 interface FormData {
     is_activated: boolean;
@@ -31,24 +29,21 @@ interface FormData {
     end_date: string;
     logo_url: string;
     promotional_url: string;
-    cps_mobile: ICPM_events[];
-    cps_fixed: ICPF_events[];
+    cps: IConsumptionPointEvent[];
 }
 
 interface Props {
     selectedEvent: IEvent;
     isEditModal: boolean;
     handleEditModal: ComponentProps<any>;
-    cpsMobile: ICPMobile[];
-    cpsFixed: ICPFixed[];
+    cps: IConsumptionPoint[];
 }
 
 export default function UpdateEventModal({
     selectedEvent,
     isEditModal,
     handleEditModal,
-    cpsMobile,
-    cpsFixed,
+    cps,
 }: Props) {
     const t = useTranslations();
     const { supabase } = useAuth();
@@ -56,23 +51,18 @@ export default function UpdateEventModal({
     const queryClient = useQueryClient();
 
     const {
-        data: checkedCPMobiles,
-        isLoading: isLoadingMobile,
-        isFetching: isFetchingMobile,
-        refetch: refetchMobile,
-    } = useFetchCPSMobileByEventsId(selectedEvent.id);
-
-    const {
-        data: checkedCPFixed,
-        isLoading: isLoadingFixed,
-        isFetching: isFetchingFixed,
-        refetch: refetchFixed,
-    } = useFetchCPSFixedByEventsId(selectedEvent.id);
+        data: checkedCPs,
+        isLoading,
+        isFetching,
+        refetch,
+        isFetchedAfterMount,
+    } = useFetchCPSEventByEventsId(selectedEvent.id);
 
     useEffect(() => {
-        refetchMobile();
-        refetchFixed();
-    }, []);
+        if (isFetchedAfterMount) {
+            refetch();
+        }
+    }, [isFetchedAfterMount]);
 
     const form = useForm<FormData>({
         defaultValues: {
@@ -98,8 +88,7 @@ export default function UpdateEventModal({
             end_date,
             logo_url,
             promotional_url,
-            cps_mobile,
-            cps_fixed,
+            cps,
         } = formValues;
 
         if (!selectedEvent) return;
@@ -118,29 +107,28 @@ export default function UpdateEventModal({
 
         if (error) throw error;
 
-        handleCheckedCPMobiles(cps_mobile);
-        handleCheckedCPFixed(cps_fixed);
+        handleCheckedCPs(cps);
 
         handleEditModal(false);
 
         queryClient.invalidateQueries('events');
     };
 
-    const handleCheckedCPMobiles = (cps_mobile: ICPM_events[]) => {
+    const handleCheckedCPs = (cps_mobile: IConsumptionPointEvent[]) => {
         // Comprobar si todos los elementos de checkedCPMobiles están en cps_mobile
-        const allCheckedInNew = checkedCPMobiles?.every((cp) =>
+        const allCheckedInNew = checkedCPs?.every((cp) =>
             cps_mobile.some((item) => item.cp_id === cp.cp_id),
         );
 
         // Comprobar si todos los elementos de cps_mobile están en checkedCPMobiles
         const allNewInChecked = cps_mobile.every((item) =>
-            checkedCPMobiles?.some((cp) => cp.cp_id === item.cp_id),
+            checkedCPs?.some((cp) => cp.cp_id === item.cp_id),
         );
 
         // Si hay cambios, actualiza los CPs móviles asociados al evento
         if (!allCheckedInNew || !allNewInChecked) {
             // Eliminar todos los CPs asociados al evento
-            checkedCPMobiles?.forEach(async (cp) => {
+            checkedCPs?.forEach(async (cp) => {
                 const { error: cpError } = await supabase
                     .from('cpm_events')
                     .delete()
@@ -155,46 +143,6 @@ export default function UpdateEventModal({
             // // Insertar los nuevos CPs asociados al evento
             cps_mobile?.forEach(async (item) => {
                 const { error } = await supabase.from('cpm_events').insert({
-                    cp_id: item.cp_id,
-                    event_id: selectedEvent.id,
-                    is_active: false,
-                });
-                if (error) {
-                    throw error;
-                }
-            });
-        }
-    };
-
-    const handleCheckedCPFixed = (cps_fixed: ICPF_events[]) => {
-        // Comprobar si todos los elementos de checkedCPFixed están en cps_fixed
-        const allCheckedInNew = checkedCPFixed?.every((cp) =>
-            cps_fixed.some((item) => item.cp_id === cp.cp_id),
-        );
-
-        // Comprobar si todos los elementos de cps_fixed están en checkedCPFixed
-        const allNewInChecked = cps_fixed.every((item) =>
-            checkedCPFixed?.some((cp) => cp.cp_id === item.cp_id),
-        );
-
-        // Si hay cambios, actualiza los CPs móviles asociados al evento
-        if (!allCheckedInNew || !allNewInChecked) {
-            // Eliminar todos los CPs asociados al evento
-            checkedCPFixed?.forEach(async (cp) => {
-                const { error: cpError } = await supabase
-                    .from('cpf_events')
-                    .delete()
-                    .eq('cp_id', cp.cp_id)
-                    .eq('event_id', selectedEvent.id);
-
-                if (cpError) {
-                    throw cpError;
-                }
-            });
-
-            // // Insertar los nuevos CPs asociados al evento
-            cps_fixed?.forEach(async (item) => {
-                const { error } = await supabase.from('cpf_events').insert({
                     cp_id: item.cp_id,
                     event_id: selectedEvent.id,
                     is_active: false,
@@ -236,9 +184,9 @@ export default function UpdateEventModal({
             form={form}
         >
             <>
-                {isFetchingMobile && <p>Loading...</p>}
-                {isLoadingMobile && <p>Loading...</p>}
-                {!isLoadingMobile && !isFetchingMobile && (
+                {isFetching && <p>Loading...</p>}
+                {isLoading && <p>Loading...</p>}
+                {!isLoading && !isFetching && (
                     <form>
                         {/* Event Information  */}
                         <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
@@ -336,23 +284,9 @@ export default function UpdateEventModal({
                             </legend>
 
                             {/* List of CPs  */}
-                            <SearchCheckboxCPMobiles
-                                cpsMobile={cpsMobile}
-                                checkedCPs={checkedCPMobiles}
-                                form={form}
-                            />
-                        </fieldset>
-
-                        {/* List of Fixed Consumption Points  */}
-                        <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                            <legend className="text-2xl">
-                                {t('cp_fixed_associated')}
-                            </legend>
-
-                            {/* List of CPs  */}
-                            <SearchCheckboxCPFixeds
-                                cpsFixed={cpsFixed}
-                                checkedCPs={checkedCPFixed}
+                            <SearchCheckboxCPs
+                                cps={cps}
+                                checkedCPs={checkedCPs}
                                 form={form}
                             />
                         </fieldset>

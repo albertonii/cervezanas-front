@@ -11,9 +11,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
-import { ICPFixed, ICPMobile } from '@/lib/types/consumptionPoints';
-import { SearchCheckboxCPFixeds } from '../../common/SearchCheckboxCPFixed';
-import { SearchCheckboxCPMobiles } from '../../common/SearchCheckboxCPMobiles';
+import { IConsumptionPoint } from '@/lib/types/consumptionPoints';
+import { SearchCheckboxCPs } from '../../common/SearchCheckboxCPs';
 
 const ModalWithForm = dynamic(() => import('../ModalWithForm'), { ssr: false });
 
@@ -24,8 +23,7 @@ export type ModalAddEventFormData = {
     end_date: Date;
     logo_url?: string;
     promotional_url?: string;
-    cps_mobile?: any[];
-    cps_fixed?: any[];
+    cps?: any[];
     event_experiences?: {
         experience_id?: string;
         cp_mobile_id?: string;
@@ -40,8 +38,7 @@ const schema: ZodType<ModalAddEventFormData> = z.object({
     end_date: z.date(),
     logo_url: z.string().optional(),
     promotional_url: z.string().optional(),
-    cps_mobile: z.any(),
-    cps_fixed: z.any(),
+    cps: z.any(),
     event_experiences: z.array(
         z.object({
             experience_id: z.string().optional(),
@@ -54,11 +51,10 @@ const schema: ZodType<ModalAddEventFormData> = z.object({
 type ValidationSchema = z.infer<typeof schema>;
 
 interface Props {
-    cpsMobile: ICPMobile[];
-    cpsFixed: ICPFixed[];
+    cps: IConsumptionPoint[];
 }
 
-export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
+export default function AddEvent({ cps }: Props) {
     const t = useTranslations();
     const { user, supabase } = useAuth();
 
@@ -95,8 +91,7 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
             description,
             start_date,
             end_date,
-            cps_mobile,
-            cps_fixed,
+            cps,
             event_experiences,
         } = form;
 
@@ -137,35 +132,14 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
 
         const { id: eventId } = event;
 
-        if (cps_mobile) {
+        if (cps) {
             // Get CP checked from the list
-            const cpsMobileFiltered = cps_mobile.filter((cp) => cp.cp_id);
+            const cpsFiltered = cps.filter((cp: IConsumptionPoint) => cp.cp_id);
 
             // Loop trough all the selected CPs and insert them into the event
-            cpsMobileFiltered.map(async (cp) => {
+            cpsFiltered.map(async (cp: IConsumptionPoint) => {
                 const { error: cpError } = await supabase
-                    .from('cpm_events')
-                    .insert({
-                        cp_id: cp.cp_id,
-                        event_id: eventId,
-                        is_active: false,
-                    });
-
-                if (cpError) {
-                    setIsLoading(false);
-                    throw cpError;
-                }
-            });
-        }
-
-        if (cps_fixed) {
-            // Get CP checked from the list
-            const cpsFixedFiltered = cps_fixed.filter((cp) => cp.cp_id);
-
-            // Loop trough all the selected CPs and insert them into the event
-            cpsFixedFiltered.map(async (cp: ICPFixed) => {
-                const { error: cpError } = await supabase
-                    .from('cpf_events')
+                    .from('cp_events')
                     .insert({
                         cp_id: cp.cp_id,
                         event_id: eventId,
@@ -256,33 +230,14 @@ export default function AddEvent({ cpsMobile, cpsFixed }: Props) {
                             {t('cp_mobile_associated')}
                         </legend>
 
-                        <SearchCheckboxCPMobiles
-                            cpsMobile={cpsMobile}
-                            form={form}
-                        />
-                    </fieldset>
-
-                    {/* List of Fixed Consumption Points  */}
-                    <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                        <legend className="text-2xl">
-                            {t('cp_fixed_associated')}
-                        </legend>
-
-                        <SearchCheckboxCPFixeds
-                            cpsFixed={cpsFixed}
-                            form={form}
-                        />
+                        <SearchCheckboxCPs cps={cps} form={form} />
                     </fieldset>
 
                     {/* Listado de experiencias cervezanas configuradas por el usuario y habilitadas en el evento */}
                     <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
                         <legend className="text-2xl">{t('experiences')}</legend>
 
-                        <ExperienceForm
-                            form={form}
-                            cpsMobile={cpsMobile}
-                            cpsFixed={cpsFixed}
-                        />
+                        <ExperienceForm form={form} cps={cps} />
                     </fieldset>
                 </form>
             )}

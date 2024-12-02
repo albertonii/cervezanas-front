@@ -1,18 +1,21 @@
 import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import React, { useMemo, useState } from 'react';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
-import { ICPMobile, ICPM_events } from '@/lib/types/consumptionPoints';
+import {
+    IConsumptionPoint,
+    IConsumptionPointEvent,
+} from '@/lib/types/consumptionPoints';
 
 interface Props {
     experienceId: string;
-    cpsMobile: ICPMobile[];
+    cps: IConsumptionPoint[];
     form: UseFormReturn<any, any>;
-    checkedCPs?: ICPM_events[];
+    checkedCPs?: IConsumptionPointEvent[];
     selectedEventId?: string;
 }
 
-export function SearchCheckboxExperiencesCPMobiles({
-    cpsMobile,
+export function SearchCheckboxExperiencesCPs({
+    cps,
     form,
     checkedCPs,
     selectedEventId,
@@ -21,9 +24,9 @@ export function SearchCheckboxExperiencesCPMobiles({
     const [query, setQuery] = useState('');
     const { setValue, control } = form;
 
-    const [checkedCPsState, setCheckedCPsState] = useState<ICPM_events[]>(
-        checkedCPs ?? [],
-    );
+    const [checkedCPsState, setCheckedCPsState] = useState<
+        IConsumptionPointEvent[]
+    >(checkedCPs ?? []);
 
     const { fields, append, insert, remove } = useFieldArray({
         name: 'experiences',
@@ -31,7 +34,7 @@ export function SearchCheckboxExperiencesCPMobiles({
     });
 
     const handleCheckboxChange = (
-        cp: ICPMobile,
+        cp: IConsumptionPoint,
         index: number,
         isChecked: boolean,
     ) => {
@@ -44,13 +47,16 @@ export function SearchCheckboxExperiencesCPMobiles({
 
             // Verify if the CP is already in the array
             if (checkedCPsState.some((item) => item.cp_id === cp.id)) return;
-            const cp_check: ICPM_events = {
+            const cp_check: IConsumptionPointEvent = {
                 created_at: new Date().toISOString(),
                 cp_id: cp.id,
                 event_id: selectedEventId ?? '',
                 is_active: false,
-                is_cervezanas_event: false, // TODO: TRAER EL EVENTO (selectedEvent en vez de selectedEventId) PARA ACCEDER A ESTE VALOR
+                is_cervezanas_event: false,
                 owner_id: cp.owner_id ?? '',
+                id: '',
+                start_date: '',
+                end_date: '',
             };
             setCheckedCPsState([...checkedCPsState, cp_check]);
 
@@ -68,11 +74,11 @@ export function SearchCheckboxExperiencesCPMobiles({
     };
 
     const filteredItemsByCPName = useMemo(() => {
-        if (!cpsMobile) return [];
-        return cpsMobile.filter((cp) => {
+        if (!cps) return [];
+        return cps.filter((cp) => {
             return cp.cp_name.toLowerCase().includes(query.toLowerCase());
         });
-    }, [cpsMobile, query]);
+    }, [cps, query]);
 
     return (
         <section className="my-6 w-full">
@@ -88,36 +94,35 @@ export function SearchCheckboxExperiencesCPMobiles({
                     aria-labelledby="dropdownSearchButton"
                 >
                     {filteredItemsByCPName.map(
-                        (cp_mobile: ICPMobile, index: number) => {
+                        (cp: IConsumptionPoint, index: number) => {
                             return (
                                 <li
-                                    key={cp_mobile.id}
+                                    key={cp.id}
                                     className="flex items-center justify-between rounded p-2 hover:bg-gray-100 dark:hover:bg-gray-600"
                                 >
                                     {/* Checkbox Name  */}
                                     <input
-                                        id={`checkbox-item-${cp_mobile.id}`}
+                                        id={`checkbox-item-${cp.id}`}
                                         type="checkbox"
                                         checked={checkedCPsState?.some(
                                             (cps_event) =>
-                                                cps_event.cp_id ===
-                                                cp_mobile.id,
+                                                cps_event.cp_id === cp.id,
                                         )}
                                         onChange={(e) =>
                                             handleCheckboxChange(
-                                                cp_mobile,
+                                                cp,
                                                 index,
                                                 e.target.checked,
                                             )
                                         }
-                                        value={cp_mobile.id}
+                                        value={cp.id}
                                         className="hover:cursor-pointer h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
                                     />
                                     <label
-                                        htmlFor={`checkbox-item-${cp_mobile.id}`}
+                                        htmlFor={`checkbox-item-${cp.id}`}
                                         className="hover:cursor-pointer ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
                                     >
-                                        {cp_mobile.cp_name}
+                                        {cp.cp_name}
                                     </label>
                                 </li>
                             );

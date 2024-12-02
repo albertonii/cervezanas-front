@@ -1,4 +1,4 @@
-import CPMProduct from './CPMProductItem';
+import CPProductItem from './CPProductItem';
 import TR from '@/app/[locale]/components/ui/table/TR';
 import Title from '@/app/[locale]/components/ui/Title';
 import TH from '@/app/[locale]/components/ui/table/TH';
@@ -7,24 +7,29 @@ import THead from '@/app/[locale]/components/ui/table/THead';
 import Table from '@/app/[locale]/components/ui/table/Table';
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { ICPMobile, ICPMProducts } from '@/lib/types/consumptionPoints';
+import {
+    IConsumptionPointEvent,
+    IConsumptionPointProduct,
+} from '@/lib/types/consumptionPoints';
 
 interface Props {
-    cpMobile: ICPMobile;
+    cpEvent: IConsumptionPointEvent;
     eventId: string;
 }
 
-export default function ProductList({ cpMobile, eventId }: Props) {
+export default function ProductList({ cpEvent, eventId }: Props) {
     const t = useTranslations();
-    const { cpm_products } = cpMobile;
+    const { cp } = cpEvent;
 
-    const activeCPMProducts = cpm_products?.filter(
-        (cpm_product: ICPMProducts) => cpm_product.is_active,
+    const activeCPProducts = cp?.cp_products?.filter(
+        (cp_product: IConsumptionPointProduct) => cp_product.is_active,
     );
+
+    console.log('ACTIVE PRODUCTS', activeCPProducts);
 
     return (
         <>
-            {activeCPMProducts && activeCPMProducts.length > 0 && (
+            {activeCPProducts && activeCPProducts.length > 0 && (
                 <section className="overflow-x-auto">
                     <Title size={'large'} color={'beer-blonde'}>
                         {t('products')}
@@ -45,27 +50,22 @@ export default function ProductList({ cpMobile, eventId }: Props) {
 
                                 <TH scope="col">{t('price_header')}</TH>
 
-                                <TH scope="col" class_="hidden md:block">
-                                    {t('type_header')}
-                                </TH>
+                                <TH scope="col">{t('type_header')}</TH>
 
                                 <TH scope="col">{t('action_header')}</TH>
                             </TR>
                         </THead>
 
                         <TBody>
-                            {activeCPMProducts.map(
-                                (cpm_product: ICPMProducts) => (
+                            {activeCPProducts.map(
+                                (cpProduct: IConsumptionPointProduct) => (
                                     <>
-                                        {cpm_product.product_packs &&
-                                            cpm_product.is_active && (
-                                                <CPMProduct
-                                                    pack={
-                                                        cpm_product.product_packs
-                                                    }
-                                                    cpmId={cpm_product.id}
-                                                    cpMobile={cpMobile}
+                                        {cpProduct.product_packs &&
+                                            cpProduct.is_active && (
+                                                <CPProductItem
+                                                    cpProduct={cpProduct}
                                                     eventId={eventId}
+                                                    cpEvent={cpEvent}
                                                 />
                                             )}
                                     </>

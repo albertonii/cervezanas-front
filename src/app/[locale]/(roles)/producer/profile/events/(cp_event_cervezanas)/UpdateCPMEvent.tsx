@@ -11,7 +11,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
 import { formatDateDefaultInput } from '@/utils/formatDate';
-import { ICPM_events } from '@/lib/types/consumptionPoints';
+import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import { SearchCheckboxExperiences } from './SearchCheckboxExperiences';
 
@@ -36,8 +36,7 @@ type ModalUpdCPMEventFormData = {
     event_experiences?: {
         id?: string;
         experience_id?: string;
-        cp_mobile_id?: string;
-        cp_fixed_id?: string;
+        cp_id?: string;
         event_id?: string;
     }[];
     removed_event_experiences?: {
@@ -67,8 +66,7 @@ const schema: ZodType<ModalUpdCPMEventFormData> = z.object({
         z.object({
             id: z.string().optional(),
             experience_id: z.string().optional(),
-            cp_mobile_id: z.string().optional(),
-            cp_fixed_id: z.string().optional(),
+            cp_id: z.string().optional(),
             event_id: z.string().optional(),
         }),
     ),
@@ -82,13 +80,13 @@ const schema: ZodType<ModalUpdCPMEventFormData> = z.object({
 type ValidationSchema = z.infer<typeof schema>;
 
 interface Props {
-    selectedCPMEvent: ICPM_events;
+    selectedCPEvent: IConsumptionPointEvent;
     isEditModal: boolean;
     handleEditModal: ComponentProps<any>;
 }
 
 export default function UpdateCPMEventModal({
-    selectedCPMEvent,
+    selectedCPEvent,
     isEditModal,
     handleEditModal,
 }: Props) {
@@ -101,30 +99,30 @@ export default function UpdateCPMEventModal({
     const form = useForm<ValidationSchema>({
         resolver: zodResolver(schema),
         defaultValues: {
-            cp_id: selectedCPMEvent.cp_id,
-            event_id: selectedCPMEvent.event_id,
-            is_active: selectedCPMEvent.is_active,
-            is_cervezanas_event: selectedCPMEvent.is_cervezanas_event,
-            owner_id: selectedCPMEvent.owner_id,
+            cp_id: selectedCPEvent.cp_id,
+            event_id: selectedCPEvent.event_id,
+            is_active: selectedCPEvent.is_active,
+            is_cervezanas_event: selectedCPEvent.is_cervezanas_event,
+            owner_id: selectedCPEvent.owner_id,
             event_experiences: [],
             event: {
-                id: selectedCPMEvent.events?.id ?? '',
+                id: selectedCPEvent.events?.id ?? '',
                 created_at: formatDateDefaultInput(
-                    selectedCPMEvent.events?.created_at ?? '',
+                    selectedCPEvent.events?.created_at ?? '',
                 ),
-                name: selectedCPMEvent.events?.name ?? '',
-                description: selectedCPMEvent.events?.description ?? '',
+                name: selectedCPEvent.events?.name ?? '',
+                description: selectedCPEvent.events?.description ?? '',
                 start_date: formatDateDefaultInput(
-                    selectedCPMEvent.events?.start_date ?? '',
+                    selectedCPEvent.events?.start_date ?? '',
                 ),
                 end_date: formatDateDefaultInput(
-                    selectedCPMEvent.events?.end_date ?? '',
+                    selectedCPEvent.events?.end_date ?? '',
                 ),
-                status: selectedCPMEvent.events?.status ?? '',
-                owner_id: selectedCPMEvent.events?.owner_id ?? '',
-                is_activated: selectedCPMEvent.events?.is_activated ?? false,
+                status: selectedCPEvent.events?.status ?? '',
+                owner_id: selectedCPEvent.events?.owner_id ?? '',
+                is_activated: selectedCPEvent.events?.is_activated ?? false,
                 is_cervezanas_event:
-                    selectedCPMEvent.events?.is_cervezanas_event ?? false,
+                    selectedCPEvent.events?.is_cervezanas_event ?? false,
             },
             removed_event_experiences: [],
         },
@@ -159,37 +157,20 @@ export default function UpdateCPMEventModal({
         });
 
         event_experiences?.map(async (eventExperience) => {
-            if (!eventExperience) return;
+            if (!eventExperience || !eventExperience.id) return;
 
-            if (eventExperience.id) {
-                const { error } = await supabase
-                    .from('event_experiences')
-                    .update({
-                        experience_id: eventExperience.experience_id,
-                        event_id: eventExperience.event_id,
-                        cp_mobile_id: eventExperience.cp_mobile_id,
-                        cp_fixed_id: null,
-                    })
-                    .eq('id', eventExperience.id);
+            const { error } = await supabase
+                .from('event_experiences')
+                .update({
+                    experience_id: eventExperience.experience_id,
+                    event_id: eventExperience.event_id,
+                    cp_id: eventExperience.cp_id,
+                })
+                .eq('id', eventExperience.id);
 
-                if (error) {
-                    setIsLoading(false);
-                    throw error;
-                }
-            } else {
-                const { error } = await supabase
-                    .from('event_experiences')
-                    .insert({
-                        experience_id: eventExperience.experience_id,
-                        event_id: eventExperience.event_id,
-                        cp_mobile_id: eventExperience.cp_mobile_id,
-                        cp_fixed_id: null,
-                    });
-
-                if (error) {
-                    setIsLoading(false);
-                    throw error;
-                }
+            if (error) {
+                setIsLoading(false);
+                throw error;
             }
         });
 
@@ -312,8 +293,8 @@ export default function UpdateCPMEventModal({
                         </legend>
 
                         <SearchCheckboxExperiences
-                            cpMobileId={selectedCPMEvent.cp_id}
-                            eventId={selectedCPMEvent.event_id}
+                            cpId={selectedCPEvent.cp_id}
+                            eventId={selectedCPEvent.event_id}
                             form={form}
                         />
                     </fieldset>

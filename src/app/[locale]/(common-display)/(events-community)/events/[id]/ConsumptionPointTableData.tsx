@@ -6,15 +6,18 @@ import TD from '@/app/[locale]/components/ui/table/TD';
 import { COMMON } from '@/constants';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
-import { ROUTE_CP_MOBILE, ROUTE_EVENTS } from '@/config';
-import { ICPMobile } from '@/lib/types/consumptionPoints';
+import { ROUTE_CP, ROUTE_EVENTS } from '@/config';
+import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 
 interface CPMobileProps {
-    cp: ICPMobile;
+    cp: IConsumptionPointEvent;
     eventId: string;
 }
 
-export default function CPMobile({ cp, eventId }: CPMobileProps) {
+export default function ConsumptionPointTableData({
+    cp,
+    eventId,
+}: CPMobileProps) {
     const locale = useLocale();
     const t = useTranslations();
 
@@ -22,8 +25,8 @@ export default function CPMobile({ cp, eventId }: CPMobileProps) {
         <TR>
             <TD class_=" hidden space-x-2 px-6 py-4 sm:block">
                 <Image
-                    src={cp.logo_url ?? COMMON.PROFILE_IMG}
-                    alt={cp.cp_name}
+                    src={cp.cp?.logo_url ?? COMMON.PROFILE_IMG}
+                    alt={cp.cp?.cp_name ?? 'CP Logo'}
                     width={64}
                     height={64}
                 />
@@ -31,10 +34,10 @@ export default function CPMobile({ cp, eventId }: CPMobileProps) {
 
             <TD class_=" text-md space-x-2 px-2 py-4 font-semibold text-beer-blonde hover:cursor-pointer hover:text-beer-draft sm:text-lg">
                 <Link
-                    href={`${ROUTE_EVENTS}/${eventId}${ROUTE_CP_MOBILE}/${cp.id}`}
+                    href={`${ROUTE_EVENTS}/${eventId}${ROUTE_CP}/${cp.id}`}
                     locale={locale}
                 >
-                    {cp.cp_name}
+                    {cp.cp?.cp_name}
                 </Link>
             </TD>
 
@@ -44,10 +47,12 @@ export default function CPMobile({ cp, eventId }: CPMobileProps) {
             </TD>
             <TD
                 class_={`space-x-2 px-6 py-4 ${
-                    cp.status === 'active' && 'text-green-500 font-semibold'
-                } ${cp.status === 'inactive' && 'text-red-500 font-semibold'}`}
+                    cp.cp?.status === 'active' && 'text-green-500 font-semibold'
+                } ${
+                    cp.cp?.status === 'inactive' && 'text-red-500 font-semibold'
+                }`}
             >
-                {t(cp.status)}
+                {t(cp.cp?.status)}
             </TD>
         </TR>
     );

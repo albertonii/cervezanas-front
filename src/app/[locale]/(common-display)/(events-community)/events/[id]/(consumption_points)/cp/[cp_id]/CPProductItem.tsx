@@ -5,33 +5,39 @@ import useEventCartStore from '@/app/store//eventCartStore';
 import EventCartButtons from '@/app/[locale]/components/cart/EventCartButtons';
 import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
 import React, { useEffect, useState } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
 import { SupabaseProps } from '@/constants';
+import { useLocale, useTranslations } from 'next-intl';
 import { ROUTE_EVENTS, ROUTE_PRODUCTS } from '@/config';
 import { formatCurrency } from '@/utils/formatCurrency';
-import { ICPMobile } from '@/lib/types/consumptionPoints';
-import { IEventProduct, IProductPack } from '@/lib/types/types';
+import { ICartEventProduct, IProductPack } from '@/lib/types/types';
 import { useAuth } from '../../../../../../../(auth)/Context/useAuth';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { AddCartButton } from '@/app/[locale]/components/cart/AddCartButton';
 
+import {
+    IConsumptionPointEvent,
+    IConsumptionPointProduct,
+} from '@/lib/types/consumptionPoints';
+
 interface ProductProps {
-    pack: IProductPack;
-    cpmId: string;
     eventId: string;
-    cpMobile: ICPMobile;
+    cpProduct: IConsumptionPointProduct;
+    cpEvent: IConsumptionPointEvent;
 }
 
-export default function CPMProductItem({
-    pack,
-    cpmId,
+export default function CPProductItem({
     eventId,
-    cpMobile,
+    cpProduct,
+    cpEvent,
 }: ProductProps) {
     const t = useTranslations();
     const locale = useLocale();
     const { isLoggedIn } = useAuth();
     const { handleMessage } = useMessage();
+
+    const { cp_id: cpId, product_packs: pack } = cpProduct;
+
+    if (!pack) return null;
 
     const {
         eventCarts,
@@ -46,6 +52,8 @@ export default function CPMProductItem({
 
     const { name, price, product_id, products: product, quantity } = pack;
 
+    console.log('CP PRODUCT', cpProduct);
+
     const [packQuantity, setPackQuantity] = useState(0);
 
     useEffect(() => {
@@ -54,7 +62,7 @@ export default function CPMProductItem({
         }
 
         setPackQuantity(
-            getPackQuantity(eventId, pack.product_id, cpMobile.id, pack.id),
+            getPackQuantity(eventId, pack.product_id, cpProduct.cp_id, pack.id),
         );
     }, [eventCarts]);
 
@@ -87,7 +95,7 @@ export default function CPMProductItem({
 
         if (!product) return;
 
-        const productEvent: IEventProduct = {
+        const productEvent: ICartEventProduct = {
             id: product.id,
             created_at: product.created_at,
             name: product.name,
@@ -111,28 +119,37 @@ export default function CPMProductItem({
             likes: product.likes,
             awards: product.awards,
             product_packs: product.product_packs,
-            cpm_id: cpMobile.id,
-            cpf_id: '',
-            cp_name: cpMobile.cp_name,
+            cp_id: cpProduct.cp_id,
+            cp_name: cpProduct.cp?.cp_name ?? '',
         };
 
         addPackToCart(eventId, productEvent, packCartItem);
     };
 
     const handleIncreaseCartQuantity = () => {
-        increaseOnePackCartQuantity(eventId, product_id, cpMobile.id, pack.id);
+        increaseOnePackCartQuantity(
+            eventId,
+            product_id,
+            cpProduct.cp_id,
+            pack.id,
+        );
     };
 
     const handleDecreaseCartQuantity = () => {
-        decreaseOnePackCartQuantity(eventId, product_id, cpMobile.id, pack.id);
+        decreaseOnePackCartQuantity(
+            eventId,
+            product_id,
+            cpProduct.cp_id,
+            pack.id,
+        );
     };
 
     const handleRemoveFromCart = () => {
-        removeFromCart(eventId, product_id, cpMobile.id, pack.id);
+        removeFromCart(eventId, product_id, cpProduct.cp_id, pack.id);
     };
 
     return (
-        <TR key={cpmId}>
+        <TR key={cpId}>
             <TD>
                 <DisplayImageProduct
                     imgSrc={
@@ -149,7 +166,7 @@ export default function CPMProductItem({
             <TD class_="hover:cursor-pointer hover:text-beer-draft">
                 <Link
                     target={'_blank'}
-                    href={`${ROUTE_EVENTS}/${eventId}${ROUTE_PRODUCTS}/${cpmId}`}
+                    href={`${ROUTE_EVENTS}/${eventId}${ROUTE_PRODUCTS}/${cpId}`}
                     locale={locale}
                 >
                     {product?.name}
@@ -162,7 +179,7 @@ export default function CPMProductItem({
 
             <TD class_="font-medium text-green-500">{formatCurrency(price)}</TD>
 
-            <TD class_="hidden md:block">{t(product?.type.toLowerCase())}</TD>
+            <TD>{t(cpEvent.cp?.type.toLowerCase())}</TD>
 
             <TD>
                 {packQuantity === 0 ? (

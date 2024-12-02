@@ -1478,5 +1478,7 @@
     },
     "back_to_event": "Volver al evento",
     "event_experience_participation_description": "Este Punto de Consumo ofrece {experiencesCounter} experiencias en las que puedes participar",
-    "organizer": "Organizador"
+    "organizer": "Organizador",
+    "mobile": "Móvil",
+    "fixed": "Fijo"
 }

@@ -10,7 +10,7 @@ import useFetchCervezanasEventsByOwnerId from '../../../../../../../hooks/useFet
 import React, { useEffect, useState } from 'react';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
-import { ICPM_events } from '@/lib/types/consumptionPoints';
+import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
@@ -31,14 +31,15 @@ export default function CervezanasEventList({ counter }: Props) {
     const { data, error, isError, isLoading, refetch } =
         useFetchCervezanasEventsByOwnerId(user.id, currentPage, resultsPerPage);
 
-    const [events, setEvents] = useState<ICPM_events[]>([]);
+    const [events, setEvents] = useState<IConsumptionPointEvent[]>([]);
 
     const editColor = { filled: '#90470b', unfilled: 'grey' };
     const deleteColor = { filled: '#90470b', unfilled: 'grey' };
 
     const [isEditModal, setIsEditModal] = useState(false);
     const [isDeleteModal, setIsDeleteModal] = useState(false);
-    const [selectedCPMEvent, setSelectedCPMEvent] = useState<ICPM_events>();
+    const [selectedCPEvent, setSelectedCPEvent] =
+        useState<IConsumptionPointEvent>();
 
     useEffect(() => {
         refetch().then((res: any) => {
@@ -47,14 +48,14 @@ export default function CervezanasEventList({ counter }: Props) {
         });
     }, [data, currentPage]);
 
-    const handleEditClick = async (e: ICPM_events) => {
+    const handleEditClick = async (e: IConsumptionPointEvent) => {
         setIsEditModal(true);
-        setSelectedCPMEvent(e);
+        setSelectedCPEvent(e);
     };
 
-    const handleDeleteClick = async (e: ICPM_events) => {
+    const handleDeleteClick = async (e: IConsumptionPointEvent) => {
         setIsDeleteModal(true);
-        setSelectedCPMEvent(e);
+        setSelectedCPEvent(e);
     };
 
     const handleEditModal = (isEdit: boolean) => {
@@ -69,7 +70,7 @@ export default function CervezanasEventList({ counter }: Props) {
         {
             header: t('event_type_header'),
             accessor: 'event_type',
-            render: (_: string, row: ICPM_events) => (
+            render: (_: string, row: IConsumptionPointEvent) => (
                 <Image
                     width={32}
                     height={32}
@@ -82,31 +83,32 @@ export default function CervezanasEventList({ counter }: Props) {
         {
             header: t('cp_name_header'),
             accessor: 'cp_name',
-            render: (_: string, row: ICPM_events) => (
+            render: (_: string, row: IConsumptionPointEvent) => (
                 <Link
                     href={`/cpm/${row.cp_id}`}
                     locale={locale}
                     className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde"
                 >
-                    {row.cp_mobile?.cp_name}
+                    {row.cp?.cp_name}
                 </Link>
             ),
         },
         {
             header: t('event_name_header'),
             accessor: 'events.name',
-            render: (_: string, row: ICPM_events) => row.events?.name,
+            render: (_: string, row: IConsumptionPointEvent) =>
+                row.events?.name,
         },
         {
             header: t('created_date_header'),
             accessor: 'created_at',
-            render: (_: string, row: ICPM_events) =>
+            render: (_: string, row: IConsumptionPointEvent) =>
                 formatDateString(row.events?.created_at),
         },
         {
             header: t('action_header'),
             accessor: 'action',
-            render: (value: any, row: ICPM_events) => (
+            render: (value: any, row: IConsumptionPointEvent) => (
                 <div className="flex justify-center space-x-2">
                     <IconButton
                         icon={faEdit}
@@ -137,18 +139,18 @@ export default function CervezanasEventList({ counter }: Props) {
             isLoading={isLoading}
             errorMessage={'errors.fetching_events'}
         >
-            {isEditModal && selectedCPMEvent && (
+            {isEditModal && selectedCPEvent && (
                 <UpdateCPMEventModal
-                    selectedCPMEvent={selectedCPMEvent}
+                    selectedCPEvent={selectedCPEvent}
                     isEditModal={isEditModal}
                     handleEditModal={handleEditModal}
                 />
             )}
 
-            {isDeleteModal && selectedCPMEvent && (
+            {isDeleteModal && selectedCPEvent && (
                 <DeleteCPM_event_Modal
-                    eventId={selectedCPMEvent.event_id}
-                    cpId={selectedCPMEvent.cp_id}
+                    eventId={selectedCPEvent.event_id}
+                    cpId={selectedCPEvent.cp_id}
                     isDeleteModal={isDeleteModal}
                     handleDeleteModal={handlDeleteModal}
                 />

@@ -1,5 +1,5 @@
 import { Type as ProductType } from '../productEnum';
-import { ICPFixed, ICPMobile } from './consumptionPoints';
+import { IConsumptionPoint } from './consumptionPoints';
 import { IEvent } from './eventOrders';
 import { IProducerUser, IProductMedia, IUserProfile } from './types';
 
@@ -80,19 +80,6 @@ export type IExperience = {
     producer_user?: IProducerUser;
     bm_questions?: Question[];
 };
-
-export interface IEventExperience {
-    id: string;
-    created_at: string;
-    event_id: string;
-    cp_mobile_id: string;
-    cp_fixed_id: string;
-    experience_id: string;
-    cp_mobile?: ICPMobile;
-    cp_fixed?: ICPFixed;
-    experiences?: IExperience;
-    events?: IEvent;
-}
 
 export interface IBMExperienceParticipants {
     id: string;

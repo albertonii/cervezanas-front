@@ -1,14 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { IEventOrderItem } from '@/lib/types/types';
-import { EVENT_ORDER_ITEM_STATUS, SupabaseProps } from '@/constants';
-import { formatCurrency } from '@/utils/formatCurrency';
-import { useAuth } from '../../../../../(auth)/Context/useAuth';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
 import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
+import React, { useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { IEventOrderItem } from '@/lib/types/eventOrders';
+import { useAuth } from '../../../../../(auth)/Context/useAuth';
+import { EVENT_ORDER_ITEM_STATUS, SupabaseProps } from '@/constants';
+import Label from '@/app/[locale]/components/ui/Label';
 
 interface Props {
     eventOrderItem: IEventOrderItem;
@@ -151,12 +152,7 @@ export default function ManageEventProduct({ eventOrderItem }: Props) {
                 </div>
 
                 <div className="flex flex-col items-start justify-center">
-                    <label
-                        htmlFor="quantity"
-                        className="block text-sm font-medium text-gray-700 lg:text-xl"
-                    >
-                        {t('quantity_to_serve')}
-                    </label>
+                    <Label htmlFor="quantity">{t('quantity_to_serve')}</Label>
 
                     <div className="relative mt-1 w-[12vw] rounded-md shadow-sm lg:w-[14vw]">
                         <input

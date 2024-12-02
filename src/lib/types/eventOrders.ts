@@ -11,41 +11,46 @@ export interface IEventOrder {
     updated_at: string;
     customer_id: string;
     event_id: string;
-    status: 'not_started' | 'pending' | 'preparing' | 'ready' | 'completed';
+    status: string;
+    // status:
+    //     'with_services_to_consume'| 'order_placed'| 'paid'| 'served'| 'error';
     total: number;
     subtotal: number;
     currency: string;
     discount: number;
     discount_code: string;
+    order_number: string;
     tax: number;
     users?: IUserTable;
     events?: IEvent;
-}
-
-export interface IEventOrderItem {
-    id: string;
-    created_at: string;
-    status: string;
-    quantity: number;
-    is_reviewed: boolean;
-    quantity_served: number;
-    event_order_cp_id: string;
-    product_pack_id: string;
-    event_order_cps?: IEventOrderCPS;
-    product_packs?: IProductPack;
+    event_order_items?: IEventOrderItem[];
 }
 
 export interface IEventOrderCPS {
     id: string;
     created_at: string;
     order_number: string;
-    status: string; // 'not_started' | 'pending' | 'preparing' | 'ready' | 'completed';
+    // status: 'not_started' | 'pending' | 'preparing' | 'ready' | 'completed';
+    status: string;
     notes: string;
     cp_id: string;
     event_order_id: string;
     event_orders?: IEventOrder;
     event_order_items?: IEventOrderItem[];
     cp_events?: IConsumptionPointEvent[];
+}
+
+export interface IEventOrderItem {
+    id: string;
+    event_order_cp_id: string;
+    created_at: string;
+    quantity: number;
+    status: string;
+    is_reviewed: boolean;
+    quantity_served: number;
+    product_pack_id: string;
+    event_order_cps?: IEventOrderCPS;
+    product_packs?: IProductPack;
 }
 
 export interface IEventVendor {

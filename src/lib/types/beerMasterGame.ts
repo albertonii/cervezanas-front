@@ -77,7 +77,7 @@ export interface IAchievement {
     points: number;
     share_message?: string;
     how_to_achieve: string;
-    conditions: IAchievementConditions;
+    conditions?: IAchievementConditions;
 }
 
 export interface IAchievementConditions {

@@ -1,57 +1,55 @@
-import InfoCPMobile from './InfoCPMobile';
+import CPInformation from './CPInformation';
 import createServerClient from '@/utils/supabaseServer';
 import { IEventExperience } from '@/lib/types/types';
-import { ICPMobile } from '@/lib/types/consumptionPoints';
+import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 
 export default async function CPMobilePage({ params }: any) {
-    const { id: eventId, m_id: cpId } = params;
-    const cpMobileData = getCPMobile(cpId);
+    const { id: eventId, cp_id: cpId } = params;
+    const cpData = getConsumptionPoint(cpId);
     const eventExperiencesData = getEventExperience(eventId, cpId);
-    const [eventExperiences, cpMobile] = await Promise.all([
+    const [eventExperiences, cpEvent] = await Promise.all([
         eventExperiencesData,
-        cpMobileData,
+        cpData,
     ]);
 
     return (
-        <InfoCPMobile
-            cpMobile={cpMobile}
+        <CPInformation
+            cpEvent={cpEvent}
             eventId={eventId}
             eventExperiences={eventExperiences}
         />
     );
 }
 
-async function getCPMobile(cpId: string) {
+async function getConsumptionPoint(cpId: string) {
     const supabase = await createServerClient();
 
-    const { data: cpsMobile, error: cpMobileError } = await supabase
-        .from('cp_mobile')
+    const { data: cp, error: cpMobileError } = await supabase
+        .from('cp_events')
         .select(
             ` 
-        *,
-        cpm_products!cpm_products_cp_id_fkey (
-          *,
-          cp_id,
-          product_pack_id,
-          product_packs!cpm_products_product_pack_id_fkey (
-            *,
-            products!product_packs_product_id_fkey (
-              id,
-              name, 
-              description,
-              type,
-              product_media!product_media_product_id_fkey (*)
-            )
-          )
-        )
-      `,
+              *,
+              cp (
+                *,
+                cp_products (
+                    *,
+                    product_packs (
+                        *,
+                        products (
+                            *,
+                            product_media (*)
+                        )
+                    )
+                )
+              )
+            `,
         )
         .eq('id', cpId)
         .single();
 
     if (cpMobileError) console.error(cpMobileError);
 
-    return cpsMobile as ICPMobile;
+    return cp as IConsumptionPointEvent;
 }
 
 async function getEventExperience(eventId: string, cpId: string) {
@@ -65,8 +63,7 @@ async function getEventExperience(eventId: string, cpId: string) {
                   id,
                   created_at,
                   event_id,
-                  cp_mobile_id,
-                  cp_fixed_id,
+                  cp_id,
                   experience_id,
                   experiences!public_event_experiences_experience_id_fkey (
                     *
