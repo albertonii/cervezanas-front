@@ -1,17 +1,18 @@
+import useEventCartStore from '@/app/store//eventCartStore';
+import MarketCartButtons from '@/app/[locale]/components/cart/MarketCartButtons';
+import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
+import Label from '@/app/[locale]/components/ui/Label';
 import React, { useEffect, useState } from 'react';
+import { Type } from '@/lib/productEnum';
 import { useTranslations } from 'next-intl';
 import { SupabaseProps } from '@/constants';
-import { Type } from '@/lib/productEnum';
+import { formatCurrency } from '@/utils/formatCurrency';
+
 import {
     IProduct,
     IProductPack,
     IProductPackEventCartItem,
 } from '@/lib/types/types';
-import { formatCurrency } from '@/utils/formatCurrency';
-import useEventCartStore from '@/app/store//eventCartStore';
-import MarketCartButtons from '@/app/[locale]/components/cart/MarketCartButtons';
-import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
-import Label from '@/app/[locale]/components/ui/Label';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 

@@ -131,4 +131,13 @@ export const routes: Record<string, RouteLocaleNames> = {
         en: 'Notifications',
         es: 'Notificaciones',
     },
+    '/events': { en: 'Events', es: 'Eventos' },
+    '/events/:id': {
+        en: 'Event Details',
+        es: 'Detalles del Evento',
+    },
+    '/events/:id/event_basket': {
+        en: 'Cart',
+        es: 'Carrito',
+    },
 } as const;

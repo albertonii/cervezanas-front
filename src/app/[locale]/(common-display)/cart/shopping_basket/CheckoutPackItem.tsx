@@ -69,6 +69,7 @@ export default function CheckoutPackItem({ productPack, pack }: Props) {
                     <Label size="large" color="black" font="semibold">
                         {pack.name}
                     </Label>
+
                     {/* Peso del pack */}
                     <div className="flex items-center mt-2">
                         <Weight className="text-gray-600 dark:text-gray-400 mr-2" />

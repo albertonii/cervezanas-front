@@ -1,21 +1,27 @@
+// components/layout/Breadcrumb.tsx
+
 'use client';
 
 import Link from 'next/link';
-import React from 'react';
-import { usePathname } from 'next/navigation';
-import { getBreadcrumbs } from '@/utils/utils';
+import React, { useEffect, useState } from 'react';
 import { useLocale } from 'next-intl';
+import { usePathname } from 'next/navigation';
+import { getBreadcrumbs, Breadcrumb } from '@/utils/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
-const Breadcrumb = () => {
+const BreadcrumbComponent = () => {
     const locale = useLocale();
-    const paths = usePathname();
+    const pathname = usePathname();
+    const [breadcrumbs, setBreadcrumbs] = useState<Breadcrumb[]>([]);
 
-    const breadcrumbs =
-        locale == 'en'
-            ? getBreadcrumbs(paths, 'en')
-            : getBreadcrumbs(paths, 'es');
+    useEffect(() => {
+        const fetchBreadcrumbs = async () => {
+            const crumbs = await getBreadcrumbs(pathname, locale);
+            setBreadcrumbs(crumbs);
+        };
+        fetchBreadcrumbs();
+    }, [pathname, locale]);
 
     return (
         <nav
@@ -45,8 +51,10 @@ const Breadcrumb = () => {
                     return (
                         <React.Fragment key={index}>
                             <li
-                                className={`flex items-center hover:text-beer-light transition-colors duration-300 hover:font-semibold ${
-                                    isActive && 'text-beer-amber font-semibold'
+                                className={`flex items-center transition-colors duration-300 ${
+                                    isActive
+                                        ? 'text-beer-amber font-semibold'
+                                        : 'hover:text-beer-light hover:font-semibold'
                                 }`}
                             >
                                 <Link
@@ -70,4 +78,4 @@ const Breadcrumb = () => {
     );
 };
 
-export default Breadcrumb;
+export default BreadcrumbComponent;
