@@ -52,8 +52,6 @@ export default function CPProductItem({
 
     const { name, price, product_id, products: product, quantity } = pack;
 
-    console.log('CP PRODUCT', cpProduct);
-
     const [packQuantity, setPackQuantity] = useState(0);
 
     useEffect(() => {
@@ -163,7 +161,7 @@ export default function CPProductItem({
                 />
             </TD>
 
-            <TD class_="hover:cursor-pointer hover:text-beer-draft">
+            <TD class_="hover:cursor-pointer hover:text-beer-gold">
                 <Link
                     target={'_blank'}
                     href={`${ROUTE_EVENTS}/${eventId}${ROUTE_PRODUCTS}/${cpId}`}

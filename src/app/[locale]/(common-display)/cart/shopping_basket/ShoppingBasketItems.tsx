@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { IProductPackCartItem } from '@/lib/types/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import Title from '@/app/[locale]/components/ui/Title';
 
 interface Props {
     items: IProductPackCartItem[];
@@ -28,9 +29,9 @@ const ShoppingBasketItems = ({
                 size="2xl"
             />
 
-            <h2 className="text-4xl font-['NexaRust-script'] pt-8 lg:pt-0 text-gray-800 dark:text-white ">
+            <Title size="large" color="black" fontFamily="NexaRust-sans">
                 {t('customer_s_cart')}
-            </h2>
+            </Title>
 
             {items?.length > 0 ? (
                 <OrderItems

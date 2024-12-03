@@ -5,6 +5,7 @@ interface Props {
     size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
     color?: 'black' | 'white' | 'beer-draft' | 'beer-blonde' | 'gray';
     font?: 'semi-bold' | 'bold';
+    fontFamily?: 'NexaRust-script' | 'NexaRust-sans';
     children: React.ReactNode;
 }
 
@@ -13,6 +14,7 @@ const Title = ({
     size = 'large',
     color = 'black',
     font = 'bold',
+    fontFamily = 'NexaRust-script',
 }: Props) => {
     const t = useTranslations();
 
@@ -38,7 +40,7 @@ const Title = ({
             id="header"
         >
             <h1
-                className={`${sizeClass[size]} ${colorClass[color]} ${font} font-['NexaRust-script']`}
+                className={`${sizeClass[size]} ${colorClass[color]} ${font} font-['${fontFamily}']`}
             >
                 {children}
             </h1>

@@ -4,6 +4,11 @@ import React from 'react';
 import { useTranslations } from 'next-intl';
 import { EventCheckoutItem } from './EventCheckoutItem';
 import { formatCurrency } from '@/utils/formatCurrency';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import Title from '@/app/[locale]/components/ui/Title';
+import EventOrderItems from './EventOrderItems';
+import EventEmptyCart from '@/app/[locale]/(common-display)/cart/shopping_basket/EvemtEmptyCart';
 
 interface Props {
     eventId: string;
@@ -16,43 +21,26 @@ const EventBasketItems = ({ eventId, subtotal }: Props) => {
     const { eventCarts } = useEventCartStore();
 
     return (
-        <div className="border-product-softBlonde flex w-full flex-col items-start justify-start border bg-gray-50 px-4 py-4 dark:bg-gray-800 md:p-6 md:py-6 xl:p-8">
-            <p className="text-lg font-semibold leading-6 text-gray-800 dark:text-white md:text-xl xl:leading-5">
+        <section className="relative w-full p-6 bg-white dark:bg-gray-900 rounded-lg shadow space-y-6">
+            <FontAwesomeIcon
+                icon={faShoppingCart}
+                title={'Shipping Info Icon'}
+                className="text-beer-blonde absolute top-4 left-4 lg:-top-1 lg:-left-1 bg-white p-2 rounded-full shadow-lg"
+                size="2xl"
+            />
+
+            <Title size="large" color="black" fontFamily="NexaRust-sans">
                 {t('customer_s_cart')}
-            </p>
+            </Title>
 
             {eventCarts[eventId]?.length > 0 ? (
-                <div className="w-full">
-                    {eventCarts[eventId].map((productPack) => {
-                        return (
-                            <div key={productPack.id}>
-                                <EventCheckoutItem
-                                    eventId={eventId}
-                                    productPack={productPack}
-                                />
-                            </div>
-                        );
-                    })}
-
-                    {/* Subtotal */}
-                    <div className="mt-4 flex w-full flex-row items-center justify-between">
-                        <div className="flex flex-col items-start justify-start space-y-2">
-                            <div className="text-2xl text-gray-500">
-                                {t('subtotal')}
-
-                                <span className="ml-6 font-semibold text-gray-800">
-                                    {formatCurrency(subtotal)}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <EventOrderItems eventId={eventId} subtotal={subtotal} />
             ) : (
                 <>
-                    <EmptyCart />
+                    <EventEmptyCart />
                 </>
             )}
-        </div>
+        </section>
     );
 };
 

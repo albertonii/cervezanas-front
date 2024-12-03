@@ -3,7 +3,7 @@ import Draggable from 'react-draggable';
 import MaxifiedCart from './MaxifiedCart';
 import Title from '@/app/[locale]/components/ui/Title';
 import useEventCartStore from '@/app/store//eventCartStore';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IProductPackEventCartItem } from '@/lib/types/types';
 
@@ -13,32 +13,66 @@ interface Props {
 
 export default function EventCart({ eventId }: Props) {
     const t = useTranslations('event');
-    const { getCartQuantity, handleOpen } = useEventCartStore();
-    const { eventCarts, existEventCart, createNewCart, isOpen } =
-        useEventCartStore();
+    const { getCartQuantity, handleOpen, isOpen } = useEventCartStore();
+    const { eventCarts, existEventCart, createNewCart } = useEventCartStore();
 
     const [items, setItems] = useState<IProductPackEventCartItem[]>([]);
+    const [position, setPosition] = useState<{ x: number; y: number }>({
+        x: innerWidth / 2,
+        y: -200,
+    });
 
     useEffect(() => {
         if (!existEventCart(eventId)) {
             createNewCart(eventId);
         }
-
         setItems(eventCarts[eventId]);
     }, [eventCarts]);
 
+    const adjustPositionWithinBounds = (x: number, y: number) => {
+        const { innerWidth, innerHeight } = window;
+
+        const adjustedX = Math.max(0, Math.min(x, innerWidth - 300)); // 300px es el ancho del carrito
+        const adjustedY = Math.max(
+            0,
+            Math.min(y, innerHeight - (isOpen ? 400 : 50)),
+        ); // Altura: 400px abierto, 50px minimizado
+
+        return { x: adjustedX, y: adjustedY };
+    };
+
+    const onDragStop = (_e: any, data: any) => {
+        console.log(data);
+        const adjustedPosition = adjustPositionWithinBounds(data.x, data.y);
+        setPosition(adjustedPosition);
+    };
+
+    useEffect(() => {
+        if (isOpen) {
+            const adjustedPosition = adjustPositionWithinBounds(
+                position.x,
+                position.y,
+            );
+            setPosition(adjustedPosition);
+        }
+    }, [isOpen]);
+
     return (
-        <Draggable handle=".drag-handle" bounds="parent">
+        <Draggable
+            handle=".drag-handle"
+            bounds="parent"
+            position={position}
+            onStop={onDragStop}
+        >
             <section
-                className="fixed z-40 rounded-lg border-2 border-beer-softBlonde bg-beer-softFoam shadow-lg sm:w-auto bg-opacity-90"
+                className="fixed z-40 rounded-lg border-2 border-beer-softBlonde bg-white shadow-lg sm:w-auto"
                 aria-modal="true"
                 role="dialog"
                 tabIndex={-1}
             >
                 {/* Barra Arrastrable */}
-                <div className="md:min-w-[240px] drag-handle flex items-center justify-between p-2 bg-beer-blonde text-white font-semibold rounded-t-lg cursor-grab hover:cursor-grabbing">
+                <div className="drag-handle flex items-center justify-between p-2 bg-beer-blonde text-white font-semibold rounded-t-lg cursor-grab hover:cursor-grabbing">
                     <div className="flex items-center gap-2">
-                        {/* Ícono de mover */}
                         <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-white rounded-full shadow-md">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -55,15 +89,12 @@ export default function EventCart({ eventId }: Props) {
                                 />
                             </svg>
                         </div>
-
-                        {/* Título */}
                         <Title size="large" color="black">
                             {t('shopping_cart')}
                         </Title>
                     </div>
 
                     <div className="flex items-center gap-2">
-                        {/* Icono del carrito con cantidad */}
                         <div className="relative">
                             <Image
                                 src={'/icons/shopping-cart.svg'}
@@ -77,8 +108,6 @@ export default function EventCart({ eventId }: Props) {
                                 {getCartQuantity(eventId)}
                             </span>
                         </div>
-
-                        {/* Botón de minimizar */}
                         <button
                             onClick={() => handleOpen(!isOpen)}
                             className="flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gray-100 hover:bg-gray-300 transition-all"
@@ -110,9 +139,7 @@ export default function EventCart({ eventId }: Props) {
                 </div>
 
                 {/* Contenido del carrito */}
-                <div className="p-2 flex justify-center">
-                    {isOpen && <MaxifiedCart items={items} eventId={eventId} />}
-                </div>
+                {isOpen && <MaxifiedCart items={items} eventId={eventId} />}
             </section>
         </Draggable>
     );

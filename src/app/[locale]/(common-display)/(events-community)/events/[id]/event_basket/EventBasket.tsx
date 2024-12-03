@@ -1,15 +1,15 @@
 'use client';
 
 import '@fortawesome/fontawesome-svg-core/styles.css';
+
 import Decimal from 'decimal.js';
 import EventBasketItems from './EventBasketItems';
+import EventOrderSummary from './EventOrderSummary';
 import Title from '@/app/[locale]/components/ui/Title';
 import useEventCartStore from '@/app/store//eventCartStore';
-import Button from '@/app/[locale]/components/ui/buttons/Button';
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { IProductPack } from '@/lib/types/types';
-import { formatCurrency } from '@/utils/formatCurrency';
 import { useMutation, useQueryClient } from 'react-query';
 import { randomTransactionId, CURRENCIES } from 'redsys-easy';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
@@ -23,7 +23,6 @@ import {
     createRedirectForm,
     eventMerchantInfo,
 } from '@/app/[locale]/components/TPV/redsysClient';
-import EventOrderSummary from './EventOrderSummary';
 
 interface Props {
     eventId: string;

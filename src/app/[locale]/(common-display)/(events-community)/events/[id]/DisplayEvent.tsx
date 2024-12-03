@@ -14,12 +14,12 @@ import React, { useEffect } from 'react';
 import { ROUTE_EVENTS } from '@/config';
 import { useRouter } from 'next/navigation';
 import { IEvent } from '@/lib/types/eventOrders';
+import { IEventExperience } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { IBMExperienceParticipants } from '@/lib/types/quiz';
-import { IEventExperience } from '@/lib/types/types';
 
 interface Props {
     event: IEvent;

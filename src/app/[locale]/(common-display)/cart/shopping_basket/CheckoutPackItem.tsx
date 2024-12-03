@@ -1,13 +1,14 @@
 import MarketCartButtons from '@/app/[locale]/components/cart/MarketCartButtons';
 import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
 import React, { useMemo, useState } from 'react';
-import { Beer, Weight } from 'lucide-react';
+import { Weight } from 'lucide-react';
 import { SupabaseProps } from '@/constants';
 import { useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { calculateProductPacksWeight } from '@/utils/distribution';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { IProductPack, IProductPackCartItem } from '@/lib/types/types';
+import Label from '@/app/[locale]/components/ui/Label';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -30,7 +31,6 @@ export default function CheckoutPackItem({ productPack, pack }: Props) {
         removeFromCart,
         increaseOnePackCartQuantity,
         decreaseOnePackCartQuantity,
-        updateCanMakeThePayment,
     } = useShoppingCart();
 
     const handleIncreaseCartQuantity = () => {
@@ -51,7 +51,7 @@ export default function CheckoutPackItem({ productPack, pack }: Props) {
     return (
         <div className="flex flex-col md:flex-row items-center bg-white dark:bg-gray-900 rounded-lg shadow p-4 mb-6">
             {/* Imagen del producto */}
-            <div className="w-full md:w-1/3 flex justify-center mb-4 md:mb-0">
+            <figure className="w-full md:w-1/3 flex justify-center mb-4 md:mb-0">
                 <DisplayImageProduct
                     imgSrc={
                         BASE_PRODUCTS_URL + decodeURIComponent(pack.img_url)
@@ -61,14 +61,14 @@ export default function CheckoutPackItem({ productPack, pack }: Props) {
                     height={600}
                     class="h-24 w-24 md:h-32 md:w-32 lg:h-40 lg:w-40 rounded shadow"
                 />
-            </div>
+            </figure>
 
             {/* Detalles del producto */}
             <div className="w-full md:w-2/3 flex flex-col md:flex-row md:items-center md:justify-between">
                 <div className="flex flex-col items-center md:items-start text-center md:text-left">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    <Label size="large" color="black" font="semibold">
                         {pack.name}
-                    </h3>
+                    </Label>
                     {/* Peso del pack */}
                     <div className="flex items-center mt-2">
                         <Weight className="text-gray-600 dark:text-gray-400 mr-2" />

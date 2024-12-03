@@ -37,15 +37,15 @@ export default function Label({
     };
 
     const colorClass = {
-        black: 'text-black-800',
-        white: 'text-white',
-        gray: 'text-gray-500',
-        yellow: 'text-yellow-800',
-        green: 'text-green-800',
-        red: 'text-red-800',
-        'dark-gray': 'text-gray-700',
-        'beer-draft': 'text-beer-draft',
-        'beer-blonde': 'text-beer-blonde',
+        black: 'text-black-800 dark:text-white',
+        white: 'text-white dark:text-black-800',
+        gray: 'text-gray-500 dark:text-gray-300',
+        yellow: 'text-yellow-800 dark:text-yellow-300',
+        green: 'text-green-800 dark:text-green-300',
+        red: 'text-red-800 dark:text-red-300',
+        'dark-gray': 'text-gray-700 dark:text-gray-400',
+        'beer-draft': 'text-beer-draft dark:text-beer-draft',
+        'beer-blonde': 'text-beer-blonde dark:text-beer-blonde',
     };
 
     const fontClass = {
