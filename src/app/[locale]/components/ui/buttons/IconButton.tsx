@@ -95,7 +95,7 @@ export function IconButton({
 
     const getColorClass = () => {
         if (primary)
-            return 'bg-beer-softBlonde hover:bg-beer-blonde dark:bg-beer-dark';
+            return 'bg-beer-foam hover:bg-beer-softBlonde dark:bg-beer-dark';
         if (accent) return 'bg-beer-foam hover:bg-beer-softFoam';
         if (danger) return 'bg-red-500 hover:bg-red-600 dark:bg-red-600';
         return 'shrink-0 hover:bg-beer-softBlonde';
@@ -142,7 +142,7 @@ export function IconButton({
                     ></path>
                 </svg>
             ) : (
-                <div className="space-x-2">
+                <div className="gap-2">
                     {iconButton ?? (
                         <span className={`text-bear-dark dark:text-gray-300`}>
                             {iconButton}

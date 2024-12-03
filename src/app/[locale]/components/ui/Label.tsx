@@ -12,7 +12,7 @@ interface Props {
         | 'dark-gray'
         | 'beer-draft'
         | 'beer-blonde';
-    font?: 'semibold' | 'bold' | 'normal' | 'link';
+    font?: 'semibold' | 'bold' | 'normal' | 'medium' | 'link';
     htmlFor?: string;
     children: React.ReactNode;
     className?: string;
@@ -52,6 +52,7 @@ export default function Label({
         semibold: 'font-semibold',
         bold: 'font-bold',
         normal: 'font-normal',
+        medium: 'font-medium',
         link: 'font-normal underline hover:text-beer-blonde hover:cursor-pointer',
     };
 

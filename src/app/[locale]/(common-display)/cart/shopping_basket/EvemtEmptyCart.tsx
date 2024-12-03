@@ -1,10 +1,11 @@
 import Link from 'next/link';
+import Label from '@/app/[locale]/components/ui/Label';
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocale, useTranslations } from 'next-intl';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
-export default function EmptyCart() {
+export default function EventEmptyCart() {
     const t = useTranslations();
     const locale = useLocale();
 
@@ -22,17 +23,10 @@ export default function EmptyCart() {
                 <h2 className="text-2xl font-bold text-gray-800 uppercase">
                     {t('your_empty_cart')}
                 </h2>
-                <p className="text-gray-600 text-center max-w-md">
+                <Label color="gray" size="small">
                     {t('add_products_to_continue')}
-                </p>
+                </Label>
             </div>
-
-            {/* Botón para ir al Marketplace */}
-            <Link href="/marketplace" locale={locale}>
-                <button className="px-6 py-3 text-white bg-beer-blonde hover:bg-beer-dark rounded-lg text-lg font-medium shadow-md transition duration-200 ease-in-out">
-                    {t('go_to_marketplace')}
-                </button>
-            </Link>
         </section>
     );
 }

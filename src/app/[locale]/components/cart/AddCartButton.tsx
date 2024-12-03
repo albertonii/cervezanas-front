@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { faBeerMugEmpty } from '@fortawesome/free-solid-svg-icons';
-import { useTranslations } from 'next-intl';
 import AddToCartPopup from './AddToCartPopup';
+import React, { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { IconButton } from '../ui/buttons/IconButton';
+import { faBeerMugEmpty } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
     onClick?: () => void;
@@ -37,12 +37,12 @@ export function AddCartButton({ onClick, isVisible = false, onClose }: Props) {
 
             {/* Botón principal */}
             <IconButton
+                primary
                 onClick={handleOnClick}
                 classContainer="flex items-center justify-start w-full gap-2 group-hover:scale-105 transition-transform"
-                classIcon={`w-10 h-8 text-beer-gold transition-all transform group-hover:rotate-3 
+                classIcon={`w-10 h-8 transition-all transform group-hover:rotate-3 
                     ${animateCartBtn ? 'animate-wiggle' : ''}`}
                 icon={faBeerMugEmpty}
-                primary
                 title={t('add_to_cart')}
             >
                 <span className="text-base text-left hidden xl:block">

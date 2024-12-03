@@ -18,9 +18,9 @@ const Title = ({
 
     const sizeClass = {
         xsmall: 'text-sm',
-        small: 'text-xl',
-        medium: 'text-3xl',
-        large: 'text-4xl',
+        small: 'text-md sm:text-xl',
+        medium: 'text-lg sm:text-3xl',
+        large: 'text-2xl sm:text-4xl',
         xlarge: 'text-3xl sm:text-5xl',
     };
 

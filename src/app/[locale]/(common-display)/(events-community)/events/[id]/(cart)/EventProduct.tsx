@@ -1,7 +1,6 @@
+import React from 'react';
 import EventPackItem from './EventPackItem';
-import React, { useEffect, useState } from 'react';
-import { IProductPackEventCartItem, IProductPack } from '@/lib/types/types';
-import Label from '@/app/[locale]/components/ui/Label';
+import { IProductPackEventCartItem } from '@/lib/types/types';
 
 interface Props {
     item: IProductPackEventCartItem;
@@ -9,31 +8,25 @@ interface Props {
 }
 
 export default function EventProduct({ item, eventId }: Props) {
-    const [packs, setPacks] = useState<IProductPack[]>([]);
-
-    useEffect(() => {
-        setPacks(item.packs);
-    }, [item]);
-
     return (
-        <figure className="flex w-full flex-col space-y-1 border-2 bg-beer-softBlondeBubble p-2">
-            {/* Display Consumption Point name */}
-            <Label>{item.cp_name}</Label>
+        <div className="w-full bg-gray-50 rounded-lg shadow p-4 flex flex-col space-y-2">
+            {/* Product Header */}
+            <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold">{item.name}</h3>
+                <span className="text-sm text-gray-500">{item.cp_name}</span>
+            </div>
 
-            {/* Display product name */}
-            <Label>{item.name}</Label>
-
-            {packs.map((pack) => {
-                return (
-                    <div key={pack.id}>
-                        <EventPackItem
-                            item={item}
-                            pack={pack}
-                            eventId={eventId}
-                        />
-                    </div>
-                );
-            })}
-        </figure>
+            {/* Packs */}
+            <div className="space-y-2">
+                {item.packs.map((pack) => (
+                    <EventPackItem
+                        key={pack.id}
+                        pack={pack}
+                        item={item}
+                        eventId={eventId}
+                    />
+                ))}
+            </div>
+        </div>
     );
 }

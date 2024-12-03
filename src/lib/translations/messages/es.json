@@ -1384,7 +1384,6 @@
     },
     "about": "Acerca de",
     "go_to_signin_and_signup_page": "Ir a la página de inicio de sesión y registro",
-    "event": "Evento",
     "cervezanas_event": "Evento Cervezanas",
     "cervezanas_spots": "Puntos Cervezanas",
     "media_uploader": {
@@ -1468,5 +1467,11 @@
     "event_experience_participation_description": "Este Punto de Consumo ofrece {experiencesCounter} experiencias en las que puedes participar",
     "organizer": "Organizador",
     "mobile": "Móvil",
-    "fixed": "Fijo"
+    "fixed": "Fijo",
+    "event": {
+        "label": "Evento",
+        "open_cart": "Abrir carrito",
+        "close_cart": "Cerrar carrito",
+        "shopping_cart": "Carrito "
+    }
 }
