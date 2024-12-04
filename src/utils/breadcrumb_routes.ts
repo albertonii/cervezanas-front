@@ -140,4 +140,16 @@ export const routes: Record<string, RouteLocaleNames> = {
         en: 'Cart',
         es: 'Carrito',
     },
+    '/checkout': {
+        en: 'Checkout',
+        es: 'Pagar',
+    },
+    'checkout/event': {
+        en: 'Event',
+        es: 'Evento',
+    },
+    '/checkout/event/success': {
+        en: 'Order Confirmation',
+        es: 'Confirmación de Pedido',
+    },
 } as const;

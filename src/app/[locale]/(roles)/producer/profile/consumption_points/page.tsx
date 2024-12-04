@@ -42,8 +42,7 @@ async function getCPSData() {
         .from('consumption_points')
         .select(
             `
-                *,
-                cps (*)
+                *
             `,
         )
         .eq('owner_id', session.id);

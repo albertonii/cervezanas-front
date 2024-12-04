@@ -1,4 +1,5 @@
-import { IConsumptionPoint, IConsumptionPointEvent } from './consumptionPoints';
+import { EventOrderCPSStatus } from '@/constants';
+import { IConsumptionPointEvent } from './consumptionPoints';
 import { IProductPack, IUserTable } from './types';
 
 export interface IEventOrder {
@@ -7,9 +8,7 @@ export interface IEventOrder {
     updated_at: string;
     customer_id: string;
     event_id: string;
-    status: string;
-    // status:
-    //     'with_services_to_consume'| 'order_placed'| 'paid'| 'served'| 'error';
+    status: string; //     'with_services_to_consume'| 'order_placed'| 'paid'| 'served'| 'error';
     total: number;
     subtotal: number;
     currency: string;
@@ -17,9 +16,9 @@ export interface IEventOrder {
     discount_code: string;
     order_number: string;
     tax: number;
-    users?: IUserTable;
-    events?: IEvent;
-    event_order_items?: IEventOrderItem[];
+    users?: IUserTable[];
+    events?: IEvent[];
+    event_order_cps?: IEventOrderCPS[];
 }
 
 export interface IEventOrderCPS {
@@ -27,13 +26,13 @@ export interface IEventOrderCPS {
     created_at: string;
     order_number: string;
     // status: 'not_started' | 'pending' | 'preparing' | 'ready' | 'completed';
-    status: string;
+    status: EventOrderCPSStatus;
     notes: string;
     cp_id: string;
     event_order_id: string;
     event_orders?: IEventOrder;
     event_order_items?: IEventOrderItem[];
-    cp_events?: IConsumptionPointEvent[];
+    cp_events?: IConsumptionPointEvent;
 }
 
 export interface IEventOrderItem {

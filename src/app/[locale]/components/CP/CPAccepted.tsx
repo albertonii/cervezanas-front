@@ -13,6 +13,7 @@ interface Props {
 
 // Consumption Point status is in pending for validation by the admin of the platform
 export function CPAccepted({ cps, counterCP }: Props) {
+    console.log(cps);
     const [menuOption, setMenuOption] = useState<string>('cp_management');
 
     const renderSwitch = () => {

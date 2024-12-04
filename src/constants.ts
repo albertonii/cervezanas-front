@@ -71,6 +71,13 @@ export const EVENT_ORDER_STATUS = {
     ERROR: 'error',
 };
 
+export type EventOrderCPSStatus =
+    | 'not_started'
+    | 'pending'
+    | 'preparing'
+    | 'ready'
+    | 'completed';
+
 export const EVENT_ORDER_CPS_STATUS = {
     NOT_STARTED: 'not_started',
     PENDING: 'pending',

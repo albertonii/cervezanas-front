@@ -29,11 +29,11 @@ export default function Label({
     onClick,
 }: Props) {
     const sizeClass = {
-        xsmall: 'text-sm h-4',
-        small: 'text-md h-6',
-        medium: 'text-lg h-8',
-        large: 'text-xl h-12 ',
-        xlarge: 'text-3xl h-12',
+        xsmall: 'text-sm',
+        small: 'text-md',
+        medium: 'text-lg',
+        large: 'text-xl',
+        xlarge: 'text-3xl',
     };
 
     const colorClass = {

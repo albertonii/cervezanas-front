@@ -42,7 +42,6 @@ export default function EventCart({ eventId }: Props) {
     };
 
     const onDragStop = (_e: any, data: any) => {
-        console.log(data);
         const adjustedPosition = adjustPositionWithinBounds(data.x, data.y);
         setPosition(adjustedPosition);
     };

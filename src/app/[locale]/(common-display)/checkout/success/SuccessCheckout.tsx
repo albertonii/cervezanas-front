@@ -61,7 +61,7 @@ export default function SuccessCheckout({
     if (loading) return <Spinner color="beer-blonde" size="fullScreen" />;
 
     return (
-        <section className="m-4 sm:py-4 lg:py-6">
+        <section className="m-4 sm:py-4 lg:py-6 w-full">
             {/* Product and packs information */}
             {bOrders &&
                 bOrders.map((bOrder) => {

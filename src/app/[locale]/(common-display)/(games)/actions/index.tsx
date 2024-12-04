@@ -106,7 +106,7 @@ export async function updateStepsNumberInDB(
     updatedSteps: IConfigurationStepFormData[],
 ) {
     try {
-        const url = '/api/beer_master_game/organization/step/list_number';
+        const url = `${baseUrl}/api/beer_master_game/organization/step/list_number`;
         const formData = new FormData();
 
         updatedSteps.forEach((step, index) => {

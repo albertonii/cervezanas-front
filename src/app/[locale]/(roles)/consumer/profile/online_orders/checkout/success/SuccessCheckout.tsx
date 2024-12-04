@@ -73,7 +73,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
     if (loading) return <Spinner color="beer-blonde" size="fullScreen" />;
 
     return (
-        <section className="m-4 sm:py-4 lg:py-6">
+        <section className="m-4 sm:py-4 lg:py-6 w-full">
             {orderByDistributorBOrders &&
                 Object.values(orderByDistributorBOrders).map(
                     (bOrders: IBusinessOrder[], index) => {

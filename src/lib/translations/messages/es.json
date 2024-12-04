@@ -728,7 +728,8 @@
         "loading_distribution_costs": "Error al cargar los costos de distribución.",
         "distribution_costs_not_found": "No se encontraron datos de costos de distribución.",
         "toggle_is_distribution_costs_in_product": "Error al actualizar si estń incluidos los costos de distribución en el producto.",
-        "updating_is_distribution_costs_in_product": "Error al actualizar si están incluidos los costos de distribución en el producto."
+        "updating_is_distribution_costs_in_product": "Error al actualizar si están incluidos los costos de distribución en el producto.",
+        "order_not_started": "El pedido no ha comenzado"
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",
@@ -1055,7 +1056,8 @@
         "profile_acc_data_updated": "Datos de la cuenta actualizados correctamente",
         "sales_records_download_status_updated": "Estado de descarga de los registros de ventas actualizado correctamente",
         "promo_code_applied": "Código promocional aplicado correctamente",
-        "updating_is_distribution_costs_in_product": "Actualizado con éxito: los costos de distribución están incluidos en el producto"
+        "updating_is_distribution_costs_in_product": "Actualizado con éxito: los costos de distribución están incluidos en el producto",
+        "order_started": "Pedido iniciado correctamente"
     },
     "num_of_packs": "Número de packs",
     "promo_code": "Código promocional",
@@ -1472,6 +1474,29 @@
         "label": "Evento",
         "open_cart": "Abrir carrito",
         "close_cart": "Cerrar carrito",
-        "shopping_cart": "Carrito "
+        "shopping_cart": "Carrito ",
+        "success_how_it_works": "¿Cómo funciona?",
+        "success_instructions_1": "1. Tus pedidos se agrupan por punto de consumo. Así puedes comprar en diferentes stands y recoger cuando consideres oportuno.",
+        "success_instructions_2": "2. Cuando estés listo para consumir, pulsa `Iniciar Preparación` en cada pedido.",
+        "success_instructions_3": "3. El estado se actualizará automáticamente mientras se prepara tu pedido.",
+        "success_instructions_4": "4. Cuando aparezca `Listo para recoger`, dirígete al punto de recogida indicado.",
+        "success_instructions_5": "5. Muestra tu número de pedido al recoger tus productos.",
+        "cancel": "Cancelar",
+        "confirm": "Confirmar",
+        "order_number_cps": "Pedido #{orderNumber}",
+        "start_order": "Iniciar preparación",
+        "products": "Productos",
+        "total": "Total",
+        "not_started": "No iniciado",
+        "pending": "Pendiente",
+        "preparing": "En preparacion",
+        "ready": "Listo",
+        "completed": "Completado",
+        "cancelled": "Cancelado",
+        "order_placed": "Pedido realizado",
+        "paid": "Pagado",
+        "status_with_services_to_consume": "Servicios a consumir",
+        "served": "Servido",
+        "error": "Error"
     }
 }
