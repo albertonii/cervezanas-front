@@ -72,7 +72,7 @@ export const EVENT_ORDER_STATUS = {
 };
 
 export const EVENT_ORDER_CPS_STATUS = {
-    NOT_STATRTED: 'not_started',
+    NOT_STARTED: 'not_started',
     PENDING: 'pending',
     PREPARING: 'preparing',
     READY: 'ready',

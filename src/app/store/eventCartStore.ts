@@ -109,7 +109,9 @@ const useEventCartStore = create<EventCartState>((set, get) => {
                         distributor_id: '',
                         cp_id: product.cp_id,
                         cp_name: product.cp_name,
+                        cp_cps_id: product.cp_cps_id,
                     };
+
                     cart.push(newPack);
                 }
 

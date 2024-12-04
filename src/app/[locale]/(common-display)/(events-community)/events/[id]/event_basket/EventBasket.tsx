@@ -9,13 +9,17 @@ import Title from '@/app/[locale]/components/ui/Title';
 import useEventCartStore from '@/app/store//eventCartStore';
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
-import { IProductPack } from '@/lib/types/types';
+import { CURRENCY_ENUM } from '@/lib/enums';
+import { formatDateForTPV } from '@/utils/formatDate';
 import { useMutation, useQueryClient } from 'react-query';
 import { randomTransactionId, CURRENCIES } from 'redsys-easy';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { CustomLoading } from '@/app/[locale]/components/ui/CustomLoading';
+import { IProductPack, IProductPackEventCartItem } from '@/lib/types/types';
 import {
     API_METHODS,
+    EVENT_ORDER_CPS_STATUS,
     EVENT_ORDER_ITEM_STATUS,
     EVENT_ORDER_STATUS,
 } from '@/constants';
@@ -30,6 +34,7 @@ interface Props {
 
 export default function EventBasket({ eventId }: Props) {
     const t = useTranslations();
+    const { handleMessage } = useMessage();
 
     const { user, supabase } = useAuth();
 
@@ -45,7 +50,7 @@ export default function EventBasket({ eventId }: Props) {
     const [merchantParameters, setMerchantParameters] = useState('');
     const [merchantSignature, setMerchantSignature] = useState('');
 
-    const { eventCarts, clearCart } = useEventCartStore();
+    const { eventCarts } = useEventCartStore();
     const queryClient = useQueryClient();
 
     useEffect(() => {
@@ -75,6 +80,7 @@ export default function EventBasket({ eventId }: Props) {
         try {
             const orderNumber = await proceedPaymentRedsys();
             handleInsertOrder(orderNumber);
+            queryClient.invalidateQueries('eventOrders');
         } catch (error) {
             console.error(error);
             setLoadingPayment(false);
@@ -82,40 +88,87 @@ export default function EventBasket({ eventId }: Props) {
     };
 
     const handleInsertOrder = async (orderNumber: string) => {
-        const { data: order, error: orderError } = await supabase
+        const { data: eventOrder, error: orderError } = await supabase
             .from('event_orders')
             .insert({
                 customer_id: user?.id,
-                status: EVENT_ORDER_STATUS.ORDER_PLACED,
                 updated_at: new Date().toISOString(),
                 event_id: eventId,
-                order_number: orderNumber,
+                status: EVENT_ORDER_STATUS.ORDER_PLACED,
                 total: total,
-                currency: 'EUR',
                 subtotal: subtotal,
+                currency: CURRENCY_ENUM.EUR,
+                order_number: orderNumber,
                 // discount: discount,
                 // promo_code: "123456789",
-                // payment_method: PAYMENT_METHOD.CREDIT_CARD,
             })
             .select('id')
             .single();
 
         if (orderError) throw orderError;
 
-        eventCarts[eventId].map(async (item) => {
-            item.packs.map(async (pack: IProductPack) => {
-                const { error: orderItemError } = await supabase
-                    .from('event_order_items')
-                    .insert({
-                        event_order_cp_id: order.id,
-                        product_pack_id: pack.id,
-                        quantity: pack.quantity,
-                        status: EVENT_ORDER_ITEM_STATUS.INITIAL,
-                    });
+        // Insert event order information for the CP that is linked with the event.
+        // First we need to agrupate all the event orders that with the same attribute cp_id
+        const eventOrderCps = eventCarts[eventId].reduce(
+            (
+                acc: { [key: string]: IProductPackEventCartItem[] },
+                item: IProductPackEventCartItem,
+            ) => {
+                if (!acc[item.cp_cps_id]) {
+                    acc[item.cp_cps_id] = [];
+                }
+                acc[item.cp_cps_id].push(item);
+                return acc;
+            },
+            {} as { [key: string]: IProductPackEventCartItem[] },
+        );
 
-                if (orderItemError) throw orderItemError;
-            });
-        });
+        for (const cpCPSId in eventOrderCps) {
+            const { data: eventOrderCp, error: eventOrderCpError } =
+                await supabase
+                    .from('event_order_cps')
+                    .insert({
+                        event_order_id: eventOrder?.id,
+                        cp_id: cpCPSId,
+                        status: EVENT_ORDER_CPS_STATUS.NOT_STARTED,
+                        order_number: randomTransactionId(),
+                    })
+                    .select('id')
+                    .single();
+
+            if (eventOrderCpError) {
+                handleMessage({
+                    message: t('error'),
+                    type: 'error',
+                });
+
+                return false;
+            }
+
+            if (!eventOrderCp) {
+                handleMessage({
+                    message: t('error'),
+                    type: 'error',
+                });
+
+                return false;
+            }
+
+            for (const item of eventOrderCps[cpCPSId]) {
+                for (const pack of item.packs) {
+                    const { error: orderItemError } = await supabase
+                        .from('event_order_items')
+                        .insert({
+                            event_order_cp_id: eventOrderCp.id,
+                            product_pack_id: pack.id,
+                            quantity: pack.quantity,
+                            status: EVENT_ORDER_ITEM_STATUS.INITIAL,
+                        });
+
+                    if (orderItemError) throw orderItemError;
+                }
+            }
+        }
 
         setIsFormReady(true);
     };
@@ -126,7 +179,7 @@ export default function EventBasket({ eventId }: Props) {
         const { totalAmount, currency } = {
             // Never use floats for money
             totalAmount: total,
-            currency: 'EUR',
+            currency: CURRENCY_ENUM.EUR,
         } as const;
 
         const orderNumber = randomTransactionId();
@@ -141,8 +194,21 @@ export default function EventBasket({ eventId }: Props) {
         // Convert EUR -> 978
         const redsysCurrency = currencyInfo.num;
 
+        // MERCHANT EMV3DS optional information
+        const merchant_EMV3DS = {
+            email: user.email,
+            // homePhone: user.phone,
+            // shipAddLines1: 'Calle de la Cerveza, 1',
+            accInfo: {
+                chAccChange: formatDateForTPV(user.updated_at),
+                chAccDate: formatDateForTPV(user.created_at),
+                // txnActivityYear: 2020,
+            },
+        };
+
         const form = createRedirectForm({
             ...eventMerchantInfo,
+            // ...merchant_EMV3DS,
             DS_MERCHANT_ORDER: orderNumber,
             DS_MERCHANT_AMOUNT: redsysAmount,
             DS_MERCHANT_CURRENCY: redsysCurrency,
@@ -157,10 +223,6 @@ export default function EventBasket({ eventId }: Props) {
     const insertOrderMutation = useMutation({
         mutationKey: ['insertEventOrder'],
         mutationFn: handleProceedToPay,
-        onSuccess: () => {
-            queryClient.invalidateQueries('eventOrders');
-            clearCart(eventId);
-        },
         onError: (error: any) => {
             console.error(error);
         },

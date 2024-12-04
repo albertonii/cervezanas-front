@@ -898,6 +898,7 @@ export interface IProductPackEventCartItem {
     distributor_id: string;
     cp_id: string;
     cp_name: string;
+    cp_cps_id: string;
     product_media?: IProductMedia[];
 }
 
@@ -999,6 +1000,7 @@ export interface ICartEventProduct {
     product_packs?: IProductPack[];
     cp_id: string;
     cp_name: string;
+    cp_cps_id: string;
 }
 
 export interface IModalProduct {

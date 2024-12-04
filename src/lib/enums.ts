@@ -76,3 +76,8 @@ export enum BillingInformationType {
     INDIVIDUAL = 'individual',
     COMPANY = 'company',
 }
+
+export enum CURRENCY_ENUM {
+    EUR = 'EUR',
+    USD = 'USD',
+}

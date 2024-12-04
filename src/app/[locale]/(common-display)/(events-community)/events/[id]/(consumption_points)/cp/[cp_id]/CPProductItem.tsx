@@ -119,6 +119,7 @@ export default function CPProductItem({
             product_packs: product.product_packs,
             cp_id: cpProduct.cp_id,
             cp_name: cpProduct.cp?.cp_name ?? '',
+            cp_cps_id: cpEvent.id,
         };
 
         addPackToCart(eventId, productEvent, packCartItem);
