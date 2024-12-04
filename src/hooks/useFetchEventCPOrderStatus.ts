@@ -1,11 +1,11 @@
 'use client';
 
-import { useQuery, useQueryClient } from 'react-query';
+import { useEffect } from 'react';
 import { Database } from '@/lib/schema';
+import { useQuery, useQueryClient } from 'react-query';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { IEventOrderCPS } from '@/lib/types/eventOrders';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
-import { useEffect } from 'react';
 
 const fetchEventCPOrderStatusById = async (
     id: string,

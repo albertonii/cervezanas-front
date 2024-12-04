@@ -16,7 +16,7 @@ export interface IEventOrder {
     discount_code: string;
     order_number: string;
     tax: number;
-    users?: IUserTable[];
+    users?: IUserTable;
     events?: IEvent[];
     event_order_cps?: IEventOrderCPS[];
 }

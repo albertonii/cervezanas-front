@@ -1,6 +1,7 @@
 import React from 'react';
-import { IEventOrderCPS } from '@/lib/types/eventOrders';
+import Label from '@/app/[locale]/components/ui/Label';
 import { User } from 'lucide-react';
+import { IEventOrderCPS } from '@/lib/types/eventOrders';
 
 interface Props {
     order: IEventOrderCPS;
@@ -10,15 +11,19 @@ interface Props {
 const EventOrderCard = ({ order, actionButton }: Props) => {
     return (
         <div className="border rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex justify-between items-center mb-3">
-                <span className="font-bold text-lg">#{order.order_number}</span>
+            <div className="flex flex-col-reverse gap-2 xl:gap-0 xl:flex-row justify-between items-center mb-3">
+                <Label className="font-bold text-lg">
+                    #{order.order_number}
+                </Label>
                 {actionButton}
             </div>
 
             <div className="mb-3">
-                <div className="flex items-center text-gray-600 mb-2">
+                <div className="flex items-center mb-2">
                     <User className="w-4 h-4 mr-2" />
-                    <span>{order.event_orders?.users?.username}</span>
+                    <Label size="small" color="gray">
+                        {order.event_orders?.users?.username}
+                    </Label>
                 </div>
             </div>
 
@@ -30,15 +35,15 @@ const EventOrderCard = ({ order, actionButton }: Props) => {
                             key={item.id}
                             className="flex justify-between text-sm"
                         >
-                            <span className="font-medium">
+                            <Label size="small" font="medium">
                                 {item.quantity}x {item.product_packs?.name}
-                            </span>
-                            <span className="text-gray-600">
+                            </Label>
+                            <Label size="small" color="gray">
                                 €
                                 {(
                                     item.product_packs?.price! * item.quantity
                                 ).toFixed(2)}
-                            </span>
+                            </Label>
                         </li>
                     ))}
                 </ul>
@@ -46,15 +51,17 @@ const EventOrderCard = ({ order, actionButton }: Props) => {
 
             {order.notes && (
                 <div className="mt-3 p-2 bg-yellow-50 rounded-md">
-                    <p className="text-sm text-yellow-800">
+                    <Label size="small" color="yellow">
                         <span className="font-medium">Nota:</span> {order.notes}
-                    </p>
+                    </Label>
                 </div>
             )}
 
             <div className="mt-3 pt-3 border-t flex justify-between font-medium">
-                <span>Total:</span>
-                <span>€{order.event_orders?.total.toFixed(2)}</span>
+                <Label size="small">Total:</Label>
+                <Label size="small" color="beer-draft" font="semibold">
+                    €{order.event_orders?.total.toFixed(2)}
+                </Label>
             </div>
         </div>
     );
