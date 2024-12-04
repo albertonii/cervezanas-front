@@ -126,6 +126,7 @@ export default function SuccessCheckout({
                         </Title>
 
                         <p className="mt-4 hidden text-sm font-medium tracking-wide text-gray-500 hover:cursor-pointer hover:text-beer-blonde sm:ml-2 sm:mt-0 sm:block"></p>
+
                         <Label
                             onClick={() => handleInvoicePdf()}
                             font="link"

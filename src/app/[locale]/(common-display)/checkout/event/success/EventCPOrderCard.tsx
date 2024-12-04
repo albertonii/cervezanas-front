@@ -134,7 +134,8 @@ const EventCPOrderCard: React.FC<Props> = ({ order }) => {
                                 className="flex justify-between text-sm space-x-4 bg-beer-softFoam p-2 rounded-lg"
                             >
                                 <Label size="small">
-                                    {item.quantity} x {item.product_packs?.name}
+                                    {item.quantity} x {item.product_packs?.name}{' '}
+                                    - {item.product_packs?.products?.name}
                                 </Label>
                                 <Label size="small" color="gray">
                                     {(

@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import { SupabaseProps } from '@/constants';
 import { useLocale, useTranslations } from 'next-intl';
 import { IEventOrderCPS, IEventOrderItem } from '@/lib/types/eventOrders';
-import { StatusTimeline } from '@/app/[locale]/components/StatusTimeline';
+import Title from '@/app/[locale]/components/ui/Title';
+import Label from '@/app/[locale]/components/ui/Label';
 
 interface Props {
     eventOrderItem: IEventOrderItem;
@@ -37,12 +38,17 @@ export default function EventCPProductDetails({
             <div className="flex items-center mb-4">
                 <Store className="w-6 h-6 text-beer-draft mr-2" />
                 <div>
-                    <h2 className="text-xl font-bold text-gray-800">
+                    <Title
+                        size="medium"
+                        font="bold"
+                        color="gray"
+                        fontFamily="NexaRust-sans"
+                    >
                         {eventOrderItem.event_order_cps?.cp_events?.cp?.cp_name}
-                    </h2>
-                    <p className="text-gray-600 text-sm">
+                    </Title>
+                    <Label size="medium" color="gray">
                         {eventOrderItem.event_order_cps?.cp_events?.cp?.address}
-                    </p>
+                    </Label>
                 </div>
             </div>
 
