@@ -8,12 +8,12 @@ import { ProductOverallReview } from '@/app/[locale]/components/reviews/ProductO
 import { IConsumptionPointProduct } from '@/lib/types/consumptionPoints';
 
 interface Props {
-    CPMProduct: IConsumptionPointProduct;
+    CPProduct: IConsumptionPointProduct;
     marketplaceProducts: IProduct[];
 }
 
-export default function CPProduct({ CPMProduct, marketplaceProducts }: Props) {
-    const product = CPMProduct.product_packs?.products!;
+export default function CPProduct({ CPProduct, marketplaceProducts }: Props) {
+    const product = CPProduct.product_packs?.products!;
 
     const [emptyReviews, setEmptyReviews] = useState(false);
     const [productReviews, setProductReviews] = useState<IReview[]>(

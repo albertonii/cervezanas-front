@@ -70,7 +70,7 @@ const ProductTechnicalInformation = ({ product }: Props) => {
 
     return (
         <div className="">
-            <h2 className="text-3xl font-semibold text-beer-draft font-['NexaRust-script']">
+            <h2 className="text-3xl font-semibold text-beer-draft font-['NexaRust-script'] dark:text-white">
                 {t('key_features')}
             </h2>
 
@@ -81,7 +81,7 @@ const ProductTechnicalInformation = ({ product }: Props) => {
                     return (
                         <div
                             key={index}
-                            className="bg-white p-2 border border-gray-200 rounded-lg shadow-sm"
+                            className="bg-white p-2 border border-gray-200 rounded-lg shadow-sm dark:bg-beer-softBlonde dark:border-cerv-coal"
                         >
                             <span className="block font-semibold text-beer-draft text-xs ">
                                 {prop.label}
@@ -96,11 +96,11 @@ const ProductTechnicalInformation = ({ product }: Props) => {
 
             {/* Ingredientes Principales */}
             {ingredients && ingredients?.length > 0 && (
-                <div className="bg-white p-6 rounded-lg shadow-md space-y-4 mt-6">
-                    <h2 className="text-3xl font-semibold text-beer-draft font-['NexaRust-script']">
+                <div className="bg-white p-6 rounded-lg shadow-md space-y-4 mt-6 dark:bg-cerv-titlehigh">
+                    <h2 className="text-3xl font-semibold text-beer-draft font-['NexaRust-script'] dark:text-white">
                         {t('ingredients')}
                     </h2>
-                    <p className="text-gray-700">{ingredients?.join(', ')}</p>
+                    <p className="text-gray-700 dark:text-white">{ingredients?.join(', ')}</p>
                 </div>
             )}
         </div>

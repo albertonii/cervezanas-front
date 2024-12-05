@@ -17,40 +17,40 @@ interface Props {
 // Consumption Point status is in pending for validation by the admin of the platform
 export function ConsumptionPoints({ cps_, counterCP }: Props) {
     const [menuOption, setMenuOption] = useState<string>('cp_management');
-    const [cpsAccumulated, setCpsAccumulated] = useState<IConsumptionPoints[]>(
+    const [cpsAccumulated, setCpsAccumulated] = useState<IConsumptionPoint[]>(
         [],
     );
-
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        cps_.map((cps: IConsumptionPoints) => {
-            if (cps) {
-                cps.cp?.map((consumptionPoint: IConsumptionPoint) => {
-                    setCpsAccumulated((prev) => {
-                        // Avoid cp that already exists in the array
-                        const exists =
-                            prev &&
-                            prev.find((cp) => cp.id === consumptionPoint.id);
+        const accumulated: IConsumptionPoint[] = [];
 
-                        if (prev && !exists) {
-                            return [...prev, { ...consumptionPoint, cps: [] }];
-                        }
-                        return prev;
-                    });
-                });
-            }
+        cps_.forEach((cps: IConsumptionPoints) => {
+            cps.cp?.forEach((consumptionPoint: IConsumptionPoint) => {
+                // Evitar duplicados
+                const exists = accumulated.find(
+                    (cp) => cp.id === consumptionPoint.id,
+                );
+                if (!exists) {
+                    accumulated.push(consumptionPoint);
+                }
+            });
         });
 
+        setCpsAccumulated(accumulated);
         setIsLoading(false);
-    }, [cps]);
+    }, [cps_]);
 
     const renderSwitch = () => {
         switch (menuOption) {
             case 'cp_management':
-                return <CPManagement cpsId={cps.id} counterCP={counterCP} />;
+                return (
+                    <CPManagement cpsId={cps_[0]?.id} counterCP={counterCP} />
+                );
             case 'cp_in_events':
                 return <CPInEvents counterCP={counterCP} />;
+            default:
+                return null;
         }
     };
 
@@ -64,7 +64,6 @@ export function ConsumptionPoints({ cps_, counterCP }: Props) {
                 handleMenuClick={handleMenuClick}
                 tabs={['cp_management', 'cp_in_events']}
             />
-
             {renderSwitch()}
         </>
     );

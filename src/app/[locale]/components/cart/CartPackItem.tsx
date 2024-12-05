@@ -69,7 +69,7 @@ export function CartPackItem({ item, pack }: Props) {
 
                             <div className="ml-4 flex flex-1 flex-col">
                                 <div className="flex justify-between text-base font-medium text-gray-900">
-                                    <p className="md:text-md mt-1 text-gray-500 lg:text-lg">
+                                    <p className="md:text-md mt-1 text-gray-500 lg:text-lg dark:text-white">
                                         {pack.name}
                                     </p>
 
@@ -86,7 +86,7 @@ export function CartPackItem({ item, pack }: Props) {
                                 </div>
 
                                 <div className="flex flex-1 items-end justify-between text-sm">
-                                    <p className="text-gray-500">
+                                    <p className="text-gray-500 dark:text-white">
                                         {t('quantity')} {pack.quantity}
                                     </p>
 

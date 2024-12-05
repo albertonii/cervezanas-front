@@ -75,7 +75,7 @@ export default function DisplayEvent({
     };
 
     return (
-        <section className="relative w-full m-auto sm:mb-20 sm:mt-20 h-full w-full bg-white p-8 shadow-md  md:mt-0 bg-opacity-80 space-y-4">
+        <section className="relative w-full m-auto sm:mb-20 sm:mt-20 h-full w-full bg-white p-8 shadow-md  md:mt-0 bg-opacity-80 space-y-4 dark:bg-cerv-titlehigh">
             {/* <div className="absolute right-0 -top-4 sm:top-0 m-4 rounded-md bg-beer-gold px-4 py-2">
                 <span
                     className={`text-lg font-medium text-white ${
@@ -161,7 +161,9 @@ export default function DisplayEvent({
             <h1 className="mb-2 text-4xl font-bold text-beer-draft py-6 px-4 bg-gradient-to-r from-beer-softFoam to-transparent border-b-4 border-beer-draft rounded-t-2xl">
                 {event.name}
             </h1>
-            <h2 className="mb-4 text-lg text-gray-500">{event.description}</h2>
+            <h2 className="mb-4 text-lg text-gray-500 dark:text-white">
+                {event.description}
+            </h2>
 
             <div className="mb-4 flex flex-col sm:flex-row">
                 {/* Start and End date */}

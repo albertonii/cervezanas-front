@@ -18,7 +18,7 @@ export function CartItem({ item }: Props) {
             {item && (
                 <div data-testid={'cart-item'} className="my-4">
                     <Link href={`/products/${item.product_id}`} locale={locale}>
-                        <span className="text-beer-draft hover:underline hover:text-beer-gold font-semibold sm:text-xl transition-all ease-in-out duration-200">
+                        <span className="text-beer-draft hover:underline hover:text-beer-gold font-semibold sm:text-xl transition-all ease-in-out duration-200 dark:text-white">
                             {item.name}
                         </span>
                     </Link>

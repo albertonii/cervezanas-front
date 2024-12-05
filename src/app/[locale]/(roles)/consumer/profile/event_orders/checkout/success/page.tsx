@@ -45,9 +45,14 @@ export default async function SuccessPage({ searchParams }: any) {
         return <></>;
     }
 
-    const { orderData, isError } = await getSuccessData(searchParams);
-    const [order] = await Promise.all([orderData]);
+    const { orderData, isError, santanderResponseData } = await getSuccessData(
+        searchParams,
+    );
 
+    const [order, santanderResponse] = await Promise.all([
+        orderData,
+        santanderResponseData,
+    ]);
     return (
         <>
             {order && (
@@ -55,6 +60,7 @@ export default async function SuccessPage({ searchParams }: any) {
                     order={order}
                     isError={isError}
                     domain={domain}
+                    santanderResponse={santanderResponse}
                 />
             )}
         </>
@@ -68,9 +74,36 @@ async function getSuccessData(searchParams: any) {
         Ds_Signature: string;
     };
 
-    const { Ds_Order: orderNumber } = JSON.parse(
-        decodeBase64(Ds_MerchantParameters),
-    );
+    const {
+        Ds_Order: orderNumber,
+        Ds_Date,
+        Ds_Hour,
+        Ds_Amount,
+        Ds_Terminal,
+        Ds_Response,
+        Ds_MerchantData,
+        Ds_SecurePayment,
+        Ds_TransactionType,
+        Ds_Card_Country,
+        Ds_AuthorisationCode,
+        Ds_ConsumerLanguage,
+        Ds_Card_Brand,
+    } = JSON.parse(decodeBase64(Ds_MerchantParameters));
+
+    const logData = {
+        Hora: Ds_Hour,
+        Fecha: Ds_Date,
+        Cantidad: Ds_Amount,
+        Terminal: Ds_Terminal,
+        Respuesta: Ds_Response,
+        'Tipo Dato': Ds_MerchantData,
+        'Pago Seguro': Ds_SecurePayment,
+        'Tipo transacción': Ds_TransactionType,
+        'Código País Tarjeta': Ds_Card_Country,
+        'Código Auth': Ds_AuthorisationCode,
+        Idioma: Ds_ConsumerLanguage,
+        'Marca Tarjeta': Ds_Card_Brand,
+    };
 
     const supabase = await createServerClient();
 
@@ -92,23 +125,47 @@ async function getSuccessData(searchParams: any) {
                 status,
                 total,
                 subtotal,
-                tax,
                 currency,
                 discount,
+                discount_code,
                 order_number,
-                event_order_items (
-                    *,
-                    product_pack_id,
-                    product_packs (
-                    *,
-                    products (
-                        name,
-                        description
+                tax,
+                event_order_cps (
+                    id,
+                    created_at,
+                    event_order_id,
+                    cp_id,
+                    order_number,
+                    status,
+                    notes,
+                    event_order_items (
+                        id,
+                        created_at,
+                        event_order_cp_id,
+                        quantity,
+                        status,
+                        is_reviewed,
+                        quantity_served,
+                        product_pack_id,
+                        product_packs (
+                            *,
+                            products (
+                                name,
+                                description
+                            )
+                        ),
+                        event_order_cps (
+                            *,
+                            cp_events (
+                                *,
+                                cp (
+                                    cp_name,
+                                    address
+                                )
+                            )
+                        )
                     )
-                    )
-                ),
-                users (*),
-                events (*)
+                )
             `,
         )
         .eq('order_number', orderNumber)
@@ -119,6 +176,7 @@ async function getSuccessData(searchParams: any) {
         return {
             orderData: null,
             isError: true,
+            santanderResponseData: null,
         };
     }
 
@@ -126,8 +184,13 @@ async function getSuccessData(searchParams: any) {
         return {
             orderData: null,
             isError: true,
+            santanderResponseData: null,
         };
     }
 
-    return { orderData: orderData as IEventOrder, isError: false };
+    return {
+        orderData: orderData as IEventOrder,
+        isError: false,
+        santanderResponseData: Ds_Response,
+    };
 }

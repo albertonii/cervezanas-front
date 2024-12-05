@@ -16,7 +16,7 @@ export default async function ProductId({ params }: any) {
     return (
         <>
             <CPProduct
-                CPMProduct={product}
+                CPProduct={product}
                 marketplaceProducts={marketplaceProducts}
             />
         </>
@@ -27,7 +27,7 @@ async function getProductData(cpId: string) {
     // Create authenticated Supabase Client
     const supabase = await createServerClient();
 
-    const { data: cpmProducts, error: productError } = await supabase
+    const { data: cpProducts, error: productError } = await supabase
         .from('cp_products')
         .select(
             `
@@ -46,7 +46,7 @@ async function getProductData(cpId: string) {
         .single();
 
     if (productError) throw productError;
-    return cpmProducts as IConsumptionPointProduct;
+    return cpProducts as IConsumptionPointProduct;
 }
 
 async function getMarketplaceData() {

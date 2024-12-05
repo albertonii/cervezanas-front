@@ -125,7 +125,7 @@ const BreweryLocation = ({ form }: Props) => {
             <section className="mx-10 my-4 space-y-4">
                 <span
                     id="account-brewery-location-data"
-                    className="text-4xl font-['NexaRust-script']"
+                    className="text-4xl font-['NexaRust-script'] dark:text-white"
                 >
                     {t('brewery.location_title')}
                 </span>

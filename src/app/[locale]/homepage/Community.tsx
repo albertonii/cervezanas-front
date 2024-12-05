@@ -7,12 +7,12 @@ export function Community() {
     return (
         <>
             {/*  bloque 6 */}
-            <section className="relative m-auto w-full max-w-screen-2xl justify-center bg-cerv-cream bg-[url('/assets/rec-graf5.webp')] bg-contain pb-20 pt-10 rounded-b-full overflow-hidden md:overflow-visible">
+            <section className="relative m-auto w-full max-w-screen-2xl justify-center bg-cerv-cream bg-[url('/assets/rec-graf5.webp')] bg-contain pb-20 pt-10 rounded-b-full overflow-hidden md:overflow-visible dark:bg-cerv-coffee">
                 <figure className="-mt-8 absolute top-2 m-auto h-[80px] w-full  bg-[url('/assets/home/bg-brush.webp')] bg-cover bg-no-repeat bg-top"></figure>
                 <figure className="z-index-2 relative top-2 m-auto h-[190px] w-[190px]  bg-[url('/assets/logo.svg')] bg-contain bg-no-repeat"></figure>
                 <header className="mb-10 text-center text-3xl font-bold text-cerv-titlehigh md:text-5xl font-['NexaRust']">
                     {t('homepage.community.header')}
-                    <p className="font-['NexaRust-script'] text-6xl md:text-8xl -mt-2 -mb-8 text-beer-draft -rotate-2">
+                    <p className="font-['NexaRust-script'] text-6xl md:text-8xl -mt-2 -mb-8 text-beer-draft -rotate-2 dark:text-beer-softBlonde">
                         {' '}
                         {t('homepage.community.header2')}
                     </p>
@@ -32,7 +32,7 @@ export function Community() {
                         <h3 className="mb-8 pt-3 text-center text-4xl md:text-6xl font-bold text-cerv-banana font-['NexaRust-script']">
                             {t('homepage.community.manufacturer')}
                         </h3>
-                        <div className="mb-8 pt-3 text-xl font-normal text-black text-center">
+                        <div className="mb-8 pt-3 text-xl font-normal text-black text-center dark:text-white">
                             {t('homepage.community.manufacturer_body')}
                         </div>
                         <figure className="m-auto text-center">
@@ -52,7 +52,7 @@ export function Community() {
                         <h3 className="mb-8 pt-3 text-center text-4xl md:text-6xl font-bold text-cerv-banana font-['NexaRust-script']">
                             {t('homepage.community.consumer')}
                         </h3>
-                        <div className="mb-8 pt-3 text-xl font-normal text-black text-center">
+                        <div className="mb-8 pt-3 text-xl font-normal text-black text-center  dark:text-white">
                             {t('homepage.community.consumer_body')}
                         </div>
                         <figure className="m-auto text-center">
@@ -90,7 +90,7 @@ export function Community() {
                         <h3 className="mb-8 pt-3 text-center text-4xl md:text-6xl font-bold text-cerv-banana font-['NexaRust-script']">
                             {t('homepage.community.dealers')}
                         </h3>
-                        <div className="mb-8 pt-3 text-xl font-normal text-black text-center">
+                        <div className="mb-8 pt-3 text-xl font-normal text-black text-center dark:text-white">
                             {t('homepage.community.dealers_body')}
                         </div>
                         <figure className="m-auto text-center">
@@ -110,7 +110,7 @@ export function Community() {
                         <h3 className="mb-8 pt-3 text-center text-4xl md:text-6xl font-bold text-cerv-banana font-['NexaRust-script']">
                             {t('homepage.community.points')}
                         </h3>
-                        <div className="mb-8 pt-3 text-xl font-normal text-black text-center">
+                        <div className="mb-8 pt-3 text-xl font-normal text-black text-center dark:text-white">
                             {t('homepage.community.points_body')}
                         </div>
                         <figure className="m-auto text-center">

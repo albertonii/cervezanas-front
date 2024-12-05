@@ -2,9 +2,8 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import UpdateCPMEventModal from './UpdateCPMEvent';
 import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
-import DeleteCPM_event_Modal from '@/app/[locale]/components/modals/DeleteCPM_event_Modal';
+import DeleteCPEventModal from '@/app/[locale]/components/modals/DeleteCPEventModal';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import useFetchCervezanasEventsByOwnerId from '../../../../../../../hooks/useFetchCervezanasEventsByOwnerId';
 import React, { useEffect, useState } from 'react';
@@ -14,6 +13,7 @@ import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
+import UpdateCPEventModal from './UpdateCPMEvent';
 
 interface Props {
     counter: number;
@@ -85,7 +85,7 @@ export default function CervezanasEventList({ counter }: Props) {
             accessor: 'cp_name',
             render: (_: string, row: IConsumptionPointEvent) => (
                 <Link
-                    href={`/cpm/${row.cp_id}`}
+                    href={`/cp/${row.cp_id}`}
                     locale={locale}
                     className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde"
                 >
@@ -140,7 +140,7 @@ export default function CervezanasEventList({ counter }: Props) {
             errorMessage={'errors.fetching_events'}
         >
             {isEditModal && selectedCPEvent && (
-                <UpdateCPMEventModal
+                <UpdateCPEventModal
                     selectedCPEvent={selectedCPEvent}
                     isEditModal={isEditModal}
                     handleEditModal={handleEditModal}
@@ -148,7 +148,7 @@ export default function CervezanasEventList({ counter }: Props) {
             )}
 
             {isDeleteModal && selectedCPEvent && (
-                <DeleteCPM_event_Modal
+                <DeleteCPEventModal
                     eventId={selectedCPEvent.event_id}
                     cpId={selectedCPEvent.cp_id}
                     isDeleteModal={isDeleteModal}

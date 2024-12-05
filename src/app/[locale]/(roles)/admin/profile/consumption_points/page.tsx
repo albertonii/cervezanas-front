@@ -11,7 +11,7 @@ export default async function ProfilePage() {
 
     return (
         <>
-            <ConsumptionPoints cps={cps} counterCP={counter} />
+            <ConsumptionPoints cps_={cps} counterCP={counter} />
         </>
     );
 }

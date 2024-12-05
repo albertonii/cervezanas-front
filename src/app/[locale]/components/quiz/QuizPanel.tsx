@@ -125,7 +125,7 @@ export default function QuizPanel({
             // Each correct answer is 50 points
             const points = correctAnswers * 50;
 
-            if (experienceParticipant.cpm_id) {
+            if (experienceParticipant.cp_id) {
                 const { error: expParticipantsError } = await supabase
                     .from('bm_experience_participants')
                     .update({
@@ -137,32 +137,7 @@ export default function QuizPanel({
                     .eq('gamification_id', user?.id)
                     .eq('experience_id', experience.id)
                     .eq('event_id', experienceParticipant.event_id)
-                    .eq('cpm_id', experienceParticipant.cpm_id);
-
-                if (expParticipantsError) {
-                    console.error(expParticipantsError);
-
-                    handleMessage({
-                        type: 'error',
-                        message:
-                            'Ha ocurrido un error al registrar tu participación en el juego. Por favor, intenta de nuevo.',
-                    });
-
-                    return;
-                }
-            } else if (experienceParticipant.cpf_id) {
-                const { error: expParticipantsError } = await supabase
-                    .from('bm_experience_participants')
-                    .update({
-                        is_finished: true,
-                        correct_answers: correctAnswers,
-                        incorrect_answers: incorrectAnswers,
-                        score: points,
-                    })
-                    .eq('gamification_id', user?.id)
-                    .eq('experience_id', experience.id)
-                    .eq('event_id', experienceParticipant.event_id)
-                    .eq('cpf_id', experienceParticipant.cpf_id);
+                    .eq('cp_id', experienceParticipant.cp_id);
 
                 if (expParticipantsError) {
                     console.error(expParticipantsError);

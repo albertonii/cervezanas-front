@@ -15,7 +15,7 @@ import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import { SearchCheckboxExperiences } from './SearchCheckboxExperiences';
 
-type ModalUpdCPMEventFormData = {
+type ModalUpdCPEventFormData = {
     cp_id: string;
     event_id: string;
     is_active: boolean;
@@ -44,7 +44,7 @@ type ModalUpdCPMEventFormData = {
     }[];
 };
 
-const schema: ZodType<ModalUpdCPMEventFormData> = z.object({
+const schema: ZodType<ModalUpdCPEventFormData> = z.object({
     cp_id: z.string().nonempty({ message: 'errors.input_required' }),
     event_id: z.string().nonempty({ message: 'errors.input_required' }),
     is_active: z.boolean(),
@@ -85,7 +85,7 @@ interface Props {
     handleEditModal: ComponentProps<any>;
 }
 
-export default function UpdateCPMEventModal({
+export default function UpdateCPEventModal({
     selectedCPEvent,
     isEditModal,
     handleEditModal,
@@ -134,7 +134,7 @@ export default function UpdateCPMEventModal({
     } = form;
 
     // Update CPMEvent in database
-    const handleUpdate = async (formValues: ModalUpdCPMEventFormData) => {
+    const handleUpdate = async (formValues: ModalUpdCPEventFormData) => {
         setIsLoading(true);
 
         const { event_experiences, removed_event_experiences } = formValues;
@@ -176,11 +176,11 @@ export default function UpdateCPMEventModal({
 
         handleEditModal(false);
         setIsLoading(false);
-        queryClient.invalidateQueries('cpm_events');
+        queryClient.invalidateQueries('cp_events');
     };
 
     const updateEventMutation = useMutation({
-        mutationKey: ['update_cpm_events'],
+        mutationKey: ['update_cp_events'],
         mutationFn: handleUpdate,
         onError: (e: any) => {
             console.error(e);
@@ -188,7 +188,7 @@ export default function UpdateCPMEventModal({
     });
 
     const onSubmit: SubmitHandler<ValidationSchema> = (
-        formValues: ModalUpdCPMEventFormData,
+        formValues: ModalUpdCPEventFormData,
     ) => {
         return new Promise<void>((resolve, reject) => {
             updateEventMutation.mutate(formValues, {

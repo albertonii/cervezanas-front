@@ -27,20 +27,37 @@ async function getExperienceParticipantData(experienceParticipantId: string) {
         redirect('/signin');
     }
 
+    // const { data, error: eventOrderItemError } = await supabase
+    //     .from('bm_experience_participants')
+    //     .select(
+    //         `
+    //             *,
+    //             events (*),
+    //             cp (*),
+    //             gamification (
+    //                 *,
+    //                 users (
+    //                     *
+    //                 )
+    //             )
+    //         `,
+    //     )
+    //     .eq('id', experienceParticipantId)
+    //     .single();
+
     const { data, error: eventOrderItemError } = await supabase
         .from('bm_experience_participants')
         .select(
             `
+            *,
+            events (*),
+            gamification (
                 *,
-                events (*),
-                cp (*),
-                gamification (
-                    *,
-                    users (
-                        *                      
-                    )
+                users (
+                    *                      
                 )
-            `,
+            )
+        `,
         )
         .eq('id', experienceParticipantId)
         .single();

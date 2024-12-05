@@ -39,12 +39,14 @@ interface Props {
 }
 
 export default function MobileMenu({ i18nLocaleArray }: Props) {
-    const { role, user } = useAuth();
+    const { notifications, setOpenNotification } = useNotifications();
+    const { role, signOut, changeRole, user } = useAuth();
     const [open, setOpen] = useState(false);
     const dropdown = useRef<HTMLDivElement>(null);
     const handleOpenCallback = () => {
         setOpen(false);
     };
+
     const imageSrc =
         role === ROLE_ENUM.Admin
             ? '/icons/icon-admin.png'
@@ -55,25 +57,24 @@ export default function MobileMenu({ i18nLocaleArray }: Props) {
             : '/icons/icon-cerv.png';
     const [displayDropdownRoles, setDisplayDropdownRoles] = useState(false);
     const [isArrowDown, setIsArrowDown] = useState(false);
-    const { changeSidebarActive } = useAppContext();
+    // const { changeSidebarActive } = useAppContext();
     const handleOnClickRole = () => {
         //  setDisplayDropdownRoles(true);
         setDisplayDropdownRoles(!isArrowDown);
         setIsArrowDown((prevState) => !prevState);
     };
+
     const handleOnClickRoleOutside = () => {
         setDisplayDropdownRoles(false);
         setIsArrowDown(true);
     };
     const handleOnClickOption = (option: string) => {
         setOpen(false);
-        changeSidebarActive(option);
+        //   changeSidebarActive(option);
     };
-    const { notifications } = useNotifications();
 
     const sidebarRef = useRef<HTMLDivElement>(null);
 
-    const { setOpenNotification } = useNotifications();
     const { cartQuantity, openCart } = useShoppingCart();
     useOnClickOutside(sidebarRef, () => handleClickOutsideCallback());
 

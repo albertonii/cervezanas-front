@@ -58,13 +58,17 @@ export default function MaxifiedCart({ items, eventId }: Props) {
                         <Label size="large">{formatCurrency(subTotal)}</Label>
                     </div>
 
-                    <div className="">
+                    <p className="mt-0.5 text-sm text-gray-500">
+                        {t('go_to_checkout_for_final_price')}
+                    </p>
+
+                    <div className="mt-2">
                         <Link
                             href={{
                                 pathname: `${ROUTE_EVENTS}/${eventId}/event_basket/`,
                                 query: { items: JSON.stringify(items) },
                             }}
-                            className="flex items-center justify-center rounded-lg bg-beer-blonde px-6 py-3 text-white font-semibold hover:bg-beer-dark transition-all"
+                            className="flex items-center justify-center rounded-md border border-transparent bg-beer-blonde px-6 py-3 text-xl font-medium text-white shadow-sm transition-all hover:bg-beer-dark hover:text-beer-blonde"
                             locale={locale}
                         >
                             {t('checkout')}

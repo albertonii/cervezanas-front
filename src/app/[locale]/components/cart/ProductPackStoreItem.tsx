@@ -143,7 +143,7 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
     };
 
     return (
-        <section className="bg-[url('/assets/rec-graf4c.png')] bg-contain bg-top bg-no-repeat  m-auto w-[280px] bg-white dark:bg-gray-700 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 h-[490px]">
+        <section className="bg-[url('/assets/rec-graf4c.png')] dark:bg-[url('/assets/rec-graf4b.webp')]  bg-contain bg-top bg-no-repeat  m-auto w-[280px] bg-white dark:bg-cerv-coffee rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 h-[490px]">
             {isLoading ? (
                 <Spinner color="beer-blonde" size="medium" />
             ) : (

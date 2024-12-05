@@ -1497,6 +1497,8 @@
         "paid": "Pagado",
         "status_with_services_to_consume": "Servicios a consumir",
         "served": "Servido",
-        "error": "Error"
+        "error": "Error",
+        "confirm_start_order": "¿Estás seguro de que deseas iniciar la preparación de este pedido?",
+        "confirm_start_order_message": "Una vez que inicies la preparación de este pedido, el estado cambiará y el punto de consumo comenzará a elaborar el pedido."
     }
 }

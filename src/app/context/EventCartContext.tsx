@@ -205,6 +205,7 @@ export function EventCartProvider({ children }: Props) {
                 distributor_id: '',
                 cp_id: product.cp_id,
                 cp_name: product.cp_name,
+                cp_cps_id: '',
             };
 
             setEventCarts((currCarts) => {

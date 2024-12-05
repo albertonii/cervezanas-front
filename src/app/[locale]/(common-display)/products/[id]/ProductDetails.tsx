@@ -69,7 +69,7 @@ export default function ProductDetails({ product, reviewRef }: Props) {
 
             <section className="col-span-12 mx-6 space-y-4 bg-[url('/assets/rec-graf2b.webp')] bg-auto bg-top bg-no-repeat lg:col-span-8">
                 <section className="flex flex-col sm:flex-row sm:justify-between">
-                    <h2 className=" font-bold lowercase sm:pr-12 font-['NexaRust-script'] text-6xl md:text-7xl text-beer-draft bg-white md:bg-transparent pl-4 sm:pl-12 mb-4 md:-mb-8">
+                    <h2 className=" font-bold lowercase sm:pr-12 font-['NexaRust-script'] text-5xl md:text-6xl text-beer-draft bg-white md:bg-transparent pl-4 sm:pl-12 mb-4 md:-mb-8 dark:text-beer-blonde">
                         {product.name}
                     </h2>
 
@@ -106,13 +106,13 @@ export default function ProductDetails({ product, reviewRef }: Props) {
                 <section
                     aria-labelledby="product-description-heading"
                     className={
-                        'flex items-center justify-center rounded-lg bg-white bg-opacity-90 md:overflow-hidden px-0 py-4 sm:px-4 text-base'
+                        'flex items-center justify-center rounded-lg bg-white bg-opacity-90 md:overflow-hidden px-0 py-4 sm:px-4 text-base dark:bg-cerv-coffee'
                     }
                 >
                     <h3 id="product-description-heading" className="sr-only">
                         {t('product_description')}
                     </h3>
-                    <p className="text-gray-900 max-w-[90%]">
+                    <p className="text-gray-900 max-w-[90%] dark:text-white">
                         {product.description}
                     </p>
                 </section>

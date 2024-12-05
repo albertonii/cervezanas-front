@@ -127,7 +127,7 @@ export default function UpdateEventModal({
             // Eliminar todos los CPs asociados al evento
             checkedCPs?.forEach(async (cp) => {
                 const { error: cpError } = await supabase
-                    .from('cpm_events')
+                    .from('cp_events')
                     .delete()
                     .eq('cp_id', cp.cp_id)
                     .eq('event_id', selectedEvent.id);
@@ -139,7 +139,7 @@ export default function UpdateEventModal({
 
             // // Insertar los nuevos CPs asociados al evento
             cps?.forEach(async (item) => {
-                const { error } = await supabase.from('cpm_events').insert({
+                const { error } = await supabase.from('cp_events').insert({
                     cp_id: item.cp_id,
                     event_id: selectedEvent.id,
                     is_active: false,

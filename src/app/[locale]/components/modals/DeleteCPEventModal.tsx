@@ -11,7 +11,7 @@ interface Props {
     handleDeleteModal: ComponentProps<any>;
 }
 
-export default function DeleteCPM_event_Modal({
+export default function DeleteCPEventModal({
     cpId,
     eventId,
     isDeleteModal,
@@ -28,13 +28,13 @@ export default function DeleteCPM_event_Modal({
         if (!eventId || !cpId) return;
 
         const { error } = await supabase
-            .from('cpm_events')
+            .from('cp_events')
             .delete()
             .eq('cp_id', cpId)
             .eq('event_id', eventId);
         if (error) throw error;
 
-        queryClient.invalidateQueries('cpm_events');
+        queryClient.invalidateQueries('cp_events');
         handleDeleteModal(false);
     };
 
@@ -61,7 +61,7 @@ export default function DeleteCPM_event_Modal({
                 onSubmitDelete();
             }}
             handlerClose={() => handleDeleteModal(false)}
-            description={t('delete_cpm_event_description_modal')}
+            description={t('delete_cp_event_description_modal')}
             btnTitle={t('accept')}
             showModal={isDeleteModal}
             setShowModal={handleDeleteModal}

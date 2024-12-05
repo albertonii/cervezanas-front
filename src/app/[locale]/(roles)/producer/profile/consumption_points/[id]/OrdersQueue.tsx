@@ -12,6 +12,7 @@ import { IEventOrder, IEventOrderCPS } from '@/lib/types/eventOrders';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
+import { EventOrderCPSStatus } from '@/constants';
 
 interface Props {
     cp: IConsumptionPointEvent;
@@ -64,7 +65,10 @@ export function OrdersQueue({ cp }: Props) {
         const orders_ = await Promise.all(
             orders.map(async (order) => {
                 if (order.id === orderId) {
-                    const updatedOrder = { ...order, status: newStatus };
+                    const updatedOrder = {
+                        ...order,
+                        status: newStatus as EventOrderCPSStatus,
+                    };
 
                     setOrders((prevOrders) =>
                         prevOrders.map((prevOrder) =>

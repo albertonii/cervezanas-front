@@ -22,7 +22,7 @@ export default function EventCard({ event }: EventCardProps) {
         >
             <div className="absolute inset-0 z-0 opacity-80"></div>
 
-            <div className="z-10 m-4 mx-auto flex w-full min-w-[50vw] max-w-[300px] flex-col border border-beer-blonde bg-white bg-opacity-80 p-4 shadow-lg transition hover:scale-105 hover:shadow-2xl sm:max-w-full ">
+            <div className="z-10 m-4 mx-auto flex w-full min-w-[50vw] max-w-[300px] flex-col border border-beer-blonde bg-white bg-opacity-80 p-4 shadow-lg transition hover:scale-105 hover:shadow-2xl sm:max-w-full dark:bg-cerv-titlehigh">
                 <div className="flex-none space-x-4 sm:flex">
                     {/* Event Image  */}
                     <div className="relative mb-3 sm:mb-0">
@@ -55,7 +55,7 @@ export default function EventCard({ event }: EventCardProps) {
                             {/* Name & Description */}
                             <div className="flex flex-col items-start">
                                 <div className="flex flex-col">
-                                    <div className="w-full flex-none text-5xl font-bold leading-none text-beer-blonde hover:cursor-pointer hover:text-beer-draft font-['NexaRust-script'] -rotate-2">
+                                    <div className="w-full flex-none text-5xl font-bold leading-none text-beer-blonde hover:cursor-pointer hover:text-beer-draft font-['NexaRust-script'] -rotate-2 dark:text-white">
                                         <Link
                                             href={`${ROUTE_EVENTS}/${event.id}`}
                                             locale={locale}
@@ -64,7 +64,7 @@ export default function EventCard({ event }: EventCardProps) {
                                         </Link>
                                     </div>
 
-                                    <div className="my-1 flex-auto text-gray-500">
+                                    <div className="my-1 flex-auto text-gray-500 dark:text-white">
                                         <span className="mr-3 ">
                                             Evento Anual
                                         </span>
@@ -188,7 +188,7 @@ export default function EventCard({ event }: EventCardProps) {
 
                                 {/* Followers  */}
                                 <div className="flex pt-2 text-sm text-gray-500">
-                                    <div className="inline-flex flex-1 items-center">
+                                    <div className="inline-flex flex-1 items-center dark:text-white">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             className="mr-2 h-5 w-5"
