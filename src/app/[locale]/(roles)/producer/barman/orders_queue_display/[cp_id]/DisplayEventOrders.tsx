@@ -52,7 +52,7 @@ export function DisplayEventOrders({ cpId }: Props) {
     }, [orders]);
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-4 ">
+        <div className="w-full h-full grid grid-cols-1 md:grid-cols-3 gap-6 py-4">
             {isError && (
                 <div className="bg-red-50 p-4 rounded-lg">
                     <Label size="medium" color="red" font="bold">

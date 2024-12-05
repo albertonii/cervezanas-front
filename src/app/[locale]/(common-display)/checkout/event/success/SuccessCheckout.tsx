@@ -20,6 +20,7 @@ interface Props {
     santanderResponse: string;
     domain: string;
 }
+
 export default function SuccessCheckout({
     order,
     isError,
@@ -50,51 +51,6 @@ export default function SuccessCheckout({
         }
     }, [santanderResponse]);
 
-    // useEffect(() => {
-    //     const withStock = eventOrderItems?.some(
-    //         (item) => item.status === EVENT_ORDER_ITEM_STATUS.WITH_STOCK,
-    //     );
-
-    //     const consumed = eventOrderItems?.every(
-    //         (item) => item.status === EVENT_ORDER_ITEM_STATUS.CONSUMED,
-    //     );
-
-    //     if (
-    //         withStock &&
-    //         order.status !== EVENT_ORDER_STATUS.WITH_SERVICES_TO_CONSUME
-    //     ) {
-    //         const updEventOrderStatus = async () => {
-    //             const { error } = await supabase
-    //                 .from('event_orders')
-    //                 .update({
-    //                     status: EVENT_ORDER_STATUS.WITH_SERVICES_TO_CONSUME,
-    //                 })
-    //                 .eq('id', order.id);
-
-    //             if (error) throw error;
-
-    //             order.status = EVENT_ORDER_STATUS.WITH_SERVICES_TO_CONSUME;
-    //         };
-
-    //         updEventOrderStatus();
-    //     }
-
-    //     if (consumed && order.status !== EVENT_ORDER_STATUS.SERVED) {
-    //         const updEventOrderStatus = async () => {
-    //             const { error } = await supabase
-    //                 .from('event_orders')
-    //                 .update({ status: EVENT_ORDER_STATUS.SERVED })
-    //                 .eq('id', order.id);
-
-    //             if (error) throw error;
-
-    //             order.status = EVENT_ORDER_STATUS.SERVED;
-    //         };
-
-    //         updEventOrderStatus();
-    //     }
-    // }, [eventOrderItems]);
-
     const handleInvoicePdf = () => {
         const invoiceUrl = `/checkout/invoice/${order.order_number}`;
         window.open(invoiceUrl, '_blank');
@@ -104,7 +60,7 @@ export default function SuccessCheckout({
         return (
             <section className="container mx-auto flex flex-col space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0 sm:py-4 lg:py-6">
                 <span className="sm:items-baseline sm:space-x-4">
-                    <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+                    <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-3xl">
                         {t('order_erorr')}
                     </h1>
                 </span>
@@ -118,36 +74,37 @@ export default function SuccessCheckout({
         <section className="m-4 sm:py-4 lg:py-6 w-full">
             <OrderCPEventInstructions />
 
-            <div className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0 bg-beer-foam">
+            <div className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:p-2 bg-beer-foam dark:bg-gray-800 rounded-lg border border-gray-700">
                 <header className="flex flex-col">
                     <span className="flex sm:items-baseline sm:space-x-4">
                         <Title size="large" color="beer-draft" font="bold">
                             {t('order_number')} #{order.order_number}
                         </Title>
 
-                        <p className="mt-4 hidden text-sm font-medium tracking-wide text-gray-500 hover:cursor-pointer hover:text-beer-blonde sm:ml-2 sm:mt-0 sm:block"></p>
-
                         <Label
                             onClick={() => handleInvoicePdf()}
                             font="link"
                             size="small"
+                            className="dark:text-beer-amber"
                         >
                             {t('view_invoice')}
                             <span aria-hidden="true"> &rarr;</span>
                         </Label>
                     </span>
 
-                    {/* Order Status  */}
-                    <div className="right-0 flex md:mt-2 ">
-                        <Label>{t('order_status')}:</Label>
+                    {/* Estado del Pedido */}
+                    <div className="right-0 flex md:mt-2">
+                        <Label className="dark:text-gray-300">
+                            {t('order_status')}:
+                        </Label>
                         <Label
                             color="beer-draft"
                             font="medium"
                             className={`ml-2 ${
                                 order.status === EVENT_ORDER_STATUS.SERVED
-                                    ? 'text-green-600'
-                                    : 'text-beer-draft'
-                            } `}
+                                    ? 'text-green-600 dark:text-green-400'
+                                    : 'text-beer-draft dark:text-beer-amber'
+                            }`}
                         >
                             {t(order.status)}
                         </Label>
@@ -155,10 +112,18 @@ export default function SuccessCheckout({
                 </header>
 
                 <div className="flex items-center justify-center gap-4">
-                    <Label size="xsmall" color="gray">
+                    <Label
+                        size="xsmall"
+                        color="gray"
+                        className="dark:text-gray-400"
+                    >
                         {t('status_order_placed')}
                     </Label>
-                    <Label color="beer-draft" font="medium">
+                    <Label
+                        color="beer-draft"
+                        font="medium"
+                        className="dark:text-white"
+                    >
                         <time dateTime="2021-03-22">
                             {formatDateString(order.created_at.toString())}
                         </time>
@@ -166,7 +131,7 @@ export default function SuccessCheckout({
                 </div>
             </div>
 
-            {/* Product and packs information */}
+            {/* Información de Productos y Packs */}
             {eventOrderCPs &&
                 eventOrderCPs.map((eventOrderCP) => (
                     <article key={eventOrderCP.id} className="py-4">
@@ -177,20 +142,8 @@ export default function SuccessCheckout({
                     </article>
                 ))}
 
-            {/* <!-- Payment info --> */}
-
-            {/* {eventOrderItems &&
-                eventOrderItems.map((eventOrderItem) => (
-                    <article key={eventOrderItem.id}>
-                        <EventProduct
-                            eventOrderItem={eventOrderItem}
-                            domain={domain}
-                        />
-                    </article>
-                ))} */}
-
-            {/* <!-- Payment info --> */}
-            <div className="mt-16 w-full border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border">
+            {/* Información de Pago */}
+            <div className="mt-16 w-full border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg sm:border">
                 <PaymentInformation order={order} />
             </div>
         </section>

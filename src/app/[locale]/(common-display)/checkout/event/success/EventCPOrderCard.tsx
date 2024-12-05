@@ -20,19 +20,19 @@ const statusIcons: Record<EventOrderCPSStatus, React.ComponentType<any>> = {
 };
 
 const statusColors: Record<EventOrderCPSStatus, string> = {
-    not_started: 'text-gray-500',
-    pending: 'text-yellow-500',
-    preparing: 'text-blue-500',
-    ready: 'text-green-500',
-    completed: 'text-gray-500',
+    not_started: 'text-gray-500 dark:text-gray-400',
+    pending: 'text-yellow-500 dark:text-yellow-400',
+    preparing: 'text-blue-500 dark:text-blue-400',
+    ready: 'text-green-500 dark:text-green-400',
+    completed: 'text-gray-500 dark:text-gray-400',
 };
 
 const statusBackgrounds: Record<EventOrderCPSStatus, string> = {
-    not_started: 'bg-gray-50',
-    pending: 'bg-yellow-50',
-    preparing: 'bg-blue-50',
-    ready: 'bg-green-50',
-    completed: 'bg-gray-50',
+    not_started: 'bg-gray-50 dark:bg-gray-700',
+    pending: 'bg-yellow-50 dark:bg-yellow-900',
+    preparing: 'bg-blue-50 dark:bg-blue-900',
+    ready: 'bg-green-50 dark:bg-green-900',
+    completed: 'bg-gray-50 dark:bg-gray-700',
 };
 
 interface Props {
@@ -86,7 +86,11 @@ const EventCPOrderCard: React.FC<Props> = ({ order }) => {
             >
                 <div className="flex justify-between items-start mb-4">
                     <div>
-                        <Label size="medium" font="semibold">
+                        <Label
+                            size="medium"
+                            font="semibold"
+                            className="dark:text-white"
+                        >
                             {t('order_number_cps', {
                                 orderNumber: order.order_number,
                             })}
@@ -96,7 +100,11 @@ const EventCPOrderCard: React.FC<Props> = ({ order }) => {
                             className={`flex items-center gap-2 ${statusColors[status]}`}
                         >
                             <Icon />
-                            <Label size="medium" color="beer-draft">
+                            <Label
+                                size="medium"
+                                color="beer-draft"
+                                className="dark:text-white"
+                            >
                                 {t(`${status}`)}
                             </Label>
                         </div>
@@ -108,12 +116,13 @@ const EventCPOrderCard: React.FC<Props> = ({ order }) => {
                             primary
                             small
                         >
-                            <div className="flex gap-2 items-center ">
-                                <Play className="w-4 h-4 mr-2 text-beer-draft" />
+                            <div className="flex gap-2 items-center">
+                                <Play className="w-4 h-4 mr-2 text-beer-draft dark:text-white" />
                                 <Label
                                     size="medium"
                                     font="semibold"
                                     color="beer-draft"
+                                    className="dark:text-white"
                                 >
                                     {t('start_order')}
                                 </Label>
@@ -131,29 +140,45 @@ const EventCPOrderCard: React.FC<Props> = ({ order }) => {
                         {order.event_order_items?.map((item) => (
                             <li
                                 key={item.id}
-                                className="flex justify-between text-sm space-x-4 bg-beer-softFoam p-2 rounded-lg"
+                                className="flex justify-between text-sm space-x-4 bg-beer-softFoam dark:bg-gray-700 p-2 rounded-lg"
                             >
-                                <Label size="small">
+                                <Label
+                                    size="small"
+                                    className="dark:text-gray-200"
+                                >
                                     {item.quantity} x {item.product_packs?.name}{' '}
                                     - {item.product_packs?.products?.name}
                                 </Label>
-                                <Label size="small" color="gray">
+                                <Label
+                                    size="small"
+                                    color="gray"
+                                    className="dark:text-gray-300"
+                                >
                                     {(
                                         (item.product_packs?.price ?? 0) *
                                         item.quantity
-                                    ).toFixed(2)}
+                                    ).toFixed(2)}{' '}
                                     €
                                 </Label>
                             </li>
                         ))}
                     </ul>
 
-                    <div className="border-t mt-3 pt-3 flex justify-between font-medium space-x-4 w-full">
-                        <Label size="small" color="black">
+                    <div className="border-t mt-3 pt-3 flex justify-between font-medium space-x-4 w-full border-gray-200 dark:border-gray-600">
+                        <Label
+                            size="small"
+                            color="black"
+                            className="dark:text-white"
+                        >
                             {t('total')}:
                         </Label>
 
-                        <Label size="small" color="beer-draft" font="semibold">
+                        <Label
+                            size="small"
+                            color="beer-draft"
+                            font="semibold"
+                            className="dark:text-beer-amber"
+                        >
                             {order.event_order_items
                                 ?.reduce(
                                     (total, item) =>
