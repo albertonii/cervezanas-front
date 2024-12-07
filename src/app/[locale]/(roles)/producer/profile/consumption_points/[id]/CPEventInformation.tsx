@@ -77,12 +77,13 @@ const CPEventInformation = ({ cp }: Props) => {
             </div>
 
             {/* Información detallada */}
-            <div className="p-6 space-y-6">
+            <div className="p-6 space-y-6 dark:bg-gray-400">
                 {/* Estado y capacidad */}
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg dark:bg-beer-draft">
                     <div className="flex items-center space-x-2">
                         <Store className="w-5 h-5 text-beer-gold" />
-                        <span className="font-medium">Estado:</span>
+                        <Label font="medium">{t('status')}:</Label>
+
                         <span
                             className={`px-3 py-1 rounded-full text-sm ${
                                 cp.cp?.status === 'active'
@@ -95,39 +96,39 @@ const CPEventInformation = ({ cp }: Props) => {
                     </div>
                     <div className="flex items-center space-x-2">
                         <Users className="w-5 h-5 text-beer-gold" />
-                        <span className="font-medium">Capacidad máxima:</span>
+                        <Label font="medium">{t('max_capacity')}:</Label>
                         <span>{cp.cp?.maximum_capacity} personas</span>
                     </div>
                 </div>
 
                 {/* Fechas y horarios */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
                     <div className="flex items-start space-x-3">
                         <Calendar className="w-5 h-5 text-beer-gold mt-1" />
-                        <div>
-                            <h3 className="font-medium">Fecha de inicio</h3>
-                            <p className="text-gray-600">
+                        <div className="flex flex-col items-start">
+                            <Label font="medium">{t('date_start')}</Label>
+                            <Label color="gray">
                                 {formatDate(cp.start_date)}
-                            </p>
+                            </Label>
                         </div>
                     </div>
                     <div className="flex items-start space-x-3">
                         <Clock className="w-5 h-5 text-beer-gold mt-1" />
-                        <div>
-                            <h3 className="font-medium">Fecha de fin</h3>
-                            <p className="text-gray-600">
+                        <div className="flex flex-col items-start">
+                            <Label font="medium">{t('date_end')}</Label>
+                            <Label color="gray">
                                 {formatDate(cp.end_date)}
-                            </p>
+                            </Label>
                         </div>
                     </div>
                 </div>
 
                 {/* Ubicación */}
-                <div className="flex items-start space-x-3 p-4 bg-beer-softFoam rounded-lg">
+                <div className="flex items-start space-x-3 p-4 bg-beer-softFoam rounded-lg dark:bg-beer-draft">
                     <MapPin className="w-5 h-5 text-beer-gold mt-1" />
                     <div className="flex flex-col items-start">
                         <Label size="small" color="beer-blonde" font="semibold">
-                            Ubicación
+                            {t('location')}
                         </Label>
                         <Label size="small" color="black">
                             {cp.cp?.address}
@@ -136,32 +137,36 @@ const CPEventInformation = ({ cp }: Props) => {
                 </div>
 
                 {/* Información del organizador */}
-                <div className="border rounded-lg p-4">
-                    <h2 className="text-lg font-semibold mb-4 flex items-center">
+                <div className="border rounded-lg p-4 flex flex-col items-start">
+                    <Label size="large" font="semibold">
                         <User className="w-5 h-5 mr-2 text-beer-gold" />
-                        Información del Organizador
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <p className="text-gray-600">Nombre completo</p>
-                            <p className="font-medium">
+
+                        {t('organizer_info')}
+                    </Label>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                        <div className="flex gap-4">
+                            <Label color="gray">{t('fullname')}</Label>
+                            <Label font="medium">
                                 {cp.cp?.organizer_name}{' '}
                                 {cp.cp?.organizer_lastname}
-                            </p>
+                            </Label>
                         </div>
-                        <div>
-                            <p className="text-gray-600">Tipo de organizador</p>
-                            <p className="font-medium">
+
+                        <div className="flex gap-4">
+                            <Label color="gray">Tipo de organizador</Label>
+                            <Label font="medium">
                                 {cp.cp?.is_internal_organizer
                                     ? 'Interno'
                                     : 'Externo'}
-                            </p>
+                            </Label>
                         </div>
+
                         <div className="flex items-center space-x-2">
                             <Mail className="w-4 h-4 text-gray-500" />
                             <a
                                 href={`mailto:${cp.cp?.organizer_email}`}
-                                className="text-beer-gold hover:underline"
+                                className="text-beer-gold hover:underline dark:text-beer-softBlonde"
                             >
                                 {cp.cp?.organizer_email}
                             </a>
@@ -170,7 +175,7 @@ const CPEventInformation = ({ cp }: Props) => {
                             <Phone className="w-4 h-4 text-gray-500" />
                             <a
                                 href={`tel:${cp.cp?.organizer_phone}`}
-                                className="text-beer-gold hover:underline"
+                                className="text-beer-gold hover:underline dark:text-beer-softBlonde"
                             >
                                 {cp.cp?.organizer_phone}
                             </a>

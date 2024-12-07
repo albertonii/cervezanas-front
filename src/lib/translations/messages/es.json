@@ -1511,7 +1511,14 @@
         "note": "Nota",
         "order_queue": "Cola de pedidos",
         "last_delivered": "Últimos entregados",
-        "none": "Ninguno"
+        "none": "Ninguno",
+        "status": "Estado",
+        "max_capacity": "Capacidad máxima",
+        "date_start": "Fecha de inicio",
+        "date_end": "Fecha de fin",
+        "organizer_info": "Información del Organizador",
+        "location": "Ubicación",
+        "fullname": "Nombre completo"
     },
     "cp_management": "Administrar Puntos de Consumo",
     "cp_in_events": "Puntos de Consumo en Eventos"

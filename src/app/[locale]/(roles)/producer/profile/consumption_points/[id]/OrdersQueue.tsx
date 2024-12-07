@@ -3,17 +3,14 @@
 import React, { useEffect, useState } from 'react';
 import Label from '@/app/[locale]/components/ui/Label';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
-import Button from '@/app/[locale]/components/ui/buttons/Button';
 import useFetchEventOrdersByCPId from '@/hooks/useFetchEventOrdersByCPId';
-import EventOrderCard from '../../../../../components/cards/EventOrderCard';
-import { CheckCircle2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { EventOrderCPSStatus, EVENT_ORDER_CPS_STATUS } from '@/constants';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 import { IEventOrder, IEventOrderCPS } from '@/lib/types/eventOrders';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
-import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { QueueColumn } from '@/app/[locale]/components/CP/QueueColumn';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { EventOrderCPSStatus, EVENT_ORDER_CPS_STATUS } from '@/constants';
 
 interface Props {
     cp: IConsumptionPointEvent;
