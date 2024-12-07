@@ -23,6 +23,10 @@ const fetchEventOrdersByCPId = async (
                 event_order_items (
                     *,
                     product_packs (*)
+                ),
+                cp_events (
+                    *,
+                    cp (cp_name, address)
                 )
             `,
         )
