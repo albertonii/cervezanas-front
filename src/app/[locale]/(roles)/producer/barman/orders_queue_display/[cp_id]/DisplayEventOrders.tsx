@@ -75,58 +75,59 @@ export function DisplayEventOrders({ cpId }: Props) {
             className="h-screen w-screen overflow-hidden flex flex-col bg-[url('/path-to-your-beer-background.jpg')] bg-cover bg-center"
             style={{ backgroundColor: '#1b1b1b' }}
         >
-            {/* Encabezado principal */}
-            <div className="flex flex-col p-4 text-beer-blonde items-center justify-center">
-                <div className="flex items-center gap-3">
-                    <Beer className="w-8 h-8 text-beer-blonde" />
-                    <Title size="xlarge" font="bold">
-                        {t('order_queue')}
-                    </Title>
-                    <Beer className="w-8 h-8 text-beer-blonde" />
-                </div>
+            <div className="flex items-between w-full justify-around">
+                {/* Encabezado principal */}
+                <div className="flex flex-col p-4 text-beer-blonde items-center justify-center">
+                    <div className="flex items-center gap-3">
+                        <Beer className="w-8 h-8 text-beer-blonde" />
+                        <Title size="xlarge" font="bold">
+                            {t('order_queue')}
+                        </Title>
+                        <Beer className="w-8 h-8 text-beer-blonde" />
+                    </div>
 
-                {/* Información del punto de consumo */}
-                {cpInfo && (
-                    <div className="p-4  text-beer-blonde flex flex-col items-center justify-center gap-2 shadow-md">
-                        <Label size="xlarge" font="bold" color="beer-gold">
-                            {cpInfo.cp?.cp_name}
-                        </Label>
-                        <div className="flex items-center gap-2 text-beer-blonde">
-                            <MapPin className="w-5 h-5" />
+                    {/* Información del punto de consumo */}
+                    {cpInfo && (
+                        <div className="p-4  text-beer-blonde flex flex-col items-center justify-center gap-2 shadow-md">
+                            <Label size="xlarge" font="bold" color="beer-gold">
+                                {cpInfo.cp?.cp_name}
+                            </Label>
+                            <div className="flex items-center gap-2 text-beer-blonde">
+                                <MapPin className="w-5 h-5" />
+                                <Label size="medium" color="gray" font="italic">
+                                    {cpInfo.cp?.address}
+                                </Label>
+                            </div>
                             <Label size="medium" color="gray" font="italic">
-                                {cpInfo.cp?.address}
+                                {cpInfo.cp?.cp_description}
                             </Label>
                         </div>
-                        <Label size="medium" color="gray" font="italic">
-                            {cpInfo.cp?.cp_description}
-                        </Label>
-                    </div>
-                )}
-            </div>
+                    )}
+                </div>
 
-            {/* Columna extra de últimos pedidos entregados */}
-            <div className="p-4 text-beer-blonde flex items-center justify-center gap-4">
-                <Label size="large" font="semibold">
-                    {t('last_delivered')}:
-                </Label>
-                {lastThreeDelivered.length === 0 ? (
-                    <Label color="beer-blonde" size="large">
-                        {t('none')}
+                {/* Columna extra de últimos pedidos entregados */}
+                <div className="p-4 text-beer-blonde flex items-center justify-center gap-4">
+                    <Label size="large" font="semibold">
+                        {t('last_delivered')}:
                     </Label>
-                ) : (
-                    <div className="flex gap-4">
-                        {lastThreeDelivered.map((order) => (
-                            <div
-                                key={order.id}
-                                className="bg-gray-800 text-white px-3 py-2 rounded-lg font-bold"
-                            >
-                                #{order.order_number}
-                            </div>
-                        ))}
-                    </div>
-                )}
+                    {lastThreeDelivered.length === 0 ? (
+                        <Label color="beer-blonde" size="large">
+                            {t('none')}
+                        </Label>
+                    ) : (
+                        <div className="flex gap-4">
+                            {lastThreeDelivered.map((order) => (
+                                <div
+                                    key={order.id}
+                                    className="bg-gray-800 text-white px-3 py-2 rounded-lg font-bold"
+                                >
+                                    #{order.order_number}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
-
             {isError && (
                 <div className="bg-red-700 text-white p-4 text-center">
                     <Label size="large" font="bold">
@@ -135,56 +136,48 @@ export function DisplayEventOrders({ cpId }: Props) {
                 </div>
             )}
 
-            {isLoading ? (
+            {!isFetchedAfterMount || isLoading ? (
                 <div className="flex-grow flex items-center justify-center">
                     <Spinner color="blonde" size="large" />
                 </div>
             ) : (
-                <>
-                    {!isFetchedAfterMount || isLoading ? (
-                        <div className="flex-grow flex items-center justify-center">
-                            <Spinner color="blonde" size="large" />
-                        </div>
-                    ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-6 h-full overflow-auto ">
-                            {/* Pedidos Nuevos */}
-                            <QueueColumn
-                                title={t('new_orders', {
-                                    numberOfOrders: pendingOrders.length,
-                                })}
-                                icon={<>🍺</>}
-                                orders={orders}
-                                bgColor={`bg-[#f9e79f]`}
-                                textColor={'text-yellow-800'}
-                                cardVariants={cardVariants}
-                            />
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-6 h-full overflow-auto ">
+                    {/* Pedidos Nuevos */}
+                    <QueueColumn
+                        title={t('new_orders', {
+                            numberOfOrders: pendingOrders.length,
+                        })}
+                        icon={<>🍺</>}
+                        orders={orders}
+                        bgColor={`bg-[#f9e79f]`}
+                        textColor={'text-yellow-800'}
+                        cardVariants={cardVariants}
+                    />
 
-                            {/* En Preparación */}
-                            <QueueColumn
-                                title={t('preparing_orders', {
-                                    numberOfOrders: pendingOrders.length,
-                                })}
-                                icon={<>🍻</>}
-                                orders={orders}
-                                bgColor={`bg-[#f4d03f]`}
-                                textColor={'text-yellow-900'}
-                                cardVariants={cardVariants}
-                            />
+                    {/* En Preparación */}
+                    <QueueColumn
+                        title={t('preparing_orders', {
+                            numberOfOrders: pendingOrders.length,
+                        })}
+                        icon={<>🍻</>}
+                        orders={orders}
+                        bgColor={`bg-[#f4d03f]`}
+                        textColor={'text-yellow-900'}
+                        cardVariants={cardVariants}
+                    />
 
-                            {/* Listos para Entregar */}
-                            <QueueColumn
-                                title={t('ready_orders', {
-                                    numberOfOrders: pendingOrders.length,
-                                })}
-                                icon={<>✅</>}
-                                orders={orders}
-                                bgColor={`bg-[#82e0aa]`}
-                                textColor={'text-green-900'}
-                                cardVariants={cardVariants}
-                            />
-                        </div>
-                    )}
-                </>
+                    {/* Listos para Entregar */}
+                    <QueueColumn
+                        title={t('ready_orders', {
+                            numberOfOrders: pendingOrders.length,
+                        })}
+                        icon={<>✅</>}
+                        orders={orders}
+                        bgColor={`bg-[#82e0aa]`}
+                        textColor={'text-green-900'}
+                        cardVariants={cardVariants}
+                    />
+                </div>
             )}
         </div>
     );
