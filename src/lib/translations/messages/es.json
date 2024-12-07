@@ -1499,6 +1499,17 @@
         "served": "Servido",
         "error": "Error",
         "confirm_start_order": "¿Estás seguro de que deseas iniciar la preparación de este pedido?",
-        "confirm_start_order_message": "Una vez que inicies la preparación de este pedido, el estado cambiará y el punto de consumo comenzará a elaborar el pedido."
-    }
+        "confirm_start_order_message": "Una vez que inicies la preparación de este pedido, el estado cambiará y el punto de consumo comenzará a elaborar el pedido.",
+        "event_order_status": "{columnTitle} - {numberOfOrders}",
+        "cp_queue_barman": "Abrir vista de pedidos en cola",
+        "error_loading_orders": "Error al cargar los pedidos",
+        "new_orders": "Pedidos Nuevos {numberOfOrders}",
+        "preparing_orders": "En Preparación {numberOfOrders}",
+        "ready_orders": "Listos para Recoger {numberOfOrders}",
+        "start": "Empezar",
+        "delivered": "Entregado",
+        "note": "Nota"
+    },
+    "cp_management": "Administrar Puntos de Consumo",
+    "cp_in_events": "Puntos de Consumo en Eventos"
 }

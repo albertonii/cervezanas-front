@@ -44,8 +44,8 @@ export default function Label({
         green: 'text-green-800 dark:text-green-300',
         red: 'text-red-800 dark:text-red-300',
         'dark-gray': 'text-gray-700 dark:text-gray-400',
-        'beer-draft': 'text-beer-draft dark:text-beer-draft',
-        'beer-blonde': 'text-beer-blonde dark:text-beer-blonde',
+        'beer-draft': 'text-beer-draft dark:text-beer-softBlonde',
+        'beer-blonde': 'text-beer-blonde dark:text-beer-softFoam',
     };
 
     const fontClass = {
@@ -60,7 +60,7 @@ export default function Label({
         <label
             onClick={onClick}
             htmlFor={htmlFor}
-            className={`${sizeClass[size]} ${colorClass[color]} ${fontClass[font]}  ${className} flex flex-row items-start space-y-2 dark:text-gray-300 justify-center`}
+            className={`${sizeClass[size]} ${colorClass[color]} ${fontClass[font]}  ${className} flex flex-row items-start space-y-2 justify-center`}
         >
             {children}
         </label>

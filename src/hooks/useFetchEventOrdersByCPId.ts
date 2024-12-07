@@ -1,6 +1,7 @@
 'use client';
 
-import { useQuery } from 'react-query';
+import { useEffect } from 'react';
+import { useQuery, useQueryClient } from 'react-query';
 import { Database } from '@/lib/schema';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
@@ -34,13 +35,48 @@ const fetchEventOrdersByCPId = async (
 
 const useFetchEventOrdersByCPId = (cpId: string) => {
     const { supabase } = useAuth();
+    const queryClient = useQueryClient();
 
-    return useQuery({
-        queryKey: 'event_orders_by_cp_id',
+    const result = useQuery({
+        queryKey: ['event_orders_by_cp_id', cpId],
         queryFn: () => fetchEventOrdersByCPId(cpId, supabase),
-        enabled: true,
+        enabled: !!cpId,
         refetchOnWindowFocus: false,
     });
+
+    useEffect(() => {
+        if (!cpId) return;
+
+        // Suscribirse a cambios en la tabla event_order_cps para el CP ID específico
+        const channel = supabase
+            .channel(`public:event_order_cps:cp_id=eq.${cpId}`)
+            .on(
+                'postgres_changes',
+                {
+                    event: '*', // Escuchar cualquier evento (INSERT, UPDATE, DELETE)
+                    schema: 'public',
+                    table: 'event_order_cps',
+                    filter: `cp_id=eq.${cpId}`,
+                },
+                (payload) => {
+                    console.log('Cambio detectado:', payload);
+
+                    // Refrescar los datos de la consulta
+                    queryClient.invalidateQueries([
+                        'event_orders_by_cp_id',
+                        cpId,
+                    ]);
+                },
+            )
+            .subscribe();
+
+        // Limpiar la suscripción al desmontar el componente
+        return () => {
+            supabase.removeChannel(channel);
+        };
+    }, [cpId, supabase, queryClient]);
+
+    return result;
 };
 
 export default useFetchEventOrdersByCPId;

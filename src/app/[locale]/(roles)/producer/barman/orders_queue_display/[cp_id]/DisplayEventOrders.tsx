@@ -3,7 +3,7 @@
 import Label from '@/app/[locale]/components/ui/Label';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
 import useFetchEventOrdersByCPId from '@/hooks/useFetchEventOrdersByCPId';
-import EventOrderCard from '../../../profile/consumption_points/[id]/EventOrderCard';
+import EventOrderCard from '../../../../../components/cards/EventOrderCard';
 import React, { useEffect, useState } from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import { IEventOrderCPS } from '@/lib/types/eventOrders';

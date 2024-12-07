@@ -1,6 +1,8 @@
 'use client';
 
+import Label from '@/app/[locale]/components/ui/Label';
 import React from 'react';
+import { List, ExternalLink } from 'lucide-react';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import {
     MapPin,
@@ -13,13 +15,17 @@ import {
     Info,
     Store,
 } from 'lucide-react';
-import Label from '@/app/[locale]/components/ui/Label';
+import { useTranslations } from 'next-intl';
 
 interface Props {
     cp: IConsumptionPointEvent;
 }
 
 const CPEventInformation = ({ cp }: Props) => {
+    const t = useTranslations('event');
+
+    const ordersQueueUrl = `/producer/barman/orders_queue_display/${cp.id}`;
+
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('es-ES', {
             weekday: 'long',
@@ -53,6 +59,19 @@ const CPEventInformation = ({ cp }: Props) => {
                                 {cp.cp?.cp_description}
                             </p>
                         </div>
+                    </div>
+
+                    <div className="p-6">
+                        <a
+                            href={ordersQueueUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center px-4 py-2 bg-beer-gold text-white font-semibold rounded-lg shadow-md hover:bg-beer-darkGold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-beer-gold transition-colors"
+                        >
+                            <List className="w-5 h-5 mr-2" />
+                            {t('cp_queue_barman')}
+                            <ExternalLink className="w-4 h-4 ml-2" />
+                        </a>
                     </div>
                 </div>
             </div>

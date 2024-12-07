@@ -1,6 +1,7 @@
 import React from 'react';
 import Label from '@/app/[locale]/components/ui/Label';
 import { User } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { IEventOrderCPS } from '@/lib/types/eventOrders';
 
 interface Props {
@@ -9,8 +10,9 @@ interface Props {
 }
 
 const EventOrderCard = ({ order, actionButton }: Props) => {
+    const t = useTranslations('event');
     return (
-        <div className="border rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow">
+        <div className="border rounded-lg p-4 bg-white shadow-sm hover:shadow-md transition-shadow dark:bg-gray-400">
             <div className="flex flex-col-reverse gap-2 xl:gap-0 xl:flex-row justify-between items-center mb-3">
                 <Label className="font-bold text-lg">
                     #{order.order_number}
@@ -27,9 +29,12 @@ const EventOrderCard = ({ order, actionButton }: Props) => {
                 </div>
             </div>
 
-            <div className="space-y-2">
-                <h4 className="font-medium text-gray-700">Productos:</h4>
-                <ul className="space-y-1">
+            <div className="space-y-2 flex flex-col items-start">
+                <Label color="gray" font="medium">
+                    {t('products')}:
+                </Label>
+
+                <ul className="w-full space-y-1 ">
                     {order.event_order_items?.map((item) => (
                         <li
                             key={item.id}
@@ -52,7 +57,8 @@ const EventOrderCard = ({ order, actionButton }: Props) => {
             {order.notes && (
                 <div className="mt-3 p-2 bg-yellow-50 rounded-md">
                     <Label size="small" color="yellow">
-                        <span className="font-medium">Nota:</span> {order.notes}
+                        <span className="font-medium">{t('note')}:</span>{' '}
+                        {order.notes}
                     </Label>
                 </div>
             )}

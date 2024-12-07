@@ -165,7 +165,7 @@ const TableWithFooterAndSearch: React.FC<TableProps> = ({
                                 <>
                                     <tr
                                         key={rowIndex}
-                                        className={`hover:bg-gray-100 dark:hover:bg-gray-300 transition-all ease-in-out duration-100 ${
+                                        className={`hover:bg-gray-100 dark:hover:bg-gray-500 transition-all ease-in-out duration-100 ${
                                             expandedRowRender &&
                                             'cursor-pointer'
                                         }`}
