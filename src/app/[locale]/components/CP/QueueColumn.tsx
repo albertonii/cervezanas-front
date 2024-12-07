@@ -1,17 +1,28 @@
+import Label, { LabelColor } from '../ui/Label';
+import EventOrderCard from '../cards/EventOrderCard';
 import React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { IEventOrderCPS } from '@/lib/types/eventOrders';
-import EventOrderCard from '../cards/EventOrderCard';
+import { IEventOrder, IEventOrderCPS } from '@/lib/types/eventOrders';
 
 interface QueueColumnProps {
     title: string;
     icon: React.ReactNode;
     orders: IEventOrderCPS[];
     bgColor: string;
-    textColor: string;
-    cardVariants: any;
-    actionButtonGenerator?: (order: IEventOrderCPS) => React.ReactNode;
+    textColor: LabelColor;
+    actionButtonGenerator?: (
+        orderId: string,
+        status: IEventOrder['status'],
+    ) => React.ReactNode;
+    actionButtonStatus?: IEventOrder['status'];
 }
+
+// Variantes de animación
+const cardVariants = {
+    initial: { opacity: 0, y: -20, scale: 0.95 },
+    animate: { opacity: 1, y: 0, scale: 1 },
+    exit: { opacity: 0, y: 20, scale: 0.95 },
+};
 
 export function QueueColumn({
     title,
@@ -19,16 +30,14 @@ export function QueueColumn({
     orders,
     bgColor,
     textColor,
-    cardVariants,
     actionButtonGenerator,
+    actionButtonStatus,
 }: QueueColumnProps) {
     return (
-        <div className={`flex flex-col ${bgColor} rounded-lg p-6`}>
-            <h2
-                className={`text-xl font-bold flex items-center gap-2 mb-4 ${textColor}`}
-            >
+        <div className={`flex flex-col ${bgColor} rounded-lg p-6 space-y-2`}>
+            <Label size="large" font="bold" color={textColor}>
                 {icon} {title}
-            </h2>
+            </Label>
             <div className="flex flex-col gap-4 overflow-auto">
                 <AnimatePresence>
                     {orders.map((order) => (
@@ -43,8 +52,11 @@ export function QueueColumn({
                             <EventOrderCard
                                 order={order}
                                 actionButton={
-                                    actionButtonGenerator
-                                        ? actionButtonGenerator(order)
+                                    actionButtonStatus && actionButtonGenerator
+                                        ? actionButtonGenerator(
+                                              order.id,
+                                              actionButtonStatus,
+                                          )
                                         : undefined
                                 }
                             />

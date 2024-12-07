@@ -1,5 +1,17 @@
 import React from 'react';
 
+export type LabelColor =
+    | 'black'
+    | 'white'
+    | 'gray'
+    | 'yellow'
+    | 'green'
+    | 'red'
+    | 'dark-gray'
+    | 'beer-draft'
+    | 'beer-gold'
+    | 'beer-blonde';
+
 interface Props {
     size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
     color?:

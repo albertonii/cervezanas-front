@@ -13,17 +13,11 @@ import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { useTranslations } from 'next-intl';
 import { QueueColumn } from '@/app/[locale]/components/CP/QueueColumn';
+import { EVENT_ORDER_CPS_STATUS } from '@/constants';
 
 interface Props {
     cpId: string;
 }
-
-// Variantes de animación (opcional) para personalizar aún más
-const cardVariants = {
-    initial: { opacity: 0, y: -20, scale: 0.95 },
-    animate: { opacity: 1, y: 0, scale: 1 },
-    exit: { opacity: 0, y: 20, scale: 0.95 },
-};
 
 export function DisplayEventOrders({ cpId }: Props) {
     const t = useTranslations('event');
@@ -148,10 +142,15 @@ export function DisplayEventOrders({ cpId }: Props) {
                             numberOfOrders: pendingOrders.length,
                         })}
                         icon={<>🍺</>}
-                        orders={orders}
+                        orders={
+                            data?.filter(
+                                (order) =>
+                                    order.status ===
+                                    EVENT_ORDER_CPS_STATUS.PENDING,
+                            ) as IEventOrderCPS[]
+                        }
                         bgColor={`bg-[#f9e79f]`}
-                        textColor={'text-yellow-800'}
-                        cardVariants={cardVariants}
+                        textColor={'yellow'}
                     />
 
                     {/* En Preparación */}
@@ -160,10 +159,15 @@ export function DisplayEventOrders({ cpId }: Props) {
                             numberOfOrders: pendingOrders.length,
                         })}
                         icon={<>🍻</>}
-                        orders={orders}
+                        orders={
+                            data?.filter(
+                                (order) =>
+                                    order.status ===
+                                    EVENT_ORDER_CPS_STATUS.PREPARING,
+                            ) as IEventOrderCPS[]
+                        }
                         bgColor={`bg-[#f4d03f]`}
-                        textColor={'text-yellow-900'}
-                        cardVariants={cardVariants}
+                        textColor={'yellow'}
                     />
 
                     {/* Listos para Entregar */}
@@ -172,10 +176,15 @@ export function DisplayEventOrders({ cpId }: Props) {
                             numberOfOrders: pendingOrders.length,
                         })}
                         icon={<>✅</>}
-                        orders={orders}
+                        orders={
+                            data?.filter(
+                                (order) =>
+                                    order.status ===
+                                    EVENT_ORDER_CPS_STATUS.READY,
+                            ) as IEventOrderCPS[]
+                        }
                         bgColor={`bg-[#82e0aa]`}
-                        textColor={'text-green-900'}
-                        cardVariants={cardVariants}
+                        textColor={'green'}
                     />
                 </div>
             )}

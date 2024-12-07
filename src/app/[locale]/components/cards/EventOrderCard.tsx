@@ -6,7 +6,7 @@ import { IEventOrderCPS } from '@/lib/types/eventOrders';
 
 interface Props {
     order: IEventOrderCPS;
-    actionButton: React.ReactNode;
+    actionButton?: React.ReactNode;
 }
 
 const EventOrderCard = ({ order, actionButton }: Props) => {

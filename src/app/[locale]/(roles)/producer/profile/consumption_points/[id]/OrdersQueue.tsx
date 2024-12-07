@@ -8,11 +8,12 @@ import useFetchEventOrdersByCPId from '@/hooks/useFetchEventOrdersByCPId';
 import EventOrderCard from '../../../../../components/cards/EventOrderCard';
 import { CheckCircle2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { EventOrderCPSStatus } from '@/constants';
+import { EventOrderCPSStatus, EVENT_ORDER_CPS_STATUS } from '@/constants';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 import { IEventOrder, IEventOrderCPS } from '@/lib/types/eventOrders';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { QueueColumn } from '@/app/[locale]/components/CP/QueueColumn';
 
 interface Props {
     cp: IConsumptionPointEvent;
@@ -89,6 +90,45 @@ export function OrdersQueue({ cp }: Props) {
         }
     };
 
+    const generateActionButton = (
+        orderId: string,
+        status: IEventOrder['status'],
+    ) => {
+        let nextStatus: IEventOrder['status'];
+
+        switch (status) {
+            case 'pending':
+                nextStatus = 'preparing';
+                break;
+            case 'preparing':
+                nextStatus = 'ready';
+                break;
+            case 'ready':
+                nextStatus = 'completed';
+                break;
+            default:
+                nextStatus = status;
+        }
+
+        return (
+            <button
+                onClick={async () => {
+                    try {
+                        await handleUpdateStatus(orderId, nextStatus);
+                    } catch (error) {
+                        handleMessage({
+                            message: 'Error al actualizar el pedido',
+                            type: 'error',
+                        });
+                    }
+                }}
+                className="bg-gray-700 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-gray-800 transition-colors"
+            >
+                {t(nextStatus)}
+            </button>
+        );
+    };
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-4 ">
             {isError && (
@@ -103,100 +143,62 @@ export function OrdersQueue({ cp }: Props) {
                 <Spinner color="blonde" size="large" />
             ) : (
                 <>
-                    {/* Pending Orders */}
-                    <div className="space-y-4">
-                        <div className="bg-yellow-50 p-4 rounded-lg dark:bg-yellow-700">
-                            <Label size="medium" color="yellow" font="bold">
-                                {t('new_orders', {
-                                    numberOfOrders: pendingOrders.length,
-                                })}
-                            </Label>
-                            <div className="space-y-4">
-                                {pendingOrders.map((order) => (
-                                    <EventOrderCard
-                                        key={order.id}
-                                        order={order}
-                                        actionButton={
-                                            <Button
-                                                title={'start'}
-                                                primary
-                                                medium
-                                                onClick={() =>
-                                                    handleUpdateStatus(
-                                                        order.id,
-                                                        'preparing',
-                                                    )
-                                                }
-                                            >
-                                                {t('start')}
-                                            </Button>
-                                        }
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                    </div>
+                    {/* Pedidos Nuevos */}
+                    <QueueColumn
+                        title={t('new_orders', {
+                            numberOfOrders: pendingOrders.length,
+                        })}
+                        icon={<>🍺</>}
+                        orders={
+                            data?.filter(
+                                (order) =>
+                                    order.status ===
+                                    EVENT_ORDER_CPS_STATUS.PENDING,
+                            ) as IEventOrderCPS[]
+                        }
+                        bgColor={`bg-yellow-50 dark:bg-yellow-700`}
+                        textColor={'yellow'}
+                        actionButtonGenerator={generateActionButton} // Pasamos la función generadora de botones
+                        actionButtonStatus={EVENT_ORDER_CPS_STATUS.PENDING}
+                    />
 
                     {/* Preparing Orders */}
-                    <div className="space-y-4 bg-beer-foam p-4 rounded-lg dark:bg-beer-draft">
-                        <Label size="medium" color="beer-blonde" font="bold">
-                            {t('preparing_orders', {
-                                numberOfOrders: preparingOrders.length,
-                            })}
-                        </Label>
-                        <div className="space-y-4">
-                            {preparingOrders.map((order) => (
-                                <EventOrderCard
-                                    key={order.id}
-                                    order={order}
-                                    actionButton={
-                                        <button
-                                            onClick={() =>
-                                                handleUpdateStatus(
-                                                    order.id,
-                                                    'ready',
-                                                )
-                                            }
-                                            className="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center hover:bg-green-600 transition-colors"
-                                        >
-                                            <CheckCircle2 className="w-4 h-4 mr-2" />
-                                            {t('ready')}
-                                        </button>
-                                    }
-                                />
-                            ))}
-                        </div>
-                    </div>
+                    <QueueColumn
+                        title={t('preparing_orders', {
+                            numberOfOrders: preparingOrders.length,
+                        })}
+                        icon={<>🍺</>}
+                        orders={
+                            data?.filter(
+                                (order) =>
+                                    order.status ===
+                                    EVENT_ORDER_CPS_STATUS.PREPARING,
+                            ) as IEventOrderCPS[]
+                        }
+                        bgColor={`bg-beer-foam dark:bg-beer-draft`}
+                        textColor={'yellow'}
+                        actionButtonGenerator={generateActionButton} // Pasamos la función generadora de botones
+                        actionButtonStatus={EVENT_ORDER_CPS_STATUS.PREPARING}
+                    />
 
                     {/* Ready Orders */}
-                    <div className="space-y-4 bg-green-50 p-4 rounded-lg bg-green-800">
-                        <Label size="medium" color="green" font="bold">
-                            {t('ready_orders', {
-                                numberOfOrders: readyOrders.length,
-                            })}
-                        </Label>
-                        <div className="space-y-4">
-                            {readyOrders.map((order) => (
-                                <EventOrderCard
-                                    key={order.id}
-                                    order={order}
-                                    actionButton={
-                                        <button
-                                            onClick={() =>
-                                                handleUpdateStatus(
-                                                    order.id,
-                                                    'completed',
-                                                )
-                                            }
-                                            className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors"
-                                        >
-                                            {t('delivered')}
-                                        </button>
-                                    }
-                                />
-                            ))}
-                        </div>
-                    </div>
+                    <QueueColumn
+                        title={t('ready_orders', {
+                            numberOfOrders: readyOrders.length,
+                        })}
+                        icon={<>🍺</>}
+                        orders={
+                            data?.filter(
+                                (order) =>
+                                    order.status ===
+                                    EVENT_ORDER_CPS_STATUS.READY,
+                            ) as IEventOrderCPS[]
+                        }
+                        bgColor={`bg-green-50 dark:bg-green-800`}
+                        textColor={'green'}
+                        actionButtonGenerator={generateActionButton} // Pasamos la función generadora de botones
+                        actionButtonStatus={EVENT_ORDER_CPS_STATUS.READY} // Status relevante para el botón
+                    />
                 </>
             )}
         </div>
