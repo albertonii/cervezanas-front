@@ -149,7 +149,7 @@ export function DisplayEventOrders({ cpId }: Props) {
                                     EVENT_ORDER_CPS_STATUS.PENDING,
                             ) as IEventOrderCPS[]
                         }
-                        bgColor={`bg-[#f9e79f]`}
+                        bgColor={`bg-yellow-50 dark:bg-yellow-700`}
                         textColor={'yellow'}
                     />
 
@@ -166,7 +166,7 @@ export function DisplayEventOrders({ cpId }: Props) {
                                     EVENT_ORDER_CPS_STATUS.PREPARING,
                             ) as IEventOrderCPS[]
                         }
-                        bgColor={`bg-[#f4d03f]`}
+                        bgColor={`bg-beer-foam dark:bg-beer-draft`}
                         textColor={'yellow'}
                     />
 
@@ -183,7 +183,7 @@ export function DisplayEventOrders({ cpId }: Props) {
                                     EVENT_ORDER_CPS_STATUS.READY,
                             ) as IEventOrderCPS[]
                         }
-                        bgColor={`bg-[#82e0aa]`}
+                        bgColor={`bg-green-50 dark:bg-green-800`}
                         textColor={'green'}
                     />
                 </div>
