@@ -1,15 +1,18 @@
 'use client';
 
+import Title from '@/app/[locale]/components/ui/Title';
 import Label from '@/app/[locale]/components/ui/Label';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
 import useFetchEventOrdersByCPId from '@/hooks/useFetchEventOrdersByCPId';
 import EventOrderCard from '../../../../../components/cards/EventOrderCard';
 import React, { useEffect, useState } from 'react';
-import { CheckCircle2, Beer, MapPin } from 'lucide-react';
+import { Beer, MapPin } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { IEventOrderCPS } from '@/lib/types/eventOrders';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslations } from 'next-intl';
+import { QueueColumn } from '@/app/[locale]/components/CP/QueueColumn';
 
 interface Props {
     cpId: string;
@@ -23,7 +26,7 @@ const cardVariants = {
 };
 
 export function DisplayEventOrders({ cpId }: Props) {
-    const { handleMessage } = useMessage();
+    const t = useTranslations('event');
     const { data, isError, isLoading, isFetchedAfterMount } =
         useFetchEventOrdersByCPId(cpId);
 
@@ -72,43 +75,44 @@ export function DisplayEventOrders({ cpId }: Props) {
             className="h-screen w-screen overflow-hidden flex flex-col bg-[url('/path-to-your-beer-background.jpg')] bg-cover bg-center"
             style={{ backgroundColor: '#1b1b1b' }}
         >
-            {/* Información del punto de consumo */}
-            {cpInfo && (
-                <div className="p-4 bg-black bg-opacity-80 text-beer-blonde flex flex-col items-start justify-center gap-2 shadow-md">
-                    <h2 className="text-2xl font-bold uppercase tracking-wide flex items-center gap-2">
-                        <Beer className="w-6 h-6 text-beer-blonde" />
-                        {cpInfo.cp?.cp_name}
-                    </h2>
-                    <div className="flex items-center gap-2 text-beer-blonde">
-                        <MapPin className="w-5 h-5" />
-                        <span className="text-lg">{cpInfo.cp?.address}</span>
-                    </div>
-                    <span className="text-md italic text-beer-blonde">
-                        {cpInfo.cp?.cp_description}
-                    </span>
-                </div>
-            )}
-
             {/* Encabezado principal */}
-            <div className="p-4 bg-black bg-opacity-70 text-beer-blonde flex items-center justify-center">
+            <div className="flex flex-col p-4 text-beer-blonde items-center justify-center">
                 <div className="flex items-center gap-3">
                     <Beer className="w-8 h-8 text-beer-blonde" />
-                    <h1 className="text-3xl font-bold uppercase tracking-wider">
-                        Cola de Pedidos - Cervezanas
-                    </h1>
+                    <Title size="xlarge" font="bold">
+                        {t('order_queue')}
+                    </Title>
                     <Beer className="w-8 h-8 text-beer-blonde" />
                 </div>
+
+                {/* Información del punto de consumo */}
+                {cpInfo && (
+                    <div className="p-4  text-beer-blonde flex flex-col items-center justify-center gap-2 shadow-md">
+                        <Label size="xlarge" font="bold" color="beer-gold">
+                            {cpInfo.cp?.cp_name}
+                        </Label>
+                        <div className="flex items-center gap-2 text-beer-blonde">
+                            <MapPin className="w-5 h-5" />
+                            <Label size="medium" color="gray" font="italic">
+                                {cpInfo.cp?.address}
+                            </Label>
+                        </div>
+                        <Label size="medium" color="gray" font="italic">
+                            {cpInfo.cp?.cp_description}
+                        </Label>
+                    </div>
+                )}
             </div>
 
             {/* Columna extra de últimos pedidos entregados */}
-            <div className="p-4 bg-black bg-opacity-90 text-beer-blonde flex items-center justify-center gap-4">
-                <h3 className="text-xl font-semibold uppercase tracking-wide">
-                    Últimos Entregados:
-                </h3>
+            <div className="p-4 text-beer-blonde flex items-center justify-center gap-4">
+                <Label size="large" font="semibold">
+                    {t('last_delivered')}:
+                </Label>
                 {lastThreeDelivered.length === 0 ? (
-                    <span className="text-beer-blonde italic text-lg">
-                        Ninguno
-                    </span>
+                    <Label color="beer-blonde" size="large">
+                        {t('none')}
+                    </Label>
                 ) : (
                     <div className="flex gap-4">
                         {lastThreeDelivered.map((order) => (
@@ -125,9 +129,9 @@ export function DisplayEventOrders({ cpId }: Props) {
 
             {isError && (
                 <div className="bg-red-700 text-white p-4 text-center">
-                    <h2 className="text-xl font-bold">
-                        Error al cargar los pedidos
-                    </h2>
+                    <Label size="large" font="bold">
+                        {t('error_loading_orders')}
+                    </Label>
                 </div>
             )}
 
@@ -136,88 +140,51 @@ export function DisplayEventOrders({ cpId }: Props) {
                     <Spinner color="blonde" size="large" />
                 </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 h-full overflow-auto bg-black bg-opacity-40">
-                    {/* Pedidos Nuevos */}
-                    <div className="flex flex-col bg-[#f9e79f] bg-opacity-90 rounded-lg p-6">
-                        <h2 className="text-2xl font-bold text-yellow-800 flex items-center gap-2 mb-4">
-                            <span role="img" aria-label="cerveza">
-                                🍺
-                            </span>{' '}
-                            Pedidos Nuevos ({pendingOrders.length})
-                        </h2>
-                        <div className="flex flex-col gap-4 overflow-auto">
-                            <AnimatePresence>
-                                {pendingOrders.map((order) => (
-                                    <motion.div
-                                        key={order.id}
-                                        variants={cardVariants}
-                                        initial="initial"
-                                        animate="animate"
-                                        exit="exit"
-                                        transition={{ duration: 0.3 }}
-                                    >
-                                        <EventOrderCard
-                                            order={order}
-                                            actionButton={undefined}
-                                        />
-                                    </motion.div>
-                                ))}
-                            </AnimatePresence>
+                <>
+                    {!isFetchedAfterMount || isLoading ? (
+                        <div className="flex-grow flex items-center justify-center">
+                            <Spinner color="blonde" size="large" />
                         </div>
-                    </div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-6 h-full overflow-auto ">
+                            {/* Pedidos Nuevos */}
+                            <QueueColumn
+                                title={t('new_orders', {
+                                    numberOfOrders: pendingOrders.length,
+                                })}
+                                icon={<>🍺</>}
+                                orders={orders}
+                                bgColor={`bg-[#f9e79f]`}
+                                textColor={'text-yellow-800'}
+                                cardVariants={cardVariants}
+                            />
 
-                    {/* En Preparación */}
-                    <div className="flex flex-col bg-[#f4d03f] bg-opacity-90 rounded-lg p-6">
-                        <h2 className="text-2xl font-bold text-yellow-900 flex items-center gap-2 mb-4">
-                            🍻 En Preparación ({preparingOrders.length})
-                        </h2>
-                        <div className="flex flex-col gap-4 overflow-auto">
-                            <AnimatePresence>
-                                {preparingOrders.map((order) => (
-                                    <motion.div
-                                        key={order.id}
-                                        variants={cardVariants}
-                                        initial="initial"
-                                        animate="animate"
-                                        exit="exit"
-                                        transition={{ duration: 0.3 }}
-                                    >
-                                        <EventOrderCard
-                                            order={order}
-                                            actionButton={undefined}
-                                        />
-                                    </motion.div>
-                                ))}
-                            </AnimatePresence>
-                        </div>
-                    </div>
+                            {/* En Preparación */}
+                            <QueueColumn
+                                title={t('preparing_orders', {
+                                    numberOfOrders: pendingOrders.length,
+                                })}
+                                icon={<>🍻</>}
+                                orders={orders}
+                                bgColor={`bg-[#f4d03f]`}
+                                textColor={'text-yellow-900'}
+                                cardVariants={cardVariants}
+                            />
 
-                    {/* Listos para Entregar */}
-                    <div className="flex flex-col bg-[#82e0aa] bg-opacity-90 rounded-lg p-6">
-                        <h2 className="text-2xl font-bold text-green-900 flex items-center gap-2 mb-4">
-                            ✅ Listos para Entregar ({readyOrders.length})
-                        </h2>
-                        <div className="flex flex-col gap-4 overflow-auto">
-                            <AnimatePresence>
-                                {readyOrders.map((order) => (
-                                    <motion.div
-                                        key={order.id}
-                                        variants={cardVariants}
-                                        initial="initial"
-                                        animate="animate"
-                                        exit="exit"
-                                        transition={{ duration: 0.3 }}
-                                    >
-                                        <EventOrderCard
-                                            order={order}
-                                            actionButton={undefined}
-                                        />
-                                    </motion.div>
-                                ))}
-                            </AnimatePresence>
+                            {/* Listos para Entregar */}
+                            <QueueColumn
+                                title={t('ready_orders', {
+                                    numberOfOrders: pendingOrders.length,
+                                })}
+                                icon={<>✅</>}
+                                orders={orders}
+                                bgColor={`bg-[#82e0aa]`}
+                                textColor={'text-green-900'}
+                                cardVariants={cardVariants}
+                            />
                         </div>
-                    </div>
-                </div>
+                    )}
+                </>
             )}
         </div>
     );

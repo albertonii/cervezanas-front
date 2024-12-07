@@ -11,8 +11,16 @@ interface Props {
         | 'red'
         | 'dark-gray'
         | 'beer-draft'
+        | 'beer-gold'
         | 'beer-blonde';
-    font?: 'semibold' | 'bold' | 'normal' | 'medium' | 'link';
+    font?:
+        | 'semibold'
+        | 'bold'
+        | 'normal'
+        | 'medium'
+        | 'link'
+        | 'italic'
+        | 'bold-italic';
     htmlFor?: string;
     children: React.ReactNode;
     className?: string;
@@ -46,6 +54,7 @@ export default function Label({
         'dark-gray': 'text-gray-700 dark:text-gray-400',
         'beer-draft': 'text-beer-draft dark:text-beer-softBlonde',
         'beer-blonde': 'text-beer-blonde dark:text-beer-softFoam',
+        'beer-gold': 'text-beer-gold ',
     };
 
     const fontClass = {
@@ -54,6 +63,8 @@ export default function Label({
         normal: 'font-normal',
         medium: 'font-medium',
         link: 'font-normal underline hover:text-beer-blonde hover:cursor-pointer',
+        italic: 'italic',
+        'bold-italic': 'font-bold italic',
     };
 
     return (

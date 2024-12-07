@@ -1508,7 +1508,10 @@
         "ready_orders": "Listos para Recoger {numberOfOrders}",
         "start": "Empezar",
         "delivered": "Entregado",
-        "note": "Nota"
+        "note": "Nota",
+        "order_queue": "Cola de pedidos",
+        "last_delivered": "Últimos entregados",
+        "none": "Ninguno"
     },
     "cp_management": "Administrar Puntos de Consumo",
     "cp_in_events": "Puntos de Consumo en Eventos"
