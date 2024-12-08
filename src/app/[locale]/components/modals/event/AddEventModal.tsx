@@ -1,5 +1,6 @@
 'use client';
 
+import Title from '../../ui/Title';
 import dynamic from 'next/dynamic';
 import Spinner from '../../ui/Spinner';
 import ExperienceForm from '../../../(roles)/producer/profile/events/ExperienceForm';
@@ -11,40 +12,91 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
-import { IConsumptionPoint } from '@/lib/types/consumptionPoints';
 import { SearchCheckboxCPs } from '../../common/SearchCheckboxCPs';
+import {
+    IConsumptionPoint,
+    IConsumptionPointEvent,
+    IConsumptionPointEventNoCircularDependency,
+} from '@/lib/types/consumptionPoints';
 
 const ModalWithForm = dynamic(() => import('../ModalWithForm'), { ssr: false });
 
 export type ModalAddEventFormData = {
     name: string;
     description: string;
-    start_date: Date;
-    end_date: Date;
-    logo_url?: string;
-    promotional_url?: string;
-    cps?: any[];
+    start_date: string;
+    end_date: string;
+    logo_url: string;
+    promotional_url: string;
+    category: string;
+    cps: IConsumptionPointEventNoCircularDependency[];
+    removed_cps?: {
+        id?: string;
+    }[];
     event_experiences?: {
         experience_id?: string;
         cp_id?: string;
     }[];
 };
 
-const schema: ZodType<ModalAddEventFormData> = z.object({
-    name: z.string().nonempty({ message: 'errors.input_required' }),
-    description: z.string().nonempty({ message: 'errors.input_required' }),
-    start_date: z.date(),
-    end_date: z.date(),
-    logo_url: z.string().optional(),
-    promotional_url: z.string().optional(),
-    cps: z.any(),
-    event_experiences: z.array(
-        z.object({
-            experience_id: z.string().optional(),
-            cp_id: z.string().optional(),
-        }),
-    ),
+const consumptionPointEventSchema = z.object({
+    id: z.string(),
+    created_at: z.string(),
+    cp_id: z.string(),
+    cp_name: z.string(),
+    cp_description: z.string(),
+    status: z.string(),
+    address: z.string(),
+    event_id: z.string(),
+    owner_id: z.string(),
+    is_active: z.boolean(),
+    is_cervezanas_event: z.boolean(),
+    start_date: z.string(),
+    end_date: z.string(),
+    stand_location: z.string(),
+    view_configuration: z.enum(['one_step', 'two_steps', 'three_steps']), // Actualizado
+    has_pending_payment: z.boolean(),
+    is_booking_required: z.boolean(),
+    maximum_capacity: z.number(),
 });
+
+const schema: ZodType<ModalAddEventFormData> = z
+    .object({
+        name: z.string().nonempty({ message: 'errors.input_required' }),
+        description: z.string().nonempty({ message: 'errors.input_required' }),
+        start_date: z.string(),
+        end_date: z.string(),
+        logo_url: z.string(),
+        promotional_url: z.string(),
+        cps: z.array(consumptionPointEventSchema).min(1, {
+            message: 'Debe seleccionar al menos un punto de consumo',
+        }),
+        category: z.string(),
+        removed_cps: z.array(
+            z.object({
+                id: z.string().optional(),
+            }),
+        ),
+        event_experiences: z.array(
+            z.object({
+                experience_id: z.string().optional(),
+                cp_id: z.string().optional(),
+            }),
+        ),
+    })
+    .superRefine((data, ctx) => {
+        // Validar que end_date sea posterior a start_date
+        const startDate = new Date(data.start_date);
+        const endDate = new Date(data.end_date);
+        if (startDate > endDate) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                path: ['end_date'],
+                message:
+                    'La fecha de fin debe ser posterior o igual a la fecha de inicio',
+            });
+        }
+    });
 
 type ValidationSchema = z.infer<typeof schema>;
 
@@ -52,8 +104,8 @@ interface Props {
     cps: IConsumptionPoint[];
 }
 
-export default function AddEvent({ cps }: Props) {
-    const t = useTranslations();
+export default function AddEventModal({ cps }: Props) {
+    const t = useTranslations('event');
     const { user, supabase } = useAuth();
 
     const [isLoading, setIsLoading] = useState(false);
@@ -132,10 +184,12 @@ export default function AddEvent({ cps }: Props) {
 
         if (cps) {
             // Get CP checked from the list
-            const cpsFiltered = cps.filter((cp: IConsumptionPoint) => cp.cp_id);
+            const cpsFiltered = cps.filter(
+                (cp: IConsumptionPointEvent) => cp.cp_id,
+            );
 
             // Loop trough all the selected CPs and insert them into the event
-            cpsFiltered.map(async (cp: IConsumptionPoint) => {
+            cpsFiltered.map(async (cp: IConsumptionPointEvent) => {
                 const { error: cpError } = await supabase
                     .from('cp_events')
                     .insert({
@@ -226,8 +280,8 @@ export default function AddEvent({ cps }: Props) {
 
                     {/* List of Consumption Points  */}
                     <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                        <legend className="text-2xl">
-                            {t('cp_associated')}
+                        <legend>
+                            <Title size="large">{t('cp_associated')}</Title>
                         </legend>
 
                         <SearchCheckboxCPs cps={cps} form={form} />
@@ -235,7 +289,9 @@ export default function AddEvent({ cps }: Props) {
 
                     {/* Listado de experiencias cervezanas configuradas por el usuario y habilitadas en el evento */}
                     <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                        <legend className="text-2xl">{t('experiences')}</legend>
+                        <legend>
+                            <Title size="large">{t('experiences')}</Title>
+                        </legend>
 
                         <ExperienceForm form={form} cps={cps} />
                     </fieldset>

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 import DeleteEventModal from '@/app/[locale]/components/modals/DeleteEventModal';
-import UpdateEventModal from '@/app/[locale]/components/modals/event/UpdateEvent';
+import UpdateEventModal from '@/app/[locale]/components/modals/event/UpdateEventModal';
 import useFetchEventsByOwnerId from '../../../../../../../hooks/useFetchEventsByOwnerId';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import React, { useEffect, useState } from 'react';

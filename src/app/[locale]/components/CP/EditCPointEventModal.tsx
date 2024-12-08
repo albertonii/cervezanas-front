@@ -15,11 +15,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
+import { formatDateDefaultInput } from '@/utils/formatDate';
 import {
     IConsumptionPointEvent,
     ICPProductsEditModal,
 } from '@/lib/types/consumptionPoints';
-import { formatDateDefaultInput } from '@/utils/formatDate';
 
 // Definición del esquema de validación con Zod
 const formSchema = z

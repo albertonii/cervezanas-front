@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { useQueryClient } from 'react-query';
 import { IEventOrderCPS } from '@/lib/types/eventOrders';
 import { UpdateEventCPOrderStatus } from '../../actions';
-import { CheckCircle2, ChefHat, Clock, Play } from 'lucide-react';
+import { CheckCircle2, ChefHat, Clock, Play, X } from 'lucide-react';
 import { EVENT_ORDER_CPS_STATUS, EventOrderCPSStatus } from '@/constants';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { EventOrderConfirmationDialog } from '@/app/[locale]/components/CP/EventOrderConfirmationDialog';
@@ -17,6 +17,8 @@ const statusIcons: Record<EventOrderCPSStatus, React.ComponentType<any>> = {
     preparing: ChefHat,
     ready: CheckCircle2,
     completed: CheckCircle2,
+    pending_payment: Clock,
+    cancelled: X,
 };
 
 const statusColors: Record<EventOrderCPSStatus, string> = {
@@ -25,6 +27,8 @@ const statusColors: Record<EventOrderCPSStatus, string> = {
     preparing: 'text-blue-500 dark:text-blue-400',
     ready: 'text-green-500 dark:text-green-400',
     completed: 'text-gray-500 dark:text-gray-400',
+    pending_payment: 'text-yellow-500 dark:text-yellow-400',
+    cancelled: 'text-red-500 dark:text-red-400',
 };
 
 const statusBackgrounds: Record<EventOrderCPSStatus, string> = {
@@ -33,6 +37,8 @@ const statusBackgrounds: Record<EventOrderCPSStatus, string> = {
     preparing: 'bg-blue-50 dark:bg-blue-900',
     ready: 'bg-green-50 dark:bg-green-900',
     completed: 'bg-gray-50 dark:bg-gray-700',
+    pending_payment: 'bg-yellow-50 dark:bg-yellow-900',
+    cancelled: 'bg-red-50 dark:bg-red-900',
 };
 
 interface Props {

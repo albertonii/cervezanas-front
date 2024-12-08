@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 interface Props {
     size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge';
     color?: 'black' | 'white' | 'beer-draft' | 'beer-blonde' | 'gray';
-    font?: 'medium' | 'semi-bold' | 'bold';
+    font?: 'medium' | 'semibold' | 'bold';
     fontFamily?: 'NexaRust-script' | 'NexaRust-sans';
     children: React.ReactNode;
 }

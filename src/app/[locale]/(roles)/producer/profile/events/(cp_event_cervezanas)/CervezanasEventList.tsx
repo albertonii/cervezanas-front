@@ -28,8 +28,12 @@ export default function CervezanasEventList({ counter }: Props) {
 
     const resultsPerPage = 10;
 
-    const { data, error, isError, isLoading, refetch } =
-        useFetchCervezanasEventsByOwnerId(user.id, currentPage, resultsPerPage);
+    const { data, isError, isLoading, refetch, isFetchedAfterMount } =
+        useFetchCervezanasEventsByOwnerId(
+            user?.id,
+            currentPage,
+            resultsPerPage,
+        );
 
     const [events, setEvents] = useState<IConsumptionPointEvent[]>([]);
 
@@ -42,11 +46,13 @@ export default function CervezanasEventList({ counter }: Props) {
         useState<IConsumptionPointEvent>();
 
     useEffect(() => {
-        refetch().then((res: any) => {
-            const events = res.data as any;
-            if (events) setEvents(events);
-        });
-    }, [data, currentPage]);
+        if (isFetchedAfterMount) {
+            refetch().then((res: any) => {
+                const events = res.data as any;
+                if (events) setEvents(events);
+            });
+        }
+    }, [isFetchedAfterMount, currentPage]);
 
     const handleEditClick = async (e: IConsumptionPointEvent) => {
         setIsEditModal(true);

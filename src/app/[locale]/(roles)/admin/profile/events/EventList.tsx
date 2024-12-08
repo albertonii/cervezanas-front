@@ -1,7 +1,6 @@
 'use client';
 
 import EventItems from './EventItems';
-import UpdateEventModal from './UpdateEvent';
 import TR from '@/app/[locale]/components/ui/table/TR';
 import TH from '@/app/[locale]/components/ui/table/TH';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
@@ -15,9 +14,8 @@ import DeleteCEventModal from '@/app/[locale]/components/modals/DeleteEventModal
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IEvent } from '@/lib/types/eventOrders';
-import {
-    IConsumptionPoint,
-} from '@/lib/types/consumptionPoints';
+import { IConsumptionPoint } from '@/lib/types/consumptionPoints';
+import UpdateEventModal from '@/app/[locale]/components/modals/event/UpdateEventModal';
 
 enum SortBy {
     NONE = 'none',

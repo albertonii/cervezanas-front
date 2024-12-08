@@ -36,7 +36,7 @@ export default function InputSearch({
                 type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-500 dark:text-white 
+                className="m-2 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-beer-blonde focus:ring-beer-blonde  dark:border-gray-600 dark:bg-gray-500 dark:text-white 
                     dark:placeholder-gray-200 dark:focus:border-blue-500 dark:focus:ring-blue-500"
                 placeholder={t(searchPlaceholder)}
             />

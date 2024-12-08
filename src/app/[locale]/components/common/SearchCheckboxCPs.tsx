@@ -53,6 +53,15 @@ export function SearchCheckboxCPs({
                 id: '',
                 start_date: '',
                 end_date: '',
+                cp_name: cp.cp_name,
+                cp_description: cp.cp_description,
+                status: cp.status,
+                address: cp.address,
+                stand_location: '',
+                view_configuration: 'one_step',
+                has_pending_payment: false,
+                is_booking_required: cp.is_booking_required,
+                maximum_capacity: cp.maximum_capacity,
             };
 
             setCheckedCPsState([...checkedCPsState, cp_check]);

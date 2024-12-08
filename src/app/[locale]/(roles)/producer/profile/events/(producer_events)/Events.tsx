@@ -1,7 +1,7 @@
 'use client';
 
 import EventList from './EventList';
-import AddEvent from '@/app/[locale]/components/modals/event/AddEvent';
+import AddEventModal from '@/app/[locale]/components/modals/event/AddEventModal';
 import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 import React from 'react';
 import { useTranslations } from 'next-intl';
@@ -19,7 +19,7 @@ export default function Events({ cps, counter }: Props) {
         <section className="px-4 py-6" aria-label="Events">
             <ProfileSectionHeader
                 headerTitle="events"
-                btnActions={<AddEvent cps={cps} />}
+                btnActions={<AddEventModal cps={cps} />}
             />
 
             <EventList counter={counter} cps={cps} />

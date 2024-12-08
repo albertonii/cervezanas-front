@@ -35,7 +35,7 @@ export function EventOrderConfirmationDialog({
                     <X className="w-5 h-5" />
                 </button>
 
-                <Title size="large" font="semi-bold" color="beer-draft">
+                <Title size="large" font="semibold" color="beer-draft">
                     {title}
                 </Title>
                 <Label color="gray" className="dark:text-gray-300">

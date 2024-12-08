@@ -1,4 +1,5 @@
 import { EventOrderCPSStatus } from '@/constants';
+import { EventCategory } from '../enums';
 import { IConsumptionPointEvent } from './consumptionPoints';
 import { IProductPack, IUserTable } from './types';
 
@@ -74,6 +75,7 @@ export interface IEvent {
     logo_url: string;
     promotional_url: string;
     status: string;
+    category: EventCategory; // tours de cerveza | catas de cerveza | talleres de elaboración de cervezas | tap takeovers | lanzamientos de nuevas cervezas | musicales | eventos benéficos | networking | competencias de elaboración | reuniones sociales | charlas | exhibiciones | eventos maridaje y gastronomía | ferias y exposiciones | preguntas y respuestas (Q&A) | happy hours
     // geoArgs: GeocodeResult[];
     geoArgs: any[];
     address: string;

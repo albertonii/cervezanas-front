@@ -49,7 +49,7 @@ async function getConsumptionPoint(cpId: string) {
 
     if (error) console.error(error);
 
-    return cp as IConsumptionPointEvent;
+    return cp as unknown as IConsumptionPointEvent;
 }
 
 async function getEventExperience(eventId: string, cpId: string) {

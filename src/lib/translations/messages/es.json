@@ -588,8 +588,6 @@
     "error_fetching_cp": "Error al obtener puntos de consumo ",
     "error_fetching_online_orders": "Error al obtener pedidos online",
     "error_fetching_event_orders": "Error al obtener pedidos de eventos",
-    "event_advertising": "Publicidad del evento",
-    "cp_associated": "Puntos de Consumo asociados",
     "phone": "Teléfono",
     "search_cp": "Buscar punto de consumo",
     "type_header": "Tipo",
@@ -1524,7 +1522,16 @@
         "preparing_orders": "En Preparación ({numberOfOrders})",
         "ready_orders": "Listos para Recoger ({numberOfOrders})",
         "pending_orders": "Pedidos pendientes ({numberOfOrders})",
-        "pending_payment": "Pendientes de Pago ({numberOfOrders})"
+        "pending_payment": "Pendientes de Pago ({numberOfOrders})",
+        "events_in_cervezanas": "Eventos en Cervezanas",
+        "is_activated": "¿Está activado?",
+        "is_activated_description": "Si está activado, los consumidores podrán ver y participar en el evento.",
+        "events_info": "Información del evento",
+        "event_advertising": "Publicidad del evento",
+        "cp_associated": "Puntos de Consumo asociados",
+        "introduce_event_name": "Introduce el nombre del evento",
+        "introduce_event_description": "Introduce la descripción del evento",
+        "experiences": "Experiencias"
     },
     "cp_management": "Administrar Puntos de Consumo",
     "cp_in_events": "Puntos de Consumo en Eventos"

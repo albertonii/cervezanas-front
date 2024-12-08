@@ -7,9 +7,9 @@ export default async function EventsPage() {
     const [events] = await Promise.all([eventsData]);
 
     return (
-        <>
+        <div className="container mx-auto py-8 px-4">
             <Events events={events} />
-        </>
+        </div>
     );
 }
 

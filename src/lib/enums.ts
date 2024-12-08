@@ -81,3 +81,89 @@ export enum CURRENCY_ENUM {
     EUR = 'EUR',
     USD = 'USD',
 }
+
+export enum EventCategory {
+    BEER_TOURS = 'beer_tours',
+    BEER_TASTINGS = 'beer_tastings',
+    BREWING_WORKSHOPS = 'brewing_workshops',
+    TAP_TAKEOVERS = 'tap_takeovers',
+    NEW_BEER_LAUNCHES = 'new_beer_launches',
+    MUSICALS = 'musicals',
+    CHARITY_EVENTS = 'charity_events',
+    NETWORKING = 'networking',
+    BREWING_COMPETITIONS = 'brewing_competitions',
+    SOCIAL_GATHERINGS = 'social_gatherings',
+    TALKS = 'talks',
+    EXHIBITIONS = 'exhibitions',
+    FOOD_PAIRING_EVENTS = 'food_pairing_events',
+    FAIRS_AND_EXHIBITIONS = 'fairs_and_exhibitions',
+    Q_AND_A = 'q_and_a',
+    HAPPY_HOURS = 'happy_hours',
+}
+
+export const EVENT_CATEGORIES = [
+    {
+        label: 'beer_tours',
+        value: EventCategory.BEER_TOURS,
+    },
+    {
+        label: 'beer_tastings',
+        value: EventCategory.BEER_TASTINGS,
+    },
+    {
+        label: 'brewing_workshops',
+        value: EventCategory.BREWING_WORKSHOPS,
+    },
+    {
+        label: 'tap_takeovers',
+        value: EventCategory.TAP_TAKEOVERS,
+    },
+    {
+        label: 'new_beer_launches',
+        value: EventCategory.NEW_BEER_LAUNCHES,
+    },
+    {
+        label: 'musicals',
+        value: EventCategory.MUSICALS,
+    },
+    {
+        label: 'charity_events',
+        value: EventCategory.CHARITY_EVENTS,
+    },
+    {
+        label: 'networking',
+        value: EventCategory.NETWORKING,
+    },
+    {
+        label: 'brewing_competitions',
+        value: EventCategory.BREWING_COMPETITIONS,
+    },
+    {
+        label: 'social_gatherings',
+        value: EventCategory.SOCIAL_GATHERINGS,
+    },
+    {
+        label: 'talks',
+        value: EventCategory.TALKS,
+    },
+    {
+        label: 'exhibitions',
+        value: EventCategory.EXHIBITIONS,
+    },
+    {
+        label: 'food_pairing_events',
+        value: EventCategory.FOOD_PAIRING_EVENTS,
+    },
+    {
+        label: 'fairs_and_exhibitions',
+        value: EventCategory.FAIRS_AND_EXHIBITIONS,
+    },
+    {
+        label: 'q_and_a',
+        value: EventCategory.Q_AND_A,
+    },
+    {
+        label: 'happy_hours',
+        value: EventCategory.HAPPY_HOURS,
+    },
+];
