@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Draggable from 'react-draggable';
 import MaxifiedCart from './MaxifiedCart';
 import Title from '@/app/[locale]/components/ui/Title';
-import useEventCartStore from '@/app/store//eventCartStore';
+import useEventCartStore from '@/app/store/eventCartStore';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IProductPackEventCartItem } from '@/lib/types/types';
@@ -18,56 +18,57 @@ export default function EventCart({ eventId }: Props) {
 
     const [items, setItems] = useState<IProductPackEventCartItem[]>([]);
     const [position, setPosition] = useState<{ x: number; y: number }>({
-        x: innerWidth / 2,
-        y: -200,
+        x: typeof window !== 'undefined' ? window.innerWidth / 2 - 150 : 0, // Centrar horizontalmente (ajusta 150 si el ancho es 300)
+        y: 0, // Mantener Y en 0
     });
 
     useEffect(() => {
         if (!existEventCart(eventId)) {
             createNewCart(eventId);
         }
-        setItems(eventCarts[eventId]);
-    }, [eventCarts]);
-
-    const adjustPositionWithinBounds = (x: number, y: number) => {
-        const { innerWidth, innerHeight } = window;
-
-        const adjustedX = Math.max(0, Math.min(x, innerWidth - 300)); // 300px es el ancho del carrito
-        const adjustedY = Math.max(
-            0,
-            Math.min(y, innerHeight - (isOpen ? 400 : 50)),
-        ); // Altura: 400px abierto, 50px minimizado
-
-        return { x: adjustedX, y: adjustedY };
-    };
-
-    const onDragStop = (_e: any, data: any) => {
-        const adjustedPosition = adjustPositionWithinBounds(data.x, data.y);
-        setPosition(adjustedPosition);
-    };
+        setItems(eventCarts[eventId] || []);
+    }, [eventCarts, eventId, existEventCart, createNewCart]);
 
     useEffect(() => {
         if (isOpen) {
-            const adjustedPosition = adjustPositionWithinBounds(
-                position.x,
-                position.y,
-            );
-            setPosition(adjustedPosition);
+            const adjustedPosition = adjustPositionWithinBounds(position.x);
+            setPosition({ x: adjustedPosition, y: 0 });
         }
     }, [isOpen]);
+
+    const onDragStop = (_e: any, data: any) => {
+        const adjustedX = adjustPositionWithinBounds(data.x);
+        setPosition({ x: adjustedX, y: 0 }); // Forzar Y a 0
+    };
+
+    const adjustPositionWithinBounds = (x: number) => {
+        const { innerWidth } = window;
+
+        const adjustedX = Math.max(0, Math.min(x, innerWidth - 300)); // 300px es el ancho del carrito
+
+        console.log(`Adjusting position: x=${adjustedX}, y=0`); // Para depuración
+
+        return adjustedX;
+    };
 
     return (
         <Draggable
             handle=".drag-handle"
-            bounds="parent"
+            bounds={{
+                left: 0,
+                right:
+                    typeof window !== 'undefined' ? window.innerWidth - 300 : 0,
+            }} // Ajustar según el ancho
             position={position}
             onStop={onDragStop}
+            axis="x" // Restringir a solo eje X
         >
             <section
                 className="fixed z-40 rounded-lg border-2 border-beer-softBlonde bg-white shadow-lg sm:w-auto"
                 aria-modal="true"
                 role="dialog"
                 tabIndex={-1}
+                style={{ top: 0 }} // Asegurar que esté alineado en Y=0
             >
                 {/* Barra Arrastrable */}
                 <div className="drag-handle flex items-center justify-between p-2 bg-beer-blonde text-white font-semibold rounded-t-lg cursor-grab hover:cursor-grabbing">

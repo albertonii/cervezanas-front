@@ -18,13 +18,14 @@ export default function layout({ children, params }: LayoutProps) {
     }, []);
 
     return (
-        <>
+        <div className="relative w-full h-full">
+            {/* Añadido position: relative */}
             {isReady && (
                 <>
                     <EventCart eventId={eventId} />
                     {children}
                 </>
             )}
-        </>
+        </div>
     );
 }

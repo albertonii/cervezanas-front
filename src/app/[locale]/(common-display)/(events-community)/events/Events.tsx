@@ -14,7 +14,7 @@ export default function Events({ events }: Props) {
     const t = useTranslations('event');
 
     return (
-        <section className="py-8 px-4 bg-gray-100 dark:bg-gray-900 min-h-screen w-full">
+        <section className="py-8 px-4 bg-gray-100/50 dark:bg-gray-900/50 min-h-screen w-full">
             <div className="w-full flex text-center justify-center my-8">
                 <Title size="xlarge" font="semibold" color="beer-blonde">
                     {t('events_in_cervezanas')}

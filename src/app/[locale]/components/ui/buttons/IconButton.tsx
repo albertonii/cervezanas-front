@@ -107,7 +107,7 @@ export function IconButton({
             onClick={onClick}
             color={hoverColor}
             className={`
-                mt-0 flex items-center justify-center rounded border-2 border-beer-blonde dark:border-beer-draft p-1 transition duration-100 ease-in dark:bg-beer-foam dark:hover:bg-beer-softFoam hover:bg-beer-softBlonde
+                mt-0 flex items-center justify-center rounded border-2 border-beer-blonde dark:border-beer-draft p-1 transition duration-100 ease-in dark:hover:bg-beer-draft hover:bg-beer-softBlonde
                 ${box && 'h-auto w-10'}
                 ${
                     circular &&
@@ -142,9 +142,9 @@ export function IconButton({
                     ></path>
                 </svg>
             ) : (
-                <div className="gap-2">
+                <div className="gap-2 space-x-1">
                     {iconButton ?? (
-                        <span className={`text-bear-dark dark:text-gray-300`}>
+                        <span className={`text-bear-dark dark:text-white `}>
                             {iconButton}
                         </span>
                     )}

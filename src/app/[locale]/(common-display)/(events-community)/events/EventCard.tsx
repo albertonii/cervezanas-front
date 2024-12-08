@@ -7,17 +7,19 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
 import { ROUTE_EVENTS } from '@/config';
+import { ChevronRight } from 'lucide-react';
 import { IEvent } from '@/lib/types/eventOrders';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
-import { ChevronRight } from 'lucide-react';
+import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons';
+import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 
 interface EventCardProps {
     event: IEvent;
 }
 
 const EventCard = ({ event }: EventCardProps) => {
-    const t = useTranslations();
+    const t = useTranslations('event');
     const locale = useLocale();
 
     return (
@@ -33,8 +35,8 @@ const EventCard = ({ event }: EventCardProps) => {
                 />
                 <div className="absolute inset-0 bg-black opacity-25"></div>
                 <div className="absolute bottom-0 left-0 p-2">
-                    <span className="bg-yellow-500 text-white text-xs px-2 py-1 rounded">
-                        {event.category}
+                    <span className="bg-yellow-500 dark:bg-yellow-800 text-white text-sm px-2 py-1 rounded">
+                        {t(event.category)}
                     </span>
                 </div>
             </div>
@@ -95,10 +97,13 @@ const EventCard = ({ event }: EventCardProps) => {
                 {/* Botón de Más Información */}
                 <div className="mt-auto flex justify-end">
                     <Link href={`${ROUTE_EVENTS}/${event.id}`} locale={locale}>
-                        <Button class="flex items-center bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors duration-200">
+                        <IconButton
+                            primary
+                            icon={faChevronCircleRight}
+                            title={'more_info'}
+                        >
                             {t('more_info')}
-                            <ChevronRight className="ml-2 h-4 w-4" />
-                        </Button>
+                        </IconButton>
                     </Link>
                 </div>
             </div>
