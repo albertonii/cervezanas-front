@@ -1336,37 +1336,55 @@ export type Database = {
       }
       cp_events: {
         Row: {
+          address: string | null
+          cp_description: string | null
           cp_id: string | null
+          cp_name: string | null
           created_at: string
           end_date: string | null
           event_id: string | null
+          has_pending_payment: boolean | null
           id: string
           is_active: boolean | null
           is_cervezanas_event: boolean | null
           owner_id: string | null
+          stand_location: string | null
           start_date: string | null
+          view_configuration: string | null
         }
         Insert: {
+          address?: string | null
+          cp_description?: string | null
           cp_id?: string | null
+          cp_name?: string | null
           created_at?: string
           end_date?: string | null
           event_id?: string | null
+          has_pending_payment?: boolean | null
           id?: string
           is_active?: boolean | null
           is_cervezanas_event?: boolean | null
           owner_id?: string | null
+          stand_location?: string | null
           start_date?: string | null
+          view_configuration?: string | null
         }
         Update: {
+          address?: string | null
+          cp_description?: string | null
           cp_id?: string | null
+          cp_name?: string | null
           created_at?: string
           end_date?: string | null
           event_id?: string | null
+          has_pending_payment?: boolean | null
           id?: string
           is_active?: boolean | null
           is_cervezanas_event?: boolean | null
           owner_id?: string | null
+          stand_location?: string | null
           start_date?: string | null
+          view_configuration?: string | null
         }
         Relationships: [
           {

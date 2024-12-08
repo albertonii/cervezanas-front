@@ -19,7 +19,8 @@ async function getCPInformation(cpId: string) {
         .select(
             `
                 *,
-                cp (*)
+                cp (*),
+                events (id, name)
             `,
         )
         .eq('id', cpId)

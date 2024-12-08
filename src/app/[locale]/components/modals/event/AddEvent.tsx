@@ -140,6 +140,9 @@ export default function AddEvent({ cps }: Props) {
                     .from('cp_events')
                     .insert({
                         cp_id: cp.cp_id,
+                        cp_name: cp.cp_name,
+                        cp_description: cp.cp_description,
+                        address: cp.address,
                         event_id: eventId,
                         is_active: false,
                     });

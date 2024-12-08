@@ -16,8 +16,8 @@ const fetchCPSEventByEventId = async (
         .from('cp_events')
         .select(
             `
-        *
-      `,
+                *
+            `,
         )
         .eq('event_id', eventId)
         .select();

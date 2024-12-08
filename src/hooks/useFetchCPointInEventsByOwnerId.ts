@@ -17,7 +17,8 @@ const fetchCPointInEventsByOwnerId = async (
         .select(
             `
                 *,
-                cp (*)
+                cp (*),
+                events (id,name)
             `,
         )
         .eq('owner_id', ownerId)

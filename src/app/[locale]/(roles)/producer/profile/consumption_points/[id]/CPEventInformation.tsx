@@ -1,8 +1,10 @@
 'use client';
 
+import Link from 'next/link';
 import Label from '@/app/[locale]/components/ui/Label';
 import React from 'react';
-import { List, ExternalLink } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { List, ExternalLink, ArrowRight } from 'lucide-react';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import {
     MapPin,
@@ -15,7 +17,7 @@ import {
     Info,
     Store,
 } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import Title from '@/app/[locale]/components/ui/Title';
 
 interface Props {
     cp: IConsumptionPointEvent;
@@ -37,12 +39,13 @@ const CPEventInformation = ({ cp }: Props) => {
         });
     };
 
+    const eventDetailUrl = `/events/${cp.event_id}`; // URL dinámica para detalles del evento
+
     return (
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
             {/* Header con logo e información principal */}
-            <div className="relative h-48 bg-gradient-to-r from-beer-blonde to-beer-gold">
-                <div className="absolute inset-0 bg-black/20"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+            <div className="relative h-48 bg-gradient-to-r from-beer-blonde to-beer-softFoam">
+                <div className="px-6 py-4 text-white">
                     <div className="flex items-center space-x-4">
                         {cp.cp && cp.cp.logo_url && (
                             <img
@@ -51,7 +54,13 @@ const CPEventInformation = ({ cp }: Props) => {
                                 className="w-20 h-20 rounded-lg border-4 border-white shadow-lg object-cover"
                             />
                         )}
+
                         <div>
+                            <div>
+                                <Title size="large" color="white">
+                                    {cp.events?.name || 'Evento sin nombre'}
+                                </Title>
+                            </div>
                             <h1 className="text-3xl font-bold">
                                 {cp.cp?.cp_name}
                             </h1>
@@ -61,8 +70,8 @@ const CPEventInformation = ({ cp }: Props) => {
                         </div>
                     </div>
 
-                    <div className="p-6">
-                        <a
+                    <div className="space-x-4">
+                        <Link
                             href={ordersQueueUrl}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -71,13 +80,23 @@ const CPEventInformation = ({ cp }: Props) => {
                             <List className="w-5 h-5 mr-2" />
                             {t('cp_queue_barman')}
                             <ExternalLink className="w-4 h-4 ml-2" />
-                        </a>
+                        </Link>
+
+                        <Link
+                            href={eventDetailUrl}
+                            target="_blank"
+                            className="inline-flex items-center px-4 py-2 bg-beer-gold text-white font-semibold rounded-lg shadow-md hover:bg-beer-darkGold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-beer-gold transition-colors"
+                            aria-label={t('event_details')}
+                        >
+                            {t('event_more_details')}
+                            <ExternalLink className="w-4 h-4 ml-2" />
+                        </Link>
                     </div>
                 </div>
             </div>
 
             {/* Información detallada */}
-            <div className="p-6 space-y-6 dark:bg-gray-400">
+            <div className="p-6 space-y-6 dark:bg-yellow-700/90">
                 {/* Estado y capacidad */}
                 <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg dark:bg-beer-draft">
                     <div className="flex items-center space-x-2">
@@ -102,7 +121,7 @@ const CPEventInformation = ({ cp }: Props) => {
                 </div>
 
                 {/* Fechas y horarios */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-gray-50 rounded-lg dark:bg-beer-draft">
                     <div className="flex items-start space-x-3">
                         <Calendar className="w-5 h-5 text-beer-gold mt-1" />
                         <div className="flex flex-col items-start">
@@ -137,7 +156,7 @@ const CPEventInformation = ({ cp }: Props) => {
                 </div>
 
                 {/* Información del organizador */}
-                <div className="border rounded-lg p-4 flex flex-col items-start">
+                <div className="flex flex-col items-start p-4 bg-gray-50 rounded-lg dark:bg-beer-draft">
                     <Label size="large" font="semibold">
                         <User className="w-5 h-5 mr-2 text-beer-gold" />
 
@@ -163,7 +182,7 @@ const CPEventInformation = ({ cp }: Props) => {
                         </div>
 
                         <div className="flex items-center space-x-2">
-                            <Mail className="w-4 h-4 text-gray-500" />
+                            <Mail className="w-4 h-4 text-gray-500 dark:text-yellow-500" />
                             <a
                                 href={`mailto:${cp.cp?.organizer_email}`}
                                 className="text-beer-gold hover:underline dark:text-beer-softBlonde"
@@ -172,7 +191,7 @@ const CPEventInformation = ({ cp }: Props) => {
                             </a>
                         </div>
                         <div className="flex items-center space-x-2">
-                            <Phone className="w-4 h-4 text-gray-500" />
+                            <Phone className="w-4 h-4 text-gray-500 dark:text-yellow-500" />
                             <a
                                 href={`tel:${cp.cp?.organizer_phone}`}
                                 className="text-beer-gold hover:underline dark:text-beer-softBlonde"
@@ -191,10 +210,10 @@ const CPEventInformation = ({ cp }: Props) => {
                             <h3 className="font-medium text-yellow-800">
                                 Reserva requerida
                             </h3>
-                            <p className="text-yellow-700">
+                            <Label color="yellow">
                                 Este punto de consumo requiere reserva previa
                                 para acceder.
-                            </p>
+                            </Label>
                         </div>
                     </div>
                 )}

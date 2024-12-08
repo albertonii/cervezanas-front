@@ -74,12 +74,18 @@ export interface IConsumptionPointEvent {
     id: string;
     created_at: string;
     cp_id: string;
+    cp_name: string;
+    cp_description: string;
+    address: string;
     event_id: string;
     owner_id: string;
     is_active: boolean;
     is_cervezanas_event: boolean;
     start_date: string;
     end_date: string;
+    stand_location: string;
+    view_configuration: 'one_step' | 'two_steps' | 'three_steps';
+    has_pending_payment: boolean;
     events?: IEvent;
     cp?: IConsumptionPoint;
     users?: IUserTable;

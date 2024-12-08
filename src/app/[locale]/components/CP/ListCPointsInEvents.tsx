@@ -12,6 +12,8 @@ import { useAuth } from '../../(auth)/Context/useAuth';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
+import EditCPointModal from './EditCPointModal';
+import EditCPointEventModal from './EditCPointEventModal';
 
 interface Props {
     counterCP: number;
@@ -88,6 +90,21 @@ export function ListCPointsInEvents({ counterCP }: Props) {
             ),
         },
         {
+            header: t('event_name_header'),
+            accessor: 'event_name',
+            sortable: true,
+            render: (value: string, row: IConsumptionPointEvent) => (
+                <Link
+                    target={'_blank'}
+                    href={`/events/${row.event_id}`}
+                    locale={locale}
+                    className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde"
+                >
+                    {row.events?.name}
+                </Link>
+            ),
+        },
+        {
             header: t('created_date_header'),
             accessor: 'created_at',
             sortable: true,
@@ -131,11 +148,11 @@ export function ListCPointsInEvents({ counterCP }: Props) {
             {/* Don't remove isEditModal or the selectedCP will not be updated when changed from selected CP  */}
             {isEditModal && selectedCP && (
                 <>
-                    {/* <EditCPointModal
+                    <EditCPointEventModal
                         selectedCP={selectedCP}
                         isEditModal={isEditModal}
                         handleEditModal={handleEditModal}
-                    /> */}
+                    />
                 </>
             )}
 

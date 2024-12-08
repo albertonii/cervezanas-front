@@ -2,9 +2,9 @@
 
 import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
 import React, { useState } from 'react';
-import { IConsumptionPoints } from '@/lib/types/consumptionPoints';
-import { CPManagement } from './CPManagement';
 import { CPInEvents } from './CPInEvents';
+import { CPManagement } from './CPManagement';
+import { IConsumptionPoints } from '@/lib/types/consumptionPoints';
 
 interface Props {
     cps: IConsumptionPoints;

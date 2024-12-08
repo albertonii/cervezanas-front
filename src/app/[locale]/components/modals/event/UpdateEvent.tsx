@@ -141,6 +141,9 @@ export default function UpdateEventModal({
             cps?.forEach(async (item) => {
                 const { error } = await supabase.from('cp_events').insert({
                     cp_id: item.cp_id,
+                    cp_name: item.cp_name,
+                    cp_description: item.cp_description,
+                    address: item.address,
                     event_id: selectedEvent.id,
                     is_active: false,
                 });
