@@ -1558,7 +1558,8 @@
         "active": "Activo",
         "inactive": "Inactivo",
         "come_back_events": "Volver a eventos",
-        "cp": "Puntos de Consumo"
+        "cp": "Puntos de Consumo",
+        "finished": "Finalizado"
     },
     "cp_management": "Administrar Puntos de Consumo",
     "cp_in_events": "Puntos de Consumo en Eventos"

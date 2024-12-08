@@ -19,6 +19,7 @@ import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { IBMExperienceParticipants } from '@/lib/types/quiz';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
+import ConsumptionPointsTable from './ConsumptionPointTable';
 
 interface Props {
     event: IEvent;
@@ -253,37 +254,10 @@ export default function DisplayEvent({
                             {t('cp')}
                         </Title>
 
-                        <Table>
-                            <THead>
-                                <TR>
-                                    <TH scope="col">{t('logo_header')}</TH>
-
-                                    <TH scope="col">{t('name_header')}</TH>
-
-                                    <TH
-                                        scope="col"
-                                        class_="hidden sm:block px-2 py-3 "
-                                    >
-                                        {t('date_header')}
-                                    </TH>
-
-                                    <TH scope="col">{t('status_header')}</TH>
-                                </TR>
-                            </THead>
-                            <TBody>
-                                {cpsEvents.map((cp) => (
-                                    <>
-                                        {cp.cp && (
-                                            <ConsumptionPointTableData
-                                                key={cp.event_id + cp.cp_id}
-                                                cp={cp}
-                                                eventId={event.id}
-                                            />
-                                        )}
-                                    </>
-                                ))}
-                            </TBody>
-                        </Table>
+                        <ConsumptionPointsTable
+                            consumptionPoints={cpsEvents}
+                            eventId={event.id}
+                        />
                     </div>
                 ) : (
                     <>
