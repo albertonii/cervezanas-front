@@ -1,23 +1,24 @@
+// components/CPProductItem.tsx
 import Link from 'next/link';
-import TR from '@/app/[locale]/components/ui/table/TR';
-import TD from '@/app/[locale]/components/ui/table/TD';
-import useEventCartStore from '@/app/store//eventCartStore';
-import EventCartButtons from '@/app/[locale]/components/cart/EventCartButtons';
-import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
 import React, { useEffect, useState } from 'react';
 import { SupabaseProps } from '@/constants';
 import { useLocale, useTranslations } from 'next-intl';
 import { ROUTE_EVENTS, ROUTE_PRODUCTS } from '@/config';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { ICartEventProduct, IProductPack } from '@/lib/types/types';
-import { useAuth } from '../../../../../../../(auth)/Context/useAuth';
-import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { AddCartButton } from '@/app/[locale]/components/cart/AddCartButton';
 
 import {
     IConsumptionPointEvent,
     IConsumptionPointProduct,
 } from '@/lib/types/consumptionPoints';
+import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import useEventCartStore from '@/app/store/eventCartStore';
+import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
+import TD from '@/app/[locale]/components/ui/table/TD';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import { AddCartButton } from '@/app/[locale]/components/cart/AddCartButton';
+import EventCartButtons from '@/app/[locale]/components/cart/EventCartButtons';
 
 interface ProductProps {
     eventId: string;
@@ -25,11 +26,11 @@ interface ProductProps {
     cpEvent: IConsumptionPointEvent;
 }
 
-export default function CPProductItem({
+const CPProductItem: React.FC<ProductProps> = ({
     eventId,
     cpProduct,
     cpEvent,
-}: ProductProps) {
+}) => {
     const t = useTranslations();
     const locale = useLocale();
     const { isLoggedIn } = useAuth();
@@ -62,7 +63,7 @@ export default function CPProductItem({
         setPackQuantity(
             getPackQuantity(eventId, pack.product_id, cpProduct.cp_id, pack.id),
         );
-    }, [eventCarts]);
+    }, [eventCarts, eventId, pack.product_id, cpProduct.cp_id, pack.id]);
 
     const handleAddToCart = () => {
         if (!isLoggedIn) {
@@ -100,7 +101,6 @@ export default function CPProductItem({
             description: product.description,
             type: product.type,
             is_public: product.is_public,
-            // promo_code: product.promo_code,
             discount_percent: product.discount_percent,
             weight: product.weight,
             price: product.price,
@@ -148,7 +148,8 @@ export default function CPProductItem({
     };
 
     return (
-        <TR key={cpId}>
+        <TR>
+            {/* Imagen del Producto */}
             <TD>
                 <DisplayImageProduct
                     imgSrc={
@@ -156,57 +157,57 @@ export default function CPProductItem({
                         decodeURIComponent(pack.img_url)
                     }
                     alt={pack.name}
-                    width={600}
-                    height={600}
-                    class="w-[10vw] px-2 py-2 sm:w-[15vw] md:w-[20vw] lg:w-[6vw]"
+                    width={100}
+                    height={100}
+                    class="w-12 h-12 lg:w-24 lg:h-24 object-cover rounded-md"
                 />
             </TD>
 
-            <TD class_="hover:cursor-pointer hover:text-beer-gold">
+            {/* Nombre del Producto */}
+            <TD class_="text-gray-800 dark:text-gray-100">
                 <Link
                     target={'_blank'}
                     href={`${ROUTE_EVENTS}/${eventId}${ROUTE_PRODUCTS}/${cpId}`}
                     locale={locale}
+                    className="text-beer-gold dark:text-beer-blonde hover:underline"
                 >
                     {product?.name}
                 </Link>
             </TD>
 
-            <TD>{name}</TD>
+            {/* Nombre del Paquete */}
+            <TD class_="text-gray-800 dark:text-gray-100">{name}</TD>
 
-            <TD>{quantity}</TD>
+            {/* Cantidad en el Paquete */}
+            <TD class_="text-center text-gray-800 dark:text-gray-100">
+                {quantity}
+            </TD>
 
-            <TD class_="font-medium text-green-500">{formatCurrency(price)}</TD>
+            {/* Precio del Paquete */}
+            <TD class_="text-green-500 font-medium">{formatCurrency(price)}</TD>
 
-            <TD>{t(cpEvent.cp?.type.toLowerCase())}</TD>
+            {/* Tipo de Paquete */}
+            <TD class_="text-gray-800 dark:text-gray-100">
+                {t(cpEvent.cp?.type.toLowerCase())}
+            </TD>
 
-            <TD>
+            {/* Acciones */}
+            <TD class_="text-center">
                 {packQuantity === 0 ? (
-                    <>
-                        <AddCartButton
-                            withText={true}
-                            onClick={() => handleAddToCart()}
-                        />
-                    </>
+                    <AddCartButton withText={true} onClick={handleAddToCart} />
                 ) : (
-                    <>
-                        <EventCartButtons
-                            item={pack}
-                            quantity={packQuantity}
-                            handleIncreaseCartQuantity={() =>
-                                handleIncreaseCartQuantity()
-                            }
-                            handleDecreaseCartQuantity={() =>
-                                handleDecreaseCartQuantity()
-                            }
-                            handleRemoveFromCart={() => {
-                                handleRemoveFromCart();
-                            }}
-                            displayDeleteButton={true}
-                        />
-                    </>
+                    <EventCartButtons
+                        item={pack}
+                        quantity={packQuantity}
+                        handleIncreaseCartQuantity={handleIncreaseCartQuantity}
+                        handleDecreaseCartQuantity={handleDecreaseCartQuantity}
+                        handleRemoveFromCart={handleRemoveFromCart}
+                        displayDeleteButton={true}
+                    />
                 )}
             </TD>
         </TR>
     );
-}
+};
+
+export default CPProductItem;
