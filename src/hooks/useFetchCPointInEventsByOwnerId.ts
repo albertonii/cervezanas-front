@@ -41,7 +41,7 @@ const useFetchCPointInEventsByOwnerId = (
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: 'cp_events',
+        queryKey: ['cp_events'],
         queryFn: () =>
             fetchCPointInEventsByOwnerId(
                 ownerId,

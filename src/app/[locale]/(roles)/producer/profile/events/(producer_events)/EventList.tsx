@@ -61,7 +61,7 @@ export default function EventList({ counter, cps }: Props) {
             sortable: true,
             render: (value: string, row: IEvent) => (
                 <Link href={`${ROUTE_EVENTS}/${row.id}`} locale={locale}>
-                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
+                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:hover:text-beer-gold">
                         {value}
                     </span>
                 </Link>

@@ -121,10 +121,6 @@ export default function EditCPointModal({
             address: selectedCP?.address,
             is_internal_organizer: selectedCP.is_internal_organizer,
             geoArgs: selectedCP?.geoArgs,
-            // start_date: formatDateDefaultInput(
-            //     selectedCP?.start_date.toString(),
-            // ),
-            // end_date: formatDateDefaultInput(selectedCP?.end_date.toString()),
             product_items: productItems,
             // is_booking_required: selectedCP?.is_booking_required,
         },

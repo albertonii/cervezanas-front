@@ -107,7 +107,7 @@ export function IconButton({
             onClick={onClick}
             color={hoverColor}
             className={`
-                mt-0 flex items-center justify-center rounded border-2 border-beer-blonde dark:border-beer-draft p-1 transition duration-100 ease-in
+                mt-0 flex items-center justify-center rounded border-2 border-beer-blonde dark:border-beer-draft p-1 transition duration-100 ease-in dark:bg-beer-foam dark:hover:bg-beer-softFoam hover:bg-beer-softBlonde
                 ${box && 'h-auto w-10'}
                 ${
                     circular &&

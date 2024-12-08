@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import DeleteCPModal from './DeleteCPModal';
+import EditCPointEventModal from './EditCPointEventModal';
 import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 import useFetchCPointInEventsByOwnerId from '@/hooks/useFetchCPointInEventsByOwnerId';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
@@ -12,8 +13,6 @@ import { useAuth } from '../../(auth)/Context/useAuth';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
-import EditCPointModal from './EditCPointModal';
-import EditCPointEventModal from './EditCPointEventModal';
 
 interface Props {
     counterCP: number;
@@ -43,6 +42,7 @@ export function ListCPointsInEvents({ counterCP }: Props) {
     const [selectedCP, setSelectedCP] = useState<IConsumptionPointEvent>();
 
     useEffect(() => {
+        console.log('REFETCH', data);
         if (isFetchedAfterMount) {
             setCPoint(data as IConsumptionPointEvent[]);
         }
@@ -83,9 +83,9 @@ export function ListCPointsInEvents({ counterCP }: Props) {
                     target={'_blank'}
                     href={`/producer/profile/consumption_points/${row.id}`}
                     locale={locale}
-                    className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde"
+                    className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:hover:text-beer-gold"
                 >
-                    {row.cp?.cp_name}
+                    {row.cp_name}
                 </Link>
             ),
         },
@@ -98,7 +98,7 @@ export function ListCPointsInEvents({ counterCP }: Props) {
                     target={'_blank'}
                     href={`/events/${row.event_id}`}
                     locale={locale}
-                    className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde"
+                    className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:hover:text-beer-gold"
                 >
                     {row.events?.name}
                 </Link>

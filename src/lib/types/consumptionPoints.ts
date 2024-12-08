@@ -76,6 +76,7 @@ export interface IConsumptionPointEvent {
     cp_id: string;
     cp_name: string;
     cp_description: string;
+    status: string;
     address: string;
     event_id: string;
     owner_id: string;
@@ -86,6 +87,8 @@ export interface IConsumptionPointEvent {
     stand_location: string;
     view_configuration: 'one_step' | 'two_steps' | 'three_steps';
     has_pending_payment: boolean;
+    is_booking_required: boolean;
+    maximum_capacity: number;
     events?: IEvent;
     cp?: IConsumptionPoint;
     users?: IUserTable;

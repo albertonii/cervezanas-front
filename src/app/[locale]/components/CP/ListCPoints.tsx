@@ -80,7 +80,7 @@ export function ListCPoints({ cpsId, counterCP }: Props) {
                     target={'_blank'}
                     href={`/producer/profile/consumption_points/${row.id}`}
                     locale={locale}
-                    className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde"
+                    className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:hover:text-beer-gold"
                 > */}
                     {row.cp_name}
                     {/* </Link> */}

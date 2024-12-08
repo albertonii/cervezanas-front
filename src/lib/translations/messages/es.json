@@ -1519,7 +1519,9 @@
         "organizer_info": "Información del Organizador",
         "location": "Ubicación",
         "fullname": "Nombre completo",
-        "event_more_details": "Más detalles del evento"
+        "event_more_details": "Más detalles del evento",
+        "include_pending_payment": "Incluir pagos pendientes",
+        "booking_required": "Reserva requerida"
     },
     "cp_management": "Administrar Puntos de Consumo",
     "cp_in_events": "Puntos de Consumo en Eventos"

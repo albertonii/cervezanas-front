@@ -104,7 +104,7 @@ export function ProductList({
             sortable: true,
             render: (name: string, row: IProduct) => (
                 <Link href={`/products/${row.id}`} locale={locale}>
-                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:text-beer-softBlonde">
+                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:hover:text-beer-gold dark:hover:beer-golddark:text-beer-softBlonde">
                         {name}
                     </span>
                     {row.product_packs?.length === 0 && (

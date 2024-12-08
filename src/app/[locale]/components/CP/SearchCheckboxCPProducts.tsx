@@ -113,7 +113,7 @@ export function SearchCheckboxCPProducts({ form }: Props) {
                                         />
                                     </TH>
 
-                                    <TD class_="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
+                                    <TD class_="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:hover:text-beer-gold">
                                         <Link
                                             href={`/products/${product.id}`}
                                             target={'_blank'}

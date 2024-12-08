@@ -87,7 +87,7 @@ export default function CervezanasEventList({ counter }: Props) {
                 <Link
                     href={`/cp/${row.cp_id}`}
                     locale={locale}
-                    className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde"
+                    className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:hover:text-beer-gold"
                 >
                     {row.cp?.cp_name}
                 </Link>

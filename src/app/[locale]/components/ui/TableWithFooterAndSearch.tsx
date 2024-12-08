@@ -178,7 +178,7 @@ const TableWithFooterAndSearch: React.FC<TableProps> = ({
                                         {columns.map((column) => (
                                             <td
                                                 key={column.accessor}
-                                                className="px-6 py-4 whitespace-nowrap text-gray-700 dark:text-gray-100"
+                                                className="px-6 py-4 whitespace-nowrap text-gray-700 dark:text-beer-foam "
                                             >
                                                 {column.render
                                                     ? column.render(

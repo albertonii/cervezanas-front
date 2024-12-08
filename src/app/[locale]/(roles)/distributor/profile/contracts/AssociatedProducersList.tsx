@@ -83,7 +83,7 @@ export default function AssociatedProducersList({ counter }: Props) {
                     href={`/user-info/${row.producer_id}`}
                     locale={locale}
                     target="_blank"
-                    className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde"
+                    className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:hover:text-beer-gold"
                 >
                     {row.producer_user?.users?.username}
                 </Link>

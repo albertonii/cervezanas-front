@@ -77,7 +77,7 @@ export default function AssociatedDistributorsList({ counter }: Props) {
                     locale={locale}
                     target="_blank"
                 >
-                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
+                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:hover:text-beer-gold">
                         {row.distributor_user?.users?.username ?? '-'}
                     </span>
                 </Link>

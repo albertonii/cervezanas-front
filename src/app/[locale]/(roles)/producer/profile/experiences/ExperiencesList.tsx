@@ -88,7 +88,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
             sortable: true,
             render: (value: string, row: IExperience) => (
                 <Link href={`/experiences/${row.id}`} locale={locale}>
-                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
+                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:hover:text-beer-gold">
                         {value}
                     </span>
                 </Link>
