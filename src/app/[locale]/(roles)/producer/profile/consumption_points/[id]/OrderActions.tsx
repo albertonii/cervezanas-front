@@ -1,4 +1,5 @@
 import { EVENT_ORDER_CPS_STATUS } from '@/constants';
+import { useTranslations } from 'next-intl';
 import React from 'react';
 
 interface Props {
@@ -14,6 +15,8 @@ export const OrderActions: React.FC<Props> = ({
     handleUpdateStatus,
     viewConfiguration,
 }) => {
+    const t = useTranslations('event');
+
     const getNextStatus = (currentStatus: string): string => {
         switch (currentStatus) {
             case 'pending': {
@@ -40,9 +43,9 @@ export const OrderActions: React.FC<Props> = ({
     return (
         <button
             onClick={() => handleUpdateStatus(orderId, nextStatus)}
-            className="bg-gray-700 text-white px-2 py-1 md:px-6 md:py-3 rounded-lg text-sm md:text-lg font-semibold hover:bg-gray-800 transition-colors"
+            className="bg-gray-700 text-white px-2 py-1 md:px-4 md:py-2 rounded-lg text-sm md:text-md font-semibold hover:bg-gray-800 transition-colors"
         >
-            {nextStatus}
+            {t(nextStatus)}
         </button>
     );
 };

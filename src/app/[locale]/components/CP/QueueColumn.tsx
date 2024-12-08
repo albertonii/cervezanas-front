@@ -54,7 +54,7 @@ export function QueueColumn({
             </div>
 
             {/* Lista de órdenes */}
-            <div className="flex flex-col gap-4 overflow-y-auto max-h-96">
+            <div className="flex flex-col gap-4 overflow-y-auto max-h-120">
                 <AnimatePresence>
                     {orders.map((order) => (
                         <motion.div
