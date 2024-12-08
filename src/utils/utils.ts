@@ -305,7 +305,7 @@ export const getBreadcrumbs = async (
                     }
                 });
 
-                // Para IDs de eventos, obtener el nombre del evento
+                // Para IDs de eventos, productos, PC, obtener el nombre del evento
                 if (params['id']) {
                     if (accumulatedPath.includes('/products')) {
                         const productName = await fetchProductName(
@@ -322,6 +322,17 @@ export const getBreadcrumbs = async (
 
                         if (eventName) {
                             name = eventName;
+                        } else {
+                            name = params['id']; // Fallback al ID si no se encuentra el nombre
+                        }
+                    } else if (
+                        accumulatedPath.includes('/consumption_points')
+                    ) {
+                        const campaignName =
+                            await fetchConsumptionPointsEventById(params['id']);
+
+                        if (campaignName) {
+                            name = campaignName;
                         } else {
                             name = params['id']; // Fallback al ID si no se encuentra el nombre
                         }
@@ -372,6 +383,22 @@ const fetchEventName = async (eventId: string): Promise<string | null> => {
 const fetchProductName = async (productId: string): Promise<string | null> => {
     try {
         const response = await fetch(`/api/products/name?id=${productId}`);
+        if (!response.ok) {
+            return null;
+        }
+        const data = await response.json();
+        return data.name; // Assuming the API returns { name: 'Product Name' }
+    } catch (error) {
+        console.error('Error fetching product name:', error);
+        return null;
+    }
+};
+
+const fetchConsumptionPointsEventById = async (
+    cpId: string,
+): Promise<string | null> => {
+    try {
+        const response = await fetch(`/api/consumption_points/name?id=${cpId}`);
         if (!response.ok) {
             return null;
         }

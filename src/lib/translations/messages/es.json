@@ -1518,7 +1518,8 @@
         "date_end": "Fecha de fin",
         "organizer_info": "Información del Organizador",
         "location": "Ubicación",
-        "fullname": "Nombre completo"
+        "fullname": "Nombre completo",
+        "event_more_details": "Más detalles del evento"
     },
     "cp_management": "Administrar Puntos de Consumo",
     "cp_in_events": "Puntos de Consumo en Eventos"

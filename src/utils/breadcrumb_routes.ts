@@ -76,6 +76,10 @@ export const routes: Record<string, RouteLocaleNames> = {
         en: 'Consumption Points',
         es: 'Puntos de Consumo',
     },
+    '/producer/profile/consumption_points/:id': {
+        en: 'Consumption Points',
+        es: 'Puntos de Consumo',
+    },
     '/producer/profile/breweries': {
         en: 'Breweries',
         es: 'Cerveceras',
