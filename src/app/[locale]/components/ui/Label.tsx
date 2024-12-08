@@ -83,7 +83,7 @@ export default function Label({
         <label
             onClick={onClick}
             htmlFor={htmlFor}
-            className={`${sizeClass[size]} ${colorClass[color]} ${fontClass[font]}  ${className} flex flex-row items-start space-y-2 justify-center`}
+            className={`${sizeClass[size]} ${colorClass[color]} ${fontClass[font]} ${className} flex flex-row items-start space-y-2 justify-center`}
         >
             {children}
         </label>
