@@ -1,16 +1,17 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
 import Label from '@/app/[locale]/components/ui/Label';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
 import useFetchEventOrdersByCPId from '@/hooks/useFetchEventOrdersByCPId';
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { OrderActions } from './OrderActions';
+import { IEventOrderCPS } from '@/lib/types/eventOrders';
+import { PendingPaymentColumn } from './PendingPaymentColumn';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
-import { IEventOrder, IEventOrderCPS } from '@/lib/types/eventOrders';
+import { OrdersQueueColumnManager } from './OrdersQueueColumnManager';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
-import { QueueColumn } from '@/app/[locale]/components/CP/QueueColumn';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { EventOrderCPSStatus, EVENT_ORDER_CPS_STATUS } from '@/constants';
 
 interface Props {
     cp: IConsumptionPointEvent;
@@ -19,45 +20,45 @@ interface Props {
 export function OrdersQueue({ cp }: Props) {
     const t = useTranslations('event');
     const { handleMessage } = useMessage();
-
     const { supabase } = useAuth();
 
-    // Hook personalizado con soporte para actualizaciones en tiempo real
     const { data, isError, isLoading } = useFetchEventOrdersByCPId(cp.id);
 
-    // Estados para pedidos por categoría
     const [orders, setOrders] = useState<IEventOrderCPS[]>([]);
     const [pendingOrders, setPendingOrders] = useState<IEventOrderCPS[]>([]);
     const [preparingOrders, setPreparingOrders] = useState<IEventOrderCPS[]>(
         [],
     );
     const [readyOrders, setReadyOrders] = useState<IEventOrderCPS[]>([]);
+    const [pendingPaymentOrders, setPendingPaymentOrders] = useState<
+        IEventOrderCPS[]
+    >([]);
 
-    // Actualizar categorías de pedidos cuando cambien los datos
     useEffect(() => {
         if (data) {
-            setOrders(data as IEventOrderCPS[]);
+            setOrders(data);
         }
     }, [data]);
 
     useEffect(() => {
-        setPendingOrders(orders.filter((order) => order.status === 'pending'));
-        setPreparingOrders(
-            orders.filter((order) => order.status === 'preparing'),
-        );
-        setReadyOrders(orders.filter((order) => order.status === 'ready'));
+        setPendingOrders(orders.filter((o) => o.status === 'pending'));
+        setPreparingOrders(orders.filter((o) => o.status === 'preparing'));
+        setReadyOrders(orders.filter((o) => o.status === 'ready'));
+        setPendingPaymentOrders(orders.filter((o) => o.has_pending_payment));
     }, [orders]);
+
+    // Importa el tipo correcto
 
     const handleUpdateStatus = async (
         orderId: string,
-        newStatus: IEventOrder['status'],
+        newStatus: any, // Cambiado de IEventOrder['status'] a EventOrderCPSStatus
     ) => {
         try {
             // Actualizar el estado localmente
             setOrders((prevOrders) =>
                 prevOrders.map((order) =>
                     order.id === orderId
-                        ? { ...order, status: newStatus as EventOrderCPSStatus }
+                        ? { ...order, status: newStatus }
                         : order,
                 ),
             );
@@ -87,47 +88,8 @@ export function OrdersQueue({ cp }: Props) {
         }
     };
 
-    const generateActionButton = (
-        orderId: string,
-        status: IEventOrder['status'],
-    ) => {
-        let nextStatus: IEventOrder['status'];
-
-        switch (status) {
-            case 'pending':
-                nextStatus = 'preparing';
-                break;
-            case 'preparing':
-                nextStatus = 'ready';
-                break;
-            case 'ready':
-                nextStatus = 'completed';
-                break;
-            default:
-                nextStatus = status;
-        }
-
-        return (
-            <button
-                onClick={async () => {
-                    try {
-                        await handleUpdateStatus(orderId, nextStatus);
-                    } catch (error) {
-                        handleMessage({
-                            message: 'Error al actualizar el pedido',
-                            type: 'error',
-                        });
-                    }
-                }}
-                className="bg-gray-700 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-gray-800 transition-colors"
-            >
-                {t(nextStatus)}
-            </button>
-        );
-    };
-
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-4 ">
+        <div>
             {isError && (
                 <div className="bg-red-50 p-4 rounded-lg">
                     <Label size="medium" color="red" font="bold">
@@ -140,61 +102,26 @@ export function OrdersQueue({ cp }: Props) {
                 <Spinner color="blonde" size="large" />
             ) : (
                 <>
-                    {/* Pedidos Nuevos */}
-                    <QueueColumn
-                        title={t('new_orders', {
-                            numberOfOrders: pendingOrders.length,
-                        })}
-                        icon={<>🍺</>}
-                        orders={
-                            data?.filter(
-                                (order) =>
-                                    order.status ===
-                                    EVENT_ORDER_CPS_STATUS.PENDING,
-                            ) as IEventOrderCPS[]
+                    <OrdersQueueColumnManager
+                        isPendingPayment={cp.has_pending_payment}
+                        viewConfig={
+                            cp.view_configuration as
+                                | 'one_step'
+                                | 'two_steps'
+                                | 'three_steps'
                         }
-                        bgColor={`bg-yellow-50 dark:bg-yellow-700`}
-                        textColor={'yellow'}
-                        actionButtonGenerator={generateActionButton} // Pasamos la función generadora de botones
-                        actionButtonStatus={EVENT_ORDER_CPS_STATUS.PENDING}
-                    />
-
-                    {/* Preparing Orders */}
-                    <QueueColumn
-                        title={t('preparing_orders', {
-                            numberOfOrders: preparingOrders.length,
-                        })}
-                        icon={<>🍺</>}
-                        orders={
-                            data?.filter(
-                                (order) =>
-                                    order.status ===
-                                    EVENT_ORDER_CPS_STATUS.PREPARING,
-                            ) as IEventOrderCPS[]
-                        }
-                        bgColor={`bg-beer-foam dark:bg-beer-draft`}
-                        textColor={'yellow'}
-                        actionButtonGenerator={generateActionButton} // Pasamos la función generadora de botones
-                        actionButtonStatus={EVENT_ORDER_CPS_STATUS.PREPARING}
-                    />
-
-                    {/* Ready Orders */}
-                    <QueueColumn
-                        title={t('ready_orders', {
-                            numberOfOrders: readyOrders.length,
-                        })}
-                        icon={<>🍺</>}
-                        orders={
-                            data?.filter(
-                                (order) =>
-                                    order.status ===
-                                    EVENT_ORDER_CPS_STATUS.READY,
-                            ) as IEventOrderCPS[]
-                        }
-                        bgColor={`bg-green-50 dark:bg-green-800`}
-                        textColor={'green'}
-                        actionButtonGenerator={generateActionButton} // Pasamos la función generadora de botones
-                        actionButtonStatus={EVENT_ORDER_CPS_STATUS.READY} // Status relevante para el botón
+                        pendingPaymentOrders={pendingPaymentOrders}
+                        pendingOrders={pendingOrders}
+                        preparingOrders={preparingOrders}
+                        readyOrders={readyOrders}
+                        generateActionButton={(id, status) => (
+                            <OrderActions
+                                orderId={id}
+                                status={status}
+                                handleUpdateStatus={handleUpdateStatus}
+                                viewConfiguration={cp.view_configuration}
+                            />
+                        )}
                     />
                 </>
             )}

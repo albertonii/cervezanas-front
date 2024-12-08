@@ -1,6 +1,6 @@
-import Label, { LabelColor } from '../ui/Label';
 import EventOrderCard from '../cards/EventOrderCard';
 import React from 'react';
+import Label, { LabelColor } from '../ui/Label';
 import { AnimatePresence, motion } from 'framer-motion';
 import { IEventOrder, IEventOrderCPS } from '@/lib/types/eventOrders';
 
@@ -38,6 +38,7 @@ export function QueueColumn({
             <Label size="large" font="bold" color={textColor}>
                 {icon} {title}
             </Label>
+
             <div className="flex flex-col gap-4 overflow-auto">
                 <AnimatePresence>
                     {orders.map((order) => (

@@ -9,7 +9,7 @@ interface Props {
 
 const ConsumptionPointInformation = ({ cp }: Props) => {
     return (
-        <div className="py-8 m-8">
+        <div className="m-4 space-y-4">
             <OrdersQueue cp={cp} />
             <CPEventInformation cp={cp} />
         </div>

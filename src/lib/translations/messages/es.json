@@ -536,6 +536,7 @@
     "cp_products": "Productos asociados al punto móvil",
     "submitted_aps": "Solicitudes de P.C.",
     "delete_cp_description_modal": "¿Está seguro de que desea eliminar el punto de consumo? Esta acción no se puede deshacer.",
+    "delete_cp_event_description_modal": "¿Está seguro de que desea eliminar el Punto de Consumo asociado al evento? Esta acción no se puede deshacer.",
     "accept_cp_description_modal": "¿Estás seguro de que quieres aceptar la solicitud de este punto de consumo?",
     "reject_cp_description_modal": "¿Estás seguro de que quieres rechazar la solicitud de este punto de consumo?",
     "reject": "Rechazar",
@@ -1503,9 +1504,6 @@
         "event_order_status": "{columnTitle} - {numberOfOrders}",
         "cp_queue_barman": "Abrir vista de pedidos en cola",
         "error_loading_orders": "Error al cargar los pedidos",
-        "new_orders": "Pedidos Nuevos {numberOfOrders}",
-        "preparing_orders": "En Preparación {numberOfOrders}",
-        "ready_orders": "Listos para Recoger {numberOfOrders}",
         "start": "Empezar",
         "delivered": "Entregado",
         "note": "Nota",
@@ -1521,7 +1519,12 @@
         "fullname": "Nombre completo",
         "event_more_details": "Más detalles del evento",
         "include_pending_payment": "Incluir pagos pendientes",
-        "booking_required": "Reserva requerida"
+        "booking_required": "Reserva requerida",
+        "new_orders": "Pedidos Nuevos ({numberOfOrders})",
+        "preparing_orders": "En Preparación ({numberOfOrders})",
+        "ready_orders": "Listos para Recoger ({numberOfOrders})",
+        "pending_orders": "Pedidos pendientes ({numberOfOrders})",
+        "pending_payment": "Pendientes de Pago ({numberOfOrders})"
     },
     "cp_management": "Administrar Puntos de Consumo",
     "cp_in_events": "Puntos de Consumo en Eventos"

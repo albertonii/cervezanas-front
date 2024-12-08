@@ -42,7 +42,6 @@ export function ListCPointsInEvents({ counterCP }: Props) {
     const [selectedCP, setSelectedCP] = useState<IConsumptionPointEvent>();
 
     useEffect(() => {
-        console.log('REFETCH', data);
         if (isFetchedAfterMount) {
             setCPoint(data as IConsumptionPointEvent[]);
         }

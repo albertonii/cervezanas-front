@@ -76,7 +76,9 @@ export type EventOrderCPSStatus =
     | 'pending'
     | 'preparing'
     | 'ready'
-    | 'completed';
+    | 'completed'
+    | 'pending_payment'
+    | 'cancelled';
 
 export const EVENT_ORDER_CPS_STATUS = {
     NOT_STARTED: 'not_started',
@@ -84,6 +86,7 @@ export const EVENT_ORDER_CPS_STATUS = {
     PREPARING: 'preparing',
     READY: 'ready',
     COMPLETED: 'completed',
+    PENDING_PAYMENT: 'pending_payment',
     CANCELLED: 'cancelled',
 };
 

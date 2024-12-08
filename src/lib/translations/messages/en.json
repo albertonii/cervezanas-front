@@ -542,6 +542,7 @@
     "cp_products": "Consumption point products",
     "submitted_aps": "CP Submitted applications",
     "delete_cp_description_modal": "Are you sure you want to delete the consumption point? This action can not be undone.",
+    "delete_cp_event_description_modal": "Are you sure you want to delete the Consumption Point associated with the event? This action cannot be undone.",
     "accept_cp_description_modal": "Are you sure you want to accept the request for this consumption point?",
     "reject_cp_description_modal": "Are you sure you want to reject the request for this consumption point?",
     "authorize_distributor_description_modal": "Are you sure you want to authorize the contract with this distributor?",

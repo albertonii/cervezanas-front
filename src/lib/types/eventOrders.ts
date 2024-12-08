@@ -29,6 +29,7 @@ export interface IEventOrderCPS {
     status: EventOrderCPSStatus;
     notes: string;
     cp_id: string;
+    has_pending_payment: boolean;
     event_order_id: string;
     event_orders?: IEventOrder;
     event_order_items?: IEventOrderItem[];
