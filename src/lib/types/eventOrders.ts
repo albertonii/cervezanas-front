@@ -80,7 +80,7 @@ export interface IEvent {
     geoArgs: any[];
     address: string;
     owner_id: string;
-    cps_event: IConsumptionPointEvent[];
+    cp_events: IConsumptionPointEvent[];
     users: IUserTable;
     is_activated: boolean;
     is_cervezanas_event: boolean;

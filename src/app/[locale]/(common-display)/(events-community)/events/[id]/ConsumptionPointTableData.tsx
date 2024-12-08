@@ -16,9 +16,9 @@ interface CPProps {
     eventId: string;
 }
 
-export default function ConsumptionPointTableData({ cp, eventId }: CPProps) {
+const ConsumptionPointTableData: React.FC<CPProps> = ({ cp, eventId }) => {
     const locale = useLocale();
-    const t = useTranslations('event');
+    const t = useTranslations();
 
     const statusClasses = classNames(
         'px-4 py-2 text-center rounded-full text-sm font-semibold',
@@ -33,7 +33,7 @@ export default function ConsumptionPointTableData({ cp, eventId }: CPProps) {
     );
 
     return (
-        <TR class_="hover:bg-gray-50 dark:hover:bg-gray-600">
+        <TR class_="hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer">
             {/* Logo */}
             <TD class_="hidden sm:table-cell">
                 <div className="flex items-center justify-center">
@@ -54,6 +54,7 @@ export default function ConsumptionPointTableData({ cp, eventId }: CPProps) {
                     href={`${ROUTE_EVENTS}/${eventId}${ROUTE_CP}/${cp.id}`}
                     locale={locale}
                     className="text-beer-gold dark:text-beer-blonde hover:underline"
+                    onClick={(e) => e.stopPropagation()} // Evitar que el clic en el enlace seleccione el CP
                 >
                     {cp.cp?.cp_name}
                 </Link>
@@ -71,4 +72,6 @@ export default function ConsumptionPointTableData({ cp, eventId }: CPProps) {
             </TD>
         </TR>
     );
-}
+};
+
+export default ConsumptionPointTableData;

@@ -10,7 +10,7 @@ import THead from '@/app/[locale]/components/ui/table/THead';
 import TBody from '@/app/[locale]/components/ui/table/TBody';
 import useEventCartStore from '@/app/store/eventCartStore';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ROUTE_EVENTS } from '@/config';
 import { useRouter } from 'next/navigation';
 import { IEvent } from '@/lib/types/eventOrders';
@@ -19,7 +19,8 @@ import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { IBMExperienceParticipants } from '@/lib/types/quiz';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
-import ConsumptionPointsTable from './ConsumptionPointTable';
+import ConsumptionPointsTable from './ConsumptionPointsTable';
+import GoogleMapLocationForEvent from '@/app/[locale]/components/common/GoogleMapLocationForEvent';
 
 interface Props {
     event: IEvent;
@@ -34,6 +35,8 @@ export default function DisplayEvent({
     eventExperiences,
     experienceParticipant,
 }: Props) {
+    console.log(event);
+
     const t = useTranslations('event');
     const locale = useLocale();
     const router = useRouter();
@@ -44,7 +47,7 @@ export default function DisplayEvent({
         if (!existEventCart(event.id)) {
             createNewCart(event.id);
         }
-    }, [existEventCart, createNewCart, event.id]);
+    }, [existEventCart, createNewCart, event]);
 
     const BMExperiencesCount: number =
         eventExperiences?.filter(
@@ -145,35 +148,46 @@ export default function DisplayEvent({
             </div> */}
 
             {/* Información del Evento */}
-            <div className="bg-gradient-to-r from-beer-draft to-beer-gold dark:from-beer-draft dark:to-beer-gold rounded-t-lg p-6">
-                <h1 className="text-3xl font-bold text-white">{event.name}</h1>
-                <p className="mt-2 text-gray-200 dark:text-gray-300">
-                    {event.description}
-                </p>
-                <div className="mt-4 flex flex-col sm:flex-row sm:space-x-6 text-gray-100 dark:text-gray-300">
-                    <div>
-                        <span className="font-semibold">
-                            {t('start_date')}:
-                        </span>
-                        {formatDateString(event.start_date)}
+            <div className="grid grid-cols-2 bg-gradient-to-r from-beer-draft to-beer-gold dark:from-beer-draft dark:to-beer-gold rounded-t-lg p-6">
+                <div>
+                    <h1 className="text-3xl font-bold text-white">
+                        {event.name}
+                    </h1>
+                    <p className="mt-2 text-gray-200 dark:text-gray-300">
+                        {event.description}
+                    </p>
+                    <div className="mt-4 flex flex-col sm:flex-row sm:space-x-6 text-gray-100 dark:text-gray-300">
+                        <div>
+                            <span className="font-semibold">
+                                {t('start_date')}:
+                            </span>
+                            {formatDateString(event.start_date)}
+                        </div>
+                        <div className="mt-2 sm:mt-0">
+                            <span className="font-semibold">
+                                {t('end_date')}:
+                            </span>{' '}
+                            {formatDateString(event.end_date)}
+                        </div>
                     </div>
-                    <div className="mt-2 sm:mt-0">
-                        <span className="font-semibold">{t('end_date')}:</span>{' '}
-                        {formatDateString(event.end_date)}
+                    <div className="mt-4">
+                        <span
+                            className={`inline-block px-3 py-1 text-sm font-semibold rounded-full ${
+                                event.status === 'active'
+                                    ? 'bg-green-500 text-white'
+                                    : 'bg-red-500 text-white'
+                            }`}
+                        >
+                            {event.status === 'active'
+                                ? t('active')
+                                : t('inactive')}
+                        </span>
                     </div>
                 </div>
-                <div className="mt-4">
-                    <span
-                        className={`inline-block px-3 py-1 text-sm font-semibold rounded-full ${
-                            event.status === 'active'
-                                ? 'bg-green-500 text-white'
-                                : 'bg-red-500 text-white'
-                        }`}
-                    >
-                        {event.status === 'active'
-                            ? t('active')
-                            : t('inactive')}
-                    </span>
+
+                <div>
+                    {/* Mapa de Puntos de Consumo */}
+                    <GoogleMapLocationForEvent event={event} />
                 </div>
 
                 {/* Organizer information */}

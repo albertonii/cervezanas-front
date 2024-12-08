@@ -57,8 +57,9 @@ async function getEvent(eventId: string) {
         .from('events')
         .select(
             `
-            *
-          `,
+                *,
+                cp_events (*)
+            `,
         )
         .eq('id', eventId)
         .single();

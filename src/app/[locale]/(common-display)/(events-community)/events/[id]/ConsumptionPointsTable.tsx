@@ -14,8 +14,11 @@ interface TableProps {
     eventId: string;
 }
 
-const ConsumptionPointsTable = ({ consumptionPoints, eventId }: TableProps) => {
-    const t = useTranslations('event');
+const ConsumptionPointsTable: React.FC<TableProps> = ({
+    consumptionPoints,
+    eventId,
+}) => {
+    const t = useTranslations();
 
     return (
         <div className="overflow-x-auto">
