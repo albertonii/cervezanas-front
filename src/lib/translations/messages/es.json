@@ -728,7 +728,8 @@
         "distribution_costs_not_found": "No se encontraron datos de costos de distribución.",
         "toggle_is_distribution_costs_in_product": "Error al actualizar si estń incluidos los costos de distribución en el producto.",
         "updating_is_distribution_costs_in_product": "Error al actualizar si están incluidos los costos de distribución en el producto.",
-        "order_not_started": "El pedido no ha comenzado"
+        "order_not_started": "El pedido no ha comenzado",
+        "error_processing_order": "Error al procesar el pedido"
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",
@@ -1559,7 +1560,8 @@
         "inactive": "Inactivo",
         "come_back_events": "Volver a eventos",
         "cp": "Puntos de Consumo",
-        "finished": "Finalizado"
+        "finished": "Finalizado",
+        "order_created_pending_payment": "Pedido creado - Pendiente de pago"
     },
     "cp_management": "Administrar Puntos de Consumo",
     "cp_in_events": "Puntos de Consumo en Eventos"

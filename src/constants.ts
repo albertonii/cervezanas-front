@@ -69,6 +69,7 @@ export const EVENT_ORDER_STATUS = {
     WITH_SERVICES_TO_CONSUME: 'with_services_to_consume',
     SERVED: 'served',
     ERROR: 'error',
+    PENDING_PAYMENT: 'pending_payment',
 };
 
 export type EventOrderCPSStatus =

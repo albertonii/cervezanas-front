@@ -732,7 +732,9 @@
         "loading_distribution_costs": "Error loading distribution costs.",
         "distribution_costs_not_found": "No distribution cost data found.",
         "toggle_is_distribution_costs_in_product": "Error updating if distribution costs are included in the product.",
-        "updating_is_distribution_costs_in_product": "Error updating if distribution costs are included in the product."
+        "updating_is_distribution_costs_in_product": "Error updating if distribution costs are included in the product.",
+        "order_not_started": "Order has not started",
+        "error_processing_order": "Error processing order"
     },
     "product_packs": "Product packs",
     "units": "Units",
@@ -1456,7 +1458,8 @@
         "active": "Active",
         "inactive": "Inactive",
         "come_back_events": "Back to events",
-        "cp": "Consumption points"
+        "cp": "Consumption points",
+        "order_created_pending_payment": "Order created - pending payment"
     },
 
     "cp_management": "Manage Consumption Points",

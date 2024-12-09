@@ -6,27 +6,24 @@ import Decimal from 'decimal.js';
 import EventBasketItems from './EventBasketItems';
 import EventOrderSummary from './EventOrderSummary';
 import Title from '@/app/[locale]/components/ui/Title';
-import useEventCartStore from '@/app/store//eventCartStore';
+import useEventCartStore from '@/app/store/eventCartStore';
 import React, { useState, useEffect, useRef } from 'react';
+import { API_METHODS } from '@/constants';
 import { useTranslations } from 'next-intl';
 import { CURRENCY_ENUM } from '@/lib/enums';
+import { IProductPack } from '@/lib/types/types';
 import { formatDateForTPV } from '@/utils/formatDate';
 import { useMutation, useQueryClient } from 'react-query';
 import { randomTransactionId, CURRENCIES } from 'redsys-easy';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { CustomLoading } from '@/app/[locale]/components/ui/CustomLoading';
-import { IProductPack, IProductPackEventCartItem } from '@/lib/types/types';
-import {
-    API_METHODS,
-    EVENT_ORDER_CPS_STATUS,
-    EVENT_ORDER_ITEM_STATUS,
-    EVENT_ORDER_STATUS,
-} from '@/constants';
 import {
     createRedirectForm,
     eventMerchantInfo,
 } from '@/app/[locale]/components/TPV/redsysClient';
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 interface Props {
     eventId: string;
@@ -36,7 +33,7 @@ export default function EventBasket({ eventId }: Props) {
     const t = useTranslations();
     const { handleMessage } = useMessage();
 
-    const { user, supabase } = useAuth();
+    const { user } = useAuth();
 
     const formRef = useRef<HTMLFormElement>(null);
     const btnRef = useRef<HTMLButtonElement>(null);
@@ -56,15 +53,15 @@ export default function EventBasket({ eventId }: Props) {
     useEffect(() => {
         if (!eventCarts[eventId]) return;
 
-        let subtotal = 0;
-        eventCarts[eventId].map((item) => {
-            item.packs.map((pack: IProductPack) => {
-                subtotal += pack.price * pack.quantity;
+        let calculatedSubtotal = 0;
+        eventCarts[eventId].forEach((item) => {
+            item.packs.forEach((pack: IProductPack) => {
+                calculatedSubtotal += pack.price * pack.quantity;
             });
         });
 
-        setSubtotal(subtotal);
-        setTotal(() => subtotal - discount + tax);
+        setSubtotal(calculatedSubtotal);
+        setTotal(calculatedSubtotal - discount + tax);
 
         return () => {
             setSubtotal(0);
@@ -72,129 +69,108 @@ export default function EventBasket({ eventId }: Props) {
             setDiscount(0);
             setTotal(0);
         };
-    }, [eventCarts[eventId], discount, subtotal, tax]);
+    }, [eventCarts[eventId], discount, tax]);
 
-    const handleProceedToPay = async () => {
+    // Función para crear el pedido a través de la API
+    const createOrder = async (orderData: any) => {
+        const url = `${baseUrl}/api/event_shopping_basket/event_order`;
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(orderData),
+        });
+
+        console.log('RESPONSE: ', response);
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Error creating order');
+        }
+
+        const data = await response.json();
+        return data;
+    };
+
+    const handleProceedToPay = async (paymentMethod: 'online' | 'on-site') => {
         setLoadingPayment(true);
 
         try {
-            const orderNumber = await proceedPaymentRedsys();
-            handleInsertOrder(orderNumber);
+            let orderNumber: string;
+
+            if (paymentMethod === 'online') {
+                orderNumber = await proceedPaymentRedsys();
+            } else {
+                // Generar un número de pedido único con formato específico
+                const prefix = 'S';
+                const uniqueId = Math.random()
+                    .toString(36)
+                    .substring(2, 10)
+                    .toUpperCase();
+                orderNumber = `${prefix}-${uniqueId}`;
+            }
+
+            // Preparar los datos para la API
+            const orderData = {
+                userId: user?.id,
+                eventId,
+                total,
+                subtotal,
+                discount,
+                tax,
+                currency: CURRENCY_ENUM.EUR,
+                orderNumber,
+                paymentMethod,
+                cartItems: eventCarts[eventId],
+            };
+
+            // Crear el pedido a través de la API
+            await createOrder(orderData);
+
+            if (paymentMethod === 'online') {
+                // Si es pago en línea, continuar con el flujo de redirección a TPV
+                setIsFormReady(true);
+            } else {
+                // Si es pago en local, mostrar mensaje de éxito
+                setLoadingPayment(false);
+                handleMessage({
+                    message: t('event.order_created_pending_payment'),
+                    type: 'success',
+                });
+            }
+
             queryClient.invalidateQueries('eventOrders');
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
+            handleMessage({
+                message: error.message || t('errors.error_processing_order'),
+                type: 'error',
+            });
             setLoadingPayment(false);
         }
     };
 
-    const handleInsertOrder = async (orderNumber: string) => {
-        const { data: eventOrder, error: orderError } = await supabase
-            .from('event_orders')
-            .insert({
-                customer_id: user?.id,
-                updated_at: new Date().toISOString(),
-                event_id: eventId,
-                status: EVENT_ORDER_STATUS.ORDER_PLACED,
-                total: total,
-                subtotal: subtotal,
-                currency: CURRENCY_ENUM.EUR,
-                order_number: orderNumber,
-                // discount: discount,
-                // promo_code: "123456789",
-            })
-            .select('id')
-            .single();
-
-        if (orderError) throw orderError;
-
-        // Insert event order information for the CP that is linked with the event.
-        // First we need to agrupate all the event orders that with the same attribute cp_id
-        const eventOrderCps = eventCarts[eventId].reduce(
-            (
-                acc: { [key: string]: IProductPackEventCartItem[] },
-                item: IProductPackEventCartItem,
-            ) => {
-                if (!acc[item.cp_cps_id]) {
-                    acc[item.cp_cps_id] = [];
-                }
-                acc[item.cp_cps_id].push(item);
-                return acc;
-            },
-            {} as { [key: string]: IProductPackEventCartItem[] },
-        );
-
-        for (const cpCPSId in eventOrderCps) {
-            const { data: eventOrderCp, error: eventOrderCpError } =
-                await supabase
-                    .from('event_order_cps')
-                    .insert({
-                        event_order_id: eventOrder?.id,
-                        cp_id: cpCPSId,
-                        status: EVENT_ORDER_CPS_STATUS.NOT_STARTED,
-                        order_number: randomTransactionId(),
-                    })
-                    .select('id')
-                    .single();
-
-            if (eventOrderCpError) {
-                handleMessage({
-                    message: t('error'),
-                    type: 'error',
-                });
-
-                return false;
-            }
-
-            if (!eventOrderCp) {
-                handleMessage({
-                    message: t('error'),
-                    type: 'error',
-                });
-
-                return false;
-            }
-
-            for (const item of eventOrderCps[cpCPSId]) {
-                for (const pack of item.packs) {
-                    const { error: orderItemError } = await supabase
-                        .from('event_order_items')
-                        .insert({
-                            event_order_cp_id: eventOrderCp.id,
-                            product_pack_id: pack.id,
-                            quantity: pack.quantity,
-                            status: EVENT_ORDER_ITEM_STATUS.INITIAL,
-                        });
-
-                    if (orderItemError) throw orderItemError;
-                }
-            }
-        }
-
-        setIsFormReady(true);
-    };
-
     // REDSYS PAYMENT
     const proceedPaymentRedsys = async () => {
-        // Use productIds to calculate amount and currency
-        const { totalAmount, currency } = {
-            // Never use floats for money
-            totalAmount: total,
-            currency: CURRENCY_ENUM.EUR,
-        } as const;
+        // Nunca uses floats para dinero
+        const totalAmount = total;
+        const currency = CURRENCY_ENUM.EUR;
 
         const orderNumber = randomTransactionId();
         const currencyInfo = CURRENCIES[currency];
 
-        // Convert 49.99€ -> 4999
+        // Convertir 49.99€ -> 4999
         const redsysAmount = new Decimal(totalAmount)
             .mul(Math.pow(10, currencyInfo.decimals))
             .round()
             .toFixed(0);
 
-        // Convert EUR -> 978
+        // Convertir EUR -> 978
         const redsysCurrency = currencyInfo.num;
 
-        // MERCHANT EMV3DS optional information
+        // Información EMV3DS opcional del MERCHANT
         const merchant_EMV3DS = {
             email: user.email,
             // homePhone: user.phone,
@@ -225,22 +201,31 @@ export default function EventBasket({ eventId }: Props) {
         mutationFn: handleProceedToPay,
         onError: (error: any) => {
             console.error(error);
+            handleMessage({
+                message: error.message || t('error_processing_order'),
+                type: 'error',
+            });
+            setLoadingPayment(false);
         },
     });
 
-    const onSubmit = () => {
+    const onSubmit = (paymentMethod: 'online' | 'on-site') => {
         try {
-            insertOrderMutation.mutate();
+            insertOrderMutation.mutate(paymentMethod);
         } catch (e) {
             console.error(e);
+            handleMessage({
+                message: t('error'),
+                type: 'error',
+            });
         }
     };
 
     useEffect(() => {
         if (isFormReady) {
-            btnRef.current && btnRef.current.click();
+            formRef.current?.submit();
         }
-    }, [isFormReady]);
+    }, [isFormReady, merchantParameters, merchantSignature]);
 
     return (
         <section className="flex w-full flex-row items-center justify-center sm:my-2 lg:mx-6 ">
@@ -290,19 +275,19 @@ export default function EventBasket({ eventId }: Props) {
 
                     <div
                         className={`
-                                jusitfy-center mt-2 flex w-full flex-col items-stretch space-y-4 md:space-y-6 xl:flex-row xl:space-x-8 xl:space-y-0
+                                justify-center mt-2 flex w-full flex-col items-stretch space-y-4 md:space-y-6 xl:flex-row xl:space-x-8 xl:space-y-0
                             `}
                     >
-                        {/* Products  */}
+                        {/* Productos */}
                         <div className="flex w-full flex-col items-start justify-start space-y-4 md:space-y-6 xl:space-y-8 ">
-                            {/* Customer's Car */}
+                            {/* Carrito del Cliente */}
                             <EventBasketItems
                                 eventId={eventId}
                                 subtotal={subtotal}
                             />
                         </div>
 
-                        {/* Order summary  */}
+                        {/* Resumen del Pedido */}
                         <EventOrderSummary
                             eventId={eventId}
                             subtotal={subtotal}
