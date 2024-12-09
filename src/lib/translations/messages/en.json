@@ -1459,7 +1459,12 @@
         "inactive": "Inactive",
         "come_back_events": "Back to events",
         "cp": "Consumption points",
-        "order_created_pending_payment": "Order created - pending payment"
+        "order_created_pending_payment": "Order created - pending payment",
+        "start_order_action": "Start",
+        "complete_order_action": "Complete",
+        "prepare_order_action": "Prepare",
+        "ready_order_action": "Ready",
+        "next_status_action": "Next status"
     },
 
     "cp_management": "Manage Consumption Points",

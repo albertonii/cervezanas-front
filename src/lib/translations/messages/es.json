@@ -1561,7 +1561,12 @@
         "come_back_events": "Volver a eventos",
         "cp": "Puntos de Consumo",
         "finished": "Finalizado",
-        "order_created_pending_payment": "Pedido creado - Pendiente de pago"
+        "order_created_pending_payment": "Pedido creado - Pendiente de pago",
+        "start_order_action": "Iniciar",
+        "complete_order_action": "Entregar",
+        "prepare_order_action": "Preparar",
+        "ready_order_action": "Completar",
+        "next_status_action": "Siguiente Estado"
     },
     "cp_management": "Administrar Puntos de Consumo",
     "cp_in_events": "Puntos de Consumo en Eventos"

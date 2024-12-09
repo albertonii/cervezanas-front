@@ -332,8 +332,6 @@ export async function calculateCheapestShippingCostsByDistributor(
         }),
     ).then((weights) => weights.reduce((prev, current) => prev + current, 0));
 
-    console.log('TOTAL WEIGHT', totalWeight);
-
     // Obtener el costo de envío de cada distribuidor
     const shippingCostInformation: {
         distributor_id: string | null;

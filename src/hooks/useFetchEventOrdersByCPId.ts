@@ -63,8 +63,6 @@ const useFetchEventOrdersByCPId = (cpId: string) => {
                     filter: `cp_id=eq.${cpId}`,
                 },
                 (payload) => {
-                    console.log('Cambio detectado:', payload);
-
                     // Refrescar los datos de la consulta
                     queryClient.invalidateQueries([
                         'event_orders_by_cp_id',

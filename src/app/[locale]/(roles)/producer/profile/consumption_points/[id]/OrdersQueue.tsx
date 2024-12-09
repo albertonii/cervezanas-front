@@ -44,7 +44,9 @@ export function OrdersQueue({ cp }: Props) {
         setPendingOrders(orders.filter((o) => o.status === 'pending'));
         setPreparingOrders(orders.filter((o) => o.status === 'preparing'));
         setReadyOrders(orders.filter((o) => o.status === 'ready'));
-        setPendingPaymentOrders(orders.filter((o) => o.has_pending_payment));
+        setPendingPaymentOrders(
+            orders.filter((o) => o.status === 'pending_payment'),
+        );
     }, [orders]);
 
     // Importa el tipo correcto

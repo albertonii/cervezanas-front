@@ -33,7 +33,6 @@ export default function StepQuestionEditor({ form }: StepQuestionEditorProps) {
         control,
         name: 'bm_steps_questions',
     });
-    console.log(questions);
 
     const addQuestion = () =>
         append({

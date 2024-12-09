@@ -35,8 +35,6 @@ export default function DisplayEvent({
     eventExperiences,
     experienceParticipant,
 }: Props) {
-    console.log(event);
-
     const t = useTranslations('event');
     const locale = useLocale();
     const router = useRouter();

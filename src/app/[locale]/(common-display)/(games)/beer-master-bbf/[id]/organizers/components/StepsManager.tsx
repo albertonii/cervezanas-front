@@ -126,8 +126,6 @@ export default function StepsManager({ gameState }: StepsManagerProps) {
                     gameState.bm_steps![index]?.step_number,
             );
 
-            console.log(modifiedSteps);
-
             if (modifiedSteps.length > 0) {
                 // Llamar a la API para registrar los cambios
                 await updateStepsNumberInDB(modifiedSteps);

@@ -47,8 +47,6 @@ const useFetchEventCPOrderStatusById = (id: string) => {
                     filter: `id=eq.${id}`,
                 },
                 (payload) => {
-                    console.log('Cambio detectado:', payload);
-
                     // Refrescar los datos de la consulta
                     queryClient.invalidateQueries([
                         'event_order_cp_status',

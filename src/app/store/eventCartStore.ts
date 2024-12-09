@@ -198,8 +198,6 @@ const useEventCartStore = create<EventCartState>((set, get) => {
                     return item;
                 });
 
-                console.log(newItems);
-
                 // Si no hay packs en el producto, elimina el producto del carrito
                 const newItemsv2 = newItems.filter(
                     (item) => item.packs.length > 0,
