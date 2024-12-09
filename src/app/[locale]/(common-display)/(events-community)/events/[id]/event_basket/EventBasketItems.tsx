@@ -26,7 +26,7 @@ const EventBasketItems = ({ eventId, subtotal }: Props) => {
                 size="2xl"
             />
 
-            <Title size="large" color="black" fontFamily="NexaRust-sans">
+            <Title size="large" color="black">
                 {t('customer_s_cart')}
             </Title>
 

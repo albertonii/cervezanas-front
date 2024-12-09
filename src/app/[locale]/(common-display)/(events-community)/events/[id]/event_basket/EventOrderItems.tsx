@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
 import useEventCartStore from '@/app/store/eventCartStore';
 import { EventCheckoutItem } from './EventCheckoutItem';
+import Label from '@/app/[locale]/components/ui/Label';
 
 interface Props {
     eventId: string;
@@ -28,8 +29,8 @@ const EventOrderItems: React.FC<Props> = ({ eventId, subtotal }) => {
 
             {/* Subtotal */}
             <div className="flex justify-between text-lg font-semibold text-gray-800 dark:text-white">
-                <span>{t('subtotal')}</span>
-                <span>{formatCurrency(subtotal)}</span>
+                <Label>{t('subtotal')}</Label>
+                <Label font="bold">{formatCurrency(subtotal)}</Label>
             </div>
         </div>
     );
