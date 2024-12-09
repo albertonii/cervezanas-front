@@ -72,6 +72,10 @@ export const routes: Record<string, RouteLocaleNames> = {
         en: 'Events',
         es: 'Eventos',
     },
+    '/producer/profile/events/:id': {
+        en: 'Event Details',
+        es: 'Detalles del Evento',
+    },
     '/producer/profile/consumption_points': {
         en: 'Consumption Points',
         es: 'Puntos de Consumo',
@@ -143,6 +147,14 @@ export const routes: Record<string, RouteLocaleNames> = {
     '/events/:id/event_basket': {
         en: 'Cart',
         es: 'Carrito',
+    },
+    '/events/:id/cp': {
+        en: '',
+        es: '',
+    },
+    '/events/:id/cp/:cp_id': {
+        en: 'Consumption Point Details',
+        es: 'Detalles del Punto de Consumo',
     },
     '/checkout': {
         en: 'Checkout',
