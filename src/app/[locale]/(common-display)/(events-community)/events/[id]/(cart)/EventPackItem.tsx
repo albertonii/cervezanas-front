@@ -32,55 +32,57 @@ export default function EventPackItem({ pack, item, eventId }: Props) {
     };
 
     const handleRemoveFromCart = () => {
+        setAnimateRemove(true);
         setTimeout(() => {
-            setAnimateRemove(true);
-
             removeFromCart(eventId, item.product_id, cpId, pack.id);
-        }, 500);
+        }, 300); // Ajuste del tiempo para una animación más suave
     };
 
     return (
         <div
-            className={`flex items-center justify-between bg-white space-x-2 rounded-lg p-3 shadow-sm hover:shadow-md transition ${
-                animateRemove && 'animate-ping overflow-hidden '
+            className={`flex items-center justify-between bg-white dark:bg-gray-800 space-x-2 rounded-lg p-3 shadow-sm hover:shadow-md transition ${
+                animateRemove ? 'opacity-0 transform translate-x-4' : ''
             }`}
         >
-            {/* Product Image */}
+            {/* Imagen del Producto */}
             <DisplayImageProduct
                 imgSrc={
                     SupabaseProps.BASE_PRODUCTS_URL +
                     decodeURIComponent(pack.img_url)
                 }
                 alt={pack.name}
-                width={200}
-                height={200}
-                class="w-[6vw] px-2 py-2 sm:w-[5vw] md:w-[6vw] lg:w-[5vw]"
+                width={48}
+                height={48}
+                class="w-12 h-12 sm:w-16 sm:h-16 rounded-md object-cover"
             />
 
-            {/* Product Info */}
-            <div className="px-4 items-start flex flex-col">
-                <Label size="small" font="medium">
+            {/* Información del Producto */}
+            <div className="flex-1 px-4 flex flex-col">
+                <Label
+                    size="small"
+                    font="medium"
+                    color="black"
+                    className="text-gray-900 dark:text-white"
+                >
                     {pack.name}
                 </Label>
 
-                <Label size="xsmall" color="gray">
+                <Label
+                    size="xsmall"
+                    color="gray"
+                    className="text-gray-500 dark:text-gray-400"
+                >
                     {formatCurrency(pack.price)}
                 </Label>
             </div>
 
-            {/* Action Buttons */}
+            {/* Botones de Acción */}
             <MarketCartButtons
                 item={pack}
                 quantity={pack.quantity}
-                handleIncreaseCartQuantity={() => {
-                    handleIncreaseCartQuantity();
-                }}
-                handleDecreaseCartQuantity={() => {
-                    handleDecreaseCartQuantity();
-                }}
-                handleRemoveFromCart={() => {
-                    handleRemoveFromCart();
-                }}
+                handleIncreaseCartQuantity={handleIncreaseCartQuantity}
+                handleDecreaseCartQuantity={handleDecreaseCartQuantity}
+                handleRemoveFromCart={handleRemoveFromCart}
                 displayDeleteButton={true}
             />
         </div>

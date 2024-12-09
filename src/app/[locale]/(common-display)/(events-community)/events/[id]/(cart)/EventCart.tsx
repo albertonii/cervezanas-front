@@ -44,9 +44,8 @@ export default function EventCart({ eventId }: Props) {
     const adjustPositionWithinBounds = (x: number) => {
         const { innerWidth } = window;
 
-        const adjustedX = Math.max(0, Math.min(x, innerWidth - 300)); // 300px es el ancho del carrito
-
-        console.log(`Adjusting position: x=${adjustedX}, y=0`); // Para depuración
+        const cartWidth = window.innerWidth < 640 ? innerWidth * 0.9 : 300; // 90% en móviles
+        const adjustedX = Math.max(0, Math.min(x, innerWidth - cartWidth));
 
         return adjustedX;
     };
@@ -57,30 +56,34 @@ export default function EventCart({ eventId }: Props) {
             bounds={{
                 left: 0,
                 right:
-                    typeof window !== 'undefined' ? window.innerWidth - 300 : 0,
-            }} // Ajustar según el ancho
+                    typeof window !== 'undefined'
+                        ? window.innerWidth < 640
+                            ? window.innerWidth * 0.1 // Para 90% de ancho
+                            : window.innerWidth - 300
+                        : 0,
+            }}
             position={position}
             onStop={onDragStop}
             axis="x" // Restringir a solo eje X
         >
             <section
-                className="fixed z-40 rounded-lg border-2 border-beer-softBlonde bg-white shadow-lg sm:w-auto"
+                className="fixed z-40 rounded-lg border border-beer-softBlonde bg-white dark:bg-gray-800 dark:border-gray-700 shadow-lg  transition-colors duration-300"
                 aria-modal="true"
                 role="dialog"
                 tabIndex={-1}
                 style={{ top: 0 }} // Asegurar que esté alineado en Y=0
             >
                 {/* Barra Arrastrable */}
-                <div className="drag-handle flex items-center justify-between p-2 bg-beer-blonde text-white font-semibold rounded-t-lg cursor-grab hover:cursor-grabbing">
+                <div className="drag-handle flex items-center justify-between p-2 bg-beer-blonde dark:bg-gray-900 text-white font-semibold rounded-t-lg cursor-grab hover:cursor-grabbing">
                     <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-white rounded-full shadow-md">
+                        <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-white dark:bg-gray-700 rounded-full shadow-md">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 strokeWidth="2"
                                 stroke="currentColor"
-                                className="w-4 h-4 sm:w-5 sm:h-5 text-beer-draft"
+                                className="w-4 h-4 sm:w-5 sm:h-5 text-beer-draft dark:text-gray-300"
                             >
                                 <path
                                     strokeLinecap="round"
@@ -89,7 +92,7 @@ export default function EventCart({ eventId }: Props) {
                                 />
                             </svg>
                         </div>
-                        <Title size="large" color="black">
+                        <Title size="large" color="beer-blonde">
                             {t('shopping_cart')}
                         </Title>
                     </div>
@@ -110,7 +113,7 @@ export default function EventCart({ eventId }: Props) {
                         </div>
                         <button
                             onClick={() => handleOpen(!isOpen)}
-                            className="flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gray-100 hover:bg-gray-300 transition-all"
+                            className="flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-all"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -118,7 +121,7 @@ export default function EventCart({ eventId }: Props) {
                                 viewBox="0 0 24 24"
                                 strokeWidth="2"
                                 stroke="currentColor"
-                                className="w-4 h-4 sm:w-5 sm:h-5 text-beer-draft"
+                                className="w-4 h-4 sm:w-5 sm:h-5 text-beer-draft dark:text-gray-300"
                             >
                                 {isOpen ? (
                                     <path
