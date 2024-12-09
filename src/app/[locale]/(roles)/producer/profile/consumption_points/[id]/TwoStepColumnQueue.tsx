@@ -33,7 +33,7 @@ const TwoStepColumnQueue = ({
 
             <QueueColumn
                 title={t('preparing_orders', {
-                    numberOfOrders: pendingOrders.length,
+                    numberOfOrders: preparingOrders.length,
                 })}
                 icon={<>👨‍🍳</>}
                 orders={preparingOrders}

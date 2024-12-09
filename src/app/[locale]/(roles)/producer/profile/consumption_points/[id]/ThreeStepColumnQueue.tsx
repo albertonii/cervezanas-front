@@ -35,7 +35,7 @@ const ThreeStepColumnQueue = ({
 
             <QueueColumn
                 title={t('preparing_orders', {
-                    numberOfOrders: pendingOrders.length,
+                    numberOfOrders: preparingOrders.length,
                 })}
                 icon={<>👨‍🍳</>}
                 orders={preparingOrders}
@@ -47,7 +47,7 @@ const ThreeStepColumnQueue = ({
 
             <QueueColumn
                 title={t('ready_orders', {
-                    numberOfOrders: pendingOrders.length,
+                    numberOfOrders: readyOrders.length,
                 })}
                 icon={<>✅</>}
                 orders={readyOrders}

@@ -4,16 +4,13 @@ import Title from '@/app/[locale]/components/ui/Title';
 import Label from '@/app/[locale]/components/ui/Label';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
 import useFetchEventOrdersByCPId from '@/hooks/useFetchEventOrdersByCPId';
-import EventOrderCard from '../../../../../components/cards/EventOrderCard';
 import React, { useEffect, useState } from 'react';
 import { Beer, MapPin } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { IEventOrderCPS } from '@/lib/types/eventOrders';
-import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { useTranslations } from 'next-intl';
-import { QueueColumn } from '@/app/[locale]/components/CP/QueueColumn';
 import { EVENT_ORDER_CPS_STATUS } from '@/constants';
+import { IEventOrderCPS } from '@/lib/types/eventOrders';
+import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
+import { QueueColumn } from '@/app/[locale]/components/CP/QueueColumn';
 
 interface Props {
     cpId: string;
@@ -156,7 +153,7 @@ export function DisplayEventOrders({ cpId }: Props) {
                     {/* En Preparación */}
                     <QueueColumn
                         title={t('preparing_orders', {
-                            numberOfOrders: pendingOrders.length,
+                            numberOfOrders: preparingOrders.length,
                         })}
                         icon={<>🍻</>}
                         orders={
@@ -173,7 +170,7 @@ export function DisplayEventOrders({ cpId }: Props) {
                     {/* Listos para Entregar */}
                     <QueueColumn
                         title={t('ready_orders', {
-                            numberOfOrders: pendingOrders.length,
+                            numberOfOrders: readyOrders.length,
                         })}
                         icon={<>✅</>}
                         orders={

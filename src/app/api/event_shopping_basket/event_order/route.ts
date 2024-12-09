@@ -9,13 +9,11 @@ import {
 } from '@/constants';
 import { IProductPackEventCartItem } from '@/lib/types/types';
 import { randomTransactionId } from 'redsys-easy';
+import { generateOrderNumber } from '@/utils/utils';
 
 export async function POST(request: NextRequest) {
-    console.log('Creating event order...');
-
     const supabase = await createServerClient();
     const body = await request.json();
-    console.log('BODY: ', body);
 
     const {
         userId,
@@ -70,7 +68,7 @@ export async function POST(request: NextRequest) {
                 currency: currency,
                 order_number: orderNumber,
             })
-            .select('id')
+            .select('id, order_number')
             .single();
 
         if (orderError || !eventOrder) {
@@ -104,6 +102,8 @@ export async function POST(request: NextRequest) {
                     ? EVENT_ORDER_CPS_STATUS.NOT_STARTED
                     : EVENT_ORDER_CPS_STATUS.PENDING_PAYMENT;
 
+            const cpsOrderNumber = generateOrderNumber(paymentMethod);
+
             const { data: eventOrderCp, error: eventOrderCpError } =
                 await supabase
                     .from('event_order_cps')
@@ -111,7 +111,7 @@ export async function POST(request: NextRequest) {
                         event_order_id: eventOrder.id,
                         cp_id: cpCPSId,
                         status: initialStateForCPs,
-                        order_number: randomTransactionId(),
+                        order_number: cpsOrderNumber,
                     })
                     .select('id')
                     .single();
@@ -144,7 +144,10 @@ export async function POST(request: NextRequest) {
             }
         }
 
-        return NextResponse.json({ orderId: eventOrder.id }, { status: 201 });
+        return NextResponse.json(
+            { orderId: eventOrder.id, orderNumber: eventOrder.order_number },
+            { status: 201 },
+        );
     } catch (error: any) {
         console.error(error);
 

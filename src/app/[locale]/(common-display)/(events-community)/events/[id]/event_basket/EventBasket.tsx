@@ -9,7 +9,8 @@ import Title from '@/app/[locale]/components/ui/Title';
 import useEventCartStore from '@/app/store/eventCartStore';
 import React, { useState, useEffect, useRef } from 'react';
 import { API_METHODS } from '@/constants';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { CURRENCY_ENUM } from '@/lib/enums';
 import { IProductPack } from '@/lib/types/types';
 import { formatDateForTPV } from '@/utils/formatDate';
@@ -34,6 +35,8 @@ export default function EventBasket({ eventId }: Props) {
     const { handleMessage } = useMessage();
 
     const { user } = useAuth();
+    const router = useRouter();
+    const locale = useLocale();
 
     const formRef = useRef<HTMLFormElement>(null);
     const btnRef = useRef<HTMLButtonElement>(null);
@@ -47,7 +50,7 @@ export default function EventBasket({ eventId }: Props) {
     const [merchantParameters, setMerchantParameters] = useState('');
     const [merchantSignature, setMerchantSignature] = useState('');
 
-    const { eventCarts } = useEventCartStore();
+    const { eventCarts, clearCart } = useEventCartStore();
     const queryClient = useQueryClient();
 
     useEffect(() => {
@@ -96,18 +99,10 @@ export default function EventBasket({ eventId }: Props) {
         setLoadingPayment(true);
 
         try {
-            let orderNumber: string;
+            const orderNumber = randomTransactionId();
 
             if (paymentMethod === 'online') {
-                orderNumber = await proceedPaymentRedsys();
-            } else {
-                // Generar un número de pedido único con formato específico
-                const prefix = 'S';
-                const uniqueId = Math.random()
-                    .toString(36)
-                    .substring(2, 10)
-                    .toUpperCase();
-                orderNumber = `${prefix}-${uniqueId}`;
+                await proceedPaymentRedsys(orderNumber);
             }
 
             // Preparar los datos para la API
@@ -125,7 +120,8 @@ export default function EventBasket({ eventId }: Props) {
             };
 
             // Crear el pedido a través de la API
-            await createOrder(orderData);
+            const orderInfo: { orderId: string; orderNumber: string } =
+                await createOrder(orderData);
 
             if (paymentMethod === 'online') {
                 // Si es pago en línea, continuar con el flujo de redirección a TPV
@@ -137,6 +133,12 @@ export default function EventBasket({ eventId }: Props) {
                     message: t('event.order_created_pending_payment'),
                     type: 'success',
                 });
+
+                clearCart(eventId);
+
+                router.push(
+                    `/${locale}/checkout/event/success/in_site_payment?order_number=${orderInfo.orderNumber}`,
+                );
             }
 
             queryClient.invalidateQueries('eventOrders');
@@ -151,12 +153,11 @@ export default function EventBasket({ eventId }: Props) {
     };
 
     // REDSYS PAYMENT
-    const proceedPaymentRedsys = async () => {
+    const proceedPaymentRedsys = async (orderNumber: string) => {
         // Nunca uses floats para dinero
         const totalAmount = total;
         const currency = CURRENCY_ENUM.EUR;
 
-        const orderNumber = randomTransactionId();
         const currencyInfo = CURRENCIES[currency];
 
         // Convertir 49.99€ -> 4999

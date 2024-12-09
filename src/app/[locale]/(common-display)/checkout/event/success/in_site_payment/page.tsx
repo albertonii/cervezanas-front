@@ -1,20 +1,15 @@
 import readUserSession from '@/lib//actions';
-import SuccessCheckout from './SuccessCheckout';
 import createServerClient from '@/utils/supabaseServer';
-import { redirect } from 'next/navigation';
-import { decodeBase64 } from '@/utils/utils';
-import { IEventOrder } from '@/lib/types/eventOrders';
+import SuccessCheckoutInSitePayment from './SuccessCheckoutInSitePayment';
 import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { IEventOrder } from '@/lib/types/eventOrders';
 
 export async function generateMetadata({ searchParams }: any) {
     try {
-        const { Ds_MerchantParameters } = searchParams as {
-            Ds_MerchantParameters: string;
-            Ds_SignatureVersion: string;
-            Ds_Signature: string;
-        };
+        const { order_number } = searchParams;
 
-        if (!Ds_MerchantParameters) {
+        if (!order_number) {
             return {
                 title: 'Not found',
                 description: 'The page you are looking for does not exists',
@@ -45,22 +40,16 @@ export default async function SuccessPage({ searchParams }: any) {
         return <></>;
     }
 
-    const { orderData, isError, santanderResponseData } = await getSuccessData(
-        searchParams,
-    );
+    const { orderData, isError } = await getSuccessData(searchParams);
 
-    const [order, santanderResponse] = await Promise.all([
-        orderData,
-        santanderResponseData,
-    ]);
+    const [order] = await Promise.all([orderData]);
 
     return (
         <>
             {order && (
-                <SuccessCheckout
+                <SuccessCheckoutInSitePayment
                     order={order}
                     isError={isError}
-                    santanderResponse={santanderResponse}
                     domain={domain}
                 />
             )}
@@ -69,50 +58,7 @@ export default async function SuccessPage({ searchParams }: any) {
 }
 
 async function getSuccessData(searchParams: any) {
-    const { Ds_MerchantParameters } = searchParams as {
-        Ds_MerchantParameters: string;
-        Ds_SignatureVersion: string;
-        Ds_Signature: string;
-    };
-
-    console.log('Ds_MerchantParameters', Ds_MerchantParameters);
-
-    const {
-        Ds_Order: orderNumber,
-        Ds_Date,
-        Ds_Hour,
-        Ds_Amount,
-        Ds_Terminal,
-        Ds_Response,
-        Ds_MerchantData,
-        Ds_SecurePayment,
-        Ds_TransactionType,
-        Ds_Card_Country,
-        Ds_AuthorisationCode,
-        Ds_ConsumerLanguage,
-        Ds_Card_Brand,
-    } = JSON.parse(decodeBase64(Ds_MerchantParameters));
-
-    const logData = {
-        Hora: Ds_Hour,
-        Fecha: Ds_Date,
-        Cantidad: Ds_Amount,
-        Terminal: Ds_Terminal,
-        Respuesta: Ds_Response,
-        'Tipo Dato': Ds_MerchantData,
-        'Pago Seguro': Ds_SecurePayment,
-        'Tipo transacción': Ds_TransactionType,
-        'Código País Tarjeta': Ds_Card_Country,
-        'Código Auth': Ds_AuthorisationCode,
-        Idioma: Ds_ConsumerLanguage,
-        'Marca Tarjeta': Ds_Card_Brand,
-    };
-
-    console.log('=== Datos de la Transacción ===');
-    Object.entries(logData).forEach(([key, value]) => {
-        console.log(`${key}: ${value}`);
-    });
-    console.log('==============================');
+    const { order_number: orderNumber } = searchParams;
 
     const supabase = await createServerClient();
 
@@ -185,7 +131,6 @@ async function getSuccessData(searchParams: any) {
         return {
             orderData: null,
             isError: true,
-            santanderResponseData: null,
         };
     }
 
@@ -193,13 +138,11 @@ async function getSuccessData(searchParams: any) {
         return {
             orderData: null,
             isError: true,
-            santanderResponseData: null,
         };
     }
 
     return {
         orderData: orderData as IEventOrder,
         isError: false,
-        santanderResponseData: Ds_Response,
     };
 }

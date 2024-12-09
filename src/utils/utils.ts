@@ -1,7 +1,7 @@
 import { uuid } from 'uuidv4';
 import { ROLE_ENUM } from '@/lib//enums';
 import { routes } from './breadcrumb_routes';
-import { pathToRegexp, match } from 'path-to-regexp';
+import { match } from 'path-to-regexp';
 
 export function isValidObject(object: any) {
     return object != null && object !== '' && !isEmpty(object);
@@ -479,3 +479,14 @@ export const createNotification = async (
 
     return { error: null, message: 'Notificación creada exitosamente' };
 };
+
+export function generateOrderNumber(
+    paymentMethod: 'online' | 'on-site',
+): string {
+    const prefix = paymentMethod === 'online' ? 'ON' : 'EF';
+    const randomLetter = String.fromCharCode(
+        65 + Math.floor(Math.random() * 26),
+    ); // Genera una letra aleatoria
+    const randomDigits = Math.floor(1000 + Math.random() * 9000); // Genera un número de 4 dígitos entre 1000 y 9999
+    return `${prefix}-${randomLetter}${randomDigits}`;
+}
