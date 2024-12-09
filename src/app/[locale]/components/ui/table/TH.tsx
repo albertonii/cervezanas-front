@@ -14,7 +14,7 @@ const TH = ({
     children,
     scope,
     fontFamily,
-    size,
+    size = 'medium',
     class_,
     onClick,
     colSpan,
@@ -22,7 +22,7 @@ const TH = ({
     const sizeClass = {
         xsmall: 'text-sm',
         small: 'text-md',
-        medium: 'text-lg',
+        medium: 'text-base',
         large: 'text-2xl',
         xlarge: 'text-3xl',
         xxlarge: 'text-5xl',
@@ -30,8 +30,8 @@ const TH = ({
 
     return (
         <th
-            className={`border-b-2 border-gray-300 px-6 py-3 text-center leading-4 tracking-wider text-beer-draft dark:text-gray-300 
-                ${fontFamily} ${sizeClass[size ?? 'medium']}  ${class_}
+            className={`border-b-2 border-gray-300 px-2 lg:px-4 py-2 text-center leading-4 tracking-wider text-beer-draft dark:text-gray-300 
+                ${fontFamily} ${sizeClass[size]} ${class_}
             `}
             scope={scope}
             onClick={onClick}

@@ -341,8 +341,6 @@ export const getBreadcrumbs = async (
                                 }
                             }
 
-                            // Añade más condiciones para otros patrones dinámicos si es necesario
-
                             // Reconstruir la ruta con los parámetros reales
                             const patternSegments = matchingRouteKey
                                 .split('/')

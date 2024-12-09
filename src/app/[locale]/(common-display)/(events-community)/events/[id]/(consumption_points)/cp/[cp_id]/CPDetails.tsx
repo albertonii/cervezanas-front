@@ -1,10 +1,9 @@
-// components/CPDetails.tsx
+import Title from '@/app/[locale]/components/ui/Title';
+import Label from '@/app/[locale]/components/ui/Label';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { formatDateString } from '@/utils/formatDate';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
-import Title from '@/app/[locale]/components/ui/Title';
-import Label from '@/app/[locale]/components/ui/Label';
 
 interface Props {
     cpEvent: IConsumptionPointEvent;
@@ -14,7 +13,7 @@ const CPDetails: React.FC<Props> = ({ cpEvent }) => {
     const t = useTranslations();
 
     return (
-        <article className="space-y-6 p-6 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800">
+        <article className="p-6 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner space-y-4">
             {/* Título y Descripción */}
             <header>
                 <Title size="large" color="gray">
@@ -47,37 +46,35 @@ const CPDetails: React.FC<Props> = ({ cpEvent }) => {
             </div>
 
             {/* Información del Organizador */}
-            <footer className="space-y-2">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <Label color="gray" size="small">
-                            {t('organizer')}:
-                        </Label>
-                        <Label color="black" size="small">
-                            {cpEvent.cp?.organizer_name}{' '}
-                            {cpEvent.cp?.organizer_lastname}
-                        </Label>
-                    </div>
-
-                    <div>
-                        <Label color="gray" size="small">
-                            {t('email')}:
-                        </Label>
-                        <Label color="black" size="small">
-                            {cpEvent.cp?.organizer_email}
-                        </Label>
-                    </div>
-
-                    <div>
-                        <Label color="gray" size="small">
-                            {t('phone')}:
-                        </Label>
-                        <Label color="black" size="small">
-                            {cpEvent.cp?.organizer_phone}
-                        </Label>
-                    </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                    <Label color="gray" size="small">
+                        {t('organizer')}:
+                    </Label>
+                    <Label color="black" size="small">
+                        {cpEvent.cp?.organizer_name}{' '}
+                        {cpEvent.cp?.organizer_lastname}
+                    </Label>
                 </div>
-            </footer>
+
+                <div>
+                    <Label color="gray" size="small">
+                        {t('email')}:
+                    </Label>
+                    <Label color="black" size="small">
+                        {cpEvent.cp?.organizer_email}
+                    </Label>
+                </div>
+
+                <div>
+                    <Label color="gray" size="small">
+                        {t('phone')}:
+                    </Label>
+                    <Label color="black" size="small">
+                        {cpEvent.cp?.organizer_phone}
+                    </Label>
+                </div>
+            </div>
         </article>
     );
 };

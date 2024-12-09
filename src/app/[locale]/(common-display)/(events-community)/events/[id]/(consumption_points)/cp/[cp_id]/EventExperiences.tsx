@@ -1,21 +1,25 @@
-import EventExperienceDetails from './EventExperienceDetails';
+// components/EventExperiences.tsx
 import React from 'react';
 import { IEventExperience } from '@/lib/types/types';
+import EventExperienceDetails from './EventExperienceDetails';
 
 interface Props {
     eventExperiences: IEventExperience[];
 }
 
-export default function EventExperiences({ eventExperiences }: Props) {
+const EventExperiences: React.FC<Props> = ({ eventExperiences }) => {
+    if (eventExperiences.length === 0) return null;
+
     return (
-        <section className="w-fit grid-cols-1 sm:w-full grid sm:grid-cols-2 gap-2">
-            {eventExperiences.map((experience) => {
-                return (
-                    <div className="col-span-1">
-                        <EventExperienceDetails eventExperience={experience} />
-                    </div>
-                );
-            })}
-        </section>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {eventExperiences.map((experience) => (
+                <EventExperienceDetails
+                    key={experience.id}
+                    eventExperience={experience}
+                />
+            ))}
+        </div>
     );
-}
+};
+
+export default EventExperiences;

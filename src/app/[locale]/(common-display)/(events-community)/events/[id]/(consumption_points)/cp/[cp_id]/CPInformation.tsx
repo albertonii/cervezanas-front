@@ -1,18 +1,15 @@
 // components/CPInformation.tsx
 'use client';
 
+import React from 'react';
+import { useRouter } from 'next/navigation';
+import { useLocale, useTranslations } from 'next-intl';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
 import CPDetails from './CPDetails';
 import ProductList from './ProductList';
 import EventExperiences from './EventExperiences';
-import React from 'react';
-import { ROUTE_EVENTS } from '@/config';
-import { useRouter } from 'next/navigation';
-import { IEventExperience } from '@/lib/types/types';
-import { useLocale, useTranslations } from 'next-intl';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
-import Title from '@/app/[locale]/components/ui/Title';
-import Button from '@/app/[locale]/components/ui/buttons/Button';
-import Label from '@/app/[locale]/components/ui/Label';
+import { IEventExperience } from '@/lib/types/types';
 
 interface Props {
     cpEvent: IConsumptionPointEvent;
@@ -29,51 +26,50 @@ const CPInformation: React.FC<Props> = ({
     const locale = useLocale();
     const router = useRouter();
 
-    const experiencesCounter = eventExperiences.length;
+    const hasExperiences = eventExperiences.length > 0;
 
-    const handleOnClickEventComeBack = () => {
-        router.push(`/${locale}${ROUTE_EVENTS}/${eventId}`);
+    const handleBack = () => {
+        router.push(`/${locale}/events/${eventId}`);
     };
 
     return (
-        <section
-            className="relative w-full rounded-lg bg-white p-8 shadow-md bg-cover bg-center bg-no-repeat mb-8"
-            style={{ backgroundImage: "url('/assets/rec-graf2b.png')" }}
-        >
+        <section className="w-full p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md space-y-6 mb-8">
             {/* Botón de Regreso */}
             <div className="flex justify-end">
                 <Button
-                    title={'come_back_event'}
+                    title={t('back_to_event')}
                     primary
                     small
-                    onClick={handleOnClickEventComeBack}
+                    onClick={handleBack}
                 >
                     {t('back_to_event')}
                 </Button>
             </div>
 
             {/* Experiencias del Evento */}
-            {experiencesCounter > 0 && (
-                <section className="mt-6">
-                    <Title size="xlarge">{t('experiences')}</Title>
-                    <Label size="medium" color="gray">
+            {hasExperiences && (
+                <div className="space-y-4">
+                    <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
+                        {t('experiences')}
+                    </h2>
+                    <p className="text-gray-600 dark:text-gray-300">
                         {t('event_experience_participation_description', {
-                            experiencesCounter: experiencesCounter,
+                            experiencesCounter: eventExperiences.length,
                         })}
-                    </Label>
+                    </p>
                     <EventExperiences eventExperiences={eventExperiences} />
-                </section>
+                </div>
             )}
 
             {/* Detalles del Punto de Consumo */}
-            <section className="mt-8">
+            <div>
                 <CPDetails cpEvent={cpEvent} />
-            </section>
+            </div>
 
             {/* Lista de Productos */}
-            <section className="mt-6">
+            <div>
                 <ProductList cpEvent={cpEvent} eventId={eventId} />
-            </section>
+            </div>
         </section>
     );
 };
