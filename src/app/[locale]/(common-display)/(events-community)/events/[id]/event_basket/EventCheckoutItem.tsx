@@ -7,6 +7,7 @@ import React from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { IProductPackEventCartItem } from '@/lib/types/types';
 import Link from 'next/link';
+import Label from '@/app/[locale]/components/ui/Label';
 
 interface Props {
     eventId: string;
@@ -30,23 +31,23 @@ export function EventCheckoutItem({ eventId, productPack }: Props) {
     if (!productWithInfo) return null;
 
     return (
-        <>
+        <div className="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-sm space-y-2">
             {productPack && (
                 <section className="mt-4 space-y-4">
-                    <div className="flex items-baseline space-x-2">
-                        <span className=" dark:text-white">
-                            {t('product_name')}:
-                        </span>
-
-                        <Link
-                            href={`/products/${productPack.product_id}`}
-                            locale={locale}
-                            target={'_blank'}
-                        >
-                            <span className="text-lg font-semibold text-beer-draft text-right hover:text-beer-gold dark:text-white hover:underline animation-all ease-in-out duration-200">
+                    <div className="w-full flex justify-between items-baseline space-x-2">
+                        <div>
+                            <Link
+                                className="text-lg font-semibold text-beer-draft dark:text-white hover:underline hover:text-beer-draft dark:hover:text-beer-gold transition-all ease-in-out duration-200"
+                                href={`/products/${productPack.product_id}`}
+                                locale={locale}
+                            >
                                 {productPack.name}
-                            </span>
-                        </Link>
+                            </Link>
+                        </div>
+
+                        <div className="text-sm text-gray-600 dark:text-gray-300">
+                            {t('quantity')}: {productPack.quantity}
+                        </div>
                     </div>
 
                     {productPack.packs.map((pack) => (
@@ -63,6 +64,6 @@ export function EventCheckoutItem({ eventId, productPack }: Props) {
                     ))}
                 </section>
             )}
-        </>
+        </div>
     );
 }

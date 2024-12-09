@@ -290,7 +290,7 @@ export default function EventBasket({ eventId }: Props) {
 
                     <div
                         className={`
-                                jusitfy-center mt-10 flex w-full flex-col items-stretch space-y-4 md:space-y-6 xl:flex-row xl:space-x-8 xl:space-y-0
+                                jusitfy-center mt-2 flex w-full flex-col items-stretch space-y-4 md:space-y-6 xl:flex-row xl:space-x-8 xl:space-y-0
                             `}
                     >
                         {/* Products  */}

@@ -1,14 +1,11 @@
+import EventOrderItems from './EventOrderItems';
+import Title from '@/app/[locale]/components/ui/Title';
 import useEventCartStore from '@/app/store/eventCartStore';
-import EmptyCart from '@/app/[locale]/(common-display)/cart/shopping_basket/EmptyCart';
+import EventEmptyCart from '@/app/[locale]/(common-display)/cart/shopping_basket/EvemtEmptyCart';
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { EventCheckoutItem } from './EventCheckoutItem';
-import { formatCurrency } from '@/utils/formatCurrency';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import Title from '@/app/[locale]/components/ui/Title';
-import EventOrderItems from './EventOrderItems';
-import EventEmptyCart from '@/app/[locale]/(common-display)/cart/shopping_basket/EvemtEmptyCart';
 
 interface Props {
     eventId: string;
@@ -21,7 +18,7 @@ const EventBasketItems = ({ eventId, subtotal }: Props) => {
     const { eventCarts } = useEventCartStore();
 
     return (
-        <section className="relative w-full p-6 bg-white dark:bg-gray-900 rounded-lg shadow space-y-6">
+        <section className="relative w-full p-4 pt-6 bg-white dark:bg-gray-900 rounded-lg shadow space-y-6">
             <FontAwesomeIcon
                 icon={faShoppingCart}
                 title={'Shipping Info Icon'}
