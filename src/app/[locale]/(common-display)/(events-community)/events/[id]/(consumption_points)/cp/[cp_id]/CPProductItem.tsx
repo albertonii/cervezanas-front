@@ -66,14 +66,6 @@ const CPProductItem: React.FC<ProductProps> = ({
     }, [eventCarts, eventId, pack.product_id, cpProduct.cp_id, pack.id]);
 
     const handleAddToCart = () => {
-        if (!isLoggedIn) {
-            handleMessage({
-                type: 'info',
-                message: 'must_be_logged_in_add_store',
-            });
-            return;
-        }
-
         if (!pack) {
             return;
         }

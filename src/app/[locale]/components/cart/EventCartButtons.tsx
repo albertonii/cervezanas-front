@@ -1,7 +1,8 @@
 import React from 'react';
 import debounce from 'debounce';
-import { faPlus, faMinus, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { IconButton } from '../ui/buttons/IconButton';
+import { DecreaseButton } from '../ui/buttons/DecreaseButton';
+import { IncreaseButton } from '../ui/buttons/IncreaseButton';
+import { DeleteButton } from '../ui/buttons/DeleteButton';
 
 interface Props {
     quantity: number;
@@ -25,28 +26,16 @@ export default function EventCartButtons({
 
     return (
         <div className="flex items-center space-x-2">
-            <IconButton
-                onClick={onClickDecreaseDebounce}
-                classContainer="p-2 bg-beer-foam rounded hover:bg-beer-gold"
-                icon={faMinus}
-                title="Disminuir cantidad"
-                aria-label="Disminuir cantidad"
-            />
-            <span className="w-8 text-center text-lg">{quantity}</span>
-            <IconButton
-                onClick={onClickIncreaseDebounce}
-                classContainer="p-2 bg-beer-foam rounded hover:bg-beer-gold"
-                icon={faPlus}
-                title="Aumentar cantidad"
-                aria-label="Aumentar cantidad"
-            />
+            <DecreaseButton onClick={onClickDecreaseDebounce} />
+
+            <span className="text-lg font-semibold text-gray-900 dark:text-white">
+                {quantity}
+            </span>
+            <IncreaseButton onClick={onClickIncreaseDebounce} />
+
             {displayDeleteButton && (
-                <IconButton
+                <DeleteButton
                     onClick={() => handleRemoveFromCart(item.product_id)}
-                    classContainer="p-2 bg-red-600 rounded hover:bg-red-700 text-white"
-                    icon={faTrash}
-                    title="Eliminar del carrito"
-                    aria-label="Eliminar del carrito"
                 />
             )}
         </div>
