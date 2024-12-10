@@ -28,9 +28,7 @@ const EventOrderCard = ({ order, actionButton }: Props) => {
                     #{order.order_number}
                 </Label>
                 {actionButton && (
-                    <div className="mt-2 sm:mt-0 hover:border hover:border-white hover:">
-                        {actionButton}
-                    </div>
+                    <div className="mt-2 sm:mt-0">{actionButton}</div>
                 )}
             </div>
 

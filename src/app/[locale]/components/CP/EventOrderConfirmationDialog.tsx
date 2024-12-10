@@ -25,9 +25,16 @@ export function EventOrderConfirmationDialog({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div className="fixed inset-0 bg-black/50" onClick={onClose} />
-            <div className="relative bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4 shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-start justify-center sm:items-start sm:pt-20 lg:pt-36 transition-opacity duration-300 ease-in-out">
+            {/* Overlay con transición */}
+            <div
+                className="fixed inset-0 bg-black/50 transition-opacity duration-300 ease-in-out"
+                onClick={onClose}
+            />
+
+            {/* Diálogo con transición */}
+            <div className="relative bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4 shadow-xl sm:max-h-[33vh] sm:overflow-y-auto transform transition-transform duration-300 ease-in-out translate-y-0">
+                {/* Botón de cierre */}
                 <button
                     onClick={onClose}
                     className="absolute right-4 top-4 text-gray-400 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400"
@@ -35,6 +42,7 @@ export function EventOrderConfirmationDialog({
                     <X className="w-5 h-5" />
                 </button>
 
+                {/* Título y Mensaje */}
                 <Title size="large" font="semibold" color="beer-draft">
                     {title}
                 </Title>
@@ -42,6 +50,7 @@ export function EventOrderConfirmationDialog({
                     {message}
                 </Label>
 
+                {/* Botones de Confirmación y Cancelación */}
                 <div className="flex justify-between space-x-4 mt-4">
                     <Button
                         primary
