@@ -19,7 +19,7 @@ const EventOrderSummary: React.FC<Props> = ({
     total,
     onSubmit,
 }) => {
-    const t = useTranslations();
+    const t = useTranslations('event');
     const { eventCarts } = useEventCartStore();
 
     const hasItems = (eventCarts[eventId] || []).length > 0;

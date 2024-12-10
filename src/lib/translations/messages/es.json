@@ -1566,7 +1566,12 @@
         "complete_order_action": "Entregar",
         "prepare_order_action": "Preparar",
         "ready_order_action": "Completar",
-        "next_status_action": "Siguiente Estado"
+        "next_status_action": "Siguiente Estado",
+        "pay_online": "Pagar online",
+        "pay_on_site": "Pagar en el sitio",
+        "payment_method": "Método de pago",
+        "subtotal": "Subtotal",
+        "summary": "Resumen"
     },
     "cp_management": "Administrar Puntos de Consumo",
     "cp_in_events": "Puntos de Consumo en Eventos"

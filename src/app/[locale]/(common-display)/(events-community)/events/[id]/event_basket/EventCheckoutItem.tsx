@@ -31,7 +31,7 @@ export function EventCheckoutItem({ eventId, productPack }: Props) {
     if (!productWithInfo) return null;
 
     return (
-        <div className="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-sm space-y-2">
+        <div className="bg-gray-100 dark:bg-gray-700 rounded-lg shadow-sm space-y-2">
             {productPack && (
                 <section className="space-y-4">
                     <div className="w-full flex justify-between items-baseline space-x-2">

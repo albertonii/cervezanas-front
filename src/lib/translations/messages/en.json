@@ -1464,7 +1464,12 @@
         "complete_order_action": "Complete",
         "prepare_order_action": "Prepare",
         "ready_order_action": "Ready",
-        "next_status_action": "Next status"
+        "next_status_action": "Next status",
+        "pay_online": "Pay online",
+        "pay_on_site": "Pay on site",
+        "payment_method": "Payment method",
+        "subtotal": "Subtotal",
+        "summary": "Summary"
     },
 
     "cp_management": "Manage Consumption Points",

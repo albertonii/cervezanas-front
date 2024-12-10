@@ -72,9 +72,9 @@ export default function EventCheckoutPackItem({
     };
 
     return (
-        <div className="flex flex-col md:flex-row items-center bg-white dark:bg-gray-900 rounded-lg shadow p-4 mb-6">
+        <div className="flex flex-col md:flex-row items-center bg-white dark:bg-gray-900 rounded-lg shadow py-4">
             {/* Imagen del producto */}
-            <figure className="w-full md:w-1/3 flex justify-center mb-4 md:mb-0">
+            <figure className="w-full md:w-1/4 xl:w-1/3 flex justify-center mb-4 md:mb-0">
                 <DisplayImageProduct
                     imgSrc={
                         BASE_PRODUCTS_URL + decodeURIComponent(pack.img_url)
@@ -82,12 +82,12 @@ export default function EventCheckoutPackItem({
                     alt={pack.name}
                     width={600}
                     height={600}
-                    class="h-24 w-24 md:h-32 md:w-32 lg:h-40 lg:w-40 rounded shadow"
+                    class="h-20 w-20  lg:h-24 lg:w-24 xl:h-36 xl:w-36 rounded shadow"
                 />
             </figure>
 
             {/* Detalles del producto */}
-            <div className="w-full md:w-2/3 flex flex-col md:flex-row md:items-center md:justify-between">
+            <div className="w-full  flex flex-col md:flex-row md:items-center md:justify-between">
                 <div className="flex flex-col items-center md:items-start text-center md:text-left">
                     <Label size="large" color="black" font="semibold">
                         {pack.name}
@@ -169,7 +169,7 @@ export default function EventCheckoutPackItem({
                         </div>
                     </div>
 
-                    <div className="flex w-full items-center justify-between space-x-2">
+                    <div className="w-full">
                         <Label size="xlarge" font="semibold">
                             {formatCurrency(pack.price * packQuantity)}
                         </Label>

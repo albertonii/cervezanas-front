@@ -49,7 +49,7 @@ export default function CheckoutPackItem({ productPack, pack }: Props) {
     };
 
     return (
-        <div className="flex flex-col md:flex-row items-center bg-white dark:bg-gray-900 rounded-lg shadow p-4 mb-6">
+        <div className="flex flex-col md:flex-row items-center bg-white dark:bg-gray-900 rounded-lg shadow py-4">
             {/* Imagen del producto */}
             <figure className="w-full md:w-1/3 flex justify-center mb-4 md:mb-0">
                 <DisplayImageProduct

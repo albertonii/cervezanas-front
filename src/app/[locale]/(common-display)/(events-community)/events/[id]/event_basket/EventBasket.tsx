@@ -227,7 +227,7 @@ export default function EventBasket({ eventId }: Props) {
     }, [isFormReady, merchantParameters, merchantSignature]);
 
     return (
-        <section className="flex w-full flex-row items-center justify-center sm:my-2 lg:mx-6 ">
+        <section className="flex w-full flex-row items-center justify-center sm:my-2">
             <form
                 action={`${process.env.NEXT_PUBLIC_DS_TPV_URL}`}
                 method={API_METHODS.POST}
@@ -263,7 +263,7 @@ export default function EventBasket({ eventId }: Props) {
             {loadingPayment ? (
                 <CustomLoading message={`${t('loading')}`} />
             ) : (
-                <div className="container sm:py-4 lg:py-6">
+                <div className="container sm:py-4 p-2 lg:p-6">
                     <div className="flex items-center justify-start space-x-2 space-y-2">
                         <header className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl dark:text-beer-blonde font-['NexaRust-script']">
                             <Title size="xlarge" color="beer-blonde">
