@@ -42,7 +42,7 @@ const EventOrderCard = ({ order, actionButton }: Props) => {
                     color="gray"
                     className="text-sm text-gray-600 dark:text-gray-400"
                 >
-                    {order.event_orders?.users?.username}
+                    {order.event_orders?.users?.username ?? t('guest')}
                 </Label>
             </div>
 

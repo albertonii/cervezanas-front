@@ -1,7 +1,7 @@
 'use client';
 
+import DisplayableEventOrdersCard from '../cards/DisplayableEventOrdersCard';
 import React from 'react';
-import EventOrderCard from '../cards/EventOrderCard';
 import Label, { LabelColor } from '../ui/Label';
 import { AnimatePresence, motion } from 'framer-motion';
 import { IEventOrderCPS } from '@/lib/types/eventOrders';
@@ -27,14 +27,12 @@ const cardVariants = {
     exit: { opacity: 0, y: -10, scale: 0.98 },
 };
 
-export function QueueColumn({
+export function QueueColumnOnlyView({
     title,
     icon,
     orders,
     bgColor,
     textColor,
-    actionButtonGenerator,
-    actionButtonStatus,
 }: QueueColumnProps) {
     return (
         <div
@@ -65,17 +63,7 @@ export function QueueColumn({
                             exit="exit"
                             transition={{ duration: 0.3 }}
                         >
-                            <EventOrderCard
-                                order={order}
-                                actionButton={
-                                    actionButtonStatus && actionButtonGenerator
-                                        ? actionButtonGenerator(
-                                              order.id,
-                                              actionButtonStatus,
-                                          )
-                                        : undefined
-                                }
-                            />
+                            <DisplayableEventOrdersCard order={order} />
                         </motion.div>
                     ))}
                 </AnimatePresence>
@@ -93,4 +81,4 @@ export function QueueColumn({
     );
 }
 
-export default QueueColumn;
+export default QueueColumnOnlyView;

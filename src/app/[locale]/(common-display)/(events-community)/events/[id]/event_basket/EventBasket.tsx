@@ -1,3 +1,4 @@
+// components/EventBasket.tsx
 'use client';
 
 import '@fortawesome/fontawesome-svg-core/styles.css';
@@ -9,11 +10,11 @@ import Title from '@/app/[locale]/components/ui/Title';
 import useEventCartStore from '@/app/store/eventCartStore';
 import React, { useState, useEffect, useRef } from 'react';
 import { API_METHODS } from '@/constants';
-import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { CURRENCY_ENUM } from '@/lib/enums';
 import { IProductPack } from '@/lib/types/types';
 import { formatDateForTPV } from '@/utils/formatDate';
+import { useLocale, useTranslations } from 'next-intl';
 import { useMutation, useQueryClient } from 'react-query';
 import { randomTransactionId, CURRENCIES } from 'redsys-easy';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
@@ -95,7 +96,13 @@ export default function EventBasket({ eventId }: Props) {
         return data;
     };
 
-    const handleProceedToPay = async (paymentMethod: 'online' | 'on-site') => {
+    const handleProceedToPay = async ({
+        paymentMethod,
+        guestEmail,
+    }: {
+        paymentMethod: 'online' | 'on-site';
+        guestEmail?: string;
+    }) => {
         setLoadingPayment(true);
 
         try {
@@ -117,6 +124,7 @@ export default function EventBasket({ eventId }: Props) {
                 orderNumber,
                 paymentMethod,
                 cartItems: eventCarts[eventId],
+                guestEmail: guestEmail || null, // Añadir guestEmail si existe
             };
 
             // Crear el pedido a través de la API
@@ -171,12 +179,16 @@ export default function EventBasket({ eventId }: Props) {
 
         // Información EMV3DS opcional del MERCHANT
         const merchant_EMV3DS = {
-            email: user.email,
+            email: user?.email || '', // Usar email del usuario si existe
             // homePhone: user.phone,
             // shipAddLines1: 'Calle de la Cerveza, 1',
             accInfo: {
-                chAccChange: formatDateForTPV(user.updated_at),
-                chAccDate: formatDateForTPV(user.created_at),
+                chAccChange: formatDateForTPV(
+                    user?.updated_at || new Date().toISOString(),
+                ),
+                chAccDate: formatDateForTPV(
+                    user?.created_at || new Date().toISOString(),
+                ),
                 // txnActivityYear: 2020,
             },
         };
@@ -197,7 +209,13 @@ export default function EventBasket({ eventId }: Props) {
 
     const insertOrderMutation = useMutation({
         mutationKey: ['insertEventOrder'],
-        mutationFn: handleProceedToPay,
+        mutationFn: ({
+            paymentMethod,
+            guestEmail,
+        }: {
+            paymentMethod: 'online' | 'on-site';
+            guestEmail?: string;
+        }) => handleProceedToPay({ paymentMethod, guestEmail }),
         onError: (error: any) => {
             console.error(error);
             handleMessage({
@@ -208,9 +226,12 @@ export default function EventBasket({ eventId }: Props) {
         },
     });
 
-    const onSubmit = (paymentMethod: 'online' | 'on-site') => {
+    const onSubmit = (
+        paymentMethod: 'online' | 'on-site',
+        guestEmail?: string,
+    ) => {
         try {
-            insertOrderMutation.mutate(paymentMethod);
+            insertOrderMutation.mutate({ paymentMethod, guestEmail });
         } catch (e) {
             console.error(e);
             handleMessage({
@@ -264,13 +285,11 @@ export default function EventBasket({ eventId }: Props) {
                 <CustomLoading message={`${t('loading')}`} />
             ) : (
                 <div className="container sm:py-4 p-2 lg:p-6">
-                    <div className="flex items-center justify-start space-x-2 space-y-2">
-                        <header className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl dark:text-beer-blonde font-['NexaRust-script']">
-                            <Title size="xlarge" color="beer-blonde">
-                                {t('checkout')}
-                            </Title>
-                        </header>
-                    </div>
+                    <header className="flex items-center justify-start space-x-2 space-y-2 text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl dark:text-beer-blonde font-['NexaRust-script']">
+                        <Title size="xlarge" color="beer-blonde">
+                            {t('checkout')}
+                        </Title>
+                    </header>
 
                     <div
                         className={`
@@ -292,6 +311,7 @@ export default function EventBasket({ eventId }: Props) {
                             subtotal={subtotal}
                             total={total}
                             onSubmit={onSubmit}
+                            isGuest={!user} // Si no hay usuario, es invitado
                         />
                     </div>
                 </div>

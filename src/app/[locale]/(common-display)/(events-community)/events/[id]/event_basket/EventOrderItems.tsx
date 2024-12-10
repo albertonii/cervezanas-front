@@ -18,7 +18,7 @@ const EventOrderItems: React.FC<Props> = ({ eventId, subtotal }) => {
     const cartItems = eventCarts[eventId] || [];
 
     return (
-        <div className="space-y-4 bg-gray-700 p-2 rounded-lg">
+        <div className="space-y-4 bg-gray-50 dark:bg-gray-700 p-2 rounded-lg shadow-md">
             {cartItems.map((productPack) => (
                 <EventCheckoutItem
                     key={productPack.id}

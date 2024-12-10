@@ -70,7 +70,7 @@ export default function PaymentInformation({ order }: Props) {
                     <dt className="font-medium text-gray-900 dark:text-white">
                         {t('total')}
                     </dt>
-                    <dd className="font-medium text-beer-draft dark:text-beer-amber">
+                    <dd className="font-bold text-beer-draft dark:text-beer-softBlonde">
                         {formatCurrency(total)}
                     </dd>
                 </div>

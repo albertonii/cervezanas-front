@@ -28,23 +28,13 @@ export default function SuccessCheckoutInSitePayment({
     const { event_order_cps: eventOrderCPs } = order;
     const { clearCart } = useEventCartStore();
 
-    const t = useTranslations();
+    const t = useTranslations('event');
 
     const [loading, setLoading] = useState(true);
-    const { user } = useAuth();
-
-    useEffect(() => {
-        if (user) {
-            setLoading(false);
-        }
-
-        return () => {
-            setLoading(true);
-        };
-    }, [user]);
 
     useEffect(() => {
         clearCart(order.event_id);
+        setLoading(false);
     }, []);
 
     const handleInvoicePdf = () => {
@@ -54,17 +44,16 @@ export default function SuccessCheckoutInSitePayment({
 
     if (isError) {
         return (
-            <section className="container mx-auto flex flex-col space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0 sm:py-4 lg:py-6">
-                <span className="sm:items-baseline sm:space-x-4">
-                    <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-3xl">
-                        {t('order_erorr')}
-                    </h1>
-                </span>
+            <section className="container mx-auto flex flex-col space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0 sm:py-4 lg:py-6 sm:items-baseline sm:space-x-4">
+                <Title size="xlarge" font="bold" color="gray">
+                    {t('order_erorr')}
+                </Title>
             </section>
         );
     }
 
-    if (loading) return <Spinner color="beer-blonde" size="fullScreen" />;
+    if (loading)
+        return <Spinner color="beer-blonde" size="fullScreen" absolute />;
 
     return (
         <section className="m-4 sm:py-4 lg:py-6 w-full">
@@ -139,7 +128,7 @@ export default function SuccessCheckoutInSitePayment({
                 ))}
 
             {/* Información de Pago */}
-            <div className="mt-16 w-full border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg sm:border">
+            <div className="w-full border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg sm:border">
                 <PaymentInformation order={order} />
             </div>
         </section>

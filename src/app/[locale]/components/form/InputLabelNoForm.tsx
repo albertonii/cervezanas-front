@@ -2,11 +2,9 @@
 
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { UseFormReturn } from 'react-hook-form';
 import { InfoTooltip } from '../ui/InfoTooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { DisplayInputError } from '../ui/DisplayInputError';
 
 interface Props {
     label: string;
@@ -76,6 +74,7 @@ const InputLabelNoForm = ({
                         value={value}
                         onInput={onInput}
                         id={label}
+                        onChange={onChange}
                     />
                 </label>
             )}
@@ -110,6 +109,7 @@ const InputLabelNoForm = ({
                         onInput={onInput}
                         id={label}
                         step={isNumberWithDecimals ? '0.01' : '1'}
+                        onChange={onChange}
                     />
                 </label>
             )}

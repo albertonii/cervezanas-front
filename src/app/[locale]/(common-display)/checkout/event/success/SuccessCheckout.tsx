@@ -143,7 +143,7 @@ export default function SuccessCheckout({
                 ))}
 
             {/* Información de Pago */}
-            <div className="mt-16 w-full border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg sm:border">
+            <div className="w-full border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg sm:border">
                 <PaymentInformation order={order} />
             </div>
         </section>

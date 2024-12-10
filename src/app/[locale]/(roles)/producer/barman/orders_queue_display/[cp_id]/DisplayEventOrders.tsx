@@ -11,6 +11,7 @@ import { EVENT_ORDER_CPS_STATUS } from '@/constants';
 import { IEventOrderCPS } from '@/lib/types/eventOrders';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { QueueColumn } from '@/app/[locale]/components/CP/QueueColumn';
+import QueueColumnOnlyView from '@/app/[locale]/components/CP/QueueColumnOnlyView';
 
 interface Props {
     cpId: string;
@@ -134,7 +135,7 @@ export function DisplayEventOrders({ cpId }: Props) {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-6 h-full overflow-auto ">
                     {/* Pedidos Nuevos */}
-                    <QueueColumn
+                    <QueueColumnOnlyView
                         title={t('new_orders', {
                             numberOfOrders: pendingOrders.length,
                         })}
@@ -151,7 +152,7 @@ export function DisplayEventOrders({ cpId }: Props) {
                     />
 
                     {/* En Preparación */}
-                    <QueueColumn
+                    <QueueColumnOnlyView
                         title={t('preparing_orders', {
                             numberOfOrders: preparingOrders.length,
                         })}
@@ -168,7 +169,7 @@ export function DisplayEventOrders({ cpId }: Props) {
                     />
 
                     {/* Listos para Entregar */}
-                    <QueueColumn
+                    <QueueColumnOnlyView
                         title={t('ready_orders', {
                             numberOfOrders: readyOrders.length,
                         })}

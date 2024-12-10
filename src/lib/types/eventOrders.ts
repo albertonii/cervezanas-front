@@ -7,7 +7,7 @@ export interface IEventOrder {
     id: string;
     created_at: string;
     updated_at: string;
-    customer_id: string;
+    customer_id?: string;
     event_id: string;
     status: string; //     'with_services_to_consume'| 'order_placed'| 'paid'| 'served'| 'error';
     total: number;
@@ -17,6 +17,7 @@ export interface IEventOrder {
     discount_code: string;
     order_number: string;
     tax: number;
+    guest_email?: string;
     users?: IUserTable;
     events?: IEvent[];
     event_order_cps?: IEventOrderCPS[];

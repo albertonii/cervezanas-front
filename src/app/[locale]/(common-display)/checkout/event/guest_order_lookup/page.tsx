@@ -1,63 +1,38 @@
+import readUserSession from '@/lib/actions';
+import GuestOrderLookup from './GuestOrderLookup';
 import createServerClient from '@/utils/supabaseServer';
-import SuccessCheckoutInSitePayment from './SuccessCheckoutInSitePayment';
-import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { IEventOrder } from '@/lib/types/eventOrders';
 
-export async function generateMetadata({ searchParams }: any) {
-    try {
-        const { order_number } = searchParams;
-
-        if (!order_number) {
-            return {
-                title: 'Not found',
-                description: 'The page you are looking for does not exists',
-            };
-        }
-
-        return {
-            title: {
-                default: 'Pedido completado | Cervezanas',
-                template: `%s | Cervezanas`,
-            },
-            description: 'Checkout order information displaying in this page',
-        };
-    } catch (error) {
-        return {
-            title: 'Not found',
-            description: 'The page you are looking for does not exists',
-        };
-    }
-}
-
 export default async function SuccessPage({ searchParams }: any) {
-    const headersList = headers();
+    const { order_number, guest_email } = searchParams as {
+        order_number: string;
+        guest_email: string;
+    };
 
-    const domain = headersList.get('host'); // to get domain
-
-    if (!domain) {
-        return <></>;
+    if (!order_number || !guest_email) {
+        return {
+            isError: true,
+            orderData: null,
+        };
     }
 
-    const { orderData, isError } = await getSuccessData(searchParams);
-
-    const [order] = await Promise.all([orderData]);
-
-    return (
-        <>
-            {order && (
-                <SuccessCheckoutInSitePayment
-                    order={order}
-                    isError={isError}
-                    domain={domain}
-                />
-            )}
-        </>
+    const { orderData, isError } = await getLookupData(
+        order_number,
+        guest_email,
     );
+
+    if (isError) {
+        return {
+            isError: true,
+            orderData: null,
+        };
+    }
+
+    return <GuestOrderLookup order={orderData} />;
 }
 
-async function getSuccessData(searchParams: any) {
-    const { order_number: orderNumber } = searchParams;
-
+async function getLookupData(orderNumber: string, guestEmail: string) {
     const supabase = await createServerClient();
 
     const { data: orderData, error: orderError } = await supabase
