@@ -33,42 +33,54 @@ const CPInformation: React.FC<Props> = ({
     };
 
     return (
-        <section className="w-full p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md space-y-6 mb-8">
-            {/* Botón de Regreso */}
-            <div className="flex justify-end">
-                <Button
-                    title={t('back_to_event')}
-                    primary
-                    small
-                    onClick={handleBack}
-                >
-                    {t('back_to_event')}
-                </Button>
-            </div>
-
-            {/* Experiencias del Evento */}
-            {hasExperiences && (
-                <div className="space-y-4">
-                    <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
-                        {t('experiences')}
-                    </h2>
-                    <p className="text-gray-600 dark:text-gray-300">
-                        {t('event_experience_participation_description', {
-                            experiencesCounter: eventExperiences.length,
-                        })}
-                    </p>
-                    <EventExperiences eventExperiences={eventExperiences} />
+        <section className="relative w-full max-w-7xl lg:max-w-none mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {/* Contenedor Principal con Sombras Mejoradas */}
+            <div className="shadow-2xl relative w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl transition-shadow duration-500">
+                {/* Botón de Regreso */}
+                <div className="flex justify-end p-6">
+                    <Button
+                        title={t('back_to_event')}
+                        primary
+                        small
+                        onClick={handleBack}
+                    >
+                        {t('back_to_event')}
+                    </Button>
                 </div>
-            )}
 
-            {/* Detalles del Punto de Consumo */}
-            <div>
-                <CPDetails cpEvent={cpEvent} />
-            </div>
+                {/* Contenido Principal */}
+                <div className="space-y-6 p-6">
+                    {/* Experiencias del Evento */}
+                    {hasExperiences && (
+                        <div className="bg-gray-50 dark:bg-gray-700 rounded-xl shadow-lg p-6">
+                            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
+                                {t('experiences')}
+                            </h2>
+                            <p className="text-gray-600 dark:text-gray-300 mb-4">
+                                {t(
+                                    'event_experience_participation_description',
+                                    {
+                                        experiencesCounter:
+                                            eventExperiences.length,
+                                    },
+                                )}
+                            </p>
+                            <EventExperiences
+                                eventExperiences={eventExperiences}
+                            />
+                        </div>
+                    )}
 
-            {/* Lista de Productos */}
-            <div>
-                <ProductList cpEvent={cpEvent} eventId={eventId} />
+                    {/* Detalles del Punto de Consumo */}
+                    <div className="bg-gray-50 dark:bg-gray-700 rounded-xl shadow-lg p-6">
+                        <CPDetails cpEvent={cpEvent} />
+                    </div>
+
+                    {/* Lista de Productos */}
+                    <div className="bg-gray-50 dark:bg-gray-700 rounded-xl shadow-lg p-6">
+                        <ProductList cpEvent={cpEvent} eventId={eventId} />
+                    </div>
+                </div>
             </div>
         </section>
     );

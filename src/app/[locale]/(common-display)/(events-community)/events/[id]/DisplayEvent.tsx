@@ -1,16 +1,10 @@
 'use client';
 
-import ConsumptionPointTableData from './ConsumptionPointTableData';
 import Title from '@/app/[locale]/components/ui/Title';
-import TH from '@/app/[locale]/components/ui/table/TH';
-import TR from '@/app/[locale]/components/ui/table/TR';
 import Label from '@/app/[locale]/components/ui/Label';
-import Table from '@/app/[locale]/components/ui/table/Table';
-import THead from '@/app/[locale]/components/ui/table/THead';
-import TBody from '@/app/[locale]/components/ui/table/TBody';
 import useEventCartStore from '@/app/store/eventCartStore';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import { ROUTE_EVENTS } from '@/config';
 import { useRouter } from 'next/navigation';
 import { IEvent } from '@/lib/types/eventOrders';
@@ -18,9 +12,10 @@ import { IEventExperience } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { IBMExperienceParticipants } from '@/lib/types/quiz';
-import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import ConsumptionPointsTable from './ConsumptionPointsTable';
+import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import GoogleMapLocationForEvent from '@/app/[locale]/components/common/GoogleMapLocationForEvent';
+import { ChipCard } from '@/app/[locale]/components/ui/ChipCard';
 
 interface Props {
     event: IEvent;
@@ -71,21 +66,23 @@ export default function DisplayEvent({
     };
 
     return (
-        <section className="relative w-full max-w-7xl lg:max-w-none mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-white dark:bg-gray-900 shadow-md rounded-lg transition-colors duration-300">
-            {/* Botón de Volver */}
-            <div className="flex justify-end mb-6">
-                <Button
-                    title={t('come_back_events')}
-                    primary
-                    small
-                    onClick={handleOnClickEventComeBack}
-                >
-                    {t('come_back_events')}
-                </Button>
-            </div>
+        <section className="relative w-full max-w-7xl lg:max-w-none mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {/* Contenedor Principal con Sombras Mejoradas */}
+            <div className="shadow-2xl relative w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl transition-shadow duration-500">
+                {/* Botón de Volver */}
+                <div className="flex justify-end p-6">
+                    <Button
+                        title={t('come_back_events')}
+                        primary
+                        small
+                        onClick={handleOnClickEventComeBack}
+                    >
+                        {t('come_back_events')}
+                    </Button>
+                </div>
 
-            {/* Escondemos el código de las Experiencias en el BBF  */}
-            {/* <div className=" rounded-md bg-white border-4 px-4 text-lg text-center space-y-4 py-4 shadow-xl mb-8">
+                {/* Escondemos el código de las Experiencias en el BBF  */}
+                {/* <div className=" rounded-md bg-white border-4 px-4 text-lg text-center space-y-4 py-4 shadow-xl mb-8">
                 <h1 className="font-semibold text-2xl">
                     ¡Encuentra las {BMExperiencesCount} Experiencias de Maestro
                     Cervecero!
@@ -145,51 +142,51 @@ export default function DisplayEvent({
                 )}
             </div> */}
 
-            {/* Información del Evento */}
-            <div className="grid grid-cols-2 bg-gradient-to-r from-beer-draft to-beer-gold dark:from-beer-draft dark:to-beer-gold rounded-t-lg p-6">
-                <div>
-                    <h1 className="text-3xl font-bold text-white">
-                        {event.name}
-                    </h1>
-                    <p className="mt-2 text-gray-200 dark:text-gray-300">
-                        {event.description}
-                    </p>
-                    <div className="mt-4 flex flex-col sm:flex-row sm:space-x-6 text-gray-100 dark:text-gray-300">
+                {/* Contenido Principal */}
+                <div className="space-y-6 p-6">
+                    {/* Información del Evento */}
+                    <div className="grid grid-cols-2 bg-gradient-to-r from-beer-draft to-beer-gold dark:from-beer-draft dark:to-beer-gold rounded-lg p-6">
                         <div>
-                            <span className="font-semibold">
-                                {t('start_date')}:
-                            </span>
-                            {formatDateString(event.start_date)}
-                        </div>
-                        <div className="mt-2 sm:mt-0">
-                            <span className="font-semibold">
-                                {t('end_date')}:
-                            </span>{' '}
-                            {formatDateString(event.end_date)}
-                        </div>
-                    </div>
-                    <div className="mt-4">
-                        <span
-                            className={`inline-block px-3 py-1 text-sm font-semibold rounded-full ${
-                                event.status === 'active'
-                                    ? 'bg-green-500 text-white'
-                                    : 'bg-red-500 text-white'
-                            }`}
-                        >
-                            {event.status === 'active'
-                                ? t('active')
-                                : t('inactive')}
-                        </span>
-                    </div>
-                </div>
+                            <Title size="xlarge" color="gray">
+                                {event.name}
+                            </Title>
+                            <Label color="gray" className="mt-2">
+                                {event.description}
+                            </Label>
 
-                <div>
-                    {/* Mapa de Puntos de Consumo */}
-                    <GoogleMapLocationForEvent event={event} />
-                </div>
+                            <div className="mt-4 flex flex-col sm:flex-row sm:space-x-6 text-gray-100 dark:text-gray-300">
+                                <div>
+                                    <Label color="gray" size="small">
+                                        {t('start_date')}:
+                                    </Label>
+                                    <Label color="black" size="small">
+                                        {formatDateString(event.start_date)}
+                                    </Label>
+                                </div>
+                                <div className="mt-2 sm:mt-0">
+                                    <Label color="gray" size="small">
+                                        {t('end_date')}:
+                                    </Label>
+                                    <Label color="black" size="small">
+                                        {formatDateString(event.end_date)}
+                                    </Label>
+                                </div>
+                            </div>
 
-                {/* Organizer information */}
-                {/* <div className="mb-4">
+                            {event.status && (
+                                <div className="mt-4">
+                                    <ChipCard content={event.status} />
+                                </div>
+                            )}
+                        </div>
+
+                        <div>
+                            {/* Mapa de Puntos de Consumo */}
+                            <GoogleMapLocationForEvent event={event} />
+                        </div>
+
+                        {/* Organizer information */}
+                        {/* <div className="mb-4">
                     <span className="text-gray-500">
                         Organizer: {event.organizer_name}{' '}
                         {event.organizer_lastname}
@@ -201,11 +198,11 @@ export default function DisplayEvent({
                         Phone: {event.organizer_phone}
                     </span>
                 </div> */}
-            </div>
+                    </div>
 
-            {/* Sección de Experiencias (Opcional) */}
-            {/* Descomentar si es necesario */}
-            {/* 
+                    {/* Sección de Experiencias (Opcional) */}
+                    {/* Descomentar si es necesario */}
+                    {/* 
             <div className="bg-white dark:bg-gray-800 rounded-b-lg p-6 mt-4 shadow-md">
                 <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">
                     {t('experiences')}
@@ -244,9 +241,9 @@ export default function DisplayEvent({
             </div>
             */}
 
-            {/* Tabla de Puntos de Consumo */}
-            {/* Organizer information */}
-            {/* <div className="mb-4">
+                    {/* Tabla de Puntos de Consumo */}
+                    {/* Organizer information */}
+                    {/* <div className="mb-4">
                 <span className="text-gray-500">
                 Organizer: {event.organizer_name} {event.organizer_lastname}
                 </span>
@@ -258,27 +255,29 @@ export default function DisplayEvent({
                 </span>
             </div> */}
 
-            {/* Products linked to this Consumption Point */}
-            <div className="mt-8">
-                {cpsEvents.length > 0 ? (
-                    <div className="overflow-x-auto">
-                        <Title size="xlarge" color="beer-blonde">
-                            {t('cp')}
-                        </Title>
+                    {/* Products linked to this Consumption Point */}
+                    <div className="mt-8">
+                        {cpsEvents.length > 0 ? (
+                            <div className="overflow-x-auto bg-gray-50 dark:bg-gray-700 rounded-xl shadow-lg p-6">
+                                <Title size="xlarge" color="beer-blonde">
+                                    {t('cp')}
+                                </Title>
 
-                        <ConsumptionPointsTable
-                            consumptionPoints={cpsEvents}
-                            eventId={event.id}
-                        />
+                                <ConsumptionPointsTable
+                                    consumptionPoints={cpsEvents}
+                                    eventId={event.id}
+                                />
+                            </div>
+                        ) : (
+                            <>
+                                <Title size="xlarge" color="beer-blonde">
+                                    {t('cp')}
+                                </Title>
+                                <Label>{t('no_cp')}</Label>
+                            </>
+                        )}
                     </div>
-                ) : (
-                    <>
-                        <Title size="xlarge" color="beer-blonde">
-                            {t('cp')}
-                        </Title>
-                        <Label>{t('no_cp')}</Label>
-                    </>
-                )}
+                </div>
             </div>
         </section>
     );

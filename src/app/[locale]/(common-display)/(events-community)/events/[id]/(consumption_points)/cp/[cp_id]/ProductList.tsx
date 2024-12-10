@@ -28,8 +28,8 @@ const ProductList: React.FC<Props> = ({ cpEvent, eventId }) => {
     return (
         <>
             {activeCPProducts && activeCPProducts.length > 0 && (
-                <section className="mt-8">
-                    <Title size="large" color="gray">
+                <section>
+                    <Title size="xlarge" color="beer-blonde">
                         {t('products')}
                     </Title>
 

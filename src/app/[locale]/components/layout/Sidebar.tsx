@@ -79,7 +79,7 @@ export function Sidebar({ sidebarLinks }: Props) {
                 >
                     <FontAwesomeIcon
                         icon={open ? faTimes : faBars}
-                        className="h-6 w-6 text-gray-700"
+                        className="h-6 w-6 text-gray-700 dark:text-gray-200"
                     />
                 </Button>
             </div>

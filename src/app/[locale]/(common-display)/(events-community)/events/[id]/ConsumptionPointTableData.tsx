@@ -68,7 +68,7 @@ const ConsumptionPointTableData: React.FC<CPProps> = ({ cp, eventId }) => {
 
             {/* Estado */}
             <TD>
-                <span className={statusClasses}>{t(cp.cp?.status)}</span>
+                <span className={statusClasses}>{t(cp.status)}</span>
             </TD>
         </TR>
     );

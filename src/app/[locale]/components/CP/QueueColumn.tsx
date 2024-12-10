@@ -5,6 +5,7 @@ import EventOrderCard from '../cards/EventOrderCard';
 import Label, { LabelColor } from '../ui/Label';
 import { AnimatePresence, motion } from 'framer-motion';
 import { IEventOrderCPS } from '@/lib/types/eventOrders';
+import DisplayableEventOrdersCard from '../cards/DisplayableEventOrdersCard';
 
 // Tipos de Props para QueueColumn
 interface QueueColumnProps {
@@ -65,17 +66,7 @@ export function QueueColumn({
                             exit="exit"
                             transition={{ duration: 0.3 }}
                         >
-                            <EventOrderCard
-                                order={order}
-                                actionButton={
-                                    actionButtonStatus && actionButtonGenerator
-                                        ? actionButtonGenerator(
-                                              order.id,
-                                              actionButtonStatus,
-                                          )
-                                        : undefined
-                                }
-                            />
+                            <DisplayableEventOrdersCard order={order} />
                         </motion.div>
                     ))}
                 </AnimatePresence>

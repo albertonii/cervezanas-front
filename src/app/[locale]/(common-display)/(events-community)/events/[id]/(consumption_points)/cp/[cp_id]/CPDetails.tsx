@@ -13,10 +13,10 @@ const CPDetails: React.FC<Props> = ({ cpEvent }) => {
     const t = useTranslations();
 
     return (
-        <article className="p-6 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner space-y-4">
+        <article className="bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner space-y-4">
             {/* Título y Descripción */}
             <header>
-                <Title size="large" color="gray">
+                <Title size="xlarge" color="gray">
                     {cpEvent.cp?.cp_name}
                 </Title>
                 <Label size="medium" color="gray">
