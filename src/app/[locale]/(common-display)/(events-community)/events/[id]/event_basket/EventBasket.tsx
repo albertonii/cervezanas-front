@@ -311,7 +311,6 @@ export default function EventBasket({ eventId }: Props) {
                             subtotal={subtotal}
                             total={total}
                             onSubmit={onSubmit}
-                            isGuest={!user} // Si no hay usuario, es invitado
                         />
                     </div>
                 </div>

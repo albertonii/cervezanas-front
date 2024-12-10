@@ -4,10 +4,11 @@ import Title from '@/app/[locale]/components/ui/Title';
 import Label from '@/app/[locale]/components/ui/Label';
 import useEventCartStore from '@/app/store/eventCartStore';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
 import InputLabelNoForm from '@/app/[locale]/components/form/InputLabelNoForm';
+import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 
 interface Props {
     eventId: string;
@@ -17,7 +18,6 @@ interface Props {
         paymentMethod: 'online' | 'on-site',
         guestEmail?: string,
     ) => void;
-    isGuest: boolean;
 }
 
 const EventOrderSummary: React.FC<Props> = ({
@@ -25,10 +25,10 @@ const EventOrderSummary: React.FC<Props> = ({
     subtotal,
     total,
     onSubmit,
-    isGuest,
 }) => {
     const t = useTranslations('event');
     const { eventCarts } = useEventCartStore();
+    const { user } = useAuth();
 
     const hasItems = (eventCarts[eventId] || []).length > 0;
 
@@ -36,7 +36,13 @@ const EventOrderSummary: React.FC<Props> = ({
         'online',
     );
 
+    const [isGuest, setIsGuest] = useState(false);
+
     const [guestEmail, setGuestEmail] = useState('');
+
+    useEffect(() => {
+        setIsGuest(!user && paymentMethod === 'on-site');
+    }, [user, paymentMethod]);
 
     const handlePaymentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPaymentMethod(e.target.value as 'online' | 'on-site');
@@ -101,6 +107,7 @@ const EventOrderSummary: React.FC<Props> = ({
                     />
                     <Label htmlFor="online">{t('pay_online')}</Label>
                 </div>
+
                 <div className="flex items-center">
                     <input
                         type="radio"
