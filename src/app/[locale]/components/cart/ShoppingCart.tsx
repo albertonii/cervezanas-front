@@ -93,7 +93,7 @@ export function ShoppingCart() {
                                                 <div className="ml-3 flex h-7 items-center">
                                                     <button
                                                         type="button"
-                                                        className="-m-2 p-2 text-gray-400 hover:text-gray-500"
+                                                        className="-m-2 p-2 text-gray-400 hover:text-gray-500 border-white border-2 rounded-full bg-beer-dark"
                                                         onClick={() => {
                                                             closeCart();
                                                         }}
@@ -112,7 +112,7 @@ export function ShoppingCart() {
                                             <div className="mt-8 flow-root">
                                                 <ul
                                                     role="list"
-                                                    className="-my-6 divide-y divide-gray-200"
+                                                    className="-my-6 divide-y divide-gray-200 pr-2"
                                                 >
                                                     {items &&
                                                         items.map((item) => (

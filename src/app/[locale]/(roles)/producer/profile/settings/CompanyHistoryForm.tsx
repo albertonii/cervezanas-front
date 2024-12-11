@@ -132,7 +132,7 @@ export function CompanyHistoryForm({ profile }: Props) {
                     {t('history_title_acc_data')}
                 </Title>
 
-                <Label>
+                <Label className="block text-sm sm:text-base h-[auto]">
                     <i>{t('company_history_description_descriptive')}</i>
                 </Label>
             </div>
@@ -141,7 +141,7 @@ export function CompanyHistoryForm({ profile }: Props) {
                 onSubmit={handleSubmit(onSubmit)}
                 className="relative space-y-2"
             >
-                <div className="flex w-full flex-row space-x-3 ">
+                <div className="block sm:flex w-full sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
                     <InputLabel
                         form={form}
                         inputType={'number'}
@@ -180,7 +180,7 @@ export function CompanyHistoryForm({ profile }: Props) {
                     </div>
                 </div>
 
-                <div className="flex w-full flex-row space-x-3 ">
+                <div className="block sm:flex w-full sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
                     <InputTextarea
                         form={form}
                         label={'company_history_description'}

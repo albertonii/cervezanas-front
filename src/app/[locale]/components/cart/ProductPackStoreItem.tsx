@@ -208,7 +208,7 @@ export function ProductPackStoreItem({ product }: StoreItemProps) {
 
                         <div className="mt-2 flex flex-col items-start space-y-2 text-sm font-medium text-gray-800">
                             <select
-                                className="w-full rounded border-gray-300 px-2 py-1 focus:border-yellow-400 focus:outline-none"
+                                className="w-full rounded border-gray-300 px-2 py-1 focus:border-yellow-400 focus:outline-none bg-gray-100"
                                 onChange={(e) => {
                                     const pack = packs?.find(
                                         (pack) => pack.id === e.target.value,

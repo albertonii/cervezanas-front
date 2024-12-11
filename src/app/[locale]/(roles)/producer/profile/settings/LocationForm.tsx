@@ -169,7 +169,7 @@ export function LocationForm({ profile_location }: Props) {
                 onSubmit={handleSubmit(onSubmit)}
                 className="relative space-y-2"
             >
-                <address className="flex w-full flex-row space-x-3 ">
+                <address className="block sm:flex w-full sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
                     <InputLabel
                         form={form}
                         label={'addressName'}

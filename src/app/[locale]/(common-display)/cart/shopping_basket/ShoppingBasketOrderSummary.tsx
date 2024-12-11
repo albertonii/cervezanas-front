@@ -69,7 +69,7 @@ const ShoppingBasketOrderSummary = ({
                 </div>
 
                 {/* Proceed to pay */}
-                <div className="flex flex-col w-full items-center justify-center md:items-start md:justify-start gap-2">
+                <div className="block sm:flex flex-col w-full items-center justify-center md:items-start md:justify-start gap-2">
                     <Button
                         large
                         primary
@@ -81,6 +81,7 @@ const ShoppingBasketOrderSummary = ({
                         warningIfDisabled={t(
                             'need_to_select_shipping_and_billing_address',
                         )}
+                        class='w-[220px] py-4 !px-0 uppercase mb-6  font-bold'
                     >
                         {t('check_can_delivery_to_address')}
                     </Button>
@@ -91,6 +92,7 @@ const ShoppingBasketOrderSummary = ({
                         title={t('proceed_to_pay')}
                         disabled={!canMakeThePayment || needsToCheckDelivery}
                         onClick={onSubmit}
+                        class='w-full p-4 uppercase font-weight:800'
                     >
                         {t('proceed_to_pay')}
                     </Button>

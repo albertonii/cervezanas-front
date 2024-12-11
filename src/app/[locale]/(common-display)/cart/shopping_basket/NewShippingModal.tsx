@@ -125,7 +125,7 @@ export function NewShippingModal({ shippingAddressesLength }: Props) {
             triggerBtnTitle={t('add_shipping_address')}
             description={''}
             icon={faAdd}
-            classContainer={`!w-1/2 ${isSubmitting && 'opacity-75'}`}
+            classContainer={`!w-full sm:!w-1/2 ${isSubmitting && 'opacity-75'}`}
             handler={handleSubmit(onSubmit)}
             form={form}
         >

@@ -228,7 +228,7 @@ const InputLabel = ({
 
                     <span
                         className={
-                            'z-10 absolute cursor-pointer right-[0.8em] top-0'
+                            'z-10 float-right -top-[48px] sm:-top-[44px] right-[1px] relative cursor-pointer w-[37px] h-[40px] sm:h-[37px] pt-[8px] border-gray-200 border-l-2 text-center'
                         }
                     >
                         <FontAwesomeIcon

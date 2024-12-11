@@ -85,8 +85,8 @@ export function CartPackItem({ item, pack }: Props) {
                                     <span>{pack.name}</span>
                                 </div>
 
-                                <div className="flex flex-1 items-end justify-between text-sm">
-                                    <p className="text-gray-500 dark:text-white">
+                                <div className="block flex-1 items-end justify-between text-sm">
+                                    <p className="text-gray-500 dark:text-white mb-4">
                                         {t('quantity')} {pack.quantity}
                                     </p>
 

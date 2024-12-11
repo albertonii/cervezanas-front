@@ -63,7 +63,7 @@ const NewBillingModal = ({ billingAddressesLength }: Props) => {
             description={''}
             icon={faAdd}
             btnSize={'small'}
-            classContainer={`!w-1/2 `}
+            classContainer={`!w-full sm:!w-1/2 `}
             handler={handleSubmitBillingForm}
         >
             <>

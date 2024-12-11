@@ -139,7 +139,7 @@ const VerticalFilterMenu = () => {
             <div className="flex flex-col md:flex-row gap-8">
                 <button
                     onClick={toggleSidebar}
-                    className="text-sm text-gray-600 hover:underline block md:hidden text-left font-semibold pl-2"
+                    className="text-sm text-gray-600 hover:underline block md:hidden text-left font-semibold pl-2 bg-gray-200 w-[150px] py-1 rounded-r-xl mt-4"
                 >
                     {isSidebarVisible
                         ? '< Ocultar Filtros'
