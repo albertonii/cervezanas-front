@@ -66,15 +66,18 @@ export default function SuccessCheckoutInSitePayment({
                             {t('order_number')} #{order.order_number}
                         </Title>
 
-                        <Label
-                            onClick={() => handleInvoicePdf()}
-                            font="link"
-                            size="small"
-                            className="dark:text-beer-amber"
-                        >
-                            {t('view_invoice')}
-                            <span aria-hidden="true"> &rarr;</span>
-                        </Label>
+                        {order.status !== EVENT_ORDER_STATUS.PENDING_PAYMENT &&
+                            order.status !== EVENT_ORDER_STATUS.ERROR && (
+                                <Label
+                                    onClick={() => handleInvoicePdf()}
+                                    font="link"
+                                    size="small"
+                                    className="dark:text-beer-amber"
+                                >
+                                    {t('view_invoice')}
+                                    <span aria-hidden="true"> &rarr;</span>
+                                </Label>
+                            )}
                     </span>
 
                     {/* Estado del Pedido */}
