@@ -89,14 +89,6 @@ export default function ErrorCheckout({ eventOrder, isError }: Props) {
                                 {formatDateString(eventOrder.created_at)}
                             </time>
                         </Label>
-                        <Link
-                            href="#"
-                            locale={locale}
-                            className="text-sm font-medium hover:text-beer-blonde sm:hidden"
-                        >
-                            {t('view_invoice')}
-                            <span aria-hidden="true"> &rarr;</span>
-                        </Link>
                     </div>
 
                     {/* Productos */}

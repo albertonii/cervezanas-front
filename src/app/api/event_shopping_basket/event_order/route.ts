@@ -82,8 +82,6 @@ export async function POST(request: NextRequest) {
             // Asegurarse de que cada item tenga la URL del producto
             const enrichedCartItems = await Promise.all(
                 cartItems.map(async (item: IProductPackEventCartItem) => {
-                    console.log('item', item);
-
                     return {
                         product_id: item.packs[0].id,
                         product_name: item.name,
@@ -180,7 +178,7 @@ export async function POST(request: NextRequest) {
         for (const cpCPSId in eventOrderCps) {
             const initialStateForCPs =
                 paymentMethod === 'online'
-                    ? EVENT_ORDER_CPS_STATUS.NOT_STARTED
+                    ? EVENT_ORDER_CPS_STATUS.PENDING // TODO: VOLVER -> Originalmente era NOT_STARTED y el consumidor debía de presionar en el botón para iniciar el de preparación. De esta manera para eventos más grandes sería útil.
                     : EVENT_ORDER_CPS_STATUS.PENDING_PAYMENT;
 
             const cpsOrderNumber = generateOrderNumber(paymentMethod);

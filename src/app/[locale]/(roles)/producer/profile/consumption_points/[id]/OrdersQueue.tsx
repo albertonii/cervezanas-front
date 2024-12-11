@@ -7,11 +7,12 @@ import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { OrderActions } from './OrderActions';
 import { IEventOrderCPS } from '@/lib/types/eventOrders';
-import { PendingPaymentColumn } from './PendingPaymentColumn';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 import { OrdersQueueColumnManager } from './OrdersQueueColumnManager';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
+import { sendPickupEmail } from '../../actions';
+import { EVENT_ORDER_CPS_STATUS } from '@/constants';
 
 interface Props {
     cp: IConsumptionPointEvent;
@@ -49,8 +50,6 @@ export function OrdersQueue({ cp }: Props) {
         );
     }, [orders]);
 
-    // Importa el tipo correcto
-
     const handleUpdateStatus = async (
         orderId: string,
         newStatus: any, // Cambiado de IEventOrder['status'] a EventOrderCPSStatus
@@ -66,21 +65,46 @@ export function OrdersQueue({ cp }: Props) {
             );
 
             // Actualizar en Supabase
-            const { error } = await supabase
+            const { data, error } = await supabase
                 .from('event_order_cps')
                 .update({ status: newStatus })
-                .eq('id', orderId);
+                .eq('id', orderId)
+                .select(
+                    `
+                        order_number,
+                        event_orders (
+                            guest_email,
+                            users (
+                                email
+                            ),
+                            events (
+                                name
+                            )
+                        ),
+                        cp_events (
+                            cp_name,
+                            stand_location
+                        ),
+                        event_order_items (
+                            *,
+                            product_packs (
+                                *,
+                                products (name)
+                            )
+                        )
+                    `,
+                )
+                .single();
+
+            const eventOrder = data as IEventOrderCPS;
 
             if (error) {
                 handleMessage({
                     message: 'Error al actualizar el pedido',
                     type: 'error',
                 });
-            } else if (newStatus === 'ready') {
-                handleMessage({
-                    message: `¡Pedido actualizado a listo!`,
-                    type: 'success',
-                });
+            } else if (newStatus === EVENT_ORDER_CPS_STATUS.READY) {
+                await sendPickupEmail(eventOrder);
             }
         } catch (err) {
             handleMessage({

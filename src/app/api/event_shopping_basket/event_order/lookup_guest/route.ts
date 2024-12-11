@@ -9,8 +9,6 @@ export async function GET(request: NextRequest) {
     const email = searchParams.get('email');
     const orderNumber = searchParams.get('order_number');
 
-    console.log('email', email, 'orderNumber', orderNumber);
-
     // Validaciones básicas
     if (!email || !orderNumber) {
         return NextResponse.json(

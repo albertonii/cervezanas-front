@@ -41,8 +41,6 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        console.log(order_items);
-
         // Construir el HTML del correo electrónico
         const orderItemsHTML = order_items
             .map(

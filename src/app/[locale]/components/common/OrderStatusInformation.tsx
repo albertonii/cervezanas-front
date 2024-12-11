@@ -4,6 +4,7 @@ import { ONLINE_ORDER_STATUS } from '@/constants';
 import { IOrder } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
+import Label from '../ui/Label';
 
 interface Props {
     order: IOrder;
@@ -27,13 +28,15 @@ const OrderStatusInformation = ({ order, orderStatus }: Props) => {
                         {t('order_number')} #{order.order_number}
                     </h1>
 
-                    <p
+                    <Label
                         onClick={() => handleInvoicePdf()}
-                        className="mt-4 hidden text-sm font-medium tracking-wide text-gray-500 hover:cursor-pointer hover:text-beer-blonde sm:ml-2 sm:mt-0 sm:block"
+                        font="link"
+                        size="small"
+                        className="dark:text-beer-amber"
                     >
                         {t('view_invoice')}
                         <span aria-hidden="true"> &rarr;</span>
-                    </p>
+                    </Label>
                 </span>
 
                 {/* Order Status  */}

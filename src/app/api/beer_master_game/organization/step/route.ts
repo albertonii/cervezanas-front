@@ -44,8 +44,6 @@ export async function PUT(request: NextRequest) {
             throw new Error('No se pudo obtener el ID del paso actualizado');
         }
 
-        console.log(bmStepsQuestions);
-
         const questionsData: IQuestion[] = bmStepsQuestions.map(
             (question: IQuestion) => ({
                 id: question.id,

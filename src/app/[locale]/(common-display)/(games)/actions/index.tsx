@@ -1,7 +1,4 @@
-import {
-    IConfigurationStepFormData,
-    IStepFormData,
-} from '@/lib/types/beerMasterGame';
+import { IConfigurationStepFormData } from '@/lib/types/beerMasterGame';
 import axios from 'axios';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;

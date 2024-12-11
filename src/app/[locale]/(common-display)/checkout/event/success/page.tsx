@@ -75,8 +75,6 @@ async function getSuccessData(searchParams: any) {
         Ds_Signature: string;
     };
 
-    console.log('Ds_MerchantParameters', Ds_MerchantParameters);
-
     const {
         Ds_Order: orderNumber,
         Ds_Date,
@@ -108,11 +106,11 @@ async function getSuccessData(searchParams: any) {
         'Marca Tarjeta': Ds_Card_Brand,
     };
 
-    console.log('=== Datos de la Transacción ===');
-    Object.entries(logData).forEach(([key, value]) => {
-        console.log(`${key}: ${value}`);
-    });
-    console.log('==============================');
+    // console.log('=== Datos de la Transacción ===');
+    // Object.entries(logData).forEach(([key, value]) => {
+    //     console.log(`${key}: ${value}`);
+    // });
+    // console.log('==============================');
 
     const supabase = await createServerClient();
 

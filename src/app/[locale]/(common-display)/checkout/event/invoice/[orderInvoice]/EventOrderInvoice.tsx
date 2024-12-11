@@ -138,8 +138,6 @@ interface Props {
 }
 
 export default function EventOrderInvoice({ order }: Props) {
-    console.log(order);
-
     return (
         <PDFViewer style={styles.viewer}>
             <Document

@@ -339,10 +339,6 @@ export async function calculateCheapestShippingCostsByDistributor(
     }[] = await Promise.all(
         distributionContracts.map(async (distributionContract) => {
             try {
-                console.log(
-                    distributionContract.distributor_user?.distribution_costs,
-                );
-
                 if (
                     distributionContract.distributor_user?.distribution_costs
                         ?.distribution_costs_in_product
@@ -415,8 +411,6 @@ export async function calculateCheapestShippingCostsByDistributor(
             : validShippingCosts.reduce((prev, current) =>
                   prev.delivery_cost! < current.delivery_cost! ? prev : current,
               );
-
-    console.log('Cheapest shipping cost:', cheapestShippingCost);
 
     return cheapestShippingCost;
 }

@@ -20,7 +20,6 @@ export async function UpdateEventCPOrderStatus(
         });
 
         if (response.status === 200) {
-            console.log('Updated event CP order status:', response.data);
             return { data: response.data, status: response.status };
         } else {
             console.error('Failed to update CP order status:', response);
