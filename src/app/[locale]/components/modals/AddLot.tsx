@@ -155,7 +155,7 @@ export function AddLot() {
                 <form>
                     <section className="relative flex w-full flex-auto flex-col  py-6">
                         {/* Lot Name Lot Number */}
-                        <div className="flex w-full flex-row space-x-3 ">
+                        <div className="block sm:flex w-full sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
                             <InputLabel
                                 form={form}
                                 label={'lot_name'}
@@ -176,7 +176,7 @@ export function AddLot() {
                         </div>
 
                         {/* Quantity & Quantity Notification */}
-                        <div className="flex w-full flex-row space-x-3 ">
+                        <div className="block sm:flex w-full sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
                             <InputLabel
                                 form={form}
                                 label={'quantity'}
@@ -201,7 +201,7 @@ export function AddLot() {
                         </div>
 
                         {/* Manufacture Date & Expiration Date */}
-                        <div className="flex w-full flex-row space-x-3 ">
+                        <div className="block sm:flex w-full sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
                             <InputLabel
                                 form={form}
                                 label={'manufacture_date'}

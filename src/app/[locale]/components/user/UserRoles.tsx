@@ -80,7 +80,7 @@ const UserRoles = () => {
                     {t('profile_title_roles')}
                 </Title>
 
-                <Label>
+                <Label className="block text-sm sm:text-base h-[auto]">
                     <i>{t('profile_description_roles')}</i>
                 </Label>
 

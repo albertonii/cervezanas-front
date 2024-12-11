@@ -96,11 +96,11 @@ const ProfileSidebarLayout = ({ children, sidebarLinks }: Props) => {
             <section className="h-full w-full">
                 {/* Background Image */}
                 <section
-                    className="relative h-full w-full bg-bear-alvine border-b-8 border-cerv-coal shadow-lg"
+                    className="relative h-full w-full bg-bear-alvine"
                     aria-label="Custom Header"
                 >
                     <Image
-                        className="max-h-[20vh] w-full object-cover md:max-h-[25vh]"
+                        className="max-h-[20vh] w-full object-cover md:max-h-[25vh] border-b-8 border-cerv-titlehigh"
                         width={1260}
                         height={240}
                         src={'/assets/producer_layout_bg.jpg'}

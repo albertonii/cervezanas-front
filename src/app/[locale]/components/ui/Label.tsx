@@ -41,7 +41,7 @@ export default function Label({
     return (
         <label
             htmlFor={htmlFor}
-            className={`${sizeClass[size]} ${colorClass[color]} ${fontClass[font]}  ${className} flex flex-col items-start space-y-2 dark:text-gray-300 justify-center`}
+            className={`${sizeClass[size]} ${colorClass[color]} ${fontClass[font]}  ${className} flex flex-col items-start space-y-2 dark:text-gray-300 text-cerv-titlehigh tracking-wide font-semibold justify-center`}
         >
             {children}
         </label>

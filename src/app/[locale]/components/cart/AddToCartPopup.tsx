@@ -1,11 +1,18 @@
+'use client';
+
 import { motion } from 'framer-motion';
 import React from 'react';
+import { useAuth } from '../../(auth)/Context/useAuth';
 
 interface Props {
     onClose?: () => void;
 }
 
 const AddToCartPopup = ({ onClose }: Props) => {
+    const { user } = useAuth(); // Obtiene la información del usuario
+
+    if (!user) return null; // Si no hay usuario logueado, no mostrar el popup
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 50 }}

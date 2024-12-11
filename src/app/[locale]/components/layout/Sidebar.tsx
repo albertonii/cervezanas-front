@@ -92,7 +92,7 @@ export function Sidebar({ sidebarLinks }: Props) {
                             : '-translate-x-full lg:translate-x-0'
                     } fixed top-0 left-0 z-10 h-full w-64 transform bg-white duration-300 ease-in-out shadow-lg lg:relative lg:top-0 
                     lg:left-0 lg:shadow-none lg:transform-none lg:block bg-gradient-to-t from-slate-50 to-gray-100
-                    overflow-y-auto dark:bg-gray-700 rounded-lg
+                    overflow-y-auto dark:bg-beer-dark dark:bg-opacity-80 rounded-lg
                     `}
                     aria-label="Sidebar"
                     id="default-sidebar"

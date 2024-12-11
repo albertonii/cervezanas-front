@@ -138,7 +138,7 @@ export function ProducerBasicDataForm({ profile }: Props) {
                     {t(profile.is_authorized ? 'yes' : 'no')}
                 </div>
 
-                <div className="flex w-full flex-row space-x-3 ">
+                <div className="block sm:flex w-full sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
                     <InputLabel
                         form={form}
                         label={'company_name'}
@@ -168,7 +168,7 @@ export function ProducerBasicDataForm({ profile }: Props) {
                     />
                 </div>
 
-                <div className="flex w-full flex-row space-x-3 ">
+                <div className="block sm:flex w-full sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 ">
                     <InputLabel
                         form={form}
                         label={'company_phone'}
@@ -191,7 +191,7 @@ export function ProducerBasicDataForm({ profile }: Props) {
                     />
                 </div>
 
-                <div className="flex w-full flex-row space-x-3 ">
+                <div className="block sm:flex w-full sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
                     <InputTextarea
                         form={form}
                         label={'company_description'}

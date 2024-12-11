@@ -156,7 +156,7 @@ export default function MobileMenu({
                 {/* Hamburguer menu  */}
                 <Button
                     data-collapse-toggle="navbar-default"
-                    class="absolute top-2 z-10 ml-3  inline-flex items-center rounded-lg border-beer-softBlonde p-2 text-sm text-beer-softBlonde transition-all duration-300 hover:border-beer-draft hover:text-beer-draft focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 h-[50px] bg-beer-draft"
+                    class="absolute top-2 z-10 ml-3  inline-flex items-center rounded-lg border-beer-softBlonde p-2 text-sm text-beer-softBlonde transition-all duration-300 hover:border-beer-draft hover:text-beer-draft focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 h-[50px] bg-beer-draft w-[50px]"
                     aria-controls="navbar-default"
                     aria-expanded="false"
                     onClick={() => setOpenHamburger(true)}
@@ -192,7 +192,7 @@ export default function MobileMenu({
 
                 {/* Logo Cervezanas  */}
                 <div className="relative flex h-16 w-full flex-shrink-0 justify-center md:h-20 lg:h-24 overflow-hidden">
-                    <figure className="absolute flex h-[55px] w-[55px] right-0 p-2 sm:h-[65px] sm:w-[65px] sm:p-2 sm:mr-8 sm:mt-2 lg:h-[153] lg:w-[151px] ">
+                    <figure className="absolute flex h-[55px] w-[55px] right-3 sm:right-0 p-2 sm:h-[65px] sm:w-[65px] sm:p-2 sm:mr-8 mt-1 sm:mt-2 lg:h-[153] lg:w-[151px] ">
                         <Link href={'/'} locale={locale}>
                             <Image
                                 src="/logo_cervezanas.svg"

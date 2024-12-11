@@ -402,12 +402,12 @@ export function ShoppingBasket({ user }: Props) {
                 <CustomLoading message={`${t('loading')}`} />
             ) : (
                 <div className="container sm:py-4 lg:py-6">
-                    <div className="flex items-center justify-start space-x-2 space-y-2">
-                        <header className="text-2xl font-extrabold tracking-tight sm:text-6xl text-beer-blonde font-['NexaRust-script']">
+                    <div className="block items-center justify-start space-x-2 space-y-2">
+                        <header className="text-6xl font-extrabold tracking-tight sm:text-7xl text-beer-blonde font-['NexaRust-script']">
                             {t('checkout')}
                         </header>
 
-                        <figure className="flex w-full flex-row items-center border-b pb-4 sm:w-auto sm:border-b-0 sm:pb-0">
+                        <figure className="flex w-full flex-row items-center border-b pb-4 sm:w-auto sm:border-b-0 sm:pb-0 bg-white">
                             <span className="h-10 w-10 text-yellow-500">
                                 <FontAwesomeIcon
                                     icon={faInfoCircle}

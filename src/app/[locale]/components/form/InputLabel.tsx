@@ -77,7 +77,7 @@ const InputLabel = ({
                 inputType === 'url' ||
                 inputType === 'date') && (
                 <label
-                    className={`flex-col flex w-full items-start space-y-2 text-sm text-gray-600 dark:text-gray-300`}
+                    className={`flex-col flex w-full items-start space-y-2 text-xs sm:text-sm text-gray-600 dark:text-gray-300`}
                     htmlFor={label}
                 >
                     <span className="font-medium">
@@ -228,7 +228,7 @@ const InputLabel = ({
 
                     <span
                         className={
-                            'z-10 absolute cursor-pointer right-[0.8em] top-0'
+                            'z-10 float-right -top-[48px] sm:-top-[44px] right-[1px] relative cursor-pointer w-[37px] h-[40px] sm:h-[37px] pt-[8px] border-gray-200 border-l-2 text-center'
                         }
                     >
                         <FontAwesomeIcon
