@@ -52,7 +52,7 @@ export default function SuccessCheckout({
     }, [santanderResponse]);
 
     const handleInvoicePdf = () => {
-        const invoiceUrl = `/checkout/invoice/${order.order_number}`;
+        const invoiceUrl = `/checkout/event/invoice/${order.order_number}`;
         window.open(invoiceUrl, '_blank');
     };
 

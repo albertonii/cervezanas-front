@@ -19,7 +19,7 @@ export interface IEventOrder {
     tax: number;
     guest_email?: string;
     users?: IUserTable;
-    events?: IEvent[];
+    events?: IEvent;
     event_order_cps?: IEventOrderCPS[];
 }
 

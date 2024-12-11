@@ -248,7 +248,7 @@ export default function EventBasket({ eventId }: Props) {
     }, [isFormReady, merchantParameters, merchantSignature]);
 
     return (
-        <section className="relative w-full max-w-7xl lg:max-w-none mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <section className="flex w-full flex-row items-center justify-center sm:my-2">
             <form
                 action={`${process.env.NEXT_PUBLIC_DS_TPV_URL}`}
                 method={API_METHODS.POST}
@@ -291,7 +291,7 @@ export default function EventBasket({ eventId }: Props) {
                         </Title>
                     </header>
 
-                    <div className="justify-center mt-2flex w-full flex-col items-stretch space-y-4 md:space-y-6 xl:flex-row xl:space-x-8 xl:space-y-0">
+                    <div className="justify-center lg:mt-2 flex w-full flex-col items-stretch space-y-4 md:space-y-6 xl:flex-row xl:space-x-8 xl:space-y-0">
                         {/* Productos */}
                         <EventBasketItems
                             eventId={eventId}

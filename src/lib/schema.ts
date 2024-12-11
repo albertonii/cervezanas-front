@@ -1336,7 +1336,6 @@ export type Database = {
       }
       cp_events: {
         Row: {
-          address: string | null
           cp_description: string | null
           cp_id: string | null
           cp_name: string | null
@@ -1346,14 +1345,16 @@ export type Database = {
           has_pending_payment: boolean | null
           id: string
           is_active: boolean | null
+          is_booking_required: boolean | null
           is_cervezanas_event: boolean | null
+          maximum_capacity: number | null
           owner_id: string | null
           stand_location: string | null
           start_date: string | null
+          status: string | null
           view_configuration: string | null
         }
         Insert: {
-          address?: string | null
           cp_description?: string | null
           cp_id?: string | null
           cp_name?: string | null
@@ -1363,14 +1364,16 @@ export type Database = {
           has_pending_payment?: boolean | null
           id?: string
           is_active?: boolean | null
+          is_booking_required?: boolean | null
           is_cervezanas_event?: boolean | null
+          maximum_capacity?: number | null
           owner_id?: string | null
           stand_location?: string | null
           start_date?: string | null
+          status?: string | null
           view_configuration?: string | null
         }
         Update: {
-          address?: string | null
           cp_description?: string | null
           cp_id?: string | null
           cp_name?: string | null
@@ -1380,10 +1383,13 @@ export type Database = {
           has_pending_payment?: boolean | null
           id?: string
           is_active?: boolean | null
+          is_booking_required?: boolean | null
           is_cervezanas_event?: boolean | null
+          maximum_capacity?: number | null
           owner_id?: string | null
           stand_location?: string | null
           start_date?: string | null
+          status?: string | null
           view_configuration?: string | null
         }
         Relationships: [
@@ -1399,154 +1405,6 @@ export type Database = {
             columns: ["event_id"]
             isOneToOne: false
             referencedRelation: "events"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      cp_fixed: {
-        Row: {
-          address: string | null
-          cp_description: string | null
-          cp_id: string | null
-          cp_name: string | null
-          created_at: string | null
-          end_date: string | null
-          geoArgs: Json | null
-          id: string
-          is_booking_required: boolean | null
-          is_internal_organizer: boolean | null
-          logo_url: string | null
-          maximum_capacity: number | null
-          organizer_email: string | null
-          organizer_lastname: string | null
-          organizer_name: string | null
-          organizer_phone: string | null
-          owner_id: string | null
-          start_date: string | null
-          status: string | null
-        }
-        Insert: {
-          address?: string | null
-          cp_description?: string | null
-          cp_id?: string | null
-          cp_name?: string | null
-          created_at?: string | null
-          end_date?: string | null
-          geoArgs?: Json | null
-          id?: string
-          is_booking_required?: boolean | null
-          is_internal_organizer?: boolean | null
-          logo_url?: string | null
-          maximum_capacity?: number | null
-          organizer_email?: string | null
-          organizer_lastname?: string | null
-          organizer_name?: string | null
-          organizer_phone?: string | null
-          owner_id?: string | null
-          start_date?: string | null
-          status?: string | null
-        }
-        Update: {
-          address?: string | null
-          cp_description?: string | null
-          cp_id?: string | null
-          cp_name?: string | null
-          created_at?: string | null
-          end_date?: string | null
-          geoArgs?: Json | null
-          id?: string
-          is_booking_required?: boolean | null
-          is_internal_organizer?: boolean | null
-          logo_url?: string | null
-          maximum_capacity?: number | null
-          organizer_email?: string | null
-          organizer_lastname?: string | null
-          organizer_name?: string | null
-          organizer_phone?: string | null
-          owner_id?: string | null
-          start_date?: string | null
-          status?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "cp_fixed_cp_id_fkey"
-            columns: ["cp_id"]
-            isOneToOne: false
-            referencedRelation: "consumption_points"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      cp_mobile: {
-        Row: {
-          address: string | null
-          cp_description: string | null
-          cp_id: string | null
-          cp_name: string | null
-          created_at: string | null
-          end_date: string | null
-          geoArgs: Json | null
-          id: string
-          is_booking_required: boolean | null
-          is_internal_organizer: boolean | null
-          logo_url: string | null
-          maximum_capacity: number | null
-          organizer_email: string | null
-          organizer_lastname: string | null
-          organizer_name: string | null
-          organizer_phone: string | null
-          owner_id: string | null
-          start_date: string | null
-          status: string | null
-        }
-        Insert: {
-          address?: string | null
-          cp_description?: string | null
-          cp_id?: string | null
-          cp_name?: string | null
-          created_at?: string | null
-          end_date?: string | null
-          geoArgs?: Json | null
-          id?: string
-          is_booking_required?: boolean | null
-          is_internal_organizer?: boolean | null
-          logo_url?: string | null
-          maximum_capacity?: number | null
-          organizer_email?: string | null
-          organizer_lastname?: string | null
-          organizer_name?: string | null
-          organizer_phone?: string | null
-          owner_id?: string | null
-          start_date?: string | null
-          status?: string | null
-        }
-        Update: {
-          address?: string | null
-          cp_description?: string | null
-          cp_id?: string | null
-          cp_name?: string | null
-          created_at?: string | null
-          end_date?: string | null
-          geoArgs?: Json | null
-          id?: string
-          is_booking_required?: boolean | null
-          is_internal_organizer?: boolean | null
-          logo_url?: string | null
-          maximum_capacity?: number | null
-          organizer_email?: string | null
-          organizer_lastname?: string | null
-          organizer_name?: string | null
-          organizer_phone?: string | null
-          owner_id?: string | null
-          start_date?: string | null
-          status?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "cp_mobile_cp_id_fkey"
-            columns: ["cp_id"]
-            isOneToOne: false
-            referencedRelation: "consumption_points"
             referencedColumns: ["id"]
           },
         ]
@@ -1601,183 +1459,6 @@ export type Database = {
           },
           {
             foreignKeyName: "cp_products_product_pack_id_fkey"
-            columns: ["product_pack_id"]
-            isOneToOne: false
-            referencedRelation: "product_packs"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      cpf_events: {
-        Row: {
-          cp_id: string
-          created_at: string | null
-          event_id: string
-          is_active: boolean | null
-          is_cervezanas_event: boolean | null
-          owner_id: string | null
-        }
-        Insert: {
-          cp_id: string
-          created_at?: string | null
-          event_id: string
-          is_active?: boolean | null
-          is_cervezanas_event?: boolean | null
-          owner_id?: string | null
-        }
-        Update: {
-          cp_id?: string
-          created_at?: string | null
-          event_id?: string
-          is_active?: boolean | null
-          is_cervezanas_event?: boolean | null
-          owner_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "cpf_events_cp_id_fkey"
-            columns: ["cp_id"]
-            isOneToOne: false
-            referencedRelation: "cp_fixed"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "cpf_events_event_id_fkey"
-            columns: ["event_id"]
-            isOneToOne: false
-            referencedRelation: "events"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      cpf_products: {
-        Row: {
-          cp_id: string | null
-          created_at: string | null
-          id: string
-          is_active: boolean | null
-          product_pack_id: string | null
-          stock: number | null
-          stock_consumed: number | null
-        }
-        Insert: {
-          cp_id?: string | null
-          created_at?: string | null
-          id?: string
-          is_active?: boolean | null
-          product_pack_id?: string | null
-          stock?: number | null
-          stock_consumed?: number | null
-        }
-        Update: {
-          cp_id?: string | null
-          created_at?: string | null
-          id?: string
-          is_active?: boolean | null
-          product_pack_id?: string | null
-          stock?: number | null
-          stock_consumed?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "cpf_products_cp_id_fkey"
-            columns: ["cp_id"]
-            isOneToOne: false
-            referencedRelation: "cp_fixed"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "cpf_products_product_pack_id_fkey"
-            columns: ["product_pack_id"]
-            isOneToOne: true
-            referencedRelation: "product_packs"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      cpm_events: {
-        Row: {
-          cp_id: string
-          event_id: string
-          id: string
-          is_active: boolean | null
-          is_cervezanas_event: boolean | null
-          owner_id: string | null
-        }
-        Insert: {
-          cp_id: string
-          event_id: string
-          id?: string
-          is_active?: boolean | null
-          is_cervezanas_event?: boolean | null
-          owner_id?: string | null
-        }
-        Update: {
-          cp_id?: string
-          event_id?: string
-          id?: string
-          is_active?: boolean | null
-          is_cervezanas_event?: boolean | null
-          owner_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "cpm_events_cp_id_fkey"
-            columns: ["cp_id"]
-            isOneToOne: false
-            referencedRelation: "cp_mobile"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "cpm_events_event_id_fkey"
-            columns: ["event_id"]
-            isOneToOne: false
-            referencedRelation: "events"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      cpm_products: {
-        Row: {
-          cp_id: string | null
-          created_at: string | null
-          id: string
-          is_active: boolean | null
-          price: number | null
-          product_pack_id: string | null
-          stock: number | null
-          stock_consumed: number | null
-        }
-        Insert: {
-          cp_id?: string | null
-          created_at?: string | null
-          id?: string
-          is_active?: boolean | null
-          price?: number | null
-          product_pack_id?: string | null
-          stock?: number | null
-          stock_consumed?: number | null
-        }
-        Update: {
-          cp_id?: string | null
-          created_at?: string | null
-          id?: string
-          is_active?: boolean | null
-          price?: number | null
-          product_pack_id?: string | null
-          stock?: number | null
-          stock_consumed?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "cpm_products_cp_id_fkey"
-            columns: ["cp_id"]
-            isOneToOne: false
-            referencedRelation: "cp_mobile"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "cpm_products_product_pack_id_fkey"
             columns: ["product_pack_id"]
             isOneToOne: false
             referencedRelation: "product_packs"
@@ -2095,6 +1776,7 @@ export type Database = {
           cp_id: string | null
           created_at: string
           event_order_id: string | null
+          has_pending_payment: boolean | null
           id: string
           notes: string | null
           order_number: string | null
@@ -2104,6 +1786,7 @@ export type Database = {
           cp_id?: string | null
           created_at?: string
           event_order_id?: string | null
+          has_pending_payment?: boolean | null
           id?: string
           notes?: string | null
           order_number?: string | null
@@ -2113,6 +1796,7 @@ export type Database = {
           cp_id?: string | null
           created_at?: string
           event_order_id?: string | null
+          has_pending_payment?: boolean | null
           id?: string
           notes?: string | null
           order_number?: string | null
@@ -2191,6 +1875,7 @@ export type Database = {
           discount: number | null
           discount_code: string | null
           event_id: string | null
+          guest_email: string | null
           id: string
           order_number: string | null
           status: string | null
@@ -2206,6 +1891,7 @@ export type Database = {
           discount?: number | null
           discount_code?: string | null
           event_id?: string | null
+          guest_email?: string | null
           id?: string
           order_number?: string | null
           status?: string | null
@@ -2221,6 +1907,7 @@ export type Database = {
           discount?: number | null
           discount_code?: string | null
           event_id?: string | null
+          guest_email?: string | null
           id?: string
           order_number?: string | null
           status?: string | null
@@ -2291,6 +1978,7 @@ export type Database = {
       events: {
         Row: {
           address: string | null
+          category: string | null
           created_at: string | null
           description: string | null
           end_date: string | null
@@ -2307,6 +1995,7 @@ export type Database = {
         }
         Insert: {
           address?: string | null
+          category?: string | null
           created_at?: string | null
           description?: string | null
           end_date?: string | null
@@ -2323,6 +2012,7 @@ export type Database = {
         }
         Update: {
           address?: string | null
+          category?: string | null
           created_at?: string | null
           description?: string | null
           end_date?: string | null
@@ -2474,13 +2164,6 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "fixed_event_orders_cp_f_owner_fkey"
-            columns: ["cp_f_owner"]
-            isOneToOne: true
-            referencedRelation: "cp_fixed"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "fixed_event_orders_customer_id_fkey"
             columns: ["customer_id"]
