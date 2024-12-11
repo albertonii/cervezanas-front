@@ -734,7 +734,9 @@
         "toggle_is_distribution_costs_in_product": "Error updating if distribution costs are included in the product.",
         "updating_is_distribution_costs_in_product": "Error updating if distribution costs are included in the product.",
         "order_not_started": "Order has not started",
-        "error_processing_order": "Error processing order"
+        "error_processing_order": "Error processing order",
+        "invalid_email_format": "Invalid email format",
+        "guest_email_required": "Guest email is required"
     },
     "product_packs": "Product packs",
     "units": "Units",

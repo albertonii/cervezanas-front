@@ -729,7 +729,9 @@
         "toggle_is_distribution_costs_in_product": "Error al actualizar si estń incluidos los costos de distribución en el producto.",
         "updating_is_distribution_costs_in_product": "Error al actualizar si están incluidos los costos de distribución en el producto.",
         "order_not_started": "El pedido no ha comenzado",
-        "error_processing_order": "Error al procesar el pedido"
+        "error_processing_order": "Error al procesar el pedido",
+        "invalid_email_format": "Formato de email inválido",
+        "guest_email_required": "El email es obligatorio para los usuarios invitados"
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",

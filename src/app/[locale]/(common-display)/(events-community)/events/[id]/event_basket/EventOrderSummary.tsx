@@ -9,6 +9,7 @@ import { useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
 import InputLabelNoForm from '@/app/[locale]/components/form/InputLabelNoForm';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
+import { DisplayInputError } from '@/app/[locale]/components/ui/DisplayInputError';
 
 interface Props {
     eventId: string;
@@ -27,6 +28,8 @@ const EventOrderSummary: React.FC<Props> = ({
     onSubmit,
 }) => {
     const t = useTranslations('event');
+    const tError = useTranslations('errors');
+
     const { eventCarts } = useEventCartStore();
     const { user } = useAuth();
 
@@ -37,28 +40,51 @@ const EventOrderSummary: React.FC<Props> = ({
     );
 
     const [isGuest, setIsGuest] = useState(false);
-
     const [guestEmail, setGuestEmail] = useState('');
+    const [guestEmailError, setGuestEmailError] = useState<string | null>(null);
+    const [isProceedDisabled, setIsProceedDisabled] = useState(true);
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     useEffect(() => {
         setIsGuest(!user && paymentMethod === 'on-site');
     }, [user, paymentMethod]);
+
+    useEffect(() => {
+        if (!hasItems) {
+            setIsProceedDisabled(true);
+        } else if (isGuest && guestEmail.trim() === '') {
+            setIsProceedDisabled(true);
+        } else {
+            setIsProceedDisabled(false);
+        }
+    }, [hasItems, isGuest, guestEmail]);
 
     const handlePaymentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPaymentMethod(e.target.value as 'online' | 'on-site');
     };
 
     const handleProceed = () => {
-        if (isGuest && !guestEmail) {
-            // Validación: correo requerido para invitados
-            alert(t('guest_email_required'));
+        if (isGuest && !emailRegex.test(guestEmail.trim())) {
+            // Validación: correo requerido y formato válido para invitados
+            setGuestEmailError(tError('guest_email_required'));
             return;
         }
+
+        setGuestEmailError(null);
         onSubmit(paymentMethod, isGuest ? guestEmail : undefined);
     };
 
     const handleGuestEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setGuestEmail(e.target.value);
+
+        if (e.target.value === '') {
+            setGuestEmailError(tError('guest_email_required'));
+        } else if (!emailRegex.test(e.target.value.trim())) {
+            setGuestEmailError(tError('invalid_email_format'));
+        } else {
+            setGuestEmailError(null);
+        }
     };
 
     return (
@@ -88,6 +114,10 @@ const EventOrderSummary: React.FC<Props> = ({
                         onChange={handleGuestEmailChange}
                         placeholder={t('enter_email')}
                     />
+
+                    {guestEmailError && (
+                        <DisplayInputError message={guestEmailError} />
+                    )}
                 </div>
             )}
 
@@ -122,7 +152,12 @@ const EventOrderSummary: React.FC<Props> = ({
                 </div>
             </div>
 
-            <Button large primary disabled={!hasItems} onClick={handleProceed}>
+            <Button
+                large
+                primary
+                disabled={isProceedDisabled}
+                onClick={handleProceed}
+            >
                 {t('proceed_to_pay')}
             </Button>
         </div>
