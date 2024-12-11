@@ -1,7 +1,5 @@
-import readUserSession from '@/lib/actions';
 import GuestOrderLookup from './GuestOrderLookup';
 import createServerClient from '@/utils/supabaseServer';
-import { redirect } from 'next/navigation';
 import { IEventOrder } from '@/lib/types/eventOrders';
 
 export default async function SuccessPage({ searchParams }: any) {
@@ -10,11 +8,10 @@ export default async function SuccessPage({ searchParams }: any) {
         guest_email: string;
     };
 
+    console.log('SEARCH PARAMS', searchParams);
+
     if (!order_number || !guest_email) {
-        return {
-            isError: true,
-            orderData: null,
-        };
+        return <div>Error: Missing order number or guest email.</div>;
     }
 
     const { orderData, isError } = await getLookupData(
@@ -23,10 +20,7 @@ export default async function SuccessPage({ searchParams }: any) {
     );
 
     if (isError) {
-        return {
-            isError: true,
-            orderData: null,
-        };
+        return <div>Error: Unable to fetch order data.</div>;
     }
 
     return <GuestOrderLookup order={orderData} />;
@@ -92,6 +86,9 @@ async function getLookupData(orderNumber: string, guestEmail: string) {
         )
         .eq('order_number', orderNumber)
         .single();
+
+    console.log('ORDER DATA', orderData);
+    console.log('ERROR', orderError);
 
     if (orderError) {
         console.error(orderError.message);

@@ -1,17 +1,16 @@
 import EventCPOrderCard from './EventCPOrderCard';
+import Title from '@/app/[locale]/components/ui/Title';
+import Label from '@/app/[locale]/components/ui/Label';
 import React from 'react';
 import { Store } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { SupabaseProps } from '@/constants';
 import { useLocale, useTranslations } from 'next-intl';
 import { IEventOrderCPS, IEventOrderItem } from '@/lib/types/eventOrders';
-import Title from '@/app/[locale]/components/ui/Title';
-import Label from '@/app/[locale]/components/ui/Label';
-
 interface Props {
     eventOrderItem: IEventOrderItem;
     eventOrderCP: IEventOrderCPS;
-    domain: string;
+    domain?: string;
 }
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;

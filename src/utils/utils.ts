@@ -490,3 +490,19 @@ export function generateOrderNumber(
     const randomDigits = Math.floor(1000 + Math.random() * 9000); // Genera un número de 4 dígitos entre 1000 y 9999
     return `${prefix}-${randomLetter}${randomDigits}`;
 }
+
+export function parseLocale(acceptLanguage: string | null): string {
+    if (!acceptLanguage) return 'en'; // Valor por defecto
+
+    // Split por comas y puntos y coma para manejar pesos
+    const locales = acceptLanguage
+        .split(',')
+        .map((lang) => lang.split(';')[0].trim());
+
+    if (locales.length === 0) return 'en'; // Valor por defecto
+
+    // Extraer el primer locale y obtener el idioma principal (e.g., 'es' de 'es-ES')
+    const primaryLocale = locales[0].split('-')[0];
+
+    return primaryLocale;
+}

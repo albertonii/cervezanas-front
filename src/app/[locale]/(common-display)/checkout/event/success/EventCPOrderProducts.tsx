@@ -4,7 +4,7 @@ import { IEventOrderCPS } from '@/lib/types/eventOrders';
 
 interface Props {
     eventOrderCP: IEventOrderCPS;
-    domain: string;
+    domain?: string;
 }
 
 export default function EventCPOrderProducts({ eventOrderCP, domain }: Props) {
@@ -16,7 +16,6 @@ export default function EventCPOrderProducts({ eventOrderCP, domain }: Props) {
                         key={product.id}
                         eventOrderCP={eventOrderCP}
                         eventOrderItem={product}
-                        domain={domain}
                     />
                 ))}
             </div>

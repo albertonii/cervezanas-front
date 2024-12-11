@@ -5,10 +5,10 @@
 import Title from '@/app/[locale]/components/ui/Title';
 import Label from '@/app/[locale]/components/ui/Label';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
+import SuccessCheckoutInSitePayment from '../success/in_site_payment/SuccessCheckoutInSitePayment';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IEventOrder } from '@/lib/types/eventOrders';
-import { formatCurrency } from '@/utils/formatCurrency';
 
 interface Props {
     order: IEventOrder | null;
@@ -27,11 +27,13 @@ const OrderLookup = ({ order: order_ }: Props) => {
         setOrder(null);
 
         try {
-            const res = await fetch('/api/orders/lookup', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, orderNumber }),
-            });
+            const res = await fetch(
+                `/api/event_shopping_basket/event_order/lookup_guest?email=${email}&order_number=${orderNumber}`,
+                {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                },
+            );
 
             const data = await res.json();
 
@@ -84,38 +86,7 @@ const OrderLookup = ({ order: order_ }: Props) => {
             {error && <p className="mt-4 text-red-500">{error}</p>}
 
             {order && (
-                <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner">
-                    <Title size="medium" color="gray">
-                        {t('order_details')}
-                    </Title>
-                    <div className="mt-2 text-left">
-                        <p className="text-gray-700 dark:text-gray-300">
-                            <strong>{t('order_number')}:</strong>{' '}
-                            {order.order_number}
-                        </p>
-                        <p className="text-gray-700 dark:text-gray-300">
-                            <strong>{t('subtotal')}:</strong>{' '}
-                            {formatCurrency(order.subtotal)}
-                        </p>
-                        <p className="text-gray-700 dark:text-gray-300">
-                            <strong>{t('discount')}:</strong>{' '}
-                            {formatCurrency(order.discount)}
-                        </p>
-                        <p className="text-gray-700 dark:text-gray-300">
-                            <strong>{t('tax')}:</strong>{' '}
-                            {formatCurrency(order.tax)}
-                        </p>
-                        <p className="text-gray-700 dark:text-gray-300">
-                            <strong>{t('total')}:</strong>{' '}
-                            {formatCurrency(order.total)}
-                        </p>
-                        <p className="text-gray-700 dark:text-gray-300">
-                            <strong>{t('payment_method')}:</strong>{' '}
-                            {t(`payment_methods.${order.payment_method}`)}
-                        </p>
-                        {/* Añadir más detalles según sea necesario */}
-                    </div>
-                </div>
+                <SuccessCheckoutInSitePayment order={order} isError={!order} />
             )}
         </div>
     );

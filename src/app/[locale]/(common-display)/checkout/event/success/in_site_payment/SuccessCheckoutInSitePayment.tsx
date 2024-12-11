@@ -2,22 +2,21 @@
 
 import Label from '@/app/[locale]/components/ui/Label';
 import Title from '@/app/[locale]/components/ui/Title';
+import PaymentInformation from '../PaymentInformation';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
 import useEventCartStore from '@/app/store/eventCartStore';
+import EventCPOrderProducts from '../EventCPOrderProducts';
 import OrderCPEventInstructions from '@/app/[locale]/components/CP/OrderCPEventInstructions';
 import React, { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { EVENT_ORDER_STATUS } from '@/constants';
 import { formatDateString } from '@/utils/formatDate';
 import { IEventOrder } from '@/lib/types/eventOrders';
-import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
-import EventCPOrderProducts from '../EventCPOrderProducts';
-import PaymentInformation from '../PaymentInformation';
 
 interface Props {
     isError?: boolean;
     order: IEventOrder;
-    domain: string;
+    domain?: string;
 }
 
 export default function SuccessCheckoutInSitePayment({

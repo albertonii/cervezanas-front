@@ -1,17 +1,21 @@
-// app/api/event_orders/route.ts
-
-import { NextRequest, NextResponse } from 'next/server';
 import createServerClient from '@/utils/supabaseServer';
+import { generateOrderNumber, parseLocale } from '@/utils/utils';
+import { NextRequest, NextResponse } from 'next/server';
+import { IEventOrderItem } from '@/lib/types/eventOrders';
+import { IProductPackEventCartItem } from '@/lib/types/types';
 import {
     EVENT_ORDER_STATUS,
     EVENT_ORDER_CPS_STATUS,
     EVENT_ORDER_ITEM_STATUS,
 } from '@/constants';
-import { IProductPackEventCartItem } from '@/lib/types/types';
-import { generateOrderNumber } from '@/utils/utils';
 
 export async function POST(request: NextRequest) {
     const supabase = await createServerClient();
+
+    // Obtener el locale correctamente
+    const acceptLanguage = request.headers.get('accept-language');
+    const locale = parseLocale(acceptLanguage); // Utiliza la función parseLocale
+
     const body = await request.json();
 
     const {
@@ -75,23 +79,41 @@ export async function POST(request: NextRequest) {
             const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
             const guestUserUrl = `${baseUrl}/api/emails/event_order_as_guest`;
 
-            const formData = new FormData();
+            // Asegurarse de que cada item tenga la URL del producto
+            const enrichedCartItems = await Promise.all(
+                cartItems.map(async (item: IProductPackEventCartItem) => {
+                    console.log('item', item);
 
-            formData.append('email_to', guestEmail);
-            formData.append('total_price', total);
-            formData.append('subtotal_price', subtotal);
-            formData.append('order_number', orderNumber);
-            formData.append('order_items', JSON.stringify(cartItems));
-            formData.append(
-                'url_order',
-                `${baseUrl}/checkout/event/guest_order_lookup?guest_email=${guestEmail}&order_number${orderNumber}`,
+                    return {
+                        product_id: item.packs[0].id,
+                        product_name: item.name,
+                        pack_name: item.packs[0].name,
+                        price: item.packs[0].price,
+                        quantity: item.packs[0].quantity,
+                        product_url: `${baseUrl}/products/${item.product_id}`,
+                    };
+                }),
             );
-            formData.append('event_name', eventName ?? '');
 
-            // Email al productor
-            fetch(guestUserUrl, {
+            const emailPayload = {
+                email_to: guestEmail,
+                total_price: total,
+                subtotal_price: subtotal,
+                order_number: orderNumber,
+                order_items: enrichedCartItems, // Array de productos con productUrl
+                url_order: `${baseUrl}/${locale}/checkout/event/success/in_site_payment?order_number=${encodeURIComponent(
+                    orderNumber,
+                )}`,
+                event_name: eventName ?? '',
+            };
+
+            // Email al consumidor "invitado"
+            await fetch(guestUserUrl, {
                 method: 'POST',
-                body: formData,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(emailPayload),
             });
         }
     } catch (error: any) {

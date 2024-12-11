@@ -13,6 +13,8 @@ export async function POST(request: NextRequest) {
     }
 
     try {
+        const requestBody = await request.json();
+
         const {
             email_to,
             total_price,
@@ -20,24 +22,44 @@ export async function POST(request: NextRequest) {
             order_number,
             order_items,
             url_order,
-        } = await request.json();
+            event_name,
+        } = requestBody;
+
+        // Validar campos requeridos
+        if (
+            !email_to ||
+            !total_price ||
+            !subtotal_price ||
+            !order_number ||
+            !order_items ||
+            !url_order ||
+            !event_name
+        ) {
+            return NextResponse.json(
+                { message: 'Missing required fields' },
+                { status: 400 },
+            );
+        }
+
+        console.log(order_items);
 
         // Construir el HTML del correo electrónico
         const orderItemsHTML = order_items
             .map(
                 (item: {
                     product_id: string;
-                    name: string;
+                    product_name: string;
+                    pack_name: string;
                     price: string;
                     quantity: number;
-                    productUrl: string;
+                    product_url: string;
                 }) => `
-            <div class="order-item">
-                <strong>${item.name}</strong> x${item.quantity} - ${item.price}€
-                <br>
-                <a href="${item.productUrl}" target="_blank">Ver producto</a>
-            </div>
-        `,
+                    <div class="order-item">
+                        <strong>${item.product_name} - ${item.pack_name}</strong> x${item.quantity} - ${item.price}€
+                        <br>
+                        <a href="${item.product_url}" target="_blank">Ver producto</a>
+                    </div>
+                `,
             )
             .join('');
 
