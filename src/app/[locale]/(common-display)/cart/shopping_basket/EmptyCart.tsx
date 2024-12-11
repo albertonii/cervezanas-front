@@ -9,7 +9,7 @@ export default function EmptyCart() {
     const locale = useLocale();
 
     return (
-        <section className="flex flex-col items-center justify-center space-y-6 p-6 bg-gray-50 rounded-lg shadow-md">
+        <section className="flex flex-col items-center justify-center space-y-6 p-6 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-md">
             {/* Icono del carrito vacío */}
             <div className="flex flex-col items-center space-y-2">
                 <div className="flex items-center justify-center w-24 h-24 bg-beer-softBlonde rounded-full shadow-lg">

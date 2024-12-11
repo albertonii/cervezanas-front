@@ -18,7 +18,7 @@ const EventBasketItems = ({ eventId, subtotal }: Props) => {
     const { eventCarts } = useEventCartStore();
 
     return (
-        <section className="relative w-full p-4 pt-6 bg-white dark:bg-gray-900 rounded-lg shadow space-y-6">
+        <section className="relative w-full  pt-6 bg-white dark:bg-gray-800 rounded-lg shadow space-y-6">
             <FontAwesomeIcon
                 icon={faShoppingCart}
                 title={'Shipping Info Icon'}

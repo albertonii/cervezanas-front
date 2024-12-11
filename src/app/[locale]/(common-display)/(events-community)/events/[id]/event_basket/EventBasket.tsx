@@ -248,7 +248,7 @@ export default function EventBasket({ eventId }: Props) {
     }, [isFormReady, merchantParameters, merchantSignature]);
 
     return (
-        <section className="flex w-full flex-row items-center justify-center sm:my-2">
+        <section className="relative w-full max-w-7xl lg:max-w-none mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <form
                 action={`${process.env.NEXT_PUBLIC_DS_TPV_URL}`}
                 method={API_METHODS.POST}
@@ -284,26 +284,19 @@ export default function EventBasket({ eventId }: Props) {
             {loadingPayment ? (
                 <CustomLoading message={`${t('loading')}`} />
             ) : (
-                <div className="container sm:py-4 p-2 lg:p-6">
+                <div className="p-6 shadow-2xl relative w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl transition-shadow duration-500">
                     <header className="flex items-center justify-start space-x-2 space-y-2 text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl dark:text-beer-blonde font-['NexaRust-script']">
                         <Title size="xlarge" color="beer-blonde">
                             {t('checkout')}
                         </Title>
                     </header>
 
-                    <div
-                        className={`
-                                justify-center mt-2 flex w-full flex-col items-stretch space-y-4 md:space-y-6 xl:flex-row xl:space-x-8 xl:space-y-0
-                            `}
-                    >
+                    <div className="justify-center mt-2flex w-full flex-col items-stretch space-y-4 md:space-y-6 xl:flex-row xl:space-x-8 xl:space-y-0">
                         {/* Productos */}
-                        <div className="flex w-full flex-col items-start justify-start space-y-4 md:space-y-6 xl:space-y-8 ">
-                            {/* Carrito del Cliente */}
-                            <EventBasketItems
-                                eventId={eventId}
-                                subtotal={subtotal}
-                            />
-                        </div>
+                        <EventBasketItems
+                            eventId={eventId}
+                            subtotal={subtotal}
+                        />
 
                         {/* Resumen del Pedido */}
                         <EventOrderSummary

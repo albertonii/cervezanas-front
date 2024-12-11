@@ -62,7 +62,7 @@ const EventOrderSummary: React.FC<Props> = ({
     };
 
     return (
-        <div className="bg-gray-50 dark:bg-gray-900 rounded-lg shadow space-y-4 px-4 py-6 md:p-6 xl:w-96 xl:p-4 text-center">
+        <div className="bg-gray-50 dark:bg-gray-700 rounded-lg shadow-lg space-y-4 px-4 py-6 md:p-6 xl:w-96 xl:p-4 text-center ">
             <Title size="large" color="gray">
                 {t('summary')}
             </Title>
