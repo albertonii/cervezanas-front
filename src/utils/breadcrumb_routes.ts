@@ -72,7 +72,15 @@ export const routes: Record<string, RouteLocaleNames> = {
         en: 'Events',
         es: 'Eventos',
     },
+    '/producer/profile/events/:id': {
+        en: 'Event Details',
+        es: 'Detalles del Evento',
+    },
     '/producer/profile/consumption_points': {
+        en: 'Consumption Points',
+        es: 'Puntos de Consumo',
+    },
+    '/producer/profile/consumption_points/:id': {
         en: 'Consumption Points',
         es: 'Puntos de Consumo',
     },
@@ -130,5 +138,34 @@ export const routes: Record<string, RouteLocaleNames> = {
     '/distributor/profile/notifications': {
         en: 'Notifications',
         es: 'Notificaciones',
+    },
+    '/events': { en: 'Events', es: 'Eventos' },
+    '/events/:id': {
+        en: 'Event Details',
+        es: 'Detalles del Evento',
+    },
+    '/events/:id/event_basket': {
+        en: 'Cart',
+        es: 'Carrito',
+    },
+    '/events/:id/cp': {
+        en: '',
+        es: '',
+    },
+    '/events/:id/cp/:cp_id': {
+        en: 'Consumption Point Details',
+        es: 'Detalles del Punto de Consumo',
+    },
+    '/checkout': {
+        en: 'Checkout',
+        es: 'Pagar',
+    },
+    'checkout/event': {
+        en: 'Event',
+        es: 'Evento',
+    },
+    '/checkout/event/success': {
+        en: 'Order Confirmation',
+        es: 'Confirmación de Pedido',
     },
 } as const;

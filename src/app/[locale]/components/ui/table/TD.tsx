@@ -9,7 +9,7 @@ interface TDProps {
 const TD = ({ children, class_, colSpan }: TDProps) => {
     return (
         <td
-            className={`px-6 py-4 font-semibold text-beer-blonde bg-gray-50 dark:text-cerv-coffee dark:bg-bear-brown ${class_}`}
+            className={`px-4 py-2 font-medium text-gray-700 dark:text-gray-300 ${class_}`}
             colSpan={colSpan}
         >
             {children}

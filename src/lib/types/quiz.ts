@@ -1,13 +1,5 @@
 import { Type as ProductType } from '../productEnum';
-import { GeoArgs, GeocodeResult } from 'use-places-autocomplete';
-import {
-    ICPFixed,
-    ICPMobile,
-    IEvent,
-    IProducerUser,
-    IProductMedia,
-    IUserProfile,
-} from './types';
+import { IProducerUser, IProductMedia, IUserProfile } from './types';
 
 export enum Difficulty {
     EASY = 'easy',
@@ -87,27 +79,13 @@ export type IExperience = {
     bm_questions?: Question[];
 };
 
-export interface IEventExperience {
-    id: string;
-    created_at: string;
-    event_id: string;
-    cp_mobile_id: string;
-    cp_fixed_id: string;
-    experience_id: string;
-    cp_mobile?: ICPMobile;
-    cp_fixed?: ICPFixed;
-    experiences?: IExperience;
-    events?: IEvent;
-}
-
 export interface IBMExperienceParticipants {
     id: string;
     created_at: string;
     gamification_id: string;
     event_id: string;
     experience_id: string;
-    cpm_id: string;
-    cpf_id: string;
+    cp_id: string;
     score: number;
     is_paid: boolean;
     is_cash: boolean;
@@ -116,8 +94,7 @@ export interface IBMExperienceParticipants {
     incorrect_answers: number;
     gamification?: IGamificationQuizFormData;
     events?: IEventQuizFormData;
-    cp_mobile?: ICPMobileQuizFormData;
-    cp_fixed?: ICPFixedQuizFormData;
+    cp?: ICPQuizFormData;
 }
 
 export interface IBMExperienceUserResponse {
@@ -146,7 +123,7 @@ interface IEventQuizFormData {
     owner_id: string;
 }
 
-interface ICPMobileQuizFormData {
+interface ICPQuizFormData {
     id: string;
     created_at: string;
     cp_id: string;
@@ -166,57 +143,21 @@ interface ICPMobileQuizFormData {
     // geoArgs: GeoArgs[];
     geoArgs: any[];
     is_internal_organizer: boolean;
-    cpm_products?: ICPMProductsQuizFormData[];
-    consumption_points?: IConsumptionPointsQuizFormData;
-}
-
-interface ICPFixedQuizFormData {
-    id: string;
-    created_at: string;
-    cp_id: string;
-    cp_name: string;
-    cp_description: string;
-    organizer_name: string;
-    organizer_lastname: string;
-    organizer_email: string;
-    organizer_phone: string;
-    start_date: string;
-    end_date: string;
-    address: string;
-    status: string;
-    logo_url: string;
-    maximum_capacity: number;
-    is_booking_required: boolean;
-    // geoArgs: GeoArgs[];
-    geoArgs: any[];
-
-    is_internal_organizer: boolean;
-    cpf_products?: ICPFProductsQuizFormData[];
+    cp_products?: ICPProductsQuizFormData[];
     consumption_points?: IConsumptionPointsQuizFormData;
 }
 
 export interface IConsumptionPointsQuizFormData {
     id: string;
     created_at: string;
-    cp_fixed_id: string;
-    cp_mobile_id: string;
+    cp_id: string;
     cp_organizer_status: number;
     owner_id: string;
     cv_name: string;
     cover_letter_name: string;
 }
 
-export interface ICPMProductsQuizFormData {
-    id: string;
-    created_at: string;
-    stock: number;
-    stock_consumed: number;
-    cp_id: string;
-    product_pack_id: string;
-    product_packs?: IProductPackQuizFormData;
-}
-
-export interface ICPFProductsQuizFormData {
+export interface ICPProductsQuizFormData {
     id: string;
     created_at: string;
     stock: number;

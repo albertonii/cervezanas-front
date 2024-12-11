@@ -1,16 +1,18 @@
+import useEventCartStore from '@/app/store//eventCartStore';
+import MarketCartButtons from '@/app/[locale]/components/cart/MarketCartButtons';
+import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
+import Label from '@/app/[locale]/components/ui/Label';
 import React, { useEffect, useState } from 'react';
+import { Type } from '@/lib/productEnum';
 import { useTranslations } from 'next-intl';
 import { SupabaseProps } from '@/constants';
-import { Type } from '@/lib/productEnum';
+import { formatCurrency } from '@/utils/formatCurrency';
+
 import {
     IProduct,
     IProductPack,
     IProductPackEventCartItem,
 } from '@/lib/types/types';
-import { formatCurrency } from '@/utils/formatCurrency';
-import useEventCartStore from '@/app/store//eventCartStore';
-import MarketCartButtons from '@/app/[locale]/components/cart/MarketCartButtons';
-import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
@@ -29,8 +31,7 @@ export default function EventCheckoutPackItem({
 }: Props) {
     const t = useTranslations();
 
-    const cpId =
-        productPack.cpm_id !== '' ? productPack.cpm_id : productPack.cpf_id;
+    const cpId = productPack.cp_id;
 
     const [animateRemove, setAnimateRemove] = useState(false);
     const [packQuantity, setPackQuantity] = React.useState(0);
@@ -71,12 +72,9 @@ export default function EventCheckoutPackItem({
     };
 
     return (
-        <section
-            className={`${
-                animateRemove && 'animate-ping overflow-hidden'
-            } mt-4 flex w-full flex-col items-start justify-start md:mt-6 md:flex-row md:items-center md:space-x-6 xl:space-x-8`}
-        >
-            <figure className="pb-4 md:pb-8 ">
+        <div className="flex flex-col md:flex-row items-center bg-white dark:bg-gray-800 rounded-lg shadow py-2">
+            {/* Imagen del producto */}
+            <figure className="w-full md:w-1/4 xl:w-1/3 flex justify-center mb-4 md:mb-0">
                 <DisplayImageProduct
                     imgSrc={
                         BASE_PRODUCTS_URL + decodeURIComponent(pack.img_url)
@@ -84,114 +82,100 @@ export default function EventCheckoutPackItem({
                     alt={pack.name}
                     width={600}
                     height={600}
-                    class="h-24 w-24 rounded md:h-32 md:w-32 lg:h-40 lg:w-40"
+                    class="h-20 w-20  lg:h-24 lg:w-24 xl:h-36 xl:w-36 rounded shadow"
                 />
             </figure>
 
-            <div className="flex w-full flex-col items-start justify-between space-y-4 border-b border-gray-200 pb-8 md:flex-row md:space-y-0">
-                <div className="flex w-full flex-col items-start justify-start space-y-8">
-                    <h3 className="text-xl font-semibold leading-6 text-gray-800 dark:text-white xl:text-2xl">
+            {/* Detalles del producto */}
+            <div className="w-full  flex flex-col md:flex-row md:items-center md:justify-between">
+                <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                    <Label size="large" color="black" font="semibold">
                         {pack.name}
-                    </h3>
+                    </Label>
 
                     {/* Product Type Beer */}
                     {productWithInfo.type === Type.BEER &&
                         productWithInfo.beers && (
                             <div className="flex flex-col items-start justify-start space-y-2">
-                                <p className="text-sm leading-none text-gray-800 dark:text-white">
-                                    <span className="text-gray-300 dark:text-gray-400">
+                                <div className="flex items-center gap-2">
+                                    <Label size="small" color="gray">
                                         {t('aroma')}:{' '}
-                                    </span>
-                                    {t(`${productWithInfo.beers?.aroma}`)}
-                                </p>
-                                <p className="text-sm leading-none text-gray-800 dark:text-white">
-                                    <span className="text-gray-300 dark:text-gray-400">
+                                    </Label>
+
+                                    <Label size="small" color="black">
+                                        {t(`${productWithInfo.beers?.aroma}`)}
+                                    </Label>
+                                </div>
+
+                                <div className="flex items-center gap-2">
+                                    <Label size="small" color="gray">
                                         {t('family')}:{' '}
-                                    </span>
-                                    {t(`${productWithInfo.beers?.family}`)}
-                                </p>
-                                <p className="text-sm leading-none text-gray-800 dark:text-white">
-                                    <span className="text-gray-300 dark:text-gray-400">
+                                    </Label>
+
+                                    <Label size="small" color="black">
+                                        {t(`${productWithInfo.beers?.family}`)}
+                                    </Label>
+                                </div>
+
+                                <div className="flex items-center gap-2">
+                                    <Label size="small" color="gray">
                                         {t('fermentation')}:{' '}
-                                    </span>
-                                    {t(
-                                        `${productWithInfo.beers?.fermentation}`,
-                                    )}
-                                </p>
+                                    </Label>
+
+                                    <Label size="small" color="black">
+                                        {t(
+                                            `${productWithInfo.beers?.fermentation}`,
+                                        )}
+                                    </Label>
+                                </div>
                             </div>
                         )}
-
-                    {/* Product Type Merchandising */}
-                    {productWithInfo.type === Type.MERCHANDISING && (
-                        <div className="flex flex-col items-start justify-start space-y-2">
-                            <p className="text-sm leading-none text-gray-800 dark:text-white">
-                                <span className="text-gray-300 dark:text-gray-400">
-                                    {/* {t("aroma")}:{" "} */}
-                                </span>{' '}
-                                {/* {t(`${product.beers.aroma}`)} */}
-                            </p>
-                            <p className="text-sm leading-none text-gray-800 dark:text-white">
-                                <span className="text-gray-300 dark:text-gray-400">
-                                    {/* {t("family")}:{" "} */}
-                                </span>{' '}
-                                {/* {t(`${product.beers.family}`)} */}
-                            </p>
-                            <p className="text-sm leading-none text-gray-800 dark:text-white">
-                                <span className="text-gray-300 dark:text-gray-400">
-                                    {/* {t("fermentation")}:{" "} */}
-                                </span>{' '}
-                                {/* {t(`${product.beers.fermentation}`)} */}
-                            </p>
-                        </div>
-                    )}
                 </div>
 
                 <div className="flex w-full flex-col items-center justify-between space-y-2 sm:flex-row sm:space-x-8">
-                    <div className="flex w-full items-center justify-between space-x-2 ">
-                        <p className="text-base leading-6 dark:text-white xl:text-lg">
+                    <div className="flex w-full items-center justify-between space-x-2 justify-center">
+                        <Label color="black" size="large">
                             {formatCurrency(pack.price)}
-                            <span className="text-red-300 line-through">
+                            {/* <span className="text-red-300 line-through">
                                 {' '}
                                 45.00€
-                            </span>
-                        </p>
+                            </span> */}
+                        </Label>
 
-                        <div className="text-base leading-6 text-gray-800 dark:text-white xl:text-lg">
-                            <div className="mt-6 flex w-full justify-between space-x-2">
-                                <MarketCartButtons
-                                    quantity={packQuantity}
-                                    item={productPack}
-                                    handleIncreaseCartQuantity={() =>
-                                        handleIncreaseCartQuantity(
-                                            productPack,
-                                            pack,
-                                        )
-                                    }
-                                    handleDecreaseCartQuantity={() =>
-                                        handleDecreaseCartQuantity(
-                                            productPack,
-                                            pack,
-                                        )
-                                    }
-                                    handleRemoveFromCart={() =>
-                                        handleRemoveFromCart(
-                                            productPack.id,
-                                            pack.id,
-                                        )
-                                    }
-                                    displayDeleteButton={true}
-                                />
-                            </div>
+                        <div className="text-base leading-6 text-gray-800 dark:text-white xl:text-lg mt-6 flex w-full justify-between space-x-2">
+                            <MarketCartButtons
+                                quantity={packQuantity}
+                                item={productPack}
+                                handleIncreaseCartQuantity={() =>
+                                    handleIncreaseCartQuantity(
+                                        productPack,
+                                        pack,
+                                    )
+                                }
+                                handleDecreaseCartQuantity={() =>
+                                    handleDecreaseCartQuantity(
+                                        productPack,
+                                        pack,
+                                    )
+                                }
+                                handleRemoveFromCart={() =>
+                                    handleRemoveFromCart(
+                                        productPack.id,
+                                        pack.id,
+                                    )
+                                }
+                                displayDeleteButton={true}
+                            />
                         </div>
                     </div>
 
-                    <div className="flex w-full items-center justify-between space-x-2">
-                        <p className="text-md text-base font-semibold leading-6 text-gray-800 dark:text-white xl:text-2xl">
+                    <div className="w-full">
+                        <Label size="xlarge" font="semibold">
                             {formatCurrency(pack.price * packQuantity)}
-                        </p>
+                        </Label>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     );
 }

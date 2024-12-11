@@ -2,7 +2,7 @@
 
 import React, { useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { IProduct } from '@/lib//types/types';
+import { IProduct } from '@/lib/types/types';
 import InputSearch from '../form/InputSearch';
 import { DisplayInputError } from '../ui/DisplayInputError';
 

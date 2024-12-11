@@ -18,7 +18,6 @@ interface Props {
     children: JSX.Element;
     icon?: IconDefinition;
     classContainer: string;
-    color?: { filled: string; unfilled: string };
     btnSize?: 'small' | 'medium' | 'large' | 'xLarge' | 'xxLarge';
     setShowModal: (b: boolean) => void;
     showFooter?: boolean;

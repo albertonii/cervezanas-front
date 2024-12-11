@@ -7,7 +7,7 @@ import BusinessOrderItem from '@/app/[locale]/components/common/BusinessOrderIte
 import ShippingInformationBox from '@/app/[locale]/components/ShippingInformationBox';
 import React, { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { IOrder } from '@/lib//types/types';
+import { IOrder } from '@/lib/types/types';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 
@@ -61,7 +61,7 @@ export default function SuccessCheckout({
     if (loading) return <Spinner color="beer-blonde" size="fullScreen" />;
 
     return (
-        <section className="m-4 sm:py-4 lg:py-6">
+        <section className="m-4 sm:py-4 lg:py-6 w-full">
             {/* Product and packs information */}
             {bOrders &&
                 bOrders.map((bOrder) => {

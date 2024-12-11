@@ -1,5 +1,5 @@
 import React from 'react';
-import { IUserTable } from '@/lib//types/types';
+import { IUserTable } from '@/lib/types/types';
 import createServerClient from '@/utils/supabaseServer';
 import UserInformation from './UserInformation';
 

@@ -1,18 +1,18 @@
 'use client';
 
-import { z, ZodType } from 'zod';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
 import { useState } from 'react';
+import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { IConsumptionPointUser } from '@/lib/types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IConsumptionPointUser } from '@/lib//types/types';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import InputLabel from '@/app/[locale]/components/form/InputLabel';
-import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
-import Button from '@/app/[locale]/components/ui/buttons/Button';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
 
 type FormData = {
     company_name: string;

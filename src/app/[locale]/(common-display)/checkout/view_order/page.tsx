@@ -2,7 +2,7 @@ import readUserSession from '@/lib//actions';
 import SuccessCheckout from './SuccessCheckout';
 import createServerClient from '@/utils/supabaseServer';
 import { redirect } from 'next/navigation';
-import { IOrder } from '@/lib//types/types';
+import { IOrder } from '@/lib/types/types';
 
 export async function generateMetadata({
     searchParams,

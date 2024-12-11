@@ -11,7 +11,7 @@ import { useAuth } from '../../../(auth)/Context/useAuth';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { IAddressForm, ModalShippingAddressFormData } from '@/lib//types/types';
+import { IAddressForm, ModalShippingAddressFormData } from '@/lib/types/types';
 
 const schema: ZodType<ModalShippingAddressFormData> = z.object({
     name: z.string().nonempty({ message: 'errors.input_required' }),

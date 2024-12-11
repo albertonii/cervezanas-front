@@ -4,7 +4,7 @@ import { z, ZodType } from 'zod';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
-import { IProducerUser } from '@/lib//types/types';
+import { IProducerUser } from '@/lib/types/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '../../../../(auth)/Context/useAuth';

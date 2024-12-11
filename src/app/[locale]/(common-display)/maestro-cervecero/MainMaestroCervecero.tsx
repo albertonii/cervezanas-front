@@ -5,9 +5,9 @@ import Button from '../../components/ui/buttons/Button';
 import React from 'react';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import { IEventExperience } from '@/lib//types/quiz';
+import { ROUTE_CP, ROUTE_EVENTS } from '@/config';
+import { IEventExperience } from '@/lib/types/types';
 import { useAuth } from '../../(auth)/Context/useAuth';
-import { ROUTE_CP_FIXED, ROUTE_CP_MOBILE, ROUTE_EVENTS } from '@/config';
 
 interface Props {
     eventExperiences: IEventExperience[];
@@ -22,22 +22,8 @@ export default function MaestroCervecero({ eventExperiences }: Props) {
         return <div className="card h-72">Loading...</div>;
     }
 
-    const handleExperienceCPMobileOnClick = (
-        eventId: string,
-        cpMobileId: string,
-    ) => {
-        router.push(
-            `/${locale}${ROUTE_EVENTS}/${eventId}${ROUTE_CP_MOBILE}/${cpMobileId}`,
-        );
-    };
-
-    const handleExperienceCPFixedOnClick = (
-        eventId: string,
-        cpFixedId: string,
-    ) => {
-        router.push(
-            `/${locale}${ROUTE_EVENTS}/${eventId}${ROUTE_CP_FIXED}/${cpFixedId}`,
-        );
+    const handleExperienceCPOnClick = (eventId: string, cpId: string) => {
+        router.push(`/${locale}${ROUTE_EVENTS}/${eventId}${ROUTE_CP}/${cpId}`);
     };
 
     return (
@@ -59,56 +45,29 @@ export default function MaestroCervecero({ eventExperiences }: Props) {
 
                 <div className="space-y-2 space-x-2 flex flex-col items-center justify-center">
                     {eventExperiences.map((eventExperience) => {
-                        if (eventExperience.cp_mobile) {
-                            const cpMobile = eventExperience.cp_mobile;
+                        if (eventExperience.cp) {
+                            const cp = eventExperience.cp;
 
                             return (
                                 <div
                                     className="border-2 shadow-xl rounded-2xl border-bear-dark bg-beer-softFoam p-4 w-full max-w-[300px] space-y-2 text-center"
-                                    key={cpMobile.id}
+                                    key={cp.id}
                                 >
                                     <h3 className="text-xl font-semibold">
-                                        {cpMobile?.cp_name}
+                                        {cp?.cp_name}
                                     </h3>
 
                                     <p className="text-sm truncate">
-                                        {cpMobile?.cp_description}
+                                        {cp?.cp_description}
                                     </p>
 
                                     <Button
                                         primary
                                         small
                                         onClick={() =>
-                                            handleExperienceCPMobileOnClick(
+                                            handleExperienceCPOnClick(
                                                 eventExperience.event_id,
-                                                cpMobile.id,
-                                            )
-                                        }
-                                    >
-                                        Visitar Estand
-                                    </Button>
-                                </div>
-                            );
-                        } else if (eventExperience.cp_fixed) {
-                            const cpFixed = eventExperience.cp_fixed;
-                            return (
-                                <div
-                                    className="border-2 shadow-xl rounded-2xl border-bear-dark bg-beer-softBlondeBubble p-4 w-full max-w-[300px] space-y-2"
-                                    key={cpFixed.id}
-                                >
-                                    <h3>
-                                        Nombre del Estand: {cpFixed?.cp_name}
-                                    </h3>
-
-                                    <p>{cpFixed?.cp_description}</p>
-
-                                    <Button
-                                        primary
-                                        small
-                                        onClick={() =>
-                                            handleExperienceCPFixedOnClick(
-                                                eventExperience.event_id,
-                                                cpFixed.id,
+                                                cp.id,
                                             )
                                         }
                                     >

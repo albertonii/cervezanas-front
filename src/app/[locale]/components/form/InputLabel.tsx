@@ -77,7 +77,7 @@ const InputLabel = ({
                 inputType === 'url' ||
                 inputType === 'date') && (
                 <label
-                    className={`flex-col flex w-full items-start space-y-2 text-xs sm:text-sm text-gray-600 dark:text-gray-300`}
+                    className={`flex-col flex w-full items-start space-y-2 text-sm text-gray-600 dark:text-white`}
                     htmlFor={label}
                 >
                     <span className="font-medium">

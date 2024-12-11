@@ -2,7 +2,7 @@
 
 import React, { ComponentProps } from 'react';
 import { useTranslations } from 'next-intl';
-import { IOrderItem } from '@/lib//types/types';
+import { IOrderItem } from '@/lib/types/types';
 import { NewProductReview } from './NewProductReview';
 
 interface Props {

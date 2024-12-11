@@ -1,5 +1,5 @@
 import { Type } from '@/lib//productEnum';
-import { IProduct } from '@/lib//types/types';
+import { IProduct } from '@/lib/types/types';
 import { color_options, family_options } from '@/lib/beerEnum';
 import { useAppContext } from '../app/context/AppContext';
 

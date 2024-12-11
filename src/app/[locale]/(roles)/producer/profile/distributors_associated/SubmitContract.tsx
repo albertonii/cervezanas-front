@@ -5,7 +5,7 @@ import ValidateContract from './ValidateContract';
 import CollaborationDetails from './CollaborationDetails';
 import CollaborationAgreement from './CollaborationAgreement';
 import { UseFormReturn } from 'react-hook-form';
-import { IDistributorUser, IProducerUser } from '@/lib//types/types';
+import { IDistributorUser, IProducerUser } from '@/lib/types/types';
 
 interface Props {
     distributor: IDistributorUser;

@@ -1,5 +1,5 @@
-import { QuestionsState } from '@/lib//types/quiz';
-import { IProduct } from '@/lib//types/types';
+import { QuestionsState } from '@/lib/types/quiz';
+import { IProduct } from '@/lib/types/types';
 
 export const isAnswerCorrect = (
     userAnswer: string | undefined,

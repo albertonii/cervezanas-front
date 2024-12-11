@@ -1,5 +1,5 @@
 import React from 'react';
-import { IDistributorUser, IProducerUser } from '@/lib//types/types';
+import { IDistributorUser, IProducerUser } from '@/lib/types/types';
 import createServerClient from '@/utils/supabaseServer';
 import PendingList from './PendingList';
 

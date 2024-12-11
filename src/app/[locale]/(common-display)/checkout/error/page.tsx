@@ -4,7 +4,7 @@ import ErrorComponent from './ErrorComponent';
 import createServerClient from '@/utils/supabaseServer';
 import React from 'react';
 import { redirect } from 'next/navigation';
-import { IOrder } from '@/lib//types/types';
+import { IOrder } from '@/lib/types/types';
 import { decodeBase64 } from '@/utils/utils';
 
 export async function generateMetadata({ searchParams }: any) {

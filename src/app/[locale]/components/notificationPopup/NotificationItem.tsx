@@ -1,7 +1,7 @@
 import useNotifications from '@/hooks/useNotifications';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { INotification } from '@/lib//types/types';
+import { INotification } from '@/lib/types/types';
 import { getTimeElapsed } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

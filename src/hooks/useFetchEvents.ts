@@ -1,10 +1,10 @@
 'use client';
 
-import { IEvent } from '@/lib//types/types';
 import { useQuery } from 'react-query';
 import { Database } from '@/lib//schema';
-import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
+import { IEvent } from '@/lib/types/eventOrders';
 import { SupabaseClient } from '@supabase/supabase-js';
+import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 
 const fetchEvents = async (
     currentPage: number,

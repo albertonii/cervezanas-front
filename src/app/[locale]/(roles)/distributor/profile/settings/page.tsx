@@ -1,7 +1,7 @@
 import Profile from './Profile';
 import createServerClient from '@/utils/supabaseServer';
 import { redirect } from 'next/navigation';
-import { IDistributorUser } from '@/lib//types/types';
+import { IDistributorUser } from '@/lib/types/types';
 import readUserSession from '@/lib//actions';
 
 export default async function ProfilePage() {

@@ -1,94 +1,48 @@
-import OrderInvoice from './OrderInvoice';
-import { redirect } from 'next/navigation';
+import EventOrderInvoice from './EventOrderInvoice';
 import createServerClient from '@/utils/supabaseServer';
-import readUserSession from '@/lib/actions';
-import { IOrder } from '@/lib/types/types';
-import { VIEWS } from '@/constants';
+import { IEventOrder } from '@/lib/types/eventOrders';
 
 export default async function OrderInvoicePage({
     params,
 }: {
-    params: { slug: any };
+    params: { locale: string; orderInvoice: string };
 }) {
-    const { slug } = params;
-    const orderData = await getInvoiceData(slug);
-    const [order] = await Promise.all([orderData]);
+    const { orderInvoice } = params;
+    const order = await getInvoiceData(orderInvoice);
 
-    return <>{order ?? <OrderInvoice order={order} />}</>;
+    // Verifica si `order` existe antes de renderizar `EventOrderInvoice`
+    return <>{order && <EventOrderInvoice order={order} />}</>;
 }
 
-async function getInvoiceData(slug: any) {
-    const { orderInvoice: orderId } = slug;
-
+async function getInvoiceData(
+    orderInvoice: string,
+): Promise<IEventOrder | null> {
     const supabase = await createServerClient();
 
-    // Check if we have a session
-    const session = await readUserSession();
-
-    if (!session) {
-        redirect('/signin');
-    }
-
     const { data: orderData, error: orderError } = await supabase
-        .from('orders')
+        .from('event_orders')
         .select(
             `
-            id,
-            created_at,
-            updated_at,
-            owner_id,
-            status,
-            customer_name, 
-            tracking_id,
-            issue_date,
-            estimated_date,
-            total,
-            subtotal,
-            shipping,
-            tax,
-            currency,
-            discount,
-            promo_code,
-            order_number,
-            is_consumer_email_sent,
-            is_producer_email_sent,
-            is_distributor_email_sent,
-            shipping_name,
-            shipping_lastname,
-            shipping_document_id,
-            shipping_phone,
-            shipping_address,
-            shipping_address_extra,
-            shipping_country,
-            shipping_region,
-            shipping_sub_region,
-            shipping_city,
-            shipping_zipcode,
-            billing_name,
-            billing_lastname,
-            billing_document_id,
-            billing_phone,
-            billing_address,
-            billing_country,
-            billing_region,
-            billing_sub_region,
-            billing_city,
-            billing_zipcode,
-            billing_is_company
-      `,
+                *,
+                events (*),
+                event_order_cps (
+                    *,
+                    cp_events (cp_name),
+                    event_order_items (
+                        *,
+                        product_packs (
+                            *
+                        )
+                    )
+                )
+            `,
         )
-        .eq('order_number', orderId)
+        .eq('order_number', orderInvoice)
         .single();
 
     if (orderError) {
         throw new Error(orderError.message);
     }
 
-    if (!orderData) {
-        return {
-            order: null,
-        };
-    }
-
-    return orderData as IOrder;
+    return orderData as IEventOrder | null;
 }

@@ -3,15 +3,15 @@ import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import useFetchExperiencesByProducerId from '../../../../../../hooks/useFetchExperiencesByProducerId';
 import React, { useMemo, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-import { ICPFixed, ICPMobile, IExperience } from '@/lib//types/types';
+import { IExperience } from '@/lib/types/types';
+import { IConsumptionPoint } from '@/lib/types/consumptionPoints';
 
 interface Props {
-    cpsMobile: ICPMobile[];
-    cpsFixed: ICPFixed[];
+    cps: IConsumptionPoint[];
     form: UseFormReturn<any, any>;
 }
 
-export default function ExperienceForm({ form, cpsMobile, cpsFixed }: Props) {
+export default function ExperienceForm({ form, cps }: Props) {
     const [query, setQuery] = useState('');
     const { data, error } = useFetchExperiencesByProducerId();
 
@@ -45,8 +45,7 @@ export default function ExperienceForm({ form, cpsMobile, cpsFixed }: Props) {
                 <ExperienceAccordion
                     form={form}
                     experiences={filteredExperiencesByName}
-                    cpsMobile={cpsMobile}
-                    cpsFixed={cpsFixed}
+                    cps={cps}
                 />
             </ul>
         </section>

@@ -24,7 +24,7 @@ import {
 import {
     ICustomizeSettings,
     ModalUpdateProductFormData,
-} from '@/lib//types/types';
+} from '@/lib/types/types';
 
 interface Props {
     form: UseFormReturn<ModalUpdateProductFormData>;

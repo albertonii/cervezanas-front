@@ -1,6 +1,8 @@
+import { CURRENCY_ENUM } from '@/lib/enums';
+
 const CURRENCY_FORMATTER = new Intl.NumberFormat('es-ES', {
     style: 'currency',
-    currency: 'EUR',
+    currency: CURRENCY_ENUM.EUR,
 });
 
 export function formatCurrency(number: number | undefined) {

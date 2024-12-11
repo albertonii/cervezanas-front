@@ -20,7 +20,7 @@ interface IconButtonProps {
     primary?: boolean;
     accent?: boolean;
     btnType?: string;
-    size?: 'small' | 'medium' | 'large' | 'xLarge' | 'xxLarge';
+    size?: 'small' | 'medium' | 'large' | 'xLarge' | 'xxLarge' | 'box';
     isLoading?: boolean;
 }
 
@@ -84,6 +84,7 @@ export function IconButton({
     };
 
     const getSizeClass = () => {
+        if (size === 'box') return 'text-md ';
         if (size === 'small') return 'text-md px-4';
         if (size === 'medium') return 'px-1 sm:px-4 text-base';
         if (size === 'large') return 'px-2 sm:px-5 text-base sm:text-lg';
@@ -94,7 +95,7 @@ export function IconButton({
 
     const getColorClass = () => {
         if (primary)
-            return 'bg-beer-softBlonde hover:bg-beer-blonde dark:bg-beer-dark';
+            return 'bg-beer-foam hover:bg-beer-softBlonde dark:bg-beer-dark ';
         if (accent) return 'bg-beer-foam hover:bg-beer-softFoam';
         if (danger) return 'bg-red-500 hover:bg-red-600 dark:bg-red-600';
         return 'shrink-0 hover:bg-beer-softBlonde';
@@ -106,7 +107,7 @@ export function IconButton({
             onClick={onClick}
             color={hoverColor}
             className={`
-                mt-0 flex items-center justify-center rounded border-2 border-beer-blonde dark:border-beer-draft p-1 transition duration-100 ease-in
+                mt-0 flex items-center justify-center rounded border-2 border-beer-blonde dark:border-beer-draft p-1 transition duration-100 ease-in dark:hover:bg-beer-draft hover:bg-beer-softBlonde
                 ${box && 'h-auto w-10'}
                 ${
                     circular &&
@@ -141,9 +142,9 @@ export function IconButton({
                     ></path>
                 </svg>
             ) : (
-                <div className="">
+                <div className="gap-2 space-x-1">
                     {iconButton ?? (
-                        <span className={`text-bear-dark dark:text-gray-300`}>
+                        <span className={`text-bear-dark dark:text-white `}>
                             {iconButton}
                         </span>
                     )}

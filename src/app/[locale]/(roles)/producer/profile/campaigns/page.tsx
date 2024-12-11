@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { ICampaign, IProduct } from '@/lib//types/types';
+import { ICampaign, IProduct } from '@/lib/types/types';
 import createServerClient from '@/utils/supabaseServer';
 import readUserSession from '@/lib//actions';
 import { Campaigns } from './Campaigns';

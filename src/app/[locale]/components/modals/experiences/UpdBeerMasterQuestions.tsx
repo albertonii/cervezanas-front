@@ -3,7 +3,7 @@ import UpdBeerMasterAnswers from './UpdBeerMasterAnswers';
 import useFetchProductsByOwner from '../../../../../hooks/useFetchProductsByOwner';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
-import { IProduct } from '@/lib//types/types';
+import { IProduct } from '@/lib/types/types';
 import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { useAuth } from '../../../(auth)/Context/useAuth';
@@ -11,7 +11,7 @@ import {
     Difficulty,
     IUpdBeerMasterQuestionFormData,
     IUpdModalExperienceBeerMasterFormData,
-} from '@/lib//types/quiz';
+} from '@/lib/types/quiz';
 import SelectInput from '../../form/SelectInput';
 import { Type } from '@/lib//productEnum';
 import Button from '../../ui/buttons/Button';

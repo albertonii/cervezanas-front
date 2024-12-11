@@ -1,20 +1,20 @@
-import { redirect } from 'next/navigation';
-import { IProfile, IConsumptionPoints } from '@/lib//types/types';
-import createServerClient from '@/utils/supabaseServer';
 import readUserSession from '@/lib//actions';
-import { ConsumptionPoints } from './ConsumptionPoints';
+import createServerClient from '@/utils/supabaseServer';
 import { Suspense } from 'react';
+import { redirect } from 'next/navigation';
+import { IProfile } from '@/lib/types/types';
+import { ConsumptionPoints } from './ConsumptionPoints';
+import { IConsumptionPoints } from '@/lib/types/consumptionPoints';
 
 export default async function ProfilePage() {
     const cpsData = getCPSData();
     const profileData = getProfileData();
-    const counterCPMobileData = getCPMobileCounter();
-    const counterCPFixedData = getCPFixedCounter();
-    const [cps, profile, counterCPMobile, counterCPFixed] = await Promise.all([
+    const counterCPsData = getCPsCounter();
+
+    const [cps, profile, counterCPs] = await Promise.all([
         cpsData,
         profileData,
-        counterCPMobileData,
-        counterCPFixedData,
+        counterCPsData,
     ]);
     if (!profile) return <></>;
 
@@ -23,8 +23,7 @@ export default async function ProfilePage() {
             <ConsumptionPoints
                 cps={cps ?? []}
                 profile={profile}
-                counterCPMobile={counterCPMobile}
-                counterCPFixed={counterCPFixed}
+                counterCPs={counterCPs}
             />
         </Suspense>
     );
@@ -43,9 +42,7 @@ async function getCPSData() {
         .from('consumption_points')
         .select(
             `
-                *,
-                cp_fixed (*),
-                cp_mobile (*)
+                *
             `,
         )
         .eq('owner_id', session.id);
@@ -76,7 +73,7 @@ async function getProfileData() {
     return profileData[0] as IProfile;
 }
 
-async function getCPMobileCounter() {
+async function getCPsCounter() {
     const supabase = await createServerClient();
     const session = await readUserSession();
 
@@ -84,30 +81,12 @@ async function getCPMobileCounter() {
         redirect('/signin');
     }
 
-    const { count, error: cpFixedError } = await supabase
-        .from('cp_mobile')
+    const { count, error: cpError } = await supabase
+        .from('cp')
         .select('id', { count: 'exact' })
         .eq('owner_id', session.id);
 
-    if (cpFixedError) throw cpFixedError;
-
-    return count as number | 0;
-}
-
-async function getCPFixedCounter() {
-    const supabase = await createServerClient();
-    const session = await readUserSession();
-
-    if (!session) {
-        redirect('/signin');
-    }
-
-    const { count, error: cpFixedError } = await supabase
-        .from('cp_fixed')
-        .select('id', { count: 'exact' })
-        .eq('owner_id', session.id);
-
-    if (cpFixedError) throw cpFixedError;
+    if (cpError) throw cpError;
 
     return count as number | 0;
 }

@@ -1,8 +1,8 @@
-import { IEventOrder } from '@/lib//types/types';
+import readUserSession from '@/lib//actions';
 import createServerClient from '@/utils/supabaseServer';
 import { redirect } from 'next/navigation';
 import { EventOrders } from './EventOrders';
-import readUserSession from '@/lib//actions';
+import { IEventOrder } from '@/lib/types/eventOrders';
 
 export default async function OrdersPage() {
     const eventOrdersData = await getEventOrdersData();
@@ -30,7 +30,7 @@ async function getEventOrdersData() {
             `
                 *,
                 users!event_orders_customer_id_fkey (
-                *
+                    *
                 )
             `,
         )

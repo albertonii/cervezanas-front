@@ -12,12 +12,12 @@ export function DeleteButton({ onClick }: Props) {
 
     return (
         <IconButton
-            circular
             danger
             icon={faTrash}
             color={{ filled: '#fefefe', unfilled: '#fefefe' }}
             onClick={onClick}
             title={t('delete')}
+            classContainer="p-2 rounded"
         ></IconButton>
     );
 }

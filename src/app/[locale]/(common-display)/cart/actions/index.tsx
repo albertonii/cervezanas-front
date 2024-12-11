@@ -8,8 +8,7 @@ import {
     IDistributorUser,
     IProductPackCartItem,
     IShippingInfo,
-} from '@/lib//types/types';
-import createServerClient from '@/utils/supabaseServer';
+} from '@/lib/types/types';
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -332,8 +331,6 @@ export async function calculateCheapestShippingCostsByDistributor(
             return await calculateProductPacksWeight(productPack);
         }),
     ).then((weights) => weights.reduce((prev, current) => prev + current, 0));
-
-    console.log('TOTAL WEIGHT', totalWeight);
 
     // Obtener el costo de envío de cada distribuidor
     const shippingCostInformation: {

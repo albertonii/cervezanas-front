@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { IDistributorUser } from '@/lib//types/types';
+import { IDistributorUser } from '@/lib/types/types';
 import { Account } from './Account';
 import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
 import Spinner from '@/app/[locale]/components/ui/Spinner';

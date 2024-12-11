@@ -1,8 +1,8 @@
-import ManageEventProduct from './ManageEventProduct';
-import { redirect } from 'next/navigation';
-import { IEventOrderItem } from '@/lib/types/types';
-import createServerClient from '@/utils/supabaseServer';
 import readUserSession from '@/lib/actions';
+import ManageEventProduct from './ManageEventProduct';
+import createServerClient from '@/utils/supabaseServer';
+import { redirect } from 'next/navigation';
+import { IEventOrderItem } from '@/lib/types/eventOrders';
 
 export default async function BarmanProductPage({ params }: any) {
     const { id } = params;
@@ -13,12 +13,9 @@ export default async function BarmanProductPage({ params }: any) {
             {eventOrderItem ? (
                 <ManageEventProduct eventOrderItem={eventOrderItem} />
             ) : (
-                <div>
-                    <h2>
-                        No tienes los permisos necesarios para acceder a esta
-                        página
-                    </h2>
-                </div>
+                <h2>
+                    No tienes los permisos necesarios para acceder a esta página
+                </h2>
             )}
         </>
     );
@@ -38,17 +35,16 @@ async function getEventOrderItemData(eventOrderItemId: string) {
             .from('event_order_items')
             .select(
                 `
-        *,
-        product_packs!event_order_items_product_pack_id_fkey (
-          *,
-            products!product_packs_product_id_fkey (*,
-              product_media (
-                *
-              )
-            )
-        )
-        
-      `,
+                    *,
+                    product_packs!event_order_items_product_pack_id_fkey (
+                    *,
+                        products!product_packs_product_id_fkey (*,
+                        product_media (
+                            *
+                        )
+                        )
+                    )
+                 `,
             )
             .eq('id', eventOrderItemId)
             .single();

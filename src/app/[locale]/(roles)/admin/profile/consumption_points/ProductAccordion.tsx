@@ -1,8 +1,9 @@
-import React from 'react';
-import { IProduct } from '@/lib//types/types';
-import { UseFormReturn } from 'react-hook-form';
 import ProductAccordionItem from './ProductAccordionItem';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
+import React from 'react';
+import { useTranslations } from 'next-intl';
+import { IProduct } from '@/lib/types/types';
+import { UseFormReturn } from 'react-hook-form';
 
 interface Props {
     products: IProduct[];
@@ -15,8 +16,9 @@ const ProductAccordion: React.FC<Props> = ({
     form,
     productItems,
 }) => {
+    const t = useTranslations();
     if (!products || products.length === 0) {
-        return <div>No products found.</div>;
+        return <div>{t('errors.products_not_found')}</div>;
     }
 
     if (products.length === 0) {

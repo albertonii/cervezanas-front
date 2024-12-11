@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
 import { SupabaseProps } from '@/constants';
 import { isValidObject } from '@/utils/utils';
-import { IDistributorUser } from '@/lib//types/types';
+import { IDistributorUser } from '@/lib/types/types';
 import { useAppContext } from '@/app/context/AppContext';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import Button from '@/app/[locale]/components/ui/buttons/Button';

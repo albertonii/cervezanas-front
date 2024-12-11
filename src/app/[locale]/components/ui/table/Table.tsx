@@ -6,7 +6,13 @@ interface Props {
 }
 
 const Table = ({ children, class_ }: Props) => {
-    return <table className={`w-full ${class_}`}>{children}</table>;
+    return (
+        <table
+            className={`min-w-full divide-y divide-gray-200 dark:divide-gray-700' ${class_}`}
+        >
+            {children}
+        </table>
+    );
 };
 
 export default Table;

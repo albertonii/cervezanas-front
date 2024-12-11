@@ -1,22 +1,21 @@
 'use client';
 
 import Link from 'next/link';
-import React, { useEffect, useMemo, useState } from 'react';
-import { UseFormReturn } from 'react-hook-form';
-import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IProduct } from '@/lib//types/types';
-import { useLocale, useTranslations } from 'next-intl';
-import { formatCurrency } from '@/utils/formatCurrency';
-import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
-import InputSearch from '@/app/[locale]/components/form/InputSearch';
-import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
-import THead from '@/app/[locale]/components/ui/table/THead';
-import Table from '@/app/[locale]/components/ui/table/Table';
 import TR from '@/app/[locale]/components/ui/table/TR';
 import TD from '@/app/[locale]/components/ui/table/TD';
 import TH from '@/app/[locale]/components/ui/table/TH';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
+import THead from '@/app/[locale]/components/ui/table/THead';
+import Table from '@/app/[locale]/components/ui/table/Table';
 import TBody from '@/app/[locale]/components/ui/table/TBody';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
+import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
+import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
+import React, { useEffect, useMemo, useState } from 'react';
+import { IProduct } from '@/lib/types/types';
+import { UseFormReturn } from 'react-hook-form';
+import { useLocale, useTranslations } from 'next-intl';
+import { formatCurrency } from '@/utils/formatCurrency';
 
 interface ColumnsProps {
     header: string;
@@ -28,13 +27,12 @@ interface Props {
 export function SearchCheckboxCPProducts({ form }: Props) {
     const t = useTranslations();
     const locale = useLocale();
-    const { user } = useAuth();
 
     const [query, setQuery] = useState('');
     const [products, setProducts] = useState<IProduct[]>([]);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const fixedCount = products.length;
+    const count = products.length;
     const resultsPerPage = 10;
 
     const { register } = form;
@@ -113,7 +111,7 @@ export function SearchCheckboxCPProducts({ form }: Props) {
                                         />
                                     </TH>
 
-                                    <TD class_="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
+                                    <TD class_="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:hover:text-beer-gold dark:hover:beer-golddark:hover:beer-gold">
                                         <Link
                                             href={`/products/${product.id}`}
                                             target={'_blank'}
@@ -132,7 +130,7 @@ export function SearchCheckboxCPProducts({ form }: Props) {
             </Table>
 
             <PaginationFooter
-                counter={fixedCount}
+                counter={count}
                 resultsPerPage={resultsPerPage}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}

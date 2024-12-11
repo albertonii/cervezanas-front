@@ -7,7 +7,7 @@ import useFetchDistributionContractsByDistributorId from '../../../../../../hook
 import React, { useEffect, useState } from 'react';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
-import { IDistributionContract } from '@/lib//types/types';
+import { IDistributionContract } from '@/lib/types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { faCancel, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
@@ -83,7 +83,7 @@ export default function AssociatedProducersList({ counter }: Props) {
                     href={`/user-info/${row.producer_id}`}
                     locale={locale}
                     target="_blank"
-                    className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde"
+                    className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:hover:text-beer-gold"
                 >
                     {row.producer_user?.users?.username}
                 </Link>

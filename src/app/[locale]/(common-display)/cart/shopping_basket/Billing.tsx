@@ -4,7 +4,7 @@ import Spinner from '@/app/[locale]/components/ui/Spinner';
 import useFetchBillingByOwnerId from '@/hooks/useFetchBillingByOwnerId';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { IAddress } from '@/lib//types/types';
+import { IAddress } from '@/lib/types/types';
 import { removeBillingAddressById } from '../actions';
 import { useMutation, useQueryClient } from 'react-query';
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';

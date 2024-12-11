@@ -9,7 +9,7 @@ import { Community } from './homepage/Community';
 import { useAuth } from './(auth)/Context/useAuth';
 import { Homeheader } from './homepage/Homeheader';
 import { Highlights } from './homepage/Highlights';
-import { IMonthlyProduct } from '@/lib//types/types';
+import { IMonthlyProduct } from '@/lib/types/types';
 import { SliderMobile } from './homepage/SliderMobile';
 
 interface Props {

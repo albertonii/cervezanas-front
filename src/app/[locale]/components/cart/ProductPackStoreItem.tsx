@@ -13,7 +13,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { IconButton } from '../ui/buttons/IconButton';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { IProduct, IProductPack } from '@/lib//types/types';
+import { IProduct, IProductPack } from '@/lib/types/types';
 import { useShoppingCart } from '../../../context/ShoppingCartContext';
 import Label from '../ui/Label';
 

@@ -2,7 +2,7 @@
 
 import { useQuery } from 'react-query';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
-import { IBrewery } from '@/lib//types/types';
+import { IBrewery } from '@/lib/types/types';
 
 const fetchBreweriesByOwnerId = async (ownerId: string, supabase: any) => {
     const { data, error } = await supabase

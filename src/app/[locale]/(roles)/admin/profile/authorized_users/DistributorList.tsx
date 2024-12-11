@@ -6,7 +6,7 @@ import React, { useMemo, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { ROLE_ENUM } from '@/lib//enums';
 import { createNotification } from '@/utils/utils';
-import { IDistributorUser } from '@/lib//types/types';
+import { IDistributorUser } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
@@ -156,7 +156,6 @@ export default function DistributorList({ distributors }: Props) {
                 <DynamicModal
                     title={t('accept')}
                     icon={faCheck}
-                    color={acceptColor}
                     handler={async () => {
                         handleApproveClick(selectedDistributor);
                     }}
@@ -175,7 +174,6 @@ export default function DistributorList({ distributors }: Props) {
                 <DynamicModal
                     title={t('reject')}
                     icon={faCheck}
-                    color={acceptColor}
                     handler={async () => {
                         handleRejectClick(selectedDistributor);
                     }}

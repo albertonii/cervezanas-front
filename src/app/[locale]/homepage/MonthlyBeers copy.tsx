@@ -2,7 +2,7 @@
 
 import React from 'react';
 import MonthlyCardItem from './MonthlyCardItem';
-import { IMonthlyProduct } from '@/lib//types/types';
+import { IMonthlyProduct } from '@/lib/types/types';
 
 interface Props {
     monthlyProducts: IMonthlyProduct[];

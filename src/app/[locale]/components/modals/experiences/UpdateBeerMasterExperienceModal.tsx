@@ -14,7 +14,7 @@ import {
     Difficulty,
     IExperience,
     IUpdModalExperienceBeerMasterFormData,
-} from '@/lib//types/quiz';
+} from '@/lib/types/quiz';
 import Spinner from '../../ui/Spinner';
 
 const difficulties = z.union([

@@ -8,7 +8,7 @@ import { useAuth } from '../(auth)/Context/useAuth';
 import { faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IProductPack, ModalUpdateProductFormData } from '@/lib//types/types';
+import { IProductPack, ModalUpdateProductFormData } from '@/lib/types/types';
 
 const emptyPack: IProductPack = {
     id: '',

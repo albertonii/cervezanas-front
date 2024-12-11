@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { LotList } from './LotList';
-import { IRefProductLot } from '@/lib//types/types';
+import { IRefProductLot } from '@/lib/types/types';
 import { DeleteLot } from '@/app/[locale]/components/modals/DeleteLot';
 import { AddLot } from '@/app/[locale]/components/modals/AddLot';
 import { UpdateLot } from '@/app/[locale]/components/modals/UpdateLot';

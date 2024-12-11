@@ -1,16 +1,16 @@
 import '../../styles/globals.css';
 
 import Providers from './providers';
-import HeaderMenu from './HeaderMenu';
 import classNames from 'classnames';
+import HeaderMenu from './HeaderMenu';
 import Footer from './components/layout/Footer';
 import Breadcrumb from './components/layout/Breadcrumb';
 import createServerClient from '@/utils/supabaseServer';
+import CookieBanner from './components/cookieBanner/CookieBanner';
+import AgeVerificationBanner from './components/ageBanner/AgeVerificationBanner';
 import { notFound } from 'next/navigation';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { MessageList } from './components/message/MessageList';
-import AgeVerificationBanner from './components/ageBanner/AgeVerificationBanner';
-import CookieBanner from './components/cookieBanner/CookieBanner';
 
 type LayoutProps = {
     children: React.ReactNode;
@@ -34,7 +34,7 @@ export default async function AppLocaleLayout({
 
     let messages;
     try {
-        messages = (await import(`@/lib//translations/messages/${locale}.json`))
+        messages = (await import(`@/lib/translations/messages/${locale}.json`))
             .default;
     } catch (error) {
         notFound();
@@ -51,7 +51,7 @@ export default async function AppLocaleLayout({
                 <HeaderMenu i18nLocaleArray={i18n.locales} />
                 <section
                     className={classNames(
-                        'relative mx-auto w-full overflow-auto lg:container max-w-[1536px] lg:max-w-[1536px]',
+                        'relative mx-auto w-full overflow-auto lg:container max-w-[1536px]',
                     )}
                 >
                     <Breadcrumb />
@@ -59,7 +59,7 @@ export default async function AppLocaleLayout({
 
                 <main
                     className={classNames(
-                        'relative mx-auto my-0 min-h-[60vh] w-full transform pt-0 transition lg:container mb-10 max-w-[1900px] lg:max-w-full',
+                        'relative mx-auto my-0 min-h-[60vh] w-full transform pt-0 transition lg:container mb-10',
                     )}
                 >
                     <MessageList />

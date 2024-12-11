@@ -20,10 +20,10 @@ interface Props {
     title: string;
     btnTitle: string;
     triggerBtnTitle?: string;
-    description: string;
+    description?: string;
     children: JSX.Element;
     icon?: IconDefinition;
-    classContainer: string;
+    classContainer?: string;
     setShowModal: (b: boolean) => void;
     showFooter?: boolean;
     btnCancelTitle?: string;
@@ -148,7 +148,7 @@ export default function ModalWithForm({
                         >
                             {/*content*/}
                             <div
-                                className={`relative flex w-full flex-col rounded-lg border-0 bg-beer-foam shadow-lg outline-none focus:outline-none`}
+                                className={`relative flex w-full flex-col rounded-lg border-0 bg-beer-foam dark:bg-beer-draft shadow-lg outline-none focus:outline-none`}
                             >
                                 {/*header*/}
                                 <div className="border-slate-200 flex items-start justify-between rounded-t p-5 pb-2 bg-beer-blonde border-b-beer-dark border-b-4">

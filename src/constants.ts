@@ -69,6 +69,26 @@ export const EVENT_ORDER_STATUS = {
     WITH_SERVICES_TO_CONSUME: 'with_services_to_consume',
     SERVED: 'served',
     ERROR: 'error',
+    PENDING_PAYMENT: 'pending_payment',
+};
+
+export type EventOrderCPSStatus =
+    | 'not_started'
+    | 'pending'
+    | 'preparing'
+    | 'ready'
+    | 'completed'
+    | 'pending_payment'
+    | 'cancelled';
+
+export const EVENT_ORDER_CPS_STATUS = {
+    NOT_STARTED: 'not_started',
+    PENDING: 'pending',
+    PREPARING: 'preparing',
+    READY: 'ready',
+    COMPLETED: 'completed',
+    PENDING_PAYMENT: 'pending_payment',
+    CANCELLED: 'cancelled',
 };
 
 export const EVENT_ORDER_ITEM_STATUS = {

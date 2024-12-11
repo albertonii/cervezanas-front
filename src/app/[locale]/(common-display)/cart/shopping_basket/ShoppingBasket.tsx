@@ -20,13 +20,14 @@ import { randomTransactionId, CURRENCIES } from 'redsys-easy';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
-import { IProductPackCartItem, IUserTable } from '@/lib//types/types';
+import { IProductPackCartItem, IUserTable } from '@/lib/types/types';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { CustomLoading } from '@/app/[locale]/components/ui/CustomLoading';
 import {
     createRedirectForm,
     merchantInfo,
 } from '@/app/[locale]/components/TPV/redsysClient';
+import { CURRENCY_ENUM } from '@/lib/enums';
 
 export type FormShippingData = {
     shipping_info_id: string;
@@ -74,7 +75,6 @@ export function ShoppingBasket({ user }: Props) {
         promoCode,
     } = useShoppingCart();
 
-    // const formRef = useRef<HTMLFormElement>(null);
     const btnRef = useRef<HTMLButtonElement>(null);
 
     const [deliveryCost, setDeliveryCost] = useState(0);
@@ -199,7 +199,7 @@ export function ShoppingBasket({ user }: Props) {
             total: total,
             subtotal: subtotal,
             delivery_cost: deliveryCost,
-            currency: 'EUR',
+            currency: CURRENCY_ENUM.EUR,
             order_number: orderNumber,
             type: 'online',
             tax: 0,
@@ -297,7 +297,7 @@ export function ShoppingBasket({ user }: Props) {
         const { totalAmount, currency } = {
             // Never use floats for money
             totalAmount: total,
-            currency: 'EUR',
+            currency: CURRENCY_ENUM.EUR,
         } as const;
 
         const orderNumber = randomTransactionId();

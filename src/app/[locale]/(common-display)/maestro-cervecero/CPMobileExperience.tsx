@@ -1,5 +1,5 @@
 import React from 'react';
 
-export default function CPMobileExperience() {
-    return <div>CPMobileExperience</div>;
+export default function CPExperience() {
+    return <div>CP Experience</div>;
 }

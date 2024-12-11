@@ -1,84 +1,53 @@
 import DisplayEvent from './DisplayEvent';
-import createServerClient from '@/utils/supabaseServer';
-import { ICPF_events, ICPM_events, IEvent } from '@/lib//types/types';
-import { IBMExperienceParticipants, IEventExperience } from '@/lib//types/quiz';
 import readUserSession from '@/lib//actions';
+import createServerClient from '@/utils/supabaseServer';
+import { IEvent } from '@/lib/types/eventOrders';
+import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
+import { IBMExperienceParticipants } from '@/lib/types/quiz';
+import { IEventExperience } from '@/lib/types/types';
 
 export default async function EventPage({ params }: any) {
     const { id } = params;
 
     const eventData = getEvent(id);
-    const cpMobilesData = getCPMobilesFromEvent(id);
-    const cpFixedsData = getCPFixedsFromEvent(id);
+    const cpsByEventData = getCPByEventId(id);
     const eventExperiencesData = getEventExperiences(id);
     const experienceParticipantData = getBMExperienceParticipants(id);
 
-    const [
-        event,
-        cpmEvents,
-        cpfEvents,
-        eventExperiences,
-        experienceParticipant,
-    ] = await Promise.all([
-        eventData,
-        cpMobilesData,
-        cpFixedsData,
-        eventExperiencesData,
-        experienceParticipantData,
-    ]);
+    const [event, cpsByEvent, eventExperiences, experienceParticipant] =
+        await Promise.all([
+            eventData,
+            cpsByEventData,
+            eventExperiencesData,
+            experienceParticipantData,
+        ]);
 
     return (
         <DisplayEvent
             event={event}
-            cpmEvents={cpmEvents}
-            cpfEvents={cpfEvents}
+            cpsEvents={cpsByEvent}
             eventExperiences={eventExperiences}
             experienceParticipant={experienceParticipant}
         />
     );
 }
 
-async function getCPMobilesFromEvent(eventId: string) {
+async function getCPByEventId(eventId: string) {
     const supabase = await createServerClient();
 
     const { data: event, error } = await supabase
-        .from('cpm_events')
+        .from('cp_events')
         .select(
             `
             *,
-            cp_mobile (*),
-            events (*)
+            cp (*)
           `,
         )
         .eq('event_id', eventId);
 
     if (error) console.error(error);
 
-    return event as ICPM_events[];
-}
-
-async function getCPFixedsFromEvent(eventId: string) {
-    const supabase = await createServerClient();
-
-    const { data: event, error } = await supabase
-        .from('cpf_events')
-        .select(
-            `
-            *,
-            cp_fixed (*),
-            events (
-                *,
-                cp_mobile (*),
-                cp_fixed (*),
-                users (*)
-            )
-          `,
-        )
-        .eq('event_id', eventId);
-
-    if (error) console.error(error);
-
-    return event as ICPF_events[];
+    return event as IConsumptionPointEvent[];
 }
 
 async function getEvent(eventId: string) {
@@ -88,8 +57,9 @@ async function getEvent(eventId: string) {
         .from('events')
         .select(
             `
-            *
-          `,
+                *,
+                cp_events (*)
+            `,
         )
         .eq('id', eventId)
         .single();

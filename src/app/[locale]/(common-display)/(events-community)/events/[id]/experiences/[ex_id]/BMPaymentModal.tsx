@@ -1,9 +1,9 @@
 import Modal from '@/app/[locale]/components/modals/Modal';
 import React, { ComponentProps, useState } from 'react';
-import { useAuth } from '../../../../../../(auth)/Context/useAuth';
-import { IEventExperience, IExperience } from '@/lib/types/types';
 import { useTranslations } from 'next-intl';
 import { IBMExperienceParticipants } from '@/lib/types/quiz';
+import { IEventExperience, IExperience } from '@/lib/types/types';
+import { useAuth } from '../../../../../../(auth)/Context/useAuth';
 
 interface Props {
     handleParticipate: ComponentProps<any>;
@@ -32,8 +32,7 @@ export default function BMPaymentModal({
                     gamification_id: user?.id,
                     experience_id: experience?.id,
                     event_id: eventExperience.event_id,
-                    cpm_id: eventExperience.cp_mobile_id ?? null,
-                    cpf_id: eventExperience.cp_fixed_id ?? null,
+                    cp_id: eventExperience.cp?.id ?? null,
                     score: 0,
                     is_paid: false,
                     is_cash: false,

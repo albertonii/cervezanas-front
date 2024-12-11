@@ -3,30 +3,24 @@ import readUserSession from '@/lib//actions';
 import createServerClient from '@/utils/supabaseServer';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import { ICPFixed, ICPMobile } from '@/lib//types/types';
+import { IConsumptionPoint } from '@/lib/types/consumptionPoints';
 
 export default async function EventsPage() {
-    const cpsMobileData = getCPMobileData();
-    const cpsFixedData = getCPFixedData();
+    const cpsData = getCPData();
     const eventsCounterData = getEventsCounter();
-    const [cpsMobile, cpsFixed, eventsCounter] = await Promise.all([
-        cpsMobileData,
-        cpsFixedData,
+    const [cps, eventsCounter] = await Promise.all([
+        cpsData,
         eventsCounterData,
     ]);
 
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <EventLayout
-                cpsMobile={cpsMobile}
-                cpsFixed={cpsFixed}
-                counter={eventsCounter}
-            />
+            <EventLayout cps={cps} counter={eventsCounter} />
         </Suspense>
     );
 }
 
-async function getCPMobileData() {
+async function getCPData() {
     const supabase = await createServerClient();
 
     const session = await readUserSession();
@@ -35,8 +29,8 @@ async function getCPMobileData() {
         redirect('/signin');
     }
 
-    const { data: cpMobiles, error: cpError } = await supabase
-        .from('cp_mobile')
+    const { data, error: cpError } = await supabase
+        .from('cp')
         .select(
             `
                 *
@@ -46,30 +40,7 @@ async function getCPMobileData() {
 
     if (cpError) throw cpError;
 
-    return cpMobiles as ICPMobile[];
-}
-
-async function getCPFixedData() {
-    const supabase = await createServerClient();
-
-    const session = await readUserSession();
-
-    if (!session) {
-        redirect('/signin');
-    }
-
-    const { data: cpFixeds, error: cpError } = await supabase
-        .from('cp_fixed')
-        .select(
-            `
-                *
-            `,
-        )
-        .eq('owner_id', session.id);
-
-    if (cpError) throw cpError;
-
-    return cpFixeds as ICPFixed[];
+    return data as IConsumptionPoint[];
 }
 
 async function getEventsCounter() {

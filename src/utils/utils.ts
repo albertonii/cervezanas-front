@@ -1,6 +1,7 @@
 import { uuid } from 'uuidv4';
 import { ROLE_ENUM } from '@/lib//enums';
-import { RouteLocaleNames, routes } from './breadcrumb_routes';
+import { routes } from './breadcrumb_routes';
+import { match } from 'path-to-regexp';
 
 export function isValidObject(object: any) {
     return object != null && object !== '' && !isEmpty(object);
@@ -244,50 +245,209 @@ export const shuffleArray = (array: any[]) =>
     [...array].sort(() => Math.random() - 0.5);
 
 // B R E A D C R U M B S
-export const getBreadcrumbs = (path: string, locale: 'en' | 'es') => {
-    const pathArray = path.split('/').filter((p) => p);
-    const breadcrumbs = [
-        {
-            path: '/',
-            name: 'Inicio',
-        },
-    ];
 
-    let currentPath = '';
+// Caché para almacenar nombres ya obtenidos y evitar llamadas repetidas
+const breadcrumbNameCache: Record<string, string> = {};
 
-    for (const segment of pathArray) {
-        // Remove locale from path
-        if (segment === 'es' || segment === 'en') {
-            continue;
+export type Breadcrumb = {
+    name: string;
+    path: string;
+};
+
+export const getBreadcrumbs = async (
+    pathname: string,
+    locale: string,
+): Promise<Breadcrumb[]> => {
+    const pathSegments = pathname.split('/').filter(Boolean);
+
+    // Eliminar el segmento del idioma si está presente
+    if (pathSegments[0] === locale) {
+        pathSegments.shift();
+    }
+
+    const breadcrumbs: Breadcrumb[] = [];
+    let accumulatedPath = '';
+    const fetchPromises: Promise<void>[] = [];
+
+    for (let i = 0; i < pathSegments.length; i++) {
+        accumulatedPath += `/${pathSegments[i]}`;
+
+        // Intentar encontrar una ruta exacta primero
+        let route = routes[accumulatedPath];
+        let matchingRouteKey: string | undefined;
+
+        if (!route) {
+            // Si no se encuentra, intentar con patrones dinámicos
+            matchingRouteKey = Object.keys(routes).find((routePattern) => {
+                const matcher = match(routePattern, {
+                    decode: decodeURIComponent,
+                });
+                const matched = matcher(accumulatedPath);
+                return matched !== false;
+            });
+
+            if (matchingRouteKey) {
+                route = routes[matchingRouteKey];
+            }
         }
 
-        currentPath += `/${segment}`;
+        if (route) {
+            let name = route[locale as 'en' | 'es'];
+            let path = `/${locale}${accumulatedPath}`;
 
-        // Manejar rutas dinámicas
-        const dynamicPath = Object.keys(routes).find(
-            (route) =>
-                route.includes(':') &&
-                new RegExp(route.replace(/:\w+/g, '\\w+')).test(currentPath),
-        );
+            // Verificar si la ruta tiene segmentos dinámicos
+            if (matchingRouteKey && matchingRouteKey.includes(':')) {
+                const matcher = match(matchingRouteKey, {
+                    decode: decodeURIComponent,
+                });
+                const matched = matcher(accumulatedPath);
 
-        const routeInfo: RouteLocaleNames | undefined =
-            routes[currentPath] || (dynamicPath && routes[dynamicPath]);
+                if (matched && matched.params) {
+                    const params = matched.params as Record<string, string>;
 
-        if (routeInfo) {
-            breadcrumbs.push({
-                path: routeInfo.path || currentPath,
-                name: routeInfo[locale],
-            });
+                    fetchPromises.push(
+                        (async () => {
+                            if (matchingRouteKey === '/events/:id') {
+                                const eventName = await fetchEventName(
+                                    params.id,
+                                );
+                                if (eventName) {
+                                    name = eventName;
+                                } else {
+                                    name = params.id;
+                                }
+                            }
+
+                            if (matchingRouteKey === '/events/:id/cp/:cp_id') {
+                                const cpName =
+                                    await fetchConsumptionPointsEventById(
+                                        params.cp_id,
+                                    );
+                                if (cpName) {
+                                    name = cpName;
+                                } else {
+                                    name = params.cp_id;
+                                }
+                            }
+
+                            if (matchingRouteKey === '/products/:id') {
+                                const productName = await fetchProductName(
+                                    params.id,
+                                );
+                                if (productName) {
+                                    name = productName;
+                                } else {
+                                    name = params.id;
+                                }
+                            }
+
+                            // Reconstruir la ruta con los parámetros reales
+                            const patternSegments = matchingRouteKey
+                                .split('/')
+                                .filter(Boolean);
+                            const realPathSegments = patternSegments.map(
+                                (seg) => {
+                                    if (seg.startsWith(':')) {
+                                        const paramName = seg.substring(1);
+                                        return params[paramName];
+                                    }
+                                    return seg;
+                                },
+                            );
+                            path = `/${locale}/${realPathSegments.join('/')}`;
+
+                            breadcrumbs.push({ name, path });
+                        })(),
+                    );
+                } else {
+                    // Si no hay parámetros, agregar el breadcrumb normalmente
+                    breadcrumbs.push({ name, path });
+                }
+            } else {
+                // Ruta estática, agregar el breadcrumb
+                breadcrumbs.push({ name, path });
+            }
         } else {
-            // Si no se encuentra una ruta específica, agregar un segmento sin nombre específico
+            // Fallback si no se encuentra la ruta
             breadcrumbs.push({
-                path: currentPath,
-                name: segment,
+                name: pathSegments[i],
+                path: `/${locale}${accumulatedPath}`,
             });
         }
     }
 
+    // Esperar a que todas las llamadas a la API se completen
+    await Promise.all(fetchPromises);
+
+    // Ordenar los breadcrumbs por su posición original
+    breadcrumbs.sort(
+        (a, b) => a.path.split('/').length - b.path.split('/').length,
+    );
+
     return breadcrumbs;
+};
+
+// Function to fetch event name based on ID
+const fetchEventName = async (eventId: string): Promise<string | null> => {
+    if (breadcrumbNameCache[`event_${eventId}`]) {
+        return breadcrumbNameCache[`event_${eventId}`];
+    }
+
+    try {
+        const response = await fetch(`/api/events/name?id=${eventId}`);
+        if (!response.ok) {
+            return null;
+        }
+        const data = await response.json();
+        breadcrumbNameCache[`event_${eventId}`] = data.name;
+
+        return data.name; // Assuming the API returns { name: 'Event Name' }
+    } catch (error) {
+        console.error('Error fetching event name:', error);
+        return null;
+    }
+};
+
+const fetchProductName = async (productId: string): Promise<string | null> => {
+    if (breadcrumbNameCache[`product_${productId}`]) {
+        return breadcrumbNameCache[`product_${productId}`];
+    }
+
+    try {
+        const response = await fetch(`/api/products/name?id=${productId}`);
+        if (!response.ok) {
+            return null;
+        }
+        const data = await response.json();
+        breadcrumbNameCache[`product_${productId}`] = data.name;
+
+        return data.name; // Assuming the API returns { name: 'Product Name' }
+    } catch (error) {
+        console.error('Error fetching product name:', error);
+        return null;
+    }
+};
+
+const fetchConsumptionPointsEventById = async (
+    cpId: string,
+): Promise<string | null> => {
+    if (breadcrumbNameCache[`cp_${cpId}`]) {
+        return breadcrumbNameCache[`cp_${cpId}`];
+    }
+
+    try {
+        const response = await fetch(`/api/consumption_points/name?id=${cpId}`);
+        if (!response.ok) {
+            return null;
+        }
+        const data = await response.json();
+        breadcrumbNameCache[`cp_${cpId}`] = data.name;
+
+        return data.name; // Assuming the API returns { name: 'Product Name' }
+    } catch (error) {
+        console.error('Error fetching product name:', error);
+        return null;
+    }
 };
 
 export const calculateInvoicePeriod = (date: Date) => {
@@ -319,3 +479,14 @@ export const createNotification = async (
 
     return { error: null, message: 'Notificación creada exitosamente' };
 };
+
+export function generateOrderNumber(
+    paymentMethod: 'online' | 'on-site',
+): string {
+    const prefix = paymentMethod === 'online' ? 'ON' : 'EF';
+    const randomLetter = String.fromCharCode(
+        65 + Math.floor(Math.random() * 26),
+    ); // Genera una letra aleatoria
+    const randomDigits = Math.floor(1000 + Math.random() * 9000); // Genera un número de 4 dígitos entre 1000 y 9999
+    return `${prefix}-${randomLetter}${randomDigits}`;
+}

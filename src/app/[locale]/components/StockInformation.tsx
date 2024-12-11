@@ -3,7 +3,7 @@ import { faCubes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import { ModalAddProductFormData } from '@/lib//types/types';
+import { ModalAddProductFormData } from '@/lib/types/types';
 
 interface Props {
     form: UseFormReturn<ModalAddProductFormData, any>;

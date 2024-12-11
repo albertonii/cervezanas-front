@@ -3,7 +3,7 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 import { useQuery } from 'react-query';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
-import { IProduct } from '@/lib//types/types';
+import { IProduct } from '@/lib/types/types';
 
 const fetchProductById = async (
     productId: string,
@@ -17,15 +17,12 @@ const fetchProductById = async (
         .from('products')
         .select(
             `
-        *,
-        beers (*),
-        product_media (
-          p_principal
-        ),
-        product_inventory (
-          quantity
-        )
-      `,
+                *,
+                beers (*),
+                product_media (
+                    *
+                )
+            `,
         )
         .eq('id', productId)
         .single();

@@ -1,19 +1,18 @@
 'use client';
 
-import React, { useState } from 'react';
-import { EventOption } from '@/lib//enums';
-import { ICPFixed, ICPMobile } from '@/lib//types/types';
-import CervezanasEvents from './(cp_event_cervezanas)/CervezanasEvents';
 import Events from './(producer_events)/Events';
 import HorizontalMenuEvent from './HorizontalMenuEvent';
+import CervezanasEvents from './(cp_event_cervezanas)/CervezanasEvents';
+import React, { useState } from 'react';
+import { EventOption } from '@/lib//enums';
+import { IConsumptionPoint } from '@/lib/types/consumptionPoints';
 
 interface Props {
-    cpsMobile: ICPMobile[];
-    cpsFixed: ICPFixed[];
+    cps: IConsumptionPoint[];
     counter: number;
 }
 
-export default function EventLayout({ cpsMobile, cpsFixed, counter }: Props) {
+export default function EventLayout({ cps, counter }: Props) {
     const [menuOption, setMenuOption] = useState<string>(
         EventOption.CERVEZANAS_EVENT,
     );
@@ -24,13 +23,7 @@ export default function EventLayout({ cpsMobile, cpsFixed, counter }: Props) {
                 return <CervezanasEvents counter={counter} />;
 
             case EventOption.EVENT:
-                return (
-                    <Events
-                        cpsMobile={cpsMobile}
-                        cpsFixed={cpsFixed}
-                        counter={counter}
-                    />
-                );
+                return <Events cps={cps} counter={counter} />;
 
             default:
                 return <></>;

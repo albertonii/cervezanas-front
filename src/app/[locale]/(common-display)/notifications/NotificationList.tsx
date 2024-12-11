@@ -7,7 +7,7 @@ import { ROLE_ENUM } from '@/lib/enums';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../(auth)/Context/useAuth';
-import { INotification, IUser } from '@/lib//types/types';
+import { INotification, IUser } from '@/lib/types/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faChevronCircleDown,

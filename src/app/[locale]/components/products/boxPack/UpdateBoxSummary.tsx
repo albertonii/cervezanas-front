@@ -1,7 +1,7 @@
 import React from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
-import { ModalUpdateBoxPackFormData } from '@/lib//types/product';
+import { ModalUpdateBoxPackFormData } from '@/lib/types/product';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { DisplayInputError } from '../../ui/DisplayInputError';
 

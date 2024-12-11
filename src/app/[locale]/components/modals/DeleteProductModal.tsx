@@ -5,7 +5,7 @@ import Spinner from '../ui/Spinner';
 import React, { ComponentProps, useState } from 'react';
 import { useMessage } from '../message/useMessage';
 import { useMutation, useQueryClient } from 'react-query';
-import { IProduct } from '@/lib//types/types';
+import { IProduct } from '@/lib/types/types';
 
 interface Props {
     product: IProduct;

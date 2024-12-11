@@ -13,7 +13,7 @@ import AddMonthlyProduct from '@/app/[locale]/components/modals/AddMonthlyProduc
 import React, { useMemo, useState } from 'react';
 import { SupabaseProps } from '@/constants';
 import { useLocale, useTranslations } from 'next-intl';
-import { IMonthlyProduct, IProduct } from '@/lib//types/types';
+import { IMonthlyProduct, IProduct } from '@/lib/types/types';
 import { EditButton } from '@/app/[locale]/components/ui/buttons/EditButton';
 import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';
 
@@ -185,7 +185,7 @@ export default function MonthlyProductsList({ mProducts, products }: Props) {
                                             />
                                         </TH>
 
-                                        <TD class_="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
+                                        <TD class_="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:hover:text-beer-gold">
                                             <Link
                                                 href={`/products/${product.product_id}`}
                                                 locale={locale}

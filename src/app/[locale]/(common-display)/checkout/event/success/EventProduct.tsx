@@ -1,14 +1,15 @@
-import React from 'react';
-import GenerateQR from './GenerateQR';
 import Link from 'next/link';
-import { useLocale, useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
-import { IEventOrderItem } from '@/lib//types/types';
-import { EVENT_ORDER_ITEM_STATUS, SupabaseProps } from '@/constants';
-import { StatusTimeline } from '@/app/[locale]/components/StatusTimeline';
-import { formatCurrency } from '@/utils/formatCurrency';
+import GenerateQR from './GenerateQR';
+import Label from '@/app/[locale]/components/ui/Label';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
 import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
+import React from 'react';
+import { useRouter } from 'next/navigation';
+import { useLocale, useTranslations } from 'next-intl';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { IEventOrderItem } from '@/lib/types/eventOrders';
+import { EVENT_ORDER_ITEM_STATUS, SupabaseProps } from '@/constants';
+import { StatusTimeline } from '@/app/[locale]/components/StatusTimeline';
 
 interface Props {
     eventOrderItem: IEventOrderItem;
@@ -51,19 +52,19 @@ export default function EventProduct({ eventOrderItem, domain }: Props) {
                     </h3>
 
                     <span className="space-y-1">
-                        <p className="text-sm text-gray-500">
+                        <Label size="small" color="gray">
                             {t('description')}
-                        </p>
-                        <p className="truncate">
+                        </Label>
+                        <Label className="truncate">
                             {product_packs.products?.description}
-                        </p>
+                        </Label>
                     </span>
                 </div>
 
                 <article
                     className="col-span-12 grid justify-between gap-2 rounded-lg border border-gray-200 sm:col-span-1 sm:space-x-4 sm:p-4 lg:grid-cols-12 lg:space-x-2 lg:p-6"
                     key={
-                        eventOrderItem.order_id +
+                        eventOrderItem.event_order_cp_id +
                         '-' +
                         eventOrderItem.product_pack_id
                     }

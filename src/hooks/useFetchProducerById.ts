@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from 'react-query';
-import { IProducerUser } from '@/lib//types/types';
+import { IProducerUser } from '@/lib/types/types';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { SupabaseClient } from '@supabase/supabase-js';
 

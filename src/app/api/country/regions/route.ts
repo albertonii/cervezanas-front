@@ -1,4 +1,4 @@
-import { JSONRegion } from '@/lib//types/distribution_areas';
+import { JSONRegion } from '@/lib/types/distribution_areas';
 import { NextRequest, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';

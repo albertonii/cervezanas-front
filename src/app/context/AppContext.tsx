@@ -9,7 +9,7 @@ import {
     ICustomizeSettings,
     IProduct,
     IRefProductLot,
-} from '@/lib//types/types';
+} from '@/lib/types/types';
 
 // Definir el tipo de datos para el objeto de imágenes
 type ImageDataRecord = {

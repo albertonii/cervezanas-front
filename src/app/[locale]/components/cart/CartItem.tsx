@@ -1,7 +1,7 @@
 'use client';
 
 import { useLocale, useTranslations } from 'next-intl';
-import { IProductPackCartItem } from '@/lib//types/types';
+import { IProductPackCartItem } from '@/lib/types/types';
 import { CartPackItem } from './CartPackItem';
 import classNames from 'classnames';
 import Link from 'next/link';

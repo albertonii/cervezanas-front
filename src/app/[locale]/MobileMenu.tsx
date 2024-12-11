@@ -32,20 +32,14 @@ import {
 } from '@/config';
 import { generateLink } from '@/utils/utils';
 import DropdownRoleList from './components/DropdownRoleList';
+import { useAppContext } from '../context/AppContext';
 
 interface Props {
     i18nLocaleArray: string[];
-    options: string[];
 }
 
-export default function MobileMenu({
-    i18nLocaleArray,
-    options,
-}: Props) {
-   // const { role, user } = useAuth();
-    const { notifications } = useNotifications();
-
-    //const { role, user } = useAuth();
+export default function MobileMenu({ i18nLocaleArray }: Props) {
+    const { notifications, setOpenNotification } = useNotifications();
     const { role, signOut, changeRole, user } = useAuth();
     const [open, setOpen] = useState(false);
     const dropdown = useRef<HTMLDivElement>(null);
@@ -53,7 +47,7 @@ export default function MobileMenu({
         setOpen(false);
     };
 
- const imageSrc =
+    const imageSrc =
         role === ROLE_ENUM.Admin
             ? '/icons/icon-admin.png'
             : role === ROLE_ENUM.Distributor
@@ -63,7 +57,7 @@ export default function MobileMenu({
             : '/icons/icon-cerv.png';
     const [displayDropdownRoles, setDisplayDropdownRoles] = useState(false);
     const [isArrowDown, setIsArrowDown] = useState(false);
-   // const { changeSidebarActive } = useAppContext();
+    // const { changeSidebarActive } = useAppContext();
     const handleOnClickRole = () => {
         //  setDisplayDropdownRoles(true);
         setDisplayDropdownRoles(!isArrowDown);
@@ -76,13 +70,11 @@ export default function MobileMenu({
     };
     const handleOnClickOption = (option: string) => {
         setOpen(false);
-     //   changeSidebarActive(option);
+        //   changeSidebarActive(option);
     };
-
 
     const sidebarRef = useRef<HTMLDivElement>(null);
 
-    const { setOpenNotification } = useNotifications();
     const { cartQuantity, openCart } = useShoppingCart();
     useOnClickOutside(sidebarRef, () => handleClickOutsideCallback());
 

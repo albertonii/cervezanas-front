@@ -12,7 +12,7 @@ import {
     Svg,
     Line,
 } from '@react-pdf/renderer';
-import { IBusinessOrder, IOrder } from '@/lib//types/types';
+import { IBusinessOrder, IOrder } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { TableTotalInvoice } from '@/app/[locale]/components/invoice/TableTotalInvoice';
 import { FooterInvoice } from '@/app/[locale]/components/invoice/FooterInvoice';

@@ -1,6 +1,6 @@
 'use client';
 
-import { IExperience } from '@/lib//types/quiz';
+import { IExperience } from '@/lib/types/quiz';
 import { useQuery } from 'react-query';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 import { SupabaseClient } from '@supabase/supabase-js';

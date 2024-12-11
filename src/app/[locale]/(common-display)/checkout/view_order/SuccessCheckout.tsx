@@ -7,7 +7,7 @@ import ShippingInformationBox from '@/app/[locale]/components/ShippingInformatio
 import BusinessOrderStatusInformation from '@/app/[locale]/components/common/BussinessOrderStatusInformation';
 import React, { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { IOrder } from '@/lib//types/types';
+import { IOrder } from '@/lib/types/types';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
 
@@ -49,7 +49,7 @@ export default function SuccessCheckout({ order, isError }: Props) {
     if (loading) return <Spinner color="beer-blonde" size="fullScreen" />;
 
     return (
-        <section className="m-4 sm:py-4 lg:py-6">
+        <section className="m-4 sm:py-4 lg:py-6 w-full">
             <BusinessOrderStatusInformation bOrders={bOrders!} order={order} />
 
             {/* Product and packs information */}

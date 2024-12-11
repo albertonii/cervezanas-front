@@ -4,7 +4,7 @@ import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHea
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { ProductList } from './ProductList';
-import { IProduct } from '@/lib//types/types';
+import { IProduct } from '@/lib/types/types';
 import { ProductFileUploadProvider } from '@/app/context/ProductFileUploadContext';
 import { AddProductModal } from '../../../producer/profile/products/AddProductModal';
 import { DeleteProductModal } from '@/app/[locale]/components/modals/DeleteProductModal';

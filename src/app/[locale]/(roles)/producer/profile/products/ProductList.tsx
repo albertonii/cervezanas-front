@@ -2,18 +2,17 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
+import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
 import React, { ComponentProps, useEffect, useState } from 'react';
-import { IProduct } from '@/lib//types/types';
+import { IProduct } from '@/lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { InfoTooltip } from '@/app/[locale]/components/ui/InfoTooltip';
 import { EditButton } from '@/app/[locale]/components/ui/buttons/EditButton';
 import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';
 import { ArchiveButton } from '@/app/[locale]/components/ui/buttons/ArchiveButton';
-import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 
 interface Props {
     handleEditShowModal: ComponentProps<any>;
@@ -84,7 +83,7 @@ export function ProductList({
             sortable: true,
             render: (name: string, row: IProduct) => (
                 <Link href={`/products/${row.id}`} locale={locale}>
-                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
+                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:hover:text-beer-gold">
                         {name}
                     </span>
                     {row.product_packs?.length === 0 && (

@@ -308,8 +308,7 @@ export type Database = {
       bm_experience_participants: {
         Row: {
           correct_answers: number | null
-          cpf_id: string | null
-          cpm_id: string | null
+          cp_id: string | null
           created_at: string
           event_id: string | null
           experience_id: string | null
@@ -323,8 +322,7 @@ export type Database = {
         }
         Insert: {
           correct_answers?: number | null
-          cpf_id?: string | null
-          cpm_id?: string | null
+          cp_id?: string | null
           created_at?: string
           event_id?: string | null
           experience_id?: string | null
@@ -338,8 +336,7 @@ export type Database = {
         }
         Update: {
           correct_answers?: number | null
-          cpf_id?: string | null
-          cpm_id?: string | null
+          cp_id?: string | null
           created_at?: string
           event_id?: string | null
           experience_id?: string | null
@@ -353,17 +350,10 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "public_beer_master_experience_cpf_id_fkey"
-            columns: ["cpf_id"]
+            foreignKeyName: "bm_experience_participants_cp_id_fkey"
+            columns: ["cp_id"]
             isOneToOne: false
-            referencedRelation: "cp_fixed"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_beer_master_experience_cpm_id_fkey"
-            columns: ["cpm_id"]
-            isOneToOne: false
-            referencedRelation: "cp_mobile"
+            referencedRelation: "cp"
             referencedColumns: ["id"]
           },
           {
@@ -434,6 +424,123 @@ export type Database = {
           },
         ]
       }
+      bm_game_organizers: {
+        Row: {
+          bm_game_id: string
+          created_at: string
+          owner_id: string
+        }
+        Insert: {
+          bm_game_id?: string
+          created_at?: string
+          owner_id?: string
+        }
+        Update: {
+          bm_game_id?: string
+          created_at?: string
+          owner_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bm_game_organizers_bm_game_id_fkey"
+            columns: ["bm_game_id"]
+            isOneToOne: false
+            referencedRelation: "bm_steps_game_state"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bm_game_organizers_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bm_game_participants: {
+        Row: {
+          bm_game_id: string
+          created_at: string
+          user_id: string
+        }
+        Insert: {
+          bm_game_id?: string
+          created_at?: string
+          user_id?: string
+        }
+        Update: {
+          bm_game_id?: string
+          created_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bm_game_participants_bm_game_id_fkey"
+            columns: ["bm_game_id"]
+            isOneToOne: false
+            referencedRelation: "bm_steps_game_state"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bm_game_participants_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bm_game_steps_registered: {
+        Row: {
+          correct_answers: number | null
+          created_at: string
+          current_question_index: number | null
+          is_completed: boolean | null
+          is_qr_scanned: boolean | null
+          is_unlocked: boolean | null
+          step_id: string
+          time_spent: number | null
+          user_id: string
+        }
+        Insert: {
+          correct_answers?: number | null
+          created_at?: string
+          current_question_index?: number | null
+          is_completed?: boolean | null
+          is_qr_scanned?: boolean | null
+          is_unlocked?: boolean | null
+          step_id?: string
+          time_spent?: number | null
+          user_id?: string
+        }
+        Update: {
+          correct_answers?: number | null
+          created_at?: string
+          current_question_index?: number | null
+          is_completed?: boolean | null
+          is_qr_scanned?: boolean | null
+          is_unlocked?: boolean | null
+          step_id?: string
+          time_spent?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bm_game_steps_registered_step_id_fkey"
+            columns: ["step_id"]
+            isOneToOne: false
+            referencedRelation: "bm_steps"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bm_game_steps_registered_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bm_questions: {
         Row: {
           category: string | null
@@ -481,6 +588,248 @@ export type Database = {
             columns: ["product_id"]
             isOneToOne: false
             referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bm_steps: {
+        Row: {
+          bm_state_id: string | null
+          correct_answers: number | null
+          created_at: string
+          current_question_index: number | null
+          description: string | null
+          id: string
+          is_completed: boolean | null
+          is_qr_scanned: boolean | null
+          is_unlocked: boolean | null
+          last_visited: string | null
+          location: string | null
+          step_number: number | null
+          time_spent: number | null
+          title: string | null
+        }
+        Insert: {
+          bm_state_id?: string | null
+          correct_answers?: number | null
+          created_at?: string
+          current_question_index?: number | null
+          description?: string | null
+          id?: string
+          is_completed?: boolean | null
+          is_qr_scanned?: boolean | null
+          is_unlocked?: boolean | null
+          last_visited?: string | null
+          location?: string | null
+          step_number?: number | null
+          time_spent?: number | null
+          title?: string | null
+        }
+        Update: {
+          bm_state_id?: string | null
+          correct_answers?: number | null
+          created_at?: string
+          current_question_index?: number | null
+          description?: string | null
+          id?: string
+          is_completed?: boolean | null
+          is_qr_scanned?: boolean | null
+          is_unlocked?: boolean | null
+          last_visited?: string | null
+          location?: string | null
+          step_number?: number | null
+          time_spent?: number | null
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bm_steps_bm_state_id_fkey"
+            columns: ["bm_state_id"]
+            isOneToOne: false
+            referencedRelation: "bm_steps_game_state"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bm_steps_achievements: {
+        Row: {
+          bm_game_id: string | null
+          description: string | null
+          how_to_achieve: string | null
+          icon: string | null
+          id: string
+          name: string | null
+          points: number | null
+          progress: number | null
+          rarity: string | null
+          share_message: string | null
+          target: number | null
+          type: string | null
+          unlocked_at: string | null
+        }
+        Insert: {
+          bm_game_id?: string | null
+          description?: string | null
+          how_to_achieve?: string | null
+          icon?: string | null
+          id?: string
+          name?: string | null
+          points?: number | null
+          progress?: number | null
+          rarity?: string | null
+          share_message?: string | null
+          target?: number | null
+          type?: string | null
+          unlocked_at?: string | null
+        }
+        Update: {
+          bm_game_id?: string | null
+          description?: string | null
+          how_to_achieve?: string | null
+          icon?: string | null
+          id?: string
+          name?: string | null
+          points?: number | null
+          progress?: number | null
+          rarity?: string | null
+          share_message?: string | null
+          target?: number | null
+          type?: string | null
+          unlocked_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bm_steps_achievements_bm_game_id_fkey"
+            columns: ["bm_game_id"]
+            isOneToOne: false
+            referencedRelation: "bm_steps_game_state"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bm_steps_game_state: {
+        Row: {
+          created_at: string
+          current_step: number | null
+          description: string | null
+          event_id: string | null
+          id: string
+          location: string | null
+          progress: number | null
+          title: string | null
+          total_points: number | null
+          total_steps: number | null
+        }
+        Insert: {
+          created_at?: string
+          current_step?: number | null
+          description?: string | null
+          event_id?: string | null
+          id?: string
+          location?: string | null
+          progress?: number | null
+          title?: string | null
+          total_points?: number | null
+          total_steps?: number | null
+        }
+        Update: {
+          created_at?: string
+          current_step?: number | null
+          description?: string | null
+          event_id?: string | null
+          id?: string
+          location?: string | null
+          progress?: number | null
+          title?: string | null
+          total_points?: number | null
+          total_steps?: number | null
+        }
+        Relationships: []
+      }
+      bm_steps_questions: {
+        Row: {
+          answered: boolean | null
+          bm_step_id: string | null
+          correct_answer: number | null
+          created_at: string
+          difficulty: string | null
+          explanation: string | null
+          id: string
+          options: string[] | null
+          points: number | null
+          text: string | null
+        }
+        Insert: {
+          answered?: boolean | null
+          bm_step_id?: string | null
+          correct_answer?: number | null
+          created_at?: string
+          difficulty?: string | null
+          explanation?: string | null
+          id?: string
+          options?: string[] | null
+          points?: number | null
+          text?: string | null
+        }
+        Update: {
+          answered?: boolean | null
+          bm_step_id?: string | null
+          correct_answer?: number | null
+          created_at?: string
+          difficulty?: string | null
+          explanation?: string | null
+          id?: string
+          options?: string[] | null
+          points?: number | null
+          text?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bm_steps_questions_bm_step_id_fkey"
+            columns: ["bm_step_id"]
+            isOneToOne: false
+            referencedRelation: "bm_steps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bm_steps_rewards: {
+        Row: {
+          bm_step_id: string | null
+          claim_location: string | null
+          claimed: boolean | null
+          correct_answers: number | null
+          description: string | null
+          id: string
+          name: string | null
+          total_questions: number | null
+        }
+        Insert: {
+          bm_step_id?: string | null
+          claim_location?: string | null
+          claimed?: boolean | null
+          correct_answers?: number | null
+          description?: string | null
+          id?: string
+          name?: string | null
+          total_questions?: number | null
+        }
+        Update: {
+          bm_step_id?: string | null
+          claim_location?: string | null
+          claimed?: boolean | null
+          correct_answers?: number | null
+          description?: string | null
+          id?: string
+          name?: string | null
+          total_questions?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bm_steps_rewards_bm_step_id_fkey"
+            columns: ["bm_step_id"]
+            isOneToOne: false
+            referencedRelation: "bm_steps"
             referencedColumns: ["id"]
           },
         ]
@@ -907,276 +1256,152 @@ export type Database = {
           },
         ]
       }
-      cp_fixed: {
+      cp: {
         Row: {
           address: string | null
           cp_description: string | null
           cp_id: string | null
           cp_name: string | null
-          created_at: string | null
-          end_date: string | null
-          geoArgs: Json | null
-          id: string
-          is_booking_required: boolean | null
-          is_internal_organizer: boolean | null
-          logo_url: string | null
-          maximum_capacity: number | null
-          organizer_email: string | null
-          organizer_lastname: string | null
-          organizer_name: string | null
-          organizer_phone: string | null
-          owner_id: string | null
-          start_date: string | null
-          status: string | null
-        }
-        Insert: {
-          address?: string | null
-          cp_description?: string | null
-          cp_id?: string | null
-          cp_name?: string | null
-          created_at?: string | null
-          end_date?: string | null
-          geoArgs?: Json | null
-          id?: string
-          is_booking_required?: boolean | null
-          is_internal_organizer?: boolean | null
-          logo_url?: string | null
-          maximum_capacity?: number | null
-          organizer_email?: string | null
-          organizer_lastname?: string | null
-          organizer_name?: string | null
-          organizer_phone?: string | null
-          owner_id?: string | null
-          start_date?: string | null
-          status?: string | null
-        }
-        Update: {
-          address?: string | null
-          cp_description?: string | null
-          cp_id?: string | null
-          cp_name?: string | null
-          created_at?: string | null
-          end_date?: string | null
-          geoArgs?: Json | null
-          id?: string
-          is_booking_required?: boolean | null
-          is_internal_organizer?: boolean | null
-          logo_url?: string | null
-          maximum_capacity?: number | null
-          organizer_email?: string | null
-          organizer_lastname?: string | null
-          organizer_name?: string | null
-          organizer_phone?: string | null
-          owner_id?: string | null
-          start_date?: string | null
-          status?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "cp_fixed_cp_id_fkey"
-            columns: ["cp_id"]
-            isOneToOne: false
-            referencedRelation: "consumption_points"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      cp_mobile: {
-        Row: {
-          address: string | null
-          cp_description: string | null
-          cp_id: string | null
-          cp_name: string | null
-          created_at: string | null
-          end_date: string | null
-          geoArgs: Json | null
-          id: string
-          is_booking_required: boolean | null
-          is_internal_organizer: boolean | null
-          logo_url: string | null
-          maximum_capacity: number | null
-          organizer_email: string | null
-          organizer_lastname: string | null
-          organizer_name: string | null
-          organizer_phone: string | null
-          owner_id: string | null
-          start_date: string | null
-          status: string | null
-        }
-        Insert: {
-          address?: string | null
-          cp_description?: string | null
-          cp_id?: string | null
-          cp_name?: string | null
-          created_at?: string | null
-          end_date?: string | null
-          geoArgs?: Json | null
-          id?: string
-          is_booking_required?: boolean | null
-          is_internal_organizer?: boolean | null
-          logo_url?: string | null
-          maximum_capacity?: number | null
-          organizer_email?: string | null
-          organizer_lastname?: string | null
-          organizer_name?: string | null
-          organizer_phone?: string | null
-          owner_id?: string | null
-          start_date?: string | null
-          status?: string | null
-        }
-        Update: {
-          address?: string | null
-          cp_description?: string | null
-          cp_id?: string | null
-          cp_name?: string | null
-          created_at?: string | null
-          end_date?: string | null
-          geoArgs?: Json | null
-          id?: string
-          is_booking_required?: boolean | null
-          is_internal_organizer?: boolean | null
-          logo_url?: string | null
-          maximum_capacity?: number | null
-          organizer_email?: string | null
-          organizer_lastname?: string | null
-          organizer_name?: string | null
-          organizer_phone?: string | null
-          owner_id?: string | null
-          start_date?: string | null
-          status?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "cp_mobile_cp_id_fkey"
-            columns: ["cp_id"]
-            isOneToOne: false
-            referencedRelation: "consumption_points"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      cpf_events: {
-        Row: {
-          cp_id: string
-          created_at: string | null
-          event_id: string
-          is_active: boolean | null
-          is_cervezanas_event: boolean | null
-          owner_id: string | null
-        }
-        Insert: {
-          cp_id: string
-          created_at?: string | null
-          event_id: string
-          is_active?: boolean | null
-          is_cervezanas_event?: boolean | null
-          owner_id?: string | null
-        }
-        Update: {
-          cp_id?: string
-          created_at?: string | null
-          event_id?: string
-          is_active?: boolean | null
-          is_cervezanas_event?: boolean | null
-          owner_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "cpf_events_cp_id_fkey"
-            columns: ["cp_id"]
-            isOneToOne: false
-            referencedRelation: "cp_fixed"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "cpf_events_event_id_fkey"
-            columns: ["event_id"]
-            isOneToOne: false
-            referencedRelation: "events"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      cpf_products: {
-        Row: {
-          cp_id: string | null
-          created_at: string | null
-          id: string
-          is_active: boolean | null
-          product_pack_id: string | null
-          stock: number | null
-          stock_consumed: number | null
-        }
-        Insert: {
-          cp_id?: string | null
-          created_at?: string | null
-          id?: string
-          is_active?: boolean | null
-          product_pack_id?: string | null
-          stock?: number | null
-          stock_consumed?: number | null
-        }
-        Update: {
-          cp_id?: string | null
-          created_at?: string | null
-          id?: string
-          is_active?: boolean | null
-          product_pack_id?: string | null
-          stock?: number | null
-          stock_consumed?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "cpf_products_cp_id_fkey"
-            columns: ["cp_id"]
-            isOneToOne: false
-            referencedRelation: "cp_fixed"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "cpf_products_product_pack_id_fkey"
-            columns: ["product_pack_id"]
-            isOneToOne: true
-            referencedRelation: "product_packs"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      cpm_events: {
-        Row: {
-          cp_id: string
           created_at: string
-          event_id: string
-          is_active: boolean | null
-          is_cervezanas_event: boolean | null
+          geoArgs: Json | null
+          id: string
+          is_booking_required: boolean | null
+          is_internal_organizer: boolean | null
+          logo_url: string | null
+          maximum_capacity: number | null
+          organizer_email: string | null
+          organizer_lastname: string | null
+          organizer_name: string | null
+          organizer_phone: string | null
           owner_id: string | null
+          status: string | null
+          type: string | null
         }
         Insert: {
-          cp_id: string
+          address?: string | null
+          cp_description?: string | null
+          cp_id?: string | null
+          cp_name?: string | null
           created_at?: string
-          event_id: string
-          is_active?: boolean | null
-          is_cervezanas_event?: boolean | null
+          geoArgs?: Json | null
+          id?: string
+          is_booking_required?: boolean | null
+          is_internal_organizer?: boolean | null
+          logo_url?: string | null
+          maximum_capacity?: number | null
+          organizer_email?: string | null
+          organizer_lastname?: string | null
+          organizer_name?: string | null
+          organizer_phone?: string | null
           owner_id?: string | null
+          status?: string | null
+          type?: string | null
         }
         Update: {
-          cp_id?: string
+          address?: string | null
+          cp_description?: string | null
+          cp_id?: string | null
+          cp_name?: string | null
           created_at?: string
-          event_id?: string
-          is_active?: boolean | null
-          is_cervezanas_event?: boolean | null
+          geoArgs?: Json | null
+          id?: string
+          is_booking_required?: boolean | null
+          is_internal_organizer?: boolean | null
+          logo_url?: string | null
+          maximum_capacity?: number | null
+          organizer_email?: string | null
+          organizer_lastname?: string | null
+          organizer_name?: string | null
+          organizer_phone?: string | null
           owner_id?: string | null
+          status?: string | null
+          type?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "cpm_events_cp_id_fkey"
+            foreignKeyName: "cp_cp_id_fkey"
             columns: ["cp_id"]
             isOneToOne: false
-            referencedRelation: "cp_mobile"
+            referencedRelation: "consumption_points"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "cpm_events_event_id_fkey"
+            foreignKeyName: "cp_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cp_events: {
+        Row: {
+          cp_description: string | null
+          cp_id: string | null
+          cp_name: string | null
+          created_at: string
+          end_date: string | null
+          event_id: string | null
+          has_pending_payment: boolean | null
+          id: string
+          is_active: boolean | null
+          is_booking_required: boolean | null
+          is_cervezanas_event: boolean | null
+          maximum_capacity: number | null
+          owner_id: string | null
+          stand_location: string | null
+          start_date: string | null
+          status: string | null
+          view_configuration: string | null
+        }
+        Insert: {
+          cp_description?: string | null
+          cp_id?: string | null
+          cp_name?: string | null
+          created_at?: string
+          end_date?: string | null
+          event_id?: string | null
+          has_pending_payment?: boolean | null
+          id?: string
+          is_active?: boolean | null
+          is_booking_required?: boolean | null
+          is_cervezanas_event?: boolean | null
+          maximum_capacity?: number | null
+          owner_id?: string | null
+          stand_location?: string | null
+          start_date?: string | null
+          status?: string | null
+          view_configuration?: string | null
+        }
+        Update: {
+          cp_description?: string | null
+          cp_id?: string | null
+          cp_name?: string | null
+          created_at?: string
+          end_date?: string | null
+          event_id?: string | null
+          has_pending_payment?: boolean | null
+          id?: string
+          is_active?: boolean | null
+          is_booking_required?: boolean | null
+          is_cervezanas_event?: boolean | null
+          maximum_capacity?: number | null
+          owner_id?: string | null
+          stand_location?: string | null
+          start_date?: string | null
+          status?: string | null
+          view_configuration?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cp_events_cp_id_fkey"
+            columns: ["cp_id"]
+            isOneToOne: false
+            referencedRelation: "cp"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cp_events_event_id_fkey"
             columns: ["event_id"]
             isOneToOne: false
             referencedRelation: "events"
@@ -1184,44 +1409,56 @@ export type Database = {
           },
         ]
       }
-      cpm_products: {
+      cp_products: {
         Row: {
           cp_id: string | null
-          created_at: string | null
+          created_at: string
           id: string
           is_active: boolean | null
+          pack_name: string | null
+          price: number | null
+          product_name: string | null
           product_pack_id: string | null
+          quantity: number | null
           stock: number | null
           stock_consumed: number | null
         }
         Insert: {
           cp_id?: string | null
-          created_at?: string | null
+          created_at?: string
           id?: string
           is_active?: boolean | null
+          pack_name?: string | null
+          price?: number | null
+          product_name?: string | null
           product_pack_id?: string | null
+          quantity?: number | null
           stock?: number | null
           stock_consumed?: number | null
         }
         Update: {
           cp_id?: string | null
-          created_at?: string | null
+          created_at?: string
           id?: string
           is_active?: boolean | null
+          pack_name?: string | null
+          price?: number | null
+          product_name?: string | null
           product_pack_id?: string | null
+          quantity?: number | null
           stock?: number | null
           stock_consumed?: number | null
         }
         Relationships: [
           {
-            foreignKeyName: "cpm_products_cp_id_fkey"
+            foreignKeyName: "cp_products_cp_id_fkey"
             columns: ["cp_id"]
             isOneToOne: false
-            referencedRelation: "cp_mobile"
+            referencedRelation: "cp"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "cpm_products_product_pack_id_fkey"
+            foreignKeyName: "cp_products_product_pack_id_fkey"
             columns: ["product_pack_id"]
             isOneToOne: false
             referencedRelation: "product_packs"
@@ -1490,24 +1727,21 @@ export type Database = {
       }
       event_experiences: {
         Row: {
-          cp_fixed_id: string | null
-          cp_mobile_id: string | null
+          cp_id: string | null
           created_at: string
           event_id: string | null
           experience_id: string | null
           id: string
         }
         Insert: {
-          cp_fixed_id?: string | null
-          cp_mobile_id?: string | null
+          cp_id?: string | null
           created_at?: string
           event_id?: string | null
           experience_id?: string | null
           id?: string
         }
         Update: {
-          cp_fixed_id?: string | null
-          cp_mobile_id?: string | null
+          cp_id?: string | null
           created_at?: string
           event_id?: string | null
           experience_id?: string | null
@@ -1515,17 +1749,10 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "public_event_experiences_cp_fixed_id_fkey"
-            columns: ["cp_fixed_id"]
+            foreignKeyName: "event_experiences_cp_id_fkey"
+            columns: ["cp_id"]
             isOneToOne: false
-            referencedRelation: "cp_fixed"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "public_event_experiences_cp_mobile_id_fkey"
-            columns: ["cp_mobile_id"]
-            isOneToOne: false
-            referencedRelation: "cp_mobile"
+            referencedRelation: "cp"
             referencedColumns: ["id"]
           },
           {
@@ -1544,12 +1771,60 @@ export type Database = {
           },
         ]
       }
+      event_order_cps: {
+        Row: {
+          cp_id: string | null
+          created_at: string
+          event_order_id: string | null
+          has_pending_payment: boolean | null
+          id: string
+          notes: string | null
+          order_number: string | null
+          status: string | null
+        }
+        Insert: {
+          cp_id?: string | null
+          created_at?: string
+          event_order_id?: string | null
+          has_pending_payment?: boolean | null
+          id?: string
+          notes?: string | null
+          order_number?: string | null
+          status?: string | null
+        }
+        Update: {
+          cp_id?: string | null
+          created_at?: string
+          event_order_id?: string | null
+          has_pending_payment?: boolean | null
+          id?: string
+          notes?: string | null
+          order_number?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_order_cps_cp_id_fkey"
+            columns: ["cp_id"]
+            isOneToOne: false
+            referencedRelation: "cp_events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "event_order_cps_event_order_id_fkey"
+            columns: ["event_order_id"]
+            isOneToOne: false
+            referencedRelation: "event_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       event_order_items: {
         Row: {
           created_at: string | null
-          id: string | null
+          event_order_cp_id: string
+          id: string
           is_reviewed: boolean | null
-          order_id: string
           product_pack_id: string
           quantity: number | null
           quantity_served: number | null
@@ -1557,9 +1832,9 @@ export type Database = {
         }
         Insert: {
           created_at?: string | null
-          id?: string | null
+          event_order_cp_id: string
+          id?: string
           is_reviewed?: boolean | null
-          order_id: string
           product_pack_id: string
           quantity?: number | null
           quantity_served?: number | null
@@ -1567,9 +1842,9 @@ export type Database = {
         }
         Update: {
           created_at?: string | null
-          id?: string | null
+          event_order_cp_id?: string
+          id?: string
           is_reviewed?: boolean | null
-          order_id?: string
           product_pack_id?: string
           quantity?: number | null
           quantity_served?: number | null
@@ -1577,10 +1852,10 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "event_order_items_order_id_fkey"
-            columns: ["order_id"]
+            foreignKeyName: "event_order_items_event_order_cp_id_fkey"
+            columns: ["event_order_cp_id"]
             isOneToOne: false
-            referencedRelation: "event_orders"
+            referencedRelation: "event_order_cps"
             referencedColumns: ["id"]
           },
           {
@@ -1600,6 +1875,7 @@ export type Database = {
           discount: number | null
           discount_code: string | null
           event_id: string | null
+          guest_email: string | null
           id: string
           order_number: string | null
           status: string | null
@@ -1615,6 +1891,7 @@ export type Database = {
           discount?: number | null
           discount_code?: string | null
           event_id?: string | null
+          guest_email?: string | null
           id?: string
           order_number?: string | null
           status?: string | null
@@ -1630,6 +1907,7 @@ export type Database = {
           discount?: number | null
           discount_code?: string | null
           event_id?: string | null
+          guest_email?: string | null
           id?: string
           order_number?: string | null
           status?: string | null
@@ -1642,7 +1920,7 @@ export type Database = {
           {
             foreignKeyName: "event_orders_customer_id_fkey"
             columns: ["customer_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
@@ -1700,6 +1978,7 @@ export type Database = {
       events: {
         Row: {
           address: string | null
+          category: string | null
           created_at: string | null
           description: string | null
           end_date: string | null
@@ -1716,6 +1995,7 @@ export type Database = {
         }
         Insert: {
           address?: string | null
+          category?: string | null
           created_at?: string | null
           description?: string | null
           end_date?: string | null
@@ -1732,6 +2012,7 @@ export type Database = {
         }
         Update: {
           address?: string | null
+          category?: string | null
           created_at?: string | null
           description?: string | null
           end_date?: string | null
@@ -1883,13 +2164,6 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "fixed_event_orders_cp_f_owner_fkey"
-            columns: ["cp_f_owner"]
-            isOneToOne: true
-            referencedRelation: "cp_fixed"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "fixed_event_orders_customer_id_fkey"
             columns: ["customer_id"]

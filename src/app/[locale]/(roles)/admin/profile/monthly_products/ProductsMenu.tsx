@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { IMonthlyProduct, IProduct } from '@/lib//types/types';
+import { IMonthlyProduct, IProduct } from '@/lib/types/types';
 import MonthlyProductsList from './MonthlyProductsList';
 import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
 

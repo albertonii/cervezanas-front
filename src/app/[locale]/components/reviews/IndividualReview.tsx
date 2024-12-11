@@ -5,7 +5,7 @@ import { Rate } from './Rate';
 import { ConsumerInfo } from '../ConsumerInfo';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../(auth)/Context/useAuth';
-import { IReview } from '@/lib//types/types';
+import { IReview } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
 
 interface Props {

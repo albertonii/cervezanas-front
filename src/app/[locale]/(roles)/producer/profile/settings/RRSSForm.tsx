@@ -10,7 +10,7 @@ import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IProducerUser } from '@/lib//types/types';
+import { IProducerUser } from '@/lib/types/types';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import Title from '@/app/[locale]/components/ui/Title';
 import ProfileSettingsContainer from '@/app/[locale]/components/ui/ProfileSettingsContainer';

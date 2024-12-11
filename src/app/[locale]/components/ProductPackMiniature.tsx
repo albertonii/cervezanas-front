@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { SupabaseProps } from '@/constants';
-import { IProductPack } from '@/lib//types/types';
+import { IProductPack } from '@/lib/types/types';
 import DisplayImageProduct from './ui/DisplayImageProduct';
 
 interface Props {

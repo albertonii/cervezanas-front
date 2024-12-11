@@ -5,7 +5,7 @@ import BoxProductSlotsSelection from './BoxProductSlotsSelection';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import { IBoxPackItem, ModalUpdateBoxPackFormData } from '@/lib//types/product';
+import { IBoxPackItem, ModalUpdateBoxPackFormData } from '@/lib/types/product';
 import { UpdateSearchCheckboxProductSlot } from './UpdateSearchCheckboxProductSlot';
 
 interface Props {

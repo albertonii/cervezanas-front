@@ -14,7 +14,7 @@ import React, { useMemo, useState } from 'react';
 import { ROLE_ENUM } from '@/lib//enums';
 import { createNotification } from '@/utils/utils';
 import { formatDateString } from '@/utils/formatDate';
-import { IDistributorUser } from '@/lib//types/types';
+import { IDistributorUser } from '@/lib/types/types';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -171,7 +171,6 @@ export default function DistributorList({ distributors }: Props) {
                 <DynamicModal
                     title={t('accept')}
                     icon={faCheck}
-                    color={acceptColor}
                     handler={async () => {
                         handleApproveClick(selectedDistributor);
                     }}
@@ -190,7 +189,6 @@ export default function DistributorList({ distributors }: Props) {
                 <DynamicModal
                     title={t('reject')}
                     icon={faCheck}
-                    color={acceptColor}
                     handler={async () => {
                         handleRejectClick(selectedDistributor);
                     }}

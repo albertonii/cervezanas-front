@@ -8,7 +8,7 @@ import DeleteExperienceModal from '@/app/[locale]/components/modals/experiences/
 import useFetchExperiencesByProducerId from '../../../../../../hooks/useFetchExperiencesByProducerIdWithPagination';
 import UpdateBeerMasterExperienceModalNew from '@/app/[locale]/components/modals/experiences/UpdateBeerMasterExperienceModal';
 import React, { useEffect, useState } from 'react';
-import { IExperience } from '@/lib//types/quiz';
+import { IExperience } from '@/lib/types/quiz';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
@@ -88,7 +88,7 @@ export default function ExperienceList({ counter, experiences: es }: Props) {
             sortable: true,
             render: (value: string, row: IExperience) => (
                 <Link href={`/experiences/${row.id}`} locale={locale}>
-                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
+                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:hover:text-beer-gold">
                         {value}
                     </span>
                 </Link>

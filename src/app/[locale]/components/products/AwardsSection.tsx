@@ -2,9 +2,9 @@ import Button from '../ui/buttons/Button';
 import AddAwardInformationForm from './AddAwardInformationForm';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
-import { IAward } from '@/lib//types/types';
+import { IAward } from '@/lib/types/types';
 import { faTrophy } from '@fortawesome/free-solid-svg-icons';
-import { ModalAddProductFormData } from '@/lib//types/types';
+import { ModalAddProductFormData } from '@/lib/types/types';
 import { UseFormReturn, useFieldArray } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

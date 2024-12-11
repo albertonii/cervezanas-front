@@ -3,7 +3,7 @@
 import PackItem from './PackItem';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { IProduct, IProductPack } from '@/lib//types/types';
+import { IProduct, IProductPack } from '@/lib/types/types';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { AddCartButton } from '@/app/[locale]/components/cart/AddCartButton';

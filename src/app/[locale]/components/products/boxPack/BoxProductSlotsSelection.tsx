@@ -1,14 +1,14 @@
 import Link from 'next/link';
-import React from 'react';
-import useBoxPackStore from '@/app/store//boxPackStore';
-import { useLocale, useTranslations } from 'next-intl';
-import { ROUTE_PRODUCTS } from '@/config';
-import Table from '../../ui/table/Table';
-import THead from '../../ui/table/THead';
 import TR from '../../ui/table/TR';
 import TH from '../../ui/table/TH';
-import TBody from '../../ui/table/TBody';
 import TD from '../../ui/table/TD';
+import TBody from '../../ui/table/TBody';
+import Table from '../../ui/table/Table';
+import THead from '../../ui/table/THead';
+import useBoxPackStore from '@/app/store//boxPackStore';
+import React from 'react';
+import { ROUTE_PRODUCTS } from '@/config';
+import { useLocale, useTranslations } from 'next-intl';
 
 export default function BoxProductSlotsSelection() {
     const t = useTranslations();

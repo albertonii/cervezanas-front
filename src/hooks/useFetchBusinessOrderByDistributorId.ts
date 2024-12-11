@@ -2,7 +2,7 @@
 
 import { useQuery } from 'react-query';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
-import { IBusinessOrder } from '@/lib//types/types';
+import { IBusinessOrder } from '@/lib/types/types';
 
 const fetchBusinessOrdersByDistributorId = async (
     distributorId: string,

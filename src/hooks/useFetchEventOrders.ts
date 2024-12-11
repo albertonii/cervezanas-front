@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from 'react-query';
-import { IEventOrder } from '@/lib//types/types';
+import { IEventOrder } from '@/lib/types/eventOrders';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';
 
 const fetchCPOrders = async (

@@ -4,8 +4,10 @@ import Spinner from '@/app/[locale]/components/ui/Spinner';
 import EventCheckoutPackItem from './EventCheckoutPackItem';
 import useFetchProductById from '../../../../../../../hooks/useFetchProductById';
 import React from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { IProductPackEventCartItem } from '@/lib/types/types';
+import Link from 'next/link';
+import Label from '@/app/[locale]/components/ui/Label';
 
 interface Props {
     eventId: string;
@@ -14,6 +16,7 @@ interface Props {
 
 export function EventCheckoutItem({ eventId, productPack }: Props) {
     const t = useTranslations();
+    const locale = useLocale();
 
     const {
         data: productWithInfo,
@@ -28,17 +31,24 @@ export function EventCheckoutItem({ eventId, productPack }: Props) {
     if (!productWithInfo) return null;
 
     return (
-        <>
+        <div className="rounded-lg shadow-sm space-y-2">
             {productPack && (
-                <section className="mt-4 space-y-4">
-                    <header className="">
-                        <p className="text-xl">
-                            <span className="font-semibold">
-                                {t('product_name')}:
-                            </span>{' '}
-                            {productPack.name}
-                        </p>
-                    </header>
+                <section className="space-y-4">
+                    <div className="w-full flex justify-between items-baseline space-x-2">
+                        <div>
+                            <Link
+                                className="text-lg font-semibold text-beer-draft dark:text-white hover:underline hover:text-beer-draft dark:hover:text-beer-gold transition-all ease-in-out duration-200"
+                                href={`/products/${productPack.product_id}`}
+                                locale={locale}
+                            >
+                                {productPack.name}
+                            </Link>
+                        </div>
+
+                        <div className="text-sm text-gray-600 dark:text-gray-300">
+                            {t('quantity')}: {productPack.quantity}
+                        </div>
+                    </div>
 
                     {productPack.packs.map((pack) => (
                         <>
@@ -54,6 +64,6 @@ export function EventCheckoutItem({ eventId, productPack }: Props) {
                     ))}
                 </section>
             )}
-        </>
+        </div>
     );
 }

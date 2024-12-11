@@ -2,7 +2,7 @@ import createServerClient from '@/utils/supabaseServer';
 import Notifications from '../../../../(common-display)/notifications/Notifications';
 import React from 'react';
 import readUserSession from '@/lib//actions';
-import { INotification } from '@/lib//types/types';
+import { INotification } from '@/lib/types/types';
 import { redirect } from 'next/navigation';
 
 export default async function NotificationsPage() {

@@ -1,7 +1,7 @@
 import React from 'react';
 import ProductUpdatePackItems from './ProductUpdatePackItems';
 import { useTranslations } from 'next-intl';
-import { IProductPack, ModalUpdateProductFormData } from '@/lib//types/types';
+import { IProductPack, ModalUpdateProductFormData } from '@/lib/types/types';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import Button from '../ui/buttons/Button';

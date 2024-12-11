@@ -8,7 +8,7 @@ import {
     ICampaign,
     ICampaignItem,
     IProduct,
-} from '@/lib//types/types';
+} from '@/lib/types/types';
 import { CampaignForm } from './CampaignForm';
 import { SearchCheckboxListCampaign } from './SearchCheckboxListCampaign';
 import { useAuth } from '../../../../(auth)/Context/useAuth';

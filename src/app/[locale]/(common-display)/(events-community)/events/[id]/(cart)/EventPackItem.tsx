@@ -1,10 +1,11 @@
-import useEventCartStore from '@/app/store//eventCartStore';
-import React, { useState } from 'react';
-import { SupabaseProps } from '@/constants';
-import { IProductPack, IProductPackEventCartItem } from '@/lib/types/types';
-import { formatCurrency } from '@/utils/formatCurrency';
+import Label from '@/app/[locale]/components/ui/Label';
 import MarketCartButtons from '@/app/[locale]/components/cart/MarketCartButtons';
 import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
+import React, { useState } from 'react';
+import { SupabaseProps } from '@/constants';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { IProductPack, IProductPackEventCartItem } from '@/lib/types/types';
+import useEventCartStore from '@/app/store/eventCartStore';
 
 interface Props {
     pack: IProductPack;
@@ -13,15 +14,14 @@ interface Props {
 }
 
 export default function EventPackItem({ pack, item, eventId }: Props) {
-    const cpId = item.cpm_id !== '' ? item.cpm_id : item.cpf_id;
+    const cpId = item.cp_id;
+    const [animateRemove, setAnimateRemove] = useState(false);
 
     const {
         removeFromCart,
         increaseOnePackCartQuantity,
         decreaseOnePackCartQuantity,
     } = useEventCartStore();
-
-    const [animateRemove, setAnimateRemove] = useState(false);
 
     const handleIncreaseCartQuantity = () => {
         increaseOnePackCartQuantity(eventId, item.product_id, cpId, pack.id);
@@ -32,52 +32,59 @@ export default function EventPackItem({ pack, item, eventId }: Props) {
     };
 
     const handleRemoveFromCart = () => {
+        setAnimateRemove(true);
         setTimeout(() => {
-            setAnimateRemove(true);
-
             removeFromCart(eventId, item.product_id, cpId, pack.id);
-        }, 500);
+        }, 300); // Ajuste del tiempo para una animación más suave
     };
 
     return (
-        <section
-            className={`flex items-center space-x-2 ${
-                animateRemove && 'animate-ping overflow-hidden '
+        <div
+            className={`flex items-center justify-between bg-white dark:bg-gray-800 space-x-2 rounded-lg p-3 shadow-sm hover:shadow-md transition ${
+                animateRemove ? 'opacity-0 transform translate-x-4' : ''
             }`}
         >
+            {/* Imagen del Producto */}
             <DisplayImageProduct
                 imgSrc={
                     SupabaseProps.BASE_PRODUCTS_URL +
                     decodeURIComponent(pack.img_url)
                 }
                 alt={pack.name}
-                width={200}
-                height={200}
-                class="w-[6vw] px-2 py-2 sm:w-[5vw] md:w-[6vw] lg:w-[5vw]"
+                width={48}
+                height={48}
+                class="w-12 h-12 sm:w-16 sm:h-16 rounded-md object-cover"
             />
 
-            <h3 className="text-sm text-gray-900">{pack.name}</h3>
+            {/* Información del Producto */}
+            <div className="flex-1 px-4 flex flex-col">
+                <Label
+                    size="small"
+                    font="medium"
+                    color="black"
+                    className="text-gray-900 dark:text-white"
+                >
+                    {pack.name}
+                </Label>
 
-            <div className="flex flex-1 items-center justify-end gap-2 space-x-2">
-                <p className="xl:text-md text-base leading-6 dark:text-white">
+                <Label
+                    size="xsmall"
+                    color="gray"
+                    className="text-gray-500 dark:text-gray-400"
+                >
                     {formatCurrency(pack.price)}
-                </p>
-
-                <MarketCartButtons
-                    item={pack}
-                    quantity={pack.quantity}
-                    handleIncreaseCartQuantity={() => {
-                        handleIncreaseCartQuantity();
-                    }}
-                    handleDecreaseCartQuantity={() => {
-                        handleDecreaseCartQuantity();
-                    }}
-                    handleRemoveFromCart={() => {
-                        handleRemoveFromCart();
-                    }}
-                    displayDeleteButton={true}
-                />
+                </Label>
             </div>
-        </section>
+
+            {/* Botones de Acción */}
+            <MarketCartButtons
+                item={pack}
+                quantity={pack.quantity}
+                handleIncreaseCartQuantity={handleIncreaseCartQuantity}
+                handleDecreaseCartQuantity={handleDecreaseCartQuantity}
+                handleRemoveFromCart={handleRemoveFromCart}
+                displayDeleteButton={true}
+            />
+        </div>
     );
 }

@@ -11,6 +11,12 @@ import { Session } from '@supabase/gotrue-js/src/lib/types.d';
 import { Type as ProductType } from '../productEnum';
 import { Fermentation, RecommendedGlass } from '../beerEnum';
 import { IBoxPack } from './product';
+import {
+    IConsumptionPoints,
+    IConsumptionPoint,
+    IConsumptionPointEvent,
+} from './consumptionPoints';
+import { IEvent } from './eventOrders';
 
 export type ButtonTypes = 'button' | 'submit' | 'reset';
 
@@ -183,6 +189,33 @@ export interface IBeer {
     products?: IProduct;
 }
 
+export interface IBeerFormData {
+    product_id: string; // FK
+    created_at: string;
+    category: string;
+    fermentation: string;
+    color: string;
+    family: string;
+    aroma: string;
+    is_gluten: boolean;
+    format: string;
+    volume: number;
+    sku: string;
+    intensity: number;
+    ibu: number;
+    ingredients?: string[];
+    pairing?: string;
+    recommended_glass?: string;
+    brewers_note?: string;
+    srm?: number;
+    ebc?: number;
+    og?: number;
+    fg?: number;
+    hops_type?: string;
+    malt_type?: string;
+    consumption_temperature?: number;
+}
+
 export interface IProductLot {
     id: string;
     created_at: string;
@@ -197,6 +230,21 @@ export interface IProductLot {
     packaging: string;
     recipe: string;
     products?: IProduct;
+}
+
+export interface IProductLotFormData {
+    id: string;
+    created_at: string;
+    lot_id: string;
+    lot_number: string;
+    lot_name: string;
+    product_id: string;
+    quantity: number;
+    limit_notification: number;
+    expiration_date: string;
+    manufacture_date: string;
+    packaging: string;
+    recipe: string;
 }
 
 export interface IRefProductLot {
@@ -221,7 +269,7 @@ export interface ICustomizeSettings {
     colors: string[];
     family_styles: string[];
     owner_id: string;
-    users?: User;
+    users?: IUserTable;
 }
 
 export interface IProductInventory {
@@ -240,7 +288,16 @@ export interface IAward {
     img_url: any;
     year: number;
     product_id: string;
-    products?: IProduct;
+    products?: IProduct[];
+}
+
+export interface IAwardFormData {
+    id?: string;
+    name: string;
+    description: string;
+    img_url: any;
+    year: number;
+    product_id: string;
 }
 
 export interface IAwardUpdateForm {
@@ -287,11 +344,11 @@ export interface IReview {
     bitterness: number;
     mouthfeel: number;
     overall: number;
-    users?: User;
+    users?: IUserTable;
     products?: IProduct;
 }
 
-export interface IRefReview {
+export interface IReviewFormData {
     id: string;
     created_at: string;
     updated_at: string;
@@ -304,8 +361,6 @@ export interface IRefReview {
     bitterness: number;
     mouthfeel: number;
     overall: number;
-    users?: User;
-    products?: IProduct;
 }
 
 export interface IProfile {
@@ -324,7 +379,7 @@ export interface IProfile {
     zipcode: string;
     img_url: any;
     is_public: boolean;
-    users?: User;
+    users?: IUserTable;
     avatar_url: string;
     bg_url: string;
     birthdate: string;
@@ -340,161 +395,6 @@ export interface IProfile {
     customize_settings: ICustomizeSettings[];
     profile_location: IProfileLocation[];
     cp_organizer_status: number;
-}
-
-export interface IEvent {
-    id: string;
-    created_at: string;
-    name: string;
-    description: string;
-    start_date: string;
-    end_date: string;
-    logo_url: string;
-    promotional_url: string;
-    status: string;
-    // geoArgs: GeocodeResult[];
-    geoArgs: any[];
-    address: string;
-    owner_id: string;
-    cp_mobile: ICPMobile[];
-    cp_fixed: ICPFixed[];
-    users: IUserTable;
-    is_activated: boolean;
-    is_cervezanas_event: boolean;
-}
-
-export interface IConsumptionPoints {
-    id: string;
-    created_at: string;
-    cp_fixed: ICPFixed[];
-    cp_mobile: ICPMobile[];
-    cp_organizer_status: number;
-    owner_id: string;
-    users?: User;
-    cv_name: string;
-    cover_letter_name: string;
-}
-
-export interface ICPFixed {
-    id: string;
-    created_at: string;
-    cp_name: string;
-    cp_description: string;
-    organizer_name: string;
-    organizer_lastname: string;
-    organizer_email: string;
-    organizer_phone: string;
-    start_date: string;
-    end_date: string;
-    address: string;
-    logo_url: string;
-    status: string;
-    maximum_capacity: number;
-    is_booking_required: boolean;
-    cp_id: string;
-    is_internal_organizer: boolean;
-    cpf_products?: ICPFProducts[];
-    // geoArgs: GeocodeResult[];
-    geoArgs: any[];
-    consumption_points?: IConsumptionPoints;
-    owner_id: string;
-}
-
-export interface ICPMobile {
-    id: string;
-    created_at: string;
-    cp_id: string;
-    cp_name: string;
-    cp_description: string;
-    organizer_name: string;
-    organizer_lastname: string;
-    organizer_email: string;
-    organizer_phone: string;
-    start_date: string;
-    end_date: string;
-    address: string;
-    status: string;
-    logo_url: string;
-    maximum_capacity: number;
-    is_booking_required: boolean;
-    // geoArgs: GeoArgs[];
-    geoArgs: any[];
-    is_internal_organizer: boolean;
-    cpm_products?: ICPMProducts[];
-    consumption_points?: IConsumptionPoints;
-    owner_id: string;
-}
-
-export interface ICPFProducts {
-    id: string;
-    created_at: string;
-    stock: number;
-    stock_consumed: number;
-    cp_id: string;
-    product_pack_id: string;
-    is_active: boolean;
-    product_packs?: IProductPack;
-    cp_fixed?: ICPFixed;
-}
-
-export interface ICPMProducts {
-    id: string;
-    created_at: string;
-    stock: number;
-    stock_consumed: number;
-    cp_id: string;
-    product_pack_id: string;
-    is_active: boolean;
-    product_packs?: IProductPack;
-    cp_mobile?: ICPMobile;
-}
-
-export interface IRefCPMProducts {
-    id: string;
-    created_at: string;
-    cp_id: any;
-    product_pack_id: IProductPack;
-    stock: number;
-    stock_consumed: number;
-}
-
-export interface ICPMProductsEditCPMobileModal {
-    id: string;
-    created_at: string;
-    cp_id: any;
-    product_pack_id: string;
-    stock: number;
-    stock_consumed: number;
-}
-
-export interface ICPMProductsEditCPFixedModal {
-    id: string;
-    created_at: string;
-    cp_id: any;
-    product_pack_id: string;
-    stock: number;
-    stock_consumed: number;
-}
-
-export interface ICPM_events {
-    cp_id: string;
-    created_at: string;
-    event_id: string;
-    is_active: boolean;
-    is_cervezanas_event: boolean;
-    owner_id: string;
-    cp_mobile?: ICPMobile;
-    events?: IEvent;
-}
-
-export interface ICPF_events {
-    cp_id: string;
-    event_id: string;
-    is_active: boolean;
-    is_cervezanas_event: boolean;
-    owner_id: string;
-    cp_fixed?: ICPFixed;
-    events?: IEvent;
 }
 
 export interface IProfileLocation {
@@ -537,6 +437,13 @@ export interface ILike {
     owner_id: string;
     product_id: string;
     products?: IProduct;
+}
+
+export interface ILikeFormData {
+    id: string;
+    created_at: string;
+    owner_id: string;
+    product_id: string;
 }
 
 export interface ISocialCause {
@@ -640,39 +547,16 @@ export interface IOrderItem {
     product_packs?: IProductPack;
 }
 
-export interface IEventOrder {
-    id: string;
-    created_at: string;
-    updated_at: string;
-    customer_id: string;
-    event_id: string;
-    status: string;
-    total: number;
-    subtotal: number;
-    tax: number;
-    currency: string;
-    discount: number;
-    // promo_code: string;
-    order_number: string;
-    event_order_items?: IEventOrderItem[];
-    customer_id: string;
-    users?: IUserTable;
-    events?: IEvent;
-    // cp_m_owner: ICPMobile;
-}
-
-export interface IEventOrderItem {
-    id: string;
-    created_at: string;
-    order_id: string;
+export interface IOrderItemFormData {
+    business_order_id: string;
     product_pack_id: string;
+    created_at: string;
     quantity: number;
-    quantity_served: number;
-    status: string;
     is_reviewed: boolean;
-    product_packs?: IProductPack;
-    product_media?: IProductMedia[];
-    orders?: IOrder;
+    product_name: string;
+    product_pack_name: string;
+    product_price: number; // Precio unitario del producto
+    subtotal: number; // product_price * quantity
 }
 
 export interface IShippingInfo {
@@ -731,7 +615,7 @@ export interface IAddressForm {
 }
 
 export type UserProps = {
-    user: User;
+    user: IUserTable;
     session: Session;
 };
 
@@ -745,6 +629,17 @@ export type IProductPack = {
     name: string;
     randomUUID: string;
     products?: IProduct;
+};
+
+export type IProductPackFormData = {
+    id: string; // PK
+    product_id: string; // FK
+    created_at: string;
+    quantity: number;
+    price: number;
+    img_url: any;
+    name: string;
+    randomUUID: string;
 };
 
 export type IModalAddProductPack = {
@@ -998,12 +893,12 @@ export interface IProductPackEventCartItem {
     price: number;
     image: string;
     name: string;
-    products?: IEventProduct;
+    products?: ICartEventProduct;
     producer_id: string;
     distributor_id: string;
-    cpf_id: string;
-    cpm_id: string;
+    cp_id: string;
     cp_name: string;
+    cp_cps_id: string;
     product_media?: IProductMedia[];
 }
 
@@ -1053,7 +948,33 @@ export interface IProduct {
     breweries?: IBrewery;
 }
 
-export interface IEventProduct {
+export interface IProductFormData {
+    id: string;
+    created_at: string;
+    name: string;
+    description: string;
+    type: ProductType;
+    is_public: boolean;
+    discount_percent: number;
+    weight: number;
+    price: number; // TODO : quitar el price - pq está en product_pack
+    campaign_id: string;
+    is_archived: boolean;
+    category: string;
+    is_monthly: boolean;
+    is_available: boolean;
+    owner_id: string;
+    brewery_id: string;
+    order_items?: IOrderItemFormData[];
+    product_lots?: IProductLotFormData[];
+    reviews?: IReviewFormData[];
+    likes?: ILikeFormData[];
+    awards?: IAwardFormData[];
+    product_packs?: IProductPackFormData[];
+    beers?: IBeerFormData;
+}
+
+export interface ICartEventProduct {
     id: string;
     created_at: string;
     name: string;
@@ -1077,9 +998,9 @@ export interface IEventProduct {
     likes?: ILike[];
     awards?: IAward[];
     product_packs?: IProductPack[];
-    cpm_id: string;
-    cpf_id: string;
+    cp_id: string;
     cp_name: string;
+    cp_cps_id: string;
 }
 
 export interface IModalProduct {
@@ -1158,7 +1079,7 @@ export interface INotification {
 }
 
 export type UserProps = {
-    user: User;
+    user: IUserTable;
     session: Session;
 };
 
@@ -1688,11 +1609,10 @@ export interface IEventExperience {
     id: string;
     created_at: string;
     event_id: string;
-    cp_mobile_id: string;
-    cp_fixed_id: string;
+    cp_id: string;
     experience_id: string;
-    cp_mobile?: ICPMobile;
-    cp_fixed?: ICPFixed;
+    cp?: IConsumptionPoint;
+    // cp?: IConsumptionPointEvent;  // Creo que deberíamos de asignarlo a IConsumptionPointEvent. De esta manera cuando tengamos un evento vinculamos cada PC y además, podemos vincular la experiencia que queramos a ese PC que será pasa ese evento. Reutilizamos el conocimiento creado.
     experiences?: IExperience;
     events?: IEvent;
 }
@@ -2009,4 +1929,10 @@ export interface IUserPromoCode {
     used_at: string;
     order_id: string;
     created_at: string;
+}
+
+export interface AchievementType {
+    name: string;
+    description: string;
+    icon: string;
 }

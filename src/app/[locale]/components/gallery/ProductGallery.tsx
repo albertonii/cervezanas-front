@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { Carousel } from '../ui/Carousel';
 import { useTranslations } from 'next-intl';
 import { ImageModal } from '../modals/ImageModal';
-import { ICarouselItem } from '@/lib//types/types';
+import { ICarouselItem } from '@/lib/types/types';
 import { IconButton } from '../ui/buttons/IconButton';
 import { faHeart } from '@fortawesome/free-solid-svg-icons/faHeart';
 

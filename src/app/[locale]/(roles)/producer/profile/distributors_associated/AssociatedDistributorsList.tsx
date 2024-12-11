@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { DistributionStatus } from '@/lib//enums';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
-import { IDistributionContract } from '@/lib//types/types';
+import { IDistributionContract } from '@/lib/types/types';
 import { faTrash, faBan } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
@@ -77,7 +77,7 @@ export default function AssociatedDistributorsList({ counter }: Props) {
                     locale={locale}
                     target="_blank"
                 >
-                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
+                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:hover:text-beer-gold">
                         {row.distributor_user?.users?.username ?? '-'}
                     </span>
                 </Link>

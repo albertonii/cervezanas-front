@@ -1,68 +1,56 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { IConsumptionPoints, ICPFixed, ICPMobile } from '@/lib//types/types';
-import { CPMobile } from './CPMobile';
-import { CPFixed } from './CPFixed';
 import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
+import React, { useEffect, useState } from 'react';
+import {
+    IConsumptionPoint,
+    IConsumptionPoints,
+} from '@/lib/types/consumptionPoints';
+import { CPManagement } from '@/app/[locale]/components/CP/CPManagement';
+import { CPInEvents } from '@/app/[locale]/components/CP/CPInEvents';
 
 interface Props {
-    cps: IConsumptionPoints[];
+    cps_: IConsumptionPoints[];
+    counterCP: number;
 }
 
-export function ConsumptionPoints({ cps }: Props) {
-    const [cpsFixed, setCPsFixed] = useState<ICPFixed[]>([]);
-    const [cpsMobile, setCPsMobile] = useState<ICPMobile[]>([]);
-
-    const [menuOption, setMenuOption] = useState<string>('cp_fixed');
-
+// Consumption Point status is in pending for validation by the admin of the platform
+export function ConsumptionPoints({ cps_, counterCP }: Props) {
+    const [menuOption, setMenuOption] = useState<string>('cp_management');
+    const [cpsAccumulated, setCpsAccumulated] = useState<IConsumptionPoint[]>(
+        [],
+    );
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        cps.map((cp) => {
-            if (cp.cp_fixed) {
-                cp.cp_fixed.map((cpf) => {
-                    setCPsFixed((prev) => {
-                        // Avoid cpf that already exists in the array
-                        const exists =
-                            prev && prev.find((cp) => cp.id === cpf.id);
+        const accumulated: IConsumptionPoint[] = [];
 
-                        if (prev && !exists) {
-                            return [...prev, cpf];
-                        }
-                        return [cpf];
-                    });
-                });
-            }
-
-            if (cp.cp_mobile) {
-                cp.cp_mobile.map((cpm) => {
-                    setCPsMobile((prev) => {
-                        // Avoid cpm that already exists in the array
-                        const exists =
-                            prev && prev.find((cp) => cp.id === cpm.id);
-
-                        if (prev && !exists) {
-                            return [...prev, cpm];
-                        }
-                        return [cpm];
-                    });
-                });
-            }
+        cps_.forEach((cps: IConsumptionPoints) => {
+            cps.cp?.forEach((consumptionPoint: IConsumptionPoint) => {
+                // Evitar duplicados
+                const exists = accumulated.find(
+                    (cp) => cp.id === consumptionPoint.id,
+                );
+                if (!exists) {
+                    accumulated.push(consumptionPoint);
+                }
+            });
         });
 
+        setCpsAccumulated(accumulated);
         setIsLoading(false);
-    }, [cps]);
+    }, [cps_]);
 
     const renderSwitch = () => {
-        if (isLoading) return <div>Loading...</div>;
-
         switch (menuOption) {
-            case 'cp_fixed':
-                return <CPFixed cpsFixed={cpsFixed} />;
-            case 'cp_mobile':
-                return <CPMobile cpsMobile={cpsMobile} />;
+            case 'cp_management':
+                return (
+                    <CPManagement cpsId={cps_[0]?.id} counterCP={counterCP} />
+                );
+            case 'cp_in_events':
+                return <CPInEvents counterCP={counterCP} />;
+            default:
+                return null;
         }
     };
 
@@ -74,9 +62,8 @@ export function ConsumptionPoints({ cps }: Props) {
         <>
             <HorizontalSections
                 handleMenuClick={handleMenuClick}
-                tabs={['cp_fixed', 'cp_mobile']}
+                tabs={['cp_management', 'cp_in_events']}
             />
-
             {renderSwitch()}
         </>
     );

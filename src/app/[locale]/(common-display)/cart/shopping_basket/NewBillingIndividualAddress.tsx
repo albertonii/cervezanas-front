@@ -14,7 +14,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
-import { ModalBillingAddressFormData } from '@/lib//types/types';
+import { ModalBillingAddressFormData } from '@/lib/types/types';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import AddressForm from '@/app/[locale]/components/form/AddressForm';
 import Spinner from '@/app/[locale]/components/ui/Spinner';

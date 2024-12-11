@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { IReview } from '@/lib//types/types';
+import { IReview } from '@/lib/types/types';
 import { ReviewQualification } from '@/lib//beerEnum';
 import Label from '../ui/Label';
 

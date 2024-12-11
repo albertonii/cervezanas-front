@@ -140,8 +140,6 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        console.log(promoCodeProduct);
-
         // Verificar el límite de uso por usuario
         const { count: productUsageCount, error: userPromoCodeError } =
             await supabase

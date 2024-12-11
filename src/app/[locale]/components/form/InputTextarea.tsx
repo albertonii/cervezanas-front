@@ -20,10 +20,11 @@ interface Props {
         validate?: any;
         valueAsNumber?: boolean;
     };
-    infoTooltip?: string;
     placeholder?: string;
     disabled?: boolean;
+    infoTooltip?: string;
     isRequired?: boolean;
+    rows?: number;
 }
 export default function InputTextarea({
     form,
@@ -34,6 +35,7 @@ export default function InputTextarea({
     disabled = false,
     infoTooltip,
     isRequired = false,
+    rows = 3,
 }: Props) {
     const t = useTranslations();
 
@@ -44,7 +46,7 @@ export default function InputTextarea({
 
     return (
         <div className="w-full">
-            <label className="flex w-full flex-col items-start space-y-2 text-sm text-gray-600">
+            <label className="flex w-full flex-col items-start space-y-2 text-sm text-gray-600 dark:text-white">
                 <span className="">
                     {labelText ? labelText : t(label)}
                     {isRequired && <span className="text-red-500"> *</span>}
@@ -60,11 +62,12 @@ export default function InputTextarea({
                 <textarea
                     className={`
                         ${disabled && 'bg-gray-100'}
-                        max-h-[180px] sm:h-32 w-full rounded-md border-2 border-gray-300 px-3 py-2 text-gray-900 
+                        max-h-[180px]  w-full rounded-md border-2 border-gray-300 px-3 py-2 text-gray-900 
                         placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm`}
                     {...register(label, registerOptions)}
                     placeholder={placeholder}
                     disabled={disabled}
+                    rows={rows}
                 />
             </label>
 

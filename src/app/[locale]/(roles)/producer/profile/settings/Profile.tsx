@@ -7,7 +7,7 @@ import { Values } from './Values';
 import { Account } from './Account';
 import { Details } from './Details';
 import { useTranslations } from 'next-intl';
-import { IProducerUser } from '@/lib//types/types';
+import { IProducerUser } from '@/lib/types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 
 interface Props {

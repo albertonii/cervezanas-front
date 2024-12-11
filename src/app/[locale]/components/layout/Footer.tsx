@@ -9,8 +9,8 @@ export default function Footer() {
     const locale = useLocale();
 
     return (
-        <footer className="relative w-full bg-cerv-coffee border-t-8 border-beer-blonde mx-auto px-4 pt-12 md:px-24 lg:px-8">
-            <div className="absolute top-0 left-0 w-full h-full">
+        <footer className="relative z-10 w-full bg-cerv-coffee border-t-8 border-beer-blonde mx-auto px-4 pt-12 md:px-24 lg:px-8">
+            <div className="absolute top-0 left-0 w-full h-full z-[-1]">
                 <Image
                     src="/assets/rec-graf4c.png"
                     alt="Background"
@@ -66,7 +66,7 @@ export default function Footer() {
                             <li>
                                 <Link
                                     href="/quienes-somos"
-                                    className="text-deep-purple-50 transition-colors duration-300 hover:font-semibold hover:text-beer-blonde text-white"
+                                    className="text-white transition-colors duration-300 hover:font-semibold hover:text-beer-blonde"
                                     locale={locale}
                                 >
                                     {t('who_we_are')}
@@ -75,7 +75,7 @@ export default function Footer() {
                             <li>
                                 <Link
                                     href="/compromisos"
-                                    className="text-deep-purple-50 transition-colors duration-300 hover:font-semibold hover:text-beer-blonde text-white"
+                                    className="text-white transition-colors duration-300 hover:font-semibold hover:text-beer-blonde"
                                     locale={locale}
                                 >
                                     {t('commitments')}
@@ -84,7 +84,7 @@ export default function Footer() {
                             <li>
                                 <Link
                                     href="/condiciones-de-compra"
-                                    className="text-deep-purple-50 transition-colors duration-300 hover:font-semibold hover:text-beer-blonde text-white"
+                                    className="text-white transition-colors duration-300 hover:font-semibold hover:text-beer-blonde"
                                     locale={locale}
                                 >
                                     {t('purchase_conditions')}
@@ -93,7 +93,7 @@ export default function Footer() {
                             <li>
                                 <Link
                                     href="/aviso-legal"
-                                    className="text-deep-purple-50 transition-colors duration-300 hover:font-semibold hover:text-beer-blonde text-white"
+                                    className="text-white transition-colors duration-300 hover:font-semibold hover:text-beer-blonde"
                                     locale={locale}
                                 >
                                     {t('legal_notice')}
@@ -102,7 +102,7 @@ export default function Footer() {
                             <li>
                                 <Link
                                     href="/privacidad"
-                                    className="text-deep-purple-50 transition-colors duration-300 hover:font-semibold hover:text-beer-blonde text-white"
+                                    className="text-white transition-colors duration-300 hover:font-semibold hover:text-beer-blonde"
                                     locale={locale}
                                 >
                                     {t('privacy_policy')}

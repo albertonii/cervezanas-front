@@ -6,7 +6,7 @@ import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFoot
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { encodeBase64 } from '@/utils/utils';
-import { IBusinessOrder } from '@/lib//types/types';
+import { IBusinessOrder } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';

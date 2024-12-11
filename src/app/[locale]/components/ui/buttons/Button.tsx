@@ -61,10 +61,10 @@ const Button = memo(function PaginationFooter({
     );
 
     const getSizeClass = () => {
-        if (small) return 'text-sm lg:text-md lg:px-4';
-        if (medium) return 'px-1 py-2 lg:px-4 text-base';
+        if (small) return 'text-sm lg:text-md lg:px-1';
+        if (medium) return 'px-1 py-2 lg:px-2 text-base';
         if (large) return 'px-2 lg:px-4 text-base lg:text-lg';
-        if (xLarge) return 'px-3 lg:px-6 text-lg lg:text-xl';
+        if (xLarge) return 'px-3 lg:px-4 text-lg lg:text-xl';
         if (xxLarge) return 'px-3 lg:px-6 text-xl lg:text-2xl';
         return '';
     };
@@ -129,7 +129,7 @@ const Button = memo(function PaginationFooter({
             >
                 {isLoading ? (
                     <svg
-                        className="animate-spin h-5 w-5 mr-3 text-white"
+                        className="animate-spin  mr-3 text-white"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"

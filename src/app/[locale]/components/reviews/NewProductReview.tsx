@@ -5,7 +5,7 @@ import { Rate } from './Rate';
 import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../(auth)/Context/useAuth';
-import { IOrderItem, IReview } from '@/lib//types/types';
+import { IOrderItem, IReview } from '@/lib/types/types';
 import { useMessage } from '../message/useMessage';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';

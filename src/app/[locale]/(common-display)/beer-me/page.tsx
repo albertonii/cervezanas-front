@@ -1,6 +1,6 @@
 import Beerme from './Beerme';
-import { IConsumptionPoints } from '@/lib//types/types';
 import createServerClient from '@/utils/supabaseServer';
+import { IConsumptionPoints } from '@/lib/types/consumptionPoints';
 
 export default async function BeerMePage() {
     const cpsData = getCPsData();
@@ -22,14 +22,9 @@ async function getCPsData() {
         .from('consumption_points')
         .select(
             `
-      *,
-      cp_fixed (
-        *
-      ),
-      cp_mobile (
-        *
-      )
-    `,
+                *,
+                cp (*)
+            `,
         );
     if (cpsError) throw cpsError;
 

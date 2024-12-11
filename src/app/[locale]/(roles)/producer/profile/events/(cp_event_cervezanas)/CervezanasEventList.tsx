@@ -2,19 +2,18 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import UpdateCPMEventModal from './UpdateCPMEvent';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
-import DeleteCPM_event_Modal from '@/app/[locale]/components/modals/DeleteCPM_event_Modal';
+import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
+import DeleteCPEventModal from '@/app/[locale]/components/modals/DeleteCPEventModal';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import useFetchCervezanasEventsByOwnerId from '../../../../../../../hooks/useFetchCervezanasEventsByOwnerId';
 import React, { useEffect, useState } from 'react';
-import { ICPM_events } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
+import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
-import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
+import UpdateCPEventModal from './UpdateCPMEvent';
 
 interface Props {
     counter: number;
@@ -29,33 +28,40 @@ export default function CervezanasEventList({ counter }: Props) {
 
     const resultsPerPage = 10;
 
-    const { data, error, isError, isLoading, refetch } =
-        useFetchCervezanasEventsByOwnerId(user.id, currentPage, resultsPerPage);
+    const { data, isError, isLoading, refetch, isFetchedAfterMount } =
+        useFetchCervezanasEventsByOwnerId(
+            user?.id,
+            currentPage,
+            resultsPerPage,
+        );
 
-    const [events, setEvents] = useState<ICPM_events[]>([]);
+    const [events, setEvents] = useState<IConsumptionPointEvent[]>([]);
 
     const editColor = { filled: '#90470b', unfilled: 'grey' };
     const deleteColor = { filled: '#90470b', unfilled: 'grey' };
 
     const [isEditModal, setIsEditModal] = useState(false);
     const [isDeleteModal, setIsDeleteModal] = useState(false);
-    const [selectedCPMEvent, setSelectedCPMEvent] = useState<ICPM_events>();
+    const [selectedCPEvent, setSelectedCPEvent] =
+        useState<IConsumptionPointEvent>();
 
     useEffect(() => {
-        refetch().then((res: any) => {
-            const events = res.data as any;
-            if (events) setEvents(events);
-        });
-    }, [data, currentPage]);
+        if (isFetchedAfterMount) {
+            refetch().then((res: any) => {
+                const events = res.data as any;
+                if (events) setEvents(events);
+            });
+        }
+    }, [isFetchedAfterMount, currentPage]);
 
-    const handleEditClick = async (e: ICPM_events) => {
+    const handleEditClick = async (e: IConsumptionPointEvent) => {
         setIsEditModal(true);
-        setSelectedCPMEvent(e);
+        setSelectedCPEvent(e);
     };
 
-    const handleDeleteClick = async (e: ICPM_events) => {
+    const handleDeleteClick = async (e: IConsumptionPointEvent) => {
         setIsDeleteModal(true);
-        setSelectedCPMEvent(e);
+        setSelectedCPEvent(e);
     };
 
     const handleEditModal = (isEdit: boolean) => {
@@ -70,7 +76,7 @@ export default function CervezanasEventList({ counter }: Props) {
         {
             header: t('event_type_header'),
             accessor: 'event_type',
-            render: (_: string, row: ICPM_events) => (
+            render: (_: string, row: IConsumptionPointEvent) => (
                 <Image
                     width={32}
                     height={32}
@@ -83,31 +89,32 @@ export default function CervezanasEventList({ counter }: Props) {
         {
             header: t('cp_name_header'),
             accessor: 'cp_name',
-            render: (_: string, row: ICPM_events) => (
+            render: (_: string, row: IConsumptionPointEvent) => (
                 <Link
-                    href={`/cpm/${row.cp_id}`}
+                    href={`/cp/${row.cp_id}`}
                     locale={locale}
-                    className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde"
+                    className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:hover:text-beer-gold"
                 >
-                    {row.cp_mobile?.cp_name}
+                    {row.cp?.cp_name}
                 </Link>
             ),
         },
         {
             header: t('event_name_header'),
             accessor: 'events.name',
-            render: (_: string, row: ICPM_events) => row.events?.name,
+            render: (_: string, row: IConsumptionPointEvent) =>
+                row.events?.name,
         },
         {
             header: t('created_date_header'),
             accessor: 'created_at',
-            render: (_: string, row: ICPM_events) =>
+            render: (_: string, row: IConsumptionPointEvent) =>
                 formatDateString(row.events?.created_at),
         },
         {
             header: t('action_header'),
             accessor: 'action',
-            render: (value: any, row: ICPM_events) => (
+            render: (value: any, row: IConsumptionPointEvent) => (
                 <div className="flex justify-center space-x-2">
                     <IconButton
                         icon={faEdit}
@@ -138,18 +145,18 @@ export default function CervezanasEventList({ counter }: Props) {
             isLoading={isLoading}
             errorMessage={'errors.fetching_events'}
         >
-            {isEditModal && selectedCPMEvent && (
-                <UpdateCPMEventModal
-                    selectedCPMEvent={selectedCPMEvent}
+            {isEditModal && selectedCPEvent && (
+                <UpdateCPEventModal
+                    selectedCPEvent={selectedCPEvent}
                     isEditModal={isEditModal}
                     handleEditModal={handleEditModal}
                 />
             )}
 
-            {isDeleteModal && selectedCPMEvent && (
-                <DeleteCPM_event_Modal
-                    eventId={selectedCPMEvent.event_id}
-                    cpId={selectedCPMEvent.cp_id}
+            {isDeleteModal && selectedCPEvent && (
+                <DeleteCPEventModal
+                    eventId={selectedCPEvent.event_id}
+                    cpId={selectedCPEvent.cp_id}
                     isDeleteModal={isDeleteModal}
                     handleDeleteModal={handlDeleteModal}
                 />

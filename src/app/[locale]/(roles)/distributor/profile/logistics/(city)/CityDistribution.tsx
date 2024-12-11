@@ -696,7 +696,7 @@ const CityRow = ({
                 />
             </th>
 
-            <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
+            <td className="px-6 py-4 font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:hover:text-beer-gold">
                 {city.name}
             </td>
         </>

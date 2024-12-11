@@ -2,12 +2,11 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import useFetchProductsAndPaginationByAdmin from '../../../../../../hooks/useFetchProductsAndPaginationByAdmin';
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { IProduct } from '@/lib//types/types';
+import { IProduct } from '@/lib/types/types';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
 import { InfoTooltip } from '@/app/[locale]/components/ui/InfoTooltip';
 import { EditButton } from '@/app/[locale]/components/ui/buttons/EditButton';
@@ -105,7 +104,7 @@ export function ProductList({
             sortable: true,
             render: (name: string, row: IProduct) => (
                 <Link href={`/products/${row.id}`} locale={locale}>
-                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:text-beer-softBlonde">
+                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:hover:text-beer-gold dark:hover:beer-golddark:text-beer-softBlonde">
                         {name}
                     </span>
                     {row.product_packs?.length === 0 && (

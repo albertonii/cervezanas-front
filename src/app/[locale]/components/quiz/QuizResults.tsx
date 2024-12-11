@@ -1,7 +1,7 @@
 import { useLocale } from 'next-intl';
 import Link from 'next/link';
 import React from 'react';
-import { Question, QuestionsState } from '@/lib//types/quiz';
+import { Question, QuestionsState } from '@/lib/types/quiz';
 import { getProduct } from './helpers';
 
 interface Props {

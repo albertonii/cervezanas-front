@@ -1,34 +1,36 @@
 'use client';
 
 import BMPaymentModal from './BMPaymentModal';
+import ParticipationQRCode from './ParticipationQRCode';
 import QuizPanel from '@/app/[locale]/components/quiz/QuizPanel';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
 import React, { useEffect, useState } from 'react';
-import {
-    IEventExperience,
-    IBMExperienceParticipants,
-    Question,
-    QuestionsState,
-} from '@/lib/types/quiz';
-import { useAuth } from '../../../../../../(auth)/Context/useAuth';
-import { useMessage } from '@/app/[locale]/components/message/useMessage';
 import { shuffleArray } from '@/utils/utils';
 import { useRouter } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
+import { useAuth } from '../../../../../../(auth)/Context/useAuth';
+import { useMessage } from '@/app/[locale]/components/message/useMessage';
+
 import {
     CERVEZANAS_BEER_URL,
     ROUTE_BARMAN,
-    ROUTE_CP_FIXED,
-    ROUTE_CP_MOBILE,
+    ROUTE_CP,
     ROUTE_EVENTS,
     ROUTE_EXPERIENCE_PARTICIPANT,
     ROUTE_PRODUCER,
 } from '@/config';
-import ParticipationQRCode from './ParticipationQRCode';
+
 import {
     getUserParticipant,
     hasUserParticipatedInExperienceBefore,
 } from './actions';
-import Button from '@/app/[locale]/components/ui/buttons/Button';
+
+import {
+    IBMExperienceParticipants,
+    Question,
+    QuestionsState,
+} from '@/lib/types/quiz';
+import { IEventExperience } from '@/lib/types/types';
 
 interface Props {
     eventExperience: IEventExperience;
@@ -93,18 +95,16 @@ export default function EventExperience({ eventExperience }: Props) {
                 await hasUserParticipatedInExperienceBefore(
                     user?.id,
                     eventExperience.event_id,
-                    eventExperience.cp_mobile_id,
-                    '',
+                    eventExperience.cp_id,
                     eventExperience.experience_id,
                 );
 
             // Mostrar QR para validar el pago
-            if (hasUserParticipated && !!eventExperience.cp_mobile_id) {
+            if (hasUserParticipated && !!eventExperience.cp_id) {
                 const bmExperienceParticipant = await getUserParticipant(
                     user?.id,
                     eventExperience.event_id,
-                    eventExperience.cp_mobile_id,
-                    '',
+                    eventExperience.cp_id,
                     eventExperience.experience_id,
                 );
 
@@ -116,12 +116,11 @@ export default function EventExperience({ eventExperience }: Props) {
                     setIsPaymentValid(bmExperienceParticipant.is_paid);
                     setBMExperienceParticipantId(bmExperienceParticipant.id);
                 }
-            } else if (hasUserParticipated && !!eventExperience.cp_fixed_id) {
+            } else if (hasUserParticipated && !!eventExperience.cp_id) {
                 const bmExperienceParticipant = await getUserParticipant(
                     user?.id,
                     eventExperience.event_id,
-                    '',
-                    eventExperience.cp_fixed_id,
+                    eventExperience.cp_id,
                     eventExperience.experience_id,
                 );
 
@@ -162,13 +161,12 @@ export default function EventExperience({ eventExperience }: Props) {
 
     const handleOnClickParticipate = async () => {
         // Comprobar que no haya participado ya en la experiencia
-        if (eventExperience.cp_mobile_id) {
+        if (eventExperience.cp_id) {
             const hasUserParticipated =
                 await hasUserParticipatedInExperienceBefore(
                     user?.id,
                     eventExperience.event_id,
-                    eventExperience.cp_mobile_id,
-                    '',
+                    eventExperience.cp_id,
                     eventExperience.experience_id,
                 );
 
@@ -199,19 +197,13 @@ export default function EventExperience({ eventExperience }: Props) {
     };
 
     const handleOnClickEventComeBack = () => {
-        const cpMobileId = eventExperience.cp_mobile_id;
-        const cpFixedId = eventExperience.cp_fixed_id;
+        const cpId = eventExperience.cp_id;
 
-        if (!cpMobileId && !cpFixedId)
-            return router.push(`/${locale}${ROUTE_EVENTS}`);
+        if (!cpId) return router.push(`/${locale}${ROUTE_EVENTS}`);
 
-        cpMobileId
-            ? router.push(
-                  `/${locale}${ROUTE_EVENTS}/${eventExperience.event_id}${ROUTE_CP_MOBILE}/${cpMobileId}`,
-              )
-            : router.push(
-                  `/${locale}${ROUTE_EVENTS}/${eventExperience.event_id}${ROUTE_CP_FIXED}/${cpFixedId}`,
-              );
+        router.push(
+            `/${locale}${ROUTE_EVENTS}/${eventExperience.event_id}${ROUTE_CP}/${cpId}`,
+        );
     };
 
     const environmentState = process.env.NODE_ENV;

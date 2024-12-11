@@ -2,7 +2,7 @@ import readUserSession from '@/lib//actions';
 import createServerClient from '@/utils/supabaseServer';
 import { redirect } from 'next/navigation';
 import { BusinessOrders } from './BusinessOrders';
-import { IBusinessOrder } from '@/lib//types/types';
+import { IBusinessOrder } from '@/lib/types/types';
 
 export default async function BusinessOrdersPage() {
     const bOrdersData = await getBusinessOrdersData();

@@ -3,10 +3,10 @@
 import { createContext, useContext, useState } from 'react';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import {
-    IEventProduct,
+    ICartEventProduct,
     IProductPack,
     IProductPackEventCartItem,
-} from '@/lib//types/types';
+} from '@/lib/types/types';
 
 interface EventCartsType {
     [eventId: string]: IProductPackEventCartItem[];
@@ -30,7 +30,7 @@ type EventCartContextType = {
     ) => number;
     addPackToCart(
         eventId: string,
-        product: IEventProduct,
+        product: ICartEventProduct,
         pack: IProductPack,
     ): void;
     increaseOnePackCartQuantity: (
@@ -131,10 +131,9 @@ export function EventCartProvider({ children }: Props) {
         // Find the element in the cart
         const cartItemFind = cart.find((item) => {
             const isSameId = item.product_id === productId;
-            const isSameCPMid = cpId === item.cpm_id;
-            const isSameCPFid = cpId === item.cpf_id;
+            const isSameCPId = cpId === item.cp_id;
 
-            return (isSameId && isSameCPMid) || (isSameId && isSameCPFid);
+            return isSameId && isSameCPId;
         });
 
         // const item = cart?.find((item) => {
@@ -152,7 +151,7 @@ export function EventCartProvider({ children }: Props) {
 
     const addPackToCart = (
         eventId: string,
-        product: IEventProduct,
+        product: ICartEventProduct,
         pack: IProductPack,
     ) => {
         const cart = eventCarts.eventCarts[eventId];
@@ -160,9 +159,9 @@ export function EventCartProvider({ children }: Props) {
         // Buscamos el producto en el carrito
         const productFind = cart.find((item) => {
             const isSameId = item.product_id === product.id;
-            const isSameCPMid = product.cpm_id === item.cpm_id;
+            const isSameCPId = product.cp_id === item.cp_id;
 
-            return isSameId && isSameCPMid;
+            return isSameId && isSameCPId;
         });
 
         if (productFind) {
@@ -204,9 +203,9 @@ export function EventCartProvider({ children }: Props) {
                         ?.url ?? '',
                 producer_id: product.owner_id,
                 distributor_id: '',
-                cpm_id: product.cpm_id,
-                cpf_id: product.cpf_id,
+                cp_id: product.cp_id,
                 cp_name: product.cp_name,
+                cp_cps_id: '',
             };
 
             setEventCarts((currCarts) => {

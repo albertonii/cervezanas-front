@@ -1,17 +1,17 @@
-import { redirect } from 'next/navigation';
-import { VIEWS } from '@/constants';
-import { IProfile, IConsumptionPoints } from '@/lib//types/types';
-import createServerClient from '@/utils/supabaseServer';
 import readUserSession from '@/lib//actions';
+import createServerClient from '@/utils/supabaseServer';
+import { redirect } from 'next/navigation';
+import { IConsumptionPoints } from '@/lib/types/consumptionPoints';
 import { ConsumptionPoints } from './ConsumptionPoints';
 
 export default async function ProfilePage() {
     const cpsData = getCPSData();
-    const [cps] = await Promise.all([cpsData]);
+    const cpsCounter = getCPsCounter();
+    const [cps, counter] = await Promise.all([cpsData, cpsCounter]);
 
     return (
         <>
-            <ConsumptionPoints cps={cps ?? []} />
+            <ConsumptionPoints cps_={cps} counterCP={counter} />
         </>
     );
 }
@@ -29,13 +29,30 @@ async function getCPSData() {
         .from('consumption_points')
         .select(
             `
-        *,
-        cp_fixed (*),
-        cp_mobile (*)
-      `,
+                *,
+                cps (*)
+            `,
         );
 
     if (cpsError) console.error(cpsError);
 
     return cps as IConsumptionPoints[];
+}
+
+async function getCPsCounter() {
+    const supabase = await createServerClient();
+    const session = await readUserSession();
+
+    if (!session) {
+        redirect('/signin');
+    }
+
+    const { count, error: cpError } = await supabase
+        .from('cp')
+        .select('id', { count: 'exact' })
+        .eq('owner_id', session.id);
+
+    if (cpError) throw cpError;
+
+    return count as number | 0;
 }

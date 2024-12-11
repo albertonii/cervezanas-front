@@ -3,20 +3,22 @@ import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
+import Title from '@/app/[locale]/components/ui/Title';
 
 interface Props {
     form: UseFormReturn<any, any>;
 }
 
 export default function BasicEventForm({ form }: Props) {
-    const t = useTranslations();
+    const t = useTranslations('event');
 
     return (
         <>
             {/* Event Information  */}
             <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                <legend className="text-2xl">{t('events_info')}</legend>
-
+                <legend>
+                    <Title size="large">{t('events_info')}</Title>
+                </legend>
                 {/* Event name  */}
                 <InputLabel
                     form={form}
@@ -62,13 +64,10 @@ export default function BasicEventForm({ form }: Props) {
             </fieldset>
 
             {/* Logo and publicitary img */}
-            <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
+            {/* <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
                 <legend className="text-2xl">{t('event_advertising')}</legend>
 
-                {/* Logo */}
-
-                {/* AD Img  */}
-            </fieldset>
+            </fieldset> */}
         </>
     );
 }

@@ -1,23 +1,22 @@
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 import ExperienceAccordionItem from './ExperienceAccordionItem ';
 import React from 'react';
-import { ICPFixed, ICPMobile, IExperience } from '@/lib//types/types';
 import { UseFormReturn } from 'react-hook-form';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
+import { IExperience } from '@/lib/types/types';
+import { IConsumptionPoint } from '@/lib/types/consumptionPoints';
 
 interface Props {
     experiences: IExperience[];
     form: UseFormReturn<any, any>;
     experienceItems?: string[];
-    cpsMobile: ICPMobile[];
-    cpsFixed: ICPFixed[];
+    cps: IConsumptionPoint[];
 }
 
 const ExperienceAccordion: React.FC<Props> = ({
     experiences,
     form,
     experienceItems,
-    cpsMobile,
-    cpsFixed,
+    cps,
 }) => {
     if (!experiences || experiences.length === 0) {
         return <div>No experiences found.</div>;
@@ -46,8 +45,7 @@ const ExperienceAccordion: React.FC<Props> = ({
                         experience={experience}
                         form={form}
                         experienceItems={experienceItems}
-                        cpsMobile={cpsMobile}
-                        cpsFixed={cpsFixed}
+                        cps={cps}
                         index={index}
                     />
                 </li>

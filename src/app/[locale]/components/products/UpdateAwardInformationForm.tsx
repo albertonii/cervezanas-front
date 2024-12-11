@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import { SupabaseProps } from '@/constants';
 import { UseFormReturn } from 'react-hook-form';
 import { DeleteButton } from '../ui/buttons/DeleteButton';
-import { ModalUpdateProductFormData } from '@/lib//types/types';
+import { ModalUpdateProductFormData } from '@/lib/types/types';
 import { FilePreviewImageMultimedia } from '../common/FilePreviewImageMultimedia';
 
 interface Props {

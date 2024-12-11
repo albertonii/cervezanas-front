@@ -1,14 +1,15 @@
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
+import useFetchExperiencesByProducerId from '../../../../../../../hooks/useFetchExperiencesByProducerId';
 import React, { useEffect, useMemo, useState } from 'react';
+import { IExperience } from '@/lib/types/quiz';
+import { IEventExperience } from '@/lib/types/types';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import { useAuth } from '../../../../../(auth)/Context/useAuth';
-import useFetchEventExperiencesByEventIdAndCPMobileId from '../../../../../../../hooks/useFetchEventExperiencesByEventIdAndCPId';
-import useFetchExperiencesByProducerId from '../../../../../../../hooks/useFetchExperiencesByProducerId';
-import { IEventExperience, IExperience } from '@/lib/types/quiz';
-import InputSearch from '@/app/[locale]/components/form/InputSearch';
+import useFetchEventExperiencesByEventIdAndCPId from '@/hooks/useFetchEventExperiencesByEventIdAndCPId';
 
 interface Props {
     eventId: string;
-    cpMobileId: string;
+    cpId: string;
     form: UseFormReturn<any, any>;
 }
 
@@ -27,11 +28,7 @@ export type IExperienceSearchCheckbox = {
 // En la función handleCheckboxChange. Se pueden añadir y eliminar los elementos sin mayor problema. Pero si analizamos
 // el estado checkedExperiencesState, este no se actualiza correctamente. Por lo que al momento de añadir un nuevo elemento
 // y se añade undefined
-export function SearchCheckboxExperiences({
-    eventId,
-    cpMobileId,
-    form,
-}: Props) {
+export function SearchCheckboxExperiences({ eventId, cpId, form }: Props) {
     const [query, setQuery] = useState('');
     const { getValues, setValue, control } = form;
     const { isLoggedIn } = useAuth();
@@ -41,7 +38,7 @@ export function SearchCheckboxExperiences({
         isError: isEventExperienceError,
         isLoading: isEventExperienceLoading,
         refetch: refetchEventExperience,
-    } = useFetchEventExperiencesByEventIdAndCPMobileId(eventId, cpMobileId);
+    } = useFetchEventExperiencesByEventIdAndCPId(eventId, cpId);
 
     const [experiences, setExperiences] = useState<IExperience[]>([]);
 
@@ -108,8 +105,7 @@ export function SearchCheckboxExperiences({
                 const eventExperience = {
                     id: experience?.eventExperienceId,
                     created_at: '',
-                    cp_fixed_id: '',
-                    cp_mobile_id: cpMobileId,
+                    cp_id: cpId,
                     event_id: eventId,
                     experience_id: experience?.id,
                 };

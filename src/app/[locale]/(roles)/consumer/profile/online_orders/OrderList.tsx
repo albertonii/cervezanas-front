@@ -3,7 +3,7 @@
 import useFetchOrders from '../../../../../../hooks/useFetchOrders';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { IOrder } from '@/lib//types/types';
+import { IOrder } from '@/lib/types/types';
 import { useRouter } from 'next/navigation';
 import { encodeBase64 } from '@/utils/utils';
 import { formatDateString } from '@/utils/formatDate';

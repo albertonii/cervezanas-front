@@ -160,12 +160,12 @@ const TableWithFooterAndSearch: React.FC<TableProps> = ({
                     </thead>
 
                     <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-500 dark:bg-gray-400">
-                        {paginatedItems.map((row, rowIndex) => {
+                        {paginatedItems?.map((row, rowIndex) => {
                             return (
                                 <>
                                     <tr
                                         key={rowIndex}
-                                        className={`hover:bg-gray-100 dark:hover:bg-gray-300 transition-all ease-in-out duration-100 ${
+                                        className={`hover:bg-gray-100 dark:hover:bg-gray-500 transition-all ease-in-out duration-100 ${
                                             expandedRowRender &&
                                             'cursor-pointer'
                                         }`}
@@ -178,7 +178,7 @@ const TableWithFooterAndSearch: React.FC<TableProps> = ({
                                         {columns.map((column) => (
                                             <td
                                                 key={column.accessor}
-                                                className="px-6 py-4 whitespace-nowrap text-gray-700 dark:text-gray-100"
+                                                className="px-6 py-4 whitespace-nowrap text-gray-700 dark:text-beer-foam "
                                             >
                                                 {column.render
                                                     ? column.render(

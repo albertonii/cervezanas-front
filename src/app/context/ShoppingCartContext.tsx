@@ -9,7 +9,7 @@ import {
     IProductPack,
     IDistributionContract,
     IAddress,
-} from '@/lib//types/types';
+} from '@/lib/types/types';
 import {
     calculateCheapestShippingCostsByDistributor,
     getListAsociatedDistributors,

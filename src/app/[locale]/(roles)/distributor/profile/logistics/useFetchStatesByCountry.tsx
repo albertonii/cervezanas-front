@@ -2,7 +2,7 @@
 
 import { useQuery } from 'react-query';
 import { API_METHODS } from '@/constants';
-import { IState } from '@/lib//types/distribution_areas';
+import { IState } from '@/lib/types/distribution_areas';
 
 const headers = new Headers();
 headers.append(

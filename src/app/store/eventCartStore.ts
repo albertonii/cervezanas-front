@@ -2,10 +2,10 @@
 
 import { create } from 'zustand';
 import {
-    IEventProduct,
+    ICartEventProduct,
     IProductPack,
     IProductPackEventCartItem,
-} from '@/lib//types/types';
+} from '@/lib/types/types';
 
 interface EventCartsType {
     [eventId: string]: IProductPackEventCartItem[];
@@ -17,7 +17,7 @@ interface EventCartState {
     handleOpen: (isOpen: boolean) => void;
     addPackToCart: (
         eventId: string,
-        product: IEventProduct,
+        product: ICartEventProduct,
         pack: IProductPack,
     ) => void;
     increaseOnePackCartQuantity: (
@@ -63,9 +63,10 @@ const useEventCartStore = create<EventCartState>((set, get) => {
 
     if (typeof window !== 'undefined') {
         // Acceder a localStorage solo si está en el lado del cliente
-        const savedState = localStorage.getItem('event-carts');
+        const savedState = localStorage.getItem(STORAGE_KEY);
+
         if (savedState) {
-            initialState = JSON.parse(savedState);
+            initialState = { ...initialState, ...JSON.parse(savedState) };
         }
     }
 
@@ -73,7 +74,7 @@ const useEventCartStore = create<EventCartState>((set, get) => {
         ...initialState,
         addPackToCart: (
             eventId: string,
-            product: IEventProduct,
+            product: ICartEventProduct,
             pack: IProductPack,
         ) => {
             set((state) => {
@@ -81,7 +82,7 @@ const useEventCartStore = create<EventCartState>((set, get) => {
                 const productFind = cart.find(
                     (item) =>
                         item.product_id === product.id &&
-                        product.cpm_id === item.cpm_id,
+                        product.cp_id === item.cp_id,
                 );
 
                 if (productFind) {
@@ -106,10 +107,11 @@ const useEventCartStore = create<EventCartState>((set, get) => {
                             )?.url ?? '',
                         producer_id: product.owner_id,
                         distributor_id: '',
-                        cpm_id: product.cpm_id,
-                        cpf_id: product.cpf_id,
+                        cp_id: product.cp_id,
                         cp_name: product.cp_name,
+                        cp_cps_id: product.cp_cps_id,
                     };
+
                     cart.push(newPack);
                 }
 
@@ -132,11 +134,7 @@ const useEventCartStore = create<EventCartState>((set, get) => {
                 const eventItems = state.eventCarts[eventId] || [];
 
                 const newItems = eventItems.map((item) => {
-                    if (
-                        (item.product_id === productId &&
-                            item.cpf_id === cpId) ||
-                        (item.product_id === productId && item.cpm_id === cpId)
-                    ) {
+                    if (item.product_id === productId && item.cp_id === cpId) {
                         const newPacks = item.packs.map((pack) => {
                             if (pack.id === packId) {
                                 return { ...pack, quantity: pack.quantity + 1 };
@@ -163,11 +161,7 @@ const useEventCartStore = create<EventCartState>((set, get) => {
                 const eventItems = state.eventCarts[eventId] || [];
 
                 const newItems = eventItems.map((item) => {
-                    if (
-                        (item.product_id === productId &&
-                            item.cpf_id === cpId) ||
-                        (item.product_id === productId && item.cpm_id === cpId)
-                    ) {
+                    if (item.product_id === productId && item.cp_id === cpId) {
                         const newPacks = item.packs.map((pack) => {
                             if (pack.id === packId && pack.quantity > 1) {
                                 return { ...pack, quantity: pack.quantity - 1 };
@@ -192,12 +186,9 @@ const useEventCartStore = create<EventCartState>((set, get) => {
         removeFromCart: (eventId, productId, cpId, packId) => {
             set((state) => {
                 const eventItems = state.eventCarts[eventId] || [];
+
                 const newItems = eventItems.map((item) => {
-                    if (
-                        (item.product_id === productId &&
-                            item.cpf_id === cpId) ||
-                        (item.product_id === productId && item.cpm_id === cpId)
-                    ) {
+                    if (item.product_id === productId && item.cp_id === cpId) {
                         const newPacks = item.packs.filter(
                             (pack) => pack.id !== packId,
                         );
@@ -236,9 +227,7 @@ const useEventCartStore = create<EventCartState>((set, get) => {
             const eventItems = get().eventCarts[eventId] || [];
 
             const product = eventItems.find(
-                (item) =>
-                    (item.product_id === productId && item.cpm_id === cpId) ||
-                    (item.product_id === productId && item.cpf_id === cpId),
+                (item) => item.product_id === productId && item.cp_id === cpId,
             );
 
             if (product) {
@@ -275,8 +264,11 @@ const useEventCartStore = create<EventCartState>((set, get) => {
             get().saveState();
         },
         saveState: () => {
-            const state = get();
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            // const state = get();
+            // localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            const { eventCarts, isOpen } = get();
+            const stateToSave = { eventCarts, isOpen };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToSave));
         },
         setEventCarts: (eventCarts) => {
             set((state) => {

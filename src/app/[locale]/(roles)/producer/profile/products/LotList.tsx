@@ -4,7 +4,7 @@ import useFetchLotsByOwnerAndPagination from '../../../../../../hooks/useFetchLo
 import React, { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../../../(auth)/Context/useAuth';
-import { IProductLot } from '@/lib//types/types';
+import { IProductLot } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { DeleteButton } from '@/app/[locale]/components/ui/buttons/DeleteButton';
 import { EditButton } from '@/app/[locale]/components/ui/buttons/EditButton';

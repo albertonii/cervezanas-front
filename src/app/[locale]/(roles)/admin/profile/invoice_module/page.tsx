@@ -3,7 +3,7 @@ import readUserSession from '@/lib/actions';
 import createServerClient from '@/utils/supabaseServer';
 import React from 'react';
 import { redirect } from 'next/navigation';
-import { IDistributorUser, IProducerUser } from '@/lib//types/types';
+import { IDistributorUser, IProducerUser } from '@/lib/types/types';
 
 export default async function Page() {
     const producersData = getProducers();

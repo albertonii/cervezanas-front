@@ -12,7 +12,7 @@ import {
     IProductPack,
     ModalUpdateProductFormData,
     ModalUpdateProductPackFormData,
-} from '@/lib//types/types';
+} from '@/lib/types/types';
 
 const emptyPack: IProductPack = {
     id: '',

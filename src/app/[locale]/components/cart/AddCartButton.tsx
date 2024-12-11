@@ -1,8 +1,8 @@
 import AddToCartPopup from './AddToCartPopup';
 import React, { useState, useEffect } from 'react';
-import { faBeerMugEmpty } from '@fortawesome/free-solid-svg-icons';
 import { useTranslations } from 'next-intl';
 import { IconButton } from '../ui/buttons/IconButton';
+import { faBeerMugEmpty } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
     onClick?: () => void;
@@ -11,51 +11,43 @@ interface Props {
     onClose?: () => void;
 }
 
-export function AddCartButton({ onClick, isVisible, onClose }: Props) {
+export function AddCartButton({ onClick, isVisible = false, onClose }: Props) {
     const t = useTranslations();
-
     const [animateCartBtn, setAnimateCartBtn] = useState(false);
 
     useEffect(() => {
         if (isVisible && onClose) {
-            const timer = setTimeout(() => {
-                onClose();
-            }, 2000); // La notificación desaparecerá después de 3 segundos
-
+            const timer = setTimeout(onClose, 2000); // Oculta la notificación tras 2 segundos
             return () => clearTimeout(timer);
         }
-    }, [isVisible]);
+    }, [isVisible, onClose]);
 
     const handleOnClick = () => {
         if (onClick) {
             onClick();
-
             setAnimateCartBtn(true);
-
-            setTimeout(() => {
-                setAnimateCartBtn(false);
-            }, 500);
+            setTimeout(() => setAnimateCartBtn(false), 500); // Animación breve al añadir al carrito
         }
     };
 
     return (
         <div className="relative group">
+            {/* Popup de añadido al carrito */}
             {isVisible && <AddToCartPopup onClose={onClose} />}
 
-    <IconButton
-        onClick={handleOnClick}
-        classContainer="text-base lg:text-lg text-left transform transition-transform group-hover:scale-105 group-hover:shadow-lg group-hover:outline group-hover:outline-1 group-hover:outline-white group-hover:outline-offset-[-3px] w-full h-[60px] sm:h-[auto]"
-        classIcon={`w-[60px] h-[40px] px-0 float-left mr-0 text-beer-gold group-hover:text-beer-dark py-1 group-hover:w-[45px] group-hover:h-[45px] group-hover:py-0 group-hover:rotate-3 group-hover:px-2 group-hover:filter group-hover:drop-shadow-[0_0_6px_rgba(255,255,255,1)] transition-all transform sm:block hidden
-            ${animateCartBtn && 'animate-wiggle'}
-        `}
-                icon={faBeerMugEmpty}
-                isActive={false}
+            {/* Botón principal */}
+            <IconButton
                 primary
-                title={'Add to cart'}
+                onClick={handleOnClick}
+                classContainer="flex items-center justify-start w-full gap-2 group-hover:scale-105 transition-transform"
+                classIcon={`w-10 h-8 transition-all transform group-hover:rotate-3 
+                    ${animateCartBtn ? 'animate-wiggle' : ''}`}
+                icon={faBeerMugEmpty}
+                title={t('add_to_cart')}
             >
-                <div className="text-base ml-3 leading-tight w-full pr-6 py-1">
+                <span className="text-base text-left hidden xl:block">
                     {t('add_to_cart')}
-                </div>
+                </span>
             </IconButton>
         </div>
     );

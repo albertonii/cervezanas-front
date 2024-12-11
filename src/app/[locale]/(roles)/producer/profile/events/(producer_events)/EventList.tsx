@@ -4,24 +4,24 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 import DeleteEventModal from '@/app/[locale]/components/modals/DeleteEventModal';
-import UpdateEventModal from '@/app/[locale]/components/modals/event/UpdateEvent';
+import UpdateEventModal from '@/app/[locale]/components/modals/event/UpdateEventModal';
 import useFetchEventsByOwnerId from '../../../../../../../hooks/useFetchEventsByOwnerId';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
 import React, { useEffect, useState } from 'react';
 import { ROUTE_EVENTS } from '@/config';
+import { IEvent } from '@/lib/types/eventOrders';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
-import { ICPFixed, ICPMobile, IEvent } from '@/lib/types/types';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
+import { IConsumptionPoint } from '@/lib/types/consumptionPoints';
 
 interface Props {
     counter: number;
-    cpsMobile: ICPMobile[];
-    cpsFixed: ICPFixed[];
+    cps: IConsumptionPoint[];
 }
 
-export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
+export default function EventList({ counter, cps }: Props) {
     const t = useTranslations();
     const locale = useLocale();
 
@@ -61,7 +61,7 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
             sortable: true,
             render: (value: string, row: IEvent) => (
                 <Link href={`${ROUTE_EVENTS}/${row.id}`} locale={locale}>
-                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde">
+                    <span className="font-semibold text-beer-blonde hover:text-beer-draft dark:text-beer-softBlonde dark:hover:text-beer-gold">
                         {value}
                     </span>
                 </Link>
@@ -137,8 +137,7 @@ export default function EventList({ counter, cpsMobile, cpsFixed }: Props) {
                     selectedEvent={selectedEvent}
                     isEditModal={isEditModal}
                     handleEditModal={handleEditModal}
-                    cpsMobile={cpsMobile}
-                    cpsFixed={cpsFixed}
+                    cps={cps}
                 />
             )}
 

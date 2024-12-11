@@ -35,7 +35,7 @@ export default function Spinner({
                 absolutePosition === 'center' &&
                 'bottom-[50%] left-1/2 -translate-x-1/2'
             }
-                rounded-lg bg-beer-softBlonde bg-opacity-90 p-4 my-4
+                rounded-lg bg-beer-softBlonde/70 bg-opacity-90 p-4 my-4
             `}
         >
             <svg

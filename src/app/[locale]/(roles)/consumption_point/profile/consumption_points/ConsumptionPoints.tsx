@@ -1,27 +1,27 @@
 'use client';
 
+import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { CPPending } from './CPPending';
-import { CPAccepted } from './CPAccepted';
-import { CPRejected } from './CPRejected';
-import { IConsumptionPoints, IProfile } from '@/lib//types/types';
+import { IProfile } from '@/lib/types/types';
+import { IConsumptionPoints } from '@/lib/types/consumptionPoints';
+import { CPPending } from '@/app/[locale]/components/CP/CPPending';
+import { CPAccepted } from '@/app/[locale]/components/CP/CPAccepted';
+import { CPRejected } from '@/app/[locale]/components/CP/CPRejected';
 import { SubmitCPOrganizer } from '@/app/[locale]/components/modals/SubmitCPOrganizer';
-import ProfileSectionHeader from '@/app/[locale]/components/ui/ProfileSectionHeader';
 
 interface Props {
     cps: IConsumptionPoints[];
     profile: IProfile;
+    counterCP: number;
 }
 
 export function ConsumptionPoints({
     cps,
     profile: { cp_organizer_status },
+    counterCP,
 }: Props) {
     const t = useTranslations();
-
-    // const [cpOrganizerStatus, setCPOrganizerStatus] =
-    //     useState(cp_organizer_status);
 
     const [cpOrganizerStatus, setCPOrganizerStatus] = useState(1);
 
@@ -71,7 +71,10 @@ export function ConsumptionPoints({
                     ) : (
                         <>
                             {cpOrganizerStatus === 1 ? (
-                                <CPAccepted cps={cps[0]} />
+                                <CPAccepted
+                                    cps={cps[0]}
+                                    counterCP={counterCP}
+                                />
                             ) : (
                                 <CPRejected />
                             )}

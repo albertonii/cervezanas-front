@@ -13,7 +13,7 @@ import React, { ComponentProps, useMemo, useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
-import { IProduct } from '@/lib//types/types';
+import { IProduct } from '@/lib/types/types';
 import { useMessage } from '../message/useMessage';
 import { IconButton } from '../ui/buttons/IconButton';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -220,9 +220,7 @@ export default function AddMonthlyProduct({
             ) : (
                 <form>
                     <fieldset className="space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                        <legend className="m-2 text-2xl">
-                            {t('cp_fixed_info')}
-                        </legend>
+                        <legend className="m-2 text-2xl">{t('cp_info')}</legend>
 
                         {/* Category  */}
                         <div className="flex flex-col space-y-2">

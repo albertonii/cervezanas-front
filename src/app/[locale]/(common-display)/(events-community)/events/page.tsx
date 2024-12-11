@@ -1,15 +1,15 @@
 import Events from './Events';
 import createServerClient from '@/utils/supabaseServer';
-import { IEvent } from '@/lib//types/types';
+import { IEvent } from '@/lib/types/eventOrders';
 
 export default async function EventsPage() {
     const eventsData = getEvents();
     const [events] = await Promise.all([eventsData]);
 
     return (
-        <>
+        <div className="container mx-auto py-8 px-4">
             <Events events={events} />
-        </>
+        </div>
     );
 }
 
