@@ -42,23 +42,25 @@ const statusBackgrounds: Record<EventOrderCPSStatus, string> = {
 };
 
 interface Props {
-    order: IEventOrderCPS;
+    orderCP: IEventOrderCPS;
 }
 
-const EventCPOrderCard: React.FC<Props> = ({ order }) => {
+const EventCPOrderCard: React.FC<Props> = ({ orderCP }) => {
     const t = useTranslations('event');
     const { handleMessage } = useMessage();
     const queryClient = useQueryClient();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-    const { data, error, isLoading } = useFetchEventCPOrderStatusById(order.id);
+    const { data, error, isLoading } = useFetchEventCPOrderStatusById(
+        orderCP.id,
+    );
 
-    const status = data?.status ?? order.status;
+    const status = data?.status ?? orderCP.status;
     const Icon = statusIcons[status];
 
     const handleStartOrder = async () => {
         const res = await UpdateEventCPOrderStatus(
-            order.id,
+            orderCP.id,
             EVENT_ORDER_CPS_STATUS.PENDING,
         );
 
@@ -68,7 +70,10 @@ const EventCPOrderCard: React.FC<Props> = ({ order }) => {
                 type: 'success',
                 message: t('success.order_started'),
             });
-            queryClient.invalidateQueries(['event_order_cp_status', order.id]);
+            queryClient.invalidateQueries([
+                'event_order_cp_status',
+                orderCP.id,
+            ]);
         } else {
             handleMessage({
                 type: 'error',
@@ -98,7 +103,7 @@ const EventCPOrderCard: React.FC<Props> = ({ order }) => {
                             className="dark:text-white"
                         >
                             {t('order_number_cps', {
-                                orderNumber: order.order_number,
+                                orderNumber: orderCP.order_number,
                             })}
                         </Label>
 
@@ -143,7 +148,7 @@ const EventCPOrderCard: React.FC<Props> = ({ order }) => {
                     </Label>
 
                     <ul className="space-y-1 w-full">
-                        {order.event_order_items?.map((item) => (
+                        {orderCP.event_order_items?.map((item) => (
                             <li
                                 key={item.id}
                                 className="flex justify-between text-sm space-x-4 bg-beer-softFoam dark:bg-gray-700 p-2 rounded-lg"
@@ -185,7 +190,7 @@ const EventCPOrderCard: React.FC<Props> = ({ order }) => {
                             font="semibold"
                             className="dark:text-beer-amber"
                         >
-                            {order.event_order_items
+                            {orderCP.event_order_items
                                 ?.reduce(
                                     (total, item) =>
                                         total +
@@ -206,7 +211,7 @@ const EventCPOrderCard: React.FC<Props> = ({ order }) => {
                 onConfirm={handleStartOrder}
                 title={t('confirm_start_order')}
                 message={t('confirm_start_order_message', {
-                    orderNumber: order.order_number,
+                    orderNumber: orderCP.order_number,
                 })}
             />
         </>

@@ -5,21 +5,18 @@
 import Title from '@/app/[locale]/components/ui/Title';
 import Label from '@/app/[locale]/components/ui/Label';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
-import SuccessCheckoutInSitePayment from '../success/in_site_payment/SuccessCheckoutInSitePayment';
+import SuccessCheckoutInSitePayment from '../../../../../(common-display)/checkout/event/success/in_site_payment/SuccessCheckoutInSitePayment';
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { IEventOrder } from '@/lib/types/eventOrders';
 
-interface Props {
-    order: IEventOrder | null;
-}
-
-const OrderLookup = ({ order: order_ }: Props) => {
-    const t = useTranslations('order');
+const OrderLookup = () => {
+    const t = useTranslations('event');
     const [email, setEmail] = useState('');
     const [orderNumber, setOrderNumber] = useState('');
-    const [order, setOrder] = useState<any>(order_);
+    const [order, setOrder] = useState<any>();
     const [error, setError] = useState('');
+
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
     const handleLookup = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -28,7 +25,7 @@ const OrderLookup = ({ order: order_ }: Props) => {
 
         try {
             const res = await fetch(
-                `/api/event_shopping_basket/event_order/lookup_guest?email=${email}&order_number=${orderNumber}`,
+                `${baseUrl}/api/event_shopping_basket/event_order/lookup_guest?email=${email}&order_number=${orderNumber}`,
                 {
                     method: 'GET',
                     headers: { 'Content-Type': 'application/json' },
@@ -49,11 +46,15 @@ const OrderLookup = ({ order: order_ }: Props) => {
     };
 
     return (
-        <div className="max-w-md mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+        <div className="p-6 m-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
             <Title size="large" color="gray">
                 {t('lookup_order')}
             </Title>
-            <form onSubmit={handleLookup} className="space-y-4 mt-4">
+
+            <form
+                onSubmit={handleLookup}
+                className="space-y-4 bg-gray-200 dark:bg-gray-700 p-4 rounded-lg"
+            >
                 <div>
                     <Label htmlFor="email">{t('email')}</Label>
                     <input

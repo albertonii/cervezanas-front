@@ -4,7 +4,6 @@ import Label from '@/app/[locale]/components/ui/Label';
 import React from 'react';
 import { Store } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { SupabaseProps } from '@/constants';
 import { useLocale, useTranslations } from 'next-intl';
 import { IEventOrderCPS, IEventOrderItem } from '@/lib/types/eventOrders';
 interface Props {
@@ -12,8 +11,6 @@ interface Props {
     eventOrderCP: IEventOrderCPS;
     domain?: string;
 }
-
-const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 
 export default function EventCPProductDetails({
     eventOrderCP,
@@ -43,7 +40,7 @@ export default function EventCPProductDetails({
                         color="gray"
                         fontFamily="NexaRust-sans"
                     >
-                        {eventOrderItem.event_order_cps?.cp_events?.cp?.cp_name}
+                        {eventOrderItem.event_order_cps?.cp_events?.cp_name}
                     </Title>
                     <Label
                         size="medium"
@@ -56,7 +53,7 @@ export default function EventCPProductDetails({
             </div>
 
             {eventOrderItem.event_order_cps && (
-                <EventCPOrderCard order={eventOrderCP} />
+                <EventCPOrderCard orderCP={eventOrderCP} />
             )}
         </section>
     );

@@ -9,6 +9,8 @@ export async function GET(request: NextRequest) {
     const email = searchParams.get('email');
     const orderNumber = searchParams.get('order_number');
 
+    console.log('email', email, 'orderNumber', orderNumber);
+
     // Validaciones básicas
     if (!email || !orderNumber) {
         return NextResponse.json(
@@ -30,13 +32,14 @@ export async function GET(request: NextRequest) {
                     *,
                     event_order_items (
                         *,
-                        product_pack_event_item (
+                        event_order_cps (
                             *,
-                            product_pack (
-                                *,
-                                product (
-                                    *
-                                )
+                            cp_events (*)
+                        ),
+                        product_packs (
+                            *,
+                            products (
+                                *
                             )
                         )
                     )
@@ -52,8 +55,6 @@ export async function GET(request: NextRequest) {
                 'No se encontró la orden con los detalles proporcionados.',
             );
         }
-
-        console.log('ORDER', order);
 
         return NextResponse.json({ order }, { status: 200 });
     } catch (error: any) {
