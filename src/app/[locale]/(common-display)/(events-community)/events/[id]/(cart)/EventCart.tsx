@@ -74,7 +74,7 @@ export default function EventCart({ eventId }: Props) {
                 style={{ top: 0 }} // Asegurar que esté alineado en Y=0
             >
                 {/* Barra Arrastrable */}
-                <div className="drag-handle flex items-center justify-between p-2 bg-beer-blonde dark:bg-gray-900 text-white font-semibold rounded-t-lg cursor-grab hover:cursor-grabbing">
+                <div className="drag-handle flex items-center justify-between p-2 bg-beer-blonde dark:bg-gray-800 text-white font-semibold rounded-t-lg cursor-grab hover:cursor-grabbing border border-gray-700">
                     <div className="flex items-center gap-2">
                         <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-white dark:bg-gray-700 rounded-full shadow-md">
                             <svg
