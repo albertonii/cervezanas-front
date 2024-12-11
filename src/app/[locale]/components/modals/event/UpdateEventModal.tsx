@@ -6,7 +6,7 @@ import Title from '../../ui/Title';
 import InputLabel from '../../form/InputLabel';
 import SelectInput from '../../form/SelectInput';
 import InputTextarea from '../../form/InputTextarea';
-import useFetchCPSEventByEventsId from '@/hooks/useFetchCPsEventByEventId ';
+import useFetchCPSEventByEventsId from '@/hooks/useFetchCPsEventByEventId'; // Corregido
 import React, { ComponentProps, useEffect } from 'react';
 import { z, ZodType } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -47,18 +47,10 @@ const consumptionPointEventSchema = z.object({
     cp_name: z.string(),
     cp_description: z.string(),
     status: z.string(),
-    address: z.string(),
     event_id: z.string(),
     owner_id: z.string(),
     is_active: z.boolean(),
     is_cervezanas_event: z.boolean(),
-    start_date: z.string(),
-    end_date: z.string(),
-    stand_location: z.string(),
-    view_configuration: z.enum(['one_step', 'two_steps', 'three_steps']), // Actualizado
-    has_pending_payment: z.boolean(),
-    is_booking_required: z.boolean(),
-    maximum_capacity: z.number(),
 });
 
 const schema: ZodType<FormData> = z
@@ -118,15 +110,7 @@ export default function UpdateEventModal({
         data: checkedCPs,
         isLoading,
         isFetching,
-        refetch,
-        isFetchedAfterMount,
     } = useFetchCPSEventByEventsId(selectedEvent.id);
-
-    useEffect(() => {
-        if (isFetchedAfterMount) {
-            refetch();
-        }
-    }, [isFetchedAfterMount]);
 
     const form = useForm<ValidationSchema>({
         mode: 'onSubmit',
@@ -140,29 +124,8 @@ export default function UpdateEventModal({
             logo_url: selectedEvent.logo_url ?? '',
             promotional_url: selectedEvent.promotional_url ?? '',
             category: selectedEvent.category,
-            cps:
-                checkedCPs?.map((cp) => ({
-                    cp_id: cp.cp_id,
-                    cp_name: cp.cp_name,
-                    cp_description: cp.cp_description,
-                    address: cp.address,
-                    status: cp.status,
-                    event_id: cp.event_id,
-                    owner_id: cp.owner_id,
-                    is_active: cp.is_active,
-                    is_cervezanas_event: cp.is_cervezanas_event,
-                    start_date: cp.start_date,
-                    end_date: cp.end_date,
-                    stand_location: cp.stand_location,
-                    view_configuration: cp.view_configuration,
-                    has_pending_payment: cp.has_pending_payment,
-                    is_booking_required: cp.is_booking_required,
-                    maximum_capacity: cp.maximum_capacity,
-                })) ?? [],
-            removed_cps:
-                checkedCPs?.map((cp) => ({
-                    id: cp.cp_id,
-                })) ?? [],
+            cps: [], // Inicialmente vacío
+            removed_cps: [],
         },
     });
 
@@ -170,7 +133,37 @@ export default function UpdateEventModal({
         handleSubmit,
         setValue,
         formState: { errors },
+        reset,
     } = form;
+
+    // Reiniciar el formulario cuando checkedCPs esté disponible
+    useEffect(() => {
+        if (checkedCPs) {
+            reset({
+                is_activated: selectedEvent.is_activated,
+                name: selectedEvent.name,
+                description: selectedEvent.description,
+                start_date: formatDateDefaultInput(selectedEvent.start_date),
+                end_date: formatDateDefaultInput(selectedEvent.end_date),
+                logo_url: selectedEvent.logo_url ?? '',
+                promotional_url: selectedEvent.promotional_url ?? '',
+                category: selectedEvent.category,
+                cps: checkedCPs.map((cp) => ({
+                    cp_id: cp.cp_id,
+                    cp_name: cp.cp_name,
+                    cp_description: cp.cp_description,
+                    status: cp.status,
+                    event_id: cp.event_id,
+                    owner_id: cp.owner_id,
+                    is_active: cp.is_active,
+                    is_cervezanas_event: cp.is_cervezanas_event,
+                })),
+                removed_cps: checkedCPs.map((cp) => ({
+                    id: cp.cp_id,
+                })),
+            });
+        }
+    }, [checkedCPs, reset, selectedEvent]);
 
     useEffect(() => {
         console.log(errors);
@@ -203,6 +196,7 @@ export default function UpdateEventModal({
                 logo_url,
                 promotional_url,
                 category,
+                is_activated, // Asegurarse de actualizar este campo también
             })
             .eq('id', selectedEvent.id);
 
@@ -244,14 +238,14 @@ export default function UpdateEventModal({
                 }
             });
 
-            // // Insertar los nuevos CPs asociados al evento
+            // Insertar los nuevos CPs asociados al evento
             cps?.forEach(async (item) => {
                 const { error } = await supabase.from('cp_events').insert({
+                    owner_id: item.owner_id,
+                    event_id: selectedEvent.id,
                     cp_id: item.cp_id,
                     cp_name: item.cp_name,
                     cp_description: item.cp_description,
-                    address: item.address,
-                    event_id: selectedEvent.id,
                     is_active: false,
                 });
                 if (error) {
@@ -259,43 +253,6 @@ export default function UpdateEventModal({
                 }
             });
         }
-
-        //  // Eliminar los CP del listado de CPs a eliminar
-        //  removed_cps.map(async (cp: { id: string }) => {
-        //     const { error: cpError } = await supabase
-        //         .from('cp_events')
-        //         .delete()
-        //         .eq('cp_id', cp.id)
-        //         .eq('event_id', selectedEvent.id);
-
-        //     if (cpError) {
-        //         throw cpError;
-        //     }
-        // });
-
-        // // Insertar los nuevos CPs asociados al evento
-        // cps?.forEach(async (cp) => {
-        //     const { error } = await supabase.from('cp_events').insert({
-        //         cp_id: cp.cp_id,
-        //         event_id: selectedEvent.id,
-        //         owner_id: cp.owner_id,
-        //         is_cervezanas_event: true,
-        //         is_active: true,
-        //     });
-        //     if (error) {
-        //         throw error;
-        //     }
-
-        //     // Notify to producer that the CP was added to the event
-        //     const newCPLinkedToCervezanasEventMessage = `Se ha registrado un PC al Evento Cervezanas ${selectedEvent.name}. Puedes configurarlo en el apartado de eventos, dentro del perfil.`;
-        //     const producerLink = `${ROUTE_PRODUCER}${ROUTE_PROFILE}${ROUTE_EVENTS}`;
-
-        //     sendPushNotification(
-        //         cp.owner_id,
-        //         newCPLinkedToCervezanasEventMessage,
-        //         producerLink,
-        //     );
-        // });
     };
 
     const updateEventMutation = useMutation({
@@ -389,6 +346,7 @@ export default function UpdateEventModal({
                                     }}
                                     onChange={handleChangeCategory}
                                     defaultValue={
+                                        selectedEvent.category ||
                                         EventCategory.SOCIAL_GATHERINGS
                                     }
                                 />
@@ -428,17 +386,6 @@ export default function UpdateEventModal({
                             </div>
                         </fieldset>
 
-                        {/* Logo and publicitary img */}
-                        {/* <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble p-4">
-                            <legend>
-                                <Title size="large">
-                                    {t('event_advertising')}
-                                </Title>
-                            </legend>
-
-
-                        </fieldset> */}
-
                         {/* List of Consumption Points  */}
                         <fieldset className="mt-4 space-y-4 rounded-md border-2 border-beer-softBlondeBubble px-4 pb-4">
                             <legend>
@@ -457,6 +404,7 @@ export default function UpdateEventModal({
                                 cps={cps}
                                 checkedCPs={checkedCPs}
                                 form={form}
+                                selectedEventId={selectedEvent.id} // Añadido
                             />
                         </fieldset>
                     </form>

@@ -19,8 +19,7 @@ const fetchCPSEventByEventId = async (
                 *
             `,
         )
-        .eq('event_id', eventId)
-        .select();
+        .eq('event_id', eventId);
 
     if (error) throw error;
 
@@ -31,9 +30,9 @@ const useFetchCPSEventByEventsId = (eventId: string) => {
     const { supabase } = useAuth();
 
     return useQuery({
-        queryKey: 'cp_events',
+        queryKey: ['cp_events', eventId],
         queryFn: () => fetchCPSEventByEventId(eventId, supabase),
-        enabled: false,
+        enabled: true,
         refetchOnWindowFocus: false,
     });
 };

@@ -176,7 +176,7 @@ export default function UpdateCPEventModal({
 
         handleEditModal(false);
         setIsLoading(false);
-        queryClient.invalidateQueries('cp_events');
+        queryClient.invalidateQueries(['cp_events', selectedCPEvent.event_id]);
     };
 
     const updateEventMutation = useMutation({

@@ -102,10 +102,12 @@ export default function EventList({ counter, cps }: Props) {
     ];
 
     useEffect(() => {
-        refetch().then((res: any) => {
-            const events = res.data as IEvent[];
-            setEvents(events);
-        });
+        if (data) {
+            refetch().then((res: any) => {
+                const events = res.data as IEvent[];
+                setEvents(events);
+            });
+        }
     }, [data, currentPage]);
 
     const handleEditClick = async (e: IEvent) => {

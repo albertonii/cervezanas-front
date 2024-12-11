@@ -25,14 +25,16 @@ export default function DeleteCPModal({
     const handleRemoveCP = async () => {
         if (!selectedCPId) return;
 
-        const { error } = await supabase
+        const { data: event, error } = await supabase
             .from('cp_events')
             .delete()
-            .eq('id', selectedCPId);
+            .eq('id', selectedCPId)
+            .select('event_id')
+            .single();
 
         if (error) throw error;
 
-        queryClient.invalidateQueries('cp_events');
+        queryClient.invalidateQueries(['cp_events', event.event_id]);
         handleDeleteModal(false);
     };
 

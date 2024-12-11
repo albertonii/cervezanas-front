@@ -15,7 +15,7 @@ export default function InputSearch({
     const t = useTranslations();
 
     return (
-        <section className="relative w-full">
+        <section className="relative w-full pt-2">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <svg
                     aria-hidden="true"

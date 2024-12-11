@@ -34,7 +34,7 @@ export default function DeleteCPEventModal({
             .eq('event_id', eventId);
         if (error) throw error;
 
-        queryClient.invalidateQueries('cp_events');
+        queryClient.invalidateQueries(['cp_events', eventId]);
         handleDeleteModal(false);
     };
 

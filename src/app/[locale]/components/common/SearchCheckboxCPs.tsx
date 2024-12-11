@@ -28,6 +28,15 @@ export function SearchCheckboxCPs({
         IConsumptionPointEvent[]
     >(checkedCPs ?? []);
 
+    // Actualizar el estado interno cuando `checkedCPs` cambia
+    useEffect(() => {
+        setCheckedCPsState(checkedCPs ?? []);
+    }, [checkedCPs]);
+
+    useEffect(() => {
+        setValue('cps', checkedCPsState);
+    }, [checkedCPsState, setValue]);
+
     const handleCheckboxChange = (
         cp: IConsumptionPoint,
         isChecked: boolean,
@@ -40,7 +49,7 @@ export function SearchCheckboxCPs({
                 });
                 return;
             }
-            // Verify if the CP is already in the array
+            // Verificar si el CP ya está en el array
             if (checkedCPsState.some((item) => item.cp_id === cp.id)) return;
 
             const cp_check: IConsumptionPointEvent = {
@@ -72,10 +81,6 @@ export function SearchCheckboxCPs({
         }
     };
 
-    useEffect(() => {
-        setValue('cps', checkedCPsState);
-    }, [checkedCPsState]);
-
     const filteredItemsByCPName = useMemo(() => {
         if (!cps) return [];
         return cps.filter((cp) => {
@@ -85,7 +90,7 @@ export function SearchCheckboxCPs({
 
     return (
         <section className="my-6 w-full">
-            <div className=" z-10 w-full rounded bg-white shadow dark:bg-gray-700">
+            <div className="z-10 w-full rounded bg-white shadow dark:bg-gray-700">
                 <InputSearch
                     query={query}
                     setQuery={setQuery}
@@ -124,9 +129,7 @@ export function SearchCheckboxCPs({
                                     htmlFor={`checkbox-item-${cp.id}`}
                                     className="hover:cursor-pointer ml-2 w-full rounded text-sm font-medium text-gray-900 dark:text-gray-300"
                                 >
-                                    {cp.cp_name} - PERTENECE A usuario:{' '}
-                                    {cp.users?.username}. Email:{' '}
-                                    {cp.users?.email}
+                                    {cp.cp_name}
                                 </label>
                             </li>
                         );
