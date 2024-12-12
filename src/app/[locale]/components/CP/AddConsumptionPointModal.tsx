@@ -223,35 +223,34 @@ export default function AddConsumptionPointModal({ cpsId }: Props) {
             pItemsFilteredArray.map(async (pack: { id: string }) => {
                 // TODO: Desde el register de accordionItem se introduce un product pack como string/json o como array de objetos. Habría que normalizar la información
                 if (typeof pack.id === 'object') {
-                    const { error } = await supabase
-                        .from('cp_products')
-                        .insert({
-                            cp_id: consumptionPointId,
-                            product_pack_id: pack.id,
-                            stock: 0,
-                            price: 0,
-                            product_name: '',
-                            pack_name: '',
-                        });
-
-                    if (error) {
-                        throw error;
-                    }
+                    // const { error } = await supabase
+                    //     .from('cp_products')
+                    //     .insert({
+                    //         cp_id: consumptionPointId,
+                    //         product_pack_id: pack.id,
+                    //         stock: 0,
+                    //         price: 0,
+                    //         product_name: '',
+                    //         pack_name: '',
+                    //     });
+                    // if (error) {
+                    //     throw error;
+                    // }
+                    // TODO: CREAR NUEVO CP_PRODUCTS PERO VINCULADO A CP y no a CP_EVENTS
                 } else {
-                    const { error } = await supabase
-                        .from('cp_products')
-                        .insert({
-                            cp_id: consumptionPointId,
-                            product_pack_id: pack.id,
-                            stock: 0,
-                            price: 0,
-                            product_name: '',
-                            pack_name: '',
-                        });
-
-                    if (error) {
-                        throw error;
-                    }
+                    // const { error } = await supabase
+                    //     .from('cp_products')
+                    //     .insert({
+                    //         cp_id: consumptionPointId,
+                    //         product_pack_id: pack.id,
+                    //         stock: 0,
+                    //         price: 0,
+                    //         product_name: '',
+                    //         pack_name: '',
+                    //     });
+                    // if (error) {
+                    //     throw error;
+                    // }
                 }
             });
         }
@@ -551,14 +550,13 @@ export default function AddConsumptionPointModal({ cpsId }: Props) {
                     <CPGoogleMap handleAddress={handleAddress} />
                 </fieldset>
 
-                <fieldset className="mt-4 flex flex-col space-y-4">
+                {/* <fieldset className="mt-4 flex flex-col space-y-4">
                     <legend>
                         <Title size="large">{t('cp_products')}</Title>
                     </legend>
 
-                    {/* List of selectable products that the owner can use */}
                     <ListCPMProducts form={form} />
-                </fieldset>
+                </fieldset> */}
             </>
         </ModalWithForm>
     );

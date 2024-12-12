@@ -211,12 +211,14 @@ export default function EditCPointModal({
 
             if (error) throw error;
 
-            const { error: errorDelete } = await supabase
-                .from('cp_products')
-                .delete()
-                .eq('cp_id', selectedCP.id);
+            // TODO: CREAR NUEVO CP_PRODUCTS PERO VINCULADO A CP y no a CP_EVENTS
 
-            if (errorDelete) throw errorDelete;
+            // const { error: errorDelete } = await supabase
+            //     .from('cp_products')
+            //     .delete()
+            //     .eq('cp_id', selectedCP.id);
+
+            // if (errorDelete) throw errorDelete;
 
             // Insert product items in cp_products table
             const pItemsFiltered = cleanObject(product_items);
@@ -514,14 +516,13 @@ export default function EditCPointModal({
                     />
                 </fieldset>
 
-                <fieldset className="mt-4 flex flex-col space-y-4">
+                {/* <fieldset className="mt-4 flex flex-col space-y-4">
                     <legend>
                         <Title size="large">{t('cp_products')}</Title>
                     </legend>
 
-                    {/* List of selectable products that the owner can use */}
                     <ListCPProducts form={form} productItems={productItems} />
-                </fieldset>
+                </fieldset> */}
             </form>
         </Modal>
     );

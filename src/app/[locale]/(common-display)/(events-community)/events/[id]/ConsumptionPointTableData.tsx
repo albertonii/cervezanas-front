@@ -1,15 +1,14 @@
-// components/ConsumptionPointTableData.tsx
-import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import Image from 'next/image';
+import classNames from 'classnames';
 import TR from '@/app/[locale]/components/ui/table/TR';
 import TD from '@/app/[locale]/components/ui/table/TD';
+import React from 'react';
 import { COMMON } from '@/constants';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { ROUTE_CP, ROUTE_EVENTS } from '@/config';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
-import classNames from 'classnames';
 
 interface CPProps {
     cp: IConsumptionPointEvent;
@@ -39,7 +38,7 @@ const ConsumptionPointTableData: React.FC<CPProps> = ({ cp, eventId }) => {
                 <div className="flex items-center justify-center">
                     <Image
                         src={cp.cp?.logo_url || COMMON.PROFILE_IMG}
-                        alt={cp.cp?.cp_name || 'CP Logo'}
+                        alt={cp.cp_name || 'CP Logo'}
                         width={48}
                         height={48}
                         className="object-contain rounded-full"
@@ -56,7 +55,7 @@ const ConsumptionPointTableData: React.FC<CPProps> = ({ cp, eventId }) => {
                     className="text-beer-gold dark:text-beer-blonde hover:underline"
                     onClick={(e) => e.stopPropagation()} // Evitar que el clic en el enlace seleccione el CP
                 >
-                    {cp.cp?.cp_name}
+                    {cp.cp_name}
                 </Link>
             </TD>
 

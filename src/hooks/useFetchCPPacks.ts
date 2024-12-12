@@ -14,8 +14,8 @@ const fetchCPPacksByCPId = async (
         .from('cp_products')
         .select(
             `
-       *
-      `,
+                *
+            `,
         )
         .eq('cp_id', cpId)
         .select();

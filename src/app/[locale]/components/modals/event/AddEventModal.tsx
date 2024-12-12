@@ -25,13 +25,10 @@ export type ModalAddEventFormData = {
     description: string;
     start_date: string;
     end_date: string;
-    logo_url: string;
-    promotional_url: string;
+    // logo_url: string;
+    // promotional_url: string;
     category: string;
     cps: IConsumptionPointEventNoCircularDependency[];
-    removed_cps?: {
-        id?: string;
-    }[];
     event_experiences?: {
         experience_id?: string;
         cp_id?: string;
@@ -57,19 +54,12 @@ const schema: ZodType<ModalAddEventFormData> = z
         description: z.string().nonempty({ message: 'errors.input_required' }),
         start_date: z.string(),
         end_date: z.string(),
-        logo_url: z.string().optional(),
-        promotional_url: z.string().optional(),
+        // logo_url: z.string(),
+        // promotional_url: z.string(),
         cps: z.array(consumptionPointEventSchema).min(1, {
             message: 'Debe seleccionar al menos un punto de consumo',
         }),
         category: z.string(),
-        removed_cps: z
-            .array(
-                z.object({
-                    id: z.string().optional(),
-                }),
-            )
-            .optional(),
         event_experiences: z.array(
             z.object({
                 experience_id: z.string().optional(),

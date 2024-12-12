@@ -3,7 +3,9 @@
 import Title from '@/app/[locale]/components/ui/Title';
 import Label from '@/app/[locale]/components/ui/Label';
 import useEventCartStore from '@/app/store/eventCartStore';
+import ConsumptionPointsTable from './ConsumptionPointsTable';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
+import GoogleMapLocationForEvent from '@/app/[locale]/components/common/GoogleMapLocationForEvent';
 import React, { useEffect } from 'react';
 import { ROUTE_EVENTS } from '@/config';
 import { useRouter } from 'next/navigation';
@@ -12,9 +14,7 @@ import { IEventExperience } from '@/lib/types/types';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
 import { IBMExperienceParticipants } from '@/lib/types/quiz';
-import ConsumptionPointsTable from './ConsumptionPointsTable';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
-import GoogleMapLocationForEvent from '@/app/[locale]/components/common/GoogleMapLocationForEvent';
 import { ChipCard } from '@/app/[locale]/components/ui/ChipCard';
 
 interface Props {
@@ -180,10 +180,10 @@ export default function DisplayEvent({
                             )}
                         </div>
 
-                        <div>
-                            {/* Mapa de Puntos de Consumo */}
+                        {/* Mapa de Puntos de Consumo */}
+                        {/* <div>
                             <GoogleMapLocationForEvent event={event} />
-                        </div>
+                        </div> */}
 
                         {/* Organizer information */}
                         {/* <div className="mb-4">
