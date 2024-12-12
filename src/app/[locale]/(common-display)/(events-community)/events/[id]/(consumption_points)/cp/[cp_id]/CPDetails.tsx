@@ -11,7 +11,6 @@ interface Props {
 
 const CPDetails: React.FC<Props> = ({ cpEvent }) => {
     const t = useTranslations();
-    console.log(cpEvent);
     return (
         <article className="bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner space-y-4">
             {/* Título y Descripción */}

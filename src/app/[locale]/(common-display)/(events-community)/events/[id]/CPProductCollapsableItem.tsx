@@ -25,7 +25,6 @@ const CPProductCollapsableItem: React.FC<ProductProps> = ({
     cpProduct,
     cpEvent,
 }) => {
-    console.log('DENTRO DE CPProductItem', cpProduct);
     const t = useTranslations();
     const locale = useLocale();
 

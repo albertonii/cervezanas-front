@@ -42,10 +42,6 @@ export function ListCPointsInEvents({ counterCP }: Props) {
     const [selectedCP, setSelectedCP] = useState<IConsumptionPointEvent>();
 
     useEffect(() => {
-        console.log('DATA', data);
-    }, [data]);
-
-    useEffect(() => {
         if (isFetchedAfterMount) {
             setCPoint(data as IConsumptionPointEvent[]);
         }

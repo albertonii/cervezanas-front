@@ -85,6 +85,13 @@ async function getSuccessData(searchParams: any) {
                     order_number,
                     status,
                     notes,
+                    cp_events (
+                        *,
+                        cp (
+                            cp_name,
+                            address
+                        )
+                    ),
                     event_order_items (
                         id,
                         created_at,
@@ -99,16 +106,6 @@ async function getSuccessData(searchParams: any) {
                             products (
                                 name,
                                 description
-                            )
-                        ),
-                        event_order_cps (
-                            *,
-                            cp_events (
-                                *,
-                                cp (
-                                    cp_name,
-                                    address
-                                )
                             )
                         )
                     )

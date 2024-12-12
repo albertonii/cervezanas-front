@@ -31,27 +31,6 @@ export default function EventCPProductDetails({
 
     return (
         <section className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-            <div className="flex items-center mb-4">
-                <Store className="w-6 h-6 text-beer-draft dark:text-white mr-2" />
-                <div>
-                    <Title
-                        size="medium"
-                        font="bold"
-                        color="gray"
-                        fontFamily="NexaRust-sans"
-                    >
-                        {eventOrderItem.event_order_cps?.cp_events?.cp_name}
-                    </Title>
-                    <Label
-                        size="medium"
-                        color="gray"
-                        className="dark:text-gray-300"
-                    >
-                        {eventOrderItem.event_order_cps?.cp_events?.cp?.address}
-                    </Label>
-                </div>
-            </div>
-
             {eventOrderItem.event_order_cps && (
                 <EventCPOrderCard orderCP={eventOrderCP} />
             )}
