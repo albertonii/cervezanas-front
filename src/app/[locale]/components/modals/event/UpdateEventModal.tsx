@@ -34,7 +34,7 @@ interface FormData {
     logo_url: string;
     promotional_url: string;
     category: string;
-    cps: IConsumptionPointEventNoCircularDependency[];
+    cps?: IConsumptionPointEventNoCircularDependency[];
     removed_cps?: {
         id?: string;
     }[];
@@ -58,13 +58,16 @@ const schema: ZodType<FormData> = z
         is_activated: z.boolean(),
         name: z.string().nonempty({ message: 'errors.input_required' }),
         description: z.string().nonempty({ message: 'errors.input_required' }),
-        start_date: z.string(),
-        end_date: z.string(),
+        start_date: z.string().nonempty({ message: 'errors.input_required' }),
+        end_date: z.string().nonempty({ message: 'errors.input_required' }),
         logo_url: z.string(),
         promotional_url: z.string(),
-        cps: z.array(consumptionPointEventSchema).min(1, {
-            message: 'Debe seleccionar al menos un punto de consumo',
-        }),
+        cps: z
+            .array(consumptionPointEventSchema)
+            // .min(1, {
+            //     message: 'Debe seleccionar al menos un punto de consumo',
+            // })
+            .optional(),
         category: z.string(),
         removed_cps: z.array(
             z.object({
@@ -239,14 +242,14 @@ export default function UpdateEventModal({
             });
 
             // Insertar los nuevos CPs asociados al evento
-            cps?.forEach(async (item) => {
+            cps?.forEach(async (cp) => {
                 const { error } = await supabase.from('cp_events').insert({
-                    owner_id: item.owner_id,
+                    owner_id: cp.owner_id,
                     event_id: selectedEvent.id,
-                    cp_id: item.cp_id,
-                    cp_name: item.cp_name,
-                    cp_description: item.cp_description,
-                    is_active: false,
+                    cp_id: cp.cp_id,
+                    cp_name: cp.cp_name,
+                    cp_description: cp.cp_description,
+                    is_active: true,
                 });
                 if (error) {
                     throw error;

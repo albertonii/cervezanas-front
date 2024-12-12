@@ -161,8 +161,6 @@ export default function AddEventModal({ cps }: Props) {
             .select('*')
             .single();
 
-        console.log('EVENT', event);
-
         if (!event) {
             setIsLoading(false);
             return;
@@ -175,33 +173,7 @@ export default function AddEventModal({ cps }: Props) {
 
         const { id: eventId } = event;
 
-        if (cps) {
-            // Get CP checked from the list
-            const cpsFiltered = cps.filter(
-                (cp: IConsumptionPointEventNoCircularDependency) => cp.cp_id,
-            );
-
-            // Loop trough all the selected CPs and insert them into the event
-            cpsFiltered.map(
-                async (cp: IConsumptionPointEventNoCircularDependency) => {
-                    const { error: cpError } = await supabase
-                        .from('cp_events')
-                        .insert({
-                            cp_id: cp.cp_id,
-                            cp_name: cp.cp_name,
-                            cp_description: cp.cp_description,
-                            address: cp.address,
-                            event_id: eventId,
-                            is_active: false,
-                        });
-
-                    if (cpError) {
-                        setIsLoading(false);
-                        throw cpError;
-                    }
-                },
-            );
-        }
+        handleCheckedCPs(cps ?? [], eventId);
 
         if (event_experiences) {
             event_experiences.map(async (experience) => {
@@ -228,6 +200,40 @@ export default function AddEventModal({ cps }: Props) {
             reset();
             setIsLoading(false);
         }, 300);
+    };
+
+    const handleCheckedCPs = (
+        cps: IConsumptionPointEventNoCircularDependency[],
+        eventId: string,
+    ) => {
+        if (cps) {
+            // Get CP checked from the list
+            const cpsFiltered = cps.filter(
+                (cp: IConsumptionPointEventNoCircularDependency) => cp.cp_id,
+            );
+
+            // Loop trough all the selected CPs and insert them into the event
+            cpsFiltered.forEach(
+                async (cp: IConsumptionPointEventNoCircularDependency) => {
+                    const { error: cpError } = await supabase
+                        .from('cp_events')
+                        .insert({
+                            owner_id: user?.id,
+                            event_id: eventId,
+                            cp_id: cp.cp_id,
+                            cp_name: cp.cp_name,
+                            cp_description: cp.cp_description,
+                            address: cp.address,
+                            is_active: true,
+                        });
+
+                    if (cpError) {
+                        setIsLoading(false);
+                        throw cpError;
+                    }
+                },
+            );
+        }
     };
 
     const insertEventMutation = useMutation({
