@@ -1,3 +1,4 @@
+import { CERVEZANAS_BEER_URL, LOCALHOST_3000 } from '@/config';
 import { createRedsysAPI, SANDBOX_URLS, TRANSACTION_TYPES } from 'redsys-easy';
 
 /*
@@ -23,12 +24,12 @@ let host = '';
 if (env === 'production') {
     // host = "http://localhost:3000";
     // host = "https://cervezanas-front.vercel.app:443"
-    host = 'https://cervezanas.beer:443';
+    host = CERVEZANAS_BEER_URL;
 } else if (env === 'development') {
     // host = process.env.NEXT_PUBLIC_HOST || "http://localhost:3000";
-    host = 'http://localhost:3000';
+    host = LOCALHOST_3000;
 } else {
-    host = process.env.NEXT_PUBLIC_HOST || 'http://localhost:3000';
+    host = process.env.NEXT_PUBLIC_HOST || LOCALHOST_3000;
 }
 
 export const endpointRedsys = `${host}`;

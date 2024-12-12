@@ -5,6 +5,8 @@ import React, { useEffect, useState, createContext, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Database } from '@/lib//schema';
 import {
+    CERVEZANAS_BEER_URL,
+    LOCALHOST_3000,
     ROUTE_ADMIN,
     ROUTE_AUTHORIZED_USERS,
     ROUTE_PROFILE,
@@ -475,8 +477,15 @@ export const AuthContextProvider = ({
             password: new_password,
         };
 
+        const environmentState = process.env.NODE_ENV;
+
+        const redirectToHost =
+            environmentState === 'development'
+                ? LOCALHOST_3000
+                : CERVEZANAS_BEER_URL;
+
         const options = {
-            emailRedirectTo: 'localhost:3000',
+            emailRedirectTo: redirectToHost,
         };
 
         const { data: resetData, error } = await supabase.auth.updateUser(

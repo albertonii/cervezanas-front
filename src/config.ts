@@ -41,4 +41,5 @@ export const ROUTE_P_EXTRA_1 = '/p_extra_1';
 export const ROUTE_P_EXTRA_2 = '/p_extra_2';
 export const ROUTE_P_EXTRA_3 = '/p_extra_3';
 
-export const CERVEZANAS_BEER_URL = 'https://cervezanas.beer';
+export const CERVEZANAS_BEER_URL = 'https://cervezanas.beer:443';
+export const LOCALHOST_3000 = 'http://localhost:3000';

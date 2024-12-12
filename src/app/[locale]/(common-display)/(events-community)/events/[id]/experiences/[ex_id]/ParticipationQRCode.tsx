@@ -4,6 +4,7 @@ import QRCode from 'react-qr-code';
 import { useLocale } from 'next-intl';
 import {
     CERVEZANAS_BEER_URL,
+    LOCALHOST_3000,
     ROUTE_BARMAN,
     ROUTE_EXPERIENCE_PARTICIPANT,
     ROUTE_PRODUCER,
@@ -24,7 +25,7 @@ export default function ParticipationQRCode({
 
     const host =
         environmentState === 'development'
-            ? 'localhost:3000'
+            ? LOCALHOST_3000
             : CERVEZANAS_BEER_URL;
 
     const experienceParticipatantBarmanUrl = `${host}/${locale}${ROUTE_PRODUCER}${ROUTE_BARMAN}${ROUTE_EXPERIENCE_PARTICIPANT}/${experienceParticipantId}`;

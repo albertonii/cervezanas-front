@@ -13,6 +13,7 @@ import { useMessage } from '@/app/[locale]/components/message/useMessage';
 
 import {
     CERVEZANAS_BEER_URL,
+    LOCALHOST_3000,
     ROUTE_BARMAN,
     ROUTE_CP,
     ROUTE_EVENTS,
@@ -209,7 +210,7 @@ export default function EventExperience({ eventExperience }: Props) {
     const environmentState = process.env.NODE_ENV;
     const host =
         environmentState === 'development'
-            ? 'localhost:3000'
+            ? LOCALHOST_3000
             : CERVEZANAS_BEER_URL;
 
     const experienceParticipatantBarmanUrl = `${host}/${locale}${ROUTE_PRODUCER}${ROUTE_BARMAN}${ROUTE_EXPERIENCE_PARTICIPANT}/${bmExperienceParticipantId}`;
