@@ -64,10 +64,13 @@ export default function EventCheckoutPackItem({
         decreaseOnePackCartQuantity(eventId, item.product_id, cpId, pack.id);
     };
 
-    const handleRemoveFromCart = (itemId: string, packId: string) => {
+    const handleRemoveFromCart = (
+        item: IProductPackEventCartItem,
+        packId: string,
+    ) => {
         setAnimateRemove(true);
         setTimeout(() => {
-            removeFromCart(eventId, itemId, cpId, packId);
+            removeFromCart(eventId, item.product_id, cpId, packId);
         }, 500);
     };
 
@@ -159,10 +162,7 @@ export default function EventCheckoutPackItem({
                                     )
                                 }
                                 handleRemoveFromCart={() =>
-                                    handleRemoveFromCart(
-                                        productPack.id,
-                                        pack.id,
-                                    )
+                                    handleRemoveFromCart(productPack, pack.id)
                                 }
                                 displayDeleteButton={true}
                             />

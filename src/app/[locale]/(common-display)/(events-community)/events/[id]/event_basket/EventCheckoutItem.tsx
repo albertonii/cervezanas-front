@@ -1,13 +1,12 @@
 'use client';
 
+import Link from 'next/link';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
 import EventCheckoutPackItem from './EventCheckoutPackItem';
 import useFetchProductById from '../../../../../../../hooks/useFetchProductById';
 import React from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { IProductPackEventCartItem } from '@/lib/types/types';
-import Link from 'next/link';
-import Label from '@/app/[locale]/components/ui/Label';
 
 interface Props {
     eventId: string;
