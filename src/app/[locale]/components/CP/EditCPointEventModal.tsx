@@ -98,7 +98,7 @@ export default function EditCPointEventModal({
             product_items:
                 selectedCP?.cp_products?.map((p) => p.product_pack_id) || [],
             is_booking_required: selectedCP?.is_booking_required || false,
-            view_configuration: selectedCP?.view_configuration || 'one_step',
+            view_configuration: selectedCP?.view_configuration || 'three_step',
             has_pending_payment: selectedCP?.has_pending_payment || false,
             maximum_capacity: selectedCP?.maximum_capacity || 0,
         },

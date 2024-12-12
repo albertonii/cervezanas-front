@@ -62,9 +62,11 @@ export default function EventPackItem({ pack, item, eventId }: Props) {
                     size="small"
                     font="medium"
                     color="black"
-                    className="text-gray-900 dark:text-white"
+                    className="text-gray-900 dark:text-white "
                 >
-                    {pack.name}
+                    <span className="truncate max-w-[140px] lg:max-w-[170px]">
+                        {pack.name}
+                    </span>
                 </Label>
 
                 <Label
