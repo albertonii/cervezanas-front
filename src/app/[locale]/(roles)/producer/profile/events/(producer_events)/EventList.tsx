@@ -1,7 +1,7 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
+import Image from 'next/image';
 import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 import DeleteEventModal from '@/app/[locale]/components/modals/DeleteEventModal';
 import UpdateEventModal from '@/app/[locale]/components/modals/event/UpdateEventModal';
@@ -12,9 +12,9 @@ import { ROUTE_EVENTS } from '@/config';
 import { IEvent } from '@/lib/types/eventOrders';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
+import { IConsumptionPoint } from '@/lib/types/consumptionPoints';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
-import { IConsumptionPoint } from '@/lib/types/consumptionPoints';
 
 interface Props {
     counter: number;
