@@ -144,7 +144,7 @@ export default function DisplayEvent({
                 {/* Contenido Principal */}
                 <div className="space-y-6 p-6">
                     {/* Información del Evento */}
-                    <div className="grid grid-cols-2 bg-gradient-to-r from-beer-draft to-beer-gold dark:from-beer-draft dark:to-beer-gold rounded-lg p-6">
+                    <div className="grid grid-cols-2 bg-gradient-to-r from-beer-blonde to-beer-gold dark:from-beer-draft dark:to-beer-gold rounded-lg p-6">
                         <div>
                             <Title size="xlarge" color="gray">
                                 {event.name}

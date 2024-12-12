@@ -59,7 +59,7 @@ export default function Label({
     const colorClass = {
         black: 'text-black-800 dark:text-white',
         white: 'text-white dark:text-black-800',
-        gray: 'text-gray-500 dark:text-gray-300',
+        gray: 'text-gray-800 dark:text-gray-300',
         yellow: 'text-yellow-800 dark:text-yellow-300',
         green: 'text-green-800 dark:text-green-300',
         red: 'text-red-800 dark:text-red-300',
