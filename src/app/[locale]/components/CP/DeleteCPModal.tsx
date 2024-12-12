@@ -28,9 +28,7 @@ export default function DeleteCPModal({
         const { error } = await supabase
             .from('cp')
             .delete()
-            .eq('id', selectedCPId)
-            .select('event_id')
-            .single();
+            .eq('id', selectedCPId);
 
         if (error) throw error;
 
