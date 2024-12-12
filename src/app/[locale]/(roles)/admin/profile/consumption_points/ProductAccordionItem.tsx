@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IProduct, IRefProductPack } from '@/lib/types/types';
-import { Format, FormatName } from '@/lib//beerEnum';
+import { Format, FormatName } from '@/lib/beerEnum';
 import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { UseFormReturn } from 'react-hook-form';
@@ -10,21 +10,27 @@ import { formatCurrency } from '@/utils/formatCurrency';
 
 interface Props {
     product: IProduct;
+    // Quitamos el manejo directo del form aquí en cuanto a product_items
     form: UseFormReturn<any, any>;
     productItems?: string[];
+    onSelectionChange: (selectedPackIds: string[]) => void; // Nueva prop
 }
 
 const ProductAccordionItem: React.FC<Props> = ({
     product,
     form,
     productItems,
+    onSelectionChange,
 }) => {
     const t = useTranslations();
-    const { register } = form;
-
-    const [selectedPacks, setSelectedPacks] = useState(productItems);
-
+    const [selectedPacks, setSelectedPacks] = useState<string[]>(
+        productItems || [],
+    );
     const [showAccordion, setShowAccordion] = useState(false);
+
+    useEffect(() => {
+        console.log('Selected packs for product:', product.id, selectedPacks);
+    }, [selectedPacks, product.id]);
 
     if (!product.beers) return <></>;
 
@@ -40,15 +46,14 @@ const ProductAccordionItem: React.FC<Props> = ({
     const volume = product.beers?.volume ?? '';
 
     const handleCheckboxChange = (packId: string, isChecked: boolean) => {
-        setSelectedPacks((prevSelectedPacks) => {
-            if (isChecked) {
-                return [...(prevSelectedPacks || []), packId];
-            } else {
-                return (prevSelectedPacks || []).filter((id) => id !== packId);
-            }
-        });
+        const updatedPacks = isChecked
+            ? [...selectedPacks, packId]
+            : selectedPacks.filter((id) => id !== packId);
 
-        // setValue(`product_items.${product.id}.id`, selectedPacks);
+        setSelectedPacks(updatedPacks);
+
+        // Ahora avisamos al componente padre que hay un cambio en las selecciones
+        onSelectionChange(updatedPacks);
     };
 
     return (
@@ -93,10 +98,7 @@ const ProductAccordionItem: React.FC<Props> = ({
                     showAccordion ? 'max-h-[1000px]' : 'max-h-0'
                 } duration-800 overflow-hidden transition-all ease-in-out`}
             >
-                <div className={`flex justify-between`}>
-                    <div className="mb-2 text-gray-500 dark:text-gray-400">
-                        {t('brand_header')}: [Marca del producto]
-                    </div>
+                <div className="flex justify-between">
                     <div className="mb-2 text-gray-500 dark:text-gray-400">
                         {t('format_header')}: {t(formatName ?? '')}
                     </div>
@@ -106,9 +108,8 @@ const ProductAccordionItem: React.FC<Props> = ({
                     </div>
                 </div>
 
-                <div className={``}>
-                    <span className="mb-4 text-lg font-semibold">
-                        {' '}
+                <div>
+                    <span className="mb-4 text-lg font-semibold dark:text-gray-100">
                         {t('available_packs')}:
                     </span>
 
@@ -120,17 +121,14 @@ const ProductAccordionItem: React.FC<Props> = ({
                                     <div
                                         key={pack.id}
                                         className={`${
-                                            selectedPacks?.includes(pack.id) &&
+                                            selectedPacks.includes(pack.id) &&
                                             'bg-beer-softFoam'
                                         } mr-2 flex items-center space-x-2 rounded-lg border p-1`}
                                     >
                                         <input
                                             id={`checkbox-pack-${pack.id}`}
                                             type="checkbox"
-                                            {...register(
-                                                `product_items.${product.id}.id`,
-                                            )}
-                                            checked={selectedPacks?.includes(
+                                            checked={selectedPacks.includes(
                                                 pack.id,
                                             )}
                                             onChange={(e) =>
@@ -140,7 +138,7 @@ const ProductAccordionItem: React.FC<Props> = ({
                                                 )
                                             }
                                             value={pack.id}
-                                            className={`h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft`}
+                                            className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-beer-blonde focus:ring-2 focus:ring-beer-blonde dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-beer-draft"
                                         />
 
                                         <div>

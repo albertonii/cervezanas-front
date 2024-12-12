@@ -9,12 +9,14 @@ interface Props {
     products: IProduct[];
     form: UseFormReturn<any, any>;
     productItems?: string[];
+    onSelectionChange: (selectedPackIds: string[]) => void;
 }
 
 const ProductAccordion: React.FC<Props> = ({
     products,
     form,
     productItems,
+    onSelectionChange,
 }) => {
     const t = useTranslations();
     if (!products || products.length === 0) {
@@ -39,6 +41,7 @@ const ProductAccordion: React.FC<Props> = ({
                         product={product}
                         form={form}
                         productItems={productItems}
+                        onSelectionChange={onSelectionChange}
                     />
                 </div>
             ))}

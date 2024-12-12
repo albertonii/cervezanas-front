@@ -4,8 +4,9 @@ import ProductAccordion from './ProductAccordion';
 import Spinner from '@/app/[locale]/components/ui/Spinner';
 import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
-import useFetchProductsByOwnerAndPagination from '../../../../../../hooks/useFetchProductsByOwnerAndPagination';
+import useFetchProductsByOwnerAndPagination from '@/hooks/useFetchProductsByOwnerAndPagination';
 import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { IProduct } from '@/lib/types/types';
 import { UseFormReturn } from 'react-hook-form';
 
@@ -15,8 +16,9 @@ interface Props {
 }
 
 export function SearchCheckboxCPProductsPack({ form, productItems }: Props) {
+    const t = useTranslations();
+    const { setValue, getValues } = form;
     const [products, setProducts] = useState<IProduct[]>([]);
-
     const [query, setQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const count = products.length;
@@ -33,14 +35,28 @@ export function SearchCheckboxCPProductsPack({ form, productItems }: Props) {
             const products = res.data as IProduct[];
             setProducts(products);
         });
-    }, [currentPage]);
+    }, [currentPage, refetch]);
 
     const filteredItemsByName = useMemo(() => {
         if (!products) return [];
-        return products.filter((product) => {
-            return product.name.toLowerCase().includes(query.toLowerCase());
-        });
+        return products.filter((product) =>
+            product.name.toLowerCase().includes(query.toLowerCase()),
+        );
     }, [products, query]);
+
+    const onSelectionChange = (selectedPacksFromProduct: string[]) => {
+        // Esta función se llama desde cada ProductAccordionItem
+        // con el array de packs seleccionados para ese producto.
+        // Debemos fusionar esta selección con la global.
+
+        const currentGlobalSelection = getValues('product_items') || [];
+        // Creamos un conjunto para mantener únicas las selecciones
+        const updatedGlobalSelection = Array.from(
+            new Set([...currentGlobalSelection, ...selectedPacksFromProduct]),
+        );
+
+        setValue('product_items', updatedGlobalSelection);
+    };
 
     if (isLoading) {
         return (
@@ -65,6 +81,7 @@ export function SearchCheckboxCPProductsPack({ form, productItems }: Props) {
                 products={filteredItemsByName}
                 form={form}
                 productItems={productItems}
+                onSelectionChange={onSelectionChange} // Pasamos el callback al acordeón
             />
 
             <PaginationFooter

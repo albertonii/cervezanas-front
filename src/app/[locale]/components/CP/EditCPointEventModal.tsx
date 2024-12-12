@@ -76,13 +76,8 @@ export default function EditCPointEventModal({
     const { supabase } = useAuth();
     const queryClient = useQueryClient();
 
-    console.log(selectedCP.id);
     // Hook personalizado para obtener los packs de productos asociados al PC
     const { data: packsInProduct } = useFetchCPPacksByCPId(selectedCP.id);
-
-    useEffect(() => {
-        console.log('packsInProduct', packsInProduct);
-    }, packsInProduct);
 
     // Inicializar react-hook-form con Zod resolver
     const form = useForm<FormData>({
@@ -118,7 +113,7 @@ export default function EditCPointEventModal({
     } = form;
 
     useEffect(() => {
-        console.log(errors);
+        console.log('ERRORS', errors);
     }, [errors]);
 
     // Actualizar 'product_items' cuando cambian los packs en productos
