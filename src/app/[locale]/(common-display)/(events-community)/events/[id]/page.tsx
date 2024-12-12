@@ -35,19 +35,26 @@ export default async function EventPage({ params }: any) {
 async function getCPByEventId(eventId: string) {
     const supabase = await createServerClient();
 
-    const { data: event, error } = await supabase
+    const { data: cpEvents, error } = await supabase
         .from('cp_events')
         .select(
             `
-            *,
-            cp (*)
-          `,
+                *,
+                cp (*),
+                cp_products (
+                    *,
+                    product_packs (
+                        *,
+                        products (*)
+                    )
+                )
+            `,
         )
         .eq('event_id', eventId);
 
     if (error) console.error(error);
 
-    return event as IConsumptionPointEvent[];
+    return cpEvents as IConsumptionPointEvent[];
 }
 
 async function getEvent(eventId: string) {

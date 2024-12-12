@@ -1,24 +1,18 @@
-// components/CPProductItem.tsx
 import Link from 'next/link';
+import useEventCartStore from '@/app/store/eventCartStore';
+import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
+import EventCartButtons from '@/app/[locale]/components/cart/EventCartButtons';
 import React, { useEffect, useState } from 'react';
 import { SupabaseProps } from '@/constants';
 import { useLocale, useTranslations } from 'next-intl';
 import { ROUTE_EVENTS, ROUTE_PRODUCTS } from '@/config';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { ICartEventProduct, IProductPack } from '@/lib/types/types';
-
+import { AddCartButton } from '@/app/[locale]/components/cart/AddCartButton';
 import {
     IConsumptionPointEvent,
     IConsumptionPointProduct,
 } from '@/lib/types/consumptionPoints';
-import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
-import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import useEventCartStore from '@/app/store/eventCartStore';
-import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
-import TD from '@/app/[locale]/components/ui/table/TD';
-import TR from '@/app/[locale]/components/ui/table/TR';
-import { AddCartButton } from '@/app/[locale]/components/cart/AddCartButton';
-import EventCartButtons from '@/app/[locale]/components/cart/EventCartButtons';
 
 interface ProductProps {
     eventId: string;
@@ -26,11 +20,12 @@ interface ProductProps {
     cpEvent: IConsumptionPointEvent;
 }
 
-const CPProductItem: React.FC<ProductProps> = ({
+const CPProductCollapsableItem: React.FC<ProductProps> = ({
     eventId,
     cpProduct,
     cpEvent,
 }) => {
+    console.log('DENTRO DE CPProductItem', cpProduct);
     const t = useTranslations();
     const locale = useLocale();
 
@@ -64,10 +59,6 @@ const CPProductItem: React.FC<ProductProps> = ({
     }, [eventCarts, eventId, pack.product_id, cpProduct.cp_id, pack.id]);
 
     const handleAddToCart = () => {
-        if (!pack) {
-            return;
-        }
-
         const packCartItem: IProductPack = {
             id: pack.id,
             product_id: pack.product_id,
@@ -138,51 +129,45 @@ const CPProductItem: React.FC<ProductProps> = ({
     };
 
     return (
-        <TR>
+        <div className="flex flex-wrap items-center justify-between w-full p-4 border-b border-gray-200 dark:border-gray-700">
             {/* Imagen del Producto */}
-            <TD>
+            <div className="flex items-center w-full md:w-1/4">
                 <DisplayImageProduct
                     imgSrc={
                         SupabaseProps.BASE_PRODUCTS_URL +
                         decodeURIComponent(pack.img_url)
                     }
                     alt={pack.name}
-                    width={100}
-                    height={100}
-                    class="w-12 h-12 lg:w-24 lg:h-24 object-cover rounded-md"
+                    width={80}
+                    height={80}
+                    class="w-16 h-16 object-cover rounded-md"
                 />
-            </TD>
+                <div className="ml-4">
+                    <Link
+                        target={'_blank'}
+                        href={`${ROUTE_EVENTS}/${eventId}${ROUTE_PRODUCTS}/${cpId}`}
+                        locale={locale}
+                        className="text-beer-gold dark:text-beer-blonde hover:underline text-lg font-semibold"
+                    >
+                        {product?.name}
+                    </Link>
+                </div>
+            </div>
 
-            {/* Nombre del Producto */}
-            <TD class_="text-gray-800 dark:text-gray-100">
-                <Link
-                    target={'_blank'}
-                    href={`${ROUTE_EVENTS}/${eventId}${ROUTE_PRODUCTS}/${cpId}`}
-                    locale={locale}
-                    className="text-beer-gold dark:text-beer-blonde hover:underline"
-                >
-                    {product?.name}
-                </Link>
-            </TD>
+            {/* Información del Producto */}
+            <div className="flex flex-col w-full mt-4 md:mt-0 md:w-1/2">
+                <span className="text-gray-800 dark:text-gray-100">{name}</span>
+                <span className="text-gray-800 dark:text-gray-100">
+                    {t('quantity')}: {quantity}
+                </span>
 
-            {/* Nombre del Paquete */}
-            <TD class_="text-gray-800 dark:text-gray-100">{name}</TD>
-
-            {/* Cantidad en el Paquete */}
-            <TD class_="text-center text-gray-800 dark:text-gray-100">
-                {quantity}
-            </TD>
-
-            {/* Precio del Paquete */}
-            <TD class_="text-green-500 font-medium">{formatCurrency(price)}</TD>
-
-            {/* Tipo de Paquete */}
-            <TD class_="text-gray-800 dark:text-gray-100">
-                {t(cpEvent.cp?.type.toLowerCase())}
-            </TD>
+                <span className="text-green-500 font-medium">
+                    {formatCurrency(price)}
+                </span>
+            </div>
 
             {/* Acciones */}
-            <TD class_="text-center">
+            <div className="flex items-center w-full mt-4 md:mt-0 md:w-1/4 md:justify-end">
                 {packQuantity === 0 ? (
                     <AddCartButton withText={true} onClick={handleAddToCart} />
                 ) : (
@@ -195,9 +180,9 @@ const CPProductItem: React.FC<ProductProps> = ({
                         displayDeleteButton={true}
                     />
                 )}
-            </TD>
-        </TR>
+            </div>
+        </div>
     );
 };
 
-export default CPProductItem;
+export default CPProductCollapsableItem;

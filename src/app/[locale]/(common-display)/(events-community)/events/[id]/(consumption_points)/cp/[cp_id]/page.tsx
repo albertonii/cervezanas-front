@@ -28,8 +28,6 @@ async function getConsumptionPoint(cpId: string) {
         .from('cp_events')
         .select(
             ` 
-              *,
-              cp (
                 *,
                 cp_products (
                     *,
@@ -40,8 +38,10 @@ async function getConsumptionPoint(cpId: string) {
                             product_media (*)
                         )
                     )
+                ),
+                cp (
+                    *
                 )
-              )
             `,
         )
         .eq('id', cpId)

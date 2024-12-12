@@ -68,5 +68,6 @@ async function getEventExperienceData(eventExperienceId: string) {
 
     if (eventExperienceError) console.error(eventExperienceError);
 
-    return eventExperience as IEventExperience;
+    // TODO: Volver aquí. Ahora los cp_products pertenecen a cp_events. Por lo que hemos puesto unknow para que no de problema. Hay que crear una tabla nueva.
+    return eventExperience as unknown as IEventExperience;
 }

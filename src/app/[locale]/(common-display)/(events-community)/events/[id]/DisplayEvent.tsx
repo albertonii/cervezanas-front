@@ -5,7 +5,6 @@ import Label from '@/app/[locale]/components/ui/Label';
 import useEventCartStore from '@/app/store/eventCartStore';
 import ConsumptionPointsTable from './ConsumptionPointsTable';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
-import GoogleMapLocationForEvent from '@/app/[locale]/components/common/GoogleMapLocationForEvent';
 import React, { useEffect } from 'react';
 import { ROUTE_EVENTS } from '@/config';
 import { useRouter } from 'next/navigation';

@@ -101,8 +101,7 @@ export default function EditCPointEventModal({
                     | 'paused') || 'active',
             stand_location: selectedCP?.stand_location || '',
             product_items:
-                selectedCP?.cp?.cp_products?.map((p) => p.product_pack_id) ||
-                [],
+                selectedCP?.cp_products?.map((p) => p.product_pack_id) || [],
             is_booking_required: selectedCP?.is_booking_required || false,
             view_configuration: selectedCP?.view_configuration || 'one_step',
             has_pending_payment: selectedCP?.has_pending_payment || false,

@@ -49,7 +49,6 @@ export interface IConsumptionPoint {
     geoArgs: any[]; // Si tienes un tipo específico, úsalo aquí
     owner_id: string;
     type: 'fixed' | 'mobile'; // Diferencia entre fijo y móvil
-    cp_products?: IConsumptionPointProduct[]; // Productos asociados
     cp_events?: IConsumptionPointEvent[]; // Eventos asociados
     users?: IUserTable;
 }
@@ -77,7 +76,7 @@ export interface IConsumptionPointEvent {
     cp_name: string;
     cp_description: string;
     status: string;
-    address: string;
+    address?: string;
     event_id: string;
     owner_id: string;
     is_active: boolean;
@@ -90,6 +89,7 @@ export interface IConsumptionPointEvent {
     is_booking_required: boolean;
     maximum_capacity: number;
     events?: IEvent;
+    cp_products?: IConsumptionPointProduct[]; // Productos asociados
     cp?: IConsumptionPoint;
     users?: IUserTable;
 }

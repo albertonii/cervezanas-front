@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
-import EventCard from './EventCard';
+import EventList from './EventList';
 import Title from '@/app/[locale]/components/ui/Title';
+import React from 'react';
 import { useTranslations } from 'next-intl';
 import { IEvent } from '@/lib/types/eventOrders';
 
@@ -25,23 +25,3 @@ export default function Events({ events }: Props) {
         </section>
     );
 }
-
-interface EventListProps {
-    events: IEvent[];
-}
-
-const EventList = ({ events }: EventListProps) => {
-    return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {events.length > 0 ? (
-                events.map((event) => (
-                    <EventCard key={event.id} event={event} />
-                ))
-            ) : (
-                <div className="col-span-full text-center text-gray-500 dark:text-gray-400">
-                    No hay eventos disponibles en este momento.
-                </div>
-            )}
-        </div>
-    );
-};

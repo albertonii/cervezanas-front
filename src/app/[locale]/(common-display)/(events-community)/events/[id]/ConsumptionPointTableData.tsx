@@ -3,12 +3,21 @@ import Image from 'next/image';
 import classNames from 'classnames';
 import TR from '@/app/[locale]/components/ui/table/TR';
 import TD from '@/app/[locale]/components/ui/table/TD';
-import React from 'react';
+import CPProductCollapsableItem from './CPProductCollapsableItem';
+import React, { useState } from 'react';
 import { COMMON } from '@/constants';
+import { ROUTE_CP, ROUTE_EVENTS } from '@/config';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
-import { ROUTE_CP, ROUTE_EVENTS } from '@/config';
-import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
+import {
+    ChevronDownIcon,
+    ChevronRightIcon,
+    ArrowRightIcon,
+} from 'lucide-react';
+import {
+    IConsumptionPointEvent,
+    IConsumptionPointProduct,
+} from '@/lib/types/consumptionPoints';
 
 interface CPProps {
     cp: IConsumptionPointEvent;
@@ -18,6 +27,7 @@ interface CPProps {
 const ConsumptionPointTableData: React.FC<CPProps> = ({ cp, eventId }) => {
     const locale = useLocale();
     const t = useTranslations();
+    const [isOpen, setIsOpen] = useState(false);
 
     const statusClasses = classNames(
         'px-4 py-2 text-center rounded-full text-sm font-semibold',
@@ -31,45 +41,81 @@ const ConsumptionPointTableData: React.FC<CPProps> = ({ cp, eventId }) => {
         },
     );
 
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
+
     return (
-        <TR class_="hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer">
-            {/* Logo */}
-            <TD class_="hidden sm:table-cell">
-                <div className="flex items-center justify-center">
-                    <Image
-                        src={cp.cp?.logo_url || COMMON.PROFILE_IMG}
-                        alt={cp.cp_name || 'CP Logo'}
-                        width={48}
-                        height={48}
-                        className="object-contain rounded-full"
-                        loading="lazy"
-                    />
-                </div>
-            </TD>
+        <>
+            <TR
+                class_="hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"
+                onClick={toggleDropdown}
+            >
+                {/* Indicador Desplegable */}
+                <TD class_="w-8 text-center">
+                    {isOpen ? (
+                        <ChevronDownIcon className="h-5 w-5 text-gray-500" />
+                    ) : (
+                        <ChevronRightIcon className="h-5 w-5 text-gray-500" />
+                    )}
+                </TD>
 
-            {/* Nombre del Punto de Consumo */}
-            <TD class_="text-gray-900 dark:text-gray-100">
-                <Link
-                    href={`${ROUTE_EVENTS}/${eventId}${ROUTE_CP}/${cp.id}`}
-                    locale={locale}
-                    className="text-beer-gold dark:text-beer-blonde hover:underline"
-                    onClick={(e) => e.stopPropagation()} // Evitar que el clic en el enlace seleccione el CP
-                >
-                    {cp.cp_name}
-                </Link>
-            </TD>
+                {/* Logo */}
+                <TD class_="hidden sm:table-cell">
+                    <div className="flex items-center justify-center">
+                        <Image
+                            src={cp.cp?.logo_url || COMMON.PROFILE_IMG}
+                            alt={cp.cp_name || 'CP Logo'}
+                            width={48}
+                            height={48}
+                            className="object-contain rounded-full"
+                            loading="lazy"
+                        />
+                    </div>
+                </TD>
 
-            {/* Fechas */}
-            <TD class_="hidden sm:table-cell text-gray-600 dark:text-gray-300">
-                {formatDateString(cp.start_date)} -{' '}
-                {formatDateString(cp.end_date)}
-            </TD>
+                {/* Nombre del Punto de Consumo */}
+                <TD class_="text-gray-900 dark:text-gray-100">
+                    <Link
+                        href={`${ROUTE_EVENTS}/${eventId}${ROUTE_CP}/${cp.id}`}
+                        locale={locale}
+                        className="flex items-center text-beer-gold dark:text-beer-blonde hover:underline"
+                        onClick={(e) => e.stopPropagation()} // Evitar que el clic en el enlace seleccione el CP
+                    >
+                        {cp.cp_name}
+                        <ArrowRightIcon className="ml-1 h-4 w-4 text-current" />
+                    </Link>
+                </TD>
 
-            {/* Estado */}
-            <TD>
-                <span className={statusClasses}>{t(cp.status)}</span>
-            </TD>
-        </TR>
+                {/* Fechas */}
+                <TD class_="hidden sm:table-cell text-gray-600 dark:text-gray-300">
+                    {formatDateString(cp.start_date)} -{' '}
+                    {formatDateString(cp.end_date)}
+                </TD>
+
+                {/* Estado */}
+                <TD>
+                    <span className={statusClasses}>{t(cp.status)}</span>
+                </TD>
+            </TR>
+
+            {isOpen && (
+                <TR>
+                    <TD colSpan={5} class_="p-0">
+                        {cp.cp_products?.map(
+                            (product: IConsumptionPointProduct) => (
+                                <CPProductCollapsableItem
+                                    key={product.id}
+                                    eventId={eventId}
+                                    cpProduct={product}
+                                    cpEvent={cp}
+                                />
+                            ),
+                        )}
+                    </TD>
+                </TR>
+            )}
+        </>
     );
 };
 

@@ -19,9 +19,8 @@ interface Props {
 
 const ProductList: React.FC<Props> = ({ cpEvent, eventId }) => {
     const t = useTranslations();
-    const { cp } = cpEvent;
 
-    const activeCPProducts = cp?.cp_products?.filter(
+    const activeCPProducts = cpEvent?.cp_products?.filter(
         (cp_product: IConsumptionPointProduct) => cp_product.is_active,
     );
 

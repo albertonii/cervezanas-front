@@ -25,6 +25,7 @@ const ConsumptionPointsTable: React.FC<TableProps> = ({
             <Table>
                 <THead>
                     <TR>
+                        <TD class_="w-8"></TD>
                         <TD class_="hidden sm:table-cell">
                             {t('logo_header')}
                         </TD>

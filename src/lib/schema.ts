@@ -1454,7 +1454,7 @@ export type Database = {
             foreignKeyName: "cp_products_cp_id_fkey"
             columns: ["cp_id"]
             isOneToOne: false
-            referencedRelation: "cp"
+            referencedRelation: "cp_events"
             referencedColumns: ["id"]
           },
           {
@@ -2072,104 +2072,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "producer_user"
             referencedColumns: ["user_id"]
-          },
-        ]
-      }
-      fixed_event_order_items: {
-        Row: {
-          created_at: string | null
-          id: string
-          order_id: string | null
-          product_id: string | null
-          stock_original: number | null
-          stock_to_consume: number | null
-        }
-        Insert: {
-          created_at?: string | null
-          id?: string
-          order_id?: string | null
-          product_id?: string | null
-          stock_original?: number | null
-          stock_to_consume?: number | null
-        }
-        Update: {
-          created_at?: string | null
-          id?: string
-          order_id?: string | null
-          product_id?: string | null
-          stock_original?: number | null
-          stock_to_consume?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "fixed_event_order_items_order_id_fkey"
-            columns: ["order_id"]
-            isOneToOne: true
-            referencedRelation: "fixed_event_orders"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fixed_event_order_items_product_id_fkey"
-            columns: ["product_id"]
-            isOneToOne: false
-            referencedRelation: "products"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      fixed_event_orders: {
-        Row: {
-          cp_f_owner: string | null
-          created_at: string | null
-          currency: string | null
-          customer_id: string | null
-          discount: number | null
-          discount_code: string | null
-          id: string
-          order_number: string | null
-          payment_method: string | null
-          status: string | null
-          subtotal: number | null
-          total: number | null
-          updated_at: string | null
-        }
-        Insert: {
-          cp_f_owner?: string | null
-          created_at?: string | null
-          currency?: string | null
-          customer_id?: string | null
-          discount?: number | null
-          discount_code?: string | null
-          id?: string
-          order_number?: string | null
-          payment_method?: string | null
-          status?: string | null
-          subtotal?: number | null
-          total?: number | null
-          updated_at?: string | null
-        }
-        Update: {
-          cp_f_owner?: string | null
-          created_at?: string | null
-          currency?: string | null
-          customer_id?: string | null
-          discount?: number | null
-          discount_code?: string | null
-          id?: string
-          order_number?: string | null
-          payment_method?: string | null
-          status?: string | null
-          subtotal?: number | null
-          total?: number | null
-          updated_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "fixed_event_orders_customer_id_fkey"
-            columns: ["customer_id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
           },
         ]
       }

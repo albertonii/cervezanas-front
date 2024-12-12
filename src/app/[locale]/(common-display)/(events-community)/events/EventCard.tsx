@@ -5,9 +5,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import Button from '@/app/[locale]/components/ui/buttons/Button';
 import { ROUTE_EVENTS } from '@/config';
-import { ChevronRight } from 'lucide-react';
 import { IEvent } from '@/lib/types/eventOrders';
 import { formatDateString } from '@/utils/formatDate';
 import { useLocale, useTranslations } from 'next-intl';
