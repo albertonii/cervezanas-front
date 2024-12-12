@@ -1,9 +1,11 @@
+import Title from '@/app/[locale]/components/ui/Title';
 import InputLabel from '@/app/[locale]/components/form/InputLabel';
+import SelectInput from '@/app/[locale]/components/form/SelectInput';
 import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import Title from '@/app/[locale]/components/ui/Title';
+import { EventCategory, EVENT_CATEGORIES } from '@/lib/enums';
 
 interface Props {
     form: UseFormReturn<any, any>;
@@ -12,6 +14,16 @@ interface Props {
 export default function BasicEventForm({ form }: Props) {
     const t = useTranslations('event');
 
+    const { setValue } = form;
+
+    const handleChangeCategory = (
+        event: React.ChangeEvent<HTMLSelectElement>,
+    ) => {
+        const value: any = event?.target.value;
+        console.log(value);
+        setValue('category', value);
+    };
+
     return (
         <>
             {/* Event Information  */}
@@ -19,15 +31,30 @@ export default function BasicEventForm({ form }: Props) {
                 <legend>
                     <Title size="large">{t('events_info')}</Title>
                 </legend>
-                {/* Event name  */}
-                <InputLabel
-                    form={form}
-                    label={'name'}
-                    registerOptions={{
-                        required: true,
-                    }}
-                    placeholder={t('introduce_event_name')}
-                />
+
+                <div className="flex flex-row gap-4">
+                    {/* Event name  */}
+                    <InputLabel
+                        form={form}
+                        label={'name'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder={t('introduce_event_name')}
+                    />
+
+                    <SelectInput
+                        form={form}
+                        labelTooltip={'tooltips.categories'}
+                        options={EVENT_CATEGORIES}
+                        label={'category'}
+                        registerOptions={{
+                            required: true,
+                        }}
+                        onChange={handleChangeCategory}
+                        defaultValue={EventCategory.SOCIAL_GATHERINGS}
+                    />
+                </div>
 
                 {/* Event description  */}
                 <InputTextarea
@@ -46,7 +73,6 @@ export default function BasicEventForm({ form }: Props) {
                         label={'start_date'}
                         registerOptions={{
                             required: true,
-                            valueAsDate: true,
                         }}
                         inputType="date"
                     />
@@ -56,7 +82,6 @@ export default function BasicEventForm({ form }: Props) {
                         label={'end_date'}
                         registerOptions={{
                             required: true,
-                            valueAsDate: true,
                         }}
                         inputType="date"
                     />

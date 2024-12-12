@@ -15,7 +15,6 @@ import { useMutation, useQueryClient } from 'react-query';
 import { SearchCheckboxCPs } from '../../common/SearchCheckboxCPs';
 import {
     IConsumptionPoint,
-    IConsumptionPointEvent,
     IConsumptionPointEventNoCircularDependency,
 } from '@/lib/types/consumptionPoints';
 
@@ -46,18 +45,10 @@ const consumptionPointEventSchema = z.object({
     cp_name: z.string(),
     cp_description: z.string(),
     status: z.string(),
-    address: z.string(),
     event_id: z.string(),
     owner_id: z.string(),
     is_active: z.boolean(),
     is_cervezanas_event: z.boolean(),
-    start_date: z.string(),
-    end_date: z.string(),
-    stand_location: z.string(),
-    view_configuration: z.enum(['one_step', 'two_steps', 'three_steps']), // Actualizado
-    has_pending_payment: z.boolean(),
-    is_booking_required: z.boolean(),
-    maximum_capacity: z.number(),
 });
 
 const schema: ZodType<ModalAddEventFormData> = z
@@ -66,17 +57,19 @@ const schema: ZodType<ModalAddEventFormData> = z
         description: z.string().nonempty({ message: 'errors.input_required' }),
         start_date: z.string(),
         end_date: z.string(),
-        logo_url: z.string(),
-        promotional_url: z.string(),
+        logo_url: z.string().optional(),
+        promotional_url: z.string().optional(),
         cps: z.array(consumptionPointEventSchema).min(1, {
             message: 'Debe seleccionar al menos un punto de consumo',
         }),
         category: z.string(),
-        removed_cps: z.array(
-            z.object({
-                id: z.string().optional(),
-            }),
-        ),
+        removed_cps: z
+            .array(
+                z.object({
+                    id: z.string().optional(),
+                }),
+            )
+            .optional(),
         event_experiences: z.array(
             z.object({
                 experience_id: z.string().optional(),
@@ -129,6 +122,10 @@ export default function AddEventModal({ cps }: Props) {
     } = form;
 
     useEffect(() => {
+        console.log(errors);
+    }, [errors]);
+
+    useEffect(() => {
         // HAY ERROR AQUI PQ ESTÁ GENERANDO CP _ ID Vacios para event experiences
         setValue('event_experiences', []);
     }, []);
@@ -141,6 +138,7 @@ export default function AddEventModal({ cps }: Props) {
             description,
             start_date,
             end_date,
+            category,
             cps,
             event_experiences,
         } = form;
@@ -152,13 +150,13 @@ export default function AddEventModal({ cps }: Props) {
         const { data: event, error: eventError } = await supabase
             .from('events')
             .insert({
-                is_activated: false,
                 name,
                 description,
                 start_date: formatStartDate,
                 end_date: formatEndDate,
                 owner_id: user?.id,
                 address: '',
+                category,
                 logo_url: '',
                 promotional_url: '',
                 status: '',
@@ -185,27 +183,29 @@ export default function AddEventModal({ cps }: Props) {
         if (cps) {
             // Get CP checked from the list
             const cpsFiltered = cps.filter(
-                (cp: IConsumptionPointEvent) => cp.cp_id,
+                (cp: IConsumptionPointEventNoCircularDependency) => cp.cp_id,
             );
 
             // Loop trough all the selected CPs and insert them into the event
-            cpsFiltered.map(async (cp: IConsumptionPointEvent) => {
-                const { error: cpError } = await supabase
-                    .from('cp_events')
-                    .insert({
-                        cp_id: cp.cp_id,
-                        cp_name: cp.cp_name,
-                        cp_description: cp.cp_description,
-                        address: cp.address,
-                        event_id: eventId,
-                        is_active: false,
-                    });
+            cpsFiltered.map(
+                async (cp: IConsumptionPointEventNoCircularDependency) => {
+                    const { error: cpError } = await supabase
+                        .from('cp_events')
+                        .insert({
+                            cp_id: cp.cp_id,
+                            cp_name: cp.cp_name,
+                            cp_description: cp.cp_description,
+                            address: cp.address,
+                            event_id: eventId,
+                            is_active: false,
+                        });
 
-                if (cpError) {
-                    setIsLoading(false);
-                    throw cpError;
-                }
-            });
+                    if (cpError) {
+                        setIsLoading(false);
+                        throw cpError;
+                    }
+                },
+            );
         }
 
         if (event_experiences) {
