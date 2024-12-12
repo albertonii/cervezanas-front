@@ -12,9 +12,7 @@ interface OrderPaymentStatus {
 
 export const { createRedirectForm, processRestNotification } = createRedsysAPI({
     urls: SANDBOX_URLS,
-    secretKey:
-        process.env.NEXT_PUBLIC_DS_SIGNATURE_SECRET ??
-        'sq7HjrUOBfKmC576ILgskD5srU870gJ7',
+    secretKey: process.env.NEXT_PUBLIC_DS_SIGNATURE_SECRET ?? '',
 });
 
 const env = process.env.NODE_ENV;

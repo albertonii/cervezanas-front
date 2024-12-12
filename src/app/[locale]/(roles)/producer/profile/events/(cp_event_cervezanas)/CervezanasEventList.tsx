@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import UpdateCPEventModal from './UpdateCPMEvent';
 import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
-import DeleteCPEventModal from '@/app/[locale]/components/modals/DeleteCPEventModal';
 import TableWithFooterAndSearch from '@/app/[locale]/components/ui/TableWithFooterAndSearch';
+import DeleteAdminCervezanasCPEventModal from '@/app/[locale]/components/modals/DeleteCPEventModal';
 import useFetchCervezanasEventsByOwnerId from '../../../../../../../hooks/useFetchCervezanasEventsByOwnerId';
 import React, { useEffect, useState } from 'react';
 import { formatDateString } from '@/utils/formatDate';
@@ -13,7 +14,6 @@ import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { useAuth } from '@/app/[locale]/(auth)/Context/useAuth';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
-import UpdateCPEventModal from './UpdateCPMEvent';
 
 interface Props {
     counter: number;
@@ -154,7 +154,7 @@ export default function CervezanasEventList({ counter }: Props) {
             )}
 
             {isDeleteModal && selectedCPEvent && (
-                <DeleteCPEventModal
+                <DeleteAdminCervezanasCPEventModal
                     eventId={selectedCPEvent.event_id}
                     cpId={selectedCPEvent.cp_id}
                     isDeleteModal={isDeleteModal}

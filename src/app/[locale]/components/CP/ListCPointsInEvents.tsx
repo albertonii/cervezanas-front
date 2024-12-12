@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import DeleteCPModal from './DeleteCPModal';
+import DeleteCPEventModal from './DeleteCPEventModal';
 import EditCPointEventModal from './EditCPointEventModal';
 import ListTableWrapper from '@/app/[locale]/components/ui/ListTableWrapper';
 import useFetchCPointInEventsByOwnerId from '@/hooks/useFetchCPointInEventsByOwnerId';
@@ -158,7 +158,7 @@ export function ListCPointsInEvents({ counterCP }: Props) {
             )}
 
             {isDeleteModal && selectedCP && (
-                <DeleteCPModal
+                <DeleteCPEventModal
                     selectedCPId={selectedCP.id}
                     isDeleteModal={isDeleteModal}
                     handleDeleteModal={handleDeleteModal}

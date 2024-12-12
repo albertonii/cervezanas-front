@@ -129,13 +129,11 @@ export function ListCPoints({ cpsId, counterCP }: Props) {
         >
             {/* Don't remove isEditModal or the selectedCP will not be updated when changed from selected CP  */}
             {isEditModal && selectedCP && (
-                <>
-                    <EditCPointModal
-                        selectedCP={selectedCP}
-                        isEditModal={isEditModal}
-                        handleEditModal={handleEditModal}
-                    />
-                </>
+                <EditCPointModal
+                    selectedCP={selectedCP}
+                    isEditModal={isEditModal}
+                    handleEditModal={handleEditModal}
+                />
             )}
 
             {isDeleteModal && selectedCP && (

@@ -262,7 +262,7 @@ export default function EditCPointModal({
                 refetch();
             }
 
-            queryClient.invalidateQueries('cps');
+            queryClient.invalidateQueries('consumption_points');
         }
     };
 

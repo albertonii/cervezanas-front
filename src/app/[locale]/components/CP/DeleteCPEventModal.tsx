@@ -1,8 +1,8 @@
-import DeleteModal from '@/app/[locale]/components/modals/DeleteModal';
 import React, { ComponentProps } from 'react';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
+import DeleteModal from '../modals/DeleteModal';
 
 interface Props {
     selectedCPId: string;
@@ -10,7 +10,7 @@ interface Props {
     handleDeleteModal: ComponentProps<any>;
 }
 
-export default function DeleteCPModal({
+export default function DeleteCPEventModal({
     selectedCPId,
     isDeleteModal,
     handleDeleteModal,
@@ -25,8 +25,8 @@ export default function DeleteCPModal({
     const handleRemoveCP = async () => {
         if (!selectedCPId) return;
 
-        const { error } = await supabase
-            .from('cp')
+        const { data: event, error } = await supabase
+            .from('cp_events')
             .delete()
             .eq('id', selectedCPId)
             .select('event_id')
@@ -34,12 +34,12 @@ export default function DeleteCPModal({
 
         if (error) throw error;
 
-        queryClient.invalidateQueries('consumption_points');
+        queryClient.invalidateQueries(['cp_events', event.event_id]);
         handleDeleteModal(false);
     };
 
     const deleteCPMutation = useMutation({
-        mutationKey: ['delete_cp'],
+        mutationKey: ['delete_cp_events'],
         mutationFn: handleRemoveCP,
         onError: (error) => {
             console.error(error);

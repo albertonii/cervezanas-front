@@ -11,7 +11,7 @@ interface Props {
     handleDeleteModal: ComponentProps<any>;
 }
 
-export default function DeleteCPEventModal({
+export default function DeleteAdminCervezanasCPEventModal({
     cpId,
     eventId,
     isDeleteModal,
