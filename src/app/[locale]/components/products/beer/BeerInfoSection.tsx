@@ -3,6 +3,7 @@ import SelectInput from '../../form/SelectInput';
 import InputTextarea from '../../form/InputTextarea';
 import TechnicalInfoSection from './TechnicalInfoSection';
 import ProductPackInformation from '../../ProductPackInformation';
+import ProductMadeInBrewerySection from './ProductMadeInBrewerySection';
 import React, { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
@@ -21,7 +22,6 @@ import {
     volume_draft_type_options,
 } from '@/lib//beerEnum';
 import { ICustomizeSettings, ModalAddProductFormData } from '@/lib/types/types';
-import ProductMadeInBrewerySection from './ProductMadeInBrewerySection';
 
 interface Props {
     form: UseFormReturn<ModalAddProductFormData>;
@@ -72,8 +72,9 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
     };
 
     const handleSelectVolume = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setVolume(parseInt(e.target.value));
-        setValue('volume', parseInt(e.target.value));
+        const selectedValue = parseFloat(e.target.value); // Cambiado a parseFloat
+        setVolume(selectedValue);
+        setValue('volume', selectedValue);
         trigger('volume');
     };
 
@@ -318,7 +319,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                                                   key={option.value}
                                                   value={option.value}
                                               >
-                                                  {option.value} (L)
+                                                  {option.label}
                                               </option>
                                           ),
                                       )}

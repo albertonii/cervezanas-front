@@ -167,19 +167,32 @@ export enum Volume_bottle {
     _1000 = 1000,
     _1500 = 1500,
 }
-
 export enum Volume_draft {
-    _3 = 3,
-    _4 = 4,
-    _5 = 5,
-    _10 = 10,
-    _14_67 = 14.67,
-    _18_9 = 18.9,
-    _19_8 = 19.8,
-    _25 = 25,
-    _29_3 = 29.3,
-    _50 = 50,
-    _58_66 = 58.66,
+    PINT_125 = 0.125, // 1/8 de litro
+    GLASS_200 = 0.2, // Vaso pequeño
+    GLASS_250 = 0.25, // Vaso mediano
+    GLASS_288 = 0.288,
+    GLASS_300 = 0.3,
+    BOTTLE_330 = 0.33, // Botella estándar pequeña
+    CAN_473 = 0.473, // Lata estándar americana
+    GLASS_500 = 0.5, // Medio litro
+    GLASS_600 = 0.6,
+    GLASS_700 = 0.7,
+    GLASS_800 = 0.8,
+    GLASS_900 = 0.9,
+    LITER_1 = 1.0, // 1 litro
+    BARREL_2 = 2.0,
+    BARREL_3 = 3.0,
+    BARREL_4 = 4.0,
+    BARREL_5 = 5.0,
+    BARREL_10 = 10.0,
+    KEG_1467 = 14.67, // Barril de cerveza pequeño
+    KEG_1890 = 18.9, // Barril estándar americano
+    KEG_1980 = 19.8, // Variación de barril
+    KEG_25 = 25.0,
+    KEG_2930 = 29.3, // Barril medio europeo
+    KEG_50 = 50.0, // Barril estándar europeo
+    KEG_5866 = 58.66, // Barril grande
 }
 
 export enum Pack_format {
@@ -930,52 +943,104 @@ export const volume_bottle_type_options: {
 ];
 
 export const volume_draft_type_options: {
-    label: number;
+    label: string;
     value: Volume_draft;
 }[] = [
     {
-        label: 0,
-        value: Volume_draft._3,
+        label: 'Pinta (125 ml)',
+        value: Volume_draft.PINT_125,
     },
     {
-        label: 1,
-        value: Volume_draft._4,
+        label: 'Vaso pequeño (200 ml)',
+        value: Volume_draft.GLASS_200,
     },
     {
-        label: 2,
-        value: Volume_draft._5,
+        label: 'Vaso mediano (250 ml)',
+        value: Volume_draft.GLASS_250,
     },
     {
-        label: 3,
-        value: Volume_draft._10,
+        label: 'Vaso (288 ml)',
+        value: Volume_draft.GLASS_288,
     },
     {
-        label: 4,
-        value: Volume_draft._14_67,
+        label: 'Vaso grande (300 ml)',
+        value: Volume_draft.GLASS_300,
     },
     {
-        label: 5,
-        value: Volume_draft._18_9,
+        label: 'Botella estándar pequeña (330 ml)',
+        value: Volume_draft.BOTTLE_330,
     },
     {
-        label: 6,
-        value: Volume_draft._19_8,
+        label: 'Lata estándar americana (473 ml)',
+        value: Volume_draft.CAN_473,
     },
     {
-        label: 7,
-        value: Volume_draft._25,
+        label: 'Medio litro (500 ml)',
+        value: Volume_draft.GLASS_500,
     },
     {
-        label: 8,
-        value: Volume_draft._29_3,
+        label: 'Vaso grande (600 ml)',
+        value: Volume_draft.GLASS_600,
     },
     {
-        label: 9,
-        value: Volume_draft._50,
+        label: 'Vaso (700 ml)',
+        value: Volume_draft.GLASS_700,
     },
     {
-        label: 10,
-        value: Volume_draft._58_66,
+        label: 'Vaso (800 ml)',
+        value: Volume_draft.GLASS_800,
+    },
+    {
+        label: 'Vaso grande (900 ml)',
+        value: Volume_draft.GLASS_900,
+    },
+    {
+        label: '1 Litro',
+        value: Volume_draft.LITER_1,
+    },
+    {
+        label: 'Barril pequeño (3 L)',
+        value: Volume_draft.BARREL_3,
+    },
+    {
+        label: 'Barril (4 L)',
+        value: Volume_draft.BARREL_4,
+    },
+    {
+        label: 'Barril (5 L)',
+        value: Volume_draft.BARREL_5,
+    },
+    {
+        label: 'Barril grande (10 L)',
+        value: Volume_draft.BARREL_10,
+    },
+    {
+        label: 'Barril pequeño (14.67 L)',
+        value: Volume_draft.KEG_1467,
+    },
+    {
+        label: 'Barril estándar americano (18.9 L)',
+        value: Volume_draft.KEG_1890,
+    },
+    {
+        label: 'Barril (19.8 L)',
+        value: Volume_draft.KEG_1980,
+    },
+    {
+        label: 'Barril (25 L)',
+        value: Volume_draft.KEG_25,
+    },
+    {
+        label: 'Barril medio europeo (29.3 L)',
+        value: Volume_draft.KEG_2930,
+    },
+    {
+        label: 'Barril estándar europeo (50 L)',
+        value: Volume_draft.KEG_50,
+    },
+    {
+        label: 'Barril grande (58.66 L)',
+        value: Volume_draft.KEG_5866,
     },
 ];
 

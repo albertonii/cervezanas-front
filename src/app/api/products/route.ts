@@ -29,6 +29,8 @@ export async function POST(request: NextRequest) {
         const category = formData.get('category') as string;
         const weight = parseFloat(formData.get('weight') as string);
 
+        console.log('DENTRO', formData);
+
         // Beer Attributes
         const intensity = parseFloat(formData.get('beer.intensity') as string);
         const fermentation = formData.get('beer.fermentation') as string;
@@ -160,6 +162,8 @@ export async function POST(request: NextRequest) {
                 consumption_temperature,
             });
 
+            console.log('BEERS', beerError);
+
             if (beerError) {
                 // Delete previously created product
                 const { error: deleteError } = await supabase
@@ -236,6 +240,8 @@ export async function POST(request: NextRequest) {
                         randomUUID: randomUUID,
                     });
 
+                console.log('PRODUCT PACKS', packError);
+
                 if (packError) {
                     return NextResponse.json(
                         { message: 'Error creating pack' },
@@ -256,6 +262,8 @@ export async function POST(request: NextRequest) {
                             upsert: false,
                         },
                     );
+
+                console.log('IMG ', packMultError);
 
                 if (packMultError) {
                     // Delete previously created product pack

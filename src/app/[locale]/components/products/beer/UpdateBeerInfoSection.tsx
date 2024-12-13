@@ -82,8 +82,9 @@ export default function UpdateBeerInfoSection({
     };
 
     const handleSelectVolume = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setVolume(parseInt(e.target.value));
-        setValue('volume', parseInt(e.target.value), { shouldDirty: true });
+        const selectedValue = parseFloat(e.target.value); // Cambiado a parseFloat
+        setVolume(selectedValue);
+        setValue('volume', selectedValue);
     };
 
     const handleOnChangeFermentation = (

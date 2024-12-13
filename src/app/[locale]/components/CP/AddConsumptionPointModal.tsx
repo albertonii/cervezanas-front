@@ -204,56 +204,59 @@ export default function AddConsumptionPointModal({ cpsId }: Props) {
                 maximum_capacity: 0,
                 is_booking_required: false,
             })
-            .select();
+            .select('*')
+            .single();
 
         if (error) {
+            console.log(error);
+
             throw error;
         }
 
-        const pItemsFiltered = cleanObject(product_items);
+        // const pItemsFiltered = cleanObject(product_items);
 
-        if (pItemsFiltered) {
-            // Convert pItemsFiltered JSON objects to array
-            const pItemsFilteredArray: { id: string }[] =
-                Object.values(pItemsFiltered);
+        // if (pItemsFiltered) {
+        //     // Convert pItemsFiltered JSON objects to array
+        //     const pItemsFilteredArray: { id: string }[] =
+        //         Object.values(pItemsFiltered);
 
-            const consumptionPointId = data[0].id;
+        //     const consumptionPointId = data.id;
 
-            // Link the pack with the consumption Point
-            pItemsFilteredArray.map(async (pack: { id: string }) => {
-                // TODO: Desde el register de accordionItem se introduce un product pack como string/json o como array de objetos. Habría que normalizar la información
-                if (typeof pack.id === 'object') {
-                    // const { error } = await supabase
-                    //     .from('cp_products')
-                    //     .insert({
-                    //         cp_id: consumptionPointId,
-                    //         product_pack_id: pack.id,
-                    //         stock: 0,
-                    //         price: 0,
-                    //         product_name: '',
-                    //         pack_name: '',
-                    //     });
-                    // if (error) {
-                    //     throw error;
-                    // }
-                    // TODO: CREAR NUEVO CP_PRODUCTS PERO VINCULADO A CP y no a CP_EVENTS
-                } else {
-                    // const { error } = await supabase
-                    //     .from('cp_products')
-                    //     .insert({
-                    //         cp_id: consumptionPointId,
-                    //         product_pack_id: pack.id,
-                    //         stock: 0,
-                    //         price: 0,
-                    //         product_name: '',
-                    //         pack_name: '',
-                    //     });
-                    // if (error) {
-                    //     throw error;
-                    // }
-                }
-            });
-        }
+        //     // Link the pack with the consumption Point
+        //     pItemsFilteredArray.map(async (pack: { id: string }) => {
+        //         // TODO: Desde el register de accordionItem se introduce un product pack como string/json o como array de objetos. Habría que normalizar la información
+        //         if (typeof pack.id === 'object') {
+        //             // const { error } = await supabase
+        //             //     .from('cp_products')
+        //             //     .insert({
+        //             //         cp_id: consumptionPointId,
+        //             //         product_pack_id: pack.id,
+        //             //         stock: 0,
+        //             //         price: 0,
+        //             //         product_name: '',
+        //             //         pack_name: '',
+        //             //     });
+        //             // if (error) {
+        //             //     throw error;
+        //             // }
+        //             // TODO: CREAR NUEVO CP_PRODUCTS PERO VINCULADO A CP y no a CP_EVENTS
+        //         } else {
+        //             // const { error } = await supabase
+        //             //     .from('cp_products')
+        //             //     .insert({
+        //             //         cp_id: consumptionPointId,
+        //             //         product_pack_id: pack.id,
+        //             //         stock: 0,
+        //             //         price: 0,
+        //             //         product_name: '',
+        //             //         pack_name: '',
+        //             //     });
+        //             // if (error) {
+        //             //     throw error;
+        //             // }
+        //         }
+        //     });
+        // }
 
         if (!isInternalOrganizer) {
             if (!selectedEOrganizer) {
