@@ -32,6 +32,9 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
         setOpen(false);
     };
 
+    const [displayDropdownRoles, setDisplayDropdownRoles] = useState(false);
+    const [isArrowDown, setIsArrowDown] = useState(false);
+
     const imageSrc =
         role === ROLE_ENUM.Admin
             ? '/icons/icon-admin.png'
@@ -40,12 +43,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
             : role === ROLE_ENUM.Productor
             ? '/icons/icon-prod.png'
             : '/icons/icon-cerv.png';
-    {
-        /* const { user, role, changeRole } = useAuth();*/
-    }
-    const [animateShoppingCart, setAnimateShoppingCart] = useState(false);
-    const [displayDropdownRoles, setDisplayDropdownRoles] = useState(false);
-    const [isArrowDown, setIsArrowDown] = useState(false);
+
     const handleOnClickRole = () => {
         setDisplayDropdownRoles(true);
         setIsArrowDown((prevState) => !prevState);
@@ -353,7 +351,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
     return (
         <div
             className="relative flex h-full items-center justify-center font-medium w-[50px]"
-            id="profile-dropdown" 
+            id="profile-dropdown"
             ref={dropdown}
         >
             <div
@@ -409,7 +407,10 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                     </span>
                     {displayDropdownRoles && (
                         <DropdownRoleList
-                            handleOnClickRoleOutside={handleOnClickRoleOutside}
+                            handleOnClickRoleOutside={() => {
+                                setOpen(false);
+                                handleOnClickRoleOutside();
+                            }}
                         />
                     )}
 
