@@ -33,7 +33,7 @@ const CPInformation: React.FC<Props> = ({
     };
 
     return (
-        <section className="relative w-full max-w-7xl lg:max-w-none mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <section className="relative w-full max-w-7xl lg:max-w-none mx-auto px-2 sm:px-6 lg:px-8 py-8">
             {/* Contenedor Principal con Sombras Mejoradas */}
             <div className="shadow-2xl relative w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl transition-shadow duration-500">
                 {/* Botón de Regreso */}

@@ -94,7 +94,7 @@ const ConsumptionPointTableData: React.FC<CPProps> = ({ cp, eventId }) => {
                 </TD>
 
                 {/* Estado */}
-                <TD>
+                <TD class_="hidden sm:table-cell">
                     <span className={statusClasses}>{t(cp.status)}</span>
                 </TD>
             </TR>

@@ -58,24 +58,25 @@ export default function EventCart({ eventId }: Props) {
                 right:
                     typeof window !== 'undefined'
                         ? window.innerWidth < 640
-                            ? window.innerWidth * 0.1 // Para 90% de ancho
+                            ? window.innerWidth * 0.1
                             : window.innerWidth - 300
                         : 0,
             }}
             position={position}
             onStop={onDragStop}
-            axis="x" // Restringir a solo eje X
+            axis="x"
         >
             <section
-                className="fixed z-40 rounded-lg border border-beer-softBlonde bg-white dark:bg-gray-800 dark:border-gray-700 shadow-lg  transition-colors duration-300"
+                className="fixed max-w-[70vw] sm:max-w-full z-40 rounded-lg border border-beer-softBlonde bg-white dark:bg-gray-800 dark:border-gray-700 shadow-lg transition-colors duration-300"
                 aria-modal="true"
                 role="dialog"
                 tabIndex={-1}
                 style={{ top: 0 }} // Asegurar que esté alineado en Y=0
             >
-                {/* Barra Arrastrable */}
-                <div className="drag-handle flex items-center justify-between p-2 bg-beer-blonde dark:bg-gray-800 text-white font-semibold rounded-t-lg cursor-grab hover:cursor-grabbing border border-gray-700">
-                    <div className="flex items-center gap-2">
+                {/* Barra Superior: Separar el handle del botón */}
+                <div className="flex items-center justify-between p-2 bg-beer-blonde dark:bg-gray-800 text-white font-semibold rounded-t-lg border border-gray-700">
+                    {/* Zona arrastrable */}
+                    <div className="drag-handle flex items-center gap-2 cursor-grab hover:cursor-grabbing">
                         <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center bg-white dark:bg-gray-700 rounded-full shadow-md">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -97,6 +98,7 @@ export default function EventCart({ eventId }: Props) {
                         </Title>
                     </div>
 
+                    {/* Zona de botones (fuera del handle) */}
                     <div className="flex items-center gap-2">
                         <div className="relative">
                             <Image
@@ -111,6 +113,7 @@ export default function EventCart({ eventId }: Props) {
                                 {getCartQuantity(eventId)}
                             </span>
                         </div>
+
                         <button
                             onClick={() => handleOpen(!isOpen)}
                             className="flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-all"

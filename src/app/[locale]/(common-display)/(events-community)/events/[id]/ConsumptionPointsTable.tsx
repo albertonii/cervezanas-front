@@ -1,13 +1,12 @@
-// components/ConsumptionPointsTable.tsx
-import React from 'react';
+import TR from '@/app/[locale]/components/ui/table/TR';
+import TD from '@/app/[locale]/components/ui/table/TD';
 import Table from '@/app/[locale]/components/ui/table/Table';
 import THead from '@/app/[locale]/components/ui/table/THead';
 import TBody from '@/app/[locale]/components/ui/table/TBody';
-import TR from '@/app/[locale]/components/ui/table/TR';
-import TD from '@/app/[locale]/components/ui/table/TD';
 import ConsumptionPointTableData from './ConsumptionPointTableData';
-import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
+import React from 'react';
 import { useTranslations } from 'next-intl';
+import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 
 interface TableProps {
     consumptionPoints: IConsumptionPointEvent[];
@@ -33,7 +32,9 @@ const ConsumptionPointsTable: React.FC<TableProps> = ({
                         <TD class_="hidden sm:table-cell">
                             {t('date_header')}
                         </TD>
-                        <TD>{t('status_header')}</TD>
+                        <TD class_="hidden sm:table-cell">
+                            {t('status_header')}
+                        </TD>
                     </TR>
                 </THead>
                 <TBody>

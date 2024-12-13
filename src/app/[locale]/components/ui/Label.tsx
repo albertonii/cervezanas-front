@@ -6,6 +6,7 @@ export type LabelColor =
     | 'gray'
     | 'yellow'
     | 'green'
+    | 'light-green'
     | 'red'
     | 'dark-gray'
     | 'beer-draft'
@@ -20,6 +21,7 @@ interface Props {
         | 'gray'
         | 'yellow'
         | 'green'
+        | 'light-green'
         | 'red'
         | 'dark-gray'
         | 'beer-draft'
@@ -57,11 +59,12 @@ export default function Label({
     };
 
     const colorClass = {
-        black: 'text-black-800 dark:text-white',
+        black: 'text-black-900 dark:text-white',
         white: 'text-white dark:text-black-800',
         gray: 'text-gray-800 dark:text-gray-300',
         yellow: 'text-yellow-800 dark:text-yellow-300',
         green: 'text-green-800 dark:text-green-300',
+        'light-green': 'text-green-600 dark:text-green-300',
         red: 'text-red-800 dark:text-red-300',
         'dark-gray': 'text-gray-700 dark:text-gray-400',
         'beer-draft': 'text-beer-draft dark:text-beer-softBlonde',

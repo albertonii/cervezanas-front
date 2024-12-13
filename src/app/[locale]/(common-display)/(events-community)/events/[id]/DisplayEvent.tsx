@@ -65,7 +65,7 @@ export default function DisplayEvent({
     };
 
     return (
-        <section className="relative w-full max-w-7xl lg:max-w-none mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <section className="relative w-full max-w-7xl lg:max-w-none mx-auto px-2 sm:px-6 lg:px-8 py-8">
             {/* Contenedor Principal con Sombras Mejoradas */}
             <div className="shadow-2xl relative w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl transition-shadow duration-500">
                 {/* Botón de Volver */}
@@ -142,7 +142,7 @@ export default function DisplayEvent({
             </div> */}
 
                 {/* Contenido Principal */}
-                <div className="space-y-6 p-6">
+                <div className="space-y-6 p-2 sm:p-6">
                     {/* Información del Evento */}
                     <div className="grid grid-cols-2 bg-gradient-to-r from-beer-blonde to-beer-gold dark:from-beer-draft dark:to-beer-gold rounded-lg p-6">
                         <div>
@@ -257,7 +257,7 @@ export default function DisplayEvent({
                     {/* Products linked to this Consumption Point */}
                     <div className="mt-8">
                         {cpsEvents.length > 0 ? (
-                            <div className="overflow-x-auto bg-gray-50 dark:bg-gray-700 rounded-xl shadow-lg p-6">
+                            <div className="overflow-x-auto bg-gray-50 dark:bg-gray-700 rounded-xl shadow-lg sm:p-6">
                                 <Title size="xlarge" color="beer-blonde">
                                     {t('cp')}
                                 </Title>

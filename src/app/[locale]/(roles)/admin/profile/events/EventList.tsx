@@ -11,11 +11,11 @@ import useFetchEvents from '../../../../../../hooks/useFetchEvents';
 import InputSearch from '@/app/[locale]/components/form/InputSearch';
 import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
 import DeleteCEventModal from '@/app/[locale]/components/modals/DeleteEventModal';
+import UpdateEventModal from '@/app/[locale]/components/modals/event/UpdateEventModal';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { IEvent } from '@/lib/types/eventOrders';
 import { IConsumptionPoint } from '@/lib/types/consumptionPoints';
-import UpdateEventModal from '@/app/[locale]/components/modals/event/UpdateEventModal';
 
 enum SortBy {
     NONE = 'none',
@@ -141,7 +141,7 @@ export default function EventList({ counter, cps }: Props) {
                 />
             )}
 
-            {!isError && !isLoading && events.length === 0 ? (
+            {!isError && !isLoading && events?.length === 0 ? (
                 <div className="flex h-40 items-center justify-center">
                     <p className="text-gray-500 dark:text-gray-400">
                         {t('no_events')}

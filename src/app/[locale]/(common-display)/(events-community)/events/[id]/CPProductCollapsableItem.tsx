@@ -13,6 +13,7 @@ import {
     IConsumptionPointEvent,
     IConsumptionPointProduct,
 } from '@/lib/types/consumptionPoints';
+import Label from '@/app/[locale]/components/ui/Label';
 
 interface ProductProps {
     eventId: string;
@@ -128,7 +129,7 @@ const CPProductCollapsableItem: React.FC<ProductProps> = ({
     };
 
     return (
-        <div className="flex flex-wrap items-center justify-between w-full p-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex sm:flex-wrap items-center justify-between w-full p-1 sm:p-4 border-b border-gray-200 dark:border-gray-700">
             {/* Imagen del Producto */}
             <div className="flex items-center w-full md:w-1/4">
                 <DisplayImageProduct
@@ -139,14 +140,14 @@ const CPProductCollapsableItem: React.FC<ProductProps> = ({
                     alt={pack.name}
                     width={80}
                     height={80}
-                    class="w-16 h-16 object-cover rounded-md"
+                    class="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-md"
                 />
                 <div className="ml-4">
                     <Link
                         target={'_blank'}
                         href={`${ROUTE_EVENTS}/${eventId}${ROUTE_PRODUCTS}/${cpId}`}
                         locale={locale}
-                        className="text-beer-gold dark:text-beer-blonde hover:underline text-lg font-semibold"
+                        className="text-beer-gold dark:text-beer-blonde hover:underline text-sm sm:text-base md:text-lg font-semibold"
                     >
                         {product?.name}
                     </Link>
@@ -154,19 +155,21 @@ const CPProductCollapsableItem: React.FC<ProductProps> = ({
             </div>
 
             {/* Información del Producto */}
-            <div className="flex flex-col w-full mt-4 md:mt-0 md:w-1/2">
-                <span className="text-gray-800 dark:text-gray-100">{name}</span>
-                <span className="text-gray-800 dark:text-gray-100">
+            <div className="w-full mt-4 md:mt-0 md:w-1/2 hidden sm:flex sm:flex-col">
+                <Label size="xsmall" color="black">
+                    {name}
+                </Label>
+                <Label size="xsmall">
                     {t('quantity')}: {quantity}
-                </span>
+                </Label>
 
-                <span className="text-green-500 font-medium">
+                <Label color="light-green" font="medium" size="small">
                     {formatCurrency(price)}
-                </span>
+                </Label>
             </div>
 
             {/* Acciones */}
-            <div className="flex items-center w-full mt-4 md:mt-0 md:w-1/4 md:justify-end">
+            <div className="flex items-center w-full md:mt-0 md:w-1/4 justify-end">
                 {packQuantity === 0 ? (
                     <AddCartButton withText={true} onClick={handleAddToCart} />
                 ) : (
