@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({
             from: 'info@cervezanas.beer',
             to: emailTo,
-            subject: 'Solicitud rol de DISTRIBUIDOR',
+            subject: 'Solicitud rol de DISTRIBUIDOR-TRANSPORTISTA',
             html: `
                 <!DOCTYPE html>
                     <html>

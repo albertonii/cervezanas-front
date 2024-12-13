@@ -28,10 +28,6 @@ const ProductAccordionItem: React.FC<Props> = ({
     );
     const [showAccordion, setShowAccordion] = useState(false);
 
-    useEffect(() => {
-        console.log('Selected packs for product:', product.id, selectedPacks);
-    }, [selectedPacks, product.id]);
-
     if (!product.beers) return <></>;
 
     const formatName = product.beers?.format ?? '';

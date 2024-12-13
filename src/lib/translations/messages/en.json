@@ -1424,7 +1424,7 @@
         "location": "Location",
         "fullname": "Full name",
         "event_more_details": "More event details",
-        "include_pending_payment": "Include pending payments",
+        "include_pending_payment": "Include columna pending payments",
         "booking_required": "Booking required",
         "new_orders": "New Orders ({numberOfOrders})",
         "pending_payment": "Pending Payment ({numberOfOrders})",

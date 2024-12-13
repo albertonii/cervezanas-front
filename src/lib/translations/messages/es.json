@@ -1523,7 +1523,7 @@
         "location": "Ubicación",
         "fullname": "Nombre completo",
         "event_more_details": "Más detalles del evento",
-        "include_pending_payment": "Incluir pagos pendientes",
+        "include_pending_payment": "Incluir columna pagos pendientes",
         "booking_required": "Reserva requerida",
         "new_orders": "Pedidos Nuevos ({numberOfOrders})",
         "pending_payment_orders": "Pedidos Pendientes de Pago ({numberOfOrders})",

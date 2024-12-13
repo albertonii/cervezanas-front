@@ -187,3 +187,17 @@ export const MULTIMEDIA = {
     P_EXTRA_2: 'p_extra_2',
     P_EXTRA_3: 'p_extra_3',
 };
+
+export const STATUS_OPTIONS = [
+    { label: 'Activo', value: 'active' },
+    { label: 'Finalizado', value: 'finished' },
+    { label: 'Error', value: 'error' },
+    { label: 'Cancelado', value: 'cancelled' },
+    { label: 'Pausado', value: 'paused' },
+];
+
+export const VIEW_CONFIGURATION_OPTIONS = [
+    { label: '1 Paso', value: 'one_step' },
+    { label: '2 Pasos', value: 'two_steps' },
+    { label: '3 Pasos', value: 'three_steps' },
+];

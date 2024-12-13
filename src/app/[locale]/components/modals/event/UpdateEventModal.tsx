@@ -24,6 +24,7 @@ import {
     IConsumptionPoint,
     IConsumptionPointEventNoCircularDependency,
 } from '@/lib/types/consumptionPoints';
+import { validateDateRange } from '@/utils/ZodValidationUtils';
 
 interface FormData {
     is_activated: boolean;
@@ -76,15 +77,12 @@ const schema: ZodType<FormData> = z
         ),
     })
     .superRefine((data, ctx) => {
-        // Validar que end_date sea posterior a start_date
-        const startDate = new Date(data.start_date);
-        const endDate = new Date(data.end_date);
-        if (startDate > endDate) {
+        const dateError = validateDateRange(data.start_date, data.end_date);
+        if (dateError !== true) {
             ctx.addIssue({
                 code: z.ZodIssueCode.custom,
                 path: ['end_date'],
-                message:
-                    'La fecha de fin debe ser posterior o igual a la fecha de inicio',
+                message: dateError,
             });
         }
     });

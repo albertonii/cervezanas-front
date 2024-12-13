@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({
             from: 'info@cervezanas.beer',
             to: emailTo,
-            subject: `Tu cuenta ${username} ha dejado de tener los privilegios de DISTRIBUIDOR `,
+            subject: `Tu cuenta ${username} ha dejado de tener los privilegios de DISTRIBUIDOR-TRANSPORTISTA `,
             html: `
                 <!DOCTYPE html>
                     <html>

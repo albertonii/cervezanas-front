@@ -49,27 +49,18 @@ export function ListCPointsInEvents({ counterCP }: Props) {
 
     useEffect(() => {
         refetch().then((res) => {
-            const cp = res.data as IConsumptionPointEvent[];
-            setCPoint(cp);
+            setCPoint(res.data as IConsumptionPointEvent[]);
         });
     }, [currentPage]);
 
     const handleEditClick = async (cp: IConsumptionPointEvent) => {
-        handleEditModal(true);
+        setIsEditModal(true);
         setSelectedCP(cp);
     };
 
     const handleDeleteClick = async (cp: IConsumptionPointEvent) => {
         setIsDeleteModal(true);
         setSelectedCP(cp);
-    };
-
-    const handleEditModal = (isEdit: boolean) => {
-        setIsEditModal(isEdit);
-    };
-
-    const handleDeleteModal = (isDelete: boolean) => {
-        setIsDeleteModal(isDelete);
     };
 
     const columns = [
@@ -149,7 +140,7 @@ export function ListCPointsInEvents({ counterCP }: Props) {
                 <EditCPointEventModal
                     selectedCP={selectedCP}
                     isEditModal={isEditModal}
-                    handleEditModal={handleEditModal}
+                    handleEditModal={setIsEditModal}
                 />
             )}
 
@@ -157,7 +148,7 @@ export function ListCPointsInEvents({ counterCP }: Props) {
                 <DeleteCPEventModal
                     selectedCPId={selectedCP.id}
                     isDeleteModal={isDeleteModal}
-                    handleDeleteModal={handleDeleteModal}
+                    handleDeleteModal={setIsDeleteModal}
                 />
             )}
 

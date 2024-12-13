@@ -7,7 +7,7 @@ import ModalWithForm from '../modals/ModalWithForm';
 import useFetchCPPacksByCPId from '@/hooks/useFetchCPPacks';
 import SelectInput from '@/app/[locale]/components/form/SelectInput';
 import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
@@ -15,11 +15,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
 import { useMutation, useQueryClient } from 'react-query';
+import { DisplayInputError } from '../ui/DisplayInputError';
 import { formatDateDefaultInput } from '@/utils/formatDate';
-import {
-    IConsumptionPointEvent,
-    ICPProductsEditModal,
-} from '@/lib/types/consumptionPoints';
+import { validateDateRange } from '@/utils/ZodValidationUtils';
+import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
+import { STATUS_OPTIONS, VIEW_CONFIGURATION_OPTIONS } from '@/constants';
 
 // Definición del esquema de validación con Zod
 const formSchema = z
@@ -45,15 +45,12 @@ const formSchema = z
         has_pending_payment: z.boolean(),
     })
     .superRefine((data, ctx) => {
-        // Validar que end_date sea posterior a start_date
-        const startDate = new Date(data.start_date);
-        const endDate = new Date(data.end_date);
-        if (startDate > endDate) {
+        const dateError = validateDateRange(data.start_date, data.end_date);
+        if (dateError !== true) {
             ctx.addIssue({
                 code: z.ZodIssueCode.custom,
                 path: ['end_date'],
-                message:
-                    'La fecha de fin debe ser posterior o igual a la fecha de inicio',
+                message: dateError,
             });
         }
     });
@@ -75,6 +72,8 @@ export default function EditCPointEventModal({
     const t = useTranslations();
     const { supabase } = useAuth();
     const queryClient = useQueryClient();
+
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     // Hook personalizado para obtener los packs de productos asociados al PC
     const { data: packsInProduct } = useFetchCPPacksByCPId(selectedCP.id);
@@ -116,12 +115,10 @@ export default function EditCPointEventModal({
         console.log('ERRORS', errors);
     }, [errors]);
 
-    // Actualizar 'product_items' cuando cambian los packs en productos
     useEffect(() => {
-        if (packsInProduct) {
-            console.log('DENTRO DE USE EFFECT', packsInProduct);
+        if (packsInProduct?.length) {
             const productPackIds = packsInProduct.map(
-                (item: ICPProductsEditModal) => item.product_pack_id,
+                (item) => item.product_pack_id,
             );
             setValue('product_items', productPackIds);
         }
@@ -130,69 +127,74 @@ export default function EditCPointEventModal({
     // Definir la mutación para actualizar el PC
     const updateCPMutation = useMutation(
         async (formValues: FormData) => {
-            const {
-                cp_name,
-                cp_description,
-                start_date,
-                end_date,
-                product_items,
-                view_configuration,
-                has_pending_payment,
-                stand_location,
-                is_booking_required,
-                maximum_capacity,
-                status,
-            } = formValues;
-
-            console.log(formValues);
-
-            const { error: cpError } = await supabase
-                .from('cp_events')
-                .update({
+            try {
+                const {
                     cp_name,
                     cp_description,
-                    is_booking_required,
-                    view_configuration,
-                    has_pending_payment,
                     start_date,
                     end_date,
+                    product_items,
+                    view_configuration,
+                    has_pending_payment,
                     stand_location,
+                    is_booking_required,
                     maximum_capacity,
                     status,
-                })
-                .eq('id', selectedCP.id);
+                } = formValues;
 
-            if (cpError) throw new Error(cpError.message);
+                const { error: cpError } = await supabase
+                    .from('cp_events')
+                    .update({
+                        cp_name,
+                        cp_description,
+                        is_booking_required,
+                        view_configuration,
+                        has_pending_payment,
+                        start_date,
+                        end_date,
+                        stand_location,
+                        maximum_capacity,
+                        status,
+                    })
+                    .eq('id', selectedCP.id);
 
-            // Actualizar la tabla 'cp_products'
+                if (cpError) throw new Error(cpError.message);
 
-            // 1. Eliminar productos existentes
-            const { error: deleteError } = await supabase
-                .from('cp_products')
-                .delete()
-                .eq('cp_id', selectedCP.id);
+                // Actualizar la tabla 'cp_products'
 
-            if (deleteError) throw new Error(deleteError.message);
-
-            // 2. Insertar nuevos productos
-            const cpProductsToInsert =
-                product_items?.map((packId) => ({
-                    cp_id: selectedCP.id,
-                    product_pack_id: packId,
-                })) || [];
-
-            if (cpProductsToInsert.length > 0) {
-                const { error: insertError } = await supabase
+                // 1. Eliminar productos existentes
+                const { error: deleteError } = await supabase
                     .from('cp_products')
-                    .insert(cpProductsToInsert);
+                    .delete()
+                    .eq('cp_id', selectedCP.id);
 
-                if (insertError) throw new Error(insertError.message);
+                if (deleteError) throw new Error(deleteError.message);
+
+                // 2. Insertar nuevos productos
+                const cpProductsToInsert =
+                    product_items?.map((packId) => ({
+                        cp_id: selectedCP.id,
+                        product_pack_id: packId,
+                    })) || [];
+
+                if (cpProductsToInsert.length > 0) {
+                    const { error: insertError } = await supabase
+                        .from('cp_products')
+                        .insert(cpProductsToInsert);
+
+                    if (insertError) throw new Error(insertError.message);
+                }
+
+                queryClient.invalidateQueries(['cp_events']);
+                handleEditModal(false);
+
+                return true;
+            } catch (error: any) {
+                setErrorMessage(
+                    error.message || 'Error al actualizar el punto de consumo',
+                );
+                throw error;
             }
-
-            queryClient.invalidateQueries(['cp_events']);
-            handleEditModal(false);
-
-            return true;
         },
         {
             onError: (error: any) => {
@@ -229,6 +231,10 @@ export default function EditCPointEventModal({
                             {t('cp_info')}
                         </Title>
                     </legend>
+
+                    {errorMessage && (
+                        <DisplayInputError message={errorMessage} />
+                    )}
 
                     {/* Nombre del PC */}
                     <InputLabel
@@ -267,13 +273,7 @@ export default function EditCPointEventModal({
                             form={form}
                             label={'status'}
                             labelText={'Estado'}
-                            options={[
-                                { label: 'Activo', value: 'active' },
-                                { label: 'Finalizado', value: 'finished' },
-                                { label: 'Error', value: 'error' },
-                                { label: 'Cancelado', value: 'cancelled' },
-                                { label: 'Pausado', value: 'paused' },
-                            ]}
+                            options={STATUS_OPTIONS}
                         />
 
                         {/* Configuración de vista */}
@@ -281,11 +281,7 @@ export default function EditCPointEventModal({
                             form={form}
                             label={'view_configuration'}
                             labelText={'Configuración de Vista'}
-                            options={[
-                                { label: '1 Paso', value: 'one_step' },
-                                { label: '2 Pasos', value: 'two_steps' },
-                                { label: '3 Pasos', value: 'three_steps' },
-                            ]}
+                            options={VIEW_CONFIGURATION_OPTIONS}
                         />
                     </div>
 
@@ -313,11 +309,13 @@ export default function EditCPointEventModal({
                             <input
                                 type="checkbox"
                                 id="has_pending_payment"
+                                aria-describedby="has_pending_payment_description"
                                 {...register('has_pending_payment')}
                                 className="form-checkbox h-4 w-4 text-blue-600"
                             />
                             <label
                                 htmlFor="has_pending_payment"
+                                aria-describedby="has_pending_payment_description"
                                 className="text-sm text-gray-700 dark:text-white"
                             >
                                 {t('event.include_pending_payment')}
