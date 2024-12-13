@@ -150,7 +150,10 @@ export async function POST(request: NextRequest) {
             .select('id, order_number')
             .single();
 
+        console.log('eventOrder', eventOrder);
+
         if (orderError || !eventOrder) {
+            console.log('orderError', orderError);
             return NextResponse.json(
                 { message: 'Error creating event order' },
                 { status: 500 },
