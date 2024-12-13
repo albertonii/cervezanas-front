@@ -7,6 +7,8 @@ import { ROUTE_EVENTS } from '@/config';
 import { useLocale, useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { IProductPackEventCartItem } from '@/lib/types/types';
+import { useRouter } from 'next/navigation';
+import useEventCartStore from '@/app/store/eventCartStore';
 
 interface Props {
     items: IProductPackEventCartItem[];
@@ -17,6 +19,9 @@ export default function MaxifiedCart({ items, eventId }: Props) {
     const t = useTranslations();
     const locale = useLocale();
     const [subTotal, setSubTotal] = useState(0);
+    const { handleOpen } = useEventCartStore();
+
+    const router = useRouter();
 
     useEffect(() => {
         const total = items.reduce(
@@ -30,6 +35,17 @@ export default function MaxifiedCart({ items, eventId }: Props) {
         );
         setSubTotal(total);
     }, [items]);
+
+    const handleCheckoutClicked = (
+        pathname: string,
+        items: IProductPackEventCartItem[],
+    ) => {
+        handleOpen(false);
+        const queryParams = new URLSearchParams({
+            items: JSON.stringify(items),
+        });
+        router.push(`${pathname}?${queryParams.toString()}`);
+    };
 
     return (
         <div className="flex flex-col items-center p-2 sm:p-4 bg-white dark:bg-gray-800 rounded-xl shadow-xl transition-transform w-full">
@@ -67,16 +83,17 @@ export default function MaxifiedCart({ items, eventId }: Props) {
                     </p>
 
                     <div className="mt-2">
-                        <Link
-                            href={{
-                                pathname: `${ROUTE_EVENTS}/${eventId}/event_basket/`,
-                                query: { items: JSON.stringify(items) },
-                            }}
-                            className="flex items-center justify-center rounded-md border border-transparent bg-beer-blonde dark:bg-beer-dark px-6 py-3 text-xl font-medium text-white shadow-sm transition-all hover:bg-beer-dark hover:text-beer-blonde"
-                            locale={locale}
+                        <button
+                            onClick={() =>
+                                handleCheckoutClicked(
+                                    `${ROUTE_EVENTS}/${eventId}/event_basket`,
+                                    items,
+                                )
+                            }
+                            className="w-full flex items-center justify-center rounded-md border border-transparent bg-beer-blonde dark:bg-beer-dark px-6 py-3 text-xl font-medium text-white shadow-sm transition-all hover:bg-beer-dark hover:text-beer-blonde"
                         >
                             {t('checkout')}
-                        </Link>
+                        </button>
                     </div>
                 </footer>
             )}
