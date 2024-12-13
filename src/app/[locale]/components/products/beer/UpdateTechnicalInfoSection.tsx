@@ -121,7 +121,7 @@ const UpdateTechnicalInfoSection = ({ form }: Props) => {
                     <InputTextarea
                         form={form}
                         label={'pairing'}
-                        labelText={t('beer_pairing')}
+                        labelText={'beer_pairing'}
                         registerOptions={{
                             required: false,
                         }}

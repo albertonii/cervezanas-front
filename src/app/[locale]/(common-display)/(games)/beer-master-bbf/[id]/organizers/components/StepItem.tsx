@@ -73,7 +73,7 @@ const StepItem = React.memo(function StepItem({
 
                         <InputLabelNoForm
                             label="location"
-                            labelText={t('location')}
+                            labelText={'location'}
                             disabled
                             value={step.location}
                         />
@@ -82,7 +82,7 @@ const StepItem = React.memo(function StepItem({
                             <InputLabelNoForm
                                 inputType="checkbox"
                                 label="is_unlocked"
-                                labelText={t('is_unlocked')}
+                                labelText={'is_unlocked'}
                                 disabled
                             />
                         </div>

@@ -409,7 +409,7 @@ export default function UpdateBeerInfoSection({
                         <InputLabel
                             form={form}
                             label={'weight'}
-                            labelText={t('weight') + ' (gr)'}
+                            labelText={'weight' + ' (gr)'}
                             registerOptions={{
                                 required: true,
                                 min: 0,

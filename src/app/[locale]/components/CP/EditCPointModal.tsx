@@ -411,7 +411,7 @@ export default function EditCPointModal({
                                 <InputLabel
                                     form={form}
                                     label={'organizer_lastname'}
-                                    labelText={t('lastname')}
+                                    labelText={'lastname'}
                                     registerOptions={{
                                         required: true,
                                     }}

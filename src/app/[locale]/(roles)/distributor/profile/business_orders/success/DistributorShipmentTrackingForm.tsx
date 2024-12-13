@@ -278,7 +278,7 @@ const DistributorShipmentTrackingForm = ({
                         inputType="date"
                         form={formTrackingInfo}
                         label={'estimated_date'}
-                        labelText={t('tracking.estimated_delivery_date')}
+                        labelText={'tracking.estimated_delivery_date'}
                     />
                 </div>
 

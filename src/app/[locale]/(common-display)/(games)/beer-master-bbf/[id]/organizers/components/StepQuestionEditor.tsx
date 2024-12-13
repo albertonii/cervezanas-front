@@ -241,7 +241,7 @@ export default function StepQuestionEditor({ form }: StepQuestionEditorProps) {
                                 form={form}
                                 label={`bm_steps_questions.${questionIndex}.explanation`}
                                 rows={2}
-                                labelText={t('explanation')}
+                                labelText={'explanation'}
                                 placeholder={t(
                                     'why_is_this_the_correct_answer',
                                 )}

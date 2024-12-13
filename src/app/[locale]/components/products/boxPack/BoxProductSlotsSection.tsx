@@ -106,7 +106,7 @@ export default function BoxProductSlotsSection({ form }: Props) {
                         min: 0,
                     }}
                     inputType="number"
-                    labelText={t('box_weight') + ' (gr)'}
+                    labelText={'box_weight' + ' (gr)'}
                     onChange={(e) => handleOnChangeWeightBox(e)}
                     value={boxWeight}
                 />
@@ -120,7 +120,7 @@ export default function BoxProductSlotsSection({ form }: Props) {
                         min: 1,
                     }}
                     inputType="number"
-                    labelText={t('max_slots_per_box')}
+                    labelText={'max_slots_per_box'}
                     onChange={(e) => handleOnChangeSlotsPerBox(e)}
                     value={maxSlotsPerBox}
                 />

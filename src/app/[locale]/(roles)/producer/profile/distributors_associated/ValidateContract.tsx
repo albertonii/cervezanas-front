@@ -43,7 +43,7 @@ export default function CollaborationDetails({ form }: Props) {
             <InputTextarea
                 form={form}
                 label={'message'}
-                labelText={t('message_to_distributor_contract_distribution')}
+                labelText={'message_to_distributor_contract_distribution'}
                 registerOptions={{
                     required: true,
                 }}

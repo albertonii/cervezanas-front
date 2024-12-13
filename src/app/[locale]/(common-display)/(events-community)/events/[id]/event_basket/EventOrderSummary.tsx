@@ -110,7 +110,6 @@ const EventOrderSummary: React.FC<Props> = ({
                     <InputLabelNoForm
                         inputType="email"
                         label={'guest_email'}
-                        labelText={t('guest_email')}
                         onChange={handleGuestEmailChange}
                         placeholder={t('enter_email')}
                     />

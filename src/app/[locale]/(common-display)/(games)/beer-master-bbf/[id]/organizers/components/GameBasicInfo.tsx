@@ -171,7 +171,7 @@ export default function GameBasicInfo({
                         <InputLabel
                             form={form}
                             label="totalSteps"
-                            labelText={t('total_steps')}
+                            labelText={'total_steps'}
                             inputType="number"
                             registerOptions={{
                                 min: 1,

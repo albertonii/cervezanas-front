@@ -114,7 +114,7 @@ export function SecretDataForm() {
                 <InputLabel
                     form={form}
                     label={'old_password'}
-                    labelText={t('actual_password')}
+                    labelText={'actual_password'}
                     registerOptions={{
                         required: true,
                     }}

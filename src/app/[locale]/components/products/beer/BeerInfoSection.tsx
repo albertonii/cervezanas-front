@@ -338,7 +338,7 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
                         <InputLabel
                             form={form}
                             label={'weight'}
-                            labelText={t('weight') + ' (gr)'}
+                            labelText={'weight' + ' (gr)'}
                             registerOptions={{
                                 required: true,
                                 min: 0,

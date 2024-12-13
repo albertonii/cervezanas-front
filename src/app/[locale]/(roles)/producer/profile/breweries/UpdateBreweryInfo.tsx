@@ -75,7 +75,7 @@ const BreweryInfo = ({ form }: Props) => {
                     <InputTextarea
                         form={form}
                         label={'history'}
-                        labelText={t('brewery.history')}
+                        labelText={'brewery.history'}
                         registerOptions={{
                             required: true,
                         }}

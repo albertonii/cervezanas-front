@@ -48,7 +48,7 @@ export default function InputTextarea({
         <div className="w-full">
             <label className="flex w-full flex-col items-start space-y-2 text-sm text-gray-600 dark:text-white">
                 <span className="">
-                    {labelText ? labelText : t(label)}
+                    {labelText ? t(labelText) : t(label)}
                     {isRequired && <span className="text-red-500"> *</span>}
                     {infoTooltip && (
                         <InfoTooltip

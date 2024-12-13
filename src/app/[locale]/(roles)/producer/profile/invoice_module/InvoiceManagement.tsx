@@ -193,7 +193,7 @@ const InvoiceManagement = () => {
                         <SelectInput
                             form={form}
                             label={'invoice_period_selected'}
-                            labelText={t('invoice_module.period_selected')}
+                            labelText={'invoice_module.period_selected'}
                             options={invoicePeriodOptions}
                             registerOptions={{
                                 required: true,
@@ -204,7 +204,7 @@ const InvoiceManagement = () => {
                     <div className="col-span-1">
                         <InputLabel
                             label={'invoice_file'}
-                            labelText={t('invoice_module.upload_invoice_file')}
+                            labelText={'invoice_module.upload_invoice_file'}
                             form={form}
                             inputType="file"
                             isLoading={isLoading}
@@ -214,7 +214,7 @@ const InvoiceManagement = () => {
                     <div className="col-span-1">
                         <InputLabel
                             label={'invoice_name'}
-                            labelText={t('invoice_module.invoice_name')}
+                            labelText={'invoice_module.invoice_name'}
                             form={form}
                             isLoading={isLoading}
                             placeholder={t(
@@ -226,7 +226,7 @@ const InvoiceManagement = () => {
                     <div className="col-span-1">
                         <InputLabel
                             label={'total_amount'}
-                            labelText={t('invoice_module.total_amount')}
+                            labelText={'invoice_module.total_amount'}
                             form={form}
                             inputType="number"
                             registerOptions={{

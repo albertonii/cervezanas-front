@@ -60,7 +60,7 @@ const UpdateBreweryExtraDetails = ({ form }: Props) => {
                     <InputTextarea
                         form={form}
                         label={'guided_tours'}
-                        labelText={t('brewery.guided_tours')}
+                        labelText={'brewery.guided_tours'}
                         placeholder={t('brewery.guided_tours_placeholder')}
                     />
                 </div>

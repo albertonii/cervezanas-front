@@ -17,14 +17,12 @@ const StepBasicInfoEditor = ({ form }: Props) => {
                 <InputLabel
                     form={form}
                     label="title"
-                    labelText={t('title')}
                     placeholder="Ej. Los Orígenes de la cerveza catalana"
                 />
 
                 <InputLabel
                     form={form}
                     label="step_number"
-                    labelText={t('step_number')}
                     registerOptions={{ valueAsNumber: true, min: 1 }}
                 />
             </div>
@@ -52,7 +50,7 @@ const StepBasicInfoEditor = ({ form }: Props) => {
                     inputType="checkbox"
                     form={form}
                     label="is_unlocked"
-                    labelText={t('step_locked_initially')}
+                    labelText={'step_locked_initially'}
                 />
             </div>
         </div>

@@ -391,7 +391,7 @@ export default function AddConsumptionPointModal({ cpsId }: Props) {
                     <InputTextarea
                         form={form}
                         label={'cp_description'}
-                        labelText={t('description')}
+                        labelText={'description'}
                         registerOptions={{
                             required: true,
                         }}
@@ -459,7 +459,7 @@ export default function AddConsumptionPointModal({ cpsId }: Props) {
                                 <InputLabel
                                     form={form}
                                     label={'organizer_lastname'}
-                                    labelText={t('lastname')}
+                                    labelText={'lastname'}
                                     registerOptions={{
                                         required: true,
                                     }}
