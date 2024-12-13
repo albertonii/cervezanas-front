@@ -49,10 +49,10 @@ const CPInformation: React.FC<Props> = ({
                 </div>
 
                 {/* Contenido Principal */}
-                <div className="space-y-6 p-6">
+                <div className="space-y-6 p-2 sm:p-6">
                     {/* Experiencias del Evento */}
                     {hasExperiences && (
-                        <div className="bg-gray-50 dark:bg-gray-700 rounded-xl shadow-lg p-6">
+                        <div className="bg-gray-50 dark:bg-gray-700 rounded-xl shadow-lg p-2 sm:p-6">
                             <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
                                 {t('experiences')}
                             </h2>
@@ -72,12 +72,12 @@ const CPInformation: React.FC<Props> = ({
                     )}
 
                     {/* Detalles del Punto de Consumo */}
-                    <div className="bg-gray-50 dark:bg-gray-700 rounded-xl shadow-lg p-6">
+                    <div className="bg-gray-50 dark:bg-gray-700 rounded-xl shadow-lg p-2 sm:p-6">
                         <CPDetails cpEvent={cpEvent} />
                     </div>
 
                     {/* Lista de Productos */}
-                    <div className="bg-gray-50 dark:bg-gray-700 rounded-xl shadow-lg p-6">
+                    <div className="bg-gray-50 dark:bg-gray-700 rounded-xl shadow-lg p-2 sm:p-6">
                         <ProductList cpEvent={cpEvent} eventId={eventId} />
                     </div>
                 </div>

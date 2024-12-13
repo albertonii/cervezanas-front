@@ -36,12 +36,20 @@ const ProductList: React.FC<Props> = ({ cpEvent, eventId }) => {
                         <Table>
                             <THead>
                                 <TR>
-                                    <TH>{t('img')}</TH>
+                                    <TH class_="hidden sm:table-cell">
+                                        {t('img')}
+                                    </TH>
                                     <TH>{t('name_header')}</TH>
-                                    <TH>{t('pack_name_header')}</TH>
-                                    <TH>{t('quantity_in_pack_header')}</TH>
+                                    <TH class_="hidden sm:table-cell">
+                                        {t('pack_name_header')}
+                                    </TH>
+                                    <TH class_="hidden sm:table-cell">
+                                        {t('quantity_in_pack_header')}
+                                    </TH>
                                     <TH>{t('price_header')}</TH>
-                                    <TH>{t('type_header')}</TH>
+                                    <TH class_="hidden sm:table-cell">
+                                        {t('type_header')}
+                                    </TH>
                                     <TH>{t('action_header')}</TH>
                                 </TR>
                             </THead>

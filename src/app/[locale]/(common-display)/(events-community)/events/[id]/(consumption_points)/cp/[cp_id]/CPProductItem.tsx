@@ -140,7 +140,7 @@ const CPProductItem: React.FC<ProductProps> = ({
     return (
         <TR>
             {/* Imagen del Producto */}
-            <TD>
+            <TD class_="hidden sm:table-cell">
                 <DisplayImageProduct
                     imgSrc={
                         SupabaseProps.BASE_PRODUCTS_URL +
@@ -166,10 +166,12 @@ const CPProductItem: React.FC<ProductProps> = ({
             </TD>
 
             {/* Nombre del Paquete */}
-            <TD class_="text-gray-800 dark:text-gray-100">{name}</TD>
+            <TD class_="hidden sm:table-cell text-gray-800 dark:text-gray-100">
+                {name}
+            </TD>
 
             {/* Cantidad en el Paquete */}
-            <TD class_="text-center text-gray-800 dark:text-gray-100">
+            <TD class_="hidden sm:table-cell text-center text-gray-800 dark:text-gray-100">
                 {quantity}
             </TD>
 
@@ -177,7 +179,7 @@ const CPProductItem: React.FC<ProductProps> = ({
             <TD class_="text-green-500 font-medium">{formatCurrency(price)}</TD>
 
             {/* Tipo de Paquete */}
-            <TD class_="text-gray-800 dark:text-gray-100">
+            <TD class_="hidden sm:table-cell stext-gray-800 dark:text-gray-100">
                 {t(cpEvent.cp?.type.toLowerCase())}
             </TD>
 

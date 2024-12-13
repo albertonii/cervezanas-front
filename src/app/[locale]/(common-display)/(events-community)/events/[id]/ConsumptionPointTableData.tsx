@@ -30,7 +30,7 @@ const ConsumptionPointTableData: React.FC<CPProps> = ({ cp, eventId }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const statusClasses = classNames(
-        'px-4 py-2 text-center rounded-full text-sm font-semibold',
+        'px-2 sm:px-4 py-1 sm:py-2 text-center rounded-full text-sm font-semibold',
         {
             'bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100':
                 cp.cp?.status === 'active',
