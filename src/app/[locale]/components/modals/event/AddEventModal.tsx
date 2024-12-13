@@ -157,7 +157,7 @@ export default function AddEventModal({ cps }: Props) {
                 category,
                 logo_url: '',
                 promotional_url: '',
-                status: '',
+                status: 'active',
                 geoArgs: {
                     type: 'Point',
                     coordinates: [0, 0],

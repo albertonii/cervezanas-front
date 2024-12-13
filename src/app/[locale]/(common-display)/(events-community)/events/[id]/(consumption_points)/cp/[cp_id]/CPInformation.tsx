@@ -1,15 +1,14 @@
-// components/CPInformation.tsx
 'use client';
 
-import React from 'react';
-import { useRouter } from 'next/navigation';
-import { useLocale, useTranslations } from 'next-intl';
-import Button from '@/app/[locale]/components/ui/buttons/Button';
-import CPDetails from './CPDetails';
 import ProductList from './ProductList';
 import EventExperiences from './EventExperiences';
-import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
+import CPDetailsHeader from './CPDetailsHeader';
+import Button from '@/app/[locale]/components/ui/buttons/Button';
+import React from 'react';
+import { useRouter } from 'next/navigation';
 import { IEventExperience } from '@/lib/types/types';
+import { useLocale, useTranslations } from 'next-intl';
+import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 
 interface Props {
     cpEvent: IConsumptionPointEvent;
@@ -73,7 +72,7 @@ const CPInformation: React.FC<Props> = ({
 
                     {/* Detalles del Punto de Consumo */}
                     <div className="bg-gray-50 dark:bg-gray-700 rounded-xl shadow-lg p-2 sm:p-6">
-                        <CPDetails cpEvent={cpEvent} />
+                        <CPDetailsHeader cpEvent={cpEvent} />
                     </div>
 
                     {/* Lista de Productos */}

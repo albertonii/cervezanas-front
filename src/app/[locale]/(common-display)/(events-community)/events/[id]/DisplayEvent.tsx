@@ -15,6 +15,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { IBMExperienceParticipants } from '@/lib/types/quiz';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
 import { ChipCard } from '@/app/[locale]/components/ui/ChipCard';
+import DisplayEventHeader from './DisplayEventHeader';
 
 interface Props {
     event: IEvent;
@@ -36,7 +37,7 @@ export default function DisplayEvent({
     const { existEventCart, createNewCart } = useEventCartStore();
 
     useEffect(() => {
-        if (!existEventCart(event.id)) {
+        if (event && !existEventCart(event.id)) {
             createNewCart(event.id);
         }
     }, [existEventCart, createNewCart, event]);
@@ -144,40 +145,8 @@ export default function DisplayEvent({
                 {/* Contenido Principal */}
                 <div className="space-y-6 p-2 sm:p-6">
                     {/* Información del Evento */}
-                    <div className="grid grid-cols-2 bg-gradient-to-r from-beer-blonde to-beer-gold dark:from-beer-draft dark:to-beer-gold rounded-lg p-6">
-                        <div>
-                            <Title size="xlarge" color="gray">
-                                {event.name}
-                            </Title>
-                            <Label color="gray" className="mt-2">
-                                {event.description}
-                            </Label>
-
-                            <div className="mt-4 flex flex-col sm:flex-row sm:space-x-6 text-gray-100 dark:text-gray-300">
-                                <div>
-                                    <Label color="gray" size="small">
-                                        {t('start_date')}:
-                                    </Label>
-                                    <Label color="black" size="small">
-                                        {formatDateString(event.start_date)}
-                                    </Label>
-                                </div>
-                                <div className="mt-2 sm:mt-0">
-                                    <Label color="gray" size="small">
-                                        {t('end_date')}:
-                                    </Label>
-                                    <Label color="black" size="small">
-                                        {formatDateString(event.end_date)}
-                                    </Label>
-                                </div>
-                            </div>
-
-                            {event.status && (
-                                <div className="mt-4">
-                                    <ChipCard content={event.status} />
-                                </div>
-                            )}
-                        </div>
+                    <div className="">
+                        <DisplayEventHeader event={event} />
 
                         {/* Mapa de Puntos de Consumo */}
                         {/* <div>
