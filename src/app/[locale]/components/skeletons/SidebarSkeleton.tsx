@@ -4,7 +4,7 @@ export default function SidebarSkeleton() {
     return (
         <aside
             className={`
-                   sm:top-0 absolute z-10 h-full transform bg-white duration-300 ease-in-out sm:min-h-[50vh] lg:relative lg:block bg-[url('/assets/rec-graf4b.png')] bg-repeat bg-top bg-auto
+                   sm:top-0 absolute z-10 h-full transform bg-white duration-300 ease-in-out min-h-[80vh] sm:min-h-[60vh] lg:relative lg:block bg-[url('/assets/rec-graf4b.png')] bg-repeat bg-top bg-auto
                     `}
             aria-label="Sidebar"
             id="default-sidebar"

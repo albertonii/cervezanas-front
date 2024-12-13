@@ -38,7 +38,7 @@ export default function Signup() {
     return (
         <section className="w-full lg:grid lg:grid-cols-2 bg-[url('/assets/home/bg-home.webp')] bg-auto bg-repeat bg-top h-full">
             {/* Signup form  */}
-            <article className="mx-auto flex w-[80vw] sm:w-[60vw] flex-1 gap-4 flex-col justify-start pl-4 py-12 sm:pl-6 lg:w-full lg:flex-none lg:pl-20 xl:pl-24">
+            <article className="mx-auto flex w-[80vw] sm:w-[60vw] flex-1 gap-4 flex-col justify-start py-12 sm:pl-6 lg:w-full lg:flex-none lg:pl-20 xl:pl-24">
                 <div className="w-full justify-start lg:w-full mx-auto flex flex-1 flex-col lg:flex-none ">
                     <Title size="xlarge" color="beer-blonde">
                         {t('create_account')}
