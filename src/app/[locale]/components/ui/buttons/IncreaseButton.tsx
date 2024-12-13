@@ -1,3 +1,4 @@
+// IncreaseButton.tsx
 import React from 'react';
 import Button from './Button';
 
@@ -7,7 +8,12 @@ interface Props {
 
 export function IncreaseButton({ onClick }: Props) {
     return (
-        <Button box accent onClick={onClick} class={'py-2'}>
+        <Button
+            box
+            accent
+            onClick={onClick}
+            class="px-2 py-1 text-sm sm:px-2 sm:py-1"
+        >
             +
         </Button>
     );

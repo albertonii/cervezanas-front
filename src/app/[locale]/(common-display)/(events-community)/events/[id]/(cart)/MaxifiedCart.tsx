@@ -32,7 +32,7 @@ export default function MaxifiedCart({ items, eventId }: Props) {
     }, [items]);
 
     return (
-        <div className="flex flex-col items-center p-4 bg-white dark:bg-gray-800 rounded-xl shadow-xl transition-transform w-full">
+        <div className="flex flex-col items-center p-2 sm:p-4 bg-white dark:bg-gray-800 rounded-xl shadow-xl transition-transform w-full">
             {/* Contenido */}
             <section className="w-full space-y-4">
                 {items.length === 0 ? (

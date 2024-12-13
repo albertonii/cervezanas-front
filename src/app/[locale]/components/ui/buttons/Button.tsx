@@ -1,8 +1,11 @@
+// Button.tsx
+// Ajustar el tamaño por defecto a algo más pequeño y compacto
+// Para pantallas pequeñas, redujimos los tamaños. Asegúrate de que no haya
+// paddings excesivos. También puedes ajustar más si lo deseas.
+
 import React, { memo, useMemo, useState } from 'react';
-// import { Tooltip } from './Tooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { InfoTooltip } from '../InfoTooltip';
 
 interface ButtonProps {
     onClick?: () => void;
@@ -31,7 +34,7 @@ interface ButtonProps {
     warningIfDisabled?: string;
 }
 
-const Button = memo(function PaginationFooter({
+const Button = memo(function Button({
     onClick,
     isActive = false,
     children,
@@ -47,7 +50,7 @@ const Button = memo(function PaginationFooter({
     primary = false,
     accent = false,
     btnType = '',
-    form, // If set to empty string, the button will not be a submit button
+    form,
     fullSize = false,
     isLoading = false,
     icon,
@@ -61,12 +64,12 @@ const Button = memo(function PaginationFooter({
     );
 
     const getSizeClass = () => {
-        if (small) return 'text-sm lg:text-md lg:px-1';
-        if (medium) return 'px-1 py-2 lg:px-2 text-base';
-        if (large) return 'px-2 lg:px-4 text-base lg:text-lg';
-        if (xLarge) return 'px-3 lg:px-4 text-lg lg:text-xl';
-        if (xxLarge) return 'px-3 lg:px-6 text-xl lg:text-2xl';
-        return '';
+        // Ajustamos tamaños más pequeños
+        if (small) return 'text-xs px-2 py-1';
+        if (medium) return 'px-2 py-1 text-sm';
+        if (large) return 'px-3 py-1 text-base';
+        // Por defecto algo pequeño:
+        return 'px-2 py-1 text-xs';
     };
 
     const getColorClass = () => {
@@ -75,7 +78,7 @@ const Button = memo(function PaginationFooter({
         if (accent)
             return 'border-2 border-beer-blonde bg-beer-foam hover:bg-beer-softFoam';
         if (danger) return 'bg-red-400 hover:bg-red-500 dark:bg-red-600';
-        return 'shrink-0 hover:bg-beer-softBlonde';
+        return 'hover:bg-beer-softBlonde';
     };
 
     const getButtonType = () => {
@@ -89,23 +92,22 @@ const Button = memo(function PaginationFooter({
 
     const iconButton = useMemo(() => {
         if (!icon) return null;
-
         const getColor = () => {
             return isActive ? colorIcon?.filled : colorIcon?.unfilled;
         };
 
         return (
             <FontAwesomeIcon
-                className={`${classIcon} `}
+                className={`${classIcon}`}
                 icon={icon}
-                style={{ color: getColor(), marginRight: '0.5rem' }}
+                style={{ color: getColor(), marginRight: '0.25rem' }}
                 onMouseEnter={() => setHoverIconColor('filled')}
                 onMouseLeave={() => setHoverIconColor('unfilled')}
                 title={'icon_title'}
                 color={hoverColor}
             />
         );
-    }, [classIcon, colorIcon?.filled, colorIcon?.unfilled, icon, isActive]);
+    }, [classIcon, colorIcon, icon, isActive]);
 
     return (
         <div className="relative">
@@ -118,18 +120,18 @@ const Button = memo(function PaginationFooter({
                 className={`
                     inline-flex items-center justify-center rounded-md transition duration-200 ease-in-out
                     dark:text-white dark:hover:text-beer-blonde dark:hover:bg-gray-600 dark:border-gray-600 dark:bg-gray-700
-                ${getSizeClass()}
-                ${getColorClass()}
-                ${box ? 'h-auto w-10' : ''}
-                ${disabled ? 'cursor-not-allowed opacity-50' : ''}
-                ${fullSize ? 'w-full' : ''}
-                ${isLoading ? 'opacity-75' : ''}
-                ${className}
-            `}
+                    ${getSizeClass()}
+                    ${getColorClass()}
+                    ${box ? 'w-8 h-8' : ''}
+                    ${disabled ? 'cursor-not-allowed opacity-50' : ''}
+                    ${fullSize ? 'w-full' : ''}
+                    ${isLoading ? 'opacity-75' : ''}
+                    ${className}
+                `}
             >
                 {isLoading ? (
                     <svg
-                        className="animate-spin  mr-3 text-white"
+                        className="animate-spin mr-2 w-4 h-4 text-white"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -149,30 +151,12 @@ const Button = memo(function PaginationFooter({
                         ></path>
                     </svg>
                 ) : (
-                    <div className="">
-                        {iconButton ?? (
-                            <span
-                                className={`text-bear-dark dark:text-gray-300`}
-                            >
-                                {iconButton}
-                            </span>
-                        )}
-
-                        <span className={`font-semibold  ${getSizeClass()}`}>
-                            {children}
-                        </span>
+                    <div className="flex items-center">
+                        {iconButton && iconButton}
+                        {children && <span className="">{children}</span>}
                     </div>
                 )}
             </button>
-
-            {warningIfDisabled && (
-                <InfoTooltip
-                    content={warningIfDisabled}
-                    delay={0}
-                    width={'500px'}
-                    direction={'right'}
-                />
-            )}
         </div>
     );
 });

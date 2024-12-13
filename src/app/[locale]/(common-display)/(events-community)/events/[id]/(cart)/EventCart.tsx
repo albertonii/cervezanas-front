@@ -67,7 +67,7 @@ export default function EventCart({ eventId }: Props) {
             axis="x"
         >
             <section
-                className="fixed max-w-[70vw] sm:max-w-full z-40 rounded-lg border border-beer-softBlonde bg-white dark:bg-gray-800 dark:border-gray-700 shadow-lg transition-colors duration-300"
+                className="fixed max-w-[80vw] sm:max-w-full z-40 rounded-lg border border-beer-softBlonde bg-white dark:bg-gray-800 dark:border-gray-700 shadow-lg transition-colors duration-300"
                 aria-modal="true"
                 role="dialog"
                 tabIndex={-1}

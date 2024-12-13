@@ -1,3 +1,4 @@
+// MarketCartButtons.tsx
 import debounce from 'debounce';
 import React from 'react';
 import { DeleteButton } from '../ui/buttons/DeleteButton';
@@ -25,10 +26,10 @@ export default function MarketCartButtons({
     const onClickDecreaseDebounce = debounce(handleDecreaseCartQuantity, 100);
 
     return (
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2">
             <DecreaseButton onClick={onClickDecreaseDebounce} />
 
-            <span className="text-lg font-semibold text-gray-900 dark:text-white">
+            <span className="text-sm font-semibold text-gray-900 dark:text-white sm:text-base">
                 {quantity}
             </span>
 

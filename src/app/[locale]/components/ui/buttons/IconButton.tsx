@@ -27,11 +27,11 @@ interface IconButtonProps {
 export function IconButton({
     icon,
     onClick,
-    isActive,
+    isActive = false,
     color,
     children,
-    classContainer: classNameContainer,
-    classIcon: classNameIcon,
+    classContainer: classNameContainer = '',
+    classIcon: classNameIcon = '',
     title,
     box,
     circular,
@@ -54,25 +54,16 @@ export function IconButton({
 
         return (
             <FontAwesomeIcon
-                className={`${classNameIcon}`}
+                className={classNameIcon}
                 icon={icon}
                 style={{ color: getColor() }}
                 onMouseEnter={() => setHoverColor('filled')}
                 onMouseLeave={() => setHoverColor('unfilled')}
-                // onClick={onClick}
                 title={title}
                 titleId={title}
             />
         );
-    }, [
-        classNameIcon,
-        color?.filled,
-        color?.unfilled,
-        icon,
-        isActive,
-        onClick,
-        title,
-    ]);
+    }, [classNameIcon, color?.filled, color?.unfilled, icon, isActive, title]);
 
     const getButtonType = () => {
         switch (btnType) {
@@ -83,46 +74,60 @@ export function IconButton({
         }
     };
 
+    // Ajustar tamaños más pequeños y minimalistas
     const getSizeClass = () => {
-        if (size === 'box') return 'text-md ';
-        if (size === 'small') return 'text-md px-4';
-        if (size === 'medium') return 'px-1 sm:px-4 text-base';
-        if (size === 'large') return 'px-2 sm:px-5 text-base sm:text-lg';
-        if (size === 'xLarge') return 'px-3 sm:px-6 text-lg sm:text-xl';
-        if (size === 'xxLarge') return 'px-3 sm:px-6 text-xl sm:text-2xl';
-        return '';
+        switch (size) {
+            case 'box':
+                return 'text-xs w-8 h-8';
+            case 'small':
+                return 'text-xs px-2 py-1';
+            case 'medium':
+                return 'text-sm px-2 py-1';
+            case 'large':
+                return 'text-base px-3 py-1';
+            case 'xLarge':
+                return 'text-lg px-3 py-1';
+            case 'xxLarge':
+                return 'text-xl px-3 py-2';
+            default:
+                // Por defecto, algo pequeño para móvil
+                return 'text-xs px-2 py-1';
+        }
     };
 
     const getColorClass = () => {
         if (primary)
-            return 'bg-beer-foam hover:bg-beer-softBlonde dark:bg-beer-dark ';
+            return 'bg-beer-foam hover:bg-beer-softBlonde dark:bg-beer-dark';
         if (accent) return 'bg-beer-foam hover:bg-beer-softFoam';
         if (danger) return 'bg-red-500 hover:bg-red-600 dark:bg-red-600';
-        return 'shrink-0 hover:bg-beer-softBlonde';
+        return 'hover:bg-beer-softBlonde';
     };
 
     return (
         <button
-            type={`${getButtonType()}`}
+            type={getButtonType()}
             onClick={onClick}
             color={hoverColor}
+            disabled={disabled || isLoading}
+            data-testid={title}
             className={`
-                sm:p-1 mt-0 flex items-center justify-center rounded border-2 border-beer-blonde dark:border-beer-draft transition duration-100 ease-in dark:hover:bg-beer-draft hover:bg-beer-softBlonde
-                ${box && 'h-auto w-10'}
+                flex items-center justify-center rounded border-2 border-beer-blonde dark:border-beer-draft
+                transition duration-100 ease-in
+                ${box ? 'w-8 h-8' : ''}
                 ${
-                    circular &&
-                    'bg-red-500 hover:bg-red-600 text-white rounded-full px-2 '
+                    circular
+                        ? 'bg-red-500 hover:bg-red-600 text-white rounded-full px-2'
+                        : ''
                 }
-                ${disabled && 'cursor-not-allowed opacity-50'}
+                ${disabled ? 'cursor-not-allowed opacity-50' : ''}
                 ${classNameContainer} 
                 ${getColorClass()}
                 ${getSizeClass()}
             `}
-            data-testid={`${title}`}
         >
             {isLoading ? (
                 <svg
-                    className="animate-spin h-5 w-5 mr-3 text-white"
+                    className="animate-spin w-4 h-4 mr-1 text-white"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -138,22 +143,18 @@ export function IconButton({
                     <path
                         className="opacity-75"
                         fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 
+                         3.042 1.135 5.824 3 7.938l3-2.647z"
                     ></path>
                 </svg>
             ) : (
-                <div className="gap-2 space-x-1">
-                    {iconButton ?? (
-                        <span className={`text-bear-dark dark:text-white `}>
-                            {iconButton}
+                <div className="flex items-center space-x-1">
+                    {iconButton}
+                    {children && (
+                        <span className="font-semibold dark:text-gray-300">
+                            {children}
                         </span>
                     )}
-
-                    <span
-                        className={`font-semibold dark:text-gray-300 ${getSizeClass()}`}
-                    >
-                        {children}
-                    </span>
                 </div>
             )}
         </button>

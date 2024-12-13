@@ -40,7 +40,7 @@ export default function EventPackItem({ pack, item, eventId }: Props) {
 
     return (
         <div
-            className={`flex items-center justify-between bg-white dark:bg-gray-800 space-x-2 rounded-lg p-3 shadow-sm hover:shadow-md transition ${
+            className={`flex items-center justify-between  space-x-2 rounded-lg sm:p-3 shadow-sm hover:shadow-md transition ${
                 animateRemove ? 'opacity-0 transform translate-x-4' : ''
             }`}
         >
@@ -53,11 +53,11 @@ export default function EventPackItem({ pack, item, eventId }: Props) {
                 alt={pack.name}
                 width={48}
                 height={48}
-                class="w-12 h-12 sm:w-16 sm:h-16 rounded-md object-cover"
+                class="hidden sm:block w-12 h-12 sm:w-16 sm:h-16 rounded-md object-cover"
             />
 
             {/* Información del Producto */}
-            <div className="flex-1 px-4 flex flex-col">
+            <div className="flex-1 sm:px-4 flex flex-col">
                 <Label
                     size="small"
                     font="medium"
