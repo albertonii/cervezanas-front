@@ -1,4 +1,4 @@
-import useEventCartStore from '@/app/store//eventCartStore';
+import useEventCartStore from '@/app/store/eventCartStore';
 import MarketCartButtons from '@/app/[locale]/components/cart/MarketCartButtons';
 import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
 import Label from '@/app/[locale]/components/ui/Label';
@@ -7,7 +7,6 @@ import { Type } from '@/lib/productEnum';
 import { useTranslations } from 'next-intl';
 import { SupabaseProps } from '@/constants';
 import { formatCurrency } from '@/utils/formatCurrency';
-
 import {
     IProduct,
     IProductPack,
@@ -30,9 +29,7 @@ export default function EventCheckoutPackItem({
     pack,
 }: Props) {
     const t = useTranslations();
-
     const cpId = productPack.cp_id;
-
     const [animateRemove, setAnimateRemove] = useState(false);
     const [packQuantity, setPackQuantity] = React.useState(0);
 
@@ -48,133 +45,128 @@ export default function EventCheckoutPackItem({
         setPackQuantity(
             getPackQuantity(eventId, pack.product_id, cpId, pack.id),
         );
-    }, [eventCarts]);
+    }, [eventCarts, eventId, pack.product_id, cpId, pack.id, getPackQuantity]);
 
-    const handleIncreaseCartQuantity = (
-        item: IProductPackEventCartItem,
-        pack: IProductPack,
-    ) => {
-        increaseOnePackCartQuantity(eventId, item.product_id, cpId, pack.id);
+    const handleIncreaseCartQuantity = () => {
+        increaseOnePackCartQuantity(
+            eventId,
+            productPack.product_id,
+            cpId,
+            pack.id,
+        );
     };
 
-    const handleDecreaseCartQuantity = (
-        item: IProductPackEventCartItem,
-        pack: IProductPack,
-    ) => {
-        decreaseOnePackCartQuantity(eventId, item.product_id, cpId, pack.id);
+    const handleDecreaseCartQuantity = () => {
+        decreaseOnePackCartQuantity(
+            eventId,
+            productPack.product_id,
+            cpId,
+            pack.id,
+        );
     };
 
-    const handleRemoveFromCart = (
-        item: IProductPackEventCartItem,
-        packId: string,
-    ) => {
+    const handleRemoveFromCart = () => {
         setAnimateRemove(true);
         setTimeout(() => {
-            removeFromCart(eventId, item.product_id, cpId, packId);
+            removeFromCart(eventId, productPack.product_id, cpId, pack.id);
         }, 500);
     };
 
     return (
-        <div className="flex flex-col md:flex-row items-center bg-white dark:bg-gray-800 rounded-lg shadow py-2">
-            {/* Imagen del producto */}
-            <figure className="w-full md:w-1/4 xl:w-1/3 flex justify-center mb-4 md:mb-0">
-                <DisplayImageProduct
-                    imgSrc={
-                        BASE_PRODUCTS_URL + decodeURIComponent(pack.img_url)
-                    }
-                    alt={pack.name}
-                    width={600}
-                    height={600}
-                    class="h-20 w-20  lg:h-24 lg:w-24 xl:h-36 xl:w-36 rounded shadow"
+        <div
+            className={`bg-white dark:bg-gray-800 rounded-lg shadow p-2 sm:p-3 
+            transition-opacity ${
+                animateRemove ? 'opacity-0 translate-x-4' : ''
+            }`}
+        >
+            {/* Contenedor principal flexible */}
+            <div
+                className="flex flex-wrap items-center 
+                           justify-center gap-2 
+                           sm:justify-start sm:gap-3 
+                           md:gap-4"
+            >
+                {/* Imagen del producto */}
+                <figure className="flex-shrink-0">
+                    <DisplayImageProduct
+                        imgSrc={
+                            BASE_PRODUCTS_URL + decodeURIComponent(pack.img_url)
+                        }
+                        alt={pack.name}
+                        width={600}
+                        height={600}
+                        class="h-12 w-12 sm:h-16 sm:w-16 lg:h-20 lg:w-20 rounded shadow object-cover"
+                    />
+                </figure>
+
+                {/* Nombre del producto */}
+                <Label
+                    size="small"
+                    color="black"
+                    font="semibold"
+                    className="truncate max-w-[100px] sm:max-w-[150px] md:max-w-[200px]"
+                >
+                    {pack.name}
+                </Label>
+
+                {/* Precio Unitario */}
+                <Label
+                    color="black"
+                    size="small"
+                    font="semibold"
+                    className="whitespace-nowrap"
+                >
+                    {formatCurrency(pack.price)}
+                </Label>
+
+                {/* Botones de cantidad */}
+                <MarketCartButtons
+                    quantity={packQuantity}
+                    item={productPack}
+                    handleIncreaseCartQuantity={handleIncreaseCartQuantity}
+                    handleDecreaseCartQuantity={handleDecreaseCartQuantity}
+                    handleRemoveFromCart={handleRemoveFromCart}
+                    displayDeleteButton={true}
                 />
-            </figure>
 
-            {/* Detalles del producto */}
-            <div className="w-full  flex flex-col md:flex-row md:items-center md:justify-between">
-                <div className="flex flex-col items-center md:items-start text-center md:text-left">
-                    <Label size="large" color="black" font="semibold">
-                        {pack.name}
-                    </Label>
+                {/* Precio total */}
+                <Label
+                    size="small"
+                    font="semibold"
+                    className="whitespace-nowrap"
+                >
+                    {formatCurrency(pack.price * packQuantity)}
+                </Label>
 
-                    {/* Product Type Beer */}
-                    {productWithInfo.type === Type.BEER &&
-                        productWithInfo.beers && (
-                            <div className="flex flex-col items-start justify-start space-y-2">
-                                <div className="flex items-center gap-2">
-                                    <Label size="small" color="gray">
-                                        {t('aroma')}:{' '}
-                                    </Label>
-
-                                    <Label size="small" color="black">
-                                        {t(`${productWithInfo.beers?.aroma}`)}
-                                    </Label>
-                                </div>
-
-                                <div className="flex items-center gap-2">
-                                    <Label size="small" color="gray">
-                                        {t('family')}:{' '}
-                                    </Label>
-
-                                    <Label size="small" color="black">
-                                        {t(`${productWithInfo.beers?.family}`)}
-                                    </Label>
-                                </div>
-
-                                <div className="flex items-center gap-2">
-                                    <Label size="small" color="gray">
-                                        {t('fermentation')}:{' '}
-                                    </Label>
-
-                                    <Label size="small" color="black">
-                                        {t(
-                                            `${productWithInfo.beers?.fermentation}`,
-                                        )}
-                                    </Label>
-                                </div>
-                            </div>
-                        )}
-                </div>
-
-                <div className="flex w-full flex-col items-center justify-between space-y-2 sm:flex-row sm:space-x-8">
-                    <div className="flex w-full items-center justify-between space-x-2 justify-center">
-                        <Label color="black" size="large">
-                            {formatCurrency(pack.price)}
-                            {/* <span className="text-red-300 line-through">
-                                {' '}
-                                45.00€
-                            </span> */}
-                        </Label>
-
-                        <div className="text-base leading-6 text-gray-800 dark:text-white xl:text-lg mt-6 flex w-full justify-between space-x-2">
-                            <MarketCartButtons
-                                quantity={packQuantity}
-                                item={productPack}
-                                handleIncreaseCartQuantity={() =>
-                                    handleIncreaseCartQuantity(
-                                        productPack,
-                                        pack,
-                                    )
-                                }
-                                handleDecreaseCartQuantity={() =>
-                                    handleDecreaseCartQuantity(
-                                        productPack,
-                                        pack,
-                                    )
-                                }
-                                handleRemoveFromCart={() =>
-                                    handleRemoveFromCart(productPack, pack.id)
-                                }
-                                displayDeleteButton={true}
-                            />
+                {/* Información adicional (sólo en pantallas medianas o mayores) */}
+                {productWithInfo.type === Type.BEER && productWithInfo.beers && (
+                    <div className="hidden md:flex flex-row flex-wrap gap-2 items-center w-full mt-1 md:mt-2">
+                        <div className="flex items-center gap-1">
+                            <Label size="xsmall" color="gray">
+                                {t('aroma')}:
+                            </Label>
+                            <Label size="xsmall" color="black">
+                                {t(`${productWithInfo.beers?.aroma}`)}
+                            </Label>
+                        </div>
+                        <div className="flex items-center gap-1">
+                            <Label size="xsmall" color="gray">
+                                {t('family')}:
+                            </Label>
+                            <Label size="xsmall" color="black">
+                                {t(`${productWithInfo.beers?.family}`)}
+                            </Label>
+                        </div>
+                        <div className="flex items-center gap-1">
+                            <Label size="xsmall" color="gray">
+                                {t('fermentation')}:
+                            </Label>
+                            <Label size="xsmall" color="black">
+                                {t(`${productWithInfo.beers?.fermentation}`)}
+                            </Label>
                         </div>
                     </div>
-
-                    <div className="w-full">
-                        <Label size="xlarge" font="semibold">
-                            {formatCurrency(pack.price * packQuantity)}
-                        </Label>
-                    </div>
-                </div>
+                )}
             </div>
         </div>
     );
