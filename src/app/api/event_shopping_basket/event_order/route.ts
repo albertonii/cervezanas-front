@@ -239,7 +239,7 @@ export async function POST(request: NextRequest) {
         }
 
         return NextResponse.json(
-            { message: error.message || 'Error creating event order' },
+            { message: error.message || 'Error creating event order - catch' },
             { status: 500 },
         );
     }

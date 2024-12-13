@@ -9,8 +9,8 @@ export default function Footer() {
     const locale = useLocale();
 
     return (
-        <footer className="relative z-10 w-full bg-cerv-coffee border-t-8 border-beer-blonde mx-auto px-4 pt-12 md:px-24 lg:px-8">
-            <div className="absolute top-0 left-0 w-full h-full z-[-1]">
+        <footer className="relative z-10 w-full bg-cerv-coffee dark:bg-gray-900 border-t-8 border-beer-blonde px-4 pt-12 md:px-24 lg:px-8">
+            <div className="absolute inset-0 z-[-1]">
                 <Image
                     src="/assets/rec-graf4c.png"
                     alt="Background"
@@ -21,9 +21,9 @@ export default function Footer() {
                 />
             </div>
 
-            <div className="row-gap-10 mb-8 grid gap-16 lg:grid-cols-6 max-w-[1240px] m-auto">
+            <div className="grid gap-16 lg:grid-cols-6 max-w-[1240px] mx-auto">
                 {/* Descripción de la empresa */}
-                <div className="md:max-w-md lg:col-span-2">
+                <div className="lg:col-span-2">
                     <Link
                         href="/"
                         aria-label="Go home"
@@ -44,14 +44,12 @@ export default function Footer() {
                         </span>
                     </Link>
 
-                    <div className=" mt-4 ">
-                        <p className="w-[200px] sm:w-[1000px] max-w-sm sm:max-w-lg lg:max-w-2xl text-deep-purple-50 text-xl italic text-beer-softFoam">
-                            Somos una comunidad de productores, distribuidores y
-                            apasionados de la cerveza artesanal, buscando
-                            fomentar el intercambio de conocimientos y la
-                            innovación en el sector
-                        </p>
-                    </div>
+                    <p className="w-full mt-4 text-lg text-white dark:text-gray-300 italic max-w-xl">
+                        Somos una comunidad de productores, distribuidores y
+                        apasionados de la cerveza artesanal, buscando fomentar
+                        el intercambio de conocimientos y la innovación en el
+                        sector
+                    </p>
                 </div>
 
                 {/* Links */}
