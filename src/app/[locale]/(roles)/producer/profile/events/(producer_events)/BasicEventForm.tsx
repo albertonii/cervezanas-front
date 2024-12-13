@@ -5,7 +5,7 @@ import InputTextarea from '@/app/[locale]/components/form/InputTextarea';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
-import { EventCategory, EVENT_CATEGORIES } from '@/lib/enums';
+import { EVENT_CATEGORIES } from '@/lib/enums';
 
 interface Props {
     form: UseFormReturn<any, any>;
@@ -15,14 +15,6 @@ export default function BasicEventForm({ form }: Props) {
     const t = useTranslations('event');
 
     const { setValue } = form;
-
-    const handleChangeCategory = (
-        event: React.ChangeEvent<HTMLSelectElement>,
-    ) => {
-        const value: any = event?.target.value;
-        console.log(value);
-        setValue('category', value);
-    };
 
     return (
         <>
@@ -51,8 +43,10 @@ export default function BasicEventForm({ form }: Props) {
                         registerOptions={{
                             required: true,
                         }}
-                        onChange={handleChangeCategory}
-                        defaultValue={EventCategory.SOCIAL_GATHERINGS}
+                        onChange={(event) =>
+                            setValue('category', event.target.value)
+                        }
+                        translateLabelTxt="event"
                     />
                 </div>
 

@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo } from 'react';
 import { useTranslations } from 'next-intl';
 import { UseFormReturn } from 'react-hook-form';
 import { InfoTooltip } from '../ui/InfoTooltip';
@@ -10,7 +10,6 @@ interface Props {
     options: { label: string; value: any }[];
     label: string;
     labelText?: string;
-    defaultValue?: any;
     registerOptions?: {
         required?: boolean;
         min?: number;
@@ -25,6 +24,7 @@ interface Props {
     onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
     optionLabelTranslationPrefix?: string;
     isRequired?: boolean;
+    translateLabelTxt?: string;
 }
 
 const SelectInput = memo(
@@ -34,23 +34,26 @@ const SelectInput = memo(
         label,
         labelText,
         labelTooltip,
-        defaultValue,
         registerOptions,
         onChange,
         optionLabelTranslationPrefix,
         isRequired = false,
+        translateLabelTxt = '',
     }: Props) => {
-        const t = useTranslations();
+        const t = useTranslations(translateLabelTxt);
 
         const {
             setValue,
+            watch,
             register,
             formState: { errors },
         } = form;
 
+        const currentValue = watch(label); // Obtiene el valor actual del formulario
+
         const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-            setValue(label, e.target.value, { shouldDirty: true });
-            onChange && onChange(e);
+            setValue(label, e.target.value, { shouldDirty: true }); // Actualiza el formulario
+            onChange && onChange(e); // Llama al onChange si está definido
         };
 
         return (
@@ -73,8 +76,8 @@ const SelectInput = memo(
                 <select
                     {...register(label, registerOptions)}
                     id={label}
-                    className="relative  block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm mt-2"
-                    value={defaultValue}
+                    className="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:z-10 focus:border-beer-softBlonde focus:outline-none focus:ring-beer-softBlonde sm:text-sm mt-2"
+                    value={currentValue} // Sincroniza el valor con react-hook-form
                     onChange={handleOnChange}
                 >
                     {options.map((option) => (

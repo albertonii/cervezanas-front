@@ -1388,7 +1388,8 @@
     },
     "about": "Acerca de",
     "go_to_signin_and_signup_page": "Ir a la página de inicio de sesión y registro",
-    "cervezanas_event": "Evento Cervezanas",
+    "cervezanas_event": "Eventos Cervezanas",
+    "events_label": "Eventos",
     "cervezanas_spots": "Puntos Cervezanas",
     "media_uploader": {
         "loading_files": "Cargando archivos ...",
@@ -1554,7 +1555,7 @@
         "exhibitions": "Exhibiciones",
         "pairing_and_gastronomy_events": "Eventos maridaje y gastronomía",
         "fairs_and_exhibitions": "Ferias y exposiciones",
-        "qa_sessions": "Preguntas y respuestas (Q&A)",
+        "q_and_a": "Preguntas y respuestas (Q&A)",
         "happy_hours": "Happy hours",
         "more_info": "Más información",
         "start_date": "Fecha de inicio",
@@ -1591,7 +1592,8 @@
         "email": "Correo electrónico",
         "lookup_order": "Buscar pedido",
         "lookup": "Buscar",
-        "lookup_event_order_action_label": "Buscar pedido"
+        "lookup_event_order_action_label": "Buscar pedido",
+        "category": "Categoría"
     },
     "cp_management": "Administrar Puntos de Consumo",
     "cp_in_events": "Puntos de Consumo en Eventos"

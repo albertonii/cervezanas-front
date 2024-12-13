@@ -126,7 +126,7 @@ export default function UpdateEventModal({
             end_date: formatDateDefaultInput(selectedEvent.end_date),
             logo_url: selectedEvent.logo_url ?? '',
             promotional_url: selectedEvent.promotional_url ?? '',
-            category: selectedEvent.category,
+            category: selectedEvent.category || EventCategory.SOCIAL_GATHERINGS,
             cps: [], // Inicialmente vacío
             removed_cps: [],
         },
@@ -138,6 +138,16 @@ export default function UpdateEventModal({
         formState: { errors },
         reset,
     } = form;
+
+    useEffect(() => {
+        console.log('selectedEvent.category:', selectedEvent.category);
+        console.log(
+            'Matching category:',
+            EVENT_CATEGORIES.find(
+                (cat) => cat.value === selectedEvent.category,
+            ),
+        );
+    }, [selectedEvent]);
 
     // Reiniciar el formulario cuando checkedCPs esté disponible
     useEffect(() => {
@@ -277,8 +287,7 @@ export default function UpdateEventModal({
     const handleChangeCategory = (
         event: React.ChangeEvent<HTMLSelectElement>,
     ) => {
-        const value: any = event?.target.value;
-
+        const value = event.target.value as EventCategory;
         setValue('category', value);
     };
 
@@ -348,10 +357,7 @@ export default function UpdateEventModal({
                                         required: true,
                                     }}
                                     onChange={handleChangeCategory}
-                                    defaultValue={
-                                        selectedEvent.category ||
-                                        EventCategory.SOCIAL_GATHERINGS
-                                    }
+                                    translateLabelTxt="event"
                                 />
                             </div>
 

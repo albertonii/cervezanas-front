@@ -5,7 +5,7 @@ export enum DistributionOption {
 }
 
 export enum EventOption {
-    EVENT = 'event',
+    EVENTS = 'events_label',
     CERVEZANAS_EVENT = 'CERVEZANAS_EVENT',
 }
 

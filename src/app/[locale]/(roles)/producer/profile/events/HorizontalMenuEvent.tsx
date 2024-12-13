@@ -1,6 +1,6 @@
+import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
 import React from 'react';
 import { EventOption } from '@/lib//enums';
-import HorizontalSections from '@/app/[locale]/components/ui/HorizontalSections';
 
 type Props = {
     setMenuOption: (opt: string) => void;
@@ -15,7 +15,7 @@ export default function HorizontalMenuEvent({ setMenuOption }: Props) {
         <>
             <HorizontalSections
                 handleMenuClick={handleMenuClick}
-                tabs={[EventOption.CERVEZANAS_EVENT, EventOption.EVENT]}
+                tabs={[EventOption.EVENTS, EventOption.CERVEZANAS_EVENT]}
             />
         </>
     );

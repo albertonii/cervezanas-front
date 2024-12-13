@@ -322,7 +322,6 @@ export const SignUpForm = () => {
                         required: true,
                     }}
                     onChange={handleChangeRole}
-                    defaultValue={role}
                 />
 
                 <div className="flex gap-4">

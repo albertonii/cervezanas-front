@@ -1345,6 +1345,7 @@
     },
     "about": "About",
     "go_to_signin_and_signup_page": "Go to sign in and sign up page",
+    "events_label": "event",
     "cervezanas_event": "Cervezanas Event",
     "cervezanas_spots": "Cervezanas Spots",
     "media_uploader": {
@@ -1453,7 +1454,7 @@
         "exhibitions": "Exhibitions",
         "pairing_and_gastronomy_events": "Pairing and gastronomy events",
         "fairs_and_exhibitions": "Fairs and exhibitions",
-        "qa_sessions": "Q&A sessions",
+        "q_and_a": "Q&A sessions",
         "happy_hours": "Happy hours",
         "more_info": "More info",
         "start_date": "Start date",
@@ -1483,7 +1484,8 @@
         "enter_email": "Enter email",
         "view_invoice": "View invoice",
         "status_order_placed": "Order placed",
-        "guest": "Guest"
+        "guest": "Guest",
+        "category": "Category"
     },
 
     "cp_management": "Manage Consumption Points",

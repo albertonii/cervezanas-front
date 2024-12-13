@@ -198,7 +198,6 @@ const InvoiceManagement = () => {
                             registerOptions={{
                                 required: true,
                             }}
-                            defaultValue={invoicePeriodOptions[0].value}
                         />
                     </div>
 

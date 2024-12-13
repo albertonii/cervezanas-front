@@ -17,6 +17,7 @@ import {
     IConsumptionPoint,
     IConsumptionPointEventNoCircularDependency,
 } from '@/lib/types/consumptionPoints';
+import { EventCategory } from '@/lib/enums';
 
 const ModalWithForm = dynamic(() => import('../ModalWithForm'), { ssr: false });
 
@@ -103,6 +104,12 @@ export default function AddEventModal({ cps }: Props) {
         mode: 'onSubmit',
         resolver: zodResolver(schema),
         defaultValues: {
+            name: '',
+            description: '',
+            start_date: '',
+            end_date: '',
+            category: EventCategory.SOCIAL_GATHERINGS, // Valor predeterminado
+            cps: [],
             event_experiences: [],
         },
     });

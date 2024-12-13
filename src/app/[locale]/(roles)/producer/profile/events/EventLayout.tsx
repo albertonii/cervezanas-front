@@ -13,17 +13,14 @@ interface Props {
 }
 
 export default function EventLayout({ cps, counter }: Props) {
-    const [menuOption, setMenuOption] = useState<string>(
-        EventOption.CERVEZANAS_EVENT,
-    );
+    const [menuOption, setMenuOption] = useState<string>(EventOption.EVENTS);
 
     const renderSwitch = () => {
         switch (menuOption) {
+            case EventOption.EVENTS:
+                return <Events cps={cps} counter={counter} />;
             case EventOption.CERVEZANAS_EVENT:
                 return <CervezanasEvents counter={counter} />;
-
-            case EventOption.EVENT:
-                return <Events cps={cps} counter={counter} />;
 
             default:
                 return <></>;

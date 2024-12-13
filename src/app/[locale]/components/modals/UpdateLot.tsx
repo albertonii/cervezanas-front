@@ -243,7 +243,6 @@ export function UpdateLot({
                                 registerOptions={{
                                     required: true,
                                 }}
-                                defaultValue={packagingNum}
                             />
 
                             <InputTextarea

@@ -29,8 +29,6 @@ export async function POST(request: NextRequest) {
         const category = formData.get('category') as string;
         const weight = parseFloat(formData.get('weight') as string);
 
-        console.log('DENTRO', formData);
-
         // Beer Attributes
         const intensity = parseFloat(formData.get('beer.intensity') as string);
         const fermentation = formData.get('beer.fermentation') as string;
