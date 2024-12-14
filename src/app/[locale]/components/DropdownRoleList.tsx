@@ -1,12 +1,12 @@
 import Link from 'next/link';
+import Spinner from './ui/Spinner';
 import useOnClickOutside from '../../../hooks/useOnOutsideClickDOM';
 import React, { useRef } from 'react';
-import { useAuth } from '../(auth)/Context/useAuth';
-import { generateLink } from '@/utils/utils';
-import { useLocale, useTranslations } from 'next-intl';
 import { ROLE_ENUM } from '@/lib//enums';
+import { generateLink } from '@/utils/utils';
+import { useAuth } from '../(auth)/Context/useAuth';
+import { useLocale, useTranslations } from 'next-intl';
 import { useAppContext } from '@/app/context/AppContext';
-import Spinner from './ui/Spinner';
 
 interface Props {
     handleOnClickRoleOutside: () => void;

@@ -417,7 +417,7 @@ export async function calculateCheapestShippingCostsByDistributor(
 
 // Por cada productor, necesitamos saber cuales son los distribuidores que están asociados a él
 // y que pueden enviar los productos a la dirección de envío seleccionada
-export async function getListAsociatedDistributors(
+export async function getListAssociatedDistributors(
     itemsByProducer: IProductPackCartItem[],
     shippingInfo: IShippingInfo,
 ) {
@@ -437,21 +437,64 @@ export async function getListAsociatedDistributors(
 
         // Iterate through the list of distributors and check if they can deliver to the address
         // If so -> Add the distributor to the list of distributors
-        for (const distributorContract of listOfDistributorsContracts) {
-            if (!distributorContract.distributor_user) continue;
+        for (const contract of listOfDistributorsContracts) {
+            if (!contract.distributor_user) continue;
 
-            const canDeliver = await canDistributorDeliverToAddress(
-                distributorContract.distributor_user,
+            const distributorCoverage =
+                contract.distributor_user.coverage_areas || [];
+            const canDeliver = await isAddressCoveredByDistributor(
+                distributorCoverage,
                 shippingInfo,
             );
 
             if (canDeliver) {
-                availableDistributorContracts.push(distributorContract);
+                availableDistributorContracts.push(contract);
             }
+
+            // const canDeliver = await canDistributorDeliverToAddress(
+            //     distributorContract.distributor_user,
+            //     shippingInfo,
+            // );
+
+            // if (canDeliver) {
+            //     availableDistributorContracts.push(distributorContract);
+            // }
         }
     }
 
     return availableDistributorContracts;
+}
+
+export async function isAddressCoveredByDistributor(
+    // distributorCoverage: IDistributorCoverageArea[],
+    distributorCoverage: any[],
+    clientShippingInfo: IShippingInfo,
+): Promise<boolean> {
+    if (!distributorCoverage || distributorCoverage.length === 0) {
+        return false;
+    }
+
+    // Verificar si alguna de las áreas de cobertura coincide con la información de envío
+    return distributorCoverage.some((area) => {
+        const isCountryMatch =
+            area.country.toLowerCase() ===
+            clientShippingInfo.country.toLowerCase();
+        const isRegionMatch =
+            area.region.toLowerCase() ===
+            clientShippingInfo.region.toLowerCase();
+        const isSubRegionMatch =
+            area.sub_region.toLowerCase() ===
+            clientShippingInfo.sub_region.toLowerCase();
+
+        // Verificar si se requiere nivel de ciudad
+        const isCityMatch = area.city
+            ? area.city.toLowerCase() === clientShippingInfo.city.toLowerCase()
+            : true;
+
+        return (
+            isCountryMatch && isRegionMatch && isSubRegionMatch && isCityMatch
+        );
+    });
 }
 
 export async function getShippingInfo(shippingInfoId: string) {
@@ -506,6 +549,8 @@ export async function canDistributorDeliverToAddress(
     // 2. Get Latitud and Longitud of client shipping address
     const address = `${clientShippingInfo.address}, ${clientShippingInfo.city}, ${clientShippingInfo.zipcode}, ${clientShippingInfo.country}`;
     const clientLatLng = await convertAddressToLatLng(address);
+
+    console.log('LAT LNG', clientLatLng);
 
     if (!clientLatLng) {
         console.error(

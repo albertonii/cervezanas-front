@@ -12,7 +12,7 @@ import {
 } from '@/lib/types/types';
 import {
     calculateCheapestShippingCostsByDistributor,
-    getListAsociatedDistributors,
+    getListAssociatedDistributors,
     getShippingInfo,
 } from '../[locale]/(common-display)/cart/actions';
 
@@ -207,13 +207,7 @@ export function ShoppingCartProvider({ children }: Props) {
         } = {};
 
         if (!items || !selectedShippingInfoId) {
-            return {} as {
-                [producerId: string]: {
-                    items: IProductPackCartItem[];
-                    shippingCost: number;
-                    distributor_id: string;
-                };
-            };
+            return {};
         }
 
         // Agrupar todos aquellos productos que tengan el mismo ID de productor
@@ -234,7 +228,7 @@ export function ShoppingCartProvider({ children }: Props) {
 
         // Debido a que un productor puede tener varios distribuidores, obtenemos el listado de aquellos que pueden enviar los productos
         const distributorsContracts: IDistributionContract[] =
-            await getListAsociatedDistributors(
+            await getListAssociatedDistributors(
                 producerIdAndItems,
                 selectedShippingInfo,
             );
@@ -255,20 +249,29 @@ export function ShoppingCartProvider({ children }: Props) {
                 distributorContractsByProducerId,
             );
 
-            // Update distributor_id in items
-            const newItemsWithDistributorID = itemsProducer.map(
-                (item: IProductPackCartItem) => {
-                    return {
-                        ...item,
-                        distributor_id: shippingCostInformation
-                            ? shippingCostInformation.distributor_id
-                            : null,
-                    };
-                },
+            const updatedItems = itemsProducer.map(
+                (item: IProductPackCartItem) => ({
+                    ...item,
+                    distributor_id: shippingCostInformation
+                        ? shippingCostInformation.distributor_id
+                        : null,
+                }),
             );
 
+            // Update distributor_id in items
+            // const newItemsWithDistributorID = itemsProducer.map(
+            //     (item: IProductPackCartItem) => {
+            //         return {
+            //             ...item,
+            //             distributor_id: shippingCostInformation
+            //                 ? shippingCostInformation.distributor_id
+            //                 : null,
+            //         };
+            //     },
+            // );
+
             producerIdAndItemsWithCosts[producerId] = {
-                items: newItemsWithDistributorID,
+                items: updatedItems,
                 shippingCost: shippingCostInformation
                     ? shippingCostInformation.delivery_cost
                     : null,

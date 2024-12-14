@@ -57,7 +57,6 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
         changeRole(role);
         setDisplayDropdownRoles(false);
     };
-    const [symbol, setSymbol] = useState('>');
 
     useOutsideClick(() => handleOpenCallback(), dropdown);
 
@@ -362,7 +361,7 @@ export function HeaderDropdownButton({ options }: DropdownProps) {
                     src={imageSrc}
                     alt={'Profile'}
                     className={
-                        'h-[40px] w-[40px] lg:h-[50px] lg:w-[50px]  rounded-full bg-beer-blonde border-beer-softBlondeBubble border-2 '
+                        'h-[40px] w-[40px] lg:h-[50px] lg:w-[50px] rounded-full bg-beer-blonde border-beer-softBlondeBubble border-2 '
                     }
                     width={40}
                     height={40}
