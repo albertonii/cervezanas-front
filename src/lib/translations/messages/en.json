@@ -1389,7 +1389,7 @@
         "success_instructions_5": "5. Show your order number when picking up your products.",
         "cancel": "Cancel",
         "confirm": "Confirm",
-        "order_number_cps": "Order #{orderNumber}",
+        "order_number_cps": "Order Number #{orderNumber}",
         "start_order": "Start preparation",
         "products": "Products",
         "total": "Total",

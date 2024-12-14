@@ -98,7 +98,7 @@ const EventCPOrderCard: React.FC<Props> = ({ orderCP }) => {
                 <div className="flex justify-between items-start mb-4">
                     <div>
                         <Label
-                            size="medium"
+                            size="xlarge"
                             font="semibold"
                             className="dark:text-white"
                         >

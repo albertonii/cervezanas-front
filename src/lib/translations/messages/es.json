@@ -1488,7 +1488,7 @@
         "success_instructions_5": "4. Muestra tu número de pedido al recoger tus productos.",
         "cancel": "Cancelar",
         "confirm": "Confirmar",
-        "order_number_cps": "Pedido #{orderNumber}",
+        "order_number_cps": "Número de Pedido #{orderNumber}",
         "start_order": "Iniciar preparación",
         "products": "Productos",
         "total": "Total",

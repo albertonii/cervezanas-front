@@ -58,8 +58,19 @@ export default function SuccessCheckoutInSitePayment({
         <section className="m-4 sm:py-4 lg:py-6 w-full">
             <OrderCPEventInstructions />
 
+            {/* Información de Productos y Packs */}
+            {eventOrderCPs &&
+                eventOrderCPs.map((eventOrderCP) => (
+                    <article key={eventOrderCP.id} className="py-4">
+                        <EventCPOrderProducts
+                            eventOrderCP={eventOrderCP}
+                            domain={domain}
+                        />
+                    </article>
+                ))}
+
             <div className="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:p-2 bg-beer-foam dark:bg-gray-800 rounded-lg border border-gray-700">
-                <header className="flex flex-col">
+                <footer className="flex flex-col">
                     <span className="flex sm:items-baseline sm:space-x-4">
                         <Title size="large" color="beer-draft" font="bold">
                             {t('order_number')} #{order.order_number}
@@ -96,7 +107,7 @@ export default function SuccessCheckoutInSitePayment({
                             {t(order.status)}
                         </Label>
                     </div>
-                </header>
+                </footer>
 
                 <div className="flex items-center justify-center gap-4">
                     <Label
@@ -117,17 +128,6 @@ export default function SuccessCheckoutInSitePayment({
                     </Label>
                 </div>
             </div>
-
-            {/* Información de Productos y Packs */}
-            {eventOrderCPs &&
-                eventOrderCPs.map((eventOrderCP) => (
-                    <article key={eventOrderCP.id} className="py-4">
-                        <EventCPOrderProducts
-                            eventOrderCP={eventOrderCP}
-                            domain={domain}
-                        />
-                    </article>
-                ))}
 
             {/* Información de Pago */}
             <div className="w-full border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg sm:border">
