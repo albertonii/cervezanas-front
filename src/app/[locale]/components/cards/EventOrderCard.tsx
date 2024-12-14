@@ -61,7 +61,8 @@ const EventOrderCard = ({ order, actionButton }: Props) => {
                             className="flex justify-between items-center text-sm text-gray-700 dark:text-gray-300"
                         >
                             <Label size="small" font="medium">
-                                {item.quantity}x {item.product_packs?.name}
+                                {item.quantity} x {item.product_packs?.name} -{' '}
+                                {item.product_packs?.products?.name}
                             </Label>
                             <Label
                                 size="small"

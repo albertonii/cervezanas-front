@@ -18,11 +18,14 @@ const fetchEventOrdersByCPId = async (
                 *,
                 event_orders (
                     *,
-                    users (username)
+                    users (username),
                 ),
                 event_order_items (
                     *,
-                    product_packs (*)
+                    product_packs (
+                        *,
+                        products (name)
+                    )
                 ),
                 cp_events (
                     *,
