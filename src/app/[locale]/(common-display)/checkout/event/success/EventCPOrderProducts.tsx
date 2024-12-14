@@ -1,10 +1,9 @@
-import EventCPProductDetails from './EventCPProductDetails';
-import React from 'react';
-import { IEventOrderCPS } from '@/lib/types/eventOrders';
-import { Store } from 'lucide-react';
+import EventCPOrderCard from './EventCPOrderCard';
 import Title from '@/app/[locale]/components/ui/Title';
 import Label from '@/app/[locale]/components/ui/Label';
-import EventCPOrderCard from './EventCPOrderCard';
+import React from 'react';
+import { Store } from 'lucide-react';
+import { IEventOrderCPS } from '@/lib/types/eventOrders';
 
 interface Props {
     eventOrderCP: IEventOrderCPS;

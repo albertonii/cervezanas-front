@@ -146,7 +146,7 @@ export async function POST(request: NextRequest) {
                 ${productsHTML}
                 </div>
         
-                <a href="#" class="button">Ver Detalles del Pedido</a>
+                <a href="https://www.cervezanas.beer/es/checkout/event/success/in_site_payment?order_number=${order_number}" class="button">Ver Detalles del Pedido</a>
                 
                 <p>Si tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos en <a href="mailto:info@cervezanas.beer">info@cervezanas.beer</a>.</p>
                 <p>¡Gracias por elegir Cervezanas!</p>
