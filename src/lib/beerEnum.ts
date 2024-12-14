@@ -57,6 +57,7 @@ export enum Family {
     belgian_ale,
     german_ale,
     indian_ale,
+    american_ipa,
     american_pale_ale,
     indian_pale_ale,
     lager,
@@ -495,6 +496,10 @@ export const family_options: {
     {
         label: 'indian_ale',
         value: Family.indian_ale,
+    },
+    {
+        label: 'american_ipa',
+        value: Family.american_ipa,
     },
     {
         label: 'american_pale_ale',
