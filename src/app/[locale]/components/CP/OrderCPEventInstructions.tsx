@@ -17,7 +17,7 @@ const OrderCPEventInstructions = () => {
                     </Title>
 
                     <ol className="space-y-2 items-start flex flex-col">
-                        {[1, 2, 3, 4, 5].map((num) => (
+                        {[1, 3, 4, 5].map((num) => (
                             <li key={num}>
                                 <Label
                                     size="medium"
