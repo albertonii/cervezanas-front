@@ -97,7 +97,7 @@ export function IconButton({
 
     const getColorClass = () => {
         if (primary)
-            return 'bg-beer-foam hover:bg-beer-softBlonde dark:bg-beer-dark';
+            return 'bg-beer-gold hover:bg-beer-softBlonde dark:bg-beer-dark dark:bg-beer-draft';
         if (accent) return 'bg-beer-foam hover:bg-beer-softFoam';
         if (danger) return 'bg-red-500 hover:bg-red-600 dark:bg-red-600';
         return 'hover:bg-beer-softBlonde';

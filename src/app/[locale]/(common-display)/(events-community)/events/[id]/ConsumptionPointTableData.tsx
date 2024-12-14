@@ -29,6 +29,10 @@ const ConsumptionPointTableData: React.FC<CPProps> = ({ cp, eventId }) => {
     const t = useTranslations();
     const [isOpen, setIsOpen] = useState(false);
 
+    const activeCPProducts = cp?.cp_products?.filter(
+        (cp_product: IConsumptionPointProduct) => cp_product.is_active,
+    );
+
     const statusClasses = classNames(
         'px-2 sm:px-4 py-1 sm:py-2 text-center rounded-full text-sm font-semibold',
         {
@@ -102,7 +106,7 @@ const ConsumptionPointTableData: React.FC<CPProps> = ({ cp, eventId }) => {
             {isOpen && (
                 <TR>
                     <TD colSpan={5} class_="p-0">
-                        {cp.cp_products?.map(
+                        {activeCPProducts?.map(
                             (product: IConsumptionPointProduct) => (
                                 <CPProductCollapsableItem
                                     key={product.id}
