@@ -25,7 +25,7 @@ const EventCard = ({ event }: EventCardProps) => {
             {/* Imagen del Evento */}
             <div className="relative h-48">
                 <Image
-                    src={event.logo_url || '/assets/default_event.jpg'}
+                    src={event.logo_url || '/assets/mentalpie.jpg'}
                     alt={event.name}
                     layout="fill"
                     objectFit="cover"
