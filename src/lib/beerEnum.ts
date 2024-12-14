@@ -51,9 +51,11 @@ export enum Family {
     ipa,
     hazy_ipa,
     imperial_ipa,
+    red_ipa,
     ale,
     brown_ale,
     pale_ale,
+    red_ale,
     belgian_ale,
     german_ale,
     indian_ale,
@@ -484,6 +486,10 @@ export const family_options: {
     {
         label: 'pale_ale',
         value: Family.pale_ale,
+    },
+    {
+        label: 'red_ale',
+        value: Family.red_ale,
     },
     {
         label: 'belgian_ale',
