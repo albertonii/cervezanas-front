@@ -145,7 +145,7 @@ const CPProductCollapsableItem: React.FC<ProductProps> = ({
                 <div className="ml-4">
                     <Link
                         target={'_blank'}
-                        href={`${ROUTE_EVENTS}/${eventId}${ROUTE_PRODUCTS}/${cpId}`}
+                        href={`${ROUTE_PRODUCTS}/${pack.product_id}`}
                         locale={locale}
                         className="text-beer-gold dark:text-beer-blonde hover:underline text-sm sm:text-base md:text-lg font-semibold"
                     >

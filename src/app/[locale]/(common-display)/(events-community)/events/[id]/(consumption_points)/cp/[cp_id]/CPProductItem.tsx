@@ -157,7 +157,8 @@ const CPProductItem: React.FC<ProductProps> = ({
             <TD class_="text-gray-800 dark:text-gray-100">
                 <Link
                     target={'_blank'}
-                    href={`${ROUTE_EVENTS}/${eventId}${ROUTE_PRODUCTS}/${cpId}`}
+                    // href={`${ROUTE_EVENTS}/${eventId}${ROUTE_PRODUCTS}/${cpProduct.id}`}
+                    href={`${ROUTE_PRODUCTS}/${pack.product_id}`}
                     locale={locale}
                     className="text-beer-gold dark:text-beer-blonde hover:underline"
                 >
