@@ -19,7 +19,11 @@ import { DisplayInputError } from '../ui/DisplayInputError';
 import { formatDateDefaultInput } from '@/utils/formatDate';
 import { validateDateRange } from '@/utils/ZodValidationUtils';
 import { IConsumptionPointEvent } from '@/lib/types/consumptionPoints';
-import { STATUS_OPTIONS, VIEW_CONFIGURATION_OPTIONS } from '@/constants';
+import {
+    STATUS_OPTIONS,
+    VIEW_CONFIGURATION_OPTIONS,
+    VIEW_STEPS,
+} from '@/constants';
 
 // Definición del esquema de validación con Zod
 const formSchema = z
@@ -97,7 +101,8 @@ export default function EditCPointEventModal({
             product_items:
                 selectedCP?.cp_products?.map((p) => p.product_pack_id) || [],
             is_booking_required: selectedCP?.is_booking_required || false,
-            view_configuration: selectedCP?.view_configuration || 'three_step',
+            view_configuration:
+                selectedCP?.view_configuration || VIEW_STEPS.three_steps,
             has_pending_payment: selectedCP?.has_pending_payment || false,
             maximum_capacity: selectedCP?.maximum_capacity || 0,
         },
@@ -123,6 +128,26 @@ export default function EditCPointEventModal({
             setValue('product_items', productPackIds);
         }
     }, [packsInProduct, setValue]);
+
+    const handleOnChangeStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const { value } = e.target;
+        setValue(
+            'status',
+            value as 'active' | 'finished' | 'error' | 'cancelled' | 'paused',
+            { shouldDirty: true },
+        );
+    };
+
+    const handleOnChangeViewConfiguration = (
+        e: React.ChangeEvent<HTMLSelectElement>,
+    ) => {
+        const { value } = e.target;
+        setValue(
+            'view_configuration',
+            value as 'one_step' | 'two_steps' | 'three_steps',
+            { shouldDirty: true },
+        );
+    };
 
     // Definir la mutación para actualizar el PC
     const updateCPMutation = useMutation(
@@ -274,6 +299,7 @@ export default function EditCPointEventModal({
                             label={'status'}
                             labelText={'Estado'}
                             options={STATUS_OPTIONS}
+                            onChange={handleOnChangeStatus}
                         />
 
                         {/* Configuración de vista */}
@@ -282,6 +308,7 @@ export default function EditCPointEventModal({
                             label={'view_configuration'}
                             labelText={'Configuración de Vista'}
                             options={VIEW_CONFIGURATION_OPTIONS}
+                            onChange={handleOnChangeViewConfiguration}
                         />
                     </div>
 

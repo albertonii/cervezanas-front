@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { EVENT_ORDER_CPS_STATUS } from '@/constants';
+import { EVENT_ORDER_CPS_STATUS, VIEW_STEPS } from '@/constants';
 import { EventOrderConfirmationDialog } from '@/app/[locale]/components/CP/EventOrderConfirmationDialog';
 
 interface Props {
@@ -22,13 +22,13 @@ export const OrderActions: React.FC<Props> = ({
     const getNextStatus = (currentStatus: string): string => {
         switch (currentStatus) {
             case 'pending': {
-                if (viewConfiguration === 'one_step') {
+                if (viewConfiguration === VIEW_STEPS.one_step) {
                     return EVENT_ORDER_CPS_STATUS.COMPLETED;
                 }
                 return EVENT_ORDER_CPS_STATUS.PREPARING;
             }
             case 'preparing': {
-                if (viewConfiguration === 'two_steps') {
+                if (viewConfiguration === VIEW_STEPS.two_steps) {
                     return EVENT_ORDER_CPS_STATUS.COMPLETED;
                 }
                 return EVENT_ORDER_CPS_STATUS.READY;

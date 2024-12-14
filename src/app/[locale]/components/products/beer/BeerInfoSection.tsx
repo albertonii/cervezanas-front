@@ -137,9 +137,9 @@ export default function BeerInfoSection({ form, customizeSettings }: Props) {
 
                         <SelectInput
                             form={form}
+                            label={'fermentation'}
                             labelTooltip={'tooltips.fermentation'}
                             options={fermentation_options}
-                            label={'fermentation'}
                             registerOptions={{
                                 required: true,
                                 valueAsNumber: true,

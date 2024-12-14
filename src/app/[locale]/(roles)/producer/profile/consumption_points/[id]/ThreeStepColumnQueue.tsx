@@ -1,8 +1,8 @@
 import React from 'react';
-import { EVENT_ORDER_CPS_STATUS } from '@/constants';
-import { QueueColumn } from '@/app/[locale]/components/CP/QueueColumn';
-import { IEventOrderCPS } from '@/lib/types/eventOrders';
 import { useTranslations } from 'next-intl';
+import { EVENT_ORDER_CPS_STATUS } from '@/constants';
+import { IEventOrderCPS } from '@/lib/types/eventOrders';
+import { QueueColumn } from '@/app/[locale]/components/CP/QueueColumn';
 
 interface Props {
     pendingOrders: IEventOrderCPS[];

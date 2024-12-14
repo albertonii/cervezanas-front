@@ -196,8 +196,14 @@ export const STATUS_OPTIONS = [
     { label: 'Pausado', value: 'paused' },
 ];
 
+export const VIEW_STEPS = {
+    one_step: 'one_step',
+    two_steps: 'two_steps',
+    three_steps: 'three_steps',
+};
+
 export const VIEW_CONFIGURATION_OPTIONS = [
-    { label: '1 Paso', value: 'one_step' },
-    { label: '2 Pasos', value: 'two_steps' },
-    { label: '3 Pasos', value: 'three_steps' },
+    { label: '1 Paso', value: VIEW_STEPS.one_step },
+    { label: '2 Pasos', value: VIEW_STEPS.two_steps },
+    { label: '3 Pasos', value: VIEW_STEPS.three_steps },
 ];

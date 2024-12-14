@@ -6,6 +6,7 @@ import TwoStepColumnQueue from './TwoStepColumnQueue';
 import ThreeStepColumnQueue from './ThreeStepColumnQueue';
 import { IEventOrderCPS } from '@/lib/types/eventOrders';
 import { PendingPaymentColumn } from './PendingPaymentColumn';
+import { VIEW_STEPS } from '@/constants';
 
 interface Props {
     isPendingPayment: boolean;
@@ -29,13 +30,13 @@ export const OrdersQueueColumnManager: React.FC<Props> = ({
     // Determinar el número base de columnas según viewConfig
     let baseCols = 1;
     switch (viewConfig) {
-        case 'one_step':
+        case VIEW_STEPS.one_step:
             baseCols = 1;
             break;
-        case 'two_steps':
+        case VIEW_STEPS.two_steps:
             baseCols = 2;
             break;
-        case 'three_steps':
+        case VIEW_STEPS.three_steps:
             baseCols = 3;
             break;
         default:
