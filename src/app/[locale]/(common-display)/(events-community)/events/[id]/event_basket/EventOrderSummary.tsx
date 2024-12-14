@@ -36,7 +36,7 @@ const EventOrderSummary: React.FC<Props> = ({
     const hasItems = (eventCarts[eventId] || []).length > 0;
 
     const [paymentMethod, setPaymentMethod] = useState<'online' | 'on-site'>(
-        'online',
+        'on-site',
     );
 
     const [isGuest, setIsGuest] = useState(false);
