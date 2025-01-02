@@ -142,9 +142,9 @@ export function IconButton({
                     ></path>
                 </svg>
             ) : (
-                <div className="gap-2 space-x-1">
+                <div className="">
                     {iconButton ?? (
-                        <span className={`text-bear-dark dark:text-white `}>
+                        <span className={`text-bear-dark dark:text-white`}>
                             {iconButton}
                         </span>
                     )}

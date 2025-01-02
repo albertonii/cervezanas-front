@@ -69,7 +69,7 @@ export default function ProductDetails({ product, reviewRef }: Props) {
 
             <section className="col-span-12 mx-6 space-y-4 bg-[url('/assets/rec-graf2b.webp')] bg-auto bg-top bg-no-repeat lg:col-span-8">
                 <section className="flex flex-col sm:flex-row sm:justify-between">
-                    <h2 className=" font-bold lowercase sm:pr-12 font-['NexaRust-script'] text-5xl md:text-6xl text-beer-draft bg-white md:bg-transparent pl-4 sm:pl-12 mb-4 md:-mb-8 dark:text-beer-blonde">
+                    <h2 className="font-bold lowercase sm:pr-12 font-['NexaRust-script'] text-5xl md:text-6xl text-beer-draft bg-white md:bg-transparent pl-4 sm:pl-12 mb-4 md:-mb-8 dark:text-beer-blonde first-letter:uppercase">
                         {product.name}
                     </h2>
 

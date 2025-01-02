@@ -135,11 +135,11 @@ const VerticalFilterMenu = () => {
     };
 
     return (
-        <div className="bg-beer-foam mx-auto absolute md:relative bg-transparent">
+        <div className="bg-beer-foam mx-auto bg-transparent">
             <div className="flex flex-col md:flex-row gap-8">
                 <button
                     onClick={toggleSidebar}
-                    className="text-sm text-gray-600 hover:underline block md:hidden text-left font-semibold pl-2 bg-gray-200 w-[150px] py-1 rounded-r-xl mt-4"
+                    className="text-sm text-gray-600 hover:underline block md:hidden text-left font-semibold pl-2 bg-gray-200 w-[150px] py-1 rounded-r-xl mt-4 absolute md:relative"
                 >
                     {isSidebarVisible
                         ? '< Ocultar Filtros'
@@ -148,10 +148,10 @@ const VerticalFilterMenu = () => {
                 {/* Barra lateral de filtros */}
 
                 <aside
-                    className={`z-20 bg-gray-50 shadow-xl p-4 w-full md:w-64 space-y-6 transition-transform duration-300 ease-in-out dark:bg-gray-700 ${
+                    className={`z-20 bg-gray-50 shadow-xl p-4 w-full md:w-64 space-y-6 transition-transform duration-300 ease-in-out dark:bg-gray-700 absolute md:relative mt-20 max-w-[300px]  ${
                         isSidebarVisible
-                            ? 'transform translate-x-0'
-                            : 'transform -translate-x-full'
+                            ? 'transform translate-x-0 z-0'
+                            : 'transform -translate-x-full z-20'
                     } md:transform-none`} // md:transform-none para ignorar transform en pantallas más grandes
                 >
                     <div className="flex justify-between items-center">

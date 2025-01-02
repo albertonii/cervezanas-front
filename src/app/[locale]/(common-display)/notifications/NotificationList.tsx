@@ -178,7 +178,7 @@ export function NotificationList({ notifications }: Props) {
     );
 
     return (
-        <section className="mb-4 space-y-3  rounded-md border-2 border-beer-blonde  bg-white px-6 py-4 shadow-2xl dark:bg-cerv-titlehigh">
+        <section className="mb-4 space-y-3  rounded-md border-2 border-beer-blonde  bg-white px-6 py-4 shadow-2xl dark:bg-beer-dark dark:bg-opacity-80">
             <TableWithFooterAndSearch
                 columns={columns}
                 data={notifications}

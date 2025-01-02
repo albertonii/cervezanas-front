@@ -150,7 +150,7 @@ export function LocationForm({ profile_location }: Props) {
     return (
         <section
             id="location_data"
-            className="mb-4 space-y-3 bg-white px-6 py-4 border-2 rounded-md border-beer-blonde shadow-2xl dark:bg-cerv-titlehigh"
+            className="mb-4 space-y-3 bg-white px-6 py-4 border-2 rounded-md border-beer-blonde shadow-2xl dark:bg-beer-dark dark:bg-opacity-80"
         >
             <h2 id="location-data-title" className="text-2xl">
                 {t('location')}
