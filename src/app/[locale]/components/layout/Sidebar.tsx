@@ -74,7 +74,7 @@ export function Sidebar({ sidebarLinks }: Props) {
                 <Button
                     aria-controls="default-sidebar"
                     btnType="button"
-                    class="bg-beer-softFoam hover:bg-beer-blonde h-10 w-10 rounded-full p-2 text-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                    class="bg-beer-softFoam hover:bg-beer-blonde h-10 w-10 rounded-full p-2 text-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 border-2 border-beer-draft"
                     onClick={handleClick}
                 >
                     <FontAwesomeIcon
@@ -120,7 +120,7 @@ export function Sidebar({ sidebarLinks }: Props) {
                         <Button
                             aria-controls="default-sidebar"
                             btnType="button"
-                            class="text-gray-500 hover:text-gray-700 focus:outline-none"
+                            class="text-gray-500 hover:text-gray-700 focus:outline-none border-gray-300 border-2 rounded-full  p-1"
                             onClick={handleClick}
                         >
                             <FontAwesomeIcon

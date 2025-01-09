@@ -116,7 +116,7 @@ export function EventOrderList({ counter }: Props) {
         );
 
     return (
-        <section className="mt-2 mb-4 space-y-3 rounded-md border-2 border-beer-blonde  bg-white px-6 py-4 shadow-2xl">
+        <section className="mt-2 mb-4 space-y-3 rounded-md border-2 border-beer-blonde  bg-white px-6 py-4 shadow-2xl dark:bg-beer-dark dark:bg-opacity-80">
             {isError && (
                 <div className="flex items-center justify-center">
                     <span className="text-gray-500 dark:text-gray-400">

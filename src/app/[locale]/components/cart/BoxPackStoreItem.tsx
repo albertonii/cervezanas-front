@@ -156,7 +156,7 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
     };
 
     return (
-        <section className="bg-[url('/assets/rec-graf4c.png')] bg-contain bg-top bg-no-repeat  m-auto w-[280px] bg-white dark:bg-cerv-coffee rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 p-6 h-[490px]">
+        <section className="bg-[url('/assets/rec-graf4c.png')] dark:bg-[url('/assets/rec-graf4b.webp')]  bg-contain bg-top bg-no-repeat  m-auto w-[280px] lg:w-[245px] bg-beer-softerFoam dark:bg-cerv-coffee rounded-lg shadow-sm hover:shadow-xl transition-shadow duration-300 p-4 h-[490px] border-2 border-beer-softBlonde">
             {isLoading ? (
                 <Spinner color="beer-blonde" size="medium" />
             ) : (
@@ -216,7 +216,7 @@ export function BoxPackStoreItem({ product }: StoreItemProps) {
                             {formatCurrency(pack?.price ?? 0)}
                         </Label>
 
-                        <div className="mt-10 flex flex-col items-start space-y-2 text-sm font-medium text-gray-800">
+                        <div className="mt-5 flex flex-col items-start space-y-2 text-sm font-medium text-gray-800">
                             <div className="w-full"></div>
 
                             <div className="mt-4 flex w-full justify-between space-x-2">

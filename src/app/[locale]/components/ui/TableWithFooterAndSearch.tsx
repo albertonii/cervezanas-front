@@ -125,7 +125,7 @@ const TableWithFooterAndSearch: React.FC<TableProps> = ({
 
             <div className="overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50 dark:bg-gray-500">
+                    <thead className="bg-gray-50 dark:bg-cerv-coal">
                         <tr>
                             {columns.map((column) => (
                                 <th
