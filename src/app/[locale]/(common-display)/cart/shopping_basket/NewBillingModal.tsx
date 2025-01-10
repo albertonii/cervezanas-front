@@ -285,17 +285,11 @@ export default function NewBillingModal({ billingAddressesLength }: Props) {
 
                 {/* Render condicional */}
                 {watchType === BillingInformationType.INDIVIDUAL && (
-                    <NewBillingIndividualAddress
-                        form={form}
-                        billingAddressesLength={billingAddressesLength}
-                    />
+                    <NewBillingIndividualAddress form={form} />
                 )}
 
                 {watchType === BillingInformationType.COMPANY && (
-                    <NewBillingCompanyAddress
-                        form={form}
-                        billingAddressesLength={billingAddressesLength}
-                    />
+                    <NewBillingCompanyAddress form={form} />
                 )}
             </>
         </ModalWithForm>
