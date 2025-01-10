@@ -28,6 +28,10 @@ import {
     merchantInfo,
 } from '@/app/[locale]/components/TPV/redsysClient';
 import { CURRENCY_ENUM } from '@/lib/enums';
+import {
+    applyCouponToShipping,
+    groupItemsByProducer,
+} from '@/app/services/shippingServices';
 
 export type FormShippingData = {
     shipping_info_id: string;
@@ -111,15 +115,20 @@ export function ShoppingBasket({ user }: Props) {
     const queryClient = useQueryClient();
 
     useEffect(() => {
-        let subtotal = 0;
+        let tempSubtotal = 0;
         items.forEach((item) => {
             item.packs.forEach((pack) => {
-                subtotal += pack.price * pack.quantity;
+                tempSubtotal += pack.price * pack.quantity;
             });
         });
 
-        setTotal(subtotal + deliveryCost - discountAmount);
-    }, [items, deliveryCost, subtotal, discountAmount]);
+        const shippingDiscount =
+            applyCouponToShipping(promoCode, deliveryCost) ?? 0;
+
+        setTotal(
+            tempSubtotal + (deliveryCost - shippingDiscount) - discountAmount,
+        );
+    }, [items, deliveryCost, subtotal, discountAmount, promoCode]);
 
     useEffect(() => {
         setCanMakeThePaymentResponse(false);
@@ -261,13 +270,21 @@ export function ShoppingBasket({ user }: Props) {
                 .map(({ items }) => items)
                 .flat();
 
+            const groupedByProducer = groupItemsByProducer(newShoppingItems);
+            for (const [producerId, items] of Object.entries(
+                groupedByProducer,
+            )) {
+                const distributor = items[0].distributor_id;
+                <p>Distribuidor asignado: {distributor || 'No asignado'}</p>;
+            }
+
             setShoppingItems(newShoppingItems);
 
             // Obtener listado de elementos que no se pueden enviar - Son aquellos donde el shippingCost es null para el productor
             const undeliverableItems_: {
                 items: IProductPackCartItem[];
-                shippingCost: number;
-                distributor_id: string;
+                shippingCost: number | null;
+                distributor_id: string | null;
             }[] = Object.values(cheapestShippingCostByDistributor).filter(
                 ({ shippingCost }) => shippingCost === null,
             );

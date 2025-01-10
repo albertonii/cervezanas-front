@@ -1,3 +1,4 @@
+import Label from '@/app/[locale]/components/ui/Label';
 import MarketCartButtons from '@/app/[locale]/components/cart/MarketCartButtons';
 import DisplayImageProduct from '@/app/[locale]/components/ui/DisplayImageProduct';
 import React, { useMemo, useState } from 'react';
@@ -5,10 +6,9 @@ import { Weight } from 'lucide-react';
 import { SupabaseProps } from '@/constants';
 import { useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
-import { calculateProductPacksWeight } from '@/utils/distribution';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 import { IProductPack, IProductPackCartItem } from '@/lib/types/types';
-import Label from '@/app/[locale]/components/ui/Label';
+import { calculateProductPacksWeight } from '@/app/services/shippingServices';
 
 const BASE_PRODUCTS_URL = SupabaseProps.BASE_PRODUCTS_URL;
 

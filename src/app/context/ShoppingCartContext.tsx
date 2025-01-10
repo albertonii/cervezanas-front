@@ -7,14 +7,9 @@ import {
     IProductPackCartItem,
     IProduct,
     IProductPack,
-    IDistributionContract,
     IAddress,
 } from '@/lib/types/types';
-import {
-    calculateCheapestShippingCostsByDistributor,
-    getListAssociatedDistributors,
-    getShippingInfo,
-} from '../[locale]/(common-display)/cart/actions';
+import { getCheapestShippingForAllProducers } from '../services/shippingServices';
 
 export interface PromoData {
     id: string;
@@ -54,8 +49,8 @@ type ShoppingCartContextType = {
     ) => Promise<{
         [producerId: string]: {
             items: IProductPackCartItem[];
-            shippingCost: number;
-            distributor_id: string;
+            shippingCost: number | null;
+            distributor_id: string | null;
         };
     }>;
     selectedShippingAddress: IAddress | undefined;
@@ -188,108 +183,20 @@ export function ShoppingCartProvider({ children }: Props) {
         setUndeliverableItems(undeliverableItems_);
     };
 
-    const calculateShippingCostCartContext = async (
-        selectedShippingInfoId: string,
-    ): Promise<{
-        [producerId: string]: {
-            items: IProductPackCartItem[];
-            shippingCost: number;
-            distributor_id: string;
-        };
-    }> => {
-        // Vamos a crear un array de productores con los items que le corresponden y sus costes asociados
-        let producerIdAndItemsWithCosts: {
-            [producerId: string]: {
-                items: IProductPackCartItem[];
-                shippingCost: number | null;
-                distributor_id: string | null;
-            };
-        } = {};
-
-        if (!items || !selectedShippingInfoId) {
-            return {};
-        }
-
-        // Agrupar todos aquellos productos que tengan el mismo ID de productor
-        const producerIdAndItems = items.reduce((acc: any, item) => {
-            if (!acc[item.producer_id]) {
-                acc[item.producer_id] = [];
-            }
-
-            acc[item.producer_id].push(item);
-
-            return acc;
-        }, {});
-
-        // Obtener la información de envío seleccionada
-        const selectedShippingInfo = await getShippingInfo(
-            selectedShippingInfoId,
+    const calculateShippingCostCartContext = async (shippingInfoId: string) => {
+        const shippingMap = await getCheapestShippingForAllProducers(
+            items,
+            shippingInfoId,
         );
 
-        // Debido a que un productor puede tener varios distribuidores, obtenemos el listado de aquellos que pueden enviar los productos
-        const distributorsContracts: IDistributionContract[] =
-            await getListAssociatedDistributors(
-                producerIdAndItems,
-                selectedShippingInfo,
-            );
+        // Identificar los null (no se puede enviar)
+        const undeliverable = Object.values(shippingMap).filter(
+            (x) => x.shippingCost === null,
+        );
 
-        // Ya que un distribuidor puede tener como condición un precio mínimo de productos para enviar, debemos asegurarnos de que los productos cumplan con esta condición
+        handleUndeliverableItems(undeliverable.map((u) => u.items).flat());
 
-        for (const producerId in producerIdAndItems) {
-            const itemsProducer = producerIdAndItems[producerId];
-            const distributorContractsByProducerId =
-                distributorsContracts.filter(
-                    (distributor) => distributor.producer_id === producerId,
-                );
-
-            const shippingCostInformation: {
-                delivery_cost: number | null;
-                distributor_id: string | null;
-            } | null = await calculateCheapestShippingCostsByDistributor(
-                itemsProducer,
-                selectedShippingInfo,
-                distributorContractsByProducerId,
-            );
-
-            const updatedItems = itemsProducer.map(
-                (item: IProductPackCartItem) => ({
-                    ...item,
-                    distributor_id: shippingCostInformation
-                        ? shippingCostInformation.distributor_id
-                        : null,
-                }),
-            );
-
-            // Update distributor_id in items
-            // const newItemsWithDistributorID = itemsProducer.map(
-            //     (item: IProductPackCartItem) => {
-            //         return {
-            //             ...item,
-            //             distributor_id: shippingCostInformation
-            //                 ? shippingCostInformation.distributor_id
-            //                 : null,
-            //         };
-            //     },
-            // );
-
-            producerIdAndItemsWithCosts[producerId] = {
-                items: updatedItems,
-                shippingCost: shippingCostInformation
-                    ? shippingCostInformation.delivery_cost
-                    : null,
-                distributor_id: shippingCostInformation
-                    ? shippingCostInformation.distributor_id
-                    : null,
-            };
-        }
-
-        return producerIdAndItemsWithCosts as {
-            [producerId: string]: {
-                items: IProductPackCartItem[];
-                shippingCost: number;
-                distributor_id: string;
-            };
-        };
+        return shippingMap;
     };
 
     const assignDistributorIdToItems = async (itemsByProducer: {

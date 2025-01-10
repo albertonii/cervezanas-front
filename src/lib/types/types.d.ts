@@ -1941,3 +1941,10 @@ export interface AchievementType {
     description: string;
     icon: string;
 }
+
+export interface ICoverageAreaCost {
+    baseCost: number;
+    weightTo: number;
+    costExtraPerKg: number;
+    // ...
+}

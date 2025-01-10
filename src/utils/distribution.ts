@@ -26,12 +26,3 @@ export function normalizeAddress(str: string) {
         .replace(/[\u0300-\u036f]/g, '')
         .replace(/\s+/g, '');
 }
-
-export function calculateProductPacksWeight(productPack: IProductPackCartItem) {
-    const packQuantity = productPack.packs[0].quantity;
-    const packWeight = productPack.products?.weight ?? 0;
-    const totalWeight = packWeight * packQuantity;
-
-    // Convert gr to KG
-    return totalWeight / 1000;
-}
