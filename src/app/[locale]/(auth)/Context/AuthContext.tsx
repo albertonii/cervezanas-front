@@ -3,7 +3,6 @@
 import useSWR from 'swr';
 import React, { useEffect, useState, createContext, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { Database } from '@/lib//schema';
 import {
     CERVEZANAS_BEER_URL,
     LOCALHOST_3000,
@@ -30,6 +29,7 @@ import {
     sendNewProducerEmail,
     sendPushNotification,
 } from '@/lib//actions';
+import { Database } from '@/lib/schema-prod';
 
 enum PROVIDER_TYPE {
     GOOGLE = 'google',

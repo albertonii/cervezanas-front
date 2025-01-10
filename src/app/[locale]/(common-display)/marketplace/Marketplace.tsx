@@ -53,19 +53,21 @@ export default function Marketplace({ products }: Props) {
                                 key={product.id}
                                 className=" mb-2 px-2 max-h-[500px]"
                             >
-                                {product.type === Type.BEER && (
-                                    <ProductPackStoreItem
-                                        products={products}
-                                        product={product}
-                                    />
-                                )}
+                                {!product.is_for_event &&
+                                    product.type === Type.BEER && (
+                                        <ProductPackStoreItem
+                                            products={products}
+                                            product={product}
+                                        />
+                                    )}
 
-                                {product.type === Type.BOX_PACK && (
-                                    <BoxPackStoreItem
-                                        products={products}
-                                        product={product}
-                                    />
-                                )}
+                                {!product.is_for_event &&
+                                    product.type === Type.BOX_PACK && (
+                                        <BoxPackStoreItem
+                                            products={products}
+                                            product={product}
+                                        />
+                                    )}
                             </article>
                         ))}
                 </section>
