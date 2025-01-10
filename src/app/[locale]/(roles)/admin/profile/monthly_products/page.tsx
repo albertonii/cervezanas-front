@@ -50,6 +50,7 @@ async function getMonthlyProductsData() {
           category, 
           is_monthly, 
           is_available,
+          is_for_event,
           owner_id,
           brewery_id,
           product_media (*)

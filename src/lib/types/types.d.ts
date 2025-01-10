@@ -751,6 +751,7 @@ export type ModalAddProductFormData = {
     category: string;
     is_public: boolean;
     is_available: boolean;
+    is_for_event: boolean;
 
     brewery_id?: string;
     // campaign: string;
@@ -785,6 +786,8 @@ export type ModalUpdateProductFormData = {
     consumption_temperature?: number | null;
     is_public: boolean;
     is_available: boolean;
+    is_for_event: boolean;
+
     volume: number;
     weight: number;
     format: string;
@@ -932,6 +935,7 @@ export interface IProduct {
     category: string;
     is_monthly: boolean;
     is_available: boolean;
+    is_for_event: boolean;
     owner_id: string;
     brewery_id: string;
     order_items?: IOrderItem[];
@@ -963,6 +967,7 @@ export interface IProductFormData {
     category: string;
     is_monthly: boolean;
     is_available: boolean;
+    is_for_event: boolean;
     owner_id: string;
     brewery_id: string;
     order_items?: IOrderItemFormData[];

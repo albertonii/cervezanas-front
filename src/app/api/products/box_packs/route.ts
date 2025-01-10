@@ -19,6 +19,8 @@ export async function POST(request: NextRequest) {
         const is_public = (formData.get('is_public') as string) === 'true';
         const is_available =
             (formData.get('is_available') as string) === 'true';
+        const is_for_event =
+            (formData.get('is_for_event') as string) === 'true';
         const price = parseFloat(formData.get('price') as string);
         const weight = parseFloat(formData.get('weight') as string);
         const slots_per_box = parseFloat(
@@ -36,6 +38,7 @@ export async function POST(request: NextRequest) {
                 description,
                 is_public,
                 is_available,
+                is_for_event,
                 category: Type.BOX_PACK,
                 type: Type.BOX_PACK,
                 owner_id: userId,

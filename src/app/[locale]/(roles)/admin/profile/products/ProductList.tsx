@@ -138,6 +138,13 @@ export function ProductList({
                 is_available ? t('yes') : t('no'),
         },
         {
+            header: t('is_for_event_header'),
+            accessor: 'is_for_event',
+            sortable: true,
+            render: (is_for_event: boolean) =>
+                is_for_event ? t('yes') : t('no'),
+        },
+        {
             header: t('action_header'),
             accessor: 'actions',
             render: (_: any, row: IProduct) => (

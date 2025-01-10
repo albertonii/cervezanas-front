@@ -141,6 +141,7 @@ const schema: ZodType<ModalAddProductFormData> = z.object({
     ),
     is_public: z.boolean(),
     is_available: z.boolean(),
+    is_for_event: z.boolean(),
     volume: z.number().min(0, { message: 'errors.input_number_min_0' }),
     weight: z.number().min(0, { message: 'errors.input_number_min_0' }),
     format: z
@@ -232,6 +233,7 @@ export function AddProductModal() {
             awards,
             is_public,
             is_available,
+            is_for_event,
             name,
             description,
             price,
@@ -282,6 +284,7 @@ export function AddProductModal() {
         formData.append('price', price.toString());
         formData.append('is_public', is_public.toString());
         formData.append('is_available', is_available.toString());
+        formData.append('is_for_event', is_for_event.toString());
         formData.append('category', category);
         formData.append('weight', weight.toString());
 

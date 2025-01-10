@@ -100,6 +100,7 @@ const schema: ZodType<ModalUpdateProductFormData> = z.object({
     consumption_temperature: z.number().nullable().optional(),
     is_public: z.boolean(),
     is_available: z.boolean(),
+    is_for_event: z.boolean(),
     volume: z.number().min(0, { message: 'errors.input_number_min_0' }),
     weight: z.number().min(0, { message: 'errors.input_number_min_0' }),
     format: z
@@ -288,10 +289,8 @@ export function UpdateProductModal({
             type: product.type ?? Type.BEER,
             is_public: product.is_public ?? false,
             is_available: product.is_available ?? false,
+            is_for_event: product.is_for_event ?? false,
             price: product.price ?? 0,
-            // stock_quantity: product.product_inventory?.quantity ?? 0,
-            // stock_limit_notification:
-            //     product.product_inventory?.limit_notification ?? 0,
             format: format,
             volume: volume,
             weight: product.weight ?? 0,
@@ -388,6 +387,7 @@ export function UpdateProductModal({
             price,
             is_public,
             is_available,
+            is_for_event,
             weight,
             brewery_id,
         } = formValues;
@@ -403,6 +403,7 @@ export function UpdateProductModal({
         formData.append('price', price.toString());
         formData.append('is_public', is_public.toString());
         formData.append('is_available', is_available.toString());
+        formData.append('is_for_event', is_for_event.toString());
         formData.append('weight', weight.toString());
         formData.append('product_id', product.id);
 
@@ -748,6 +749,7 @@ export function UpdateProductModal({
             dirtyFields.price ||
             dirtyFields.is_public ||
             dirtyFields.is_available ||
+            dirtyFields.is_for_event ||
             dirtyFields.weight ||
             dirtyFields.brewery_id
         ) {

@@ -63,6 +63,7 @@ const schema: ZodType<ModalUpdateBoxPackFormData> = z.object({
     slots_per_box: z.number().min(1, 'errors.input_number_min_0'),
     is_public: z.boolean(),
     is_available: z.boolean(),
+    is_for_event: z.boolean(),
     name: z.string().nonempty('errors.input_required'),
     description: z.string().nonempty('errors.input_required'),
     price: z.number().min(0, 'errors.input_number_min_0'),
@@ -123,6 +124,7 @@ export function UpdateBoxPackModal({
                             type: item.products.type,
                             is_public: item.products.is_public,
                             is_available: item.products.is_available,
+                            is_for_event: item.products.is_for_event,
                             discount_percent: item.products.discount_percent,
                             weight: item.products.weight,
                             // promo_code: item.products.promo_code,
@@ -163,6 +165,7 @@ export function UpdateBoxPackModal({
         defaultValues: {
             is_public: product.is_public,
             is_available: product.is_available,
+            is_for_event: product.is_for_event,
             name: product.name,
             description: product.description,
             price: product.price,
@@ -226,6 +229,7 @@ export function UpdateBoxPackModal({
             weight,
             is_public,
             is_available,
+            is_for_event,
             slots_per_box,
         } = formValues;
 
@@ -241,6 +245,7 @@ export function UpdateBoxPackModal({
         formData.set('weight', weight.toString());
         formData.set('is_public', is_public.toString());
         formData.set('is_available', is_available.toString());
+        formData.set('is_for_event', is_for_event.toString());
         formData.set('slots_per_box', slots_per_box.toString());
 
         const response = await axios.put(url, formData, {
@@ -358,6 +363,7 @@ export function UpdateBoxPackModal({
             dirtyFields.weight ||
             dirtyFields.is_public ||
             dirtyFields.is_available ||
+            dirtyFields.is_for_event ||
             dirtyFields.slots_per_box
         ) {
             await updateBasicSection(form);

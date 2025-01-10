@@ -13,6 +13,8 @@ export async function PUT(request: NextRequest) {
         const is_public = (formData.get('is_public') as string) === 'true';
         const is_available =
             (formData.get('is_available') as string) === 'true';
+        const is_for_event =
+            (formData.get('is_for_event') as string) === 'true';
         const price = parseFloat(formData.get('price') as string);
         const weight = parseFloat(formData.get('weight') as string);
         const brewery_id = formData.get('brewery_id') as string;
@@ -36,6 +38,7 @@ export async function PUT(request: NextRequest) {
                 price: price,
                 is_public,
                 is_available,
+                is_for_event,
                 weight: weight,
                 owner_id: userId,
                 category: Type.BEER,
