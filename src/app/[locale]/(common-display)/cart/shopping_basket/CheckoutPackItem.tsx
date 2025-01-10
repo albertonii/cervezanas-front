@@ -49,9 +49,20 @@ export default function CheckoutPackItem({ productPack, pack }: Props) {
     };
 
     return (
-        <div className="flex flex-col md:flex-row items-center bg-white dark:bg-gray-900 rounded-lg shadow py-4">
+        <div
+            className={`
+        grid gap-4
+        bg-white dark:bg-gray-900 
+        rounded-lg shadow 
+        p-4
+        // Para móviles (1 columna) 
+        grid-cols-1
+        // Para pantallas md en adelante (3 columnas)
+        md:grid-cols-3
+      `}
+        >
             {/* Imagen del producto */}
-            <figure className="w-full md:w-1/3 flex justify-center mb-4 md:mb-0">
+            <figure className="flex justify-center md:justify-start">
                 <DisplayImageProduct
                     imgSrc={
                         BASE_PRODUCTS_URL + decodeURIComponent(pack.img_url)
@@ -59,44 +70,48 @@ export default function CheckoutPackItem({ productPack, pack }: Props) {
                     alt={pack.name}
                     width={600}
                     height={600}
-                    class="h-24 w-24 md:h-32 md:w-32 lg:h-40 lg:w-40 rounded shadow"
+                    class="h-24 w-24 md:h-32 md:w-32 rounded shadow"
                 />
             </figure>
 
             {/* Detalles del producto */}
-            <div className="w-full md:w-2/3 flex flex-col md:flex-row md:items-center md:justify-between">
-                <div className="flex flex-col items-center md:items-start text-center md:text-left">
-                    <Label size="large" color="black" font="semibold">
-                        {pack.name}
-                    </Label>
+            <div className="flex flex-col justify-center">
+                <Label
+                    size="large"
+                    color="black"
+                    font="semibold"
+                    className="text-center md:text-left"
+                >
+                    {pack.name}
+                </Label>
 
-                    {/* Peso del pack */}
-                    <div className="flex items-center mt-2">
-                        <Weight className="text-gray-600 dark:text-gray-400 mr-2" />
-                        <span className="text-sm text-gray-600 dark:text-gray-400">
-                            {`${packWeight}${t('g')}`}
-                        </span>
-                    </div>
+                {/* Peso del pack */}
+                <div className="flex items-center justify-center md:justify-start mt-2">
+                    <Weight className="text-gray-600 dark:text-gray-400 mr-2" />
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                        {`${packWeight}${t('g')}`}
+                    </span>
                 </div>
+            </div>
 
-                {/* Controles de cantidad y precio */}
-                <div className="mt-4 md:mt-0 flex flex-col items-center md:items-end">
-                    <MarketCartButtons
-                        quantity={pack.quantity}
-                        item={productPack}
-                        handleIncreaseCartQuantity={handleIncreaseCartQuantity}
-                        handleDecreaseCartQuantity={handleDecreaseCartQuantity}
-                        handleRemoveFromCart={handleRemoveFromCart}
-                        displayDeleteButton={true}
-                    />
-                    <div className="mt-2 text-right">
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                            {formatCurrency(pack.price)}/{t('unit')}
-                        </p>
-                        <p className="text-lg font-semibold text-gray-900 dark:text-white">
-                            {formatCurrency(pack.price * pack.quantity)}
-                        </p>
-                    </div>
+            {/* Controles de cantidad y precio */}
+            <div className="flex flex-col items-center md:items-end justify-center">
+                <MarketCartButtons
+                    quantity={pack.quantity}
+                    item={productPack}
+                    handleIncreaseCartQuantity={handleIncreaseCartQuantity}
+                    handleDecreaseCartQuantity={handleDecreaseCartQuantity}
+                    handleRemoveFromCart={handleRemoveFromCart}
+                    displayDeleteButton={true}
+                />
+
+                <div className="mt-2 text-center md:text-right">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {formatCurrency(pack.price)}/{t('unit')}
+                    </p>
+                    <p className="text-lg font-semibold text-gray-900 dark:text-white">
+                        {formatCurrency(pack.price * pack.quantity)}
+                    </p>
                 </div>
             </div>
         </div>
