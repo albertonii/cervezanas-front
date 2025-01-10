@@ -64,10 +64,8 @@ async function getEventExperience(eventId: string, cpId: string) {
                   created_at,
                   event_id,
                   cp_id,
-                  experience_id,
-                  experiences!public_event_experiences_experience_id_fkey (
-                    *
-                  )
+                  experience_id
+                 
                 `,
             )
             .eq('cp_id', cpId)
