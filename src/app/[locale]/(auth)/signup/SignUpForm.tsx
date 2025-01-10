@@ -47,7 +47,7 @@ const schema: ZodType<FormData> = z
             .regex(/^[a-zA-Z0-9._]+$/, {
                 message: 'errors.username_invalid_characters',
             })
-            .max(20, { message: 'errors.input_unsername_max_length_20' })
+            .max(30, { message: 'errors.input_unsername_max_length_20' })
             .transform((val) => val.toLowerCase()), // Normalización a minúsculas
         email: z
             .string()

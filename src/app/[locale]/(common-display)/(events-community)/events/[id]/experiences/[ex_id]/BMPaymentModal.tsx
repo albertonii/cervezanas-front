@@ -1,5 +1,5 @@
 import Modal from '@/app/[locale]/components/modals/Modal';
-import React, { ComponentProps, useState } from 'react';
+import React, { ComponentProps } from 'react';
 import { useTranslations } from 'next-intl';
 import { IBMExperienceParticipants } from '@/lib/types/quiz';
 import { IEventExperience, IExperience } from '@/lib/types/types';

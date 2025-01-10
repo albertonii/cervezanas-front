@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from 'react-query';
-import { Database } from '@/lib/schema-prod';
+import { Database } from '@/lib/schema';
 import { IEvent } from '@/lib/types/eventOrders';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { useAuth } from '../app/[locale]/(auth)/Context/useAuth';

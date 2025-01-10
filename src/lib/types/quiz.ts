@@ -185,17 +185,18 @@ export type IProductQuizFormData = {
     description: string;
     type: ProductType;
     is_public: boolean;
+    is_available: boolean;
+    is_for_event: boolean;
+    is_monthly: boolean;
+    is_archived: boolean;
     discount_percent: number;
     weight: number;
     promo_code: string;
     price: number; // TODO : quitar el price - pq está en product_pack
     campaign_id: string;
-    is_archived: boolean;
     category: string;
-    is_monthly: boolean;
     owner_id: string;
     brewery_id?: string;
-    is_available: boolean;
     beers?: IBeerQuizFormData;
     product_media?: IProductMediaQuizFormData;
 };

@@ -29,7 +29,7 @@ import {
     sendNewProducerEmail,
     sendPushNotification,
 } from '@/lib//actions';
-import { Database } from '@/lib/schema-prod';
+import { Database } from '@/lib/schema';
 
 enum PROVIDER_TYPE {
     GOOGLE = 'google',
