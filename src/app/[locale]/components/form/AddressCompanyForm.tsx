@@ -262,7 +262,7 @@ export default function AddressCompanyForm({ form, addressNameId }: Props) {
                             />
 
                             <label
-                                className="my-3 flex flex-col h-12 w-1/2 items-start space-y-2 text-sm text-gray-600 py-3"
+                                className="flex flex-col h-12 w-1/2 items-start space-y-2 text-sm text-gray-600"
                                 htmlFor="city"
                             >
                                 <span className="font-medium">

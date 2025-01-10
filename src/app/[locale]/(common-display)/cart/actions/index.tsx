@@ -109,11 +109,12 @@ export async function insertIndividualBillingAddress(form: {
     document_id: string;
     phone: string;
     address: string;
+    zipcode: string;
     country: string;
     region: string;
     sub_region: string;
     city: string;
-    zipcode: string;
+    is_default: boolean;
 }) {
     const {
         user_id,
@@ -127,6 +128,7 @@ export async function insertIndividualBillingAddress(form: {
         sub_region,
         city,
         zipcode,
+        is_default,
     } = form;
 
     const url = `${baseUrl}/api/shopping_basket/billing_address`;
@@ -143,6 +145,7 @@ export async function insertIndividualBillingAddress(form: {
     formData.set('sub_region', sub_region);
     formData.set('city', city);
     formData.set('zipcode', zipcode);
+    formData.set('is_default', is_default.toString());
 
     const res = await fetch(url, {
         method: 'POST',
@@ -161,11 +164,13 @@ export async function insertCompanyBillingAddress(form: {
     document_id: string;
     phone: string;
     address: string;
+    zipcode: string;
     country: string;
     region: string;
     sub_region: string;
     city: string;
-    zipcode: string;
+    is_default: boolean;
+    is_company: boolean;
 }) {
     const {
         user_id,
@@ -178,6 +183,8 @@ export async function insertCompanyBillingAddress(form: {
         sub_region,
         city,
         zipcode,
+        is_default,
+        is_company,
     } = form;
 
     const url = `${baseUrl}/api/shopping_basket/company_billing_address`;
@@ -193,7 +200,7 @@ export async function insertCompanyBillingAddress(form: {
     formData.set('sub_region', sub_region);
     formData.set('city', city);
     formData.set('zipcode', zipcode);
-    // formData.set('is_default', is_default.toString());
+    formData.set('is_default', is_default.toString());
 
     const res = await fetch(url, {
         method: 'POST',

@@ -164,6 +164,8 @@ export default function NewBillingModal({ billingAddressesLength }: Props) {
     ) => {
         setIsLoading(true);
 
+        console.log('LENGHT', billingAddressesLength);
+
         const object = {
             user_id: user?.id,
             company_name: form.company_name,

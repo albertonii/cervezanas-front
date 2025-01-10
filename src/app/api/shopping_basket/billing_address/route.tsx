@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
     const sub_region = formData.get('sub_region') as string;
     const city = formData.get('city') as string;
     const zipcode = formData.get('zipcode') as string;
+    const isDefault = formData.get('is_default') as string;
 
     const { data: billingAddress, error: billingAddressError } = await supabase
         .from('billing_info')
@@ -32,6 +33,8 @@ export async function POST(request: NextRequest) {
             sub_region,
             city,
             zipcode,
+            is_default: isDefault === 'true',
+            is_company: false,
         });
 
     if (billingAddressError) {
