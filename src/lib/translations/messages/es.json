@@ -1595,7 +1595,8 @@
         "lookup_order": "Buscar pedido",
         "lookup": "Buscar",
         "lookup_event_order_action_label": "Buscar pedido",
-        "category": "Categoría"
+        "category": "Categoría",
+        "event_inactive": "Evento inactivo"
     },
     "cp_management": "Administrar Puntos de Consumo",
     "cp_in_events": "Puntos de Consumo en Eventos",

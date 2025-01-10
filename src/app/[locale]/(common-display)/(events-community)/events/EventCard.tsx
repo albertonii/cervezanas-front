@@ -1,5 +1,3 @@
-// EventCard.tsx
-
 'use client';
 
 import React from 'react';
@@ -20,16 +18,31 @@ const EventCard = ({ event }: EventCardProps) => {
     const t = useTranslations('event');
     const locale = useLocale();
 
+    // 1. Verificamos si la fecha de hoy está entre start_date y end_date
+    const now = new Date();
+    const start = new Date(event.start_date);
+    const end = new Date(event.end_date);
+
+    const isActive = now >= start && now <= end;
+
     return (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col">
+        <div
+            className={`
+                bg-white dark:bg-gray-800 
+                rounded-lg shadow-md 
+                hover:shadow-lg transition-shadow duration-300 
+                flex flex-col
+                // 2. Aplicamos estilos condicionales si está inactivo
+                ${!isActive ? 'opacity-60 pointer-events-none' : ''}
+            `}
+        >
             {/* Imagen del Evento */}
             <div className="relative h-48">
                 <Image
                     src={event.logo_url || '/assets/mentalpie.jpg'}
                     alt={event.name}
-                    layout="fill"
-                    objectFit="cover"
-                    className="transition-transform duration-300 transform hover:scale-105"
+                    fill
+                    className="object-cover transition-transform duration-300 transform hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-black opacity-25"></div>
                 <div className="absolute bottom-0 left-0 p-2">
@@ -123,64 +136,15 @@ const EventCard = ({ event }: EventCardProps) => {
                     ))}
                 </div>
 
-                {/* Redes Sociales */}
-                {/* <div className="flex space-x-3">
-                    {event.social_links.facebook && (
-                        <a
-                            href={event.social_links.facebook}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Facebook"
-                            className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-500 transition-colors duration-200"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                            >
-                                <path d="M22.675 0h-21.35C.597 0 0 .597 0 1.326v21.348C0 23.403.597 24 1.325 24h11.495v-9.294H9.691V11.08h3.129V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.464.099 2.795.143v3.24l-1.918.001c-1.504 0-1.796.715-1.796 1.764v2.312h3.588l-.467 3.626h-3.121V24h6.116C23.403 24 24 23.403 24 22.674V1.326C24 .597 23.403 0 22.675 0z" />
-                            </svg>
-                        </a>
-                    )}
-                    {event.social_links.twitter && (
-                        <a
-                            href={event.social_links.twitter}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Twitter"
-                            className="text-blue-400 dark:text-blue-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-200"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                            >
-                                <path d="M24 4.557a9.83 9.83 0 01-2.828.775 4.932 4.932 0 002.165-2.724 9.864 9.864 0 01-3.127 1.195 4.916 4.916 0 00-8.38 4.482A13.944 13.944 0 011.671 3.149a4.916 4.916 0 001.523 6.573A4.897 4.897 0 01.964 9.1v.06a4.916 4.916 0 003.946 4.814 4.902 4.902 0 01-2.224.084 4.918 4.918 0 004.588 3.417A9.867 9.867 0 010 19.54a13.94 13.94 0 007.548 2.212c9.056 0 14-7.496 14-13.986 0-.213-.005-.425-.014-.636A10.012 10.012 0 0024 4.557z" />
-                            </svg>
-                        </a>
-                    )}
-                    {event.social_links.instagram && (
-                        <a
-                            href={event.social_links.instagram}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Instagram"
-                            className="text-pink-500 dark:text-pink-400 hover:text-pink-600 dark:hover:text-pink-500 transition-colors duration-200"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                            >
-                                <path d="M7.75 2h8.5C19.193 2 22 4.807 22 8.25v7.5C22 19.193 19.193 22 15.25 22h-8.5C4.807 22 2 19.193 2 15.75v-7.5C2 4.807 4.807 2 7.75 2zm0 2C5.679 4 4 5.679 4 7.75v7.5C4 18.321 5.679 20 7.75 20h8.5C18.321 20 20 18.321 20 16.25v-7.5C20 5.679 18.321 4 16.25 4h-8.5z" />
-                                <path d="M12 7a3 3 0 100-6 3 3 0 000 6zM12 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
-                            </svg>
-                        </a>
-                    )}
-                </div> */}
+                {/* (Opcional) Indicador de evento inactivo o finalizado */}
+                {!isActive && (
+                    <span className="text-red-500 text-sm font-medium">
+                        {t('event_inactive')}
+                    </span>
+                )}
+
+                {/* Si quieres tus redes sociales, descomenta el bloque de abajo */}
+                {/* <div className="flex space-x-3">...</div> */}
             </div>
         </div>
     );
