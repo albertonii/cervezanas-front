@@ -1,9 +1,10 @@
-import useSWRMutation from 'swr/mutation';
+import Title from '../ui/Title';
 import InputLabel from './InputLabel';
+import useSWRMutation from 'swr/mutation';
 import React, { ComponentProps, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { JSONSubRegion } from '@/lib/types/distribution_areas';
 import { DisplayInputError } from '../ui/DisplayInputError';
+import { JSONSubRegion } from '@/lib/types/distribution_areas';
 
 interface Props {
     form: ComponentProps<any>;
@@ -103,9 +104,7 @@ export default function AddressForm({ form, addressNameId }: Props) {
             {/* Address Information */}
             <fieldset className="mb-3 space-y-4 rounded bg-beer-foam">
                 <address className="w-full space-y-2">
-                    <h2 className="my-2 text-lg font-semibold tracking-wide text-gray-700">
-                        {t(`${addressNameId}_data`)}
-                    </h2>
+                    <Title>{t(`${addressNameId}_data`)}</Title>
 
                     <div className="flex gap-4">
                         <InputLabel
@@ -269,7 +268,7 @@ export default function AddressForm({ form, addressNameId }: Props) {
                             />
 
                             <label
-                                className="my-3 flex flex-col h-12 w-1/2 items-start space-y-2 text-sm text-gray-600 py-3"
+                                className=" flex flex-col h-12 w-1/2 items-start space-y-2 text-sm text-gray-600"
                                 htmlFor="city"
                             >
                                 <span className="font-medium">

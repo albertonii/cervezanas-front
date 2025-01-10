@@ -11,7 +11,7 @@ import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
 import { insertCompanyBillingAddress } from '../actions';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
 import { ModalBillingCompanyAddressFormData } from '@/lib/types/types';
@@ -41,13 +41,11 @@ type ValidationSchema = z.infer<typeof schema>;
 
 interface Props {
     billingAddressesLength: number;
+    form: UseFormReturn<any, any>;
 }
 
 export const NewBillingCompanyAddress = forwardRef(
-    (
-        { billingAddressesLength }: Props,
-        ref: Ref<NewBillingCompanyAddressRef>,
-    ) => {
+    ({ billingAddressesLength, form }: Props) => {
         const t = useTranslations();
 
         const { user } = useAuth();
@@ -56,11 +54,6 @@ export const NewBillingCompanyAddress = forwardRef(
         const [isLoading, setIsLoading] = useState(false);
 
         const queryClient = useQueryClient();
-
-        const form = useForm<ValidationSchema>({
-            mode: 'onSubmit',
-            resolver: zodResolver(schema),
-        });
 
         const {
             reset,
@@ -151,18 +144,18 @@ export const NewBillingCompanyAddress = forwardRef(
             },
         );
 
-        useImperativeHandle(
-            ref,
-            () => ({
-                submit: () => {
-                    handleSubmitWithLogging();
-                },
-                trigger: () => {
-                    return trigger();
-                },
-            }),
-            [handleSubmitWithLogging],
-        );
+        // useImperativeHandle(
+        //     ref,
+        //     () => ({
+        //         submit: () => {
+        //             handleSubmitWithLogging();
+        //         },
+        //         trigger: () => {
+        //             return trigger();
+        //         },
+        //     }),
+        //     [handleSubmitWithLogging],
+        // );
 
         return (
             <>

@@ -1598,5 +1598,7 @@
         "category": "Categoría"
     },
     "cp_management": "Administrar Puntos de Consumo",
-    "cp_in_events": "Puntos de Consumo en Eventos"
+    "cp_in_events": "Puntos de Consumo en Eventos",
+    "individual": "Particular",
+    "company_or_freelance": "Empresa/autónomo"
 }

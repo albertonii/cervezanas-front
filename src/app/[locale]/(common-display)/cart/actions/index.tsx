@@ -104,8 +104,8 @@ export async function insertShippingAddress(form: {
 
 export async function insertIndividualBillingAddress(form: {
     user_id: string;
-    name: string;
-    lastname: string;
+    name: string | undefined;
+    lastname: string | undefined;
     document_id: string;
     phone: string;
     address: string;
@@ -133,8 +133,8 @@ export async function insertIndividualBillingAddress(form: {
 
     const formData = new FormData();
     formData.set('user_id', user_id);
-    formData.set('name', name);
-    formData.set('lastname', lastname);
+    formData.set('name', name ?? '');
+    formData.set('lastname', lastname ?? '');
     formData.set('document_id', document_id);
     formData.set('phone', phone);
     formData.set('address', address);
@@ -157,7 +157,7 @@ export async function insertIndividualBillingAddress(form: {
 
 export async function insertCompanyBillingAddress(form: {
     user_id: string;
-    company_name: string;
+    company_name: string | undefined;
     document_id: string;
     phone: string;
     address: string;
@@ -184,7 +184,7 @@ export async function insertCompanyBillingAddress(form: {
 
     const formData = new FormData();
     formData.set('user_id', user_id);
-    formData.set('company_name', company_name);
+    formData.set('company_name', company_name ?? '');
     formData.set('document_id', document_id);
     formData.set('phone', phone);
     formData.set('address', address);

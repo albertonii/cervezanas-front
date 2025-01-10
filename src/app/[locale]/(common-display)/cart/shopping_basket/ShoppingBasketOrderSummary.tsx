@@ -5,6 +5,8 @@ import ShoppingBasketAddressesSummary from './ShoppingBasketAddressesSummary';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { formatCurrency } from '@/utils/formatCurrency';
+import { faWarning } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
 
 interface Props {
@@ -27,6 +29,7 @@ const ShoppingBasketOrderSummary = ({
     const {
         canMakeThePayment,
         selectedShippingAddress,
+        selectedBillingAddress,
         needsToCheckDelivery,
         discountAmount,
         promoCode,
@@ -70,18 +73,36 @@ const ShoppingBasketOrderSummary = ({
 
                 {/* Proceed to pay */}
                 <div className="block sm:flex flex-col w-full items-center justify-center md:items-start md:justify-start gap-2">
+                    {!selectedShippingAddress ||
+                        (!selectedBillingAddress && (
+                            <div className="flex gap-1">
+                                <FontAwesomeIcon
+                                    icon={faWarning}
+                                    style={{ color: '#fdc300' }}
+                                    title={'check_warning'}
+                                    width={80}
+                                    height={80}
+                                />
+                                <Label color="red" size="xsmall">
+                                    {t(
+                                        'need_to_select_shipping_and_billing_address',
+                                    )}
+                                </Label>
+                            </div>
+                        ))}
+
                     <Button
                         large
                         primary
                         title={t('check_can_delivery_to_address')}
                         onClick={checkCanDeliveryToAddress}
                         disabled={
-                            !selectedShippingAddress || !selectedShippingAddress
+                            !selectedShippingAddress || !selectedBillingAddress
                         }
                         warningIfDisabled={t(
                             'need_to_select_shipping_and_billing_address',
                         )}
-                        class='w-[220px] py-4 !px-0 uppercase mb-6  font-bold'
+                        class="uppercase"
                     >
                         {t('check_can_delivery_to_address')}
                     </Button>
@@ -92,7 +113,7 @@ const ShoppingBasketOrderSummary = ({
                         title={t('proceed_to_pay')}
                         disabled={!canMakeThePayment || needsToCheckDelivery}
                         onClick={onSubmit}
-                        class='w-full p-4 uppercase font-weight:800'
+                        class="uppercase"
                     >
                         {t('proceed_to_pay')}
                     </Button>

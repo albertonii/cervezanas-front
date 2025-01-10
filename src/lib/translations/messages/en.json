@@ -1490,5 +1490,7 @@
     },
 
     "cp_management": "Manage Consumption Points",
-    "cp_in_events": "Consumption Points in Events"
+    "cp_in_events": "Consumption Points in Events",
+    "individual": "Individual",
+    "company_or_freelance": "Company/Self-employed"
 }

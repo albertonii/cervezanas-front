@@ -1,74 +1,42 @@
 'use client';
 
+import AddressForm from '@/app/[locale]/components/form/AddressForm';
+import Spinner from '@/app/[locale]/components/ui/Spinner';
 import React, {
     forwardRef,
-    Ref,
     useImperativeHandle,
     useEffect,
     useState,
 } from 'react';
-import { z, ZodType } from 'zod';
 import { useTranslations } from 'next-intl';
-import { insertIndividualBillingAddress } from '../actions';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
 import { useAuth } from '../../../(auth)/Context/useAuth';
 import { useMutation, useQueryClient } from 'react-query';
+import { insertIndividualBillingAddress } from '../actions';
 import { ModalBillingAddressFormData } from '@/lib/types/types';
+import { NewBillingValidationSchema } from './NewBillingModal copy';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import AddressForm from '@/app/[locale]/components/form/AddressForm';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
-
-export type NewBillingIndividualAddressRef = {
-    submit: () => void;
-    trigger: () => Promise<boolean>;
-};
-
-const schema: ZodType<ModalBillingAddressFormData> = z.object({
-    name: z.string().nonempty({ message: 'errors.input_required' }),
-    lastname: z.string().nonempty({ message: 'errors.input_required' }),
-    document_id: z.string().nonempty({ message: 'errors.input_required' }),
-    phone: z.string().nonempty({ message: 'errors.input_required' }),
-    address: z.string().nonempty({ message: 'errors.input_required' }),
-    country: z.string().nonempty({ message: 'errors.input_required' }),
-    region: z.string().nonempty({ message: 'errors.input_required' }),
-    sub_region: z.string().nonempty({ message: 'errors.input_required' }),
-    city: z.string().nonempty({ message: 'errors.input_required' }),
-    zipcode: z.string().nonempty({ message: 'errors.input_required' }),
-    address_extra: z.string().optional(),
-});
-
-type ValidationSchema = z.infer<typeof schema>;
 
 interface Props {
     billingAddressesLength: number;
+    form: UseFormReturn<any, any>;
 }
 
 export const NewBillingIndividualAddress = forwardRef(
-    (
-        { billingAddressesLength }: Props,
-        ref: Ref<NewBillingIndividualAddressRef>,
-    ) => {
+    ({ billingAddressesLength, form }: Props) => {
         const t = useTranslations();
 
         const { user } = useAuth();
         const { handleMessage } = useMessage();
 
+        const {
+            formState: { errors },
+            reset,
+        } = form;
+
         const [isLoading, setIsLoading] = useState(false);
 
         const queryClient = useQueryClient();
-
-        const form = useForm<ValidationSchema>({
-            mode: 'onSubmit',
-            resolver: zodResolver(schema),
-        });
-
-        const {
-            reset,
-            handleSubmit,
-            formState: { errors },
-            trigger,
-        } = form;
 
         useEffect(() => {
             if (Object.keys(errors).length > 0) {
@@ -76,7 +44,9 @@ export const NewBillingIndividualAddress = forwardRef(
             }
         }, [errors]);
 
-        const handleAddBillingAddress = async (form: ValidationSchema) => {
+        const handleAddBillingAddress = async (
+            form: NewBillingValidationSchema,
+        ) => {
             setIsLoading(true);
 
             const object = {
@@ -129,43 +99,43 @@ export const NewBillingIndividualAddress = forwardRef(
             },
         });
 
-        const onSubmit: SubmitHandler<ValidationSchema> = (
-            formValues: ModalBillingAddressFormData,
-        ) => {
-            return new Promise<void>((resolve, reject) => {
-                insertBillingMutation.mutate(formValues, {
-                    onSuccess: () => {
-                        resolve();
-                    },
-                    onError: (error: any) => {
-                        console.error('Mutation error:', error);
-                        reject(error);
-                    },
-                });
-            });
-        };
+        // const onSubmit: SubmitHandler<NewBillingValidationSchema> = (
+        //     formValues: ModalBillingAddressFormData,
+        // ) => {
+        //     return new Promise<void>((resolve, reject) => {
+        //         insertBillingMutation.mutate(formValues, {
+        //             onSuccess: () => {
+        //                 resolve();
+        //             },
+        //             onError: (error: any) => {
+        //                 console.error('Mutation error:', error);
+        //                 reject(error);
+        //             },
+        //         });
+        //     });
+        // };
 
-        const handleSubmitWithLogging = handleSubmit(
-            (data) => {
-                onSubmit(data);
-            },
-            (errors) => {
-                console.error('Validation errors:', errors);
-            },
-        );
+        // const handleSubmitWithLogging = handleSubmit(
+        //     (data) => {
+        //         onSubmit(data);
+        //     },
+        //     (errors) => {
+        //         console.error('Validation errors:', errors);
+        //     },
+        // );
 
-        useImperativeHandle(
-            ref,
-            () => ({
-                submit: () => {
-                    handleSubmitWithLogging();
-                },
-                trigger: () => {
-                    return trigger();
-                },
-            }),
-            [handleSubmitWithLogging],
-        );
+        // useImperativeHandle(
+        //     ref,
+        //     () => ({
+        //         submit: () => {
+        //             handleSubmitWithLogging();
+        //         },
+        //         trigger: () => {
+        //             return trigger();
+        //         },
+        //     }),
+        //     [handleSubmitWithLogging],
+        // );
 
         return (
             <>
