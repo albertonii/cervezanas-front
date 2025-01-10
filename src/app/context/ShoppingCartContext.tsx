@@ -233,6 +233,8 @@ export function ShoppingCartProvider({ children }: Props) {
                 selectedShippingInfo,
             );
 
+        // Ya que un distribuidor puede tener como condición un precio mínimo de productos para enviar, debemos asegurarnos de que los productos cumplan con esta condición
+
         for (const producerId in producerIdAndItems) {
             const itemsProducer = producerIdAndItems[producerId];
             const distributorContractsByProducerId =

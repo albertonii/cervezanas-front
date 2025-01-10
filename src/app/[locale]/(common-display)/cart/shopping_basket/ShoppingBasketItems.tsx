@@ -1,11 +1,11 @@
-import React from 'react';
 import EmptyCart from './EmptyCart';
 import OrderItems from './OrderItems';
+import Title from '@/app/[locale]/components/ui/Title';
+import React from 'react';
 import { useTranslations } from 'next-intl';
 import { IProductPackCartItem } from '@/lib/types/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-import Title from '@/app/[locale]/components/ui/Title';
 
 interface Props {
     items: IProductPackCartItem[];

@@ -3,9 +3,7 @@
 import Link from 'next/link';
 import DeliveryError from '../DeliveryError';
 import CheckoutPackItem from './CheckoutPackItem';
-import Spinner from '@/app/[locale]/components/ui/Spinner';
-import useFetchProductById from '../../../../../hooks/useFetchProductById';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { IProductPackCartItem } from '@/lib/types/types';
 import { useShoppingCart } from '@/app/context/ShoppingCartContext';
