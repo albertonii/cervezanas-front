@@ -240,7 +240,7 @@ export const SignUpForm = () => {
             email: email,
             password: password,
             options: {
-                emailRedirectTo: `${location.origin}/api/auth/callback`,
+                emailRedirectTo: `${location.origin}`,
                 captchaToken: '',
                 data: data,
             },
