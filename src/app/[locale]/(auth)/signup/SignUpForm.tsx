@@ -1,3 +1,5 @@
+import 'react-phone-input-2/lib/style.css';
+
 import Link from 'next/link';
 import Title from '../../components/ui/Title';
 import Label from '../../components/ui/Label';
@@ -10,7 +12,7 @@ import PasswordStrengthIndicator from './PasswordStrengthIndicator';
 import ProducerDisclaimerModal from '../../(roles)/admin/profile/consumption_points/ProducerDisclaimerModal';
 import DistributorDisclaimerModal from '../../(roles)/admin/profile/consumption_points/DistributorDisclaimerModal';
 import ConsumptionPointDisclaimerModal from '../../(roles)/admin/profile/consumption_points/ConsumptionPointDisclaimerModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { z, ZodType } from 'zod';
 import { useMutation } from 'react-query';
 import { useTranslations } from 'next-intl';
@@ -22,6 +24,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SignUpWithPasswordCredentials } from '../Context/AuthContext';
+import { InputPhoneNumber } from '../../components/form/InputPhoneNumber';
 
 interface FormData {
     access_level: string;
@@ -33,6 +36,7 @@ interface FormData {
     company_name?: string;
     id_number?: string;
     company_email?: string;
+    company_phone_country_code?: string;
     company_phone?: string;
     company_description?: string;
     company_legal_representative?: string;
@@ -66,9 +70,13 @@ const schema: ZodType<FormData> = z
         company_name: z.string().optional(),
         id_number: z.string().optional(),
         company_email: z.string().optional(),
+        company_phone_country_code: z.string().optional(),
         company_phone: z.string().optional(),
         company_description: z.string().optional(),
-        company_legal_representative: z.string().optional(),
+        company_legal_representative: z
+            .string()
+            .regex(/^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$/, { message: 'errors.only_text' })
+            .optional(),
     })
     .refine((data) => data.password === data.confirm_password, {
         path: ['confirm_password'],
@@ -187,7 +195,16 @@ export const SignUpForm = () => {
         },
     });
 
-    const { handleSubmit, reset } = form;
+    const {
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = form;
+
+    useEffect(() => {
+        console.log(errors);
+        return () => {};
+    }, [errors]);
 
     const handleChangeRole = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value: any = event?.target.value;
@@ -222,10 +239,13 @@ export const SignUpForm = () => {
             data.company_name = form.company_name;
             data.id_number = form.id_number;
             data.company_email = form.company_email;
-            data.company_phone = form.company_phone;
             data.company_description = form.company_description;
             data.company_legal_representative =
                 form.company_legal_representative;
+
+            data.company_phone =
+                (form.company_phone_country_code ?? '') +
+                (form.company_phone ?? '');
         }
 
         if (
@@ -404,31 +424,20 @@ export const SignUpForm = () => {
                         />
                     </div>
 
-                    <div className="flex gap-4">
-                        <InputLabel
-                            form={form}
-                            label={'company_legal_representative'}
-                            labelText={
-                                'public_user_information.company_legal_representative'
-                            }
-                            registerOptions={{
-                                required: true,
-                            }}
-                            placeholder="Juan Pérez"
-                            disabled={isSignupSubmitLoading}
-                        />
+                    <InputLabel
+                        form={form}
+                        label={'company_legal_representative'}
+                        labelText={
+                            'public_user_information.company_legal_representative'
+                        }
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder="Juan Pérez"
+                        disabled={isSignupSubmitLoading}
+                    />
 
-                        <InputLabel
-                            form={form}
-                            label={'company_phone'}
-                            labelText={'public_user_information.company_phone'}
-                            registerOptions={{
-                                required: true,
-                            }}
-                            placeholder="+34 123 456 789"
-                            disabled={isSignupSubmitLoading}
-                        />
-                    </div>
+                    <InputPhoneNumber form={form} role={role} />
 
                     <InputLabel
                         form={form}
@@ -485,31 +494,20 @@ export const SignUpForm = () => {
                         />
                     </div>
 
-                    <div className="flex gap-4">
-                        <InputLabel
-                            form={form}
-                            label={'company_legal_representative'}
-                            labelText={
-                                'public_user_information.company_legal_representative'
-                            }
-                            registerOptions={{
-                                required: true,
-                            }}
-                            placeholder="Juan Pérez"
-                            disabled={isSignupSubmitLoading}
-                        />
+                    <InputLabel
+                        form={form}
+                        label={'company_legal_representative'}
+                        labelText={
+                            'public_user_information.company_legal_representative'
+                        }
+                        registerOptions={{
+                            required: true,
+                        }}
+                        placeholder="Juan Pérez"
+                        disabled={isSignupSubmitLoading}
+                    />
 
-                        <InputLabel
-                            form={form}
-                            label={'company_phone'}
-                            labelText={'public_user_information.company_phone'}
-                            registerOptions={{
-                                required: true,
-                            }}
-                            placeholder="+34 123 456 789"
-                            disabled={isSignupSubmitLoading}
-                        />
-                    </div>
+                    <InputPhoneNumber form={form} role={role} />
 
                     <InputLabel
                         form={form}

@@ -73,7 +73,6 @@ const InputLabel = ({
         <div className="w-full">
             {(inputType === 'text' ||
                 inputType === 'email' ||
-                inputType === 'tel' ||
                 inputType === 'url' ||
                 inputType === 'date') && (
                 <label
@@ -103,6 +102,50 @@ const InputLabel = ({
                             onChange: handleOnChange,
                         })}
                         placeholder={placeholder}
+                        defaultValue={defaultValue}
+                        disabled={disabled || isLoading}
+                        min={registerOptions?.min}
+                        max={registerOptions?.max}
+                        value={value}
+                        onInput={onInput}
+                        id={label}
+                    />
+                </label>
+            )}
+
+            {inputType === 'tel' && (
+                <label
+                    className="flex w-full flex-col items-start space-y-2 text-sm text-gray-600 dark:text-white"
+                    htmlFor={label}
+                >
+                    <span className="font-medium">
+                        {labelText ? t(labelText) : t(label)}
+                        {isRequired && <span className="text-red-500"> *</span>}
+                        {infoTooltip && (
+                            <InfoTooltip
+                                content={`${t(infoTooltip)}`}
+                                delay={0}
+                                width={600}
+                            />
+                        )}
+                    </span>
+
+                    <input
+                        type="tel"
+                        pattern="^\+[1-9]\d{1,14}$" // E.164
+                        title="Teléfono en formato E.164 (ej: +34600123456)"
+                        className={`
+                            relative block w-full appearance-none rounded-md border 
+                            border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500
+                            focus:z-10 focus:border-beer-softBlonde focus:outline-none 
+                            focus:ring-beer-softBlonde sm:text-sm
+                            ${disabled ? 'bg-gray-100' : ''}
+                            `}
+                        {...register(label, {
+                            ...registerOptions,
+                            onChange: handleOnChange,
+                        })}
+                        placeholder={placeholder || '+34600123456'}
                         defaultValue={defaultValue}
                         disabled={disabled || isLoading}
                         min={registerOptions?.min}

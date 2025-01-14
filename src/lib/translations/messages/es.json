@@ -736,7 +736,8 @@
         "order_not_started": "El pedido no ha comenzado",
         "error_processing_order": "Error al procesar el pedido",
         "invalid_email_format": "Formato de email inválido",
-        "guest_email_required": "El email es obligatorio para los usuarios invitados"
+        "guest_email_required": "El email es obligatorio para los usuarios invitados",
+        "only_text": "Solo se admite texto"
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",

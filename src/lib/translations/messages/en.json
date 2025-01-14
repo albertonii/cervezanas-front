@@ -740,7 +740,8 @@
         "order_not_started": "Order has not started",
         "error_processing_order": "Error processing order",
         "invalid_email_format": "Invalid email format",
-        "guest_email_required": "Guest email is required"
+        "guest_email_required": "Guest email is required",
+        "only_text": "Only text is allowed"
     },
     "product_packs": "Product packs",
     "units": "Units",
