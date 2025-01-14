@@ -7,24 +7,19 @@ export async function POST(request: NextRequest) {
 
     const title = data.get('title') as string;
     const description = data.get('description') as string;
-    const reporter_id = data.get('reporter_id') as string;
-    const file = data.get('file') as File;
+    const reporter_id = data.get('reporter_id') as string | null;
+    const file = data.get('file') as File | null;
 
-    if (!title || !description || !reporter_id || !file) {
+    if (!title || !description) {
         return NextResponse.json(
-            { error: `Error: Missing required fields` },
+            { error: `Error: Missing required fields (title, description)` },
             { status: 500 },
         );
     }
 
-    if (
-        title === '' ||
-        description === '' ||
-        reporter_id === '' ||
-        file === null
-    ) {
+    if (title.trim() === '' || description.trim() === '') {
         return NextResponse.json(
-            { error: `Error: Missing required fields` },
+            { error: `Error: title/description cannot be empty` },
             { status: 500 },
         );
     }
@@ -34,15 +29,22 @@ export async function POST(request: NextRequest) {
     // random file name to avoid unicode issues in the file storage
     const randomTitle = Math.random().toString(36).substring(7);
 
-    const fileUrl = file
-        ? `${reporter_id}_${randomTitle}${generateFileNameExtension(file.name)}`
-        : null;
+    const safeReporterId =
+        reporter_id && reporter_id.trim() !== '' ? reporter_id : 'anonymous';
+
+    let fileUrl: string | null = null;
+    if (file) {
+        fileUrl = `${safeReporterId}_${randomTitle}${generateFileNameExtension(
+            file.name,
+        )}`;
+    }
 
     const { error } = await supabase.from('user_reports').insert({
-        title,
-        description,
-        file: file ? fileUrl : '',
-        reporter_id,
+        title: title.trim(),
+        description: description.trim(),
+        file: fileUrl || '',
+        reporter_id:
+            reporter_id && reporter_id.trim() !== '' ? reporter_id : null,
         is_resolved: false,
     });
 
@@ -55,11 +57,13 @@ export async function POST(request: NextRequest) {
     }
 
     if (!file)
+        // Si no hay archivo, finalizamos
+
         return NextResponse.json({ message: 'Report inserted successfully' });
 
+    // De lo contrario, subimos el archivo
     const fileToUpload = file as File;
 
-    // Add file to storage
     const { error: storageError } = await supabase.storage
         .from('reports')
         .upload(`/reports/${fileUrl}`, fileToUpload, {

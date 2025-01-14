@@ -1497,5 +1497,6 @@
     "cp_management": "Manage Consumption Points",
     "cp_in_events": "Consumption Points in Events",
     "individual": "Individual",
-    "company_or_freelance": "Company/Self-employed"
+    "company_or_freelance": "Company/Self-employed",
+    "report_problem_instructions": "Please describe the problem you encountered. We will contact you as soon as possible. Thank you for your cooperation."
 }

@@ -1607,5 +1607,6 @@
     "cp_management": "Administrar Puntos de Consumo",
     "cp_in_events": "Puntos de Consumo en Eventos",
     "individual": "Particular",
-    "company_or_freelance": "Empresa/autónomo"
+    "company_or_freelance": "Empresa/autónomo",
+    "report_problem_instructions": "Por favor, describe el problema que has encontrado. Nos pondremos en contacto contigo lo antes posible. Gracias por tu colaboración."
 }
