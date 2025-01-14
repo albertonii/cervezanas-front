@@ -14,6 +14,7 @@ export default async function Page({ params }: any) {
 }
 
 async function getGameStateData(gameId: string) {
+    console.log(gameId);
     const supabase = await createServerClient();
 
     const { data: game, error: gameError } = await supabase

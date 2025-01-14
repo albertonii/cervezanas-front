@@ -23,6 +23,7 @@ import {
     IGameState,
     IStep,
 } from '@/lib/types/beerMasterGame';
+import Label from '@/app/[locale]/components/ui/Label';
 
 interface Props {
     gameState: IGameState;
@@ -73,6 +74,7 @@ const Main = ({ gameState }: Props) => {
               )
             : null,
     );
+
     const progress = steps.filter((step) => step.is_completed).length;
 
     useEffect(() => {
@@ -182,51 +184,63 @@ const Main = ({ gameState }: Props) => {
     };
 
     const handleAnswer = (isCorrect: boolean) => {
+        // 1. Chequea si hay step activo
         if (!activeStep) return;
 
+        // 2. Cálculo de tiempos
         const lastVisited = convertToDate(activeStep.last_visited);
         const startTime = lastVisited.getTime() || Date.now();
         const timeSpent = Date.now() - startTime;
 
-        setSteps(
-            steps.map((step) => {
-                if (step.id === activeStep.id) {
-                    const newCorrectAnswers = isCorrect
-                        ? step.correct_answers + 1
-                        : step.correct_answers;
-                    const newQuestionIndex = step.current_question_index + 1;
-                    const isStepCompleted =
-                        step.bm_steps_questions &&
-                        newQuestionIndex >= step.bm_steps_questions?.length;
+        // 4. Generar un nuevo array `newSteps` con los cambios
+        const newSteps = steps.map((step) => {
+            if (step.id === activeStep.id) {
+                const newQuestionIndex = step.current_question_index + 1;
+                const isStepCompleted =
+                    step.bm_steps_questions &&
+                    newQuestionIndex >= step.bm_steps_questions?.length;
 
-                    return {
-                        ...step,
-                        currentQuestionIndex: newQuestionIndex,
-                        correctAnswers: newCorrectAnswers,
-                        isCompleted: isStepCompleted,
-                        timeSpent: (step.time_spent || 0) + timeSpent,
-                        reward:
-                            step.bm_steps_rewards &&
-                            isStepCompleted &&
-                            newCorrectAnswers >=
-                                step.bm_steps_rewards[0].correct_answers
-                                ? { ...step.bm_steps_rewards, claimed: true }
-                                : step.bm_steps_rewards,
-                    };
-                }
-                if (
-                    step.id === activeStep.id + 1 &&
-                    activeStep.bm_steps_questions &&
-                    activeStep.current_question_index + 1 >=
-                        activeStep.bm_steps_questions.length
-                ) {
-                    return { ...step, isUnlocked: true };
-                }
-                return step;
-            }),
-        );
+                // si la respuesta es correcta => le sumo +1 al step
+                const stepCorrectAnswers = isCorrect
+                    ? step.correct_answers + 1
+                    : step.correct_answers;
 
+                return {
+                    ...step,
+                    current_question_index: newQuestionIndex,
+                    correct_answers: stepCorrectAnswers,
+                    is_completed: isStepCompleted || false,
+                    time_spent: (step.time_spent || 0) + timeSpent,
+                    reward:
+                        step.bm_steps_rewards &&
+                        isStepCompleted &&
+                        stepCorrectAnswers >=
+                            step.bm_steps_rewards[0].correct_answers
+                            ? { ...step.bm_steps_rewards, claimed: true }
+                            : step.bm_steps_rewards,
+                };
+            }
+
+            // Desbloquea el siguiente step si acaba el actual
+            if (
+                step.id === activeStep.id + 1 &&
+                activeStep.bm_steps_questions &&
+                activeStep.current_question_index + 1 >=
+                    activeStep.bm_steps_questions.length
+            ) {
+                return { ...step, isUnlocked: true };
+            }
+
+            return step;
+        });
+
+        // 5. Actualiza el estado `steps` con el nuevo array
+        setSteps(newSteps);
+
+        // 6. Busca el step recién modificado en `newSteps`
         const updatedStep = steps.find((s) => s.id === activeStep.id);
+
+        // 7. Revisa si quedan más preguntas en el step
         if (
             updatedStep &&
             updatedStep.bm_steps_questions &&
@@ -258,9 +272,11 @@ const Main = ({ gameState }: Props) => {
                             </h1>
                         </div>
                         <div className="text-right">
-                            <p className="text-xl font-semibold">BBF 2025</p>
+                            <p className="text-xl font-semibold">
+                                {gameState.title}
+                            </p>
                             <p className="text-sm opacity-75">
-                                Barcelona Beer Festival
+                                {gameState.location}
                             </p>
                         </div>
                     </div>
@@ -268,6 +284,8 @@ const Main = ({ gameState }: Props) => {
                         progress={progress}
                         totalSteps={steps.length}
                     />
+
+                    <Label>{gameState.description}</Label>
                 </div>
             </header>
 
@@ -296,6 +314,7 @@ const Main = ({ gameState }: Props) => {
                                 />
                             )}
                         </div>
+
                         <div>
                             <Leaderboard />
                         </div>
@@ -320,11 +339,11 @@ const Main = ({ gameState }: Props) => {
                         }}
                         totalQuestions={activeStep.bm_steps_questions.length}
                         currentQuestionIndex={activeStep.current_question_index}
-                        correctAnswers={activeStep.correct_answers}
                         isLastQuestion={
                             activeStep.current_question_index ===
                             activeStep.bm_steps_questions.length - 1
                         }
+                        correctAnswers={activeStep.correct_answers}
                     />
                 </div>
             )}

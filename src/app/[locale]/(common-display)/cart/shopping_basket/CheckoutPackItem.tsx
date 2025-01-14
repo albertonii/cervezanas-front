@@ -48,18 +48,11 @@ export default function CheckoutPackItem({ productPack, pack }: Props) {
         }, 500);
     };
 
+    console.log(packWeight);
+
     return (
         <div
-            className={`
-        grid gap-4
-        bg-white dark:bg-gray-900 
-        rounded-lg shadow 
-        p-4
-        // Para móviles (1 columna) 
-        grid-cols-1
-        // Para pantallas md en adelante (3 columnas)
-        md:grid-cols-3
-      `}
+            className={`grid gap-4 bg-white dark:bg-gray-900 rounded-lg shadow p-4 grid-cols-1 md:grid-cols-3 `}
         >
             {/* Imagen del producto */}
             <figure className="flex justify-center md:justify-start">

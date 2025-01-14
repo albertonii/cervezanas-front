@@ -21,9 +21,12 @@ export default function BusinessOrderItem({ bOrder }: Props) {
                 {bOrder && (
                     <div className="col-span-2 grid grid-cols-2">
                         <ProductBusinnesInformation bOrder={bOrder} />
-                        <ConsumerShipmentTrackingInformation
-                            shipmentTracking={bOrder.shipment_tracking!}
-                        />
+
+                        {bOrder.shipment_tracking && (
+                            <ConsumerShipmentTrackingInformation
+                                shipmentTracking={bOrder.shipment_tracking}
+                            />
+                        )}
                     </div>
                 )}
 

@@ -3,9 +3,10 @@
 import Modal from './Modal';
 import Spinner from '../ui/Spinner';
 import React, { ComponentProps, useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { IProduct } from '@/lib/types/types';
 import { useMessage } from '../message/useMessage';
 import { useMutation, useQueryClient } from 'react-query';
-import { IProduct } from '@/lib/types/types';
 
 interface Props {
     product: IProduct;
@@ -21,6 +22,7 @@ export function DeleteProductModal({
     showModal,
     handleDeleteShowModal,
 }: Props) {
+    const t = useTranslations('');
     const [isLoading, setIsLoading] = useState(false);
     const { handleMessage } = useMessage();
 
@@ -43,7 +45,7 @@ export function DeleteProductModal({
         if (responseProduct.status !== 200) {
             handleMessage({
                 type: 'error',
-                message: 'Error deleting product',
+                message: t('errors.deleting_product'),
             });
             setIsLoading(false);
             return;
@@ -51,7 +53,7 @@ export function DeleteProductModal({
 
         handleMessage({
             type: 'success',
-            message: 'Product successfully deleted',
+            message: t('success.product_deleted'),
         });
 
         handleDeleteShowModal(false);

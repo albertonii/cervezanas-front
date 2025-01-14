@@ -79,154 +79,286 @@ export async function POST(request: NextRequest) {
                 to: emailTo,
                 subject: `Nuevo pedido recibido #${orderNumber}`,
                 html: `
-                <!DOCTYPE html>
-                <html lang="es">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Confirmación de pedido</title>
-                    <style>
-                        body {
-                            font-family: Arial, sans-serif;
-                            background-color: #f5f5dc; /* Tono crema */
-                            color: #333;
-                            padding: 20px;
-                        }
-                        .container {
-                            max-width: 600px;
-                            margin: 0 auto;
-                            background-color: #fff;
-                            padding: 20px;
-                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                        }
-                        .header {
-                            background-color: #fbb123; /* Tono dorado */
-                            color: white;
-                            text-align: center;
-                            padding: 15px;
-                            font-size: 24px;
-                            font-weight: bold;
-                        }
-                        .content {
-                            text-align: left;
-                            padding: 20px;
-                        }
-                        .order-summary {
-                            margin: 20px 0;
-                        }
-                        .order-item {
-                            border-bottom: 1px solid #eee;
-                            padding: 10px 0;
-                        }
-                        .order-item:last-child {
-                            border-bottom: none;
-                        }
-                        .total-summary {
-                            margin-top: 20px;
-                            text-align: right;
-                        }
-                        .total-summary div {
-                            margin-bottom: 5px;
-                        }
-                        .total {
-                            font-size: 18px;
-                            font-weight: bold;
-                        }
-                        .button {
-                            display: inline-block;
-                            padding: 10px 20px;
-                            background-color: #fbb123;
-                            color: white;
-                            text-decoration: none;
-                            border-radius: 5px;
-                            text-align: center;
-                            margin-top: 20px;
-                            width: fit-content;
-                            font-weight: bold;
-                        }
-                        a {
-                            color: #fbb123;
-                            text-decoration: none;
-                        }
-                        a:hover {
-                            text-decoration: underline;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="container">
-                        <div class="header">
-                            ¡Gracias por tu pedido en Cervezanas!
+              <!DOCTYPE html>
+              <html lang="es">
+              <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Confirmación de pedido</title>
+                <style>
+                  /* RESETEO BÁSICO */
+                  body, h1, h2, h3, p, ul, li, a {
+                    margin: 0;
+                    padding: 0;
+                  }
+                  body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f5f5dc; /* Tono crema */
+                    color: #333;
+                  }
+      
+                  /* CONTENEDOR PRINCIPAL */
+                  .container {
+                    max-width: 600px;
+                    margin: 20px auto;
+                    background-color: #fff;
+                    padding: 20px;
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                  }
+      
+                  /* CABECERA */
+                  .header {
+                    background-color: #fbb123; /* Tono dorado */
+                    color: #fff;
+                    text-align: center;
+                    padding: 15px;
+                    font-size: 24px;
+                    font-weight: bold;
+                  }
+      
+                  /* CONTENIDO */
+                  .content {
+                    padding: 20px;
+                    text-align: left;
+                    line-height: 1.6;
+                  }
+                  .content h2 {
+                    margin-bottom: 10px;
+                    font-size: 20px;
+                  }
+                  .content p {
+                    margin-bottom: 15px;
+                  }
+      
+                  /* SECCIONES DE RESUMEN DE PEDIDO */
+                  .order-summary {
+                    margin: 20px 0;
+                  }
+                  .order-summary h2 {
+                    font-size: 18px;
+                    margin-bottom: 10px;
+                    color: #fbb123;
+                  }
+                  .order-item {
+                    border-bottom: 1px solid #eee;
+                    padding: 10px 0;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                  }
+                  .order-item:last-child {
+                    border-bottom: none;
+                  }
+                  .order-item-name {
+                    font-weight: bold;
+                  }
+                  .order-item-quantity {
+                    color: #666;
+                  }
+                  .order-item-price {
+                    font-weight: bold;
+                    margin-left: 10px;
+                  }
+                  
+                  /* TOTALES */
+                  .total-summary {
+                    margin-top: 20px;
+                    text-align: right;
+                  }
+                  .total-summary div {
+                    margin-bottom: 8px;
+                  }
+                  .total {
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #fbb123;
+                  }
+      
+                  /* BOTÓN */
+                  .button {
+                    display: inline-block;
+                    padding: 12px 24px;
+                    background-color: #fbb123;
+                    color: #fff;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    font-weight: bold;
+                    margin-top: 25px;
+                    text-align: center;
+                  }
+                  .button:hover {
+                    background-color: #dda014;
+                  }
+      
+                  /* LINKS */
+                  a {
+                    color: #fbb123;
+                    text-decoration: none;
+                  }
+                  a:hover {
+                    text-decoration: underline;
+                  }
+      
+                  /* INFORMACIÓN DE ENVÍO / FACTURACIÓN */
+                  .info-section {
+                    margin-top: 20px;
+                  }
+                  .info-section h3 {
+                    color: #fbb123;
+                    margin-bottom: 8px;
+                  }
+                  .info-section p {
+                    margin-bottom: 5px;
+                  }
+      
+                  /* PIE DE PÁGINA (OPCIONAL) */
+                  .footer {
+                    margin-top: 30px;
+                    font-size: 14px;
+                    text-align: center;
+                    color: #777;
+                  }
+                  .footer p {
+                    margin: 4px 0;
+                  }
+      
+                  @media only screen and (max-width: 600px) {
+                    .container {
+                      margin: 10px;
+                      width: auto;
+                    }
+                  }
+                </style>
+              </head>
+              <body>
+                <div class="container">
+                  <!-- Cabecera -->
+                  <div class="header">
+                    ¡Gracias por tu pedido en Cervezanas!
+                  </div>
+      
+                  <!-- Contenido principal -->
+                  <div class="content">
+                    <p>Hola,</p>
+                    <p>
+                      Hemos recibido tu pedido <strong>#${orderNumber}</strong> y estamos trabajando en procesarlo.
+                      A continuación, encontrarás un resumen detallado de tu compra:
+                    </p>
+      
+                    <!-- Resumen del pedido -->
+                    <div class="order-summary">
+                      <h2>Detalles del pedido</h2>
+                      ${orderItems
+                          .map(
+                              (item) => `
+                        <div class="order-item">
+                          <div>
+                            <span class="order-item-name">${item.name}</span>
+                            <span class="order-item-quantity"> x${
+                                item.quantity
+                            }</span>
+                          </div>
+                          <div class="order-item-price">
+                            ${item.price.toFixed(2)}€
+                          </div>
                         </div>
-                        <div class="content">
-                            <p>Hola,</p>
-                            <p>Hemos recibido tu pedido <strong>#${orderNumber}</strong> y estamos trabajando en procesarlo. Aquí tienes un resumen de tu compra:</p>
-
-                            <div class="order-summary">
-                                ${orderItems
-                                    .map(
-                                        (item: {
-                                            product_id: string;
-                                            name: string;
-                                            price: number;
-                                            quantity: number;
-                                        }) => `
-                                    <div class="order-item">
-                                        <strong>${item.name}</strong> x${
-                                            item.quantity
-                                        } - ${item.price.toFixed(2)}€
-                                        <br>
-                                        <a href="${
-                                            process.env.NEXT_PUBLIC_BASE_URL
-                                        }/products/${
-                                            item.product_id
-                                        }" target="_blank">Ver producto</a>
-                                    </div>
-                                `,
-                                    )
-                                    .join('')}
-                            </div>
-
-                            <div class="total-summary">
-                                <div>Subtotal: ${subtotalPrice}€</div>
-                                <div>Envío: ${shippingPrice}€</div>
-                                <div class="total">Total: ${totalPrice}€</div>
-                            </div>
-
-                            <div class="shipping-info">
-                                <h3>Información de Envío</h3>
-                                <p><strong>Nombre:</strong> ${shippingName} ${shippingLastname}</p>
-                                <p><strong>Documento:</strong> ${shippingDocumentId}</p>
-                                <p><strong>Teléfono:</strong> ${shippingPhone}</p>
-                                <p><strong>Dirección:</strong> ${shippingAddress}, ${shippingAddressExtra}, ${shippingCity}, ${shippingRegion}, ${shippingCountry}, ${shippingZipcode}</p>
-                            </div>
-
-                            <div class="billing-info">
-                                <h3>Información de Facturación</h3>
-                                <p><strong>Nombre:</strong> ${billingName} ${billingLastname}</p>
-                                <p><strong>Documento:</strong> ${billingDocumentId}</p>
-                                <p><strong>Teléfono:</strong> ${billingPhone}</p>
-                                <p><strong>Dirección:</strong> ${billingAddress}, ${billingCity}, ${billingRegion}, ${billingCountry}, ${billingZipcode}</p>
-                                <p><strong>Es empresa:</strong> ${
-                                    billingIsCompany ? 'Sí' : 'No'
-                                }</p>
-                            </div>
-
-                            <div class="total-summary">
-                                <div>Subtotal: ${subtotalPrice}€</div>
-                                <div>Envío: ${shippingPrice}€</div>
-                                <div class="total">Total: ${totalPrice}€</div>
-                            </div>
-
-                            <a href="${urlOrder}" class="button">Ver mi pedido</a>
-                            
-                            <p>Si tienes alguna duda, no dudes en contactarnos en <a href="mailto:info@cervezanas.beer">info@cervezanas.beer</a>.</p>
-                            <p><strong>¡Gracias por comprar en Cervezanas!</strong></p>
+                        <div style="font-size: 14px; margin-bottom: 8px;">
+                          <a 
+                            href="${
+                                process.env.NEXT_PUBLIC_BASE_URL
+                            }/products/${item.product_id}" 
+                            target="_blank"
+                          >
+                            Ver producto
+                          </a>
                         </div>
+                      `,
+                          )
+                          .join('')}
                     </div>
-                </body>
-                </html>
-            `,
+      
+                    <!-- Totales -->
+                    <div class="total-summary">
+                      <div>Subtotal: <strong>${subtotalPrice}€</strong></div>
+                      <div>Envío: <strong>${shippingPrice}€</strong></div>
+                      <div class="total">Total: ${totalPrice}€</div>
+                    </div>
+      
+                    <!-- Información de Envío -->
+                    <div class="info-section shipping-info">
+                      <h3>Información de Envío</h3>
+                      <p><strong>Nombre:</strong> ${shippingName} ${shippingLastname}</p>
+                      <p><strong>Documento:</strong> ${shippingDocumentId}</p>
+                      <p><strong>Teléfono:</strong> ${shippingPhone}</p>
+                      <p>
+                        <strong>Dirección:</strong> 
+                        ${shippingAddress} 
+                        ${
+                            shippingAddressExtra
+                                ? ', ' + shippingAddressExtra
+                                : ''
+                        }
+                        ${shippingCity ? ', ' + shippingCity : ''} 
+                        ${shippingRegion ? ', ' + shippingRegion : ''} 
+                        ${shippingCountry ? ', ' + shippingCountry : ''} 
+                        ${shippingZipcode ? ', ' + shippingZipcode : ''}
+                      </p>
+                    </div>
+      
+                    <!-- Información de Facturación -->
+                    <div class="info-section billing-info">
+                      <h3>Información de Facturación</h3>
+                      <p><strong>Nombre:</strong> ${billingName} ${billingLastname}</p>
+                      <p><strong>Documento:</strong> ${billingDocumentId}</p>
+                      <p><strong>Teléfono:</strong> ${billingPhone}</p>
+                      <p>
+                        <strong>Dirección:</strong> 
+                        ${billingAddress} 
+                        ${billingCity ? ', ' + billingCity : ''} 
+                        ${billingRegion ? ', ' + billingRegion : ''} 
+                        ${billingCountry ? ', ' + billingCountry : ''} 
+                        ${billingZipcode ? ', ' + billingZipcode : ''}
+                      </p>
+                      <p><strong>Es empresa:</strong> ${
+                          billingIsCompany ? 'Sí' : 'No'
+                      }</p>
+                    </div>
+      
+                    <!-- CTA: Ver mi pedido -->
+                    <p style="text-align: center;">
+                      <a href="${urlOrder}" class="button">
+                        Ver mi pedido
+                      </a>
+                    </p>
+      
+                    <p>
+                      Si tienes alguna duda, no dudes en contactarnos en
+                      <a href="mailto:info@cervezanas.beer">info@cervezanas.beer</a>.
+                    </p>
+                    <p><strong>¡Gracias por comprar en Cervezanas!</strong></p>
+                  </div>
+      
+                  <!-- Pie de página -->
+                  <div class="footer">
+                    <p>© 2023 Cervezanas. Todos los derechos reservados.</p>
+                    <p>
+                      <a href="${
+                          process.env.NEXT_PUBLIC_BASE_URL
+                      }/es/ayuda" target="_blank">
+                        Soporte
+                      </a>
+                      |
+                      <a href="${
+                          process.env.NEXT_PUBLIC_BASE_URL
+                      }/es/terminos" target="_blank">
+                        Términos y condiciones
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </body>
+              </html>
+              `,
             },
             {
                 headers: {

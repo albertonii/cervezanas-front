@@ -4,8 +4,8 @@ import Title from '@/app/[locale]/components/ui/Title';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
 import React from 'react';
 import { useTranslations } from 'next-intl';
-import { IBMGameStepsRegistered, IStep } from '@/lib/types/beerMasterGame';
 import { X, MapPin, Beer, Lock, CheckCircle } from 'lucide-react';
+import { IBMGameStepsRegistered, IStep } from '@/lib/types/beerMasterGame';
 
 interface StepDetailsProps {
     step: IStep;
@@ -29,16 +29,17 @@ export default function StepDetails({
 
     return (
         <div className="bg-white rounded-xl shadow-lg p-6 animate-slide-up">
-            <div className="flex justify-between items-start mb-6">
+            <div className="flex justify-between items-start mb-2">
                 <div>
-                    <h2 className="text-2xl font-bold text-gray-900">
+                    <Title size="large" font="bold" color="gray">
                         {t('step')} {step.step_number}: {step.title}
-                    </h2>
+                    </Title>
                     <div className="flex items-center mt-2 text-gray-600">
                         <MapPin className="w-4 h-4 mr-1" />
                         <span className="text-sm">{step.location}</span>
                     </div>
                 </div>
+
                 <button
                     onClick={onClose}
                     className="text-gray-400 hover:text-gray-600"

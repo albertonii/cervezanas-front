@@ -1064,7 +1064,8 @@
         "sales_records_download_status_updated": "Estado de descarga de los registros de ventas actualizado correctamente",
         "promo_code_applied": "Código promocional aplicado correctamente",
         "updating_is_distribution_costs_in_product": "Actualizado con éxito: los costos de distribución están incluidos en el producto",
-        "order_started": "Pedido iniciado correctamente"
+        "order_started": "Pedido iniciado correctamente",
+        "product_deleted": "Producto eliminado correctamente"
     },
     "num_of_packs": "Número de packs",
     "promo_code": "Código promocional",
@@ -1471,7 +1472,8 @@
         "add_answer": "Añadir respuesta",
         "save_questions": "Guardar preguntas",
         "title": "Título",
-        "is_unlocked": "¿Está desbloqueado?"
+        "is_unlocked": "¿Está desbloqueado?",
+        "auto_next_in": "Siguiente pregunta en {seconds} segundos"
     },
     "back_to_event": "Volver al evento",
     "event_experience_participation_description": "Este Punto de Consumo ofrece {experiencesCounter} experiencias en las que puedes participar",

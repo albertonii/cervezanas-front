@@ -1043,7 +1043,8 @@
         "profile_acc_data_updated": "Account data updated successfully",
         "sales_records_download_status_updated": "Sales records download status updated successfully",
         "promo_code_applied": "Promo code applied successfully",
-        "updating_is_distribution_costs_in_product": "Successfully updated: distribution costs are included in the product"
+        "updating_is_distribution_costs_in_product": "Successfully updated: distribution costs are included in the product",
+        "product_deleted": "Product successfully deleted"
     },
     "num_of_packs": "Number of packs",
     "promo_code": "Promo code",

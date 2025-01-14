@@ -199,9 +199,7 @@ export async function calculateCheapestShippingCostsByDistributor(
     return cheapestShippingCost;
 }
 
-export async function calculateProductPacksWeight(
-    productPack: IProductPackCartItem,
-) {
+export function calculateProductPacksWeight(productPack: IProductPackCartItem) {
     if (!productPack.products) {
         console.warn(
             `No product info found for product_id=${productPack.product_id}, weight=0.`,

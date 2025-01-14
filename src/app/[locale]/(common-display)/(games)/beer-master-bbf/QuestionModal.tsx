@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { X } from 'lucide-react';
 import DifficultyBadge from './DifficultyBadge';
-import { IQuestion } from '@/lib/types/beerMasterGame';
-import { useTranslations } from 'next-intl';
 import Title from '@/app/[locale]/components/ui/Title';
 import Label from '@/app/[locale]/components/ui/Label';
 import Button from '@/app/[locale]/components/ui/buttons/Button';
+import React, { useEffect, useState } from 'react';
+import { X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { IQuestion } from '@/lib/types/beerMasterGame';
 
 interface QuestionModalProps {
     question: IQuestion;
@@ -31,18 +31,42 @@ export default function QuestionModal({
     const [hasAnswered, setHasAnswered] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
 
+    // Estado para la cuenta atrás, por ejemplo 6 segundos
+    const [countdown, setCountdown] = useState(6);
+    const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
+
     const handleSubmit = () => {
         if (selectedOption !== null && !hasAnswered) {
             const correct = selectedOption === question.correct_answer;
             setIsCorrect(correct);
             setHasAnswered(true);
-            setTimeout(() => {
-                onAnswer(correct);
-                setHasAnswered(false);
-                setSelectedOption(null);
-            }, 1500);
+            setCountdown(2); // Iniciamos la cuenta en 4 segundos
+
+            // Interval para cuenta atrás
+            const id = setInterval(() => {
+                setCountdown((prev) => {
+                    // Cuando llegue a 1 y se va a pasar a 0, paramos el interval y saltamos
+                    if (prev <= 1) {
+                        clearInterval(id);
+                        onAnswer(correct);
+                        setHasAnswered(false);
+                        setSelectedOption(null);
+                        return 0;
+                    }
+                    return prev - 1;
+                });
+            }, 1000);
+
+            setIntervalId(id);
         }
     };
+
+    // Limpieza del intervalo si el componente se desmonta
+    useEffect(() => {
+        return () => {
+            if (intervalId) clearInterval(intervalId);
+        };
+    }, [intervalId]);
 
     return (
         <div className="fixed inset-0 flex items-center justify-center p-4">
@@ -50,7 +74,7 @@ export default function QuestionModal({
                 <div className="flex justify-between items-start mb-4">
                     <div>
                         <div className="flex items-center space-x-3 mb-2">
-                            <Title size="large" color="black">
+                            <Title size="medium" color="black">
                                 {t('question_one_of_x', {
                                     currentQuestionIndex:
                                         currentQuestionIndex + 1,
@@ -78,21 +102,26 @@ export default function QuestionModal({
                     </button>
                 </div>
 
-                <Label color="dark-gray">{question.text}</Label>
+                <Label color="dark-gray" size="small">
+                    {question.text}
+                </Label>
 
                 <div className="space-y-3 mb-6">
                     {question.options.map((option, index) => (
-                        <Button
+                        <button
                             key={index}
-                            class={`w-full p-4 text-left rounded-lg border-2 transition-all ${
+                            className={`w-full px-4 py-1 text-left rounded-lg border-2 transition-all ease-in-out duration-500 hover:bg-beer-softBlonde hover:border-beer-blonde text-sm ${
                                 hasAnswered
-                                    ? index === question.correct_answer
+                                    ? // (1) Estado "respondido":
+                                      index === question.correct_answer
                                         ? 'border-green-500 bg-green-50'
                                         : index === selectedOption
                                         ? 'border-red-500 bg-red-50'
                                         : 'border-gray-200'
-                                    : selectedOption === index
-                                    ? 'border-amber-500 bg-amber-50'
+                                    : // (2) Estado "no respondido":
+                                    selectedOption === index
+                                    ? // Opción seleccionada sin hover
+                                      'border-amber-500 border-2 bg-beer-softBlonde border-beer-blonde'
                                     : 'border-gray-200 hover:border-amber-200'
                             }`}
                             onClick={() =>
@@ -101,7 +130,7 @@ export default function QuestionModal({
                             disabled={hasAnswered}
                         >
                             {option}
-                        </Button>
+                        </button>
                     ))}
                 </div>
 
@@ -145,6 +174,13 @@ export default function QuestionModal({
                 >
                     {t('confirm_answer')}
                 </Button>
+
+                {/* CUENTA ATRÁS */}
+                {hasAnswered && (
+                    <div className="text-center mt-4 text-sm text-gray-600">
+                        {t('auto_next_in', { seconds: countdown })}
+                    </div>
+                )}
             </div>
         </div>
     );
