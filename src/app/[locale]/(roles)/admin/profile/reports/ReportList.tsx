@@ -1,22 +1,22 @@
 'use client';
 
 import Link from 'next/link';
-import { IUserReport } from '@/lib/types/types';
-import { useLocale, useTranslations } from 'next-intl';
-import React, { useEffect, useMemo, useState } from 'react';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
-import InputSearch from '@/app/[locale]/components/form/InputSearch';
-import { formatDateString } from '@/utils/formatDate';
-import { ROUTE_ADMIN, ROUTE_PROFILE, ROUTE_REPORTS } from '@/config';
-import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
-import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
-import THead from '@/app/[locale]/components/ui/table/THead';
 import TR from '@/app/[locale]/components/ui/table/TR';
 import TH from '@/app/[locale]/components/ui/table/TH';
-import TBody from '@/app/[locale]/components/ui/table/TBody';
 import TD from '@/app/[locale]/components/ui/table/TD';
-import TDActions from '@/app/[locale]/components/ui/table/TDActions';
+import TBody from '@/app/[locale]/components/ui/table/TBody';
+import THead from '@/app/[locale]/components/ui/table/THead';
 import Table from '@/app/[locale]/components/ui/table/Table';
+import TDActions from '@/app/[locale]/components/ui/table/TDActions';
+import InputSearch from '@/app/[locale]/components/form/InputSearch';
+import PaginationFooter from '@/app/[locale]/components/ui/PaginationFooter';
+import React, { useEffect, useMemo, useState } from 'react';
+import { IUserReport } from '@/lib/types/types';
+import { formatDateString } from '@/utils/formatDate';
+import { useLocale, useTranslations } from 'next-intl';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { ROUTE_ADMIN, ROUTE_PROFILE, ROUTE_REPORTS } from '@/config';
+import { IconButton } from '@/app/[locale]/components/ui/buttons/IconButton';
 
 enum SortBy {
     NONE = 'none',

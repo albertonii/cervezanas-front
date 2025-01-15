@@ -39,44 +39,54 @@ export async function POST(request: NextRequest) {
         )}`;
     }
 
-    const { error } = await supabase.from('user_reports').insert({
-        title: title.trim(),
-        description: description.trim(),
-        file: fileUrl || '',
-        reporter_id:
-            reporter_id && reporter_id.trim() !== '' ? reporter_id : null,
-        is_resolved: false,
-    });
+    // 1. Insertamos el reporte y obtenemos su ID
+    const { data: insertData, error: insertError } = await supabase
+        .from('user_reports')
+        .insert({
+            title: title.trim(),
+            description: description.trim(),
+            file: fileUrl || '',
+            reporter_id:
+                reporter_id && reporter_id.trim() !== '' ? reporter_id : null,
+            is_resolved: false,
+        })
+        .select('id') // para luego poder identificar el reporte y revertir
+        .single();
 
-    if (error) {
-        console.error(`Error inserting report: ${error.message}`);
+    if (insertError) {
+        console.error(`Error inserting report: ${insertError.message}`);
         return NextResponse.json(
-            { error: `Error: ${error.message}. Details: ${error.details}` },
+            {
+                error: `Error: ${insertError.message}. Details: ${insertError.details}`,
+            },
             { status: 500 },
         );
     }
 
-    if (!file)
-        // Si no hay archivo, finalizamos
-
+    // Si no se sube archivo, finalizamos
+    if (!file) {
         return NextResponse.json({ message: 'Report inserted successfully' });
+    }
 
-    // De lo contrario, subimos el archivo
+    // 2. Subimos el archivo al bucket "reports"
     const fileToUpload = file as File;
-
     const { error: storageError } = await supabase.storage
         .from('reports')
         .upload(`/reports/${fileUrl}`, fileToUpload, {
             upsert: true,
             cacheControl: '0',
-        })
-        .catch((err: Error) => {
-            console.error(err);
-            throw storageError;
         });
 
+    // 3. Si hay error en el storage -> revertimos la inserción
     if (storageError) {
         console.error(`Error uploading file: ${storageError.message}`);
+        // Revertimos el reporte recién insertado:
+        if (insertData && insertData.id) {
+            await supabase
+                .from('user_reports')
+                .delete()
+                .eq('id', insertData.id);
+        }
 
         return NextResponse.json(
             { error: storageError.message },

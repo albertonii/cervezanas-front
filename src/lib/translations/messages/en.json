@@ -1498,5 +1498,9 @@
     "cp_in_events": "Consumption Points in Events",
     "individual": "Individual",
     "company_or_freelance": "Company/Self-employed",
-    "report_problem_instructions": "Please describe the problem you encountered. We will contact you as soon as possible. Thank you for your cooperation."
+    "report_problem_instructions": "Please describe the problem you encountered. We will contact you as soon as possible. Thank you for your cooperation.",
+    "report_submitting_btn": "Sending report ...",
+    "report_id": "Report ID",
+    "attached_file": "Attached file",
+    "download_attachment": "Download attachment"
 }

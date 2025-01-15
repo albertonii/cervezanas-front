@@ -1608,5 +1608,9 @@
     "cp_in_events": "Puntos de Consumo en Eventos",
     "individual": "Particular",
     "company_or_freelance": "Empresa/autónomo",
-    "report_problem_instructions": "Por favor, describe el problema que has encontrado. Nos pondremos en contacto contigo lo antes posible. Gracias por tu colaboración."
+    "report_problem_instructions": "Por favor, describe el problema que has encontrado. Nos pondremos en contacto contigo lo antes posible. Gracias por tu colaboración.",
+    "report_submitting_btn": "Enviando informe ...",
+    "report_id": "ID de informe",
+    "attached_file": "Archivo adjunto",
+    "download_attachment": "Descargar archivo adjunto"
 }
