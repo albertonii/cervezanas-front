@@ -1613,5 +1613,6 @@
     "report_submitting_btn": "Enviando informe ...",
     "report_id": "ID de informe",
     "attached_file": "Archivo adjunto",
-    "download_attachment": "Descargar archivo adjunto"
+    "download_attachment": "Descargar archivo adjunto",
+    "report_button_label": "Informar de un problema"
 }

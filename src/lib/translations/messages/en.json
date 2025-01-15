@@ -1503,5 +1503,6 @@
     "report_submitting_btn": "Sending report ...",
     "report_id": "Report ID",
     "attached_file": "Attached file",
-    "download_attachment": "Download attachment"
+    "download_attachment": "Download attachment",
+    "report_button_label": "Report a problem"
 }
