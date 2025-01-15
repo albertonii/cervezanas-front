@@ -91,6 +91,73 @@ export enum Family {
     abadia,
     berliner_weisse,
     gose,
+    mead,
+
+    // Variantes de IPA
+    black_ipa,
+    brut_ipa,
+    rye_ipa,
+    white_ipa,
+
+    // Belgas y derivados
+    belgian_blonde_ale,
+    belgian_tripel,
+    belgian_quadrupel,
+    belgian_strong_dark_ale,
+    belgian_gold_strong_ale,
+    flanders_red_ale,
+    lambic,
+    gueuze,
+    kriek,
+
+    // Ingleses, escoceses e irlandeses
+    bitter, // (ordinary, best, strong bitter)
+    english_mild,
+    scotch_ale, // o wee_heavy
+    wee_heavy,
+    irish_red_ale,
+    dry_stout,
+    irish_dry_stout,
+    oyster_stout,
+
+    // Americanos/otros
+    cream_ale,
+    california_common,
+    american_light_lager,
+    american_barleywine,
+    english_barleywine,
+    old_ale,
+    imperial_stout,
+    russian_imperial_stout,
+    baltic_porter,
+    smoked_beer,
+    rauchbier,
+    marzen,
+    oktoberfest,
+    eisbock,
+
+    // Sours y farmhouse
+    sour_ale,
+    fruit_beer, // para fruit ale/lager
+    sour_ipa,
+    brett_beer,
+    farmhouse_ale,
+    wild_ale,
+    saison_brett, // si deseas distinguir
+
+    // Variantes de trigo más específicas
+    weizenbock,
+    wheatwine,
+
+    // Stouts más modernos
+    pastry_stout,
+    coffee_stout,
+    chocolate_stout,
+
+    // Otras especialidades
+    braggot,
+    kvass,
+
     other,
     none,
 }
@@ -474,7 +541,15 @@ export const family_options: {
         label: 'ipa',
         value: Family.ipa,
     },
-    { label: 'haze_ipa', value: Family.hazy_ipa },
+    { label: 'hazy_ipa', value: Family.hazy_ipa },
+    {
+        label: 'imperial_ipa',
+        value: Family.imperial_ipa,
+    },
+    {
+        label: 'red_ipa',
+        value: Family.red_ipa,
+    },
     {
         label: 'ale',
         value: Family.ale,
@@ -631,6 +706,125 @@ export const family_options: {
         label: 'gose',
         value: Family.gose,
     },
+    { label: 'mead', value: Family.mead },
+    {
+        label: 'black_ipa',
+        value: Family.black_ipa,
+    },
+    {
+        label: 'brut_ipa',
+        value: Family.brut_ipa,
+    },
+    {
+        label: 'rye_ipa',
+        value: Family.rye_ipa,
+    },
+    {
+        label: 'white_ipa',
+        value: Family.white_ipa,
+    },
+    {
+        label: 'belgian_blonde_ale',
+        value: Family.belgian_blonde_ale,
+    },
+    {
+        label: 'belgian_tripel',
+        value: Family.belgian_tripel,
+    },
+    {
+        label: 'belgian_quadrupel',
+        value: Family.belgian_quadrupel,
+    },
+    {
+        label: 'belgian_strong_dark_ale',
+        value: Family.belgian_strong_dark_ale,
+    },
+    {
+        label: 'belgian_gold_strong_ale',
+        value: Family.belgian_gold_strong_ale,
+    },
+    {
+        label: 'flanders_red_ale',
+        value: Family.flanders_red_ale,
+    },
+    {
+        label: 'lambic',
+        value: Family.lambic,
+    },
+    {
+        label: 'gueuze',
+        value: Family.gueuze,
+    },
+    {
+        label: 'kriek',
+        value: Family.kriek,
+    },
+    {
+        label: 'bitter',
+        value: Family.bitter,
+    },
+    {
+        label: 'english_mild',
+        value: Family.english_mild,
+    },
+    {
+        label: 'scotch_ale',
+        value: Family.scotch_ale,
+    },
+    {
+        label: 'wee_heavy',
+        value: Family.wee_heavy,
+    },
+    {
+        label: 'irish_red_ale',
+        value: Family.irish_red_ale,
+    },
+    {
+        label: 'dry_stout',
+        value: Family.dry_stout,
+    },
+    {
+        label: 'irish_dry_stout',
+        value: Family.irish_dry_stout,
+    },
+    {
+        label: 'oyster_stout',
+        value: Family.oyster_stout,
+    },
+    {
+        label: 'cream_ale',
+        value: Family.cream_ale,
+    },
+    {
+        label: 'california_common',
+        value: Family.california_common,
+    },
+    { label: 'american_light_lager', value: Family.american_light_lager },
+    { label: 'american_barleywine', value: Family.american_barleywine },
+    { label: 'english_barleywine', value: Family.english_barleywine },
+    { label: 'old_ale', value: Family.old_ale },
+    { label: 'imperial_stout', value: Family.imperial_stout },
+    { label: 'russian_imperial_stout', value: Family.russian_imperial_stout },
+    { label: 'baltic_porter', value: Family.baltic_porter },
+    { label: 'smoked_beer', value: Family.smoked_beer },
+    { label: 'rauchbier', value: Family.rauchbier },
+    { label: 'marzen', value: Family.marzen },
+    { label: 'oktoberfest', value: Family.oktoberfest },
+    { label: 'eisbock', value: Family.eisbock },
+    { label: 'sour_ale', value: Family.sour_ale },
+    { label: 'fruit_beer', value: Family.fruit_beer },
+    { label: 'sour_ipa', value: Family.sour_ipa },
+    { label: 'brett_beer', value: Family.brett_beer },
+    { label: 'farmhouse_ale', value: Family.farmhouse_ale },
+    { label: 'wild_ale', value: Family.wild_ale },
+    { label: 'saison_brett', value: Family.saison_brett },
+    { label: 'weizenbock', value: Family.weizenbock },
+    { label: 'wheatwine', value: Family.wheatwine },
+    { label: 'pastry_stout', value: Family.pastry_stout },
+    { label: 'coffee_stout', value: Family.coffee_stout },
+    { label: 'chocolate_stout', value: Family.chocolate_stout },
+    { label: 'braggot', value: Family.braggot },
+    { label: 'kvass', value: Family.kvass },
     {
         label: 'other',
         value: Family.other,

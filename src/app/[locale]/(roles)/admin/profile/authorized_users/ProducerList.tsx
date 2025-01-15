@@ -194,7 +194,7 @@ export default function ProducerList({ producers }: Props) {
             <InputSearch
                 query={query}
                 setQuery={setQuery}
-                searchPlaceholder={'search_producer'}
+                searchPlaceholder={t('search_producer')}
             />
 
             <Table>

@@ -24,7 +24,12 @@ export function ProductSummary({ form: { getValues, formState } }: Props) {
 
     const colorLabel = t(color_options[getValues('color')].label);
 
-    const familyLabel = t(family_options[getValues('family')].label);
+    console.log(getValues('family'));
+    console.log(family_options[getValues('family')]);
+    console.log(family_options[getValues('family')].label);
+
+    // const familyLabel = t(family_options[getValues('family')].label);
+    const familyLabel = 0;
 
     const renderError = (field: string, error: FieldError | any) => {
         if (Array.isArray(error)) {
