@@ -1,18 +1,17 @@
 'use client';
 
+import Button from '../../components/ui/buttons/Button';
+import InputLabel from '../../components/form/InputLabel';
+import InputTextarea from '../../components/form/InputTextarea';
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { z, ZodType } from 'zod';
+import { useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAuth } from '../../(auth)/Context/useAuth';
 import { useMessage } from '@/app/[locale]/components/message/useMessage';
-import { useTranslations } from 'next-intl';
-import InputLabel from '../../components/form/InputLabel';
-import InputTextarea from '../../components/form/InputTextarea';
-import Button from '../../components/ui/buttons/Button';
 import { DisplayInputError } from '../../components/ui/DisplayInputError';
 
-/* ----------------------- Tipado y Validación ---------------------- */
 interface ReportFormData {
     title: string;
     description: string;
@@ -37,7 +36,6 @@ const schema: ZodType<ReportFormData> = z.object({
 
 type ValidationSchema = z.infer<typeof schema>;
 
-/* ----------------------- Componente principal ---------------------- */
 export default function ReportForm() {
     const t = useTranslations();
     const { user } = useAuth();
@@ -45,11 +43,6 @@ export default function ReportForm() {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    /* 
-    React Hook Form con Zod. 
-    - Se usa "onSubmit" en el modo por defecto 
-    - Se configura la validación
-  */
     const form = useForm<ValidationSchema>({
         mode: 'onSubmit',
         resolver: zodResolver(schema),
@@ -66,31 +59,42 @@ export default function ReportForm() {
         formState: { errors },
     } = form;
 
-    /* ------------------- Lógica de envío del reporte ----------------- */
+    // Manejo del submit
     const handleInsertReport = async (formData: ValidationSchema) => {
+        // 1) Verificar si el usuario está logueado
+        if (!user || !user.id) {
+            handleMessage({
+                type: 'error',
+                message:
+                    t('errors.must_be_logged_in') ||
+                    'Debes iniciar sesión para enviar un reporte.',
+            });
+            return;
+        }
+
+        setIsSubmitting(true);
         const { title, description, file } = formData;
 
-        // Evitamos clicks dobles:
-        setIsSubmitting(true);
-
-        // Construimos un FormData para enviar los datos por POST
+        // 2) Construir FormData
         const body = new FormData();
         body.append('title', title);
         body.append('description', description);
+        body.append('reporter_id', user.id); // Aseguramos que no sea null
+
         if (file && file[0]) {
             body.append('file', file[0]);
         }
-        body.append('reporter_id', user?.id ?? '');
 
+        // 3) Petición POST
         try {
-            const res = await fetch(`/api/report`, {
+            const res = await fetch('/api/report', {
                 method: 'POST',
                 body,
             });
 
             if (!res.ok) {
                 const errorResponse = await res.json();
-                console.error('Error creating report:', errorResponse.error);
+                console.error('Error creating report:', errorResponse?.error);
                 handleMessage({
                     type: 'error',
                     message: t('errors.inserting_report'),
@@ -113,10 +117,8 @@ export default function ReportForm() {
         }
     };
 
-    /* ---------------------- Manejo del submit final ------------------ */
     const onSubmit = handleSubmit(handleInsertReport);
 
-    /* ---------------------- Interfaz de Usuario ---------------------- */
     return (
         <section className="mx-auto max-w-xl p-4">
             {/* Encabezado y Copywriting */}
@@ -131,9 +133,8 @@ export default function ReportForm() {
                 </p>
             </header>
 
-            {/* Formulario */}
             <form onSubmit={onSubmit} className="flex flex-col gap-4">
-                {/* Campo de Título */}
+                {/* Título */}
                 <InputLabel
                     form={form}
                     label="title"
@@ -144,7 +145,7 @@ export default function ReportForm() {
                     }
                 />
 
-                {/* Campo de Descripción */}
+                {/* Descripción */}
                 <InputTextarea
                     form={form}
                     label="description"
@@ -155,7 +156,7 @@ export default function ReportForm() {
                     registerOptions={{ required: true }}
                 />
 
-                {/* Campo de archivo (opcional) */}
+                {/* Archivo (opcional) */}
                 <div>
                     <label
                         htmlFor="file"
@@ -169,7 +170,7 @@ export default function ReportForm() {
                         id="file"
                         accept=".png,.jpg,.jpeg,.pdf,.webp,.gif"
                         className="block w-full cursor-pointer rounded border border-gray-300 bg-white px-3 py-2 text-sm leading-tight text-gray-700 
-                       focus:border-gray-500 focus:bg-white focus:outline-none"
+            focus:border-gray-500 focus:bg-white focus:outline-none"
                     />
                     {errors.file && (
                         <DisplayInputError message={errors.file.message} />

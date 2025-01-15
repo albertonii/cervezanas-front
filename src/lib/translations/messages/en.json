@@ -741,7 +741,8 @@
         "error_processing_order": "Error processing order",
         "invalid_email_format": "Invalid email format",
         "guest_email_required": "Guest email is required",
-        "only_text": "Only text is allowed"
+        "only_text": "Only text is allowed",
+        "must_be_logged_in": "You must be logged in"
     },
     "product_packs": "Product packs",
     "units": "Units",

@@ -7,50 +7,58 @@ export async function POST(request: NextRequest) {
 
     const title = data.get('title') as string;
     const description = data.get('description') as string;
-    const reporter_id = data.get('reporter_id') as string | null;
+    const reporter_id = data.get('reporter_id') as string | null; // Usuario logueado
     const file = data.get('file') as File | null;
 
+    // 1) Validar campos básicos
     if (!title || !description) {
         return NextResponse.json(
             { error: `Error: Missing required fields (title, description)` },
-            { status: 500 },
+            { status: 400 }, // 400 (Bad Request)
         );
     }
 
     if (title.trim() === '' || description.trim() === '') {
         return NextResponse.json(
             { error: `Error: title/description cannot be empty` },
-            { status: 500 },
+            { status: 400 },
         );
     }
 
+    // 2) Validar que se ha proporcionado un ID de usuario válido
+    if (!reporter_id || reporter_id.trim() === '') {
+        return NextResponse.json(
+            {
+                error: 'User must be logged in to create a report with attachments.',
+            },
+            { status: 401 }, // 401 (Unauthorized)
+        );
+    }
+
+    // 3) Inicializar supabase en modo server
     const supabase = await createServerClient();
 
     // random file name to avoid unicode issues in the file storage
     const randomTitle = Math.random().toString(36).substring(7);
-
-    const safeReporterId =
-        reporter_id && reporter_id.trim() !== '' ? reporter_id : 'anonymous';
-
     let fileUrl: string | null = null;
+
     if (file) {
-        fileUrl = `${safeReporterId}_${randomTitle}${generateFileNameExtension(
+        fileUrl = `${reporter_id}_${randomTitle}${generateFileNameExtension(
             file.name,
         )}`;
     }
 
-    // 1. Insertamos el reporte y obtenemos su ID
+    // 4) Insertar el reporte en la tabla "user_reports"
     const { data: insertData, error: insertError } = await supabase
         .from('user_reports')
         .insert({
             title: title.trim(),
             description: description.trim(),
             file: fileUrl || '',
-            reporter_id:
-                reporter_id && reporter_id.trim() !== '' ? reporter_id : null,
+            reporter_id,
             is_resolved: false,
         })
-        .select('id') // para luego poder identificar el reporte y revertir
+        .select('id') // para poder revertir en caso de fallo de storage
         .single();
 
     if (insertError) {
@@ -63,24 +71,22 @@ export async function POST(request: NextRequest) {
         );
     }
 
-    // Si no se sube archivo, finalizamos
+    // 5) Si no se sube archivo, finalizamos
     if (!file) {
         return NextResponse.json({ message: 'Report inserted successfully' });
     }
 
-    // 2. Subimos el archivo al bucket "reports"
-    const fileToUpload = file as File;
+    // 6) Subimos el archivo al bucket "reports"
     const { error: storageError } = await supabase.storage
         .from('reports')
-        .upload(`/reports/${fileUrl}`, fileToUpload, {
+        .upload(`/reports/${fileUrl}`, file, {
             upsert: true,
             cacheControl: '0',
         });
 
-    // 3. Si hay error en el storage -> revertimos la inserción
+    // 7) Si hay error en storage => revertimos la inserción
     if (storageError) {
         console.error(`Error uploading file: ${storageError.message}`);
-        // Revertimos el reporte recién insertado:
         if (insertData && insertData.id) {
             await supabase
                 .from('user_reports')
@@ -94,5 +100,6 @@ export async function POST(request: NextRequest) {
         );
     }
 
+    // 8) Éxito
     return NextResponse.json({ message: 'Report inserted successfully' });
 }

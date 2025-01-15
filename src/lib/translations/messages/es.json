@@ -737,7 +737,8 @@
         "error_processing_order": "Error al procesar el pedido",
         "invalid_email_format": "Formato de email inválido",
         "guest_email_required": "El email es obligatorio para los usuarios invitados",
-        "only_text": "Solo se admite texto"
+        "only_text": "Solo se admite texto",
+        "must_be_logged_in": "Debes iniciar sesión"
     },
     "product_packs": "Packs de productos",
     "units": "Unidades",
