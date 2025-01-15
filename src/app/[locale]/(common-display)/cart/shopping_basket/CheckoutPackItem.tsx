@@ -48,8 +48,6 @@ export default function CheckoutPackItem({ productPack, pack }: Props) {
         }, 500);
     };
 
-    console.log(packWeight);
-
     return (
         <div
             className={`grid gap-4 bg-white dark:bg-gray-900 rounded-lg shadow p-4 grid-cols-1 md:grid-cols-3 `}
@@ -82,7 +80,7 @@ export default function CheckoutPackItem({ productPack, pack }: Props) {
                 <div className="flex items-center justify-center md:justify-start mt-2">
                     <Weight className="text-gray-600 dark:text-gray-400 mr-2" />
                     <span className="text-sm text-gray-600 dark:text-gray-400">
-                        {`${packWeight}${t('g')}`}
+                        {`${packWeight} ${t('KG')}`}
                     </span>
                 </div>
             </div>
