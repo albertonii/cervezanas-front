@@ -4,7 +4,7 @@ import MainMaestroCervecero from './MainMaestroCervecero';
 
 export const metadata = {
     title: { default: 'Experiencia Cervezanas', template: `%s | Cervezanas` },
-    description: 'Experiencia Maestro Cervecero - Barcelona Beer Festival 2024',
+    description: 'Experiencia Maestro Cervecero - Barcelona Beer Festival 2025',
 };
 
 export default async function MaestroCerveceroPage() {

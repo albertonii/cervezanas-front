@@ -12,7 +12,7 @@ const emptyAward: IAward = {
     name: '',
     description: '',
     img_url: '',
-    year: 2024,
+    year: 2025,
     product_id: '',
 };
 

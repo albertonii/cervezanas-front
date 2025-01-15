@@ -295,7 +295,7 @@ export default function AddMonthlyProduct({
                                         {t('select_year')}
                                     </option>
                                     <option value="2023">{t('2023')}</option>
-                                    <option value="2024">{t('2024')}</option>
+                                    <option value="2025">{t('2025')}</option>
                                     <option value="2025">{t('2025')}</option>
                                 </select>
                             </div>

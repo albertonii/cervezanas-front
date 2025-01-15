@@ -141,7 +141,7 @@ Para ello debemos de:
 
 ### Gestión de Códigos Promocionales vinculados a un producto
 
-Este caso de uso surge por la necesidad que tenemos de realizar los envíos a los ganadores del merchandising del BBF 2024. Tenemos como objetivos:
+Este caso de uso surge por la necesidad que tenemos de realizar los envíos a los ganadores del merchandising del BBF 2025. Tenemos como objetivos:
 
 - Regalar merchandising a los usuarios.
 - Los usuarios canjean un código promocional en el carrito de la compra antes de proceder al pago.

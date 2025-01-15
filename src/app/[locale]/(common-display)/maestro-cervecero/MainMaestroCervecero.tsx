@@ -83,19 +83,19 @@ export default function MaestroCervecero({ eventExperiences }: Props) {
             <header>
                 <h1 className="font-bold text-4xl text-center sm:text-5xl mb-6 text-beer-draft">
                     Experiencia Maestro Cervecero en el Barcelona Beer Festival
-                    2024
+                    2025
                 </h1>
                 <p className="text-xl text-center m-auto">
                     ¡Prepárate para convertirte en un Maestro Cervecero!
                     Participa en nuestra exclusiva experiencia durante el
-                    Barcelona Beer Festival 2024 y descubre los secretos de las
+                    Barcelona Beer Festival 2025 y descubre los secretos de las
                     mejores cervezas artesanales.
                 </p>
             </header>
 
             <section className="border-4 shadow-lg border-beer-gold bg-white p-4  rounded-sm text-lg sm:p-20 text-center m-auto">
                 <p className="m-auto mt-5">
-                    Durante el Barcelona Beer Festival 2024, podrás participar
+                    Durante el Barcelona Beer Festival 2025, podrás participar
                     en la experiencia Maestro Cervecero. Descubre los secretos
                     de las mejores cervezas artesanales y conviértete en un
                     experto cervecero.
@@ -124,7 +124,7 @@ export default function MaestroCervecero({ eventExperiences }: Props) {
                 <p className="text-base text-justify max-w-full">
                     El sorteo se celebrará entre todas las personas que hayan
                     completado <b>al menos 4 puntos de consumo</b> en el
-                    Barcelona Beer Festival 2024 del 22 al 24 de marzo,
+                    Barcelona Beer Festival 2025 del 22 al 24 de marzo,
                     seleccionando para ello a las 100 personas que hayan
                     conseguido mayor puntuación en la prueba. Se realizará el
                     mismo domingo 24 de marzo o cualquier otro día posterior que

@@ -48,7 +48,7 @@ export function convertToDate(dateString: string | undefined): Date {
 }
 
 export function formatDateForTPV(dateString: string) {
-    // DataString format is 2024-08-28 00:00:00+00
+    // DataString format is 2025-08-28 00:00:00+00
     // NEW Format YYYYMMDD
     const date = new Date(dateString);
     const year = date.getFullYear();
